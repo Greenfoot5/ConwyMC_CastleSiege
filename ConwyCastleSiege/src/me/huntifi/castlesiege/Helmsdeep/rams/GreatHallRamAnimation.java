@@ -69,6 +69,14 @@ public class GreatHallRamAnimation implements Runnable {
 								} catch (WorldEditException e) {
 									e.printStackTrace();
 								}
+								
+								//clear the ram in the air, otherwise it would stay there... °-°
+								
+								try {
+									MakeStructure.createSchematicStructure(startRam, "removeRam_Maingate", "HelmsDeep");
+								} catch (WorldEditException e) {
+									e.printStackTrace();
+								}
 
 								Bukkit.getWorld("HelmsDeep").playSound(loc, Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR , 5, 1 );
 
