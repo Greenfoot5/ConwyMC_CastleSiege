@@ -1,0 +1,143 @@
+name: ConwyCastleSiege
+main: me.huntifi.castlesiege.Main
+version: 1.1.0
+api-version: 1.13
+author: Huntifi
+depends: [Votifier]
+commands:
+  fly:
+    description: Staff command that enables flying.
+    usage: /Fly
+  ping:
+    description: Shows your current ping!
+    usage: /Ping
+  discord:
+    description: Gives you the link to our discord!
+    usage: /Discord
+  rules:
+    description: Displays the rules!
+    usage: /Rules
+  NextMap:
+    description: Skips the current map and goes directly to the next one.
+    usage: /NextMap
+  maps:
+    description: Displays the map rotation!
+    usage: /Maps
+  Gmc:
+    description: Change your game mode to creative.
+    usage: /Gmc
+  Gmsp:
+    description: Change your game mode to spectator.
+    usage: /Gmsp
+  Gms:
+    description: Change your game mode to survival.
+    usage: /Gms
+  Gma:
+    description: Change your game mode to adventure.
+    usage: /Gma
+  Giverank:
+    description: Gives a rank to the targetted player.
+    usage: /Giverank
+  Givestaffrank:
+    description: Gives a staff rank to the targetted player.
+    usage: /Givestaffrank
+  Checkrank:
+    description: This is a controle check message to see if the database - ranks work.
+    usage: /Checkrank
+  Togglerank:
+    description: Toggle your rank on and off.
+    usage: /Togglerank
+  Ban:
+    description: Ban a player!
+    usage: /Ban
+  Unban:
+    description: Unban a banned player!
+    usage: /Unban
+  Mute:
+    description: Mute a player!
+    usage: /Mute
+  Unmute:
+    description: Unmute a muted player!
+    usage: /Unmute
+  Kick:
+    description: Kick a player from the server!
+    usage: /Kick
+  Vanish:
+    description: Vanish into the void!
+    usage: /Vanish
+  Playerid:
+    description: Returns the target player's UUID.
+    usage: /Playerid
+  Teams:
+    description: Shows the size of both teams.
+    usage: /Teams
+  Switch:
+    description: Switches teams.
+    usage: /Switch
+  Kit:
+    description: Switches teams.
+    usage: /Kit
+  Mvp:
+    description: Switches teams.
+    usage: /Mvp
+  KitGUI:
+    description: Opens the kit GUI.
+    usage: /KitGUI
+  Mystats:
+    description: Opens a book that shows you your stats.
+    usage: /Mystats
+  t:
+    description: Talk in team chat.
+    usage: /t
+  s:
+    description: Talk in staff chat.
+    usage: /s
+  r:
+    description: Reply to a message.
+    usage: /r
+  msg:
+    description: Message a player!
+    usage: /r
+  KitRohan:
+    description: GUI Rohan-Helmsdeep
+    usage: /KitRohan
+  KitIsengard:
+    description: GUI Isengard-Helmsdeep
+    usage: /KitIsengard
+  togglerank:
+    description: Toggles the rank
+    usage: /togglerank
+  Classicgui:
+    description: open classic gui
+    usage: /classicgui
+  VoterKitGUI:
+    description: open voterkit gui
+    usage: /VoterKitGUI
+  KitThunderstoneGuards:
+    description: open thunderstone GUI
+    usage: /KitThunderstoneGuards
+  KitCloudcrawlers:
+    description: open cloudcrawler thunderstone GUI
+    usage: /KitCloudcrawlers
+  sui:
+    description: commit die
+    usage: /sui
+    aliases: suicide
+  CheckFlagList:
+    description: check helmsdeep arraylists
+    usage: /CheckFlagList
+  Kickall:
+    description: Kick all players from the server
+    usage: /Kickall
+  Unsessionmute:
+    description: Un-sessionmutes the player.
+    usage: /Unsessionmute
+  sessionmute:
+    description: Session mute the player.
+    usage: /sessionmute
+  Givevoter:
+    description: Not for players, this is a console command.
+    usage: /Givevoter
+  Givevote:
+    description: Moderator command to give players their votes.
+    usage: /Givevote
