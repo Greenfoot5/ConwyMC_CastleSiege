@@ -2,20 +2,16 @@ package me.huntifi.castlesiege.tablist;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import me.huntifi.castlesiege.Main;
-import net.minecraft.server.v1_15_R1.ChatComponentText;
-import net.minecraft.server.v1_15_R1.PacketPlayOutPlayerListHeaderFooter;
 
 public class Tablist {
 	
-	private List<ChatComponentText> headers = new ArrayList<>();
+	/*private List<ChatComponentText> headers = new ArrayList<>();
 	private List<ChatComponentText> footers = new ArrayList<>();
 	
 	private Main plugin;
@@ -86,6 +82,6 @@ public class Tablist {
 	private String format(String msg) {
 		
 		return ChatColor.translateAlternateColorCodes('&', msg);
-	}
+	}*/
 
 }

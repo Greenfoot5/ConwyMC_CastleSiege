@@ -29,11 +29,9 @@ public class rulesCommand implements CommandExecutor {
 				p.sendMessage(ChatColor.YELLOW + "10" + ChatColor.GRAY + ") Staff have a final say. Do not attempt to argue against punishment decisions once a final decision is given.");
 				p.sendMessage(ChatColor.YELLOW + "11" + ChatColor.WHITE + ") Do not pvp log.");
 				p.sendMessage(ChatColor.YELLOW + "12" + ChatColor.GRAY + ") Do not evade punishments.");
-				p.sendMessage(ChatColor.YELLOW + "13" + ChatColor.WHITE + ") Don’t post NSFW content.");
+				p.sendMessage(ChatColor.YELLOW + "13" + ChatColor.WHITE + ") Don't post NSFW content.");
 				p.sendMessage("-----------------------------------------------------");
-				
 			}
-
 		}
 		return true;
 	}

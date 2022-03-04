@@ -406,14 +406,14 @@ public class Main extends JavaPlugin implements Listener {
 
 		//Tablist
 
-		this.tab = new Tablist(this);
-		tab.addHeader("&e*_︵_︵_︵_ &5ConwyMC&e _︵_︵_︵_*\n&5Join the discord: &bhttps://discord.gg/AUDqTpC");
-		tab.addHeader("&e*_︵_︵_︵_ &dConwyMC&e _︵_︵_︵_*\n&dJoin the discord: &bhttps://discord.gg/AUDqTpC");
-
-		tab.addFooter("&5Castle Siege  -  Alpha Testing");
-		tab.addFooter("&dCastle Siege  -  Alpha Testing");
-
-		tab.showTab();
+//		this.tab = new Tablist(this);
+//		tab.addHeader("&e*_︵_︵_︵_ &5ConwyMC&e _︵_︵_︵_*\n&5Join the discord: &bhttps://discord.gg/AUDqTpC");
+//		tab.addHeader("&e*_︵_︵_︵_ &dConwyMC&e _︵_︵_︵_*\n&dJoin the discord: &bhttps://discord.gg/AUDqTpC");
+//
+//		tab.addFooter("&5Castle Siege  -  Alpha Testing");
+//		tab.addFooter("&dCastle Siege  -  Alpha Testing");
+//
+//		tab.showTab();
 
 		//Activate the map Helmsdeep + reset
 
