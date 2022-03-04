@@ -26,9 +26,9 @@ public class NametagsEvent {
 			
 		if (StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod")) {
 
-			p.setDisplayName("§e" + level + "§9" + " ChatMod " + colour(p) + p.getName());
+			p.setDisplayName("?e" + level + "?9" + " ChatMod " + colour(p) + p.getName());
 
-			NametagEdit.getApi().setPrefix(p, "§9" + "ChatMod " + colour(p));
+			NametagEdit.getApi().setPrefix(p, "?9" + "ChatMod " + colour(p));
 			
 			return;
 
@@ -36,9 +36,9 @@ public class NametagsEvent {
 
 		if (StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod+")) {
 
-			p.setDisplayName("§e" + level + "§9" + " ChatMod" + "§a" + "+ " + colour(p) + p.getName());
+			p.setDisplayName("?e" + level + "?9" + " ChatMod" + "?a" + "+ " + colour(p) + p.getName());
 
-			NametagEdit.getApi().setPrefix(p, "§9" + "ChatMod" + "§a" + "+ " + colour(p));
+			NametagEdit.getApi().setPrefix(p, "?9" + "ChatMod" + "?a" + "+ " + colour(p));
 			
 			return;
 
@@ -47,9 +47,9 @@ public class NametagsEvent {
 		if (StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Moderator")) {
 
 
-			p.setDisplayName("§e" + level + "§a" + " Mod " + colour(p) + p.getName());
+			p.setDisplayName("?e" + level + "?a" + " Mod " + colour(p) + p.getName());
 
-			NametagEdit.getApi().setPrefix(p, "§a" + "Mod " + colour(p));
+			NametagEdit.getApi().setPrefix(p, "?a" + "Mod " + colour(p));
 			
 			return;
 
@@ -58,9 +58,9 @@ public class NametagsEvent {
 		if (StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Developer")) {
 
 
-			p.setDisplayName("§e" + level + "§2" + " Dev " + colour(p) + p.getName());
+			p.setDisplayName("?e" + level + "?2" + " Dev " + colour(p) + p.getName());
 
-			NametagEdit.getApi().setPrefix(p, "§2" + "Dev " + colour(p));
+			NametagEdit.getApi().setPrefix(p, "?2" + "Dev " + colour(p));
 			
 			return;
 
@@ -69,9 +69,9 @@ public class NametagsEvent {
 		if (StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Admin")) {
 
 
-			p.setDisplayName("§e" + level + "§c" + " Admin " + colour(p) + p.getName());
+			p.setDisplayName("?e" + level + "?c" + " Admin " + colour(p) + p.getName());
 
-			NametagEdit.getApi().setPrefix(p, "§c" + "Admin " + colour(p));
+			NametagEdit.getApi().setPrefix(p, "?c" + "Admin " + colour(p));
 			
 			return;
 
@@ -82,7 +82,7 @@ public class NametagsEvent {
 			if (StatsChanging.getRank(p.getUniqueId()).equalsIgnoreCase("None")) {
 
 
-				p.setDisplayName("§e" + level + " " + colour(p) + p.getName());
+				p.setDisplayName("?e" + level + " " + colour(p) + p.getName());
 
 				NametagEdit.getApi().setPrefix(p, colour(p) + "");
 				
@@ -94,9 +94,9 @@ public class NametagsEvent {
 			if (StatsChanging.getRank(p.getUniqueId()).equalsIgnoreCase("Esquire")) {
 
 
-				p.setDisplayName("§e" + level + "§3" + " Esquire " + colour(p) + p.getName());
+				p.setDisplayName("?e" + level + "?3" + " Esquire " + colour(p) + p.getName());
 
-				NametagEdit.getApi().setPrefix(p, "§3" + "Esquire " + colour(p));
+				NametagEdit.getApi().setPrefix(p, "?3" + "Esquire " + colour(p));
 				
 				return;
 
@@ -105,9 +105,9 @@ public class NametagsEvent {
 
 			if (StatsChanging.getRank(p.getUniqueId()).equalsIgnoreCase("Noble")) {
 
-				p.setDisplayName("§e" + level + "§a" + " Noble " + colour(p) + p.getName());
+				p.setDisplayName("?e" + level + "?a" + " Noble " + colour(p) + p.getName());
 
-				NametagEdit.getApi().setPrefix(p, "§a" + "Noble " + colour(p));
+				NametagEdit.getApi().setPrefix(p, "?a" + "Noble " + colour(p));
 				
 				return;
 				
@@ -116,9 +116,9 @@ public class NametagsEvent {
 			if (StatsChanging.getRank(p.getUniqueId()).equalsIgnoreCase("Count")) {
 
 
-				p.setDisplayName("§e" + level + "§6" + " Count " + colour(p) + p.getName());
+				p.setDisplayName("?e" + level + "?6" + " Count " + colour(p) + p.getName());
 
-				NametagEdit.getApi().setPrefix(p, "§6" + "Count " + colour(p));
+				NametagEdit.getApi().setPrefix(p, "?6" + "Count " + colour(p));
 				
 				return;
 
@@ -126,9 +126,9 @@ public class NametagsEvent {
 
 			if (StatsChanging.getRank(p.getUniqueId()).equalsIgnoreCase("Baron")) {
 
-				p.setDisplayName("§e" + level + "§5" + " Baron " + colour(p) + p.getName());
+				p.setDisplayName("?e" + level + "?5" + " Baron " + colour(p) + p.getName());
 
-				NametagEdit.getApi().setPrefix(p, "§5" + "Baron " + colour(p));
+				NametagEdit.getApi().setPrefix(p, "?5" + "Baron " + colour(p));
 				
 				return;
 
@@ -137,9 +137,9 @@ public class NametagsEvent {
 			if (StatsChanging.getRank(p.getUniqueId()).equalsIgnoreCase("Duke")) {
 
 
-				p.setDisplayName("§e" + level + "§4" + " Duke " + colour(p) + p.getName());
+				p.setDisplayName("?e" + level + "?4" + " Duke " + colour(p) + p.getName());
 
-				NametagEdit.getApi().setPrefix(p, "§4" + "Duke " + colour(p));
+				NametagEdit.getApi().setPrefix(p, "?4" + "Duke " + colour(p));
 				
 				return;
 
@@ -148,9 +148,9 @@ public class NametagsEvent {
 			if (StatsChanging.getRank(p.getUniqueId()).equalsIgnoreCase("King")) {
 
 
-				p.setDisplayName("§e" + level + "§e" + " King " + colour(p) + p.getName());
+				p.setDisplayName("?e" + level + "?e" + " King " + colour(p) + p.getName());
 
-				NametagEdit.getApi().setPrefix(p, "§e" + "King " + colour(p));
+				NametagEdit.getApi().setPrefix(p, "?e" + "King " + colour(p));
 				
 				return;
 
@@ -159,9 +159,9 @@ public class NametagsEvent {
 			if (StatsChanging.getRank(p.getUniqueId()).equalsIgnoreCase("HighKing")) {
 
 
-				p.setDisplayName("§e" + level + "§e" + " High King " + colour(p) + p.getName());
+				p.setDisplayName("?e" + level + "?e" + " High King " + colour(p) + p.getName());
 
-				NametagEdit.getApi().setPrefix(p, "§e" + "High King " + colour(p));
+				NametagEdit.getApi().setPrefix(p, "?e" + "High King " + colour(p));
 
 				return;
 				
@@ -169,7 +169,7 @@ public class NametagsEvent {
 			
 		} else {
 			
-			p.setDisplayName("§e" + level + " " + colour(p) + p.getName());
+			p.setDisplayName("?e" + level + " " + colour(p) + p.getName());
 
 			NametagEdit.getApi().setPrefix(p, colour(p) + "");
 			
@@ -186,13 +186,13 @@ public class NametagsEvent {
 
 			if (PlayerTeam.playerIsInTeam(p, 1)) {
 
-				return "§8";
+				return "?8";
 
 			}
 
 			if (PlayerTeam.playerIsInTeam(p, 2)) {
 
-				return "§2";
+				return "?2";
 
 			}
 
@@ -202,19 +202,19 @@ public class NametagsEvent {
 
 			if (PlayerTeam.playerIsInTeam(p, 1)) {
 
-				return "§3";
+				return "?3";
 
 			}
 
 			if (PlayerTeam.playerIsInTeam(p, 2)) {
 
-				return "§6";
+				return "?6";
 
 			}
 
 		}
 
-		return "§7";
+		return "?7";
 
 	}
 

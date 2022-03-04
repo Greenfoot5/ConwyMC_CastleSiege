@@ -143,82 +143,82 @@ public class Warhound implements Listener {
 
 	public static DyeColor getWolfTeamColour(Player p) {
 
-		if (NametagsEvent.colour(p).equals("§8")) {
+		if (NametagsEvent.colour(p).equals("ï¿½8")) {
 
 			return DyeColor.GRAY;
 		}
 
-		if (NametagsEvent.colour(p).equals("§0")) {
+		if (NametagsEvent.colour(p).equals("ï¿½0")) {
 
 			return DyeColor.BLACK;
 		}
 
-		if (NametagsEvent.colour(p).equals("§2")) {
+		if (NametagsEvent.colour(p).equals("ï¿½2")) {
 
 			return DyeColor.GREEN;
 		}
 
-		if (NametagsEvent.colour(p).equals("§4")) {
+		if (NametagsEvent.colour(p).equals("ï¿½4")) {
 
 			return DyeColor.RED;
 		}
 
-		if (NametagsEvent.colour(p).equals("§6")) {
+		if (NametagsEvent.colour(p).equals("ï¿½6")) {
 
 			return DyeColor.ORANGE;
 		}
 
-		if (NametagsEvent.colour(p).equals("§a")) {
+		if (NametagsEvent.colour(p).equals("ï¿½a")) {
 
 			return DyeColor.LIME;
 		}
 
-		if (NametagsEvent.colour(p).equals("§c")) {
+		if (NametagsEvent.colour(p).equals("ï¿½c")) {
 
 			return DyeColor.RED;
 		}
 
-		if (NametagsEvent.colour(p).equals("§e")) {
+		if (NametagsEvent.colour(p).equals("ï¿½e")) {
 
 			return DyeColor.YELLOW;
 		}
 		
-		if (NametagsEvent.colour(p).equals("§1")) {
+		if (NametagsEvent.colour(p).equals("ï¿½1")) {
 
 			return DyeColor.BLUE;
 		}
 		
-		if (NametagsEvent.colour(p).equals("§3")) {
+		if (NametagsEvent.colour(p).equals("ï¿½3")) {
 
 			return DyeColor.CYAN;
 		}
 		
-		if (NametagsEvent.colour(p).equals("§5")) {
+		if (NametagsEvent.colour(p).equals("ï¿½5")) {
 
 			return DyeColor.PURPLE;
 		}
 		
-		if (NametagsEvent.colour(p).equals("§7")) {
+		if (NametagsEvent.colour(p).equals("ï¿½7")) {
 
 			return DyeColor.GRAY;
 		}
 		
-		if (NametagsEvent.colour(p).equals("§9")) {
+		if (NametagsEvent.colour(p).equals("ï¿½9")) {
 
 			return DyeColor.BLUE;
 		}
 		
-		if (NametagsEvent.colour(p).equals("§b")) {
+		if (NametagsEvent.colour(p).equals("ï¿½b")) {
 
 			return DyeColor.LIGHT_BLUE;
 		}
 		
-		if (NametagsEvent.colour(p).equals("§d")) {
+		if (NametagsEvent.colour(p).equals("ï¿½d")) {
 
 			return DyeColor.MAGENTA;
 		}
 		
-		if (NametagsEvent.colour(p).equals("§f")) {
+		if (NametagsEvent.colour(p).equals("ï¿½f")) {
 
 			return DyeColor.WHITE;
 		}

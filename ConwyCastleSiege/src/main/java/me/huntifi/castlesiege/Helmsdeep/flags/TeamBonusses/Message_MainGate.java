@@ -1,10 +1,5 @@
 package me.huntifi.castlesiege.Helmsdeep.flags.TeamBonusses;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagRadius;
 import me.huntifi.castlesiege.maps.currentMaps;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
@@ -14,6 +9,10 @@ import net.minecraft.server.v1_15_R1.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_15_R1.SoundCategory;
 import net.minecraft.server.v1_15_R1.SoundEffect;
 import net.minecraft.server.v1_15_R1.SoundEffects;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
 public class Message_MainGate {
  
