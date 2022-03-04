@@ -76,15 +76,11 @@ public class Tablist {
 	}
 	
 	public void addHeader(String header) {
-		
 		headers.add(new ChatComponentText(format(header)));
-		
 	}
 	
 	public void addFooter(String footer) {
-		
 		footers.add(new ChatComponentText(format(footer)));
-		
 	}
 	
 	private String format(String msg) {

@@ -1,16 +1,13 @@
 package me.huntifi.castlesiege.kits.FireArcher;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
+import me.huntifi.castlesiege.teams.PlayerTeam;
+import me.huntifi.castlesiege.woolmap.LobbyPlayer;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,10 +17,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -33,20 +30,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
-import me.huntifi.castlesiege.teams.PlayerTeam;
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_15_R1.PacketPlayOutNamedSoundEffect;
-import net.minecraft.server.v1_15_R1.SoundCategory;
-import net.minecraft.server.v1_15_R1.SoundEffect;
-import net.minecraft.server.v1_15_R1.SoundEffects;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class FireArcherAbility implements Listener {
 
-	public static HashMap<Player, Block> cauldrons = new HashMap<Player, Block>();
+	public static HashMap<Player, Block> cauldrons = new HashMap<>();
 
 
 	@EventHandler (priority = EventPriority.MONITOR)
@@ -113,16 +103,14 @@ public class FireArcherAbility implements Listener {
 
 	public void onDieFirearcher(PlayerDeathEvent e) {
 
-		if (e.getEntity() instanceof Player) {
+		e.getEntity();
 
-			Player p = (Player) e.getEntity();
+		Player p = (Player) e.getEntity();
 
-			if (cauldrons.containsKey(p)) {  
+		if (cauldrons.containsKey(p)) {
 
-				cauldrons.remove(p);
-				cauldrons.get(p).setType(Material.AIR);
-
-			}
+			cauldrons.remove(p);
+			cauldrons.get(p).setType(Material.AIR);
 
 		}
 
@@ -227,20 +215,16 @@ public class FireArcherAbility implements Listener {
 
 	}
 
-	public void playSound(Player p) {
+	public static void playSound(Player player) {
 
-		CraftPlayer craftPlayer = (CraftPlayer) p;
+		Location location = player.getLocation();
 
-		Location l = p.getLocation();
-
-		SoundEffect effect = SoundEffects.ENTITY_ZOMBIE_INFECT;
+		Sound effect = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 
 		float volume = 1f; //1 = 100%
 		float pitch = 0.5f; //Float between 0.5 and 2.0
 
-		PacketPlayOutNamedSoundEffect packet;
-		packet  = new PacketPlayOutNamedSoundEffect(effect, SoundCategory.PLAYERS, l.getX(), l.getY(), l.getZ(),  volume, pitch);
-		craftPlayer.getHandle().playerConnection.sendPacket(packet);
+		player.playSound(location, effect, volume, pitch);
 	}
 
 
