@@ -82,6 +82,9 @@ import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateBlocks;
 import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateDestroyEvent;
 import me.huntifi.castlesiege.Thunderstone.KitsGUI.KitsGUI_Cloudcrawlers_Command;
 import me.huntifi.castlesiege.Thunderstone.KitsGUI.KitsGUI_ThunderstoneGuard_Command;
+import me.huntifi.castlesiege.Thunderstone.Rams.ThunderstoneGateReadyRam;
+import me.huntifi.castlesiege.Thunderstone.Rams.ThunderstoneRam;
+import me.huntifi.castlesiege.Thunderstone.Rams.ThunderstoneRamAnimation;
 import me.huntifi.castlesiege.chat.PlayerChat;
 import me.huntifi.castlesiege.combat.ApplyRegeneration;
 import me.huntifi.castlesiege.combat.CustomRegeneration;
@@ -402,6 +405,10 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getServer().getScheduler().runTaskTimer(this, new GreatHallRamAnimation(), 200, GreatHallGateRam.rammingSpeed);
 		Bukkit.getServer().getScheduler().runTaskTimer(this, new GreatHallGateRam(), 200, 40);
 
+		Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneGateReadyRam(), 200, 60);
+		Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneRamAnimation(), 200, ThunderstoneRam.rammingSpeed);
+		Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneRam(), 200, 40);
+		
 		currentMaps.setMap("HelmsDeep");
 
 		//Tablist

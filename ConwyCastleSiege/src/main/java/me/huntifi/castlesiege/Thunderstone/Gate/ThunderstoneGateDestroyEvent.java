@@ -25,11 +25,11 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class ThunderstoneGateDestroyEvent implements Listener {
 
-	public int GateHealth = 250; 
+	public static int GateHealth = 300; 
 
 	public static ArrayList<Player> hitters = new ArrayList<Player>();
 
-	public boolean isBreached = false;
+	public static boolean isBreached = false;
 
 	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
 

@@ -49,11 +49,15 @@ public class Herugrim implements Listener, Runnable {
 		Sword.setItemMeta(SwordMeta);
 
 	}
+	
+	//Herugrim
 
 	public static ItemStack getHerugrim() {
 		return Sword;
 
 	}  
+	
+	//Literally spawns herugrim at its spawn location.
 
 
 	public static void spawnHerugrim() {
@@ -64,6 +68,7 @@ public class Herugrim implements Listener, Runnable {
 
 	}
 
+	//When a player dies and has herugrim, they drop Herugrim on the ground.
 
 	@EventHandler
 	public static void dropHerugrim(PlayerDeathEvent e) {
@@ -85,6 +90,8 @@ public class Herugrim implements Listener, Runnable {
 
 	}
 	
+	//Spawns herugrim back at its original spawn point, when a player who has herugrim logs out.
+	
 	@EventHandler
 	public static void dropHerugrim2(PlayerQuitEvent e) {
 
@@ -94,16 +101,22 @@ public class Herugrim implements Listener, Runnable {
 
 			if (p.getInventory().contains(getHerugrim())) {
 				
+				if (containsHerugrim.contains(p)) {
+				
 				Location block = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 983.903, 58, 986.954);
 				
 				Bukkit.getServer().getWorld("HelmsDeep").dropItem(block.add(+0.5, +1, +0.5), getHerugrim()).setVelocity(new Vector(0, 0, 0));
 
-				if (containsHerugrim.contains(p)) { containsHerugrim.remove(p);}
+		        containsHerugrim.remove(p);
+		        
+		        }
 			}
 
 		}
 
 	}
+	
+	//Checks whether a player has herugrim in their inventory
 
 	@Override
 	public void run() {
