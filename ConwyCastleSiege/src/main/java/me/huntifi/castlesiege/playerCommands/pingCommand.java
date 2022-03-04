@@ -4,10 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_15_R1.EntityPlayer;
+import java.lang.reflect.InvocationTargetException;
 
 public class pingCommand implements CommandExecutor {
 	
@@ -27,13 +26,16 @@ public class pingCommand implements CommandExecutor {
 		return true;
 	}
 	
-	public double getPing(Player p) {
-		
-		CraftPlayer pingc = (CraftPlayer) p;
-		EntityPlayer pinge = pingc.getHandle();
+	public double getPing(Player player) {
+		int ping = -1;
+		try {
+			Object entityPlayer = player.getClass().getMethod("getHandle").invoke(player);
+			ping = (int) entityPlayer.getClass().getField("ping").get(entityPlayer);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | NoSuchFieldException e) {
+			e.printStackTrace();
+		}
 
-		return (double) pinge.ping;
-
+		return ping;
 	}
 
 }
