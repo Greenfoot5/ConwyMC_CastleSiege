@@ -7,8 +7,12 @@ import me.huntifi.castlesiege.Thunderstone.ThunderstoneEndMap;
 import me.huntifi.castlesiege.Thunderstone.ThunderstoneTimer;
 import me.huntifi.castlesiege.joinevents.stats.MainStats;
 import me.huntifi.castlesiege.stats.levels.LevelingEvent;
+import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * Manages what map the game is currently on
@@ -117,5 +121,40 @@ public class MapController {
 				return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Adds a player to a team on the current map
+	 * @param player the player to add to a team
+	 */
+	public static void joinATeam(Player player) {
+
+		Team team = maps[mapIndex].smallestTeam();
+
+		team.addPlayer(player);
+		player.teleport(team.lobby.spawnPoint);
+		player.getInventory().clear();
+
+		player.sendMessage("You joined" + team.primaryChatColor + " " + team.name);
+		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~");
+		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+		ItemStack wool = new ItemStack(team.woolHat);
+		ItemMeta woolMeta = wool.getItemMeta();
+		woolMeta.setDisplayName(ChatColor.GREEN + "WoolHat");
+		player.getInventory().setHelmet(wool);
+
+		NametagsEvent.GiveNametag(player);
+	}
+
+	/**
+	 * Removes a player from the team when they disconnect
+	 * @param player the player to remove
+	 */
+	public static void leaveTeam(Player player) {
+
+		Map map = MapController.getCurrentMap();
+		map.getTeam(player).removePlayer(player);
 	}
 }

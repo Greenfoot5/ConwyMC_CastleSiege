@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.joinevents;
 
-import java.util.ArrayList;
-
+import me.huntifi.castlesiege.kits.EnderchestRefill;
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.huntifi.castlesiege.kits.EnderchestRefill;
+import java.util.ArrayList;
 
 public class login implements Listener {
 
@@ -39,9 +39,9 @@ public class login implements Listener {
 			}
 			
 		}.runTaskLater(plugin, 40);
+
+		MapController.joinATeam(p);
 	}
-	
-	
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerQuitEvent e) {
@@ -50,7 +50,6 @@ public class login implements Listener {
 		
 		if (Playerlist.contains(p)) { Playerlist.remove(p); }
 		
-		
+		MapController.leaveTeam(p);
 	}
-
 }

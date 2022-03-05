@@ -2,19 +2,24 @@ package me.huntifi.castlesiege.maps;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Team {
+    // Basic Details
+    public String name;
     private ArrayList<Player> players = new ArrayList<>();
     public Lobby lobby;
 
+    // Colours
     public Color primaryColor;
     public Color secondaryColor;
     public ChatColor primaryChatColor;
     public ChatColor secondaryChatColor;
+    public Material woolHat;
 
     /**
      * Checks if a player is on the team or not
@@ -82,6 +87,11 @@ public class Team {
     public int getTeamSize() {
         return players.size();
     }
+
+    /**
+     * Gets the MVP for the current team
+     */
+    public void getMVP() {}
 
     /**
      * Clears the team's members

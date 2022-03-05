@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.commands;
 
 import java.util.ArrayList;
 
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -32,16 +33,15 @@ public class togglerankCommand implements CommandExecutor {
 						
 						rankers.remove(p);
 						p.sendMessage(ChatColor.RED + "Rank toggled on");
-						NametagsEvent.GiveNametag(p);
-						return true;
-						
+
 					} else {
 						
 						rankers.add(p);
 						p.sendMessage(ChatColor.RED + "Rank toggled off");
-						NametagsEvent.GiveNametag(p);
-						return true;
 					}
+
+					NametagsEvent.GiveNametag(p);
+					return true;
 
 				}
 

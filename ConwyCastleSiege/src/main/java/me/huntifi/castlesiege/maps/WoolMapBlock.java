@@ -17,7 +17,7 @@ public class WoolMapBlock {
 
     public void SpawnPlayer(Player player)
     {
-        Team team = MapController.getCurrentMap().GetTeam(player);
+        Team team = MapController.getCurrentMap().getTeam(player);
 
         if (team.hasPlayer(player))
         {

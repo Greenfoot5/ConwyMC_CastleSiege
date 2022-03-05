@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.stats;
 import java.text.DecimalFormat;
 import java.util.UUID;
 
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;

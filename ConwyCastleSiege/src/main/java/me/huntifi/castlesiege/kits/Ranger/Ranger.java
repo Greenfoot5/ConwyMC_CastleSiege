@@ -1,15 +1,14 @@
 package me.huntifi.castlesiege.kits.Ranger;
 
+import me.huntifi.castlesiege.kits.WoolHat;
+import me.huntifi.castlesiege.voting.VotesChanging;
+import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import me.huntifi.castlesiege.kits.Woolheads;
-import me.huntifi.castlesiege.voting.VotesChanging;
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class Ranger {
 
@@ -21,7 +20,7 @@ public static void setItems(Player p) {
 		
 		if (LobbyPlayer.containsPlayer(p)) { p.setHealth(105); }
 		
-		Woolheads.setHead(p);
+		WoolHat.setHead(p);
 		
 		if (!LobbyPlayer.containsPlayer(p)) {
 			for (PotionEffect effect : p.getActivePotionEffects())

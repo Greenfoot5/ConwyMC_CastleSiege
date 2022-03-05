@@ -2,6 +2,7 @@ package me.huntifi.castlesiege;
 
 import java.sql.SQLException;
 
+import me.huntifi.castlesiege.maps.WoolMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -26,8 +27,6 @@ import me.huntifi.castlesiege.Helmsdeep.HelmsdeepJoin;
 import me.huntifi.castlesiege.Helmsdeep.HelmsdeepLeave;
 import me.huntifi.castlesiege.Helmsdeep.HelmsdeepMVPupdater;
 import me.huntifi.castlesiege.Helmsdeep.HelmsdeepTimer;
-import me.huntifi.castlesiege.maps.Woolmap;
-import me.huntifi.castlesiege.Helmsdeep.Woolmap_Distance;
 import me.huntifi.castlesiege.Helmsdeep.Ballistae.HelmsdeepBallistaEvent;
 import me.huntifi.castlesiege.Helmsdeep.Boat.HelmsdeepCaveBoat;
 import me.huntifi.castlesiege.Helmsdeep.Gates.HelmsdeepGreatHallBlocks;
@@ -249,7 +248,6 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new DeathRanger(), this);
 		getServer().getPluginManager().registerEvents(new HalberdierAbility(), this);
 		getServer().getPluginManager().registerEvents(new DeathHalberdier(), this);
-		getServer().getPluginManager().registerEvents(new Woolmap_Distance(), this);
 		getServer().getPluginManager().registerEvents(new CavalryAbility(), this);
 		getServer().getPluginManager().registerEvents(new CavalryDeath(), this);
 		getServer().getPluginManager().registerEvents(new CrossbowmanDeath(), this);
@@ -304,7 +302,7 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new CourtyardFlag(), this);
 		getServer().getPluginManager().registerEvents(new GreatHallsFlag(), this);
 		getServer().getPluginManager().registerEvents(new HornFlag(), this);
-		getServer().getPluginManager().registerEvents(new Woolmap(), this);
+		getServer().getPluginManager().registerEvents(new WoolMap(), this);
 
 		getServer().getPluginManager().registerEvents(new HelmsdeepCavesDoor(), this);
 		getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallLeftDoor(), this);

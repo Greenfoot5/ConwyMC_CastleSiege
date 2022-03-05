@@ -67,7 +67,7 @@ public class EndMapAction {
 									all.sendMessage(ChatColor.YELLOW + "Starting new game...");
 
 								}
-								JoinNewTeam.joinATeam(MapsList.Thunderstone);
+								//JoinNewTeam.joinATeam(MapsList.Thunderstone);
 
 							}
 
