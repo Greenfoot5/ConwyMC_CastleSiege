@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.Thunderstone.Flags;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class TS_FlagCounter {
 
@@ -14,7 +14,7 @@ public class TS_FlagCounter {
 
 	public static void setFlagCounter(String flag, int counter) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (flag.equalsIgnoreCase("StairHall")) {
 
@@ -63,7 +63,7 @@ public class TS_FlagCounter {
 	
 	public static int getFlagCounter(String flag) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (flag.equalsIgnoreCase("StairHall")) {
 
@@ -109,7 +109,7 @@ public class TS_FlagCounter {
 	
 	public static Boolean isFlagCounter(String flag, int counter) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 
 			if (flag.equalsIgnoreCase("stairhall") && StairHall == counter) {

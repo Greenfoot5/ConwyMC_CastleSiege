@@ -9,7 +9,7 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import me.huntifi.castlesiege.Helmsdeep.HelmsdeepTimer;
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagTeam;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class HelmsdeepScoreboard {
 
@@ -21,7 +21,7 @@ public class HelmsdeepScoreboard {
 		String displayName = "Castle Siege";
 		objective.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + displayName);
 		scoreboard.replaceScore(objective, 15, ChatColor.DARK_GRAY + "");
-		scoreboard.replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + "Map: " + ChatColor.RESET + ChatColor.GREEN + currentMaps.getCurrentMap());
+		scoreboard.replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + "Map: " + ChatColor.RESET + ChatColor.GREEN + MapController.getCurrentMap());
 		scoreboard.replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + "Time: " + ChatColor.RESET + HelmsdeepTimer.Minutes + ":" + HelmsdeepTimer.Seconds);
 		if (HelmsdeepTimer.Seconds < 10) { scoreboard.replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + "Time: " + ChatColor.RESET + HelmsdeepTimer.Minutes + ":0" + HelmsdeepTimer.Seconds); }
 		scoreboard.replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");

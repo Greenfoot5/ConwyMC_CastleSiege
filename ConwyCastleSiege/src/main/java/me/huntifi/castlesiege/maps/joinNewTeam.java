@@ -20,7 +20,7 @@ public class joinNewTeam {
 
 	public static void HelmsdeepJoinNewTeam() {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (login.Playerlist.get(0) != null) {
 
@@ -110,7 +110,7 @@ public class joinNewTeam {
 
 	public static void ThunderstoneJoinNewTeam() {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (login.Playerlist.get(0) != null) {
 

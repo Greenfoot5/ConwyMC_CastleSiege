@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class MapsCommand implements CommandExecutor {
 	
@@ -18,14 +18,14 @@ public class MapsCommand implements CommandExecutor {
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("maps")) {
 				
-				if (currentMaps.currentMapIs("HelmsDeep")) {
+				if (MapController.currentMapIs("HelmsDeep")) {
 
 					p.sendMessage(ChatColor.DARK_GREEN + "Helm's Deep" + ChatColor.WHITE + " > " + ChatColor.GRAY + "Thunderstone" + ChatColor.WHITE + " > " + ChatColor.GRAY + "Restart");
 			
 
 					return true;
 
-				} else if(currentMaps.currentMapIs("Thunderstone")) {
+				} else if(MapController.currentMapIs("Thunderstone")) {
 
 					p.sendMessage(ChatColor.GRAY + "Helm's Deep" + ChatColor.WHITE + " > " + ChatColor.DARK_GREEN + "Thunderstone" + ChatColor.WHITE + " > " + ChatColor.GRAY + "Restart");
 				

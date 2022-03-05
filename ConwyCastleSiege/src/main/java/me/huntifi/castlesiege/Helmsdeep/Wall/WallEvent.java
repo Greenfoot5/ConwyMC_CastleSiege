@@ -23,7 +23,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.sk89q.worldedit.WorldEditException;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.structures.MakeStructure;
 import me.huntifi.castlesiege.teams.PlayerTeam;
@@ -44,7 +44,7 @@ public class WallEvent implements Listener, Runnable {
 
 		Player p = e.getPlayer();
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		if(MapController.currentMapIs("HelmsDeep")) {
 
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
@@ -83,7 +83,7 @@ public class WallEvent implements Listener, Runnable {
 
 		Player p = e.getPlayer();
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		if(MapController.currentMapIs("HelmsDeep")) {
 
 			if(p.getWorld() == (plugin.getServer().getWorld("HelmsDeep"))) {
 
@@ -127,7 +127,7 @@ public class WallEvent implements Listener, Runnable {
 
 		Player p = e.getPlayer();
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		if(MapController.currentMapIs("HelmsDeep")) {
 
 			final Location tloc1 = new Location(plugin.getServer().getWorld("HelmsDeep"), 1026, 34, 1124); //where the tnts are placed
 			final Location tloc2 = new Location(plugin.getServer().getWorld("HelmsDeep"), 1026, 34, 1123);
@@ -225,7 +225,7 @@ public class WallEvent implements Listener, Runnable {
 	@EventHandler
 	public void onTntDeath(PlayerDeathEvent e) {
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		if(MapController.currentMapIs("HelmsDeep")) {
 
 
 			if (e.getEntity() instanceof Player) {
@@ -279,7 +279,7 @@ public class WallEvent implements Listener, Runnable {
 	@EventHandler
 	public void onTntQuit(PlayerQuitEvent e) {
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		if(MapController.currentMapIs("HelmsDeep")) {
 
 			Player p = e.getPlayer();
 
@@ -324,7 +324,7 @@ public class WallEvent implements Listener, Runnable {
 
 		Player p = e.getPlayer();
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		if(MapController.currentMapIs("HelmsDeep")) {
 
 			if(p.getWorld() == (plugin.getServer().getWorld("HelmsDeep"))) {
 
@@ -368,7 +368,7 @@ public class WallEvent implements Listener, Runnable {
 
 		for (Player online : Bukkit.getOnlinePlayers()) {
 
-			if(currentMaps.currentMapIs("HelmsDeep")) {
+			if(MapController.currentMapIs("HelmsDeep")) {
 
 				if(online.getWorld() == (plugin.getServer().getWorld("HelmsDeep"))) {
 

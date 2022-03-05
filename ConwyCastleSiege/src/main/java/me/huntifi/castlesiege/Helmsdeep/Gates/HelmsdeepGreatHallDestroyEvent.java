@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.WorldEditException;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.structures.MakeStructure;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
@@ -40,7 +40,7 @@ public class HelmsdeepGreatHallDestroyEvent implements Listener {
 
 		Player p = event.getPlayer();
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		if(MapController.currentMapIs("HelmsDeep")) {
 
 			if (!LobbyPlayer.containsPlayer(p)) {
 

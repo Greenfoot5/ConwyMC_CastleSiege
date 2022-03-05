@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.sk89q.worldedit.WorldEditException;
 
 import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateDestroyEvent;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.structures.MakeStructure;
 import net.md_5.bungee.api.ChatMessageType;
@@ -26,7 +26,7 @@ public class ThunderstoneRamAnimation implements Runnable {
 	@Override
 	public void run() {
 
-		if(currentMaps.currentMapIs("Thunderstone")) {
+		if(MapController.currentMapIs("Thunderstone")) {
 
 			Location ram = new Location(Bukkit.getServer().getWorld("Thunderstone"), 150, 67, 67); //location of schematic for when ramming (touching door)
  

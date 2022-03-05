@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.sk89q.worldedit.WorldEditException;
 
 import me.huntifi.castlesiege.Helmsdeep.Gates.HelmsdeepGreatHallDestroyEvent;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.structures.MakeStructure;
 import net.md_5.bungee.api.ChatMessageType;
@@ -26,7 +26,7 @@ public class GreatHallRamAnimation implements Runnable {
 	@Override
 	public void run() {
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		if(MapController.currentMapIs("HelmsDeep")) {
 
 			Location ram = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 977, 74, 1000); //location of schematic for when ramming (touching door)
  
@@ -70,7 +70,7 @@ public class GreatHallRamAnimation implements Runnable {
 									e.printStackTrace();
 								}
 								
-								//clear the ram in the air, otherwise it would stay there... °-°
+								//clear the ram in the air, otherwise it would stay there... ï¿½-ï¿½
 								
 								try {
 									MakeStructure.createSchematicStructure(startRam, "removeRam_Maingate", "HelmsDeep");

@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class FlagRadius implements Listener {
@@ -36,7 +36,7 @@ public class FlagRadius implements Listener {
 	
 	public static void removePlayerFromAll(Player p) {
 		
-		if (currentMaps.currentMapIs("Helmsdeep")) {
+		if (MapController.currentMapIs("Helmsdeep")) {
 		
 		if (SupplyCamp1.contains(p)) { SupplyCamp1.remove(p); }
 		if (SupplyCamp2.contains(p)) { SupplyCamp2.remove(p); }
@@ -61,7 +61,7 @@ public class FlagRadius implements Listener {
 
 	public static void setPlayerInRadius(Player p, String flag) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (p.getGameMode() != GameMode.SPECTATOR) {
 
@@ -181,7 +181,7 @@ public class FlagRadius implements Listener {
 
 	public static Boolean isPlayerInRadius(Player p, String flag) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (p.getGameMode() != GameMode.SPECTATOR) {
 
@@ -511,7 +511,7 @@ public class FlagRadius implements Listener {
 
 	public static Boolean ThisTeamIsCapturing(int team, String flag) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (flag.equalsIgnoreCase("SupplyCamp")) {
 
@@ -639,7 +639,7 @@ public class FlagRadius implements Listener {
 
 	public static Boolean isFlagContested(String flag) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (flag.equalsIgnoreCase("SupplyCamp")) {
 
@@ -724,7 +724,7 @@ public class FlagRadius implements Listener {
 
 	public static Boolean FlagIsBeingCaptured(String flag) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 
 			if (flag.equalsIgnoreCase("SupplyCamp")) {

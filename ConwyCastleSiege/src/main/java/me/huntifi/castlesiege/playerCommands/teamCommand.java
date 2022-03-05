@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class teamCommand implements CommandExecutor {
@@ -18,13 +18,13 @@ public class teamCommand implements CommandExecutor {
 
 		if (cmd.getName().equalsIgnoreCase("teams")) {
 
-			if (currentMaps.currentMapIs("HelmsDeep")) {
+			if (MapController.currentMapIs("HelmsDeep")) {
 
 				p.sendMessage(ChatColor.GREEN + "Team " + ChatColor.DARK_GREEN + "Rohan: " + ChatColor.WHITE + PlayerTeam.rohanTeamSize());
 				p.sendMessage(ChatColor.GREEN + "Team " + ChatColor.DARK_GRAY + "The Urukhai: " + ChatColor.WHITE + PlayerTeam.urukhaiTeamSize()); 
 				return true;
 
-			} else if(currentMaps.currentMapIs("Thunderstone")) {
+			} else if(MapController.currentMapIs("Thunderstone")) {
 
 				p.sendMessage(ChatColor.GREEN + "Team " + ChatColor.DARK_AQUA + "Cloudcrawlers: " + ChatColor.WHITE + PlayerTeam.cloudcrawlersTeamSize());
 				p.sendMessage(ChatColor.GREEN + "Team " + ChatColor.GOLD + "Thunderstone Guards: " + ChatColor.WHITE + PlayerTeam.thunderstoneGuardsTeamSize()); 

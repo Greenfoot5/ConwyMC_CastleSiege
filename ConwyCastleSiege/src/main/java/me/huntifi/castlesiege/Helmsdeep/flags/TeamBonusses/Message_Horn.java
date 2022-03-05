@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.Helmsdeep.flags.TeamBonusses;
 
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagRadius;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -14,7 +14,7 @@ public class Message_Horn {
 	
 	public static void CapturesMessages(Player p, String flag) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (FlagRadius.isPlayerInRadius(p, flag)) {
 
@@ -126,7 +126,7 @@ public class Message_Horn {
 
 	public static void CapturesMessagesFinal(Player p, String flag) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (FlagRadius.isPlayerInRadius(p, flag)) {
 

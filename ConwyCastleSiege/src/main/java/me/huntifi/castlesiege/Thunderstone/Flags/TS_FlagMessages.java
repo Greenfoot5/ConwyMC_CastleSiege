@@ -4,13 +4,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class TS_FlagMessages {
 	
 	public static void onNeutralisation(String flag, int team) {
 		
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 			
 			if(TS_FlagTeam.isFlagTeam(flag, team) && TS_FlagRadius.FlagIsBeingCaptured(flag)) {
 				
@@ -23,7 +23,7 @@ public class TS_FlagMessages {
 	
 	public static void onCaptured(String flag, int team) {
 		
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 			
 			if(TS_FlagTeam.isFlagTeam(flag, team) && TS_FlagRadius.FlagIsBeingCaptured(flag)) {
 				

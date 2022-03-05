@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagRadius;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagRadius;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class PlayerTeam {
 	
@@ -24,7 +24,7 @@ public class PlayerTeam {
 	
 	public static void setPlayerTeam(Player p, int team) {
 		
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 			
 			if (team == 1) {
 				
@@ -38,7 +38,7 @@ public class PlayerTeam {
 			
 		} else
 		
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 			
 			if (team == 1) {
 				
@@ -56,7 +56,7 @@ public class PlayerTeam {
 	
 	public static void switchPlayerTeam(Player p, int currentTeam) {
 		
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 			
 			FlagRadius.removePlayerFromAll(p);
 			
@@ -72,7 +72,7 @@ public class PlayerTeam {
 				if (!Rohan.contains(p))  { Rohan.add(p); }
 			}
 			
-		} else if (currentMaps.currentMapIs("Thunderstone")) {
+		} else if (MapController.currentMapIs("Thunderstone")) {
 			
 			TS_FlagRadius.removePlayerFromAll(p);
 			
@@ -93,7 +93,7 @@ public class PlayerTeam {
 	
 	public static int getPlayerTeam(Player p) {
 		
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 			
 			if (Urukhai.contains(p)) {
 				
@@ -105,7 +105,7 @@ public class PlayerTeam {
 				return 2;
 			}
 			
-		} else if (currentMaps.currentMapIs("Thunderstone")) {
+		} else if (MapController.currentMapIs("Thunderstone")) {
 			
 			if (Cloudcrawlers.contains(p)) {
 				
@@ -124,7 +124,7 @@ public class PlayerTeam {
 	
 	public static void removePlayerFromTeam(Player p, int team) {
 		
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 			
 			if (team == 1) {
 				
@@ -136,7 +136,7 @@ public class PlayerTeam {
 				Rohan.remove(p);
 			}
 			
-		} else if (currentMaps.currentMapIs("Thunderstone")) {
+		} else if (MapController.currentMapIs("Thunderstone")) {
 			
 			if (team == 1) {
 				
@@ -153,7 +153,7 @@ public class PlayerTeam {
 	
 	public static Boolean playerIsInTeam(Player p, int team) {
 		
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 			
 			if (Urukhai.contains(p) && team == 1) {
 				
@@ -165,7 +165,7 @@ public class PlayerTeam {
 				return true;
 			}
 			
-		} else if (currentMaps.currentMapIs("Thunderstone")) {
+		} else if (MapController.currentMapIs("Thunderstone")) {
 			
 			if (Cloudcrawlers.contains(p) && team == 1) {
 				

@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
@@ -21,7 +21,7 @@ public class ThunderstoneDeath implements Listener {
 	public void onPlayerDeath(PlayerRespawnEvent e) {
 		Player p = (Player) e.getPlayer();
 
-		if(currentMaps.currentMapIs("Thunderstone")) {
+		if(MapController.currentMapIs("Thunderstone")) {
 
 			if (e.getPlayer() instanceof Player) {
 				

@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.Thunderstone.Flags;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class TS_FlagTeam {
 
@@ -18,7 +18,7 @@ public class TS_FlagTeam {
 
 	public static void setFlagTeam(String flag, int team) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (flag.equalsIgnoreCase("stairhall")) {
 
@@ -126,7 +126,7 @@ public class TS_FlagTeam {
 
 	public static Integer getFlagTeam(String flag) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 
 			if (flag.equalsIgnoreCase("stairhall")) {
@@ -232,7 +232,7 @@ public class TS_FlagTeam {
 	
 	public static Boolean isFlagTeam(String flag, int team) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (flag.equalsIgnoreCase("stairhall")) {
 

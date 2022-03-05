@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import me.huntifi.castlesiege.teams.PlayerTeam;
@@ -27,7 +27,7 @@ public class HelmsdeepJoin implements Listener {
 
 		Player p = e.getPlayer();
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (PlayerTeam.rohanTeamSize() < PlayerTeam.urukhaiTeamSize()) {
 

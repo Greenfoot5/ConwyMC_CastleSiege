@@ -5,7 +5,7 @@ import org.bukkit.Location;
 import com.sk89q.worldedit.WorldEditException;
 
 import me.huntifi.castlesiege.Helmsdeep.Gates.HelmsdeepMainGateDestroyEvent;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.structures.MakeStructure;
 
 public class MainGateReadyRam implements Runnable {
@@ -17,7 +17,7 @@ public class MainGateReadyRam implements Runnable {
 	@Override
 	public void run() {
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		if(MapController.currentMapIs("HelmsDeep")) {
 
 			Location ram = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 1045, 54, 1000);
 

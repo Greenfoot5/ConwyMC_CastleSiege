@@ -18,7 +18,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -48,7 +48,7 @@ public class HelmsdeepBallistaEvent implements Listener {
 	
 	public static void removeBallistaMinecart() {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 		
 		Minecarts.get(0).remove();
 		
@@ -58,7 +58,7 @@ public class HelmsdeepBallistaEvent implements Listener {
 	
 	public static void removeAllBallistaeMinecart() {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 		
 			for (Entity entity : Bukkit.getServer().getWorld("HelmsDeep").getLivingEntities()) {
 				

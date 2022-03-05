@@ -17,7 +17,7 @@ import me.huntifi.castlesiege.Helmsdeep.flags.FlagRadius;
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagTeam;
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.EnderchestRefill;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 import net.md_5.bungee.api.ChatMessageType;
@@ -41,7 +41,7 @@ public class Woolmap implements Listener {
 			Sign s = (Sign) e.getClickedBlock().getState();
 
 
-			if(currentMaps.currentMapIs("HelmsDeep")) {
+			if(MapController.currentMapIs("HelmsDeep")) {
 
 				if (s.getLine(1).equalsIgnoreCase("Main Gate")) {
 

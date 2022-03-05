@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.Helmsdeep.flags;
 
 import org.bukkit.entity.Player;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class FlagName {
 
@@ -10,7 +10,7 @@ public class FlagName {
 
 	public static String returnPlayerFlagName(Player p, String flag) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (FlagRadius.isPlayerInRadius(p, flag)) {
 
@@ -58,7 +58,7 @@ public class FlagName {
 
 	public static String returnFlagName(String flag) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 
 

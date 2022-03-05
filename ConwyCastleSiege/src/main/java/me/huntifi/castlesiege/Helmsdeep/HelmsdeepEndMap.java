@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.maps.EndMapAction;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class HelmsdeepEndMap implements Runnable {
 
@@ -15,9 +15,9 @@ public class HelmsdeepEndMap implements Runnable {
 	@Override
 	public void run() {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
-			if (currentMaps.isMapEnded()) {
+			if (MapController.isMapEnded()) {
 
 				//This means the Uruk-hai win, cause they have captured all flags!
 

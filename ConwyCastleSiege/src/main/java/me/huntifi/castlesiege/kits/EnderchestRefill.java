@@ -26,7 +26,7 @@ import me.huntifi.castlesiege.kits.VotedKits.Ladderman.Ladderman;
 import me.huntifi.castlesiege.kits.VotedKits.Scout.Scout;
 import me.huntifi.castlesiege.kits.Warhound.Warhound;
 import me.huntifi.castlesiege.kits.medic.Medic;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class EnderchestRefill {
 
@@ -138,7 +138,7 @@ public class EnderchestRefill {
 
 		Bukkit.getScheduler().runTask(plugin, () -> {
 			
-			if (Herugrim.containsHerugrim.contains(p)) { if(currentMaps.currentMapIs("HelmsDeep")) { p.getInventory().addItem(Herugrim.getHerugrim()); }  }
+			if (Herugrim.containsHerugrim.contains(p)) { if(MapController.currentMapIs("HelmsDeep")) { p.getInventory().addItem(Herugrim.getHerugrim()); }  }
 			Woolheads.setHead(p);
 
 		});

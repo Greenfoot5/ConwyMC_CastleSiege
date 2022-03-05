@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.Thunderstone.Flags;
 
 import org.bukkit.entity.Player;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class TS_FlagName {
 	
@@ -10,7 +10,7 @@ public class TS_FlagName {
 
 	public static String returnPlayerFlagName(Player p, String flag) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (TS_FlagRadius.isPlayerInRadius(p, flag)) {
 
@@ -63,7 +63,7 @@ public class TS_FlagName {
 
 	public static String returnFlagName(String flag) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (flag.equalsIgnoreCase("stairhall")) {
 

@@ -15,7 +15,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class KitGUI_Rohan_Command implements CommandExecutor, Listener {
@@ -31,7 +31,7 @@ public class KitGUI_Rohan_Command implements CommandExecutor, Listener {
 
 		if(cmd.getName().equalsIgnoreCase("KitRohan")) {
 
-			if (currentMaps.currentMapIs("Helmsdeep")) {
+			if (MapController.currentMapIs("Helmsdeep")) {
 
 				if (LobbyPlayer.containsPlayer(p)) {
 

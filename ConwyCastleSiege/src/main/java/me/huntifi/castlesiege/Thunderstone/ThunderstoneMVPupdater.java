@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.Thunderstone;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 
@@ -12,7 +12,7 @@ public class ThunderstoneMVPupdater implements Runnable {
 	@Override
 	public void run() {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			for (Player p : Bukkit.getOnlinePlayers()) {
 

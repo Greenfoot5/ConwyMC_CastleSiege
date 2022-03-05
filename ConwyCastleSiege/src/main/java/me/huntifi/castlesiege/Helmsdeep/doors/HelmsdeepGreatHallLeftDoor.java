@@ -12,7 +12,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagTeam;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -33,7 +33,7 @@ public class HelmsdeepGreatHallLeftDoor implements Listener {
 
 		Location loc = new Location(plugin.getServer().getWorld("HelmsDeep"), 993, 65, 1016); //soundlocation
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			double LeverDistance = p.getLocation().distance(loc);
 

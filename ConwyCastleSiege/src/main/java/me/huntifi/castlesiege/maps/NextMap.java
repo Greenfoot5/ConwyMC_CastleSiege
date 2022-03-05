@@ -17,7 +17,7 @@ public class NextMap {
 
 	public static void nextMap() {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (!MapController.finalMap()) {
 
 			for (Player p : Bukkit.getOnlinePlayers()) {
 
@@ -34,20 +34,12 @@ public class NextMap {
 			ThunderstoneTimer.Minutes = 30;
 			ThunderstoneTimer.Seconds = 3;
 			ThunderstoneTimer.ThunderstoneTimerEvent();
-			currentMaps.setMap("Thunderstone");
+			MapController.setMap("Thunderstone");
 			
 			ThunderstoneEndMap.TS_hasEnded = false;
-			
-			return;
-
-		} else if (currentMaps.currentMapIs("Thunderstone")) {
-
-			ThunderstoneReset.onReset(); //reset the map
-			Bukkit.getServer().spigot().restart();
-			
-			return;
 		}
- 
-	}
+		ThunderstoneReset.onReset(); //reset the map
 
+		MapController.nextMap();
+	}
 }

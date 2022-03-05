@@ -15,7 +15,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class KitsGUI_ThunderstoneGuard_Command implements Listener, CommandExecutor {
@@ -31,7 +31,7 @@ public class KitsGUI_ThunderstoneGuard_Command implements Listener, CommandExecu
 
 		if(cmd.getName().equalsIgnoreCase("KitThunderstoneGuards")) {
 
-			if (currentMaps.currentMapIs("Thunderstone")) {
+			if (MapController.currentMapIs("Thunderstone")) {
 
 				if (LobbyPlayer.containsPlayer(p)) {
 

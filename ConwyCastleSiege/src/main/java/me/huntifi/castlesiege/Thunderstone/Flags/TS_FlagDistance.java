@@ -5,7 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class TS_FlagDistance {
 	
@@ -13,7 +13,7 @@ public class TS_FlagDistance {
 	
 	public static double distancePlayerToFlag(Player p, String flag, Location playerLoc) {
 		
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (flag.equalsIgnoreCase("stairhall")) {
 				

@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class Herugrim implements Listener, Runnable {
 	
@@ -73,7 +73,7 @@ public class Herugrim implements Listener, Runnable {
 	@EventHandler
 	public static void dropHerugrim(PlayerDeathEvent e) {
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		if(MapController.currentMapIs("HelmsDeep")) {
 
 			Player p = (Player) e.getEntity();
 
@@ -95,7 +95,7 @@ public class Herugrim implements Listener, Runnable {
 	@EventHandler
 	public static void dropHerugrim2(PlayerQuitEvent e) {
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		if(MapController.currentMapIs("HelmsDeep")) {
 
 			Player p = e.getPlayer();
 
@@ -121,7 +121,7 @@ public class Herugrim implements Listener, Runnable {
 	@Override
 	public void run() {
 		
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		if(MapController.currentMapIs("HelmsDeep")) {
 			
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				

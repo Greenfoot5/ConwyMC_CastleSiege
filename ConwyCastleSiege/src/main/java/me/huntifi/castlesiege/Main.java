@@ -136,7 +136,7 @@ import me.huntifi.castlesiege.kits.Warhound.WarhoundDeath;
 import me.huntifi.castlesiege.kits.medic.MedicAbilities;
 import me.huntifi.castlesiege.kits.medic.MedicDeath;
 import me.huntifi.castlesiege.ladders.LadderEvent;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.mvpCommand.mvpCommand;
 import me.huntifi.castlesiege.playerCommands.MapsCommand;
 import me.huntifi.castlesiege.playerCommands.discordCommand;
@@ -409,7 +409,7 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneRamAnimation(), 200, ThunderstoneRam.rammingSpeed);
 		Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneRam(), 200, 40);
 		
-		currentMaps.setMap("HelmsDeep");
+		MapController.setMap("HelmsDeep");
 
 		//Tablist
 

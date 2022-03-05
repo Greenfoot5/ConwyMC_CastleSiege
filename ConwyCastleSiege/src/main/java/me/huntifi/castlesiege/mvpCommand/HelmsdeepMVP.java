@@ -10,7 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.Database.SQLstats;
 import me.huntifi.castlesiege.Helmsdeep.HelmsdeepEndMVP;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 
@@ -30,7 +30,7 @@ public class HelmsdeepMVP {
 			DecimalFormat currencyFormat = new DecimalFormat("0.00");
 			DecimalFormat NumberFormat = new DecimalFormat("0");
 
-			if (currentMaps.currentMapIs("HelmsDeep")) {
+			if (MapController.currentMapIs("HelmsDeep")) {
 
 				String score = currencyFormat.format(MVPstats.returnMainMvpScore(p));
 				String kills = NumberFormat.format(MVPstats.getKills(uuid));

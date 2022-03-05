@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagCaptureSpeed;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagCounter;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagRadius;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -25,14 +25,14 @@ public class StairhallFlag implements Listener {
 	@EventHandler
 	public void onCapture(PlayerJoinEvent e) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			new BukkitRunnable() {
 
 				@Override
 				public void run() {
 
-					if (currentMaps.currentMapIs("Thunderstone")) {
+					if (MapController.currentMapIs("Thunderstone")) {
 
 						for (Player p : PlayerTeam.ThunderstoneGuards) {
 
@@ -113,7 +113,7 @@ public class StairhallFlag implements Listener {
 				@Override
 				public void run() {
 
-					if (currentMaps.currentMapIs("Thunderstone")) {
+					if (MapController.currentMapIs("Thunderstone")) {
 
 						for (Player p : PlayerTeam.Cloudcrawlers) {
 
@@ -193,14 +193,14 @@ public class StairhallFlag implements Listener {
 	@EventHandler
 	public void onCapture2(PlayerChangedWorldEvent e) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			new BukkitRunnable() {
 
 				@Override
 				public void run() {
 
-					if (currentMaps.currentMapIs("Thunderstone")) {
+					if (MapController.currentMapIs("Thunderstone")) {
 
 						for (Player p : PlayerTeam.ThunderstoneGuards) {
 
@@ -281,7 +281,7 @@ public class StairhallFlag implements Listener {
 				@Override
 				public void run() {
 
-					if (currentMaps.currentMapIs("Thunderstone")) {
+					if (MapController.currentMapIs("Thunderstone")) {
 
 						for (Player p : PlayerTeam.Cloudcrawlers) {
 

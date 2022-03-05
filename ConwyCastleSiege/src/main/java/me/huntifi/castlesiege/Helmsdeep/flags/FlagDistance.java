@@ -5,7 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class FlagDistance {
 	
@@ -13,7 +13,7 @@ public class FlagDistance {
 	
 	public static double distancePlayerToFlag(Player p, String flag, Location playerLoc) {
 		
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (flag.equalsIgnoreCase("SupplyCamp")) {
 				

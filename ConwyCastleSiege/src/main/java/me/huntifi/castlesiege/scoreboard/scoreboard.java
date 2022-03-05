@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.scoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class scoreboard implements Runnable {
 
@@ -36,11 +36,11 @@ public class scoreboard implements Runnable {
 
 		for (Player online : Bukkit.getOnlinePlayers()) {
 
-			if (currentMaps.currentMapIs("HelmsDeep")) {
+			if (MapController.currentMapIs("HelmsDeep")) {
 
 				HelmsdeepScoreboard.showHelmsdeepScoreboard(online);
 				
-			} else if (currentMaps.currentMapIs("Thunderstone")) {
+			} else if (MapController.currentMapIs("Thunderstone")) {
 
 				ThunderstoneScoreboard.showThunderstoneScoreboard(online);
 			}

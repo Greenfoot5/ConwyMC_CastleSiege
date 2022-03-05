@@ -7,7 +7,7 @@ import org.bukkit.plugin.Plugin;
 import com.nametagedit.plugin.NametagEdit;
 
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.playerCommands.togglerankCommand;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 
@@ -182,7 +182,7 @@ public class NametagsEvent {
 
 	public static String colour(Player p) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (PlayerTeam.playerIsInTeam(p, 1)) {
 
@@ -198,7 +198,7 @@ public class NametagsEvent {
 
 		} else
 		
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (PlayerTeam.playerIsInTeam(p, 1)) {
 

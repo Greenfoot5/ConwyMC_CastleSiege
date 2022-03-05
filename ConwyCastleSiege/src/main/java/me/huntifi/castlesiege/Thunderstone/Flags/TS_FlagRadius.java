@@ -11,7 +11,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class TS_FlagRadius implements Listener {
@@ -40,7 +40,7 @@ public class TS_FlagRadius implements Listener {
 	
 	public static void removePlayerFromAll(Player p) {
 		
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 		
 		if (stairhall1.contains(p)) { stairhall1.remove(p); }
 		if (stairhall2.contains(p)) { stairhall2.remove(p); }
@@ -68,7 +68,7 @@ public class TS_FlagRadius implements Listener {
 
 	public static void setPlayerInRadius(Player p, String flag) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (p.getGameMode() != GameMode.SPECTATOR) {
 
@@ -204,7 +204,7 @@ public class TS_FlagRadius implements Listener {
 
 	public static Boolean isPlayerInRadius(Player p, String flag) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (p.getGameMode() != GameMode.SPECTATOR) {
 
@@ -277,7 +277,7 @@ public class TS_FlagRadius implements Listener {
 
 	public static void onWalkAway(Player p) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 
 			if (!(TS_FlagDistance.distancePlayerToFlag(p, "stairhall", p.getLocation()) <= 7)) {
@@ -425,7 +425,7 @@ public class TS_FlagRadius implements Listener {
 
 	public static void onWalkIn(Player p) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (isPlayerInRadius(p, "stairhall")) {
 
@@ -481,7 +481,7 @@ public class TS_FlagRadius implements Listener {
 	@EventHandler
 	public void onDie(PlayerDeathEvent e) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			Player p = (Player) e.getEntity();
 
@@ -537,7 +537,7 @@ public class TS_FlagRadius implements Listener {
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			Player p = e.getPlayer();
 
@@ -591,7 +591,7 @@ public class TS_FlagRadius implements Listener {
 
 	public static Boolean ThisTeamIsCapturing(int team, String flag) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (flag.equalsIgnoreCase("stairhall")) {
 
@@ -738,7 +738,7 @@ public class TS_FlagRadius implements Listener {
 
 	public static Boolean isFlagContested(String flag) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (flag.equalsIgnoreCase("stairhall")) {
 
@@ -835,7 +835,7 @@ public class TS_FlagRadius implements Listener {
 
 	public static Boolean FlagIsBeingCaptured(String flag) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (flag.equalsIgnoreCase("stairhall")) {
 

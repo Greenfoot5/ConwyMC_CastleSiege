@@ -9,7 +9,7 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import me.huntifi.castlesiege.Thunderstone.ThunderstoneTimer;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagTeam;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class ThunderstoneScoreboard {
 
@@ -22,7 +22,7 @@ public class ThunderstoneScoreboard {
 		String displayName = "Castle Siege";
 		objective.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + displayName);
 		scoreboard.replaceScore(objective, 15, ChatColor.DARK_GRAY + "");
-		scoreboard.replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + "Map: " + ChatColor.RESET + ChatColor.GREEN + currentMaps.getCurrentMap());
+		scoreboard.replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + "Map: " + ChatColor.RESET + ChatColor.GREEN + MapController.getCurrentMap());
 		scoreboard.replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + "Time: " + ChatColor.RESET + ThunderstoneTimer.Minutes + ":" + ThunderstoneTimer.Seconds);
 		if (ThunderstoneTimer.Seconds < 10) { scoreboard.replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + "Time: " + ChatColor.RESET + ThunderstoneTimer.Minutes + ":0" + ThunderstoneTimer.Seconds); }
 		scoreboard.replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");

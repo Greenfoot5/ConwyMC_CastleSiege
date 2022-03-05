@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import me.huntifi.castlesiege.Helmsdeep.HelmsdeepEndMVP;
 import me.huntifi.castlesiege.Thunderstone.ThunderstoneEndMVP;
 import me.huntifi.castlesiege.kits.EnderchestRefill;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
@@ -28,7 +28,7 @@ public class SwitchCommand implements CommandExecutor {
 
 		if (cmd.getName().equalsIgnoreCase("Switch")) {
 
-			if(currentMaps.currentMapIs("HelmsDeep")) {
+			if(MapController.currentMapIs("HelmsDeep")) {
 
 				if (LobbyPlayer.containsPlayer(p)) {
 
@@ -93,7 +93,7 @@ public class SwitchCommand implements CommandExecutor {
 				}
 				
 				
-			} else if(currentMaps.currentMapIs("Thunderstone")) {
+			} else if(MapController.currentMapIs("Thunderstone")) {
 
 				if (LobbyPlayer.containsPlayer(p)) {
 

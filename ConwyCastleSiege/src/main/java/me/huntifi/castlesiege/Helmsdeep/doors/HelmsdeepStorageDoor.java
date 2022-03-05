@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class HelmsdeepStorageDoor implements Listener {
 
@@ -27,7 +27,7 @@ public class HelmsdeepStorageDoor implements Listener {
 
 		Location loc = new Location(plugin.getServer().getWorld("HelmsDeep"), 996, 67, 1037); //soundlocation
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			double LeverDistance = p.getLocation().distance(loc);
 

@@ -3,13 +3,13 @@ package me.huntifi.castlesiege.Helmsdeep.flags;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class FlagMessages {
 	
 	public static void onNeutralisation(String flag, int team) {
 		
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 			
 			if(FlagTeam.isFlagTeam(flag, team) && FlagRadius.FlagIsBeingCaptured(flag)) {
 				
@@ -22,7 +22,7 @@ public class FlagMessages {
 	
 	public static void onCaptured(String flag, int team) {
 		
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 			
 			if(FlagTeam.isFlagTeam(flag, team) && FlagRadius.FlagIsBeingCaptured(flag)) {
 				

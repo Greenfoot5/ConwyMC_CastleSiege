@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import me.huntifi.castlesiege.Helmsdeep.HelmsdeepTimer;
 import me.huntifi.castlesiege.Thunderstone.ThunderstoneTimer;
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class NextMapCommand implements CommandExecutor {
 
@@ -27,13 +27,13 @@ public class NextMapCommand implements CommandExecutor {
 					Bukkit.getServer()
 					.broadcastMessage(p.getDisplayName() + ChatColor.YELLOW + " Has skipped to the next map!");
 
-					if (currentMaps.currentMapIs("HelmsDeep")) {
+					if (MapController.currentMapIs("HelmsDeep")) {
 
 						HelmsdeepTimer.Seconds = 0;
 						HelmsdeepTimer.Minutes = 0;
 
 
-					} else if (currentMaps.currentMapIs("Thunderstone")) {
+					} else if (MapController.currentMapIs("Thunderstone")) {
 
 						ThunderstoneTimer.Seconds = 0;
 						ThunderstoneTimer.Minutes = 0;

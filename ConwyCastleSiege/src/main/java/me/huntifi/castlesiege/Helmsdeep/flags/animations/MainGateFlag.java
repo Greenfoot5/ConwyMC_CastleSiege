@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagCaptureSpeed;
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagCounter;
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagRadius;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -25,14 +25,14 @@ public class MainGateFlag implements Listener {
 	public void onCapture(PlayerJoinEvent e) {
 
 
-		if (currentMaps.currentMapIs("Helmsdeep")) {
+		if (MapController.currentMapIs("Helmsdeep")) {
 
 			new BukkitRunnable() {
 
 				@Override
 				public void run() {
 
-					if (currentMaps.currentMapIs("Helmsdeep")) {
+					if (MapController.currentMapIs("Helmsdeep")) {
 
 						for (Player p : PlayerTeam.Rohan) {
 
@@ -87,7 +87,7 @@ public class MainGateFlag implements Listener {
 				@Override
 				public void run() {
 
-					if (currentMaps.currentMapIs("Helmsdeep")) {
+					if (MapController.currentMapIs("Helmsdeep")) {
 
 						for (Player p : PlayerTeam.Urukhai) {
 

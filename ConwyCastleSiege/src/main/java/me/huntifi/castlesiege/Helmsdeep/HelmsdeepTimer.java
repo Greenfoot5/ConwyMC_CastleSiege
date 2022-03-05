@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class HelmsdeepTimer {
 
@@ -22,7 +22,7 @@ public class HelmsdeepTimer {
 			@Override
 			public void run() {
 
-				if(currentMaps.currentMapIs("HelmsDeep")) {
+				if(MapController.currentMapIs("HelmsDeep")) {
 
 					if (Seconds == 0) {
 

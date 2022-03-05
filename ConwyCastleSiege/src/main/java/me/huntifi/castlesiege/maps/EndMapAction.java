@@ -20,7 +20,7 @@ public class EndMapAction {
 
 	public static void HelmsdeepEndMap() {	
 
-		if (currentMaps.currentMapIs("Helmsdeep")) {
+		if (MapController.currentMapIs("Helmsdeep")) {
 
 			for (Player all : Bukkit.getOnlinePlayers()) {
 
@@ -98,7 +98,7 @@ public class EndMapAction {
 
 	public static void ThunderstoneEndMap() {	
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			for (Player all : Bukkit.getOnlinePlayers()) {
 

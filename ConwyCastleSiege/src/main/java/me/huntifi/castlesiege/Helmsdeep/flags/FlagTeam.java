@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.Helmsdeep.flags;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class FlagTeam {
 
@@ -17,7 +17,7 @@ public class FlagTeam {
 
 	public static void setFlagTeam(String flag, int team) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (flag.equalsIgnoreCase("SupplyCamp")) {
 
@@ -111,7 +111,7 @@ public class FlagTeam {
 
 	public static Integer getFlagTeam(String flag) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 
 			if (flag.equalsIgnoreCase("SupplyCamp")) {
@@ -204,7 +204,7 @@ public class FlagTeam {
 	
 	public static Boolean isFlagTeam(String flag, int team) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (flag.equalsIgnoreCase("SupplyCamp")) {
 

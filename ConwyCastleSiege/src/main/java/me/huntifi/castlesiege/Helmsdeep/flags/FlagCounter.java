@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.Helmsdeep.flags;
 
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 
 public class FlagCounter {
@@ -15,7 +15,7 @@ public class FlagCounter {
 
 	public static void setFlagCounter(String flag, int counter) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (flag.equalsIgnoreCase("SupplyCamp")) {
 
@@ -56,7 +56,7 @@ public class FlagCounter {
 	
 	public static int getFlagCounter(String flag) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 			if (flag.equalsIgnoreCase("SupplyCamp")) {
 
@@ -98,7 +98,7 @@ public class FlagCounter {
 	
 	public static Boolean isFlagCounter(String flag, int counter) {
 
-		if (currentMaps.currentMapIs("HelmsDeep")) {
+		if (MapController.currentMapIs("HelmsDeep")) {
 
 
 			if (flag.equalsIgnoreCase("SupplyCamp") && SupplyCamp == counter) {

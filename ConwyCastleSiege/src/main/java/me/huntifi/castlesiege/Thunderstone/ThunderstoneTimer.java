@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class ThunderstoneTimer {
 
@@ -22,7 +22,7 @@ public class ThunderstoneTimer {
 			@Override
 			public void run() {
 
-				if(currentMaps.currentMapIs("Thunderstone")) {
+				if(MapController.currentMapIs("Thunderstone")) {
 
 					if (Seconds == 0) {
 

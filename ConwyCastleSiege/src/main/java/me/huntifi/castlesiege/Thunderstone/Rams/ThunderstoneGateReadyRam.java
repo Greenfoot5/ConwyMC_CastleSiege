@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import com.sk89q.worldedit.WorldEditException;
 
 import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateDestroyEvent;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.structures.MakeStructure;
 
 public class ThunderstoneGateReadyRam implements Runnable {
@@ -18,7 +18,7 @@ public class ThunderstoneGateReadyRam implements Runnable {
 	@Override
 	public void run() {
 
-		if(currentMaps.currentMapIs("Thunderstone")) {
+		if(MapController.currentMapIs("Thunderstone")) {
 
 			Location ram = new Location(Bukkit.getServer().getWorld("Thunderstone"), 149, 67, 67);
 

@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.Thunderstone.TeamBonusses;
 
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagRadius;
-import me.huntifi.castlesiege.maps.currentMaps;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -14,7 +14,7 @@ public class Messages_Westtower {
 	
 	public static void CapturesMessages(Player p, String flag) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (TS_FlagRadius.isPlayerInRadius(p, flag)) {
 
@@ -132,7 +132,7 @@ public class Messages_Westtower {
 	
 	public static void CapturesMessagesFinal(Player p, String flag) {
 
-		if (currentMaps.currentMapIs("Thunderstone")) {
+		if (MapController.currentMapIs("Thunderstone")) {
 
 			if (TS_FlagRadius.isPlayerInRadius(p, flag)) {
 
