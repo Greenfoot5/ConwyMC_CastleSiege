@@ -26,7 +26,7 @@ import me.huntifi.castlesiege.Helmsdeep.HelmsdeepJoin;
 import me.huntifi.castlesiege.Helmsdeep.HelmsdeepLeave;
 import me.huntifi.castlesiege.Helmsdeep.HelmsdeepMVPupdater;
 import me.huntifi.castlesiege.Helmsdeep.HelmsdeepTimer;
-import me.huntifi.castlesiege.Helmsdeep.Woolmap;
+import me.huntifi.castlesiege.maps.Woolmap;
 import me.huntifi.castlesiege.Helmsdeep.Woolmap_Distance;
 import me.huntifi.castlesiege.Helmsdeep.Ballistae.HelmsdeepBallistaEvent;
 import me.huntifi.castlesiege.Helmsdeep.Boat.HelmsdeepCaveBoat;

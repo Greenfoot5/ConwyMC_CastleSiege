@@ -25,7 +25,7 @@ public class EndMapAction {
 	 * End a map
 	 * @param mapName The MapsList map that's ended
 	 */
-	public static void EndMap(MapsList mapName)
+	public static void endMap(MapsList mapName)
 	{
 		switch (mapName)
 		{
@@ -36,7 +36,7 @@ public class EndMapAction {
 					if (PlayerTeam.playerIsInTeam(player, 1)) {
 						loc = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 1745, 14, 957, -95, -17);
 					}
-					TeleportPlayer(player, loc);
+					teleportPlayer(player, loc);
 				}
 				LobbyPlayer.lobby.clear();
 
@@ -67,7 +67,7 @@ public class EndMapAction {
 									all.sendMessage(ChatColor.YELLOW + "Starting new game...");
 
 								}
-								joinNewTeam.ThunderstoneJoinNewTeam();
+								JoinNewTeam.joinATeam(MapsList.Thunderstone);
 
 							}
 
@@ -77,16 +77,18 @@ public class EndMapAction {
 
 				}.runTaskLater(plugin, 150);
 
+				break;
+
 			case Thunderstone:
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					if (PlayerTeam.playerIsInTeam(player, 2)) {
 						Location loc = new Location(Bukkit.getServer().getWorld("Thunderstone"), -187, 203, 106, -90, 2);
-						TeleportPlayer(player, loc);
+						teleportPlayer(player, loc);
 
 					}
 					else if (PlayerTeam.playerIsInTeam(player, 1)) {
 						Location loc = new Location(Bukkit.getServer().getWorld("Thunderstone"), -191, 203, 159, -90, 1);
-						TeleportPlayer(player, loc);
+						teleportPlayer(player, loc);
 					}
 				}
 				LobbyPlayer.lobby.clear();
@@ -142,10 +144,17 @@ public class EndMapAction {
 					}
 
 				}.runTaskLater(plugin, 150);
+
+				break;
 		}
 	}
 
-	private static void TeleportPlayer(Player player, Location location)
+	/**
+	 * Teleports a player to the next lobby
+	 * @param player The player to teleport
+	 * @param location The new location of the player
+	 */
+	private static void teleportPlayer(Player player, Location location)
 	{
 		if (!LobbyPlayer.containsPlayer(player)) { LobbyPlayer.addPlayer(player); }
 		player.teleport(location);

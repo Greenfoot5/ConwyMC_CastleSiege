@@ -28,7 +28,7 @@ public class ThunderstoneEndMap implements Runnable {
 
 					ThunderstoneEndMVP.CloudcrawlersWin();
 
-						EndMapAction.EndMap(MapsList.Thunderstone);
+						EndMapAction.endMap(MapsList.Thunderstone);
 
 					TS_hasEnded = true;
 
@@ -44,7 +44,7 @@ public class ThunderstoneEndMap implements Runnable {
 
 					ThunderstoneEndMVP.ThunderstoneGuardsWin();
 
-						EndMapAction.EndMap(MapsList.Thunderstone);
+						EndMapAction.endMap(MapsList.Thunderstone);
 					
 					TS_hasEnded = true;
 

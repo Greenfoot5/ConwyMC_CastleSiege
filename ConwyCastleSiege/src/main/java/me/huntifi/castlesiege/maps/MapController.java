@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
 public class MapController {
 
 	public static MapsList currentMap = MapsList.HelmsDeep;
+	public static Map[] maps;
+	public static int mapIndex = 0;
 
 	/**
 	 * Sets the current map by string
@@ -84,15 +86,8 @@ public class MapController {
 	 * Gets the name of the current map
 	 * @return A string containing the current map's name
 	 */
-	public static String getCurrentMap() {
-		switch (currentMap) {
-			case HelmsDeep:
-				return "Helm's Deep";
-			case Thunderstone:
-				return "Thunderstone";
-			default:
-				return "";
-		}
+	public static Map getCurrentMap() {
+		return maps[mapIndex];
 	}
 
 	/**

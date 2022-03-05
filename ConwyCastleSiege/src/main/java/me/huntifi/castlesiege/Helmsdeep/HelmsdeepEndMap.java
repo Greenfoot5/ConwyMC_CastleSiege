@@ -28,7 +28,7 @@ public class HelmsdeepEndMap implements Runnable {
 
 						HelmsdeepEndMVP.UrukhaiWin();
 							
-						EndMapAction.EndMap(MapsList.HelmsDeep);
+						EndMapAction.endMap(MapsList.HelmsDeep);
 
 						
 						HD_hasEnded = true;
@@ -44,7 +44,7 @@ public class HelmsdeepEndMap implements Runnable {
 
 						HelmsdeepEndMVP.RohanWin();
 				
-					    EndMapAction.EndMap(MapsList.HelmsDeep);
+					    EndMapAction.endMap(MapsList.HelmsDeep);
 						
 						HD_hasEnded = true;
 				}
