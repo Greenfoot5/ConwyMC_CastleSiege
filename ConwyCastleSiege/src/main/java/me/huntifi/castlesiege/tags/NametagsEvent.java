@@ -8,7 +8,7 @@ import com.nametagedit.plugin.NametagEdit;
 
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.playerCommands.togglerankCommand;
+import me.huntifi.castlesiege.commands.togglerankCommand;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 
 

@@ -66,7 +66,7 @@ public class EndMapAction {
 
 					}
 
-					NextMap.nextMap();
+					MapController.nextMap();
 
 					new BukkitRunnable() {
 
@@ -167,7 +167,7 @@ public class EndMapAction {
 									@Override
 									public void run() {
 
-											NextMap.nextMap();
+											MapController.nextMap();
 
 
 									}

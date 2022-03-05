@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.playerCommands.staffCommands;
+package me.huntifi.castlesiege.commands.staffCommands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,25 +28,15 @@ public class NextMapCommand implements CommandExecutor {
 					.broadcastMessage(p.getDisplayName() + ChatColor.YELLOW + " Has skipped to the next map!");
 
 					if (MapController.currentMapIs("HelmsDeep")) {
-
 						HelmsdeepTimer.Seconds = 0;
 						HelmsdeepTimer.Minutes = 0;
-
-
 					} else if (MapController.currentMapIs("Thunderstone")) {
-
 						ThunderstoneTimer.Seconds = 0;
 						ThunderstoneTimer.Minutes = 0;
-
-
 					}
-
 				}
-
 			}
 		}
 		return true;
-
 	}
-
 }

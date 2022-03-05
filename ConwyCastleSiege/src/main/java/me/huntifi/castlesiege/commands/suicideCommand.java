@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.playerCommands;
+package me.huntifi.castlesiege.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

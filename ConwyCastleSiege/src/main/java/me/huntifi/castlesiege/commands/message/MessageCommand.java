@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.playerCommands.message;
+package me.huntifi.castlesiege.commands.message;
 
 import java.util.HashMap;
 import java.util.Map.Entry;

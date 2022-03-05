@@ -1,7 +1,14 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagTeam;
+import me.huntifi.castlesiege.Helmsdeep.flags.HelmsdeepReset;
+import me.huntifi.castlesiege.Thunderstone.Flags.ThunderstoneReset;
+import me.huntifi.castlesiege.Thunderstone.ThunderstoneEndMap;
+import me.huntifi.castlesiege.Thunderstone.ThunderstoneTimer;
+import me.huntifi.castlesiege.joinevents.stats.MainStats;
+import me.huntifi.castlesiege.stats.levels.LevelingEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 /**
  * Manages what map the game is currently on
@@ -31,10 +38,28 @@ public class MapController {
 	 */
 	public static void nextMap() {
 		if (finalMap()) {
+			ThunderstoneReset.onReset();
 			Bukkit.getServer().spigot().restart();
 		}
 		else {
 			currentMap = MapsList.values()[currentMap.ordinal() + 1];
+			for (Player p : Bukkit.getOnlinePlayers()) {
+
+				if (p != null) {
+
+					LevelingEvent.doLeveling();
+					MainStats.updateStats(p.getUniqueId(), p);
+
+				}
+			}
+
+			HelmsdeepReset.onReset(); //reset the map
+
+			ThunderstoneTimer.Minutes = 30;
+			ThunderstoneTimer.Seconds = 3;
+			ThunderstoneTimer.ThunderstoneTimerEvent();
+
+			ThunderstoneEndMap.TS_hasEnded = false;
 		}
 	}
 

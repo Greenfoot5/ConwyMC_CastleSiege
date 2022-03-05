@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.playerCommands.staffCommands;
+package me.huntifi.castlesiege.commands.staffCommands;
 
 import java.util.ArrayList;
 

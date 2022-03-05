@@ -1,5 +1,5 @@
 
-package me.huntifi.castlesiege.playerCommands.message;
+package me.huntifi.castlesiege.commands.message;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

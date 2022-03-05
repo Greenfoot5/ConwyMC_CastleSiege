@@ -10,7 +10,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.huntifi.castlesiege.Database.AsyncGetters;
 import me.huntifi.castlesiege.Database.AsyncGetters.BooleanCallback;
 import me.huntifi.castlesiege.Database.SQLGetter;
-import me.huntifi.castlesiege.playerCommands.togglerankCommand;
+import me.huntifi.castlesiege.commands.togglerankCommand;
 
 
 public class PlayerChat implements Listener {

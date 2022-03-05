@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.playerCommands.staffCommands;
+package me.huntifi.castlesiege.commands.staffCommands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
