@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.Helmsdeep;
 
+import me.huntifi.castlesiege.maps.MapsList;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -27,7 +28,7 @@ public class HelmsdeepEndMap implements Runnable {
 
 						HelmsdeepEndMVP.UrukhaiWin();
 							
-						EndMapAction.HelmsdeepEndMap();
+						EndMapAction.EndMap(MapsList.HelmsDeep);
 
 						
 						HD_hasEnded = true;
@@ -43,7 +44,7 @@ public class HelmsdeepEndMap implements Runnable {
 
 						HelmsdeepEndMVP.RohanWin();
 				
-					    EndMapAction.HelmsdeepEndMap();
+					    EndMapAction.EndMap(MapsList.HelmsDeep);
 						
 						HD_hasEnded = true;
 				}

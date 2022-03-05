@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.Thunderstone;
 
+import me.huntifi.castlesiege.maps.MapsList;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -27,7 +28,7 @@ public class ThunderstoneEndMap implements Runnable {
 
 					ThunderstoneEndMVP.CloudcrawlersWin();
 
-						EndMapAction.ThunderstoneEndMap();
+						EndMapAction.EndMap(MapsList.Thunderstone);
 
 					TS_hasEnded = true;
 
@@ -43,7 +44,7 @@ public class ThunderstoneEndMap implements Runnable {
 
 					ThunderstoneEndMVP.ThunderstoneGuardsWin();
 
-						EndMapAction.ThunderstoneEndMap();
+						EndMapAction.EndMap(MapsList.Thunderstone);
 					
 					TS_hasEnded = true;
 

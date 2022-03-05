@@ -14,181 +14,144 @@ import me.huntifi.castlesiege.stats.levels.LevelingEvent;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
+/**
+ * Handles ending a map
+ */
 public class EndMapAction {
 
 	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
 
-	public static void HelmsdeepEndMap() {	
-
-		if (MapController.currentMapIs("Helmsdeep")) {
-
-			for (Player all : Bukkit.getOnlinePlayers()) {
-
-				if (PlayerTeam.playerIsInTeam(all, 2)) {
-
+	/**
+	 * End a map
+	 * @param mapName The MapsList map that's ended
+	 */
+	public static void EndMap(MapsList mapName)
+	{
+		switch (mapName)
+		{
+			case HelmsDeep:
+				// Moves all players to the next location
+				for (Player player : Bukkit.getOnlinePlayers()) {
 					Location loc = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 277, 13, 987, -178, -1);
-					LobbyPlayer.lobby.clear();
-					if (!LobbyPlayer.containsPlayer(all)) { LobbyPlayer.addPlayer(all); }
-					all.teleport(loc);
-
-					for (PotionEffect effect : all.getActivePotionEffects())
-						all.removePotionEffect(effect.getType());
-					all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 200, 0)));
-
-				}
-
-				if (PlayerTeam.playerIsInTeam(all, 1)) {
-
-					Location loc = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 1745, 14, 957, -95, -17);
-					LobbyPlayer.lobby.clear();
-					if (!LobbyPlayer.containsPlayer(all)) { LobbyPlayer.addPlayer(all); }
-					all.teleport(loc);
-
-					for (PotionEffect effect : all.getActivePotionEffects())
-						all.removePotionEffect(effect.getType());
-					all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 200, 0)));
-
-				}
-			}
-
-			new BukkitRunnable() {
-
-				@Override
-				public void run() {
-
-					PlayerTeam.Urukhai.clear();
-					PlayerTeam.Rohan.clear();
-
-					for (Player all : Bukkit.getOnlinePlayers()) {
-
-						all.sendMessage(ChatColor.YELLOW + "*** PREPAIRING THE BATTLEFIELD ***");
-						all.sendMessage(ChatColor.GRAY + "Expect some lag for a few seconds...");
-
+					if (PlayerTeam.playerIsInTeam(player, 1)) {
+						loc = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 1745, 14, 957, -95, -17);
 					}
+					TeleportPlayer(player, loc);
+				}
+				LobbyPlayer.lobby.clear();
 
-					MapController.nextMap();
+				new BukkitRunnable() {
 
-					new BukkitRunnable() {
+					@Override
+					public void run() {
 
-						@Override
-						public void run() {
+						PlayerTeam.Urukhai.clear();
+						PlayerTeam.Rohan.clear();
 
-							for (Player all : Bukkit.getOnlinePlayers()) {
-								
-								all.sendMessage(ChatColor.YELLOW + "Starting new game...");
+						for (Player all : Bukkit.getOnlinePlayers()) {
 
-							}
-							joinNewTeam.ThunderstoneJoinNewTeam();
+							all.sendMessage(ChatColor.YELLOW + "*** PREPAIRING THE BATTLEFIELD ***");
+							all.sendMessage(ChatColor.GRAY + "Expect some lag for a few seconds...");
 
 						}
 
-					}.runTaskLater(plugin, 60);
+						MapController.nextMap();
 
-				}
+						new BukkitRunnable() {
 
-			}.runTaskLater(plugin, 150);
+							@Override
+							public void run() {
 
-		} 
+								for (Player all : Bukkit.getOnlinePlayers()) {
 
+									all.sendMessage(ChatColor.YELLOW + "Starting new game...");
 
-	}
+								}
+								joinNewTeam.ThunderstoneJoinNewTeam();
 
+							}
 
+						}.runTaskLater(plugin, 60);
 
-
-	public static void ThunderstoneEndMap() {	
-
-		if (MapController.currentMapIs("Thunderstone")) {
-
-			for (Player all : Bukkit.getOnlinePlayers()) {
-
-				if (PlayerTeam.playerIsInTeam(all, 2)) {
-
-					Location loc = new Location(Bukkit.getServer().getWorld("Thunderstone"), -187, 203, 106, -90, 2);
-					LobbyPlayer.lobby.clear();
-					if (!LobbyPlayer.containsPlayer(all)) { LobbyPlayer.addPlayer(all); }
-					all.teleport(loc);
-
-					for (PotionEffect effect : all.getActivePotionEffects())
-						all.removePotionEffect(effect.getType());
-					all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 200, 0)));
-
-				}
-
-				if (PlayerTeam.playerIsInTeam(all, 1)) {
-
-					Location loc = new Location(Bukkit.getServer().getWorld("Thunderstone"), -191, 203, 159, -90, 1);
-					LobbyPlayer.lobby.clear();
-					if (!LobbyPlayer.containsPlayer(all)) { LobbyPlayer.addPlayer(all); }
-					all.teleport(loc);
-
-					for (PotionEffect effect : all.getActivePotionEffects())
-						all.removePotionEffect(effect.getType());
-					all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 200, 0)));
-
-				}
-			}
-
-			new BukkitRunnable() {
-
-				@Override
-				public void run() {
-
-					PlayerTeam.Cloudcrawlers.clear();
-					PlayerTeam.ThunderstoneGuards.clear();
-					
-					for (Player all : Bukkit.getOnlinePlayers()) {
-						
-						if (all != null) {
-
-							LevelingEvent.doLeveling();
-							MainStats.updateStats(all.getUniqueId(), all);
-
-						}	
-						
-						all.sendMessage(ChatColor.YELLOW + "Restarting the server in 10 seconds...");
-						all.sendMessage(ChatColor.YELLOW + "Kicking all players in 5 seconds... ");
-					
 					}
 
-					new BukkitRunnable() {
+				}.runTaskLater(plugin, 150);
 
-						@Override
-						public void run() {
-							
-							for (Player all : Bukkit.getOnlinePlayers()) {
+			case Thunderstone:
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					if (PlayerTeam.playerIsInTeam(player, 2)) {
+						Location loc = new Location(Bukkit.getServer().getWorld("Thunderstone"), -187, 203, 106, -90, 2);
+						TeleportPlayer(player, loc);
 
-							all.kickPlayer(ChatColor.YELLOW + "This Castle Siege server is now restarting.");
-							
+					}
+					else if (PlayerTeam.playerIsInTeam(player, 1)) {
+						Location loc = new Location(Bukkit.getServer().getWorld("Thunderstone"), -191, 203, 159, -90, 1);
+						TeleportPlayer(player, loc);
+					}
+				}
+				LobbyPlayer.lobby.clear();
+
+				new BukkitRunnable() {
+
+					@Override
+					public void run() {
+
+						PlayerTeam.Cloudcrawlers.clear();
+						PlayerTeam.ThunderstoneGuards.clear();
+
+						for (Player all : Bukkit.getOnlinePlayers()) {
+
+							if (all != null) {
+
+								LevelingEvent.doLeveling();
+								MainStats.updateStats(all.getUniqueId(), all);
+
 							}
+
+							all.sendMessage(ChatColor.YELLOW + "Restarting the server in 10 seconds...");
+							all.sendMessage(ChatColor.YELLOW + "Kicking all players in 5 seconds... ");
+
+						}
+
+						new BukkitRunnable() {
+
+							@Override
+							public void run() {
+
+								for (Player all : Bukkit.getOnlinePlayers()) {
+
+									all.kickPlayer(ChatColor.YELLOW + "This Castle Siege server is now restarting.");
+
+								}
 
 								new BukkitRunnable() {
 
 									@Override
 									public void run() {
 
-											MapController.nextMap();
-
+										MapController.nextMap();
 
 									}
 
 								}.runTaskLater(plugin, 100);
-								
-								
 
-						}
+							}
 
-					}.runTaskLater(plugin, 100);
+						}.runTaskLater(plugin, 100);
 
-				}
+					}
 
-			}.runTaskLater(plugin, 150);
-
-
-
-		} 
-
-
+				}.runTaskLater(plugin, 150);
+		}
 	}
 
+	private static void TeleportPlayer(Player player, Location location)
+	{
+		if (!LobbyPlayer.containsPlayer(player)) { LobbyPlayer.addPlayer(player); }
+		player.teleport(location);
+
+		for (PotionEffect effect : player.getActivePotionEffects())
+			player.removePotionEffect(effect.getType());
+		player.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 200, 0)));
+	}
 }
