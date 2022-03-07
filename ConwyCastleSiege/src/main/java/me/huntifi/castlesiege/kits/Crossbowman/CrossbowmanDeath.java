@@ -30,15 +30,15 @@ public class CrossbowmanDeath implements Listener {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("Your skull was pierced by " + NametagsEvent.colour(whoHit) + whoHit.getName() + ChatColor.RESET + "'s bolt");
-						whoHit.sendMessage("You pierced " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("Your skull was pierced by " + NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + "'s bolt");
+						whoHit.sendMessage("You pierced " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					} else {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("Your skull was pierced by " + NametagsEvent.colour(whoHit) + whoHit.getName() + ChatColor.RESET + "'s bolt");
-						whoHit.sendMessage("You pierced " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("Your skull was pierced by " + NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + "'s bolt");
+						whoHit.sendMessage("You pierced " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					}
 
@@ -50,15 +50,15 @@ public class CrossbowmanDeath implements Listener {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 						
-						whoWasHit.sendMessage("Your skull was pierced by " + NametagsEvent.colour(whoHit) + whoHit.getName() + ChatColor.RESET + "'s bolt");
-						whoHit.sendMessage("You pierced " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("Your skull was pierced by " + NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + "'s bolt");
+						whoHit.sendMessage("You pierced " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					} else {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("Your skull was pierced by " + NametagsEvent.colour(whoHit) + whoHit.getName() + ChatColor.RESET + "'s bolt");
-						whoHit.sendMessage("You pierced " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("Your skull was pierced by " + NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + "'s bolt");
+						whoHit.sendMessage("You pierced " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 
 					}

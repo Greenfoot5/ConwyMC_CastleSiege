@@ -30,15 +30,15 @@ public class DeathHalberdier implements Listener {
 						
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 						
-						whoWasHit.sendMessage("You were sliced in half by " + NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You sliced " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " in half" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("You were sliced in half by " + NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You sliced " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " in half" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 						
 					} else {
 						
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 						
-						whoWasHit.sendMessage("You were sliced in half by " + NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You sliced " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " in half" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("You were sliced in half by " + NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You sliced " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " in half" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 						
 					}
 					
@@ -50,15 +50,15 @@ public class DeathHalberdier implements Listener {
 						
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 						
-						whoWasHit.sendMessage("You were sliced in half by " + NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You sliced " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " in half" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("You were sliced in half by " + NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You sliced " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " in half" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 						
 					} else {
 						
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 						
-						whoWasHit.sendMessage("You were sliced in half by " + NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You sliced " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " in half" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("You were sliced in half by " + NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You sliced " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " in half" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 						
 						
 					}

@@ -91,4 +91,8 @@ public class NametagsEvent {
         p.setDisplayName("§e" + level + tagColor + " " + tag + " " + nameColor + p.getName());
         NametagEdit.getApi().setPrefix(p, tag + nameColor + " ");
     }
+
+    public static ChatColor color(Player p) {
+        return MapController.getCurrentMap().getTeam(p).primaryChatColor;
+    }
 }

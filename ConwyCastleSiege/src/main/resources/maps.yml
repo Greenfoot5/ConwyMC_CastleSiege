@@ -1,0 +1,59 @@
+HelmsDeep:
+  world: "HelmsDeep"
+  name: "Helm's Deep"
+  # The relative time is analogous to hours * 1000
+  start_time: 22000
+  doDaylightCycle: false
+  teams:
+    Urukhai:
+      name: "Uruk-hai"
+      primary_color: "black"
+      secondary_color: "gray"
+      lobby:
+        spawn_point:
+          x: 1745
+          y: 14
+          z: 975
+          yaw: -95
+          pitch: -17
+        woolmap:
+          # Flag names need to match the actual Flags
+          flag_name:
+            wool_position:
+              x: 0
+              y: 0
+              z: 0
+            sign_direction: south
+          another_flag:
+            wool_position:
+              x: 2
+              y: 3
+              z: 0
+            sign_direction: south
+    Rohan:
+      name: "Rohan"
+      primary_color: "black"
+      secondary_color: "gray"
+      lobby:
+        spawn_point:
+          x: 277
+          y: 13
+          z: 987
+          yaw: -178
+          pitch: -1
+        woolmap:
+          # Flag names need to match the actual Flags
+          flag_name:
+            wool_position:
+              x: 0
+              y: 0
+              z: 0
+            sign_direction: north
+          another_flag:
+            wool_position:
+              x: 2
+              y: 3
+              z: 0
+            sign_direction: north
+  #Flags:
+    # I haven't written this stuff yet

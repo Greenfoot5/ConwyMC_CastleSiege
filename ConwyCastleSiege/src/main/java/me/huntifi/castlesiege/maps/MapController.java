@@ -140,7 +140,7 @@ public class MapController {
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~");
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
-		ItemStack wool = new ItemStack(team.woolHat);
+		ItemStack wool = new ItemStack(team.primaryWool);
 		ItemMeta woolMeta = wool.getItemMeta();
 		woolMeta.setDisplayName(ChatColor.GREEN + "WoolHat");
 		player.getInventory().setHelmet(wool);

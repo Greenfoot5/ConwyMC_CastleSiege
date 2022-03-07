@@ -22,187 +22,173 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class RangerAbility implements Listener {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+    Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
 
-	RangerKit rangerBow = new RangerKit();
-	ItemStack theVolleyBow = rangerBow.getRangerVolleyBow();
-	ItemMeta getBowMeta1 = theVolleyBow.getItemMeta(); 
+    RangerKit rangerBow = new RangerKit();
+    ItemStack theVolleyBow = rangerBow.getRangerVolleyBow();
+    ItemMeta getBowMeta1 = theVolleyBow.getItemMeta();
 
-	ItemStack theBurstBow = rangerBow.getRangerBurstBow();
-	ItemMeta getBowMeta2 = theBurstBow.getItemMeta(); 
+    ItemStack theBurstBow = rangerBow.getRangerBurstBow();
+    ItemMeta getBowMeta2 = theBurstBow.getItemMeta();
 
-	@EventHandler
-	public void changeSpearDamage(ProjectileHitEvent e) {
+    @EventHandler
+    public void changeSpearDamage(ProjectileHitEvent e) {
 
-		if (e.getEntity() instanceof Arrow) {
+        if (e.getEntity() instanceof Arrow) {
 
-			Arrow arrow = (Arrow) e.getEntity();
-			if(arrow.getShooter() instanceof Player){
-				Player damager = (Player) arrow.getShooter();
-				if (StatsChanging.getKit(damager.getUniqueId()).equalsIgnoreCase("Ranger")) {
-					arrow.setDamage(13);
-				} 
+            Arrow arrow = (Arrow) e.getEntity();
+            if (arrow.getShooter() instanceof Player) {
+                Player damager = (Player) arrow.getShooter();
+                if (StatsChanging.getKit(damager.getUniqueId()).equalsIgnoreCase("Ranger")) {
+                    arrow.setDamage(13);
+                }
+            }
+        }
+    }
 
-			}
+    @EventHandler
+    public void VolleyBow(EntityShootBowEvent e) {
 
-		}
+        if (e.getEntity() instanceof Player) {
 
-	}
+            Player p = (Player) e.getEntity();
 
-	@EventHandler
-	public void VolleyBow(EntityShootBowEvent e) {
+            if (StatsChanging.getKit(p.getUniqueId()).equalsIgnoreCase("Ranger")) {
 
-		if (e.getEntity() instanceof Player) {
+                ItemStack bow = p.getInventory().getItemInMainHand();
 
-			Player p = (Player) e.getEntity();
+                ItemMeta bowMeta = bow.getItemMeta();
 
-			if (StatsChanging.getKit(p.getUniqueId()).equalsIgnoreCase("Ranger")) {
+                int cooldownVolley = p.getCooldown(theVolleyBow.getType());
 
-				ItemStack bow = p.getInventory().getItemInMainHand();
+                int cooldownBurst = p.getCooldown(theBurstBow.getType());
 
-				ItemMeta bowMeta = bow.getItemMeta();
+                if (e.getProjectile() instanceof Arrow) {
 
-				int cooldownVolley = p.getCooldown(theVolleyBow.getType());
+                    final Arrow arrow = (Arrow) e.getProjectile();
 
-				int cooldownBurst = p.getCooldown(theBurstBow.getType());
+                    Vector vel = arrow.getVelocity();
 
-				if (e.getProjectile() instanceof Arrow) {
-					
-					final Arrow arrow = (Arrow) e.getProjectile();
-					
-					Vector vel = arrow.getVelocity();
-					
-					Location arrowLoc = new Location(p.getWorld(), p.getEyeLocation().getX() + getX(p) , p.getEyeLocation().getY() , p.getEyeLocation().getZ() + getZ(p));
+                    Location arrowLoc = new Location(p.getWorld(), p.getEyeLocation().getX() + getX(p), p.getEyeLocation().getY(), p.getEyeLocation().getZ() + getZ(p));
 
-					if (bowMeta.equals(getBowMeta1)) {
+                    if (bowMeta.equals(getBowMeta1)) {
 
-						if (cooldownVolley == 0) {
+                        if (cooldownVolley == 0) {
 
-							p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "You shot your volley bow!"));
+                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "You shot your volley bow!"));
 
-							Arrow arrow1 = e.getEntity().getWorld().spawn(arrowLoc, Arrow.class);
-							arrow1.setDamage(arrow.getDamage());
-							arrow1.setShooter(p);
-							arrow1.setVelocity(arrow.getVelocity().rotateAroundY(Math.toRadians(9)));
-							p.getInventory().removeItem(new ItemStack(Material.ARROW));
-							
-							Arrow arrow2 = e.getEntity().getWorld().spawn(arrowLoc, Arrow.class);
-							arrow2.setDamage(arrow.getDamage());
-							arrow2.setShooter(p);
-							arrow2.setVelocity(arrow.getVelocity().rotateAroundY(Math.toRadians(-9)));
-							p.getInventory().removeItem(new ItemStack(Material.ARROW));
+                            Arrow arrow1 = e.getEntity().getWorld().spawn(arrowLoc, Arrow.class);
+                            arrow1.setDamage(arrow.getDamage());
+                            arrow1.setShooter(p);
+                            arrow1.setVelocity(arrow.getVelocity().rotateAroundY(Math.toRadians(9)));
+                            p.getInventory().removeItem(new ItemStack(Material.ARROW));
 
-							p.setCooldown(theVolleyBow.getType(), 100);
+                            Arrow arrow2 = e.getEntity().getWorld().spawn(arrowLoc, Arrow.class);
+                            arrow2.setDamage(arrow.getDamage());
+                            arrow2.setShooter(p);
+                            arrow2.setVelocity(arrow.getVelocity().rotateAroundY(Math.toRadians(-9)));
+                            p.getInventory().removeItem(new ItemStack(Material.ARROW));
 
-						} else {
+                            p.setCooldown(theVolleyBow.getType(), 100);
 
-							p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't shoot your volley bow yet."));
+                        } else {
 
-						}
+                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't shoot your volley bow yet."));
+                        }
 
-					} else if (bowMeta.equals(getBowMeta2)) {
+                    } else if (bowMeta.equals(getBowMeta2)) {
 
-						if (cooldownBurst == 0) {
+                        if (cooldownBurst == 0) {
 
-							p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "You shot your burst bow!"));
+                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "You shot your burst bow!"));
 
-							new BukkitRunnable() {
+                            new BukkitRunnable() {
 
-								@Override
-								public void run() {
+                                @Override
+                                public void run() {
 
-									Arrow arrow1 = e.getEntity().getWorld().spawn(arrowLoc, Arrow.class);
-									arrow1.setDamage(arrow.getDamage());
-									arrow1.setShooter(p);
-									arrow1.setVelocity(vel.clone());
-									arrow1.getVelocity().multiply(8);
-									p.getInventory().removeItem(new ItemStack(Material.ARROW));
+                                    Arrow arrow1 = e.getEntity().getWorld().spawn(arrowLoc, Arrow.class);
+                                    arrow1.setDamage(arrow.getDamage());
+                                    arrow1.setShooter(p);
+                                    arrow1.setVelocity(vel.clone());
+                                    arrow1.getVelocity().multiply(8);
+                                    p.getInventory().removeItem(new ItemStack(Material.ARROW));
 
-									new BukkitRunnable() {
+                                    new BukkitRunnable() {
 
-										@Override
-										public void run() {
+                                        @Override
+                                        public void run() {
 
-											Arrow arrow1 = e.getEntity().getWorld().spawn(arrowLoc, Arrow.class);
-											arrow1.setDamage(arrow.getDamage());
-											arrow1.setShooter(p);
-											arrow1.setVelocity(vel.clone());
-											arrow1.getVelocity().multiply(16);
-											p.getInventory().removeItem(new ItemStack(Material.ARROW));
+                                            Arrow arrow1 = e.getEntity().getWorld().spawn(arrowLoc, Arrow.class);
+                                            arrow1.setDamage(arrow.getDamage());
+                                            arrow1.setShooter(p);
+                                            arrow1.setVelocity(vel.clone());
+                                            arrow1.getVelocity().multiply(16);
+                                            p.getInventory().removeItem(new ItemStack(Material.ARROW));
 
-										}
-									}.runTaskLater(plugin, 10);
-								}
-							}.runTaskLater(plugin, 10);
+                                        }
+                                    }.runTaskLater(plugin, 10);
+                                }
+                            }.runTaskLater(plugin, 10);
 
-							p.setCooldown(theVolleyBow.getType(), 100);
+                            p.setCooldown(theVolleyBow.getType(), 100);
 
-						} else {
+                        } else {
 
-							p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't shoot your burst bow yet."));
+                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't shoot your burst bow yet."));
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-						}
-					}
+    public double getX(Player p) {
 
+        double rotation = (p.getLocation().getYaw() - 90.0F) % 360.0F;
 
-				}
-			}
-		}
+        if (rotation < 0.0D) {
+            rotation += 360.0D;
+        }
+        if ((0.0D <= rotation) && (rotation < 45.0D))
+            return -1.5;
+        if ((45.0D <= rotation) && (rotation < 135.0D))
+            return 0;
+        if ((135.0D <= rotation) && (rotation < 225.0D))
+            return 1.5;
+        if ((225.0D <= rotation) && (rotation < 315.0D))
+            return 0;
+        if ((315.0D <= rotation) && (rotation < 360.0D)) {
+            return -1.5;
+        }
+        return 0;
+    }
 
-	}
-	
-	public double getX(Player p) {
+    public double getZ(Player p) {
 
-		double rotation = (p.getLocation().getYaw() - 90.0F) % 360.0F;
+        double rotation = (p.getLocation().getYaw() - 90.0F) % 360.0F;
 
-		if (rotation < 0.0D) {
-		rotation += 360.0D;
-		}
-		if ((0.0D <= rotation) && (rotation < 45.0D))
-		return -1.5;
-		if ((45.0D <= rotation) && (rotation < 135.0D))
-		return 0;
-		if ((135.0D <= rotation) && (rotation < 225.0D))
-		return 1.5;
-		if ((225.0D <= rotation) && (rotation < 315.0D))
-		return 0;
-		if ((315.0D <= rotation) && (rotation < 360.0D)) {
-		return -1.5;
-		}
-		return 0;
-		}
-	
-	public double getZ(Player p) {
-
-		double rotation = (p.getLocation().getYaw() - 90.0F) % 360.0F;
-
-		if (rotation < 0.0D) {
-		rotation += 360.0D;
-		}
-		if ((0.0D <= rotation) && (rotation < 45.0D))
-		return 0;
-		if ((45.0D <= rotation) && (rotation < 135.0D))
-		return -1.5;
-		if ((135.0D <= rotation) && (rotation < 225.0D))
-		return 0;
-		if ((225.0D <= rotation) && (rotation < 315.0D))
-		return 1.5;
-		if ((315.0D <= rotation) && (rotation < 360.0D)) {
-		return 0;
-		}
-		return 0;
-		}
+        if (rotation < 0.0D) {
+            rotation += 360.0D;
+        }
+        if ((0.0D <= rotation) && (rotation < 45.0D))
+            return 0;
+        if ((45.0D <= rotation) && (rotation < 135.0D))
+            return -1.5;
+        if ((135.0D <= rotation) && (rotation < 225.0D))
+            return 0;
+        if ((225.0D <= rotation) && (rotation < 315.0D))
+            return 1.5;
+        return 0;
+    }
 
 
+    public Vector rotateVector(Vector vector, double whatAngle) {
+        double sin = Math.sin(whatAngle);
+        double cos = Math.cos(whatAngle);
+        double x = vector.getX() * cos + vector.getZ() * sin;
+        double z = vector.getX() * -sin + vector.getZ() * cos;
 
-
-	public Vector rotateVector(Vector vector, double whatAngle) {
-		double sin = Math.sin(whatAngle);
-		double cos = Math.cos(whatAngle);
-		double x = vector.getX() * cos + vector.getZ() * sin;
-		double z = vector.getX() * -sin + vector.getZ() * cos;
-
-		return vector.setX(x).setZ(z);
-	}
-
+        return vector.setX(x).setZ(z);
+    }
 }

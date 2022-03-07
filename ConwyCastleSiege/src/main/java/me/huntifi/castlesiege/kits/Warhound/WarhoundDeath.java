@@ -30,15 +30,15 @@ public class WarhoundDeath implements Listener {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("Your were bitten to death by " +NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You bit " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " to death" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("Your were bitten to death by " +NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You bit " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " to death" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					} else {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("Your were bitten to death by " +NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You bit " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " to death" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("Your were bitten to death by " +NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You bit " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " to death" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					}
 
@@ -50,15 +50,15 @@ public class WarhoundDeath implements Listener {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("Your were bitten to death by " +NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You bit " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " to death" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("Your were bitten to death by " +NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You bit " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " to death" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					} else {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("Your were bitten to death by " +NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You bit " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " to death" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("Your were bitten to death by " +NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You bit " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " to death" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					}
 

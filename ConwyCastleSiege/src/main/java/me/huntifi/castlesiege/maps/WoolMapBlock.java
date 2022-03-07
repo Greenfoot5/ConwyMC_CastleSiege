@@ -7,13 +7,13 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Directional;
 
 public class WoolMapBlock {
     public Flag flag;
     public Location blockLocation;
-    public Directional signDirection;
+    public BlockFace signDirection;
 
     public void SpawnPlayer(Player player)
     {

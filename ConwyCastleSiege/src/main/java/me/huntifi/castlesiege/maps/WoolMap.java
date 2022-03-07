@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class WoolMap implements Listener {
 
-	WoolMapBlock[] woolMapBlocks;
+	public WoolMapBlock[] woolMapBlocks;
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {

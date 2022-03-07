@@ -43,7 +43,7 @@ public class SwitchCommand implements CommandExecutor {
 							p.teleport(loc);
 							p.getInventory().clear();
 							EnderchestRefill.refill(p);
-							NametagsEvent.GiveNametag(p, MapController.getCurrentMap().getTeam(p));
+							NametagsEvent.GiveNametag(p);
 							
 							ItemStack Wool = new ItemStack(Material.BLACK_WOOL);
 							ItemMeta WoolMeta = Wool.getItemMeta();
@@ -69,7 +69,7 @@ public class SwitchCommand implements CommandExecutor {
 							p.teleport(loc);
 							p.getInventory().clear();
 							EnderchestRefill.refill(p);
-							NametagsEvent.GiveNametag(p, MapController.getCurrentMap().getTeam(p));
+							NametagsEvent.GiveNametag(p);
 						
 							ItemStack Wool = new ItemStack(Material.GREEN_WOOL);
 							ItemMeta WoolMeta = Wool.getItemMeta();
@@ -114,7 +114,7 @@ public class SwitchCommand implements CommandExecutor {
 							Wool1Meta.setDisplayName(ChatColor.GREEN + "Woolhead");
 							p.getInventory().setHelmet(Wool1);
 							
-							NametagsEvent.GiveNametag(p, MapController.getCurrentMap().getTeam(p));
+							NametagsEvent.GiveNametag(p);
 							
 							ThunderstoneEndMVP.Cloudcrawlers.put(p, MVPstats.getScore(p.getUniqueId()));
 
@@ -136,7 +136,7 @@ public class SwitchCommand implements CommandExecutor {
 							p.teleport(loc);
 							p.getInventory().clear();
 							EnderchestRefill.refill(p);
-							NametagsEvent.GiveNametag(p, MapController.getCurrentMap().getTeam(p));
+							NametagsEvent.GiveNametag(p);
 						
 							ItemStack Wool = new ItemStack(Material.ORANGE_WOOL);
 							ItemMeta WoolMeta = Wool.getItemMeta();

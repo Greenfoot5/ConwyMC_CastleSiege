@@ -16,7 +16,7 @@ public class ClearSlots {
 		p.getInventory().setItem(8, null);
 		p.getInventory().setItem(0, null);
 		p.getInventory().setItemInOffHand(null);
-		Woolheads.setHead(p);
+		WoolHat.setHead(p);
 
 	}
 

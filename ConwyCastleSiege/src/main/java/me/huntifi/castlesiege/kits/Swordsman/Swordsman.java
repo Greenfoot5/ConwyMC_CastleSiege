@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import me.huntifi.castlesiege.kits.Woolheads;
+import me.huntifi.castlesiege.kits.WoolHat;
 import me.huntifi.castlesiege.voting.VotesChanging;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
@@ -22,7 +22,7 @@ public class Swordsman {
 		
 		if (LobbyPlayer.containsPlayer(p)) { p.setHealth(120); }
 		
-		Woolheads.setHead(p);
+		WoolHat.setHead(p);
 
 		for (PotionEffect effect : p.getActivePotionEffects())
 			p.removePotionEffect(effect.getType());

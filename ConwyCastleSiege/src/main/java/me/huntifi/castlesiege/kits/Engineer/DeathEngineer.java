@@ -34,15 +34,15 @@ public class DeathEngineer implements Listener {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("You were killed by " + NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You killed " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("You were killed by " + NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You killed " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					} else {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("You were killed by " + NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You killed " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("You were killed by " + NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You killed " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					}
 
@@ -54,15 +54,15 @@ public class DeathEngineer implements Listener {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("You were killed by " + NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You killed " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("You were killed by " + NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You killed " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					} else {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("You were killed by " + NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You killed " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("You were killed by " + NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You killed " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					}
 

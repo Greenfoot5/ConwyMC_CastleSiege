@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 // you need to decide what every flag has
 // (capture area,
@@ -15,8 +16,8 @@ public class Flag {
     public String name;
 
     // Color Data
-    public Color primaryColor;
-    public Color secondaryColor;
+    public Material primaryWool;
+    public Material secondaryWool;
     public ChatColor primaryChatColor;
     public ChatColor secondaryChatColor;
 
@@ -46,8 +47,8 @@ public class Flag {
         if (currentOwners == null && newTeam != null)
         {
             currentOwners = newTeam;
-            primaryColor = newTeam.primaryColor;
-            secondaryColor = newTeam.secondaryColor;
+            primaryWool = newTeam.primaryWool;
+            secondaryWool = newTeam.secondaryWool;
             primaryChatColor = newTeam.primaryChatColor;
             secondaryChatColor = newTeam.secondaryChatColor;
             return true;
@@ -55,8 +56,8 @@ public class Flag {
         else if (currentOwners != null && newTeam == null)
         {
             currentOwners = null;
-            primaryColor = Color.SILVER;
-            secondaryColor = Color.GRAY;
+            primaryWool = Material.GRAY_WOOL;
+            secondaryWool = Material.LIGHT_GRAY_WOOL;
             primaryChatColor = ChatColor.GRAY;
             secondaryChatColor = ChatColor.DARK_GRAY;
             return true;

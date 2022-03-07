@@ -51,7 +51,7 @@ public class HelmsdeepJoin implements Listener {
 					
 					HelmsdeepEndMVP.Rohan.put(p, MVPstats.getScore(p.getUniqueId()));
 					
-					NametagsEvent.GiveNametag(p, MapController.getCurrentMap().getTeam(p));
+					NametagsEvent.GiveNametag(p);
 
 			} else 
 
@@ -79,7 +79,7 @@ public class HelmsdeepJoin implements Listener {
 				
 				HelmsdeepEndMVP.Urukhai.put(p, MVPstats.getScore(p.getUniqueId()));
 				
-				NametagsEvent.GiveNametag(p, MapController.getCurrentMap().getTeam(p));
+				NametagsEvent.GiveNametag(p);
 				
 			}
 		}

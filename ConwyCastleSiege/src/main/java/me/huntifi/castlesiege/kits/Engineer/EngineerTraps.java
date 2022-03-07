@@ -121,8 +121,8 @@ public class EngineerTraps implements Listener {
 						hashmapTraps.remove(trapper);
 						traps.remove(returnTrap());
 						
-						p.sendMessage("You stepped on " + NametagsEvent.colour(trapper) + trapper.getName() + ChatColor.RESET + "'s traps and died.");
-						trapper.sendMessage(NametagsEvent.colour(p) + p.getName() + ChatColor.RESET + " stepped on your trap(s) " + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(trapper) + ")");
+						p.sendMessage("You stepped on " + NametagsEvent.color(trapper) + trapper.getName() + ChatColor.RESET + "'s traps and died.");
+						trapper.sendMessage(NametagsEvent.color(p) + p.getName() + ChatColor.RESET + " stepped on your trap(s) " + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(trapper) + ")");
 						
 					}
 				}

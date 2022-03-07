@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.maps;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -11,15 +10,19 @@ import java.util.Random;
 public class Team {
     // Basic Details
     public String name;
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players;
     public Lobby lobby;
 
     // Colours
-    public Color primaryColor;
-    public Color secondaryColor;
+    public Material primaryWool;
+    public Material secondaryWool;
     public ChatColor primaryChatColor;
     public ChatColor secondaryChatColor;
-    public Material woolHat;
+
+    public Team() {
+        players = new ArrayList<>();
+    }
+
 
     /**
      * Checks if a player is on the team or not
@@ -27,6 +30,9 @@ public class Team {
      * @return true if the player is on the team
      */
     public boolean hasPlayer(Player player) {
+        if (getTeamSize() < 1)
+            return false;
+
         for (Player teamMember: players) {
             if (teamMember == player) {
                 return true;

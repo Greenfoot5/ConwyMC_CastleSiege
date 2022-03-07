@@ -34,20 +34,24 @@ public class LevelingEvent {
     public static void doLeveling() {
 
         for (Player p : Bukkit.getOnlinePlayers()) {
+            levelPlayer(p);
+        }
+    }
 
-            UUID uuid = p.getUniqueId();
-            int oldLevel = StatsChanging.getLevel(uuid);
-            int newLevel = getLevel(StatsChanging.getScore(uuid));
+    public static void levelPlayer(Player player)
+    {
+        UUID uuid = player.getUniqueId();
+        int oldLevel = StatsChanging.getLevel(uuid);
+        int newLevel = getLevel(StatsChanging.getScore(uuid));
 
-            if (newLevel > oldLevel) {
-                p.sendMessage(ChatColor.DARK_GREEN + "Congrats you leveled up to level: " + ChatColor.YELLOW + "10");
-                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-                if (hasTen(newLevel, oldLevel)) {
-                    Bukkit.broadcastMessage(ChatColor.GOLD + p.getName() + " has reached level 10!");
-                }
-                StatsChanging.setLevel(uuid, 1);
-                NametagsEvent.GiveNametag(p);
+        if (newLevel > oldLevel) {
+            player.sendMessage(ChatColor.DARK_GREEN + "Congrats you leveled up to level: " + ChatColor.YELLOW + "10");
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+            if (hasTen(newLevel, oldLevel)) {
+                Bukkit.broadcastMessage(ChatColor.GOLD + player.getName() + " has reached level 10!");
             }
+            StatsChanging.setLevel(uuid, 1);
+            NametagsEvent.GiveNametag(player);
         }
     }
 }

@@ -139,7 +139,7 @@ public class EnderchestRefill {
 		Bukkit.getScheduler().runTask(plugin, () -> {
 			
 			if (Herugrim.containsHerugrim.contains(p)) { if(MapController.currentMapIs("HelmsDeep")) { p.getInventory().addItem(Herugrim.getHerugrim()); }  }
-			Woolheads.setHead(p);
+			WoolHat.setHead(p);
 
 		});
 

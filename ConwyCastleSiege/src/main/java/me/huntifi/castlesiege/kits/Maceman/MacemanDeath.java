@@ -30,15 +30,15 @@ public class MacemanDeath implements Listener {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("Your skull was cracked by " +NametagsEvent.colour(whoHit) + whoHit.getName() + ChatColor.RESET + "'s mace");
-						whoHit.sendMessage("You cracked " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("Your skull was cracked by " +NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + "'s mace");
+						whoHit.sendMessage("You cracked " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					} else {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("Your skull was cracked by " +NametagsEvent.colour(whoHit) + whoHit.getName() + ChatColor.RESET + "'s mace");
-						whoHit.sendMessage("You cracked " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("Your skull was cracked by " +NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + "'s mace");
+						whoHit.sendMessage("You cracked " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					}
 
@@ -50,15 +50,15 @@ public class MacemanDeath implements Listener {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("Your skull was cracked by " +NametagsEvent.colour(whoHit) + whoHit.getName() + ChatColor.RESET + "'s mace");
-						whoHit.sendMessage("You cracked " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("Your skull was cracked by " +NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + "'s mace");
+						whoHit.sendMessage("You cracked " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					} else {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("Your skull was cracked by " +NametagsEvent.colour(whoHit) + whoHit.getName() + ChatColor.RESET + "'s mace");
-						whoHit.sendMessage("You cracked " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("Your skull was cracked by " +NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + "'s mace");
+						whoHit.sendMessage("You cracked " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + "'s skull" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					}
 

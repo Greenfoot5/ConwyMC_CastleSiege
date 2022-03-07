@@ -143,7 +143,7 @@ public class Warhound implements Listener {
 
 	public static DyeColor getWolfTeamColour(Player p) {
 
-		switch (MapController.getCurrentMap().getTeam(p).woolHat) {
+		switch (MapController.getCurrentMap().getTeam(p).primaryWool) {
 			case GRAY_WOOL:
 				return DyeColor.GRAY;
 			case BLACK_WOOL:

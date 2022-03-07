@@ -4,7 +4,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import me.huntifi.castlesiege.kits.Woolheads;
+import me.huntifi.castlesiege.kits.WoolHat;
 import me.huntifi.castlesiege.voting.VotesChanging;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
@@ -18,7 +18,7 @@ public class Spearman {
 		
 		if (LobbyPlayer.containsPlayer(p)) { p.setHealth(115); }
 		
-		Woolheads.setHead(p);
+		WoolHat.setHead(p);
 
 		SpearmanKit giveItems = new SpearmanKit(); 
 		SpearmanVotedKit giveVotedItems = new SpearmanVotedKit();

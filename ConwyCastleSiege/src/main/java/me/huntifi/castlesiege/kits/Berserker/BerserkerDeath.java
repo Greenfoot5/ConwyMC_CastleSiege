@@ -30,15 +30,15 @@ public class BerserkerDeath implements Listener {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage(NametagsEvent.colour(whoHit) + whoHit.getName() + ChatColor.RESET + "went berserk on you!");
-						whoHit.sendMessage("You went berserk on " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage(NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + "went berserk on you!");
+						whoHit.sendMessage("You went berserk on " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					} else {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage(NametagsEvent.colour(whoHit) + whoHit.getName() + ChatColor.RESET + "went berserk on you!");
-						whoHit.sendMessage("You went berserk on " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage(NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + "went berserk on you!");
+						whoHit.sendMessage("You went berserk on " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					}
 
@@ -50,15 +50,15 @@ public class BerserkerDeath implements Listener {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage(NametagsEvent.colour(whoHit) + whoHit.getName() + ChatColor.RESET + "went berserk on you!");
-						whoHit.sendMessage("You went berserk on " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage(NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + "went berserk on you!");
+						whoHit.sendMessage("You went berserk on " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					} else {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage(NametagsEvent.colour(whoHit) + whoHit.getName() + ChatColor.RESET + "went berserk on you!");
-						whoHit.sendMessage("You went berserk on " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage(NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + "went berserk on you!");
+						whoHit.sendMessage("You went berserk on " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					}
 

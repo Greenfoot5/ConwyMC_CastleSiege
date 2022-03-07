@@ -30,15 +30,15 @@ public class DeathRanger implements Listener {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("You were turned into a porcupine by " + NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You turned " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " into a porcupine" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("You were turned into a porcupine by " + NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You turned " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " into a porcupine" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					} else {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("You were turned into a porcupine by " + NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You turned " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " into a porcupine" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("You were turned into a porcupine by " + NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You turned " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " into a porcupine" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 					}
 
 				}
@@ -49,15 +49,15 @@ public class DeathRanger implements Listener {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 						
-						whoWasHit.sendMessage("You were turned into a porcupine by " + NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You turned " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " into a porcupine" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("You were turned into a porcupine by " + NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You turned " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " into a porcupine" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 					} else {
 
 						DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-						whoWasHit.sendMessage("You were turned into a porcupine by " + NametagsEvent.colour(whoHit) + whoHit.getName());
-						whoHit.sendMessage("You turned " + NametagsEvent.colour(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " into a porcupine" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+						whoWasHit.sendMessage("You were turned into a porcupine by " + NametagsEvent.color(whoHit) + whoHit.getName());
+						whoHit.sendMessage("You turned " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " into a porcupine" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 
 					}
