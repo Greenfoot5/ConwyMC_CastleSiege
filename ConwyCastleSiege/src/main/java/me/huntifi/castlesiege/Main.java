@@ -66,7 +66,6 @@ import me.huntifi.castlesiege.tablist.Tablist;
 import me.huntifi.castlesiege.teams.SwitchCommand;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.TileState;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -74,7 +73,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.material.Directional;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -423,16 +421,12 @@ public class Main extends JavaPlugin implements Listener {
 			System.out.println(teamPaths.length);
 			map.teams = new Team[teamPaths.length];
 			for (int j = 0; j < mapPaths.length; j++) {
-				String path = mapPaths[j] + ".teams." + teamPaths[j];
-				System.out.println("[TDA] " + path);
+				String path = mapPaths[i] + ".teams." + teamPaths[j];
 				map.teams[j] = loadTeam(path, map);
-				System.out.println("[TDA] j: " + j);
 			}
-			System.out.println("[TDA] i: " + i);
 
 			// Save the map
 			MapController.maps[i] = map;
-			getServer().getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "[TheDarkAge] Fully Loaded Secondary Team: " + map.teams[1]);
 		}
 	}
 
