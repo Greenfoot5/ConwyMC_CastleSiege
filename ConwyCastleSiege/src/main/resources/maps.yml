@@ -13,23 +13,18 @@ HelmsDeep:
         spawn_point:
           x: 1745
           y: 14
-          z: 975
+          z: 957
           yaw: -95
           pitch: -17
         woolmap:
-          # Flag names need to match the actual Flags
-          flag_name:
+          # Flag name must be the same as the flag's string name
+          supply_camp:
+            flag_name: "Supply Camp"
             wool_position:
-              x: 0
-              y: 0
-              z: 0
-            sign_direction: south
-          another_flag:
-            wool_position:
-              x: 2
-              y: 3
-              z: 0
-            sign_direction: south
+              x: 1753
+              y: 21
+              z: 952
+            sign_direction: west
     Rohan:
       name: "Rohan"
       primary_color: "black"
@@ -43,17 +38,69 @@ HelmsDeep:
           pitch: -1
         woolmap:
           # Flag names need to match the actual Flags
-          flag_name:
+          supply_camp:
+            flag_name: "Supply Camp"
             wool_position:
-              x: 0
-              y: 0
-              z: 0
-            sign_direction: north
-          another_flag:
-            wool_position:
-              x: 2
-              y: 3
-              z: 0
-            sign_direction: north
-  #Flags:
-    # I haven't written this stuff yet
+              x: 282
+              y: 15
+              z: 955
+            sign_direction: south
+  Flags:
+    supply_camp:
+      name: "Supply Camp"
+      start_owners: "Rohan"
+      max_cap: 9
+      start_amount: 9
+      spawn_point:
+        x: 969
+        y: 35
+        z: 1130
+      capture_area:
+        type: "cuboid"
+        min:
+          x: 984
+          y: 34
+          z: 1137
+        max:
+          x: 992
+          y: 40
+          z: 1145
+      animation:
+        0:
+          primary_wool:
+            1:
+              x: 988
+              y: 38
+              z: 1141
+            2:
+              x: 989
+              y: 38
+              z: 1141
+          secondary_wool:
+            1:
+              x: 988
+              y: 37
+              z: 1141
+            2:
+              x: 989
+              y: 37
+              z: 1141
+        1:
+          primary_wool:
+            1:
+              x: 988
+              y: 39
+              z: 1141
+            2:
+              x: 989
+              y: 39
+              z: 1141
+          secondary_wool:
+            1:
+              x: 988
+              y: 38
+              z: 1141
+            2:
+              x: 989
+              y: 38
+              z: 1141

@@ -1,11 +1,14 @@
 package me.huntifi.castlesiege.flags;
 
-import me.huntifi.castlesiege.flags.captureareas.CaptureArea;
+import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.*;
 
 // you need to decide what every flag has
 // (capture area,
@@ -15,26 +18,26 @@ import org.bukkit.Material;
 public class Flag {
     public String name;
 
-    // Color Data
-    public Material primaryWool;
-    public Material secondaryWool;
-    public ChatColor primaryChatColor;
-    public ChatColor secondaryChatColor;
-
     // Location Data
     public Location spawnPoint;
-    public CaptureArea captureArea;
+    private final List<UUID> players;
 
     // Game Data
     public Team currentOwners;
     private int maxCap = 13;
-    public int captureStatus;
-    public Team cappingTeam;
-    public Flag(String name, Team startingTeam, int maxCapValue)
-    {
+    private int capTimer;
+
+    // Capturing data
+    private boolean isRunning;
+    public int capStatus;
+    public double capMultiplier;
+
+    public Flag(String name, Team startingTeam, int maxCapValue, int capTimer) {
         this.name = name;
         this.currentOwners = startingTeam;
         this.maxCap = maxCapValue;
+        this.capTimer = capTimer;
+        this.players = new ArrayList<>();
     }
 
     /**
@@ -42,32 +45,150 @@ public class Flag {
      * @param newTeam The new flag owners
      * @return true if the team was changed, false if invalid team
      */
-    public boolean ChangeTeam(Team newTeam)
-    {
+    private boolean changeTeam(Team newTeam) {
         if (currentOwners == null && newTeam != null)
         {
             currentOwners = newTeam;
-            primaryWool = newTeam.primaryWool;
-            secondaryWool = newTeam.secondaryWool;
-            primaryChatColor = newTeam.primaryChatColor;
-            secondaryChatColor = newTeam.secondaryChatColor;
             return true;
         }
         else if (currentOwners != null && newTeam == null)
         {
             currentOwners = null;
-            primaryWool = Material.GRAY_WOOL;
-            secondaryWool = Material.LIGHT_GRAY_WOOL;
-            primaryChatColor = ChatColor.GRAY;
-            secondaryChatColor = ChatColor.DARK_GRAY;
             return true;
         }
         // Invalid team change
         return false;
     }
 
-    public String getSpawnMessage()
-    {
-        return secondaryChatColor + "Spawning at:" + primaryChatColor + " " + name;
+    private void captureFlag() {
+        int ownerCount = 0;
+        int attackerCount = 0;
+
+        HashMap<String, Integer> counts = getPlayerCounts();
+        for (String name : counts.keySet()) {
+            if (currentOwners.name.equals(name)) {
+                ownerCount = counts.get(name);
+            } else {
+                attackerCount += counts.get(name);
+            }
+        }
+
+        // TODO - Animate it
+    }
+
+    /**
+     * Gets the message to send to the user when they spawn in
+     * @return the message to send
+     */
+    public String getSpawnMessage() {
+        return currentOwners.secondaryChatColor + "Spawning at:" + currentOwners.primaryChatColor + " " + name;
+    }
+
+    /**
+     * Called when a player enters the capture zone
+     * @param player the player that entered
+     */
+    public void playerEnter(Player player) {
+        System.out.println("Player entered");
+        players.add(player.getUniqueId());
+    }
+
+    /**
+     * Called when a player leaves the capture zone
+     * @param player the player that exited
+     */
+    public void playerExit(Player player) {
+        System.out.println(player.getDisplayName() + " left " + name);
+        players.add(player.getUniqueId());
+    }
+
+    /**
+     * Handles the capturing of a flag
+     */
+    private void capturing() {
+        // Only one loop can run at a time
+        if (isRunning) {
+            return;
+        }
+        isRunning = true;
+
+        // Keep running as long as there are players in the area
+        while (players.size() > 0) {
+            new BukkitRunnable() {
+
+                @Override
+                public void run() {
+                    captureFlag();
+                    if (players.size() <= 0) {
+                        isRunning = false;
+                    }
+                }
+            }.runTaskLater(Main.plugin, getTimer());
+        }
+
+        isRunning = false;
+    }
+
+    private int getTimer() {
+        if (currentOwners == null) {
+            return capTimer;
+        }
+
+        int ownerCount = 0;
+        int attackerCount = 0;
+
+        HashMap<String, Integer> counts = getPlayerCounts();
+        for (String name : counts.keySet()) {
+            if (currentOwners.name.equals(name)) {
+                ownerCount = counts.get(name);
+            } else {
+                attackerCount += counts.get(name);
+            }
+        }
+
+        int timer = (int) (capTimer * Math.pow(capMultiplier, ownerCount - attackerCount));
+        if (timer < 0) {
+            timer = (int) (capTimer * Math.pow(capMultiplier, attackerCount - ownerCount));
+        }
+
+        return Math.max(timer, 40);
+    }
+
+    public boolean underAttack() {
+        if (!isRunning) {
+            return false;
+        }
+
+        int ownerCount = 0;
+        int attackerCount = 0;
+
+        HashMap<String, Integer> counts = getPlayerCounts();
+        for (String name : counts.keySet()) {
+            if (currentOwners.name.equals(name)) {
+                ownerCount = counts.get(name);
+            } else {
+                attackerCount += counts.get(name);
+            }
+        }
+
+        return ownerCount > attackerCount;
+    }
+
+    private HashMap<String, Integer> getPlayerCounts() {
+        HashMap<String, Integer> counts = new HashMap<>();
+
+        for (UUID uuid : players) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) {
+                String team = MapController.getCurrentMap().getTeam(player).name;
+                if (counts.get(team) != null) {
+                    counts.put(team, 1);
+                } else {
+                    counts.put(team, counts.get(team) + 1);
+                }
+            }
+        }
+
+        return counts;
     }
 }

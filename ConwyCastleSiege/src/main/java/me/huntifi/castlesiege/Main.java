@@ -1,5 +1,8 @@
 package me.huntifi.castlesiege;
 
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.session.SessionManager;
+import dev.dejvokep.boostedyaml.YamlDocument;
 import me.huntifi.castlesiege.Database.MySQL;
 import me.huntifi.castlesiege.Database.SQLGetter;
 import me.huntifi.castlesiege.Database.SQLstats;
@@ -19,6 +22,7 @@ import me.huntifi.castlesiege.commands.rulesCommand;
 import me.huntifi.castlesiege.commands.staffCommands.SessionMuteCommand;
 import me.huntifi.castlesiege.commands.togglerankCommand;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.joinevents.login;
 import me.huntifi.castlesiege.joinevents.newLogin;
 import me.huntifi.castlesiege.kits.Archer.DeathArcher;
@@ -83,6 +87,8 @@ import java.sql.SQLException;
 
 public class Main extends JavaPlugin implements Listener {
 
+	public static Plugin plugin;
+
 	public Tablist tab;
 	public static MySQL SQL;
 
@@ -94,6 +100,8 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
+
+		plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
 
 		createWorld();
 		createMapsConfig();
@@ -120,6 +128,11 @@ public class Main extends JavaPlugin implements Listener {
 			SQLstats.createTable();
 			this.getServer().getPluginManager().registerEvents(this, this);
 		}
+
+		// World Guard
+		SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
+		// second param allows for ordering of handlers - see the JavaDocs
+		sessionManager.registerHandler(CaptureHandler.FACTORY, null);
 
 		getServer().getPluginManager().registerEvents(new Warhound(), this);
 		getServer().getPluginManager().registerEvents(new SessionMuteCommand(), this);
