@@ -3,6 +3,13 @@ package me.huntifi.castlesiege;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.session.SessionManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
+import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
+import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
+import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
+import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
+import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
+import dev.dejvokep.boostedyaml.spigot.SpigotSerializer;
 import me.huntifi.castlesiege.Database.MySQL;
 import me.huntifi.castlesiege.Database.SQLGetter;
 import me.huntifi.castlesiege.Database.SQLstats;
@@ -21,6 +28,7 @@ import me.huntifi.castlesiege.commands.pingCommand;
 import me.huntifi.castlesiege.commands.rulesCommand;
 import me.huntifi.castlesiege.commands.staffCommands.SessionMuteCommand;
 import me.huntifi.castlesiege.commands.togglerankCommand;
+import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.joinevents.login;
@@ -79,10 +87,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 
 public class Main extends JavaPlugin implements Listener {
@@ -96,7 +109,9 @@ public class Main extends JavaPlugin implements Listener {
 	public SQLstats data3;
 
 	private File mapsFile;
-	private FileConfiguration mapsConfig;
+	private YamlConfiguration mapsConfig;
+	private File flagsFile;
+	private YamlDocument flagsConfig;
 
 	@Override
 	public void onEnable() {
@@ -396,11 +411,43 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	// File Configuration
-	public FileConfiguration getMapsConfig() {
+	public YamlConfiguration getMapsConfig() {
 		return this.mapsConfig;
 	}
 
+	public YamlDocument getFlagsConfig() { return this.flagsConfig; }
+
 	private void createMapsConfig() {
+		try {
+			flagsFile = new File(getDataFolder(), "flags.yml");
+			flagsConfig = YamlDocument.create(mapsFile, Objects.requireNonNull(getResource("flags.yml")),
+					GeneralSettings.builder().setSerializer(SpigotSerializer.getInstance()).build(),
+					LoaderSettings.DEFAULT, DumperSettings.DEFAULT, UpdaterSettings.DEFAULT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		TypeAdapter<Frame> adapter = new TypeAdapter<Frame>() {
+
+			@NotNull
+			public java.util.Map<Object, Object> serialize(@NotNull Frame object) {
+				java.util.Map<Object, Object> map = new HashMap<>();
+				map.put("primary_blocks", object.primary_blocks);
+				map.put("secondary_blocks", object.secondary_blocks);
+				return map;
+			}
+
+			@NotNull
+			public Frame deserialize(@NotNull java.util.Map<Object, Object> map) {
+				Frame frame = new Frame();
+				frame.primary_blocks = (List<Vector>) map.get("primary_blocks");
+				frame.secondary_blocks = (List<Vector>) map.get("secondary_blocks");
+				return frame;
+			}
+		};
+
+		StandardSerializer.getDefault().register(Frame.class, adapter);
+
 		mapsFile = new File(getDataFolder(), "maps.yml");
 		if (!mapsFile.exists()) {
 			mapsFile.getParentFile().mkdirs();
@@ -418,18 +465,21 @@ public class Main extends JavaPlugin implements Listener {
 	private void loadMaps()
 	{
 		// Load the maps
-		java.util.Map<String, Object> stringObjectMap = this.getMapsConfig().getConfigurationSection("").getValues(false);
+		java.util.Map<String, Object> stringObjectMap = (java.util.Map<String, Object>) this.getMapsConfig().getMapList("");
 		String[] mapPaths = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
 
 		MapController.maps = new Map[mapPaths.length];
 		for (int i = 0; i < mapPaths.length; i++) {
 			// Basic Map Details
 			Map map = new Map();
-			map.name = this.getMapsConfig().getConfigurationSection(mapPaths[i]).getString("name");
-			map.worldName = this.getMapsConfig().getConfigurationSection(mapPaths[i]).getString("world");
+			map.name = this.getMapsConfig().getString(mapPaths[i] + ".name");
+			map.worldName = this.getMapsConfig().getString(mapPaths[i] + ".world");
+
+			// Flag Data
+			loadFlags(mapPaths[i], map);
 
 			// Team Data
-			java.util.Map<String, Object> stringObjectTeam = this.getMapsConfig().getConfigurationSection(mapPaths[i] + ".teams").getValues(false);
+			java.util.Map<String, Object> stringObjectTeam = (java.util.Map<String, Object>) this.getMapsConfig().getMapList(mapPaths[i] + ".teams");
 			String[] teamPaths = stringObjectTeam.keySet().toArray(new String[stringObjectTeam.size()]);
 			System.out.println(teamPaths.length);
 			map.teams = new Team[teamPaths.length];
@@ -443,16 +493,20 @@ public class Main extends JavaPlugin implements Listener {
 		}
 	}
 
+	private void loadFlags(String mapPath, Map map) {
+
+	}
+
 	private Team loadTeam(String teamPath, Map map) {
 		Team team = new Team();
 		// Get basic details
-		team.name = this.getMapsConfig().getConfigurationSection(teamPath).getString("name");
+		team.name = this.getMapsConfig().getString(teamPath + ".name");
 
 		// Colours
-		Tuple<Material, ChatColor> colors = getColors(this.getMapsConfig().getConfigurationSection(teamPath).getString("primary_color").toLowerCase());
+		Tuple<Material, ChatColor> colors = getColors(this.getMapsConfig().getString(teamPath + ".primary_color").toLowerCase());
 		team.primaryWool = colors.getFirst();
 		team.primaryChatColor = colors.getSecond();
-		colors = getColors(this.getMapsConfig().getConfigurationSection(teamPath).getString("secondary_color").toLowerCase());
+		colors = getColors(this.getMapsConfig().getString(teamPath + ".secondary_color").toLowerCase());
 		team.secondaryWool = colors.getFirst();
 		team.secondaryChatColor = colors.getSecond();
 
@@ -471,7 +525,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private WoolMap loadWoolMap(String woolMapPath, Map map) {
 		WoolMap woolMap = new WoolMap();
-		java.util.Map<String, Object> stringObjectMap = this.getMapsConfig().getConfigurationSection(woolMapPath).getValues(false);
+		java.util.Map<String, Object> stringObjectMap = (java.util.Map<String, Object>) this.getMapsConfig().getMapList(woolMapPath);
 		String[] mapFlags = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
 		woolMap.woolMapBlocks = new WoolMapBlock[mapFlags.length];
 
@@ -484,7 +538,7 @@ public class Main extends JavaPlugin implements Listener {
 			block.blockLocation = getLocation(woolMapPath + "." + mapFlags[i] + "." + "wool_position", map.worldName);
 
 			// Get the wall sign's direction
-			switch(this.getMapsConfig().getConfigurationSection(woolMapPath + "." + mapFlags[i]).getString("sign_direction").toLowerCase()) {
+			switch(this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".sign_direction").toLowerCase()) {
 				case "east":
 					block.signDirection = BlockFace.EAST;
 					break;
@@ -504,18 +558,18 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	private Location getLocationYawPitch(String locationPath, String worldName) {
-		int x = this.getMapsConfig().getConfigurationSection(locationPath).getInt("x");
-		int y = this.getMapsConfig().getConfigurationSection(locationPath).getInt("y");
-		int z = this.getMapsConfig().getConfigurationSection(locationPath).getInt("z");
-		int yaw = this.getMapsConfig().getConfigurationSection(locationPath).getInt("yaw");
-		int pitch = this.getMapsConfig().getConfigurationSection(locationPath).getInt("pitch");
+		int x = this.getMapsConfig().getInt(locationPath + ".x");
+		int y = this.getMapsConfig().getInt(locationPath + ".y");
+		int z = this.getMapsConfig().getInt(locationPath + ".z");
+		int yaw = this.getMapsConfig().getInt(locationPath + ".yaw");
+		int pitch = this.getMapsConfig().getInt(locationPath + ".pitch");
 		return new Location(Bukkit.getServer().getWorld(worldName), x, y, z, yaw, pitch);
 	}
 
 	private Location getLocation(String locationPath, String worldName) {
-		int x = this.getMapsConfig().getConfigurationSection(locationPath).getInt("x");
-		int y = this.getMapsConfig().getConfigurationSection(locationPath).getInt("y");
-		int z = this.getMapsConfig().getConfigurationSection(locationPath).getInt("z");
+		int x = this.getMapsConfig().getInt(locationPath + ".x");
+		int y = this.getMapsConfig().getInt(locationPath + ".y");
+		int z = this.getMapsConfig().getInt(locationPath + ".z");
 		return new Location(Bukkit.getServer().getWorld(worldName), x, y, z);
 	}
 

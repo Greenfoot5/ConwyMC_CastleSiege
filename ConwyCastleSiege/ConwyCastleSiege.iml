@@ -68,10 +68,11 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-analysis:8.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.nametagedit:nametagedit:4.5.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: LibsDisguises:LibsDisguises:10.0.24" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard:worldguard-bukkit:7.0.7" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard:worldguard-core:7.0.7" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard.worldguard-libs:core:7.0.7" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard:worldguard-bukkit:7.0.5" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard:worldguard-core:7.0.5" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard.worldguard-libs:core:7.0.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.flywaydb:flyway-core:3.0" level="project" />
-    <orderEntry type="library" name="Maven: dev.dejvokep:boosted-yaml:1.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q:commandbook:2.3" level="project" />
+    <orderEntry type="library" name="Maven: dev.dejvokep:boosted-yaml-spigot:1.0" level="project" />
   </component>
 </module>

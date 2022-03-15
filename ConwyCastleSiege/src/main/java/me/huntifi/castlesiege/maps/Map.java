@@ -1,10 +1,7 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.flags.Flag;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-
-import static org.bukkit.Bukkit.getServer;
 
 public class Map {
     public String name;
@@ -19,8 +16,16 @@ public class Map {
      */
     public Team getTeam(Player player) {
         for (Team team : teams) {
-            System.out.println(team);
             if (team.hasPlayer(player)) {
+                return team;
+            }
+        }
+        return null;
+    }
+
+    public Team getTeam(String teamName) {
+        for (Team team : teams) {
+            if (team.name.equals(teamName)) {
                 return team;
             }
         }

@@ -5,7 +5,6 @@ me/huntifi/castlesiege/Helmsdeep/rams/MainGateReadyRam.class
 me/huntifi/castlesiege/Helmsdeep/Ballistae/Ballista1Cooldown.class
 me/huntifi/castlesiege/Helmsdeep/flags/FlagMethod$2.class
 me/huntifi/castlesiege/kits/ClearSlots.class
-me/huntifi/castlesiege/flags/captureareas/RectangleCaptureArea.class
 me/huntifi/castlesiege/kits/VotedKits/Scout/ScoutKit.class
 me/huntifi/castlesiege/Thunderstone/KitsGUI/KitsGUI_Cloudcrawlers_Command$1.class
 me/huntifi/castlesiege/kits/Engineer/EngineerCobweb.class
@@ -56,6 +55,7 @@ me/huntifi/castlesiege/kits/Archer/Archer.class
 me/huntifi/castlesiege/kits/Cavalry/CavalryKit.class
 me/huntifi/castlesiege/security/NoTouchPaintings.class
 me/huntifi/castlesiege/security/wheat.class
+me/huntifi/castlesiege/flags/Flag$1.class
 me/huntifi/castlesiege/kits/Swordsman/SwordsmanVotedKit.class
 me/huntifi/castlesiege/Helmsdeep/Gates/HelmsdeepGreatHallDestroyEvent.class
 me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagDistance.class
@@ -81,6 +81,7 @@ me/huntifi/castlesiege/combat/CustomRegeneration.class
 me/huntifi/castlesiege/commands/staffCommands/FlyCommand.class
 me/huntifi/castlesiege/kits/Spearman/SpearmanAbility.class
 me/huntifi/castlesiege/kits/EnderchestRefill.class
+me/huntifi/castlesiege/Main$1.class
 me/huntifi/castlesiege/Helmsdeep/flags/animations/Horn_Urukhai.class
 me/huntifi/castlesiege/Helmsdeep/HelmsdeepLeave.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/ShiftedTowerFlag$4.class
@@ -157,6 +158,7 @@ me/huntifi/castlesiege/stats/MVP/MVPstats$1.class
 me/huntifi/castlesiege/security/CustomFallDamage.class
 me/huntifi/castlesiege/Helmsdeep/flags/animations/GreatHallsFlag$2.class
 me/huntifi/castlesiege/Helmsdeep/doors/HelmsdeepMainGateRightDoor$1.class
+me/huntifi/castlesiege/flags/CaptureHandler$Factory.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/WestTowerFlag$4.class
 me/huntifi/castlesiege/Helmsdeep/flags/animations/CavesFlag$1.class
 me/huntifi/castlesiege/kits/KitGUIcommand$1.class
@@ -192,6 +194,8 @@ me/huntifi/castlesiege/Helmsdeep/Kits/GUI/KitGUI_Rohan_Command$1.class
 me/huntifi/castlesiege/maps/MapController$1.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/LonelyTowerFlag.class
 me/huntifi/castlesiege/voting/VoteListenerCommand.class
+me/huntifi/castlesiege/flags/WGCaptureFlag.class
+me/huntifi/castlesiege/data_types/Frame.class
 me/huntifi/castlesiege/combat/arrowRemoval.class
 me/huntifi/castlesiege/Deathmessages/DeathscoresAsync.class
 me/huntifi/castlesiege/scoreboard/HelmsdeepScoreboard.class
@@ -205,6 +209,7 @@ me/huntifi/castlesiege/Helmsdeep/flags/animations/Courtyard_Rohan.class
 me/huntifi/castlesiege/kits/VotedKits/Ladderman/LaddermanDeath.class
 me/huntifi/castlesiege/kits/Maceman/MacemanVotedKit.class
 me/huntifi/castlesiege/maps/WoolMap.class
+me/huntifi/castlesiege/flags/CaptureHandler.class
 me/huntifi/castlesiege/security/NoCombat.class
 me/huntifi/castlesiege/kits/FireArcher/Firearcher.class
 me/huntifi/castlesiege/Thunderstone/ThunderstoneTimer.class
@@ -260,7 +265,6 @@ me/huntifi/castlesiege/Helmsdeep/flags/animations/Horn_Rohan.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/WestTower_Cloudcrawlers.class
 me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagName.class
 me/huntifi/castlesiege/commands/staffCommands/KickallCommand.class
-me/huntifi/castlesiege/flags/captureareas/CaptureArea.class
 me/huntifi/castlesiege/kits/Shieldman/DeathShieldman.class
 me/huntifi/castlesiege/Main.class
 me/huntifi/castlesiege/Helmsdeep/flags/animations/HornFlag$1.class

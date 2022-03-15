@@ -17,6 +17,7 @@ import java.util.*;
 // primary/secondary colour for each team)
 public class Flag {
     public String name;
+    private String startingTeam;
 
     // Location Data
     public Location spawnPoint;
@@ -32,9 +33,9 @@ public class Flag {
     public int capStatus;
     public double capMultiplier;
 
-    public Flag(String name, Team startingTeam, int maxCapValue, int capTimer) {
+    public Flag(String name, String startingTeam, int maxCapValue, int capTimer) {
         this.name = name;
-        this.currentOwners = startingTeam;
+        this.startingTeam = startingTeam;
         this.maxCap = maxCapValue;
         this.capTimer = capTimer;
         this.players = new ArrayList<>();
