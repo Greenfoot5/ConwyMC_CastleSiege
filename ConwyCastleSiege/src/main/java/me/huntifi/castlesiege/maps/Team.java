@@ -1,16 +1,18 @@
 package me.huntifi.castlesiege.maps;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 public class Team {
     // Basic Details
     public String name;
-    private ArrayList<Player> players;
+    private ArrayList<UUID> players;
     public Lobby lobby;
 
     // Colours
@@ -26,15 +28,16 @@ public class Team {
 
     /**
      * Checks if a player is on the team or not
-     * @param player the player to check
+     * @param uuid the uuid of the player to check
      * @return true if the player is on the team
      */
-    public boolean hasPlayer(Player player) {
-        if (getTeamSize() < 1)
+    public boolean hasPlayer(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (getTeamSize() < 1 || player == null)
             return false;
 
-        for (Player teamMember: players) {
-            if (teamMember == player) {
+        for (UUID teamMember: players) {
+            if (teamMember == uuid) {
                 return true;
             }
         }
@@ -44,45 +47,45 @@ public class Team {
     /**
      * Attempts to add a player to the team.
      * Will fail if the player is already on the team
-     * @param player the player to add
-     * @return true if the player was added, false if they were already on the team
+     * @param uuid the uuid to add
+     * @return true if the uuid was added, false if they were already on the team
      */
-    public boolean addPlayer(Player player) {
-        if (hasPlayer(player)) {
+    public boolean addPlayer(UUID uuid) {
+        if (hasPlayer(uuid)) {
             return false;
         }
 
-        players.add(player);
+        players.add(uuid);
         return true;
     }
 
     /**
      * Adds a player to a team without checking if they are on it.
-     * @param player the player to add
+     * @param uuid the uuid to add
      */
-    public void forceAddPlayer(Player player) {
-        players.add(player);
+    public void forceAddPlayer(UUID uuid) {
+        players.add(uuid);
     }
 
     /**
-     * Removes a player from the team
-     * @param player the player to remove
-     * @return true if the player was removed, false if the player wasn't on the team
+     * Removes a uuid from the team
+     * @param uuid the uuid to remove
+     * @return true if the uuid was removed, false if the uuid wasn't on the team
      */
-    public boolean removePlayer(Player player) {
-        if (!hasPlayer(player)) {
+    public boolean removePlayer(UUID uuid) {
+        if (!hasPlayer(uuid)) {
             return false;
         }
 
-        players.remove(player);
+        players.remove(uuid);
         return true;
     }
 
     /**
      * Gets a random player on the team
-     * @return a random player
+     * @return the uuid of a random player
      */
-    public Player getRandomPlayer() {
+    public UUID getRandomUUID() {
         return players.get(new Random().nextInt(players.size()));
     }
 
@@ -97,7 +100,9 @@ public class Team {
     /**
      * Gets the MVP for the current team
      */
-    public void getMVP() {}
+    public void getMVP() {
+        // TODO - Setup MVP
+    }
 
     /**
      * Clears the team's members

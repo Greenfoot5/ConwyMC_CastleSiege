@@ -3,6 +3,8 @@ package me.huntifi.castlesiege.maps;
 import me.huntifi.castlesiege.flags.Flag;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 public class Map {
     public String name;
     public String worldName;
@@ -11,12 +13,12 @@ public class Map {
 
     /**
      * Get the team a player is on
-     * @param player The player to search for
+     * @param uuid The uuid to search for
      * @return The team (if any) that has the team, otherwise returns null
      */
-    public Team getTeam(Player player) {
+    public Team getTeam(UUID uuid) {
         for (Team team : teams) {
-            if (team.hasPlayer(player)) {
+            if (team.hasPlayer(uuid)) {
                 return team;
             }
         }

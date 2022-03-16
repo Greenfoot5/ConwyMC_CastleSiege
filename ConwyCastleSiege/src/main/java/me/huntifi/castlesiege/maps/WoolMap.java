@@ -24,7 +24,7 @@ public class WoolMap implements Listener {
 			Sign s = (Sign) e.getClickedBlock().getState();
 			for (WoolMapBlock block : woolMapBlocks) {
 				if (s.getLine(1).equalsIgnoreCase(block.flag.name)) {
-					block.SpawnPlayer(player);
+					block.SpawnPlayer(player.getUniqueId());
 				}
 			}
 		}

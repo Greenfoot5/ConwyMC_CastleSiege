@@ -40,7 +40,7 @@ public class login implements Listener {
 
 		}.runTaskLater(plugin, 40);
 
-		MapController.joinATeam(p);
+		MapController.joinATeam(p.getUniqueId());
 	}
 	
 	@EventHandler
@@ -50,6 +50,6 @@ public class login implements Listener {
 		
 		if (Playerlist.contains(p)) { Playerlist.remove(p); }
 		
-		MapController.leaveTeam(p);
+		MapController.leaveTeam(p.getUniqueId());
 	}
 }

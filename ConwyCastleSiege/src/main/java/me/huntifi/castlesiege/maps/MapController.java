@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.UUID;
+
 /**
  * Manages what map the game is currently on
  */
@@ -125,13 +127,14 @@ public class MapController {
 
 	/**
 	 * Adds a player to a team on the current map
-	 * @param player the player to add to a team
+	 * @param uuid the player to add to a team
 	 */
-	public static void joinATeam(Player player) {
-
+	public static void joinATeam(UUID uuid) {
+		Player player = Bukkit.getPlayer(uuid);
 		Team team = maps[mapIndex].smallestTeam();
 
-		team.addPlayer(player);
+		team.addPlayer(uuid);
+		assert player != null;
 		player.teleport(team.lobby.spawnPoint);
 		player.getInventory().clear();
 
@@ -142,6 +145,7 @@ public class MapController {
 
 		ItemStack wool = new ItemStack(team.primaryWool);
 		ItemMeta woolMeta = wool.getItemMeta();
+		assert woolMeta != null;
 		woolMeta.setDisplayName(ChatColor.GREEN + "WoolHat");
 		player.getInventory().setHelmet(wool);
 
@@ -150,11 +154,14 @@ public class MapController {
 
 	/**
 	 * Removes a player from the team when they disconnect
-	 * @param player the player to remove
+	 * @param uuid the uuid to remove
 	 */
-	public static void leaveTeam(Player player) {
+	public static void leaveTeam(UUID uuid) {
 
 		Map map = MapController.getCurrentMap();
-		map.getTeam(player).removePlayer(player);
+		Team team = map.getTeam(uuid);
+		if (team != null) {
+			team.removePlayer(uuid);
+		}
 	}
 }

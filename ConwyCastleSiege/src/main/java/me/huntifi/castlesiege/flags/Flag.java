@@ -181,7 +181,7 @@ public class Flag {
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
-                String team = MapController.getCurrentMap().getTeam(player).name;
+                String team = MapController.getCurrentMap().getTeam(uuid).name;
                 if (counts.get(team) != null) {
                     counts.put(team, 1);
                 } else {
