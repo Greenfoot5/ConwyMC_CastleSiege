@@ -421,13 +421,13 @@ public class Main extends JavaPlugin implements Listener {
 		try {
 			flagsFile = new File(getDataFolder(), "flags.yml");
 			flagsConfig = YamlDocument.create(mapsFile, Objects.requireNonNull(getResource("flags.yml")),
-					GeneralSettings.builder().setSerializer(SpigotSerializer.getInstance()).build(),
+					GeneralSettings.builder().setSerializer(StandardSerializer.getDefault()).build(),
 					LoaderSettings.DEFAULT, DumperSettings.DEFAULT, UpdaterSettings.DEFAULT);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		TypeAdapter<Frame> adapter = new TypeAdapter<Frame>() {
+		TypeAdapter<Frame> flagAdapter = new TypeAdapter<Frame>() {
 
 			@NotNull
 			public java.util.Map<Object, Object> serialize(@NotNull Frame object) {
@@ -446,7 +446,7 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		};
 
-		StandardSerializer.getDefault().register(Frame.class, adapter);
+		StandardSerializer.getDefault().register(Frame.class, flagAdapter);
 
 		mapsFile = new File(getDataFolder(), "maps.yml");
 		if (!mapsFile.exists()) {
@@ -465,7 +465,7 @@ public class Main extends JavaPlugin implements Listener {
 	private void loadMaps()
 	{
 		// Load the maps
-		java.util.Map<String, Object> stringObjectMap = (java.util.Map<String, Object>) this.getMapsConfig().getMapList("");
+		java.util.Map<String, Object> stringObjectMap = this.getMapsConfig().getConfigurationSection("").getValues(false);
 		String[] mapPaths = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
 
 		MapController.maps = new Map[mapPaths.length];
@@ -479,11 +479,10 @@ public class Main extends JavaPlugin implements Listener {
 			loadFlags(mapPaths[i], map);
 
 			// Team Data
-			java.util.Map<String, Object> stringObjectTeam = (java.util.Map<String, Object>) this.getMapsConfig().getMapList(mapPaths[i] + ".teams");
+			java.util.Map<String, Object> stringObjectTeam = this.getMapsConfig().getConfigurationSection(mapPaths[i] + ".teams").getValues(false);
 			String[] teamPaths = stringObjectTeam.keySet().toArray(new String[stringObjectTeam.size()]);
-			System.out.println(teamPaths.length);
 			map.teams = new Team[teamPaths.length];
-			for (int j = 0; j < mapPaths.length; j++) {
+			for (int j = 0; j < teamPaths.length; j++) {
 				String path = mapPaths[i] + ".teams." + teamPaths[j];
 				map.teams[j] = loadTeam(path, map);
 			}
@@ -512,7 +511,6 @@ public class Main extends JavaPlugin implements Listener {
 
 		// Setup lobby
 		team.lobby = loadLobby(teamPath + ".lobby", map);
-		getServer().getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "[TheDarkAge] Team Created: " + team.name);
 		return team;
 	}
 
@@ -525,7 +523,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private WoolMap loadWoolMap(String woolMapPath, Map map) {
 		WoolMap woolMap = new WoolMap();
-		java.util.Map<String, Object> stringObjectMap = (java.util.Map<String, Object>) this.getMapsConfig().getMapList(woolMapPath);
+		java.util.Map<String, Object> stringObjectMap = this.getMapsConfig().getConfigurationSection(woolMapPath).getValues(false);
 		String[] mapFlags = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
 		woolMap.woolMapBlocks = new WoolMapBlock[mapFlags.length];
 

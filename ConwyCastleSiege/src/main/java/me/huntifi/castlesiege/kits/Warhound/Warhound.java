@@ -79,7 +79,7 @@ public class Warhound implements Listener {
 			wolfWatcher.setCollarColor(getWolfTeamColour(p));
 			wolfWatcher.setTamed(true);
 			
-			mobDisguise.getWatcher().setCustomName(MapController.getCurrentMap().getTeam(p).primaryChatColor + p.getName());
+			mobDisguise.getWatcher().setCustomName(MapController.getCurrentMap().getTeam(p.getUniqueId()).primaryChatColor + p.getName());
 			mobDisguise.setHearSelfDisguise(true);
 			mobDisguise.setEntity(p);
 			mobDisguise.setCustomDisguiseName(true);
@@ -100,7 +100,7 @@ public class Warhound implements Listener {
 
 			if (StatsChanging.getKit(p.getUniqueId()).equalsIgnoreCase("Warhound")) {
 
-				e.getDisguise().setDisguiseName(MapController.getCurrentMap().getTeam(p).primaryChatColor + p.getName());
+				e.getDisguise().setDisguiseName(MapController.getCurrentMap().getTeam(p.getUniqueId()).primaryChatColor + p.getName());
 
 				e.getDisguise().setSelfDisguiseVisible(false);
 				
@@ -143,7 +143,7 @@ public class Warhound implements Listener {
 
 	public static DyeColor getWolfTeamColour(Player p) {
 
-		switch (MapController.getCurrentMap().getTeam(p).primaryWool) {
+		switch (MapController.getCurrentMap().getTeam(p.getUniqueId()).primaryWool) {
 			case GRAY_WOOL:
 				return DyeColor.GRAY;
 			case BLACK_WOOL:
