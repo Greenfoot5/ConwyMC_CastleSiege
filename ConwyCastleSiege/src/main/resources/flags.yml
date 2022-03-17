@@ -4,6 +4,7 @@ HelmsDeep:
     start_owners: "Rohan"
     max_cap: 9
     start_amount: 9
+    cap_timer: 100
     spawn_point:
       x: 969
       y: 35

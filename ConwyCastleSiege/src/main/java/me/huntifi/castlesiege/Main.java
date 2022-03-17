@@ -1,8 +1,13 @@
 package me.huntifi.castlesiege;
 
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.world.World;
 import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.session.SessionManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
@@ -31,6 +36,7 @@ import me.huntifi.castlesiege.commands.togglerankCommand;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.flags.CaptureHandler;
+import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.joinevents.login;
 import me.huntifi.castlesiege.joinevents.newLogin;
 import me.huntifi.castlesiege.kits.Archer.DeathArcher;
@@ -96,6 +102,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 
 public class Main extends JavaPlugin implements Listener {
@@ -119,7 +126,7 @@ public class Main extends JavaPlugin implements Listener {
 		plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
 
 		createWorld();
-		createMapsConfig();
+		createConfigs();
 
 		getServer().getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "[TheDarkAge] Plugin has been enabled!");
 
@@ -379,7 +386,6 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable() {
-
 		SQL.disconnect();
 		getServer().getConsoleSender().sendMessage(ChatColor.DARK_RED + "[TheDarkAge] Plugin has been disabled!");
 	}
@@ -417,9 +423,13 @@ public class Main extends JavaPlugin implements Listener {
 
 	public YamlDocument getFlagsConfig() { return this.flagsConfig; }
 
-	private void createMapsConfig() {
+	private void createConfigs() {
 		try {
 			flagsFile = new File(getDataFolder(), "flags.yml");
+			if (!flagsFile.exists()) {
+				flagsFile.getParentFile().mkdirs();
+				saveResource("flags.yml", false);
+			}
 			flagsConfig = YamlDocument.create(mapsFile, Objects.requireNonNull(getResource("flags.yml")),
 					GeneralSettings.builder().setSerializer(StandardSerializer.getDefault()).build(),
 					LoaderSettings.DEFAULT, DumperSettings.DEFAULT, UpdaterSettings.DEFAULT);
@@ -493,13 +503,54 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	private void loadFlags(String mapPath, Map map) {
+		// Load the maps
+		System.out.println("[TDA] mapPath: " + flagsConfig.contains(Route.from("HelmsDeep")));
+		System.out.println("[TDA] mapSection: " + flagsConfig.getSection(Route.from("HelmsDeep"))); // THIS LINE
+		Set<Route> flagSet = getFlagsConfig().getSection(Route.from(mapPath)).getRoutes(false);
+		Route[] flagPaths = (Route[]) flagSet.toArray();
 
+		map.flags = new Flag[flagPaths.length];
+		for (int i = 0; i < flagPaths.length; i++) {
+			// Create the flag
+			Route flagRoute = Route.from(mapPath + "." + flagPaths[i]);
+			System.out.println("Flag Route: " + flagRoute);
+			System.out.println("Map Path: " + mapPath);
+			System.out.println("Flag Path: " + flagPaths[i]);
+			String name = getFlagsConfig().getString(Route.from(flagRoute, "name"));
+			Flag flag = new Flag(name,
+					getFlagsConfig().getString(flagRoute + ".start_owners"),
+					getFlagsConfig().getInt(flagRoute + ".max_cap"),
+					getFlagsConfig().getInt(flagRoute + ".cap_timer"));
+
+			// Set the spawn point
+			flag.spawnPoint = new Location(Bukkit.getWorld(map.worldName),
+					getFlagsConfig().getDouble(flagRoute + ".spawnPoint.x"),
+					getFlagsConfig().getDouble(flagRoute + ".spawnPoint.y"),
+					getFlagsConfig().getDouble(flagRoute + ".spawnPoint.z"));
+
+			// Set the capture area
+			Route captureRoute = Route.from(flagRoute + ".capture_area");
+			if (getFlagsConfig().getString(captureRoute + ".type").equalsIgnoreCase("cuboid"))
+			{
+				BlockVector3 min = BlockVector3.at(getFlagsConfig().getInt(captureRoute+".min.x"),
+						getFlagsConfig().getInt(captureRoute+".min.y"),
+						getFlagsConfig().getInt(captureRoute+".min.z"));
+				BlockVector3 max = BlockVector3.at(getFlagsConfig().getInt(captureRoute+".max.x"),
+						getFlagsConfig().getInt(captureRoute+".max.y"),
+						getFlagsConfig().getInt(captureRoute+".max.z"));
+				ProtectedRegion region = new ProtectedCuboidRegion("spawn", min, max);
+				WorldGuard.getInstance().getPlatform().getRegionContainer().get((World) Bukkit.getWorld(map.worldName)).addRegion(region);
+			}
+
+			//flag.animation = getFlagsConfig().
+
+			map.flags[i] = flag;
+		}
 	}
 
 	private Team loadTeam(String teamPath, Map map) {
-		Team team = new Team();
-		// Get basic details
-		team.name = this.getMapsConfig().getString(teamPath + ".name");
+		String name = this.getMapsConfig().getString(teamPath + ".name");
+		Team team = new Team(name);
 
 		// Colours
 		Tuple<Material, ChatColor> colors = getColors(this.getMapsConfig().getString(teamPath + ".primary_color").toLowerCase());

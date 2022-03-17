@@ -21,7 +21,8 @@ public class Team {
     public ChatColor primaryChatColor;
     public ChatColor secondaryChatColor;
 
-    public Team() {
+    public Team(String name) {
+        this.name = name;
         players = new ArrayList<>();
     }
 

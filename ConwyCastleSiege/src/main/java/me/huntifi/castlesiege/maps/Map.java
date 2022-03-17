@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.maps;
 
+import com.sk89q.worldguard.protection.managers.RegionManager;
 import me.huntifi.castlesiege.flags.Flag;
 import org.bukkit.entity.Player;
 

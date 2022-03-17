@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.flags;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
@@ -32,6 +33,8 @@ public class Flag {
     private boolean isRunning;
     public int capStatus;
     public double capMultiplier;
+
+    public Frame[] animation;
 
     public Flag(String name, String startingTeam, int maxCapValue, int capTimer) {
         this.name = name;
