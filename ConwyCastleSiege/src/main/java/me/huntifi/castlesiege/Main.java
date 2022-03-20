@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.World;
 import com.sk89q.worldguard.WorldGuard;
@@ -7,6 +8,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.session.SessionManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.block.implementation.Section;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
@@ -117,7 +119,6 @@ public class Main extends JavaPlugin implements Listener {
 
 	private File mapsFile;
 	private YamlConfiguration mapsConfig;
-	private File flagsFile;
 	private YamlDocument flagsConfig;
 
 	@Override
@@ -424,19 +425,8 @@ public class Main extends JavaPlugin implements Listener {
 	public YamlDocument getFlagsConfig() { return this.flagsConfig; }
 
 	private void createConfigs() {
-		try {
-			flagsFile = new File(getDataFolder(), "flags.yml");
-			if (!flagsFile.exists()) {
-				flagsFile.getParentFile().mkdirs();
-				saveResource("flags.yml", false);
-			}
-			flagsConfig = YamlDocument.create(mapsFile, Objects.requireNonNull(getResource("flags.yml")),
-					GeneralSettings.builder().setSerializer(StandardSerializer.getDefault()).build(),
-					LoaderSettings.DEFAULT, DumperSettings.DEFAULT, UpdaterSettings.DEFAULT);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
+		// Setup the adapter for custom animation
 		TypeAdapter<Frame> flagAdapter = new TypeAdapter<Frame>() {
 
 			@NotNull
@@ -458,6 +448,15 @@ public class Main extends JavaPlugin implements Listener {
 
 		StandardSerializer.getDefault().register(Frame.class, flagAdapter);
 
+		// Load flags.yml with BoostedYAML
+		try {
+			flagsConfig = YamlDocument.create(new File(getDataFolder(), "flags.yml"),
+					getClass().getResourceAsStream("flags.yml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Load maps.yml with Spigot's yaml parser
 		mapsFile = new File(getDataFolder(), "maps.yml");
 		if (!mapsFile.exists()) {
 			mapsFile.getParentFile().mkdirs();
@@ -503,43 +502,47 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	private void loadFlags(String mapPath, Map map) {
-		// Load the maps
-		System.out.println("[TDA] mapPath: " + flagsConfig.contains(Route.from("HelmsDeep")));
-		System.out.println("[TDA] mapSection: " + flagsConfig.getSection(Route.from("HelmsDeep"))); // THIS LINE
-		Set<Route> flagSet = getFlagsConfig().getSection(Route.from(mapPath)).getRoutes(false);
-		Route[] flagPaths = (Route[]) flagSet.toArray();
+		Route mapRoute = Route.from(mapPath);
+
+		Set<String> flagSet = getFlagsConfig().getSection(mapRoute).getRoutesAsStrings(false);
+		String[] flagPaths = new String[flagSet.size()];
+		int index = 0;
+		for (String str : flagSet)
+			flagPaths[index++] = str;
 
 		map.flags = new Flag[flagPaths.length];
 		for (int i = 0; i < flagPaths.length; i++) {
 			// Create the flag
-			Route flagRoute = Route.from(mapPath + "." + flagPaths[i]);
+			Route flagRoute = mapRoute.add(flagPaths[i]);
 			System.out.println("Flag Route: " + flagRoute);
 			System.out.println("Map Path: " + mapPath);
 			System.out.println("Flag Path: " + flagPaths[i]);
-			String name = getFlagsConfig().getString(Route.from(flagRoute, "name"));
+			String name = getFlagsConfig().getString(flagRoute.add("name"));
 			Flag flag = new Flag(name,
-					getFlagsConfig().getString(flagRoute + ".start_owners"),
-					getFlagsConfig().getInt(flagRoute + ".max_cap"),
-					getFlagsConfig().getInt(flagRoute + ".cap_timer"));
+					getFlagsConfig().getString(flagRoute.add("start_owners")),
+					getFlagsConfig().getInt(flagRoute.add("max_cap")),
+					getFlagsConfig().getInt(flagRoute.add("cap_timer")));
 
 			// Set the spawn point
 			flag.spawnPoint = new Location(Bukkit.getWorld(map.worldName),
-					getFlagsConfig().getDouble(flagRoute + ".spawnPoint.x"),
-					getFlagsConfig().getDouble(flagRoute + ".spawnPoint.y"),
-					getFlagsConfig().getDouble(flagRoute + ".spawnPoint.z"));
+					getFlagsConfig().getDouble(flagRoute.add("spawnPoint").add("x")),
+					getFlagsConfig().getDouble(flagRoute.add("spawnPoint").add("y")),
+					getFlagsConfig().getDouble(flagRoute.add(".spawnPoint").add("z")));
 
 			// Set the capture area
-			Route captureRoute = Route.from(flagRoute + ".capture_area");
-			if (getFlagsConfig().getString(captureRoute + ".type").equalsIgnoreCase("cuboid"))
+			Route captureRoute = flagRoute.add("capture_area");
+			System.out.println("[TDA] captureRoute: " + captureRoute);
+			System.out.println(getFlagsConfig().getSection(captureRoute).getRoutes(false).size());
+			if (getFlagsConfig().getString(captureRoute.add("type")).equalsIgnoreCase("cuboid"))
 			{
-				BlockVector3 min = BlockVector3.at(getFlagsConfig().getInt(captureRoute+".min.x"),
-						getFlagsConfig().getInt(captureRoute+".min.y"),
-						getFlagsConfig().getInt(captureRoute+".min.z"));
-				BlockVector3 max = BlockVector3.at(getFlagsConfig().getInt(captureRoute+".max.x"),
-						getFlagsConfig().getInt(captureRoute+".max.y"),
-						getFlagsConfig().getInt(captureRoute+".max.z"));
+				BlockVector3 min = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("min").add("x")),
+						getFlagsConfig().getInt(captureRoute.add("min").add("y")),
+						getFlagsConfig().getInt(captureRoute.add("min").add("z")));
+				BlockVector3 max = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("max").add("x")),
+						getFlagsConfig().getInt(captureRoute.add("max").add("y")),
+						getFlagsConfig().getInt(captureRoute.add("max").add("z")));
 				ProtectedRegion region = new ProtectedCuboidRegion("spawn", min, max);
-				WorldGuard.getInstance().getPlatform().getRegionContainer().get((World) Bukkit.getWorld(map.worldName)).addRegion(region);
+				WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(map.worldName))).addRegion(region);
 			}
 
 			//flag.animation = getFlagsConfig().
