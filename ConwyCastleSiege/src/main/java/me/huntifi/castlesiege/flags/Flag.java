@@ -1,12 +1,17 @@
 package me.huntifi.castlesiege.flags;
 
+import me.huntifi.castlesiege.Helmsdeep.flags.FlagName;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -57,13 +62,16 @@ public class Flag {
      */
     private void changeTeam(String newTeam) {
         // TODO - Notify all players of the change
-        if (currentOwners == null && newTeam != null)
+        if (newTeam != null)
         {
             currentOwners = newTeam;
+            Team team = MapController.getCurrentMap().getTeam(newTeam);
+            Bukkit.broadcastMessage(team.primaryChatColor + "~~~ " + newTeam + " has captured " + name + "! ~~~");
         }
-        else if (currentOwners != null && newTeam == null)
+        else if (currentOwners != null)
         {
             currentOwners = null;
+            Bukkit.broadcastMessage(ChatColor.GRAY + "~~~ " + name + " has been neutralised! ~~~");
         }
     }
 
@@ -73,18 +81,22 @@ public class Flag {
         if (progress == 0) {
             System.out.println("Neutral Flag");
             // Flag became neutral
-            changeTeam(null);
             animationIndex = 0;
 
-            // TODO - Notify cappers
+            // Notify current capping players
+            notifyPlayers(false);
+
+            changeTeam(null);
+
             // TODO - Animate
 
         } else if (capProgress == 1 && animationIndex == 0) {
-            System.out.println("Captured Flag");
+            System.out.println("Captured Flag: " + currentOwners);
             changeTeam(currentOwners);
             animationIndex += 1;
 
-            // TODO - Notify cappers
+            notifyPlayers(true);
+
             // TODO - Animate
 
         } else if (capProgress > animationIndex) {
@@ -96,11 +108,29 @@ public class Flag {
 
             animationIndex += 1;
 
+            // Notify current capping players
+            for (UUID uuid : players) {
+                Player player = Bukkit.getPlayer(uuid);
+                // Check they're a player
+                notifyPlayers(true);
+            }
+
             // TODO - Increase the animation
-            // TODO - Notify cappers
 
             if (animationIndex == maxCap) {
-                // TODO - Notify cappers
+                for (UUID uuid : players) {
+                    Player player = Bukkit.getPlayer(uuid);
+                    // Check they're a player
+                    if (player != null) {
+                        // Make sure they're on the capping team
+                        if (MapController.getCurrentMap().getTeam(uuid).name.equals(currentOwners)) {
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: " + name));
+                        } else {
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies have fully captured the flag!"));
+                        }
+                        playCapSound(player);
+                    }
+                }
                 System.out.println("Max Cap");
             }
 
@@ -109,6 +139,9 @@ public class Flag {
             // Cap down
             animationIndex -= 1;
 
+            // Notify current capping players
+            notifyPlayers(false);
+
             // TODO - Increase the animation
             // TODO - Notify cappers
 
@@ -116,6 +149,22 @@ public class Flag {
             System.out.println("else");
             // Equal, no capping done
             // TODO - Notify cappers
+        }
+    }
+
+    private void notifyPlayers(boolean areOwnersCapping) {
+        for (UUID uuid : players) {
+            Player player = Bukkit.getPlayer(uuid);
+            // Check they're a player
+            if (player != null) {
+                // Make sure they're on the capping team
+                if (MapController.getCurrentMap().getTeam(uuid).name.equals(currentOwners) == areOwnersCapping) {
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+" + getPlayerCounts().getSecond() + " flag-capping point(s)" + ChatColor.AQUA + " Flag: " + name));
+                } else {
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies are capturing the flag!"));
+                }
+                playCapSound(player);
+            }
         }
     }
 
@@ -254,5 +303,16 @@ public class Flag {
         }
 
         return largestTeam;
+    }
+
+    private void playCapSound(Player player) {
+        Location location = player.getLocation();
+
+        Sound effect = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
+
+        float volume = 1f; //1 = 100%
+        float pitch = 0.5f; //Float between 0.5 and 2.0
+
+        player.playSound(location, effect, volume, pitch);
     }
 }

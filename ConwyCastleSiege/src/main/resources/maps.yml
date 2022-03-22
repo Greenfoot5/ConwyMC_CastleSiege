@@ -27,8 +27,8 @@ HelmsDeep:
             sign_direction: west
     Rohan:
       name: "Rohan"
-      primary_color: "black"
-      secondary_color: "gray"
+      primary_color: "dark_green"
+      secondary_color: "yellow"
       lobby:
         spawn_point:
           x: 277
