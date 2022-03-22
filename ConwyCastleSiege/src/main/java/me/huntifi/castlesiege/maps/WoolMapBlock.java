@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class WoolMapBlock {
@@ -33,7 +34,7 @@ public class WoolMapBlock {
             EnderchestRefill.refill(player);
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                     TextComponent.fromLegacyText(flag.getSpawnMessage()));
-            if (flag.currentOwners != team)
+            if (!Objects.equals(flag.currentOwners, team.name))
             {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                         TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));

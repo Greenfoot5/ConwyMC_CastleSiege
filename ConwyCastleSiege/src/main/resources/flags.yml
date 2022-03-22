@@ -4,9 +4,9 @@ HelmsDeep:
     start_owners: "Rohan"
     max_cap: 9
     start_amount: 9
-    cap_timer: 100
+    progress_amount: 10
     spawn_point:
-      x: 969
+      x: 9693
       y: 35
       z: 1130
     capture_area:
@@ -21,40 +21,40 @@ HelmsDeep:
         z: 1145
     animation:
       0:
-        primary_wool:
-          1:
+        primary_blocks:
+          - "==": "Vector"
             x: 988
             y: 38
             z: 1141
-          2:
+          - "==": Vector
             x: 989
             y: 38
             z: 1141
-        secondary_wool:
-          1:
+        secondary_blocks:
+          - "==": "Vector"
             x: 988
             y: 37
             z: 1141
-          2:
+          - "==": "Vector"
             x: 989
             y: 37
             z: 1141
       1:
-        primary_wool:
-          1:
+        primary_blocks:
+          - "==": "Vector"
             x: 988
             y: 39
             z: 1141
-          2:
+          - "==": "Vector"
             x: 989
             y: 39
             z: 1141
-        secondary_wool:
-          1:
+        secondary_blocks:
+          - "==": "Vector"
             x: 988
             y: 38
             z: 1141
-          2:
+          - "==": "Vector"
             x: 989
             y: 38
             z: 1141

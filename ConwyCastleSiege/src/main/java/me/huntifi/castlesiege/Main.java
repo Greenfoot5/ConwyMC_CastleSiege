@@ -2,21 +2,12 @@ package me.huntifi.castlesiege;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldedit.world.World;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.session.SessionManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
-import dev.dejvokep.boostedyaml.block.implementation.Section;
 import dev.dejvokep.boostedyaml.route.Route;
-import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
-import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
-import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
-import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
-import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
-import dev.dejvokep.boostedyaml.spigot.SpigotSerializer;
 import me.huntifi.castlesiege.Database.MySQL;
 import me.huntifi.castlesiege.Database.SQLGetter;
 import me.huntifi.castlesiege.Database.SQLstats;
@@ -87,23 +78,18 @@ import me.huntifi.castlesiege.teams.SwitchCommand;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 
@@ -426,27 +412,27 @@ public class Main extends JavaPlugin implements Listener {
 
 	private void createConfigs() {
 
-		// Setup the adapter for custom animation
-		TypeAdapter<Frame> flagAdapter = new TypeAdapter<Frame>() {
+//		// Setup the adapter for custom animation
+//		TypeAdapter<Frame> flagAdapter = new TypeAdapter<Frame>() {
+//
+//			@NotNull
+//			public java.util.Map<Object, Object> serialize(@NotNull Frame object) {
+//				java.util.Map<Object, Object> map = new HashMap<>();
+//				map.put("primary_blocks", object.primary_blocks);
+//				map.put("secondary_blocks", object.secondary_blocks);
+//				return map;
+//			}
+//
+//			@NotNull
+//			public Frame deserialize(@NotNull java.util.Map<Object, Object> map) {
+//				Frame frame = new Frame();
+//				frame.primary_blocks = (List<Vector>) map.get("primary_blocks");
+//				frame.secondary_blocks = (List<Vector>) map.get("secondary_blocks");
+//				return frame;
+//			}
+//		};
 
-			@NotNull
-			public java.util.Map<Object, Object> serialize(@NotNull Frame object) {
-				java.util.Map<Object, Object> map = new HashMap<>();
-				map.put("primary_blocks", object.primary_blocks);
-				map.put("secondary_blocks", object.secondary_blocks);
-				return map;
-			}
-
-			@NotNull
-			public Frame deserialize(@NotNull java.util.Map<Object, Object> map) {
-				Frame frame = new Frame();
-				frame.primary_blocks = (List<Vector>) map.get("primary_blocks");
-				frame.secondary_blocks = (List<Vector>) map.get("secondary_blocks");
-				return frame;
-			}
-		};
-
-		StandardSerializer.getDefault().register(Frame.class, flagAdapter);
+		ConfigurationSerialization.registerClass(Frame.class);
 
 		// Load flags.yml with BoostedYAML
 		try {
@@ -514,14 +500,11 @@ public class Main extends JavaPlugin implements Listener {
 		for (int i = 0; i < flagPaths.length; i++) {
 			// Create the flag
 			Route flagRoute = mapRoute.add(flagPaths[i]);
-			System.out.println("Flag Route: " + flagRoute);
-			System.out.println("Map Path: " + mapPath);
-			System.out.println("Flag Path: " + flagPaths[i]);
 			String name = getFlagsConfig().getString(flagRoute.add("name"));
 			Flag flag = new Flag(name,
 					getFlagsConfig().getString(flagRoute.add("start_owners")),
 					getFlagsConfig().getInt(flagRoute.add("max_cap")),
-					getFlagsConfig().getInt(flagRoute.add("cap_timer")));
+					getFlagsConfig().getInt(flagRoute.add("progress_amount")));
 
 			// Set the spawn point
 			flag.spawnPoint = new Location(Bukkit.getWorld(map.worldName),
@@ -531,8 +514,6 @@ public class Main extends JavaPlugin implements Listener {
 
 			// Set the capture area
 			Route captureRoute = flagRoute.add("capture_area");
-			System.out.println("[TDA] captureRoute: " + captureRoute);
-			System.out.println(getFlagsConfig().getSection(captureRoute).getRoutes(false).size());
 			if (getFlagsConfig().getString(captureRoute.add("type")).equalsIgnoreCase("cuboid"))
 			{
 				BlockVector3 min = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("min").add("x")),
@@ -541,10 +522,12 @@ public class Main extends JavaPlugin implements Listener {
 				BlockVector3 max = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("max").add("x")),
 						getFlagsConfig().getInt(captureRoute.add("max").add("y")),
 						getFlagsConfig().getInt(captureRoute.add("max").add("z")));
-				ProtectedRegion region = new ProtectedCuboidRegion("spawn", min, max);
+				ProtectedRegion region = new ProtectedCuboidRegion(flag.name.replace(' ', '_'), min, max);
 				WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(map.worldName))).addRegion(region);
 			}
 
+			// TODO - Add primary/secondary wool animations
+			// TODO - Add air animations
 			//flag.animation = getFlagsConfig().
 
 			map.flags[i] = flag;

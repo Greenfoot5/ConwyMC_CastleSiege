@@ -137,6 +137,11 @@
                             <shadedPattern>com.github.Huntif.ConwyCastleSiege</shadedPattern>
                         </relocation>
                     </relocations>
+                    <artifactSet>
+                        <includes>
+                            <include>dev.dejvokep:boosted-yaml-spigot</include>
+                        </includes>
+                    </artifactSet>
                 </configuration>
                 <executions>
                     <execution>

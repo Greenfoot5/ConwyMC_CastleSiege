@@ -1,8 +1,6 @@
 package me.huntifi.castlesiege.maps;
 
-import com.sk89q.worldguard.protection.managers.RegionManager;
 import me.huntifi.castlesiege.flags.Flag;
-import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -40,7 +38,6 @@ public class Map {
         Team smallest = teams[0];
         // Loop through the teams and find the smallest. If they are equal, returns the first team
         for (Team team : teams) {
-            System.out.println("[TheDarkAge] tt: " + team.name);
             if (smallest.getTeamSize() < team.getTeamSize())
             {
                 smallest = team;
@@ -54,7 +51,7 @@ public class Map {
     {
         for (Flag flag : flags)
         {
-            if (flag.name.equals(name))
+            if (flag.name.equalsIgnoreCase(name))
             {
                 return flag;
             }

@@ -2,20 +2,18 @@ package me.huntifi.castlesiege.flags;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Frame;
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
-// you need to decide what every flag has
-// (capture area,
-// spawn point,
-// starting team,
-// primary/secondary colour for each team)
 public class Flag {
     public String name;
     private String startingTeam;
@@ -25,59 +23,100 @@ public class Flag {
     private final List<UUID> players;
 
     // Game Data
-    public Team currentOwners;
-    private int maxCap = 13;
-    private int capTimer;
+    public String currentOwners;
+    private final int maxCap;
+    private final int progressAmount;
+    private int progress;
+    private final static int progressMultiplier = 100;
+    public final static double capMultiplier = 1.1;
 
     // Capturing data
-    private boolean isRunning;
-    public int capStatus;
-    public double capMultiplier;
+    private AtomicInteger isRunning;
+    public int animationIndex;
 
     public Frame[] animation;
 
-    public Flag(String name, String startingTeam, int maxCapValue, int capTimer) {
+    private Plugin plugin;
+
+    public Flag(String name, String startingTeam, int maxCapValue, int progressAmount) {
         this.name = name;
         this.startingTeam = startingTeam;
+        this.currentOwners = startingTeam;
         this.maxCap = maxCapValue;
-        this.capTimer = capTimer;
+        animationIndex = maxCapValue;
+        this.progressAmount = progressAmount;
         this.players = new ArrayList<>();
+        progress = progressMultiplier * maxCapValue;
+        isRunning = new AtomicInteger(0);
+        plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
     }
 
     /**
      * Attempts to change the team holding the flag.
      * @param newTeam The new flag owners
-     * @return true if the team was changed, false if invalid team
      */
-    private boolean changeTeam(Team newTeam) {
+    private void changeTeam(String newTeam) {
+        // TODO - Notify all players of the change
         if (currentOwners == null && newTeam != null)
         {
             currentOwners = newTeam;
-            return true;
         }
         else if (currentOwners != null && newTeam == null)
         {
             currentOwners = null;
-            return true;
         }
-        // Invalid team change
-        return false;
     }
 
     private void captureFlag() {
-        int ownerCount = 0;
-        int attackerCount = 0;
+        int capProgress = progress / progressMultiplier;
 
-        HashMap<String, Integer> counts = getPlayerCounts();
-        for (String name : counts.keySet()) {
-            if (currentOwners.name.equals(name)) {
-                ownerCount = counts.get(name);
-            } else {
-                attackerCount += counts.get(name);
+        if (progress == 0) {
+            System.out.println("Neutral Flag");
+            // Flag became neutral
+            changeTeam(null);
+            animationIndex = 0;
+
+            // TODO - Notify cappers
+            // TODO - Animate
+
+        } else if (capProgress == 1 && animationIndex == 0) {
+            System.out.println("Captured Flag");
+            changeTeam(currentOwners);
+            animationIndex += 1;
+
+            // TODO - Notify cappers
+            // TODO - Animate
+
+        } else if (capProgress > animationIndex) {
+            System.out.println("Cap Up");
+            // Cap Up
+            if (animationIndex >= maxCap) {
+                return;
             }
-        }
 
-        // TODO - Animate it
+            animationIndex += 1;
+
+            // TODO - Increase the animation
+            // TODO - Notify cappers
+
+            if (animationIndex == maxCap) {
+                // TODO - Notify cappers
+                System.out.println("Max Cap");
+            }
+
+        } else if (capProgress < animationIndex) {
+            System.out.println("Cap Down!");
+            // Cap down
+            animationIndex -= 1;
+
+            // TODO - Increase the animation
+            // TODO - Notify cappers
+
+        } else {
+            System.out.println("else");
+            // Equal, no capping done
+            // TODO - Notify cappers
+        }
     }
 
     /**
@@ -85,7 +124,8 @@ public class Flag {
      * @return the message to send
      */
     public String getSpawnMessage() {
-        return currentOwners.secondaryChatColor + "Spawning at:" + currentOwners.primaryChatColor + " " + name;
+        Team team = MapController.getCurrentMap().getTeam(currentOwners);
+        return team.secondaryChatColor + "Spawning at:" + team.primaryChatColor + " " + name;
     }
 
     /**
@@ -93,8 +133,8 @@ public class Flag {
      * @param player the player that entered
      */
     public void playerEnter(Player player) {
-        System.out.println("Player entered");
         players.add(player.getUniqueId());
+        capturing();
     }
 
     /**
@@ -102,97 +142,117 @@ public class Flag {
      * @param player the player that exited
      */
     public void playerExit(Player player) {
-        System.out.println(player.getDisplayName() + " left " + name);
-        players.add(player.getUniqueId());
+        players.remove(player.getUniqueId());
     }
 
     /**
      * Handles the capturing of a flag
      */
-    private void capturing() {
+    private synchronized void capturing() {
         // Only one loop can run at a time
-        if (isRunning) {
+        if (isRunning.get() > 0) {
             return;
         }
-        isRunning = true;
+        isRunning.incrementAndGet();
 
         // Keep running as long as there are players in the area
-        while (players.size() > 0) {
+        if (players.size() > 0) {
             new BukkitRunnable() {
-
                 @Override
                 public void run() {
-                    captureFlag();
-                    if (players.size() <= 0) {
-                        isRunning = false;
+
+                    captureProgress();
+
+                    if (progress / progressMultiplier != animationIndex || progress < progressMultiplier)
+                        captureFlag();
+
+                    // No more players in the zone
+                    if (players.size() <= 0 || isRunning.get() > 1) {
+                        isRunning.decrementAndGet();
+                        this.cancel();
                     }
                 }
-            }.runTaskLater(Main.plugin, getTimer());
+            }.runTaskTimerAsynchronously(Main.plugin, 10, 10);
+        } else {
+            isRunning.decrementAndGet();
         }
-
-        isRunning = false;
     }
 
-    private int getTimer() {
+    private synchronized void captureProgress() {
         if (currentOwners == null) {
-            return capTimer;
+            currentOwners = getLargestTeam();
         }
 
-        int ownerCount = 0;
-        int attackerCount = 0;
+        Tuple<Integer, Integer> counts = getPlayerCounts();
 
-        HashMap<String, Integer> counts = getPlayerCounts();
-        for (String name : counts.keySet()) {
-            if (currentOwners.name.equals(name)) {
-                ownerCount = counts.get(name);
-            } else {
-                attackerCount += counts.get(name);
-            }
+        int amount = 69;
+        if (counts.getFirst() > counts.getSecond()) {
+            amount = (int) (progressAmount * Math.pow(capMultiplier, counts.getFirst() - counts.getSecond() - 1));
+            progress += Math.min(amount, 25);
+        } else if (counts.getSecond() > counts.getFirst()) {
+            amount = (int) (progressAmount * Math.pow(capMultiplier, counts.getSecond() - counts.getFirst() - 1));
+            progress -= Math.min(amount, 25);
         }
 
-        int timer = (int) (capTimer * Math.pow(capMultiplier, ownerCount - attackerCount));
-        if (timer < 0) {
-            timer = (int) (capTimer * Math.pow(capMultiplier, attackerCount - ownerCount));
+        if (progress < 0) {
+            progress = 0;
+        } else if (progress > maxCap * progressMultiplier) {
+            progress = maxCap * progressMultiplier;
         }
-
-        return Math.max(timer, 40);
     }
 
     public boolean underAttack() {
-        if (!isRunning) {
+        if (isRunning.intValue() <= 0) {
             return false;
         }
 
-        int ownerCount = 0;
-        int attackerCount = 0;
+        Tuple<Integer, Integer> counts = getPlayerCounts();
 
-        HashMap<String, Integer> counts = getPlayerCounts();
-        for (String name : counts.keySet()) {
-            if (currentOwners.name.equals(name)) {
-                ownerCount = counts.get(name);
-            } else {
-                attackerCount += counts.get(name);
-            }
-        }
-
-        return ownerCount > attackerCount;
+        return counts.getFirst() > counts.getSecond();
     }
 
-    private HashMap<String, Integer> getPlayerCounts() {
-        HashMap<String, Integer> counts = new HashMap<>();
+    private Tuple<Integer, Integer> getPlayerCounts() {
+        Tuple<Integer, Integer> counts = new Tuple<>(0, 0);
 
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
                 String team = MapController.getCurrentMap().getTeam(uuid).name;
-                if (counts.get(team) != null) {
-                    counts.put(team, 1);
+                if (currentOwners.equals(team)) {
+                    counts.setFirst(counts.getFirst() + 1);
                 } else {
-                    counts.put(team, counts.get(team) + 1);
+                    counts.setSecond(counts.getSecond() + 1);
                 }
             }
         }
 
         return counts;
+    }
+
+    private String getLargestTeam() {
+        HashMap<String, Integer> teamCounts = new HashMap<>();
+        String largestTeam = null;
+
+        for (UUID uuid : players) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) {
+                // Add the player to the team counts
+                String team = MapController.getCurrentMap().getTeam(uuid).name;
+                if (teamCounts.get(name) == null) {
+                    teamCounts.put(team, 1);
+                } else {
+                    teamCounts.put(name, teamCounts.get(name) + 1);
+                }
+
+                // Get the largest team
+                if (largestTeam == null || largestTeam.equals(team)) {
+                    largestTeam = team;
+                } else if (teamCounts.get(largestTeam) > teamCounts.get(team)) {
+                    largestTeam = team;
+                }
+            }
+        }
+
+        return largestTeam;
     }
 }

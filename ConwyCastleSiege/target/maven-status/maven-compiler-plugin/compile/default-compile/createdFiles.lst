@@ -81,7 +81,6 @@ me/huntifi/castlesiege/combat/CustomRegeneration.class
 me/huntifi/castlesiege/commands/staffCommands/FlyCommand.class
 me/huntifi/castlesiege/kits/Spearman/SpearmanAbility.class
 me/huntifi/castlesiege/kits/EnderchestRefill.class
-me/huntifi/castlesiege/Main$1.class
 me/huntifi/castlesiege/Helmsdeep/flags/animations/Horn_Urukhai.class
 me/huntifi/castlesiege/Helmsdeep/HelmsdeepLeave.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/ShiftedTowerFlag$4.class
