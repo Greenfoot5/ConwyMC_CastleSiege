@@ -8,6 +8,8 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.session.SessionManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
+import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
+import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import me.huntifi.castlesiege.Database.MySQL;
 import me.huntifi.castlesiege.Database.SQLGetter;
 import me.huntifi.castlesiege.Database.SQLstats;
@@ -71,6 +73,7 @@ import me.huntifi.castlesiege.kits.medic.MedicAbilities;
 import me.huntifi.castlesiege.kits.medic.MedicDeath;
 import me.huntifi.castlesiege.ladders.LadderEvent;
 import me.huntifi.castlesiege.maps.*;
+import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.security.*;
 import me.huntifi.castlesiege.stats.levels.RegisterLevel;
 import me.huntifi.castlesiege.tablist.Tablist;
@@ -79,18 +82,20 @@ import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.sql.SQLException;
-import java.util.Set;
+import java.util.*;
 
 
 public class Main extends JavaPlugin implements Listener {
@@ -373,7 +378,11 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable() {
-		SQL.disconnect();
+		try {
+			SQL.disconnect();
+		} catch (NullPointerException ex) {
+			getServer().getConsoleSender().sendRawMessage(ChatColor.DARK_RED + "SQL could not disconnect, it doesn't exist!");
+		}
 		getServer().getConsoleSender().sendMessage(ChatColor.DARK_RED + "[TheDarkAge] Plugin has been disabled!");
 	}
 
@@ -412,32 +421,63 @@ public class Main extends JavaPlugin implements Listener {
 
 	private void createConfigs() {
 
-//		// Setup the adapter for custom animation
-//		TypeAdapter<Frame> flagAdapter = new TypeAdapter<Frame>() {
-//
-//			@NotNull
-//			public java.util.Map<Object, Object> serialize(@NotNull Frame object) {
-//				java.util.Map<Object, Object> map = new HashMap<>();
-//				map.put("primary_blocks", object.primary_blocks);
-//				map.put("secondary_blocks", object.secondary_blocks);
-//				return map;
-//			}
-//
-//			@NotNull
-//			public Frame deserialize(@NotNull java.util.Map<Object, Object> map) {
-//				Frame frame = new Frame();
-//				frame.primary_blocks = (List<Vector>) map.get("primary_blocks");
-//				frame.secondary_blocks = (List<Vector>) map.get("secondary_blocks");
-//				return frame;
-//			}
-//		};
+		// Setup the vector adapter
+		TypeAdapter<Vector> vectorAdapter = new TypeAdapter<Vector>() {
+			@NotNull
+			@Override
+			public java.util.Map<Object, Object> serialize(@NotNull Vector vector) {
+				java.util.Map<Object, Object> map = new HashMap<>();
+				map.put("x", vector.getX());
+				map.put("y", vector.getY());
+				map.put("z", vector.getZ());
+				return map;
+			}
 
-		ConfigurationSerialization.registerClass(Frame.class);
+			@NotNull
+			@Override
+			public Vector deserialize(@NotNull java.util.Map<Object, Object> map) {
+				Vector vector = new Vector();
+				vector.setX((Integer) map.get("x"));
+				vector.setY((Integer) map.get("y"));
+				vector.setZ((Integer) map.get("z"));
+				return vector;
+			}
+
+			//public Vector deserialize(@NotNull ArrayList<>)
+		};
+		StandardSerializer.getDefault().register(Vector.class, vectorAdapter);
+
+		// Setup the frame adapter
+		TypeAdapter<Frame> frameAdapter = new TypeAdapter<Frame>() {
+
+			@NotNull
+			public java.util.Map<Object, Object> serialize(@NotNull Frame object) {
+				java.util.Map<Object, Object> map = new HashMap<>();
+				map.put("primary_blocks", object.primary_blocks);
+				map.put("secondary_blocks", object.secondary_blocks);
+				return map;
+			}
+
+			@NotNull
+			public Frame deserialize(@NotNull java.util.Map<Object, Object> map) {
+				Frame frame = new Frame();
+				for (Object v : (ArrayList) map.get("primary_blocks")) {
+					frame.primary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+				}
+				for (Object v : (ArrayList) map.get("secondary_blocks")) {
+					frame.secondary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+				}return frame;
+			}
+		};
+		StandardSerializer.getDefault().register(Frame.class, frameAdapter);
 
 		// Load flags.yml with BoostedYAML
 		try {
 			flagsConfig = YamlDocument.create(new File(getDataFolder(), "flags.yml"),
 					getClass().getResourceAsStream("flags.yml"));
+//			flagsConfig = YamlDocument.create(mapsFile, Objects.requireNonNull(getResource("flags.yml")),
+//					GeneralSettings.builder().setSerializer(SpigotSerializer.getInstance()).build(),
+//					LoaderSettings.DEFAULT, DumperSettings.DEFAULT, UpdaterSettings.DEFAULT);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -526,9 +566,19 @@ public class Main extends JavaPlugin implements Listener {
 				WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(map.worldName))).addRegion(region);
 			}
 
-			// TODO - Add primary/secondary wool animations
-			// TODO - Add air animations
-			//flag.animation = getFlagsConfig().
+			flag.animationAir = getFlagsConfig().getBoolean(flagRoute.add("animation_air"));
+			Route animationRoute = flagRoute.add("animation");
+			Set<String> animationSet = getFlagsConfig().getSection(animationRoute).getRoutesAsStrings(false);
+			String[] animationPaths = new String[animationSet.size()];
+			index = 0;
+			for (String str : animationSet)
+				animationPaths[index++] = str;
+
+			flag.animation = new Frame[animationPaths.length];
+			for (int j = 0; j < animationPaths.length; j++) {
+				Frame frame = getFlagsConfig().getAs(animationRoute.add(animationPaths[j]), Frame.class);
+				flag.animation[j] = frame;
+			}
 
 			map.flags[i] = flag;
 		}

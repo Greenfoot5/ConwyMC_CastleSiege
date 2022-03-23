@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.flags;
 
-import me.huntifi.castlesiege.Helmsdeep.flags.FlagName;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -8,20 +7,21 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Flag {
     public String name;
-    private String startingTeam;
+    private final String startingTeam;
 
     // Location Data
     public Location spawnPoint;
@@ -33,15 +33,14 @@ public class Flag {
     private final int progressAmount;
     private int progress;
     private final static int progressMultiplier = 100;
-    public final static double capMultiplier = 1.1;
+    public final static double capMultiplier = 1.5;
 
     // Capturing data
-    private AtomicInteger isRunning;
+    private final AtomicInteger isRunning;
     public int animationIndex;
 
     public Frame[] animation;
-
-    private Plugin plugin;
+    public boolean animationAir = false;
 
     public Flag(String name, String startingTeam, int maxCapValue, int progressAmount) {
         this.name = name;
@@ -53,7 +52,6 @@ public class Flag {
         this.players = new ArrayList<>();
         progress = progressMultiplier * maxCapValue;
         isRunning = new AtomicInteger(0);
-        plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
     }
 
     /**
@@ -78,9 +76,8 @@ public class Flag {
     private void captureFlag() {
         int capProgress = progress / progressMultiplier;
 
-        if (progress == 0) {
-            System.out.println("Neutral Flag");
-            // Flag became neutral
+        // Flags became neutral
+        if (progress < progressMultiplier && animationIndex != capProgress) {
             animationIndex = 0;
 
             // Notify current capping players
@@ -88,34 +85,95 @@ public class Flag {
 
             changeTeam(null);
 
-            // TODO - Animate
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    World world = spawnPoint.getWorld();
+                    assert world != null;
 
+                    // Set Air
+                    if (animationAir) {
+                        for (Vector vector : animation[1].secondary_blocks) {
+                            Location loc = vector.toLocation(world);
+                            Block block = loc.getBlock();
+                            block.setType(Material.AIR);
+                        }
+
+                        for (Vector vector : animation[1].primary_blocks) {
+                            Location loc = vector.toLocation(world);
+                            Block block = loc.getBlock();
+                            block.setType(Material.AIR);
+                        }
+                    }
+
+                    // Set new blocks
+                    for (Vector vector : animation[0].secondary_blocks) {
+                        Location loc = vector.toLocation(world);
+                        Block block = loc.getBlock();
+                        block.setType(Material.LIGHT_GRAY_WOOL);
+                    }
+
+                    for (Vector vector : animation[0].primary_blocks) {
+                        Location loc = vector.toLocation(world);
+                        Block block = loc.getBlock();
+                        block.setType(Material.GRAY_WOOL);
+                    }
+                }
+            }.runTask(Main.plugin);
+
+        // New Owners from neutral
         } else if (capProgress == 1 && animationIndex == 0) {
-            System.out.println("Captured Flag: " + currentOwners);
             changeTeam(currentOwners);
             animationIndex += 1;
 
             notifyPlayers(true);
 
-            // TODO - Animate
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    World world = spawnPoint.getWorld();
+                    assert world != null;
+                    Team team = MapController.getCurrentMap().getTeam(currentOwners);
+                    // Set Air
+                    if (animationAir) {
+                        for (Vector vector : animation[0].secondary_blocks) {
+                            Location loc = vector.toLocation(world);
+                            Block block = loc.getBlock();
+                            block.setType(Material.AIR);
+                        }
 
+                        for (Vector vector : animation[0].primary_blocks) {
+                            Location loc = vector.toLocation(world);
+                            Block block = loc.getBlock();
+                            block.setType(Material.AIR);
+                        }
+                    }
+
+                    // Set new blocks
+                    for (Vector vector : animation[1].secondary_blocks) {
+                        Location loc = vector.toLocation(world);
+                        Block block = loc.getBlock();
+                        block.setType(team.secondaryWool);
+                    }
+
+                    for (Vector vector : animation[1].primary_blocks) {
+                        Location loc = vector.toLocation(world);
+                        Block block = loc.getBlock();
+                        block.setType(team.primaryWool);
+                    }
+                }
+            }.runTask(Main.plugin);
+
+        // Cap Up
         } else if (capProgress > animationIndex) {
-            System.out.println("Cap Up");
-            // Cap Up
             if (animationIndex >= maxCap) {
                 return;
             }
 
             animationIndex += 1;
+            notifyPlayers(true);
 
-            // Notify current capping players
-            for (UUID uuid : players) {
-                Player player = Bukkit.getPlayer(uuid);
-                // Check they're a player
-                notifyPlayers(true);
-            }
-
-            // TODO - Increase the animation
+            animate(true);
 
             if (animationIndex == maxCap) {
                 for (UUID uuid : players) {
@@ -131,24 +189,16 @@ public class Flag {
                         playCapSound(player);
                     }
                 }
-                System.out.println("Max Cap");
             }
 
+        // Cap down
         } else if (capProgress < animationIndex) {
-            System.out.println("Cap Down!");
-            // Cap down
             animationIndex -= 1;
 
             // Notify current capping players
             notifyPlayers(false);
 
-            // TODO - Increase the animation
-            // TODO - Notify cappers
-
-        } else {
-            System.out.println("else");
-            // Equal, no capping done
-            // TODO - Notify cappers
+            animate(false);
         }
     }
 
@@ -158,8 +208,14 @@ public class Flag {
             // Check they're a player
             if (player != null) {
                 // Make sure they're on the capping team
+                int count;
+                if (areOwnersCapping) {
+                    count = getPlayerCounts().getFirst();
+                } else {
+                     count = getPlayerCounts().getSecond();
+                }
                 if (MapController.getCurrentMap().getTeam(uuid).name.equals(currentOwners) == areOwnersCapping) {
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+" + getPlayerCounts().getSecond() + " flag-capping point(s)" + ChatColor.AQUA + " Flag: " + name));
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+" + count + " flag-capping point(s)" + ChatColor.AQUA + " Flag: " + name));
                 } else {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies are capturing the flag!"));
                 }
@@ -209,7 +265,6 @@ public class Flag {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-
                     captureProgress();
 
                     if (progress / progressMultiplier != animationIndex || progress < progressMultiplier)
@@ -234,7 +289,7 @@ public class Flag {
 
         Tuple<Integer, Integer> counts = getPlayerCounts();
 
-        int amount = 69;
+        int amount;
         if (counts.getFirst() > counts.getSecond()) {
             amount = (int) (progressAmount * Math.pow(capMultiplier, counts.getFirst() - counts.getSecond() - 1));
             progress += Math.min(amount, 25);
@@ -314,5 +369,53 @@ public class Flag {
         float pitch = 0.5f; //Float between 0.5 and 2.0
 
         player.playSound(location, effect, volume, pitch);
+    }
+
+    private synchronized void animate(boolean isCapUp) {
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Frame nextFrame = animation[animationIndex];
+                Frame previousFrame;
+                if (isCapUp) {
+                    previousFrame = animation[animationIndex - 1];
+                } else {
+                    previousFrame = animation[animationIndex + 1];
+                }
+
+                Team team = MapController.getCurrentMap().getTeam(currentOwners);
+                World world = spawnPoint.getWorld();
+                assert world != null;
+
+                // Set Air
+                if (animationAir) {
+                    for (Vector vector : previousFrame.secondary_blocks) {
+                        Location loc = vector.toLocation(world);
+                        Block block = loc.getBlock();
+                        block.setType(Material.AIR);
+                    }
+
+                    for (Vector vector : previousFrame.primary_blocks) {
+                        Location loc = vector.toLocation(world);
+                        Block block = loc.getBlock();
+                        block.setType(Material.AIR);
+                    }
+                }
+
+                // Set new blocks
+                for (Vector vector:nextFrame.secondary_blocks) {
+                    Location loc = vector.toLocation(world);
+                    Block block = loc.getBlock();
+                    block.setType(team.secondaryWool);
+                }
+
+                for (Vector vector:nextFrame.primary_blocks) {
+                    Location loc = vector.toLocation(world);
+                    Block block = loc.getBlock();
+                    block.setType(team.primaryWool);
+                }
+            }
+        }.runTask(Main.plugin);
     }
 }
