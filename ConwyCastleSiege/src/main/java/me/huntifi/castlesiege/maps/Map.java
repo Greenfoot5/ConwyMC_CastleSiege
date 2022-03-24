@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.flags.Flag;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Map {
@@ -24,6 +25,11 @@ public class Map {
         return null;
     }
 
+    /**
+     * Get the team from a team name
+     * @param teamName The string name of the team
+     * @return The team, or null if none is found
+     */
     public Team getTeam(String teamName) {
         for (Team team : teams) {
             if (team.name.equals(teamName)) {
@@ -33,6 +39,10 @@ public class Map {
         return null;
     }
 
+    /**
+     * Gets the team with the smallest player count
+     * @return the smallest team
+     */
     public Team smallestTeam()
     {
         Team smallest = teams[0];
@@ -47,6 +57,11 @@ public class Map {
         return smallest;
     }
 
+    /**
+     * Gets a flag based on a name
+     * @param name the name of the flag
+     * @return the flag, null if none was found
+     */
     public Flag getFlag(String name)
     {
         for (Flag flag : flags)
@@ -57,5 +72,19 @@ public class Map {
             }
         }
         return null;
+    }
+
+    /**
+     * Updates all WoolMaps of a flag to the correct wool
+     * @param flagName The flag to update
+     */
+    public void UpdateWoolMaps(String flagName) {
+        for (Team team : teams) {
+            for (WoolMapBlock block : team.lobby.woolmap.woolMapBlocks) {
+                if (Objects.equals(block.flagName, flagName)) {
+                    block.blockLocation.getBlock().setType(getFlag(flagName).GetWoolMapBlock());
+                }
+            }
+        }
     }
 }

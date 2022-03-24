@@ -229,7 +229,7 @@ public class Main extends JavaPlugin implements Listener {
 		//getServer().getPluginManager().registerEvents(new CourtyardFlag(), this);
 		//getServer().getPluginManager().registerEvents(new GreatHallsFlag(), this);
 		//getServer().getPluginManager().registerEvents(new HornFlag(), this);
-		//getServer().getPluginManager().registerEvents(new WoolMap(), this);
+//		getServer().getPluginManager().registerEvents(new WoolMap(), this);
 
 		//getServer().getPluginManager().registerEvents(new HelmsdeepCavesDoor(), this);
 		//getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallLeftDoor(), this);
@@ -617,24 +617,28 @@ public class Main extends JavaPlugin implements Listener {
 		// Loop through all the wool blocks
 		for (int i = 0; i < mapFlags.length; i++) {
 			WoolMapBlock block = new WoolMapBlock();
-			// Add flag and location data
-			// TODO - Implement Flags
-			//block.flag = map.getFlag(mapFlags[i]);
-			block.blockLocation = getLocation(woolMapPath + "." + mapFlags[i] + "." + "wool_position", map.worldName);
+
+			block.flagName = this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".flag_name");
+			block.blockLocation = getLocation(woolMapPath + "." + mapFlags[i] + ".wool_position", map.worldName);
+			block.signLocation = block.blockLocation;
 
 			// Get the wall sign's direction
 			switch(this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".sign_direction").toLowerCase()) {
 				case "east":
 					block.signDirection = BlockFace.EAST;
+					block.signLocation.add(1, 0, 0);
 					break;
 				case "south":
 					block.signDirection = BlockFace.SOUTH;
+					block.signLocation.add(0, 0, 1);
 					break;
 				case "west":
 					block.signDirection = BlockFace.WEST;
+					block.signLocation.add(-1, 0, 0);
 					break;
 				default:
 					block.signDirection = BlockFace.NORTH;
+					block.signLocation.add(0, 0, -1);
 			}
 			woolMap.woolMapBlocks[i] = block;
 		}

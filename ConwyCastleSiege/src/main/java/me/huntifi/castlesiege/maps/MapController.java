@@ -1,10 +1,7 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagTeam;
-import me.huntifi.castlesiege.Helmsdeep.flags.HelmsdeepReset;
-import me.huntifi.castlesiege.Thunderstone.Flags.ThunderstoneReset;
-import me.huntifi.castlesiege.Thunderstone.ThunderstoneEndMap;
-import me.huntifi.castlesiege.Thunderstone.ThunderstoneTimer;
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.joinevents.stats.MainStats;
 import me.huntifi.castlesiege.stats.levels.LevelingEvent;
 import me.huntifi.castlesiege.tags.NametagsEvent;
@@ -15,6 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.UUID;
+
+import static org.bukkit.Bukkit.getServer;
 
 /**
  * Manages what map the game is currently on
@@ -30,7 +29,7 @@ public class MapController {
 	 * @param mapName the name of the map to set the current map to
 	 */
 	public static void setMap(String mapName) {
-
+		unloadMap();
 		switch (mapName.toLowerCase()) {
 			case "helmsdeep":
 				currentMap = MapsList.HelmsDeep;
@@ -39,15 +38,16 @@ public class MapController {
 				currentMap = MapsList.Thunderstone;
 				break;
 		}
+		loadMap();
 	}
 
 	/**
 	 * Increments the map by one
 	 */
 	public static void nextMap() {
+		unloadMap();
 		if (finalMap()) {
-			ThunderstoneReset.onReset();
-			Bukkit.getServer().spigot().restart();
+			getServer().spigot().restart();
 		}
 		else {
 			currentMap = MapsList.values()[currentMap.ordinal() + 1];
@@ -60,16 +60,23 @@ public class MapController {
 
 				}
 			}
-
-			HelmsdeepReset.onReset(); //reset the map
-
-			ThunderstoneTimer.Minutes = 30;
-			ThunderstoneTimer.Seconds = 3;
-			ThunderstoneTimer.ThunderstoneTimerEvent();
-
-			ThunderstoneEndMap.TS_hasEnded = false;
+			loadMap();
 		}
 	}
+
+	/**
+	 * Loads the current map
+	 */
+	public static void loadMap() {
+		for (Team team:maps[mapIndex].teams) {
+			getServer().getPluginManager().registerEvents(team.lobby.woolmap, Main.plugin);
+		}
+	}
+
+	/**
+	 * Does any unloading needed for the current map
+	 */
+	public static void unloadMap() { }
 
 	/**
 	 * Checks if the current map is the one specified

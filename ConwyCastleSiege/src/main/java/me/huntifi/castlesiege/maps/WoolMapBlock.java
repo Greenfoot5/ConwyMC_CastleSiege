@@ -15,10 +15,15 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class WoolMapBlock {
-    public Flag flag;
+    public String flagName;
     public Location blockLocation;
+    public Location signLocation;
     public BlockFace signDirection;
 
+    /**
+     * Attempts to spawn a player at a flag
+     * @param uuid The uuid of the player
+     */
     public void SpawnPlayer(UUID uuid)
     {
         Player player = Bukkit.getPlayer(uuid);
@@ -27,13 +32,10 @@ public class WoolMapBlock {
             return;
         }
         Team team = MapController.getCurrentMap().getTeam(uuid);
+        Flag flag = MapController.getCurrentMap().getFlag(flagName);
 
         if (team != null && team.hasPlayer(uuid))
         {
-            player.teleport(flag.spawnPoint);
-            EnderchestRefill.refill(player);
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                    TextComponent.fromLegacyText(flag.getSpawnMessage()));
             if (!Objects.equals(flag.currentOwners, team.name))
             {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
@@ -48,7 +50,11 @@ public class WoolMapBlock {
             {
                 player.sendMessage(ChatColor.DARK_RED + "You can't join the battlefield without a kit/class!");
                 player.sendMessage(ChatColor.DARK_RED + "Choose a kit/class with the command " + ChatColor.RED + "/class <Classname>" + ChatColor.DARK_RED + "!");
-
+            } else {
+                player.teleport(flag.spawnPoint);
+                EnderchestRefill.refill(player);
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                        TextComponent.fromLegacyText(flag.getSpawnMessage()));
             }
         }
     }

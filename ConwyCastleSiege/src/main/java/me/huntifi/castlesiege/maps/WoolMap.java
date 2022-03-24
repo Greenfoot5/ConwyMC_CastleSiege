@@ -7,11 +7,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-
 public class WoolMap implements Listener {
 
 	public WoolMapBlock[] woolMapBlocks;
 
+	/**
+	 * Used to measure when a player clicks on a WoolMap sign
+	 * @param e The click
+	 */
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 
@@ -19,11 +22,10 @@ public class WoolMap implements Listener {
 
 		Block target = player.getTargetBlockExact(50);
 
-		if (target.getState() instanceof Sign) {
-
-			Sign s = (Sign) e.getClickedBlock().getState();
+		if (target != null && target.getState() instanceof Sign) {
+			Sign s = (Sign) target.getState();
 			for (WoolMapBlock block : woolMapBlocks) {
-				if (s.getLine(1).equalsIgnoreCase(block.flag.name)) {
+				if (s.getLine(1).equalsIgnoreCase(block.flagName)) {
 					block.SpawnPlayer(player.getUniqueId());
 				}
 			}

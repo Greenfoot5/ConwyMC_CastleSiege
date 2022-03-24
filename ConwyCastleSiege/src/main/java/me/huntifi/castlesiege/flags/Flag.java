@@ -353,6 +353,8 @@ public class Flag {
      */
     private synchronized void animate(boolean isCapUp, String teamName) {
 
+        MapController.getCurrentMap().UpdateWoolMaps(name);
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -405,5 +407,25 @@ public class Flag {
                 }
             }
         }.runTask(Main.plugin);
+    }
+
+    /**
+     * Get the wool block to display behind the sign on the WoolMap
+     * @return The Material to set
+     */
+    public Material GetWoolMapBlock() {
+        Team team = MapController.getCurrentMap().getTeam(currentOwners);
+        // Flag is neutral
+        if (team == null) {
+            return Material.GRAY_WOOL;
+        }
+
+        // Flag is fully captured
+        if (progress / progressMultiplier == maxCap) {
+            return team.primaryWool;
+        }
+
+        // Flag is not fully captured
+        return team.secondaryWool;
     }
 }
