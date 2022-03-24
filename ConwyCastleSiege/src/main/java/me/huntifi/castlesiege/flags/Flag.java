@@ -35,16 +35,26 @@ public class Flag {
     private final int maxCap;
     private final int progressAmount;
     private int progress;
+    // Progresses needed per animationIndex
     private final static int progressMultiplier = 100;
+    // Multiplier for multiple people
     public final static double capMultiplier = 1.5;
 
     // Capturing data
     private final AtomicInteger isRunning;
     public int animationIndex;
 
+    // Animation
     public Frame[] animation;
     public boolean animationAir = false;
 
+    /**
+     * Creates a new flag
+     * @param name the name of the flag
+     * @param startingTeam the team that controls the flag at the beginning of the game
+     * @param maxCapValue the maximum animation amount
+     * @param progressAmount How much progress is made by a single person
+     */
     public Flag(String name, String startingTeam, int maxCapValue, int progressAmount) {
         this.name = name;
         this.startingTeam = startingTeam;
@@ -112,8 +122,10 @@ public class Flag {
             new BukkitRunnable() {
                 @Override
                 public void run() {
+                    // Calculate capture progress made on the flag
                     captureProgress();
 
+                    // If we need to move to a different frame
                     if (progress / progressMultiplier != animationIndex || progress < progressMultiplier)
                         captureFlag();
 
@@ -123,6 +135,7 @@ public class Flag {
                         this.cancel();
                     }
                 }
+            // Run every 0.5s
             }.runTaskTimerAsynchronously(Main.plugin, 10, 10);
         } else {
             isRunning.decrementAndGet();
@@ -133,7 +146,7 @@ public class Flag {
      * Called when a player makes progress capturing a flag
      */
     private synchronized void captureProgress() {
-        if (currentOwners == null) {
+        if (progress == 0) {
             currentOwners = getLargestTeam();
         }
 
@@ -161,8 +174,9 @@ public class Flag {
     private void captureFlag() {
         int capProgress = progress / progressMultiplier;
 
-        // Flags became neutral
-        if (progress < progressMultiplier && animationIndex != capProgress) {
+        // Flag has gone low enough to announce neutral, and animate neutral
+        // However, the current owners still have partial ownership
+        if (capProgress == 0 && animationIndex != capProgress) {
             animationIndex = 0;
 
             // Notify current capping players
@@ -170,86 +184,18 @@ public class Flag {
 
             broadcastTeam(null);
 
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    World world = spawnPoint.getWorld();
-                    assert world != null;
+            animate(false, null);
 
-                    // Set Air
-                    if (animationAir) {
-                        for (Vector vector : animation[1].secondary_blocks) {
-                            Location loc = vector.toLocation(world);
-                            Block block = loc.getBlock();
-                            block.setType(Material.AIR);
-                        }
-
-                        for (Vector vector : animation[1].primary_blocks) {
-                            Location loc = vector.toLocation(world);
-                            Block block = loc.getBlock();
-                            block.setType(Material.AIR);
-                        }
-                    }
-
-                    // Set new blocks
-                    for (Vector vector : animation[0].secondary_blocks) {
-                        Location loc = vector.toLocation(world);
-                        Block block = loc.getBlock();
-                        block.setType(Material.LIGHT_GRAY_WOOL);
-                    }
-
-                    for (Vector vector : animation[0].primary_blocks) {
-                        Location loc = vector.toLocation(world);
-                        Block block = loc.getBlock();
-                        block.setType(Material.GRAY_WOOL);
-                    }
-                }
-            }.runTask(Main.plugin);
-
-            // New Owners from neutral
+        // Owners have capped enough to publicly take control
         } else if (capProgress == 1 && animationIndex == 0) {
             broadcastTeam(currentOwners);
             animationIndex += 1;
 
             notifyPlayers(true);
 
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    World world = spawnPoint.getWorld();
-                    assert world != null;
-                    Team team = MapController.getCurrentMap().getTeam(currentOwners);
-                    // Set Air
-                    if (animationAir) {
-                        for (Vector vector : animation[0].secondary_blocks) {
-                            Location loc = vector.toLocation(world);
-                            Block block = loc.getBlock();
-                            block.setType(Material.AIR);
-                        }
+            animate(true, currentOwners);
 
-                        for (Vector vector : animation[0].primary_blocks) {
-                            Location loc = vector.toLocation(world);
-                            Block block = loc.getBlock();
-                            block.setType(Material.AIR);
-                        }
-                    }
-
-                    // Set new blocks
-                    for (Vector vector : animation[1].secondary_blocks) {
-                        Location loc = vector.toLocation(world);
-                        Block block = loc.getBlock();
-                        block.setType(team.secondaryWool);
-                    }
-
-                    for (Vector vector : animation[1].primary_blocks) {
-                        Location loc = vector.toLocation(world);
-                        Block block = loc.getBlock();
-                        block.setType(team.primaryWool);
-                    }
-                }
-            }.runTask(Main.plugin);
-
-            // Cap Up
+        // Players have increased the capture
         } else if (capProgress > animationIndex) {
             if (animationIndex >= maxCap) {
                 return;
@@ -260,6 +206,7 @@ public class Flag {
 
             animate(true, currentOwners);
 
+            // Players have fully captured the flag, and we should let them know
             if (animationIndex == maxCap) {
                 for (UUID uuid : players) {
                     Player player = Bukkit.getPlayer(uuid);
@@ -276,7 +223,7 @@ public class Flag {
                 }
             }
 
-            // Cap down
+        // Players have decreased the capture
         } else if (capProgress < animationIndex) {
             animationIndex -= 1;
 
@@ -409,6 +356,8 @@ public class Flag {
         new BukkitRunnable() {
             @Override
             public void run() {
+                // Gets the next frame and previous
+                // to overwrite previous animation and set new one
                 Frame nextFrame = animation[animationIndex];
                 Frame previousFrame;
                 if (isCapUp) {
@@ -417,7 +366,13 @@ public class Flag {
                     previousFrame = animation[animationIndex + 1];
                 }
 
+                // Get the team, or sets the neutralized materials
                 Team team = MapController.getCurrentMap().getTeam(teamName);
+                if (team == null) {
+                    team = new Team("null");
+                    team.primaryWool = Material.GRAY_WOOL;
+                    team.secondaryWool = Material.LIGHT_GRAY_WOOL;
+                }
                 World world = spawnPoint.getWorld();
                 assert world != null;
 

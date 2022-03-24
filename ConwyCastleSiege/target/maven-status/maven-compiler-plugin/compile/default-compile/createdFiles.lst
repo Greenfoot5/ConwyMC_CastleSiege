@@ -342,7 +342,6 @@ me/huntifi/castlesiege/Main$2.class
 me/huntifi/castlesiege/kits/Warhound/Warhound$1.class
 me/huntifi/castlesiege/maps/EndMapAction.class
 me/huntifi/castlesiege/Helmsdeep/flags/animations/GreatHalls_Urukhai.class
-me/huntifi/castlesiege/flags/Flag$3.class
 me/huntifi/castlesiege/kits/Viking/VikingAbility.class
 me/huntifi/castlesiege/combat/EatCake$1.class
 me/huntifi/castlesiege/Helmsdeep/Kits/GUI/KitGui_Rohan.class
@@ -435,7 +434,6 @@ me/huntifi/castlesiege/kits/Executioner/ExecutionerDeath.class
 me/huntifi/castlesiege/Helmsdeep/HelmsdeepMVPupdater.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/StairhallFlag.class
 me/huntifi/castlesiege/commands/message/ReplyCommand.class
-me/huntifi/castlesiege/flags/Flag$4.class
 me/huntifi/castlesiege/kits/Swordsman/Swordsman.class
 me/huntifi/castlesiege/Helmsdeep/Ballistae/Ballista1Cooldown$1.class
 me/huntifi/castlesiege/Database/MySQL.class
