@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Stores all details and handles all flag actions.
+ */
 public class Flag {
     public String name;
     private final String startingTeam;
@@ -55,24 +58,106 @@ public class Flag {
     }
 
     /**
-     * Attempts to change the team holding the flag.
-     * @param newTeam The new flag owners
+     * Gets the message to send to the user when they spawn in
+     * @return the message to send
      */
-    private void changeTeam(String newTeam) {
-        // TODO - Notify all players of the change
-        if (newTeam != null)
-        {
-            currentOwners = newTeam;
-            Team team = MapController.getCurrentMap().getTeam(newTeam);
-            Bukkit.broadcastMessage(team.primaryChatColor + "~~~ " + newTeam + " has captured " + name + "! ~~~");
+    public String getSpawnMessage() {
+        Team team = MapController.getCurrentMap().getTeam(currentOwners);
+        return team.secondaryChatColor + "Spawning at:" + team.primaryChatColor + " " + name;
+    }
+
+    /**
+     * Called when a player enters the capture zone
+     * @param player the player that entered
+     */
+    public void playerEnter(Player player) {
+        players.add(player.getUniqueId());
+        capturing();
+    }
+
+    /**
+     * Called when a player leaves the capture zone
+     * @param player the player that exited
+     */
+    public void playerExit(Player player) {
+        players.remove(player.getUniqueId());
+    }
+
+    /**
+     * Find out if the flag is under attack
+     * @return if the flag is under attack
+     */
+    public boolean underAttack() {
+        if (isRunning.intValue() <= 0) {
+            return false;
         }
-        else if (currentOwners != null)
-        {
-            currentOwners = null;
-            Bukkit.broadcastMessage(ChatColor.GRAY + "~~~ " + name + " has been neutralised! ~~~");
+
+        Tuple<Integer, Integer> counts = getPlayerCounts();
+
+        return counts.getFirst() > counts.getSecond();
+    }
+
+    /**
+     * The capturing loop that runs when there's 1+ players inside the capture zone
+     */
+    private synchronized void capturing() {
+        // Only one loop can run at a time
+        if (isRunning.get() > 0) {
+            return;
+        }
+        isRunning.incrementAndGet();
+
+        // Keep running as long as there are players in the area
+        if (players.size() > 0) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    captureProgress();
+
+                    if (progress / progressMultiplier != animationIndex || progress < progressMultiplier)
+                        captureFlag();
+
+                    // No more players in the zone
+                    if (players.size() <= 0 || isRunning.get() > 1) {
+                        isRunning.decrementAndGet();
+                        this.cancel();
+                    }
+                }
+            }.runTaskTimerAsynchronously(Main.plugin, 10, 10);
+        } else {
+            isRunning.decrementAndGet();
         }
     }
 
+    /**
+     * Called when a player makes progress capturing a flag
+     */
+    private synchronized void captureProgress() {
+        if (currentOwners == null) {
+            currentOwners = getLargestTeam();
+        }
+
+        Tuple<Integer, Integer> counts = getPlayerCounts();
+
+        int amount;
+        if (counts.getFirst() > counts.getSecond()) {
+            amount = (int) (progressAmount * Math.pow(capMultiplier, counts.getFirst() - counts.getSecond() - 1));
+            progress += Math.min(amount, 25);
+        } else if (counts.getSecond() > counts.getFirst()) {
+            amount = (int) (progressAmount * Math.pow(capMultiplier, counts.getSecond() - counts.getFirst() - 1));
+            progress -= Math.min(amount, 25);
+        }
+
+        if (progress < 0) {
+            progress = 0;
+        } else if (progress > maxCap * progressMultiplier) {
+            progress = maxCap * progressMultiplier;
+        }
+    }
+
+    /**
+     * Called when players make enough capture progress to trigger an animation change
+     */
     private void captureFlag() {
         int capProgress = progress / progressMultiplier;
 
@@ -83,7 +168,7 @@ public class Flag {
             // Notify current capping players
             notifyPlayers(false);
 
-            changeTeam(null);
+            broadcastTeam(null);
 
             new BukkitRunnable() {
                 @Override
@@ -121,9 +206,9 @@ public class Flag {
                 }
             }.runTask(Main.plugin);
 
-        // New Owners from neutral
+            // New Owners from neutral
         } else if (capProgress == 1 && animationIndex == 0) {
-            changeTeam(currentOwners);
+            broadcastTeam(currentOwners);
             animationIndex += 1;
 
             notifyPlayers(true);
@@ -164,7 +249,7 @@ public class Flag {
                 }
             }.runTask(Main.plugin);
 
-        // Cap Up
+            // Cap Up
         } else if (capProgress > animationIndex) {
             if (animationIndex >= maxCap) {
                 return;
@@ -173,7 +258,7 @@ public class Flag {
             animationIndex += 1;
             notifyPlayers(true);
 
-            animate(true);
+            animate(true, currentOwners);
 
             if (animationIndex == maxCap) {
                 for (UUID uuid : players) {
@@ -191,29 +276,35 @@ public class Flag {
                 }
             }
 
-        // Cap down
+            // Cap down
         } else if (capProgress < animationIndex) {
             animationIndex -= 1;
 
             // Notify current capping players
             notifyPlayers(false);
 
-            animate(false);
+            animate(false, currentOwners);
         }
     }
 
+    /**
+     * Notifies all players that there has been an animation change
+     * @param areOwnersCapping If the current flag owners are capturing
+     */
     private void notifyPlayers(boolean areOwnersCapping) {
+        // Get how many players are in the capture zone
+        int count;
+        if (areOwnersCapping) {
+            count = getPlayerCounts().getFirst();
+        } else {
+            count = getPlayerCounts().getSecond();
+        }
+
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
             // Check they're a player
             if (player != null) {
                 // Make sure they're on the capping team
-                int count;
-                if (areOwnersCapping) {
-                    count = getPlayerCounts().getFirst();
-                } else {
-                     count = getPlayerCounts().getSecond();
-                }
                 if (MapController.getCurrentMap().getTeam(uuid).name.equals(currentOwners) == areOwnersCapping) {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+" + count + " flag-capping point(s)" + ChatColor.AQUA + " Flag: " + name));
                 } else {
@@ -225,96 +316,25 @@ public class Flag {
     }
 
     /**
-     * Gets the message to send to the user when they spawn in
-     * @return the message to send
+     * Attempts to change the team holding the flag.
+     * @param newTeam The new flag owners
      */
-    public String getSpawnMessage() {
-        Team team = MapController.getCurrentMap().getTeam(currentOwners);
-        return team.secondaryChatColor + "Spawning at:" + team.primaryChatColor + " " + name;
+    private void broadcastTeam(String newTeam) {
+        if (newTeam != null)
+        {
+            Team team = MapController.getCurrentMap().getTeam(newTeam);
+            Bukkit.broadcastMessage(team.primaryChatColor + "~~~ " + newTeam + " has captured " + name + "! ~~~");
+        }
+        else if (currentOwners != null)
+        {
+            Bukkit.broadcastMessage(ChatColor.GRAY + "~~~ " + name + " has been neutralised! ~~~");
+        }
     }
 
     /**
-     * Called when a player enters the capture zone
-     * @param player the player that entered
+     * Gets the counts of the players on the owners team, and opponents in the zone
+     * @return A tuple of OwnerCount and OpponentCount
      */
-    public void playerEnter(Player player) {
-        players.add(player.getUniqueId());
-        capturing();
-    }
-
-    /**
-     * Called when a player leaves the capture zone
-     * @param player the player that exited
-     */
-    public void playerExit(Player player) {
-        players.remove(player.getUniqueId());
-    }
-
-    /**
-     * Handles the capturing of a flag
-     */
-    private synchronized void capturing() {
-        // Only one loop can run at a time
-        if (isRunning.get() > 0) {
-            return;
-        }
-        isRunning.incrementAndGet();
-
-        // Keep running as long as there are players in the area
-        if (players.size() > 0) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    captureProgress();
-
-                    if (progress / progressMultiplier != animationIndex || progress < progressMultiplier)
-                        captureFlag();
-
-                    // No more players in the zone
-                    if (players.size() <= 0 || isRunning.get() > 1) {
-                        isRunning.decrementAndGet();
-                        this.cancel();
-                    }
-                }
-            }.runTaskTimerAsynchronously(Main.plugin, 10, 10);
-        } else {
-            isRunning.decrementAndGet();
-        }
-    }
-
-    private synchronized void captureProgress() {
-        if (currentOwners == null) {
-            currentOwners = getLargestTeam();
-        }
-
-        Tuple<Integer, Integer> counts = getPlayerCounts();
-
-        int amount;
-        if (counts.getFirst() > counts.getSecond()) {
-            amount = (int) (progressAmount * Math.pow(capMultiplier, counts.getFirst() - counts.getSecond() - 1));
-            progress += Math.min(amount, 25);
-        } else if (counts.getSecond() > counts.getFirst()) {
-            amount = (int) (progressAmount * Math.pow(capMultiplier, counts.getSecond() - counts.getFirst() - 1));
-            progress -= Math.min(amount, 25);
-        }
-
-        if (progress < 0) {
-            progress = 0;
-        } else if (progress > maxCap * progressMultiplier) {
-            progress = maxCap * progressMultiplier;
-        }
-    }
-
-    public boolean underAttack() {
-        if (isRunning.intValue() <= 0) {
-            return false;
-        }
-
-        Tuple<Integer, Integer> counts = getPlayerCounts();
-
-        return counts.getFirst() > counts.getSecond();
-    }
-
     private Tuple<Integer, Integer> getPlayerCounts() {
         Tuple<Integer, Integer> counts = new Tuple<>(0, 0);
 
@@ -333,6 +353,10 @@ public class Flag {
         return counts;
     }
 
+    /**
+     * Gets the name of the team with the most players in the capture zone
+     * @return A string of the largest team in the capture zone
+     */
     private String getLargestTeam() {
         HashMap<String, Integer> teamCounts = new HashMap<>();
         String largestTeam = null;
@@ -360,6 +384,10 @@ public class Flag {
         return largestTeam;
     }
 
+    /**
+     * Plays the capturing ping sound to a player
+     * @param player The player to play the sound to
+     */
     private void playCapSound(Player player) {
         Location location = player.getLocation();
 
@@ -371,7 +399,12 @@ public class Flag {
         player.playSound(location, effect, volume, pitch);
     }
 
-    private synchronized void animate(boolean isCapUp) {
+    /**
+     * Moves the flag onto the next animation frame
+     * @param isCapUp If the animation index has increased
+     * @param teamName The name of the team that owns the flag
+     */
+    private synchronized void animate(boolean isCapUp, String teamName) {
 
         new BukkitRunnable() {
             @Override
@@ -384,7 +417,7 @@ public class Flag {
                     previousFrame = animation[animationIndex + 1];
                 }
 
-                Team team = MapController.getCurrentMap().getTeam(currentOwners);
+                Team team = MapController.getCurrentMap().getTeam(teamName);
                 World world = spawnPoint.getWorld();
                 assert world != null;
 
