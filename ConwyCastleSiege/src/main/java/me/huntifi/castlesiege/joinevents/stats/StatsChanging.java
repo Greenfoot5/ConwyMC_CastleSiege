@@ -10,11 +10,7 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerScore.get(uuid);
 
-		if (StatsLoading.PlayerScore.containsKey(uuid)) {
-
-			StatsLoading.PlayerScore.remove(uuid);
-
-		}
+		StatsLoading.PlayerScore.remove(uuid);
 
 		StatsLoading.PlayerScore.put(uuid, save + value);
 
@@ -24,11 +20,7 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerScore.get(uuid);
 
-		if (StatsLoading.PlayerScore.containsKey(uuid)) {
-
-			StatsLoading.PlayerScore.remove(uuid);
-
-		}
+		StatsLoading.PlayerScore.remove(uuid);
 
 		StatsLoading.PlayerScore.put(uuid, save - value);
 
@@ -36,11 +28,7 @@ public class StatsChanging {
 
 	public static void setScore(UUID uuid, double value) {
 
-		if (StatsLoading.PlayerScore.containsKey(uuid)) {
-
-			StatsLoading.PlayerScore.remove(uuid);
-
-		}
+		StatsLoading.PlayerScore.remove(uuid);
 
 		StatsLoading.PlayerScore.put(uuid, value);
 
@@ -65,11 +53,7 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerKills.get(uuid);
 
-		if (StatsLoading.PlayerKills.containsKey(uuid)) {
-
-			StatsLoading.PlayerKills.remove(uuid);
-
-		}
+		StatsLoading.PlayerKills.remove(uuid);
 
 		StatsLoading.PlayerKills.put(uuid, save + value);
 	}
@@ -78,22 +62,14 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerKills.get(uuid);
 
-		if (StatsLoading.PlayerKills.containsKey(uuid)) {
-
-			StatsLoading.PlayerKills.remove(uuid);
-
-		}
+		StatsLoading.PlayerKills.remove(uuid);
 
 		StatsLoading.PlayerKills.put(uuid, save - value);
 	}
 
 	public static void setKills(final UUID uuid, final double value) {
 
-		if (StatsLoading.PlayerKills.containsKey(uuid)) {
-
-			StatsLoading.PlayerKills.remove(uuid);
-
-		}
+		StatsLoading.PlayerKills.remove(uuid);
 
 		StatsLoading.PlayerKills.put(uuid, value);
 
@@ -117,11 +93,7 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerDeaths.get(uuid);
 
-		if (StatsLoading.PlayerDeaths.containsKey(uuid)) {
-
-			StatsLoading.PlayerDeaths.remove(uuid);
-
-		}
+		StatsLoading.PlayerDeaths.remove(uuid);
 
 		StatsLoading.PlayerDeaths.put(uuid, save + value);
 	}
@@ -130,11 +102,7 @@ public class StatsChanging {
 
 		final double save = StatsLoading.PlayerDeaths.get(uuid);
 
-		if (StatsLoading.PlayerDeaths.containsKey(uuid)) {
-
-			StatsLoading.PlayerDeaths.remove(uuid);
-
-		}
+		StatsLoading.PlayerDeaths.remove(uuid);
 
 		StatsLoading.PlayerDeaths.put(uuid, save - value);
 
@@ -142,11 +110,7 @@ public class StatsChanging {
 
 	public static void setDeaths(UUID uuid, double value) {
 
-		if (StatsLoading.PlayerDeaths.containsKey(uuid)) {
-
-			StatsLoading.PlayerDeaths.remove(uuid);
-
-		}
+		StatsLoading.PlayerDeaths.remove(uuid);
 
 		StatsLoading.PlayerDeaths.put(uuid, value);
 
@@ -171,11 +135,7 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerCaptures.get(uuid);
 
-		if (StatsLoading.PlayerCaptures.containsKey(uuid)) {
-
-			StatsLoading.PlayerCaptures.remove(uuid);
-
-		}
+		StatsLoading.PlayerCaptures.remove(uuid);
 
 		StatsLoading.PlayerCaptures.put(uuid, save + value);
 	}
@@ -184,11 +144,7 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerCaptures.get(uuid);
 
-		if (StatsLoading.PlayerCaptures.containsKey(uuid)) {
-
-			StatsLoading.PlayerCaptures.remove(uuid);
-
-		}
+		StatsLoading.PlayerCaptures.remove(uuid);
 
 		StatsLoading.PlayerCaptures.put(uuid, save - value);
 
@@ -196,11 +152,7 @@ public class StatsChanging {
 
 	public static void setCaptures(UUID uuid, double value) {
 
-		if (StatsLoading.PlayerCaptures.containsKey(uuid)) {
-
-			StatsLoading.PlayerCaptures.remove(uuid);
-
-		}
+		StatsLoading.PlayerCaptures.remove(uuid);
 
 		StatsLoading.PlayerCaptures.put(uuid, value);
 
@@ -226,11 +178,7 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerAssists.get(uuid);
 
-		if (StatsLoading.PlayerAssists.containsKey(uuid)) {
-
-			StatsLoading.PlayerAssists.remove(uuid);
-
-		}
+		StatsLoading.PlayerAssists.remove(uuid);
 
 		StatsLoading.PlayerAssists.put(uuid, save + value);
 	}
@@ -239,11 +187,7 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerAssists.get(uuid);
 
-		if (StatsLoading.PlayerAssists.containsKey(uuid)) {
-
-			StatsLoading.PlayerAssists.remove(uuid);
-
-		}
+		StatsLoading.PlayerAssists.remove(uuid);
 
 		StatsLoading.PlayerAssists.put(uuid, save - value);
 
@@ -251,11 +195,7 @@ public class StatsChanging {
 
 	public static void setAssists(UUID uuid, double value) {
 
-		if (StatsLoading.PlayerAssists.containsKey(uuid)) {
-
-			StatsLoading.PlayerAssists.remove(uuid);
-
-		}
+		StatsLoading.PlayerAssists.remove(uuid);
 
 		StatsLoading.PlayerAssists.put(uuid, value);
 	}
@@ -279,11 +219,7 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerHeals.get(uuid);
 
-		if (StatsLoading.PlayerHeals.containsKey(uuid)) {
-
-			StatsLoading.PlayerHeals.remove(uuid);
-
-		}
+		StatsLoading.PlayerHeals.remove(uuid);
 
 		StatsLoading.PlayerHeals.put(uuid, save + value);
 	}
@@ -292,11 +228,7 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerHeals.get(uuid);
 
-		if (StatsLoading.PlayerHeals.containsKey(uuid)) {
-
-			StatsLoading.PlayerHeals.remove(uuid);
-
-		}
+		StatsLoading.PlayerHeals.remove(uuid);
 
 		StatsLoading.PlayerHeals.put(uuid, save - value);
 
@@ -304,11 +236,7 @@ public class StatsChanging {
 
 	public static void setHeals(UUID uuid, double value) {
 
-		if (StatsLoading.PlayerHeals.containsKey(uuid)) {
-
-			StatsLoading.PlayerHeals.remove(uuid);
-
-		}
+		StatsLoading.PlayerHeals.remove(uuid);
 
 		StatsLoading.PlayerHeals.put(uuid, value);
 	}
@@ -332,11 +260,7 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerSupports.get(uuid);
 
-		if (StatsLoading.PlayerSupports.containsKey(uuid)) {
-
-			StatsLoading.PlayerSupports.remove(uuid);
-
-		}
+		StatsLoading.PlayerSupports.remove(uuid);
 
 		StatsLoading.PlayerSupports.put(uuid, save + value);
 	}
@@ -345,11 +269,7 @@ public class StatsChanging {
 
 		double save = StatsLoading.PlayerSupports.get(uuid);
 
-		if (StatsLoading.PlayerSupports.containsKey(uuid)) {
-
-			StatsLoading.PlayerSupports.remove(uuid);
-
-		}
+		StatsLoading.PlayerSupports.remove(uuid);
 
 		StatsLoading.PlayerSupports.put(uuid, save - value);
 
@@ -357,11 +277,7 @@ public class StatsChanging {
 
 	public static void setSupports(final UUID uuid, final double value) {
 
-		if (StatsLoading.PlayerSupports.containsKey(uuid)) {
-
-			StatsLoading.PlayerSupports.remove(uuid);
-
-		}
+		StatsLoading.PlayerSupports.remove(uuid);
 
 		StatsLoading.PlayerSupports.put(uuid, value);
 	}
@@ -386,11 +302,7 @@ public class StatsChanging {
 
 		int save = StatsLoading.PlayerKillstreak.get(uuid);
 
-		if (StatsLoading.PlayerKillstreak.containsKey(uuid)) {
-
-			StatsLoading.PlayerKillstreak.remove(uuid);
-
-		}
+		StatsLoading.PlayerKillstreak.remove(uuid);
 
 		StatsLoading.PlayerKillstreak.put(uuid, save + value);
 
@@ -400,11 +312,7 @@ public class StatsChanging {
 
 		int save = StatsLoading.PlayerKillstreak.get(uuid);
 
-		if (StatsLoading.PlayerKillstreak.containsKey(uuid)) {
-
-			StatsLoading.PlayerKillstreak.remove(uuid);
-
-		}
+		StatsLoading.PlayerKillstreak.remove(uuid);
 
 		StatsLoading.PlayerKillstreak.put(uuid, save - value);
 
@@ -412,11 +320,7 @@ public class StatsChanging {
 
 	public static void setKillstreak(UUID uuid, int value) {
 
-		if (StatsLoading.PlayerKillstreak.containsKey(uuid)) {
-
-			StatsLoading.PlayerKillstreak.remove(uuid);
-
-		}
+		StatsLoading.PlayerKillstreak.remove(uuid);
 
 		StatsLoading.PlayerKillstreak.put(uuid, value);
 	}
@@ -437,11 +341,7 @@ public class StatsChanging {
 
 		int save = StatsLoading.PlayerLevel.get(uuid);
 
-		if (StatsLoading.PlayerLevel.containsKey(uuid)) {
-
-			StatsLoading.PlayerLevel.remove(uuid);
-
-		}
+		StatsLoading.PlayerLevel.remove(uuid);
 
 		StatsLoading.PlayerLevel.put(uuid, save + value);
 
@@ -451,11 +351,7 @@ public class StatsChanging {
 
 		int save = StatsLoading.PlayerLevel.get(uuid);
 
-		if (StatsLoading.PlayerLevel.containsKey(uuid)) {
-
-			StatsLoading.PlayerLevel.remove(uuid);
-
-		}
+		StatsLoading.PlayerLevel.remove(uuid);
 
 		StatsLoading.PlayerLevel.put(uuid, save - value);
 
@@ -463,11 +359,7 @@ public class StatsChanging {
 
 	public static void setLevel(UUID uuid, int value) {
 
-		if (StatsLoading.PlayerLevel.containsKey(uuid)) {
-
-			StatsLoading.PlayerLevel.remove(uuid);
-
-		}
+		StatsLoading.PlayerLevel.remove(uuid);
 
 		StatsLoading.PlayerLevel.put(uuid, value);
 
@@ -487,11 +379,7 @@ public class StatsChanging {
 
 	public static void setKit(UUID uuid, String kit) {
 
-		if (StatsLoading.PlayerKit.containsKey(uuid)) {
-
-			StatsLoading.PlayerKit.remove(uuid);
-
-		}
+		StatsLoading.PlayerKit.remove(uuid);
 
 		StatsLoading.PlayerKit.put(uuid, kit);
 
@@ -499,24 +387,13 @@ public class StatsChanging {
 
 	public static String getKit(UUID uuid) {
 
-		if (StatsLoading.PlayerKit.containsKey(uuid)) {
-
-			return StatsLoading.PlayerKit.get(uuid);
-
-		} else {
-
-			return "swordsman";
-		}
+		return StatsLoading.PlayerKit.getOrDefault(uuid, "swordsman");
 
 	}
 
 	public static void setRank(UUID uuid, String rank) {
 
-		if (StatsLoading.PlayerRank.containsKey(uuid)) {
-
-			StatsLoading.PlayerRank.remove(uuid);
-
-		}
+		StatsLoading.PlayerRank.remove(uuid);
 
 		StatsLoading.PlayerRank.put(uuid, rank);
 
@@ -524,24 +401,13 @@ public class StatsChanging {
 
 	public static String getRank(UUID uuid) {
 
-		if (StatsLoading.PlayerRank.containsKey(uuid)) {
-
-			return StatsLoading.PlayerRank.get(uuid);
-
-		} else {
-
-			return "None";
-		}
+		return StatsLoading.PlayerRank.getOrDefault(uuid, "None");
 
 	}
 
 	public static void setStaffRank(UUID uuid, String rank) {
 
-		if (StatsLoading.PlayerStaffRank.containsKey(uuid)) {
-
-			StatsLoading.PlayerStaffRank.remove(uuid);
-
-		}
+		StatsLoading.PlayerStaffRank.remove(uuid);
 
 		StatsLoading.PlayerStaffRank.put(uuid, rank);
 

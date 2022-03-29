@@ -49,15 +49,14 @@ public class Team {
      * Attempts to add a player to the team.
      * Will fail if the player is already on the team
      * @param uuid the uuid to add
-     * @return true if the uuid was added, false if they were already on the team
      */
-    public boolean addPlayer(UUID uuid) {
+    public void addPlayer(UUID uuid) {
         if (hasPlayer(uuid)) {
-            return false;
+            return;
         }
 
-        players.add(uuid);
-        return true;
+        // We've done the checks, but it's easier to keep the adding in one place
+        forceAddPlayer(uuid);
     }
 
     /**
@@ -71,15 +70,13 @@ public class Team {
     /**
      * Removes a uuid from the team
      * @param uuid the uuid to remove
-     * @return true if the uuid was removed, false if the uuid wasn't on the team
      */
-    public boolean removePlayer(UUID uuid) {
+    public void removePlayer(UUID uuid) {
         if (!hasPlayer(uuid)) {
-            return false;
+            return;
         }
 
         players.remove(uuid);
-        return true;
     }
 
     /**
