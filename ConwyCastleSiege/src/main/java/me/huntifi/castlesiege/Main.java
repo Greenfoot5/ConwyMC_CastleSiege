@@ -93,7 +93,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -202,7 +201,7 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new NoPaintingDestroy(), this);
 		getServer().getPluginManager().registerEvents(new NoFireDestroy(), this);
 		getServer().getPluginManager().registerEvents(new NoCombat(), this);
-		getServer().getPluginManager().registerEvents(new instarespawn(), this);
+		getServer().getPluginManager().registerEvents(new InstantRespawn(), this);
 		getServer().getPluginManager().registerEvents(new ambientDamage(), this);
 		getServer().getPluginManager().registerEvents(new voidOfLimits(), this);
 		getServer().getPluginManager().registerEvents(new PlayerChat(), this);

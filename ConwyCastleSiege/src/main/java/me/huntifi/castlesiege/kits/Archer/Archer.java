@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.kits.Archer;
 
+import me.huntifi.castlesiege.kits.Kit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
@@ -10,7 +11,7 @@ import me.huntifi.castlesiege.kits.WoolHat;
 import me.huntifi.castlesiege.voting.VotesChanging;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
-public class Archer {
+public class Archer extends Kit {
 
 	public static void setItems(Player p) {
 
@@ -77,9 +78,5 @@ public class Archer {
 			p.getInventory().setItem(2, ladders);
 
 		}
-
-
-
 	}
-
 }

@@ -65,6 +65,8 @@ public class Team {
      */
     public void forceAddPlayer(UUID uuid) {
         players.add(uuid);
+        Player player = Bukkit.getPlayer(uuid);
+        player.setBedSpawnLocation(lobby.spawnPoint, true);
     }
 
     /**

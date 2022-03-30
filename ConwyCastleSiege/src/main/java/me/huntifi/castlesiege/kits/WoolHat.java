@@ -18,6 +18,7 @@ public class WoolHat {
 
 		ItemStack wool = new ItemStack(team.primaryWool);
 		ItemMeta woolMeta = wool.getItemMeta();
+		assert woolMeta != null;
 		woolMeta.setDisplayName(ChatColor.GREEN + "WoolHat");
 		player.getInventory().setHelmet(wool);
 	}
