@@ -7,7 +7,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.Helmsdeep.Secrets.Herugrim;
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
-import me.huntifi.castlesiege.kits.Archer.Archer;
+import me.huntifi.castlesiege.kits.kits.Archer;
 import me.huntifi.castlesiege.kits.Berserker.Berserker;
 import me.huntifi.castlesiege.kits.Cavalry.Cavalry;
 import me.huntifi.castlesiege.kits.Crossbowman.Crossbowman;
@@ -45,7 +45,7 @@ public class EnderchestRefill {
 
 		if (StatsChanging.getKit(p.getUniqueId()).equalsIgnoreCase("Archer")) {
 
-			Bukkit.getScheduler().runTask(plugin, () -> { Archer.setItems(p); });
+			Bukkit.getScheduler().runTask(plugin, () -> { Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId()); });
 		}
 
 		if (StatsChanging.getKit(p.getUniqueId()).equalsIgnoreCase("Spearman")) {

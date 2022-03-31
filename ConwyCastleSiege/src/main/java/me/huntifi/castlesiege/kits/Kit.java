@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.kits;
 
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
@@ -13,12 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class Kit implements Listener {
     public String name;
@@ -30,8 +25,10 @@ public abstract class Kit implements Listener {
     public String projectileDeathMessage;
     public String projectileKillMessage;
     public List<UUID> players;
+    public static Map<UUID, Kit> equippedKits = new HashMap<>();
 
-    public Kit() {
+    public Kit(String name) {
+        this.name = name;
         players = new ArrayList<>();
         equipment = new EquipmentSet();
         deathMessage = "You were killed by ";
@@ -76,16 +73,25 @@ public abstract class Kit implements Listener {
 
                     whoWasHit.sendMessage(projectileDeathMessage + NametagsEvent.color(whoHit) + whoHit.getName());
                     whoHit.sendMessage(projectileKillMessage + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
-
                 } else {
 
                     DeathscoresAsync.doStats(whoHit, whoWasHit);
 
                     whoWasHit.sendMessage(killMessage + NametagsEvent.color(whoHit) + whoHit.getName());
                     whoHit.sendMessage(deathMessage + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
-
                 }
             }
         }
+    }
+
+    public void addPlayer(UUID uuid) {
+        players.add(uuid);
+        Player player = Bukkit.getPlayer(uuid);
+        setItems(uuid);
+        equippedKits.put(uuid, this);
+
+        // TODO - Check if a player has dealt damage and should be killed
+        assert player != null;
+        player.setHealth(0);
     }
 }

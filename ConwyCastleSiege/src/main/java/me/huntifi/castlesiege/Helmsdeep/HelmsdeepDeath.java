@@ -17,34 +17,6 @@ public class HelmsdeepDeath implements Listener {
 
 	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
 
-	@EventHandler
-	public void onPlayerDeath(PlayerRespawnEvent e) {
-		Player p = (Player) e.getPlayer();
 
-		if(MapController.currentMapIs("HelmsDeep")) {
-
-			if (e.getPlayer() instanceof Player) {
-				
-				MVPstats.addDeaths(p.getUniqueId(), 1);
-				
-				if (PlayerTeam.playerIsInTeam(p, 1)) {
-					
-					e.setRespawnLocation(new Location(plugin.getServer().getWorld("HelmsDeep"), 1745, 14, 957, -95, -17));
-					p.teleport(new Location(plugin.getServer().getWorld("HelmsDeep"), 1745, 14, 957, -95, -17));
-					LobbyPlayer.addPlayer(p);
-					
-				}
-
-				if (PlayerTeam.playerIsInTeam(p, 2)) {
-					
-					e.setRespawnLocation(new Location(plugin.getServer().getWorld("HelmsDeep"), 277, 13, 987, -178, -1));
-					p.teleport(new Location(plugin.getServer().getWorld("HelmsDeep"), 277, 13, 987, -178, -1));
-					LobbyPlayer.addPlayer(p);
-
-				}	
-			}
-
-		}
-	}
 
 }

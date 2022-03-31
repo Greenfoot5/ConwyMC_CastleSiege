@@ -23,8 +23,6 @@ public class EquipmentSet {
     public ItemStack votedFeet;
 
     public EquipmentSet() {
-        votedWeapon = new Tuple<>(null, null);
-        votedLadders = new Tuple<>(null, null);
         hotbar = new ItemStack[8];
     }
 
@@ -66,10 +64,8 @@ public class EquipmentSet {
 
         // Votes Weapon
         if (VotesChanging.getVotes(uuid).contains("V#1") &&
-                votedWeapon.getFirst() != null && votedWeapon.getFirst().getAmount() > 0) {
-            if (votedWeapon.getSecond() == null) {
-                System.out.println("[TheDarkAge] A voted weapon is missing a equipment slot!");
-            } else if (votedWeapon.getSecond() == -1) {
+                votedWeapon != null && votedWeapon.getFirst().getAmount() > 0) {
+            if (votedWeapon.getSecond() == -1) {
                 inv.setItemInOffHand(votedWeapon.getFirst());
             } else {
                 inv.setItem(votedWeapon.getSecond(), votedWeapon.getFirst());
@@ -78,10 +74,8 @@ public class EquipmentSet {
 
         // Votes Ladders
         if (VotesChanging.getVotes(uuid).contains("V#3") &&
-                votedLadders.getFirst() != null && votedLadders.getFirst().getAmount() > 0) {
-            if (votedLadders.getSecond() == null) {
-                System.out.println("[TheDarkAge] A votes ladders is missing a equipment slot!");
-            } else if (votedLadders.getSecond() == -1) {
+                votedLadders != null && votedLadders.getFirst().getAmount() > 0) {
+            if (votedLadders.getSecond() == -1) {
                 inv.setItemInOffHand(votedLadders.getFirst());
             } else {
                 inv.setItem(votedLadders.getSecond(), votedLadders.getFirst());
