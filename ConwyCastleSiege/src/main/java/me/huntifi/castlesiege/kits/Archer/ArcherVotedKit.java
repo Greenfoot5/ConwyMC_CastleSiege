@@ -34,7 +34,7 @@ public class ArcherVotedKit {
 
 		SwordMeta.addEnchant(Enchantment.DAMAGE_ALL, 18, true);
 
-		ArrayList<String> lore1 = new ArrayList<String>();
+		ArrayList<String> lore1 = new ArrayList<>();
 		
 		lore1.add("");
 		

@@ -1,5 +1,7 @@
 package me.huntifi.castlesiege.kits;
 
+import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.voting.VotesChanging;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -13,8 +15,18 @@ public class EquipmentSet {
     public ItemStack chest;
     public ItemStack legs;
     public ItemStack feet;
-    public ItemStack[] hotbar = new ItemStack[8];
+    public ItemStack[] hotbar;
     public ItemStack offhand;
+    // What to grant and where for voting
+    public Tuple<ItemStack, Integer> votedWeapon;
+    public Tuple<ItemStack, Integer> votedLadders;
+    public ItemStack votedFeet;
+
+    public EquipmentSet() {
+        votedWeapon = new Tuple<>(null, null);
+        votedLadders = new Tuple<>(null, null);
+        hotbar = new ItemStack[8];
+    }
 
     public void setEquipment(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
@@ -36,6 +48,10 @@ public class EquipmentSet {
 
         if (feet != null && feet.getAmount() > 0) {
             inv.setBoots(feet);
+            // Voted boots
+            if (VotesChanging.getVotes(uuid).contains("V#2") && votedFeet != null && votedFeet.getAmount() > 0) {
+                inv.setBoots(votedFeet);
+            }
         }
 
         for (int i = 0; i < hotbar.length; i++) {
@@ -46,6 +62,30 @@ public class EquipmentSet {
 
         if (offhand != null && offhand.getAmount() > 0) {
             inv.setItemInOffHand(offhand);
+        }
+
+        // Votes Weapon
+        if (VotesChanging.getVotes(uuid).contains("V#1") &&
+                votedWeapon.getFirst() != null && votedWeapon.getFirst().getAmount() > 0) {
+            if (votedWeapon.getSecond() == null) {
+                System.out.println("[TheDarkAge] A voted weapon is missing a equipment slot!");
+            } else if (votedWeapon.getSecond() == -1) {
+                inv.setItemInOffHand(votedWeapon.getFirst());
+            } else {
+                inv.setItem(votedWeapon.getSecond(), votedWeapon.getFirst());
+            }
+        }
+
+        // Votes Ladders
+        if (VotesChanging.getVotes(uuid).contains("V#3") &&
+                votedLadders.getFirst() != null && votedLadders.getFirst().getAmount() > 0) {
+            if (votedLadders.getSecond() == null) {
+                System.out.println("[TheDarkAge] A votes ladders is missing a equipment slot!");
+            } else if (votedLadders.getSecond() == -1) {
+                inv.setItemInOffHand(votedLadders.getFirst());
+            } else {
+                inv.setItem(votedLadders.getSecond(), votedLadders.getFirst());
+            }
         }
     }
 }

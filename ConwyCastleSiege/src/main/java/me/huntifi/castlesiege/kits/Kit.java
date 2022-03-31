@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits;
 
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
@@ -12,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
