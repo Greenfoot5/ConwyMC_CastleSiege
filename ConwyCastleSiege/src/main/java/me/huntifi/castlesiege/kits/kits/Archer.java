@@ -5,16 +5,21 @@ import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Archer extends Kit implements Listener {
+public class Archer extends Kit implements Listener, CommandExecutor {
 
 	public Archer() {
 		super("Archer");
@@ -77,8 +82,7 @@ public class Archer extends Kit implements Listener {
 		es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
 		// Arrows
-		item = new ItemStack(Material.ARROW, 35);
-		item.getItemMeta().setLore(new ArrayList<>());
+		es.hotbar[7] = new ItemStack(Material.ARROW, 35);
 
 		// Bow
 		item = new ItemStack(Material.BOW);
@@ -89,10 +93,19 @@ public class Archer extends Kit implements Listener {
 		itemMeta.setUnbreakable(true);
 		itemMeta.setLore(new ArrayList<>());
 		item.setItemMeta(itemMeta);
+		es.hotbar[1] = item;
 
 		super.equipment = es;
 
 
 		// No changes to death messages
+	}
+
+	@Override
+	public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+		if (command.getName().equalsIgnoreCase("Archer")) {
+			super.addPlayer(((Player) commandSender).getUniqueId());
+		}
+		return true;
 	}
 }

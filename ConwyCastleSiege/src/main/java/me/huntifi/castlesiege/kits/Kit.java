@@ -91,6 +91,7 @@ public abstract class Kit implements Listener {
         equippedKits.put(uuid, this);
 
         // TODO - Check if a player has dealt damage and should be killed
+        // TODO - If the player doesn't need to die, heal them
         assert player != null;
         player.setHealth(0);
     }

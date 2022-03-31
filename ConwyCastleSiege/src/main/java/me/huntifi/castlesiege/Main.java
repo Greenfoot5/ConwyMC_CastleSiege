@@ -21,15 +21,13 @@ import me.huntifi.castlesiege.Thunderstone.KitsGUI.KitsGUI_Cloudcrawlers_Command
 import me.huntifi.castlesiege.Thunderstone.KitsGUI.KitsGUI_ThunderstoneGuard_Command;
 import me.huntifi.castlesiege.chat.PlayerChat;
 import me.huntifi.castlesiege.combat.*;
-import me.huntifi.castlesiege.commands.discordCommand;
+import me.huntifi.castlesiege.commands.*;
 import me.huntifi.castlesiege.commands.message.MessageCommand;
 import me.huntifi.castlesiege.commands.message.ReplyCommand;
-import me.huntifi.castlesiege.commands.pingCommand;
-import me.huntifi.castlesiege.commands.rulesCommand;
 import me.huntifi.castlesiege.commands.staffCommands.SessionMuteCommand;
-import me.huntifi.castlesiege.commands.togglerankCommand;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.DeathEvent;
 import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.joinevents.login;
@@ -69,6 +67,7 @@ import me.huntifi.castlesiege.kits.VotedKits.VotedKitsGUI_Command;
 import me.huntifi.castlesiege.kits.Warhound.Warhound;
 import me.huntifi.castlesiege.kits.Warhound.WarhoundAbility;
 import me.huntifi.castlesiege.kits.Warhound.WarhoundDeath;
+import me.huntifi.castlesiege.kits.kits.Archer;
 import me.huntifi.castlesiege.kits.medic.MedicAbilities;
 import me.huntifi.castlesiege.kits.medic.MedicDeath;
 import me.huntifi.castlesiege.ladders.LadderEvent;
@@ -147,6 +146,13 @@ public class Main extends JavaPlugin implements Listener {
 		// second param allows for ordering of handlers - see the JavaDocs
 		sessionManager.registerHandler(CaptureHandler.FACTORY, null);
 
+		// Rewrite Events
+		getServer().getPluginManager().registerEvents(new DeathEvent(), this);
+
+		// Rewrite Commands
+		Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
+
+		// OLD EVENTS
 		getServer().getPluginManager().registerEvents(new Warhound(), this);
 		getServer().getPluginManager().registerEvents(new SessionMuteCommand(), this);
 		getServer().getPluginManager().registerEvents(new HelmsdeepSecretDoor(), this);
@@ -201,7 +207,7 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new NoPaintingDestroy(), this);
 		getServer().getPluginManager().registerEvents(new NoFireDestroy(), this);
 		getServer().getPluginManager().registerEvents(new NoCombat(), this);
-		getServer().getPluginManager().registerEvents(new InstantRespawn(), this);
+
 		getServer().getPluginManager().registerEvents(new ambientDamage(), this);
 		getServer().getPluginManager().registerEvents(new voidOfLimits(), this);
 		getServer().getPluginManager().registerEvents(new PlayerChat(), this);
@@ -209,7 +215,7 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new Enderchest(), this);
 		getServer().getPluginManager().registerEvents(new NoHurtTeam(), this);
 
-		getServer().getPluginManager().registerEvents(new DeathArcher(), this);
+		//getServer().getPluginManager().registerEvents(new DeathArcher(), this);
 		getServer().getPluginManager().registerEvents(new SkirmisherDeath(), this);
 		getServer().getPluginManager().registerEvents(new DeathSwordsman(), this);
 		getServer().getPluginManager().registerEvents(new DeathShieldman(), this);
@@ -296,7 +302,7 @@ public class Main extends JavaPlugin implements Listener {
 		getCommand("msg").setExecutor(new MessageCommand());
 		getCommand("r").setExecutor(new ReplyCommand());
 		//getCommand("maps").setExecutor(new MapsCommand());
-		//getCommand("sui").setExecutor(new suicideCommand());
+		getCommand("sui").setExecutor(new suicideCommand());
 		//getCommand("CheckFlagList").setExecutor(new FlagListCommand());
 		//getCommand("s").setExecutor(new StaffChat());
 		//getCommand("kick").setExecutor(new KickCommand());
