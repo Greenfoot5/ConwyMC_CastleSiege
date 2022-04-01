@@ -48,6 +48,9 @@ public class Flag {
     public Frame[] animation;
     public boolean animationAir = false;
 
+    // Scoreboard value
+    public int scoreboard;
+
     /**
      * Creates a new flag
      * @param name the name of the flag

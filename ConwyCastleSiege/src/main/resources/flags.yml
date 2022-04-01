@@ -5,6 +5,7 @@ HelmsDeep:
     max_cap: 9
     start_amount: 9
     progress_amount: 10
+    scoreboard: 5
     spawn_point:
       x: 9693
       y: 35

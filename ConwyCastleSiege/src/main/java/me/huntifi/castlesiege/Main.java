@@ -12,7 +12,6 @@ import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import me.huntifi.castlesiege.Database.DatabaseKeepAliveEvent;
 import me.huntifi.castlesiege.Database.MySQL;
-import me.huntifi.castlesiege.Database.SQLGetter;
 import me.huntifi.castlesiege.Database.SQLStats;
 import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
 import me.huntifi.castlesiege.Helmsdeep.Wall.WallEvent;
@@ -292,7 +291,7 @@ public class Main extends JavaPlugin implements Listener {
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepMVPupdater(), 0, 20);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneMVPupdater(), 0, 20);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HalberdierAbility(), 100, 25);
-		Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new DatabaseKeepAliveEvent(), 190, 190);
+		Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new DatabaseKeepAliveEvent(), 5900, 5900);
 		//Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new Herugrim(), 10, 10);
 
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new MainGateReadyRam(), 200, 60);
@@ -377,8 +376,8 @@ public class Main extends JavaPlugin implements Listener {
 
 		Player p = e.getPlayer();
 
+		assert plugin != null;
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-
 			if (!SQLStats.exists(p.getUniqueId())) {
 				SQLStats.createPlayer(p);
 			}
@@ -556,6 +555,8 @@ public class Main extends JavaPlugin implements Listener {
 				Frame frame = getFlagsConfig().getAs(animationRoute.add(animationPaths[j]), Frame.class);
 				flag.animation[j] = frame;
 			}
+
+			flag.scoreboard = getFlagsConfig().getInt(flagRoute.add("scoreboard"));
 
 			map.flags[i] = flag;
 		}

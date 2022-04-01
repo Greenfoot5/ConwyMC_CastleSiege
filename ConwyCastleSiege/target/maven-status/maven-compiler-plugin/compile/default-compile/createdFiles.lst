@@ -10,6 +10,7 @@ me/huntifi/castlesiege/Thunderstone/KitsGUI/KitsGUI_Cloudcrawlers_Command$1.clas
 me/huntifi/castlesiege/kits/Engineer/EngineerCobweb.class
 me/huntifi/castlesiege/security/voidOfLimits.class
 me/huntifi/castlesiege/kits/Executioner/Executioner.class
+me/huntifi/castlesiege/Database/SQLStats.class
 me/huntifi/castlesiege/Thunderstone/ThunderstoneMVPupdater.class
 me/huntifi/castlesiege/Helmsdeep/flags/FlagMethod.class
 me/huntifi/castlesiege/kits/WoolHat.class
@@ -62,7 +63,6 @@ me/huntifi/castlesiege/Database/AsyncGetters$StringCallback.class
 me/huntifi/castlesiege/Helmsdeep/Ballistae/HelmsdeepBallistaEvent.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/Stairhall_ThunderstoneGuards.class
 me/huntifi/castlesiege/Helmsdeep/flags/TeamBonusses/Message_Courtyard.class
-me/huntifi/castlesiege/Database/SQLstats.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/LonelyTowerFlag$3.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/Lonelytower_Cloudcrawlers.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/StairhallFlag$1.class
@@ -350,10 +350,9 @@ me/huntifi/castlesiege/Thunderstone/Flags/animations/EastTowerFlag$2.class
 me/huntifi/castlesiege/Thunderstone/KitsGUI/KitsGUI_ThunderstoneGuard_Command.class
 me/huntifi/castlesiege/voting/VotesChanging.class
 me/huntifi/castlesiege/Thunderstone/Rams/ThunderstoneGateReadyRam.class
-me/huntifi/castlesiege/Database/SQLstats$1.class
+me/huntifi/castlesiege/Database/SQLStats$1.class
 me/huntifi/castlesiege/commands/staffCommands/UnsessionmuteCommand.class
 me/huntifi/castlesiege/kits/VotedKits/VotedKitsGUI_Command.class
-me/huntifi/castlesiege/Database/SQLstats$2.class
 me/huntifi/castlesiege/kits/medic/MedicKit.class
 me/huntifi/castlesiege/kits/Executioner/ExecutionerKit.class
 me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagTeam.class
@@ -383,6 +382,7 @@ me/huntifi/castlesiege/Thunderstone/ThunderstoneDeath.class
 me/huntifi/castlesiege/Thunderstone/TS_Woolmap.class
 me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagRadius.class
 me/huntifi/castlesiege/Database/StatsStrings.class
+me/huntifi/castlesiege/Database/SQLStats$2.class
 me/huntifi/castlesiege/maps/EndMapAction$1.class
 me/huntifi/castlesiege/kits/Engineer/EngineerTraps.class
 me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagMethod$5.class
