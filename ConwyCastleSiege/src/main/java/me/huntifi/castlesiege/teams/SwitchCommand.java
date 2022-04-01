@@ -86,8 +86,8 @@ public class SwitchCommand implements CommandExecutor {
 
 			// Kill the player
 			p.setHealth(0);
-			p.sendMessage("You switched to " + smallestTeam.primaryChatColor + " " + smallestTeam.name + " (+2 deaths)");
-			StatsChanging.addDeaths(p.getUniqueId(), 2);
+			p.sendMessage("You switched to " + smallestTeam.primaryChatColor + smallestTeam.name + " (+2 deaths)");
+			//StatsChanging.addDeaths(p.getUniqueId(), 2);
 
 		}
 

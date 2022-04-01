@@ -4,7 +4,6 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

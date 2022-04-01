@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -66,7 +67,9 @@ public class Team {
     public void forceAddPlayer(UUID uuid) {
         players.add(uuid);
         Player player = Bukkit.getPlayer(uuid);
+        assert player != null;
         player.setBedSpawnLocation(lobby.spawnPoint, true);
+        NametagsEvent.GiveNametag(player);
     }
 
     /**
@@ -74,10 +77,6 @@ public class Team {
      * @param uuid the uuid to remove
      */
     public void removePlayer(UUID uuid) {
-        if (!hasPlayer(uuid)) {
-            return;
-        }
-
         players.remove(uuid);
     }
 

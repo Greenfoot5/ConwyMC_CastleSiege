@@ -46,12 +46,24 @@ public abstract class Kit implements Listener {
         assert healthAttribute != null;
         healthAttribute.setBaseValue(baseHeath);
         player.setHealthScaled(true);
+        player.setHealth(baseHeath);
 
         // Equipment
         equipment.setEquipment(uuid);
         player.getInventory().setHeldItemSlot(heldItemSlot);
 
         player.setHealthScaled(true);
+
+        // Wool hat
+        WoolHat.setHead(player);
+    }
+
+    public void refillItems(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player == null) { return; }
+
+        // Equipment
+        equipment.setEquipment(uuid);
 
         // Wool hat
         WoolHat.setHead(player);

@@ -48,7 +48,7 @@ public class Map {
         Team smallest = teams[0];
         // Loop through the teams and find the smallest. If they are equal, returns the first team
         for (Team team : teams) {
-            if (smallest.getTeamSize() < team.getTeamSize())
+            if (smallest.getTeamSize() > team.getTeamSize())
             {
                 smallest = team;
             }

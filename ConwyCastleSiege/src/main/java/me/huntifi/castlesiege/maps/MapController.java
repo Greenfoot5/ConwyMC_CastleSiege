@@ -3,14 +3,19 @@ package me.huntifi.castlesiege.maps;
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagTeam;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.joinevents.stats.MainStats;
+import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.stats.levels.LevelingEvent;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.bukkit.Bukkit.getServer;
@@ -29,7 +34,7 @@ public class MapController {
 	 * @param mapName the name of the map to set the current map to
 	 */
 	public static void setMap(String mapName) {
-		unloadMap();
+		String oldMap = currentMap.name();
 		switch (mapName.toLowerCase()) {
 			case "helmsdeep":
 				currentMap = MapsList.HelmsDeep;
@@ -38,14 +43,15 @@ public class MapController {
 				currentMap = MapsList.Thunderstone;
 				break;
 		}
-		loadMap();
+		loadMap(currentMap.name());
+		unloadMap(oldMap);
 	}
 
 	/**
 	 * Increments the map by one
 	 */
 	public static void nextMap() {
-		unloadMap();
+		String oldMap = currentMap.name();
 		if (finalMap()) {
 			getServer().spigot().restart();
 		}
@@ -60,23 +66,46 @@ public class MapController {
 
 				}
 			}
-			loadMap();
+			loadMap(currentMap.name());
+			unloadMap(oldMap);
 		}
 	}
 
 	/**
 	 * Loads the current map
 	 */
-	public static void loadMap() {
+	public static void loadMap(String worldName) {
+
+		WorldCreator worldSettings = new WorldCreator(currentMap.name());
+		worldSettings.generateStructures(false);
+		worldSettings.createWorld();
 		for (Team team:maps[mapIndex].teams) {
 			getServer().getPluginManager().registerEvents(team.lobby.woolmap, Main.plugin);
+		}
+
+		// Move all players to the new map and team
+		Kit.equippedKits = new HashMap<>();
+		for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
+			Team team = getCurrentMap().smallestTeam();
+			team.addPlayer(player.getUniqueId());
+			player.teleport(team.lobby.spawnPoint);
+			new Swordsman().addPlayer(player.getUniqueId());
 		}
 	}
 
 	/**
 	 * Does any unloading needed for the current map
 	 */
-	public static void unloadMap() { }
+	public static void unloadMap(String worldName) {
+		Bukkit.unloadWorld(worldName, false);
+		for (Map map:maps) {
+			if (Objects.equals(map.worldName, worldName)) {
+				for (Team team:map.teams) {
+					team.clear();
+				}
+			}
+		}
+	}
 
 	/**
 	 * Checks if the current map is the one specified

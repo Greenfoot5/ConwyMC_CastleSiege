@@ -10,21 +10,18 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
+import me.huntifi.castlesiege.Database.DatabaseKeepAliveEvent;
 import me.huntifi.castlesiege.Database.MySQL;
 import me.huntifi.castlesiege.Database.SQLGetter;
 import me.huntifi.castlesiege.Database.SQLstats;
 import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
-import me.huntifi.castlesiege.Helmsdeep.Boat.HelmsdeepCaveBoat;
-import me.huntifi.castlesiege.Helmsdeep.Secrets.HelmsdeepSecretDoor;
 import me.huntifi.castlesiege.Helmsdeep.Wall.WallEvent;
-import me.huntifi.castlesiege.Thunderstone.KitsGUI.KitsGUI_Cloudcrawlers_Command;
-import me.huntifi.castlesiege.Thunderstone.KitsGUI.KitsGUI_ThunderstoneGuard_Command;
 import me.huntifi.castlesiege.chat.PlayerChat;
 import me.huntifi.castlesiege.combat.*;
 import me.huntifi.castlesiege.commands.*;
 import me.huntifi.castlesiege.commands.message.MessageCommand;
 import me.huntifi.castlesiege.commands.message.ReplyCommand;
-import me.huntifi.castlesiege.commands.staffCommands.SessionMuteCommand;
+import me.huntifi.castlesiege.commands.staffCommands.*;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.DeathEvent;
@@ -32,51 +29,24 @@ import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.joinevents.login;
 import me.huntifi.castlesiege.joinevents.newLogin;
-import me.huntifi.castlesiege.kits.Archer.DeathArcher;
-import me.huntifi.castlesiege.kits.Berserker.BerserkerAbility;
-import me.huntifi.castlesiege.kits.Berserker.BerserkerDeath;
-import me.huntifi.castlesiege.kits.Cavalry.CavalryAbility;
-import me.huntifi.castlesiege.kits.Cavalry.CavalryDeath;
-import me.huntifi.castlesiege.kits.Classic.ClassicGui_Command;
-import me.huntifi.castlesiege.kits.Crossbowman.CrossbowmanAbility;
-import me.huntifi.castlesiege.kits.Crossbowman.CrossbowmanDeath;
+import me.huntifi.castlesiege.joinevents.stats.StatsLoading;
+import me.huntifi.castlesiege.joinevents.stats.StatsSaving;
 import me.huntifi.castlesiege.kits.Enderchest;
-import me.huntifi.castlesiege.kits.Engineer.DeathEngineer;
-import me.huntifi.castlesiege.kits.Engineer.EngineerCobweb;
-import me.huntifi.castlesiege.kits.Executioner.ExecutionerAbility;
-import me.huntifi.castlesiege.kits.Executioner.ExecutionerDeath;
-import me.huntifi.castlesiege.kits.FireArcher.DeathFirearcher;
-import me.huntifi.castlesiege.kits.FireArcher.FireArcherAbility;
-import me.huntifi.castlesiege.kits.Halberdier.DeathHalberdier;
-import me.huntifi.castlesiege.kits.Halberdier.HalberdierAbility;
-import me.huntifi.castlesiege.kits.KitGUIcommand;
-import me.huntifi.castlesiege.kits.Maceman.MacemanAbility;
-import me.huntifi.castlesiege.kits.Maceman.MacemanDeath;
-import me.huntifi.castlesiege.kits.Ranger.DeathRanger;
-import me.huntifi.castlesiege.kits.Ranger.RangerAbility;
-import me.huntifi.castlesiege.kits.Shieldman.DeathShieldman;
-import me.huntifi.castlesiege.kits.Skirmisher.SkirmisherDeath;
-import me.huntifi.castlesiege.kits.Spearman.DeathSpearman;
-import me.huntifi.castlesiege.kits.Swordsman.DeathSwordsman;
-import me.huntifi.castlesiege.kits.Viking.VikingAbility;
-import me.huntifi.castlesiege.kits.Viking.VikingDeath;
-import me.huntifi.castlesiege.kits.VotedKits.Ladderman.LaddermanAbility;
-import me.huntifi.castlesiege.kits.VotedKits.Ladderman.LaddermanDeath;
-import me.huntifi.castlesiege.kits.VotedKits.Scout.ScoutDeath;
-import me.huntifi.castlesiege.kits.VotedKits.VotedKitsGUI_Command;
-import me.huntifi.castlesiege.kits.Warhound.Warhound;
-import me.huntifi.castlesiege.kits.Warhound.WarhoundAbility;
-import me.huntifi.castlesiege.kits.Warhound.WarhoundDeath;
 import me.huntifi.castlesiege.kits.kits.Archer;
-import me.huntifi.castlesiege.kits.medic.MedicAbilities;
-import me.huntifi.castlesiege.kits.medic.MedicDeath;
+import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.ladders.LadderEvent;
-import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.Map;
+import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.security.*;
-import me.huntifi.castlesiege.stats.levels.RegisterLevel;
+import me.huntifi.castlesiege.stats.MVP.MVPstats;
+import me.huntifi.castlesiege.stats.MVP.StatsMvpJoinevent;
+import me.huntifi.castlesiege.stats.mystats.MystatsCommand;
 import me.huntifi.castlesiege.tablist.Tablist;
 import me.huntifi.castlesiege.teams.SwitchCommand;
+import me.huntifi.castlesiege.voting.GiveVoteCommand;
+import me.huntifi.castlesiege.voting.VoteListenerCommand;
+import me.huntifi.castlesiege.voting.VotesLoading;
+import me.huntifi.castlesiege.voting.VotesUnloading;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -106,7 +76,6 @@ public class Main extends JavaPlugin implements Listener {
 	public SQLGetter data;
 	public SQLstats data3;
 
-	private File mapsFile;
 	private YamlConfiguration mapsConfig;
 	private YamlDocument flagsConfig;
 
@@ -150,50 +119,52 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new DeathEvent(), this);
 
 		// Rewrite Commands
+		Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
+		// Kits
 		Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
+		Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
 
 		// OLD EVENTS
-		getServer().getPluginManager().registerEvents(new Warhound(), this);
+		//getServer().getPluginManager().registerEvents(new Warhound(), this);
 		getServer().getPluginManager().registerEvents(new SessionMuteCommand(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepSecretDoor(), this);
+		//getServer().getPluginManager().registerEvents(new HelmsdeepSecretDoor(), this);
 		getServer().getPluginManager().registerEvents(new EatCake(), this);
-		getServer().getPluginManager().registerEvents(new RegisterLevel(), this);
+		//getServer().getPluginManager().registerEvents(new RegisterLevel(), this);
 		getServer().getPluginManager().registerEvents(new NoMoveInventory(), this);
 		getServer().getPluginManager().registerEvents(new NoTouchArmorstand(), this);
 		getServer().getPluginManager().registerEvents(new NoTouchPaintings(), this);
-		getServer().getPluginManager().registerEvents(new KitsGUI_ThunderstoneGuard_Command(), this);
-		getServer().getPluginManager().registerEvents(new KitsGUI_Cloudcrawlers_Command(), this);
-		getServer().getPluginManager().registerEvents(new ScoutDeath(), this);
-		getServer().getPluginManager().registerEvents(new ScoutDeath(), this);
-		getServer().getPluginManager().registerEvents(new LaddermanDeath(), this);
-		getServer().getPluginManager().registerEvents(new LaddermanAbility(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepCaveBoat(), this);
+		//getServer().getPluginManager().registerEvents(new KitsGUI_ThunderstoneGuard_Command(), this);
+		//getServer().getPluginManager().registerEvents(new KitsGUI_Cloudcrawlers_Command(), this);
+		//getServer().getPluginManager().registerEvents(new ScoutDeath(), this);
+		//getServer().getPluginManager().registerEvents(new LaddermanDeath(), this);
+		//getServer().getPluginManager().registerEvents(new LaddermanAbility(), this);
+		//getServer().getPluginManager().registerEvents(new HelmsdeepCaveBoat(), this);
 		getServer().getPluginManager().registerEvents(new arrowRemoval(), this);
 		getServer().getPluginManager().registerEvents(new HitMessage(), this);
-		getServer().getPluginManager().registerEvents(new EngineerCobweb(), this);
-		getServer().getPluginManager().registerEvents(new DeathEngineer(), this);
-		//getServer().getPluginManager().registerEvents(new StatsMvpJoinevent(), this);
-		//getServer().getPluginManager().registerEvents(new StatsSaving(), this);
-		//getServer().getPluginManager().registerEvents(new StatsLoading(), this);
+		//getServer().getPluginManager().registerEvents(new EngineerCobweb(), this);
+		//getServer().getPluginManager().registerEvents(new DeathEngineer(), this);
+		getServer().getPluginManager().registerEvents(new StatsMvpJoinevent(), this);
+		getServer().getPluginManager().registerEvents(new StatsSaving(), this);
+		getServer().getPluginManager().registerEvents(new StatsLoading(), this);
 
-		getServer().getPluginManager().registerEvents(new RangerAbility(), this);
-		getServer().getPluginManager().registerEvents(new DeathRanger(), this);
-		getServer().getPluginManager().registerEvents(new HalberdierAbility(), this);
-		getServer().getPluginManager().registerEvents(new DeathHalberdier(), this);
-		getServer().getPluginManager().registerEvents(new CavalryAbility(), this);
-		getServer().getPluginManager().registerEvents(new CavalryDeath(), this);
-		getServer().getPluginManager().registerEvents(new CrossbowmanDeath(), this);
-		getServer().getPluginManager().registerEvents(new CrossbowmanAbility(), this);
-		getServer().getPluginManager().registerEvents(new VikingAbility(), this);
-		getServer().getPluginManager().registerEvents(new VikingDeath(), this);
-		getServer().getPluginManager().registerEvents(new MacemanAbility(), this);
-		getServer().getPluginManager().registerEvents(new ExecutionerAbility(), this);
-		getServer().getPluginManager().registerEvents(new ExecutionerDeath(), this);
-		getServer().getPluginManager().registerEvents(new BerserkerAbility(), this);
-		getServer().getPluginManager().registerEvents(new BerserkerDeath(), this);
-		getServer().getPluginManager().registerEvents(new MacemanDeath(), this);
-		getServer().getPluginManager().registerEvents(new VotedKitsGUI_Command(), this);
-		getServer().getPluginManager().registerEvents(new ClassicGui_Command(), this);
+		//getServer().getPluginManager().registerEvents(new RangerAbility(), this);
+		//getServer().getPluginManager().registerEvents(new DeathRanger(), this);
+		//getServer().getPluginManager().registerEvents(new HalberdierAbility(), this);
+		//getServer().getPluginManager().registerEvents(new DeathHalberdier(), this);
+		//getServer().getPluginManager().registerEvents(new CavalryAbility(), this);
+		//getServer().getPluginManager().registerEvents(new CavalryDeath(), this);
+		//getServer().getPluginManager().registerEvents(new CrossbowmanDeath(), this);
+		//getServer().getPluginManager().registerEvents(new CrossbowmanAbility(), this);
+		//getServer().getPluginManager().registerEvents(new VikingAbility(), this);
+		//getServer().getPluginManager().registerEvents(new VikingDeath(), this);
+		//getServer().getPluginManager().registerEvents(new MacemanAbility(), this);
+		//getServer().getPluginManager().registerEvents(new ExecutionerAbility(), this);
+		//getServer().getPluginManager().registerEvents(new ExecutionerDeath(), this);
+		//getServer().getPluginManager().registerEvents(new BerserkerAbility(), this);
+		//getServer().getPluginManager().registerEvents(new BerserkerDeath(), this);
+		//getServer().getPluginManager().registerEvents(new MacemanDeath(), this);
+		//getServer().getPluginManager().registerEvents(new VotedKitsGUI_Command(), this);
+		//getServer().getPluginManager().registerEvents(new ClassicGui_Command(), this);
 		//getServer().getPluginManager().registerEvents(new KitGUI_Rohan_Command(), this);
 		//getServer().getPluginManager().registerEvents(new KitGUI_Isengard_Command(), this);
 		getServer().getPluginManager().registerEvents(new newLogin(), this);
@@ -216,11 +187,11 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new NoHurtTeam(), this);
 
 		//getServer().getPluginManager().registerEvents(new DeathArcher(), this);
-		getServer().getPluginManager().registerEvents(new SkirmisherDeath(), this);
-		getServer().getPluginManager().registerEvents(new DeathSwordsman(), this);
-		getServer().getPluginManager().registerEvents(new DeathShieldman(), this);
-		getServer().getPluginManager().registerEvents(new DeathFirearcher(), this);
-		getServer().getPluginManager().registerEvents(new DeathSpearman(), this);
+		//getServer().getPluginManager().registerEvents(new SkirmisherDeath(), this);
+		//getServer().getPluginManager().registerEvents(new DeathSwordsman(), this);
+		//getServer().getPluginManager().registerEvents(new DeathShieldman(), this);
+		//getServer().getPluginManager().registerEvents(new DeathFirearcher(), this);
+		//getServer().getPluginManager().registerEvents(new DeathSpearman(), this);
 		getServer().getPluginManager().registerEvents(new DeathmessageDisable(), this);
 		getServer().getPluginManager().registerEvents(new CustomRegeneration(), this);
 
@@ -234,7 +205,7 @@ public class Main extends JavaPlugin implements Listener {
 		//getServer().getPluginManager().registerEvents(new CourtyardFlag(), this);
 		//getServer().getPluginManager().registerEvents(new GreatHallsFlag(), this);
 		//getServer().getPluginManager().registerEvents(new HornFlag(), this);
-//		getServer().getPluginManager().registerEvents(new WoolMap(), this);
+		//getServer().getPluginManager().registerEvents(new WoolMap(), this);
 
 		//getServer().getPluginManager().registerEvents(new HelmsdeepCavesDoor(), this);
 		//getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallLeftDoor(), this);
@@ -248,9 +219,9 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new armorTakeOff(), this);
 		//getServer().getPluginManager().registerEvents(new HelmsdeepMainGateDestroyEvent(), this);
 		//getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallDestroyEvent(), this);
-		//getServer().getPluginManager().registerEvents(new MVPstats(), this);
+		getServer().getPluginManager().registerEvents(new MVPstats(), this);
 		//getServer().getPluginManager().registerEvents(new SpearmanAbility(), this);
-		getServer().getPluginManager().registerEvents(new KitGUIcommand(), this);
+		//getServer().getPluginManager().registerEvents(new KitGUIcommand(), this);
 		getServer().getPluginManager().registerEvents(new MessageCommand(), this);
 		//getServer().getPluginManager().registerEvents(new HelmsdeepBallistaEvent(), this);
 
@@ -271,19 +242,18 @@ public class Main extends JavaPlugin implements Listener {
 		//getServer().getPluginManager().registerEvents(new ThunderstoneGateDestroyEvent(), this);
 		//getServer().getPluginManager().registerEvents(new EastTowerFlag(), this);
 		
-		//getServer().getPluginManager().registerEvents(new VotesLoading(), this);
-		//getServer().getPluginManager().registerEvents(new VotesUnloading(), this);
+		getServer().getPluginManager().registerEvents(new VotesLoading(), this);
+		getServer().getPluginManager().registerEvents(new VotesUnloading(), this);
 
-		getServer().getPluginManager().registerEvents(new FireArcherAbility(), this);
-		getServer().getPluginManager().registerEvents(new MedicAbilities(), this);
+		//getServer().getPluginManager().registerEvents(new FireArcherAbility(), this);
+		//getServer().getPluginManager().registerEvents(new MedicAbilities(), this);
 		
-		getServer().getPluginManager().registerEvents(new WarhoundDeath(), this);
-		getServer().getPluginManager().registerEvents(new MedicDeath(), this);
-		getServer().getPluginManager().registerEvents(new WarhoundAbility(), this);
+		//getServer().getPluginManager().registerEvents(new WarhoundDeath(), this);
+		//getServer().getPluginManager().registerEvents(new MedicDeath(), this);
+		//getServer().getPluginManager().registerEvents(new WarhoundAbility(), this);
 
 		//getCommand("KitThunderstoneGuards").setExecutor(new KitsGUI_ThunderstoneGuard_Command());
 		//getCommand("KitCloudcrawlers").setExecutor(new KitsGUI_Cloudcrawlers_Command());
-		getCommand("Switch").setExecutor(new SwitchCommand());
 		//getCommand("VoterKitGUI").setExecutor(new VotedKitsGUI_Command());
 		//getCommand("ClassicGUI").setExecutor(new ClassicGui_Command());
 		getCommand("togglerank").setExecutor(new togglerankCommand());
@@ -292,11 +262,11 @@ public class Main extends JavaPlugin implements Listener {
 		getCommand("ping").setExecutor(new pingCommand());
 		getCommand("rules").setExecutor(new rulesCommand());
 		getCommand("discord").setExecutor(new discordCommand());
-		//getCommand("teams").setExecutor(new teamCommand());
+		getCommand("teams").setExecutor(new teamCommand());
 		//getCommand("Kit").setExecutor(new KitsCommand());
 		//getCommand("Mvp").setExecutor(new mvpCommand());
 		//getCommand("KitGUI").setExecutor(new KitGUIcommand());
-		//getCommand("Mystats").setExecutor(new MystatsCommand());
+		getCommand("Mystats").setExecutor(new MystatsCommand());
 		//getCommand("NextMap").setExecutor(new NextMapCommand());
 		//getCommand("t").setExecutor(new TeamChat());
 		getCommand("msg").setExecutor(new MessageCommand());
@@ -304,27 +274,27 @@ public class Main extends JavaPlugin implements Listener {
 		//getCommand("maps").setExecutor(new MapsCommand());
 		getCommand("sui").setExecutor(new suicideCommand());
 		//getCommand("CheckFlagList").setExecutor(new FlagListCommand());
-		//getCommand("s").setExecutor(new StaffChat());
-		//getCommand("kick").setExecutor(new KickCommand());
-		//getCommand("Fly").setExecutor(new FlyCommand());
-		//getCommand("kickall").setExecutor(new KickallCommand());
-		//getCommand("sessionmute").setExecutor(new SessionMuteCommand());
-		//getCommand("Unsessionmute").setExecutor(new UnsessionmuteCommand());
+		getCommand("s").setExecutor(new StaffChat());
+		getCommand("kick").setExecutor(new KickCommand());
+		getCommand("Fly").setExecutor(new FlyCommand());
+		getCommand("kickall").setExecutor(new KickallCommand());
+		getCommand("sessionmute").setExecutor(new SessionMuteCommand());
+		getCommand("Unsessionmute").setExecutor(new UnsessionmuteCommand());
 		
-		//getCommand("givevote").setExecutor(new GiveVoteCommand());
-		//getCommand("givevoter").setExecutor(new VoteListenerCommand());
+		getCommand("givevote").setExecutor(new GiveVoteCommand());
+		getCommand("givevoter").setExecutor(new VoteListenerCommand());
 
 
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneEndMap(), 0, 200);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepCaveBoat(), 0, 200);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new scoreboard(), 0, 20);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepEndMap(), 0, 20);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ApplyRegeneration(), 0, 75);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new Hunger(), 0, 20);
+		Bukkit.getServer().getScheduler().runTaskTimer(this, new ApplyRegeneration(), 0, 75);
+		Bukkit.getServer().getScheduler().runTaskTimer(this, new Hunger(), 0, 20);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepMVPupdater(), 0, 20);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneMVPupdater(), 0, 20);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HalberdierAbility(), 100, 25);
-		//Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new DatabaseKeepAliveEvent(), 500, 500);
+		Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new DatabaseKeepAliveEvent(), 500, 500);
 		//Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new Herugrim(), 10, 10);
 
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new MainGateReadyRam(), 200, 60);
@@ -488,7 +458,7 @@ public class Main extends JavaPlugin implements Listener {
 		}
 
 		// Load maps.yml with Spigot's yaml parser
-		mapsFile = new File(getDataFolder(), "maps.yml");
+		File mapsFile = new File(getDataFolder(), "maps.yml");
 		if (!mapsFile.exists()) {
 			mapsFile.getParentFile().mkdirs();
 			saveResource("maps.yml", false);
@@ -553,9 +523,9 @@ public class Main extends JavaPlugin implements Listener {
 
 			// Set the spawn point
 			flag.spawnPoint = new Location(Bukkit.getWorld(map.worldName),
-					getFlagsConfig().getDouble(flagRoute.add("spawnPoint").add("x")),
-					getFlagsConfig().getDouble(flagRoute.add("spawnPoint").add("y")),
-					getFlagsConfig().getDouble(flagRoute.add(".spawnPoint").add("z")));
+					getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("x")),
+					getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("y")),
+					getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("z")));
 
 			// Set the capture area
 			Route captureRoute = flagRoute.add("capture_area");
