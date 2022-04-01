@@ -34,7 +34,7 @@ public class HelmsdeepEndMap implements Runnable {
 						HD_hasEnded = true;
 				}
 
-			} else if (HelmsdeepTimer.hasGameEnded) {
+			} else if (MapController.timer.hasGameEnded) {
 
 				//This means Rohan wins, cause they had at least one flag left by the end of the timer!
 

@@ -44,11 +44,13 @@ public class SwitchCommand implements CommandExecutor {
 					if (index == map.teams.length) {
 						map.teams[index - 1].removePlayer(p.getUniqueId());
 						map.teams[0].addPlayer(p.getUniqueId());
-
+					} else {
+						map.teams[index - 1].removePlayer(p.getUniqueId());
+						map.teams[index].addPlayer(p.getUniqueId());
 					}
-					// The player has specified a team, and we should swap to that if it's a valid team
 				} else {
-					Team team = map.getTeam(Arrays.toString(args));
+					// The player has specified a team, and we should swap to that if it's a valid team
+					Team team = map.getTeam(String.join(" ", args));
 					if (team != null) {
 						map.getTeam(p.getUniqueId()).removePlayer(p.getUniqueId());
 						team.addPlayer(p.getUniqueId());
@@ -62,10 +64,10 @@ public class SwitchCommand implements CommandExecutor {
 				p.setHealth(0);
 				Team team = map.getTeam(p.getUniqueId());
 				if (SINGLE_DEATH_RANKS.contains(StatsChanging.getRank(p.getUniqueId()))) {
-					p.sendMessage("You switched to " + team.primaryChatColor + " " + team.name + ChatColor.DARK_AQUA + " (+1 death)");
+					p.sendMessage("You switched to " + team.primaryChatColor + team.name + ChatColor.DARK_AQUA + " (+1 death)");
 					StatsChanging.addDeaths(p.getUniqueId(), 1);
 				} else {
-					p.sendMessage("You switched to " + team.primaryChatColor + " " + team.name + ChatColor.DARK_AQUA + " (+2 deaths)");
+					p.sendMessage("You switched to " + team.primaryChatColor + team.name + ChatColor.DARK_AQUA + " (+2 deaths)");
 					StatsChanging.addDeaths(p.getUniqueId(), 2);
 				}
 				return true;
@@ -76,7 +78,7 @@ public class SwitchCommand implements CommandExecutor {
 			Team oldTeam = MapController.getCurrentMap().getTeam(p.getUniqueId());
 			Team smallestTeam = MapController.getCurrentMap().smallestTeam();
 			if (oldTeam == smallestTeam) {
-				p.sendMessage(ChatColor.RED + "Can't switch right now teams would be imbalanced.");
+				p.sendMessage(ChatColor.RED + "Can't switch right now teams would be imbalanced. Donators avoid this restriction!");
 				return true;
 			}
 

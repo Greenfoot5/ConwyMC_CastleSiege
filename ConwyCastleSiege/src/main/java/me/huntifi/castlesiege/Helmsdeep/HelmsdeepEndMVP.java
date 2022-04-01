@@ -13,7 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.Database.SQLstats;
+import me.huntifi.castlesiege.Database.SQLStats;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 
 public class HelmsdeepEndMVP implements Listener {
@@ -199,12 +199,12 @@ public class HelmsdeepEndMVP implements Listener {
 
 		UUID uuid = p.getUniqueId();
 
-		double kills = SQLstats.getKills(uuid);
-		double heals = SQLstats.getHeals(uuid);
-		double deaths = SQLstats.getDeaths(uuid);
-		double assists = SQLstats.getAssists(uuid);
-		double supports = SQLstats.getSupports(uuid);
-		double captures = SQLstats.getCaptures(uuid);
+		double kills = SQLStats.getKills(uuid);
+		double heals = SQLStats.getHeals(uuid);
+		double deaths = SQLStats.getDeaths(uuid);
+		double assists = SQLStats.getAssists(uuid);
+		double supports = SQLStats.getSupports(uuid);
+		double captures = SQLStats.getCaptures(uuid);
 
 		double totalScore = (kills + assists + captures + (heals/2) + (supports/6) - deaths);
 

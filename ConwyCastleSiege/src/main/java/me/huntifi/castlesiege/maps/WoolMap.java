@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.kits.Kit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -27,6 +28,7 @@ public class WoolMap implements Listener {
 			for (WoolMapBlock block : woolMapBlocks) {
 				if (s.getLine(1).equalsIgnoreCase(block.flagName)) {
 					block.SpawnPlayer(player.getUniqueId());
+					Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 				}
 			}
 		}

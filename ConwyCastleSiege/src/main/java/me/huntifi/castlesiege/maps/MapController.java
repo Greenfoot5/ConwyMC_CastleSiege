@@ -28,6 +28,7 @@ public class MapController {
 	public static MapsList currentMap = MapsList.HelmsDeep;
 	public static Map[] maps;
 	public static int mapIndex = 0;
+	public static Timer timer;
 
 	/**
 	 * Sets the current map by string
@@ -91,6 +92,9 @@ public class MapController {
 			player.teleport(team.lobby.spawnPoint);
 			new Swordsman().addPlayer(player.getUniqueId());
 		}
+
+		// Start the timer!
+		timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond());
 	}
 
 	/**

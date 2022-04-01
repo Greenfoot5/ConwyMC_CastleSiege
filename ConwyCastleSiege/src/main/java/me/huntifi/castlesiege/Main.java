@@ -13,7 +13,7 @@ import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import me.huntifi.castlesiege.Database.DatabaseKeepAliveEvent;
 import me.huntifi.castlesiege.Database.MySQL;
 import me.huntifi.castlesiege.Database.SQLGetter;
-import me.huntifi.castlesiege.Database.SQLstats;
+import me.huntifi.castlesiege.Database.SQLStats;
 import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
 import me.huntifi.castlesiege.Helmsdeep.Wall.WallEvent;
 import me.huntifi.castlesiege.chat.PlayerChat;
@@ -33,6 +33,7 @@ import me.huntifi.castlesiege.joinevents.stats.StatsLoading;
 import me.huntifi.castlesiege.joinevents.stats.StatsSaving;
 import me.huntifi.castlesiege.kits.Enderchest;
 import me.huntifi.castlesiege.kits.kits.Archer;
+import me.huntifi.castlesiege.kits.kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.ladders.LadderEvent;
 import me.huntifi.castlesiege.maps.Map;
@@ -73,9 +74,6 @@ public class Main extends JavaPlugin implements Listener {
 	public Tablist tab;
 	public static MySQL SQL;
 
-	public SQLGetter data;
-	public SQLstats data3;
-
 	private YamlConfiguration mapsConfig;
 	private YamlDocument flagsConfig;
 
@@ -92,8 +90,6 @@ public class Main extends JavaPlugin implements Listener {
 
 		// SQL Stuff
 		SQL = new MySQL();
-		this.data = new SQLGetter(this);
-		this.data3 = new SQLstats(this);
 
 		try {
 			SQL.connect();
@@ -103,10 +99,9 @@ public class Main extends JavaPlugin implements Listener {
 		}
 
 		if (SQL.isConnected()) {
-
 			Bukkit.getLogger().info("<!> Database is connected! <!>");
 			getServer().getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "[TheDarkAge] <!> Database is connected! <!>");
-			SQLstats.createTable();
+			SQLStats.createTable();
 			this.getServer().getPluginManager().registerEvents(this, this);
 		}
 
@@ -117,12 +112,15 @@ public class Main extends JavaPlugin implements Listener {
 
 		// Rewrite Events
 		getServer().getPluginManager().registerEvents(new DeathEvent(), this);
+		// Kits
+		getServer().getPluginManager().registerEvents(new Spearman(), this);
 
 		// Rewrite Commands
 		Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
 		// Kits
 		Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
 		Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
+		Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
 
 		// OLD EVENTS
 		//getServer().getPluginManager().registerEvents(new Warhound(), this);
@@ -287,14 +285,14 @@ public class Main extends JavaPlugin implements Listener {
 
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneEndMap(), 0, 200);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepCaveBoat(), 0, 200);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new scoreboard(), 0, 20);
+		Bukkit.getServer().getScheduler().runTaskTimer(this, new Scoreboard(), 0, 20);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepEndMap(), 0, 20);
 		Bukkit.getServer().getScheduler().runTaskTimer(this, new ApplyRegeneration(), 0, 75);
 		Bukkit.getServer().getScheduler().runTaskTimer(this, new Hunger(), 0, 20);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepMVPupdater(), 0, 20);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneMVPupdater(), 0, 20);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HalberdierAbility(), 100, 25);
-		Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new DatabaseKeepAliveEvent(), 500, 500);
+		Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new DatabaseKeepAliveEvent(), 190, 190);
 		//Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new Herugrim(), 10, 10);
 
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new MainGateReadyRam(), 200, 60);
@@ -381,8 +379,8 @@ public class Main extends JavaPlugin implements Listener {
 
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
-			if (!SQLstats.exists(p.getUniqueId())) {
-				SQLstats.createPlayer(p);
+			if (!SQLStats.exists(p.getUniqueId())) {
+				SQLStats.createPlayer(p);
 			}
 		});
 	}
@@ -496,6 +494,10 @@ public class Main extends JavaPlugin implements Listener {
 				String path = mapPaths[i] + ".teams." + teamPaths[j];
 				map.teams[j] = loadTeam(path, map);
 			}
+
+			// Timer data
+			map.duration = new Tuple<>(this.getMapsConfig().getInt(mapPaths[i] + ".duration.minutes"),
+					this.getMapsConfig().getInt(mapPaths[i] + ".duration.seconds"));
 
 			// Save the map
 			MapController.maps[i] = map;

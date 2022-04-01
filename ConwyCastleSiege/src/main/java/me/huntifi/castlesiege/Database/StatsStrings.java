@@ -25,7 +25,7 @@ public class StatsStrings {
 
 		};
 		
-		AsyncGetters.performLookupKit(callback, p, SQLstats.getKit(uuid), true);
+		AsyncGetters.performLookupKit(callback, p, SQLStats.getKit(uuid), true);
 		
 	}
 	
@@ -48,7 +48,7 @@ public class StatsStrings {
 
 		};
 		
-		AsyncGetters.performLookupKit(callback, p, SQLstats.getKit(uuid), true);
+		AsyncGetters.performLookupKit(callback, p, SQLStats.getKit(uuid), true);
 		return "";
 		
 	}

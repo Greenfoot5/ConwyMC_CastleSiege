@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.Database.SQLstats;
+import me.huntifi.castlesiege.Database.SQLStats;
 import me.huntifi.castlesiege.Database.StatsStrings;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
@@ -29,7 +29,7 @@ public class KitsCommand implements CommandExecutor {
 
 					if (args[0].equalsIgnoreCase("Swordsman")) {
 
-						SQLstats.setKit(p.getUniqueId(), "Swordsman");
+						SQLStats.setKit(p.getUniqueId(), "Swordsman");
 						StatsStrings.returnKit(p);
 						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); });
 						
@@ -37,7 +37,7 @@ public class KitsCommand implements CommandExecutor {
 
 					if (args[0].equalsIgnoreCase("Archer")) {
 
-						SQLstats.setKit(p.getUniqueId(), "Archer");
+						SQLStats.setKit(p.getUniqueId(), "Archer");
 						StatsStrings.returnKit(p);
 						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); });
 						
@@ -46,7 +46,7 @@ public class KitsCommand implements CommandExecutor {
 
 					if (args[0].equalsIgnoreCase("Spearman")) {
 
-						SQLstats.setKit(p.getUniqueId(), "Spearman");
+						SQLStats.setKit(p.getUniqueId(), "Spearman");
 						StatsStrings.returnKit(p);
 						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); });
 						
@@ -55,7 +55,7 @@ public class KitsCommand implements CommandExecutor {
 
 					if (args[0].equalsIgnoreCase("Skirmisher")) {
 
-						SQLstats.setKit(p.getUniqueId(), "Skirmisher");
+						SQLStats.setKit(p.getUniqueId(), "Skirmisher");
 						StatsStrings.returnKit(p);
 						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); });
 						 
@@ -64,7 +64,7 @@ public class KitsCommand implements CommandExecutor {
 
 					if (args[0].equalsIgnoreCase("Shieldman")) {
 
-						SQLstats.setKit(p.getUniqueId(), "Shieldman");
+						SQLStats.setKit(p.getUniqueId(), "Shieldman");
 						StatsStrings.returnKit(p);
 						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); });
 						
@@ -74,7 +74,7 @@ public class KitsCommand implements CommandExecutor {
 					if (args[0].equalsIgnoreCase("FireArcher")) {
 
 
-						SQLstats.setKit(p.getUniqueId(), "FireArcher");
+						SQLStats.setKit(p.getUniqueId(), "FireArcher");
 						StatsStrings.returnKit(p);
 						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); });
 						 

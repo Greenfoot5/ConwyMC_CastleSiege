@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.Database.SQLstats;
+import me.huntifi.castlesiege.Database.SQLStats;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 
 public class newLogin implements Listener {
@@ -28,18 +28,18 @@ public class newLogin implements Listener {
 			
 			Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			
-			SQLstats.setScore(uuid, 0.0);
-			SQLstats.setKills(uuid, 0.0);
-			SQLstats.setDeaths(uuid, 0.0);
-			SQLstats.setCaptures(uuid, 0.0);
-			SQLstats.setHeals(uuid, 0.0);
-			SQLstats.setSupports(uuid, 0.0);
-			SQLstats.setAssists(uuid, 0.0);
-			SQLstats.setLevel(uuid, 0);
-			SQLstats.setMvps(uuid, 0);
-			SQLstats.setSecrets(uuid, 0);
-			SQLstats.setKillstreak(uuid, 0);
-			SQLstats.setKit(uuid, "Swordsman");
+			SQLStats.setScore(uuid, 0.0);
+			SQLStats.setKills(uuid, 0.0);
+			SQLStats.setDeaths(uuid, 0.0);
+			SQLStats.setCaptures(uuid, 0.0);
+			SQLStats.setHeals(uuid, 0.0);
+			SQLStats.setSupports(uuid, 0.0);
+			SQLStats.setAssists(uuid, 0.0);
+			SQLStats.setLevel(uuid, 0);
+			SQLStats.setMvps(uuid, 0);
+			SQLStats.setSecrets(uuid, 0);
+			SQLStats.setKillstreak(uuid, 0);
+			SQLStats.setKit(uuid, "Swordsman");
 			
 			MVPstats.setScore(uuid, 0.0);
 			MVPstats.setKills(uuid, 0.0);

@@ -10,7 +10,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -19,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Swordsman extends Kit implements Listener, CommandExecutor {
+public class Swordsman extends Kit implements CommandExecutor {
 
 	public Swordsman() {
 		super("Swordsman");
@@ -28,7 +27,7 @@ public class Swordsman extends Kit implements Listener, CommandExecutor {
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
-		super.heldItemSlot = 1;
+		super.heldItemSlot = 0;
 
 		// Weapon
 		ItemStack item = new ItemStack(Material.IRON_SWORD);
@@ -79,7 +78,7 @@ public class Swordsman extends Kit implements Listener, CommandExecutor {
 
 		// Ladders
 		es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-		es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
+		es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
 
 		super.equipment = es;
 

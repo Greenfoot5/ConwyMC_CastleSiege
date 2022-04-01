@@ -14,7 +14,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.Database.SQLstats;
+import me.huntifi.castlesiege.Database.SQLStats;
 import me.huntifi.castlesiege.Database.StatsStrings;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
@@ -86,7 +86,7 @@ public class KitGUIcommand implements CommandExecutor, Listener {
 
 					Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
-						SQLstats.setKit(p.getUniqueId(), "Swordsman");
+						SQLStats.setKit(p.getUniqueId(), "Swordsman");
 						StatsStrings.returnKit(p);
 						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
@@ -98,7 +98,7 @@ public class KitGUIcommand implements CommandExecutor, Listener {
 
 					Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
-						SQLstats.setKit(p.getUniqueId(), "Archer");
+						SQLStats.setKit(p.getUniqueId(), "Archer");
 						StatsStrings.returnKit(p);
 						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory();});
 						isInGUI.remove(p);
@@ -110,7 +110,7 @@ public class KitGUIcommand implements CommandExecutor, Listener {
 
 					Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
-						SQLstats.setKit(p.getUniqueId(), "Spearman");
+						SQLStats.setKit(p.getUniqueId(), "Spearman");
 						StatsStrings.returnKit(p);
 						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
@@ -122,7 +122,7 @@ public class KitGUIcommand implements CommandExecutor, Listener {
 
 					Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
-						SQLstats.setKit(p.getUniqueId(), "Skirmisher");
+						SQLStats.setKit(p.getUniqueId(), "Skirmisher");
 						StatsStrings.returnKit(p);
 						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
@@ -135,7 +135,7 @@ public class KitGUIcommand implements CommandExecutor, Listener {
 
 					Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
-						SQLstats.setKit(p.getUniqueId(), "Shieldman");
+						SQLStats.setKit(p.getUniqueId(), "Shieldman");
 						StatsStrings.returnKit(p);
 						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
@@ -147,7 +147,7 @@ public class KitGUIcommand implements CommandExecutor, Listener {
 
 					Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
-						SQLstats.setKit(p.getUniqueId(), "FireArcher");
+						SQLStats.setKit(p.getUniqueId(), "FireArcher");
 						StatsStrings.returnKit(p);
 						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);

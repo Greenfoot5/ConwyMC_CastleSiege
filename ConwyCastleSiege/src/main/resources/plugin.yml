@@ -150,3 +150,6 @@ commands:
   swordsman:
     description: Selects the swordsman kit
     usage: /swordsman
+  spearman:
+    description: Selects the spearman kit
+    usage: /spearman

@@ -3,13 +3,12 @@ package me.huntifi.castlesiege.stats;
 import java.text.DecimalFormat;
 import java.util.UUID;
 
-import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.Database.SQLGetter;
-import me.huntifi.castlesiege.Database.SQLstats;
+import me.huntifi.castlesiege.Database.SQLStats;
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.joinevents.stats.StatsLoading;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
@@ -25,16 +24,16 @@ public class StatsEverything {
 
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
-			StatsLoading.PlayerKills.put(uuid, SQLstats.getKills(uuid));
-			StatsLoading.PlayerDeaths.put(uuid, SQLstats.getDeaths(uuid));
-			StatsLoading.PlayerCaptures.put(uuid, SQLstats.getCaptures(uuid));
-			StatsLoading.PlayerAssists.put(uuid, SQLstats.getAssists(uuid));
-			StatsLoading.PlayerHeals.put(uuid, SQLstats.getHeals(uuid));
-			StatsLoading.PlayerSupports.put(uuid, SQLstats.getSupports(uuid));
-			StatsLoading.PlayerKillstreak.put(uuid, SQLstats.getKillstreak(uuid));
-			StatsLoading.PlayerSecrets.put(uuid, SQLstats.getSecrets(uuid));
-			StatsLoading.PlayerKit.put(uuid, SQLstats.getKit(uuid));
-			StatsLoading.PlayerLevel.put(uuid, SQLstats.getLevel(uuid));
+			StatsLoading.PlayerKills.put(uuid, SQLStats.getKills(uuid));
+			StatsLoading.PlayerDeaths.put(uuid, SQLStats.getDeaths(uuid));
+			StatsLoading.PlayerCaptures.put(uuid, SQLStats.getCaptures(uuid));
+			StatsLoading.PlayerAssists.put(uuid, SQLStats.getAssists(uuid));
+			StatsLoading.PlayerHeals.put(uuid, SQLStats.getHeals(uuid));
+			StatsLoading.PlayerSupports.put(uuid, SQLStats.getSupports(uuid));
+			StatsLoading.PlayerKillstreak.put(uuid, SQLStats.getKillstreak(uuid));
+			StatsLoading.PlayerSecrets.put(uuid, SQLStats.getSecrets(uuid));
+			StatsLoading.PlayerKit.put(uuid, SQLStats.getKit(uuid));
+			StatsLoading.PlayerLevel.put(uuid, SQLStats.getLevel(uuid));
 			StatsLoading.PlayerRank.put(uuid, SQLGetter.getRank(uuid));
 			StatsLoading.PlayerStaffRank.put(uuid, SQLGetter.getStaffRank(uuid));
 			
@@ -94,14 +93,14 @@ public class StatsEverything {
 
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			
-			SQLstats.addKills(uuid, MVPstats.getKills(uuid));
-			SQLstats.addCaptures(uuid, MVPstats.getCaptures(uuid));
-			SQLstats.addAssists(uuid, MVPstats.getAssists(uuid));
-			SQLstats.addDeaths(uuid, MVPstats.getDeaths(uuid));
-			SQLstats.addHeals(uuid, MVPstats.getHeals(uuid));
-			SQLstats.addSupports(uuid, MVPstats.getSupports(uuid));
-			SQLstats.addSupports(uuid, MVPstats.getSupports(uuid));
-			SQLstats.setScore(uuid, calculateScore(p));
+			SQLStats.addKills(uuid, MVPstats.getKills(uuid));
+			SQLStats.addCaptures(uuid, MVPstats.getCaptures(uuid));
+			SQLStats.addAssists(uuid, MVPstats.getAssists(uuid));
+			SQLStats.addDeaths(uuid, MVPstats.getDeaths(uuid));
+			SQLStats.addHeals(uuid, MVPstats.getHeals(uuid));
+			SQLStats.addSupports(uuid, MVPstats.getSupports(uuid));
+			SQLStats.addSupports(uuid, MVPstats.getSupports(uuid));
+			SQLStats.setScore(uuid, calculateScore(p));
 			
 			Bukkit.getScheduler().runTask(plugin, () -> {
 				
@@ -152,7 +151,7 @@ public class StatsEverything {
 		
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 		
-		SQLstats.setScore(uuid, StatsUpdater.returnMainScore(p));
+		SQLStats.setScore(uuid, StatsUpdater.returnMainScore(p));
 		
 		});
 		

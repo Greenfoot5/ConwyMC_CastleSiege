@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.flags.Flag;
 
 import java.util.Objects;
@@ -10,6 +11,7 @@ public class Map {
     public String worldName;
     public Team[] teams;
     public Flag[] flags;
+    public Tuple<Integer, Integer> duration = new Tuple<>(20, 0);
 
     /**
      * Get the team a player is on

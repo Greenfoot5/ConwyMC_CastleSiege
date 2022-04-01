@@ -4,6 +4,9 @@ HelmsDeep:
   # The relative time is analogous to hours * 1000
   start_time: 22000
   doDaylightCycle: false
+  duration:
+    minutes: 30
+    seconds: 0
   teams:
     Urukhai:
       name: "Uruk-hai"

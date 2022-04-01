@@ -18,7 +18,7 @@ public class AsyncGetters {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				String line = SQLstats.getKit(player.getUniqueId());
+				String line = SQLStats.getKit(player.getUniqueId());
 
 				if(!syncCallback) {
 					callback.gotString(line);
