@@ -12,7 +12,6 @@ import me.huntifi.castlesiege.stats.levels.LevelingEvent;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -72,6 +71,7 @@ public class MapController {
 		}
 		else {
 			currentMap = MapsList.values()[currentMap.ordinal() + 1];
+			mapIndex++;
 			getLogger().info("Loading next map: " + currentMap.name());
 			for (Player p : Bukkit.getOnlinePlayers()) {
 
@@ -80,7 +80,9 @@ public class MapController {
 					MainStats.updateStats(p.getUniqueId(), p);
 				}
 			}
+			System.out.println("Loading Map");
 			loadMap();
+			System.out.println("About to unload map");
 			if (!oldMap.equals(currentMap.name()))
 				unloadMap(oldMap);
 		}
@@ -95,22 +97,27 @@ public class MapController {
 		worldSettings.generateStructures(false);
 		worldSettings.createWorld();
 
+		System.out.println("Loading Flags");
 		// Register the flag regions
 		for (Flag flag : maps[mapIndex].flags) {
 			WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(currentMap.name()))).addRegion(flag.region);
 		}
 
+		System.out.println("Loading woolmaps");
 		// Register the woolmap clicks
 		for (Team team : maps[mapIndex].teams) {
 			getServer().getPluginManager().registerEvents(team.lobby.woolmap, Main.plugin);
 		}
 
+		System.out.println("Getting players on teams");
 		// Move all players to the new map and team
 		Kit.equippedKits = new HashMap<>();
 		for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
+			System.out.println("Adding " + player.getDisplayName() + " to a team");
 			joinATeam(player.getUniqueId());
 		}
 
+		System.out.println("Starting the timer");
 		// Start the timer!
 		timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond());
 	}
@@ -191,10 +198,19 @@ public class MapController {
 		Player player = Bukkit.getPlayer(uuid);
 		Team team = maps[mapIndex].smallestTeam();
 
+		System.out.println("Adding player to team");
 		team.addPlayer(uuid);
 		assert player != null;
+		System.out.println("Teleporting player");
+		System.out.println(team.name);
+		System.out.println(team.lobby);
+		System.out.println(team.lobby.spawnPoint);
+		System.out.println(team.lobby.spawnPoint.isWorldLoaded());
+		System.out.println(Bukkit.getWorld("Thunderstone"));
 		player.teleport(team.lobby.spawnPoint);
+		System.out.println("Clearing Inventory?");
 		player.getInventory().clear();
+		System.out.println("Giving player a kit");
 		new Swordsman().addPlayer(uuid);
 
 		player.sendMessage("You joined" + team.primaryChatColor + " " + team.name);

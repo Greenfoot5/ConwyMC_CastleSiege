@@ -19,9 +19,6 @@ commands:
   rules:
     description: Displays the rules!
     usage: /Rules
-  NextMap:
-    description: Skips the current map and goes directly to the next one.
-    usage: /NextMap
   maps:
     description: Displays the map rotation!
     usage: /Maps
@@ -73,9 +70,6 @@ commands:
   Teams:
     description: Shows the size of both teams.
     usage: /Teams
-  Switch:
-    description: Switches teams.
-    usage: /Switch
   Kit:
     description: Switches teams.
     usage: /Kit
@@ -144,9 +138,15 @@ commands:
     description: Moderator command to give players their votes.
     usage: /Givevote
 
-  csreload:
+  CSReload:
     description: Reloads the Castle Siege Plugin
     usage: /csreload
+  NextMap:
+    description: Skips the current map and goes directly to the next one.
+    usage: /nextmap
+  Switch:
+    description: Switches teams.
+    usage: /switch
 
   # Kits
   archer:

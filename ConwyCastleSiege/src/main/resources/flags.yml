@@ -381,3 +381,63 @@ HelmsDeep:
             x: 992
             y: 46
             z: 1141
+Thunderstone:
+  stairhall:
+    name: "The Stair Hall"
+    start_owners: "Thunderstone Guard"
+    max_cap: 15
+    start_amount: 15
+    progress_amount: 10
+    scoreboard: 5
+    spawn_point:
+      x: 182
+      y: 66
+      z: 67
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 984
+        y: 34
+        z: 1137
+      max:
+        x: 992
+        y: 40
+        z: 1145
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 989
+            y: 38
+            z: 1141
+          - "==": Vector
+            x: 990
+            y: 38
+            z: 1141
+          - "==": Vector
+            x: 991
+            y: 38
+            z: 1141
+          - "==": Vector
+            x: 992
+            y: 38
+            z: 1141
+        secondary_blocks:
+          - "==": "Vector"
+            x: 989
+            y: 37
+            z: 1141
+          - "==": "Vector"
+            x: 990
+            y: 37
+            z: 1141
+          - "==": Vector
+            x: 991
+            y: 37
+            z: 1141
+          - "==": Vector
+            x: 992
+            y: 37
+            z: 1141

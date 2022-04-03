@@ -153,6 +153,7 @@
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/medic/MedicVotedKit.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Thunderstone/ThunderstoneLeave.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagName.java
+/Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/kits/Berserker.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Helmsdeep/flags/FlagMessages.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Engineer/Engineer.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Thunderstone/TeamBonusses/Messages_Westtower.java
@@ -248,7 +249,6 @@
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Helmsdeep/flags/TeamBonusses/Message_Caves.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Swordsman/SwordsmanKit.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Crossbowman/CrossbowmanKit.java
-/Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Berserker/Berserker.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/voting/VotesChanging.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Helmsdeep/rams/MainGateRam.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/medic/Medic.java

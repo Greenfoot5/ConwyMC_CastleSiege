@@ -48,3 +48,50 @@ HelmsDeep:
               y: 15
               z: 955
             sign_direction: south
+Thunderstone:
+  world: "Thunderstone"
+  name: "Thunderstone"
+  start_time: 9000
+  doDaylightCycle: false
+  duration:
+    minutes: 30
+    seconds: 0
+  teams:
+    Cloudcrawlers:
+      name: "Cloud Crawlers"
+      primary_color: "cyan"
+      secondary_color: "light_blue"
+      lobby:
+        spawn_point:
+          x: -191
+          y: 202
+          z: 159
+          yaw: -90
+          pitch: 1
+        woolmap:
+          stair_hall:
+            flag_name: "The Stair Hall"
+            wool_position:
+              x: 282
+              y: 15
+              z: 955
+            sign_direction: south
+    Guard:
+      name: "Thunderstone Guard"
+      primary_color: "gold"
+      secondary_color: "yellow"
+      lobby:
+        spawn_point:
+          x: -187
+          y: 202
+          z: 106
+          yaw: -90
+          pitch: 2
+        woolmap:
+          stair_hall:
+            flag_name: "The Stair Hall"
+            wool_position:
+              x: 282
+              y: 15
+              z: 955
+            sign_direction: south

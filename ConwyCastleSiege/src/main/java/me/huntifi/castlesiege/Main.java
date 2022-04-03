@@ -111,7 +111,8 @@ public class Main extends JavaPlugin implements Listener {
 
 		// Rewrite Commands
 		Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
-		Objects.requireNonNull(getCommand("csreload")).setExecutor(new ReloadCommand());
+		Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
+		Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
 		// Kits
 		Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
 		Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
@@ -262,7 +263,6 @@ public class Main extends JavaPlugin implements Listener {
 		//getCommand("Mvp").setExecutor(new mvpCommand());
 		//getCommand("KitGUI").setExecutor(new KitGUIcommand());
 		getCommand("Mystats").setExecutor(new MystatsCommand());
-		//getCommand("NextMap").setExecutor(new NextMapCommand());
 		//getCommand("t").setExecutor(new TeamChat());
 		getCommand("msg").setExecutor(new MessageCommand());
 		getCommand("r").setExecutor(new ReplyCommand());
@@ -363,6 +363,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private void createWorld() {
 		for (MapsList mapName : MapsList.values()) {
+			System.out.println("Creating " + mapName.name());
 			WorldCreator worldCreator = new WorldCreator(mapName.name());
 			worldCreator.generateStructures(false);
 			worldCreator.createWorld();
@@ -374,6 +375,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private void unloadWorlds() {
 		for(World world : Bukkit.getWorlds()) {
+			System.out.println("Disabling " + world.getName());
 			plugin.getServer().unloadWorld(world, true);
 		}
 	}
