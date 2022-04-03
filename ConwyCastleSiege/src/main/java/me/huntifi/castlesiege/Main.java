@@ -112,14 +112,16 @@ public class Main extends JavaPlugin implements Listener {
 		// Rewrite Events
 		getServer().getPluginManager().registerEvents(new DeathEvent(), this);
 		// Kits
-		getServer().getPluginManager().registerEvents(new Spearman(), this);
+		getServer().getPluginManager().registerEvents(new Executioner(), this);
+                getServer().getPluginManager().registerEvents(new Spearman(), this);
 
 		// Rewrite Commands
 		Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
 		// Kits
 		Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
-		Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
+		Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
 		Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
+                Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
 
 		// OLD EVENTS
 		//getServer().getPluginManager().registerEvents(new Warhound(), this);
