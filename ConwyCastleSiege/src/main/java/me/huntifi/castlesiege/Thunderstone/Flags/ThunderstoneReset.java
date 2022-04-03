@@ -17,7 +17,7 @@ import me.huntifi.castlesiege.structures.MakeStructure;
 
 public class ThunderstoneReset {
 	
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static void onReset() {
 		

@@ -11,7 +11,7 @@ import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 
 public class LevelSave {
 	
-	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 	 
 	public static void saveLevel(Player p) {
 		

@@ -16,7 +16,7 @@ import me.huntifi.castlesiege.tags.NametagsEvent;
 
 public class StatsEverything {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static void LoadAllStatsIntoLists(Player p) {
 

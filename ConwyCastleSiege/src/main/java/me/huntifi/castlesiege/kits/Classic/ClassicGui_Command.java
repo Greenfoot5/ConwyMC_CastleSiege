@@ -24,7 +24,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 	public static ArrayList<Player> isInGUI = new ArrayList<Player>();
 	public static ArrayList<Player> isInGUI2 = new ArrayList<Player>();
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

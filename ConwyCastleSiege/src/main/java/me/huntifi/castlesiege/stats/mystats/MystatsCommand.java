@@ -9,7 +9,7 @@ import org.bukkit.plugin.Plugin;
 
 public class MystatsCommand implements CommandExecutor {
 	
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,

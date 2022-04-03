@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.flags;
 
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -29,6 +30,7 @@ public class Flag {
     // Location Data
     public Location spawnPoint;
     private final List<UUID> players;
+    public ProtectedRegion region;
 
     // Game Data
     public String currentOwners;

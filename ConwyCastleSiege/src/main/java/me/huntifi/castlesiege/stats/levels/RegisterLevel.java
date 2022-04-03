@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class RegisterLevel implements Listener {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void onJoinLevel(PlayerJoinEvent e) {

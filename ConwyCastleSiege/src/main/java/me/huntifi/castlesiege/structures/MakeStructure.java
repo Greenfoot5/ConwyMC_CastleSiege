@@ -25,7 +25,7 @@ public class MakeStructure {
 	
 	public static void createSchematicStructure(Location spawnloc, String schematicName, String worldName) throws WorldEditException {
 		
-		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 		
 		Location loc = spawnloc;
 		

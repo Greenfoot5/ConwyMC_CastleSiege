@@ -8,7 +8,7 @@ import me.huntifi.castlesiege.maps.MapController;
 
 public class ThunderstoneTimer {
 
-	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static Integer Minutes = 30;
 	public static Integer Seconds = 1;

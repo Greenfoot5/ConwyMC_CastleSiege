@@ -33,7 +33,7 @@ public class HelmsdeepGreatHallDestroyEvent implements Listener {
 
 	public static boolean isBreached;
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {

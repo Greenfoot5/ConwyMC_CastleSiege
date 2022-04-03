@@ -27,7 +27,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 @SuppressWarnings("deprecation")
 public class EatCake implements Listener {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	static ArrayList<Player> hasEaten = new ArrayList<Player>();
 

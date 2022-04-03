@@ -20,7 +20,7 @@ import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class HelmsdeepJoin implements Listener {
 
-	public Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	public Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {

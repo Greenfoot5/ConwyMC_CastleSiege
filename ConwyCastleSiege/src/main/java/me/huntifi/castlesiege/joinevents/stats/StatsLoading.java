@@ -14,7 +14,7 @@ import me.huntifi.castlesiege.stats.StatsEverything;
 
 public class StatsLoading implements Listener {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	/*/
 	 One of the most important stats classes of this entire plugin. Once the player joins all their current castlesiege stats 

@@ -245,7 +245,7 @@ public class FireArcherAbility implements Listener {
 
 	//Here when you click the cauldron you get the fire arrows.
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@SuppressWarnings("deprecation")
 	@EventHandler

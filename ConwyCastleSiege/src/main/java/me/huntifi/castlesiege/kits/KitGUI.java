@@ -14,7 +14,7 @@ import org.bukkit.plugin.Plugin;
 
 public class KitGUI {
 	
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 	
 	public Inventory Kitgui(Player p) {
 		

@@ -16,7 +16,7 @@ import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 
 public class CrossbowmanAbility implements Listener {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 	
 	public static ArrayList<Arrow> arrows = new ArrayList<Arrow>();
 

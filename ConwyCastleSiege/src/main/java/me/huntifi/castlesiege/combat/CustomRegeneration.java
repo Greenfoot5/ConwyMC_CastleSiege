@@ -16,7 +16,7 @@ import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 public class CustomRegeneration implements Listener {
 
 	
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	static ArrayList<Player> inCombat = new ArrayList<Player>();
 

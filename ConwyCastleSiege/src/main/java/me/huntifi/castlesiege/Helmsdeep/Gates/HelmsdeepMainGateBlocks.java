@@ -14,7 +14,7 @@ public class HelmsdeepMainGateBlocks {
 	
 	public static void gateblocks() {
 		
-		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 		
 		Block block1 = new Location(plugin.getServer().getWorld("HelmsDeep"), 1037, 52, 1003).getBlock();
 		Block block2 = new Location(plugin.getServer().getWorld("HelmsDeep"), 1037, 52, 1002).getBlock();

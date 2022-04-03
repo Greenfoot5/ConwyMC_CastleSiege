@@ -21,7 +21,7 @@ import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class HelmsdeepCaveBoat implements Listener, Runnable {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static Location boatSpawn = new Location(Bukkit.getServer().getWorld("Helmsdeep"), 922, 30, 956, 90, -3);
 

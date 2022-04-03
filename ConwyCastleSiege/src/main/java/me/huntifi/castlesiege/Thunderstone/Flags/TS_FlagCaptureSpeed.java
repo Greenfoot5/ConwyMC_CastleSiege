@@ -5,7 +5,7 @@ import org.bukkit.plugin.Plugin;
 
 public class TS_FlagCaptureSpeed {
 	
-	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 	
 	static int captureSpeed1 = 100; //Capture-speed in ticks, this is 5 seconds
 	static int captureSpeed2 = 100; //For every flag

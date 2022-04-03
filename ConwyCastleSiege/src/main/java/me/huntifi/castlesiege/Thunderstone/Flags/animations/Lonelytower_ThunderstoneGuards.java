@@ -11,7 +11,7 @@ import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagMethod;
 
 public class Lonelytower_ThunderstoneGuards {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static void CapturingProcessA1(Player e) {
 

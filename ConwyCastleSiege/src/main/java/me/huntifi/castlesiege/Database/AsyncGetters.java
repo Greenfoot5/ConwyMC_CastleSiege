@@ -7,7 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class AsyncGetters {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static interface StringCallback{
 		public void gotString(String string);

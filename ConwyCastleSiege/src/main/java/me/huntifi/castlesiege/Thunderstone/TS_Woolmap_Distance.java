@@ -25,7 +25,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class TS_Woolmap_Distance implements Listener {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {

@@ -32,7 +32,7 @@ public class HelmsdeepBallistaEvent implements Listener {
 
 	public static Minecart minecart;
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static Location ballistaLoc = new Location(plugin.getServer().getWorld("HelmsDeep"), 1018, 66, 1040, -90, 2);
 

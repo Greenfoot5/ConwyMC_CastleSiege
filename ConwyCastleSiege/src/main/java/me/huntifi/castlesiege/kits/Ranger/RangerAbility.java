@@ -22,7 +22,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class RangerAbility implements Listener {
 
-    Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+    Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
     RangerKit rangerBow = new RangerKit();
     ItemStack theVolleyBow = rangerBow.getRangerVolleyBow();

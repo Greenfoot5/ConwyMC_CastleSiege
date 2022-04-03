@@ -14,7 +14,7 @@ import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class KitsCommand implements CommandExecutor {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

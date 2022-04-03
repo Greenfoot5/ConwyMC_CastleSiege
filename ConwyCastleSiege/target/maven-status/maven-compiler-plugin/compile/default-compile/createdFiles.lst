@@ -233,6 +233,7 @@ me/huntifi/castlesiege/Helmsdeep/flags/animations/SupplyCampFlag$1.class
 me/huntifi/castlesiege/kits/FireArcher/FirearcherVotedKit.class
 me/huntifi/castlesiege/Helmsdeep/flags/animations/SupplyCamp_Rohan.class
 me/huntifi/castlesiege/security/explosions.class
+me/huntifi/castlesiege/kits/kits/Executioner.class
 me/huntifi/castlesiege/kits/Classic/ClassicGui_Command$1.class
 me/huntifi/castlesiege/kits/medic/MedicDeath.class
 me/huntifi/castlesiege/maps/EndMapAction$2.class
@@ -372,6 +373,7 @@ me/huntifi/castlesiege/structures/MakeStructure.class
 me/huntifi/castlesiege/kits/FireArcher/FireArcherAbility.class
 me/huntifi/castlesiege/flags/Flag.class
 me/huntifi/castlesiege/combat/EatCake.class
+me/huntifi/castlesiege/commands/ReloadCommand.class
 me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagMethod$1.class
 me/huntifi/castlesiege/voting/GiveVoteCommand.class
 me/huntifi/castlesiege/kits/Cavalry/CavalryDeath.class

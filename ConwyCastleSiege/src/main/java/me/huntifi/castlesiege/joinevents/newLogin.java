@@ -14,7 +14,7 @@ import me.huntifi.castlesiege.stats.MVP.MVPstats;
 
 public class newLogin implements Listener {
 	
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {

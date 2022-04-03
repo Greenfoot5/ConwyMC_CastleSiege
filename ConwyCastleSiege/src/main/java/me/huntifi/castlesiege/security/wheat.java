@@ -10,7 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 public class wheat implements Listener {
 	
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void noUproot(PlayerInteractEvent event) {

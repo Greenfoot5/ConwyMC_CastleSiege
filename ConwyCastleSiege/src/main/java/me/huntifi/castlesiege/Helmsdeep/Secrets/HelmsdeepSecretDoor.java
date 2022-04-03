@@ -19,7 +19,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class HelmsdeepSecretDoor implements Listener {
 
-	public Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	public Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	boolean isOpen;
 

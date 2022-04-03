@@ -15,7 +15,7 @@ import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class ThunderstoneDeath implements Listener {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void onPlayerDeath(PlayerRespawnEvent e) {

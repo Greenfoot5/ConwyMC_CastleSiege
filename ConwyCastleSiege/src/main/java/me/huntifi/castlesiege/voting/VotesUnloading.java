@@ -13,7 +13,7 @@ import me.huntifi.castlesiege.Database.SQLGetter;
 
 public class VotesUnloading implements Listener {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	/*/
 	 One of the most important votes classes of this entire plugin. Once the player leaves all their current votes

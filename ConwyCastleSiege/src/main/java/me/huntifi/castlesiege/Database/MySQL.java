@@ -27,7 +27,7 @@ public class MySQL {
 		if (!isConnected()) {
 
 			connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", username, password);
-			Bukkit.getConsoleSender().sendMessage("Succesfully connected to the ConwyMC MySQL Database! ");
+			Bukkit.getLogger().info("Successfully connected to the ConwyMC MySQL Database! ");
 
 		}
 	}
@@ -57,7 +57,7 @@ public class MySQL {
 			if (connection == null || connection.isClosed()) {
 				
 				connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", username, password);
-				Bukkit.getConsoleSender().sendMessage("Succesfully reconnected to the ConwyMC MySQL Database! ");
+				Bukkit.getLogger().info("Successfully reconnected to the ConwyMC MySQL Database! ");
 			} 
 			
 		} catch (SQLException e) {

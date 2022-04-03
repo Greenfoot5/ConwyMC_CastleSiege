@@ -15,7 +15,7 @@ import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class MedicDeath implements Listener {
 	
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void onDeath(PlayerDeathEvent e){

@@ -20,7 +20,7 @@ public class mvpCommand implements CommandExecutor {
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("mvp")) {
 				
-				Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+				Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 				Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 

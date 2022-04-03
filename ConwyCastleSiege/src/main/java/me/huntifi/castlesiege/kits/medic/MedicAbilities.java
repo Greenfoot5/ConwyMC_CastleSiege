@@ -43,7 +43,7 @@ public class MedicAbilities implements Listener {
 
 	static ArrayList<Player> hasEaten = new ArrayList<Player>();
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler (priority = EventPriority.MONITOR)
 	public void onLadderPlace(BlockPlaceEvent e) {

@@ -19,7 +19,7 @@ import me.huntifi.castlesiege.woolmap.LobbyPlayer;
  */
 public class EndMapAction {
 
-	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	/**
 	 * End a map

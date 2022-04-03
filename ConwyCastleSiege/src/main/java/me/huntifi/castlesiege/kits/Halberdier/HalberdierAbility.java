@@ -14,7 +14,7 @@ import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class HalberdierAbility implements Listener, Runnable {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void antiCav(EntityDamageByEntityEvent ed) {

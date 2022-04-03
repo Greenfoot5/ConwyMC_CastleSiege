@@ -21,7 +21,7 @@ import me.huntifi.castlesiege.voting.VotesChanging;
 
 public class BerserkerAbility implements Listener {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 	public static HashMap<UUID, Boolean> Berserker = new HashMap<UUID, Boolean>();
 
 	@EventHandler

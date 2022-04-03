@@ -68,7 +68,7 @@ public class Team {
         players.add(uuid);
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
-        player.setBedSpawnLocation(lobby.spawnPoint, true);
+        //player.setBedSpawnLocation(lobby.spawnPoint, true);
         NametagsEvent.GiveNametag(player);
     }
 

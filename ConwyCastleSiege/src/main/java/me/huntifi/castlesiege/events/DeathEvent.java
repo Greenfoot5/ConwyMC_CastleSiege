@@ -18,6 +18,8 @@ public class DeathEvent implements Listener {
 
         Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
 
+        assert team != null && team.lobby != null;
+
         //MVPstats.addDeaths(player.getUniqueId(), 1);
         event.setRespawnLocation(team.lobby.spawnPoint);
         player.teleport(team.lobby.spawnPoint);

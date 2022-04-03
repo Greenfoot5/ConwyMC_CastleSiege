@@ -11,7 +11,7 @@ import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 
 public class StatsUpdater {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static void statUpdate() {
 

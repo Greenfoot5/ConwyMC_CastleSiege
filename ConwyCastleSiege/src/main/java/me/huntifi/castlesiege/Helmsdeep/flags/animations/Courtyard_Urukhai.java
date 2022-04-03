@@ -11,7 +11,7 @@ import me.huntifi.castlesiege.Helmsdeep.flags.FlagMethod;
 
 public class Courtyard_Urukhai {
 	
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static void CapturingProcessA1(Player e) {
 

@@ -13,7 +13,7 @@ public class ThunderstoneGateBlocks {
 	
 	public static void gateblocks() {
 		
-		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 		
 		Block block1 = new Location(plugin.getServer().getWorld("Thunderstone"), 157, 65, 65).getBlock();
 		Block block2 = new Location(plugin.getServer().getWorld("Thunderstone"), 157, 65, 66).getBlock();

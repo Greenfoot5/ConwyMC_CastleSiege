@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.AdminHuntif</groupId>
-    <artifactId>ConwyCastleSiege</artifactId>
+    <artifactId>CastleSiege</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -134,7 +134,7 @@
                     <relocations>
                         <relocation>
                             <pattern>dev.dejvokep.boostedyaml</pattern>
-                            <shadedPattern>com.github.Huntif.ConwyCastleSiege</shadedPattern>
+                            <shadedPattern>com.github.Huntif.CastleSiege</shadedPattern>
                         </relocation>
                     </relocations>
                     <artifactSet>

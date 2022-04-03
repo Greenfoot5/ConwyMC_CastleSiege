@@ -31,7 +31,7 @@ public class ThunderstoneGateDestroyEvent implements Listener {
 
 	public static boolean isBreached = false;
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {

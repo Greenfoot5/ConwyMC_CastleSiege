@@ -16,7 +16,7 @@ import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class FlagMethod {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static final void CaptureEnemyTeamFlag(Player p, String flag, int number, int nextnumber, int flagTeam, int playerTeam, Material FlagMaterialLayer1Block1, Block flagLayer1Block1, Material FlagMaterialLayer1Block2, Block flagLayer1Block2, Material FlagMaterialLayer1Block3, Block flagLayer1Block3, Material FlagMaterialLayer1Block4, Block flagLayer1Block4, Material FlagMaterialLayer2Block1, Block flagLayer2Block1, Material FlagMaterialLayer2Block2, Block flagLayer2Block2, Material FlagMaterialLayer2Block3, Block flagLayer2Block3, Material FlagMaterialLayer2Block4, Block flagLayer2Block4, Block flagLayer1Block1a, Block flagLayer1Block2a, Block flagLayer1Block3a, Block flagLayer1Block4a , Material Air,  Block flagb1, Block flagb2, Material woolmapA, Material woolmapB) {
 

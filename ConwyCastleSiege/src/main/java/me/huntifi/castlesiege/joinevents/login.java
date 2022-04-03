@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class login implements Listener {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 	
 	public static ArrayList<Player> Playerlist = new ArrayList<Player>();
 

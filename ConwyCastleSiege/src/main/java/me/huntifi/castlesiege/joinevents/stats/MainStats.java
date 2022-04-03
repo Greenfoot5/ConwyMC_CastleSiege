@@ -11,7 +11,7 @@ import me.huntifi.castlesiege.stats.levels.LevelSave;
 
 public class MainStats {
 
-	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static void updateStats(UUID uuid , Player p) {
 		

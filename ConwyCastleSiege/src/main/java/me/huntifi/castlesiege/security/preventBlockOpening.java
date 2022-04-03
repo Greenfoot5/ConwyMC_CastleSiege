@@ -15,7 +15,7 @@ import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class preventBlockOpening implements Listener {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void onInteractX(PlayerInteractEvent event){

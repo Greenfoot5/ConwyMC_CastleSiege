@@ -33,7 +33,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class WallEvent implements Listener, Runnable {
 
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static int tnt_counter = 0;
 

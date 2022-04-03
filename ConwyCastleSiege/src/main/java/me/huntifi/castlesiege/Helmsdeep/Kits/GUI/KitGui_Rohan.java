@@ -14,7 +14,7 @@ import org.bukkit.plugin.Plugin;
 
 public class KitGui_Rohan {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 	
 	Inventory GUI = plugin.getServer().createInventory(null, 54, ChatColor.DARK_GREEN + "Kit GUI" );
 	

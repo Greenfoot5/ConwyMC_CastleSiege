@@ -1,10 +1,8 @@
 package me.huntifi.castlesiege;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.session.SessionManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
@@ -32,6 +30,7 @@ import me.huntifi.castlesiege.joinevents.stats.StatsLoading;
 import me.huntifi.castlesiege.joinevents.stats.StatsSaving;
 import me.huntifi.castlesiege.kits.Enderchest;
 import me.huntifi.castlesiege.kits.kits.Archer;
+import me.huntifi.castlesiege.kits.kits.Executioner;
 import me.huntifi.castlesiege.kits.kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.ladders.LadderEvent;
@@ -53,6 +52,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
@@ -69,6 +69,7 @@ import java.util.*;
 public class Main extends JavaPlugin implements Listener {
 
 	public static Plugin plugin;
+	public static Main instance;
 
 	public Tablist tab;
 	public static MySQL SQL;
@@ -79,35 +80,25 @@ public class Main extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 
-		plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+		plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
+		instance = this;
 
 		createWorld();
 		createConfigs();
+		loadMaps();
+		unloadWorlds();
 
-		getServer().getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "[TheDarkAge] Plugin has been enabled!");
-
+		getLogger().info("[CastleSiege] Plugin has been enabled!");
 
 		// SQL Stuff
-		SQL = new MySQL();
-
-		try {
-			SQL.connect();
-		} catch (ClassNotFoundException | SQLException e) {
-			Bukkit.getLogger().info("<!> Database is not connected! <!>");
-			getServer().getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "[TheDarkAge] <!> Database is not connected! <!>");
-		}
-
-		if (SQL.isConnected()) {
-			Bukkit.getLogger().info("<!> Database is connected! <!>");
-			getServer().getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "[TheDarkAge] <!> Database is connected! <!>");
-			SQLStats.createTable();
-			this.getServer().getPluginManager().registerEvents(this, this);
-		}
+		sqlConnect();
 
 		// World Guard
 		SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
 		// second param allows for ordering of handlers - see the JavaDocs
 		sessionManager.registerHandler(CaptureHandler.FACTORY, null);
+
+		// Reload command
 
 		// Rewrite Events
 		getServer().getPluginManager().registerEvents(new DeathEvent(), this);
@@ -117,11 +108,12 @@ public class Main extends JavaPlugin implements Listener {
 
 		// Rewrite Commands
 		Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
+		Objects.requireNonNull(getCommand("csreload")).setExecutor(new ReloadCommand());
 		// Kits
+		Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
 		Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
-		Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
 		Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
-                Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
+		Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
 
 		// OLD EVENTS
 		//getServer().getPluginManager().registerEvents(new Warhound(), this);
@@ -311,8 +303,7 @@ public class Main extends JavaPlugin implements Listener {
 		// Config Files Stuff
 
 		// Cheap Rewrite Stuff
-		loadMaps();
-		MapController.setMap(MapController.maps[0].name);
+		MapController.startLoop();
 
 		//Tablist
 
@@ -336,8 +327,6 @@ public class Main extends JavaPlugin implements Listener {
 		//resets Thunderstone after restart
 		//ThunderstoneReset.onReset();
 		//ThunderstoneGateBlocks.gateblocks();
-		
-		//Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
 
 //		new BukkitRunnable() {
 //
@@ -352,29 +341,60 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable() {
+		// Unloads everything
+		HandlerList.unregisterAll(plugin);
+		for(World world : Bukkit.getWorlds()) {
+			plugin.getServer().unloadWorld(world, false);
+		}
+		// Load HelmsDeep so it gets saved without changes
+		WorldCreator HelmsDeep = new WorldCreator("HelmsDeep");
+		HelmsDeep.generateStructures(false);
+		HelmsDeep.createWorld();
 		try {
 			SQL.disconnect();
 		} catch (NullPointerException ex) {
-			getServer().getConsoleSender().sendRawMessage(ChatColor.DARK_RED + "SQL could not disconnect, it doesn't exist!");
+			getLogger().warning("SQL could not disconnect, it doesn't exist!");
 		}
-		getServer().getConsoleSender().sendMessage(ChatColor.DARK_RED + "[TheDarkAge] Plugin has been disabled!");
+		getLogger().info("Plugin has been disabled!");
 	}
 
 	private void createWorld() {
-		WorldCreator d = new WorldCreator("HelmsDeep");
-		d.generateStructures(false);
-		WorldCreator t = new WorldCreator("Thunderstone");
-		t.generateStructures(false);
-
-		d.createWorld();
-		t.createWorld();
+		for (MapsList mapName : MapsList.values()) {
+			WorldCreator worldCreator = new WorldCreator(mapName.name());
+			worldCreator.generateStructures(false);
+			worldCreator.createWorld();
+		}
+		for(World world : Bukkit.getWorlds()) {
+			world.setAutoSave(false);
+		}
 	}
 
+	private void unloadWorlds() {
+		for(World world : Bukkit.getWorlds()) {
+			plugin.getServer().unloadWorld(world, false);
+		}
+	}
+
+	private void sqlConnect() {
+		SQL = new MySQL();
+
+		try {
+			SQL.connect();
+		} catch (ClassNotFoundException | SQLException e) {
+			getLogger().warning("<!> Database is not connected! <!>");
+		}
+
+		if (SQL.isConnected()) {
+			getLogger().info("<!> Database is connected! <!>");
+			SQLStats.createTable();
+			this.getServer().getPluginManager().registerEvents(this, this);
+		}
+	}
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
 
-		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 		Player p = e.getPlayer();
 
@@ -474,7 +494,7 @@ public class Main extends JavaPlugin implements Listener {
 	private void loadMaps()
 	{
 		// Load the maps
-		java.util.Map<String, Object> stringObjectMap = this.getMapsConfig().getConfigurationSection("").getValues(false);
+		java.util.Map<String, Object> stringObjectMap = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection("")).getValues(false);
 		String[] mapPaths = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
 
 		MapController.maps = new Map[mapPaths.length];
@@ -488,7 +508,7 @@ public class Main extends JavaPlugin implements Listener {
 			loadFlags(mapPaths[i], map);
 
 			// Team Data
-			java.util.Map<String, Object> stringObjectTeam = this.getMapsConfig().getConfigurationSection(mapPaths[i] + ".teams").getValues(false);
+			java.util.Map<String, Object> stringObjectTeam = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection(mapPaths[i] + ".teams")).getValues(false);
 			String[] teamPaths = stringObjectTeam.keySet().toArray(new String[stringObjectTeam.size()]);
 			map.teams = new Team[teamPaths.length];
 			for (int j = 0; j < teamPaths.length; j++) {
@@ -510,6 +530,7 @@ public class Main extends JavaPlugin implements Listener {
 
 		Set<String> flagSet = getFlagsConfig().getSection(mapRoute).getRoutesAsStrings(false);
 		String[] flagPaths = new String[flagSet.size()];
+		System.out.println("flagSet Size = " + flagSet.size());
 		int index = 0;
 		for (String str : flagSet)
 			flagPaths[index++] = str;
@@ -525,6 +546,7 @@ public class Main extends JavaPlugin implements Listener {
 					getFlagsConfig().getInt(flagRoute.add("progress_amount")));
 
 			// Set the spawn point
+			System.out.println("Setting Flag Spawn Point: " + Bukkit.getWorld("HelmsDeep"));
 			flag.spawnPoint = new Location(Bukkit.getWorld(map.worldName),
 					getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("x")),
 					getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("y")),
@@ -540,8 +562,8 @@ public class Main extends JavaPlugin implements Listener {
 				BlockVector3 max = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("max").add("x")),
 						getFlagsConfig().getInt(captureRoute.add("max").add("y")),
 						getFlagsConfig().getInt(captureRoute.add("max").add("z")));
-				ProtectedRegion region = new ProtectedCuboidRegion(flag.name.replace(' ', '_'), min, max);
-				WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(map.worldName))).addRegion(region);
+				flag.region = new ProtectedCuboidRegion(flag.name.replace(' ', '_'), true, min, max);
+				//Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(map.worldName))))).addRegion(region);
 			}
 
 			flag.animationAir = getFlagsConfig().getBoolean(flagRoute.add("animation_air"));
@@ -569,10 +591,10 @@ public class Main extends JavaPlugin implements Listener {
 		Team team = new Team(name);
 
 		// Colours
-		Tuple<Material, ChatColor> colors = getColors(this.getMapsConfig().getString(teamPath + ".primary_color").toLowerCase());
+		Tuple<Material, ChatColor> colors = getColors(Objects.requireNonNull(this.getMapsConfig().getString(teamPath + ".primary_color")).toLowerCase());
 		team.primaryWool = colors.getFirst();
 		team.primaryChatColor = colors.getSecond();
-		colors = getColors(this.getMapsConfig().getString(teamPath + ".secondary_color").toLowerCase());
+		colors = getColors(Objects.requireNonNull(this.getMapsConfig().getString(teamPath + ".secondary_color")).toLowerCase());
 		team.secondaryWool = colors.getFirst();
 		team.secondaryChatColor = colors.getSecond();
 
@@ -583,6 +605,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private Lobby loadLobby(String lobbyPath, Map map) {
 		Lobby lobby = new Lobby();
+		System.out.println("Setting Lobby Spawn Point: " + Bukkit.getWorld("HelmsDeep"));
 		lobby.spawnPoint = getLocationYawPitch(lobbyPath + ".spawn_point", map.worldName);
 		lobby.woolmap = loadWoolMap(lobbyPath + ".woolmap", map);
 		return lobby;
@@ -590,7 +613,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private WoolMap loadWoolMap(String woolMapPath, Map map) {
 		WoolMap woolMap = new WoolMap();
-		java.util.Map<String, Object> stringObjectMap = this.getMapsConfig().getConfigurationSection(woolMapPath).getValues(false);
+		java.util.Map<String, Object> stringObjectMap = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection(woolMapPath)).getValues(false);
 		String[] mapFlags = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
 		woolMap.woolMapBlocks = new WoolMapBlock[mapFlags.length];
 
@@ -603,7 +626,7 @@ public class Main extends JavaPlugin implements Listener {
 			block.signLocation = block.blockLocation;
 
 			// Get the wall sign's direction
-			switch(this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".sign_direction").toLowerCase()) {
+			switch(Objects.requireNonNull(this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".sign_direction")).toLowerCase()) {
 				case "east":
 					block.signDirection = BlockFace.EAST;
 					block.signLocation.add(1, 0, 0);
@@ -733,5 +756,12 @@ public class Main extends JavaPlugin implements Listener {
 		}
 
 		return colors;
+	}
+
+	public void reload() {
+		plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Reloading plugin...");
+		onDisable();
+		onEnable();
+		plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Plugin Reloaded!");
 	}
 }

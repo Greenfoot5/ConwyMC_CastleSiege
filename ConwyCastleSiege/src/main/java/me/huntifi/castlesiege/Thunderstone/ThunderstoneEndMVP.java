@@ -17,7 +17,7 @@ import me.huntifi.castlesiege.stats.MVP.MVPstats;
 
 public class ThunderstoneEndMVP implements Listener {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static HashMap<Player, Double> ThunderstoneGuards = new HashMap<Player, Double>();
 

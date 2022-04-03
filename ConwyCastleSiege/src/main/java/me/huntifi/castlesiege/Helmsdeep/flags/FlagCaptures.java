@@ -13,7 +13,7 @@ import org.bukkit.plugin.Plugin;
 
 public class FlagCaptures {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	//Captures - Messages
 

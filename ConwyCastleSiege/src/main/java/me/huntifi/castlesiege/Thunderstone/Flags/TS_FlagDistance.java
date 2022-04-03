@@ -9,7 +9,7 @@ import me.huntifi.castlesiege.maps.MapController;
 
 public class TS_FlagDistance {
 	
-	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 	
 	public static double distancePlayerToFlag(Player p, String flag, Location playerLoc) {
 		

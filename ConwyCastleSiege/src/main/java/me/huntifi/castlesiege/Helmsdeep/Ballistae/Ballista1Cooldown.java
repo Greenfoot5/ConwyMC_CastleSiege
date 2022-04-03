@@ -12,7 +12,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class Ballista1Cooldown {
 
-	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static Integer Seconds = 7;
 

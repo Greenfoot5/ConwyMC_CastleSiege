@@ -21,7 +21,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class MacemanAbility implements Listener {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 
 

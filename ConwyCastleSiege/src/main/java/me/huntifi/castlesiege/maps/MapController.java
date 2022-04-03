@@ -1,7 +1,10 @@
 package me.huntifi.castlesiege.maps;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Helmsdeep.flags.FlagTeam;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.joinevents.stats.MainStats;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.Swordsman;
@@ -9,6 +12,7 @@ import me.huntifi.castlesiege.stats.levels.LevelingEvent;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -30,6 +34,12 @@ public class MapController {
 	public static int mapIndex = 0;
 	public static Timer timer;
 
+	public static void startLoop() {
+		currentMap = MapsList.values()[0];
+		System.out.println(new Location(Bukkit.getWorld(currentMap.name()), 0, 0, 0).isWorldLoaded());
+		loadMap();
+	}
+
 	/**
 	 * Sets the current map by string
 	 * @param mapName the name of the map to set the current map to
@@ -44,8 +54,10 @@ public class MapController {
 				currentMap = MapsList.Thunderstone;
 				break;
 		}
-		loadMap(currentMap.name());
-		unloadMap(oldMap);
+
+		loadMap();
+		if (!oldMap.equals(mapName))
+			unloadMap(oldMap);
 	}
 
 	/**
@@ -61,36 +73,41 @@ public class MapController {
 			for (Player p : Bukkit.getOnlinePlayers()) {
 
 				if (p != null) {
-
 					LevelingEvent.doLeveling();
 					MainStats.updateStats(p.getUniqueId(), p);
-
 				}
 			}
-			loadMap(currentMap.name());
-			unloadMap(oldMap);
+			loadMap();
+			if (!oldMap.equals(currentMap.name()))
+				unloadMap(oldMap);
 		}
 	}
 
 	/**
 	 * Loads the current map
 	 */
-	public static void loadMap(String worldName) {
-
+	public static void loadMap() {
+		// Load the world
+		System.out.println("[TDA] Loading world: " + currentMap.name());
 		WorldCreator worldSettings = new WorldCreator(currentMap.name());
 		worldSettings.generateStructures(false);
 		worldSettings.createWorld();
-		for (Team team:maps[mapIndex].teams) {
+		System.out.println(new Location(Bukkit.getWorld(currentMap.name()), 0, 0, 0).isWorldLoaded());
+
+		// Register the flag regions
+		for (Flag flag : maps[mapIndex].flags) {
+			WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(currentMap.name()))).addRegion(flag.region);
+		}
+
+		// Register the woolmap clicks
+		for (Team team : maps[mapIndex].teams) {
 			getServer().getPluginManager().registerEvents(team.lobby.woolmap, Main.plugin);
 		}
 
 		// Move all players to the new map and team
 		Kit.equippedKits = new HashMap<>();
 		for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
-			Team team = getCurrentMap().smallestTeam();
-			team.addPlayer(player.getUniqueId());
-			player.teleport(team.lobby.spawnPoint);
-			new Swordsman().addPlayer(player.getUniqueId());
+			joinATeam(player.getUniqueId());
 		}
 
 		// Start the timer!
@@ -175,8 +192,12 @@ public class MapController {
 
 		team.addPlayer(uuid);
 		assert player != null;
+		System.out.println(team.lobby.spawnPoint.isWorldLoaded());
+		System.out.println("Player joining " + team.lobby.spawnPoint.getWorld());
+		System.out.println("HelmsDeep: " + Bukkit.getWorld("HelmsDeep"));
 		player.teleport(team.lobby.spawnPoint);
 		player.getInventory().clear();
+		new Swordsman().addPlayer(uuid);
 
 		player.sendMessage("You joined" + team.primaryChatColor + " " + team.name);
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -197,7 +218,6 @@ public class MapController {
 	 * @param uuid the uuid to remove
 	 */
 	public static void leaveTeam(UUID uuid) {
-
 		Map map = MapController.getCurrentMap();
 		Team team = map.getTeam(uuid);
 		if (team != null) {

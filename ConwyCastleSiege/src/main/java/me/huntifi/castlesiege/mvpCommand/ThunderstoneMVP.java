@@ -15,7 +15,7 @@ import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class ThunderstoneMVP {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@SuppressWarnings("unused")
 	public static void returnMVP(final int team, final Player p) {

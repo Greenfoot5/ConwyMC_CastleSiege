@@ -11,7 +11,7 @@ import org.bukkit.plugin.Plugin;
 
 public class EnderchestRefill {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static void refill(Player p) {
 

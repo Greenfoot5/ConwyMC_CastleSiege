@@ -11,7 +11,7 @@ import me.huntifi.castlesiege.Helmsdeep.flags.FlagMethod;
 
 public class SupplyCamp_Rohan {
 	
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static void CapturingProcessA1(Player e) {
 

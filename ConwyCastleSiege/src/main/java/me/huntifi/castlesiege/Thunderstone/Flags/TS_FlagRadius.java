@@ -16,7 +16,7 @@ import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class TS_FlagRadius implements Listener {
 
-	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	//This class detects if the player is in the radius of the flag and on what team they are!
 	//Requires the FlagDistance class

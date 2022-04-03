@@ -16,7 +16,7 @@ public class DatabaseKeepAliveEvent implements Runnable {
 			PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT SCORE FROM castlesiegestats LIMIT 1;");
 			ps.execute();
 			SQLStats.ClosePreparedStatement(ps);
-			Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.DARK_RED + "Did a preparedstatement to the database to keep it connected.");
+			Bukkit.getLogger().fine("Did a prepared statement to the database to keep it connected.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

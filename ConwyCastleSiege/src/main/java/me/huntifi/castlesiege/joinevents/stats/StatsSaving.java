@@ -14,7 +14,7 @@ import me.huntifi.castlesiege.stats.levels.LevelSave;
 
 public class StatsSaving implements Listener {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void ClearStatsOnLeave(PlayerQuitEvent e) {

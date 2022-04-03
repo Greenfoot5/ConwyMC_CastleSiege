@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class MVPstats implements Listener {
 
-	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	public static HashMap<UUID, Double> Score = new HashMap<UUID, Double>();
 	public static HashMap<UUID, Double> Deaths = new HashMap<UUID, Double>();

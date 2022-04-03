@@ -58,12 +58,13 @@ public class GiveVoteCommand implements CommandExecutor {
 								if (VotesChanging.getVotes(target.getUniqueId()).contains("V#2")) { VotesChanging.removeVote(target.getUniqueId(), "V#2"); }
 								if (VotesChanging.getVotes(target.getUniqueId()).contains("V#3")) { VotesChanging.removeVote(target.getUniqueId(), "V#3"); }
 								if (VotesChanging.getVotes(target.getUniqueId()).contains("V#4")) { VotesChanging.removeVote(target.getUniqueId(), "V#4"); }
+								Bukkit.getLogger().info("[ConwyMC]: removed all votes from " + target.getName());
 							}
 
 							if (vote == 0) {
 
 								target.sendMessage(ChatColor.LIGHT_PURPLE + "[ConwyMC] " + ChatColor.DARK_GREEN + "- You received all of your votes!");
-								Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.LIGHT_PURPLE + "[ConwyMC]: " + ChatColor.BLACK + "added all votes to " + target.getName());
+								Bukkit.getLogger().info("[ConwyMC]: added votes 1 to " + target.getName());
 
 								if (!VotesChanging.getVotes(target.getUniqueId()).contains("V#1")) { VotesChanging.addVote(target.getUniqueId(), "V#1"); }
 								if (!VotesChanging.getVotes(target.getUniqueId()).contains("V#2")) { VotesChanging.addVote(target.getUniqueId(), "V#2"); }
@@ -74,7 +75,7 @@ public class GiveVoteCommand implements CommandExecutor {
 							if (vote == 1) {
 
 								target.sendMessage(ChatColor.LIGHT_PURPLE + "[ConwyMC] " + ChatColor.DARK_GREEN + "- Thanks for voting! - +2 damage on all melee weapons.");
-								Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.LIGHT_PURPLE + "[ConwyMC]: " + ChatColor.BLACK + "added vote 1 to " + target.getName());
+								Bukkit.getLogger().info("[ConwyMC]: added vote 1 to " + target.getName());
 								if (!VotesChanging.getVotes(target.getUniqueId()).contains("V#1")) { VotesChanging.addVote(target.getUniqueId(), "V#1"); }
 
 							}
@@ -82,14 +83,14 @@ public class GiveVoteCommand implements CommandExecutor {
 							if (vote == 2) {
 
 								target.sendMessage(ChatColor.LIGHT_PURPLE + "[ConwyMC] " + ChatColor.DARK_GREEN + "- Thanks for voting! - Depth strider II on all boots.");
-								Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.LIGHT_PURPLE + "[ConwyMC]: " + ChatColor.BLACK + "added vote 2 to " + target.getName());
+								Bukkit.getLogger().info("[ConwyMC]: added vote 2 to " + target.getName());
 								if (!VotesChanging.getVotes(target.getUniqueId()).contains("V#2")) { VotesChanging.addVote(target.getUniqueId(), "V#2"); }
 							}
 
 							if (vote == 3) {
 
 								target.sendMessage(ChatColor.LIGHT_PURPLE + "[ConwyMC] " + ChatColor.DARK_GREEN + "- Thanks for voting! - Received 2 more ladders for each kit.");
-								Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.LIGHT_PURPLE + "[ConwyMC]: " + ChatColor.BLACK + "added vote 3 to " + target.getName());
+								Bukkit.getLogger().info("[ConwyMC]: added vote 3 to " + target.getName());
 								if (!VotesChanging.getVotes(target.getUniqueId()).contains("V#3")) { VotesChanging.addVote(target.getUniqueId(), "V#3"); }
 
 							}
@@ -97,7 +98,7 @@ public class GiveVoteCommand implements CommandExecutor {
 							if (vote == 4) {
 
 								target.sendMessage(ChatColor.LIGHT_PURPLE + "[ConwyMC] " + ChatColor.DARK_GREEN + "- Thanks for voting! - Received the permission for voter classes.");
-								Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.LIGHT_PURPLE + "[ConwyMC]: " + ChatColor.BLACK + "added vote 4 to " + target.getName());
+								Bukkit.getLogger().info("[ConwyMC]: added vote 4 to " + target.getName());
 								if (!VotesChanging.getVotes(target.getUniqueId()).contains("V#4")) { VotesChanging.addVote(target.getUniqueId(), "V#4"); }
 							}
 

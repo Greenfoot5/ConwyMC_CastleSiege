@@ -23,7 +23,7 @@ public class HelmsdeepMainGateLeftDoor implements Listener {
 
 	public Boolean open = false;
 	
-	public Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	public Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void onPressure(PlayerMoveEvent e) {

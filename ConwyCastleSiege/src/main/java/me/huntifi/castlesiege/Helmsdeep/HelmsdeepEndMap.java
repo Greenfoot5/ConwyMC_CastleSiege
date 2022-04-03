@@ -9,7 +9,7 @@ import me.huntifi.castlesiege.maps.MapController;
 
 public class HelmsdeepEndMap implements Runnable {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 	
 	public static boolean HD_hasEnded = false; //determines whether this class should be run fully or not
 
