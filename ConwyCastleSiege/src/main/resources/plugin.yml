@@ -151,9 +151,12 @@ commands:
   archer:
     description: Selects the archer kit
     usage: /archer
-  swordsman:
-    description: Selects the swordsman kit
-    usage: /swordsman
+  executioner:
+    description: Selects the executioner kit
+    usage: /executioner
   spearman:
     description: Selects the spearman kit
     usage: /spearman
+  swordsman:
+    description: Selects the swordsman kit
+    usage: /swordsman
