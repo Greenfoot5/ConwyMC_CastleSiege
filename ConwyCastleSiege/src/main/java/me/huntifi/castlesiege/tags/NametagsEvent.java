@@ -89,7 +89,7 @@ public class NametagsEvent {
 
         // Sets the player's tags
         p.setDisplayName("§e" + level + tagColor + tag + " " + nameColor + p.getName());
-        NametagEdit.getApi().setPrefix(p, tag + nameColor + " ");
+        NametagEdit.getApi().setPrefix(p, tagColor + tag + nameColor + " ");
     }
 
     public static ChatColor color(Player p) {

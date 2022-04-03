@@ -7,7 +7,7 @@ HelmsDeep:
     progress_amount: 10
     scoreboard: 5
     spawn_point:
-      x: 9693
+      x: 969
       y: 35
       z: 1130
     capture_area:

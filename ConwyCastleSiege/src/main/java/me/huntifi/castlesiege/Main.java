@@ -83,12 +83,14 @@ public class Main extends JavaPlugin implements Listener {
 		plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 		instance = this;
 
+		getLogger().info("Loading all worlds...");
 		createWorld();
+		getLogger().info("Loading configuration files...");
 		createConfigs();
+		getLogger().info("Loading maps from configuration...");
 		loadMaps();
+		getLogger().info("Unloading all worlds");
 		unloadWorlds();
-
-		getLogger().info("[CastleSiege] Plugin has been enabled!");
 
 		// SQL Stuff
 		sqlConnect();
@@ -300,7 +302,7 @@ public class Main extends JavaPlugin implements Listener {
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneRamAnimation(), 200, ThunderstoneRam.rammingSpeed);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneRam(), 200, 40);
 
-		// Config Files Stuff
+		getLogger().info("[CastleSiege] Plugin has been enabled!");
 
 		// Cheap Rewrite Stuff
 		MapController.startLoop();
@@ -532,8 +534,10 @@ public class Main extends JavaPlugin implements Listener {
 		String[] flagPaths = new String[flagSet.size()];
 		System.out.println("flagSet Size = " + flagSet.size());
 		int index = 0;
-		for (String str : flagSet)
+		for (String str : flagSet) {
+			System.out.println(str);
 			flagPaths[index++] = str;
+		}
 
 		map.flags = new Flag[flagPaths.length];
 		for (int i = 0; i < flagPaths.length; i++) {
@@ -546,7 +550,6 @@ public class Main extends JavaPlugin implements Listener {
 					getFlagsConfig().getInt(flagRoute.add("progress_amount")));
 
 			// Set the spawn point
-			System.out.println("Setting Flag Spawn Point: " + Bukkit.getWorld("HelmsDeep"));
 			flag.spawnPoint = new Location(Bukkit.getWorld(map.worldName),
 					getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("x")),
 					getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("y")),
@@ -605,7 +608,6 @@ public class Main extends JavaPlugin implements Listener {
 
 	private Lobby loadLobby(String lobbyPath, Map map) {
 		Lobby lobby = new Lobby();
-		System.out.println("Setting Lobby Spawn Point: " + Bukkit.getWorld("HelmsDeep"));
 		lobby.spawnPoint = getLocationYawPitch(lobbyPath + ".spawn_point", map.worldName);
 		lobby.woolmap = loadWoolMap(lobbyPath + ".woolmap", map);
 		return lobby;

@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
+import static org.bukkit.Bukkit.getLogger;
 import static org.bukkit.Bukkit.getServer;
 
 /**
@@ -36,7 +37,6 @@ public class MapController {
 
 	public static void startLoop() {
 		currentMap = MapsList.values()[0];
-		System.out.println(new Location(Bukkit.getWorld(currentMap.name()), 0, 0, 0).isWorldLoaded());
 		loadMap();
 	}
 
@@ -54,6 +54,7 @@ public class MapController {
 				currentMap = MapsList.Thunderstone;
 				break;
 		}
+		getLogger().info("Loading map - " + mapName);
 
 		loadMap();
 		if (!oldMap.equals(mapName))
@@ -66,10 +67,12 @@ public class MapController {
 	public static void nextMap() {
 		String oldMap = currentMap.name();
 		if (finalMap()) {
+			getLogger().info("Completed map cycle! Restarting server...");
 			getServer().spigot().restart();
 		}
 		else {
 			currentMap = MapsList.values()[currentMap.ordinal() + 1];
+			getLogger().info("Loading next map: " + currentMap.name());
 			for (Player p : Bukkit.getOnlinePlayers()) {
 
 				if (p != null) {
@@ -88,11 +91,9 @@ public class MapController {
 	 */
 	public static void loadMap() {
 		// Load the world
-		System.out.println("[TDA] Loading world: " + currentMap.name());
 		WorldCreator worldSettings = new WorldCreator(currentMap.name());
 		worldSettings.generateStructures(false);
 		worldSettings.createWorld();
-		System.out.println(new Location(Bukkit.getWorld(currentMap.name()), 0, 0, 0).isWorldLoaded());
 
 		// Register the flag regions
 		for (Flag flag : maps[mapIndex].flags) {
@@ -192,9 +193,6 @@ public class MapController {
 
 		team.addPlayer(uuid);
 		assert player != null;
-		System.out.println(team.lobby.spawnPoint.isWorldLoaded());
-		System.out.println("Player joining " + team.lobby.spawnPoint.getWorld());
-		System.out.println("HelmsDeep: " + Bukkit.getWorld("HelmsDeep"));
 		player.teleport(team.lobby.spawnPoint);
 		player.getInventory().clear();
 		new Swordsman().addPlayer(uuid);

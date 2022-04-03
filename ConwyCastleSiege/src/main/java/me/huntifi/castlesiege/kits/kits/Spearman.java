@@ -100,10 +100,7 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-		if (command.getName().equalsIgnoreCase("Spearman")) {
-			super.addPlayer(((Player) commandSender).getUniqueId());
-		}
-		System.out.println("Test");
+		super.addPlayer(((Player) commandSender).getUniqueId());
 		return true;
 	}
 
