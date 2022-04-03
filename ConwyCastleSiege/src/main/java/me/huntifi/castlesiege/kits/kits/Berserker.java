@@ -68,13 +68,17 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         es.hotbar[2] = new ItemStack(Material.LADDER, 4);
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
-        // Potion
+        // Potion Item
         item = new ItemStack(Material.POTION, 1);
         itemMeta = item.getItemMeta();
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
         itemMeta.setDisplayName(ChatColor.GOLD + "Berserker Potion");
         es.hotbar[1] = item;
+
+        // Perm Potion Effect
+        super.potionEffects = new PotionEffect[1];
+        super.potionEffects[0] = new PotionEffect(PotionEffectType.SPEED, 999999, 0);
 
         // Berserk Weapon
         item = new ItemStack(Material.IRON_SWORD);

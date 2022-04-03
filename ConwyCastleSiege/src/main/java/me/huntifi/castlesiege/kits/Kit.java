@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
 
@@ -30,6 +31,7 @@ public abstract class Kit implements Listener {
     public boolean projectileKillPrefix;
     public List<UUID> players;
     public static Map<UUID, Kit> equippedKits = new HashMap<>();
+    public PotionEffect[] potionEffects;
 
     public Kit(String name) {
         this.name = name;
@@ -64,6 +66,9 @@ public abstract class Kit implements Listener {
 
         // Wool hat
         WoolHat.setHead(player);
+
+        // Potion effects
+        applyPotionEffects(uuid);
     }
 
     public void refillItems(UUID uuid) {
@@ -75,6 +80,16 @@ public abstract class Kit implements Listener {
 
         // Wool hat
         WoolHat.setHead(player);
+
+        // Potion effects
+        applyPotionEffects(uuid);
+    }
+
+    private void applyPotionEffects(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player == null) { return; }
+        player.getActivePotionEffects().clear();
+        player.addPotionEffects(Arrays.asList(potionEffects));
     }
 
     @EventHandler
