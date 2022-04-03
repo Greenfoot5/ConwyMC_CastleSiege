@@ -106,6 +106,7 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new DeathEvent(), this);
 		// Kits
 		getServer().getPluginManager().registerEvents(new Berserker(), this);
+		getServer().getPluginManager().registerEvents(new Cavalry(), this);
 		getServer().getPluginManager().registerEvents(new Executioner(), this);
 		getServer().getPluginManager().registerEvents(new Spearman(), this);
 
@@ -118,6 +119,7 @@ public class Main extends JavaPlugin implements Listener {
 		Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
 		Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
 		Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
+		Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
 
 		// OLD EVENTS
 		//getServer().getPluginManager().registerEvents(new Warhound(), this);
