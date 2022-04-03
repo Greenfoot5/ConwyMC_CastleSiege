@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
@@ -75,6 +76,7 @@ public abstract class Kit implements Listener {
         // Equipment
         equipment.setEquipment(uuid);
         player.getInventory().setHeldItemSlot(heldItemSlot);
+        resetCooldown(uuid);
 
         player.setHealthScaled(true);
 
@@ -91,12 +93,25 @@ public abstract class Kit implements Listener {
 
         // Equipment
         equipment.setEquipment(uuid);
+        resetCooldown(uuid);
 
         // Wool hat
         WoolHat.setHead(player);
 
         // Potion effects
         applyPotionEffects(uuid);
+    }
+
+    private void resetCooldown(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player == null) { return; }
+
+        PlayerInventory inv = player.getInventory();
+        for (int i = 0; i < 8; i++) {
+            if (inv.getItem(i) != null) {
+                player.setCooldown(inv.getItem(i).getType(), 0);
+            }
+        }
     }
 
     private void applyPotionEffects(UUID uuid) {

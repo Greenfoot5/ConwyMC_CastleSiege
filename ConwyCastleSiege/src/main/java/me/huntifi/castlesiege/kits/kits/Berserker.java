@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.kits.kits;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
@@ -32,7 +33,6 @@ import java.util.UUID;
 
 public class Berserker extends Kit implements Listener, CommandExecutor {
 
-    private final Plugin plugin;
     private final ItemStack regularSword;
     private final ItemStack regularSwordVoted;
     private final ItemStack berserkSword;
@@ -41,7 +41,6 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
     public Berserker() {
         super("Berserker");
         super.baseHeath = 110;
-        plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -106,9 +105,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (command.getName().equalsIgnoreCase("Berserker")) {
-            super.addPlayer(((Player) commandSender).getUniqueId());
-        }
+        super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }
 
@@ -125,7 +122,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
                     public void run() {
                         p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 320, 0)));
                     }
-                }.runTaskLater(plugin, 80);
+                }.runTaskLater(Main.plugin, 80);
                 p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 400, 1)));
                 p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 0)));
                 // Sword
@@ -147,7 +144,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
                             }
                         }
                     }
-                }.runTaskLater(plugin, 400);
+                }.runTaskLater(Main.plugin, 400);
             }
         }
     }

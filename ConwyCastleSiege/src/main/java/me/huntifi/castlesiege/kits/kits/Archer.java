@@ -102,9 +102,7 @@ public class Archer extends Kit implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-		if (command.getName().equalsIgnoreCase("Archer")) {
-			super.addPlayer(((Player) commandSender).getUniqueId());
-		}
+		super.addPlayer(((Player) commandSender).getUniqueId());
 		return true;
 	}
 }

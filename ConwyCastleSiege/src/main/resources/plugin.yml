@@ -155,6 +155,9 @@ commands:
   berserker:
     description: Selects the berserker kit
     usage: /berserker
+  cavalry:
+    description: Selects the cavalry kit
+    usage: /cavalry
   executioner:
     description: Selects the executioner kit
     usage: /executioner
