@@ -27,6 +27,11 @@ public class WoolMap implements Listener {
 			Sign s = (Sign) target.getState();
 			for (WoolMapBlock block : woolMapBlocks) {
 				if (s.getLine(1).equalsIgnoreCase(block.flagName)) {
+					// Remove mount
+					if (player.isInsideVehicle()) {
+						player.getVehicle().remove();
+					}
+					// Spawn player with kit
 					block.SpawnPlayer(player.getUniqueId());
 					Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 				}
