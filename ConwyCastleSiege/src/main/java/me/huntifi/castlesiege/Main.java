@@ -77,6 +77,8 @@ public class Main extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 
+		getLogger().info("Enabling Plugin...");
+
 		plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 		instance = this;
 
@@ -89,6 +91,7 @@ public class Main extends JavaPlugin implements Listener {
 		getLogger().info("Unloading all worlds");
 		unloadWorlds();
 
+		getLogger().info("Connecting to database");
 		// SQL Stuff
 		sqlConnect();
 
@@ -301,7 +304,7 @@ public class Main extends JavaPlugin implements Listener {
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneRamAnimation(), 200, ThunderstoneRam.rammingSpeed);
 		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneRam(), 200, 40);
 
-		getLogger().info("[CastleSiege] Plugin has been enabled!");
+		getLogger().info("Plugin has been enabled!");
 
 		// Cheap Rewrite Stuff
 		MapController.startLoop();
@@ -342,11 +345,10 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable() {
+		getLogger().info("Disabling plugin...");
 		// Unloads everything
 		HandlerList.unregisterAll(plugin);
-		for(World world : Bukkit.getWorlds()) {
-			plugin.getServer().unloadWorld(world, false);
-		}
+		unloadWorlds();
 		// Load HelmsDeep so it gets saved without changes
 		WorldCreator HelmsDeep = new WorldCreator("HelmsDeep");
 		HelmsDeep.generateStructures(false);
@@ -372,7 +374,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private void unloadWorlds() {
 		for(World world : Bukkit.getWorlds()) {
-			plugin.getServer().unloadWorld(world, false);
+			plugin.getServer().unloadWorld(world, true);
 		}
 	}
 
@@ -531,10 +533,8 @@ public class Main extends JavaPlugin implements Listener {
 
 		Set<String> flagSet = getFlagsConfig().getSection(mapRoute).getRoutesAsStrings(false);
 		String[] flagPaths = new String[flagSet.size()];
-		System.out.println("flagSet Size = " + flagSet.size());
 		int index = 0;
 		for (String str : flagSet) {
-			System.out.println(str);
 			flagPaths[index++] = str;
 		}
 

@@ -4,21 +4,22 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import me.huntifi.castlesiege.Main;
 import org.bukkit.Bukkit;
 
 public class MySQL {
 
-	private String host = "mysql.apexhosting.gdn";
-	private String port = "3306";
-	private String database = "apexMC1238982";
-	private String username = "apexMC1238982";
-	private String password = "hyv6t&3IkydZ2nFD%Y$^p7dc";
+	private final String host = "mysql.apexhosting.gdn";
+	private final String port = "3306";
+	private final String database = "apexMC1238982";
+	private final String username = "apexMC1238982";
+	private final String password = "hyv6t&3IkydZ2nFD%Y$^p7dc";
 
 	private Connection connection;
 
 	public boolean isConnected() {
 
-		return (connection == null ? false : true);
+		return (connection != null);
 
 	}
 
@@ -27,7 +28,7 @@ public class MySQL {
 		if (!isConnected()) {
 
 			connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", username, password);
-			Bukkit.getLogger().info("Successfully connected to the ConwyMC MySQL Database! ");
+			Main.instance.getLogger().info("Successfully connected to the ConwyMC MySQL Database!");
 
 		}
 	}
@@ -57,7 +58,7 @@ public class MySQL {
 			if (connection == null || connection.isClosed()) {
 				
 				connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", username, password);
-				Bukkit.getLogger().info("Successfully reconnected to the ConwyMC MySQL Database! ");
+				Main.instance.getLogger().info("Successfully reconnected to the ConwyMC MySQL Database!");
 			} 
 			
 		} catch (SQLException e) {

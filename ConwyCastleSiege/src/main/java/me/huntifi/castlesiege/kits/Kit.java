@@ -19,8 +19,13 @@ import java.util.*;
 public abstract class Kit implements Listener {
     public String name;
     public int baseHeath;
+
+    // Equipment
     public EquipmentSet equipment;
     public int heldItemSlot = 0;
+    public PotionEffect[] potionEffects;
+
+    // Messages
     public String deathMessage;
     public String killMessage;
     public String projectileDeathMessage;
@@ -29,22 +34,31 @@ public abstract class Kit implements Listener {
     public boolean killPrefix;
     public boolean projectileDeathPrefix;
     public boolean projectileKillPrefix;
+
+    // Player Tracking
     public List<UUID> players;
     public static Map<UUID, Kit> equippedKits = new HashMap<>();
-    public PotionEffect[] potionEffects;
 
     public Kit(String name) {
         this.name = name;
         players = new ArrayList<>();
+
+        // Equipment
         equipment = new EquipmentSet();
+        potionEffects = new PotionEffect[0];
+
+        // Messages
         deathMessage = "You were killed by ";
         killMessage = "You killed ";
         projectileDeathMessage = "You were shot by ";
         projectileKillMessage = "You shot ";
+
+        // Not sure?
         deathPrefix = true;
         killPrefix = true;
         projectileDeathPrefix = true;
         projectileKillPrefix = true;
+
     }
 
     public void setItems(UUID uuid) {
@@ -103,24 +117,21 @@ public abstract class Kit implements Listener {
             if (StatsChanging.getKit(whoHit.getUniqueId()).equalsIgnoreCase(name)) {
 
                 if (Objects.requireNonNull(whoWasHit.getLastDamageCause()).getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
-
-                    DeathscoresAsync.doStats(whoHit, whoWasHit);
-
-                    whoWasHit.sendMessage(projectileDeathPrefix ? projectileDeathMessage + NametagsEvent.color(whoHit) + whoHit.getName()
-                            : NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + projectileDeathMessage);
-                    whoHit.sendMessage(projectileKillPrefix ? projectileKillMessage + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")"
-                            : NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + projectileKillMessage + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+                    doKillMessage(whoWasHit, whoHit, projectileDeathPrefix, projectileDeathMessage, projectileKillPrefix, projectileKillMessage);
                 } else {
-
-                    DeathscoresAsync.doStats(whoHit, whoWasHit);
-
-                    whoWasHit.sendMessage(deathPrefix ? deathMessage + NametagsEvent.color(whoHit) + whoHit.getName()
-                            : NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + deathMessage);
-                    whoHit.sendMessage(killPrefix ? killMessage + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")"
-                            : NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + killMessage + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+                    doKillMessage(whoWasHit, whoHit, deathPrefix, deathMessage, killPrefix, killMessage);
                 }
             }
         }
+    }
+
+    private void doKillMessage(Player whoWasHit, Player whoHit, boolean deathPrefix, String deathMessage, boolean killPrefix, String killMessage) {
+        DeathscoresAsync.doStats(whoHit, whoWasHit);
+
+        whoWasHit.sendMessage(deathPrefix ? deathMessage + NametagsEvent.color(whoHit) + whoHit.getName()
+                : NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + deathMessage);
+        whoHit.sendMessage(killPrefix ? killMessage + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")"
+                : NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + killMessage + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
     }
 
     public void addPlayer(UUID uuid) {
