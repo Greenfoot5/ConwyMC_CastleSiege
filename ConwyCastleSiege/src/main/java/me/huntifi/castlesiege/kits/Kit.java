@@ -24,6 +24,10 @@ public abstract class Kit implements Listener {
     public String killMessage;
     public String projectileDeathMessage;
     public String projectileKillMessage;
+    public boolean deathPrefix;
+    public boolean killPrefix;
+    public boolean projectileDeathPrefix;
+    public boolean projectileKillPrefix;
     public List<UUID> players;
     public static Map<UUID, Kit> equippedKits = new HashMap<>();
 
@@ -35,6 +39,10 @@ public abstract class Kit implements Listener {
         killMessage = "You killed ";
         projectileDeathMessage = "You were shot by ";
         projectileKillMessage = "You shot ";
+        deathPrefix = true;
+        killPrefix = true;
+        projectileDeathPrefix = true;
+        projectileKillPrefix = true;
     }
 
     public void setItems(UUID uuid) {
@@ -83,14 +91,18 @@ public abstract class Kit implements Listener {
 
                     DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-                    whoWasHit.sendMessage(projectileDeathMessage + NametagsEvent.color(whoHit) + whoHit.getName());
-                    whoHit.sendMessage(projectileKillMessage + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+                    whoWasHit.sendMessage(projectileDeathPrefix ? projectileDeathMessage + NametagsEvent.color(whoHit) + whoHit.getName()
+                            : NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + projectileDeathMessage);
+                    whoHit.sendMessage(projectileKillPrefix ? projectileKillMessage + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")"
+                            : NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + projectileKillMessage + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
                 } else {
 
                     DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-                    whoWasHit.sendMessage(killMessage + NametagsEvent.color(whoHit) + whoHit.getName());
-                    whoHit.sendMessage(deathMessage + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+                    whoWasHit.sendMessage(deathPrefix ? deathMessage + NametagsEvent.color(whoHit) + whoHit.getName()
+                            : NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + deathMessage);
+                    whoHit.sendMessage(killPrefix ? killMessage + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")"
+                            : NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + killMessage + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
                 }
             }
         }

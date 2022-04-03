@@ -29,10 +29,7 @@ import me.huntifi.castlesiege.joinevents.newLogin;
 import me.huntifi.castlesiege.joinevents.stats.StatsLoading;
 import me.huntifi.castlesiege.joinevents.stats.StatsSaving;
 import me.huntifi.castlesiege.kits.Enderchest;
-import me.huntifi.castlesiege.kits.kits.Archer;
-import me.huntifi.castlesiege.kits.kits.Executioner;
-import me.huntifi.castlesiege.kits.kits.Spearman;
-import me.huntifi.castlesiege.kits.kits.Swordsman;
+import me.huntifi.castlesiege.kits.kits.*;
 import me.huntifi.castlesiege.ladders.LadderEvent;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
@@ -103,8 +100,9 @@ public class Main extends JavaPlugin implements Listener {
 		// Rewrite Events
 		getServer().getPluginManager().registerEvents(new DeathEvent(), this);
 		// Kits
+		getServer().getPluginManager().registerEvents(new Berserker(), this);
 		getServer().getPluginManager().registerEvents(new Executioner(), this);
-                getServer().getPluginManager().registerEvents(new Spearman(), this);
+		getServer().getPluginManager().registerEvents(new Spearman(), this);
 
 		// Rewrite Commands
 		Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
@@ -114,6 +112,7 @@ public class Main extends JavaPlugin implements Listener {
 		Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
 		Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
 		Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
+		Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
 
 		// OLD EVENTS
 		//getServer().getPluginManager().registerEvents(new Warhound(), this);

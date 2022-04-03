@@ -152,6 +152,9 @@ commands:
   archer:
     description: Selects the archer kit
     usage: /archer
+  berserker:
+    description: Selects the berserker kit
+    usage: /berserker
   executioner:
     description: Selects the executioner kit
     usage: /executioner
