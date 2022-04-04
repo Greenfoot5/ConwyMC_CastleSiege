@@ -166,25 +166,23 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
 
     @EventHandler
     public void onDismount(EntityDismountEvent e) {
-        removeHorseEvent((Player) e.getEntity());
+        removeHorse(e.getDismounted());
     }
 
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         super.onDeath(e);
-        removeHorseEvent((Player) e.getEntity());
+        removeHorse(e.getEntity().getVehicle());
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
-        removeHorseEvent((Player) e.getPlayer());
+        removeHorse(e.getPlayer().getVehicle());
     }
 
-    private void removeHorseEvent(Player p) {
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-            if (p.getVehicle() instanceof Horse) {
-                p.getVehicle().remove();
-            }
+    private void removeHorse(Entity e) {
+        if (e instanceof Horse) {
+            e.remove();
         }
     }
 }
