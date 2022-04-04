@@ -88,10 +88,11 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 56, true);
         itemMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
         itemMeta.setLore(new ArrayList<>());
+        item.setItemMeta(itemMeta);
         berserkSword = item.clone();
         // Voted Weapon
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 58, true);
-        itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
+        item.getItemMeta().addEnchant(Enchantment.DAMAGE_ALL, 58, true);
+        item.getItemMeta().setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
         berserkSwordVoted = item.clone();
 
         super.equipment = es;
@@ -114,7 +115,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (e.getItem().getItemMeta().getDisplayName().contains("Berserker Potion")) {
+            if (e.getItem() != null && e.getItem().getType() == Material.POTION) {
                 p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
                 // Potion effects
                 new BukkitRunnable() {
