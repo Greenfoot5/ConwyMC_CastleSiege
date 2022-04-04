@@ -102,8 +102,8 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 
 
 		// Death Messages
-		super.deathMessage = "You were decapitated by ";
-		super.killMessage = "You decapitated ";
+		super.deathMessage[0] = "You were decapitated by ";
+		super.killMessage[0] = "You decapitated ";
         }
         
         @Override

@@ -99,9 +99,9 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
 
 
         // Death Messages
-        super.deathPrefix = false;
-        super.deathMessage = " went berserk on you!";
-        super.killMessage = "You went berserk on ";
+        super.deathMessage[0] = "";
+        super.deathMessage[1] = " went berserk on you!";
+        super.killMessage[0] = "You went berserk on ";
     }
 
     @Override

@@ -94,8 +94,8 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 
 
 		// Death Messages
-		super.projectileDeathMessage = "You were impaled by ";
-		super.projectileKillMessage = "You impaled ";
+		super.projectileDeathMessage[0] = "You were impaled by ";
+		super.projectileKillMessage[0] = "You impaled ";
 	}
 
 	@Override

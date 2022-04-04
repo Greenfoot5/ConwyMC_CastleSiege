@@ -27,14 +27,10 @@ public abstract class Kit implements Listener {
     public PotionEffect[] potionEffects;
 
     // Messages
-    public String deathMessage;
-    public String killMessage;
-    public String projectileDeathMessage;
-    public String projectileKillMessage;
-    public boolean deathPrefix;
-    public boolean killPrefix;
-    public boolean projectileDeathPrefix;
-    public boolean projectileKillPrefix;
+    public String[] deathMessage;
+    public String[] killMessage;
+    public String[] projectileDeathMessage;
+    public String[] projectileKillMessage;
 
     // Player Tracking
     public List<UUID> players;
@@ -49,17 +45,10 @@ public abstract class Kit implements Listener {
         potionEffects = new PotionEffect[0];
 
         // Messages
-        deathMessage = "You were killed by ";
-        killMessage = "You killed ";
-        projectileDeathMessage = "You were shot by ";
-        projectileKillMessage = "You shot ";
-
-        // Not sure?
-        deathPrefix = true;
-        killPrefix = true;
-        projectileDeathPrefix = true;
-        projectileKillPrefix = true;
-
+        deathMessage = new String[]{"You were killed by ", ""};
+        killMessage = new String[]{"You killed ", ""};
+        projectileDeathMessage = new String[]{"You were shot by ", ""};
+        projectileKillMessage = new String[]{"You shot ", ""};
     }
 
     public void setItems(UUID uuid) {
@@ -132,21 +121,21 @@ public abstract class Kit implements Listener {
             if (StatsChanging.getKit(whoHit.getUniqueId()).equalsIgnoreCase(name)) {
 
                 if (Objects.requireNonNull(whoWasHit.getLastDamageCause()).getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
-                    doKillMessage(whoWasHit, whoHit, projectileDeathPrefix, projectileDeathMessage, projectileKillPrefix, projectileKillMessage);
+                    doKillMessage(whoWasHit, whoHit, projectileDeathMessage, projectileKillMessage);
                 } else {
-                    doKillMessage(whoWasHit, whoHit, deathPrefix, deathMessage, killPrefix, killMessage);
+                    doKillMessage(whoWasHit, whoHit, deathMessage, killMessage);
                 }
             }
         }
     }
 
-    private void doKillMessage(Player whoWasHit, Player whoHit, boolean deathPrefix, String deathMessage, boolean killPrefix, String killMessage) {
+    private void doKillMessage(Player whoWasHit, Player whoHit, String[] deathMessage, String[] killMessage) {
         DeathscoresAsync.doStats(whoHit, whoWasHit);
 
-        whoWasHit.sendMessage(deathPrefix ? deathMessage + NametagsEvent.color(whoHit) + whoHit.getName()
-                : NametagsEvent.color(whoHit) + whoHit.getName() + ChatColor.RESET + deathMessage);
-        whoHit.sendMessage(killPrefix ? killMessage + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")"
-                : NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + killMessage + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+        whoWasHit.sendMessage(deathMessage[0] + NametagsEvent.color(whoHit) + whoHit.getName()
+                + ChatColor.RESET + deathMessage[1]);
+        whoHit.sendMessage(killMessage[0] + NametagsEvent.color(whoWasHit) + whoWasHit.getName()
+                + ChatColor.RESET + killMessage[1] + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
     }
 
     public void addPlayer(UUID uuid) {

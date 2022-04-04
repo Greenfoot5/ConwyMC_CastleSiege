@@ -158,6 +158,9 @@ commands:
   cavalry:
     description: Selects the cavalry kit
     usage: /cavalry
+  crossbowman:
+    description: Selects the crossbowman kit
+    usage: /crossbowman
   executioner:
     description: Selects the executioner kit
     usage: /executioner
