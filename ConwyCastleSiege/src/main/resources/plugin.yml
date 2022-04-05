@@ -161,6 +161,9 @@ commands:
   crossbowman:
     description: Selects the crossbowman kit
     usage: /crossbowman
+  engineer:
+    description: Selects the engineer kit
+    usage: /engineer
   executioner:
     description: Selects the executioner kit
     usage: /executioner

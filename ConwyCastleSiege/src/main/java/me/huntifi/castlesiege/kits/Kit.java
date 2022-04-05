@@ -118,7 +118,7 @@ public abstract class Kit implements Listener {
 
         if (whoHit != null) {
 
-            if (StatsChanging.getKit(whoHit.getUniqueId()).equalsIgnoreCase(name)) {
+            if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name)) {
 
                 if (Objects.requireNonNull(whoWasHit.getLastDamageCause()).getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
                     doKillMessage(whoWasHit, whoHit, projectileDeathMessage, projectileKillMessage);

@@ -108,6 +108,7 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new Berserker(), this);
 		getServer().getPluginManager().registerEvents(new Cavalry(), this);
 		getServer().getPluginManager().registerEvents(new Crossbowman(), this);
+		getServer().getPluginManager().registerEvents(new Engineer(), this);
 		getServer().getPluginManager().registerEvents(new Executioner(), this);
 		getServer().getPluginManager().registerEvents(new Spearman(), this);
 
@@ -116,13 +117,14 @@ public class Main extends JavaPlugin implements Listener {
 		Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
 		Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
 		// Kits
-		Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
 		Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
-		Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
-		Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
 		Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
 		Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
 		Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
+		Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
+		Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
+		Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
+		Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
 
 		// OLD EVENTS
 		//getServer().getPluginManager().registerEvents(new Warhound(), this);

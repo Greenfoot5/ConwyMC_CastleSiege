@@ -4,7 +4,6 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -18,7 +17,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -41,6 +39,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
     public Berserker() {
         super("Berserker");
         super.baseHeath = 110;
+
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -121,7 +120,10 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 320, 0)));
+                        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
+                                p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) != null) {
+                            p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 320, 0)));
+                        }
                     }
                 }.runTaskLater(Main.plugin, 80);
                 p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 400, 1)));
@@ -137,7 +139,8 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+                        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
+                                p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) == null) {
                             if (!VotesChanging.getVotes(p.getUniqueId()).contains("V#1")) {
                                 p.getInventory().setItem(0, regularSword);
                             } else {
@@ -145,7 +148,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
                             }
                         }
                     }
-                }.runTaskLater(Main.plugin, 400);
+                }.runTaskLater(Main.plugin, 401);
             }
         }
     }
