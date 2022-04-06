@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
@@ -8,7 +7,6 @@ import me.huntifi.castlesiege.tags.NametagsEvent;
 import me.huntifi.castlesiege.teams.PlayerTeam;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -17,6 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -25,10 +24,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
@@ -36,6 +35,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Engineer extends Kit implements Listener, CommandExecutor {
 
@@ -116,6 +116,8 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         // Stone
         es.hotbar[5] = new ItemStack(Material.COBBLESTONE, 16);
 
+        super.equipment = es;
+
         // Perm Potion Effect
         super.potionEffects = new PotionEffect[1];
         super.potionEffects[0] = new PotionEffect(PotionEffectType.JUMP, 999999, 0);
@@ -127,18 +129,17 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         return true;
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.MONITOR)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
-        if (p.getGameMode() != GameMode.CREATIVE &&
-                Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
 
             Material block = e.getBlockPlaced().getType();
             if (block == Material.STONE_PRESSURE_PLATE) {
                 placeTrap(e, p);
             } else if (block == Material.COBWEB) {
-                placeWeb(e);
+                e.setCancelled(false);
             } else if (block == Material.OAK_PLANKS) {
                 placeWood(e);
             } else if (block == Material.COBBLESTONE) {
@@ -147,28 +148,23 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         }
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.MONITOR)
     public void onDestroy(BlockBreakEvent e) {
-        Player p = e.getPlayer();
-        if (p.getGameMode() != GameMode.CREATIVE) {
-
-            Material block = e.getBlock().getType();
-            if (block == Material.STONE_PRESSURE_PLATE) {
-                destroyTrap(e, p);
-            } else if (block == Material.COBWEB) {
-                destroyWeb(e);
-            }
+        Material block = e.getBlock().getType();
+        if (block == Material.COBWEB) {
+            e.getBlock().setType(Material.AIR);
         }
     }
 
     @EventHandler
-    public void onWalkOverTrap(PlayerMoveEvent e) {
+    public void onWalkOverTrap(PlayerInteractEvent e) {
         // Check if the player stepped on a trap
-        Player p = e.getPlayer();
-        Block trap = p.getLocation().getBlock();
-        if (trap.getType() == Material.STONE_PRESSURE_PLATE) {
+        Block trap = e.getClickedBlock();
+        if (e.getAction() == Action.PHYSICAL && trap != null &&
+                trap.getType() == Material.STONE_PRESSURE_PLATE) {
 
             // Check if the trap should trigger
+            Player p = e.getPlayer();
             Player t = getTrapper(trap);
             if (t != null && PlayerTeam.getPlayerTeam(p) != PlayerTeam.getPlayerTeam(t)) {
 
@@ -193,9 +189,12 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
 
+        // Check if engineer tries to pick up
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-                e.getAction() == Action.RIGHT_CLICK_BLOCK &&
+                e.getAction() == Action.LEFT_CLICK_BLOCK &&
                 e.getClickedBlock().getType() == Material.STONE_PRESSURE_PLATE) {
+
+            // Check if player is the trap's owner
             if (!traps.containsKey(p) || !traps.get(p).contains(e.getClickedBlock())) {
                 p.sendMessage(ChatColor.DARK_RED + "You can't pick up traps that are not your own.");
                 return;
@@ -204,9 +203,13 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
             // Pick up trap and give to player if not at max
             traps.get(p).remove(e.getClickedBlock());
             e.getClickedBlock().setType(Material.AIR);
-            ItemStack trap = p.getInventory().getItem(2);
-            if (trap == null || trap.getAmount() < 8) {
-                p.getInventory().addItem(new ItemStack(Material.STONE_PRESSURE_PLATE, 1));
+
+            PlayerInventory inv = p.getInventory();
+            ItemStack offHand = inv.getItemInOffHand();
+            int trapsOffHand = offHand.getType() == Material.STONE_PRESSURE_PLATE ? offHand.getAmount() : 0;
+
+            if (!inv.contains(Material.STONE_PRESSURE_PLATE, 8 - trapsOffHand)) {
+                inv.addItem(new ItemStack(Material.STONE_PRESSURE_PLATE, 1));
                 p.sendMessage(ChatColor.GREEN + "You took this trap.");
             } else {
                 p.sendMessage(ChatColor.DARK_RED + "You took this trap and put it away.");
@@ -234,46 +237,31 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
 
         // Already placed max amount of traps
         if (trapList.size() == 8) {
-            e.setCancelled(true);
             p.sendMessage(ChatColor.RED + "You have placed your maximum amount of traps.");
             p.sendMessage(ChatColor.RED + "Pick your traps up if you need them or destroy them and restock.");
             return;
         }
+
         // Place the trap
         e.setCancelled(false);
         Block trap = e.getBlockPlaced();
         trapList.add(trap);
     }
 
-    private void placeWeb(BlockPlaceEvent e) {
-        e.setCancelled(false);
-        // TODO - Potentially place via command
-    }
-
     private void placeWood(BlockPlaceEvent e) {
         // TODO
-        e.setCancelled(true);
     }
 
     private void placeStone(BlockPlaceEvent e) {
         // TODO
-        e.setCancelled(true);
     }
 
     private void destroyTrap(BlockBreakEvent e, Player p) {
-        if (!(p.getGameMode() == GameMode.CREATIVE)) {
-            if (traps.containsKey(p) && traps.get(p).contains(e.getBlock())) {
-                e.setCancelled(false);
-                traps.get(p).remove(e.getBlock());
-            } else {
-                e.setCancelled(true);
-            }
+        Block trap = e.getBlock();
+        if (traps.containsKey(p) && traps.get(p).contains(trap)) {
+            traps.get(p).remove(trap);
+            trap.setType(Material.AIR);
         }
-    }
-
-    private void destroyWeb(BlockBreakEvent e) {
-        e.setCancelled(false);
-        // TODO - Potentially break via command
     }
 
     private void destroyAllTraps(Player p) {
