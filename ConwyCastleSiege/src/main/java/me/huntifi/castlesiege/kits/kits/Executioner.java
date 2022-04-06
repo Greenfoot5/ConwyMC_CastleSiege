@@ -21,6 +21,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
@@ -119,23 +120,23 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 			Player whoWasHit = (Player) ed.getEntity();
 			Player whoHit = (Player) ed.getDamager();
 
-			// Check teh player has the executioner ability equipped
-			if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name)) {
-				// Check they're holding an axe
-				if (whoHit.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
-					// Check they aren't on the same team
-					// TODO - Check if needed, as players on the same team shouldn't be able to hit another
-					if (MapController.getCurrentMap().getTeam(whoHit.getUniqueId())
-							!= MapController.getCurrentMap().getTeam(whoWasHit.getUniqueId())) {
+			if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name) &&
+					whoHit.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
+				// Check they aren't on the same team
+				// TODO - Check if needed, as players on the same team shouldn't be able to hit another
+				if (MapController.getCurrentMap().getTeam(whoHit.getUniqueId())
+						!= MapController.getCurrentMap().getTeam(whoWasHit.getUniqueId())) {
 
-						AttributeInstance healthAttribute = whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-						assert healthAttribute != null;
+					AttributeInstance healthAttribute = whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+					assert healthAttribute != null;
 
-						if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.37) {
-							ed.setCancelled(true);
-							Location loc = whoWasHit.getLocation();
-							whoWasHit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
-						}
+					if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.37) {
+						ed.setCancelled(true);
+						Location loc = whoWasHit.getLocation();
+						whoWasHit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
+						whoWasHit.setLastDamageCause(new EntityDamageByEntityEvent(whoHit, whoWasHit,
+								EntityDamageEvent.DamageCause.ENTITY_ATTACK, whoWasHit.getHealth()));
+						whoWasHit.setHealth(0);
 					}
 				}
 			}
