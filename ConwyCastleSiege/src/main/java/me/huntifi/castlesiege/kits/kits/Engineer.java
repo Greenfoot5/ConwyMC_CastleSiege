@@ -3,8 +3,8 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.tags.NametagsEvent;
-import me.huntifi.castlesiege.teams.PlayerTeam;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -20,8 +20,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -35,7 +33,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Engineer extends Kit implements Listener, CommandExecutor {
 
@@ -166,20 +163,25 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
             // Check if the trap should trigger
             Player p = e.getPlayer();
             Player t = getTrapper(trap);
-            if (t != null && PlayerTeam.getPlayerTeam(p) != PlayerTeam.getPlayerTeam(t)) {
+            if (t != null && MapController.getCurrentMap().getTeam(p.getUniqueId())
+                    != MapController.getCurrentMap().getTeam(t.getUniqueId())) {
 
                 // Trigger the trap
+                e.setCancelled(true);
                 traps.get(t).remove(trap);
                 trap.setType(Material.AIR);
                 p.sendMessage("You stepped on " + NametagsEvent.color(t) + t.getName() + ChatColor.RESET + "'s trap.");
                 t.sendMessage(NametagsEvent.color(p) + p.getName() + ChatColor.RESET + " stepped on your trap.");
-                if ((p.getHealth() -25) > 0) {
-                    p.damage(25);
+
+                // damage() for damage animation and granting kill
+                // setHealth() for precise damage
+                if (p.getHealth() > 25) {
+                    p.damage(1); // trapper not included to prevent knockback
+                    p.setHealth(p.getHealth() - 24);
                 } else {
-                    p.setLastDamageCause(new EntityDamageByEntityEvent(t, p, EntityDamageEvent.DamageCause.CUSTOM, p.getHealth()));
+                    p.damage(1, t);
                     p.setHealth(0);
                 }
-
             }
         }
     }
@@ -249,19 +251,11 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     }
 
     private void placeWood(BlockPlaceEvent e) {
-        // TODO
+        // TODO - Implement
     }
 
     private void placeStone(BlockPlaceEvent e) {
-        // TODO
-    }
-
-    private void destroyTrap(BlockBreakEvent e, Player p) {
-        Block trap = e.getBlock();
-        if (traps.containsKey(p) && traps.get(p).contains(trap)) {
-            traps.get(p).remove(trap);
-            trap.setType(Material.AIR);
-        }
+        // TODO - Implement
     }
 
     private void destroyAllTraps(Player p) {

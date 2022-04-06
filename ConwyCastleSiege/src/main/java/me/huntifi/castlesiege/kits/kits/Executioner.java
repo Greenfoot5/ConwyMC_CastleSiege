@@ -1,13 +1,9 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.teams.PlayerTeam;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -15,15 +11,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -114,11 +105,16 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 	}
         
 	@EventHandler
-	public void Exe1(EntityDamageByEntityEvent ed) {
+	public void Exe1(EntityDamageByEntityEvent e) {
 
-		if (ed.getEntity() instanceof Player && ed.getDamager() instanceof Player) {
-			Player whoWasHit = (Player) ed.getEntity();
-			Player whoHit = (Player) ed.getDamager();
+		// Prevent loop
+		if (e.getDamage() == 1) {
+			return;
+		}
+
+		if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
+			Player whoWasHit = (Player) e.getEntity();
+			Player whoHit = (Player) e.getDamager();
 
 			if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name) &&
 					whoHit.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
@@ -131,11 +127,10 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 					assert healthAttribute != null;
 
 					if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.37) {
-						ed.setCancelled(true);
+						e.setCancelled(true);
 						Location loc = whoWasHit.getLocation();
 						whoWasHit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
-						whoWasHit.setLastDamageCause(new EntityDamageByEntityEvent(whoHit, whoWasHit,
-								EntityDamageEvent.DamageCause.ENTITY_ATTACK, whoWasHit.getHealth()));
+						whoWasHit.damage(1, whoHit); // grant kill
 						whoWasHit.setHealth(0);
 					}
 				}
