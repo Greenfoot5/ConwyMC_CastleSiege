@@ -185,7 +185,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     }
 
     @EventHandler
-    public void onPlayerInteractTrap(PlayerInteractEvent e) {
+    public void onPickUpTrap(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
 

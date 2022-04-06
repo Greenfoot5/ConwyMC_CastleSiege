@@ -92,10 +92,10 @@ public class Crossbowman extends Kit implements Listener, CommandExecutor {
 
 
         // Death Messages
-        super.deathMessage[0] = "Your skull was pierced by ";
-        super.deathMessage[1] = "'s bolt";
-        super.killMessage[0] = "You pierced ";
-        super.killMessage[1] = "'s skull";
+        super.projectileDeathMessage[0] = "Your skull was pierced by ";
+        super.projectileDeathMessage[1] = "'s bolt";
+        super.projectileKillMessage[0] = "You pierced ";
+        super.projectileKillMessage[1] = "'s skull";
     }
 
     @Override
