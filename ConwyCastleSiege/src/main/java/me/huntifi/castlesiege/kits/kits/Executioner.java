@@ -32,6 +32,7 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 		super("Executioner");
 		super.baseHeath = 115;
 
+
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
 		super.heldItemSlot = 0;
@@ -51,7 +52,7 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 		item.getItemMeta().setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
 		es.votedWeapon = new Tuple<>(item, 0);
                 
-		//Chestplate
+		// Chestplate
 		item = new ItemStack(Material.LEATHER_CHESTPLATE);
 		LeatherArmorMeta leatherItemMeta = (LeatherArmorMeta) item.getItemMeta();
 		leatherItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -62,7 +63,7 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 		item.setItemMeta(leatherItemMeta);
 		es.chest = item;
                 
-		//Leggings
+		// Leggings
 		item = new ItemStack(Material.LEATHER_LEGGINGS);
 		leatherItemMeta = (LeatherArmorMeta) item.getItemMeta();
 		leatherItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -96,9 +97,9 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 		// Death Messages
 		super.deathMessage[0] = "You were decapitated by ";
 		super.killMessage[0] = "You decapitated ";
-        }
+	}
         
-        @Override
+    @Override
 	public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 		super.addPlayer(((Player) commandSender).getUniqueId());
 		return true;
