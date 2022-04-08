@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,9 +19,15 @@ public class DeathEvent implements Listener {
 
         Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
 
-        assert team != null && team.lobby != null;
+        assert team != null && team.lobby.spawnPoint != null;
+        if (team.lobby.spawnPoint.getWorld() == null) {
+            team.lobby.spawnPoint.setWorld(Bukkit.getWorld(MapController.getCurrentMap().worldName));
+        }
 
         //MVPstats.addDeaths(player.getUniqueId(), 1);
+        System.out.println("Lobby is " + team.lobby);
+        System.out.println("Spawn point is " + team.lobby.spawnPoint);
+        System.out.println("World is " + team.lobby.spawnPoint.isWorldLoaded());
         event.setRespawnLocation(team.lobby.spawnPoint);
         player.teleport(team.lobby.spawnPoint);
 

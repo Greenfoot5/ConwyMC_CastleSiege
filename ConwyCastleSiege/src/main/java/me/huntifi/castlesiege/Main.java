@@ -88,8 +88,8 @@ public class Main extends JavaPlugin implements Listener {
 		createConfigs();
 		getLogger().info("Loading maps from configuration...");
 		loadMaps();
-		getLogger().info("Unloading all worlds");
-		unloadWorlds();
+		//getLogger().info("Unloading all worlds");
+		//unloadWorlds();
 
 		getLogger().info("Connecting to database");
 		// SQL Stuff

@@ -82,9 +82,12 @@ public class MapController {
 			}
 			System.out.println("Loading Map");
 			loadMap();
-			System.out.println("About to unload map");
-			if (!oldMap.equals(currentMap.name()))
+			System.out.println("Loaded map");
+			if (!oldMap.equals(currentMap.name())) {
+				System.out.println("About to unload " + oldMap);
 				unloadMap(oldMap);
+				System.out.println("Unloaded map");
+			}
 		}
 	}
 
@@ -126,10 +129,13 @@ public class MapController {
 	 * Does any unloading needed for the current map
 	 */
 	public static void unloadMap(String worldName) {
+		System.out.println("Bukkit unloading world");
 		Bukkit.unloadWorld(worldName, false);
+		System.out.println("Bukkit has unloaded the world");
 		for (Map map:maps) {
 			if (Objects.equals(map.worldName, worldName)) {
 				for (Team team:map.teams) {
+					System.out.println("Clearing team: " + team.name);
 					team.clear();
 				}
 			}
@@ -207,7 +213,10 @@ public class MapController {
 		System.out.println(team.lobby.spawnPoint);
 		System.out.println(team.lobby.spawnPoint.isWorldLoaded());
 		System.out.println(Bukkit.getWorld("Thunderstone"));
-		player.teleport(team.lobby.spawnPoint);
+		if (team.lobby.spawnPoint.getWorld() == null) {
+			team.lobby.spawnPoint.setWorld(Bukkit.getWorld(getCurrentMap().worldName));
+		}
+		//player.teleport(team.lobby.spawnPoint);
 		System.out.println("Clearing Inventory?");
 		player.getInventory().clear();
 		System.out.println("Giving player a kit");

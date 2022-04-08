@@ -127,7 +127,6 @@ me/huntifi/castlesiege/kits/Berserker/BerserkerDeath.class
 me/huntifi/castlesiege/joinevents/stats/MainStats.class
 me/huntifi/castlesiege/kits/kits/Berserker.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/LonelyTowerFlag$1.class
-me/huntifi/castlesiege/kits/Cavalry/Cavalry.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/TwinbridgeFlag$3.class
 me/huntifi/castlesiege/Helmsdeep/Gates/HelmsdeepGreatHallBlocks.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/EastTower_ThunderstoneGuards.class
@@ -209,6 +208,7 @@ me/huntifi/castlesiege/Thunderstone/KitsGUI/KitsGUI_ThunderstoneGuard_Command$1.
 me/huntifi/castlesiege/Thunderstone/Flags/animations/SkyviewTowerFlag$1.class
 me/huntifi/castlesiege/commands/staffCommands/SessionMuteCommand.class
 me/huntifi/castlesiege/Helmsdeep/flags/animations/Courtyard_Rohan.class
+me/huntifi/castlesiege/kits/kits/Cavalry.class
 me/huntifi/castlesiege/kits/VotedKits/Ladderman/LaddermanDeath.class
 me/huntifi/castlesiege/kits/Maceman/MacemanVotedKit.class
 me/huntifi/castlesiege/maps/WoolMap.class
