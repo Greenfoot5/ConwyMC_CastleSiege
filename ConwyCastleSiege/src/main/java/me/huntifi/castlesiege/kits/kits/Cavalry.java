@@ -53,11 +53,12 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
         itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 16, true);
         itemMeta.setLore(new ArrayList<>());
         item.setItemMeta(itemMeta);
-        es.hotbar[0] = item;
+        es.hotbar[0] = item.clone();
         // Voted Weapon
-        item.getItemMeta().addEnchant(Enchantment.DAMAGE_ALL, 18, true);
-        item.getItemMeta().setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
-        es.votedWeapon = new Tuple<>(item, 0);
+        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 20, true);
+        itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
+        item.setItemMeta(itemMeta);
+        es.votedWeapon = new Tuple<>(item.clone(), 0);
 
         // Chestplate
         item = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
@@ -87,9 +88,11 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
         itemMeta.setUnbreakable(true);
         itemMeta.setLore(new ArrayList<>());
         item.setItemMeta(itemMeta);
-        es.feet = item;
-        item.getItemMeta().addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
-        es.votedFeet = item;
+        es.feet = item.clone();
+        // Voted Boots
+        itemMeta.addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
+        item.setItemMeta(itemMeta);
+        es.votedFeet = item.clone();
 
         // Ladders
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);
@@ -108,7 +111,9 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
         super.equipment = es;
 
 
-        // No changes to death messages
+        // Death Messages
+        super.projectileDeathMessage = super.deathMessage;
+        super.projectileKillMessage = super.killMessage;
     }
 
     @Override

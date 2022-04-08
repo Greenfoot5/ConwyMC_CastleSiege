@@ -47,14 +47,15 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 48, true);
 		itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "Right-click to throw a spear."));
 		item.setItemMeta(itemMeta);
-		es.hotbar[0] = item;
+		es.hotbar[0] = item.clone();
 		// Voted Weapon
-		item.getItemMeta().addEnchant(Enchantment.DAMAGE_ALL, 50, true);
-		item.getItemMeta().setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage",
+		itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 52, true);
+		itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage",
 				ChatColor.AQUA + "Right-click to throw a spear."));
-		es.votedWeapon = new Tuple<>(item, 0);
+		item.setItemMeta(itemMeta);
+		es.votedWeapon = new Tuple<>(item.clone(), 0);
 
-		//Chestplate
+		// Chestplate
 		item = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
 		itemMeta = item.getItemMeta();
 		itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -64,7 +65,7 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		item.setItemMeta(itemMeta);
 		es.chest = item;
 
-		//Leggings
+		// Leggings
 		item = new ItemStack(Material.CHAINMAIL_LEGGINGS);
 		itemMeta = item.getItemMeta();
 		itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -82,9 +83,11 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		itemMeta.setUnbreakable(true);
 		itemMeta.setLore(new ArrayList<>());
 		item.setItemMeta(itemMeta);
-		es.feet = item;
-		item.getItemMeta().addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
-		es.votedFeet = item;
+		es.feet = item.clone();
+		// Voted Boots
+		itemMeta.addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
+		item.setItemMeta(itemMeta);
+		es.votedFeet = item.clone();
 
 		// Ladders
 		es.hotbar[1] = new ItemStack(Material.LADDER, 4);

@@ -53,14 +53,15 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.setUnbreakable(true);
         itemMeta.setDisplayName(ChatColor.GREEN + "Shortsword");
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 20, true);
+        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 16, true);
         itemMeta.setLore(new ArrayList<>());
         item.setItemMeta(itemMeta);
-        es.hotbar[0] = item;
+        es.hotbar[0] = item.clone();
         // Voted Weapon
-        item.getItemMeta().addEnchant(Enchantment.DAMAGE_ALL, 18, true);
-        item.getItemMeta().setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
-        es.votedWeapon = new Tuple<>(item, 0);
+        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 20, true);
+        itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
+        item.setItemMeta(itemMeta);
+        es.votedWeapon = new Tuple<>(item.clone(), 0);
 
         // Chestplate
         item = new ItemStack(Material.LEATHER_CHESTPLATE);
@@ -93,9 +94,11 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         leatherItemMeta.setUnbreakable(true);
         leatherItemMeta.setLore(new ArrayList<>());
         item.setItemMeta(leatherItemMeta);
-        es.feet = item;
-        item.getItemMeta().addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
-        es.votedFeet = item;
+        es.feet = item.clone();
+        // Voted Boots
+        leatherItemMeta.addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
+        item.setItemMeta(leatherItemMeta);
+        es.votedFeet = item.clone();
 
         // Ladders
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);
@@ -118,6 +121,10 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         // Perm Potion Effect
         super.potionEffects = new PotionEffect[1];
         super.potionEffects[0] = new PotionEffect(PotionEffectType.JUMP, 999999, 0);
+
+        // Death Messages
+        super.projectileDeathMessage = super.deathMessage;
+        super.projectileKillMessage = super.killMessage;
     }
 
     @Override

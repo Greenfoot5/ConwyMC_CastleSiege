@@ -55,12 +55,13 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         itemMeta.setLore(new ArrayList<>());
         item.setItemMeta(itemMeta);
         regularSword = item.clone();
-        es.hotbar[0] = item;
+        es.hotbar[0] = regularSword;
         // Voted Weapon
-        item.getItemMeta().addEnchant(Enchantment.DAMAGE_ALL, 22, true);
-        item.getItemMeta().setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
+        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 24, true);
+        itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
+        item.setItemMeta(itemMeta);
         regularSwordVoted = item.clone();
-        es.votedWeapon = new Tuple<>(item, 0);
+        es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
         // Ladders
         es.hotbar[2] = new ItemStack(Material.LADDER, 4);
@@ -90,8 +91,9 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         item.setItemMeta(itemMeta);
         berserkSword = item.clone();
         // Voted Weapon
-        item.getItemMeta().addEnchant(Enchantment.DAMAGE_ALL, 58, true);
-        item.getItemMeta().setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
+        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 60, true);
+        itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
+        item.setItemMeta(itemMeta);
         berserkSwordVoted = item.clone();
 
         super.equipment = es;
@@ -101,6 +103,8 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         super.deathMessage[0] = "";
         super.deathMessage[1] = " went berserk on you!";
         super.killMessage[0] = "You went berserk on ";
+        super.projectileDeathMessage = super.deathMessage;
+        super.projectileKillMessage = super.killMessage;
     }
 
     @Override

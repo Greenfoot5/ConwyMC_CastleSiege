@@ -124,7 +124,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         firepit = item.clone();
         es.hotbar[1] = firepit;
         // Voted Firepit
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 22, true);
+        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 24, true);
         itemMeta.setLore(Arrays.asList("",
                 ChatColor.AQUA + "Place the firepit down, then",
                 ChatColor.AQUA + "right click it with an arrow.", "",

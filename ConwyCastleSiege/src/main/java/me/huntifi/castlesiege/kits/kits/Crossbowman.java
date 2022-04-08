@@ -77,9 +77,11 @@ public class Crossbowman extends Kit implements Listener, CommandExecutor {
         leatherItemMeta.setUnbreakable(true);
         leatherItemMeta.setLore(new ArrayList<>());
         item.setItemMeta(leatherItemMeta);
-        es.feet = item;
-        item.getItemMeta().addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
-        es.votedFeet = item;
+        es.feet = item.clone();
+        // Voted boots
+        leatherItemMeta.addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
+        item.setItemMeta(leatherItemMeta);
+        es.votedFeet = item.clone();
 
         // Ladders
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);
