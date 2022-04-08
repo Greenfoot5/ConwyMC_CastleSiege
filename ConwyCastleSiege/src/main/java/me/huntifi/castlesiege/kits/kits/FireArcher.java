@@ -1,12 +1,10 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.voting.VotesChanging;
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -19,17 +17,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemFlag;
@@ -91,10 +86,11 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         leatherItemMeta.setUnbreakable(true);
         leatherItemMeta.setLore(new ArrayList<>());
         item.setItemMeta(leatherItemMeta);
-        es.feet = item;
+        es.feet = item.clone();
         // Voted Boots
-        item.getItemMeta().addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
-        es.votedFeet = item;
+        leatherItemMeta.addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
+        item.setItemMeta(leatherItemMeta);
+        es.votedFeet = item.clone();
 
         // Ladders
         es.hotbar[2] = new ItemStack(Material.LADDER, 4);
@@ -126,17 +122,18 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
                 ChatColor.AQUA + "can beat your enemies to death with it."));
         item.setItemMeta(itemMeta);
         firepit = item.clone();
-        es.hotbar[1] = item;
+        es.hotbar[1] = firepit;
         // Voted Firepit
-        item.getItemMeta().addEnchant(Enchantment.DAMAGE_ALL, 22, true);
-        item.getItemMeta().setLore(Arrays.asList("",
+        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 22, true);
+        itemMeta.setLore(Arrays.asList("",
                 ChatColor.AQUA + "Place the firepit down, then",
                 ChatColor.AQUA + "right click it with an arrow.", "",
                 ChatColor.AQUA + "- voted: + 2 damage.",
                 ChatColor.AQUA + "(tip): This firepit is very hard, so you",
                 ChatColor.AQUA + "can beat your enemies to death with it."));
+        item.setItemMeta(itemMeta);
         firepitVoted = item.clone();
-        es.votedWeapon = new Tuple<>(item, 1);
+        es.votedWeapon = new Tuple<>(firepitVoted, 1);
 
         // Arrows
         es.hotbar[7] = new ItemStack(Material.ARROW, 48);
@@ -214,13 +211,14 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
     @EventHandler
     public void onUseFirepit(PlayerInteractEvent e) {
         Player p = e.getPlayer();
+        ItemStack usedItem = e.getItem();
 
         // Check if a fire archer tries to light an arrow, while off-cooldown
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                 e.getAction() == Action.RIGHT_CLICK_BLOCK &&
                 e.getClickedBlock().getType() == Material.CAULDRON &&
-                e.getItem() != null &&
-                e.getItem().getType() == Material.ARROW &&
+                usedItem != null &&
+                usedItem.getType() == Material.ARROW &&
                 p.getCooldown(Material.ARROW) == 0) {
 
             // Check if the player may light an arrow using this cauldron
@@ -229,13 +227,14 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
                     MapController.getCurrentMap().getTeam(p.getUniqueId())
                     == MapController.getCurrentMap().getTeam(q.getUniqueId())) {
 
-                // Check if the player has may light any more arrows
+                // Check if the player may light any more arrows
                 PlayerInventory inv = p.getInventory();
                 ItemStack offHand = inv.getItemInOffHand();
                 int fireOffHand = offHand.getType() == Material.TIPPED_ARROW ? offHand.getAmount() : 0;
                 if (!inv.contains(Material.TIPPED_ARROW, 7 - fireOffHand)) {
+                    // Light an arrow
                     p.setCooldown(Material.ARROW, 30);
-                    inv.removeItem(new ItemStack(Material.ARROW));
+                    usedItem.setAmount(usedItem.getAmount() - 1);
                     inv.addItem(fireArrow);
                     p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 0.5f);
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
@@ -252,15 +251,16 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
     public void FlameBow(EntityShootBowEvent e) {
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
-            PlayerInventory inv = p.getInventory();
+            if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
 
-            if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
-                    e.getProjectile() instanceof Arrow &&
-                    (inv.contains(Material.TIPPED_ARROW) ||
-                            inv.getItemInOffHand().getType() == Material.TIPPED_ARROW) &&
-                    inv.getItemInOffHand().getType() != Material.ARROW) {
-
-                e.getProjectile().setFireTicks(180);
+                try {
+                    Arrow a = (Arrow) e.getProjectile();
+                    if (Objects.equals(a.getColor(), Color.ORANGE)) {
+                        a.setFireTicks(180);
+                    }
+                } catch (Exception ex) {
+                    // No fire arrow was shot
+                }
             }
         }
     }
@@ -274,8 +274,13 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
     }
 
     @EventHandler
-    public void onHitTnt(BlockIgniteEvent e) {
-        e.setCancelled(true);
+    public void onHitTnt(ProjectileHitEvent e) {
+        Entity a = e.getEntity();
+        Block b = e.getHitBlock();
+        if (a instanceof Arrow &&
+                b != null && b.getType() == Material.TNT) {
+            a.setFireTicks(0);
+        }
     }
 
     @EventHandler

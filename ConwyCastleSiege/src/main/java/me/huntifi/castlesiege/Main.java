@@ -110,6 +110,7 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new Crossbowman(), this);
 		getServer().getPluginManager().registerEvents(new Engineer(), this);
 		getServer().getPluginManager().registerEvents(new Executioner(), this);
+		getServer().getPluginManager().registerEvents(new FireArcher(), this);
 		getServer().getPluginManager().registerEvents(new Spearman(), this);
 
 		// Rewrite Commands
@@ -123,6 +124,7 @@ public class Main extends JavaPlugin implements Listener {
 		Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
 		Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
 		Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
+		Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
 		Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
 		Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
 

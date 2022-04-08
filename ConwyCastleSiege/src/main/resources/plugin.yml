@@ -167,6 +167,9 @@ commands:
   executioner:
     description: Selects the executioner kit
     usage: /executioner
+  firearcher:
+    description: Selects the firearcher kit
+    usage: /firearcher
   spearman:
     description: Selects the spearman kit
     usage: /spearman
