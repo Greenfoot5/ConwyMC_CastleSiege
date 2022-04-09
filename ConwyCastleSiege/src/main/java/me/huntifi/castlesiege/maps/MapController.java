@@ -6,16 +6,26 @@ import me.huntifi.castlesiege.Helmsdeep.flags.FlagTeam;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.joinevents.stats.MainStats;
+import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.stats.levels.LevelingEvent;
 import me.huntifi.castlesiege.tags.NametagsEvent;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.WorldCreator;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
@@ -26,7 +36,7 @@ import static org.bukkit.Bukkit.getServer;
 /**
  * Manages what map the game is currently on
  */
-public class MapController {
+public class MapController implements CommandExecutor {
 
 	public static MapsList currentMap = MapsList.HelmsDeep;
 	public static Map[] maps;
@@ -90,6 +100,12 @@ public class MapController {
 	 * Loads the current map
 	 */
 	public static void loadMap() {
+		// Reset the map
+		File oldWorld = Bukkit.getWorld(getCurrentMap().worldName).getWorldFolder();
+		Bukkit.getServer().unloadWorld(getCurrentMap().worldName, false);
+		copyFileStructure(new File(Bukkit.getWorldContainer(), getCurrentMap().worldName + "_save"), oldWorld);
+		new WorldCreator(getCurrentMap().worldName).createWorld();
+
 		// Register the flag regions
 		for (Flag flag : maps[mapIndex].flags) {
 			WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(currentMap.name()))).addRegion(flag.region);
@@ -114,6 +130,11 @@ public class MapController {
 	 * Does any unloading needed for the current map
 	 */
 	public static void unloadMap(String worldName) {
+		File oldWorld = Bukkit.getWorld(worldName).getWorldFolder();
+		Bukkit.getServer().unloadWorld(Bukkit.getWorld(worldName), false);
+		copyFileStructure(new File(Bukkit.getWorldContainer(), worldName + "_save"), oldWorld);
+		new WorldCreator(worldName).createWorld();
+
 		for (Map map:maps) {
 			if (Objects.equals(map.worldName, worldName)) {
 				for (Team team:map.teams) {
@@ -218,5 +239,65 @@ public class MapController {
 		if (team != null) {
 			team.removePlayer(uuid);
 		}
+	}
+
+	private static void copyFileStructure(File source, File target){
+		if (target == null) {
+			getLogger().severe("No world to load for " + source.getName() + ". Could not reset the map!");
+			return;
+		}
+		try {
+			FileUtils.copyDirectory(source, target);
+//			ArrayList<String> ignore = new ArrayList<>(Arrays.asList("uid.dat", "session.lock"));
+//			if(!ignore.contains(source.getName())) {
+//				if(source.isDirectory()) {
+//					if(!target.exists())
+//						if (!target.mkdirs())
+//							throw new IOException("Couldn't create world directory!");
+//					String[] files = source.list();
+//					assert files != null;
+//					for (String file : files) {
+//						File srcFile = new File(source, file);
+//						File destFile = new File(target, file);
+//						copyFileStructure(srcFile, destFile);
+//					}
+//				} else {
+//					InputStream in = new FileInputStream(source);
+//					OutputStream out = new FileOutputStream(target);
+//					byte[] buffer = new byte[1024];
+//					int length;
+//					while ((length = in.read(buffer)) > 0)
+//						out.write(buffer, 0, length);
+//					in.close();
+//					out.close();
+//				}
+//			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Save map command.
+	 * Saves the current map to the backup save
+	 */
+	@Override
+	public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+		if (commandSender instanceof ConsoleCommandSender || (commandSender instanceof Player
+				&& "AdminDeveloperModerator".contains((StatsChanging.getStaffRank(((Player) commandSender).getUniqueId())))))
+		{
+			commandSender.sendMessage(ChatColor.DARK_AQUA + "Saving world: " + getCurrentMap().worldName);
+
+			File oldWorld = Bukkit.getWorld(getCurrentMap().worldName).getWorldFolder();
+			Bukkit.getServer().unloadWorld(Bukkit.getWorld(getCurrentMap().worldName), false);
+
+			copyFileStructure(new File(Bukkit.getWorldContainer(), getCurrentMap().worldName + "_save"), oldWorld);
+			new WorldCreator(getCurrentMap().worldName).createWorld();
+
+			commandSender.sendMessage(ChatColor.GREEN + "Saved " + getCurrentMap().worldName + "!");
+		} else {
+			commandSender.sendMessage(ChatColor.DARK_RED + "You don't have permission to do that!");
+		}
+		return true;
 	}
 }

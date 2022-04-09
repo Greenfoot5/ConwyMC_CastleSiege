@@ -13,6 +13,8 @@ import me.huntifi.castlesiege.Database.MySQL;
 import me.huntifi.castlesiege.Database.SQLStats;
 import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
 import me.huntifi.castlesiege.Helmsdeep.Wall.WallEvent;
+import me.huntifi.castlesiege.Helmsdeep.flags.HelmsdeepReset;
+import me.huntifi.castlesiege.Thunderstone.Flags.ThunderstoneReset;
 import me.huntifi.castlesiege.chat.PlayerChat;
 import me.huntifi.castlesiege.combat.*;
 import me.huntifi.castlesiege.commands.*;
@@ -88,8 +90,6 @@ public class Main extends JavaPlugin implements Listener {
 		createConfigs();
 		getLogger().info("Loading maps from configuration...");
 		loadMaps();
-		//getLogger().info("Unloading all worlds");
-		//unloadWorlds();
 
 		getLogger().info("Connecting to database");
 		// SQL Stuff
@@ -99,8 +99,6 @@ public class Main extends JavaPlugin implements Listener {
 		SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
 		// second param allows for ordering of handlers - see the JavaDocs
 		sessionManager.registerHandler(CaptureHandler.FACTORY, null);
-
-		// Reload command
 
 		// Rewrite Events
 		getServer().getPluginManager().registerEvents(new DeathEvent(), this);
@@ -117,6 +115,7 @@ public class Main extends JavaPlugin implements Listener {
 		Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
 		Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
 		Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
+		Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
 		// Kits
 		Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
 		Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
@@ -369,6 +368,9 @@ public class Main extends JavaPlugin implements Listener {
 			WorldCreator worldCreator = new WorldCreator(mapName.name());
 			worldCreator.generateStructures(false);
 			worldCreator.createWorld();
+		}
+		for (World world : Bukkit.getWorlds()) {
+			world.setAutoSave(false);
 		}
 	}
 

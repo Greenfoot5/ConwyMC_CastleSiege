@@ -1,3 +1,4 @@
+/Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/kits/FireArcher.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Helmsdeep/Kits/orc.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Maceman/MacemanDeath.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Database/MySQL.java
@@ -62,10 +63,10 @@
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Thunderstone/Flags/animations/SkyviewTowerFlag.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagCaptures.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/commands/rulesCommand.java
+/Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/kits/Engineer.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/security/ambientDamage.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/commands/staffCommands/UnsessionmuteCommand.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Ranger/Ranger.java
-/Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Cavalry/Cavalry.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/security/voidOfLimits.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Helmsdeep/HelmsdeepDeath.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Helmsdeep/flags/FlagRadius.java
@@ -117,6 +118,7 @@
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Main.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Helmsdeep/Ballistae/HelmsdeepBallistaEvent.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Viking/VikingVotedKit.java
+/Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/kits/Crossbowman.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Halberdier/DeathHalberdier.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Thunderstone/Flags/animations/WestTower_Cloudcrawlers.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Skirmisher/SkirmisherVotedKit.java
@@ -266,7 +268,6 @@
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Thunderstone/ThunderstoneEndMVP.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Helmsdeep/doors/HelmsdeepGreatHallRightDoor.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/FireArcher/FirearcherVotedKit.java
-/Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Crossbowman/Crossbowman.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Helmsdeep/flags/animations/SupplyCamp_Rohan.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagMethod.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/commands/message/ReplyCommand.java
@@ -294,6 +295,7 @@
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Database/SQLStats.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Skirmisher/Skirmisher.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/security/NoMoveInventory.java
+/Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/kits/Cavalry.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/kits/Cavalry/CavalryVotedKit.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/security/NoTouchPaintings.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/stats/levels/LevelSave.java

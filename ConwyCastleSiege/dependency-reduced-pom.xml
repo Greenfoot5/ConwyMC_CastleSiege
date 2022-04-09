@@ -23,10 +23,15 @@
               <pattern>dev.dejvokep.boostedyaml</pattern>
               <shadedPattern>com.github.Huntif.CastleSiege</shadedPattern>
             </relocation>
+            <relocation>
+              <pattern>commons-io.commons-io</pattern>
+              <shadedPattern>com.github.Huntif.CastleSiege</shadedPattern>
+            </relocation>
           </relocations>
           <artifactSet>
             <includes>
               <include>dev.dejvokep:boosted-yaml-spigot</include>
+              <include>commons-io:commons-io</include>
             </includes>
           </artifactSet>
         </configuration>

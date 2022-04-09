@@ -122,6 +122,12 @@
             <artifactId>boosted-yaml-spigot</artifactId>
             <version>1.1</version>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -136,10 +142,15 @@
                             <pattern>dev.dejvokep.boostedyaml</pattern>
                             <shadedPattern>com.github.Huntif.CastleSiege</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>commons-io.commons-io</pattern>
+                            <shadedPattern>com.github.Huntif.CastleSiege</shadedPattern>
+                        </relocation>
                     </relocations>
                     <artifactSet>
                         <includes>
                             <include>dev.dejvokep:boosted-yaml-spigot</include>
+                            <include>commons-io:commons-io</include>
                         </includes>
                     </artifactSet>
                 </configuration>

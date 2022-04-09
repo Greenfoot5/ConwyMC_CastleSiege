@@ -119,6 +119,7 @@ me/huntifi/castlesiege/Helmsdeep/flags/TeamBonusses/Message_GreatHalls.class
 me/huntifi/castlesiege/Helmsdeep/flags/TeamBonusses/Message_Horn.class
 me/huntifi/castlesiege/Thunderstone/TeamBonusses/Messages_Shiftedtower.class
 me/huntifi/castlesiege/kits/Shieldman/ShieldmanVotedKit.class
+me/huntifi/castlesiege/kits/kits/Crossbowman.class
 me/huntifi/castlesiege/events/DeathEvent.class
 me/huntifi/castlesiege/Helmsdeep/flags/animations/MainGateFlag$1.class
 me/huntifi/castlesiege/Database/AsyncGetters$2$1.class
@@ -306,6 +307,7 @@ me/huntifi/castlesiege/kits/Crossbowman/CrossbowmanKit.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/WestTowerFlag.class
 me/huntifi/castlesiege/combat/CustomRegeneration$1.class
 me/huntifi/castlesiege/kits/VotedKits/KitGUI_VotedKits.class
+me/huntifi/castlesiege/kits/kits/FireArcher.class
 me/huntifi/castlesiege/commands/staffCommands/KickCommand.class
 me/huntifi/castlesiege/kits/Ranger/Ranger.class
 me/huntifi/castlesiege/Thunderstone/Flags/ThunderstoneReset.class
@@ -316,7 +318,6 @@ me/huntifi/castlesiege/Thunderstone/Flags/animations/WestTowerFlag$1.class
 me/huntifi/castlesiege/maps/MapController.class
 me/huntifi/castlesiege/kits/Viking/VikingKit.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/EastTower_Cloudcrawlers.class
-me/huntifi/castlesiege/kits/Crossbowman/Crossbowman.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/LonelyTowerFlag$2.class
 me/huntifi/castlesiege/kits/Halberdier/DeathHalberdier.class
 me/huntifi/castlesiege/Helmsdeep/doors/HelmsdeepGreatHallLeftDoor.class
@@ -358,6 +359,7 @@ me/huntifi/castlesiege/commands/staffCommands/UnsessionmuteCommand.class
 me/huntifi/castlesiege/kits/VotedKits/VotedKitsGUI_Command.class
 me/huntifi/castlesiege/kits/medic/MedicKit.class
 me/huntifi/castlesiege/kits/Executioner/ExecutionerKit.class
+me/huntifi/castlesiege/kits/kits/Engineer.class
 me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagTeam.class
 me/huntifi/castlesiege/flags/Flag$2.class
 me/huntifi/castlesiege/kits/Maceman/MacemanAbility.class

@@ -147,6 +147,9 @@ commands:
   Switch:
     description: Switches teams.
     usage: /switch
+  SaveMap:
+    description: Saves any changes made to the current map
+    usage: /savemap
 
   # Kits
   archer:

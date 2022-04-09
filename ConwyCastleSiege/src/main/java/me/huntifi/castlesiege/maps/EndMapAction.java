@@ -30,32 +30,11 @@ public class EndMapAction {
 		switch (mapName)
 		{
 			case HelmsDeep:
-				// Moves all players to the next location
-				for (Player player : Bukkit.getOnlinePlayers()) {
-					Location loc = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 277, 13, 987, -178, -1);
-					if (PlayerTeam.playerIsInTeam(player, 1)) {
-						loc = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 1745, 14, 957, -95, -17);
-					}
-					teleportPlayer(player, loc);
-				}
-				LobbyPlayer.lobby.clear();
 
 				new BukkitRunnable() {
 
 					@Override
 					public void run() {
-
-						PlayerTeam.Urukhai.clear();
-						PlayerTeam.Rohan.clear();
-
-						for (Player all : Bukkit.getOnlinePlayers()) {
-
-							all.sendMessage(ChatColor.YELLOW + "*** PREPAIRING THE BATTLEFIELD ***");
-							all.sendMessage(ChatColor.GRAY + "Expect some lag for a few seconds...");
-
-						}
-
-						MapController.nextMap();
 
 						new BukkitRunnable() {
 
