@@ -113,6 +113,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
 
                 // Kits
+                getServer().getPluginManager().registerEvents(new Archer(), plugin);
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
@@ -120,6 +121,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Executioner(), plugin);
                 getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
+                getServer().getPluginManager().registerEvents(new Swordsman(), plugin);
 
                 // Rewrite Commands
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
