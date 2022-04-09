@@ -379,7 +379,7 @@ public class Main extends JavaPlugin implements Listener {
 //			}
 //		}.runTaskLater(plugin, 200);
             }
-        }.runTaskLater(plugin, 200);
+        }.runTaskLater(plugin, 1);
     }
 
     @Override
