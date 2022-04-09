@@ -9,8 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import me.huntifi.castlesiege.teams.PlayerTeam;
-
 public class NoHurtTeam implements Listener {
 
 	@EventHandler
