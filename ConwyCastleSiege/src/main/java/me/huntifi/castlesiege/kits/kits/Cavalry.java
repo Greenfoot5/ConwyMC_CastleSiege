@@ -126,18 +126,16 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
     public void onRide(PlayerInteractEvent e) {
         Player p = e.getPlayer();
 
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-            if (e.getItem().getType() == Material.WHEAT) {
+        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
+                e.getItem() != null && e.getItem().getType() == Material.WHEAT) {
+            int cooldown = p.getCooldown(Material.WHEAT);
+            if (cooldown == 0) {
+                p.setCooldown(Material.WHEAT, 600);
 
-                int cooldown = p.getCooldown(Material.WHEAT);
-                if (cooldown == 0) {
-                    p.setCooldown(Material.WHEAT, 600);
-
-                    if (p.isInsideVehicle()) {
-                        p.getVehicle().remove();
-                    }
-                    onHorse(p);
+                if (p.isInsideVehicle()) {
+                    p.getVehicle().remove();
                 }
+                onHorse(p);
             }
         }
     }
