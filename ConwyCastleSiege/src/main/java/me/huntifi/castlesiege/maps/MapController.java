@@ -253,6 +253,7 @@ public class MapController implements CommandExecutor {
 		{
 			commandSender.sendMessage(ChatColor.DARK_AQUA + "Saving world: " + getCurrentMap().worldName);
 
+			Bukkit.getWorld(getCurrentMap().worldName).save();
 			copyFileStructure(new File(Bukkit.getWorldContainer(), getCurrentMap().worldName + "_save"), Bukkit.getWorld(getCurrentMap().worldName).getWorldFolder());
 
 			commandSender.sendMessage(ChatColor.GREEN + "Saved " + getCurrentMap().worldName + "!");
