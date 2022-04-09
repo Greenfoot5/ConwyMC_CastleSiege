@@ -12,7 +12,6 @@ import me.huntifi.castlesiege.stats.levels.LevelingEvent;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -91,11 +90,6 @@ public class MapController {
 	 * Loads the current map
 	 */
 	public static void loadMap() {
-		// Load the world
-		WorldCreator worldSettings = new WorldCreator(currentMap.name());
-		worldSettings.generateStructures(false);
-		worldSettings.createWorld();
-
 		// Register the flag regions
 		for (Flag flag : maps[mapIndex].flags) {
 			WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(currentMap.name()))).addRegion(flag.region);
