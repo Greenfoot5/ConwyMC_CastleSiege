@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.combat;
 
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Horse;
@@ -13,210 +14,77 @@ import me.huntifi.castlesiege.teams.PlayerTeam;
 public class NoHurtTeam implements Listener {
 
 	@EventHandler
-	public void onhurt(EntityDamageByEntityEvent e) {
+	public void onHurt(EntityDamageByEntityEvent e) {
+		// A player was hurt
+		if (e.getEntity() instanceof Player) {
+			Player p = (Player) e.getEntity();
 
-		if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-
-			Player damaged = (Player) e.getEntity();
-
-			Player damager = (Player) e.getDamager();
-
-			if (PlayerTeam.playerIsInTeam(damaged, 1) && PlayerTeam.playerIsInTeam(damager, 1)) {
-
+			// Hurt by teammate
+			if (e.getDamager() instanceof Player &&
+					MapController.getCurrentMap().getTeam(p.getUniqueId()) ==
+					MapController.getCurrentMap().getTeam(e.getDamager().getUniqueId())) {
 				e.setCancelled(true);
 			}
 
-			if (PlayerTeam.playerIsInTeam(damaged, 2) && PlayerTeam.playerIsInTeam(damager, 2)) {
+			// Hurt by arrow from teammate
+			if (e.getDamager() instanceof Arrow &&
+					((Arrow) e.getDamager()).getShooter() instanceof Player &&
+					MapController.getCurrentMap().getTeam(p.getUniqueId()) ==
+							MapController.getCurrentMap().getTeam(
+									((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId())) {
+				e.setCancelled(true);
+			}
+		}
+	}
 
+	@EventHandler
+	public void onHurtHorse(EntityDamageByEntityEvent e) {
+		// A horse with owner was hurt
+		if (e.getEntity() instanceof Horse &&
+				((Horse) e.getEntity()).getOwner() != null) {
+			Player p = (Player) ((Horse) e.getEntity()).getOwner();
+
+			// Hurt by owner's teammate
+			if (e.getDamager() instanceof Player &&
+					MapController.getCurrentMap().getTeam(e.getDamager().getUniqueId()) ==
+							MapController.getCurrentMap().getTeam(p.getUniqueId())) {
 				e.setCancelled(true);
 			}
 
-
-		} 
-
-		if (e.getDamager() instanceof Arrow) {
-
-			Arrow arrow = (Arrow) e.getDamager();
-
-			if (arrow.getShooter() instanceof Player) {
-
-				if (e.getEntity() instanceof Player) {
-
-					Player damaged = (Player) e.getEntity();
-
-					Player damager = (Player) arrow.getShooter();
-
-
-					if (PlayerTeam.playerIsInTeam(damaged, 1) && PlayerTeam.playerIsInTeam(damager, 1)) {
-
-						e.setCancelled(true);
-					}
-
-					if (PlayerTeam.playerIsInTeam(damaged, 2) && PlayerTeam.playerIsInTeam(damager, 2)) {
-
-						e.setCancelled(true);
-					}
-
-				}
-
+			// Hurt by arrow from owner's teammate
+			if (e.getDamager() instanceof Arrow &&
+					((Arrow) e.getDamager()).getShooter() instanceof Player &&
+					MapController.getCurrentMap().getTeam(p.getUniqueId()) ==
+							MapController.getCurrentMap().getTeam(
+									((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId())) {
+				e.setCancelled(true);
 			}
-
-
 		}
 	}
 
-
-
-	@SuppressWarnings("deprecation")
 	@EventHandler
-	public void onhurtHorse(EntityDamageByEntityEvent e) {
+	public void onHurtBoat(EntityDamageByEntityEvent e) {
+		// A boat with player was hurt
+		if (e.getEntity() instanceof Boat &&
+				!e.getEntity().getPassengers().isEmpty() &&
+				e.getEntity().getPassengers().get(0) instanceof Player) {
+			Player p = (Player) e.getEntity().getPassengers().get(0);
 
-		if (e.getEntity() instanceof Horse && e.getDamager() instanceof Player) {
-
-			Horse damaged = (Horse) e.getEntity();
-
-			Player damager = (Player) e.getDamager();
-
-			if (damaged.getPassenger() != null) {
-
-				if (damaged.getPassenger() instanceof Player) {
-
-					Player rider = (Player) damaged.getPassenger();
-
-					if (PlayerTeam.playerIsInTeam(rider, 1) && PlayerTeam.playerIsInTeam(damager, 1)) {
-
-						e.setCancelled(true);
-					}
-
-					if (PlayerTeam.playerIsInTeam(rider, 2) && PlayerTeam.playerIsInTeam(damager, 2)) {
-
-						e.setCancelled(true);
-					}
-
-
-				}
-
+			// Hurt by player's teammate
+			if (e.getDamager() instanceof Player &&
+					MapController.getCurrentMap().getTeam(e.getDamager().getUniqueId()) ==
+							MapController.getCurrentMap().getTeam(p.getUniqueId())) {
+				e.setCancelled(true);
 			}
 
-		}
-
-
-		if (e.getDamager() instanceof Arrow) {
-
-			Arrow arrow = (Arrow) e.getDamager();
-
-			if (arrow.getShooter() instanceof Player) {
-
-				if (e.getEntity() instanceof Horse) {
-
-					Horse damaged = (Horse) e.getEntity();
-
-					Player damager = (Player) arrow.getShooter();
-
-
-					if (damaged.getPassenger() != null) {
-
-						if (damaged.getPassenger() instanceof Player) {
-
-							Player rider = (Player) damaged.getPassenger();
-
-							if (PlayerTeam.playerIsInTeam(rider, 1) && PlayerTeam.playerIsInTeam(damager, 1)) {
-
-								e.setCancelled(true);
-							}
-
-							if (PlayerTeam.playerIsInTeam(rider, 2) && PlayerTeam.playerIsInTeam(damager, 2)) {
-
-								e.setCancelled(true);
-							}
-
-
-						}
-
-					}
-
-				}
+			// Hurt by arrow from player's teammate
+			if (e.getDamager() instanceof Arrow &&
+					((Arrow) e.getDamager()).getShooter() instanceof Player &&
+					MapController.getCurrentMap().getTeam(p.getUniqueId()) ==
+							MapController.getCurrentMap().getTeam(
+									((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId())) {
+				e.setCancelled(true);
 			}
 		}
-
 	}
-	
-	
-	
-	@SuppressWarnings("deprecation")
-	@EventHandler
-	public void onhurtBoat(EntityDamageByEntityEvent e) {
-
-		if (e.getEntity() instanceof Boat && e.getDamager() instanceof Player) {
-
-			Boat damaged = (Boat) e.getEntity();
-
-			Player damager = (Player) e.getDamager();
-
-			if (damaged.getPassenger() != null) {
-
-				if (damaged.getPassenger() instanceof Player) {
-
-					Player rider = (Player) damaged.getPassenger();
-
-					if (PlayerTeam.playerIsInTeam(rider, 1) && PlayerTeam.playerIsInTeam(damager, 1)) {
-
-						e.setCancelled(true);
-					}
-
-					if (PlayerTeam.playerIsInTeam(rider, 2) && PlayerTeam.playerIsInTeam(damager, 2)) {
-
-						e.setCancelled(true);
-					}
-
-
-				}
-
-			}
-
-		}
-
-
-		if (e.getDamager() instanceof Arrow) {
-
-			Arrow arrow = (Arrow) e.getDamager();
-
-			if (arrow.getShooter() instanceof Player) {
-
-				if (e.getEntity() instanceof Boat) {
-
-					Boat damaged = (Boat) e.getEntity();
-
-					Player damager = (Player) arrow.getShooter();
-
-
-					if (damaged.getPassenger() != null) {
-
-						if (damaged.getPassenger() instanceof Player) {
-
-							Player rider = (Player) damaged.getPassenger();
-
-							if (PlayerTeam.playerIsInTeam(rider, 1) && PlayerTeam.playerIsInTeam(damager, 1)) {
-
-								e.setCancelled(true);
-							}
-
-							if (PlayerTeam.playerIsInTeam(rider, 2) && PlayerTeam.playerIsInTeam(damager, 2)) {
-
-								e.setCancelled(true);
-							}
-
-
-						}
-
-					}
-
-				}
-			}
-		}
-
-	}
-
 }
-
-
