@@ -43,6 +43,34 @@ HelmsDeep:
               y: 13
               z: 955
             sign_direction: south
+          horn:
+            flag_name: "Horn"
+            wool_position:
+              x: 277
+              y: 16
+              z: 955
+            sign_direction: south
+          great_hall:
+            flag_name: "Great Hall"
+            sign_direction: south
+            wool_position:
+              x: 274
+              y: 15
+              z: 955
+          courtyard:
+            flag_name: "Courtyard"
+            sign_direction: south
+            wool_position:
+              x: 274
+              y: 17
+              z: 955
+          main_gate:
+            flag_name: "Main Gate"
+            sign_direction: south
+            wool_position:
+              x: 274
+              y: 19
+              z: 955
     Attackers:
       name: "Uruk-hai"
       primary_color: "black"
@@ -77,6 +105,34 @@ HelmsDeep:
               y: 23
               z: 962
             sign_direction: west
+          horn:
+            flag_name: "Horn"
+            wool_position:
+              x: 1753
+              y: 20
+              z: 957
+            sign_direction: west
+          great_hall:
+            flag_name: "Great Hall"
+            sign_direction: west
+            wool_position:
+              x: 1753
+              y: 21
+              z: 960
+          courtyard:
+            flag_name: "Courtyard"
+            sign_direction: west
+            wool_position:
+              x: 1753
+              y: 19
+              z: 960
+          main_gate:
+            flag_name: "Main Gate"
+            sign_direction: west
+            wool_position:
+              x: 1753
+              y: 17
+              z: 960
 Thunderstone:
   world: "Thunderstone"
   name: "Thunderstone"

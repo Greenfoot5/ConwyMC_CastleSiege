@@ -54,7 +54,7 @@ public class WallEvent implements Listener, Runnable {
 
 				if (e.getClickedBlock().getType() == Material.TNT && LeverDistance <= 5) {
 
-					if (PlayerTeam.playerIsInTeam(p, 1)) {
+					if (MapController.getCurrentMap().getTeam(p.getUniqueId()).name != "Rohan") {
 
 						e.getClickedBlock().setType(Material.AIR);
 
@@ -95,7 +95,7 @@ public class WallEvent implements Listener, Runnable {
 
 					if (e.getClickedBlock().getType() == Material.TORCH && LeverDistance <= 5) {
 
-						if (PlayerTeam.playerIsInTeam(p, 1)) {
+						if (MapController.getCurrentMap().getTeam(p.getUniqueId()).name != "Rohan") {
 
 							e.getClickedBlock().setType(Material.AIR);
 

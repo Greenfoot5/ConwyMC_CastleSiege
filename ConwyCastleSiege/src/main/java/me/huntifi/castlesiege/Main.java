@@ -2,6 +2,7 @@ package me.huntifi.castlesiege;
 
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.session.SessionManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
@@ -620,6 +621,8 @@ public class Main extends JavaPlugin implements Listener {
                         getFlagsConfig().getInt(captureRoute.add("max").add("y")),
                         getFlagsConfig().getInt(captureRoute.add("max").add("z")));
                 flag.region = new ProtectedCuboidRegion(flag.name.replace(' ', '_'), true, min, max);
+
+                flag.region.setFlag(Flags.PVP, null);
                 //Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(map.worldName))))).addRegion(region);
             }
 
@@ -681,7 +684,7 @@ public class Main extends JavaPlugin implements Listener {
 
             block.flagName = this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".flag_name");
             block.blockLocation = getLocation(woolMapPath + "." + mapFlags[i] + ".wool_position", map.worldName);
-            block.signLocation = block.blockLocation;
+            block.signLocation = block.blockLocation.clone();
 
             // Get the wall sign's direction
             switch (Objects.requireNonNull(this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".sign_direction")).toLowerCase()) {

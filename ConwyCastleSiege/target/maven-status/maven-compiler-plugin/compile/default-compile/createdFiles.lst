@@ -230,7 +230,6 @@ me/huntifi/castlesiege/kits/Shieldman/Shieldman.class
 me/huntifi/castlesiege/kits/Spearman/SpearmanKit.class
 me/huntifi/castlesiege/Helmsdeep/Secrets/HelmsdeepSecretDoor$1.class
 me/huntifi/castlesiege/Database/StatsStrings$2.class
-me/huntifi/castlesiege/chat/PlayerChat$4.class
 me/huntifi/castlesiege/security/NoMoveInventory.class
 me/huntifi/castlesiege/commands/Teamchat/TeamChat.class
 me/huntifi/castlesiege/Helmsdeep/Gates/HelmsdeepMainGateDestroyEvent$1.class
@@ -338,7 +337,6 @@ me/huntifi/castlesiege/Helmsdeep/flags/animations/GreatHalls_Rohan.class
 me/huntifi/castlesiege/Thunderstone/ThunderstoneEndMap.class
 me/huntifi/castlesiege/kits/Crossbowman/CrossbowmanVotedKit.class
 me/huntifi/castlesiege/Helmsdeep/flags/FlagListCommand.class
-me/huntifi/castlesiege/chat/PlayerChat$1.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/StairhallFlag$3.class
 me/huntifi/castlesiege/Helmsdeep/flags/FlagCaptures.class
 me/huntifi/castlesiege/Helmsdeep/flags/animations/CourtyardFlag$2.class
@@ -405,7 +403,6 @@ me/huntifi/castlesiege/Thunderstone/KitsGUI/KitsGUI_Cloudcrawlers.class
 me/huntifi/castlesiege/security/ambientDamage.class
 me/huntifi/castlesiege/Helmsdeep/flags/FlagName.class
 me/huntifi/castlesiege/Helmsdeep/doors/HelmsdeepCavesDoor$1.class
-me/huntifi/castlesiege/chat/PlayerChat$5.class
 me/huntifi/castlesiege/Helmsdeep/Secrets/HelmsdeepSecretDoor$2.class
 me/huntifi/castlesiege/voting/VotesLoading.class
 me/huntifi/castlesiege/Helmsdeep/HelmsdeepEndMVP.class
@@ -414,7 +411,6 @@ me/huntifi/castlesiege/kits/Ranger/RangerAbility$1$1.class
 me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagMethod$2.class
 me/huntifi/castlesiege/kits/VotedKits/Ladderman/LaddermanVotedKit.class
 me/huntifi/castlesiege/kits/Maceman/Maceman.class
-me/huntifi/castlesiege/chat/PlayerChat$2.class
 me/huntifi/castlesiege/kits/Skirmisher/SkirmisherDeath.class
 me/huntifi/castlesiege/security/placeBlocks.class
 me/huntifi/castlesiege/Helmsdeep/doors/HelmsdeepMainGateLeftDoor.class
@@ -433,7 +429,6 @@ me/huntifi/castlesiege/security/Hunger.class
 me/huntifi/castlesiege/Thunderstone/TeamBonusses/Messages_Skyviewtower.class
 me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagMethod$3.class
 me/huntifi/castlesiege/kits/medic/MedicAbilities$1.class
-me/huntifi/castlesiege/chat/PlayerChat$3.class
 me/huntifi/castlesiege/commands/rulesCommand.class
 me/huntifi/castlesiege/kits/Engineer/Engineer.class
 me/huntifi/castlesiege/Helmsdeep/flags/animations/SupplyCampFlag$2.class

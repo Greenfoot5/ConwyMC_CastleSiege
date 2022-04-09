@@ -26,103 +26,52 @@ public class PlayerChat implements Listener {
 	public void onPlayerChatOwner(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
 
-		BooleanCallback callback = new BooleanCallback() {
-
-			@Override
-			public void gotBoolean(Boolean string) {
-
-
-				if (!togglerankCommand.rankers.contains(p)) {
-					if (string) {
-
-						e.setFormat("%s:" + ChatColor.WHITE + " %s");
-
-					}
-
+		BooleanCallback callback = string -> {
+			if (!togglerankCommand.rankers.contains(p)) {
+				if (string) {
+					e.setFormat("%s:" + ChatColor.WHITE + " %s");
 				}
 			}
 		};
-
 		AsyncGetters.performLookupRank(callback, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Admin"), p, true);
-		
-		BooleanCallback callback2 = new BooleanCallback() {
-
-			@Override
-			public void gotBoolean(Boolean string) {
 
 
-				if (!togglerankCommand.rankers.contains(p)) {
-					if (string) {
-
-						e.setFormat("%s:" + ChatColor.WHITE + " %s");
-
-					}
-
+		 callback = string -> {
+			 if (!togglerankCommand.rankers.contains(p)) {
+				 if (string) {
+					 e.setFormat("%s:" + ChatColor.WHITE + " %s");
 				}
 			}
 		};
-
-		AsyncGetters.performLookupRank(callback2, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Moderator"), p, true);
+		AsyncGetters.performLookupRank(callback, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Moderator"), p, true);
 
 		
-		BooleanCallback callback3 = new BooleanCallback() {
-
-			@Override
-			public void gotBoolean(Boolean string) {
-
-
-				if (!togglerankCommand.rankers.contains(p)) {
-					if (string) {
-
-						e.setFormat("%s:" + ChatColor.WHITE + " %s");
-
-					}
-
+		 callback = string -> {
+			if (!togglerankCommand.rankers.contains(p)) {
+				if (string) {
+					e.setFormat("%s:" + ChatColor.WHITE + " %s");
 				}
 			}
 		};
+		AsyncGetters.performLookupRank(callback, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Developer"), p, true);
 
-		AsyncGetters.performLookupRank(callback3, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Developer"), p, true);
-		
-		
-		BooleanCallback callback4 = new BooleanCallback() {
-
-			@Override
-			public void gotBoolean(Boolean string) {
-
-
-				if (!togglerankCommand.rankers.contains(p)) {
-					if (string) {
-
-						e.setFormat("%s:" + ChatColor.WHITE + " %s");
-
-					}
-
+		callback = string -> {
+			if (!togglerankCommand.rankers.contains(p)) {
+				if (string) {
+					e.setFormat("%s:" + ChatColor.WHITE + " %s");
 				}
 			}
 		};
+		AsyncGetters.performLookupRank(callback, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod"), p, true);
 
-		AsyncGetters.performLookupRank(callback4, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod"), p, true);
-		
-		
-		BooleanCallback callback5 = new BooleanCallback() {
-
-			@Override
-			public void gotBoolean(Boolean string) {
-
-
-				if (!togglerankCommand.rankers.contains(p)) {
-					if (string) {
-
-						e.setFormat("%s:" + ChatColor.WHITE + " %s");
-
-					}
-
+		 callback = string -> {
+			if (!togglerankCommand.rankers.contains(p)) {
+				if (string) {
+					e.setFormat("%s:" + ChatColor.WHITE + " %s");
 				}
 			}
 		};
-
-		AsyncGetters.performLookupRank(callback5, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod+"), p, true);
+		AsyncGetters.performLookupRank(callback, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod+"), p, true);
 		
 	}
 
