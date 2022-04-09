@@ -356,11 +356,6 @@ public class Main extends JavaPlugin implements Listener {
 		getLogger().info("Disabling plugin...");
 		// Unloads everything
 		HandlerList.unregisterAll(plugin);
-		unloadWorlds();
-		// Load HelmsDeep so it gets saved without changes
-		WorldCreator HelmsDeep = new WorldCreator("HelmsDeep");
-		HelmsDeep.generateStructures(false);
-		HelmsDeep.createWorld();
 		try {
 			SQL.disconnect();
 		} catch (NullPointerException ex) {
@@ -371,20 +366,9 @@ public class Main extends JavaPlugin implements Listener {
 
 	private void createWorld() {
 		for (MapsList mapName : MapsList.values()) {
-			System.out.println("Creating " + mapName.name());
 			WorldCreator worldCreator = new WorldCreator(mapName.name());
 			worldCreator.generateStructures(false);
 			worldCreator.createWorld();
-		}
-		for(World world : Bukkit.getWorlds()) {
-			world.setAutoSave(false);
-		}
-	}
-
-	private void unloadWorlds() {
-		for(World world : Bukkit.getWorlds()) {
-			System.out.println("Disabling " + world.getName());
-			plugin.getServer().unloadWorld(world, true);
 		}
 	}
 
@@ -482,9 +466,6 @@ public class Main extends JavaPlugin implements Listener {
 		try {
 			flagsConfig = YamlDocument.create(new File(getDataFolder(), "flags.yml"),
 					getClass().getResourceAsStream("flags.yml"));
-//			flagsConfig = YamlDocument.create(mapsFile, Objects.requireNonNull(getResource("flags.yml")),
-//					GeneralSettings.builder().setSerializer(SpigotSerializer.getInstance()).build(),
-//					LoaderSettings.DEFAULT, DumperSettings.DEFAULT, UpdaterSettings.DEFAULT);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

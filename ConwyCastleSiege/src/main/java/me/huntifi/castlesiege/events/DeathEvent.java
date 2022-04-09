@@ -25,9 +25,6 @@ public class DeathEvent implements Listener {
         }
 
         //MVPstats.addDeaths(player.getUniqueId(), 1);
-        System.out.println("Lobby is " + team.lobby);
-        System.out.println("Spawn point is " + team.lobby.spawnPoint);
-        System.out.println("World is " + team.lobby.spawnPoint.isWorldLoaded());
         event.setRespawnLocation(team.lobby.spawnPoint);
         player.teleport(team.lobby.spawnPoint);
 
