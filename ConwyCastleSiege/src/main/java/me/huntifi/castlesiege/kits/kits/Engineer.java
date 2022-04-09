@@ -177,8 +177,8 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                 e.setCancelled(true);
                 traps.get(t).remove(trap);
                 trap.setType(Material.AIR);
-                p.sendMessage("You stepped on " + NametagsEvent.color(t) + t.getName() + ChatColor.RESET + "'s trap.");
-                t.sendMessage(NametagsEvent.color(p) + p.getName() + ChatColor.RESET + " stepped on your trap.");
+                p.sendMessage(ChatColor.RED + "You stepped on " + NametagsEvent.color(t) + t.getName() + ChatColor.RED + "'s trap.");
+                t.sendMessage(NametagsEvent.color(p) + p.getName() + ChatColor.GREEN + " stepped on your trap.");
 
                 // damage() for damage animation and granting kill
                 // setHealth() for precise damage
