@@ -100,12 +100,6 @@ public class MapController implements CommandExecutor {
 	 * Loads the current map
 	 */
 	public static void loadMap() {
-		// Reset the map
-		File oldWorld = Bukkit.getWorld(getCurrentMap().worldName).getWorldFolder();
-		Bukkit.getServer().unloadWorld(getCurrentMap().worldName, false);
-		copyFileStructure(new File(Bukkit.getWorldContainer(), getCurrentMap().worldName + "_save"), oldWorld);
-		new WorldCreator(getCurrentMap().worldName).createWorld();
-
 		// Register the flag regions
 		for (Flag flag : maps[mapIndex].flags) {
 			WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(currentMap.name()))).addRegion(flag.region);
@@ -130,11 +124,6 @@ public class MapController implements CommandExecutor {
 	 * Does any unloading needed for the current map
 	 */
 	public static void unloadMap(String worldName) {
-		File oldWorld = Bukkit.getWorld(worldName).getWorldFolder();
-		Bukkit.getServer().unloadWorld(Bukkit.getWorld(worldName), false);
-		copyFileStructure(new File(Bukkit.getWorldContainer(), worldName + "_save"), oldWorld);
-		new WorldCreator(worldName).createWorld();
-
 		for (Map map:maps) {
 			if (Objects.equals(map.worldName, worldName)) {
 				for (Team team:map.teams) {
@@ -248,30 +237,6 @@ public class MapController implements CommandExecutor {
 		}
 		try {
 			FileUtils.copyDirectory(source, target);
-//			ArrayList<String> ignore = new ArrayList<>(Arrays.asList("uid.dat", "session.lock"));
-//			if(!ignore.contains(source.getName())) {
-//				if(source.isDirectory()) {
-//					if(!target.exists())
-//						if (!target.mkdirs())
-//							throw new IOException("Couldn't create world directory!");
-//					String[] files = source.list();
-//					assert files != null;
-//					for (String file : files) {
-//						File srcFile = new File(source, file);
-//						File destFile = new File(target, file);
-//						copyFileStructure(srcFile, destFile);
-//					}
-//				} else {
-//					InputStream in = new FileInputStream(source);
-//					OutputStream out = new FileOutputStream(target);
-//					byte[] buffer = new byte[1024];
-//					int length;
-//					while ((length = in.read(buffer)) > 0)
-//						out.write(buffer, 0, length);
-//					in.close();
-//					out.close();
-//				}
-//			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -288,11 +253,7 @@ public class MapController implements CommandExecutor {
 		{
 			commandSender.sendMessage(ChatColor.DARK_AQUA + "Saving world: " + getCurrentMap().worldName);
 
-			File oldWorld = Bukkit.getWorld(getCurrentMap().worldName).getWorldFolder();
-			Bukkit.getServer().unloadWorld(Bukkit.getWorld(getCurrentMap().worldName), false);
-
-			copyFileStructure(new File(Bukkit.getWorldContainer(), getCurrentMap().worldName + "_save"), oldWorld);
-			new WorldCreator(getCurrentMap().worldName).createWorld();
+			copyFileStructure(new File(Bukkit.getWorldContainer(), getCurrentMap().worldName + "_save"), Bukkit.getWorld(getCurrentMap().worldName).getWorldFolder());
 
 			commandSender.sendMessage(ChatColor.GREEN + "Saved " + getCurrentMap().worldName + "!");
 		} else {

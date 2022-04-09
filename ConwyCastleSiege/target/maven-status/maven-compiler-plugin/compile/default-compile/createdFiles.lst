@@ -387,6 +387,7 @@ me/huntifi/castlesiege/kits/Classic/ClassicGui_Command.class
 me/huntifi/castlesiege/Thunderstone/ThunderstoneDeath.class
 me/huntifi/castlesiege/Thunderstone/TS_Woolmap.class
 me/huntifi/castlesiege/Thunderstone/Flags/TS_FlagRadius.class
+me/huntifi/castlesiege/Main$3.class
 me/huntifi/castlesiege/Database/StatsStrings.class
 me/huntifi/castlesiege/Database/SQLStats$2.class
 me/huntifi/castlesiege/maps/EndMapAction$1.class

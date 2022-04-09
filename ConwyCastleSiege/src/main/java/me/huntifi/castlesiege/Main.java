@@ -13,8 +13,6 @@ import me.huntifi.castlesiege.Database.MySQL;
 import me.huntifi.castlesiege.Database.SQLStats;
 import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
 import me.huntifi.castlesiege.Helmsdeep.Wall.WallEvent;
-import me.huntifi.castlesiege.Helmsdeep.flags.HelmsdeepReset;
-import me.huntifi.castlesiege.Thunderstone.Flags.ThunderstoneReset;
 import me.huntifi.castlesiege.chat.PlayerChat;
 import me.huntifi.castlesiege.combat.*;
 import me.huntifi.castlesiege.commands.*;
@@ -45,6 +43,7 @@ import me.huntifi.castlesiege.voting.GiveVoteCommand;
 import me.huntifi.castlesiege.voting.VoteListenerCommand;
 import me.huntifi.castlesiege.voting.VotesLoading;
 import me.huntifi.castlesiege.voting.VotesUnloading;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -56,6 +55,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,258 +67,288 @@ import java.util.*;
 
 public class Main extends JavaPlugin implements Listener {
 
-	public static Plugin plugin;
-	public static Main instance;
+    public static Plugin plugin;
+    public static Main instance;
 
-	public Tablist tab;
-	public static MySQL SQL;
+    public Tablist tab;
+    public static MySQL SQL;
 
-	private YamlConfiguration mapsConfig;
-	private YamlDocument flagsConfig;
+    private YamlConfiguration mapsConfig;
+    private YamlDocument flagsConfig;
 
-	@Override
-	public void onEnable() {
+    @Override
+    public void onEnable() {
 
-		getLogger().info("Enabling Plugin...");
+        getLogger().info("Enabling Plugin...");
 
-		plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
-		instance = this;
+        plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
+        instance = this;
 
-		getLogger().info("Loading all worlds...");
-		createWorld();
-		getLogger().info("Loading configuration files...");
-		createConfigs();
-		getLogger().info("Loading maps from configuration...");
-		loadMaps();
+        getLogger().info("Resetting all maps");
+        resetWorlds();
+        getLogger().info("Waiting until POSTWORLD to continue enabling...");
+        new BukkitRunnable() {
 
-		getLogger().info("Connecting to database");
-		// SQL Stuff
-		sqlConnect();
+            @Override
+            public void run() {
+                getLogger().info("Resuming loading plugin...");
+                getLogger().info("Loading all worlds...");
+                createWorld();
+                getLogger().info("Loading configuration files...");
+                createConfigs();
+                getLogger().info("Loading maps from configuration...");
+                loadMaps();
+                getLogger().info("Connecting to database");
 
-		// World Guard
-		SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
-		// second param allows for ordering of handlers - see the JavaDocs
-		sessionManager.registerHandler(CaptureHandler.FACTORY, null);
+                // SQL Stuff
+                sqlConnect();
 
-		// Rewrite Events
-		getServer().getPluginManager().registerEvents(new DeathEvent(), this);
-		// Kits
-		getServer().getPluginManager().registerEvents(new Berserker(), this);
-		getServer().getPluginManager().registerEvents(new Cavalry(), this);
-		getServer().getPluginManager().registerEvents(new Crossbowman(), this);
-		getServer().getPluginManager().registerEvents(new Engineer(), this);
-		getServer().getPluginManager().registerEvents(new Executioner(), this);
-		getServer().getPluginManager().registerEvents(new FireArcher(), this);
-		getServer().getPluginManager().registerEvents(new Spearman(), this);
+                // World Guard
+                SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
+                // second param allows for ordering of handlers - see the JavaDocs
+                sessionManager.registerHandler(CaptureHandler.FACTORY, null);
 
-		// Rewrite Commands
-		Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
-		Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
-		Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
-		Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
-		// Kits
-		Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
-		Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
-		Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
-		Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
-		Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
-		Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
-		Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
-		Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
-		Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
+                // Rewrite Events
+                getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
 
-		// OLD EVENTS
-		//getServer().getPluginManager().registerEvents(new Warhound(), this);
-		getServer().getPluginManager().registerEvents(new SessionMuteCommand(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepSecretDoor(), this);
-		getServer().getPluginManager().registerEvents(new EatCake(), this);
-		//getServer().getPluginManager().registerEvents(new RegisterLevel(), this);
-		getServer().getPluginManager().registerEvents(new NoMoveInventory(), this);
-		getServer().getPluginManager().registerEvents(new NoTouchArmorstand(), this);
-		getServer().getPluginManager().registerEvents(new NoTouchPaintings(), this);
-		//getServer().getPluginManager().registerEvents(new KitsGUI_ThunderstoneGuard_Command(), this);
-		//getServer().getPluginManager().registerEvents(new KitsGUI_Cloudcrawlers_Command(), this);
-		//getServer().getPluginManager().registerEvents(new ScoutDeath(), this);
-		//getServer().getPluginManager().registerEvents(new LaddermanDeath(), this);
-		//getServer().getPluginManager().registerEvents(new LaddermanAbility(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepCaveBoat(), this);
-		getServer().getPluginManager().registerEvents(new arrowRemoval(), this);
-		getServer().getPluginManager().registerEvents(new HitMessage(), this);
-		//getServer().getPluginManager().registerEvents(new EngineerCobweb(), this);
-		//getServer().getPluginManager().registerEvents(new DeathEngineer(), this);
-		getServer().getPluginManager().registerEvents(new StatsMvpJoinevent(), this);
-		getServer().getPluginManager().registerEvents(new StatsSaving(), this);
-		getServer().getPluginManager().registerEvents(new StatsLoading(), this);
+                // Kits
+                getServer().getPluginManager().registerEvents(new Berserker(), plugin);
+                getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
+                getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
+                getServer().getPluginManager().registerEvents(new Engineer(), plugin);
+                getServer().getPluginManager().registerEvents(new Executioner(), plugin);
+                getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
+                getServer().getPluginManager().registerEvents(new Spearman(), plugin);
 
-		//getServer().getPluginManager().registerEvents(new RangerAbility(), this);
-		//getServer().getPluginManager().registerEvents(new DeathRanger(), this);
-		//getServer().getPluginManager().registerEvents(new HalberdierAbility(), this);
-		//getServer().getPluginManager().registerEvents(new DeathHalberdier(), this);
-		//getServer().getPluginManager().registerEvents(new CavalryAbility(), this);
-		//getServer().getPluginManager().registerEvents(new CavalryDeath(), this);
-		//getServer().getPluginManager().registerEvents(new CrossbowmanDeath(), this);
-		//getServer().getPluginManager().registerEvents(new CrossbowmanAbility(), this);
-		//getServer().getPluginManager().registerEvents(new VikingAbility(), this);
-		//getServer().getPluginManager().registerEvents(new VikingDeath(), this);
-		//getServer().getPluginManager().registerEvents(new MacemanAbility(), this);
-		//getServer().getPluginManager().registerEvents(new ExecutionerAbility(), this);
-		//getServer().getPluginManager().registerEvents(new ExecutionerDeath(), this);
-		//getServer().getPluginManager().registerEvents(new BerserkerAbility(), this);
-		//getServer().getPluginManager().registerEvents(new BerserkerDeath(), this);
-		//getServer().getPluginManager().registerEvents(new MacemanDeath(), this);
-		//getServer().getPluginManager().registerEvents(new VotedKitsGUI_Command(), this);
-		//getServer().getPluginManager().registerEvents(new ClassicGui_Command(), this);
-		//getServer().getPluginManager().registerEvents(new KitGUI_Rohan_Command(), this);
-		//getServer().getPluginManager().registerEvents(new KitGUI_Isengard_Command(), this);
-		getServer().getPluginManager().registerEvents(new newLogin(), this);
-		getServer().getPluginManager().registerEvents(new login(), this);
-		getServer().getPluginManager().registerEvents(new CustomFallDamage(), this);
-		getServer().getPluginManager().registerEvents(new preventBlockOpening(), this);
-		//getServer().getPluginManager().registerEvents(new Herugrim(), this);
-		getServer().getPluginManager().registerEvents(new destroyBlocks(), this);
-		getServer().getPluginManager().registerEvents(new placeBlocks(), this);
-		getServer().getPluginManager().registerEvents(new wheat(), this);
-		getServer().getPluginManager().registerEvents(new NoPaintingDestroy(), this);
-		getServer().getPluginManager().registerEvents(new NoFireDestroy(), this);
-		getServer().getPluginManager().registerEvents(new NoCombat(), this);
+                // Rewrite Commands
+                Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
+                Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
+                Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
+                Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
+                // Kits
+                Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
+                Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
+                Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
+                Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
+                Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
+                Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
+                Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
+                Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
+                Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
 
-		getServer().getPluginManager().registerEvents(new ambientDamage(), this);
-		getServer().getPluginManager().registerEvents(new voidOfLimits(), this);
-		getServer().getPluginManager().registerEvents(new PlayerChat(), this);
-		getServer().getPluginManager().registerEvents(new DropItemSecurity(), this);
-		getServer().getPluginManager().registerEvents(new Enderchest(), this);
-		getServer().getPluginManager().registerEvents(new NoHurtTeam(), this);
+                // OLD EVENTS
+                //getServer().getPluginManager().registerEvents(new Warhound(), plugin);
+                getServer().getPluginManager().registerEvents(new SessionMuteCommand(), plugin);
+                //getServer().getPluginManager().registerEvents(new HelmsdeepSecretDoor(), plugin);
+                getServer().getPluginManager().registerEvents(new EatCake(), plugin);
+                //getServer().getPluginManager().registerEvents(new RegisterLevel(), plugin);
+                getServer().getPluginManager().registerEvents(new NoMoveInventory(), plugin);
+                getServer().getPluginManager().registerEvents(new NoTouchArmorstand(), plugin);
+                getServer().getPluginManager().registerEvents(new NoTouchPaintings(), plugin);
 
-		//getServer().getPluginManager().registerEvents(new DeathArcher(), this);
-		//getServer().getPluginManager().registerEvents(new SkirmisherDeath(), this);
-		//getServer().getPluginManager().registerEvents(new DeathSwordsman(), this);
-		//getServer().getPluginManager().registerEvents(new DeathShieldman(), this);
-		//getServer().getPluginManager().registerEvents(new DeathFirearcher(), this);
-		//getServer().getPluginManager().registerEvents(new DeathSpearman(), this);
-		getServer().getPluginManager().registerEvents(new DeathmessageDisable(), this);
-		getServer().getPluginManager().registerEvents(new CustomRegeneration(), this);
+                //getServer().getPluginManager().registerEvents(new KitsGUI_ThunderstoneGuard_Command(), plugin);
+                //getServer().getPluginManager().registerEvents(new KitsGUI_Cloudcrawlers_Command(), plugin);
+                //getServer().getPluginManager().registerEvents(new ScoutDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new LaddermanDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new LaddermanAbility(), plugin);
+                //getServer().getPluginManager().registerEvents(new HelmsdeepCaveBoat(), plugin);
+                getServer().getPluginManager().registerEvents(new arrowRemoval(), plugin);
+                getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
 
-		//getServer().getPluginManager().registerEvents(new HelmsdeepJoin(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepLeave(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepDeath(), this);
-		//getServer().getPluginManager().registerEvents(new FlagRadius(), this);
-		//getServer().getPluginManager().registerEvents(new SupplyCampFlag(), this);
-		//getServer().getPluginManager().registerEvents(new CavesFlag(), this);
-		//getServer().getPluginManager().registerEvents(new MainGateFlag(), this);
-		//getServer().getPluginManager().registerEvents(new CourtyardFlag(), this);
-		//getServer().getPluginManager().registerEvents(new GreatHallsFlag(), this);
-		//getServer().getPluginManager().registerEvents(new HornFlag(), this);
-		//getServer().getPluginManager().registerEvents(new WoolMap(), this);
+                //getServer().getPluginManager().registerEvents(new EngineerCobweb(), plugin);
+                //getServer().getPluginManager().registerEvents(new DeathEngineer(), plugin);
+                getServer().getPluginManager().registerEvents(new StatsMvpJoinevent(), plugin);
+                getServer().getPluginManager().registerEvents(new StatsSaving(), plugin);
+                getServer().getPluginManager().registerEvents(new StatsLoading(), plugin);
 
-		//getServer().getPluginManager().registerEvents(new HelmsdeepCavesDoor(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallLeftDoor(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallRightDoor(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepMainGateLeftDoor(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepMainGateRightDoor(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepStorageDoor(), this);
-		//getServer().getPluginManager().registerEvents(new GreatHallExtraDoor(), this);
-		getServer().getPluginManager().registerEvents(new WallEvent(), this);
-		getServer().getPluginManager().registerEvents(new LadderEvent(), this);
-		getServer().getPluginManager().registerEvents(new armorTakeOff(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepMainGateDestroyEvent(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallDestroyEvent(), this);
-		getServer().getPluginManager().registerEvents(new MVPstats(), this);
-		//getServer().getPluginManager().registerEvents(new SpearmanAbility(), this);
-		//getServer().getPluginManager().registerEvents(new KitGUIcommand(), this);
-		getServer().getPluginManager().registerEvents(new MessageCommand(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepBallistaEvent(), this);
+                //getServer().getPluginManager().registerEvents(new RangerAbility(), plugin);
+                //getServer().getPluginManager().registerEvents(new DeathRanger(), plugin);
+                //getServer().getPluginManager().registerEvents(new HalberdierAbility(), plugin);
+                //getServer().getPluginManager().registerEvents(new DeathHalberdier(), plugin);
+                //getServer().getPluginManager().registerEvents(new CavalryAbility(), plugin);
+                //getServer().getPluginManager().registerEvents(new CavalryDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new CrossbowmanDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new CrossbowmanAbility(), plugin);
+                //getServer().getPluginManager().registerEvents(new VikingAbility(), plugin);
+                //getServer().getPluginManager().registerEvents(new VikingDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new MacemanAbility(), plugin);
+                //getServer().getPluginManager().registerEvents(new ExecutionerAbility(), plugin);
+                //getServer().getPluginManager().registerEvents(new ExecutionerDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new BerserkerAbility(), plugin);
+                //getServer().getPluginManager().registerEvents(new BerserkerDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new MacemanDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new VotedKitsGUI_Command(), plugin);
+                //getServer().getPluginManager().registerEvents(new ClassicGui_Command(), plugin);
+                //getServer().getPluginManager().registerEvents(new KitGUI_Rohan_Command(), plugin);
+                //getServer().getPluginManager().registerEvents(new KitGUI_Isengard_Command(), plugin);
+                getServer().getPluginManager().registerEvents(new newLogin(), plugin);
+                getServer().getPluginManager().registerEvents(new login(), plugin);
+                getServer().getPluginManager().registerEvents(new CustomFallDamage(), plugin);
+                getServer().getPluginManager().registerEvents(new preventBlockOpening(), plugin);
 
-		//getServer().getPluginManager().registerEvents(new TwinbridgeFlag(), this);
-		//getServer().getPluginManager().registerEvents(new SkyviewTowerFlag(), this);
-		//getServer().getPluginManager().registerEvents(new LonelyTowerFlag(), this);
-		//getServer().getPluginManager().registerEvents(new WestTowerFlag(), this);
-		//getServer().getPluginManager().registerEvents(new StairhallFlag(), this);
-		//getServer().getPluginManager().registerEvents(new ShiftedTowerFlag(), this);
-		//getServer().getPluginManager().registerEvents(new TS_FlagRadius(), this);
-		//getServer().getPluginManager().registerEvents(new ThunderstoneDeath(), this);
-		//getServer().getPluginManager().registerEvents(new ThunderstoneJoin(), this);
-		//getServer().getPluginManager().registerEvents(new HelmsdeepEndMVP(), this);
-		//getServer().getPluginManager().registerEvents(new ThunderstoneEndMVP(), this);
-		//getServer().getPluginManager().registerEvents(new TS_Woolmap(), this);
-		//getServer().getPluginManager().registerEvents(new TS_Woolmap_Distance(), this);
-		//getServer().getPluginManager().registerEvents(new ThunderstoneLeave(), this);
-		//getServer().getPluginManager().registerEvents(new ThunderstoneGateDestroyEvent(), this);
-		//getServer().getPluginManager().registerEvents(new EastTowerFlag(), this);
-		
-		getServer().getPluginManager().registerEvents(new VotesLoading(), this);
-		getServer().getPluginManager().registerEvents(new VotesUnloading(), this);
+                //getServer().getPluginManager().registerEvents(new Herugrim(), plugin);
+                getServer().getPluginManager().registerEvents(new destroyBlocks(), plugin);
+                getServer().getPluginManager().registerEvents(new placeBlocks(), plugin);
+                getServer().getPluginManager().registerEvents(new wheat(), plugin);
+                getServer().getPluginManager().registerEvents(new NoPaintingDestroy(), plugin);
+                getServer().getPluginManager().registerEvents(new NoFireDestroy(), plugin);
+                getServer().getPluginManager().registerEvents(new NoCombat(), plugin);
+                getServer().getPluginManager().registerEvents(new ambientDamage(), plugin);
+                getServer().getPluginManager().registerEvents(new voidOfLimits(), plugin);
+                getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
+                getServer().getPluginManager().registerEvents(new DropItemSecurity(), plugin);
+                getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
+                getServer().getPluginManager().registerEvents(new NoHurtTeam(), plugin);
 
-		//getServer().getPluginManager().registerEvents(new FireArcherAbility(), this);
-		//getServer().getPluginManager().registerEvents(new MedicAbilities(), this);
-		
-		//getServer().getPluginManager().registerEvents(new WarhoundDeath(), this);
-		//getServer().getPluginManager().registerEvents(new MedicDeath(), this);
-		//getServer().getPluginManager().registerEvents(new WarhoundAbility(), this);
+                //getServer().getPluginManager().registerEvents(new DeathArcher(), plugin);
+                //getServer().getPluginManager().registerEvents(new SkirmisherDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new DeathSwordsman(), plugin);
+                //getServer().getPluginManager().registerEvents(new DeathShieldman(), plugin);
+                //getServer().getPluginManager().registerEvents(new DeathFirearcher(), plugin);
+                //getServer().getPluginManager().registerEvents(new DeathSpearman(), plugin);
+                getServer().getPluginManager().registerEvents(new DeathmessageDisable(), plugin);
+                getServer().getPluginManager().registerEvents(new CustomRegeneration(), plugin);
 
-		//getCommand("KitThunderstoneGuards").setExecutor(new KitsGUI_ThunderstoneGuard_Command());
-		//getCommand("KitCloudcrawlers").setExecutor(new KitsGUI_Cloudcrawlers_Command());
-		//getCommand("VoterKitGUI").setExecutor(new VotedKitsGUI_Command());
-		//getCommand("ClassicGUI").setExecutor(new ClassicGui_Command());
-		getCommand("togglerank").setExecutor(new togglerankCommand());
-		//getCommand("KitRohan").setExecutor(new KitGUI_Rohan_Command());
-		//getCommand("KitIsengard").setExecutor(new KitGUI_Isengard_Command());
-		getCommand("ping").setExecutor(new pingCommand());
-		getCommand("rules").setExecutor(new rulesCommand());
-		getCommand("discord").setExecutor(new discordCommand());
-		getCommand("teams").setExecutor(new teamCommand());
-		//getCommand("Kit").setExecutor(new KitsCommand());
-		//getCommand("Mvp").setExecutor(new mvpCommand());
-		//getCommand("KitGUI").setExecutor(new KitGUIcommand());
-		getCommand("Mystats").setExecutor(new MystatsCommand());
-		//getCommand("t").setExecutor(new TeamChat());
-		getCommand("msg").setExecutor(new MessageCommand());
-		getCommand("r").setExecutor(new ReplyCommand());
-		//getCommand("maps").setExecutor(new MapsCommand());
-		getCommand("sui").setExecutor(new suicideCommand());
-		//getCommand("CheckFlagList").setExecutor(new FlagListCommand());
-		getCommand("s").setExecutor(new StaffChat());
-		getCommand("kick").setExecutor(new KickCommand());
-		getCommand("Fly").setExecutor(new FlyCommand());
-		getCommand("kickall").setExecutor(new KickallCommand());
-		getCommand("sessionmute").setExecutor(new SessionMuteCommand());
-		getCommand("Unsessionmute").setExecutor(new UnsessionmuteCommand());
-		
-		getCommand("givevote").setExecutor(new GiveVoteCommand());
-		getCommand("givevoter").setExecutor(new VoteListenerCommand());
+                //getServer().getPluginManager().registerEvents(new HelmsdeepJoin(), plugin);
+                //getServer().getPluginManager().registerEvents(new HelmsdeepLeave(), plugin);
+                //getServer().getPluginManager().registerEvents(new HelmsdeepDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new FlagRadius(), plugin);
+                //getServer().getPluginManager().registerEvents(new SupplyCampFlag(), plugin);
+                //getServer().getPluginManager().registerEvents(new CavesFlag(), plugin);
+                //getServer().getPluginManager().registerEvents(new MainGateFlag(), plugin);
+                //getServer().getPluginManager().registerEvents(new CourtyardFlag(), plugin);
+                //getServer().getPluginManager().registerEvents(new GreatHallsFlag(), plugin);
+                //getServer().getPluginManager().registerEvents(new HornFlag(), plugin);
+                //getServer().getPluginManager().registerEvents(new WoolMap(), plugin);
+
+                //getServer().getPluginManager().registerEvents(new HelmsdeepCavesDoor(), plugin);
+                //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallLeftDoor(), plugin);
+                //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallRightDoor(), plugin);
+                //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateLeftDoor(), plugin);
+                //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateRightDoor(), plugin);
+                //getServer().getPluginManager().registerEvents(new HelmsdeepStorageDoor(), plugin);
+                //getServer().getPluginManager().registerEvents(new GreatHallExtraDoor(), plugin);
+
+                getServer().getPluginManager().registerEvents(new WallEvent(), plugin);
+                getServer().getPluginManager().registerEvents(new LadderEvent(), plugin);
+                getServer().getPluginManager().registerEvents(new armorTakeOff(), plugin);
+
+                //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateDestroyEvent(), plugin);
+                //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallDestroyEvent(), plugin);
+                getServer().getPluginManager().registerEvents(new MVPstats(), plugin);
+
+                //getServer().getPluginManager().registerEvents(new SpearmanAbility(), plugin);
+                //getServer().getPluginManager().registerEvents(new KitGUIcommand(), plugin);
+                getServer().getPluginManager().registerEvents(new MessageCommand(), plugin);
+                //getServer().getPluginManager().registerEvents(new HelmsdeepBallistaEvent(), plugin);
+
+                //getServer().getPluginManager().registerEvents(new TwinbridgeFlag(), plugin);
+                //getServer().getPluginManager().registerEvents(new SkyviewTowerFlag(), plugin);
+                //getServer().getPluginManager().registerEvents(new LonelyTowerFlag(), plugin);
+                //getServer().getPluginManager().registerEvents(new WestTowerFlag(), plugin);
+                //getServer().getPluginManager().registerEvents(new StairhallFlag(), plugin);
+                //getServer().getPluginManager().registerEvents(new ShiftedTowerFlag(), plugin);
+                //getServer().getPluginManager().registerEvents(new TS_FlagRadius(), plugin);
+                //getServer().getPluginManager().registerEvents(new ThunderstoneDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new ThunderstoneJoin(), plugin);
+                //getServer().getPluginManager().registerEvents(new HelmsdeepEndMVP(), plugin);
+                //getServer().getPluginManager().registerEvents(new ThunderstoneEndMVP(), plugin);
+                //getServer().getPluginManager().registerEvents(new TS_Woolmap(), plugin);
+                //getServer().getPluginManager().registerEvents(new TS_Woolmap_Distance(), plugin);
+                //getServer().getPluginManager().registerEvents(new ThunderstoneLeave(), plugin);
+                //getServer().getPluginManager().registerEvents(new ThunderstoneGateDestroyEvent(), plugin);
+                //getServer().getPluginManager().registerEvents(new EastTowerFlag(), plugin);
+
+                getServer().getPluginManager().registerEvents(new VotesLoading(), plugin);
+
+                getServer().getPluginManager().registerEvents(new VotesUnloading(), plugin);
+
+                //getServer().getPluginManager().registerEvents(new FireArcherAbility(), plugin);
+                //getServer().getPluginManager().registerEvents(new MedicAbilities(), plugin);
+
+                //getServer().getPluginManager().registerEvents(new WarhoundDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new MedicDeath(), plugin);
+                //getServer().getPluginManager().registerEvents(new WarhoundAbility(), plugin);
+
+                //getCommand("KitThunderstoneGuards").setExecutor(new KitsGUI_ThunderstoneGuard_Command());
+                //getCommand("KitCloudcrawlers").setExecutor(new KitsGUI_Cloudcrawlers_Command());
+                //getCommand("VoterKitGUI").setExecutor(new VotedKitsGUI_Command());
+                //getCommand("ClassicGUI").setExecutor(new ClassicGui_Command());
+                getCommand("togglerank").setExecutor(new togglerankCommand());
+
+                //getCommand("KitRohan").setExecutor(new KitGUI_Rohan_Command());
+                //getCommand("KitIsengard").setExecutor(new KitGUI_Isengard_Command());
+                getCommand("ping").setExecutor(new pingCommand());
+
+                getCommand("rules").setExecutor(new rulesCommand());
+
+                getCommand("discord").setExecutor(new discordCommand());
+
+                getCommand("teams").setExecutor(new teamCommand());
+
+                //getCommand("Kit").setExecutor(new KitsCommand());
+                //getCommand("Mvp").setExecutor(new mvpCommand());
+                //getCommand("KitGUI").setExecutor(new KitGUIcommand());
+                getCommand("Mystats").setExecutor(new MystatsCommand());
+
+                //getCommand("t").setExecutor(new TeamChat());
+                getCommand("msg").setExecutor(new MessageCommand());
+
+                getCommand("r").setExecutor(new ReplyCommand());
+
+                //getCommand("maps").setExecutor(new MapsCommand());
+                getCommand("sui").setExecutor(new suicideCommand());
+
+                //getCommand("CheckFlagList").setExecutor(new FlagListCommand());
+                getCommand("s").setExecutor(new StaffChat());
+
+                getCommand("kick").setExecutor(new KickCommand());
+
+                getCommand("Fly").setExecutor(new FlyCommand());
+
+                getCommand("kickall").setExecutor(new KickallCommand());
+
+                getCommand("sessionmute").setExecutor(new SessionMuteCommand());
+
+                getCommand("Unsessionmute").setExecutor(new UnsessionmuteCommand());
+
+                getCommand("givevote").setExecutor(new GiveVoteCommand());
+
+                getCommand("givevoter").setExecutor(new VoteListenerCommand());
 
 
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneEndMap(), 0, 200);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepCaveBoat(), 0, 200);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new Scoreboard(), 0, 20);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepEndMap(), 0, 20);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new ApplyRegeneration(), 0, 75);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new Hunger(), 0, 20);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepMVPupdater(), 0, 20);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneMVPupdater(), 0, 20);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new HalberdierAbility(), 100, 25);
-		Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new DatabaseKeepAliveEvent(), 5900, 5900);
-		//Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new Herugrim(), 10, 10);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneEndMap(), 0, 200);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new HelmsdeepCaveBoat(), 0, 200);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 20);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new HelmsdeepEndMap(), 0, 20);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new HelmsdeepMVPupdater(), 0, 20);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneMVPupdater(), 0, 20);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new HalberdierAbility(), 100, 25);
+                Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new DatabaseKeepAliveEvent(), 5900, 5900);
+                //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
 
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new MainGateReadyRam(), 200, 60);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new MainGateRamAnimation(), 200, MainGateRam.rammingSpeed);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new MainGateRam(), 200, 40);
-		
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new GreatHallGateReadyRam(), 200, 60);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new GreatHallRamAnimation(), 200, GreatHallGateRam.rammingSpeed);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new GreatHallGateRam(), 200, 40);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MainGateReadyRam(), 200, 60);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MainGateRamAnimation(), 200, MainGateRam.rammingSpeed);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MainGateRam(), 200, 40);
 
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneGateReadyRam(), 200, 60);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneRamAnimation(), 200, ThunderstoneRam.rammingSpeed);
-		//Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneRam(), 200, 40);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new GreatHallGateReadyRam(), 200, 60);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new GreatHallRamAnimation(), 200, GreatHallGateRam.rammingSpeed);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new GreatHallGateRam(), 200, 40);
 
-		getLogger().info("Plugin has been enabled!");
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneGateReadyRam(), 200, 60);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneRamAnimation(), 200, ThunderstoneRam.rammingSpeed);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneRam(), 200, 40);
 
-		// Cheap Rewrite Stuff
-		MapController.startLoop();
+                getLogger().info("Plugin has been enabled!");
 
-		//Tablist
+                // Cheap Rewrite Stuff
+                MapController.startLoop();
 
-//		this.tab = new Tablist(this);
+                //Tablist
+
+//		plugin.tab = new Tablist(plugin);
 //		tab.addHeader("&e*_︵_︵_︵_ &5ConwyMC&e _︵_︵_︵_*\n&5Join the discord: &bhttps://discord.gg/AUDqTpC");
 //		tab.addHeader("&e*_︵_︵_︵_ &dConwyMC&e _︵_︵_︵_*\n&dJoin the discord: &bhttps://discord.gg/AUDqTpC");
 //
@@ -327,7 +357,7 @@ public class Main extends JavaPlugin implements Listener {
 //
 //		tab.showTab();
 
-		//Activate the map Helmsdeep + reset
+                //Activate the map Helmsdeep + reset
 
 //		HelmsdeepReset.onReset();
 //		HelmsdeepTimer.HelmsdeepTimerEvent();
@@ -335,9 +365,9 @@ public class Main extends JavaPlugin implements Listener {
 //		HelmsdeepMainGateBlocks.gateblocks();
 //		HelmsdeepCaveBoat.spawnFirstBoat();
 
-		//resets Thunderstone after restart
-		//ThunderstoneReset.onReset();
-		//ThunderstoneGateBlocks.gateblocks();
+                //resets Thunderstone after restart
+                //ThunderstoneReset.onReset();
+                //ThunderstoneGateBlocks.gateblocks();
 
 //		new BukkitRunnable() {
 //
@@ -348,414 +378,433 @@ public class Main extends JavaPlugin implements Listener {
 //
 //			}
 //		}.runTaskLater(plugin, 200);
-	}
+            }
+        }.runTaskLater(plugin, 200);
+    }
 
-	@Override
-	public void onDisable() {
-		getLogger().info("Disabling plugin...");
-		// Unloads everything
-		HandlerList.unregisterAll(plugin);
-		try {
-			SQL.disconnect();
-		} catch (NullPointerException ex) {
-			getLogger().warning("SQL could not disconnect, it doesn't exist!");
-		}
-		getLogger().info("Plugin has been disabled!");
-	}
+    @Override
+    public void onDisable() {
+        getLogger().info("Disabling plugin...");
+        // Unloads everything
+        HandlerList.unregisterAll(plugin);
+        for (World world:Bukkit.getWorlds()) {
+            Bukkit.unloadWorld(world, false);
+        }
+        WorldCreator worldCreator = new WorldCreator("HelmsDeep");
+        worldCreator.generateStructures(false);
+        worldCreator.createWorld();
+        try {
+            SQL.disconnect();
+        } catch (NullPointerException ex) {
+            getLogger().warning("SQL could not disconnect, it doesn't exist!");
+        }
+        getLogger().info("Plugin has been disabled!");
+    }
 
-	private void createWorld() {
-		for (MapsList mapName : MapsList.values()) {
-			WorldCreator worldCreator = new WorldCreator(mapName.name());
-			worldCreator.generateStructures(false);
-			worldCreator.createWorld();
-		}
-		for (World world : Bukkit.getWorlds()) {
-			world.setAutoSave(false);
-		}
-	}
+    private void resetWorlds() {
+        for (MapsList mapName : MapsList.values()) {
+            try {
+                FileUtils.copyDirectory(new File(Bukkit.getWorldContainer(), mapName + "_save"),
+                        new File(Bukkit.getWorldContainer(), mapName.toString()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	private void sqlConnect() {
-		SQL = new MySQL();
+    private void createWorld() {
+        for (MapsList mapName : MapsList.values()) {
+            WorldCreator worldCreator = new WorldCreator(mapName.name());
+            worldCreator.generateStructures(false);
+            worldCreator.createWorld();
+        }
+        for (World world : Bukkit.getWorlds()) {
+            world.setAutoSave(false);
+        }
+    }
 
-		try {
-			SQL.connect();
-		} catch (ClassNotFoundException | SQLException e) {
-			getLogger().warning("<!> Database is not connected! <!>");
-		}
+    private void sqlConnect() {
+        SQL = new MySQL();
 
-		if (SQL.isConnected()) {
-			getLogger().info("<!> Database is connected! <!>");
-			SQLStats.createTable();
-			this.getServer().getPluginManager().registerEvents(this, this);
-		}
-	}
+        try {
+            SQL.connect();
+        } catch (ClassNotFoundException | SQLException e) {
+            getLogger().warning("<!> Database is not connected! <!>");
+        }
 
-	@EventHandler
-	public void onJoin(PlayerJoinEvent e) {
+        if (SQL.isConnected()) {
+            getLogger().info("<!> Database is connected! <!>");
+            SQLStats.createTable();
+            this.getServer().getPluginManager().registerEvents(this, this);
+        }
+    }
 
-		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
 
-		Player p = e.getPlayer();
+        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
-		assert plugin != null;
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-			if (!SQLStats.exists(p.getUniqueId())) {
-				SQLStats.createPlayer(p);
-			}
-		});
-	}
+        Player p = e.getPlayer();
 
-	// File Configuration
-	public YamlConfiguration getMapsConfig() {
-		return this.mapsConfig;
-	}
+        assert plugin != null;
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            if (!SQLStats.exists(p.getUniqueId())) {
+                SQLStats.createPlayer(p);
+            }
+        });
+    }
 
-	public YamlDocument getFlagsConfig() { return this.flagsConfig; }
+    // File Configuration
+    public YamlConfiguration getMapsConfig() {
+        return this.mapsConfig;
+    }
 
-	private void createConfigs() {
+    public YamlDocument getFlagsConfig() {
+        return this.flagsConfig;
+    }
 
-		// Setup the vector adapter
-		TypeAdapter<Vector> vectorAdapter = new TypeAdapter<Vector>() {
-			@NotNull
-			@Override
-			public java.util.Map<Object, Object> serialize(@NotNull Vector vector) {
-				java.util.Map<Object, Object> map = new HashMap<>();
-				map.put("x", vector.getX());
-				map.put("y", vector.getY());
-				map.put("z", vector.getZ());
-				return map;
-			}
+    private void createConfigs() {
 
-			@NotNull
-			@Override
-			public Vector deserialize(@NotNull java.util.Map<Object, Object> map) {
-				Vector vector = new Vector();
-				vector.setX((Integer) map.get("x"));
-				vector.setY((Integer) map.get("y"));
-				vector.setZ((Integer) map.get("z"));
-				return vector;
-			}
+        // Setup the vector adapter
+        TypeAdapter<Vector> vectorAdapter = new TypeAdapter<Vector>() {
+            @NotNull
+            @Override
+            public java.util.Map<Object, Object> serialize(@NotNull Vector vector) {
+                java.util.Map<Object, Object> map = new HashMap<>();
+                map.put("x", vector.getX());
+                map.put("y", vector.getY());
+                map.put("z", vector.getZ());
+                return map;
+            }
 
-			//public Vector deserialize(@NotNull ArrayList<>)
-		};
-		StandardSerializer.getDefault().register(Vector.class, vectorAdapter);
+            @NotNull
+            @Override
+            public Vector deserialize(@NotNull java.util.Map<Object, Object> map) {
+                Vector vector = new Vector();
+                vector.setX((Integer) map.get("x"));
+                vector.setY((Integer) map.get("y"));
+                vector.setZ((Integer) map.get("z"));
+                return vector;
+            }
 
-		// Setup the frame adapter
-		TypeAdapter<Frame> frameAdapter = new TypeAdapter<Frame>() {
+            //public Vector deserialize(@NotNull ArrayList<>)
+        };
+        StandardSerializer.getDefault().register(Vector.class, vectorAdapter);
 
-			@NotNull
-			public java.util.Map<Object, Object> serialize(@NotNull Frame object) {
-				java.util.Map<Object, Object> map = new HashMap<>();
-				map.put("primary_blocks", object.primary_blocks);
-				map.put("secondary_blocks", object.secondary_blocks);
-				return map;
-			}
+        // Setup the frame adapter
+        TypeAdapter<Frame> frameAdapter = new TypeAdapter<Frame>() {
 
-			@NotNull
-			public Frame deserialize(@NotNull java.util.Map<Object, Object> map) {
-				Frame frame = new Frame();
-				for (Object v : (ArrayList) map.get("primary_blocks")) {
-					frame.primary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
-				}
-				for (Object v : (ArrayList) map.get("secondary_blocks")) {
-					frame.secondary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
-				}return frame;
-			}
-		};
-		StandardSerializer.getDefault().register(Frame.class, frameAdapter);
+            @NotNull
+            public java.util.Map<Object, Object> serialize(@NotNull Frame object) {
+                java.util.Map<Object, Object> map = new HashMap<>();
+                map.put("primary_blocks", object.primary_blocks);
+                map.put("secondary_blocks", object.secondary_blocks);
+                return map;
+            }
 
-		// Load flags.yml with BoostedYAML
-		try {
-			flagsConfig = YamlDocument.create(new File(getDataFolder(), "flags.yml"),
-					getClass().getResourceAsStream("flags.yml"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            @NotNull
+            public Frame deserialize(@NotNull java.util.Map<Object, Object> map) {
+                Frame frame = new Frame();
+                for (Object v : (ArrayList) map.get("primary_blocks")) {
+                    frame.primary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                }
+                for (Object v : (ArrayList) map.get("secondary_blocks")) {
+                    frame.secondary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                }
+                return frame;
+            }
+        };
+        StandardSerializer.getDefault().register(Frame.class, frameAdapter);
 
-		// Load maps.yml with Spigot's yaml parser
-		File mapsFile = new File(getDataFolder(), "maps.yml");
-		if (!mapsFile.exists()) {
-			mapsFile.getParentFile().mkdirs();
-			saveResource("maps.yml", false);
-		}
+        // Load flags.yml with BoostedYAML
+        try {
+            flagsConfig = YamlDocument.create(new File(getDataFolder(), "flags.yml"),
+                    getClass().getResourceAsStream("flags.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		mapsConfig = new YamlConfiguration();
-		try {
-			mapsConfig.load(mapsFile);
-		} catch (IOException | InvalidConfigurationException e) {
-			e.printStackTrace();
-		}
-	}
+        // Load maps.yml with Spigot's yaml parser
+        File mapsFile = new File(getDataFolder(), "maps.yml");
+        if (!mapsFile.exists()) {
+            mapsFile.getParentFile().mkdirs();
+            saveResource("maps.yml", false);
+        }
 
-	private void loadMaps()
-	{
-		// Load the maps
-		java.util.Map<String, Object> stringObjectMap = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection("")).getValues(false);
-		String[] mapPaths = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
+        mapsConfig = new YamlConfiguration();
+        try {
+            mapsConfig.load(mapsFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
 
-		MapController.maps = new Map[mapPaths.length];
-		for (int i = 0; i < mapPaths.length; i++) {
-			// Basic Map Details
-			Map map = new Map();
-			map.name = this.getMapsConfig().getString(mapPaths[i] + ".name");
-			map.worldName = this.getMapsConfig().getString(mapPaths[i] + ".world");
+    private void loadMaps() {
+        // Load the maps
+        java.util.Map<String, Object> stringObjectMap = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection("")).getValues(false);
+        String[] mapPaths = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
 
-			// Flag Data
-			loadFlags(mapPaths[i], map);
+        MapController.maps = new Map[mapPaths.length];
+        for (int i = 0; i < mapPaths.length; i++) {
+            // Basic Map Details
+            Map map = new Map();
+            map.name = this.getMapsConfig().getString(mapPaths[i] + ".name");
+            map.worldName = this.getMapsConfig().getString(mapPaths[i] + ".world");
 
-			// Team Data
-			java.util.Map<String, Object> stringObjectTeam = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection(mapPaths[i] + ".teams")).getValues(false);
-			String[] teamPaths = stringObjectTeam.keySet().toArray(new String[stringObjectTeam.size()]);
-			map.teams = new Team[teamPaths.length];
-			for (int j = 0; j < teamPaths.length; j++) {
-				String path = mapPaths[i] + ".teams." + teamPaths[j];
-				map.teams[j] = loadTeam(path, map);
-			}
+            // Flag Data
+            loadFlags(mapPaths[i], map);
 
-			// Timer data
-			map.duration = new Tuple<>(this.getMapsConfig().getInt(mapPaths[i] + ".duration.minutes"),
-					this.getMapsConfig().getInt(mapPaths[i] + ".duration.seconds"));
+            // Team Data
+            java.util.Map<String, Object> stringObjectTeam = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection(mapPaths[i] + ".teams")).getValues(false);
+            String[] teamPaths = stringObjectTeam.keySet().toArray(new String[stringObjectTeam.size()]);
+            map.teams = new Team[teamPaths.length];
+            for (int j = 0; j < teamPaths.length; j++) {
+                String path = mapPaths[i] + ".teams." + teamPaths[j];
+                map.teams[j] = loadTeam(path, map);
+            }
 
-			// Save the map
-			MapController.maps[i] = map;
-		}
-	}
+            // Timer data
+            map.duration = new Tuple<>(this.getMapsConfig().getInt(mapPaths[i] + ".duration.minutes"),
+                    this.getMapsConfig().getInt(mapPaths[i] + ".duration.seconds"));
 
-	private void loadFlags(String mapPath, Map map) {
-		Route mapRoute = Route.from(mapPath);
+            // Save the map
+            MapController.maps[i] = map;
+        }
+    }
 
-		Set<String> flagSet = getFlagsConfig().getSection(mapRoute).getRoutesAsStrings(false);
-		String[] flagPaths = new String[flagSet.size()];
-		int index = 0;
-		for (String str : flagSet) {
-			flagPaths[index++] = str;
-		}
+    private void loadFlags(String mapPath, Map map) {
+        Route mapRoute = Route.from(mapPath);
 
-		map.flags = new Flag[flagPaths.length];
-		for (int i = 0; i < flagPaths.length; i++) {
-			// Create the flag
-			Route flagRoute = mapRoute.add(flagPaths[i]);
-			String name = getFlagsConfig().getString(flagRoute.add("name"));
-			Flag flag = new Flag(name,
-					getFlagsConfig().getString(flagRoute.add("start_owners")),
-					getFlagsConfig().getInt(flagRoute.add("max_cap")),
-					getFlagsConfig().getInt(flagRoute.add("progress_amount")));
+        Set<String> flagSet = getFlagsConfig().getSection(mapRoute).getRoutesAsStrings(false);
+        String[] flagPaths = new String[flagSet.size()];
+        int index = 0;
+        for (String str : flagSet) {
+            flagPaths[index++] = str;
+        }
 
-			// Set the spawn point
-			flag.spawnPoint = new Location(Bukkit.getWorld(map.worldName),
-					getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("x")),
-					getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("y")),
-					getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("z")));
+        map.flags = new Flag[flagPaths.length];
+        for (int i = 0; i < flagPaths.length; i++) {
+            // Create the flag
+            Route flagRoute = mapRoute.add(flagPaths[i]);
+            String name = getFlagsConfig().getString(flagRoute.add("name"));
+            Flag flag = new Flag(name,
+                    getFlagsConfig().getString(flagRoute.add("start_owners")),
+                    getFlagsConfig().getInt(flagRoute.add("max_cap")),
+                    getFlagsConfig().getInt(flagRoute.add("progress_amount")));
 
-			// Set the capture area
-			Route captureRoute = flagRoute.add("capture_area");
-			if (getFlagsConfig().getString(captureRoute.add("type")).equalsIgnoreCase("cuboid"))
-			{
-				BlockVector3 min = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("min").add("x")),
-						getFlagsConfig().getInt(captureRoute.add("min").add("y")),
-						getFlagsConfig().getInt(captureRoute.add("min").add("z")));
-				BlockVector3 max = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("max").add("x")),
-						getFlagsConfig().getInt(captureRoute.add("max").add("y")),
-						getFlagsConfig().getInt(captureRoute.add("max").add("z")));
-				flag.region = new ProtectedCuboidRegion(flag.name.replace(' ', '_'), true, min, max);
-				//Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(map.worldName))))).addRegion(region);
-			}
+            // Set the spawn point
+            flag.spawnPoint = new Location(Bukkit.getWorld(map.worldName),
+                    getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("x")),
+                    getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("y")),
+                    getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("z")));
 
-			flag.animationAir = getFlagsConfig().getBoolean(flagRoute.add("animation_air"));
-			Route animationRoute = flagRoute.add("animation");
-			Set<String> animationSet = getFlagsConfig().getSection(animationRoute).getRoutesAsStrings(false);
-			String[] animationPaths = new String[animationSet.size()];
-			index = 0;
-			for (String str : animationSet)
-				animationPaths[index++] = str;
+            // Set the capture area
+            Route captureRoute = flagRoute.add("capture_area");
+            if (getFlagsConfig().getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
+                BlockVector3 min = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("min").add("x")),
+                        getFlagsConfig().getInt(captureRoute.add("min").add("y")),
+                        getFlagsConfig().getInt(captureRoute.add("min").add("z")));
+                BlockVector3 max = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("max").add("x")),
+                        getFlagsConfig().getInt(captureRoute.add("max").add("y")),
+                        getFlagsConfig().getInt(captureRoute.add("max").add("z")));
+                flag.region = new ProtectedCuboidRegion(flag.name.replace(' ', '_'), true, min, max);
+                //Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(map.worldName))))).addRegion(region);
+            }
 
-			flag.animation = new Frame[animationPaths.length];
-			for (int j = 0; j < animationPaths.length; j++) {
-				Frame frame = getFlagsConfig().getAs(animationRoute.add(animationPaths[j]), Frame.class);
-				flag.animation[j] = frame;
-			}
+            flag.animationAir = getFlagsConfig().getBoolean(flagRoute.add("animation_air"));
+            Route animationRoute = flagRoute.add("animation");
+            Set<String> animationSet = getFlagsConfig().getSection(animationRoute).getRoutesAsStrings(false);
+            String[] animationPaths = new String[animationSet.size()];
+            index = 0;
+            for (String str : animationSet)
+                animationPaths[index++] = str;
 
-			flag.scoreboard = getFlagsConfig().getInt(flagRoute.add("scoreboard"));
+            flag.animation = new Frame[animationPaths.length];
+            for (int j = 0; j < animationPaths.length; j++) {
+                Frame frame = getFlagsConfig().getAs(animationRoute.add(animationPaths[j]), Frame.class);
+                flag.animation[j] = frame;
+            }
 
-			map.flags[i] = flag;
-		}
-	}
+            flag.scoreboard = getFlagsConfig().getInt(flagRoute.add("scoreboard"));
 
-	private Team loadTeam(String teamPath, Map map) {
-		String name = this.getMapsConfig().getString(teamPath + ".name");
-		Team team = new Team(name);
+            map.flags[i] = flag;
+        }
+    }
 
-		// Colours
-		Tuple<Material, ChatColor> colors = getColors(Objects.requireNonNull(this.getMapsConfig().getString(teamPath + ".primary_color")).toLowerCase());
-		team.primaryWool = colors.getFirst();
-		team.primaryChatColor = colors.getSecond();
-		colors = getColors(Objects.requireNonNull(this.getMapsConfig().getString(teamPath + ".secondary_color")).toLowerCase());
-		team.secondaryWool = colors.getFirst();
-		team.secondaryChatColor = colors.getSecond();
+    private Team loadTeam(String teamPath, Map map) {
+        String name = this.getMapsConfig().getString(teamPath + ".name");
+        Team team = new Team(name);
 
-		// Setup lobby
-		team.lobby = loadLobby(teamPath + ".lobby", map);
-		return team;
-	}
+        // Colours
+        Tuple<Material, ChatColor> colors = getColors(Objects.requireNonNull(this.getMapsConfig().getString(teamPath + ".primary_color")).toLowerCase());
+        team.primaryWool = colors.getFirst();
+        team.primaryChatColor = colors.getSecond();
+        colors = getColors(Objects.requireNonNull(this.getMapsConfig().getString(teamPath + ".secondary_color")).toLowerCase());
+        team.secondaryWool = colors.getFirst();
+        team.secondaryChatColor = colors.getSecond();
 
-	private Lobby loadLobby(String lobbyPath, Map map) {
-		Lobby lobby = new Lobby();
-		lobby.spawnPoint = getLocationYawPitch(lobbyPath + ".spawn_point", map.worldName);
-		lobby.woolmap = loadWoolMap(lobbyPath + ".woolmap", map);
-		return lobby;
-	}
+        // Setup lobby
+        team.lobby = loadLobby(teamPath + ".lobby", map);
+        return team;
+    }
 
-	private WoolMap loadWoolMap(String woolMapPath, Map map) {
-		WoolMap woolMap = new WoolMap();
-		java.util.Map<String, Object> stringObjectMap = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection(woolMapPath)).getValues(false);
-		String[] mapFlags = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
-		woolMap.woolMapBlocks = new WoolMapBlock[mapFlags.length];
+    private Lobby loadLobby(String lobbyPath, Map map) {
+        Lobby lobby = new Lobby();
+        lobby.spawnPoint = getLocationYawPitch(lobbyPath + ".spawn_point", map.worldName);
+        lobby.woolmap = loadWoolMap(lobbyPath + ".woolmap", map);
+        return lobby;
+    }
 
-		// Loop through all the wool blocks
-		for (int i = 0; i < mapFlags.length; i++) {
-			WoolMapBlock block = new WoolMapBlock();
+    private WoolMap loadWoolMap(String woolMapPath, Map map) {
+        WoolMap woolMap = new WoolMap();
+        java.util.Map<String, Object> stringObjectMap = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection(woolMapPath)).getValues(false);
+        String[] mapFlags = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
+        woolMap.woolMapBlocks = new WoolMapBlock[mapFlags.length];
 
-			block.flagName = this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".flag_name");
-			block.blockLocation = getLocation(woolMapPath + "." + mapFlags[i] + ".wool_position", map.worldName);
-			block.signLocation = block.blockLocation;
+        // Loop through all the wool blocks
+        for (int i = 0; i < mapFlags.length; i++) {
+            WoolMapBlock block = new WoolMapBlock();
 
-			// Get the wall sign's direction
-			switch(Objects.requireNonNull(this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".sign_direction")).toLowerCase()) {
-				case "east":
-					block.signDirection = BlockFace.EAST;
-					block.signLocation.add(1, 0, 0);
-					break;
-				case "south":
-					block.signDirection = BlockFace.SOUTH;
-					block.signLocation.add(0, 0, 1);
-					break;
-				case "west":
-					block.signDirection = BlockFace.WEST;
-					block.signLocation.add(-1, 0, 0);
-					break;
-				default:
-					block.signDirection = BlockFace.NORTH;
-					block.signLocation.add(0, 0, -1);
-			}
-			woolMap.woolMapBlocks[i] = block;
-		}
+            block.flagName = this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".flag_name");
+            block.blockLocation = getLocation(woolMapPath + "." + mapFlags[i] + ".wool_position", map.worldName);
+            block.signLocation = block.blockLocation;
 
-		return woolMap;
-	}
+            // Get the wall sign's direction
+            switch (Objects.requireNonNull(this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".sign_direction")).toLowerCase()) {
+                case "east":
+                    block.signDirection = BlockFace.EAST;
+                    block.signLocation.add(1, 0, 0);
+                    break;
+                case "south":
+                    block.signDirection = BlockFace.SOUTH;
+                    block.signLocation.add(0, 0, 1);
+                    break;
+                case "west":
+                    block.signDirection = BlockFace.WEST;
+                    block.signLocation.add(-1, 0, 0);
+                    break;
+                default:
+                    block.signDirection = BlockFace.NORTH;
+                    block.signLocation.add(0, 0, -1);
+            }
+            woolMap.woolMapBlocks[i] = block;
+        }
 
-	private Location getLocationYawPitch(String locationPath, String worldName) {
-		int x = this.getMapsConfig().getInt(locationPath + ".x");
-		int y = this.getMapsConfig().getInt(locationPath + ".y");
-		int z = this.getMapsConfig().getInt(locationPath + ".z");
-		int yaw = this.getMapsConfig().getInt(locationPath + ".yaw");
-		int pitch = this.getMapsConfig().getInt(locationPath + ".pitch");
-		return new Location(Bukkit.getServer().getWorld(worldName), x, y, z, yaw, pitch);
-	}
+        return woolMap;
+    }
 
-	private Location getLocation(String locationPath, String worldName) {
-		int x = this.getMapsConfig().getInt(locationPath + ".x");
-		int y = this.getMapsConfig().getInt(locationPath + ".y");
-		int z = this.getMapsConfig().getInt(locationPath + ".z");
-		return new Location(Bukkit.getServer().getWorld(worldName), x, y, z);
-	}
+    private Location getLocationYawPitch(String locationPath, String worldName) {
+        int x = this.getMapsConfig().getInt(locationPath + ".x");
+        int y = this.getMapsConfig().getInt(locationPath + ".y");
+        int z = this.getMapsConfig().getInt(locationPath + ".z");
+        int yaw = this.getMapsConfig().getInt(locationPath + ".yaw");
+        int pitch = this.getMapsConfig().getInt(locationPath + ".pitch");
+        return new Location(Bukkit.getServer().getWorld(worldName), x, y, z, yaw, pitch);
+    }
 
-	private Tuple<Material, ChatColor> getColors(String color)
-	{
-		Tuple<Material, ChatColor> colors = new Tuple<>(Material.WHITE_WOOL, ChatColor.WHITE);
-		switch (color) {
-			case "black":
-				colors.setFirst(Material.BLACK_WOOL);
-				colors.setSecond(ChatColor.DARK_GRAY);
-				break;
-			case "dark_blue":
-			case "blue":
-				colors.setFirst(Material.BLUE_WOOL);
-				colors.setSecond(ChatColor.DARK_BLUE);
-				break;
-			case "dark_green":
-			case "green":
-				colors.setFirst(Material.GREEN_WOOL);
-				colors.setSecond(ChatColor.DARK_GREEN);
-				break;
-			case "cyan":
-			case "dark_aqua":
-				colors.setFirst(Material.CYAN_WOOL);
-				colors.setSecond(ChatColor.DARK_AQUA);
-				break;
-			case "dark_red":
-			case "red":
-				colors.setFirst(Material.RED_WOOL);
-				colors.setSecond(ChatColor.DARK_RED);
-				break;
-			case "brown":
-				colors.setFirst(Material.BROWN_WOOL);
-				colors.setSecond(ChatColor.DARK_RED);
-			case "dark_purple":
-			case "purple":
-				colors.setFirst(Material.PURPLE_WOOL);
-				colors.setSecond(ChatColor.DARK_PURPLE);
-				break;
-			case "gold":
-			case "dark_yellow":
-			case "orange":
-				colors.setFirst(Material.ORANGE_WOOL);
-				colors.setSecond(ChatColor.GOLD);
-				break;
-			case "light_gray":
-			case "light_grey":
-			case "gray":
-				colors.setFirst(Material.LIGHT_GRAY_WOOL);
-				colors.setSecond(ChatColor.GRAY);
-				break;
-			case "dark_grey":
-			case "darkgray":
-				colors.setFirst(Material.GRAY_WOOL);
-				colors.setSecond(ChatColor.DARK_GRAY);
-				break;
-			case "light_blue":
-				colors.setFirst(Material.LIGHT_BLUE_WOOL);
-				colors.setSecond(ChatColor.BLUE);
-				break;
-			case "light_green":
-			case "lime":
-				colors.setFirst(Material.LIME_WOOL);
-				colors.setSecond(ChatColor.GREEN);
-				break;
-			case "aqua":
-				colors.setFirst(Material.LIGHT_BLUE_WOOL);
-				colors.setSecond(ChatColor.AQUA);
-				break;
-			case "light_red":
-				colors.setFirst(Material.PINK_WOOL);
-				colors.setSecond(ChatColor.RED);
-				break;
-			case "light_purple":
-			case "magenta":
-				colors.setFirst(Material.MAGENTA_WOOL);
-				colors.setSecond(ChatColor.LIGHT_PURPLE);
-				break;
-			case "pink":
-				colors.setFirst(Material.PINK_WOOL);
-				colors.setSecond(ChatColor.LIGHT_PURPLE);
-				break;
-			case "light_yellow":
-			case "yellow":
-				colors.setFirst(Material.YELLOW_WOOL);
-				colors.setSecond(ChatColor.YELLOW);
-				break;
-			case "white":
-			default:
-				colors.setFirst(Material.WHITE_WOOL);
-				colors.setSecond(ChatColor.WHITE);
-		}
+    private Location getLocation(String locationPath, String worldName) {
+        int x = this.getMapsConfig().getInt(locationPath + ".x");
+        int y = this.getMapsConfig().getInt(locationPath + ".y");
+        int z = this.getMapsConfig().getInt(locationPath + ".z");
+        return new Location(Bukkit.getServer().getWorld(worldName), x, y, z);
+    }
 
-		return colors;
-	}
+    private Tuple<Material, ChatColor> getColors(String color) {
+        Tuple<Material, ChatColor> colors = new Tuple<>(Material.WHITE_WOOL, ChatColor.WHITE);
+        switch (color) {
+            case "black":
+                colors.setFirst(Material.BLACK_WOOL);
+                colors.setSecond(ChatColor.DARK_GRAY);
+                break;
+            case "dark_blue":
+            case "blue":
+                colors.setFirst(Material.BLUE_WOOL);
+                colors.setSecond(ChatColor.DARK_BLUE);
+                break;
+            case "dark_green":
+            case "green":
+                colors.setFirst(Material.GREEN_WOOL);
+                colors.setSecond(ChatColor.DARK_GREEN);
+                break;
+            case "cyan":
+            case "dark_aqua":
+                colors.setFirst(Material.CYAN_WOOL);
+                colors.setSecond(ChatColor.DARK_AQUA);
+                break;
+            case "dark_red":
+            case "red":
+                colors.setFirst(Material.RED_WOOL);
+                colors.setSecond(ChatColor.DARK_RED);
+                break;
+            case "brown":
+                colors.setFirst(Material.BROWN_WOOL);
+                colors.setSecond(ChatColor.DARK_RED);
+            case "dark_purple":
+            case "purple":
+                colors.setFirst(Material.PURPLE_WOOL);
+                colors.setSecond(ChatColor.DARK_PURPLE);
+                break;
+            case "gold":
+            case "dark_yellow":
+            case "orange":
+                colors.setFirst(Material.ORANGE_WOOL);
+                colors.setSecond(ChatColor.GOLD);
+                break;
+            case "light_gray":
+            case "light_grey":
+            case "gray":
+                colors.setFirst(Material.LIGHT_GRAY_WOOL);
+                colors.setSecond(ChatColor.GRAY);
+                break;
+            case "dark_grey":
+            case "darkgray":
+                colors.setFirst(Material.GRAY_WOOL);
+                colors.setSecond(ChatColor.DARK_GRAY);
+                break;
+            case "light_blue":
+                colors.setFirst(Material.LIGHT_BLUE_WOOL);
+                colors.setSecond(ChatColor.BLUE);
+                break;
+            case "light_green":
+            case "lime":
+                colors.setFirst(Material.LIME_WOOL);
+                colors.setSecond(ChatColor.GREEN);
+                break;
+            case "aqua":
+                colors.setFirst(Material.LIGHT_BLUE_WOOL);
+                colors.setSecond(ChatColor.AQUA);
+                break;
+            case "light_red":
+                colors.setFirst(Material.PINK_WOOL);
+                colors.setSecond(ChatColor.RED);
+                break;
+            case "light_purple":
+            case "magenta":
+                colors.setFirst(Material.MAGENTA_WOOL);
+                colors.setSecond(ChatColor.LIGHT_PURPLE);
+                break;
+            case "pink":
+                colors.setFirst(Material.PINK_WOOL);
+                colors.setSecond(ChatColor.LIGHT_PURPLE);
+                break;
+            case "light_yellow":
+            case "yellow":
+                colors.setFirst(Material.YELLOW_WOOL);
+                colors.setSecond(ChatColor.YELLOW);
+                break;
+            case "white":
+            default:
+                colors.setFirst(Material.WHITE_WOOL);
+                colors.setSecond(ChatColor.WHITE);
+        }
 
-	public void reload() {
-		plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Reloading plugin...");
-		onDisable();
-		onEnable();
-		plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Plugin Reloaded!");
-	}
+        return colors;
+    }
+
+    public void reload() {
+        plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Reloading plugin...");
+        onDisable();
+        onEnable();
+        plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Plugin Reloaded!");
+    }
 }
