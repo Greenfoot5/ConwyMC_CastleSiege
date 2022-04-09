@@ -1,4 +1,18 @@
+##############
+# Helms Deep #
+##############
+
 HelmsDeep:
+  ukuk_spawn:
+    name: "Uruk's Camp"
+    start_owners: "Uruk-hai"
+    max_cap: 1
+    progress_amount: 0
+    scoreboard: 0
+    spawn_point:
+      x: 1172
+      y: 35
+      z: 1121
   supply_camp:
     name: "Supply Camp"
     start_owners: "Rohan"
@@ -381,6 +395,169 @@ HelmsDeep:
             x: 992
             y: 46
             z: 1141
+  caves:
+    name: "Caves"
+    start_owners: "Rohan"
+    max_cap: 6
+    start_amount: 6
+    progress_amount: 10
+    scoreboard: 11
+    spawn_point:
+      x: 875
+      y: 52
+      z: 932
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 863
+        y: 50
+        z: 943
+      max:
+        x: 873
+        y: 52
+        z: 936
+    animation_air: false
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 870
+            y: 57
+            z: 942
+          - "==": Vector
+            x: 866
+            y: 57
+            z: 942
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 870
+            y: 56
+            z: 942
+        air:
+          - "==": Vector
+            x: 866
+            y: 56
+            z: 942
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 866
+            y: 56
+            z: 942
+        air:
+          - "==": Vector
+            x: 870
+            y: 55
+            z: 942
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 870
+            y: 55
+            z: 942
+        air:
+          - "==": Vector
+            x: 866
+            y: 55
+            z: 942
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 866
+            y: 55
+            z: 942
+        air:
+          - "==": Vector
+            x: 870
+            y: 54
+            z: 942
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 870
+            y: 54
+            z: 942
+        air:
+          - "==": Vector
+            x: 866
+            y: 54
+            z: 942
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 866
+            y: 54
+            z: 942
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 870
+            y: 57
+            z: 942
+          - "==": Vector
+            x: 870
+            y: 56
+            z: 942
+          - "==": Vector
+            x: 870
+            y: 55
+            z: 942
+          - "==": Vector
+            x: 870
+            y: 54
+            z: 942
+          - "==": Vector
+            x: 866
+            y: 57
+            z: 942
+          - "==": Vector
+            x: 866
+            y: 56
+            z: 942
+          - "==": Vector
+            x: 866
+            y: 55
+            z: 942
+          - "==": Vector
+            x: 866
+            y: 54
+            z: 942
+  courtyard:
+    name: "Courtyard"
+    start_owners: "Rohan"
+    scoreboard: 10
+    max_cap:
+  horn:
+    name: "Horn"
+    start_owners: "Rohan"
+    scoreboard: 9
+  great_hall:
+    name: "Great Hall"
+    start_owners: "Rohan"
+    scoreboard: 8
+  main_gate:
+    name: "Main Gate"
+    start_owners: "Rohan"
+    scoreboard: 7
+
+
+
+
+
+
+################
+# Thunderstone #
+################
+
 Thunderstone:
   stairhall:
     name: "The Stair Hall"

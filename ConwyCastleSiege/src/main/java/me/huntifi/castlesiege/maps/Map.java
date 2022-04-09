@@ -11,6 +11,7 @@ public class Map {
     public String worldName;
     public Team[] teams;
     public Flag[] flags;
+    public Gamemode gamemode;
     public Tuple<Integer, Integer> duration = new Tuple<>(20, 0);
 
     /**

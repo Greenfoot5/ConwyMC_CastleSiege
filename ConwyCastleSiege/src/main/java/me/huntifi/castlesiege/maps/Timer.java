@@ -23,13 +23,17 @@ public class Timer {
 
 			@Override
 			public void run() {
-				if (seconds == 0) {
+				if (hasGameEnded) {
+					this.cancel();
+				}
+				else if (seconds == 0) {
 					minutes--;
 					seconds = 59;
 				} else if ((minutes == 0 && seconds == 1) || minutes <= 0) {
 					minutes = 0;
 					seconds = 0;
 					hasGameEnded = true;
+					MapController.endMap();
 					this.cancel();
 				}
 				else {

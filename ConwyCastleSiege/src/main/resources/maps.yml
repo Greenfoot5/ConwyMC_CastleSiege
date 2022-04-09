@@ -4,31 +4,12 @@ HelmsDeep:
   # The relative time is analogous to hours * 1000
   start_time: 22000
   doDaylightCycle: false
+  gamemode: "Assault"
   duration:
     minutes: 30
     seconds: 0
   teams:
-    Urukhai:
-      name: "Uruk-hai"
-      primary_color: "black"
-      secondary_color: "gray"
-      lobby:
-        spawn_point:
-          x: 1745
-          y: 14
-          z: 957
-          yaw: -95
-          pitch: -17
-        woolmap:
-          # Flag name must be the same as the flag's string name
-          supply_camp:
-            flag_name: "Supply Camp"
-            wool_position:
-              x: 1753
-              y: 21
-              z: 952
-            sign_direction: west
-    Rohan:
+    Defenders:
       name: "Rohan"
       primary_color: "dark_green"
       secondary_color: "yellow"
@@ -48,35 +29,65 @@ HelmsDeep:
               y: 15
               z: 955
             sign_direction: south
+          uruk_camp:
+            flag_name: "Uruk's Camp"
+            wool_position:
+              x: 282
+              y: 22
+              z: 955
+            sign_direction: south
+          caves:
+            flag_name: "Caves"
+            wool_position:
+              x: 272
+              y: 13
+              z: 955
+            sign_direction: south
+    Attackers:
+      name: "Uruk-hai"
+      primary_color: "black"
+      secondary_color: "gray"
+      lobby:
+        spawn_point:
+          x: 1745
+          y: 14
+          z: 957
+          yaw: -95
+          pitch: -17
+        woolmap:
+          # Flag name must be the same as the flag's string name
+          supply_camp:
+            flag_name: "Supply Camp"
+            wool_position:
+              x: 1753
+              y: 21
+              z: 952
+            sign_direction: west
+          ukruk_camp:
+            flag_name: "Uruk's Camp"
+            wool_position:
+              x: 1753
+              y: 14
+              z: 952
+            sign_direction: west
+          caves:
+            flag_name: "Caves"
+            wool_position:
+              x: 1753
+              y: 23
+              z: 962
+            sign_direction: west
 Thunderstone:
   world: "Thunderstone"
   name: "Thunderstone"
   start_time: 9000
   doDaylightCycle: false
+  gamemode: "Assault"
   duration:
     minutes: 30
     seconds: 0
   teams:
-    Cloudcrawlers:
-      name: "Cloud Crawlers"
-      primary_color: "cyan"
-      secondary_color: "light_blue"
-      lobby:
-        spawn_point:
-          x: -191
-          y: 202
-          z: 159
-          yaw: -90
-          pitch: 1
-        woolmap:
-          stair_hall:
-            flag_name: "The Stair Hall"
-            wool_position:
-              x: 282
-              y: 15
-              z: 955
-            sign_direction: south
-    Guard:
+    Defenders:
       name: "Thunderstone Guard"
       primary_color: "gold"
       secondary_color: "yellow"
@@ -87,6 +98,25 @@ Thunderstone:
           z: 106
           yaw: -90
           pitch: 2
+        woolmap:
+          stair_hall:
+            flag_name: "The Stair Hall"
+            wool_position:
+              x: 282
+              y: 15
+              z: 955
+            sign_direction: south
+    Attackers:
+      name: "Cloud Crawlers"
+      primary_color: "cyan"
+      secondary_color: "light_blue"
+      lobby:
+        spawn_point:
+          x: -191
+          y: 202
+          z: 159
+          yaw: -90
+          pitch: 1
         woolmap:
           stair_hall:
             flag_name: "The Stair Hall"

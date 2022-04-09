@@ -8,6 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.Objects;
+
 public class WoolMap implements Listener {
 
 	public WoolMapBlock[] woolMapBlocks;
@@ -27,6 +29,14 @@ public class WoolMap implements Listener {
 			Sign s = (Sign) target.getState();
 			for (WoolMapBlock block : woolMapBlocks) {
 				if (s.getLine(1).equalsIgnoreCase(block.flagName)) {
+					// Remove mount
+					if (player.isInsideVehicle()) {
+						player.getVehicle().remove();
+					}
+					// Spawn player with kit
+					block.SpawnPlayer(player.getUniqueId());
+					Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+				} else if (s.getLine(1).equalsIgnoreCase("Stair Hall") && Objects.equals(block.flagName, "The Stair Hall")) {
 					// Remove mount
 					if (player.isInsideVehicle()) {
 						player.getVehicle().remove();

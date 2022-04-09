@@ -281,6 +281,10 @@ public class Flag {
         {
             Bukkit.broadcastMessage(ChatColor.GRAY + "~~~ " + name + " has been neutralised! ~~~");
         }
+
+        if (MapController.hasMapEnded()) {
+            MapController.endMap();
+        }
     }
 
     /**
@@ -409,6 +413,12 @@ public class Flag {
                     Location loc = vector.toLocation(world);
                     Block block = loc.getBlock();
                     block.setType(team.primaryWool);
+                }
+
+                for (Vector vector:nextFrame.air) {
+                    Location loc = vector.toLocation(world);
+                    Block block = loc.getBlock();
+                    block.setType(Material.AIR);
                 }
             }
         }.runTask(Main.plugin);

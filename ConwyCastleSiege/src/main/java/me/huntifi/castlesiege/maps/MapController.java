@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.maps;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
-import me.huntifi.castlesiege.Helmsdeep.flags.FlagTeam;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.joinevents.stats.MainStats;
@@ -14,7 +13,9 @@ import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.WorldCreator;
+import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,6 +23,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -30,8 +32,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
-import static org.bukkit.Bukkit.getLogger;
-import static org.bukkit.Bukkit.getServer;
+import static org.bukkit.Bukkit.*;
 
 /**
  * Manages what map the game is currently on
@@ -69,10 +70,76 @@ public class MapController implements CommandExecutor {
 			unloadMap(oldMap);
 	}
 
+	public static void endMap() {
+		timer.hasGameEnded = true;
+
+		String winners;
+		switch(getCurrentMap().gamemode) {
+			case Control:
+				getLogger().severe("Control gamemode has not been implemented yet! Defaulting to teams[0] as winners");
+				winners = getCurrentMap().teams[0].name;
+				break;
+			case Assault:
+				for (Flag flag : getCurrentMap().flags) {
+					if (Objects.equals(flag.currentOwners, getCurrentMap().teams[0].name)) {
+						// Defenders win
+						winners = getCurrentMap().teams[0].name;
+						break;
+					}
+				}
+			default:
+				// Get a count of who owns which flag
+				java.util.Map<String, Integer> flagCounts = new HashMap<>();
+				for (Flag flag : getCurrentMap().flags) {
+					flagCounts.merge(flag.currentOwners, 1, Integer::sum);
+				}
+				// Get the team with the largest
+				winners = (String) flagCounts.keySet().toArray()[0];
+				for (String teamName : flagCounts.keySet()) {
+					if (flagCounts.get(teamName) > flagCounts.get(winners)) {
+						winners = teamName;
+					}
+				}
+				break;
+		}
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					if (getCurrentMap().getTeam(player.getUniqueId()) != null) {
+						player.setHealth(0);
+					}
+				}
+			}
+		}.runTask(Main.plugin);
+
+		for (Team team : getCurrentMap().teams) {
+			Bukkit.broadcastMessage("");
+			if (team.name.equals(winners)) {
+				Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has won!~~~~~~~~");
+		    } else {
+				Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has lost!~~~~~~~~");
+			}
+			Bukkit.broadcastMessage(team.primaryChatColor + team.name + ChatColor.DARK_AQUA + " MVP: " + ChatColor.WHITE + "Coming Soon!");
+			//Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Score " + ChatColor.WHITE + currencyFormat.format(returnMVPScore(RohanMVP)) + ChatColor.DARK_AQUA + " | Kills " + ChatColor.WHITE + NumberFormat.format(MVPstats.getKills(RohanMVP.getUniqueId())) + ChatColor.DARK_AQUA + " | Deaths " + ChatColor.WHITE + NumberFormat.format(MVPstats.getDeaths(RohanMVP.getUniqueId())) + ChatColor.DARK_AQUA + " | KDR " + ChatColor.WHITE + currencyFormat.format((MVPstats.getKills(RohanMVP.getUniqueId()) / MVPstats.getDeaths(RohanMVP.getUniqueId()))) + ChatColor.DARK_AQUA + " | Assists " + ChatColor.WHITE + NumberFormat.format(MVPstats.getAssists(RohanMVP.getUniqueId())));
+			//Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "| Heals " + ChatColor.WHITE + NumberFormat.format(MVPstats.getHeals(RohanMVP.getUniqueId())) + ChatColor.DARK_AQUA + " | Captures " + ChatColor.WHITE + NumberFormat.format(MVPstats.getCaptures(RohanMVP.getUniqueId())) + ChatColor.DARK_AQUA + " | Supports " + ChatColor.WHITE + NumberFormat.format(MVPstats.getSupports(RohanMVP.getUniqueId())));
+		}
+
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				nextMap();
+			}
+		}.runTaskLater(Main.plugin, 150);
+
+	}
+
 	/**
 	 * Increments the map by one
 	 */
-	public static void nextMap() {
+	private static void nextMap() {
 		String oldMap = currentMap.name();
 		if (finalMap()) {
 			getLogger().info("Completed map cycle! Restarting server...");
@@ -102,7 +169,9 @@ public class MapController implements CommandExecutor {
 	public static void loadMap() {
 		// Register the flag regions
 		for (Flag flag : maps[mapIndex].flags) {
-			WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(currentMap.name()))).addRegion(flag.region);
+			if (flag.region != null) {
+				WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(currentMap.name()))).addRegion(flag.region);
+			}
 		}
 
 		// Register the woolmap clicks
@@ -162,26 +231,11 @@ public class MapController implements CommandExecutor {
 	 * Checks if the current map has ended
 	 * @return If the map has currently ended
 	 */
-	public static Boolean isMapEnded() {
-		String[] flags;
-
-		// Get a list of current flags
-		switch (currentMap) {
-			case HelmsDeep:
-				flags = new String[]{"MainGate", "Courtyard", "Caves", "Horn", "GreatHalls", "SupplyCamp"};
-				break;
-			case Thunderstone:
-				flags = new String[]{"skyviewtower", "stairhall", "westtower", "easttower",
-						"shiftedtower", "twinbridge", "lonelytower"};
-				break;
-			default:
-				return false;
-		}
-
+	public static Boolean hasMapEnded() {
 		// return false if all flags don't belong to the same team
-		int startingTeam = FlagTeam.getFlagTeam(flags[0]);
-		for (int i = 1; i < flags.length; i++) {
-			if (!FlagTeam.isFlagTeam(flags[i], startingTeam))
+		String startingTeam = getCurrentMap().flags[0].currentOwners;
+		for (Flag flag : getCurrentMap().flags) {
+			if (startingTeam.equalsIgnoreCase(flag.currentOwners))
 				return false;
 		}
 		return true;

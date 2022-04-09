@@ -9,9 +9,11 @@ import java.util.List;
 public class Frame {
     public List<Vector> primary_blocks;
     public List<Vector> secondary_blocks;
+    public List<Vector> air;
 
     public Frame() {
         primary_blocks = new ArrayList<>();
         secondary_blocks = new ArrayList<>();
+        air = new ArrayList<>();
     }
 }

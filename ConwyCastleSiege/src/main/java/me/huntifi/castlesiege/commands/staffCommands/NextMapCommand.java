@@ -27,13 +27,13 @@ public class NextMapCommand implements CommandExecutor {
 				Bukkit.getServer().broadcastMessage(
 						p.getDisplayName() + ChatColor.YELLOW + " has skipped to the next map!");
 
-				MapController.nextMap();
+				MapController.endMap();
 			}
 		} else if (sender instanceof ConsoleCommandSender) {
 			Bukkit.getServer().broadcastMessage(
 					ChatColor.DARK_AQUA + "Console" + ChatColor.YELLOW + " has skipped to the next map!");
 
-			MapController.nextMap();
+			MapController.endMap();
 		}
 		return true;
 	}

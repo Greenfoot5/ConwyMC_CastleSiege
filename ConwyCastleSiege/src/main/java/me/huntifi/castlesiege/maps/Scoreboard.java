@@ -48,7 +48,7 @@ public class Scoreboard implements Runnable {
 
 			//Per-player objectives, even though it doesn't matter what it's called since we're using per-player scoreboards.
 			String displayName = ChatColor.RED + "" + ChatColor.BOLD + "Castle Siege";
-			Objective objective = null;
+			Objective objective;
 			if (score.getObjective(online.getName()) == null) {
 				objective = score.registerNewObjective(online.getName(), "dummy", displayName);
 			} else {

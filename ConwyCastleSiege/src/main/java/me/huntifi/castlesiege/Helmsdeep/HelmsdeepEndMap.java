@@ -18,7 +18,7 @@ public class HelmsdeepEndMap implements Runnable {
 
 		if (MapController.currentMapIs("HelmsDeep")) {
 
-			if (MapController.isMapEnded()) {
+			if (MapController.hasMapEnded()) {
 
 				//This means the Uruk-hai win, cause they have captured all flags!
 

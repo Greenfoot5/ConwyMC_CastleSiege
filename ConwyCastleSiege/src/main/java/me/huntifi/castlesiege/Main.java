@@ -84,7 +84,7 @@ public class Main extends JavaPlugin implements Listener {
         plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
         instance = this;
 
-        getLogger().info("Resetting all maps");
+        getLogger().info("Resetting all maps...");
         resetWorlds();
         getLogger().info("Waiting until POSTWORLD to continue enabling...");
         new BukkitRunnable() {
@@ -98,8 +98,8 @@ public class Main extends JavaPlugin implements Listener {
                 createConfigs();
                 getLogger().info("Loading maps from configuration...");
                 loadMaps();
-                getLogger().info("Connecting to database");
 
+                getLogger().info("Connecting to database...");
                 // SQL Stuff
                 sqlConnect();
 
@@ -499,17 +499,27 @@ public class Main extends JavaPlugin implements Listener {
                 java.util.Map<Object, Object> map = new HashMap<>();
                 map.put("primary_blocks", object.primary_blocks);
                 map.put("secondary_blocks", object.secondary_blocks);
+                map.put("air", object.air);
                 return map;
             }
 
             @NotNull
             public Frame deserialize(@NotNull java.util.Map<Object, Object> map) {
                 Frame frame = new Frame();
-                for (Object v : (ArrayList) map.get("primary_blocks")) {
-                    frame.primary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                if (map.get("primary_blocks") != null) {
+                    for (Object v : (ArrayList) map.get("primary_blocks")) {
+                        frame.primary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                    }
                 }
-                for (Object v : (ArrayList) map.get("secondary_blocks")) {
-                    frame.secondary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                if (map.get("secondary_blocks") != null) {
+                    for (Object v : (ArrayList) map.get("secondary_blocks")) {
+                        frame.secondary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                    }
+                }
+                if (map.get("air") != null) {
+                    for (Object v : (ArrayList) map.get("air")) {
+                        frame.air.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                    }
                 }
                 return frame;
             }
@@ -550,6 +560,7 @@ public class Main extends JavaPlugin implements Listener {
             Map map = new Map();
             map.name = this.getMapsConfig().getString(mapPaths[i] + ".name");
             map.worldName = this.getMapsConfig().getString(mapPaths[i] + ".world");
+            map.gamemode = Gamemode.valueOf(this.getMapsConfig().getString(mapPaths[i] + ".gamemode"));
 
             // Flag Data
             loadFlags(mapPaths[i], map);
@@ -600,7 +611,8 @@ public class Main extends JavaPlugin implements Listener {
 
             // Set the capture area
             Route captureRoute = flagRoute.add("capture_area");
-            if (getFlagsConfig().getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
+            if (getFlagsConfig().contains(captureRoute)
+                    && getFlagsConfig().getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
                 BlockVector3 min = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("min").add("x")),
                         getFlagsConfig().getInt(captureRoute.add("min").add("y")),
                         getFlagsConfig().getInt(captureRoute.add("min").add("z")));
@@ -611,18 +623,20 @@ public class Main extends JavaPlugin implements Listener {
                 //Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(map.worldName))))).addRegion(region);
             }
 
-            flag.animationAir = getFlagsConfig().getBoolean(flagRoute.add("animation_air"));
-            Route animationRoute = flagRoute.add("animation");
-            Set<String> animationSet = getFlagsConfig().getSection(animationRoute).getRoutesAsStrings(false);
-            String[] animationPaths = new String[animationSet.size()];
-            index = 0;
-            for (String str : animationSet)
-                animationPaths[index++] = str;
+            if (getFlagsConfig().contains(captureRoute)) {
+                flag.animationAir = getFlagsConfig().getBoolean(flagRoute.add("animation_air"));
+                Route animationRoute = flagRoute.add("animation");
+                Set<String> animationSet = getFlagsConfig().getSection(animationRoute).getRoutesAsStrings(false);
+                String[] animationPaths = new String[animationSet.size()];
+                index = 0;
+                for (String str : animationSet)
+                    animationPaths[index++] = str;
 
-            flag.animation = new Frame[animationPaths.length];
-            for (int j = 0; j < animationPaths.length; j++) {
-                Frame frame = getFlagsConfig().getAs(animationRoute.add(animationPaths[j]), Frame.class);
-                flag.animation[j] = frame;
+                flag.animation = new Frame[animationPaths.length];
+                for (int j = 0; j < animationPaths.length; j++) {
+                    Frame frame = getFlagsConfig().getAs(animationRoute.add(animationPaths[j]), Frame.class);
+                    flag.animation[j] = frame;
+                }
             }
 
             flag.scoreboard = getFlagsConfig().getInt(flagRoute.add("scoreboard"));

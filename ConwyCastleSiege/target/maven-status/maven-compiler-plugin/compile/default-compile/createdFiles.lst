@@ -139,6 +139,7 @@ me/huntifi/castlesiege/Helmsdeep/doors/HelmsdeepGreatHallRightDoor.class
 me/huntifi/castlesiege/data_types/Tuple.class
 me/huntifi/castlesiege/Helmsdeep/HelmsdeepJoin.class
 me/huntifi/castlesiege/kits/VotedKits/Ladderman/LaddermanAbility.class
+me/huntifi/castlesiege/maps/MapController$2.class
 me/huntifi/castlesiege/kits/Warhound/WarhoundKit.class
 me/huntifi/castlesiege/Helmsdeep/flags/FlagCounter.class
 me/huntifi/castlesiege/Helmsdeep/flags/FlagMessages.class
@@ -152,9 +153,11 @@ me/huntifi/castlesiege/Helmsdeep/flags/animations/Courtyard_Urukhai.class
 me/huntifi/castlesiege/kits/VotedKits/VotedKitsGUI_Command$1.class
 me/huntifi/castlesiege/maps/Scoreboard.class
 me/huntifi/castlesiege/kits/Viking/VikingVotedKit.class
+me/huntifi/castlesiege/maps/MapController$3.class
 me/huntifi/castlesiege/Helmsdeep/rams/GreatHallRamAnimation.class
 me/huntifi/castlesiege/stats/MVP/MVPstats.class
 me/huntifi/castlesiege/kits/Skirmisher/SkirmisherKit.class
+me/huntifi/castlesiege/maps/Gamemode.class
 me/huntifi/castlesiege/stats/MVP/MVPstats$1.class
 me/huntifi/castlesiege/security/CustomFallDamage.class
 me/huntifi/castlesiege/Helmsdeep/flags/animations/GreatHallsFlag$2.class

@@ -110,7 +110,7 @@ public class EndMapAction {
 									@Override
 									public void run() {
 
-										MapController.nextMap();
+										//MapController.endMap();
 
 									}
 
