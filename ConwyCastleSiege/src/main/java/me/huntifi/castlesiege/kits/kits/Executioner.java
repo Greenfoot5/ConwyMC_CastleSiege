@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 
 import static org.bukkit.Color.*;
@@ -38,56 +39,35 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 		super.heldItemSlot = 0;
                 
 		// Weapon
-		ItemStack item = new ItemStack(Material.IRON_AXE, 1);
-		ItemMeta itemMeta = item.getItemMeta();
-		itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		itemMeta.setUnbreakable(true);
-		itemMeta.setDisplayName(ChatColor.GREEN + "Iron Axe");
-		itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 20, true);
-		itemMeta.setLore(new ArrayList<>());
-		item.setItemMeta(itemMeta);
-		es.hotbar[0] = item.clone();
+		es.hotbar[0] = createItem(new ItemStack(Material.IRON_AXE),
+				ChatColor.GREEN + "Iron Axe", null,
+				Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20)));
 		// Voted Weapon
-		itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 24, true);
-		itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
-		item.setItemMeta(itemMeta);
-		es.votedWeapon = new Tuple<>(item.clone(), 0);
+		es.votedWeapon = new Tuple<>(
+				createItem(new ItemStack(Material.IRON_AXE),
+						ChatColor.GREEN + "Iron Axe",
+						Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 24))),
+				0);
                 
 		// Chestplate
-		item = new ItemStack(Material.LEATHER_CHESTPLATE);
-		LeatherArmorMeta leatherItemMeta = (LeatherArmorMeta) item.getItemMeta();
-		leatherItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		leatherItemMeta.setDisplayName(ChatColor.GREEN + "Leather Chestplate");
-		leatherItemMeta.setColor(fromRGB(32, 32, 32));
-		leatherItemMeta.setUnbreakable(true);
-		leatherItemMeta.setLore(new ArrayList<>());
-		item.setItemMeta(leatherItemMeta);
-		es.chest = item;
+		es.chest = createLeatherItem(new ItemStack(Material.LEATHER_CHESTPLATE),
+				ChatColor.GREEN + "Leather Chestplate", null, null,
+				Color.fromRGB(32, 32, 32));
                 
 		// Leggings
-		item = new ItemStack(Material.LEATHER_LEGGINGS);
-		leatherItemMeta = (LeatherArmorMeta) item.getItemMeta();
-		leatherItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		leatherItemMeta.setDisplayName(ChatColor.GREEN + "Leather Leggings");
-		leatherItemMeta.setColor(fromRGB(32, 32, 32));
-		leatherItemMeta.setUnbreakable(true);
-		leatherItemMeta.setLore(new ArrayList<>());
-		item.setItemMeta(leatherItemMeta);
-		es.legs = item;
+		es.legs = createLeatherItem(new ItemStack(Material.LEATHER_LEGGINGS),
+				ChatColor.GREEN + "Leather Leggings", null, null,
+				Color.fromRGB(32, 32, 32));
                 
 		// Boots
-		item = new ItemStack(Material.IRON_BOOTS);
-		itemMeta = item.getItemMeta();
-		itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		itemMeta.setDisplayName(ChatColor.GREEN + "Iron Boots");
-		itemMeta.setUnbreakable(true);
-		itemMeta.setLore(new ArrayList<>());
-		item.setItemMeta(itemMeta);
-		es.feet = item.clone();
+		es.feet = createItem(new ItemStack(Material.IRON_BOOTS),
+				ChatColor.GREEN + "Iron Boots", null, null);
 		// Voted Boots
-		itemMeta.addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
-		item.setItemMeta(itemMeta);
-		es.votedFeet = item.clone();
+		es.votedFeet = createItem(new ItemStack(Material.IRON_BOOTS),
+				ChatColor.GREEN + "Iron Boots",
+				Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider 2"),
+				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
                 
 		// Ladders
 		es.hotbar[1] = new ItemStack(Material.LADDER, 4);
@@ -99,8 +79,6 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 		// Death Messages
 		super.deathMessage[0] = "You were decapitated by ";
 		super.killMessage[0] = "You decapitated ";
-		super.projectileDeathMessage = super.deathMessage;
-		super.projectileKillMessage = super.killMessage;
 	}
         
     @Override
@@ -124,7 +102,7 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 			if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name) &&
 					whoHit.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
 				// Check they aren't on the same team
-				// TODO - Check if needed, as players on the same team shouldn't be able to hit another
+				// Damage is cancelled, but event is still called
 				if (MapController.getCurrentMap().getTeam(whoHit.getUniqueId())
 						!= MapController.getCurrentMap().getTeam(whoWasHit.getUniqueId())) {
 

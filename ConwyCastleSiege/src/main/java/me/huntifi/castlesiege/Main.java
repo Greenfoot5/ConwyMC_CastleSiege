@@ -3,6 +3,7 @@ package me.huntifi.castlesiege;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.session.SessionManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
@@ -624,7 +625,10 @@ public class Main extends JavaPlugin implements Listener {
                         getFlagsConfig().getInt(captureRoute.add("max").add("z")));
                 flag.region = new ProtectedCuboidRegion(flag.name.replace(' ', '_'), true, min, max);
 
-                flag.region.setFlag(Flags.PVP, null);
+                flag.region.setFlag(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.BLOCK_PLACE, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.INTERACT, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.PVP, StateFlag.State.ALLOW);
                 //Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(map.worldName))))).addRegion(region);
             }
 

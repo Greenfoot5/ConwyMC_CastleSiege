@@ -1,18 +1,24 @@
 package me.huntifi.castlesiege.kits;
 
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
@@ -24,7 +30,7 @@ public abstract class Kit implements Listener {
     // Equipment
     public EquipmentSet equipment;
     public int heldItemSlot = 0;
-    public PotionEffect[] potionEffects;
+    public ArrayList<PotionEffect> potionEffects;
 
     // Messages
     public String[] deathMessage;
@@ -42,7 +48,7 @@ public abstract class Kit implements Listener {
 
         // Equipment
         equipment = new EquipmentSet();
-        potionEffects = new PotionEffect[0];
+        potionEffects = new ArrayList<>();
 
         // Messages
         deathMessage = new String[]{"You were killed by ", ""};
@@ -62,18 +68,8 @@ public abstract class Kit implements Listener {
         player.setHealthScaled(true);
         player.setHealth(baseHeath);
 
-        // Equipment
-        equipment.setEquipment(uuid);
-        player.getInventory().setHeldItemSlot(heldItemSlot);
-        resetCooldown(uuid);
-
-        player.setHealthScaled(true);
-
-        // Wool hat
-        WoolHat.setHead(player);
-
-        // Potion effects
-        applyPotionEffects(uuid);
+        // Items
+        refillItems(uuid);
     }
 
     public void refillItems(UUID uuid) {
@@ -107,7 +103,7 @@ public abstract class Kit implements Listener {
         Player player = Bukkit.getPlayer(uuid);
         if (player == null) { return; }
         player.getActivePotionEffects().clear();
-        player.addPotionEffects(Arrays.asList(potionEffects));
+        player.addPotionEffects(potionEffects);
     }
 
     @EventHandler
@@ -148,5 +144,33 @@ public abstract class Kit implements Listener {
         // TODO - If the player doesn't need to die, heal them
         assert player != null;
         player.setHealth(0);
+    }
+
+    protected ItemStack createItem(ItemStack item, String name, List<String> lore,
+                                   List<Tuple<Enchantment, Integer>> enchants) {
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        itemMeta.setUnbreakable(true);
+        itemMeta.setDisplayName(name);
+        itemMeta.setLore(lore);
+        if (enchants != null) {
+            for (Tuple<Enchantment, Integer> e : enchants) {
+                itemMeta.addEnchant(e.getFirst(), e.getSecond(), true);
+            }
+        }
+        item.setItemMeta(itemMeta);
+        return item;
+    }
+
+    protected ItemStack createLeatherItem(ItemStack item, String name, List<String> lore,
+                                          List<Tuple<Enchantment, Integer>> enchants, Color color) {
+        ItemStack leatherItem = createItem(item, name, lore, enchants);
+        LeatherArmorMeta itemMeta = (LeatherArmorMeta) leatherItem.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setColor(color);
+        leatherItem.setItemMeta(itemMeta);
+        return leatherItem;
     }
 }

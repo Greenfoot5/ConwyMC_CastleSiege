@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import org.bukkit.ChatColor;
@@ -24,6 +23,8 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 
 public class Crossbowman extends Kit implements Listener, CommandExecutor {
@@ -38,50 +39,28 @@ public class Crossbowman extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Crossbow
-        ItemStack item = new ItemStack(Material.CROSSBOW, 1);
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.setUnbreakable(true);
-        itemMeta.setDisplayName(ChatColor.GREEN + "Crossbow");
-        itemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(itemMeta);
-        es.hotbar[0] = item;
+        es.hotbar[0] = createItem(new ItemStack(Material.CROSSBOW),
+                ChatColor.GREEN + "Crossbow", null, null);
 
         // Chestplate
-        item = new ItemStack(Material.IRON_CHESTPLATE);
-        itemMeta = item.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemMeta.setDisplayName(ChatColor.GREEN + "Iron Chestplate");
-        itemMeta.setUnbreakable(true);
-        itemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(itemMeta);
-        es.chest = item;
+        es.chest = createItem(new ItemStack(Material.IRON_CHESTPLATE),
+                ChatColor.GREEN + "Iron Chestplate", null, null);
 
         // Leggings
-        item = new ItemStack(Material.LEATHER_LEGGINGS);
-        LeatherArmorMeta leatherItemMeta = (LeatherArmorMeta) item.getItemMeta();
-        leatherItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        leatherItemMeta.setDisplayName(ChatColor.GREEN + "Leather Leggings");
-        leatherItemMeta.setColor(Color.fromRGB(255, 255, 51));
-        leatherItemMeta.setUnbreakable(true);
-        leatherItemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(leatherItemMeta);
-        es.legs = item;
+        es.legs = createLeatherItem(new ItemStack(Material.LEATHER_LEGGINGS),
+                ChatColor.GREEN + "Leather Leggings", null, null,
+                Color.fromRGB(255, 255, 51));
 
         // Boots
-        item = new ItemStack(Material.LEATHER_BOOTS);
-        leatherItemMeta = (LeatherArmorMeta) item.getItemMeta();
-        leatherItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        leatherItemMeta.setDisplayName(ChatColor.GREEN + "Leather Boots");
-        leatherItemMeta.setColor(Color.fromRGB(255, 255, 51));
-        leatherItemMeta.setUnbreakable(true);
-        leatherItemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(leatherItemMeta);
-        es.feet = item.clone();
+        es.feet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
+                ChatColor.GREEN + "Leather Boots", null, null,
+                Color.fromRGB(255, 255, 51));
         // Voted boots
-        leatherItemMeta.addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
-        item.setItemMeta(leatherItemMeta);
-        es.votedFeet = item.clone();
+        es.votedFeet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
+                ChatColor.GREEN + "Leather Boots",
+                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider 2"),
+                Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
+                Color.fromRGB(255, 255, 51));
 
         // Ladders
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);

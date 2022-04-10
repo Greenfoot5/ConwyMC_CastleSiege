@@ -24,10 +24,7 @@ import me.huntifi.castlesiege.voting.VotesChanging;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class Berserker extends Kit implements Listener, CommandExecutor {
 
@@ -46,21 +43,15 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        ItemStack item = new ItemStack(Material.IRON_SWORD);
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.setUnbreakable(true);
-        itemMeta.setDisplayName(ChatColor.GREEN + "Iron Sword");
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 20, true);
-        itemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(itemMeta);
-        regularSword = item.clone();
+        regularSword = createItem(new ItemStack(Material.IRON_SWORD),
+                ChatColor.GREEN + "Iron Sword", null,
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20)));
         es.hotbar[0] = regularSword;
         // Voted Weapon
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 24, true);
-        itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
-        item.setItemMeta(itemMeta);
-        regularSwordVoted = item.clone();
+        regularSwordVoted = createItem(new ItemStack(Material.IRON_SWORD),
+                ChatColor.GREEN + "Iron Sword",
+                Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 24)));
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
         // Ladders
@@ -68,33 +59,29 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
         // Potion Item
-        item = new ItemStack(Material.POTION, 1);
-        itemMeta = item.getItemMeta();
+        ItemStack potion = new ItemStack(Material.POTION, 1);
+        ItemMeta itemMeta = potion.getItemMeta();
+        assert itemMeta != null;
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
         itemMeta.setDisplayName(ChatColor.GOLD + "Berserker Potion");
-        es.hotbar[1] = item;
+        potion.setItemMeta(itemMeta);
+        es.hotbar[1] = potion;
 
         // Perm Potion Effect
-        super.potionEffects = new PotionEffect[1];
-        super.potionEffects[0] = new PotionEffect(PotionEffectType.SPEED, 999999, 0);
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
 
         // Berserk Weapon
-        item = new ItemStack(Material.IRON_SWORD);
-        itemMeta = item.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.setUnbreakable(true);
-        itemMeta.setDisplayName(ChatColor.GREEN + "Berserker Sword");
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 56, true);
-        itemMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
-        itemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(itemMeta);
-        berserkSword = item.clone();
-        // Voted Weapon
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 60, true);
-        itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
-        item.setItemMeta(itemMeta);
-        berserkSwordVoted = item.clone();
+        berserkSword = createItem(new ItemStack(Material.IRON_SWORD),
+                ChatColor.GREEN + "Berserker Sword", null,
+                Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 56),
+                        new Tuple<>(Enchantment.KNOCKBACK, 1)));
+        // Voted Berserk Weapon
+        berserkSwordVoted = createItem(new ItemStack(Material.IRON_SWORD),
+                ChatColor.GREEN + "Berserker Sword",
+                Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+                Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 60),
+                        new Tuple<>(Enchantment.KNOCKBACK, 1)));
 
         super.equipment = es;
 
@@ -103,8 +90,6 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         super.deathMessage[0] = "";
         super.deathMessage[1] = " went berserk on you!";
         super.killMessage[0] = "You went berserk on ";
-        super.projectileDeathMessage = super.deathMessage;
-        super.projectileKillMessage = super.killMessage;
     }
 
     @Override

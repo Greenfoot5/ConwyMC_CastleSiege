@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -31,6 +32,7 @@ import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 
 public class Cavalry extends Kit implements Listener, CommandExecutor {
@@ -45,75 +47,43 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        ItemStack item = new ItemStack(Material.IRON_SWORD, 1);
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.setUnbreakable(true);
-        itemMeta.setDisplayName(ChatColor.GREEN + "Sabre");
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 16, true);
-        itemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(itemMeta);
-        es.hotbar[0] = item.clone();
+        es.hotbar[0] = createItem(new ItemStack(Material.IRON_SWORD),
+                ChatColor.GREEN + "Sabre", null,
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16)));
         // Voted Weapon
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 20, true);
-        itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
-        item.setItemMeta(itemMeta);
-        es.votedWeapon = new Tuple<>(item.clone(), 0);
+        es.votedWeapon = new Tuple<>(
+                createItem(new ItemStack(Material.IRON_SWORD),
+                        ChatColor.GREEN + "Sabre",
+                        Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
+                0);
 
         // Chestplate
-        item = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
-        itemMeta = item.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemMeta.setDisplayName(ChatColor.GREEN + "Chainmail Chestplate");
-        itemMeta.setUnbreakable(true);
-        itemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(itemMeta);
-        es.chest = item;
+        es.chest = createItem(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
+                ChatColor.GREEN + "Chainmail Chestplate", null, null);
 
         // Leggings
-        item = new ItemStack(Material.CHAINMAIL_LEGGINGS);
-        itemMeta = item.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemMeta.setDisplayName(ChatColor.GREEN + "Chainmail Leggings");
-        itemMeta.setUnbreakable(true);
-        itemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(itemMeta);
-        es.legs = item;
+        es.legs = createItem(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+                ChatColor.GREEN + "Chainmail Leggings", null, null);
 
         // Boots
-        item = new ItemStack(Material.IRON_BOOTS);
-        itemMeta = item.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemMeta.setDisplayName(ChatColor.GREEN + "Iron Boots");
-        itemMeta.setUnbreakable(true);
-        itemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(itemMeta);
-        es.feet = item.clone();
+        es.feet = createItem(new ItemStack(Material.IRON_BOOTS),
+                ChatColor.GREEN + "Iron Boots", null, null);
         // Voted Boots
-        itemMeta.addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
-        item.setItemMeta(itemMeta);
-        es.votedFeet = item.clone();
+        es.votedFeet = createItem(new ItemStack(Material.IRON_BOOTS),
+                ChatColor.GREEN + "Iron Boots",
+                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider 2"),
+                Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
 
         // Horse
-        item = new ItemStack(Material.WHEAT);
-        itemMeta = item.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemMeta.setDisplayName(ChatColor.GREEN + "Spawn Horse");
-        itemMeta.setUnbreakable(true);
-        itemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(itemMeta);
-        es.hotbar[2] = item;
+        es.hotbar[2] = createItem(new ItemStack(Material.WHEAT),
+                ChatColor.GREEN + "Spawn Horse", null, null);
 
         super.equipment = es;
-
-
-        // Death Messages
-        super.projectileDeathMessage = super.deathMessage;
-        super.projectileKillMessage = super.killMessage;
     }
 
     @Override
