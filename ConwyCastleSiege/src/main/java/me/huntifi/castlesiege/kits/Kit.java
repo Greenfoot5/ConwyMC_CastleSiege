@@ -22,7 +22,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public abstract class Kit implements Listener {
     public String name;
@@ -152,13 +151,6 @@ public abstract class Kit implements Listener {
         // TODO - If the player doesn't need to die, heal them
         assert player != null;
         player.setHealth(0);
-    }
-
-    protected List<UUID> getUsers() {
-        return equippedKits.entrySet().stream()
-                .filter(entry -> Objects.equals(entry.getValue().name, name))
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
     }
 
     protected ItemStack createItem(ItemStack item, String name, List<String> lore,
