@@ -30,14 +30,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-
-import static org.bukkit.Color.fromRGB;
 
 public class FireArcher extends Kit implements Listener, CommandExecutor {
 
@@ -56,83 +52,55 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Chestplate
-        ItemStack item = new ItemStack(Material.LEATHER_CHESTPLATE);
-        LeatherArmorMeta leatherItemMeta = (LeatherArmorMeta) item.getItemMeta();
-        leatherItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        leatherItemMeta.setDisplayName(ChatColor.GREEN + "Leather Chestplate");
-        leatherItemMeta.setColor(fromRGB(204, 0, 0));
-        leatherItemMeta.setUnbreakable(true);
-        leatherItemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(leatherItemMeta);
-        es.chest = item;
+        es.chest = createLeatherItem(new ItemStack(Material.LEATHER_CHESTPLATE),
+                ChatColor.GREEN + "Leather Chestplate", null, null,
+                Color.fromRGB(204, 0, 0));
 
         // Leggings
-        item = new ItemStack(Material.LEATHER_LEGGINGS);
-        leatherItemMeta = (LeatherArmorMeta) item.getItemMeta();
-        leatherItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        leatherItemMeta.setDisplayName(ChatColor.GREEN + "Leather Leggings");
-        leatherItemMeta.setColor(fromRGB(255, 128, 0));
-        leatherItemMeta.setUnbreakable(true);
-        leatherItemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(leatherItemMeta);
-        es.legs = item;
+        es.legs = createLeatherItem(new ItemStack(Material.LEATHER_LEGGINGS),
+                ChatColor.GREEN + "Leather Leggings", null, null,
+                Color.fromRGB(255, 128, 0));
 
         // Boots
-        item = new ItemStack(Material.LEATHER_BOOTS);
-        leatherItemMeta = (LeatherArmorMeta) item.getItemMeta();
-        leatherItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        leatherItemMeta.setDisplayName(ChatColor.GREEN + "Leather Boots");
-        leatherItemMeta.setColor(fromRGB(204, 0, 0));
-        leatherItemMeta.setUnbreakable(true);
-        leatherItemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(leatherItemMeta);
-        es.feet = item.clone();
+        es.feet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
+                ChatColor.GREEN + "Leather Boots", null, null,
+                Color.fromRGB(204, 0, 0));
         // Voted Boots
-        leatherItemMeta.addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
-        item.setItemMeta(leatherItemMeta);
-        es.votedFeet = item.clone();
+        es.votedFeet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
+                ChatColor.GREEN + "Leather Boots",
+                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider 2"),
+                Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
+                Color.fromRGB(204, 0, 0));
 
         // Ladders
         es.hotbar[2] = new ItemStack(Material.LADDER, 4);
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
         // Bow
-        item = new ItemStack(Material.BOW);
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.setDisplayName(ChatColor.GREEN + "Bow");
-        itemMeta.addEnchant(Enchantment.ARROW_DAMAGE, 16, true);
-        itemMeta.setUnbreakable(true);
-        itemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(itemMeta);
-        es.hotbar[0] = item;
+        es.hotbar[0] = createItem(new ItemStack(Material.BOW),
+                ChatColor.GREEN + "Bow", null,
+                Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 16)));
 
         // Firepit
-        item = new ItemStack(Material.CAULDRON);
-        itemMeta = item.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.setDisplayName(ChatColor.GREEN + "Firepit");
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 20, true);
-        itemMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
-        itemMeta.setUnbreakable(true);
-        itemMeta.setLore(Arrays.asList("",
-                ChatColor.AQUA + "Place the firepit down, then",
-                ChatColor.AQUA + "right click it with an arrow.", "",
-                ChatColor.AQUA + "(tip): This firepit is very hard, so you",
-                ChatColor.AQUA + "can beat your enemies to death with it."));
-        item.setItemMeta(itemMeta);
-        firepit = item.clone();
+        firepit = createItem(new ItemStack(Material.CAULDRON),
+                ChatColor.GREEN + "Firepit", Arrays.asList("",
+                        ChatColor.AQUA + "Place the firepit down, then",
+                        ChatColor.AQUA + "right click it with an arrow.", "",
+                        ChatColor.AQUA + "(tip): This firepit is very hard, so you",
+                        ChatColor.AQUA + "can beat your enemies to death with it."),
+                Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 20),
+                        new Tuple<>(Enchantment.KNOCKBACK, 1)));
         es.hotbar[1] = firepit;
         // Voted Firepit
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 24, true);
-        itemMeta.setLore(Arrays.asList("",
-                ChatColor.AQUA + "Place the firepit down, then",
-                ChatColor.AQUA + "right click it with an arrow.", "",
-                ChatColor.AQUA + "- voted: + 2 damage.",
-                ChatColor.AQUA + "(tip): This firepit is very hard, so you",
-                ChatColor.AQUA + "can beat your enemies to death with it."));
-        item.setItemMeta(itemMeta);
-        firepitVoted = item.clone();
+        firepitVoted = createItem(new ItemStack(Material.CAULDRON),
+                ChatColor.GREEN + "Firepit", Arrays.asList("",
+                        ChatColor.AQUA + "Place the firepit down, then",
+                        ChatColor.AQUA + "right click it with an arrow.", "",
+                        ChatColor.AQUA + "- voted: + 2 damage.",
+                        ChatColor.AQUA + "(tip): This firepit is very hard, so you",
+                        ChatColor.AQUA + "can beat your enemies to death with it."),
+                Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 24),
+                        new Tuple<>(Enchantment.KNOCKBACK, 1)));
         es.votedWeapon = new Tuple<>(firepitVoted, 1);
 
         // Arrows
@@ -141,6 +109,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         // Fire Arrows
         fireArrow = new ItemStack(Material.TIPPED_ARROW);
         PotionMeta potionMeta = (PotionMeta) fireArrow.getItemMeta();
+        assert potionMeta != null;
         potionMeta.setDisplayName(ChatColor.GOLD + "Fire Arrow");
         potionMeta.setColor(Color.ORANGE);
         potionMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);

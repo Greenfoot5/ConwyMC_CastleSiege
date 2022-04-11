@@ -10,13 +10,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Archer extends Kit implements CommandExecutor {
 
@@ -30,54 +28,33 @@ public class Archer extends Kit implements CommandExecutor {
 		super.heldItemSlot = 1;
 
 		// Weapon
-		ItemStack item = new ItemStack(Material.WOODEN_SWORD);
-		ItemMeta itemMeta = item.getItemMeta();
-		itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		itemMeta.setUnbreakable(true);
-		itemMeta.setDisplayName(ChatColor.GREEN + "Dagger");
-		itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 16, true);
-		itemMeta.setLore(new ArrayList<>());
-		item.setItemMeta(itemMeta);
-		es.hotbar[0] = item.clone();
+		es.hotbar[0] = createItem(new ItemStack(Material.WOODEN_SWORD),
+				ChatColor.GREEN + "Dagger", null,
+				Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16)));
 		// Voted Weapon
-		itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 20, true);
-		itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
-		item.setItemMeta(itemMeta);
-		es.votedWeapon = new Tuple<>(item.clone(), 0);
+		es.votedWeapon = new Tuple<>(
+				createItem(new ItemStack(Material.WOODEN_SWORD),
+						ChatColor.GREEN + "Dagger",
+						Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
+				0);
 
 		// Chestplate
-		item = new ItemStack(Material.LEATHER_CHESTPLATE);
-		itemMeta = item.getItemMeta();
-		itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		itemMeta.setDisplayName(ChatColor.GREEN + "Leather Tunic");
-		itemMeta.setUnbreakable(true);
-		itemMeta.setLore(new ArrayList<>());
-		item.setItemMeta(itemMeta);
-		es.chest = item;
+		es.chest = createItem(new ItemStack(Material.LEATHER_CHESTPLATE),
+				ChatColor.GREEN + "Leather Tunic", null, null);
 
 		// Leggings
-		item = new ItemStack(Material.LEATHER_LEGGINGS);
-		itemMeta = item.getItemMeta();
-		itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		itemMeta.setDisplayName(ChatColor.GREEN + "Leather Leggings");
-		itemMeta.setUnbreakable(true);
-		itemMeta.setLore(new ArrayList<>());
-		item.setItemMeta(itemMeta);
-		es.legs = item;
+		es.legs = createItem(new ItemStack(Material.LEATHER_LEGGINGS),
+				ChatColor.GREEN + "Leather Leggings", null, null);
 
 		// Boots
-		item = new ItemStack(Material.LEATHER_BOOTS);
-		itemMeta = item.getItemMeta();
-		itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		itemMeta.setDisplayName(ChatColor.GREEN + "Leather Boots");
-		itemMeta.setUnbreakable(true);
-		itemMeta.setLore(new ArrayList<>());
-		item.setItemMeta(itemMeta);
-		es.feet = item.clone();
+		es.feet = createItem(new ItemStack(Material.LEATHER_BOOTS),
+				ChatColor.GREEN + "Leather Boots", null, null);
 		// Voted Boots
-		itemMeta.addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
-		item.setItemMeta(itemMeta);
-		es.votedFeet = item.clone();
+		es.votedFeet = createItem(new ItemStack(Material.LEATHER_BOOTS),
+				ChatColor.GREEN + "Leather Boots",
+				Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider 2"),
+				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders
 		es.hotbar[2] = new ItemStack(Material.LADDER, 4);
@@ -87,20 +64,11 @@ public class Archer extends Kit implements CommandExecutor {
 		es.hotbar[7] = new ItemStack(Material.ARROW, 35);
 
 		// Bow
-		item = new ItemStack(Material.BOW);
-		itemMeta = item.getItemMeta();
-		itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		itemMeta.setDisplayName(ChatColor.GREEN + "Bow");
-		itemMeta.addEnchant(Enchantment.ARROW_DAMAGE, 26, true);
-		itemMeta.setUnbreakable(true);
-		itemMeta.setLore(new ArrayList<>());
-		item.setItemMeta(itemMeta);
-		es.hotbar[1] = item;
+		es.hotbar[1] = createItem(new ItemStack(Material.BOW),
+				ChatColor.GREEN + "Bow", null,
+				Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 26)));
 
 		super.equipment = es;
-
-
-		// No changes to death messages
 	}
 
 	@Override

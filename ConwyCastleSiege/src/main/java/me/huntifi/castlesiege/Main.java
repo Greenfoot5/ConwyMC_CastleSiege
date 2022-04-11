@@ -3,6 +3,7 @@ package me.huntifi.castlesiege;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.session.SessionManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
@@ -113,13 +114,16 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
 
                 // Kits
+                getServer().getPluginManager().registerEvents(new Archer(), plugin);
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Engineer(), plugin);
                 getServer().getPluginManager().registerEvents(new Executioner(), plugin);
                 getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
+                getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
+                getServer().getPluginManager().registerEvents(new Swordsman(), plugin);
 
                 // Rewrite Commands
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
@@ -134,6 +138,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
                 Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
                 Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
+                Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
                 Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
 
@@ -622,7 +627,10 @@ public class Main extends JavaPlugin implements Listener {
                         getFlagsConfig().getInt(captureRoute.add("max").add("z")));
                 flag.region = new ProtectedCuboidRegion(flag.name.replace(' ', '_'), true, min, max);
 
-                flag.region.setFlag(Flags.PVP, null);
+                flag.region.setFlag(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.BLOCK_PLACE, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.INTERACT, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.PVP, StateFlag.State.ALLOW);
                 //Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(map.worldName))))).addRegion(region);
             }
 

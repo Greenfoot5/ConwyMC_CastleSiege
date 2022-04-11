@@ -23,11 +23,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
@@ -48,57 +45,37 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        ItemStack item = new ItemStack(Material.STONE_SWORD, 1);
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.setUnbreakable(true);
-        itemMeta.setDisplayName(ChatColor.GREEN + "Shortsword");
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 16, true);
-        itemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(itemMeta);
-        es.hotbar[0] = item.clone();
-        // Voted Weapon
-        itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 20, true);
-        itemMeta.setLore(Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"));
-        item.setItemMeta(itemMeta);
-        es.votedWeapon = new Tuple<>(item.clone(), 0);
+        es.hotbar[0] = createItem(new ItemStack(Material.STONE_SWORD),
+                ChatColor.GREEN + "Shortsword", null,
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16)));
+        // Voted weapon
+        es.votedWeapon = new Tuple<>(
+                createItem(new ItemStack(Material.STONE_SWORD),
+                        ChatColor.GREEN + "Shortsword",
+                        Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
+                0);
 
         // Chestplate
-        item = new ItemStack(Material.LEATHER_CHESTPLATE);
-        LeatherArmorMeta leatherItemMeta = (LeatherArmorMeta) item.getItemMeta();
-        leatherItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        leatherItemMeta.setDisplayName(ChatColor.GREEN + "Leather Chestplate");
-        leatherItemMeta.setColor(Color.fromRGB(57, 75, 57));
-        leatherItemMeta.setUnbreakable(true);
-        leatherItemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(leatherItemMeta);
-        es.chest = item;
+        es.chest = createLeatherItem(new ItemStack(Material.LEATHER_CHESTPLATE),
+                ChatColor.GREEN + "Leather Chestplate", null, null,
+                Color.fromRGB(57, 75, 57));
 
         // Leggings
-        item = new ItemStack(Material.LEATHER_LEGGINGS);
-        leatherItemMeta = (LeatherArmorMeta) item.getItemMeta();
-        leatherItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        leatherItemMeta.setDisplayName(ChatColor.GREEN + "Leather Leggings");
-        leatherItemMeta.setColor(Color.fromRGB(57, 75, 57));
-        leatherItemMeta.setUnbreakable(true);
-        leatherItemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(leatherItemMeta);
-        es.legs = item;
+        es.legs = createLeatherItem(new ItemStack(Material.LEATHER_LEGGINGS),
+                ChatColor.GREEN + "Leather Leggings", null, null,
+                Color.fromRGB(57, 75, 57));
 
         // Boots
-        item = new ItemStack(Material.LEATHER_BOOTS);
-        leatherItemMeta = (LeatherArmorMeta) item.getItemMeta();
-        leatherItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        leatherItemMeta.setDisplayName(ChatColor.GREEN + "Leather Boots");
-        leatherItemMeta.setColor(Color.fromRGB(57, 75, 57));
-        leatherItemMeta.setUnbreakable(true);
-        leatherItemMeta.setLore(new ArrayList<>());
-        item.setItemMeta(leatherItemMeta);
-        es.feet = item.clone();
+        es.feet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
+                ChatColor.GREEN + "Leather Boots", null, null,
+                Color.fromRGB(57, 75, 57));
         // Voted Boots
-        leatherItemMeta.addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
-        item.setItemMeta(leatherItemMeta);
-        es.votedFeet = item.clone();
+        es.votedFeet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
+                ChatColor.GREEN + "Leather Boots",
+                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider 2"),
+                Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
+                Color.fromRGB(57, 75, 57));
 
         // Ladders
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);
@@ -119,12 +96,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         super.equipment = es;
 
         // Perm Potion Effect
-        super.potionEffects = new PotionEffect[1];
-        super.potionEffects[0] = new PotionEffect(PotionEffectType.JUMP, 999999, 0);
-
-        // Death Messages
-        super.projectileDeathMessage = super.deathMessage;
-        super.projectileKillMessage = super.killMessage;
+        super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 0));
     }
 
     @Override
