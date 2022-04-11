@@ -20,9 +20,7 @@ public class PlayerChat implements Listener {
 		e.setFormat("%s:" + ChatColor.GRAY + " %s");
 	}
 
-
-
-	@EventHandler        (priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChatOwner(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
 
@@ -33,48 +31,9 @@ public class PlayerChat implements Listener {
 				}
 			}
 		};
-		AsyncGetters.performLookupRank(callback, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Admin"), p, true);
 
-
-		 callback = string -> {
-			 if (!togglerankCommand.rankers.contains(p)) {
-				 if (string) {
-					 e.setFormat("%s:" + ChatColor.WHITE + " %s");
-				}
-			}
-		};
-		AsyncGetters.performLookupRank(callback, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Moderator"), p, true);
-
-		
-		 callback = string -> {
-			if (!togglerankCommand.rankers.contains(p)) {
-				if (string) {
-					e.setFormat("%s:" + ChatColor.WHITE + " %s");
-				}
-			}
-		};
-		AsyncGetters.performLookupRank(callback, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Developer"), p, true);
-
-		callback = string -> {
-			if (!togglerankCommand.rankers.contains(p)) {
-				if (string) {
-					e.setFormat("%s:" + ChatColor.WHITE + " %s");
-				}
-			}
-		};
-		AsyncGetters.performLookupRank(callback, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod"), p, true);
-
-		 callback = string -> {
-			if (!togglerankCommand.rankers.contains(p)) {
-				if (string) {
-					e.setFormat("%s:" + ChatColor.WHITE + " %s");
-				}
-			}
-		};
-		AsyncGetters.performLookupRank(callback, SQLGetter.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod+"), p, true);
-		
+		AsyncGetters.performLookupRank(callback, "Admin, Moderator, Developer, ChatMod+".contains(SQLGetter.getStaffRank(p.getUniqueId())), p, true);
 	}
-
 }
 
 
