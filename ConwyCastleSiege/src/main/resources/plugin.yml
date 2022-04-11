@@ -173,6 +173,9 @@ commands:
   firearcher:
     description: Selects the firearcher kit
     usage: /firearcher
+  halberdier:
+    description: Selects the halberdier kit
+    usage: /halberdier
   spearman:
     description: Selects the spearman kit
     usage: /spearman

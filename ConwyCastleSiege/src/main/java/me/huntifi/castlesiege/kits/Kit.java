@@ -22,10 +22,12 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class Kit implements Listener {
     public String name;
     public int baseHeath;
+    protected int kbResistance = 0;
 
     // Equipment
     public EquipmentSet equipment;
@@ -67,6 +69,12 @@ public abstract class Kit implements Listener {
         healthAttribute.setBaseValue(baseHeath);
         player.setHealthScaled(true);
         player.setHealth(baseHeath);
+
+        // Knockback resistance
+        AttributeInstance kbAttribute = player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);
+        assert kbAttribute != null;
+        kbAttribute.setBaseValue(kbResistance);
+
 
         // Items
         refillItems(uuid);
@@ -146,12 +154,20 @@ public abstract class Kit implements Listener {
         player.setHealth(0);
     }
 
+    protected List<UUID> getUsers() {
+        return equippedKits.entrySet().stream()
+                .filter(entry -> Objects.equals(entry.getValue().name, name))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
+
     protected ItemStack createItem(ItemStack item, String name, List<String> lore,
                                    List<Tuple<Enchantment, Integer>> enchants) {
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemMeta.setUnbreakable(true);
         itemMeta.setDisplayName(name);
         itemMeta.setLore(lore);

@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.voting.VotesChanging;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -19,12 +20,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import me.huntifi.castlesiege.voting.VotesChanging;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Berserker extends Kit implements Listener, CommandExecutor {
 
