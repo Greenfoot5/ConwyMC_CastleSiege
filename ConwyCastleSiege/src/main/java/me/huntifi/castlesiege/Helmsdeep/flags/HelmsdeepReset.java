@@ -13,8 +13,8 @@ import org.bukkit.plugin.Plugin;
 import com.sk89q.worldedit.WorldEditException;
 
 import me.huntifi.castlesiege.Helmsdeep.Boat.HelmsdeepCaveBoat;
-import me.huntifi.castlesiege.kits.Engineer.EngineerCobweb;
-import me.huntifi.castlesiege.kits.Engineer.EngineerTraps;
+//import me.huntifi.castlesiege.kits.Engineer.EngineerCobweb;
+//import me.huntifi.castlesiege.kits.Engineer.EngineerTraps;
 import me.huntifi.castlesiege.ladders.LadderEvent;
 import me.huntifi.castlesiege.structures.MakeStructure;
 
@@ -27,7 +27,7 @@ public class HelmsdeepReset {
 		
 		HelmsdeepCaveBoat.clearBoats();
 		
-		List<Block> traps = EngineerTraps.traps;
+		/*List<Block> traps = EngineerTraps.traps;
 	    for(Block b : traps){
 	        b.setType(Material.AIR);
 	    }
@@ -43,7 +43,7 @@ public class HelmsdeepReset {
 	    for(Block b : cobweb){
 	        b.setType(Material.AIR);
 	    }
-	   EngineerCobweb.Cobwebs.clear();
+	   EngineerCobweb.Cobwebs.clear();*/
 
 		FlagCounter.setFlagCounter("SupplyCamp", 0);
 		FlagCounter.setFlagCounter("Horn", 0);

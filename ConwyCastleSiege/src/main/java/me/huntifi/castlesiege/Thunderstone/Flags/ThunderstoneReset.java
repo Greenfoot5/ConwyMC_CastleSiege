@@ -10,8 +10,8 @@ import org.bukkit.plugin.Plugin;
 
 import com.sk89q.worldedit.WorldEditException;
 
-import me.huntifi.castlesiege.kits.Engineer.EngineerCobweb;
-import me.huntifi.castlesiege.kits.Engineer.EngineerTraps;
+//import me.huntifi.castlesiege.kits.Engineer.EngineerCobweb;
+//import me.huntifi.castlesiege.kits.Engineer.EngineerTraps;
 import me.huntifi.castlesiege.ladders.LadderEvent;
 import me.huntifi.castlesiege.structures.MakeStructure;
 
@@ -21,7 +21,7 @@ public class ThunderstoneReset {
 
 	public static void onReset() {
 		
-		List<Block> traps = EngineerTraps.traps;
+		/*List<Block> traps = EngineerTraps.traps;
 	    for(Block b : traps){
 	        b.setType(Material.AIR);
 	    }
@@ -37,7 +37,7 @@ public class ThunderstoneReset {
 	    for(Block b : cobweb){
 	        b.setType(Material.AIR);
 	    }
-	   EngineerCobweb.Cobwebs.clear();
+	   EngineerCobweb.Cobwebs.clear();*/
 
 		TS_FlagCounter.setFlagCounter("stairhall", 0);
 		TS_FlagCounter.setFlagCounter("skyviewtower", 0);
