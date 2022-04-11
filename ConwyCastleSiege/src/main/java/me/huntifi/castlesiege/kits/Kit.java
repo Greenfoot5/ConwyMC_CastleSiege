@@ -25,7 +25,7 @@ import java.util.*;
 
 public abstract class Kit implements Listener {
     public String name;
-    public int baseHeath;
+    public int baseHealth;
     protected int kbResistance = 0;
 
     // Equipment
@@ -65,9 +65,9 @@ public abstract class Kit implements Listener {
         // Health
         AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         assert healthAttribute != null;
-        healthAttribute.setBaseValue(baseHeath);
+        healthAttribute.setBaseValue(baseHealth);
         player.setHealthScaled(true);
-        player.setHealth(baseHeath);
+        player.setHealth(baseHealth);
 
         // Knockback resistance
         AttributeInstance kbAttribute = player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);

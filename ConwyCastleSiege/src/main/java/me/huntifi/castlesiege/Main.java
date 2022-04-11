@@ -123,6 +123,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
                 getServer().getPluginManager().registerEvents(new Maceman(), plugin);
+                getServer().getPluginManager().registerEvents(new Medic(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
                 getServer().getPluginManager().registerEvents(new Swordsman(), plugin);
 
@@ -141,6 +142,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
                 Objects.requireNonNull(getCommand("Maceman")).setExecutor(new Maceman());
+                Objects.requireNonNull(getCommand("Medic")).setExecutor(new Medic());
                 Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
 
@@ -148,7 +150,7 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getPluginManager().registerEvents(new Warhound(), plugin);
                 getServer().getPluginManager().registerEvents(new SessionMuteCommand(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepSecretDoor(), plugin);
-                getServer().getPluginManager().registerEvents(new EatCake(), plugin);
+                //getServer().getPluginManager().registerEvents(new EatCake(), plugin);
                 //getServer().getPluginManager().registerEvents(new RegisterLevel(), plugin);
                 getServer().getPluginManager().registerEvents(new NoMoveInventory(), plugin);
                 getServer().getPluginManager().registerEvents(new NoTouchArmorstand(), plugin);

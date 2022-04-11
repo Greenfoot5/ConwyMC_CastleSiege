@@ -31,7 +31,7 @@ public class Maceman extends Kit implements Listener, CommandExecutor {
 
     public Maceman() {
         super("Maceman");
-        super.baseHeath = 110;
+        super.baseHealth = 110;
 
 
         // Equipment Stuff
@@ -47,7 +47,7 @@ public class Maceman extends Kit implements Listener, CommandExecutor {
                 createItem(new ItemStack(Material.IRON_SHOVEL),
                         ChatColor.GREEN + "Mace",
                         Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 30))),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 28))),
                 0);
 
         // Chestplate

@@ -27,7 +27,7 @@ public class Crossbowman extends Kit implements Listener, CommandExecutor {
 
     public Crossbowman() {
         super("Crossbowman");
-        super.baseHeath = 105;
+        super.baseHealth = 105;
 
 
         // Equipment Stuff

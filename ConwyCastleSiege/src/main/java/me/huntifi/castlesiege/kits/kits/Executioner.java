@@ -25,7 +25,7 @@ import java.util.Objects;
 public class Executioner extends Kit implements Listener, CommandExecutor {
 	public Executioner() {
 		super("Executioner");
-		super.baseHeath = 115;
+		super.baseHealth = 115;
 
 
 		// Equipment Stuff
@@ -41,7 +41,7 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 				createItem(new ItemStack(Material.IRON_AXE),
 						ChatColor.GREEN + "Iron Axe",
 						Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 24))),
+						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22))),
 				0);
                 
 		// Chestplate

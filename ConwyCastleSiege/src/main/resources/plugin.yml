@@ -179,6 +179,9 @@ commands:
   maceman:
     description: Selects the maceman kit
     usage: /maceman
+  medic:
+    description: Selects the medic kit
+    usage: /medic
   spearman:
     description: Selects the spearman kit
     usage: /spearman

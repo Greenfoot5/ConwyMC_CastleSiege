@@ -37,7 +37,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
 
     public Engineer() {
         super("Engineer");
-        super.baseHeath = 110;
+        super.baseHealth = 110;
 
 
         // Equipment Stuff
@@ -53,7 +53,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                 createItem(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Shortsword",
                         Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
                 0);
 
         // Chestplate
