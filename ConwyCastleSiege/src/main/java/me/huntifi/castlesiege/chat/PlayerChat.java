@@ -31,7 +31,7 @@ public class PlayerChat implements Listener {
 				}
 			}
 		};
-		
+
 		AsyncGetters.performLookupRank(callback, "Admin, Moderator, Developer, ChatMod+".contains(SQLGetter.getStaffRank(p.getUniqueId())), p, true);
 	}
 }
