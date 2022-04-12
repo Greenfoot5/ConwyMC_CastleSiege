@@ -182,6 +182,9 @@ commands:
   medic:
     description: Selects the medic kit
     usage: /medic
+  scout:
+    description: Selects the scout kit
+    usage: /scout
   spearman:
     description: Selects the spearman kit
     usage: /spearman

@@ -64,7 +64,7 @@ public class Maceman extends Kit implements Listener, CommandExecutor {
         // Voted Boots
         es.votedFeet = createItem(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "Iron Boots",
-                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider 2"),
+                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders

@@ -54,7 +54,7 @@ public class Crossbowman extends Kit implements Listener, CommandExecutor {
         // Voted boots
         es.votedFeet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
-                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider 2"),
+                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(255, 255, 51));
 
