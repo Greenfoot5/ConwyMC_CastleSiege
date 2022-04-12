@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class ThunderstoneLeave implements Listener {
@@ -20,7 +20,7 @@ public class ThunderstoneLeave implements Listener {
 
 		Player p = e.getPlayer();
 
-		if (MapController.currentMapIs("Thunderstone")) {
+		/*if (MapController.currentMapIs("Thunderstone")) {
 
 			if (PlayerTeam.playerIsInTeam(p, 1)) {
 
@@ -38,7 +38,7 @@ public class ThunderstoneLeave implements Listener {
 			}
 
 
-		}
+		}*/
 	}
 
 }

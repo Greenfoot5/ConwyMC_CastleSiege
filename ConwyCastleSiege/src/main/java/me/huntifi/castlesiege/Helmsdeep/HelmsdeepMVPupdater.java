@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class HelmsdeepMVPupdater implements Runnable {
 
@@ -18,7 +18,7 @@ public class HelmsdeepMVPupdater implements Runnable {
 
 				if (p != null) {
 
-					if (PlayerTeam.playerIsInTeam(p, 1)) {
+					/*if (PlayerTeam.playerIsInTeam(p, 1)) {
 						
 						if (HelmsdeepEndMVP.Urukhai.containsKey(p)) {
 						
@@ -37,7 +37,7 @@ public class HelmsdeepMVPupdater implements Runnable {
 							HelmsdeepEndMVP.Rohan.put(p, MVPstats.getScore(p.getUniqueId()));
 							
 						}
-					}
+					}*/
 
 				}
 

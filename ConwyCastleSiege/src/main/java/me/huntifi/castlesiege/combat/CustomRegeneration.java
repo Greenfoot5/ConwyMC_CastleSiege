@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class CustomRegeneration implements Listener {
@@ -30,7 +30,7 @@ public class CustomRegeneration implements Listener {
 
 			if(!LobbyPlayer.containsPlayer(whoWasHit) && !LobbyPlayer.containsPlayer(whoHit)) {
 
-				if (PlayerTeam.playerIsInTeam(whoWasHit, 1) && PlayerTeam.playerIsInTeam(whoWasHit, 2)) {
+				/*if (PlayerTeam.playerIsInTeam(whoWasHit, 1) && PlayerTeam.playerIsInTeam(whoWasHit, 2)) {
 					
 					if(!inCombat.contains(whoHit)) {inCombat.add(whoHit);}
 					if(!inCombat.contains(whoWasHit)) {inCombat.add(whoWasHit);}
@@ -54,7 +54,7 @@ public class CustomRegeneration implements Listener {
 
 
 
-				}
+				}*/
 			} 
 
 		}

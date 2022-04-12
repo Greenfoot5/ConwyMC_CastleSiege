@@ -18,7 +18,7 @@ import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagTeam;
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.EnderchestRefill;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -30,7 +30,7 @@ public class TS_Woolmap_Distance implements Listener {
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 
-		Player p = e.getPlayer();
+		/*Player p = e.getPlayer();
 
 		UUID uuid = p.getUniqueId();
 
@@ -662,6 +662,6 @@ public class TS_Woolmap_Distance implements Listener {
 						}
 					}
 			}
-		} 
+		}*/
 	}
 }

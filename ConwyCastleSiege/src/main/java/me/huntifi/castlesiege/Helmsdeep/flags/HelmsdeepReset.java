@@ -15,7 +15,7 @@ import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.Helmsdeep.Boat.HelmsdeepCaveBoat;
 //import me.huntifi.castlesiege.kits.Engineer.EngineerCobweb;
 //import me.huntifi.castlesiege.kits.Engineer.EngineerTraps;
-import me.huntifi.castlesiege.ladders.LadderEvent;
+//import me.huntifi.castlesiege.ladders.LadderEvent;
 import me.huntifi.castlesiege.structures.MakeStructure;
 
 public class HelmsdeepReset {
@@ -43,7 +43,7 @@ public class HelmsdeepReset {
 	    for(Block b : cobweb){
 	        b.setType(Material.AIR);
 	    }
-	   EngineerCobweb.Cobwebs.clear();*/
+	   EngineerCobweb.Cobwebs.clear();
 
 		FlagCounter.setFlagCounter("SupplyCamp", 0);
 		FlagCounter.setFlagCounter("Horn", 0);
@@ -58,7 +58,7 @@ public class HelmsdeepReset {
 		FlagTeam.setFlagTeam("MainGate", 2);
 		FlagTeam.setFlagTeam("Courtyard", 2);
 		FlagTeam.setFlagTeam("GreatHalls", 2);
-		FlagTeam.setFlagTeam("Caves", 2);
+		FlagTeam.setFlagTeam("Caves", 2);*/
 
 
 		Location Woolmap1 = new Location(plugin.getServer().getWorld("HelmsDeep"), 272, 13, 955);

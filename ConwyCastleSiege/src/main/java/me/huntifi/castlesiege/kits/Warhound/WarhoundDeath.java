@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.tags.NametagsEvent;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class WarhoundDeath implements Listener {
 	
@@ -22,7 +22,7 @@ public class WarhoundDeath implements Listener {
 			Player whoWasHit = e.getEntity();
 			Player whoHit = e.getEntity().getKiller();
 
-			if (StatsChanging.getKit(whoHit.getUniqueId()).equalsIgnoreCase("Warhound")) {
+			/*if (StatsChanging.getKit(whoHit.getUniqueId()).equalsIgnoreCase("Warhound")) {
 
 				if (PlayerTeam.playerIsInTeam(whoHit, 1)) {
 
@@ -64,7 +64,7 @@ public class WarhoundDeath implements Listener {
 
 				}
 
-			}
+			}*/
 
 		}
 

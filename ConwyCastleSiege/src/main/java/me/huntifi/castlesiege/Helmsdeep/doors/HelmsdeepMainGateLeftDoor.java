@@ -12,9 +12,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.huntifi.castlesiege.Helmsdeep.flags.FlagTeam;
+//import me.huntifi.castlesiege.Helmsdeep.flags.FlagTeam;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -40,7 +40,7 @@ public class HelmsdeepMainGateLeftDoor implements Listener {
 					
 					if (open == false) {
 
-					if (FlagTeam.getFlagTeam("MainGate") == PlayerTeam.getPlayerTeam(p) || FlagTeam.isFlagTeam("MainGate", 0)) {
+					/*if (FlagTeam.getFlagTeam("MainGate") == PlayerTeam.getPlayerTeam(p) || FlagTeam.isFlagTeam("MainGate", 0)) {
 						
 						open = true;
 
@@ -111,7 +111,7 @@ public class HelmsdeepMainGateLeftDoor implements Listener {
 						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Your team does not control this door."));
 
 
-					}
+					}*/
 
 				}
 					

@@ -15,7 +15,7 @@ import org.bukkit.plugin.Plugin;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.tags.NametagsEvent;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class ThunderstoneJoin implements Listener {
@@ -29,7 +29,7 @@ public class ThunderstoneJoin implements Listener {
 
 		if (MapController.currentMapIs("Thunderstone")) {
 
-			if (PlayerTeam.thunderstoneGuardsTeamSize() < PlayerTeam.cloudcrawlersTeamSize()) {
+			/*if (PlayerTeam.thunderstoneGuardsTeamSize() < PlayerTeam.cloudcrawlersTeamSize()) {
 
 					PlayerTeam.setPlayerTeam(p, 2);
 					LobbyPlayer.addPlayer(p);
@@ -81,7 +81,7 @@ public class ThunderstoneJoin implements Listener {
 				
 				NametagsEvent.GiveNametag(p);
 				
-			}
+			}*/
 		}
 
 

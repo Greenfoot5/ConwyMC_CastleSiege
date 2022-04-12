@@ -17,7 +17,7 @@ import org.bukkit.event.vehicle.VehicleDamageEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class HelmsdeepCaveBoat implements Listener, Runnable {
 
@@ -72,16 +72,16 @@ public class HelmsdeepCaveBoat implements Listener, Runnable {
 
 						Player attacker = (Player) e.getAttacker();
 
-						if (PlayerTeam.getPlayerTeam(attacker) != PlayerTeam.getPlayerTeam(sitter)) {
+						//if (PlayerTeam.getPlayerTeam(attacker) != PlayerTeam.getPlayerTeam(sitter)) {
 
 							e.getVehicle().remove();
 							Boats.remove(boat);
 
-						} else if (PlayerTeam.getPlayerTeam(attacker) == PlayerTeam.getPlayerTeam(sitter)) {
+						//} else if (PlayerTeam.getPlayerTeam(attacker) == PlayerTeam.getPlayerTeam(sitter)) {
 
 							e.setCancelled(true);
 
-						}
+						//}
 
 					}
 

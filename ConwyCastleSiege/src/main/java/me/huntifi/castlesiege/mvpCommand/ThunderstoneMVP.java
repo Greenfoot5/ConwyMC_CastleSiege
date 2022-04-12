@@ -11,7 +11,7 @@ import org.bukkit.plugin.Plugin;
 import me.huntifi.castlesiege.Thunderstone.ThunderstoneEndMVP;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class ThunderstoneMVP {
 
@@ -40,7 +40,7 @@ public class ThunderstoneMVP {
 				String supports = NumberFormat.format(MVPstats.getSupports(uuid));
 				String playerKDR = currencyFormat.format((MVPstats.getKills(uuid) / MVPstats.getDeaths(uuid)));
 
-					if (team == 1 && PlayerTeam.playerIsInTeam(p, team)) {
+					if (team == 1) { //&& PlayerTeam.playerIsInTeam(p, team)) {
 
 						ThunderstoneEndMVP.Cloudcrawlers.put(p, MVPstats.getScore(p.getUniqueId())); 
 
@@ -81,7 +81,7 @@ public class ThunderstoneMVP {
 							}
 				}
 
-				if (team == 2 && PlayerTeam.playerIsInTeam(p, team)) {
+				if (team == 2) { //&& PlayerTeam.playerIsInTeam(p, team)) {
 
 					ThunderstoneEndMVP.ThunderstoneGuards.put(p, MVPstats.getScore(p.getUniqueId()));
 

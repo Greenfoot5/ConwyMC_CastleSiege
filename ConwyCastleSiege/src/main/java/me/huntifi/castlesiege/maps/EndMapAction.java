@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.huntifi.castlesiege.joinevents.stats.MainStats;
 import me.huntifi.castlesiege.stats.levels.LevelingEvent;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 /**
@@ -59,7 +59,7 @@ public class EndMapAction {
 				break;
 
 			case Thunderstone:
-				for (Player player : Bukkit.getOnlinePlayers()) {
+				/*for (Player player : Bukkit.getOnlinePlayers()) {
 					if (PlayerTeam.playerIsInTeam(player, 2)) {
 						Location loc = new Location(Bukkit.getServer().getWorld("Thunderstone"), -187, 203, 106, -90, 2);
 						teleportPlayer(player, loc);
@@ -122,7 +122,7 @@ public class EndMapAction {
 
 					}
 
-				}.runTaskLater(plugin, 150);
+				}.runTaskLater(plugin, 150);*/
 
 				break;
 		}

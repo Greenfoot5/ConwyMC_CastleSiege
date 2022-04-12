@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class TeamChat implements CommandExecutor {
 
@@ -46,7 +46,7 @@ public class TeamChat implements CommandExecutor {
 
 					} 
 
-					for (Player online : Bukkit.getOnlinePlayers()) {
+					/*for (Player online : Bukkit.getOnlinePlayers()) {
 
 						if (PlayerTeam.getPlayerTeam(online) == PlayerTeam.getPlayerTeam(p)) {
 
@@ -80,7 +80,7 @@ public class TeamChat implements CommandExecutor {
 							online.sendMessage(str + ChatColor.DARK_AQUA + " TEAM: " + ChatColor.GRAY + message);
 						}
 
-					}
+					}*/
 				} 
 
 		} 

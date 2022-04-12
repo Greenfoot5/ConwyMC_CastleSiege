@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class ThunderstoneRam implements Runnable {
 
@@ -20,7 +20,7 @@ public class ThunderstoneRam implements Runnable {
 	@Override
 	public void run() {
 
-		if(MapController.currentMapIs("Thunderstone")) {
+		/*if(MapController.currentMapIs("Thunderstone")) {
 
 			for (Player rammer : PlayerTeam.Cloudcrawlers) {
 
@@ -73,7 +73,7 @@ public class ThunderstoneRam implements Runnable {
 				return;
 				
 			}
-		}
+		}*/
 
 	}
 

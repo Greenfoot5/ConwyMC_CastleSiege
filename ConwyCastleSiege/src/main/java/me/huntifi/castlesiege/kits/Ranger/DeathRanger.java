@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.tags.NametagsEvent;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class DeathRanger implements Listener {
 
@@ -24,7 +24,7 @@ public class DeathRanger implements Listener {
 
 			if (StatsChanging.getKit(whoHit.getUniqueId()).equalsIgnoreCase("Ranger")) {
 
-				if (PlayerTeam.playerIsInTeam(whoHit, 1)) {
+				//if (PlayerTeam.playerIsInTeam(whoHit, 1)) {
 
 					if (whoWasHit.getLastDamageCause().getCause() == DamageCause.PROJECTILE) {
 
@@ -41,9 +41,9 @@ public class DeathRanger implements Listener {
 						whoHit.sendMessage("You turned " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.RESET + " into a porcupine" + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 					}
 
-				}
+				//}
 
-				if (PlayerTeam.playerIsInTeam(whoHit, 2)) {
+				//if (PlayerTeam.playerIsInTeam(whoHit, 2)) {
 
 					if (whoWasHit.getLastDamageCause().getCause() == DamageCause.PROJECTILE) {
 
@@ -62,7 +62,7 @@ public class DeathRanger implements Listener {
 
 					}
 
-				}
+				//}
 
 			}
 

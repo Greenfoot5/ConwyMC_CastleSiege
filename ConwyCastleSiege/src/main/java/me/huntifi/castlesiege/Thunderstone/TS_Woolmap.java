@@ -18,7 +18,7 @@ import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagTeam;
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.EnderchestRefill;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -51,7 +51,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 2)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 2)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 156, 97, 82, -91, 5);
 									p.teleport(Village);
@@ -79,7 +79,7 @@ public class TS_Woolmap implements Listener {
 
 						if (StatsChanging.getKit(uuid) != null) {
 
-							if(PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
+							if(true) {//PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
 
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You can't spawn at neutral flags."));
 
@@ -99,7 +99,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 1)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 1)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 156, 97, 82, -91, 5);
 									p.teleport(Village);
@@ -137,7 +137,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 2)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 2)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 182, 92, 83, 180, -1);
 									p.teleport(Village);
@@ -165,7 +165,7 @@ public class TS_Woolmap implements Listener {
 
 						if (StatsChanging.getKit(uuid) != null) {
 
-							if(PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
+							if(true) {//PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
 
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You can't spawn at neutral flags."));
 
@@ -185,7 +185,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 1)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 1)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 182, 92, 83, 180, -1);
 									p.teleport(Village);
@@ -222,7 +222,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 2)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 2)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 166, 154, 68, -54, 1);
 									p.teleport(Village);
@@ -250,7 +250,7 @@ public class TS_Woolmap implements Listener {
 
 						if (StatsChanging.getKit(uuid) != null) {
 
-							if(PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
+							if(true) {//PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
 
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You can't spawn at neutral flags."));
 
@@ -270,7 +270,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 1)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 1)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 166, 154, 68, -54, 1);
 									p.teleport(Village);
@@ -307,7 +307,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 2)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 2)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 182, 66, 67, 90, 2);
 									p.teleport(Village);
@@ -335,7 +335,7 @@ public class TS_Woolmap implements Listener {
 
 						if (StatsChanging.getKit(uuid) != null) {
 
-							if(PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
+							if(true) {//PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
 
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You can't spawn at neutral flags."));
 
@@ -355,7 +355,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 1)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 1)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 182, 66, 67, 90, 2);
 									p.teleport(Village);
@@ -392,7 +392,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 2)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 2)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 123, 97, 55, -12, 2);
 									p.teleport(Village);
@@ -420,7 +420,7 @@ public class TS_Woolmap implements Listener {
 
 						if (StatsChanging.getKit(uuid) != null) {
 
-							if(PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
+							if(true) {//PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
 
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You can't spawn at neutral flags."));
 
@@ -440,7 +440,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 1)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 1)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 123, 97, 55, -12, 2);
 									p.teleport(Village);
@@ -478,7 +478,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 2)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 2)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 230, 116, 82, -163, 0);
 									p.teleport(Village);
@@ -506,7 +506,7 @@ public class TS_Woolmap implements Listener {
 
 						if (StatsChanging.getKit(uuid) != null) {
 
-							if(PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
+							if(true) {//PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
 
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You can't spawn at neutral flags."));
 
@@ -526,7 +526,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 1)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 1)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 230, 116, 82, -163, 0);
 									p.teleport(Village);
@@ -563,7 +563,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 2)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 2)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 292, 74, 83, -112, 0);
 									p.teleport(Village);
@@ -591,7 +591,7 @@ public class TS_Woolmap implements Listener {
 
 						if (StatsChanging.getKit(uuid) != null) {
 
-							if(PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
+							if(true) {//PlayerTeam.playerIsInTeam(p, 2) || PlayerTeam.playerIsInTeam(p, 1)) {
 
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You can't spawn at neutral flags."));
 
@@ -611,7 +611,7 @@ public class TS_Woolmap implements Listener {
 
 							if (StatsChanging.getKit(uuid) != null) {
 
-								if(PlayerTeam.playerIsInTeam(p, 1)) {
+								if(true) {//PlayerTeam.playerIsInTeam(p, 1)) {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 292, 74, 83, -112, 0);
 									p.teleport(Village);
@@ -646,7 +646,7 @@ public class TS_Woolmap implements Listener {
 
 						if (StatsChanging.getKit(uuid) != null) {
 
-							if(PlayerTeam.playerIsInTeam(p, 1)) {
+							if(true) {//PlayerTeam.playerIsInTeam(p, 1)) {
 
 								Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 90, 86, 106, -112, -5);
 								p.teleport(Village);

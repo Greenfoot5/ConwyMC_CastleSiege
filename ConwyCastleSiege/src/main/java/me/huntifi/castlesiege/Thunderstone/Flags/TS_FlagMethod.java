@@ -13,7 +13,7 @@ import me.huntifi.castlesiege.Thunderstone.TeamBonusses.Messages_Shiftedtower;
 import me.huntifi.castlesiege.Thunderstone.TeamBonusses.Messages_Skyviewtower;
 import me.huntifi.castlesiege.Thunderstone.TeamBonusses.Messages_Twinbridge;
 import me.huntifi.castlesiege.Thunderstone.TeamBonusses.Messages_Westtower;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class TS_FlagMethod {
 	
@@ -29,7 +29,7 @@ public class TS_FlagMethod {
 				public void run() {
 
 					if(TS_FlagCounter.isFlagCounter(flag, number)) {
-						if(PlayerTeam.playerIsInTeam(p,  playerTeam)) {
+						//if(PlayerTeam.playerIsInTeam(p,  playerTeam)) {
 
 							TS_FlagCounter.setFlagCounter(flag, nextnumber);
 
@@ -63,7 +63,7 @@ public class TS_FlagMethod {
 							flagLayer1Block4a.setType(Air);
 
 							this.isCancelled();
-						}
+						//}
 					}
 				}	
 			}.runTaskTimer(plugin, 60, 9999999);
@@ -82,7 +82,7 @@ public class TS_FlagMethod {
 				@Override
 				public void run() {
 					if(TS_FlagCounter.isFlagCounter(flag, number)) {
-						if(PlayerTeam.playerIsInTeam(p,  flagTeam)) {
+						//if(PlayerTeam.playerIsInTeam(p,  flagTeam)) {
 
 							TS_FlagCounter.setFlagCounter(flag, nextnumber);
 
@@ -115,7 +115,7 @@ public class TS_FlagMethod {
 							flagLayer1Block4a.setType(Air);
 
 							this.isCancelled();
-						}
+						//}
 					}
 				}	
 			}.runTaskTimer(plugin, 60, 9999999);
@@ -132,7 +132,7 @@ public class TS_FlagMethod {
 				@Override
 				public void run() {
 					if(TS_FlagCounter.isFlagCounter(flag, number)) {
-						if(PlayerTeam.playerIsInTeam(p,  flagTeam)) {
+						//if(PlayerTeam.playerIsInTeam(p,  flagTeam)) {
 
 							TS_FlagCounter.setFlagCounter(flag, nextnumber);
 
@@ -166,7 +166,7 @@ public class TS_FlagMethod {
 							flagLayer1Block4a.setType(Air);
 
 							this.isCancelled();
-						}
+						//}
 					}
 				}	
 			}.runTaskTimer(plugin, 60, 9999999);
@@ -184,7 +184,7 @@ public class TS_FlagMethod {
 				@Override
 				public void run() {
 					if(TS_FlagCounter.isFlagCounter(flag, number)) {
-						if(PlayerTeam.playerIsInTeam(p,  playerTeam)) {
+						//if(PlayerTeam.playerIsInTeam(p,  playerTeam)) {
 
 							TS_FlagCounter.setFlagCounter(flag, nextnumber);
 							TS_FlagTeam.setFlagTeam(flag, 0);
@@ -217,7 +217,7 @@ public class TS_FlagMethod {
 							flagLayer1Block4a.setType(Air);
 
 							this.isCancelled();
-						}
+						//}
 					}
 				}	
 			}.runTaskTimer(plugin, 60, 9999999);
@@ -234,7 +234,7 @@ public class TS_FlagMethod {
 				@Override
 				public void run() {
 					if(TS_FlagCounter.isFlagCounter(flag, number)) {
-						if(PlayerTeam.playerIsInTeam(p,  playerTeam)) {
+						//if(PlayerTeam.playerIsInTeam(p,  playerTeam)) {
 
 							TS_FlagCounter.setFlagCounter(flag, nextnumber);
 							TS_FlagTeam.setFlagTeam(flag, playerTeam);
@@ -267,7 +267,7 @@ public class TS_FlagMethod {
 							flagLayer1Block4a.setType(Air);
 
 							this.isCancelled();
-						}
+						//}
 					}
 				}	
 			}.runTaskTimer(plugin, 60, 9999999);

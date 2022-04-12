@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class ThunderstoneMVPupdater implements Runnable {
 	
@@ -18,7 +18,7 @@ public class ThunderstoneMVPupdater implements Runnable {
 
 				if (p != null) {
 
-					if (PlayerTeam.playerIsInTeam(p, 1)) {
+					/*if (PlayerTeam.playerIsInTeam(p, 1)) {
 						
 						if (ThunderstoneEndMVP.Cloudcrawlers.containsKey(p)) {
 						
@@ -37,7 +37,7 @@ public class ThunderstoneMVPupdater implements Runnable {
 							ThunderstoneEndMVP.ThunderstoneGuards.put(p, MVPstats.getScore(p.getUniqueId()));
 							
 						}
-					}
+					}*/
 
 				}
 

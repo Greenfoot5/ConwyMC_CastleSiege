@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class VikingAbility implements Listener {
 
@@ -20,7 +20,7 @@ public class VikingAbility implements Listener {
 
 			if (StatsChanging.getKit(whoHit.getUniqueId()).equalsIgnoreCase("Viking")) {
 
-				if (PlayerTeam.getPlayerTeam(whoHit) != PlayerTeam.getPlayerTeam(whoWasHit)) {
+				if (true) {//PlayerTeam.getPlayerTeam(whoHit) != PlayerTeam.getPlayerTeam(whoWasHit)) {
 
 					double armor = whoWasHit.getAttribute(Attribute.GENERIC_ARMOR).getValue();
 

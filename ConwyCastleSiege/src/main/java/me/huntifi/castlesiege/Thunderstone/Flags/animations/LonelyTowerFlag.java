@@ -14,7 +14,7 @@ import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagCaptureSpeed;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagCounter;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagRadius;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -25,7 +25,7 @@ public class LonelyTowerFlag implements Listener {
 	@EventHandler
 	public void onCapture(PlayerJoinEvent e) {
 
-		if (MapController.currentMapIs("Thunderstone")) {
+		/*if (MapController.currentMapIs("Thunderstone")) {
 
 			new BukkitRunnable() {
 
@@ -182,7 +182,7 @@ public class LonelyTowerFlag implements Listener {
 
 			}.runTaskTimer(plugin, 0, TS_FlagCaptureSpeed.flagCaptureSpeed("lonelytower", 1));
 
-		}
+		}*/
 
 	}
 
@@ -192,7 +192,7 @@ public class LonelyTowerFlag implements Listener {
 	@EventHandler
 	public void onCapture2(PlayerChangedWorldEvent e) {
 
-		if (MapController.currentMapIs("Thunderstone")) {
+		/*if (MapController.currentMapIs("Thunderstone")) {
 
 			new BukkitRunnable() {
 
@@ -350,7 +350,7 @@ public class LonelyTowerFlag implements Listener {
 
 			}.runTaskTimer(plugin, 0, TS_FlagCaptureSpeed.flagCaptureSpeed("lonelytower", 1));
 
-		}
+		}*/
 
 	}
 

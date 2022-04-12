@@ -14,7 +14,7 @@ import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagCaptureSpeed;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagCounter;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagRadius;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -34,7 +34,7 @@ public class TwinbridgeFlag implements Listener {
 					
 					if (MapController.currentMapIs("Thunderstone")) {
 
-					for (Player p : PlayerTeam.ThunderstoneGuards) {
+					/*for (Player p : PlayerTeam.ThunderstoneGuards) {
 
 						TS_FlagRadius.onWalkAway(p);
 						TS_FlagRadius.onWalkIn(p);
@@ -97,7 +97,7 @@ public class TwinbridgeFlag implements Listener {
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "The flag is being contested!"));
 							}
 						}
-					}
+					}*/
 
 					}
 				}
@@ -111,7 +111,7 @@ public class TwinbridgeFlag implements Listener {
 
 					if (MapController.currentMapIs("Thunderstone")) {
 
-						for (Player p : PlayerTeam.Cloudcrawlers) {
+						/*for (Player p : PlayerTeam.Cloudcrawlers) {
 
 							TS_FlagRadius.onWalkAway(p);
 							TS_FlagRadius.onWalkIn(p);
@@ -175,7 +175,7 @@ public class TwinbridgeFlag implements Listener {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "The flag is being contested!"));
 								}
 							}
-						}
+						}*/
 					}
 				}
 			}.runTaskTimer(plugin, 0, TS_FlagCaptureSpeed.flagCaptureSpeed("twinbridge", 1));
@@ -200,7 +200,7 @@ public class TwinbridgeFlag implements Listener {
 					
 					if (MapController.currentMapIs("Thunderstone")) {
 
-					for (Player p : PlayerTeam.ThunderstoneGuards) {
+					/*for (Player p : PlayerTeam.ThunderstoneGuards) {
 
 						TS_FlagRadius.onWalkAway(p);
 						TS_FlagRadius.onWalkIn(p);
@@ -263,7 +263,7 @@ public class TwinbridgeFlag implements Listener {
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "The flag is being contested!"));
 							}
 						}
-					}
+					}*/
 
 					}
 				}
@@ -277,7 +277,7 @@ public class TwinbridgeFlag implements Listener {
 
 					if (MapController.currentMapIs("Thunderstone")) {
 
-						for (Player p : PlayerTeam.Cloudcrawlers) {
+						/*for (Player p : PlayerTeam.Cloudcrawlers) {
 
 							TS_FlagRadius.onWalkAway(p);
 							TS_FlagRadius.onWalkIn(p);
@@ -341,7 +341,7 @@ public class TwinbridgeFlag implements Listener {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "The flag is being contested!"));
 								}
 							}
-						}
+						}*/
 					}
 				}
 			}.runTaskTimer(plugin, 0, TS_FlagCaptureSpeed.flagCaptureSpeed("twinbridge", 1));

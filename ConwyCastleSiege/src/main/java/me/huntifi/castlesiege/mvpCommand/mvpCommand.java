@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class mvpCommand implements CommandExecutor {
 
@@ -24,7 +24,7 @@ public class mvpCommand implements CommandExecutor {
 
 				Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
-					if (MapController.currentMapIs("HelmsDeep")) {
+					/*if (MapController.currentMapIs("HelmsDeep")) {
 
 						if (PlayerTeam.playerIsInTeam(p, 1)) {
 
@@ -50,7 +50,7 @@ public class mvpCommand implements CommandExecutor {
 							ThunderstoneMVP.returnMVP(2, p);
 
 						}
-					}
+					}*/
 				});
 
 				return true;

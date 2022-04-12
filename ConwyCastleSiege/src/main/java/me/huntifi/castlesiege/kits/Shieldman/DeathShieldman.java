@@ -9,7 +9,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.tags.NametagsEvent;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class DeathShieldman implements Listener {
 
@@ -23,7 +23,7 @@ public class DeathShieldman implements Listener {
 
 			if (StatsChanging.getKit(whoHit.getUniqueId()).equalsIgnoreCase("Shieldman")) {
 
-				if (PlayerTeam.playerIsInTeam(whoHit, 1)) {
+				//if (PlayerTeam.playerIsInTeam(whoHit, 1)) {
 
 					DeathscoresAsync.doStats(whoHit, whoWasHit);
 					
@@ -32,9 +32,9 @@ public class DeathShieldman implements Listener {
 
 
 
-				}
+				//}
 
-				if (PlayerTeam.playerIsInTeam(whoHit, 2)) {
+				//if (PlayerTeam.playerIsInTeam(whoHit, 2)) {
 
 					DeathscoresAsync.doStats(whoHit, whoWasHit);
 
@@ -42,7 +42,7 @@ public class DeathShieldman implements Listener {
 					whoHit.sendMessage("You killed " + NametagsEvent.color(whoWasHit) + whoWasHit.getName() + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
 
 
-				}
+				//}
 
 			}
 

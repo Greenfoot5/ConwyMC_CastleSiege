@@ -10,7 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class ThunderstoneDeath implements Listener {
@@ -19,7 +19,7 @@ public class ThunderstoneDeath implements Listener {
 
 	@EventHandler
 	public void onPlayerDeath(PlayerRespawnEvent e) {
-		Player p = (Player) e.getPlayer();
+		/*Player p = (Player) e.getPlayer();
 
 		if(MapController.currentMapIs("Thunderstone")) {
 
@@ -44,7 +44,7 @@ public class ThunderstoneDeath implements Listener {
 				}	
 			}
 
-		}
+		}*/
 	}
 
 }

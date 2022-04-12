@@ -32,7 +32,6 @@ import me.huntifi.castlesiege.joinevents.stats.StatsLoading;
 import me.huntifi.castlesiege.joinevents.stats.StatsSaving;
 import me.huntifi.castlesiege.kits.Enderchest;
 import me.huntifi.castlesiege.kits.kits.*;
-import me.huntifi.castlesiege.ladders.LadderEvent;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.security.*;
@@ -218,7 +217,7 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getPluginManager().registerEvents(new HelmsdeepStorageDoor(), plugin);
                 //getServer().getPluginManager().registerEvents(new GreatHallExtraDoor(), plugin);
 
-                getServer().getPluginManager().registerEvents(new LadderEvent(), plugin);
+                //getServer().getPluginManager().registerEvents(new LadderEvent(), plugin);
                 getServer().getPluginManager().registerEvents(new armorTakeOff(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateDestroyEvent(), plugin);

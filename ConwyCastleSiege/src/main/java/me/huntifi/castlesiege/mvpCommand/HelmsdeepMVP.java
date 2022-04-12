@@ -12,7 +12,7 @@ import me.huntifi.castlesiege.Database.SQLStats;
 import me.huntifi.castlesiege.Helmsdeep.HelmsdeepEndMVP;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class HelmsdeepMVP {
 
@@ -41,7 +41,7 @@ public class HelmsdeepMVP {
 				String supports = NumberFormat.format(MVPstats.getSupports(uuid));
 				String playerKDR = currencyFormat.format((MVPstats.getKills(uuid) / MVPstats.getDeaths(uuid)));
 				
-					if (team == 1 && PlayerTeam.playerIsInTeam(p, team)) {
+					if (team == 1) { //&& PlayerTeam.playerIsInTeam(p, team)) {
 
 						HelmsdeepEndMVP.Urukhai.put(p, MVPstats.getScore(p.getUniqueId())); 
 
@@ -82,7 +82,7 @@ public class HelmsdeepMVP {
 							}
 				}
 
-				if (team == 2 && PlayerTeam.playerIsInTeam(p, team)) {
+				if (team == 2) { //&& PlayerTeam.playerIsInTeam(p, team)) {
 
 						HelmsdeepEndMVP.Rohan.put(p, MVPstats.getScore(p.getUniqueId()));
 

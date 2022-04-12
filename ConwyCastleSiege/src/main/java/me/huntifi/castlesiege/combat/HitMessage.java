@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.combat;
 
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -28,12 +28,12 @@ public class HitMessage implements Listener {
 					
 					Player hit = (Player) e.getHitEntity();
 					
-					if (PlayerTeam.getPlayerTeam(p) != PlayerTeam.getPlayerTeam(hit)) {
+					/*if (PlayerTeam.getPlayerTeam(p) != PlayerTeam.getPlayerTeam(hit)) {
 					
 					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "Hit (" + hit.getName() + ")"));
 					playSound(p);
 					
-					}
+					}*/
 					
 				} else if (e.getHitEntity() instanceof Horse) {
 					

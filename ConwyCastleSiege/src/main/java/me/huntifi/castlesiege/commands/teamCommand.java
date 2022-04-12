@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class teamCommand implements CommandExecutor {
 
@@ -18,7 +18,7 @@ public class teamCommand implements CommandExecutor {
 
 		if (cmd.getName().equalsIgnoreCase("teams")) {
 
-			if (MapController.currentMapIs("HelmsDeep")) {
+			/*if (MapController.currentMapIs("HelmsDeep")) {
 
 				p.sendMessage(ChatColor.GREEN + "Team " + ChatColor.DARK_GREEN + "Rohan: " + ChatColor.WHITE + PlayerTeam.rohanTeamSize());
 				p.sendMessage(ChatColor.GREEN + "Team " + ChatColor.DARK_GRAY + "The Urukhai: " + ChatColor.WHITE + PlayerTeam.urukhaiTeamSize()); 
@@ -31,7 +31,7 @@ public class teamCommand implements CommandExecutor {
 
 				return true;
 
-			}
+			}*/
 
 		}
 		return true; 
