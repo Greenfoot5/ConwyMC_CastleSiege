@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.security;
 
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,8 +19,12 @@ public class destroyBlocks implements Listener {
 			e.setCancelled(false);
 
 		} else if (p.getGameMode() != GameMode.CREATIVE) {
-			
-			e.setCancelled(true);
+
+			if (e.getBlock().getType() == Material.LADDER) {
+				e.getBlock().setType(Material.AIR);
+			} else {
+				e.setCancelled(true);
+			}
 			
 		}
 

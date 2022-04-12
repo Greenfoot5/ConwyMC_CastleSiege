@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.security;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,7 +13,7 @@ public class placeBlocks implements Listener {
 		 
 		 Player p = e.getPlayer();
 		 
-			if (!(p.hasPermission("moderator"))) {
+			if (!(p.hasPermission("moderator")) && e.getBlock().getType() != Material.LADDER) {
 				
 			e.setCancelled(true);
 			
