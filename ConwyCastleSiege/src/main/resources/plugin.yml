@@ -176,6 +176,9 @@ commands:
   halberdier:
     description: Selects the halberdier kit
     usage: /halberdier
+  ladderman:
+    description: Selects the ladderman kit
+    usage: /ladderman
   maceman:
     description: Selects the maceman kit
     usage: /maceman
