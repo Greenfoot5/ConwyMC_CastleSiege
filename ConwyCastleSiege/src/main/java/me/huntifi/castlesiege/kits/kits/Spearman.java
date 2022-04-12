@@ -31,7 +31,7 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 
 	public Spearman() {
 		super("Spearman");
-		super.baseHeath = 115;
+		super.baseHealth = 115;
 
 
 		// Equipment Stuff
@@ -49,7 +49,7 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 						ChatColor.GREEN + "Spear",
 						Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage",
 								ChatColor.AQUA + "Right-click to throw a spear."),
-						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 52))),
+						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 50))),
 				0);
 
 		// Chestplate

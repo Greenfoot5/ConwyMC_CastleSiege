@@ -35,7 +35,7 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
 
     public Cavalry() {
         super("Cavalry");
-        super.baseHeath = 110;
+        super.baseHealth = 110;
 
 
         // Equipment Stuff
@@ -51,7 +51,7 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
                 createItem(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Sabre",
                         Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
                 0);
 
         // Chestplate

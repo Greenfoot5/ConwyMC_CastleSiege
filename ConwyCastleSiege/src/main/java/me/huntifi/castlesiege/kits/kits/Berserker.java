@@ -37,7 +37,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
 
     public Berserker() {
         super("Berserker");
-        super.baseHeath = 110;
+        super.baseHealth = 110;
 
 
         // Equipment Stuff
@@ -53,7 +53,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         regularSwordVoted = createItem(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword",
                 Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 24)));
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22)));
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
         // Ladders
@@ -82,7 +82,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         berserkSwordVoted = createItem(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword",
                 Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
-                Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 60),
+                Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 58),
                         new Tuple<>(Enchantment.KNOCKBACK, 1)));
 
         super.equipment = es;

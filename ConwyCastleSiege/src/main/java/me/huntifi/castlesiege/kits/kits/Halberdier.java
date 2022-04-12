@@ -28,7 +28,7 @@ public class Halberdier extends Kit implements Listener, CommandExecutor {
 
     public Halberdier() {
         super("Halberdier");
-        super.baseHeath = 160;
+        super.baseHealth = 160;
         super.kbResistance = 2;
 
         // Equipment Stuff
@@ -44,7 +44,7 @@ public class Halberdier extends Kit implements Listener, CommandExecutor {
                 createItem(new ItemStack(Material.IRON_AXE),
                         ChatColor.GREEN + "Halberd",
                         Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 32))),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 30))),
                 0);
 
         // Chestplate

@@ -20,7 +20,7 @@ public class Swordsman extends Kit implements CommandExecutor {
 
 	public Swordsman() {
 		super("Swordsman");
-		super.baseHeath = 120;
+		super.baseHealth = 120;
 
 
 		// Equipment Stuff
@@ -36,7 +36,7 @@ public class Swordsman extends Kit implements CommandExecutor {
 				createItem(new ItemStack(Material.IRON_SWORD),
 						ChatColor.GREEN + "Iron Sword",
 						Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 24))),
+						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22))),
 				0);
 
 		// Chestplate

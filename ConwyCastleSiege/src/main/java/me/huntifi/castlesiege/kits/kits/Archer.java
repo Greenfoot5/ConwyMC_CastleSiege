@@ -20,7 +20,7 @@ public class Archer extends Kit implements CommandExecutor {
 
 	public Archer() {
 		super("Archer");
-		super.baseHeath = 105;
+		super.baseHealth = 105;
 
 
 		// Equipment Stuff
@@ -36,7 +36,7 @@ public class Archer extends Kit implements CommandExecutor {
 				createItem(new ItemStack(Material.WOODEN_SWORD),
 						ChatColor.GREEN + "Dagger",
 						Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
+						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
 				0);
 
 		// Chestplate

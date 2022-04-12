@@ -122,6 +122,8 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Executioner(), plugin);
                 getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
+                getServer().getPluginManager().registerEvents(new Maceman(), plugin);
+                getServer().getPluginManager().registerEvents(new Medic(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
                 getServer().getPluginManager().registerEvents(new Swordsman(), plugin);
 
@@ -139,6 +141,8 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
                 Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
+                Objects.requireNonNull(getCommand("Maceman")).setExecutor(new Maceman());
+                Objects.requireNonNull(getCommand("Medic")).setExecutor(new Medic());
                 Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
 
@@ -147,10 +151,8 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new WallEvent(), plugin);
 
                 // OLD EVENTS
-                //getServer().getPluginManager().registerEvents(new Warhound(), plugin);
                 getServer().getPluginManager().registerEvents(new SessionMuteCommand(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepSecretDoor(), plugin);
-                getServer().getPluginManager().registerEvents(new EatCake(), plugin);
                 //getServer().getPluginManager().registerEvents(new RegisterLevel(), plugin);
                 getServer().getPluginManager().registerEvents(new NoMoveInventory(), plugin);
                 getServer().getPluginManager().registerEvents(new NoTouchArmorstand(), plugin);
@@ -158,35 +160,14 @@ public class Main extends JavaPlugin implements Listener {
 
                 //getServer().getPluginManager().registerEvents(new KitsGUI_ThunderstoneGuard_Command(), plugin);
                 //getServer().getPluginManager().registerEvents(new KitsGUI_Cloudcrawlers_Command(), plugin);
-                //getServer().getPluginManager().registerEvents(new ScoutDeath(), plugin);
-                //getServer().getPluginManager().registerEvents(new LaddermanDeath(), plugin);
-                //getServer().getPluginManager().registerEvents(new LaddermanAbility(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepCaveBoat(), plugin);
                 getServer().getPluginManager().registerEvents(new arrowRemoval(), plugin);
                 getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
 
-                //getServer().getPluginManager().registerEvents(new EngineerCobweb(), plugin);
-                //getServer().getPluginManager().registerEvents(new DeathEngineer(), plugin);
                 getServer().getPluginManager().registerEvents(new StatsMvpJoinevent(), plugin);
                 getServer().getPluginManager().registerEvents(new StatsSaving(), plugin);
                 getServer().getPluginManager().registerEvents(new StatsLoading(), plugin);
 
-                //getServer().getPluginManager().registerEvents(new RangerAbility(), plugin);
-                //getServer().getPluginManager().registerEvents(new DeathRanger(), plugin);
-                //getServer().getPluginManager().registerEvents(new HalberdierAbility(), plugin);
-                //getServer().getPluginManager().registerEvents(new DeathHalberdier(), plugin);
-                //getServer().getPluginManager().registerEvents(new CavalryAbility(), plugin);
-                //getServer().getPluginManager().registerEvents(new CavalryDeath(), plugin);
-                //getServer().getPluginManager().registerEvents(new CrossbowmanDeath(), plugin);
-                //getServer().getPluginManager().registerEvents(new CrossbowmanAbility(), plugin);
-                //getServer().getPluginManager().registerEvents(new VikingAbility(), plugin);
-                //getServer().getPluginManager().registerEvents(new VikingDeath(), plugin);
-                //getServer().getPluginManager().registerEvents(new MacemanAbility(), plugin);
-                //getServer().getPluginManager().registerEvents(new ExecutionerAbility(), plugin);
-                //getServer().getPluginManager().registerEvents(new ExecutionerDeath(), plugin);
-                //getServer().getPluginManager().registerEvents(new BerserkerAbility(), plugin);
-                //getServer().getPluginManager().registerEvents(new BerserkerDeath(), plugin);
-                //getServer().getPluginManager().registerEvents(new MacemanDeath(), plugin);
                 //getServer().getPluginManager().registerEvents(new VotedKitsGUI_Command(), plugin);
                 //getServer().getPluginManager().registerEvents(new ClassicGui_Command(), plugin);
                 //getServer().getPluginManager().registerEvents(new KitGUI_Rohan_Command(), plugin);
@@ -210,12 +191,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new NoHurtTeam(), plugin);
 
-                //getServer().getPluginManager().registerEvents(new DeathArcher(), plugin);
-                //getServer().getPluginManager().registerEvents(new SkirmisherDeath(), plugin);
-                //getServer().getPluginManager().registerEvents(new DeathSwordsman(), plugin);
-                //getServer().getPluginManager().registerEvents(new DeathShieldman(), plugin);
-                //getServer().getPluginManager().registerEvents(new DeathFirearcher(), plugin);
-                //getServer().getPluginManager().registerEvents(new DeathSpearman(), plugin);
                 getServer().getPluginManager().registerEvents(new DeathmessageDisable(), plugin);
                 getServer().getPluginManager().registerEvents(new CustomRegeneration(), plugin);
 
@@ -246,7 +221,6 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallDestroyEvent(), plugin);
                 getServer().getPluginManager().registerEvents(new MVPstats(), plugin);
 
-                //getServer().getPluginManager().registerEvents(new SpearmanAbility(), plugin);
                 //getServer().getPluginManager().registerEvents(new KitGUIcommand(), plugin);
                 getServer().getPluginManager().registerEvents(new MessageCommand(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepBallistaEvent(), plugin);
@@ -269,15 +243,7 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getPluginManager().registerEvents(new EastTowerFlag(), plugin);
 
                 getServer().getPluginManager().registerEvents(new VotesLoading(), plugin);
-
                 getServer().getPluginManager().registerEvents(new VotesUnloading(), plugin);
-
-                //getServer().getPluginManager().registerEvents(new FireArcherAbility(), plugin);
-                //getServer().getPluginManager().registerEvents(new MedicAbilities(), plugin);
-
-                //getServer().getPluginManager().registerEvents(new WarhoundDeath(), plugin);
-                //getServer().getPluginManager().registerEvents(new MedicDeath(), plugin);
-                //getServer().getPluginManager().registerEvents(new WarhoundAbility(), plugin);
 
                 //getCommand("KitThunderstoneGuards").setExecutor(new KitsGUI_ThunderstoneGuard_Command());
                 //getCommand("KitCloudcrawlers").setExecutor(new KitsGUI_Cloudcrawlers_Command());
@@ -334,7 +300,6 @@ public class Main extends JavaPlugin implements Listener {
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
                 //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new HelmsdeepMVPupdater(), 0, 20);
                 //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneMVPupdater(), 0, 20);
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new HalberdierAbility(), 100, 25);
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new DatabaseKeepAliveEvent(), 5900, 5900);
                 //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
 

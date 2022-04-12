@@ -1,0 +1,267 @@
+package me.huntifi.castlesiege.kits.kits;
+
+import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.kits.EquipmentSet;
+import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.tags.NametagsEvent;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Cake;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.BlockDataMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.*;
+
+public class Medic extends Kit implements Listener, CommandExecutor {
+
+    public static HashMap<Player, Block> cakes = new HashMap<>();
+    public static ArrayList<Player> cooldown = new ArrayList<Player>();
+
+    public Medic() {
+        super("Medic");
+        super.baseHealth = 100;
+
+
+        // Equipment Stuff
+        EquipmentSet es = new EquipmentSet();
+        super.heldItemSlot = 0;
+
+        // Weapon
+        es.hotbar[0] = createItem(new ItemStack(Material.WOODEN_SWORD),
+                ChatColor.GREEN + "Dagger", null,
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16)));
+        // Voted Weapon
+        es.votedWeapon = new Tuple<>(
+                createItem(new ItemStack(Material.WOODEN_SWORD),
+                        ChatColor.GREEN + "Dagger",
+                        Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
+                0);
+
+        // Chestplate
+        es.chest = createLeatherItem(new ItemStack(Material.LEATHER_CHESTPLATE),
+                ChatColor.GREEN + "Leather Chestplate", null, null,
+                Color.fromRGB(255, 255, 255));
+
+        // Leggings
+        es.legs = createLeatherItem(new ItemStack(Material.LEATHER_LEGGINGS),
+                ChatColor.GREEN + "Leather Leggings", null, null,
+                Color.fromRGB(255, 255, 255));
+
+        // Boots
+        es.feet = createItem(new ItemStack(Material.GOLDEN_BOOTS),
+                ChatColor.GREEN + "Golden Boots", null, null);
+        // Voted Boots
+        es.votedFeet = createItem(new ItemStack(Material.GOLDEN_BOOTS),
+                ChatColor.GREEN + "Golden Boots",
+                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider 2"),
+                Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
+
+        // Bandages
+        es.hotbar[1] = createItem(new ItemStack(Material.PAPER),
+                ChatColor.DARK_AQUA + "Bandages",
+                Collections.singletonList(ChatColor.AQUA + "Right click teammates to heal."), null);
+
+        // Cake
+        es.hotbar[2] = createItem(new ItemStack(Material.CAKE, 16),
+                ChatColor.DARK_AQUA + "Healing Cake",
+                Arrays.asList(ChatColor.AQUA + "Place the cake down, then",
+                        ChatColor.AQUA + "teammates can heal from it."), null);
+
+        // Ladders
+        es.hotbar[3] = new ItemStack(Material.LADDER, 4);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 3);
+
+        super.equipment = es;
+
+        // Perm Potion Effect
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        super.addPlayer(((Player) commandSender).getUniqueId());
+        return true;
+    }
+
+    @EventHandler (priority = EventPriority.MONITOR)
+    public void onPlace(BlockPlaceEvent e) {
+        Player p = e.getPlayer();
+        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
+                e.getBlockPlaced().getType() == Material.CAKE) {
+            e.setCancelled(false);
+            destroyCake(p);
+            cakes.put(p, e.getBlockPlaced());
+        }
+    }
+
+    @EventHandler
+    public void onBreakCake(BlockBreakEvent e) {
+        Block cake = e.getBlock();
+        if (cake.getType() == Material.CAKE) {
+            e.setCancelled(true);
+
+            Player p = e.getPlayer();
+            Player q = getPlacer(cake);
+            String cakeType;
+            if (q != null) {
+                destroyCake(q);
+                cakeType = MapController.getCurrentMap().getTeam(p.getUniqueId())
+                        == MapController.getCurrentMap().getTeam(q.getUniqueId()) ? " friendly" : "n enemy";
+                q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                        ChatColor.RED + "Your cake was destroyed by " + NametagsEvent.color(p) + p.getName()));
+            } else {
+                cake.setType(Material.AIR);
+                cakeType = " neutral";
+            }
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                    ChatColor.RED + "You destroyed a" + cakeType + " cake"));
+        }
+    }
+
+    @EventHandler
+    public void onEatCake(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        Block cake = e.getClickedBlock();
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
+                cake.getType().equals(Material.CAKE)) {
+            Player q = getPlacer(cake);
+
+            // Enemy cake
+            if (q != null && MapController.getCurrentMap().getTeam(p.getUniqueId())
+                    != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
+                e.setCancelled(true);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                        ChatColor.RED + "This is an enemy cake, destroy it!"));
+                return;
+            }
+
+            // Able to eat this cake
+            if (p.getHealth() < Kit.equippedKits.get(p.getUniqueId()).baseHealth &&
+                    !cooldown.contains(p)) {
+                // Apply cooldown
+                cooldown.add(p);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        cooldown.remove(p);
+                    }
+                }.runTaskLater(Main.plugin, 40);
+
+                // Eat cake
+                p.setFoodLevel(17);
+                p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 4));
+
+                // Send messages
+                if (q != null && !Objects.equals(p, q)) {
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                            NametagsEvent.color(q) + q.getName() + ChatColor.AQUA + "'s cake is healing you!"));
+                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                            ChatColor.AQUA + "Your cake is healing " + NametagsEvent.color(p) + p.getName()));
+                } else {
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                            ChatColor.AQUA + "The cake is healing you!"));
+                }
+
+                // Remove cake from cakes list
+                Cake cakeData = (Cake) cake.getBlockData();
+                if (cakeData.getBites() == 6 && q != null) {
+                    cakes.remove(q);
+                }
+
+            // Unable to eat the cake right now
+            } else {
+                e.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onHeal(PlayerInteractEntityEvent e) {
+        Player p = e.getPlayer();
+        PlayerInventory i = p.getInventory();
+        Entity q = e.getRightClicked();
+
+        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&                 // Player is medic
+                (i.getItemInMainHand().getType() == Material.PAPER ||                           // Uses bandage
+                        i.getItemInOffHand().getType() == Material.PAPER) &&                    // Uses bandage
+                q instanceof Player &&                                                          // On player
+                MapController.getCurrentMap().getTeam(p.getUniqueId())                          // Same team
+                == MapController.getCurrentMap().getTeam(q.getUniqueId()) &&                    // Same team
+                ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth &&  // Below max hp
+                !cooldown.contains((Player) q)) {                                               // Not on cooldown
+
+            // Apply cooldown
+            Player r = (Player) q;
+            cooldown.add(r);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    cooldown.remove(r);
+                }
+            }.runTaskLater(Main.plugin, 40);
+
+            // Heal
+            r.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 4));
+            r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                     NametagsEvent.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                    ChatColor.AQUA + "You are healing " + NametagsEvent.color(r) + r.getName()));
+        }
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e) {
+        super.onDeath(e);
+        destroyCake(e.getEntity());
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e) {
+        destroyCake(e.getPlayer());
+    }
+
+    private void destroyCake(Player p) {
+        if (cakes.containsKey(p)) {
+            cakes.get(p).setType(Material.AIR);
+            cakes.remove(p);
+        }
+    }
+
+    private Player getPlacer(Block cake) {
+        return cakes.entrySet().stream()
+                .filter(entry -> Objects.equals(entry.getValue(), cake))
+                .findFirst().map(Map.Entry::getKey)
+                .orElse(null);
+    }
+}

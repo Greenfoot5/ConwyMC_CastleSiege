@@ -44,7 +44,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
 
     public FireArcher() {
         super("FireArcher");
-        super.baseHeath = 105;
+        super.baseHealth = 105;
 
 
         // Equipment stuff
@@ -99,7 +99,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
                         ChatColor.AQUA + "- voted: + 2 damage.",
                         ChatColor.AQUA + "(tip): This firepit is very hard, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
-                Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 24),
+                Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 22),
                         new Tuple<>(Enchantment.KNOCKBACK, 1)));
         es.votedWeapon = new Tuple<>(firepitVoted, 1);
 
