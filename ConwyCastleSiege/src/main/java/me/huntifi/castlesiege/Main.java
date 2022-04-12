@@ -14,7 +14,7 @@ import me.huntifi.castlesiege.Database.DatabaseKeepAliveEvent;
 import me.huntifi.castlesiege.Database.MySQL;
 import me.huntifi.castlesiege.Database.SQLStats;
 import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
-import me.huntifi.castlesiege.Helmsdeep.Wall.WallEvent;
+import me.huntifi.castlesiege.Helmsdeep.WallEvent;
 import me.huntifi.castlesiege.chat.PlayerChat;
 import me.huntifi.castlesiege.combat.*;
 import me.huntifi.castlesiege.commands.*;
@@ -142,6 +142,10 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
 
+                // Map Specific
+                // Helms Deep Only
+                getServer().getPluginManager().registerEvents(new WallEvent(), plugin);
+
                 // OLD EVENTS
                 //getServer().getPluginManager().registerEvents(new Warhound(), plugin);
                 getServer().getPluginManager().registerEvents(new SessionMuteCommand(), plugin);
@@ -235,7 +239,6 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getPluginManager().registerEvents(new HelmsdeepStorageDoor(), plugin);
                 //getServer().getPluginManager().registerEvents(new GreatHallExtraDoor(), plugin);
 
-                getServer().getPluginManager().registerEvents(new WallEvent(), plugin);
                 getServer().getPluginManager().registerEvents(new LadderEvent(), plugin);
                 getServer().getPluginManager().registerEvents(new armorTakeOff(), plugin);
 
