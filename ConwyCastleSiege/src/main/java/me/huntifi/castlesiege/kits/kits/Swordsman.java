@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Swordsman extends Kit implements CommandExecutor {
@@ -35,7 +34,7 @@ public class Swordsman extends Kit implements CommandExecutor {
 		es.votedWeapon = new Tuple<>(
 				createItem(new ItemStack(Material.IRON_SWORD),
 						ChatColor.GREEN + "Iron Sword",
-						Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
 						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22))),
 				0);
 
@@ -53,7 +52,7 @@ public class Swordsman extends Kit implements CommandExecutor {
 		// Voted Boots
 		es.votedFeet = createItem(new ItemStack(Material.IRON_BOOTS),
 				ChatColor.GREEN + "Iron Boots",
-				Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider +2"),
+				Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders

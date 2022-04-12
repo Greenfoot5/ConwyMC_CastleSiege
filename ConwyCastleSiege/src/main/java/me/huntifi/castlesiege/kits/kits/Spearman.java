@@ -41,14 +41,14 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		// Weapon
 		es.hotbar[0] = createItem(new ItemStack(Material.STICK),
 				ChatColor.GREEN + "Spear",
-				Arrays.asList("", ChatColor.AQUA + "Right-click to throw a spear."),
+				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."),
 				Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 48)));
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				createItem(new ItemStack(Material.STICK),
 						ChatColor.GREEN + "Spear",
-						Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage",
-								ChatColor.AQUA + "Right-click to throw a spear."),
+						Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
+								ChatColor.AQUA + "- voted: +2 damage"),
 						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 50))),
 				0);
 
@@ -66,7 +66,7 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		// Voted Boots
 		es.votedFeet = createItem(new ItemStack(Material.CHAINMAIL_BOOTS),
 				ChatColor.GREEN + "Chainmail Boots",
-				Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider +2"),
+				Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders

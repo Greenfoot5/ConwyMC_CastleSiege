@@ -27,7 +27,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -50,7 +49,7 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
         es.votedWeapon = new Tuple<>(
                 createItem(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Sabre",
-                        Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
                 0);
 
@@ -68,7 +67,7 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
         // Voted Boots
         es.votedFeet = createItem(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "Iron Boots",
-                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders

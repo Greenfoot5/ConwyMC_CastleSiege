@@ -52,7 +52,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         es.votedWeapon = new Tuple<>(
                 createItem(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Shortsword",
-                        Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
                 0);
 
@@ -73,7 +73,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         // Voted Boots
         es.votedFeet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
-                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(57, 75, 57));
 

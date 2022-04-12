@@ -16,7 +16,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Scout extends Kit implements CommandExecutor {
@@ -36,9 +35,9 @@ public class Scout extends Kit implements CommandExecutor {
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 19)));
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                createItem(new ItemStack(Material.STONE_SWORD),
+                createItem(new ItemStack(Material.WOODEN_SWORD),
                         ChatColor.GREEN + "Shortsword",
-                        Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 21))),
                 0);
 
@@ -60,7 +59,7 @@ public class Scout extends Kit implements CommandExecutor {
         // Voted Boots
         es.votedFeet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
-                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3)),
                 Color.fromRGB(64, 87, 1));
 

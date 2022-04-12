@@ -52,7 +52,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         // Voted Weapon
         regularSwordVoted = createItem(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword",
-                Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22)));
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
@@ -80,7 +80,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         // Voted Berserk Weapon
         berserkSwordVoted = createItem(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword",
-                Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                 Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 58),
                         new Tuple<>(Enchantment.KNOCKBACK, 1)));
 

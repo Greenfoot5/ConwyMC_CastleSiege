@@ -64,7 +64,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         es.votedWeapon = new Tuple<>(
                 createItem(new ItemStack(Material.WOODEN_SWORD),
                         ChatColor.GREEN + "Dagger",
-                        Arrays.asList("", ChatColor.AQUA + "- voted: +2 damage"),
+                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
                 0);
 
@@ -84,7 +84,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         // Voted Boots
         es.votedFeet = createItem(new ItemStack(Material.GOLDEN_BOOTS),
                 ChatColor.GREEN + "Golden Boots",
-                Arrays.asList("", ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Bandages
