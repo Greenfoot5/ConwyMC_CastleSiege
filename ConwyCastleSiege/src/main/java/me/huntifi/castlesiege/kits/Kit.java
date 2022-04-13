@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits;
 
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
+import me.huntifi.castlesiege.combat.InCombat;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
@@ -101,7 +102,7 @@ public abstract class Kit implements Listener {
         PlayerInventory inv = player.getInventory();
         for (int i = 0; i < 8; i++) {
             if (inv.getItem(i) != null) {
-                player.setCooldown(inv.getItem(i).getType(), 0);
+                player.setCooldown(Objects.requireNonNull(inv.getItem(i)).getType(), 0);
             }
         }
     }
@@ -147,10 +148,13 @@ public abstract class Kit implements Listener {
         setItems(uuid);
         equippedKits.put(uuid, this);
 
-        // TODO - Check if a player has dealt damage and should be killed
-        // TODO - If the player doesn't need to die, heal them
         assert player != null;
-        player.setHealth(0);
+        // Kills the player if they have interacted this life, otherwise heal them
+        if (InCombat.hasPlayerInteracted(uuid)) {
+            player.setHealth(0);
+        } else {
+            player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+        }
     }
 
     protected ItemStack createItem(ItemStack item, String name, List<String> lore,

@@ -83,6 +83,11 @@ public class InCombat implements Listener {
 	}
 
 	/**
+	 * Returns true if the player has interacted with the game this life
+	 */
+	public static boolean hasPlayerInteracted(UUID uuid) { return beenInCombat.contains(uuid); }
+
+	/**
 	 * Returns true if the player has taken damage in the last 8s
  	 */
 	public static boolean isPlayerInCombat(UUID uuid) {

@@ -1,10 +1,12 @@
 package me.huntifi.castlesiege.teams;
 
+import me.huntifi.castlesiege.combat.InCombat;
 import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.ChatColor;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -82,10 +84,16 @@ public class SwitchCommand implements CommandExecutor {
 		oldTeam.removePlayer(p.getUniqueId());
 		smallestTeam.addPlayer(p.getUniqueId());
 
-		// Kill the player
-		p.setHealth(0);
-		p.sendMessage("You switched to " + smallestTeam.primaryChatColor + smallestTeam.name + " (+2 deaths)");
-		//StatsChanging.addDeaths(p.getUniqueId(), 2);
+		if (InCombat.hasPlayerInteracted(p.getUniqueId())) {
+			// The player should die when switching
+			p.setHealth(0);
+			p.sendMessage("You switched to " + smallestTeam.primaryChatColor + smallestTeam.name + " (+2 deaths)");
+			//StatsChanging.addDeaths(p.getUniqueId(), 2);
+		} else {
+			// Heal the player
+			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+			p.sendMessage("You switched to " + smallestTeam.primaryChatColor + smallestTeam.name + "");
+		}
 
 	return true;
 	}
