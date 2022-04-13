@@ -164,7 +164,7 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getPluginManager().registerEvents(new KitsGUI_ThunderstoneGuard_Command(), plugin);
                 //getServer().getPluginManager().registerEvents(new KitsGUI_Cloudcrawlers_Command(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepCaveBoat(), plugin);
-                getServer().getPluginManager().registerEvents(new arrowRemoval(), plugin);
+                getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
                 getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
 
                 getServer().getPluginManager().registerEvents(new StatsMvpJoinevent(), plugin);

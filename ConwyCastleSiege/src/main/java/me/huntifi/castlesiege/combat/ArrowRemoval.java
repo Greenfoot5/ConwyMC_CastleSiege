@@ -8,7 +8,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 /**
  * Removes arrows sticking out of entities
  */
-public class arrowRemoval implements Listener {
+public class ArrowRemoval implements Listener {
 
 	@EventHandler
 	public void onHit(final ProjectileHitEvent e) {
