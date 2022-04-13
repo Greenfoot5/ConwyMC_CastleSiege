@@ -25,7 +25,7 @@ public class InCombat implements Listener {
 	 * When a player attacks another player, they have interacted
 	 */
 	@EventHandler
-	public static void playerAttacksAnother(EntityDamageByEntityEvent ed) {
+	public void playerAttacksAnother(EntityDamageByEntityEvent ed) {
 		// Both are players
 		if (!(ed.getEntity() instanceof Player && ed.getDamager() instanceof Player)) { return; }
 
@@ -42,7 +42,7 @@ public class InCombat implements Listener {
 	 * When a player takes any damage, they are placed in combat
 	 */
 	@EventHandler
-	public static void playerTakesDamage(EntityDamageEvent event) {
+	public void playerTakesDamage(EntityDamageEvent event) {
 		if (!(event.getEntity() instanceof Player)) { return; }
 		UUID uuid = event.getEntity().getUniqueId();
 
