@@ -132,8 +132,7 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
                 Vector v = e.getProjectile().getVelocity();
                 volleyAbility(p, v);
             } else if (Objects.equals(b, ChatColor.GREEN + "Burst Bow")) {
-                e.setCancelled(true);
-                burstAbility(p);
+                burstAbility(p, e.getForce());
             }
         }
     }
@@ -152,22 +151,22 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
         }
     }
 
-    private void burstAbility(Player p) {
+    private void burstAbility(Player p, float force) {
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                 ChatColor.GREEN + "You shot your burst bow!"));
         p.setCooldown(Material.BOW, 100);
-        burstArrow(p, 0);
-        burstArrow(p, 10);
-        burstArrow(p, 20);
+        burstArrow(p, force, 10);
+        burstArrow(p, force, 20);
     }
 
-    private void burstArrow(Player p, int d) {
+    private void burstArrow(Player p, float force, int d) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 // Shoot iff the player has an arrow
                 if (removeArrow(p)) {
-                    p.launchProjectile(Arrow.class);
+                    Arrow a = p.launchProjectile(Arrow.class);
+                    a.setVelocity(a.getVelocity().multiply(force));
                 }
             }
         }.runTaskLater(Main.plugin, d);

@@ -16,6 +16,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -66,6 +68,8 @@ public class Crossbowman extends Kit implements Listener, CommandExecutor {
 
         super.equipment = es;
 
+        // Perm Potion Effect
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 1));
 
         // Death Messages
         super.projectileDeathMessage[0] = "Your skull was pierced by ";
@@ -90,11 +94,8 @@ public class Crossbowman extends Kit implements Listener, CommandExecutor {
                 e.setCancelled(true);
                 p.setCooldown(Material.CROSSBOW, 75);
 
-                Arrow arrow= p.launchProjectile(Arrow.class);
-                arrow.setShooter(p);
-                arrow.setVelocity(new Vector(p.getLocation().getDirection().getX(),
-                        p.getLocation().getDirection().getY(),
-                        p.getLocation().getDirection().getZ()).normalize().multiply(35));
+                Arrow a = p.launchProjectile(Arrow.class);
+                a.setVelocity(a.getVelocity().normalize().multiply(35));
             }
         }
     }
