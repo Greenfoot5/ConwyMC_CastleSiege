@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.Database.SQLStats;
-import me.huntifi.castlesiege.Database.StatsStrings;
+import me.huntifi.castlesiege.database.SQLStats;
+import me.huntifi.castlesiege.database.StatsStrings;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class KitsCommand implements CommandExecutor {

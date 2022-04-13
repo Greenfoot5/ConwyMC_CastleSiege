@@ -10,11 +10,11 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import me.huntifi.castlesiege.Database.DatabaseKeepAliveEvent;
-import me.huntifi.castlesiege.Database.MySQL;
-import me.huntifi.castlesiege.Database.SQLStats;
+import me.huntifi.castlesiege.database.DatabaseKeepAliveEvent;
+import me.huntifi.castlesiege.database.MySQL;
+import me.huntifi.castlesiege.database.SQLStats;
 import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
-import me.huntifi.castlesiege.Helmsdeep.WallEvent;
+import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.chat.PlayerChat;
 import me.huntifi.castlesiege.combat.*;
 import me.huntifi.castlesiege.commands.*;
@@ -23,7 +23,7 @@ import me.huntifi.castlesiege.commands.message.ReplyCommand;
 import me.huntifi.castlesiege.commands.staffCommands.*;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.DeathEvent;
+import me.huntifi.castlesiege.combat.DeathEvent;
 import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.joinevents.login;
@@ -195,7 +195,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new NoHurtTeam(), plugin);
 
                 getServer().getPluginManager().registerEvents(new DeathmessageDisable(), plugin);
-                getServer().getPluginManager().registerEvents(new CustomRegeneration(), plugin);
+                getServer().getPluginManager().registerEvents(new InCombat(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new HelmsdeepJoin(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepLeave(), plugin);

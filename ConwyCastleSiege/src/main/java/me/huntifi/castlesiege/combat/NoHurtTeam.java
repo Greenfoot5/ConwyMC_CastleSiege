@@ -9,32 +9,29 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+/**
+ * Makes sure a player can't hurt a team member or their horse/boat
+ */
 public class NoHurtTeam implements Listener {
 
+	/**
+	 * Player has attempted to attack a player
+	 * Cancels event if they are on the same team
+	 */
 	@EventHandler
 	public void onHurt(EntityDamageByEntityEvent e) {
 		// A player was hurt
 		if (e.getEntity() instanceof Player) {
 			Player p = (Player) e.getEntity();
 
-			// Hurt by teammate
-			if (e.getDamager() instanceof Player &&
-					MapController.getCurrentMap().getTeam(p.getUniqueId()) ==
-					MapController.getCurrentMap().getTeam(e.getDamager().getUniqueId())) {
-				e.setCancelled(true);
-			}
-
-			// Hurt by arrow from teammate
-			if (e.getDamager() instanceof Arrow &&
-					((Arrow) e.getDamager()).getShooter() instanceof Player &&
-					MapController.getCurrentMap().getTeam(p.getUniqueId()) ==
-							MapController.getCurrentMap().getTeam(
-									((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId())) {
-				e.setCancelled(true);
-			}
+			sameTeam(e, p);
 		}
 	}
 
+	/**
+	 * Player has attempted to attack a horse
+	 * Cancels event if they are on the same team
+	 */
 	@EventHandler
 	public void onHurtHorse(EntityDamageByEntityEvent e) {
 		// A horse with owner was hurt
@@ -42,24 +39,14 @@ public class NoHurtTeam implements Listener {
 				((Horse) e.getEntity()).getOwner() != null) {
 			Player p = (Player) ((Horse) e.getEntity()).getOwner();
 
-			// Hurt by owner's teammate
-			if (e.getDamager() instanceof Player &&
-					MapController.getCurrentMap().getTeam(e.getDamager().getUniqueId()) ==
-							MapController.getCurrentMap().getTeam(p.getUniqueId())) {
-				e.setCancelled(true);
-			}
-
-			// Hurt by arrow from owner's teammate
-			if (e.getDamager() instanceof Arrow &&
-					((Arrow) e.getDamager()).getShooter() instanceof Player &&
-					MapController.getCurrentMap().getTeam(p.getUniqueId()) ==
-							MapController.getCurrentMap().getTeam(
-									((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId())) {
-				e.setCancelled(true);
-			}
+			sameTeam(e, p);
 		}
 	}
 
+	/**
+	 * Player has attempted to attack a boat
+	 * Checks if there is a player in it on their team
+	 */
 	@EventHandler
 	public void onHurtBoat(EntityDamageByEntityEvent e) {
 		// A boat with player was hurt
@@ -68,21 +55,28 @@ public class NoHurtTeam implements Listener {
 				e.getEntity().getPassengers().get(0) instanceof Player) {
 			Player p = (Player) e.getEntity().getPassengers().get(0);
 
-			// Hurt by player's teammate
-			if (e.getDamager() instanceof Player &&
-					MapController.getCurrentMap().getTeam(e.getDamager().getUniqueId()) ==
-							MapController.getCurrentMap().getTeam(p.getUniqueId())) {
-				e.setCancelled(true);
-			}
+			sameTeam(e, p);
+		}
+	}
 
-			// Hurt by arrow from player's teammate
-			if (e.getDamager() instanceof Arrow &&
-					((Arrow) e.getDamager()).getShooter() instanceof Player &&
-					MapController.getCurrentMap().getTeam(p.getUniqueId()) ==
-							MapController.getCurrentMap().getTeam(
-									((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId())) {
-				e.setCancelled(true);
-			}
+	/**
+	 * Cancels an attack if two entities are considered on the same team
+	 */
+	private void sameTeam(EntityDamageByEntityEvent e, Player p) {
+		// Hurt by teammate
+		if (e.getDamager() instanceof Player &&
+				MapController.getCurrentMap().getTeam(p.getUniqueId()) ==
+						MapController.getCurrentMap().getTeam(e.getDamager().getUniqueId())) {
+			e.setCancelled(true);
+		}
+
+		// Hurt by arrow from teammate
+		if (e.getDamager() instanceof Arrow &&
+				((Arrow) e.getDamager()).getShooter() instanceof Player &&
+				MapController.getCurrentMap().getTeam(p.getUniqueId()) ==
+						MapController.getCurrentMap().getTeam(
+								((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId())) {
+			e.setCancelled(true);
 		}
 	}
 }

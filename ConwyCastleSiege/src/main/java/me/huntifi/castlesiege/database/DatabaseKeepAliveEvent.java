@@ -1,10 +1,7 @@
-package me.huntifi.castlesiege.Database;
+package me.huntifi.castlesiege.database;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 
 import me.huntifi.castlesiege.Main;
 

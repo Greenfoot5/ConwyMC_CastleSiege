@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.events;
+package me.huntifi.castlesiege.combat;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.Kit;
@@ -12,11 +12,17 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * Managed what happens when a player dies
+ */
 public class DeathEvent implements Listener {
+
+    /**
+     * Respawns a player correctly
+     */
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
-
         Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
 
         assert team != null && team.lobby.spawnPoint != null;
@@ -29,8 +35,13 @@ public class DeathEvent implements Listener {
         player.teleport(team.lobby.spawnPoint);
 
         Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+
+        InCombat.playerDied(player.getUniqueId());
     }
 
+    /**
+     * Auto-respawns the player
+     */
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         new BukkitRunnable() {

@@ -1,11 +1,10 @@
-package me.huntifi.castlesiege.Database;
+package me.huntifi.castlesiege.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import me.huntifi.castlesiege.Main;
-import org.bukkit.Bukkit;
 
 public class MySQL {
 

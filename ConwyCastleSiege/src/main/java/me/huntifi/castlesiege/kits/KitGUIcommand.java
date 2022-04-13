@@ -14,8 +14,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.Database.SQLStats;
-import me.huntifi.castlesiege.Database.StatsStrings;
+import me.huntifi.castlesiege.database.SQLStats;
+import me.huntifi.castlesiege.database.StatsStrings;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class KitGUIcommand implements CommandExecutor, Listener {

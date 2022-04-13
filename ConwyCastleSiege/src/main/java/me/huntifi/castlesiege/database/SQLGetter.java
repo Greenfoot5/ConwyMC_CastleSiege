@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.Database;
+package me.huntifi.castlesiege.database;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

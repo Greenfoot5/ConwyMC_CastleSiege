@@ -13,7 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.Database.SQLStats;
+import me.huntifi.castlesiege.database.SQLStats;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 
 public class HelmsdeepEndMVP implements Listener {

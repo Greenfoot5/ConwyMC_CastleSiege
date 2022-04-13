@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.flags;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.combat.InCombat;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.maps.MapController;
@@ -241,6 +242,7 @@ public class Flag {
 
     /**
      * Notifies all players that there has been an animation change
+     * Also adds players to InCombat interacted
      * @param areOwnersCapping If the current flag owners are capturing
      */
     private void notifyPlayers(boolean areOwnersCapping) {
@@ -263,6 +265,7 @@ public class Flag {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies are capturing the flag!"));
                 }
                 playCapSound(player);
+                InCombat.playerInteracted(player.getUniqueId());
             }
         }
     }
@@ -322,11 +325,7 @@ public class Flag {
             if (player != null) {
                 // Add the player to the team counts
                 String team = MapController.getCurrentMap().getTeam(uuid).name;
-                if (teamCounts.get(name) == null) {
-                    teamCounts.put(team, 1);
-                } else {
-                    teamCounts.put(name, teamCounts.get(name) + 1);
-                }
+                teamCounts.merge(team, 1, Integer::sum);
 
                 // Get the largest team
                 if (largestTeam == null || largestTeam.equals(team)) {

@@ -1,11 +1,11 @@
-package me.huntifi.castlesiege.Database;
+package me.huntifi.castlesiege.database;
 
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import me.huntifi.castlesiege.Database.AsyncGetters.StringCallback;
+import me.huntifi.castlesiege.database.AsyncGetters.StringCallback;
 
 public class StatsStrings {
 	

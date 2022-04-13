@@ -7,31 +7,32 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import me.huntifi.castlesiege.Database.AsyncGetters;
-import me.huntifi.castlesiege.Database.AsyncGetters.BooleanCallback;
-import me.huntifi.castlesiege.Database.SQLGetter;
+import me.huntifi.castlesiege.database.AsyncGetters;
+import me.huntifi.castlesiege.database.AsyncGetters.BooleanCallback;
+import me.huntifi.castlesiege.database.SQLGetter;
 import me.huntifi.castlesiege.commands.togglerankCommand;
 
-
+/**
+ * Makes staff's text chat colour white
+ */
 public class PlayerChat implements Listener {
 
-	@EventHandler
-	public void onPlayerChat(AsyncPlayerChatEvent e) {
-		e.setFormat("%s:" + ChatColor.GRAY + " %s");
-	}
-
+	/**
+	 * Checks if the player is a staff member, and sets chat colour accordingly
+	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerChatOwner(AsyncPlayerChatEvent e) {
+	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
 
-		BooleanCallback callback = string -> {
-			if (!togglerankCommand.rankers.contains(p)) {
-				if (string) {
-					e.setFormat("%s:" + ChatColor.WHITE + " %s");
-				}
+		BooleanCallback callback = isStaff -> {
+			if (!togglerankCommand.rankers.contains(p) || isStaff) {
+				e.setFormat("%s:" + ChatColor.WHITE + " %s");
+			} else {
+				e.setFormat("%s:" + ChatColor.GRAY + " %s");
 			}
 		};
 
+		// NOTE - ChatMod is included in ChatMod+
 		AsyncGetters.performLookupRank(callback, "Admin, Moderator, Developer, ChatMod+".contains(SQLGetter.getStaffRank(p.getUniqueId())), p, true);
 	}
 }

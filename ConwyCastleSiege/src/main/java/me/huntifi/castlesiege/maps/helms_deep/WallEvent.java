@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.Helmsdeep;
+package me.huntifi.castlesiege.maps.helms_deep;
 
 
 import com.sk89q.worldedit.WorldEditException;

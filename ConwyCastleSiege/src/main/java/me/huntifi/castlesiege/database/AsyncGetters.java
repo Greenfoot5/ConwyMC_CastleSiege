@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.Database;
+package me.huntifi.castlesiege.database;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

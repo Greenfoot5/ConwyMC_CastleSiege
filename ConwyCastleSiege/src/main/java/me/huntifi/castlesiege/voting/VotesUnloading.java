@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.Database.SQLGetter;
+import me.huntifi.castlesiege.database.SQLGetter;
 
 public class VotesUnloading implements Listener {
 
