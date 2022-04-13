@@ -185,6 +185,9 @@ commands:
   medic:
     description: Selects the medic kit
     usage: /medic
+  ranger:
+    description: Selects the ranger kit
+    usage: /ranger
   scout:
     description: Selects the scout kit
     usage: /scout

@@ -69,9 +69,6 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         potion.setItemMeta(potionMeta);
         es.hotbar[1] = potion;
 
-        // Perm Potion Effect
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
-
         // Berserk Weapon
         berserkSword = createItem(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword", null,
@@ -86,6 +83,8 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
 
         super.equipment = es;
 
+        // Perm Potion Effect
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
 
         // Death Messages
         super.deathMessage[0] = "";

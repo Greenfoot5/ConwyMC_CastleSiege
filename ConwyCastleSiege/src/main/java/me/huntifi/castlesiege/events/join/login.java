@@ -1,15 +1,12 @@
 package me.huntifi.castlesiege.events.join;
 
-import me.huntifi.castlesiege.database.SQLStats;
 import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.Plugin;
 
 /**
  * Handles what happens when someone logs in
