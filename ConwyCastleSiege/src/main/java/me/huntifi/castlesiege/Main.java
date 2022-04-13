@@ -10,33 +10,26 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import me.huntifi.castlesiege.database.DatabaseKeepAliveEvent;
-import me.huntifi.castlesiege.database.MySQL;
-import me.huntifi.castlesiege.database.SQLStats;
 import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
-import me.huntifi.castlesiege.events.combat.*;
-import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
-import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.commands.*;
 import me.huntifi.castlesiege.commands.message.MessageCommand;
 import me.huntifi.castlesiege.commands.message.ReplyCommand;
 import me.huntifi.castlesiege.commands.staffCommands.*;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.DatabaseKeepAliveEvent;
+import me.huntifi.castlesiege.database.MySQL;
+import me.huntifi.castlesiege.events.chat.PlayerChat;
+import me.huntifi.castlesiege.events.combat.*;
+import me.huntifi.castlesiege.events.join.login;
 import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.flags.Flag;
-import me.huntifi.castlesiege.events.join.login;
-import me.huntifi.castlesiege.events.join.newLogin;
-import me.huntifi.castlesiege.events.join.stats.StatsLoading;
-import me.huntifi.castlesiege.events.join.stats.StatsSaving;
 import me.huntifi.castlesiege.kits.Enderchest;
 import me.huntifi.castlesiege.kits.kits.*;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
+import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.security.*;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
-import me.huntifi.castlesiege.stats.MVP.StatsMvpJoinevent;
-import me.huntifi.castlesiege.stats.mystats.MystatsCommand;
 import me.huntifi.castlesiege.tablist.Tablist;
 import me.huntifi.castlesiege.teams.SwitchCommand;
 import me.huntifi.castlesiege.voting.GiveVoteCommand;
@@ -48,11 +41,8 @@ import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -166,9 +156,9 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
                 getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
 
-                getServer().getPluginManager().registerEvents(new StatsMvpJoinevent(), plugin);
-                getServer().getPluginManager().registerEvents(new StatsSaving(), plugin);
-                getServer().getPluginManager().registerEvents(new StatsLoading(), plugin);
+                //getServer().getPluginManager().registerEvents(new StatsMvpJoinevent(), plugin);
+                //getServer().getPluginManager().registerEvents(new StatsSaving(), plugin);
+                //getServer().getPluginManager().registerEvents(new StatsLoading(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new VotedKitsGUI_Command(), plugin);
                 //getServer().getPluginManager().registerEvents(new ClassicGui_Command(), plugin);
@@ -221,7 +211,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateDestroyEvent(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallDestroyEvent(), plugin);
-                getServer().getPluginManager().registerEvents(new MVPstats(), plugin);
+                //getServer().getPluginManager().registerEvents(new MVPstats(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new KitGUIcommand(), plugin);
                 getServer().getPluginManager().registerEvents(new MessageCommand(), plugin);
@@ -266,7 +256,7 @@ public class Main extends JavaPlugin implements Listener {
                 //getCommand("Kit").setExecutor(new KitsCommand());
                 //getCommand("Mvp").setExecutor(new mvpCommand());
                 //getCommand("KitGUI").setExecutor(new KitGUIcommand());
-                getCommand("Mystats").setExecutor(new MystatsCommand());
+                //getCommand("Mystats").setExecutor(new MystatsCommand());
 
                 //getCommand("t").setExecutor(new TeamChat());
                 getCommand("msg").setExecutor(new MessageCommand());
@@ -410,24 +400,9 @@ public class Main extends JavaPlugin implements Listener {
 
         if (SQL.isConnected()) {
             getLogger().info("<!> Database is connected! <!>");
-            SQLStats.createTable();
+            //SQLStats.createTable();
             this.getServer().getPluginManager().registerEvents(this, this);
         }
-    }
-
-    @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-
-        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
-
-        Player p = e.getPlayer();
-
-        assert plugin != null;
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            if (!SQLStats.exists(p.getUniqueId())) {
-                SQLStats.createPlayer(p);
-            }
-        });
     }
 
     // File Configuration
