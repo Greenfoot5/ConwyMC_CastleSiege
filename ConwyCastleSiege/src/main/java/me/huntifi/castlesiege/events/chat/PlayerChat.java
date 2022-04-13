@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.chat;
+package me.huntifi.castlesiege.events.chat;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

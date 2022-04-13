@@ -7,8 +7,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
 //import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class TeamChat implements CommandExecutor {

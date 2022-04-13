@@ -9,8 +9,8 @@ import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.database.SQLGetter;
 import me.huntifi.castlesiege.database.SQLStats;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
-import me.huntifi.castlesiege.joinevents.stats.StatsLoading;
+import me.huntifi.castlesiege.events.join.stats.StatsChanging;
+import me.huntifi.castlesiege.events.join.stats.StatsLoading;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 

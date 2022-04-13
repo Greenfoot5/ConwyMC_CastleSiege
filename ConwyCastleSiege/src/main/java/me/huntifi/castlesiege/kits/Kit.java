@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.kits;
 
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
-import me.huntifi.castlesiege.combat.InCombat;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;

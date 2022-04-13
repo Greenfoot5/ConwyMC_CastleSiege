@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
+import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 
 public class UnsessionmuteCommand implements CommandExecutor {
 

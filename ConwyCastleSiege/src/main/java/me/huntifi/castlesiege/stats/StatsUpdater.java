@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import me.huntifi.castlesiege.database.SQLStats;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
+import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 
 
 public class StatsUpdater {

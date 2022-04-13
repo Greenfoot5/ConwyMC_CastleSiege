@@ -15,7 +15,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
+import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 //import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 import net.md_5.bungee.api.ChatColor;

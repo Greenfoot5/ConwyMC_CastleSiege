@@ -14,7 +14,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
+import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.ClearSlots;
 import me.huntifi.castlesiege.kits.EnderchestRefill;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;

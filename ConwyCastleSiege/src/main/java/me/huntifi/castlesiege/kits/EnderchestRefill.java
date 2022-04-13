@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.kits;
 
 import me.huntifi.castlesiege.Helmsdeep.Secrets.Herugrim;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
+import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.Warhound.Warhound;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;

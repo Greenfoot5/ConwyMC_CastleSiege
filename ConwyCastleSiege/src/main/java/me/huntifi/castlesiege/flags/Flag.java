@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.flags;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.combat.InCombat;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.maps.MapController;

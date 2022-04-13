@@ -8,7 +8,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
+import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 //import me.huntifi.castlesiege.teams.PlayerTeam;
 

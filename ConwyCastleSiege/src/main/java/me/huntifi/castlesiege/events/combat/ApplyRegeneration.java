@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.combat;
+package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.kits.Kit;
 import org.bukkit.Bukkit;

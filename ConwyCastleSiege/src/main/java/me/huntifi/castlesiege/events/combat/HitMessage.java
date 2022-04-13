@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.combat;
+package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.maps.MapController;
 import net.md_5.bungee.api.ChatColor;

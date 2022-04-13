@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.database.SQLStats;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
+import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 
 public class LevelSave {
 	
@@ -16,11 +16,8 @@ public class LevelSave {
 	public static void saveLevel(Player p) {
 		
 		UUID uuid = p.getUniqueId();
-		
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-			
 			SQLStats.setLevel(uuid, StatsChanging.getLevel(uuid));
-			
 		});
 		
 	}

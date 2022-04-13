@@ -1,27 +1,13 @@
 package me.huntifi.castlesiege.Thunderstone;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagRadius;
-import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagTeam;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
-import me.huntifi.castlesiege.kits.EnderchestRefill;
-import me.huntifi.castlesiege.maps.MapController;
 //import me.huntifi.castlesiege.teams.PlayerTeam;
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+
 
 public class TS_Woolmap_Distance implements Listener {
 

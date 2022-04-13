@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.tags;
 
 import com.nametagedit.plugin.NametagEdit;
 import me.huntifi.castlesiege.commands.togglerankCommand;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
+import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

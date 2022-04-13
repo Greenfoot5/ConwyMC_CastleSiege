@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.joinevents;
+package me.huntifi.castlesiege.events.join;
 
 import java.util.UUID;
 

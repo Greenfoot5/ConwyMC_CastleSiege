@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.combat;
+package me.huntifi.castlesiege.events.combat;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;

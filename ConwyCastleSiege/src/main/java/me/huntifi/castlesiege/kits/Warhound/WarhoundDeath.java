@@ -1,15 +1,9 @@
 package me.huntifi.castlesiege.kits.Warhound;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-
-import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
-import me.huntifi.castlesiege.tags.NametagsEvent;
 //import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class WarhoundDeath implements Listener {

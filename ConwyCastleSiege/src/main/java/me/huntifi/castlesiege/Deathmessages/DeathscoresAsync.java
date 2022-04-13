@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.Deathmessages;
 
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
+import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import org.bukkit.entity.Player;
 

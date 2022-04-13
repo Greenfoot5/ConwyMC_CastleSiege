@@ -9,8 +9,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.huntifi.castlesiege.joinevents.stats.MainStats;
-import me.huntifi.castlesiege.stats.levels.LevelingEvent;
 //import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 

@@ -1,25 +1,17 @@
-package me.huntifi.castlesiege.joinevents;
+package me.huntifi.castlesiege.events.join;
 
-import me.huntifi.castlesiege.kits.EnderchestRefill;
-import me.huntifi.castlesiege.kits.kits.Archer;
 import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-
+/**
+ * Handles what happens when someone logs in
+ */
 public class login implements Listener {
-
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
-	
-	public static ArrayList<Player> Playerlist = new ArrayList<Player>();
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
@@ -28,19 +20,15 @@ public class login implements Listener {
 		
 		p.setFoodLevel(20);
 		p.setHealthScaled(true);
-		
-		if (!Playerlist.contains(p)) { Playerlist.add(p); }
 
 		MapController.joinATeam(p.getUniqueId());
 		new Swordsman().addPlayer(p.getUniqueId());
 	}
 	
 	@EventHandler
-	public void onPlayerJoin(PlayerQuitEvent e) {
+	public void onPlayerQuit(PlayerQuitEvent e) {
 		
 		Player p = e.getPlayer();
-		
-		if (Playerlist.contains(p)) { Playerlist.remove(p); }
 		
 		MapController.leaveTeam(p.getUniqueId());
 	}

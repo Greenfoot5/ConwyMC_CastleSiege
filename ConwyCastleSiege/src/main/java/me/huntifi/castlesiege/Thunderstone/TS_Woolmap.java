@@ -15,7 +15,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagRadius;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagTeam;
-import me.huntifi.castlesiege.joinevents.stats.StatsChanging;
+import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.EnderchestRefill;
 import me.huntifi.castlesiege.maps.MapController;
 //import me.huntifi.castlesiege.teams.PlayerTeam;
