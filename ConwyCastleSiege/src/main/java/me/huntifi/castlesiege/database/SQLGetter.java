@@ -16,7 +16,7 @@ public class SQLGetter {
 
 		PreparedStatement ps;
 		try {
-			ps = Main.SQL.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS playerstats " 
+			ps = Main.SQL.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS player_rank " 
 					+ "(NAME VARCHAR(100),UUID VARCHAR(100),RANK VARCHAR(100),STAFFRANK VARCHAR(100),RANKPOINTS DOUBLE,COINS INT(100),PLAYERTIME VARCHAR(100),JOINDATE VARCHAR(100),VOTES VARCHAR(100),PRIMARY KEY (NAME))");
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -31,7 +31,7 @@ public class SQLGetter {
 				UUID uuid = p.getUniqueId();
 
 				if (!exists(uuid)) {
-					PreparedStatement ps2 = Main.SQL.getConnection().prepareStatement("INSERT IGNORE INTO playerstats"
+					PreparedStatement ps2 = Main.SQL.getConnection().prepareStatement("INSERT IGNORE INTO player_rank"
 							+ " (NAME,UUID) VALUES (?,?)");
 					ps2.setString(1, p.getName());
 					ps2.setString(2, uuid.toString());
@@ -54,7 +54,7 @@ public class SQLGetter {
 	public static boolean exists(UUID uuid) {
 
 		try {
-			PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT * FROM playerstats WHERE UUID=?");
+			PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT * FROM player_rank WHERE UUID=?");
 			ps.setString(1, uuid.toString());
 			ResultSet results = ps.executeQuery();
 			return results.next();
@@ -103,7 +103,7 @@ public class SQLGetter {
 	public static void addCoins(UUID uuid, int coins) {
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE playerstats SET COINS=? WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE player_rank SET COINS=? WHERE UUID=?");
 				ps.setInt(1, (getCoins(uuid) + coins));
 				ps.setString(2, uuid.toString());
 				ps.executeUpdate();
@@ -123,7 +123,7 @@ public class SQLGetter {
 	public static void removeCoins(UUID uuid, int coins) {
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE playerstats SET COINS=? WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE player_rank SET COINS=? WHERE UUID=?");
 				ps.setInt(1, (getCoins(uuid) - coins));
 				ps.setString(2, uuid.toString());
 				ps.executeUpdate();
@@ -143,7 +143,7 @@ public class SQLGetter {
 	public static void setCoins(UUID uuid, int coins) {
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE playerstats SET COINS=? WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE player_rank SET COINS=? WHERE UUID=?");
 				ps.setInt(1, coins);
 				ps.setString(2, uuid.toString());
 				ps.executeUpdate();
@@ -166,7 +166,7 @@ public class SQLGetter {
 
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT COINS FROM playerstats WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT COINS FROM player_rank WHERE UUID=?");
 				ps.setString(1, uuid.toString());
 				ResultSet rs = ps.executeQuery();
 				int coins;
@@ -194,7 +194,7 @@ public class SQLGetter {
 	public static void setRank(UUID uuid, String rank) {
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE playerstats SET RANK=? WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE player_rank SET RANK=? WHERE UUID=?");
 				ps.setString(1, rank);
 				ps.setString(2, uuid.toString());
 				ps.executeUpdate();
@@ -215,7 +215,7 @@ public class SQLGetter {
 	public static void removeRank(UUID uuid) {
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE playerstats SET RANK=? WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE player_rank SET RANK=? WHERE UUID=?");
 				ps.setString(1, "None");
 				ps.setString(2, uuid.toString());
 				ps.executeUpdate();
@@ -236,7 +236,7 @@ public class SQLGetter {
 		String rank = "";
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT RANK FROM `playerstats` WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT RANK FROM `player_rank` WHERE UUID=?");
 				ps.setString(1, uuid.toString());
 				ResultSet rs = ps.executeQuery();
 				rs.next();
@@ -261,7 +261,7 @@ public class SQLGetter {
 	public static void setStaffRank(UUID uuid, String rank) {
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE playerstats SET STAFFRANK=? WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE player_rank SET STAFFRANK=? WHERE UUID=?");
 				ps.setString(1, rank);
 				ps.setString(2, uuid.toString());
 				ps.executeUpdate();
@@ -281,7 +281,7 @@ public class SQLGetter {
 	public static void removeStaffRank(UUID uuid) {
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE playerstats SET STAFFRANK=? WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE player_rank SET STAFFRANK=? WHERE UUID=?");
 				ps.setString(1, "None");
 				ps.setString(2, uuid.toString());
 				ps.executeUpdate();
@@ -302,7 +302,7 @@ public class SQLGetter {
 		String Staffrank = "";
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT STAFFRANK FROM `playerstats` WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT STAFFRANK FROM `player_rank` WHERE UUID=?");
 				ps.setString(1, uuid.toString());
 				ResultSet rs = ps.executeQuery();
 
@@ -328,7 +328,7 @@ public class SQLGetter {
 	public static void removeRankpoints(UUID uuid, int coins) {
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE playerstats SET RANKPOINTS=? WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE player_rank SET RANKPOINTS=? WHERE UUID=?");
 				ps.setInt(1, (getRankpoints(uuid) - coins));
 				ps.setString(2, uuid.toString());
 				ps.executeUpdate();
@@ -348,7 +348,7 @@ public class SQLGetter {
 	public static void setRankpoints(UUID uuid, int coins) {
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE playerstats SET RANKPOINTS=? WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE player_rank SET RANKPOINTS=? WHERE UUID=?");
 				ps.setInt(1, coins);
 				ps.setString(2, uuid.toString());
 				ps.executeUpdate();
@@ -368,7 +368,7 @@ public class SQLGetter {
 	public static int getRankpoints(UUID uuid) {
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT RANKPOINTS FROM playerstats WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT RANKPOINTS FROM player_rank WHERE UUID=?");
 				ps.setString(1, uuid.toString());
 				ResultSet rs = ps.executeQuery();
 				int coins;
@@ -396,7 +396,7 @@ public class SQLGetter {
 
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE playerstats SET VOTES=? WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE player_rank SET VOTES=? WHERE UUID=?");
 				ps.setString(1, vote);
 				ps.setString(2, uuid.toString());
 				ps.executeUpdate();
@@ -416,7 +416,7 @@ public class SQLGetter {
 	public static void removeVotes(UUID uuid) {
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE playerstats SET VOTES=? WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE player_rank SET VOTES=? WHERE UUID=?");
 				ps.setString(1, "NULL");
 				ps.setString(2, uuid.toString());
 				ps.executeUpdate();
@@ -436,7 +436,7 @@ public class SQLGetter {
 	public static void removeVote(UUID uuid, String vote) {
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE playerstats SET VOTES=? WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("UPDATE player_rank SET VOTES=? WHERE UUID=?");
 				ps.setString(1, getVotes(uuid).replaceAll(vote, ""));
 				ps.setString(2, uuid.toString());
 				ps.executeUpdate();
@@ -458,7 +458,7 @@ public class SQLGetter {
 
 		if (Main.SQL.getConnection() != null) {
 			try {
-				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT VOTES FROM `playerstats` WHERE UUID=?");
+				PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT VOTES FROM `player_rank` WHERE UUID=?");
 				ps.setString(1, uuid.toString());
 				ResultSet rs = ps.executeQuery();
 

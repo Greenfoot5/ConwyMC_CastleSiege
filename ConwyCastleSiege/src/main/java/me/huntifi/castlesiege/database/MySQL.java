@@ -16,6 +16,10 @@ public class MySQL {
 
 	private Connection connection;
 
+	public MySQL() {
+		System.out.println("I don't even know");
+	}
+
 	public boolean isConnected() {
 
 		return (connection != null);

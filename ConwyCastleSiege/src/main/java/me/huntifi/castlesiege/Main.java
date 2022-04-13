@@ -19,6 +19,7 @@ import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.DatabaseKeepAliveEvent;
 import me.huntifi.castlesiege.database.MySQL;
+import me.huntifi.castlesiege.database.SQLStats;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.*;
 import me.huntifi.castlesiege.events.join.login;
@@ -390,9 +391,12 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private void sqlConnect() {
+        System.out.println("Creating SQL connection");
         SQL = new MySQL();
+        System.out.println("Created the MySQL class");
 
         try {
+            System.out.println("Connecting...");
             SQL.connect();
         } catch (ClassNotFoundException | SQLException e) {
             getLogger().warning("<!> Database is not connected! <!>");
@@ -400,7 +404,7 @@ public class Main extends JavaPlugin implements Listener {
 
         if (SQL.isConnected()) {
             getLogger().info("<!> Database is connected! <!>");
-            //SQLStats.createTable();
+            SQLStats.createTable();
             this.getServer().getPluginManager().registerEvents(this, this);
         }
     }

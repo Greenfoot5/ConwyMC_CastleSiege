@@ -10,7 +10,7 @@ public class DatabaseKeepAliveEvent implements Runnable {
 	@Override
 	public void run() {
 		try {
-			PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT SCORE FROM castlesiegestats LIMIT 1;");
+			PreparedStatement ps = Main.SQL.getConnection().prepareStatement("SELECT SCORE FROM player_stats LIMIT 1;");
 			ps.execute();
 			SQLStats.ClosePreparedStatement(ps);
 			Main.instance.getLogger().fine("Did a prepared statement to the database to keep it connected.");
