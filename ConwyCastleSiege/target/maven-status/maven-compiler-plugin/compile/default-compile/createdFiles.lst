@@ -71,7 +71,6 @@ me\huntifi\castlesiege\commands\staffCommands\SessionMuteCommand.class
 me\huntifi\castlesiege\kits\Warhound\Warhound.class
 me\huntifi\castlesiege\security\Hunger.class
 me\huntifi\castlesiege\Helmsdeep\doors\HelmsdeepMainGateRightDoor.class
-me\huntifi\castlesiege\kits\Ranger\RangerAbility$1$1.class
 me\huntifi\castlesiege\kits\kits\Medic$2.class
 me\huntifi\castlesiege\kits\Shieldman\Shieldman.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Skyview_Cloudcrawlers.class
@@ -192,9 +191,7 @@ me\huntifi\castlesiege\kits\Shieldman\DeathShieldman.class
 me\huntifi\castlesiege\security\explosions.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagMessages.class
 me\huntifi\castlesiege\commands\staffCommands\FlyCommand.class
-me\huntifi\castlesiege\kits\Ranger\DeathRanger.class
 me\huntifi\castlesiege\events\combat\NoHurtTeam.class
-me\huntifi\castlesiege\kits\Ranger\RangerAbility$1.class
 me\huntifi\castlesiege\Helmsdeep\Kits\GUI\KitGUI_Isengard_Command$1.class
 me\huntifi\castlesiege\security\NoTouchArmorstand.class
 me\huntifi\castlesiege\stats\MVP\MVPstats$1.class
@@ -208,11 +205,9 @@ me\huntifi\castlesiege\kits\Warhound\WarhoundKit.class
 me\huntifi\castlesiege\Thunderstone\ThunderstoneDeath.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\TwinbridgeFlag$4.class
 me\huntifi\castlesiege\database\SQLGetter$1.class
-me\huntifi\castlesiege\kits\Ranger\RangerAbility.class
 me\huntifi\castlesiege\kits\EquipmentSet.class
 me\huntifi\castlesiege\stats\MVP\StatsMvpJoinevent.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Lonelytower_Cloudcrawlers.class
-me\huntifi\castlesiege\kits\Ranger\RangerVotedKit.class
 me\huntifi\castlesiege\Thunderstone\KitsGUI\KitsGUI_Cloudcrawlers.class
 me\huntifi\castlesiege\stats\mystats\MystatsBook.class
 me\huntifi\castlesiege\Helmsdeep\Ballistae\Ballista1Cooldown$1.class
@@ -250,7 +245,6 @@ me\huntifi\castlesiege\Thunderstone\Gate\ThunderstoneGateDestroyEvent$1.class
 me\huntifi\castlesiege\database\AsyncGetters$2.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\TwinbridgeFlag$1.class
 me\huntifi\castlesiege\mvpCommand\ThunderstoneMVP.class
-me\huntifi\castlesiege\kits\Ranger\Ranger.class
 me\huntifi\castlesiege\stats\StatsEverything.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\StairhallFlag.class
 me\huntifi\castlesiege\Thunderstone\Rams\ThunderstoneRam.class
@@ -273,7 +267,6 @@ me\huntifi\castlesiege\Main.class
 me\huntifi\castlesiege\Helmsdeep\Ballistae\Ballista1Cooldown.class
 me\huntifi\castlesiege\stats\StatsUpdater.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagCaptureSpeed.class
-me\huntifi\castlesiege\kits\Ranger\RangerKit.class
 me\huntifi\castlesiege\data_types\Tuple.class
 me\huntifi\castlesiege\kits\kits\Halberdier.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Shiftedtower.class

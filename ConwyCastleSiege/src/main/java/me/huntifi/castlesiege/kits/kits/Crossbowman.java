@@ -89,14 +89,11 @@ public class Crossbowman extends Kit implements Listener, CommandExecutor {
         Player p = (Player) e.getEntity();
 
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-            if (p.getCooldown(Material.CROSSBOW) == 0) {
+            e.setCancelled(true);
+            p.setCooldown(Material.CROSSBOW, 75);
 
-                e.setCancelled(true);
-                p.setCooldown(Material.CROSSBOW, 75);
-
-                Arrow a = p.launchProjectile(Arrow.class);
-                a.setVelocity(a.getVelocity().normalize().multiply(35));
-            }
+            Arrow a = p.launchProjectile(Arrow.class, p.getLocation().getDirection());
+            a.setVelocity(a.getVelocity().normalize().multiply(35));
         }
     }
 }
