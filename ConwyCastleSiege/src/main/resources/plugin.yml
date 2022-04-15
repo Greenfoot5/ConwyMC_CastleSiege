@@ -191,6 +191,9 @@ commands:
   scout:
     description: Selects the scout kit
     usage: /scout
+  shieldman:
+    description: Selects the shieldman kit
+    usage: /shieldman
   spearman:
     description: Selects the spearman kit
     usage: /spearman

@@ -28,6 +28,7 @@ me\huntifi\castlesiege\kits\kits\Berserker.class
 me\huntifi\castlesiege\Helmsdeep\Kits\orc.class
 me\huntifi\castlesiege\data_types\Frame.class
 me\huntifi\castlesiege\Thunderstone\KitsGUI\KitsGUI_ThunderstoneGuard_Command$1.class
+me\huntifi\castlesiege\kits\kits\Shieldman.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\LonelyTowerFlag.class
 me\huntifi\castlesiege\Helmsdeep\rams\GreatHallRamAnimation.class
 me\huntifi\castlesiege\database\DatabaseKeepAliveEvent.class
@@ -72,7 +73,6 @@ me\huntifi\castlesiege\kits\Warhound\Warhound.class
 me\huntifi\castlesiege\security\Hunger.class
 me\huntifi\castlesiege\Helmsdeep\doors\HelmsdeepMainGateRightDoor.class
 me\huntifi\castlesiege\kits\kits\Medic$2.class
-me\huntifi\castlesiege\kits\Shieldman\Shieldman.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Skyview_Cloudcrawlers.class
 me\huntifi\castlesiege\maps\Lobby.class
 me\huntifi\castlesiege\Helmsdeep\rams\MainGateReadyRam.class
@@ -187,7 +187,6 @@ me\huntifi\castlesiege\flags\CaptureHandler$Factory.class
 me\huntifi\castlesiege\Helmsdeep\rams\GreatHallGateReadyRam.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\WestTowerFlag.class
 me\huntifi\castlesiege\kits\Classic\KitGUI_Classic.class
-me\huntifi\castlesiege\kits\Shieldman\DeathShieldman.class
 me\huntifi\castlesiege\security\explosions.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagMessages.class
 me\huntifi\castlesiege\commands\staffCommands\FlyCommand.class
@@ -235,7 +234,6 @@ me\huntifi\castlesiege\events\join\login.class
 me\huntifi\castlesiege\kits\Warhound\WarhoundAbility.class
 me\huntifi\castlesiege\database\SQLStats$2.class
 me\huntifi\castlesiege\events\combat\InCombat$1.class
-me\huntifi\castlesiege\kits\Shieldman\ShieldmanKit.class
 me\huntifi\castlesiege\events\combat\HitMessage.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTower_ThunderstoneGuards.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\ShiftedTower_Cloudcrawlers.class
@@ -288,7 +286,6 @@ me\huntifi\castlesiege\kits\Kit.class
 me\huntifi\castlesiege\security\NoMoveInventory.class
 me\huntifi\castlesiege\Helmsdeep\doors\HelmsdeepMainGateRightDoor$1.class
 me\huntifi\castlesiege\kits\kits\Crossbowman.class
-me\huntifi\castlesiege\kits\Shieldman\ShieldmanVotedKit.class
 me\huntifi\castlesiege\Main$3.class
 me\huntifi\castlesiege\database\AsyncGetters$2$1.class
 me\huntifi\castlesiege\Helmsdeep\Secrets\HelmsdeepSecretDoor.class
