@@ -194,6 +194,9 @@ commands:
   shieldman:
     description: Selects the shieldman kit
     usage: /shieldman
+  skirmisher:
+    description: Selects the skirmisher kit
+    usage: /skirmisher
   spearman:
     description: Selects the spearman kit
     usage: /spearman

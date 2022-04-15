@@ -1,4 +1,5 @@
 me\huntifi\castlesiege\Thunderstone\Flags\animations\TwinbridgeFlag$2.class
+me\huntifi\castlesiege\kits\kits\Skirmisher.class
 me\huntifi\castlesiege\Thunderstone\Flags\ThunderstoneReset.class
 me\huntifi\castlesiege\Thunderstone\Gate\ThunderstoneGateDestroyEvent.class
 me\huntifi\castlesiege\maps\WoolMap.class
@@ -127,7 +128,6 @@ me\huntifi\castlesiege\kits\kits\Berserker$2.class
 me\huntifi\castlesiege\maps\EndMapAction.class
 me\huntifi\castlesiege\woolmap\LobbyPlayer.class
 me\huntifi\castlesiege\Helmsdeep\Gates\HelmsdeepMainGateBlocks.class
-me\huntifi\castlesiege\kits\Skirmisher\Skirmisher.class
 me\huntifi\castlesiege\Helmsdeep\HelmsdeepEndMVP.class
 me\huntifi\castlesiege\events\combat\DeathEvent.class
 me\huntifi\castlesiege\kits\kits\Medic.class
@@ -195,7 +195,6 @@ me\huntifi\castlesiege\Helmsdeep\Kits\GUI\KitGUI_Isengard_Command$1.class
 me\huntifi\castlesiege\security\NoTouchArmorstand.class
 me\huntifi\castlesiege\stats\MVP\MVPstats$1.class
 me\huntifi\castlesiege\security\NoTouchPaintings.class
-me\huntifi\castlesiege\kits\Skirmisher\SkirmisherDeath.class
 me\huntifi\castlesiege\kits\kits\Scout.class
 me\huntifi\castlesiege\maps\MapsList.class
 me\huntifi\castlesiege\scoreboard\ThunderstoneScoreboard.class
@@ -219,7 +218,6 @@ me\huntifi\castlesiege\kits\kits\Engineer.class
 me\huntifi\castlesiege\events\chat\PlayerChat.class
 me\huntifi\castlesiege\commands\MapsCommand.class
 me\huntifi\castlesiege\mvpCommand\HelmsdeepMVP.class
-me\huntifi\castlesiege\kits\Skirmisher\SkirmisherKit.class
 me\huntifi\castlesiege\commands\Teamchat\TeamChat.class
 me\huntifi\castlesiege\events\join\newLogin.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagMethod$3.class
@@ -250,7 +248,6 @@ me\huntifi\castlesiege\Helmsdeep\doors\HelmsdeepStorageDoor.class
 me\huntifi\castlesiege\Helmsdeep\Boat\HelmsdeepCaveBoat.class
 me\huntifi\castlesiege\Main$2.class
 me\huntifi\castlesiege\security\NoPaintingDestroy.class
-me\huntifi\castlesiege\kits\Skirmisher\SkirmisherVotedKit.class
 me\huntifi\castlesiege\structures\MakeStructure.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTower_Cloudcrawlers.class
 me\huntifi\castlesiege\commands\staffCommands\KickallCommand.class
