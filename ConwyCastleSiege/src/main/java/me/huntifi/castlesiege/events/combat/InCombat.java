@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.maps.MapController;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,6 +32,24 @@ public class InCombat implements Listener {
 
 		UUID whoWasHit = ed.getEntity().getUniqueId();
 		UUID whoHit = ed.getDamager().getUniqueId();
+
+		// Check they aren't on the same team
+		if (MapController.getCurrentMap().getTeam(whoHit) != MapController.getCurrentMap().getTeam(whoWasHit)) {
+			playerInteracted(whoHit);
+		}
+	}
+
+	/**
+	 * When a player shoots another player using an arrow, they have interacted
+	 */
+	@EventHandler
+	public void playerAttacksAnotherWithArrow(EntityDamageByEntityEvent e) {
+		// Player is damaged by arrow, shot by player
+		if (!(e.getEntity() instanceof Player && e.getDamager() instanceof Arrow &&
+				((Arrow) e.getDamager()).getShooter() instanceof Player)) { return; }
+
+		UUID whoWasHit = e.getEntity().getUniqueId();
+		UUID whoHit = ((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId();
 
 		// Check they aren't on the same team
 		if (MapController.getCurrentMap().getTeam(whoHit) != MapController.getCurrentMap().getTeam(whoWasHit)) {
