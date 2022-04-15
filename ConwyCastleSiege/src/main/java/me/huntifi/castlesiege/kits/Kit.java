@@ -3,6 +3,8 @@ package me.huntifi.castlesiege.kits;
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -149,11 +151,13 @@ public abstract class Kit implements Listener {
         equippedKits.put(uuid, this);
 
         assert player != null;
-        // Kills the player if they have interacted this life, otherwise heal them
+        // Kills the player if they have interacted this life, otherwise heal and teleport them
         if (InCombat.hasPlayerInteracted(uuid)) {
             player.setHealth(0);
         } else {
             player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+            Team team = MapController.getCurrentMap().getTeam(uuid);
+            player.teleport(team.lobby.spawnPoint);
         }
     }
 

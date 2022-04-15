@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
@@ -93,6 +94,8 @@ public class SwitchCommand implements CommandExecutor {
 			// Heal the player
 			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
 			p.sendMessage("You switched to " + smallestTeam.primaryChatColor + smallestTeam.name + "");
+			// Teleport the player
+			p.teleport(smallestTeam.lobby.spawnPoint);
 		}
 
 	return true;
