@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
@@ -120,6 +121,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                 e.getBlockPlaced().getType() == Material.CAKE) {
             e.setCancelled(false);
+            InCombat.playerInteracted(p.getUniqueId());
             destroyCake(p);
             cakes.put(p, e.getBlockPlaced());
         }
@@ -170,6 +172,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
             if (p.getHealth() < Kit.equippedKits.get(p.getUniqueId()).baseHealth &&
                     !cooldown.contains(p)) {
                 // Apply cooldown
+                InCombat.playerInteracted(p.getUniqueId());
                 cooldown.add(p);
                 new BukkitRunnable() {
                     @Override
@@ -222,6 +225,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
                 !cooldown.contains((Player) q)) {                                               // Not on cooldown
 
             // Apply cooldown
+            InCombat.playerInteracted(p.getUniqueId());
             Player r = (Player) q;
             cooldown.add(r);
             new BukkitRunnable() {
