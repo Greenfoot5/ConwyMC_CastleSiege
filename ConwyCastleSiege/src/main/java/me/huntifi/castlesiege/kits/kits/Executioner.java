@@ -23,9 +23,7 @@ import java.util.Objects;
 
 public class Executioner extends Kit implements Listener, CommandExecutor {
 	public Executioner() {
-		super("Executioner");
-		super.baseHealth = 115;
-
+		super("Executioner", 115);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
@@ -81,8 +79,7 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 	}
         
 	@EventHandler
-	public void Exe1(EntityDamageByEntityEvent e) {
-
+	public void onExecute(EntityDamageByEntityEvent e) {
 		// Prevent loop
 		if (e.getDamage() == 1) {
 			return;

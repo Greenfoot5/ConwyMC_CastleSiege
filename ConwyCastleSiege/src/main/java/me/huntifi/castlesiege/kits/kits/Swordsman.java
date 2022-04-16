@@ -18,9 +18,7 @@ import java.util.Collections;
 public class Swordsman extends Kit implements CommandExecutor {
 
 	public Swordsman() {
-		super("Swordsman");
-		super.baseHealth = 120;
-
+		super("Swordsman", 120);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();

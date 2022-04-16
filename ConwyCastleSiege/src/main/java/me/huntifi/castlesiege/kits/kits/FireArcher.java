@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
@@ -43,9 +44,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
     private final ItemStack firepitVoted;
 
     public FireArcher() {
-        super("FireArcher");
-        super.baseHealth = 105;
-
+        super("FireArcher", 105);
 
         // Equipment stuff
         EquipmentSet es = new EquipmentSet();
@@ -127,6 +126,12 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
     @EventHandler (priority = EventPriority.MONITOR)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
+
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(p.getUniqueId())) {
+            return;
+        }
+
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                 e.getBlockPlaced().getType() == Material.CAULDRON) {
 
@@ -143,6 +148,11 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
 
     @EventHandler
     public void onRemove(PlayerInteractEvent e) {
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
+            return;
+        }
+
         if (e.getAction() == Action.LEFT_CLICK_BLOCK &&
                 e.getClickedBlock().getType() == Material.CAULDRON) {
             Player p = e.getPlayer();
@@ -181,6 +191,11 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
     public void onUseFirepit(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         ItemStack usedItem = e.getItem();
+
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(p.getUniqueId())) {
+            return;
+        }
 
         // Check if a fire archer tries to light an arrow, while off-cooldown
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&

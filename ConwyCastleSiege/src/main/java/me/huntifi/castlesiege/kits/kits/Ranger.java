@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import net.md_5.bungee.api.ChatMessageType;
@@ -34,9 +35,7 @@ import java.util.Objects;
 public class Ranger extends Kit implements Listener, CommandExecutor {
 
     public Ranger() {
-        super("Ranger");
-        super.baseHealth = 105;
-
+        super("Ranger", 105);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -128,6 +127,12 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
                 Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
             Player p = (Player) e.getEntity();
             String b = e.getBow().getItemMeta().getDisplayName();
+
+            // Prevent using in lobby
+            if (!InCombat.hasPlayerSpawned(p.getUniqueId())) {
+                return;
+            }
+
             if (Objects.equals(b, ChatColor.GREEN + "Volley Bow")) {
                 Vector v = e.getProjectile().getVelocity();
                 volleyAbility(p, v);

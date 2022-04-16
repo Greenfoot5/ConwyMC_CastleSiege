@@ -20,9 +20,7 @@ import java.util.Collections;
 public class Skirmisher extends Kit implements CommandExecutor {
 
     public Skirmisher() {
-        super("Skirmisher");
-        super.baseHealth = 110;
-
+        super("Skirmisher", 110);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

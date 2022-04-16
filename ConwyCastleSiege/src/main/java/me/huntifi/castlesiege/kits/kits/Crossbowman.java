@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import org.bukkit.ChatColor;
@@ -27,9 +28,7 @@ import java.util.Objects;
 public class Crossbowman extends Kit implements Listener, CommandExecutor {
 
     public Crossbowman() {
-        super("Crossbowman");
-        super.baseHealth = 105;
-
+        super("Crossbowman", 105);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -87,6 +86,11 @@ public class Crossbowman extends Kit implements Listener, CommandExecutor {
     @EventHandler
     public void shootCrossbow(EntityShootBowEvent e) {
         Player p = (Player) e.getEntity();
+
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(p.getUniqueId())) {
+            return;
+        }
 
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
             e.setCancelled(true);

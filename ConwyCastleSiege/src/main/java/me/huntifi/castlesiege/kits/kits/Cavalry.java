@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import org.bukkit.ChatColor;
@@ -29,13 +30,12 @@ import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.util.Collections;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Cavalry extends Kit implements Listener, CommandExecutor {
 
     public Cavalry() {
-        super("Cavalry");
-        super.baseHealth = 110;
-
+        super("Cavalry", 110);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -90,8 +90,14 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
     @EventHandler
     public void onRide(PlayerInteractEvent e) {
         Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
 
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
                 e.getItem() != null && e.getItem().getType() == Material.WHEAT) {
             int cooldown = p.getCooldown(Material.WHEAT);
             if (cooldown == 0) {

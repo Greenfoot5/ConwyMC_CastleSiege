@@ -21,9 +21,7 @@ import java.util.Collections;
 public class Shieldman extends Kit implements CommandExecutor {
 
     public Shieldman() {
-        super("Shieldman");
-        super.baseHealth = 120;
-
+        super("Shieldman", 120);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

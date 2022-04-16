@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import net.md_5.bungee.api.ChatMessageType;
@@ -26,13 +27,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Spearman extends Kit implements Listener, CommandExecutor {
 
 	public Spearman() {
-		super("Spearman");
-		super.baseHealth = 115;
-
+		super("Spearman", 115);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
@@ -90,19 +90,27 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 	@EventHandler
 	public void Charge(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
+		UUID uuid = p.getUniqueId();
 		int cooldown = p.getCooldown(Material.STICK);
 
-		if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
+		// Prevent using in lobby
+		if (!InCombat.hasPlayerSpawned(uuid)) {
+			return;
+		}
+
+		if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
 			if (p.getInventory().getItemInMainHand().getType().equals(Material.STICK)) {
 				if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
 					if (cooldown == 0) {
 						p.setCooldown(Material.STICK, 160);
-						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "You threw your spear!"));
+						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+								ChatColor.AQUA + "You threw your spear!"));
 						p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.0));
 
 					} else {
-						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your spear yet."));
+						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+								ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your spear yet."));
 					}
 				}
 			}

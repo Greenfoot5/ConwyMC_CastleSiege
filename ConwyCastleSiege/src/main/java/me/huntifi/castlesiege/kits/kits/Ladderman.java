@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import org.bukkit.ChatColor;
@@ -21,13 +22,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Ladderman extends Kit implements Listener, CommandExecutor {
 
     public Ladderman() {
-        super("Ladderman");
-        super.baseHealth = 110;
-
+        super("Ladderman", 110);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -81,7 +81,14 @@ public class Ladderman extends Kit implements Listener, CommandExecutor {
     @EventHandler
     public void onBreakLadder(BlockBreakEvent e) {
         Player p = e.getPlayer();
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
+        UUID uuid = p.getUniqueId();
+
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
                 e.getBlock().getType() == Material.LADDER) {
             p.getInventory().addItem(new ItemStack(Material.LADDER));
         }

@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
@@ -29,9 +30,7 @@ import java.util.Objects;
 public class Maceman extends Kit implements Listener, CommandExecutor {
 
     public Maceman() {
-        super("Maceman");
-        super.baseHealth = 110;
-
+        super("Maceman", 110);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -91,6 +90,11 @@ public class Maceman extends Kit implements Listener, CommandExecutor {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player p = (Player) e.getEntity();
             Player q = (Player) e.getDamager();
+
+            // Prevent using in lobby
+            if (!InCombat.hasPlayerSpawned(q.getUniqueId())) {
+                return;
+            }
 
             // Maceman tries to use stun an enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&

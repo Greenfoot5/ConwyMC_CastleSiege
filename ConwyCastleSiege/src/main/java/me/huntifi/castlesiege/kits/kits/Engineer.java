@@ -37,9 +37,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     public static HashMap<Player, ArrayList<Block>> traps = new HashMap<>();
 
     public Engineer() {
-        super("Engineer");
-        super.baseHealth = 110;
-
+        super("Engineer", 110);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -110,6 +108,12 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
+
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(uuid)) {
+            return;
+        }
+
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
 
             Material block = e.getBlockPlaced().getType();
@@ -127,6 +131,11 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
 
     @EventHandler (priority = EventPriority.MONITOR)
     public void onDestroy(BlockBreakEvent e) {
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
+            return;
+        }
+
         Material block = e.getBlock().getType();
         if (block == Material.COBWEB) {
             e.getBlock().setType(Material.AIR);
@@ -135,6 +144,11 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
 
     @EventHandler
     public void onWalkOverTrap(PlayerInteractEvent e) {
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
+            return;
+        }
+
         // Check if the player stepped on a trap
         Block trap = e.getClickedBlock();
         if (e.getAction() == Action.PHYSICAL && trap != null &&
@@ -170,6 +184,11 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     public void onPickUpTrap(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
+
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(uuid)) {
+            return;
+        }
 
         // Check if engineer tries to pick up
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&

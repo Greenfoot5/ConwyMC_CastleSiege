@@ -46,8 +46,9 @@ public abstract class Kit implements Listener {
     public List<UUID> players;
     public static Map<UUID, Kit> equippedKits = new HashMap<>();
 
-    public Kit(String name) {
+    public Kit(String name, int baseHealth) {
         this.name = name;
+        this.baseHealth = baseHealth;
         players = new ArrayList<>();
 
         // Equipment

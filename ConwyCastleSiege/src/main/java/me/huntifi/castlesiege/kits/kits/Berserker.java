@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.voting.VotesChanging;
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -36,9 +38,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
     private final ItemStack berserkSwordVoted;
 
     public Berserker() {
-        super("Berserker");
-        super.baseHealth = 110;
-
+        super("Berserker", 110);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -102,6 +102,12 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
     public void berserkerPotion(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
+
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(uuid)) {
+            return;
+        }
+
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (e.getItem() != null && e.getItem().getType() == Material.POTION) {
                 p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
@@ -139,6 +145,15 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
                     }
                 }.runTaskLater(Main.plugin, 401);
             }
+        }
+    }
+
+    @EventHandler
+    public void onDrinkPotion(PlayerItemConsumeEvent e) {
+        if (e.getItem().getType() == Material.POTION &&
+                Objects.equals(Kit.equippedKits.get(e.getPlayer().getUniqueId()).name, name) &&
+                !InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
+            e.setCancelled(true);
         }
     }
 }

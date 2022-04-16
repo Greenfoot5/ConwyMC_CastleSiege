@@ -27,8 +27,7 @@ import java.util.Objects;
 public class Halberdier extends Kit implements Listener, CommandExecutor {
 
     public Halberdier() {
-        super("Halberdier");
-        super.baseHealth = 160;
+        super("Halberdier", 160);
         super.kbResistance = 2;
 
         // Equipment Stuff

@@ -21,9 +21,7 @@ import java.util.Collections;
 public class Scout extends Kit implements CommandExecutor {
 
     public Scout() {
-        super("Scout");
-        super.baseHealth = 100;
-
+        super("Scout", 100);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

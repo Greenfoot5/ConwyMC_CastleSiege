@@ -18,9 +18,7 @@ import java.util.Collections;
 public class Archer extends Kit implements CommandExecutor {
 
 	public Archer() {
-		super("Archer");
-		super.baseHealth = 105;
-
+		super("Archer", 105);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
