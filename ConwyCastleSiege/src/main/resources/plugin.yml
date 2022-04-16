@@ -203,3 +203,6 @@ commands:
   swordsman:
     description: Selects the swordsman kit
     usage: /swordsman
+  viking:
+    description: Selects the viking kit
+    usage: /viking

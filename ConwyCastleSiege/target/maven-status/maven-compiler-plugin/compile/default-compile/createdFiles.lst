@@ -260,6 +260,7 @@ me\huntifi\castlesiege\Thunderstone\Gate\ThunderstoneGateBlocks.class
 me\huntifi\castlesiege\Helmsdeep\rams\GreatHallRamAnimation$1.class
 me\huntifi\castlesiege\Main.class
 me\huntifi\castlesiege\Helmsdeep\Ballistae\Ballista1Cooldown.class
+me\huntifi\castlesiege\kits\kits\Viking.class
 me\huntifi\castlesiege\stats\StatsUpdater.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagCaptureSpeed.class
 me\huntifi\castlesiege\data_types\Tuple.class

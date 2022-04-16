@@ -120,6 +120,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Skirmisher(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
                 getServer().getPluginManager().registerEvents(new Swordsman(), plugin);
+                getServer().getPluginManager().registerEvents(new Viking(), plugin);
 
                 // Rewrite Commands
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
@@ -144,6 +145,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Skirmisher")).setExecutor(new Skirmisher());
                 Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
+                Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
 
                 // Map Specific
                 // Helms Deep Only
