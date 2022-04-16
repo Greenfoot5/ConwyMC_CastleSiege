@@ -3,9 +3,8 @@ package me.huntifi.castlesiege.kits;
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.tags.NametagsEvent;
+import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -80,6 +79,9 @@ public abstract class Kit implements Listener {
 
         // Items
         refillItems(uuid);
+
+        // Change disguise
+        disguise(player);
     }
 
     public void refillItems(UUID uuid) {
@@ -186,5 +188,12 @@ public abstract class Kit implements Listener {
         itemMeta.setColor(color);
         leatherItem.setItemMeta(itemMeta);
         return leatherItem;
+    }
+
+    protected void disguise(Player p) {
+        if (DisguiseAPI.isDisguised(p)) {
+            DisguiseAPI.undisguiseToAll(p);
+            NametagsEvent.GiveNametag(p);
+        }
     }
 }

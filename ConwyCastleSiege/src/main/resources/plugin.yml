@@ -206,3 +206,6 @@ commands:
   viking:
     description: Selects the viking kit
     usage: /viking
+  warhound:
+    description: Selects the warhound kit
+    usage: /warhound

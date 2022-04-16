@@ -18,11 +18,9 @@ me\huntifi\castlesiege\Thunderstone\TS_Woolmap_Distance.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Twinbridge_Cloudcrawlers.class
 me\huntifi\castlesiege\flags\Flag$2.class
 me\huntifi\castlesiege\kits\kits\Ranger$1.class
-me\huntifi\castlesiege\kits\Warhound\Warhound$1.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Lonelytower.class
 me\huntifi\castlesiege\kits\KitGUIcommand.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagMethod$1.class
-me\huntifi\castlesiege\kits\Warhound\WarhoundVotedKit.class
 me\huntifi\castlesiege\commands\pingCommand.class
 me\huntifi\castlesiege\kits\kits\Berserker.class
 me\huntifi\castlesiege\Helmsdeep\Kits\orc.class
@@ -42,6 +40,7 @@ me\huntifi\castlesiege\kits\KitGUIcommand$1.class
 me\huntifi\castlesiege\kits\kits\Cavalry.class
 me\huntifi\castlesiege\Thunderstone\Rams\ThunderstoneRamAnimation.class
 me\huntifi\castlesiege\database\AsyncGetters$StringCallback.class
+me\huntifi\castlesiege\kits\kits\Warhound$1.class
 me\huntifi\castlesiege\maps\MapController$1.class
 me\huntifi\castlesiege\Helmsdeep\Kits\GUI\KitGui_Isengard.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\WestTower_Cloudcrawlers.class
@@ -69,7 +68,6 @@ me\huntifi\castlesiege\Helmsdeep\Kits\GUI\KitGUI_Isengard_Command.class
 me\huntifi\castlesiege\kits\kits\Swordsman.class
 me\huntifi\castlesiege\database\AsyncGetters$1.class
 me\huntifi\castlesiege\commands\staffCommands\SessionMuteCommand.class
-me\huntifi\castlesiege\kits\Warhound\Warhound.class
 me\huntifi\castlesiege\security\Hunger.class
 me\huntifi\castlesiege\Helmsdeep\doors\HelmsdeepMainGateRightDoor.class
 me\huntifi\castlesiege\kits\kits\Medic$2.class
@@ -82,6 +80,7 @@ me\huntifi\castlesiege\security\ambientDamage.class
 me\huntifi\castlesiege\database\SQLGetter.class
 me\huntifi\castlesiege\Helmsdeep\rams\GreatHallGateRam.class
 me\huntifi\castlesiege\kits\VotedKits\VotedKitsGUI_Command$1.class
+me\huntifi\castlesiege\kits\kits\Warhound.class
 me\huntifi\castlesiege\voting\GiveVoteCommand.class
 me\huntifi\castlesiege\security\destroyBlocks.class
 me\huntifi\castlesiege\stats\mystats\MystatsCommand.class
@@ -95,7 +94,6 @@ me\huntifi\castlesiege\Thunderstone\Rams\ThunderstoneGateReadyRam.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTowerFlag$4.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Skyview_ThunderstoneGuards.class
 me\huntifi\castlesiege\maps\Timer.class
-me\huntifi\castlesiege\kits\EnderchestRefill.class
 me\huntifi\castlesiege\commands\staffCommands\StaffChat.class
 me\huntifi\castlesiege\commands\staffCommands\UnsessionmuteCommand.class
 me\huntifi\castlesiege\Thunderstone\KitsGUI\KitsGUI_ThunderstoneGuard.class
@@ -164,7 +162,6 @@ me\huntifi\castlesiege\voting\VoteListenerCommand.class
 me\huntifi\castlesiege\stats\levels\LevelSave.class
 me\huntifi\castlesiege\kits\kits\Executioner.class
 me\huntifi\castlesiege\database\StatsStrings.class
-me\huntifi\castlesiege\kits\Warhound\WarhoundDeath.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Lonelytower_ThunderstoneGuards.class
 me\huntifi\castlesiege\maps\EndMapAction$1.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagMethod$4.class
@@ -194,7 +191,6 @@ me\huntifi\castlesiege\kits\kits\Scout.class
 me\huntifi\castlesiege\maps\MapsList.class
 me\huntifi\castlesiege\scoreboard\ThunderstoneScoreboard.class
 me\huntifi\castlesiege\security\armorTakeOff.class
-me\huntifi\castlesiege\kits\Warhound\WarhoundKit.class
 me\huntifi\castlesiege\Thunderstone\ThunderstoneDeath.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\TwinbridgeFlag$4.class
 me\huntifi\castlesiege\database\SQLGetter$1.class
@@ -208,10 +204,10 @@ me\huntifi\castlesiege\events\join\stats\StatsSaving.class
 me\huntifi\castlesiege\Helmsdeep\flags\HelmsdeepReset.class
 me\huntifi\castlesiege\commands\discordCommand.class
 me\huntifi\castlesiege\Helmsdeep\Kits\GUI\KitGui_Rohan.class
-me\huntifi\castlesiege\kits\Warhound\WarhoundAbility$1.class
 me\huntifi\castlesiege\kits\kits\Engineer.class
 me\huntifi\castlesiege\events\chat\PlayerChat.class
 me\huntifi\castlesiege\commands\MapsCommand.class
+me\huntifi\castlesiege\kits\kits\Warhound$2.class
 me\huntifi\castlesiege\mvpCommand\HelmsdeepMVP.class
 me\huntifi\castlesiege\commands\Teamchat\TeamChat.class
 me\huntifi\castlesiege\events\join\newLogin.class
@@ -224,7 +220,6 @@ me\huntifi\castlesiege\Thunderstone\ThunderstoneLeave.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Twinbridge_ThunderstoneGuards.class
 me\huntifi\castlesiege\Helmsdeep\Gates\HelmsdeepGreatHallDestroyEvent$1.class
 me\huntifi\castlesiege\events\join\login.class
-me\huntifi\castlesiege\kits\Warhound\WarhoundAbility.class
 me\huntifi\castlesiege\database\SQLStats$2.class
 me\huntifi\castlesiege\events\combat\InCombat$1.class
 me\huntifi\castlesiege\events\combat\HitMessage.class
