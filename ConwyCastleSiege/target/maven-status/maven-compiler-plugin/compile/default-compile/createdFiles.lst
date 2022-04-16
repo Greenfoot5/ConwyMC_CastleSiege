@@ -147,7 +147,6 @@ me\huntifi\castlesiege\events\combat\ArrowRemoval.class
 me\huntifi\castlesiege\events\join\stats\StatsLoading.class
 me\huntifi\castlesiege\Helmsdeep\Secrets\HelmsdeepSecretDoor$2.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Stairhall_ThunderstoneGuards.class
-me\huntifi\castlesiege\kits\ClearSlots.class
 me\huntifi\castlesiege\commands\staffCommands\NextMapCommand.class
 me\huntifi\castlesiege\mvpCommand\mvpCommand.class
 me\huntifi\castlesiege\kits\VotedKits\KitGUI_VotedKits.class

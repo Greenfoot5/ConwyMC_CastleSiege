@@ -15,9 +15,6 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
-import me.huntifi.castlesiege.kits.ClearSlots;
-import me.huntifi.castlesiege.kits.Enderchest;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class ClassicGui_Command implements CommandExecutor, Listener {
