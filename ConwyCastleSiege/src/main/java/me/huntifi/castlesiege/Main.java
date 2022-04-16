@@ -31,6 +31,7 @@ import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.security.*;
+import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.tablist.Tablist;
 import me.huntifi.castlesiege.teams.SwitchCommand;
 import me.huntifi.castlesiege.voting.GiveVoteCommand;
@@ -220,7 +221,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateDestroyEvent(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallDestroyEvent(), plugin);
-                //getServer().getPluginManager().registerEvents(new MVPstats(), plugin);
+                getServer().getPluginManager().registerEvents(new MVPstats(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new KitGUIcommand(), plugin);
                 getServer().getPluginManager().registerEvents(new MessageCommand(), plugin);

@@ -21,7 +21,6 @@ me\huntifi\castlesiege\kits\kits\Ranger$1.class
 me\huntifi\castlesiege\kits\Warhound\Warhound$1.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Lonelytower.class
 me\huntifi\castlesiege\kits\KitGUIcommand.class
-me\huntifi\castlesiege\kits\Viking\VikingKit.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagMethod$1.class
 me\huntifi\castlesiege\kits\Warhound\WarhoundVotedKit.class
 me\huntifi\castlesiege\commands\pingCommand.class
@@ -95,7 +94,6 @@ me\huntifi\castlesiege\Helmsdeep\doors\HelmsdeepCavesDoor.class
 me\huntifi\castlesiege\Thunderstone\Rams\ThunderstoneGateReadyRam.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTowerFlag$4.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Skyview_ThunderstoneGuards.class
-me\huntifi\castlesiege\kits\Viking\Viking.class
 me\huntifi\castlesiege\maps\Timer.class
 me\huntifi\castlesiege\kits\EnderchestRefill.class
 me\huntifi\castlesiege\commands\staffCommands\StaffChat.class
@@ -108,7 +106,6 @@ me\huntifi\castlesiege\Thunderstone\ThunderstoneEndMap.class
 me\huntifi\castlesiege\events\combat\ApplyRegeneration.class
 me\huntifi\castlesiege\kits\kits\Maceman.class
 me\huntifi\castlesiege\kits\kits\Ranger.class
-me\huntifi\castlesiege\kits\Viking\VikingAbility.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTowerFlag$1.class
 me\huntifi\castlesiege\voting\VotesUnloading.class
 me\huntifi\castlesiege\Helmsdeep\Secrets\HelmsdeepSecretDoor$1.class
@@ -160,7 +157,6 @@ me\huntifi\castlesiege\database\AsyncGetters.class
 me\huntifi\castlesiege\Helmsdeep\rams\MainGateRamAnimation$1.class
 me\huntifi\castlesiege\voting\VotesLoading.class
 me\huntifi\castlesiege\kits\KitGUI.class
-me\huntifi\castlesiege\kits\Viking\VikingVotedKit.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTowerFlag.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\TwinbridgeFlag.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Westtower.class
@@ -168,7 +164,6 @@ me\huntifi\castlesiege\voting\VoteListenerCommand.class
 me\huntifi\castlesiege\stats\levels\LevelSave.class
 me\huntifi\castlesiege\kits\kits\Executioner.class
 me\huntifi\castlesiege\database\StatsStrings.class
-me\huntifi\castlesiege\kits\Viking\VikingDeath.class
 me\huntifi\castlesiege\kits\Warhound\WarhoundDeath.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Lonelytower_ThunderstoneGuards.class
 me\huntifi\castlesiege\maps\EndMapAction$1.class
