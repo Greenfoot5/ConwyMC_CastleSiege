@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.Classic;
 
 import java.util.ArrayList;
 
+import me.huntifi.castlesiege.kits.Enderchest;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,7 +17,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.ClearSlots;
-import me.huntifi.castlesiege.kits.EnderchestRefill;
+import me.huntifi.castlesiege.kits.Enderchest;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class ClassicGui_Command implements CommandExecutor, Listener {
@@ -81,13 +82,13 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				default:
 					break;
 
-				case AIR:
+				/*case AIR:
 					break;
 
 				case IRON_SWORD:
 
 					StatsChanging.setKit(p.getUniqueId(), "Swordsman");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 					isInGUI.remove(p);
 
 					break;
@@ -95,7 +96,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case BOW:
 
 					StatsChanging.setKit(p.getUniqueId(), "Archer");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory();});
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory();});
 					isInGUI.remove(p);
 
 					break;
@@ -103,7 +104,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case STICK:
 
 					StatsChanging.setKit(p.getUniqueId(), "Spearman");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 					isInGUI.remove(p);
 
 
@@ -112,7 +113,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case POTION:
 
 					StatsChanging.setKit(p.getUniqueId(), "Berserker");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 					isInGUI.remove(p);
 
 					break;
@@ -121,7 +122,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case LIME_DYE:
 
 					StatsChanging.setKit(p.getUniqueId(), "Ranger");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 					isInGUI.remove(p);
 
 					break;
@@ -129,7 +130,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case DIAMOND_CHESTPLATE:
 
 					StatsChanging.setKit(p.getUniqueId(), "Halberdier");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 					isInGUI.remove(p);
 
 					break;
@@ -144,7 +145,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 
 					}
 
-					break;
+					break;*/
 
 				}
 
@@ -171,10 +172,10 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case AIR:
 					break;
 
-				case IRON_AXE:
+				/*case IRON_AXE:
 
 					StatsChanging.setKit(p.getUniqueId(), "Executioner");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 					isInGUI.remove(p);
 
 					break;
@@ -182,7 +183,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case CAKE:
 
 					StatsChanging.setKit(p.getUniqueId(), "Medic");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory();});
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory();});
 					isInGUI.remove(p);
 
 					break;
@@ -190,7 +191,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case IRON_SHOVEL:
 
 					StatsChanging.setKit(p.getUniqueId(), "Maceman");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 					isInGUI.remove(p);
 
 
@@ -199,7 +200,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case CHAINMAIL_CHESTPLATE:
 
 					StatsChanging.setKit(p.getUniqueId(), "Viking");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 					isInGUI.remove(p);
 
 					break;
@@ -208,7 +209,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case CROSSBOW:
 
 					StatsChanging.setKit(p.getUniqueId(), "Crossbowman");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 					isInGUI.remove(p);
 
 					break;
@@ -216,7 +217,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case IRON_HORSE_ARMOR:
 
 					StatsChanging.setKit(p.getUniqueId(), "Cavalry");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 					isInGUI.remove(p);
 
 					break;
@@ -224,7 +225,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case COBWEB:
 
 						StatsChanging.setKit(p.getUniqueId(), "Engineer");
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
 
 					break;
@@ -232,7 +233,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 				case GHAST_TEAR:
 
 					StatsChanging.setKit(p.getUniqueId(), "Warhound");
-					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+					Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 					isInGUI.remove(p);
 
 				break;
@@ -248,7 +249,7 @@ public class ClassicGui_Command implements CommandExecutor, Listener {
 
 					}
 
-					break;
+					break;*/
 
 				}
 

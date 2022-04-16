@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.flags.Flag;
-import me.huntifi.castlesiege.kits.EnderchestRefill;
 import me.huntifi.castlesiege.kits.Kit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -47,14 +46,14 @@ public class WoolMapBlock {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                         TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You can't spawn here. This flag is under attack!"));
             }
-            else if (Kit.equippedKits.get(player.getUniqueId()) == null)
+            else if (Kit.equippedKits.get(uuid) == null)
             {
                 player.sendMessage(ChatColor.DARK_RED + "You can't join the battlefield without a kit/class!");
                 player.sendMessage(ChatColor.DARK_RED + "Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!");
             } else {
                 InCombat.playerSpawned(uuid);
                 player.teleport(flag.spawnPoint);
-                EnderchestRefill.refill(player);
+                Kit.equippedKits.get(uuid).refillItems(uuid);
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                         TextComponent.fromLegacyText(flag.getSpawnMessage()));
             }

@@ -21,7 +21,7 @@ public class KitsCommand implements CommandExecutor {
 
 		Player p = (Player) sender;
 
-		if(cmd.getName().equalsIgnoreCase("Kit")) {
+		/*if(cmd.getName().equalsIgnoreCase("Kit")) {
 
 			Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
@@ -31,7 +31,7 @@ public class KitsCommand implements CommandExecutor {
 
 						SQLStats.setKit(p.getUniqueId(), "Swordsman");
 						StatsStrings.returnKit(p);
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); });
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); });
 						
 					} 
 
@@ -39,7 +39,7 @@ public class KitsCommand implements CommandExecutor {
 
 						SQLStats.setKit(p.getUniqueId(), "Archer");
 						StatsStrings.returnKit(p);
-						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); });
+						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); Enderchest.refill(p); });
 						
 					} 
 
@@ -48,7 +48,7 @@ public class KitsCommand implements CommandExecutor {
 
 						SQLStats.setKit(p.getUniqueId(), "Spearman");
 						StatsStrings.returnKit(p);
-						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); });
+						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); Enderchest.refill(p); });
 						
 					} 
 
@@ -57,7 +57,7 @@ public class KitsCommand implements CommandExecutor {
 
 						SQLStats.setKit(p.getUniqueId(), "Skirmisher");
 						StatsStrings.returnKit(p);
-						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); });
+						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); Enderchest.refill(p); });
 						 
 					} 
 
@@ -66,7 +66,7 @@ public class KitsCommand implements CommandExecutor {
 
 						SQLStats.setKit(p.getUniqueId(), "Shieldman");
 						StatsStrings.returnKit(p);
-						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); });
+						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); Enderchest.refill(p); });
 						
 					} 
 
@@ -76,7 +76,7 @@ public class KitsCommand implements CommandExecutor {
 
 						SQLStats.setKit(p.getUniqueId(), "FireArcher");
 						StatsStrings.returnKit(p);
-						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); });
+						Bukkit.getScheduler().runTask(plugin, () -> { ClearSlots.clearAllSlots(p); Enderchest.refill(p); });
 						 
 					} 
 
@@ -88,7 +88,7 @@ public class KitsCommand implements CommandExecutor {
 
 			return true;
 
-		}
+		}*/
 		return true; 
 
 	}

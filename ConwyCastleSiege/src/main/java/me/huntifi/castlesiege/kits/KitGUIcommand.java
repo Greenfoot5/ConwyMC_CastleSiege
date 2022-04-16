@@ -82,13 +82,13 @@ public class KitGUIcommand implements CommandExecutor, Listener {
 				case AIR:
 					break;
 
-				case IRON_SWORD:
+				/*case IRON_SWORD:
 
 					Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
 						SQLStats.setKit(p.getUniqueId(), "Swordsman");
 						StatsStrings.returnKit(p);
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
 					});
 
@@ -100,7 +100,7 @@ public class KitGUIcommand implements CommandExecutor, Listener {
 
 						SQLStats.setKit(p.getUniqueId(), "Archer");
 						StatsStrings.returnKit(p);
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory();});
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory();});
 						isInGUI.remove(p);
 					});
 
@@ -112,7 +112,7 @@ public class KitGUIcommand implements CommandExecutor, Listener {
 
 						SQLStats.setKit(p.getUniqueId(), "Spearman");
 						StatsStrings.returnKit(p);
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
 					});
 
@@ -124,7 +124,7 @@ public class KitGUIcommand implements CommandExecutor, Listener {
 
 						SQLStats.setKit(p.getUniqueId(), "Skirmisher");
 						StatsStrings.returnKit(p);
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
 					});
 
@@ -137,7 +137,7 @@ public class KitGUIcommand implements CommandExecutor, Listener {
 
 						SQLStats.setKit(p.getUniqueId(), "Shieldman");
 						StatsStrings.returnKit(p);
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
 					});
 
@@ -149,11 +149,11 @@ public class KitGUIcommand implements CommandExecutor, Listener {
 
 						SQLStats.setKit(p.getUniqueId(), "FireArcher");
 						StatsStrings.returnKit(p);
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
 					});
 
-					break;
+					break;*/
 
 				}
 

@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.VotedKits;
 
 import java.util.ArrayList;
 
+import me.huntifi.castlesiege.kits.Enderchest;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -17,7 +18,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.ClearSlots;
-import me.huntifi.castlesiege.kits.EnderchestRefill;
+import me.huntifi.castlesiege.kits.Enderchest;
 import me.huntifi.castlesiege.voting.VotesChanging;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
@@ -87,10 +88,10 @@ public class VotedKitsGUI_Command implements CommandExecutor, Listener {
 					case AIR:
 						break;
 
-					case SHIELD:
+					/*case SHIELD:
 
 						StatsChanging.setKit(p.getUniqueId(), "Shieldman");
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
 
 						break;
@@ -98,7 +99,7 @@ public class VotedKitsGUI_Command implements CommandExecutor, Listener {
 					case IRON_BOOTS:
 
 						StatsChanging.setKit(p.getUniqueId(), "Skirmisher");
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory();});
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory();});
 						isInGUI.remove(p);
 
 						break;
@@ -106,7 +107,7 @@ public class VotedKitsGUI_Command implements CommandExecutor, Listener {
 					case BLAZE_POWDER:
 
 						StatsChanging.setKit(p.getUniqueId(), "FireArcher");
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
 
 
@@ -115,7 +116,7 @@ public class VotedKitsGUI_Command implements CommandExecutor, Listener {
 					case LEATHER_HORSE_ARMOR:
 
 						p.sendMessage(ChatColor.DARK_RED + "We do apologise, this kit has not been added yet!");
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
 
 						break;
@@ -124,7 +125,7 @@ public class VotedKitsGUI_Command implements CommandExecutor, Listener {
 					case LEATHER_BOOTS:
 
 						StatsChanging.setKit(p.getUniqueId(), "Scout");
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
 
 						break;
@@ -132,10 +133,10 @@ public class VotedKitsGUI_Command implements CommandExecutor, Listener {
 					case LADDER:
 
 						StatsChanging.setKit(p.getUniqueId(), "Ladderman");
-						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); EnderchestRefill.refill(p); p.closeInventory(); });
+						Bukkit.getScheduler().runTask(plugin, () -> { 	ClearSlots.clearAllSlots(p); Enderchest.refill(p); p.closeInventory(); });
 						isInGUI.remove(p);
 
-						break;
+						break;*/
 
 					}
 

@@ -32,15 +32,15 @@ public abstract class Kit implements Listener {
     protected int kbResistance = 0;
 
     // Equipment
-    public EquipmentSet equipment;
-    public int heldItemSlot = 0;
-    public ArrayList<PotionEffect> potionEffects;
+    protected EquipmentSet equipment;
+    protected int heldItemSlot = 0;
+    protected ArrayList<PotionEffect> potionEffects;
 
     // Messages
-    public String[] deathMessage;
-    public String[] killMessage;
-    public String[] projectileDeathMessage;
-    public String[] projectileKillMessage;
+    protected String[] deathMessage;
+    protected String[] killMessage;
+    protected String[] projectileDeathMessage;
+    protected String[] projectileKillMessage;
 
     // Player Tracking
     public List<UUID> players;
