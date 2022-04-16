@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.kits.EnderchestRefill;
 import me.huntifi.castlesiege.kits.Kit;
@@ -51,6 +52,7 @@ public class WoolMapBlock {
                 player.sendMessage(ChatColor.DARK_RED + "You can't join the battlefield without a kit/class!");
                 player.sendMessage(ChatColor.DARK_RED + "Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!");
             } else {
+                InCombat.playerSpawned(uuid);
                 player.teleport(flag.spawnPoint);
                 EnderchestRefill.refill(player);
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,

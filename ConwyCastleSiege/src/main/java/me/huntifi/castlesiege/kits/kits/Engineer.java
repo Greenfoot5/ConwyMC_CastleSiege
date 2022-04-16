@@ -114,10 +114,8 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
 
             Material block = e.getBlockPlaced().getType();
             if (block == Material.STONE_PRESSURE_PLATE) {
-                InCombat.playerInteracted(p.getUniqueId());
                 placeTrap(e, p);
             } else if (block == Material.COBWEB) {
-                InCombat.playerInteracted(p.getUniqueId());
                 e.setCancelled(false);
             } else if (block == Material.OAK_PLANKS) {
                 placeWood(e);

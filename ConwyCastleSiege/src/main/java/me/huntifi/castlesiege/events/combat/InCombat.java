@@ -19,7 +19,7 @@ import java.util.UUID;
  */
 public class InCombat implements Listener {
 
-	private static ArrayList<UUID> beenInCombat = new ArrayList<>();
+	private static ArrayList<UUID> hasSpawned = new ArrayList<>();
 	private static HashMap<UUID, Integer> inCombat = new HashMap<>();
 
 	/**
@@ -35,25 +35,7 @@ public class InCombat implements Listener {
 
 		// Check they aren't on the same team
 		if (MapController.getCurrentMap().getTeam(whoHit) != MapController.getCurrentMap().getTeam(whoWasHit)) {
-			playerInteracted(whoHit);
-		}
-	}
-
-	/**
-	 * When a player shoots another player using an arrow, they have interacted
-	 */
-	@EventHandler
-	public void playerAttacksAnotherWithArrow(EntityDamageByEntityEvent e) {
-		// Player is damaged by arrow, shot by player
-		if (!(e.getEntity() instanceof Player && e.getDamager() instanceof Arrow &&
-				((Arrow) e.getDamager()).getShooter() instanceof Player)) { return; }
-
-		UUID whoWasHit = e.getEntity().getUniqueId();
-		UUID whoHit = ((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId();
-
-		// Check they aren't on the same team
-		if (MapController.getCurrentMap().getTeam(whoHit) != MapController.getCurrentMap().getTeam(whoWasHit)) {
-			playerInteracted(whoHit);
+			addPlayerToCombat(whoHit);
 		}
 	}
 
@@ -74,7 +56,8 @@ public class InCombat implements Listener {
 	 */
 	public static void addPlayerToCombat(UUID uuid) {
 		inCombat.merge(uuid, 1, Integer::sum);
-		if (!beenInCombat.contains(uuid)) {beenInCombat.add(uuid);}
+		if (!hasSpawned.contains(uuid)) {
+			hasSpawned.add(uuid);}
 
 		// Players are in combat for 10 seconds only
 		new BukkitRunnable() {
@@ -90,21 +73,22 @@ public class InCombat implements Listener {
 	 */
 	public static void playerDied(UUID uuid) {
 		inCombat.put(uuid, 0);
-		beenInCombat.remove(uuid);
+		hasSpawned.remove(uuid);
 	}
 
 	/**
 	 * Adds a player to the list of those that interacted when alive.
 	 * Means they die when changing kit or team
 	 */
-	public static void playerInteracted(UUID uuid) {
-		if (!beenInCombat.contains(uuid)) {beenInCombat.add(uuid);}
+	public static void playerSpawned(UUID uuid) {
+		if (!hasSpawned.contains(uuid)) {
+			hasSpawned.add(uuid);}
 	}
 
 	/**
 	 * Returns true if the player has interacted with the game this life
 	 */
-	public static boolean hasPlayerInteracted(UUID uuid) { return beenInCombat.contains(uuid); }
+	public static boolean hasPlayerSpawned(UUID uuid) { return hasSpawned.contains(uuid); }
 
 	/**
 	 * Returns true if the player has taken damage in the last 8s
@@ -117,7 +101,7 @@ public class InCombat implements Listener {
 	 * Clears the combat lists
 	 */
 	public static void clearCombat() {
-		beenInCombat = new ArrayList<>();
+		hasSpawned = new ArrayList<>();
 		inCombat = new HashMap<>();
 	}
 }

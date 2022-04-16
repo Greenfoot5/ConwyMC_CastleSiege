@@ -5,7 +5,6 @@ import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
@@ -85,7 +84,7 @@ public class SwitchCommand implements CommandExecutor {
 		oldTeam.removePlayer(p.getUniqueId());
 		smallestTeam.addPlayer(p.getUniqueId());
 
-		if (InCombat.hasPlayerInteracted(p.getUniqueId())) {
+		if (InCombat.hasPlayerSpawned(p.getUniqueId())) {
 			// The player should die when switching
 			p.setHealth(0);
 			p.sendMessage("You switched to " + smallestTeam.primaryChatColor + smallestTeam.name + " (+2 deaths)");

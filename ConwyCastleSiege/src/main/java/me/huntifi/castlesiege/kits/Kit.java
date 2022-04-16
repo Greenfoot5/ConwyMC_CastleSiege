@@ -77,7 +77,6 @@ public abstract class Kit implements Listener {
         assert kbAttribute != null;
         kbAttribute.setBaseValue(kbResistance);
 
-
         // Items
         refillItems(uuid);
     }
@@ -151,13 +150,11 @@ public abstract class Kit implements Listener {
         equippedKits.put(uuid, this);
 
         assert player != null;
-        // Kills the player if they have interacted this life, otherwise heal and teleport them
-        if (InCombat.hasPlayerInteracted(uuid)) {
+        // Kills the player if they have spawned this life, otherwise heal them
+        if (InCombat.hasPlayerSpawned(uuid)) {
             player.setHealth(0);
         } else {
             player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
-            Team team = MapController.getCurrentMap().getTeam(uuid);
-            player.teleport(team.lobby.spawnPoint);
         }
     }
 
