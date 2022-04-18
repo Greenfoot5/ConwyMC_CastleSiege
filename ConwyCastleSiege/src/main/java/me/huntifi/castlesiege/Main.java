@@ -26,6 +26,7 @@ import me.huntifi.castlesiege.events.join.login;
 import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.kits.Enderchest;
+import me.huntifi.castlesiege.kits.gui.ClassicGUI;
 import me.huntifi.castlesiege.kits.kits.*;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
@@ -123,6 +124,8 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Swordsman(), plugin);
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
+                // Kit GUIs
+                getServer().getPluginManager().registerEvents(new ClassicGUI(), plugin);
 
                 // Rewrite Commands
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
@@ -149,6 +152,8 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
+                // Kit GUIs
+                Objects.requireNonNull(getCommand("ClassicGUI")).setExecutor(new ClassicGUI());
 
                 // Map Specific
                 // Helms Deep Only
