@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.voting.VotesChanging;
@@ -28,7 +29,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -51,21 +51,21 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Chestplate
-        es.chest = createLeatherItem(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 ChatColor.GREEN + "Leather Chestplate", null, null,
                 Color.fromRGB(204, 0, 0));
 
         // Leggings
-        es.legs = createLeatherItem(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Leather Leggings", null, null,
                 Color.fromRGB(255, 128, 0));
 
         // Boots
-        es.feet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots", null, null,
                 Color.fromRGB(204, 0, 0));
         // Voted Boots
-        es.votedFeet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
@@ -76,12 +76,12 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
         // Bow
-        es.hotbar[0] = createItem(new ItemStack(Material.BOW),
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.BOW),
                 ChatColor.GREEN + "Bow", null,
                 Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 16)));
 
         // Firepit
-        firepit = createItem(new ItemStack(Material.CAULDRON),
+        firepit = ItemCreator.item(new ItemStack(Material.CAULDRON),
                 ChatColor.GREEN + "Firepit", Arrays.asList("",
                         ChatColor.AQUA + "Place the firepit down, then",
                         ChatColor.AQUA + "right click it with an arrow.", "",
@@ -91,7 +91,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
                         new Tuple<>(Enchantment.KNOCKBACK, 1)));
         es.hotbar[1] = firepit;
         // Voted Firepit
-        firepitVoted = createItem(new ItemStack(Material.CAULDRON),
+        firepitVoted = ItemCreator.item(new ItemStack(Material.CAULDRON),
                 ChatColor.GREEN + "Firepit", Arrays.asList("",
                         ChatColor.AQUA + "Place the firepit down, then",
                         ChatColor.AQUA + "right click it with an arrow.", "",
@@ -106,12 +106,11 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         es.hotbar[7] = new ItemStack(Material.ARROW, 48);
 
         // Fire Arrows
-        fireArrow = new ItemStack(Material.TIPPED_ARROW);
+        fireArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
+                ChatColor.GOLD + "Fire Arrow", null, null);
         PotionMeta potionMeta = (PotionMeta) fireArrow.getItemMeta();
         assert potionMeta != null;
-        potionMeta.setDisplayName(ChatColor.GOLD + "Fire Arrow");
         potionMeta.setColor(Color.ORANGE);
-        potionMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
         fireArrow.setItemMeta(potionMeta);
 
         super.equipment = es;

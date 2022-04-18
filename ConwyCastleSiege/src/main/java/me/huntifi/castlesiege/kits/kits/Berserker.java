@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.voting.VotesChanging;
 import org.bukkit.ChatColor;
@@ -45,12 +46,12 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        regularSword = createItem(new ItemStack(Material.IRON_SWORD),
+        regularSword = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword", null,
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20)));
         es.hotbar[0] = regularSword;
         // Voted Weapon
-        regularSwordVoted = createItem(new ItemStack(Material.IRON_SWORD),
+        regularSwordVoted = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22)));
@@ -61,21 +62,16 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
         // Potion Item
-        ItemStack potion = createItem(new ItemStack(Material.POTION, 1),
+        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POTION, 1),
                 ChatColor.GOLD + "Berserker Potion", null, null);
-        ItemMeta potionMeta = potion.getItemMeta();
-        assert potionMeta != null;
-        potionMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        potion.setItemMeta(potionMeta);
-        es.hotbar[1] = potion;
 
         // Berserk Weapon
-        berserkSword = createItem(new ItemStack(Material.IRON_SWORD),
+        berserkSword = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword", null,
                 Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 56),
                         new Tuple<>(Enchantment.KNOCKBACK, 1)));
         // Voted Berserk Weapon
-        berserkSwordVoted = createItem(new ItemStack(Material.IRON_SWORD),
+        berserkSwordVoted = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                 Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 58),

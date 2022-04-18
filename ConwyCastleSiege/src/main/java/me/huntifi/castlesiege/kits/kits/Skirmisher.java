@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.EquipmentSet;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import me.huntifi.castlesiege.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,30 +28,30 @@ public class Skirmisher extends Kit implements CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = createItem(new ItemStack(Material.IRON_SWORD),
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword", null,
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20)));
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                createItem(new ItemStack(Material.IRON_SWORD),
+                ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Iron Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22))),
                 0);
 
         // Chestplate
-        es.chest = createItem(new ItemStack(Material.IRON_CHESTPLATE),
+        es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
                 ChatColor.GREEN + "Iron Chestplate", null, null);
 
         // Leggings
-        es.legs = createItem(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = ItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Leather Leggings", null, null);
 
         // Boots
-        es.feet = createItem(new ItemStack(Material.IRON_BOOTS),
+        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "Iron Boots", null, null);
         // Voted Boots
-        es.votedFeet = createItem(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "Iron Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));

@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import me.huntifi.castlesiege.kits.Kit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -39,13 +40,13 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		super.heldItemSlot = 0;
 
 		// Weapon
-		es.hotbar[0] = createItem(new ItemStack(Material.STICK),
+		es.hotbar[0] = ItemCreator.item(new ItemStack(Material.STICK),
 				ChatColor.GREEN + "Spear",
 				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."),
 				Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 48)));
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				createItem(new ItemStack(Material.STICK),
+				ItemCreator.item(new ItemStack(Material.STICK),
 						ChatColor.GREEN + "Spear",
 						Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
 								ChatColor.AQUA + "- voted: +2 damage"),
@@ -53,18 +54,18 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 				0);
 
 		// Chestplate
-		es.chest = createItem(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
+		es.chest = ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
 				ChatColor.GREEN + "Chainmail Chestplate", null, null);
 
 		// Leggings
-		es.legs = createItem(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+		es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
 				ChatColor.GREEN + "Chainmail Leggings", null, null);
 
 		// Boots
-		es.feet = createItem(new ItemStack(Material.CHAINMAIL_BOOTS),
+		es.feet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
 				ChatColor.GREEN + "Chainmail Boots", null, null);
 		// Voted Boots
-		es.votedFeet = createItem(new ItemStack(Material.CHAINMAIL_BOOTS),
+		es.votedFeet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
 				ChatColor.GREEN + "Chainmail Boots",
 				Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));

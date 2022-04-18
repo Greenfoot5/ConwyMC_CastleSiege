@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.tags.NametagsEvent;
@@ -37,30 +38,30 @@ public class Maceman extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = createItem(new ItemStack(Material.IRON_SHOVEL),
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.IRON_SHOVEL),
                 ChatColor.GREEN + "Mace", null,
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 26)));
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                createItem(new ItemStack(Material.IRON_SHOVEL),
+                ItemCreator.item(new ItemStack(Material.IRON_SHOVEL),
                         ChatColor.GREEN + "Mace",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 28))),
                 0);
 
         // Chestplate
-        es.chest = createItem(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
+        es.chest = ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
                 ChatColor.GREEN + "Chainmail Chestplate", null, null);
 
         // Leggings
-        es.legs = createItem(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = ItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Leather Leggings", null, null);
 
         // Boots
-        es.feet = createItem(new ItemStack(Material.IRON_BOOTS),
+        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "Iron Boots", null, null);
         // Voted Boots
-        es.votedFeet = createItem(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "Iron Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));

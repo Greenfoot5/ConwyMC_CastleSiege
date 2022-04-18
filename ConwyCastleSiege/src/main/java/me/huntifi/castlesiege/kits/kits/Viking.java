@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.EquipmentSet;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
@@ -16,7 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -35,30 +35,30 @@ public class Viking extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = createItem(new ItemStack(Material.IRON_AXE),
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.IRON_AXE),
                 ChatColor.GREEN + "Giant Battle Axe", null,
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20)));
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                createItem(new ItemStack(Material.IRON_AXE),
+                ItemCreator.item(new ItemStack(Material.IRON_AXE),
                         ChatColor.GREEN + "Giant Battle Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22))),
                 0);
 
         // Chestplate
-        es.chest = createItem(new ItemStack(Material.IRON_CHESTPLATE),
+        es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
                 ChatColor.GREEN + "Iron Chestplate", null, null);
 
         // Leggings
-        es.legs = createItem(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+        es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
                 ChatColor.GREEN + "Chainmail Leggings", null, null);
 
         // Boots
-        es.feet = createItem(new ItemStack(Material.CHAINMAIL_BOOTS),
+        es.feet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
                 ChatColor.GREEN + "Chainmail Boots", null, null);
         // Voted Boots
-        es.votedFeet = createItem(new ItemStack(Material.CHAINMAIL_BOOTS),
+        es.votedFeet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
                 ChatColor.GREEN + "Chainmail Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));

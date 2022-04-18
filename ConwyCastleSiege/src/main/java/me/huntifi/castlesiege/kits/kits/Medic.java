@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.tags.NametagsEvent;
@@ -52,43 +53,43 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = createItem(new ItemStack(Material.WOODEN_SWORD),
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
                 ChatColor.GREEN + "Dagger", null,
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16)));
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                createItem(new ItemStack(Material.WOODEN_SWORD),
+                ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
                         ChatColor.GREEN + "Dagger",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
                 0);
 
         // Chestplate
-        es.chest = createLeatherItem(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 ChatColor.GREEN + "Leather Chestplate", null, null,
                 Color.fromRGB(255, 255, 255));
 
         // Leggings
-        es.legs = createLeatherItem(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Leather Leggings", null, null,
                 Color.fromRGB(255, 255, 255));
 
         // Boots
-        es.feet = createItem(new ItemStack(Material.GOLDEN_BOOTS),
+        es.feet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 ChatColor.GREEN + "Golden Boots", null, null);
         // Voted Boots
-        es.votedFeet = createItem(new ItemStack(Material.GOLDEN_BOOTS),
+        es.votedFeet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 ChatColor.GREEN + "Golden Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Bandages
-        es.hotbar[1] = createItem(new ItemStack(Material.PAPER),
+        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.PAPER),
                 ChatColor.DARK_AQUA + "Bandages",
                 Collections.singletonList(ChatColor.AQUA + "Right click teammates to heal."), null);
 
         // Cake
-        es.hotbar[2] = createItem(new ItemStack(Material.CAKE, 16),
+        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.CAKE, 16),
                 ChatColor.DARK_AQUA + "Healing Cake",
                 Arrays.asList(ChatColor.AQUA + "Place the cake down, then",
                         ChatColor.AQUA + "teammates can heal from it."), null);

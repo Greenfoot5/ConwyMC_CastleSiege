@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.EquipmentSet;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.tags.NametagsEvent;
@@ -42,12 +43,12 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = createItem(new ItemStack(Material.GHAST_TEAR),
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.GHAST_TEAR),
                 ChatColor.RED + "Fangs", null,
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 5)));
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                createItem(new ItemStack(Material.GHAST_TEAR),
+                ItemCreator.item(new ItemStack(Material.GHAST_TEAR),
                         ChatColor.RED + "Fangs",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 7))),

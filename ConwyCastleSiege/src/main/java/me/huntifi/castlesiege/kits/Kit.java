@@ -161,35 +161,6 @@ public abstract class Kit implements Listener {
         }
     }
 
-    protected ItemStack createItem(ItemStack item, String name, List<String> lore,
-                                   List<Tuple<Enchantment, Integer>> enchants) {
-        ItemMeta itemMeta = item.getItemMeta();
-        assert itemMeta != null;
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemMeta.setUnbreakable(true);
-        itemMeta.setDisplayName(name);
-        itemMeta.setLore(lore);
-        if (enchants != null) {
-            for (Tuple<Enchantment, Integer> e : enchants) {
-                itemMeta.addEnchant(e.getFirst(), e.getSecond(), true);
-            }
-        }
-        item.setItemMeta(itemMeta);
-        return item;
-    }
-
-    protected ItemStack createLeatherItem(ItemStack item, String name, List<String> lore,
-                                          List<Tuple<Enchantment, Integer>> enchants, Color color) {
-        ItemStack leatherItem = createItem(item, name, lore, enchants);
-        LeatherArmorMeta itemMeta = (LeatherArmorMeta) leatherItem.getItemMeta();
-        assert itemMeta != null;
-        itemMeta.setColor(color);
-        leatherItem.setItemMeta(itemMeta);
-        return leatherItem;
-    }
-
     protected void disguise(Player p) {
         if (DisguiseAPI.isDisguised(p)) {
             DisguiseAPI.undisguiseToAll(p);

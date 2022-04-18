@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import me.huntifi.castlesiege.kits.Kit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -42,49 +43,49 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = createItem(new ItemStack(Material.WOODEN_SWORD),
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
                 ChatColor.GREEN + "Dagger", null,
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18)));
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                createItem(new ItemStack(Material.WOODEN_SWORD),
+                ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
                         ChatColor.GREEN + "Dagger",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
                 0);
 
         // Chestplate
-        es.chest = createLeatherItem(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 ChatColor.GREEN + "Leather Chestplate", null, null,
                 Color.fromRGB(28, 165, 33));
 
         // Leggings
-        es.legs = createLeatherItem(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Leather Leggings", null, null,
                 Color.fromRGB(32, 183, 37));
 
         // Boots
-        es.feet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots", null, null,
                 Color.fromRGB(28, 165, 33));
         // Voted Boots
-        es.votedFeet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(28, 165, 33));
 
         // Regular Bow
-        es.hotbar[1] = createItem(new ItemStack(Material.BOW),
+        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
                 ChatColor.GREEN + "Bow", null, null);
 
         // Volley Bow
-        es.hotbar[2] = createItem(new ItemStack(Material.BOW),
+        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.BOW),
                 ChatColor.GREEN + "Volley Bow",
                 Collections.singletonList(ChatColor.AQUA + "Shoot 3 arrows at once"), null);
 
         // Burst Bow
-        es.hotbar[3] = createItem(new ItemStack(Material.BOW),
+        es.hotbar[3] = ItemCreator.item(new ItemStack(Material.BOW),
                 ChatColor.GREEN + "Burst Bow",
                 Collections.singletonList(ChatColor.AQUA + "Shoot 3 consecutive arrows"), null);
 
