@@ -37,7 +37,7 @@ import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.security.*;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.tablist.Tablist;
-import me.huntifi.castlesiege.teams.SwitchCommand;
+import me.huntifi.castlesiege.commands.SwitchCommand;
 import me.huntifi.castlesiege.voting.GiveVoteCommand;
 import me.huntifi.castlesiege.voting.VoteListenerCommand;
 import me.huntifi.castlesiege.voting.VotesLoading;

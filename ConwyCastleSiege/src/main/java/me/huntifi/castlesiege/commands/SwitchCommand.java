@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.teams;
+package me.huntifi.castlesiege.commands;
 
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.join.stats.StatsChanging;
@@ -16,6 +16,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Allows the player to swap teams
+ */
 public class SwitchCommand implements CommandExecutor {
 
 	private static final List<String> SINGLE_DEATH_RANKS = Arrays.asList("baron", "duke", "king", "high king");

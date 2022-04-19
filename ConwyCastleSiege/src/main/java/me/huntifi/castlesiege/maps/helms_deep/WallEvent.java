@@ -222,7 +222,7 @@ public class WallEvent implements Listener, Runnable {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void run() {
 		for (Player online : Bukkit.getOnlinePlayers()) {
