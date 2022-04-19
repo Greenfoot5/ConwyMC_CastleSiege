@@ -27,6 +27,7 @@ import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.kits.Enderchest;
 import me.huntifi.castlesiege.kits.gui.ClassicGUI;
+import me.huntifi.castlesiege.kits.gui.VoterGUI;
 import me.huntifi.castlesiege.kits.kits.*;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
@@ -126,6 +127,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
                 // Kit GUIs
                 getServer().getPluginManager().registerEvents(new ClassicGUI(), plugin);
+                getServer().getPluginManager().registerEvents(new VoterGUI(), plugin);
 
                 // Rewrite Commands
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
@@ -154,6 +156,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
                 // Kit GUIs
                 Objects.requireNonNull(getCommand("ClassicGUI")).setExecutor(new ClassicGUI());
+                Objects.requireNonNull(getCommand("VoterGUI")).setExecutor(new VoterGUI());
 
                 // Map Specific
                 // Helms Deep Only

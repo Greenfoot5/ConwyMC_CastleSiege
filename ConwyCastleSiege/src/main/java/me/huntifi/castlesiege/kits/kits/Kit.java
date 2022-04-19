@@ -1,26 +1,21 @@
-package me.huntifi.castlesiege.kits;
+package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.kits.EquipmentSet;
+import me.huntifi.castlesiege.kits.WoolHat;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.*;

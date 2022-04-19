@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.events.combat;
 
-import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;

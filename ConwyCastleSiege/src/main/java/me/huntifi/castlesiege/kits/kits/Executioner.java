@@ -3,7 +3,6 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.ItemCreator;
-import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;

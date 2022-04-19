@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;

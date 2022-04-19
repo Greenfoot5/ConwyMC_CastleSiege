@@ -4,7 +4,6 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
 import me.huntifi.castlesiege.kits.ItemCreator;
-import me.huntifi.castlesiege.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.voting.VotesChanging;
 import net.md_5.bungee.api.ChatMessageType;
@@ -32,6 +31,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -114,6 +115,9 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         fireArrow.setItemMeta(potionMeta);
 
         super.equipment = es;
+
+        // Perm Potion Effect
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 0));
     }
 
     @Override

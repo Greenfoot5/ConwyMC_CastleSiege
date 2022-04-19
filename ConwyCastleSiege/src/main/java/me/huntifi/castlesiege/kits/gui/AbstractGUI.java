@@ -20,6 +20,8 @@ import java.util.UUID;
 
 public abstract class AbstractGUI implements Listener {
 
+    private final String guiName;
+
     protected final ArrayList<Inventory> gui;
     protected List<String> kitNames;
     protected static HashMap<UUID, Integer> onPage;
@@ -29,7 +31,8 @@ public abstract class AbstractGUI implements Listener {
     protected final ItemStack nextPage;
     protected final ItemStack prevPage;
 
-    protected AbstractGUI() {
+    protected AbstractGUI(String guiName) {
+        this.guiName = guiName;
         gui = new ArrayList<>();
         onPage = new HashMap<>();
         canExit = new HashMap<>();
@@ -43,8 +46,7 @@ public abstract class AbstractGUI implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
-        UUID uuid = p.getUniqueId();
-        if (!onPage.containsKey(uuid)) {
+        if (!e.getView().getTitle().equalsIgnoreCase(guiName)) {
             return;
         }
         e.setCancelled(true); // TODO - Remove when general prevention is implemented
@@ -83,10 +85,10 @@ public abstract class AbstractGUI implements Listener {
         }
     }
 
-    protected Inventory emptyPage(int size, String name) {
+    protected Inventory emptyPage(int size) {
         // Create page
         Inventory page = Main.plugin.getServer().createInventory(
-                null, size, name);
+                null, size, guiName);
         // Fill page with panels
         for (int i = 0; i < size; i++) {
             page.setItem(i, panel);
