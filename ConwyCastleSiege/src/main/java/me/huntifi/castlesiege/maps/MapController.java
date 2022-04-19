@@ -41,6 +41,9 @@ public class MapController implements CommandExecutor {
 	public static int mapIndex = 0;
 	public static Timer timer;
 
+	/**
+	 * Begins the map loop
+	 */
 	public static void startLoop() {
 		currentMap = MapsList.values()[0];
 		loadMap();
@@ -67,9 +70,14 @@ public class MapController implements CommandExecutor {
 			unloadMap(oldMap);
 	}
 
+	/**
+	 * Handles ending the map
+	 * (called by the timer or if all flags are captured)
+	 */
 	public static void endMap() {
 		timer.hasGameEnded = true;
 
+		// Calculate the winner based on the gamemode
 		String winners;
 		switch(getCurrentMap().gamemode) {
 			case Control:
@@ -77,9 +85,9 @@ public class MapController implements CommandExecutor {
 				winners = getCurrentMap().teams[0].name;
 				break;
 			case Assault:
+				// Check if the defenders have won
 				for (Flag flag : getCurrentMap().flags) {
 					if (Objects.equals(flag.currentOwners, getCurrentMap().teams[0].name)) {
-						// Defenders win
 						winners = getCurrentMap().teams[0].name;
 						break;
 					}
@@ -100,6 +108,8 @@ public class MapController implements CommandExecutor {
 				break;
 		}
 
+		// Kills all the players
+		// Moves all players to the lobby
 		new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -111,6 +121,7 @@ public class MapController implements CommandExecutor {
 			}
 		}.runTask(Main.plugin);
 
+		// Broadcast the winners
 		for (Team team : getCurrentMap().teams) {
 			Bukkit.broadcastMessage("");
 			if (team.name.equals(winners)) {
@@ -123,7 +134,7 @@ public class MapController implements CommandExecutor {
 			//Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "| Heals " + ChatColor.WHITE + NumberFormat.format(MVPstats.getHeals(RohanMVP.getUniqueId())) + ChatColor.DARK_AQUA + " | Captures " + ChatColor.WHITE + NumberFormat.format(MVPstats.getCaptures(RohanMVP.getUniqueId())) + ChatColor.DARK_AQUA + " | Supports " + ChatColor.WHITE + NumberFormat.format(MVPstats.getSupports(RohanMVP.getUniqueId())));
 		}
 
-
+		// Begins the
 		new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -296,6 +307,7 @@ public class MapController implements CommandExecutor {
 	/**
 	 * Save map command.
 	 * Saves the current map to the backup save
+	 * TODO - FIX!
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {

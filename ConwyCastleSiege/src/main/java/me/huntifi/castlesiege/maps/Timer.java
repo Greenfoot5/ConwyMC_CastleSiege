@@ -3,12 +3,13 @@ package me.huntifi.castlesiege.maps;
 import me.huntifi.castlesiege.Main;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.huntifi.castlesiege.maps.MapController;
-
+/**
+ * A timer to measure the end of a map
+ */
 public class Timer {
 
-	public Integer minutes = 30;
-	public Integer seconds = 1;
+	public Integer minutes;
+	public Integer seconds;
 	public boolean hasGameEnded = false;
 
 	public Timer(int startMinutes, int startSeconds) {

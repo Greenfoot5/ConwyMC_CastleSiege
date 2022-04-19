@@ -10,6 +10,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Objects;
 
+/**
+ * A class to store data on a wool-map
+ */
 public class WoolMap implements Listener {
 
 	public WoolMapBlock[] woolMapBlocks;

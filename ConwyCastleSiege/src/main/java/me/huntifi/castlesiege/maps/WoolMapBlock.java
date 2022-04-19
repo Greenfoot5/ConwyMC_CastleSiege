@@ -14,6 +14,9 @@ import org.bukkit.entity.Player;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Represents a single block on the wool map in a lobby
+ */
 public class WoolMapBlock {
     public String flagName;
     public Location blockLocation;

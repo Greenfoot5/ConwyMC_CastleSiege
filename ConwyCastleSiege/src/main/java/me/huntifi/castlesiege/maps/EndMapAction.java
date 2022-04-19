@@ -1,24 +1,19 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-
-//import me.huntifi.castlesiege.teams.PlayerTeam;
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 /**
  * Handles ending a map
  */
 public class EndMapAction {
-
-	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
-
 	/**
 	 * End a map
 	 * @param mapName The MapsList map that's ended
@@ -48,11 +43,11 @@ public class EndMapAction {
 
 							}
 
-						}.runTaskLater(plugin, 60);
+						}.runTaskLater(Main.plugin, 60);
 
 					}
 
-				}.runTaskLater(plugin, 150);
+				}.runTaskLater(Main.plugin, 150);
 
 				break;
 

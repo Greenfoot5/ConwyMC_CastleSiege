@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * Represents a team on a map
+ */
 public class Team {
     // Basic Details
     public String name;
@@ -22,6 +25,10 @@ public class Team {
     public ChatColor primaryChatColor;
     public ChatColor secondaryChatColor;
 
+    /**
+     * Creates a new team
+     * @param name The name of the team
+     */
     public Team(String name) {
         this.name = name;
         players = new ArrayList<>();

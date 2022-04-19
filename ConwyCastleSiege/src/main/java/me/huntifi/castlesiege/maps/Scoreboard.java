@@ -9,19 +9,22 @@ import org.bukkit.scoreboard.Objective;
 
 import java.util.Objects;
 
+/**
+ * Displays the scoreboard with current flag ownership to all players
+ */
 public class Scoreboard implements Runnable {
 
 	public static String getEntryFromScore(Objective o, int score) {
 		if(o == null) return null;
 		if(!hasScoreTaken(o, score)) return null;
-		for (String s : o.getScoreboard().getEntries()) {
+		for (String s : Objects.requireNonNull(o.getScoreboard()).getEntries()) {
 			if(o.getScore(s).getScore() == score) return o.getScore(s).getEntry();
 		}
 		return null;
 	}
 
 	public static boolean hasScoreTaken(Objective o, int score) {
-		for (String s : o.getScoreboard().getEntries()) {
+		for (String s : Objects.requireNonNull(o.getScoreboard()).getEntries()) {
 			if(o.getScore(s).getScore() == score) return true;
 		}
 		return false;
@@ -30,7 +33,7 @@ public class Scoreboard implements Runnable {
 	public static void replaceScore(Objective o, int score, String name) {
 		if(hasScoreTaken(o, score)) {
 			if(getEntryFromScore(o, score).equalsIgnoreCase(name)) return;
-			if(!(getEntryFromScore(o, score).equalsIgnoreCase(name))) o.getScoreboard().resetScores(getEntryFromScore(o, score));
+			if(!(getEntryFromScore(o, score).equalsIgnoreCase(name))) Objects.requireNonNull(o.getScoreboard()).resetScores(getEntryFromScore(o, score));
 		}
 		o.getScore(name).setScore(score);
 	}
@@ -55,6 +58,7 @@ public class Scoreboard implements Runnable {
 				objective = score.getObjective(online.getName());
 			}
 
+			assert objective != null;
 			objective.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + displayName);
 			replaceScore(objective, 15, ChatColor.DARK_GRAY + "");
 			replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + "Map: " + ChatColor.RESET + ChatColor.GREEN + MapController.getCurrentMap().name);

@@ -6,6 +6,9 @@ import me.huntifi.castlesiege.flags.Flag;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * A class to represent a single playable map
+ */
 public class Map {
     public String name;
     public String worldName;
