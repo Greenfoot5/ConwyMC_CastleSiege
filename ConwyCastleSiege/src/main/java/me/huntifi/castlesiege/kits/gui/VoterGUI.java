@@ -1,6 +1,8 @@
 package me.huntifi.castlesiege.kits.gui;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.ItemCreator;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -23,6 +25,18 @@ public class VoterGUI extends AbstractGUI implements CommandExecutor {
 
         // List all kits available on these pages
         kitNames = Arrays.asList("FireArcher", /*"Horserider",*/ "Ladderman", "Scout", "Shieldman", "Skirmisher");
+    }
+
+    @Override
+    protected void clickedItem(Player p, String itemName) {
+        String[] splitName = itemName.split(" ");
+        String kitName = splitName[splitName.length - 1];
+
+        // Select kit
+        if (kitNames.contains(kitName)) {
+            p.performCommand(kitName);
+            Bukkit.getScheduler().runTask(Main.plugin, p::closeInventory);
+        }
     }
 
     @Override

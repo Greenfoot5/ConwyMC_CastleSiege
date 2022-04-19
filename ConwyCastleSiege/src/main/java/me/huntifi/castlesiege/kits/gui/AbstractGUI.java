@@ -58,22 +58,8 @@ public abstract class AbstractGUI implements Listener {
             return;
         }
 
-        String[] itemName = clicked.getItemMeta().getDisplayName().split(" ");
-        String kitName = itemName[itemName.length - 1];
-
-        // Select kit
-        if (kitNames.contains(kitName)) {
-            p.performCommand(kitName);
-            Bukkit.getScheduler().runTask(Main.plugin, p::closeInventory);
-        // Go to next page
-        } else if (itemName[0].contains("Next")) {
-            onPage.merge(p.getUniqueId(), 1, Integer::sum);
-            newPage(p);
-        // Go to previous page
-        } else if (itemName[0].contains("Previous")) {
-            onPage.merge(p.getUniqueId(), -1, Integer::sum);
-            newPage(p);
-        }
+        // Call the GUI specific click handler
+        clickedItem(p, clicked.getItemMeta().getDisplayName());
     }
 
     @EventHandler
@@ -83,6 +69,17 @@ public abstract class AbstractGUI implements Listener {
             onPage.remove(e.getPlayer().getUniqueId());
             canExit.remove(uuid);
         }
+    }
+
+    protected abstract void clickedItem(Player p, String itemName);
+
+    protected void newPage(Player p) {
+        UUID uuid = p.getUniqueId();
+        Bukkit.getScheduler().runTask(Main.plugin, () -> {
+            canExit.put(uuid, false);
+            p.openInventory(gui.get(onPage.get(uuid)));
+            canExit.put(uuid, true);
+        });
     }
 
     protected Inventory emptyPage(int size) {
@@ -95,14 +92,5 @@ public abstract class AbstractGUI implements Listener {
         }
 
         return page;
-    }
-
-    private void newPage(Player p) {
-        UUID uuid = p.getUniqueId();
-        Bukkit.getScheduler().runTask(Main.plugin, () -> {
-            canExit.put(uuid, false);
-            p.openInventory(gui.get(onPage.get(uuid)));
-            canExit.put(uuid, true);
-        });
     }
 }

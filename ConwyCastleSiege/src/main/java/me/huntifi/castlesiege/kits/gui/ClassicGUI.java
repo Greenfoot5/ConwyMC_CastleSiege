@@ -1,6 +1,8 @@
 package me.huntifi.castlesiege.kits.gui;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.ItemCreator;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -25,6 +27,26 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
         // List all kits available on these pages
         kitNames = Arrays.asList("Archer", "Berserker", "Cavalry", "Crossbowman", "Engineer", "Executioner",
                 "Halberdier", "Maceman", "Medic", "Ranger", "Spearman", "Swordsman", "Viking", "Warhound");
+    }
+
+    @Override
+    protected void clickedItem(Player p, String itemName) {
+        String[] splitName = itemName.split(" ");
+        String kitName = splitName[splitName.length - 1];
+
+        // Select kit
+        if (kitNames.contains(kitName)) {
+            p.performCommand(kitName);
+            Bukkit.getScheduler().runTask(Main.plugin, p::closeInventory);
+        // Go to next page
+        } else if (splitName[0].contains("Next")) {
+            onPage.merge(p.getUniqueId(), 1, Integer::sum);
+            newPage(p);
+        // Go to previous page
+        } else if (splitName[0].contains("Previous")) {
+            onPage.merge(p.getUniqueId(), -1, Integer::sum);
+            newPage(p);
+        }
     }
 
     @Override
