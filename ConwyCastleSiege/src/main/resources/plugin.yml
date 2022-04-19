@@ -97,12 +97,6 @@ commands:
   togglerank:
     description: Toggles the rank
     usage: /togglerank
-  KitThunderstoneGuards:
-    description: open thunderstone GUI
-    usage: /KitThunderstoneGuards
-  KitCloudcrawlers:
-    description: open cloudcrawler thunderstone GUI
-    usage: /KitCloudcrawlers
   sui:
     description: commit die
     usage: /sui
@@ -202,12 +196,18 @@ commands:
   classicGUI:
     description: Open the GUI for classic kits
     usage: /classicGUI
+  KitCloudcrawlers:
+    description: Open the GUI for the Cloud Crawlers
+    usage: /KitCloudcrawlers
   KitIsengard:
-    description: Open the GUI for Isengard
+    description: Open the GUI for the Uruk-hai
     usage: /KitIsengard
   KitRohan:
     description: Open the GUI for Rohan
     usage: /KitRohan
+  KitThunderstoneGuards:
+    description: Open the GUI for the Thunderstone Guard
+    usage: /KitThunderstoneGuards
   voterGUI:
     description: Open the GUI for voter kits
     usage: /voterGUI

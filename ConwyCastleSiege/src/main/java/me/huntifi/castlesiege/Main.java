@@ -128,8 +128,10 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
                 // Kit GUIs
                 getServer().getPluginManager().registerEvents(new ClassicGUI(), plugin);
+                getServer().getPluginManager().registerEvents(new TeamGUI("Cloud Crawlers"), plugin);
                 getServer().getPluginManager().registerEvents(new TeamGUI("Rohan"), plugin);
                 getServer().getPluginManager().registerEvents(new TeamGUI("Uruk-hai"), plugin);
+                getServer().getPluginManager().registerEvents(new TeamGUI("Thunderstone Guard"), plugin);
                 getServer().getPluginManager().registerEvents(new VoterGUI(), plugin);
 
                 // Rewrite Commands
@@ -159,8 +161,10 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
                 // Kit GUIs
                 Objects.requireNonNull(getCommand("ClassicGUI")).setExecutor(new ClassicGUI());
+                Objects.requireNonNull(getCommand("KitCloudcrawlers")).setExecutor(new TeamGUI("Cloud Crawlers"));
                 Objects.requireNonNull(getCommand("KitIsengard")).setExecutor(new TeamGUI("Uruk-hai"));
                 Objects.requireNonNull(getCommand("KitRohan")).setExecutor(new TeamGUI("Rohan"));
+                Objects.requireNonNull(getCommand("KitThunderstoneGuards")).setExecutor(new TeamGUI("Thunderstone Guard"));
                 Objects.requireNonNull(getCommand("VoterGUI")).setExecutor(new VoterGUI());
 
                 // Map Specific

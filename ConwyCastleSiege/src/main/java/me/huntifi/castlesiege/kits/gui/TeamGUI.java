@@ -38,6 +38,7 @@ public class TeamGUI extends AbstractGUI implements CommandExecutor {
             case "Uruk-hai":
             case "Orc":
                 p.sendMessage(ChatColor.DARK_RED + "This feature is currently unavailable!");
+                break;
         }
     }
 
@@ -67,6 +68,7 @@ public class TeamGUI extends AbstractGUI implements CommandExecutor {
             case "Uruk-hai":
                 page.setItem(38, urukhai());
                 page.setItem(42, orcs());
+                break;
         }
 
         return page;
