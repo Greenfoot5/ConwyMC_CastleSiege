@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.kits.gui;
 
-import me.huntifi.castlesiege.kits.ItemCreator;
+import me.huntifi.castlesiege.kits.items.ItemCreator;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;

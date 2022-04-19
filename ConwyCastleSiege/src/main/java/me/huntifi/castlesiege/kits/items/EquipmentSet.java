@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits;
+package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.voting.VotesChanging;

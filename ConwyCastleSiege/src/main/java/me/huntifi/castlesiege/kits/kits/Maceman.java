@@ -2,8 +2,8 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.kits.EquipmentSet;
-import me.huntifi.castlesiege.kits.ItemCreator;
+import me.huntifi.castlesiege.kits.items.EquipmentSet;
+import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import net.md_5.bungee.api.ChatMessageType;

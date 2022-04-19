@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.Thunderstone;
 
 import java.util.UUID;
 
-import me.huntifi.castlesiege.kits.Enderchest;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

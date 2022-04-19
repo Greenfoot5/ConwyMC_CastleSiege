@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits;
+package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.md_5.bungee.api.ChatColor;

@@ -2,8 +2,8 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.kits.EquipmentSet;
-import me.huntifi.castlesiege.kits.WoolHat;
+import me.huntifi.castlesiege.kits.items.EquipmentSet;
+import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.Bukkit;

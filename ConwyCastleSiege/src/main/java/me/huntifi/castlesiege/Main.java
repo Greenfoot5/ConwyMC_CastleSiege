@@ -26,7 +26,7 @@ import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.join.login;
 import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.flags.Flag;
-import me.huntifi.castlesiege.kits.Enderchest;
+import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.gui.ClassicGUI;
 import me.huntifi.castlesiege.kits.gui.TeamGUI;
 import me.huntifi.castlesiege.kits.gui.VoterGUI;

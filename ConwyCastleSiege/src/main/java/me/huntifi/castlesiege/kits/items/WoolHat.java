@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits;
+package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
