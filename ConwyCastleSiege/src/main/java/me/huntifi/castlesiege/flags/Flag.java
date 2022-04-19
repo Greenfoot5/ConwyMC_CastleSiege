@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.flags;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.maps.MapController;
@@ -26,7 +25,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Flag {
     public String name;
-    private final String startingTeam;
 
     // Location Data
     public Location spawnPoint;
@@ -63,7 +61,6 @@ public class Flag {
      */
     public Flag(String name, String startingTeam, int maxCapValue, int progressAmount) {
         this.name = name;
-        this.startingTeam = startingTeam;
         this.currentOwners = startingTeam;
         this.maxCap = maxCapValue;
         animationIndex = maxCapValue;
@@ -158,6 +155,7 @@ public class Flag {
 
         Tuple<Integer, Integer> counts = getPlayerCounts();
 
+        // Calculate the amount of progressed based on how many more players the defenders have than the attackers, or vice versa
         int amount;
         if (counts.getFirst() > counts.getSecond()) {
             amount = (int) (progressAmount * Math.pow(capMultiplier, counts.getFirst() - counts.getSecond() - 1));
@@ -167,6 +165,7 @@ public class Flag {
             progress -= Math.min(amount, 25);
         }
 
+        // Make sure the progress doesn't go too high or too low
         if (progress < 0) {
             progress = 0;
         } else if (progress > maxCap * progressMultiplier) {
@@ -385,7 +384,7 @@ public class Flag {
                 World world = spawnPoint.getWorld();
                 assert world != null;
 
-                // Set Air
+                // Set previous animation blocks to air
                 if (animationAir) {
                     for (Vector vector : previousFrame.secondary_blocks) {
                         Location loc = vector.toLocation(world);
