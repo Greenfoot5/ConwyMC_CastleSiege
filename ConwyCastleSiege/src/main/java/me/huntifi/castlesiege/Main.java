@@ -22,6 +22,7 @@ import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.SQLStats;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.*;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.join.login;
 import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.flags.Flag;
