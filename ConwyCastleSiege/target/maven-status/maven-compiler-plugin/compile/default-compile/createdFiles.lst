@@ -19,23 +19,19 @@ me\huntifi\castlesiege\Thunderstone\Flags\animations\Twinbridge_Cloudcrawlers.cl
 me\huntifi\castlesiege\flags\Flag$2.class
 me\huntifi\castlesiege\kits\kits\Ranger$1.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Lonelytower.class
-me\huntifi\castlesiege\kits\KitGUIcommand.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagMethod$1.class
 me\huntifi\castlesiege\commands\pingCommand.class
 me\huntifi\castlesiege\kits\kits\Berserker.class
 me\huntifi\castlesiege\data_types\Frame.class
-me\huntifi\castlesiege\Thunderstone\KitsGUI\KitsGUI_ThunderstoneGuard_Command$1.class
 me\huntifi\castlesiege\kits\kits\Shieldman.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\LonelyTowerFlag.class
 me\huntifi\castlesiege\Helmsdeep\rams\GreatHallRamAnimation.class
 me\huntifi\castlesiege\database\DatabaseKeepAliveEvent.class
 me\huntifi\castlesiege\Thunderstone\Rams\ThunderstoneRamAnimation$1.class
-me\huntifi\castlesiege\Thunderstone\KitsGUI\KitsGUI_ThunderstoneGuard_Command.class
 me\huntifi\castlesiege\commands\togglerankCommand.class
 me\huntifi\castlesiege\flags\Flag.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Stairhall_Cloudcrawlers.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagMethod$2.class
-me\huntifi\castlesiege\kits\KitGUIcommand$1.class
 me\huntifi\castlesiege\kits\kits\Cavalry.class
 me\huntifi\castlesiege\Thunderstone\Rams\ThunderstoneRamAnimation.class
 me\huntifi\castlesiege\database\AsyncGetters$StringCallback.class
@@ -92,7 +88,6 @@ me\huntifi\castlesiege\Thunderstone\Flags\animations\Skyview_ThunderstoneGuards.
 me\huntifi\castlesiege\maps\Timer.class
 me\huntifi\castlesiege\commands\staffCommands\StaffChat.class
 me\huntifi\castlesiege\commands\staffCommands\UnsessionmuteCommand.class
-me\huntifi\castlesiege\Thunderstone\KitsGUI\KitsGUI_ThunderstoneGuard.class
 me\huntifi\castlesiege\kits\WoolHat.class
 me\huntifi\castlesiege\Helmsdeep\doors\HelmsdeepMainGateLeftDoor.class
 me\huntifi\castlesiege\Thunderstone\ThunderstoneEndMap.class
@@ -103,7 +98,6 @@ me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTowerFlag$1.class
 me\huntifi\castlesiege\voting\VotesUnloading.class
 me\huntifi\castlesiege\Helmsdeep\Secrets\HelmsdeepSecretDoor$1.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagName.class
-me\huntifi\castlesiege\kits\KitsCommand.class
 me\huntifi\castlesiege\flags\CaptureHandler.class
 me\huntifi\castlesiege\database\AsyncGetters$1$1.class
 me\huntifi\castlesiege\commands\teamCommand.class
@@ -146,7 +140,6 @@ me\huntifi\castlesiege\mvpCommand\mvpCommand.class
 me\huntifi\castlesiege\database\AsyncGetters.class
 me\huntifi\castlesiege\Helmsdeep\rams\MainGateRamAnimation$1.class
 me\huntifi\castlesiege\voting\VotesLoading.class
-me\huntifi\castlesiege\kits\KitGUI.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTowerFlag.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\TwinbridgeFlag.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Westtower.class
@@ -187,7 +180,6 @@ me\huntifi\castlesiege\database\SQLGetter$1.class
 me\huntifi\castlesiege\kits\EquipmentSet.class
 me\huntifi\castlesiege\stats\MVP\StatsMvpJoinevent.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Lonelytower_Cloudcrawlers.class
-me\huntifi\castlesiege\Thunderstone\KitsGUI\KitsGUI_Cloudcrawlers.class
 me\huntifi\castlesiege\stats\mystats\MystatsBook.class
 me\huntifi\castlesiege\Helmsdeep\Ballistae\Ballista1Cooldown$1.class
 me\huntifi\castlesiege\events\join\stats\StatsSaving.class
@@ -251,11 +243,9 @@ me\huntifi\castlesiege\stats\levels\LevelingEvent.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Twinbridge.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagRadius.class
 me\huntifi\castlesiege\kits\gui\TeamGUI.class
-me\huntifi\castlesiege\Thunderstone\KitsGUI\KitsGUI_Cloudcrawlers_Command.class
 me\huntifi\castlesiege\Helmsdeep\Ballistae\HelmsdeepBallistaEvent.class
 me\huntifi\castlesiege\kits\gui\AbstractGUI.class
 me\huntifi\castlesiege\Thunderstone\ThunderstoneJoin.class
-me\huntifi\castlesiege\Thunderstone\KitsGUI\KitsGUI_Cloudcrawlers_Command$1.class
 me\huntifi\castlesiege\maps\MapController.class
 me\huntifi\castlesiege\Helmsdeep\Gates\HelmsdeepGreatHallBlocks.class
 me\huntifi\castlesiege\database\SQLStats$1.class
