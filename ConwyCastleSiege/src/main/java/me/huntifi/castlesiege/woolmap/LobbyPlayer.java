@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 public class LobbyPlayer {
 	
-	public static ArrayList<Player> lobby = new ArrayList<Player>();
+	public static ArrayList<Player> lobby = new ArrayList<>();
 	
 	public static void addPlayer(Player p) {
 		
@@ -19,13 +19,8 @@ public class LobbyPlayer {
 	}
 	
 	public static boolean containsPlayer(Player p) {
-		
-		if (lobby.contains(p)) {
-			
-			return true;
-		}
-		
-		return false;
+
+		return lobby.contains(p);
 	}
 
 }
