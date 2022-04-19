@@ -15,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public abstract class AbstractGUI implements Listener {
@@ -23,7 +22,6 @@ public abstract class AbstractGUI implements Listener {
     private final String guiName;
 
     protected final ArrayList<Inventory> gui;
-    protected List<String> kitNames;
     protected static HashMap<UUID, Integer> onPage;
     protected static HashMap<UUID, Boolean> canExit;
 
@@ -59,7 +57,10 @@ public abstract class AbstractGUI implements Listener {
         }
 
         // Call the GUI specific click handler
-        clickedItem(p, clicked.getItemMeta().getDisplayName());
+        String itemName = clicked.getItemMeta().getDisplayName();
+        if (itemName.split(" ").length > 1) {
+            clickedItem(p, itemName);
+        }
     }
 
     @EventHandler

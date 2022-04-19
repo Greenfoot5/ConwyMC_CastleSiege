@@ -94,12 +94,6 @@ commands:
   msg:
     description: Message a player!
     usage: /r
-  KitRohan:
-    description: GUI Rohan-Helmsdeep
-    usage: /KitRohan
-  KitIsengard:
-    description: GUI Isengard-Helmsdeep
-    usage: /KitIsengard
   togglerank:
     description: Toggles the rank
     usage: /togglerank
@@ -208,6 +202,12 @@ commands:
   classicGUI:
     description: Open the GUI for classic kits
     usage: /classicGUI
+  KitIsengard:
+    description: Open the GUI for Isengard
+    usage: /KitIsengard
+  KitRohan:
+    description: Open the GUI for Rohan
+    usage: /KitRohan
   voterGUI:
     description: Open the GUI for voter kits
     usage: /voterGUI

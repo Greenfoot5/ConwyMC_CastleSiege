@@ -17,6 +17,8 @@ import java.util.*;
 
 public class ClassicGUI extends AbstractGUI implements CommandExecutor {
 
+    private final List<String> kitNames;
+
     public ClassicGUI() {
         super(ChatColor.DARK_GREEN + "Classic Kits");
 

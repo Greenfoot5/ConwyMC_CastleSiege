@@ -14,16 +14,19 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class VoterGUI extends AbstractGUI implements CommandExecutor {
+
+    private final List<String> kitNames;
 
     public VoterGUI() {
         super(ChatColor.DARK_GREEN + "Voter Kits");
 
-        // Create this GUI's pages
+        // Create this GUI's page
         gui.add(page());
 
-        // List all kits available on these pages
+        // List all kits available on this page
         kitNames = Arrays.asList("FireArcher", /*"Horserider",*/ "Ladderman", "Scout", "Shieldman", "Skirmisher");
     }
 
