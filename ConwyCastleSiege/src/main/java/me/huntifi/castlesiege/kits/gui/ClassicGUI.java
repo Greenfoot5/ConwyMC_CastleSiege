@@ -15,10 +15,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/**
+ * The class used to create the GUI for classic kits
+ */
 public class ClassicGUI extends AbstractGUI implements CommandExecutor {
 
     private final List<String> kitNames;
 
+    /**
+     * Create the GUI and store all corresponding kits in a list
+     */
     public ClassicGUI() {
         super(ChatColor.DARK_GREEN + "Classic Kits");
 
@@ -31,6 +37,11 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                 "Halberdier", "Maceman", "Medic", "Ranger", "Spearman", "Swordsman", "Viking", "Warhound");
     }
 
+    /**
+     * Perform the action (select kit or switch page) corresponding to the clicked item
+     * @param p The player who clicked
+     * @param itemName The name of the item that was clicked on
+     */
     @Override
     protected void clickedItem(Player p, String itemName) {
         String[] splitName = itemName.split(" ");
@@ -51,6 +62,14 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
         }
     }
 
+    /**
+     * Opens the classic kits GUI for the command source
+     * @param sender Source of the command
+     * @param cmd Command which was executed
+     * @param label Alias of the command which was used
+     * @param args Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         Player p = (Player) sender;
@@ -60,6 +79,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
         return true;
     }
 
+    /**
+     * Create the first page of this GUI
+     * @return An inventory with part of the classic kits
+     */
     private Inventory page0() {
         // Create an empty page
         Inventory page = emptyPage(54);
@@ -76,6 +99,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
         return page;
     }
 
+    /**
+     * Create the second page of this GUI
+     * @return An inventory with part of the classic kits
+     */
     private Inventory page1() {
         // Create an empty page
         Inventory page = emptyPage(54);
@@ -94,6 +121,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
         return page;
     }
 
+    /**
+     * Create an item used to represent the swordsman kit
+     * @return An item that represent the swordsman kit
+     */
     private ItemStack swordsman() {
         return ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET + ChatColor.GREEN + " Swordsman",
@@ -105,6 +136,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the archer kit
+     * @return An item that represent the archer kit
+     */
     private ItemStack archer() {
         return ItemCreator.item(new ItemStack(Material.BOW),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET + ChatColor.GREEN + " Archer",
@@ -116,6 +151,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the spearman kit
+     * @return An item that represent the spearman kit
+     */
     private ItemStack spearman() {
         return ItemCreator.item(new ItemStack(Material.STICK),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Spearman",
@@ -127,6 +166,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the berserker kit
+     * @return An item that represent the berserker kit
+     */
     private ItemStack berserker() {
         return ItemCreator.item(new ItemStack(Material.POTION),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Berserker",
@@ -138,6 +181,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the ranger kit
+     * @return An item that represent the ranger kit
+     */
     private ItemStack ranger() {
         return ItemCreator.item(new ItemStack(Material.LIME_DYE),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Ranger",
@@ -150,6 +197,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the halberdier kit
+     * @return An item that represent the halberdier kit
+     */
     private ItemStack halberdier() {
         return ItemCreator.item(new ItemStack(Material.DIAMOND_CHESTPLATE),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Halberdier",
@@ -163,6 +214,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the executioner kit
+     * @return An item that represent the executioner kit
+     */
     private ItemStack executioner() {
         return ItemCreator.item(new ItemStack(Material.IRON_AXE),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Executioner",
@@ -175,6 +230,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the medic kit
+     * @return An item that represent the medic kit
+     */
     private ItemStack medic() {
         return ItemCreator.item(new ItemStack(Material.CAKE),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Medic",
@@ -188,6 +247,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the maceman kit
+     * @return An item that represent the maceman kit
+     */
     private ItemStack maceman() {
         return ItemCreator.item(new ItemStack(Material.IRON_SHOVEL),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Maceman",
@@ -201,6 +264,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the viking kit
+     * @return An item that represent the viking kit
+     */
     private ItemStack viking() {
         return ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Viking",
@@ -213,6 +280,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the crossbowman kit
+     * @return An item that represent the crossbowman kit
+     */
     private ItemStack crossbowman() {
         return ItemCreator.item(new ItemStack(Material.CROSSBOW),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Crossbowman",
@@ -226,6 +297,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the cavalry kit
+     * @return An item that represent the cavalry kit
+     */
     private ItemStack cavalry() {
         return ItemCreator.item(new ItemStack(Material.IRON_HORSE_ARMOR),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Cavalry",
@@ -238,6 +313,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the engineer kit
+     * @return An item that represent the engineer kit
+     */
     private ItemStack engineer() {
         return ItemCreator.item(new ItemStack(Material.COBWEB),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Engineer",
@@ -251,6 +330,10 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the warhound kit
+     * @return An item that represent the warhound kit
+     */
     private ItemStack warhound() {
         return ItemCreator.item(new ItemStack(Material.GHAST_TEAR),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Warhound",

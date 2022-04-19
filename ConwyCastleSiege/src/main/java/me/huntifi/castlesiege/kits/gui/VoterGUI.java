@@ -16,10 +16,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The class used to create the GUI for voter kits
+ */
 public class VoterGUI extends AbstractGUI implements CommandExecutor {
 
     private final List<String> kitNames;
 
+    /**
+     * Create the GUI and store all corresponding kits in a list
+     */
     public VoterGUI() {
         super(ChatColor.DARK_GREEN + "Voter Kits");
 
@@ -30,6 +36,11 @@ public class VoterGUI extends AbstractGUI implements CommandExecutor {
         kitNames = Arrays.asList("FireArcher", /*"Horserider",*/ "Ladderman", "Scout", "Shieldman", "Skirmisher");
     }
 
+    /**
+     * Selects the kit corresponding to the clicked item
+     * @param p The player who clicked
+     * @param itemName The name of the item that was clicked on
+     */
     @Override
     protected void clickedItem(Player p, String itemName) {
         String[] splitName = itemName.split(" ");
@@ -42,6 +53,14 @@ public class VoterGUI extends AbstractGUI implements CommandExecutor {
         }
     }
 
+    /**
+     * Opens the voter kits GUI for the command source
+     * @param sender Source of the command
+     * @param cmd Command which was executed
+     * @param label Alias of the command which was used
+     * @param args Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         Player p = (Player) sender;
@@ -51,6 +70,10 @@ public class VoterGUI extends AbstractGUI implements CommandExecutor {
         return true;
     }
 
+    /**
+     * Create the page of this GUI
+     * @return An inventory with the voter kits
+     */
     private Inventory page() {
         // Create an empty page
         Inventory page = emptyPage(54);
@@ -66,6 +89,10 @@ public class VoterGUI extends AbstractGUI implements CommandExecutor {
         return page;
     }
 
+    /**
+     * Create an item used to represent the shieldman kit
+     * @return An item that represent the shieldman kit
+     */
     private ItemStack shieldman() {
         return ItemCreator.item(new ItemStack(Material.SHIELD),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET + ChatColor.GREEN + " Shieldman",
@@ -78,6 +105,10 @@ public class VoterGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the skirmisher kit
+     * @return An item that represent the skirmisher kit
+     */
     private ItemStack skirmisher() {
         return ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET + ChatColor.GREEN + " Skirmisher",
@@ -90,6 +121,10 @@ public class VoterGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the fire archer kit
+     * @return An item that represent the fire archer kit
+     */
     private ItemStack fireArcher() {
         return ItemCreator.item(new ItemStack(Material.BLAZE_POWDER),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET + ChatColor.GREEN + " FireArcher",
@@ -104,6 +139,10 @@ public class VoterGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the horserider kit
+     * @return An item that represent the horserider kit
+     */
     private ItemStack horserider() {
         return ItemCreator.item(new ItemStack(Material.BARRIER),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET + ChatColor.GREEN + " Horserider",
@@ -118,6 +157,10 @@ public class VoterGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the scout kit
+     * @return An item that represent the scout kit
+     */
     private ItemStack scout() {
         return ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET + ChatColor.GREEN + " Scout",
@@ -130,6 +173,10 @@ public class VoterGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.GOLD + "------------------------------"), null);
     }
 
+    /**
+     * Create an item used to represent the ladderman kit
+     * @return An item that represent the ladderman kit
+     */
     private ItemStack ladderman() {
         return ItemCreator.item(new ItemStack(Material.LADDER),
                 ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET + ChatColor.GREEN + " Ladderman",

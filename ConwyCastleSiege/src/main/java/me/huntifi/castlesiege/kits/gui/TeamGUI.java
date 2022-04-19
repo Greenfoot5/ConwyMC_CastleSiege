@@ -13,8 +13,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
+/**
+ * The class used to create the GUI for selecting kit GUIs
+ */
 public class TeamGUI extends AbstractGUI implements CommandExecutor {
 
+    /**
+     * Create the GUI
+     */
     public TeamGUI(String team) {
         super(ChatColor.DARK_GREEN + team);
 
@@ -22,6 +28,11 @@ public class TeamGUI extends AbstractGUI implements CommandExecutor {
         gui.add(page(team));
     }
 
+    /**
+     * Opens the GUI corresponding to the clicked item for the player
+     * @param p The player who clicked
+     * @param itemName The name of the item that was clicked on
+     */
     @Override
     protected void clickedItem(Player p, String itemName) {
         String name = itemName.substring(2).split(" ")[0];
@@ -42,6 +53,14 @@ public class TeamGUI extends AbstractGUI implements CommandExecutor {
         }
     }
 
+    /**
+     * Opens the kits GUI selector for the command source
+     * @param sender Source of the command
+     * @param cmd Command which was executed
+     * @param label Alias of the command which was used
+     * @param args Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         Player p = (Player) sender;
@@ -51,6 +70,10 @@ public class TeamGUI extends AbstractGUI implements CommandExecutor {
         return true;
     }
 
+    /**
+     * Create the page of this GUI
+     * @return An inventory with the sub-GUIs
+     */
     private Inventory page(String team) {
         // Create an empty page
         Inventory page = emptyPage(54);
@@ -74,6 +97,10 @@ public class TeamGUI extends AbstractGUI implements CommandExecutor {
         return page;
     }
 
+    /**
+     * Create an item used to represent the GUI for classic kits
+     * @return An item that represent the GUI for classic kits
+     */
     private ItemStack classic() {
         return ItemCreator.item(new ItemStack(Material.IRON_BLOCK),
                 ChatColor.YELLOW + "Classic Kits",
@@ -82,6 +109,10 @@ public class TeamGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.DARK_PURPLE + "to be unlocked with coins first."), null);
     }
 
+    /**
+     * Create an item used to represent the GUI for voter kits
+     * @return An item that represent the GUI for voter kits
+     */
     private ItemStack voter() {
         return ItemCreator.item(new ItemStack(Material.LAPIS_BLOCK),
                 ChatColor.YELLOW + "Voter Kits",
@@ -89,6 +120,10 @@ public class TeamGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.DARK_PURPLE + "This requires you to vote first."), null);
     }
 
+    /**
+     * Create an item used to represent the GUI for secret kits
+     * @return An item that represent the GUI for secret kits
+     */
     private ItemStack secret() {
         return ItemCreator.item(new ItemStack(Material.EMERALD_BLOCK),
                 ChatColor.YELLOW + "Secret Kits",
@@ -97,6 +132,10 @@ public class TeamGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.DARK_PURPLE + "respective secrets first."), null);
     }
 
+    /**
+     * Create an item used to represent the GUI for rohan kits
+     * @return An item that represent the GUI for rohan kits
+     */
     private ItemStack rohan() {
         return ItemCreator.item(new ItemStack(Material.LEATHER_HORSE_ARMOR),
                 ChatColor.DARK_GREEN + "Rohan Kits",
@@ -105,6 +144,10 @@ public class TeamGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.DARK_PURPLE + "to be unlocked with coins first."), null);
     }
 
+    /**
+     * Create an item used to represent the GUI for elven kits
+     * @return An item that represent the GUI for elven kits
+     */
     private ItemStack elves() {
         return ItemCreator.item(new ItemStack(Material.OAK_LEAVES),
                 ChatColor.DARK_GREEN + "Elven Kits",
@@ -113,6 +156,10 @@ public class TeamGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.DARK_PURPLE + "to be unlocked with coins first."), null);
     }
 
+    /**
+     * Create an item used to represent the GUI for uruk-hai kits
+     * @return An item that represent the GUI for uruk-hai kits
+     */
     private ItemStack urukhai() {
         return ItemCreator.item(new ItemStack(Material.IRON_INGOT),
                 ChatColor.DARK_GRAY + "Uruk-hai Kits",
@@ -121,6 +168,10 @@ public class TeamGUI extends AbstractGUI implements CommandExecutor {
                         ChatColor.DARK_PURPLE + "to be unlocked with coins first."), null);
     }
 
+    /**
+     * Create an item used to represent the GUI for orc kits
+     * @return An item that represent the GUI for orc kits
+     */
     private ItemStack orcs() {
         return ItemCreator.item(new ItemStack(Material.COAL),
                 ChatColor.DARK_GRAY + "Orc Kits",

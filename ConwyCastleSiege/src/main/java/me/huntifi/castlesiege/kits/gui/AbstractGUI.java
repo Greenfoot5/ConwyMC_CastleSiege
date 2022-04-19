@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * A class used for creating kit related GUIs
+ */
 public abstract class AbstractGUI implements Listener {
 
     private final String guiName;
@@ -29,6 +32,10 @@ public abstract class AbstractGUI implements Listener {
     protected final ItemStack nextPage;
     protected final ItemStack prevPage;
 
+    /**
+     * Initialise all commonly used values
+     * @param guiName The name for the GUI
+     */
     protected AbstractGUI(String guiName) {
         this.guiName = guiName;
         gui = new ArrayList<>();
@@ -41,6 +48,10 @@ public abstract class AbstractGUI implements Listener {
         prevPage = ItemCreator.item(new ItemStack(Material.ARROW), ChatColor.GREEN + "Previous Page", null, null);
     }
 
+    /**
+     * Calls the GUI's click event handler after performing checks
+     * @param e A click event while in the GUI
+     */
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
@@ -63,6 +74,10 @@ public abstract class AbstractGUI implements Listener {
         }
     }
 
+    /**
+     * Removes the player's entry from the GUI's users to prevent unwanted click events
+     * @param e The event for closing an inventory
+     */
     @EventHandler
     public void onCloseInv(InventoryCloseEvent e) {
         UUID uuid = e.getPlayer().getUniqueId();
@@ -72,8 +87,17 @@ public abstract class AbstractGUI implements Listener {
         }
     }
 
+    /**
+     * Handles the click event after onClick performed its checks
+     * @param p The player who clicked
+     * @param itemName The name of the item that was clicked on
+     */
     protected abstract void clickedItem(Player p, String itemName);
 
+    /**
+     * Open the GUI page to which the player is assigned
+     * @param p The player for whom to open the GUI
+     */
     protected void newPage(Player p) {
         UUID uuid = p.getUniqueId();
         Bukkit.getScheduler().runTask(Main.plugin, () -> {
@@ -83,6 +107,11 @@ public abstract class AbstractGUI implements Listener {
         });
     }
 
+    /**
+     * Creates an inventory with specified size and fills it with panels
+     * @param size The size of the inventory
+     * @return An inventory with all slots set to the panel item
+     */
     protected Inventory emptyPage(int size) {
         // Create page
         Inventory page = Main.plugin.getServer().createInventory(
