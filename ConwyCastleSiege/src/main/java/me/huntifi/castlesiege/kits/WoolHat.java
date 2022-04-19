@@ -11,8 +11,15 @@ import me.huntifi.castlesiege.maps.MapController;
 
 import java.util.UUID;
 
+/**
+ * The wool block worn as hat by all players
+ */
 public class WoolHat {
 
+	/**
+	 * Sets a wool block with a player's team's color as their hat
+	 * @param player The player for whom to set the wool hat
+	 */
 	public static void setHead(Player player) {
 		Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
 

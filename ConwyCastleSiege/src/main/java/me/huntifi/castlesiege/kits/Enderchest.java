@@ -13,8 +13,15 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.UUID;
 
+/**
+ * Handles events relating to the enderchest
+ */
 public class Enderchest implements Listener {
 
+	/**
+	 * Refills a player's inventory when they right-click an enderchest
+	 * @param e The event called when a player right-clicks an enderchest
+	 */
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e){
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK &&

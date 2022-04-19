@@ -10,6 +10,9 @@ import org.bukkit.potion.PotionEffect;
 
 import java.util.UUID;
 
+/**
+ * Stores a kit's items and their locations
+ */
 public class EquipmentSet {
 
     public ItemStack chest;
@@ -22,10 +25,17 @@ public class EquipmentSet {
     public Tuple<ItemStack, Integer> votedLadders;
     public ItemStack votedFeet;
 
+    /**
+     * Create an array representation of the first 8 slots of the hotbar
+     */
     public EquipmentSet() {
         hotbar = new ItemStack[8];
     }
 
+    /**
+     * Sets a player's inventory to this equipment set
+     * @param uuid The unique id of the player whose inventory to change
+     */
     public void setEquipment(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;

@@ -10,7 +10,19 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.util.List;
 
+/**
+ * Serves as a tool to easily create items for kits
+ */
 public class ItemCreator {
+
+    /**
+     * Create a specified item
+     * @param item The item to apply all flags and parameters to
+     * @param name The name for the item
+     * @param lore The lore for the item
+     * @param enchants The enchantments for the item
+     * @return The item with all flags and parameters applied
+     */
     public static ItemStack item(ItemStack item, String name, List<String> lore,
                                  List<Tuple<Enchantment, Integer>> enchants) {
         ItemMeta itemMeta = item.getItemMeta();
@@ -31,6 +43,15 @@ public class ItemCreator {
         return item;
     }
 
+    /**
+     * Create a specified piece of leather armor
+     * @param item The item to apply all flags and parameters to
+     * @param name The name for the item
+     * @param lore The lore for the item
+     * @param enchants The enchantments for the item
+     * @param color The color for the item
+     * @return The item with all flags and parameters applied
+     */
     public static ItemStack leatherArmor(ItemStack item, String name, List<String> lore,
                                          List<Tuple<Enchantment, Integer>> enchants, Color color) {
         ItemStack leatherItem = item(item, name, lore, enchants);
