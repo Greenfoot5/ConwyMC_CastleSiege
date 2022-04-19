@@ -9,6 +9,8 @@ import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,10 +34,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/**
+ * The engineer kit
+ */
 public class Engineer extends Kit implements Listener, CommandExecutor {
 
     public static HashMap<Player, ArrayList<Block>> traps = new HashMap<>();
 
+    /**
+     * Set the equipment and attributes of this kit
+     */
     public Engineer() {
         super("Engineer", 110);
 
@@ -98,12 +106,24 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 0));
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }
 
+    /**
+     * Activate the engineer ability for placing traps, cobwebs, wood, or stone
+     * @param e The event called when placing a block
+     */
     @EventHandler (priority = EventPriority.MONITOR)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
@@ -129,6 +149,10 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Allow players to break cobwebs
+     * @param e The event called when breaking a block
+     */
     @EventHandler (priority = EventPriority.MONITOR)
     public void onDestroy(BlockBreakEvent e) {
         // Prevent using in lobby
@@ -142,6 +166,10 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Activate the engineer ability for opponents walking on their traps
+     * @param e The event called when a player steps on a stone pressure plate
+     */
     @EventHandler
     public void onWalkOverTrap(PlayerInteractEvent e) {
         // Prevent using in lobby
@@ -167,19 +195,33 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                 p.sendMessage(ChatColor.RED + "You stepped on " + NametagsEvent.color(t) + t.getName() + ChatColor.RED + "'s trap.");
                 t.sendMessage(NametagsEvent.color(p) + p.getName() + ChatColor.GREEN + " stepped on your trap.");
 
-                // damage() for damage animation and granting kill
-                // setHealth() for precise damage
+                // Prevent damage reduction from armor and resistance
+                PotionEffect resistance = p.getPotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+                p.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+                AttributeInstance armor = p.getAttribute(Attribute.GENERIC_ARMOR);
+                assert armor != null;
+                armor.setBaseValue(-armor.getValue());
+
+                // Deal damage, without trapper if it won't kill to prevent knockback
                 if (p.getHealth() > 25) {
-                    p.damage(1); // trapper not included to prevent knockback
-                    p.setHealth(p.getHealth() - 24);
+                    p.damage(25);
                 } else {
-                    p.damage(1, t);
-                    p.setHealth(0);
+                    p.damage(25, t);
+                }
+
+                // Revert armor and resistance changes
+                armor.setBaseValue(0);
+                if (resistance != null) {
+                    p.addPotionEffect(resistance);
                 }
             }
         }
     }
 
+    /**
+     * Activate the engineer ability for picking up their own traps
+     * @param e The event called when a player left-clicks a stone pressure plate
+     */
     @EventHandler
     public void onPickUpTrap(PlayerInteractEvent e) {
         Player p = e.getPlayer();
@@ -218,17 +260,30 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Destroy all traps when their placer dies
+     * @param e The event called when a player dies
+     */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         super.onDeath(e);
         destroyAllTraps(e.getEntity());
     }
 
+    /**
+     * Destroy all traps when their placer leaves the game
+     * @param e The event called when a player leaves the game
+     */
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         destroyAllTraps(e.getPlayer());
     }
 
+    /**
+     * Place a trap
+     * @param e The event called when placing a stone pressure plate
+     * @param p The player who placed the trap
+     */
     private void placeTrap(BlockPlaceEvent e, Player p) {
         // Ensure that the player has a corresponding list
         if (!traps.containsKey(p)) {
@@ -249,14 +304,26 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         trapList.add(trap);
     }
 
+    /**
+     * Repair a wooden block
+     * @param e The event called when placing a wooden plank
+     */
     private void placeWood(BlockPlaceEvent e) {
         // TODO - Implement
     }
 
+    /**
+     * Repair a stone block
+     * @param e The event called when placing stone
+     */
     private void placeStone(BlockPlaceEvent e) {
         // TODO - Implement
     }
 
+    /**
+     * Destroy all traps that were placed by the specified player
+     * @param p The player whose traps to destroy
+     */
     private void destroyAllTraps(Player p) {
         if (traps.containsKey(p)) {
             for (Block trap : traps.get(p)) {
@@ -266,6 +333,11 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Get the placer of a trap
+     * @param trap The trap whose placer to find
+     * @return The placer of the trap, null if not placed by an engineer
+     */
     private Player getTrapper(Block trap) {
         return traps.entrySet().stream()
                 .filter(entry -> entry.getValue().contains(trap))

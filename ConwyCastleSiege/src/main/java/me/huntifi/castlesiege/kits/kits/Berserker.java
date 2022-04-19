@@ -28,6 +28,9 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * The berserker kit
+ */
 public class Berserker extends Kit implements Listener, CommandExecutor {
 
     private final ItemStack regularSword;
@@ -35,6 +38,9 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
     private final ItemStack berserkSword;
     private final ItemStack berserkSwordVoted;
 
+    /**
+     * Set the equipment and attributes of this kit
+     */
     public Berserker() {
         super("Berserker", 110);
 
@@ -85,12 +91,24 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         super.killMessage[0] = "You went berserk on ";
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }
 
+    /**
+     * Activate the berserker ability, giving the berserk sword, speed, strength, and nausea
+     * @param e The event called when clicking with the potion in hand
+     */
     @EventHandler
     public void berserkerPotion(PlayerInteractEvent e) {
         Player p = e.getPlayer();
@@ -141,6 +159,10 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Prevents actually drinking the potion in the lobby
+     * @param e The event called when a player drinks a potion
+     */
     @EventHandler
     public void onDrinkPotion(PlayerItemConsumeEvent e) {
         if (e.getItem().getType() == Material.POTION &&

@@ -37,6 +37,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/**
+ * The fire archer kit
+ */
 public class FireArcher extends Kit implements Listener, CommandExecutor {
 
     public static HashMap<Player, Block> cauldrons = new HashMap<>();
@@ -44,6 +47,9 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
     private final ItemStack firepit;
     private final ItemStack firepitVoted;
 
+    /**
+     * Set the equipment and attributes of this kit
+     */
     public FireArcher() {
         super("FireArcher", 105);
 
@@ -120,12 +126,24 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 0));
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }
 
+    /**
+     * Place a firepit
+     * @param e The event called when placing a cauldron
+     */
     @EventHandler (priority = EventPriority.MONITOR)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
@@ -149,6 +167,10 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Destroy a cauldron
+     * @param e The event called when left-clicking a cauldron
+     */
     @EventHandler
     public void onRemove(PlayerInteractEvent e) {
         // Prevent using in lobby
@@ -190,6 +212,10 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Light an arrow
+     * @param e The event called when right-clicking a cauldron with an arrow
+     */
     @EventHandler
     public void onUseFirepit(PlayerInteractEvent e) {
         Player p = e.getPlayer();
@@ -234,6 +260,10 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Turn orange arrows into flaming arrows
+     * @param e The event called when shooting an arrow with a bow
+     */
     @EventHandler
     public void FlameBow(EntityShootBowEvent e) {
         if (e.getEntity() instanceof Player) {
@@ -252,6 +282,10 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Set the damage taken when on fire
+     * @param e The event called when taking fire damage
+     */
     @EventHandler
     public void onFireDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player &&
@@ -260,6 +294,10 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Remove fire from arrows when hitting tnt to prevent ignition
+     * @param e The event called when hitting tnt with an arrow
+     */
     @EventHandler
     public void onHitTnt(ProjectileHitEvent e) {
         Entity a = e.getEntity();
@@ -270,22 +308,38 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Prevent tnt from exploding - redundant?
+     * @param e The event called when tnt explodes
+     */
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent e) {
         e.setCancelled(true);
     }
 
+    /**
+     * Destroy a player's firepit when they die
+     * @param e The event called when a player dies
+     */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         super.onDeath(e);
         destroyFirepit(e.getEntity());
     }
 
+    /**
+     * Destroy a player's firepit when they leave the game
+     * @param e The event called when a player leaves the game
+     */
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         destroyFirepit(e.getPlayer());
     }
 
+    /**
+     * Destroy the player's firepit if present
+     * @param p The player whose firepit to destroy
+     */
     private void destroyFirepit(Player p) {
         if(cauldrons.containsKey(p)) {
             cauldrons.get(p).setType(Material.AIR);
@@ -293,6 +347,11 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Get the placer of a firepit
+     * @param cauldron The firepit whose placer to find
+     * @return The placer of the firepit, null of not placed by a fire archer
+     */
     private Player getPlacer(Block cauldron) {
         return cauldrons.entrySet().stream()
                 .filter(entry -> Objects.equals(entry.getValue(), cauldron))

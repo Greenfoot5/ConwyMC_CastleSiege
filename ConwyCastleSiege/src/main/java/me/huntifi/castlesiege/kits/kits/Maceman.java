@@ -27,8 +27,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * The maceman kit
+ */
 public class Maceman extends Kit implements Listener, CommandExecutor {
 
+    /**
+     * Set the equipment and attributes of this kit
+     */
     public Maceman() {
         super("Maceman", 110);
 
@@ -79,12 +85,24 @@ public class Maceman extends Kit implements Listener, CommandExecutor {
         super.killMessage[1] = "'s skull";
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }
 
+    /**
+     * Activate the maceman stun ability
+     * @param e The event called when hitting another player
+     */
     @EventHandler
     public void onStun(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {

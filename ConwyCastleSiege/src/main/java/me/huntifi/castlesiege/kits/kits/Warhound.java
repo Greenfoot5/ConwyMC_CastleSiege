@@ -32,8 +32,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * The warhound kit
+ */
 public class Warhound extends Kit implements Listener, CommandExecutor {
 
+    /**
+     * Set the equipment and attributes of this kit
+     */
     public Warhound() {
         super("Warhound", 110);
 
@@ -67,12 +73,24 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
         super.killMessage[1] = " to death";
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }
 
+    /**
+     * Disguise the player as a wolf
+     * @param p The player to (un)disguise
+     */
     @Override
     protected void disguise(Player p) {
         MobDisguise mobDisguise = new MobDisguise(DisguiseType.WOLF);
@@ -90,6 +108,10 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
         mobDisguise.startDisguise();
     }
 
+    /**
+     * Prevent the warhound from climbing up ladders
+     * @param e The event called when moving on a ladder
+     */
     @EventHandler
     public void onClimb(PlayerMoveEvent e) {
         Player p = e.getPlayer();
@@ -100,6 +122,10 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Cause withering damage to the bitten opponent and try to activate the stun ability
+     * @param e The event called when hitting another player
+     */
     @EventHandler
     public void onBite(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof Player && e.getDamager() instanceof Player)) {
@@ -118,6 +144,11 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Activate the warhound's stun ability, immobilizing the opponent and slowing the warhound
+     * @param p The opponent
+     * @param q The warhound
+     */
     private void stun(Player p, Player q) {
         if (q.getInventory().getItemInMainHand().getType() == Material.GHAST_TEAR &&
                 q.getCooldown(Material.GHAST_TEAR) == 0) {
@@ -154,6 +185,11 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Convert the team's primary wool color to a dye color for the wolf's collar
+     * @param p The player for whom to get the collar color
+     * @return The dye color corresponding to the team's primary wool color, null if primary wool is no wool
+     */
     private DyeColor getCollarColor(Player p) {
         switch (MapController.getCurrentMap().getTeam(p.getUniqueId()).primaryWool) {
             case BLACK_WOOL:

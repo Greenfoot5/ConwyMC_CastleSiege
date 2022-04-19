@@ -32,8 +32,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * The ranger kit
+ */
 public class Ranger extends Kit implements Listener, CommandExecutor {
 
+    /**
+     * Set the equipment and attributes of this kit
+     */
     public Ranger() {
         super("Ranger", 105);
 
@@ -106,12 +112,24 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
         super.projectileKillMessage[1] = " into a porcupine";
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }
 
+    /**
+     * Set the arrow-damage of a ranger's arrows
+     * @param e The event called when a player is hit by an arrow
+     */
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onArrowHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow &&
@@ -121,6 +139,10 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Activate the volley or burst ability
+     * @param e The event called when a player shoots a bow
+     */
     @EventHandler
     public void onShootBow(EntityShootBowEvent e) {
         if (e.getEntity() instanceof Player &&
@@ -142,6 +164,11 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Activate the volley ability, shooting 3 arrows at once
+     * @param p The ranger shooting their volley bow
+     * @param v The vector of the original arrow
+     */
     private void volleyAbility(Player p, Vector v) {
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                 ChatColor.GREEN + "You shot your volley bow!"));
@@ -156,6 +183,11 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Activate the burst ability, shooting 3 arrows consecutively
+     * @param p The ranger shooting their burst bow
+     * @param force The force of the original arrow
+     */
     private void burstAbility(Player p, float force) {
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                 ChatColor.GREEN + "You shot your burst bow!"));
@@ -164,6 +196,12 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
         burstArrow(p, force, 20);
     }
 
+    /**
+     * Shoot a single arrow from the burst ability
+     * @param p The ranger shooting their burst bow
+     * @param force The force of the original arrow
+     * @param d The delay with which to shoot the arrow
+     */
     private void burstArrow(Player p, float force, int d) {
         new BukkitRunnable() {
             @Override
@@ -177,6 +215,11 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
         }.runTaskLater(Main.plugin, d);
     }
 
+    /**
+     * Remove an arrow from the player's inventory
+     * @param p The player from whom to remove an arrow
+     * @return true if the player has an arrow to remove, false otherwise
+     */
     private boolean removeArrow(Player p) {
         PlayerInventory inv = p.getInventory();
 

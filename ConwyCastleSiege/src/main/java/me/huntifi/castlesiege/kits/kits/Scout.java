@@ -18,8 +18,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 
+/**
+ * The scout kit
+ */
 public class Scout extends Kit implements CommandExecutor {
 
+    /**
+     * Set the equipment and attributes of this kit
+     */
     public Scout() {
         super("Scout", 100);
 
@@ -71,6 +77,14 @@ public class Scout extends Kit implements CommandExecutor {
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 1));
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         super.addPlayer(((Player) commandSender).getUniqueId());

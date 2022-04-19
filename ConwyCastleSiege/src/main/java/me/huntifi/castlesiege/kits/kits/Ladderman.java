@@ -23,8 +23,14 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * The ladderman kit
+ */
 public class Ladderman extends Kit implements Listener, CommandExecutor {
 
+    /**
+     * Set the equipment and attributes of this kit
+     */
     public Ladderman() {
         super("Ladderman", 110);
 
@@ -71,12 +77,24 @@ public class Ladderman extends Kit implements Listener, CommandExecutor {
         super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 1));
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }
 
+    /**
+     * Activate the ladderman ability of retrieving broken ladders
+     * @param e The event called when breaking ladders
+     */
     @EventHandler
     public void onBreakLadder(BlockBreakEvent e) {
         Player p = e.getPlayer();

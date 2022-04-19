@@ -29,8 +29,14 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * The spearman kit
+ */
 public class Spearman extends Kit implements Listener, CommandExecutor {
 
+	/**
+	 * Set the equipment and attributes of this kit
+	 */
 	public Spearman() {
 		super("Spearman", 115);
 
@@ -81,12 +87,24 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		super.projectileKillMessage[0] = "You impaled ";
 	}
 
+	/**
+	 * Register the player as using this kit and set their items
+	 * @param commandSender Source of the command
+	 * @param command Command which was executed
+	 * @param s Alias of the command which was used
+	 * @param strings Passed command arguments
+	 * @return true
+	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 		super.addPlayer(((Player) commandSender).getUniqueId());
 		return true;
 	}
 
+	/**
+	 * Activate the spearman ability of throwing a spear
+	 * @param e The event called when right-clicking with a stick
+	 */
 	@EventHandler
 	public void Charge(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
@@ -117,6 +135,10 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		}
 	}
 
+	/**
+	 * Set the thrown spear's damage
+	 * @param e The event called when an arrow hits a player
+	 */
 	@EventHandler
 	public void changeSpearDamage(ProjectileHitEvent e) {
 		if (e.getEntity() instanceof Arrow) {
@@ -132,6 +154,10 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		}
 	}
 
+	/**
+	 * Activate the spearman ability of destroying all ladders directly below the broken one
+	 * @param e The event called when breaking a ladder
+	 */
 	@EventHandler
 	public void onBreakLadder(BlockBreakEvent e) {
 		Player p = e.getPlayer();

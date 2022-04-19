@@ -32,8 +32,14 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * The cavalry kit
+ */
 public class Cavalry extends Kit implements Listener, CommandExecutor {
 
+    /**
+     * Set the equipment and attributes of this kit
+     */
     public Cavalry() {
         super("Cavalry", 110);
 
@@ -81,12 +87,24 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
         super.equipment = es;
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }
 
+    /**
+     * Activate the cavalry ability, spawning and embarking a horse
+     * @param e The event called when clicking with wheat in hand
+     */
     @EventHandler
     public void onRide(PlayerInteractEvent e) {
         Player p = e.getPlayer();
@@ -106,12 +124,16 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
                 if (p.isInsideVehicle()) {
                     p.getVehicle().remove();
                 }
-                onHorse(p);
+                spawnHorse(p);
             }
         }
     }
 
-    public void onHorse(Player p) {
+    /**
+     * Spawn a horse, apply attributes, and embark
+     * @param p The player for whom to spawn a horse
+     */
+    public void spawnHorse(Player p) {
         Horse horse = (Horse) p.getWorld().spawnEntity(p.getLocation(), EntityType.HORSE);
 
         horse.setTamed(true);
@@ -138,22 +160,39 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
         horse.addPassenger(p);
     }
 
+    /**
+     * Remove the horse when its rider dismounts
+     * @param e The event called when dismounting a horse
+     */
     @EventHandler
     public void onDismount(EntityDismountEvent e) {
         removeHorse((Player) e.getEntity(), e.getDismounted());
     }
 
+    /**
+     * Remove the horse when its rider dies
+     * @param e The event called when a player dies
+     */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         super.onDeath(e);
         removeHorse(e.getEntity(), e.getEntity().getVehicle());
     }
 
+    /**
+     * Remove the horse when its rider leaves the game
+     * @param e The event called when a player leaves the game
+     */
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         removeHorse(e.getPlayer(), e.getPlayer().getVehicle());
     }
 
+    /**
+     * Remove the horse
+     * @param p The player that was riding the horse
+     * @param e The horse that is to be removed
+     */
     private void removeHorse(Player p, Entity e) {
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                 e instanceof Horse) {

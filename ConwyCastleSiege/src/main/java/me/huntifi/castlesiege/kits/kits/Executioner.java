@@ -16,12 +16,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * The executioner kit
+ */
 public class Executioner extends Kit implements Listener, CommandExecutor {
+
+	/**
+	 * Set the equipment and attributes of this kit
+	 */
 	public Executioner() {
 		super("Executioner", 115);
 
@@ -71,20 +80,27 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 		super.deathMessage[0] = "You were decapitated by ";
 		super.killMessage[0] = "You decapitated ";
 	}
-        
-    @Override
+
+	/**
+	 * Register the player as using this kit and set their items
+	 * @param commandSender Source of the command
+	 * @param command Command which was executed
+	 * @param s Alias of the command which was used
+	 * @param strings Passed command arguments
+	 * @return true
+	 */
+	@Override
 	public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 		super.addPlayer(((Player) commandSender).getUniqueId());
 		return true;
 	}
-        
+
+	/**
+	 * Decapitate an enemy if their hp is below 37%
+	 * @param e The event called when hitting another player
+	 */
 	@EventHandler
 	public void onExecute(EntityDamageByEntityEvent e) {
-		// Prevent loop
-		if (e.getDamage() == 1) {
-			return;
-		}
-
 		if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
 			Player whoWasHit = (Player) e.getEntity();
 			Player whoHit = (Player) e.getDamager();
@@ -100,11 +116,32 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 					assert healthAttribute != null;
 
 					if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.37) {
+						// Prevent loop
+						if (whoWasHit.getAttribute(Attribute.GENERIC_ARMOR).getValue() == 0 &&
+								whoWasHit.getPotionEffect(PotionEffectType.DAMAGE_RESISTANCE) == null) {
+							return;
+						}
+
+						// Decapitate the opponent
 						e.setCancelled(true);
 						Location loc = whoWasHit.getLocation();
 						whoWasHit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
-						whoWasHit.damage(1, whoHit); // grant kill
-						whoWasHit.setHealth(0);
+
+						// Prevent damage reduction from armor and resistance
+						PotionEffect resistance = whoWasHit.getPotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+						whoWasHit.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+						AttributeInstance armor = whoWasHit.getAttribute(Attribute.GENERIC_ARMOR);
+						assert armor != null;
+						armor.setBaseValue(-armor.getValue());
+
+						// Kill opponent with damage done by executioner
+						whoWasHit.damage(whoWasHit.getHealth(), whoHit);
+
+						// Revert armor and resistance changes
+						armor.setBaseValue(0);
+						if (resistance != null) {
+							whoWasHit.addPotionEffect(resistance);
+						}
 					}
 				}
 			}

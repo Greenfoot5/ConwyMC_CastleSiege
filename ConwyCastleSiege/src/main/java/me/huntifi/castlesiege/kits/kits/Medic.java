@@ -39,11 +39,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/**
+ * The medic kit
+ */
 public class Medic extends Kit implements Listener, CommandExecutor {
 
     public static HashMap<Player, Block> cakes = new HashMap<>();
     public static ArrayList<Player> cooldown = new ArrayList<>();
 
+    /**
+     * Set the equipment and attributes of this kit
+     */
     public Medic() {
         super("Medic", 100);
 
@@ -103,12 +109,24 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }
 
+    /**
+     * Place a cake
+     * @param e The event called when placing a cake
+     */
     @EventHandler (priority = EventPriority.MONITOR)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
@@ -126,6 +144,10 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Break a cake
+     * @param e The event called when breaking a cake
+     */
     @EventHandler
     public void onBreakCake(BlockBreakEvent e) {
         // Prevent using in lobby
@@ -155,6 +177,10 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Take a bite from a cake and gain a short period of regeneration
+     * @param e The event called when right-clicking on a cake
+     */
     @EventHandler
     public void onEatCake(PlayerInteractEvent e) {
         Player p = e.getPlayer();
@@ -218,6 +244,10 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Activate the medic ability of healing a teammate
+     * @param e The event called when clicking on a teammate with paper
+     */
     @EventHandler
     public void onHeal(PlayerInteractEntityEvent e) {
         Player p = e.getPlayer();
@@ -258,17 +288,29 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Remove a cake when its placer dies
+     * @param e The event called when a player dies
+     */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         super.onDeath(e);
         destroyCake(e.getEntity());
     }
 
+    /**
+     * Remove a cake when its placer leaves the game
+     * @param e The event called when a player leaves the game
+     */
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         destroyCake(e.getPlayer());
     }
 
+    /**
+     * Destroy the player's cake if present
+     * @param p The player whose cake to destroy
+     */
     private void destroyCake(Player p) {
         if (cakes.containsKey(p)) {
             cakes.get(p).setType(Material.AIR);
@@ -276,6 +318,11 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Get the placer of the cake
+     * @param cake The cake whose placer to find
+     * @return The placer of the cake, null if the placer is not a medic
+     */
     private Player getPlacer(Block cake) {
         return cakes.entrySet().stream()
                 .filter(entry -> Objects.equals(entry.getValue(), cake))

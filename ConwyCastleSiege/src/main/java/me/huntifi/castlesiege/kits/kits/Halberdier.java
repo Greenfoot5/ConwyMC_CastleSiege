@@ -24,8 +24,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * The halberdier kit
+ */
 public class Halberdier extends Kit implements Listener, CommandExecutor {
 
+    /**
+     * Set the equipment and attributes of this kit
+     */
     public Halberdier() {
         super("Halberdier", 160);
         super.kbResistance = 2;
@@ -77,12 +83,24 @@ public class Halberdier extends Kit implements Listener, CommandExecutor {
         super.killMessage[1] = " in half";
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }
 
+    /**
+     * Activate the halberdier ability of dealing +50% damage to cavalry
+     * @param e The event called when dealing damage to another player
+     */
     @EventHandler (priority = EventPriority.LOWEST)
     public void antiCav(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
@@ -96,6 +114,10 @@ public class Halberdier extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     * Activate the halberdier ability of taking 2x damage from arrows
+     * @param e The event called when taking damage from an arrow
+     */
     @EventHandler (priority = EventPriority.LOWEST)
     public void weakToArrows(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Arrow &&

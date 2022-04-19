@@ -20,6 +20,9 @@ import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
 
+/**
+ * The abstract kit
+ */
 public abstract class Kit implements Listener {
     public String name;
     public int baseHealth;
@@ -40,6 +43,11 @@ public abstract class Kit implements Listener {
     public List<UUID> players;
     public static Map<UUID, Kit> equippedKits = new HashMap<>();
 
+    /**
+     * Create a kit with basic settings
+     * @param name This kit's name
+     * @param baseHealth This kit's base health
+     */
     public Kit(String name, int baseHealth) {
         this.name = name;
         this.baseHealth = baseHealth;
@@ -56,6 +64,10 @@ public abstract class Kit implements Listener {
         projectileKillMessage = new String[]{"You shot ", ""};
     }
 
+    /**
+     * Give the items and attributes of this kit to a player
+     * @param uuid The unique id of the player to whom this kit is given
+     */
     public void setItems(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         if (player == null) { return; }
@@ -79,6 +91,10 @@ public abstract class Kit implements Listener {
         disguise(player);
     }
 
+    /**
+     * Reset the player's items and reapply their potion effects
+     * @param uuid The unique id of the player for whom to perform the refill
+     */
     public void refillItems(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         if (player == null) { return; }
@@ -94,6 +110,10 @@ public abstract class Kit implements Listener {
         applyPotionEffects(uuid);
     }
 
+    /**
+     * Reset all item cooldowns of items the player's hotbar
+     * @param uuid The unique id of the player for whom to reset the cooldowns
+     */
     private void resetCooldown(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         if (player == null) { return; }
@@ -106,6 +126,10 @@ public abstract class Kit implements Listener {
         }
     }
 
+    /**
+     * Remove all potion effects from the player and apply this kit's potion effects
+     * @param uuid The unique id of the player for whom to apply the potion effects
+     */
     private void applyPotionEffects(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         if (player == null) { return; }
@@ -113,6 +137,10 @@ public abstract class Kit implements Listener {
         player.addPotionEffects(potionEffects);
     }
 
+    /**
+     * Handle a player's death
+     * @param e The event called when a player dies
+     */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
 
@@ -132,6 +160,13 @@ public abstract class Kit implements Listener {
         }
     }
 
+    /**
+     * Send kill and death messages to the players
+     * @param whoWasHit The player who died
+     * @param whoHit The player who killed
+     * @param deathMessage The message sent to the person who died
+     * @param killMessage The message sent to the killer
+     */
     private void doKillMessage(Player whoWasHit, Player whoHit, String[] deathMessage, String[] killMessage) {
         DeathscoresAsync.doStats(whoHit, whoWasHit);
 
@@ -141,6 +176,10 @@ public abstract class Kit implements Listener {
                 + ChatColor.RESET + killMessage[1] + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param uuid The unique id of the player to register
+     */
     public void addPlayer(UUID uuid) {
         players.add(uuid);
         Player player = Bukkit.getPlayer(uuid);
@@ -156,6 +195,10 @@ public abstract class Kit implements Listener {
         }
     }
 
+    /**
+     * Remove a player's disguise and reapply their nametag color
+     * @param p The player to (un)disguise
+     */
     protected void disguise(Player p) {
         if (DisguiseAPI.isDisguised(p)) {
             DisguiseAPI.undisguiseToAll(p);

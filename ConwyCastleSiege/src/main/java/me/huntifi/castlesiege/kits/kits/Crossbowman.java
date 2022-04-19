@@ -24,8 +24,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * The crossbowman kit
+ */
 public class Crossbowman extends Kit implements Listener, CommandExecutor {
 
+    /**
+     * Set the equipment and attributes of this kit
+     */
     public Crossbowman() {
         super("Crossbowman", 105);
 
@@ -76,12 +82,24 @@ public class Crossbowman extends Kit implements Listener, CommandExecutor {
         super.projectileKillMessage[1] = "'s skull";
     }
 
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }
 
+    /**
+     * Activate the crossbowman ability, shooting an arrow in the direction the player is looking at high speed
+     * @param e The even called when shooting an arrow from a crossbow
+     */
     @EventHandler
     public void shootCrossbow(EntityShootBowEvent e) {
         Player p = (Player) e.getEntity();
