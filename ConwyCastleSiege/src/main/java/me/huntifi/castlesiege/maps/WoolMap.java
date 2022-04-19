@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.maps;
 
-import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;

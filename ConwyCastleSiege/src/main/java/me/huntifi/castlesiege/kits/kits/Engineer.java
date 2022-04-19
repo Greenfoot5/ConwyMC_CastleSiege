@@ -1,8 +1,9 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
-import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.ChatColor;
@@ -36,42 +37,40 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     public static HashMap<Player, ArrayList<Block>> traps = new HashMap<>();
 
     public Engineer() {
-        super("Engineer");
-        super.baseHealth = 110;
-
+        super("Engineer", 110);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = createItem(new ItemStack(Material.STONE_SWORD),
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.STONE_SWORD),
                 ChatColor.GREEN + "Shortsword", null,
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16)));
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                createItem(new ItemStack(Material.STONE_SWORD),
+                ItemCreator.item(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Shortsword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
                 0);
 
         // Chestplate
-        es.chest = createLeatherItem(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 ChatColor.GREEN + "Leather Chestplate", null, null,
                 Color.fromRGB(57, 75, 57));
 
         // Leggings
-        es.legs = createLeatherItem(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Leather Leggings", null, null,
                 Color.fromRGB(57, 75, 57));
 
         // Boots
-        es.feet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots", null, null,
                 Color.fromRGB(57, 75, 57));
         // Voted Boots
-        es.votedFeet = createLeatherItem(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
@@ -109,6 +108,12 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
+
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(uuid)) {
+            return;
+        }
+
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
 
             Material block = e.getBlockPlaced().getType();
@@ -126,6 +131,11 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
 
     @EventHandler (priority = EventPriority.MONITOR)
     public void onDestroy(BlockBreakEvent e) {
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
+            return;
+        }
+
         Material block = e.getBlock().getType();
         if (block == Material.COBWEB) {
             e.getBlock().setType(Material.AIR);
@@ -134,6 +144,11 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
 
     @EventHandler
     public void onWalkOverTrap(PlayerInteractEvent e) {
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
+            return;
+        }
+
         // Check if the player stepped on a trap
         Block trap = e.getClickedBlock();
         if (e.getAction() == Action.PHYSICAL && trap != null &&
@@ -169,6 +184,11 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     public void onPickUpTrap(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
+
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(uuid)) {
+            return;
+        }
 
         // Check if engineer tries to pick up
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&

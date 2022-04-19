@@ -27,11 +27,15 @@ import me.huntifi.castlesiege.events.join.login;
 import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.kits.Enderchest;
+import me.huntifi.castlesiege.kits.gui.ClassicGUI;
+import me.huntifi.castlesiege.kits.gui.TeamGUI;
+import me.huntifi.castlesiege.kits.gui.VoterGUI;
 import me.huntifi.castlesiege.kits.kits.*;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.security.*;
+import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.tablist.Tablist;
 import me.huntifi.castlesiege.teams.SwitchCommand;
 import me.huntifi.castlesiege.voting.GiveVoteCommand;
@@ -117,8 +121,19 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Medic(), plugin);
                 getServer().getPluginManager().registerEvents(new Ranger(), plugin);
                 getServer().getPluginManager().registerEvents(new Scout(), plugin);
+                getServer().getPluginManager().registerEvents(new Shieldman(), plugin);
+                getServer().getPluginManager().registerEvents(new Skirmisher(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
                 getServer().getPluginManager().registerEvents(new Swordsman(), plugin);
+                getServer().getPluginManager().registerEvents(new Viking(), plugin);
+                getServer().getPluginManager().registerEvents(new Warhound(), plugin);
+                // Kit GUIs
+                getServer().getPluginManager().registerEvents(new ClassicGUI(), plugin);
+                getServer().getPluginManager().registerEvents(new TeamGUI("Cloud Crawlers"), plugin);
+                getServer().getPluginManager().registerEvents(new TeamGUI("Rohan"), plugin);
+                getServer().getPluginManager().registerEvents(new TeamGUI("Uruk-hai"), plugin);
+                getServer().getPluginManager().registerEvents(new TeamGUI("Thunderstone Guard"), plugin);
+                getServer().getPluginManager().registerEvents(new VoterGUI(), plugin);
 
                 // Rewrite Commands
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
@@ -139,8 +154,19 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Medic")).setExecutor(new Medic());
                 Objects.requireNonNull(getCommand("Ranger")).setExecutor(new Ranger());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
+                Objects.requireNonNull(getCommand("Shieldman")).setExecutor(new Shieldman());
+                Objects.requireNonNull(getCommand("Skirmisher")).setExecutor(new Skirmisher());
                 Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
+                Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
+                Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
+                // Kit GUIs
+                Objects.requireNonNull(getCommand("ClassicGUI")).setExecutor(new ClassicGUI());
+                Objects.requireNonNull(getCommand("KitCloudcrawlers")).setExecutor(new TeamGUI("Cloud Crawlers"));
+                Objects.requireNonNull(getCommand("KitIsengard")).setExecutor(new TeamGUI("Uruk-hai"));
+                Objects.requireNonNull(getCommand("KitRohan")).setExecutor(new TeamGUI("Rohan"));
+                Objects.requireNonNull(getCommand("KitThunderstoneGuards")).setExecutor(new TeamGUI("Thunderstone Guard"));
+                Objects.requireNonNull(getCommand("VoterGUI")).setExecutor(new VoterGUI());
 
                 // Map Specific
                 // Helms Deep Only
@@ -215,7 +241,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateDestroyEvent(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallDestroyEvent(), plugin);
-                //getServer().getPluginManager().registerEvents(new MVPstats(), plugin);
+                getServer().getPluginManager().registerEvents(new MVPstats(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new KitGUIcommand(), plugin);
                 getServer().getPluginManager().registerEvents(new MessageCommand(), plugin);

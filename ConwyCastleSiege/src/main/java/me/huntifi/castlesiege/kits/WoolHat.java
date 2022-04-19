@@ -20,6 +20,7 @@ public class WoolHat {
 		ItemMeta woolMeta = wool.getItemMeta();
 		assert woolMeta != null;
 		woolMeta.setDisplayName(ChatColor.GREEN + "WoolHat");
+		wool.setItemMeta(woolMeta);
 		player.getInventory().setHelmet(wool);
 	}
 }

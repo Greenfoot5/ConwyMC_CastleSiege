@@ -265,7 +265,6 @@ public class Flag {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies are capturing the flag!"));
                 }
                 playCapSound(player);
-                InCombat.playerInteracted(player.getUniqueId());
             }
         }
     }

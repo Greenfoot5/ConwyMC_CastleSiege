@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.EquipmentSet;
-import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -18,39 +18,37 @@ import java.util.Collections;
 public class Archer extends Kit implements CommandExecutor {
 
 	public Archer() {
-		super("Archer");
-		super.baseHealth = 105;
-
+		super("Archer", 105);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
 		super.heldItemSlot = 1;
 
 		// Weapon
-		es.hotbar[0] = createItem(new ItemStack(Material.WOODEN_SWORD),
+		es.hotbar[0] = ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
 				ChatColor.GREEN + "Dagger", null,
 				Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16)));
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				createItem(new ItemStack(Material.WOODEN_SWORD),
+				ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
 						ChatColor.GREEN + "Dagger",
 						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
 						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
 				0);
 
 		// Chestplate
-		es.chest = createItem(new ItemStack(Material.LEATHER_CHESTPLATE),
+		es.chest = ItemCreator.item(new ItemStack(Material.LEATHER_CHESTPLATE),
 				ChatColor.GREEN + "Leather Tunic", null, null);
 
 		// Leggings
-		es.legs = createItem(new ItemStack(Material.LEATHER_LEGGINGS),
+		es.legs = ItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
 				ChatColor.GREEN + "Leather Leggings", null, null);
 
 		// Boots
-		es.feet = createItem(new ItemStack(Material.LEATHER_BOOTS),
+		es.feet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
 				ChatColor.GREEN + "Leather Boots", null, null);
 		// Voted Boots
-		es.votedFeet = createItem(new ItemStack(Material.LEATHER_BOOTS),
+		es.votedFeet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
 				ChatColor.GREEN + "Leather Boots",
 				Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -63,7 +61,7 @@ public class Archer extends Kit implements CommandExecutor {
 		es.hotbar[7] = new ItemStack(Material.ARROW, 35);
 
 		// Bow
-		es.hotbar[1] = createItem(new ItemStack(Material.BOW),
+		es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
 				ChatColor.GREEN + "Bow", null,
 				Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 26)));
 

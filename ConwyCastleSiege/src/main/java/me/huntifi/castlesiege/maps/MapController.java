@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.events.join.stats.MainStats;
 import me.huntifi.castlesiege.events.join.stats.StatsChanging;
-import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.stats.levels.LevelingEvent;
 import me.huntifi.castlesiege.tags.NametagsEvent;

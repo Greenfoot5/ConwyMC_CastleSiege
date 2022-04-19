@@ -38,18 +38,17 @@ public class HitMessage implements Listener {
 					playSound(p);
 
 					// The shooter has interacted with the game
-					InCombat.playerInteracted(p.getUniqueId());
+					InCombat.addPlayerToCombat(p.getUniqueId());
 				}
 
 			// They hit an animal
-			} else if (e.getHitEntity() instanceof Horse || e.getEntity() instanceof Chicken || e.getHitEntity() instanceof Cow
-					|| e.getHitEntity() instanceof Wolf || e.getHitEntity() instanceof Sheep || e.getHitEntity() instanceof Bat) {
+			} else if (e.getHitEntity() instanceof Animals || e.getHitEntity() instanceof Bat) {
 				// Notify the player
 				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "Hit (" + Objects.requireNonNull(e.getHitEntity()).getType() + ")"));
 				playSound(p);
 
 				// The shooter has interacted with the game
-				InCombat.playerInteracted(p.getUniqueId());
+				InCombat.addPlayerToCombat(p.getUniqueId());
 			}
 		}
 	}

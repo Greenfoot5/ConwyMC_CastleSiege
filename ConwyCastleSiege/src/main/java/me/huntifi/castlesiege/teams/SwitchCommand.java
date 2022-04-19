@@ -84,7 +84,7 @@ public class SwitchCommand implements CommandExecutor {
 		oldTeam.removePlayer(p.getUniqueId());
 		smallestTeam.addPlayer(p.getUniqueId());
 
-		if (InCombat.hasPlayerInteracted(p.getUniqueId())) {
+		if (InCombat.hasPlayerSpawned(p.getUniqueId())) {
 			// The player should die when switching
 			p.setHealth(0);
 			p.sendMessage("You switched to " + smallestTeam.primaryChatColor + smallestTeam.name + " (+2 deaths)");
@@ -93,6 +93,8 @@ public class SwitchCommand implements CommandExecutor {
 			// Heal the player
 			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
 			p.sendMessage("You switched to " + smallestTeam.primaryChatColor + smallestTeam.name + "");
+			// Teleport the player
+			p.teleport(smallestTeam.lobby.spawnPoint);
 		}
 
 	return true;

@@ -2,8 +2,9 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
-import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import net.md_5.bungee.api.ChatMessageType;
@@ -11,9 +12,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Cake;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -31,10 +30,8 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.BlockDataMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -45,55 +42,53 @@ import java.util.*;
 public class Medic extends Kit implements Listener, CommandExecutor {
 
     public static HashMap<Player, Block> cakes = new HashMap<>();
-    public static ArrayList<Player> cooldown = new ArrayList<Player>();
+    public static ArrayList<Player> cooldown = new ArrayList<>();
 
     public Medic() {
-        super("Medic");
-        super.baseHealth = 100;
-
+        super("Medic", 100);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = createItem(new ItemStack(Material.WOODEN_SWORD),
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
                 ChatColor.GREEN + "Dagger", null,
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16)));
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                createItem(new ItemStack(Material.WOODEN_SWORD),
+                ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
                         ChatColor.GREEN + "Dagger",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
                 0);
 
         // Chestplate
-        es.chest = createLeatherItem(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 ChatColor.GREEN + "Leather Chestplate", null, null,
                 Color.fromRGB(255, 255, 255));
 
         // Leggings
-        es.legs = createLeatherItem(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Leather Leggings", null, null,
                 Color.fromRGB(255, 255, 255));
 
         // Boots
-        es.feet = createItem(new ItemStack(Material.GOLDEN_BOOTS),
+        es.feet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 ChatColor.GREEN + "Golden Boots", null, null);
         // Voted Boots
-        es.votedFeet = createItem(new ItemStack(Material.GOLDEN_BOOTS),
+        es.votedFeet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 ChatColor.GREEN + "Golden Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Bandages
-        es.hotbar[1] = createItem(new ItemStack(Material.PAPER),
+        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.PAPER),
                 ChatColor.DARK_AQUA + "Bandages",
                 Collections.singletonList(ChatColor.AQUA + "Right click teammates to heal."), null);
 
         // Cake
-        es.hotbar[2] = createItem(new ItemStack(Material.CAKE, 16),
+        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.CAKE, 16),
                 ChatColor.DARK_AQUA + "Healing Cake",
                 Arrays.asList(ChatColor.AQUA + "Place the cake down, then",
                         ChatColor.AQUA + "teammates can heal from it."), null);
@@ -117,6 +112,12 @@ public class Medic extends Kit implements Listener, CommandExecutor {
     @EventHandler (priority = EventPriority.MONITOR)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
+
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(p.getUniqueId())) {
+            return;
+        }
+
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                 e.getBlockPlaced().getType() == Material.CAKE) {
             e.setCancelled(false);
@@ -127,6 +128,11 @@ public class Medic extends Kit implements Listener, CommandExecutor {
 
     @EventHandler
     public void onBreakCake(BlockBreakEvent e) {
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
+            return;
+        }
+
         Block cake = e.getBlock();
         if (cake.getType() == Material.CAKE) {
             e.setCancelled(true);
@@ -153,6 +159,12 @@ public class Medic extends Kit implements Listener, CommandExecutor {
     public void onEatCake(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         Block cake = e.getClickedBlock();
+
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(p.getUniqueId())) {
+            return;
+        }
+
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
                 cake.getType().equals(Material.CAKE)) {
             Player q = getPlacer(cake);
@@ -209,14 +221,20 @@ public class Medic extends Kit implements Listener, CommandExecutor {
     @EventHandler
     public void onHeal(PlayerInteractEntityEvent e) {
         Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
         PlayerInventory i = p.getInventory();
         Entity q = e.getRightClicked();
 
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&                 // Player is medic
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&                            // Player is medic
                 (i.getItemInMainHand().getType() == Material.PAPER ||                           // Uses bandage
                         i.getItemInOffHand().getType() == Material.PAPER) &&                    // Uses bandage
                 q instanceof Player &&                                                          // On player
-                MapController.getCurrentMap().getTeam(p.getUniqueId())                          // Same team
+                MapController.getCurrentMap().getTeam(uuid)                                     // Same team
                 == MapController.getCurrentMap().getTeam(q.getUniqueId()) &&                    // Same team
                 ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth &&  // Below max hp
                 !cooldown.contains((Player) q)) {                                               // Not on cooldown

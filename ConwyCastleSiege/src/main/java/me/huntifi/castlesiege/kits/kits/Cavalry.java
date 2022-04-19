@@ -1,8 +1,9 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
-import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -29,43 +30,42 @@ import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.util.Collections;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Cavalry extends Kit implements Listener, CommandExecutor {
 
     public Cavalry() {
-        super("Cavalry");
-        super.baseHealth = 110;
-
+        super("Cavalry", 110);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = createItem(new ItemStack(Material.IRON_SWORD),
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Sabre", null,
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16)));
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                createItem(new ItemStack(Material.IRON_SWORD),
+                ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Sabre",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
                 0);
 
         // Chestplate
-        es.chest = createItem(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
+        es.chest = ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
                 ChatColor.GREEN + "Chainmail Chestplate", null, null);
 
         // Leggings
-        es.legs = createItem(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+        es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
                 ChatColor.GREEN + "Chainmail Leggings", null, null);
 
         // Boots
-        es.feet = createItem(new ItemStack(Material.IRON_BOOTS),
+        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "Iron Boots", null, null);
         // Voted Boots
-        es.votedFeet = createItem(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "Iron Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -75,7 +75,7 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
 
         // Horse
-        es.hotbar[2] = createItem(new ItemStack(Material.WHEAT),
+        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.WHEAT),
                 ChatColor.GREEN + "Spawn Horse", null, null);
 
         super.equipment = es;
@@ -90,8 +90,14 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
     @EventHandler
     public void onRide(PlayerInteractEvent e) {
         Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
 
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
                 e.getItem() != null && e.getItem().getType() == Material.WHEAT) {
             int cooldown = p.getCooldown(Material.WHEAT);
             if (cooldown == 0) {

@@ -94,27 +94,9 @@ commands:
   msg:
     description: Message a player!
     usage: /r
-  KitRohan:
-    description: GUI Rohan-Helmsdeep
-    usage: /KitRohan
-  KitIsengard:
-    description: GUI Isengard-Helmsdeep
-    usage: /KitIsengard
   togglerank:
     description: Toggles the rank
     usage: /togglerank
-  Classicgui:
-    description: open classic gui
-    usage: /classicgui
-  VoterKitGUI:
-    description: open voterkit gui
-    usage: /VoterKitGUI
-  KitThunderstoneGuards:
-    description: open thunderstone GUI
-    usage: /KitThunderstoneGuards
-  KitCloudcrawlers:
-    description: open cloudcrawler thunderstone GUI
-    usage: /KitCloudcrawlers
   sui:
     description: commit die
     usage: /sui
@@ -191,9 +173,41 @@ commands:
   scout:
     description: Selects the scout kit
     usage: /scout
+  shieldman:
+    description: Selects the shieldman kit
+    usage: /shieldman
+  skirmisher:
+    description: Selects the skirmisher kit
+    usage: /skirmisher
   spearman:
     description: Selects the spearman kit
     usage: /spearman
   swordsman:
     description: Selects the swordsman kit
     usage: /swordsman
+  viking:
+    description: Selects the viking kit
+    usage: /viking
+  warhound:
+    description: Selects the warhound kit
+    usage: /warhound
+
+  # Kit GUIs
+  classicGUI:
+    description: Open the GUI for classic kits
+    usage: /classicGUI
+  KitCloudcrawlers:
+    description: Open the GUI for the Cloud Crawlers
+    usage: /KitCloudcrawlers
+  KitIsengard:
+    description: Open the GUI for the Uruk-hai
+    usage: /KitIsengard
+  KitRohan:
+    description: Open the GUI for Rohan
+    usage: /KitRohan
+  KitThunderstoneGuards:
+    description: Open the GUI for the Thunderstone Guard
+    usage: /KitThunderstoneGuards
+  voterGUI:
+    description: Open the GUI for voter kits
+    usage: /voterGUI

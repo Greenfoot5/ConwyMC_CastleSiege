@@ -1,8 +1,9 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
-import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -26,26 +27,25 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Spearman extends Kit implements Listener, CommandExecutor {
 
 	public Spearman() {
-		super("Spearman");
-		super.baseHealth = 115;
-
+		super("Spearman", 115);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
 		super.heldItemSlot = 0;
 
 		// Weapon
-		es.hotbar[0] = createItem(new ItemStack(Material.STICK),
+		es.hotbar[0] = ItemCreator.item(new ItemStack(Material.STICK),
 				ChatColor.GREEN + "Spear",
 				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."),
 				Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 48)));
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				createItem(new ItemStack(Material.STICK),
+				ItemCreator.item(new ItemStack(Material.STICK),
 						ChatColor.GREEN + "Spear",
 						Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
 								ChatColor.AQUA + "- voted: +2 damage"),
@@ -53,18 +53,18 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 				0);
 
 		// Chestplate
-		es.chest = createItem(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
+		es.chest = ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
 				ChatColor.GREEN + "Chainmail Chestplate", null, null);
 
 		// Leggings
-		es.legs = createItem(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+		es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
 				ChatColor.GREEN + "Chainmail Leggings", null, null);
 
 		// Boots
-		es.feet = createItem(new ItemStack(Material.CHAINMAIL_BOOTS),
+		es.feet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
 				ChatColor.GREEN + "Chainmail Boots", null, null);
 		// Voted Boots
-		es.votedFeet = createItem(new ItemStack(Material.CHAINMAIL_BOOTS),
+		es.votedFeet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
 				ChatColor.GREEN + "Chainmail Boots",
 				Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -90,19 +90,27 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 	@EventHandler
 	public void Charge(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
+		UUID uuid = p.getUniqueId();
 		int cooldown = p.getCooldown(Material.STICK);
 
-		if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
+		// Prevent using in lobby
+		if (!InCombat.hasPlayerSpawned(uuid)) {
+			return;
+		}
+
+		if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
 			if (p.getInventory().getItemInMainHand().getType().equals(Material.STICK)) {
 				if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
 					if (cooldown == 0) {
 						p.setCooldown(Material.STICK, 160);
-						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "You threw your spear!"));
+						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+								ChatColor.AQUA + "You threw your spear!"));
 						p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.0));
 
 					} else {
-						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your spear yet."));
+						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+								ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your spear yet."));
 					}
 				}
 			}

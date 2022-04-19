@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.EquipmentSet;
-import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -27,8 +27,7 @@ import java.util.Objects;
 public class Halberdier extends Kit implements Listener, CommandExecutor {
 
     public Halberdier() {
-        super("Halberdier");
-        super.baseHealth = 160;
+        super("Halberdier", 160);
         super.kbResistance = 2;
 
         // Equipment Stuff
@@ -36,31 +35,31 @@ public class Halberdier extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = createItem(new ItemStack(Material.IRON_AXE),
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.IRON_AXE),
                 ChatColor.GREEN + "Halberd", null,
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 28)));
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                createItem(new ItemStack(Material.IRON_AXE),
+                ItemCreator.item(new ItemStack(Material.IRON_AXE),
                         ChatColor.GREEN + "Halberd",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 30))),
                 0);
 
         // Chestplate
-        es.chest = createItem(new ItemStack(Material.DIAMOND_CHESTPLATE),
+        es.chest = ItemCreator.item(new ItemStack(Material.DIAMOND_CHESTPLATE),
                 ChatColor.GREEN + "Reinforced Iron Chestplate", null,
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_ENVIRONMENTAL, 2)));
 
         // Leggings
-        es.legs = createItem(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+        es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
                 ChatColor.GREEN + "Chainmail Leggings", null, null);
 
         // Boots
-        es.feet = createItem(new ItemStack(Material.IRON_BOOTS),
+        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "Iron Boots", null, null);
         // Voted Boots
-        es.votedFeet = createItem(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "Iron Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -101,7 +100,7 @@ public class Halberdier extends Kit implements Listener, CommandExecutor {
     public void weakToArrows(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Arrow &&
                 Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
-            e.setDamage(e.getDamage() * 1.5);
+            e.setDamage(e.getDamage() * 2);
         }
     }
 }

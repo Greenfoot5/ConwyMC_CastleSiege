@@ -2,8 +2,9 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.EquipmentSet;
-import me.huntifi.castlesiege.kits.Kit;
+import me.huntifi.castlesiege.kits.ItemCreator;
 import me.huntifi.castlesiege.voting.VotesChanging;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,9 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemFlag;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -36,21 +36,19 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
     private final ItemStack berserkSwordVoted;
 
     public Berserker() {
-        super("Berserker");
-        super.baseHealth = 110;
-
+        super("Berserker", 110);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;
 
         // Weapon
-        regularSword = createItem(new ItemStack(Material.IRON_SWORD),
+        regularSword = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword", null,
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20)));
         es.hotbar[0] = regularSword;
         // Voted Weapon
-        regularSwordVoted = createItem(new ItemStack(Material.IRON_SWORD),
+        regularSwordVoted = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                 Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22)));
@@ -61,21 +59,16 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
         // Potion Item
-        ItemStack potion = createItem(new ItemStack(Material.POTION, 1),
+        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POTION, 1),
                 ChatColor.GOLD + "Berserker Potion", null, null);
-        ItemMeta potionMeta = potion.getItemMeta();
-        assert potionMeta != null;
-        potionMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        potion.setItemMeta(potionMeta);
-        es.hotbar[1] = potion;
 
         // Berserk Weapon
-        berserkSword = createItem(new ItemStack(Material.IRON_SWORD),
+        berserkSword = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword", null,
                 Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 56),
                         new Tuple<>(Enchantment.KNOCKBACK, 1)));
         // Voted Berserk Weapon
-        berserkSwordVoted = createItem(new ItemStack(Material.IRON_SWORD),
+        berserkSwordVoted = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                 Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 58),
@@ -102,6 +95,12 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
     public void berserkerPotion(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
+
+        // Prevent using in lobby
+        if (!InCombat.hasPlayerSpawned(uuid)) {
+            return;
+        }
+
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (e.getItem() != null && e.getItem().getType() == Material.POTION) {
                 p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
@@ -139,6 +138,15 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
                     }
                 }.runTaskLater(Main.plugin, 401);
             }
+        }
+    }
+
+    @EventHandler
+    public void onDrinkPotion(PlayerItemConsumeEvent e) {
+        if (e.getItem().getType() == Material.POTION &&
+                Objects.equals(Kit.equippedKits.get(e.getPlayer().getUniqueId()).name, name) &&
+                !InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
+            e.setCancelled(true);
         }
     }
 }

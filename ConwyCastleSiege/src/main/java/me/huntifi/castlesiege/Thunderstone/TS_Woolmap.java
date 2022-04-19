@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.Thunderstone;
 
 import java.util.UUID;
 
+import me.huntifi.castlesiege.kits.Enderchest;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -16,7 +17,6 @@ import org.bukkit.plugin.Plugin;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagRadius;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagTeam;
 import me.huntifi.castlesiege.events.join.stats.StatsChanging;
-import me.huntifi.castlesiege.kits.EnderchestRefill;
 import me.huntifi.castlesiege.maps.MapController;
 //import me.huntifi.castlesiege.teams.PlayerTeam;
 import me.huntifi.castlesiege.woolmap.LobbyPlayer;
@@ -55,7 +55,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 156, 97, 82, -91, 5);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The West Tower"));
 									LobbyPlayer.removePlayer(p);
 
@@ -103,7 +103,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 156, 97, 82, -91, 5);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The West Tower"));
 									LobbyPlayer.removePlayer(p);
 
@@ -141,7 +141,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 182, 92, 83, 180, -1);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The East Tower"));
 									LobbyPlayer.removePlayer(p);
 
@@ -189,7 +189,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 182, 92, 83, 180, -1);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The East Tower"));
 									LobbyPlayer.removePlayer(p);
 
@@ -226,7 +226,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 166, 154, 68, -54, 1);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Skyview Tower"));
 									LobbyPlayer.removePlayer(p);
 
@@ -274,7 +274,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 166, 154, 68, -54, 1);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Skyview Tower"));
 									LobbyPlayer.removePlayer(p);
 
@@ -311,7 +311,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 182, 66, 67, 90, 2);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " stairhall"));
 									LobbyPlayer.removePlayer(p);
 
@@ -359,7 +359,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 182, 66, 67, 90, 2);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The stairhall"));
 									LobbyPlayer.removePlayer(p);
 
@@ -396,7 +396,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 123, 97, 55, -12, 2);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Lonely Tower"));
 									LobbyPlayer.removePlayer(p);
 
@@ -444,7 +444,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 123, 97, 55, -12, 2);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Lonely Tower"));
 									LobbyPlayer.removePlayer(p);
 
@@ -482,7 +482,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 230, 116, 82, -163, 0);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Shifted Tower"));
 									LobbyPlayer.removePlayer(p);
 
@@ -530,7 +530,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 230, 116, 82, -163, 0);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Shifted Tower"));
 									LobbyPlayer.removePlayer(p);
 
@@ -567,7 +567,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 292, 74, 83, -112, 0);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Twinbridge"));
 									LobbyPlayer.removePlayer(p);
 
@@ -615,7 +615,7 @@ public class TS_Woolmap implements Listener {
 
 									Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 292, 74, 83, -112, 0);
 									p.teleport(Village);
-									EnderchestRefill.refill(p);
+									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Twinbridge"));
 									LobbyPlayer.removePlayer(p);
 
@@ -650,7 +650,7 @@ public class TS_Woolmap implements Listener {
 
 								Location Village = new Location(plugin.getServer().getWorld("Thunderstone"), 90, 86, 106, -112, -5);
 								p.teleport(Village);
-								EnderchestRefill.refill(p);
+								//Enderchest.refill(p);
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " Cloudcrawler Camp"));
 								LobbyPlayer.removePlayer(p);
 
