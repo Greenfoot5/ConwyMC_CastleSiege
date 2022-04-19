@@ -19,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class DeathEvent implements Listener {
 
     /**
-     * Respawns a player correctly
+     * Spawns a player correctly
      */
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {

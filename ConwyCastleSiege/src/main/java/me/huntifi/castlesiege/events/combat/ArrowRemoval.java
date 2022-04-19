@@ -10,6 +10,9 @@ import org.bukkit.event.entity.ProjectileHitEvent;
  */
 public class ArrowRemoval implements Listener {
 
+	/**
+	 * Removes the arrow if it hits an entity
+	 */
 	@EventHandler
 	public void onHit(final ProjectileHitEvent e) {
 

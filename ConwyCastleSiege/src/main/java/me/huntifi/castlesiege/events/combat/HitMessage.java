@@ -17,7 +17,10 @@ import java.util.Objects;
  * Displays the hit message and sound when a player hits a player or animal with an arrow
  */
 public class HitMessage implements Listener {
-	
+
+	/**
+	 * Notifies the shooter when they hit a player or animal
+	 */
 	@EventHandler
 	public void onHit(ProjectileHitEvent e) {
 
