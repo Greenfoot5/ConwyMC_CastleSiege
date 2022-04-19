@@ -23,6 +23,7 @@ public abstract class AbstractGUI implements Listener {
     protected final ArrayList<Inventory> gui;
     protected List<String> kitNames;
     protected static HashMap<UUID, Integer> onPage;
+    protected static HashMap<UUID, Boolean> canExit;
 
     private final ItemStack panel;
     protected final ItemStack nextPage;
@@ -31,6 +32,7 @@ public abstract class AbstractGUI implements Listener {
     protected AbstractGUI() {
         gui = new ArrayList<>();
         onPage = new HashMap<>();
+        canExit = new HashMap<>();
 
         // Common items
         panel = ItemCreator.item(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " ", null, null);
@@ -60,25 +62,25 @@ public abstract class AbstractGUI implements Listener {
         // Select kit
         if (kitNames.contains(kitName)) {
             p.performCommand(kitName);
-            onPage.remove(uuid);
             Bukkit.getScheduler().runTask(Main.plugin, p::closeInventory);
         // Go to next page
         } else if (itemName[0].contains("Next")) {
             onPage.merge(p.getUniqueId(), 1, Integer::sum);
-            Bukkit.getScheduler().runTask(Main.plugin, () ->
-                    p.openInventory(gui.get(onPage.get(uuid))));
+            newPage(p);
         // Go to previous page
         } else if (itemName[0].contains("Previous")) {
             onPage.merge(p.getUniqueId(), -1, Integer::sum);
-            Bukkit.getScheduler().runTask(Main.plugin, () ->
-                    p.openInventory(gui.get(onPage.get(uuid))));
+            newPage(p);
         }
     }
 
     @EventHandler
     public void onCloseInv(InventoryCloseEvent e) {
-        onPage.remove(e.getPlayer().getUniqueId());
-        // TODO - FIX THIS
+        UUID uuid = e.getPlayer().getUniqueId();
+        if (canExit.containsKey(uuid) && canExit.get(uuid)) {
+            onPage.remove(e.getPlayer().getUniqueId());
+            canExit.remove(uuid);
+        }
     }
 
     protected Inventory emptyPage(int size, String name) {
@@ -91,5 +93,14 @@ public abstract class AbstractGUI implements Listener {
         }
 
         return page;
+    }
+
+    private void newPage(Player p) {
+        UUID uuid = p.getUniqueId();
+        Bukkit.getScheduler().runTask(Main.plugin, () -> {
+            canExit.put(uuid, false);
+            p.openInventory(gui.get(onPage.get(uuid)));
+            canExit.put(uuid, true);
+        });
     }
 }

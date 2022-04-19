@@ -31,6 +31,7 @@ public class ClassicGUI extends AbstractGUI implements CommandExecutor {
         Player p = (Player) sender;
         p.openInventory(gui.get(0));
         onPage.put(p.getUniqueId(), 0);
+        canExit.put(p.getUniqueId(), true);
         return true;
     }
 
