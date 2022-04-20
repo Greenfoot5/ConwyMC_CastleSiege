@@ -26,10 +26,8 @@ import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.join.login;
 import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.flags.Flag;
+import me.huntifi.castlesiege.kits.gui.*;
 import me.huntifi.castlesiege.kits.items.Enderchest;
-import me.huntifi.castlesiege.kits.gui.ClassicGUI;
-import me.huntifi.castlesiege.kits.gui.TeamGUI;
-import me.huntifi.castlesiege.kits.gui.VoterGUI;
 import me.huntifi.castlesiege.kits.kits.*;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
@@ -128,12 +126,9 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
                 // Kit GUIs
-                getServer().getPluginManager().registerEvents(new ClassicGUI(), plugin);
-                getServer().getPluginManager().registerEvents(new TeamGUI("Cloud Crawlers"), plugin);
-                getServer().getPluginManager().registerEvents(new TeamGUI("Rohan"), plugin);
-                getServer().getPluginManager().registerEvents(new TeamGUI("Uruk-hai"), plugin);
-                getServer().getPluginManager().registerEvents(new TeamGUI("Thunderstone Guard"), plugin);
-                getServer().getPluginManager().registerEvents(new VoterGUI(), plugin);
+                getServer().getPluginManager().registerEvents(new FreeKitGUI(), plugin);
+                getServer().getPluginManager().registerEvents(new UnlockedKitGUI(), plugin);
+                getServer().getPluginManager().registerEvents(new SelectorKitGUI(), plugin);
 
                 // Rewrite Commands
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
@@ -141,6 +136,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
                 Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
                 // Kits
+                Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
                 Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
@@ -160,13 +156,6 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
-                // Kit GUIs
-                Objects.requireNonNull(getCommand("ClassicGUI")).setExecutor(new ClassicGUI());
-                Objects.requireNonNull(getCommand("KitCloudcrawlers")).setExecutor(new TeamGUI("Cloud Crawlers"));
-                Objects.requireNonNull(getCommand("KitIsengard")).setExecutor(new TeamGUI("Uruk-hai"));
-                Objects.requireNonNull(getCommand("KitRohan")).setExecutor(new TeamGUI("Rohan"));
-                Objects.requireNonNull(getCommand("KitThunderstoneGuards")).setExecutor(new TeamGUI("Thunderstone Guard"));
-                Objects.requireNonNull(getCommand("VoterGUI")).setExecutor(new VoterGUI());
 
                 // Map Specific
                 // Helms Deep Only

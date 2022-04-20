@@ -44,16 +44,17 @@ me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagTeam.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\WestTower_ThunderstoneGuards.class
 me\huntifi\castlesiege\Main$1.class
 me\huntifi\castlesiege\tags\NametagsEvent.class
+me\huntifi\castlesiege\kits\gui\UnlockedKitGUI.class
 me\huntifi\castlesiege\Helmsdeep\doors\GreatHallExtraDoor.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\ShiftedTowerFlag.class
 me\huntifi\castlesiege\maps\MapController$2.class
 me\huntifi\castlesiege\security\wheat.class
-me\huntifi\castlesiege\kits\gui\ClassicGUI.class
 me\huntifi\castlesiege\security\DropItemSecurity.class
 me\huntifi\castlesiege\maps\EndMapAction$1$1.class
 me\huntifi\castlesiege\Helmsdeep\doors\HelmsdeepGreatHallRightDoor.class
 me\huntifi\castlesiege\maps\Map.class
 me\huntifi\castlesiege\database\SQLGetter$2.class
+me\huntifi\castlesiege\kits\gui\FreeKitGUI.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\TwinbridgeFlag$3.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Skyviewtower.class
 me\huntifi\castlesiege\Helmsdeep\doors\HelmsdeepGreatHallLeftDoor.class
@@ -65,6 +66,7 @@ me\huntifi\castlesiege\security\Hunger.class
 me\huntifi\castlesiege\Helmsdeep\doors\HelmsdeepMainGateRightDoor.class
 me\huntifi\castlesiege\kits\kits\Medic$2.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Skyview_Cloudcrawlers.class
+me\huntifi\castlesiege\commands\KitCommand.class
 me\huntifi\castlesiege\maps\Lobby.class
 me\huntifi\castlesiege\Helmsdeep\rams\MainGateReadyRam.class
 me\huntifi\castlesiege\maps\Scoreboard.class
@@ -144,6 +146,7 @@ me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTowerFlag.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\TwinbridgeFlag.class
 me\huntifi\castlesiege\events\combat\NoLobbyCombat.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Westtower.class
+me\huntifi\castlesiege\kits\gui\SelectorKitGUI.class
 me\huntifi\castlesiege\voting\VoteListenerCommand.class
 me\huntifi\castlesiege\stats\levels\LevelSave.class
 me\huntifi\castlesiege\kits\kits\Executioner.class
@@ -220,6 +223,7 @@ me\huntifi\castlesiege\Helmsdeep\doors\HelmsdeepStorageDoor.class
 me\huntifi\castlesiege\Helmsdeep\Boat\HelmsdeepCaveBoat.class
 me\huntifi\castlesiege\Main$2.class
 me\huntifi\castlesiege\security\NoPaintingDestroy.class
+me\huntifi\castlesiege\kits\gui\AbstractKitGUI.class
 me\huntifi\castlesiege\structures\MakeStructure.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTower_Cloudcrawlers.class
 me\huntifi\castlesiege\commands\staffCommands\KickallCommand.class
@@ -235,7 +239,6 @@ me\huntifi\castlesiege\kits\kits\Viking.class
 me\huntifi\castlesiege\stats\StatsUpdater.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagCaptureSpeed.class
 me\huntifi\castlesiege\data_types\Tuple.class
-me\huntifi\castlesiege\kits\gui\VoterGUI.class
 me\huntifi\castlesiege\kits\kits\Halberdier.class
 me\huntifi\castlesiege\kits\items\Enderchest.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Shiftedtower.class
@@ -243,9 +246,7 @@ me\huntifi\castlesiege\kits\kits\Ladderman.class
 me\huntifi\castlesiege\stats\levels\LevelingEvent.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Twinbridge.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagRadius.class
-me\huntifi\castlesiege\kits\gui\TeamGUI.class
 me\huntifi\castlesiege\Helmsdeep\Ballistae\HelmsdeepBallistaEvent.class
-me\huntifi\castlesiege\kits\gui\AbstractGUI.class
 me\huntifi\castlesiege\Thunderstone\ThunderstoneJoin.class
 me\huntifi\castlesiege\maps\MapController.class
 me\huntifi\castlesiege\Helmsdeep\Gates\HelmsdeepGreatHallBlocks.class

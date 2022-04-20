@@ -70,15 +70,9 @@ commands:
   Teams:
     description: Shows the size of both teams.
     usage: /Teams
-  Kit:
-    description: Switches teams.
-    usage: /Kit
   Mvp:
     description: Switches teams.
     usage: /Mvp
-  KitGUI:
-    description: Opens the kit GUI.
-    usage: /KitGUI
   Mystats:
     description: Opens a book that shows you your stats.
     usage: /Mystats
@@ -129,11 +123,15 @@ commands:
   Switch:
     description: Switches teams.
     usage: /switch
+    aliases: sw
   SaveMap:
     description: Saves any changes made to the current map
     usage: /savemap
 
   # Kits
+  kit:
+    description: Open the GUI for selecting kits
+    usage: /kit <category>
   archer:
     description: Selects the archer kit
     usage: /archer
@@ -191,23 +189,3 @@ commands:
   warhound:
     description: Selects the warhound kit
     usage: /warhound
-
-  # Kit GUIs
-  classicGUI:
-    description: Open the GUI for classic kits
-    usage: /classicGUI
-  KitCloudcrawlers:
-    description: Open the GUI for the Cloud Crawlers
-    usage: /KitCloudcrawlers
-  KitIsengard:
-    description: Open the GUI for the Uruk-hai
-    usage: /KitIsengard
-  KitRohan:
-    description: Open the GUI for Rohan
-    usage: /KitRohan
-  KitThunderstoneGuards:
-    description: Open the GUI for the Thunderstone Guard
-    usage: /KitThunderstoneGuards
-  voterGUI:
-    description: Open the GUI for voter kits
-    usage: /voterGUI
