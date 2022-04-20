@@ -128,17 +128,15 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
      */
     @EventHandler
     public void onBite(EntityDamageByEntityEvent e) {
-        if (!(e.getEntity() instanceof Player && e.getDamager() instanceof Player)) {
+        if (e.isCancelled() ||
+                !(e.getEntity() instanceof Player && e.getDamager() instanceof Player)) {
             return;
         }
         Player p = (Player) e.getEntity();
         Player q = (Player) e.getDamager();
 
-        // Warhound bit enemy
-        if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                MapController.getCurrentMap().getTeam(p.getUniqueId())
-                        != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
-
+        // Warhound bit enemy player
+        if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name)) {
             p.addPotionEffect((new PotionEffect(PotionEffectType.WITHER, 25, 5)));
             stun(p, q);
         }
