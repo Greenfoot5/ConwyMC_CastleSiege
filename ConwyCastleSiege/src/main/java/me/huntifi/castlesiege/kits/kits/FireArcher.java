@@ -144,7 +144,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
      * Place a firepit
      * @param e The event called when placing a cauldron
      */
-    @EventHandler (priority = EventPriority.MONITOR)
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
 
@@ -286,7 +286,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
      * Set the damage taken when on fire
      * @param e The event called when taking fire damage
      */
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOW)
     public void onFireDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player &&
                 e.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK) {

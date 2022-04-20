@@ -28,7 +28,8 @@ public class InCombat implements Listener {
 	@EventHandler
 	public void playerAttacksAnother(EntityDamageByEntityEvent ed) {
 		// Both are players
-		if (!(ed.getEntity() instanceof Player && ed.getDamager() instanceof Player)) { return; }
+		if (!(ed.getEntity() instanceof Player && ed.getDamager() instanceof Player) ||
+				ed.isCancelled()) { return; }
 
 		UUID whoWasHit = ed.getEntity().getUniqueId();
 		UUID whoHit = ed.getDamager().getUniqueId();
@@ -44,7 +45,7 @@ public class InCombat implements Listener {
 	 */
 	@EventHandler
 	public void playerTakesDamage(EntityDamageEvent event) {
-		if (!(event.getEntity() instanceof Player)) { return; }
+		if (!(event.getEntity() instanceof Player) || event.isCancelled()) { return; }
 		UUID uuid = event.getEntity().getUniqueId();
 
 		addPlayerToCombat(uuid);

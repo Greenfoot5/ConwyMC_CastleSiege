@@ -130,7 +130,7 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
      * Set the arrow-damage of a ranger's arrows
      * @param e The event called when a player is hit by an arrow
      */
-    @EventHandler (priority = EventPriority.HIGHEST)
+    @EventHandler (priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&

@@ -127,7 +127,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
      * Place a cake
      * @param e The event called when placing a cake
      */
-    @EventHandler (priority = EventPriority.MONITOR)
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
 
@@ -148,7 +148,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
      * Break a cake
      * @param e The event called when breaking a cake
      */
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onBreakCake(BlockBreakEvent e) {
         // Prevent using in lobby
         if (!InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
@@ -181,7 +181,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
      * Take a bite from a cake and gain a short period of regeneration
      * @param e The event called when right-clicking on a cake
      */
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onEatCake(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         Block cake = e.getClickedBlock();

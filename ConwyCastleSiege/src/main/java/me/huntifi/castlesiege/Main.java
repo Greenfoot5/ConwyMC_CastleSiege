@@ -205,7 +205,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new wheat(), plugin);
                 getServer().getPluginManager().registerEvents(new NoPaintingDestroy(), plugin);
                 getServer().getPluginManager().registerEvents(new NoFireDestroy(), plugin);
-                getServer().getPluginManager().registerEvents(new NoCombat(), plugin);
+                getServer().getPluginManager().registerEvents(new NoLobbyCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new ambientDamage(), plugin);
                 getServer().getPluginManager().registerEvents(new voidOfLimits(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);

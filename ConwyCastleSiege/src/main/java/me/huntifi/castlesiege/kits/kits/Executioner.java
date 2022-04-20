@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
@@ -101,48 +102,41 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 	 */
 	@EventHandler
 	public void onExecute(EntityDamageByEntityEvent e) {
+		if (e.isCancelled()) {
+			return;
+		}
+
+		// Both are players
 		if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
 			Player whoWasHit = (Player) e.getEntity();
 			Player whoHit = (Player) e.getDamager();
 
+			// Executioner hits with axe
 			if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name) &&
 					whoHit.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
-				// Check they aren't on the same team
-				// Damage is cancelled, but event is still called
-				if (MapController.getCurrentMap().getTeam(whoHit.getUniqueId())
-						!= MapController.getCurrentMap().getTeam(whoWasHit.getUniqueId())) {
 
-					AttributeInstance healthAttribute = whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-					assert healthAttribute != null;
+				AttributeInstance healthAttribute = whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+				assert healthAttribute != null;
 
-					if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.37) {
-						// Prevent loop
-						if (whoWasHit.getAttribute(Attribute.GENERIC_ARMOR).getValue() == 0 &&
-								whoWasHit.getPotionEffect(PotionEffectType.DAMAGE_RESISTANCE) == null) {
-							return;
-						}
+				// Execute
+				if (whoWasHit.getHealth() <= e.getFinalDamage()) {
+					Location loc = whoWasHit.getLocation();
+					whoWasHit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
+				} else if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.37) {
+					// Replace this damage with one that kills
+					e.setCancelled(true);
 
-						// Decapitate the opponent
-						e.setCancelled(true);
-						Location loc = whoWasHit.getLocation();
-						whoWasHit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
+					// Prevent damage reduction from armor and resistance
+					whoWasHit.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+					AttributeInstance armor = whoWasHit.getAttribute(Attribute.GENERIC_ARMOR);
+					assert armor != null;
+					armor.setBaseValue(-armor.getValue());
 
-						// Prevent damage reduction from armor and resistance
-						PotionEffect resistance = whoWasHit.getPotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-						whoWasHit.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-						AttributeInstance armor = whoWasHit.getAttribute(Attribute.GENERIC_ARMOR);
-						assert armor != null;
-						armor.setBaseValue(-armor.getValue());
+					// Kill opponent with damage done by executioner
+					whoWasHit.damage(healthAttribute.getValue(), whoHit);
 
-						// Kill opponent with damage done by executioner
-						whoWasHit.damage(whoWasHit.getHealth(), whoHit);
-
-						// Revert armor and resistance changes
-						armor.setBaseValue(0);
-						if (resistance != null) {
-							whoWasHit.addPotionEffect(resistance);
-						}
-					}
+					// Revert armor
+					armor.setBaseValue(0);
 				}
 			}
 		}

@@ -6,6 +6,7 @@ import org.bukkit.entity.Boat;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
@@ -18,7 +19,7 @@ public class NoHurtTeam implements Listener {
 	 * Player has attempted to attack a player
 	 * Cancels event if they are on the same team
 	 */
-	@EventHandler
+	@EventHandler (priority = EventPriority.LOWEST)
 	public void onHurt(EntityDamageByEntityEvent e) {
 		// A player was hurt
 		if (e.getEntity() instanceof Player) {
@@ -32,7 +33,7 @@ public class NoHurtTeam implements Listener {
 	 * Player has attempted to attack a horse
 	 * Cancels event if they are on the same team
 	 */
-	@EventHandler
+	@EventHandler (priority = EventPriority.LOWEST)
 	public void onHurtHorse(EntityDamageByEntityEvent e) {
 		// A horse with owner was hurt
 		if (e.getEntity() instanceof Horse &&
@@ -47,7 +48,7 @@ public class NoHurtTeam implements Listener {
 	 * Player has attempted to attack a boat
 	 * Checks if there is a player in it on their team
 	 */
-	@EventHandler
+	@EventHandler (priority = EventPriority.LOWEST)
 	public void onHurtBoat(EntityDamageByEntityEvent e) {
 		// A boat with player was hurt
 		if (e.getEntity() instanceof Boat &&

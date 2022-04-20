@@ -124,7 +124,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
      * Activate the engineer ability for placing traps, cobwebs, wood, or stone
      * @param e The event called when placing a block
      */
-    @EventHandler (priority = EventPriority.MONITOR)
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
@@ -153,7 +153,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
      * Allow players to break cobwebs
      * @param e The event called when breaking a block
      */
-    @EventHandler (priority = EventPriority.MONITOR)
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onDestroy(BlockBreakEvent e) {
         // Prevent using in lobby
         if (!InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {

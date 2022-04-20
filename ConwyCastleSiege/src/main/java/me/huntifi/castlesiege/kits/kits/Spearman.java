@@ -16,6 +16,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -139,7 +140,7 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 	 * Set the thrown spear's damage
 	 * @param e The event called when an arrow hits a player
 	 */
-	@EventHandler
+	@EventHandler (priority = EventPriority.LOW)
 	public void changeSpearDamage(ProjectileHitEvent e) {
 		if (e.getEntity() instanceof Arrow) {
 			Arrow arrow = (Arrow) e.getEntity();
@@ -148,7 +149,7 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 				Player damages = (Player) arrow.getShooter();
 
 				if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-					arrow.setDamage(32);
+					arrow.setDamage(26);
 				}
 			}
 		}

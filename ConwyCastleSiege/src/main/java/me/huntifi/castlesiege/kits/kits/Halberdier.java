@@ -101,7 +101,7 @@ public class Halberdier extends Kit implements Listener, CommandExecutor {
      * Activate the halberdier ability of dealing +50% damage to cavalry
      * @param e The event called when dealing damage to another player
      */
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler (priority = EventPriority.HIGH)
     public void antiCav(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player cav = (Player) e.getEntity();
@@ -115,14 +115,14 @@ public class Halberdier extends Kit implements Listener, CommandExecutor {
     }
 
     /**
-     * Activate the halberdier ability of taking 2x damage from arrows
+     * Activate the halberdier ability of taking +50% damage from arrows
      * @param e The event called when taking damage from an arrow
      */
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler (priority = EventPriority.HIGH)
     public void weakToArrows(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Arrow &&
                 Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
-            e.setDamage(e.getDamage() * 2);
+            e.setDamage(e.getDamage() * 1.5);
         }
     }
 }
