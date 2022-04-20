@@ -145,15 +145,14 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
      */
     @EventHandler
     public void onShootBow(EntityShootBowEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+
         if (e.getEntity() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
             Player p = (Player) e.getEntity();
             String b = e.getBow().getItemMeta().getDisplayName();
-
-            // Prevent using in lobby
-            if (!InCombat.hasPlayerSpawned(p.getUniqueId())) {
-                return;
-            }
 
             if (Objects.equals(b, ChatColor.GREEN + "Volley Bow")) {
                 Vector v = e.getProjectile().getVelocity();

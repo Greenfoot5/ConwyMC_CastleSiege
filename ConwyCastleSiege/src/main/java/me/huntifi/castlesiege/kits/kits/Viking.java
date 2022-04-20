@@ -99,10 +99,12 @@ public class Viking extends Kit implements Listener, CommandExecutor {
      */
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player &&
-                Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name) &&
-                MapController.getCurrentMap().getTeam(e.getEntity().getUniqueId())
-                != MapController.getCurrentMap().getTeam(e.getDamager().getUniqueId())) {
+                Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
             Player p = (Player) e.getEntity();
             AttributeInstance armor = p.getAttribute(Attribute.GENERIC_ARMOR);
             assert armor != null;

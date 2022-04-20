@@ -105,14 +105,13 @@ public class Maceman extends Kit implements Listener, CommandExecutor {
      */
     @EventHandler
     public void onStun(EntityDamageByEntityEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player p = (Player) e.getEntity();
             Player q = (Player) e.getDamager();
-
-            // Prevent using in lobby
-            if (!InCombat.hasPlayerSpawned(q.getUniqueId())) {
-                return;
-            }
 
             // Maceman tries to use stun an enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&

@@ -102,13 +102,11 @@ public class Crossbowman extends Kit implements Listener, CommandExecutor {
      */
     @EventHandler
     public void shootCrossbow(EntityShootBowEvent e) {
-        Player p = (Player) e.getEntity();
-
-        // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(p.getUniqueId())) {
+        if (e.isCancelled()) {
             return;
         }
 
+        Player p = (Player) e.getEntity();
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
             e.setCancelled(true);
             p.setCooldown(Material.CROSSBOW, 75);

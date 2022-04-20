@@ -266,6 +266,10 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
      */
     @EventHandler
     public void FlameBow(EntityShootBowEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
             if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
