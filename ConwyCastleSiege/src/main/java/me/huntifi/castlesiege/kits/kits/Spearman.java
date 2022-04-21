@@ -113,7 +113,7 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		int cooldown = p.getCooldown(Material.STICK);
 
 		// Prevent using in lobby
-		if (!InCombat.hasPlayerSpawned(uuid)) {
+		if (InCombat.isPlayerInLobby(uuid)) {
 			return;
 		}
 

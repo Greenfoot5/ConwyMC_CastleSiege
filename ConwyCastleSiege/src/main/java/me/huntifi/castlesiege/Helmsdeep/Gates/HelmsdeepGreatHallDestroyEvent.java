@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.Helmsdeep.Gates;
 
 import java.util.ArrayList;
 
+import me.huntifi.castlesiege.events.combat.InCombat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -21,7 +22,6 @@ import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.structures.MakeStructure;
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -42,7 +42,7 @@ public class HelmsdeepGreatHallDestroyEvent implements Listener {
 
 		if(MapController.currentMapIs("HelmsDeep")) {
 
-			if (!LobbyPlayer.containsPlayer(p)) {
+			if (InCombat.isPlayerInLobby(p.getUniqueId())) {
 
 				if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
 

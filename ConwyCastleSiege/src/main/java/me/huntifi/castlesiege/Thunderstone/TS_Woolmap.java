@@ -17,8 +17,6 @@ import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagRadius;
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagTeam;
 import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.maps.MapController;
-//import me.huntifi.castlesiege.teams.PlayerTeam;
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -56,7 +54,6 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The West Tower"));
-									LobbyPlayer.removePlayer(p);
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -104,7 +101,6 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The West Tower"));
-									LobbyPlayer.removePlayer(p);
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -142,7 +138,7 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The East Tower"));
-									LobbyPlayer.removePlayer(p);
+
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -190,7 +186,7 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The East Tower"));
-									LobbyPlayer.removePlayer(p);
+
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -227,7 +223,7 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Skyview Tower"));
-									LobbyPlayer.removePlayer(p);
+
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -275,7 +271,7 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Skyview Tower"));
-									LobbyPlayer.removePlayer(p);
+
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -312,7 +308,7 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " stairhall"));
-									LobbyPlayer.removePlayer(p);
+
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -360,7 +356,7 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The stairhall"));
-									LobbyPlayer.removePlayer(p);
+
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -397,7 +393,7 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Lonely Tower"));
-									LobbyPlayer.removePlayer(p);
+
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -445,7 +441,7 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Lonely Tower"));
-									LobbyPlayer.removePlayer(p);
+
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -483,7 +479,7 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Shifted Tower"));
-									LobbyPlayer.removePlayer(p);
+
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -531,7 +527,7 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Shifted Tower"));
-									LobbyPlayer.removePlayer(p);
+
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -568,7 +564,7 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Twinbridge"));
-									LobbyPlayer.removePlayer(p);
+
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -616,7 +612,7 @@ public class TS_Woolmap implements Listener {
 									p.teleport(Village);
 									//Enderchest.refill(p);
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " The Twinbridge"));
-									LobbyPlayer.removePlayer(p);
+
 
 								} else {
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
@@ -651,7 +647,7 @@ public class TS_Woolmap implements Listener {
 								p.teleport(Village);
 								//Enderchest.refill(p);
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Spawning at:" + ChatColor.GREEN + " Cloudcrawler Camp"));
-								LobbyPlayer.removePlayer(p);
+
 
 							} else {
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));

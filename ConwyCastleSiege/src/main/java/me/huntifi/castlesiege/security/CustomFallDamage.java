@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.security;
 
+import me.huntifi.castlesiege.events.combat.InCombat;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,8 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class CustomFallDamage implements Listener {
 
@@ -23,7 +22,7 @@ public class CustomFallDamage implements Listener {
 			
 			Location BlockLoc = new Location(p.getWorld(), Loc.getX(), Loc.getY() - 1, Loc.getZ());
 
-			if (!LobbyPlayer.containsPlayer(p)) {
+			if (InCombat.isPlayerInLobby(p.getUniqueId())) {
 
 				if (e.getCause() == DamageCause.FALL) {
 					
@@ -154,7 +153,7 @@ public class CustomFallDamage implements Listener {
 
 				}
 				
-			} else if (LobbyPlayer.containsPlayer(p)) {
+			} else if (InCombat.isPlayerInLobby(p.getUniqueId())) {
 				
 				if (e.getCause() == DamageCause.FALL) {
 

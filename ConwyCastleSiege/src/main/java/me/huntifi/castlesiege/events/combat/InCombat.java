@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.entity.Arrow;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -19,7 +20,7 @@ import java.util.UUID;
  */
 public class InCombat implements Listener {
 
-	private static ArrayList<UUID> hasSpawned = new ArrayList<>();
+	private static Collection<UUID> inLobby = new ArrayList<>();
 	private static HashMap<UUID, Integer> inCombat = new HashMap<>();
 
 	/**
@@ -57,8 +58,6 @@ public class InCombat implements Listener {
 	 */
 	public static void addPlayerToCombat(UUID uuid) {
 		inCombat.merge(uuid, 1, Integer::sum);
-		if (!hasSpawned.contains(uuid)) {
-			hasSpawned.add(uuid);}
 
 		// Players are in combat for 10 seconds only
 		new BukkitRunnable() {
@@ -74,7 +73,9 @@ public class InCombat implements Listener {
 	 */
 	public static void playerDied(UUID uuid) {
 		inCombat.put(uuid, 0);
-		hasSpawned.remove(uuid);
+		if (!isPlayerInLobby(uuid)) {
+			inLobby.add(uuid);
+		}
 	}
 
 	/**
@@ -82,14 +83,15 @@ public class InCombat implements Listener {
 	 * Means they die when changing kit or team
 	 */
 	public static void playerSpawned(UUID uuid) {
-		if (!hasSpawned.contains(uuid)) {
-			hasSpawned.add(uuid);}
+		inLobby.remove(uuid);
 	}
 
 	/**
-	 * Returns true if the player has interacted with the game this life
+	 * Returns true if the player is still in the lobby
 	 */
-	public static boolean hasPlayerSpawned(UUID uuid) { return hasSpawned.contains(uuid); }
+	public static boolean isPlayerInLobby(UUID uuid) {
+		return inLobby.contains(uuid);
+	}
 
 	/**
 	 * Returns true if the player has taken damage in the last 8s
@@ -102,7 +104,10 @@ public class InCombat implements Listener {
 	 * Clears the combat lists
 	 */
 	public static void clearCombat() {
-		hasSpawned = new ArrayList<>();
 		inCombat = new HashMap<>();
+		inLobby = new ArrayList<>();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			inLobby.add(player.getUniqueId());
+		}
 	}
 }

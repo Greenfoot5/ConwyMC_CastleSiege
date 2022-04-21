@@ -132,7 +132,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         Player p = e.getPlayer();
 
         // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(p.getUniqueId())) {
+        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
             return;
         }
 
@@ -151,7 +151,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onBreakCake(BlockBreakEvent e) {
         // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
+        if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
             return;
         }
 
@@ -187,7 +187,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         Block cake = e.getClickedBlock();
 
         // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(p.getUniqueId())) {
+        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
             return;
         }
 
@@ -256,7 +256,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         Entity q = e.getRightClicked();
 
         // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(uuid)) {
+        if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
 

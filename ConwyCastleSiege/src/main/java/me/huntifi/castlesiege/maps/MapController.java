@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.events.join.stats.MainStats;
 import me.huntifi.castlesiege.events.join.stats.StatsChanging;
@@ -118,6 +119,7 @@ public class MapController implements CommandExecutor {
 						player.setHealth(0);
 					}
 				}
+				InCombat.clearCombat();
 			}
 		}.runTask(Main.plugin);
 
@@ -178,7 +180,7 @@ public class MapController implements CommandExecutor {
 		// Register the flag regions
 		for (Flag flag : maps[mapIndex].flags) {
 			if (flag.region != null) {
-				WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(currentMap.name()))).addRegion(flag.region);
+				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(currentMap.name()))))).addRegion(flag.region);
 			}
 		}
 
@@ -316,8 +318,8 @@ public class MapController implements CommandExecutor {
 		{
 			commandSender.sendMessage(ChatColor.DARK_AQUA + "Saving world: " + getCurrentMap().worldName);
 
-			Bukkit.getWorld(getCurrentMap().worldName).save();
-			copyFileStructure(new File(Bukkit.getWorldContainer(), getCurrentMap().worldName + "_save"), Bukkit.getWorld(getCurrentMap().worldName).getWorldFolder());
+			Objects.requireNonNull(getWorld(getCurrentMap().worldName)).save();
+			copyFileStructure(new File(Bukkit.getWorldContainer(), getCurrentMap().worldName + "_save"), Objects.requireNonNull(getWorld(getCurrentMap().worldName)).getWorldFolder());
 
 			commandSender.sendMessage(ChatColor.GREEN + "Saved " + getCurrentMap().worldName + "!");
 		} else {

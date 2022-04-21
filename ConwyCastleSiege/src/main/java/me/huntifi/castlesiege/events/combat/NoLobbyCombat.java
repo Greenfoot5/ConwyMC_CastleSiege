@@ -24,7 +24,7 @@ public class NoLobbyCombat implements Listener {
 		if (e.getEntity() instanceof Player) {
 			UUID uuid = e.getEntity().getUniqueId();
 
-			if (!InCombat.hasPlayerSpawned(uuid)) {
+			if (InCombat.isPlayerInLobby(uuid)) {
 				e.setCancelled(true);
 			}
 		}
@@ -40,7 +40,7 @@ public class NoLobbyCombat implements Listener {
 		if (e.getEntity() instanceof Player) {
 			UUID uuid = e.getEntity().getUniqueId();
 
-			if (!InCombat.hasPlayerSpawned(uuid)) {
+			if (InCombat.isPlayerInLobby(uuid)) {
 				e.setCancelled(true);
 			}
 		}

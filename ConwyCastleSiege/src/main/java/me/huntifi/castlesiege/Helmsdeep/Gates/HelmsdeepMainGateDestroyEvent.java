@@ -1,7 +1,12 @@
 package me.huntifi.castlesiege.Helmsdeep.Gates;
 
-import java.util.ArrayList;
-
+import com.sk89q.worldedit.WorldEditException;
+import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.stats.MVP.MVPstats;
+import me.huntifi.castlesiege.structures.MakeStructure;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -14,14 +19,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.sk89q.worldedit.WorldEditException;
-
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
-import me.huntifi.castlesiege.structures.MakeStructure;
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import java.util.ArrayList;
 
 public class HelmsdeepMainGateDestroyEvent implements Listener {
 
@@ -40,7 +38,7 @@ public class HelmsdeepMainGateDestroyEvent implements Listener {
 
 		if(MapController.currentMapIs("HelmsDeep")) {
 
-			if (!LobbyPlayer.containsPlayer(p)) {
+			if (InCombat.isPlayerInLobby(p.getUniqueId())) {
 
 				if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
@@ -50,7 +48,7 @@ public class HelmsdeepMainGateDestroyEvent implements Listener {
 
 						if (p.isSprinting()) {
 
-							if (!(GateHealth < 2)) {
+							if (GateHealth >= 2) {
 
 								if (!hitters.contains(p)) {
 
@@ -77,14 +75,14 @@ public class HelmsdeepMainGateDestroyEvent implements Listener {
 								}
 
 
-							} else if (GateHealth < 2) {
+							} else {
 
-								if (isBreached != true) {
+								if (!isBreached) {
 
 
 									Location loc = new Location(plugin.getServer().getWorld("HelmsDeep"), 1038, 52, 1000); 
 
-									if (isBreached == false) {
+									if (!isBreached) {
 
 										for (Player all : Bukkit.getOnlinePlayers()) {
 

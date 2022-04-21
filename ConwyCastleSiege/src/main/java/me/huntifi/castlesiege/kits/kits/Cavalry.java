@@ -111,7 +111,7 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
         UUID uuid = p.getUniqueId();
 
         // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(uuid)) {
+        if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
 

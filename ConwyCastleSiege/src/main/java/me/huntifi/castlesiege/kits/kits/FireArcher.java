@@ -149,7 +149,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         Player p = e.getPlayer();
 
         // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(p.getUniqueId())) {
+        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
             return;
         }
 
@@ -174,7 +174,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
     @EventHandler
     public void onRemove(PlayerInteractEvent e) {
         // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
+        if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
             return;
         }
 
@@ -222,7 +222,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
         ItemStack usedItem = e.getItem();
 
         // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(p.getUniqueId())) {
+        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
             return;
         }
 

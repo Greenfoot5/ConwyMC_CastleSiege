@@ -130,7 +130,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         UUID uuid = p.getUniqueId();
 
         // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(uuid)) {
+        if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
 
@@ -156,7 +156,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onDestroy(BlockBreakEvent e) {
         // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
+        if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
             return;
         }
 
@@ -173,7 +173,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     @EventHandler
     public void onWalkOverTrap(PlayerInteractEvent e) {
         // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(e.getPlayer().getUniqueId())) {
+        if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
             return;
         }
 
@@ -228,7 +228,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         UUID uuid = p.getUniqueId();
 
         // Prevent using in lobby
-        if (!InCombat.hasPlayerSpawned(uuid)) {
+        if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
 

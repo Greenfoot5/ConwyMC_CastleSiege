@@ -1,22 +1,15 @@
 package me.huntifi.castlesiege.Thunderstone;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
-import me.huntifi.castlesiege.tags.NametagsEvent;
 //import me.huntifi.castlesiege.teams.PlayerTeam;
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
+
 
 public class ThunderstoneJoin implements Listener {
 
@@ -32,7 +25,6 @@ public class ThunderstoneJoin implements Listener {
 			/*if (PlayerTeam.thunderstoneGuardsTeamSize() < PlayerTeam.cloudcrawlersTeamSize()) {
 
 					PlayerTeam.setPlayerTeam(p, 2);
-					LobbyPlayer.addPlayer(p);
 					Location loc = new Location(Bukkit.getServer().getWorld("Thunderstone"), -187, 202, 106, -90, 2);
 					p.teleport(loc);
 					p.getInventory().clear();
@@ -61,7 +53,6 @@ public class ThunderstoneJoin implements Listener {
 				PlayerTeam.setPlayerTeam(p, 1);
 
 				Location loc = new Location(Bukkit.getServer().getWorld("Thunderstone"), -191, 202, 159, -90, 1);
-				LobbyPlayer.addPlayer(p);
 				p.teleport(loc);
 				p.getInventory().clear();
 				p.sendMessage("You joined" + ChatColor.DARK_AQUA + " Cloudcrawlers");

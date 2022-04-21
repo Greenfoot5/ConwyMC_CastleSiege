@@ -188,7 +188,7 @@ public abstract class Kit implements Listener {
 
         assert player != null;
         // Kills the player if they have spawned this life, otherwise heal them
-        if (InCombat.hasPlayerSpawned(uuid)) {
+        if (!InCombat.isPlayerInLobby(uuid)) {
             player.setHealth(0);
         } else {
             player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());

@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.security;
 
+import me.huntifi.castlesiege.events.combat.InCombat;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -10,8 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
-
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 
 public class preventBlockOpening implements Listener {
 
@@ -31,7 +30,6 @@ public class preventBlockOpening implements Listener {
 				if (p.getGameMode() != GameMode.CREATIVE) {
 
 					event.setCancelled(true);
-					return;
 
 				}
 			}
@@ -279,7 +277,7 @@ public class preventBlockOpening implements Listener {
 
 				}
 
-				if (!LobbyPlayer.containsPlayer(p)) {
+				if (InCombat.isPlayerInLobby(p.getUniqueId())) {
 
 					event.setCancelled(false);
 				}

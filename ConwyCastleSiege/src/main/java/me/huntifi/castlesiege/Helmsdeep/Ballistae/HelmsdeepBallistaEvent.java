@@ -19,7 +19,6 @@ import org.bukkit.util.Vector;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -96,29 +95,24 @@ public class HelmsdeepBallistaEvent implements Listener {
 
 		Player p = e.getPlayer();
 
-		if (!LobbyPlayer.containsPlayer(p)) {
+		if (BallistaUser.containsKey(p)) {
 
-			if (BallistaUser.containsKey(p)) {
+			if (Ballista1Cooldown.canShoot) {
 
-					if (Ballista1Cooldown.canShoot) {
+				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "You shot the ballista!"));
 
-						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "You shot the ballista!"));
+				Location loc = p.getLocation();
+				loc.setY(p.getLocation().getY() + 3.0);
+				loc.setZ(p.getLocation().getZ() + 1.0);
 
-						Location loc = p.getLocation();
-						loc.setY(p.getLocation().getY() + 3.0);
-						loc.setZ(p.getLocation().getZ() + 1.0);
-						
-						Vector source = loc.getDirection().multiply(5);
-						
-						p.launchProjectile(Arrow.class).setVelocity(source);
-						Ballista1Cooldown.canShoot = false;
-						Ballista1Cooldown.Ballista1Timer(p);
+				Vector source = loc.getDirection().multiply(5);
 
-					} 
+				p.launchProjectile(Arrow.class).setVelocity(source);
+				Ballista1Cooldown.canShoot = false;
+				Ballista1Cooldown.Ballista1Timer(p);
 
-			} 
-
-		} 
+			}
+		}
 	}
 	
 	
@@ -127,16 +121,14 @@ public class HelmsdeepBallistaEvent implements Listener {
 
 		Player player = (Player) e.getEntity();
 
-			if (e.getDismounted() instanceof Minecart) {
+		if (e.getDismounted() instanceof Minecart) {
 
-				if (BallistaUser.containsKey(player)) {
-					
-					BallistaUser.remove(player);
-					
-				}
+			if (BallistaUser.containsKey(player)) {
+
+				BallistaUser.remove(player);
 
 			}
+
+		}
 	}
-	
-	
 }
