@@ -5,7 +5,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,7 +14,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Objects;
@@ -66,7 +67,35 @@ public class MapProtection implements Listener {
 	}
 
 	/**
-	 * Cancels event when entity damages armorstand, itemframe, or painting
+	 * Cancels event when player breaks item frame or painting
+	 * @param e The event called when breaking an item frame or painting
+	 */
+	@EventHandler
+	public void onHangingBreak(HangingBreakEvent e) {
+		if (e.getCause() == HangingBreakEvent.RemoveCause.ENTITY) {
+			e.setCancelled(true);
+		}
+	}
+
+	/**
+	 * Cancels event when player interacts with or item frame
+	 * Doesn't work for armor stand for some reason
+	 * @param e The event called when a player interacts with an entity
+	 */
+	@EventHandler
+	public void onInteractItemFrame(PlayerInteractEntityEvent e) {
+		// Allow interacting in creative mode
+		if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
+			return;
+		}
+
+		if (e.getRightClicked() instanceof ItemFrame) {
+			e.setCancelled(true);
+		}
+	}
+
+	/**
+	 * Cancels event when entity damages armor stand or item frame
 	 * @param e The event called when an entity is damaged
 	 */
 	@EventHandler
@@ -76,25 +105,24 @@ public class MapProtection implements Listener {
 			return;
 		}
 
-		if (e.getEntity() instanceof ArmorStand || e.getEntity() instanceof ItemFrame ||
-				e.getEntity() instanceof Painting) {
+		if (e.getEntity() instanceof ArmorStand || e.getEntity() instanceof ItemFrame) {
 			e.setCancelled(true);
 		}
 	}
 
 	/**
-	 * Cancels event when player interacts with armorstand, itemframe, or painting
+	 * Cancels event when player interacts with armor stand
+	 * Doesn't work for item frame for some reason
 	 * @param e The event called when a player interacts with an entity
 	 */
 	@EventHandler
-	public void onInteractAtEntity(PlayerInteractAtEntityEvent e) {
+	public void onInteractArmorStand(PlayerInteractAtEntityEvent e) {
 		// Allow interacting in creative mode
 		if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
 			return;
 		}
 
-		if (e.getRightClicked() instanceof ArmorStand || e.getRightClicked() instanceof ItemFrame ||
-				e.getRightClicked() instanceof Painting) {
+		if (e.getRightClicked() instanceof ArmorStand) {
 			e.setCancelled(true);
 		}
 	}

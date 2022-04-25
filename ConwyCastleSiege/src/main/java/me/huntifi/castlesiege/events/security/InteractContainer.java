@@ -25,9 +25,9 @@ public class InteractContainer implements Listener {
     public InteractContainer() {
         bannedBlocks = Arrays.asList(Material.ANVIL, Material.BELL, Material.CARTOGRAPHY_TABLE,
                 Material.CHIPPED_ANVIL, Material.CRAFTING_TABLE, Material.DAMAGED_ANVIL,
-                Material.DAYLIGHT_DETECTOR, Material.ENCHANTING_TABLE, Material.FLETCHING_TABLE,
-                Material.FLOWER_POT, Material.GRINDSTONE, Material.LOOM,
-                Material.SMITHING_TABLE, Material.STONECUTTER);
+                Material.DAYLIGHT_DETECTOR, Material.ENCHANTING_TABLE, Material.ENDER_CHEST,
+                Material.FLETCHING_TABLE, Material.FLOWER_POT, Material.GRINDSTONE,
+                Material.LOOM, Material.SMITHING_TABLE, Material.STONECUTTER);
     }
 
     /**
