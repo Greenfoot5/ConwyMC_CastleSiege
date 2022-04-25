@@ -139,30 +139,11 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
             Material block = e.getBlockPlaced().getType();
             if (block == Material.STONE_PRESSURE_PLATE) {
                 placeTrap(e, p);
-            } else if (block == Material.COBWEB) {
-                e.setCancelled(false);
             } else if (block == Material.OAK_PLANKS) {
                 placeWood(e);
             } else if (block == Material.COBBLESTONE) {
                 placeStone(e);
             }
-        }
-    }
-
-    /**
-     * Allow players to break cobwebs
-     * @param e The event called when breaking a block
-     */
-    @EventHandler (priority = EventPriority.HIGHEST)
-    public void onDestroy(BlockBreakEvent e) {
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
-            return;
-        }
-
-        Material block = e.getBlock().getType();
-        if (block == Material.COBWEB) {
-            e.getBlock().setType(Material.AIR);
         }
     }
 

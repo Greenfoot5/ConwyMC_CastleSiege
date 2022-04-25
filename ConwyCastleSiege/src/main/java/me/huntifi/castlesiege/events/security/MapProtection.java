@@ -1,0 +1,146 @@
+package me.huntifi.castlesiege.events.security;
+
+import me.huntifi.castlesiege.events.combat.InCombat;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.Painting;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.Objects;
+
+/**
+ * Prevents players from altering the map
+ */
+public class MapProtection implements Listener {
+
+	/**
+	 * Cancels event when player places block
+	 * @param e The event called when a player places a block
+	 */
+	@EventHandler (priority = EventPriority.LOWEST)
+	 public void onBlockPlace(BlockPlaceEvent e) {
+		// Allow building in creative mode
+		Player p = e.getPlayer();
+		if (p.getGameMode() == GameMode.CREATIVE) {
+			return;
+		}
+
+		// Allow placing ladders and cobwebs outside the lobby
+		if ((e.getBlock().getType() != Material.LADDER && e.getBlock().getType() != Material.COBWEB)
+				|| InCombat.isPlayerInLobby(p.getUniqueId())) {
+			e.setCancelled(true);
+		}
+	 }
+
+	/**
+	 * Cancels event when player destroys a block
+	 * @param e The event called when a player breaks a block
+	 */
+	@EventHandler (priority = EventPriority.LOWEST)
+	public void onBlockBreak(BlockBreakEvent e) {
+		// Allow breaking in creative mode
+		Player p = e.getPlayer();
+		if (p.getGameMode() == GameMode.CREATIVE) {
+			return;
+		}
+
+		// Allow breaking ladders and cobwebs outside the lobby
+		if ((e.getBlock().getType() != Material.LADDER && e.getBlock().getType() != Material.COBWEB)
+				|| InCombat.isPlayerInLobby(p.getUniqueId())) {
+			e.setCancelled(true);
+		} else {
+			e.getBlock().setType(Material.AIR);
+		}
+	}
+
+	/**
+	 * Cancels event when entity damages armorstand, itemframe, or painting
+	 * @param e The event called when an entity is damaged
+	 */
+	@EventHandler
+	public void onDamageEntity(EntityDamageByEntityEvent e) {
+		// Allow breaking in creative mode
+		if (e.getDamager() instanceof Player && ((Player) e.getDamager()).getGameMode() == GameMode.CREATIVE) {
+			return;
+		}
+
+		if (e.getEntity() instanceof ArmorStand || e.getEntity() instanceof ItemFrame ||
+				e.getEntity() instanceof Painting) {
+			e.setCancelled(true);
+		}
+	}
+
+	/**
+	 * Cancels event when player interacts with armorstand, itemframe, or painting
+	 * @param e The event called when a player interacts with an entity
+	 */
+	@EventHandler
+	public void onInteractAtEntity(PlayerInteractAtEntityEvent e) {
+		// Allow interacting in creative mode
+		if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
+			return;
+		}
+
+		if (e.getRightClicked() instanceof ArmorStand || e.getRightClicked() instanceof ItemFrame ||
+				e.getRightClicked() instanceof Painting) {
+			e.setCancelled(true);
+		}
+	}
+
+	/**
+	 * Cancels event when player puts out fire
+	 * @param e The event called when a player left clicks fire
+	 */
+	@EventHandler
+	public void onInteractFire(PlayerInteractEvent e) {
+		// Allow putting out in creative mode
+		Player p = e.getPlayer();
+		if (p.getGameMode() == GameMode.CREATIVE) {
+			return;
+		}
+
+		if (e.getAction() == Action.LEFT_CLICK_BLOCK &&
+				Objects.requireNonNull(e.getClickedBlock()).getType() == Material.FIRE) {
+			e.setCancelled(true);
+		}
+	}
+
+	/**
+	 * Cancels event when player tramples farmland
+	 * @param e The event called when a player tramples farmland
+	 */
+	@EventHandler
+	public void onTrample(PlayerInteractEvent e) {
+		// Allow trampling in creative mode
+		Player p = e.getPlayer();
+		if (p.getGameMode() == GameMode.CREATIVE) {
+			return;
+		}
+
+		if(e.getAction() == Action.PHYSICAL &&
+				Objects.requireNonNull(e.getClickedBlock()).getType() == Material.FARMLAND) {
+			e.setCancelled(true);
+		}
+	}
+
+	/**
+	 * Cancels event when TNT explodes
+	 * @param e The event called when TNT explodes
+	 */
+	@EventHandler
+	public void onExplode(EntityExplodeEvent e) {
+		e.setCancelled(true);
+	}
+}

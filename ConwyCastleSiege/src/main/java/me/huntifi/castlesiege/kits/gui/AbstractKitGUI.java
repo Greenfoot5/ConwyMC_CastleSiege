@@ -38,7 +38,6 @@ public abstract class AbstractKitGUI implements Listener {
         if (!e.getView().getTitle().equalsIgnoreCase(guiName)) {
             return;
         }
-        e.setCancelled(true); // TODO - Remove when general prevention is implemented
 
         // Make sure an actual item was clicked
         ItemStack clicked = e.getCurrentItem();

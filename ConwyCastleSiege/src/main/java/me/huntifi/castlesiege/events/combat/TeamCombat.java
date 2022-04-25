@@ -13,7 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 /**
  * Makes sure a player can't hurt a team member or their horse/boat
  */
-public class NoHurtTeam implements Listener {
+public class TeamCombat implements Listener {
 
 	/**
 	 * Player has attempted to attack a player

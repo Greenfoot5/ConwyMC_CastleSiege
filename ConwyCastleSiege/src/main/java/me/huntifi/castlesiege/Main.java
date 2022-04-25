@@ -24,6 +24,9 @@ import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.*;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.join.login;
+import me.huntifi.castlesiege.events.security.InteractContainer;
+import me.huntifi.castlesiege.events.security.InventoryProtection;
+import me.huntifi.castlesiege.events.security.MapProtection;
 import me.huntifi.castlesiege.flags.CaptureHandler;
 import me.huntifi.castlesiege.flags.Flag;
 import me.huntifi.castlesiege.kits.gui.*;
@@ -105,6 +108,11 @@ public class Main extends JavaPlugin implements Listener {
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
 
+                // Security
+                getServer().getPluginManager().registerEvents(new InteractContainer(), plugin);
+                getServer().getPluginManager().registerEvents(new InventoryProtection(), plugin);
+                getServer().getPluginManager().registerEvents(new MapProtection(), plugin);
+
                 // Kits
                 getServer().getPluginManager().registerEvents(new Archer(), plugin);
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
@@ -163,15 +171,8 @@ public class Main extends JavaPlugin implements Listener {
 
                 // OLD EVENTS
                 getServer().getPluginManager().registerEvents(new SessionMuteCommand(), plugin);
-                //getServer().getPluginManager().registerEvents(new HelmsdeepSecretDoor(), plugin);
                 //getServer().getPluginManager().registerEvents(new RegisterLevel(), plugin);
-                getServer().getPluginManager().registerEvents(new NoMoveInventory(), plugin);
-                getServer().getPluginManager().registerEvents(new NoTouchArmorstand(), plugin);
-                getServer().getPluginManager().registerEvents(new NoTouchPaintings(), plugin);
 
-                //getServer().getPluginManager().registerEvents(new KitsGUI_ThunderstoneGuard_Command(), plugin);
-                //getServer().getPluginManager().registerEvents(new KitsGUI_Cloudcrawlers_Command(), plugin);
-                //getServer().getPluginManager().registerEvents(new HelmsdeepCaveBoat(), plugin);
                 getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
                 getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
 
@@ -179,28 +180,17 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getPluginManager().registerEvents(new StatsSaving(), plugin);
                 //getServer().getPluginManager().registerEvents(new StatsLoading(), plugin);
 
-                //getServer().getPluginManager().registerEvents(new VotedKitsGUI_Command(), plugin);
-                //getServer().getPluginManager().registerEvents(new ClassicGui_Command(), plugin);
-                //getServer().getPluginManager().registerEvents(new KitGUI_Rohan_Command(), plugin);
-                //getServer().getPluginManager().registerEvents(new KitGUI_Isengard_Command(), plugin);
                 //getServer().getPluginManager().registerEvents(new newLogin(), plugin);
                 getServer().getPluginManager().registerEvents(new login(), plugin);
                 getServer().getPluginManager().registerEvents(new CustomFallDamage(), plugin);
-                getServer().getPluginManager().registerEvents(new preventBlockOpening(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new Herugrim(), plugin);
-                getServer().getPluginManager().registerEvents(new destroyBlocks(), plugin);
-                getServer().getPluginManager().registerEvents(new placeBlocks(), plugin);
-                getServer().getPluginManager().registerEvents(new wheat(), plugin);
-                getServer().getPluginManager().registerEvents(new NoPaintingDestroy(), plugin);
-                getServer().getPluginManager().registerEvents(new NoFireDestroy(), plugin);
-                getServer().getPluginManager().registerEvents(new NoLobbyCombat(), plugin);
+                getServer().getPluginManager().registerEvents(new LobbyCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new ambientDamage(), plugin);
                 getServer().getPluginManager().registerEvents(new voidOfLimits(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
-                getServer().getPluginManager().registerEvents(new DropItemSecurity(), plugin);
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
-                getServer().getPluginManager().registerEvents(new NoHurtTeam(), plugin);
+                getServer().getPluginManager().registerEvents(new TeamCombat(), plugin);
 
                 getServer().getPluginManager().registerEvents(new DeathmessageDisable(), plugin);
                 getServer().getPluginManager().registerEvents(new InCombat(), plugin);
@@ -224,9 +214,6 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateRightDoor(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepStorageDoor(), plugin);
                 //getServer().getPluginManager().registerEvents(new GreatHallExtraDoor(), plugin);
-
-                //getServer().getPluginManager().registerEvents(new LadderEvent(), plugin);
-                getServer().getPluginManager().registerEvents(new armorTakeOff(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateDestroyEvent(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallDestroyEvent(), plugin);
@@ -256,14 +243,8 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new VotesLoading(), plugin);
                 getServer().getPluginManager().registerEvents(new VotesUnloading(), plugin);
 
-                //getCommand("KitThunderstoneGuards").setExecutor(new KitsGUI_ThunderstoneGuard_Command());
-                //getCommand("KitCloudcrawlers").setExecutor(new KitsGUI_Cloudcrawlers_Command());
-                //getCommand("VoterKitGUI").setExecutor(new VotedKitsGUI_Command());
-                //getCommand("ClassicGUI").setExecutor(new ClassicGui_Command());
                 getCommand("togglerank").setExecutor(new togglerankCommand());
 
-                //getCommand("KitRohan").setExecutor(new KitGUI_Rohan_Command());
-                //getCommand("KitIsengard").setExecutor(new KitGUI_Isengard_Command());
                 getCommand("ping").setExecutor(new pingCommand());
 
                 getCommand("rules").setExecutor(new rulesCommand());
@@ -272,9 +253,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 getCommand("teams").setExecutor(new teamCommand());
 
-                //getCommand("Kit").setExecutor(new KitsCommand());
                 //getCommand("Mvp").setExecutor(new mvpCommand());
-                //getCommand("KitGUI").setExecutor(new KitGUIcommand());
                 //getCommand("Mystats").setExecutor(new MystatsCommand());
 
                 //getCommand("t").setExecutor(new TeamChat());

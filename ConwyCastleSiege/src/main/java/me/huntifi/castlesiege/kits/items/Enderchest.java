@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -25,11 +26,10 @@ public class Enderchest implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e){
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK &&
-				e.getClickedBlock().getType() == Material.ENDER_CHEST){
+				Objects.requireNonNull(e.getClickedBlock()).getType() == Material.ENDER_CHEST){
 			Player p = e.getPlayer();
 			UUID uuid = p.getUniqueId();
 
-			e.setCancelled(true);
 			Kit kit = Kit.equippedKits.get(uuid);
 			kit.refillItems(uuid);
 			p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
