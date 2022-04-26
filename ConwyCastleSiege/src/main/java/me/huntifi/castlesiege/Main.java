@@ -154,6 +154,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
                 Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
+                Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
                 // Kits
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
@@ -251,8 +252,6 @@ public class Main extends JavaPlugin implements Listener {
                 getCommand("rules").setExecutor(new rulesCommand());
 
                 getCommand("discord").setExecutor(new discordCommand());
-
-                getCommand("teams").setExecutor(new teamCommand());
 
                 //getCommand("Mvp").setExecutor(new mvpCommand());
                 //getCommand("Mystats").setExecutor(new MystatsCommand());

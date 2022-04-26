@@ -67,9 +67,6 @@ commands:
   Playerid:
     description: Returns the target player's UUID.
     usage: /Playerid
-  Teams:
-    description: Shows the size of both teams.
-    usage: /Teams
   Mvp:
     description: Switches teams.
     usage: /Mvp
@@ -127,6 +124,9 @@ commands:
   SaveMap:
     description: Saves any changes made to the current map
     usage: /savemap
+  Teams:
+    description: Shows the size and name of all teams on the current map
+    usage: /teams
 
   # Kits
   kit:
