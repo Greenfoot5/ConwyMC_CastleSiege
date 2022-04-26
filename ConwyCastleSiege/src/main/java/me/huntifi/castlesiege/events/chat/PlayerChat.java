@@ -1,39 +1,46 @@
 package me.huntifi.castlesiege.events.chat;
 
+import me.huntifi.castlesiege.commands.chat.TeamChat;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import me.huntifi.castlesiege.database.AsyncGetters;
-import me.huntifi.castlesiege.database.AsyncGetters.BooleanCallback;
 import me.huntifi.castlesiege.database.SQLGetter;
-import me.huntifi.castlesiege.commands.togglerankCommand;
 
 /**
- * Makes staff's text chat colour white
+ * Customises a player's chat message
  */
 public class PlayerChat implements Listener {
 
 	/**
-	 * Checks if the player is a staff member, and sets chat colour accordingly
+	 * Set message color to white for staff and gray otherwise
+	 * Send the message in a specific mode if applicable
+	 * @param e The event called when a player sends a message
 	 */
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
 
-		BooleanCallback callback = isStaff -> {
-			if (!togglerankCommand.rankers.contains(p) || isStaff) {
-				e.setFormat("%s:" + ChatColor.WHITE + " %s");
-			} else {
-				e.setFormat("%s:" + ChatColor.GRAY + " %s");
-			}
-		};
+		// Set message colour to white or gray
+		String staffRank = SQLGetter.getStaffRank(p.getUniqueId());
+		if (staffRank != null && !staffRank.equalsIgnoreCase("None") &&
+				!staffRank.equalsIgnoreCase("")) {
+			e.setMessage(ChatColor.WHITE + e.getMessage());
+		} else {
+			e.setMessage(ChatColor.GRAY + e.getMessage());
+		}
 
-		// NOTE - ChatMod is included in ChatMod+
-		AsyncGetters.performLookupRank(callback, "Admin, Moderator, Developer, ChatMod+".contains(SQLGetter.getStaffRank(p.getUniqueId())), p, true);
+		// Send message in team-chat
+		if (TeamChat.isTeamChatter(p.getUniqueId())) {
+			TeamChat.sendTeamMessage(e.getPlayer(), e.getMessage());
+			e.setCancelled(true);
+			return;
+		}
+
+		// Send regular message
+		e.setFormat("%s: %s");
 	}
 }
 

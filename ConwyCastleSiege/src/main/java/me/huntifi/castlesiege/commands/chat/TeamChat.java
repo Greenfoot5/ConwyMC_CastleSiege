@@ -10,14 +10,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.UUID;
 
 /**
- * Sends a message to all teammates
+ * Toggles team-chat and sends a message to all teammates
  */
 public class TeamChat implements CommandExecutor {
 
+	private static final Collection<UUID> teamChatters = new ArrayList<>();
+
 	/**
+	 * Toggle team-chat mode if no arguments are provided
 	 * Send the provided arguments as a chat message to all team members
 	 * @param sender Source of the command
 	 * @param cmd Command which was executed
@@ -27,35 +32,56 @@ public class TeamChat implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		// Prevent using from console
-		if (!(sender instanceof Player)) {
-			sender.sendMessage("Console can't say things in team-chat.");
-			return true;
-		}
-
-		// The command requires an actual message
-		if (args.length == 0) {
-			return false;
-		}
-
-		// Put the message together
 		Player p = (Player) sender;
-		Team t = MapController.getCurrentMap().getTeam(p.getUniqueId());
-		String m = p.getDisplayName() + ChatColor.DARK_AQUA + " TEAM: " + ChatColor.GRAY + String.join(" ", args);
 
-		// Send the message to all team members
-		for (Player q : Bukkit.getOnlinePlayers()) {
-			if (t.hasPlayer(q.getUniqueId())) {
-				q.sendMessage(m);
-			}
+		if (args.length == 0) {
+			toggleTeamChat(p);
+		} else {
+			sendTeamMessage(p, String.join(" ", args));
 		}
-
-
 
 		return true;
-
-
-
 	}
 
+	/**
+	 * Send a message to all teammates of a player
+	 * @param p The player that sends the message
+	 * @param m The message to send
+	 */
+	public static void sendTeamMessage(Player p, String m) {
+		Team t = MapController.getCurrentMap().getTeam(p.getUniqueId());
+		String s = p.getDisplayName() + ChatColor.DARK_AQUA + " TEAM: " + ChatColor.GRAY + m;
+
+		// Send the message to all team members
+		System.out.println(s);
+		for (Player q : Bukkit.getOnlinePlayers()) {
+			if (t.hasPlayer(q.getUniqueId())) {
+				q.sendMessage(s);
+			}
+		}
+	}
+
+	/**
+	 * Get the team-chat status of a player
+	 * @param uuid The unique id of the player
+	 * @return Whether the player is in team-chat mode
+	 */
+	public static boolean isTeamChatter(UUID uuid) {
+		return teamChatters.contains(uuid);
+	}
+
+	/**
+	 * Toggle the team-chat status for a player
+	 * @param p The player for whom to toggle team-chat
+	 */
+	private void toggleTeamChat(Player p) {
+		UUID uuid = p.getUniqueId();
+		if (teamChatters.contains(uuid)) {
+			teamChatters.remove(uuid);
+			p.sendMessage(ChatColor.DARK_AQUA + "You are no longer talking in team-chat!");
+		} else {
+			teamChatters.add(uuid);
+			p.sendMessage(ChatColor.DARK_AQUA + "You are now talking in team-chat!");
+		}
+	}
 }
