@@ -23,6 +23,7 @@ import me.huntifi.castlesiege.database.SQLStats;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.*;
 import me.huntifi.castlesiege.events.death.DeathEvent;
+import me.huntifi.castlesiege.events.death.VoidLocation;
 import me.huntifi.castlesiege.events.join.login;
 import me.huntifi.castlesiege.events.security.InteractContainer;
 import me.huntifi.castlesiege.events.security.InventoryProtection;
@@ -107,6 +108,16 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
+                getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
+                getServer().getPluginManager().registerEvents(new VoidLocation(), plugin);
+
+                // Combat
+                getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
+                getServer().getPluginManager().registerEvents(new FallDamage(), plugin);
+                getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
+                getServer().getPluginManager().registerEvents(new InCombat(), plugin);
+                getServer().getPluginManager().registerEvents(new LobbyCombat(), plugin);
+                getServer().getPluginManager().registerEvents(new TeamCombat(), plugin);
 
                 // Security
                 getServer().getPluginManager().registerEvents(new InteractContainer(), plugin);
@@ -173,27 +184,17 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new SessionMuteCommand(), plugin);
                 //getServer().getPluginManager().registerEvents(new RegisterLevel(), plugin);
 
-                getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
-                getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
-
                 //getServer().getPluginManager().registerEvents(new StatsMvpJoinevent(), plugin);
                 //getServer().getPluginManager().registerEvents(new StatsSaving(), plugin);
                 //getServer().getPluginManager().registerEvents(new StatsLoading(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new newLogin(), plugin);
                 getServer().getPluginManager().registerEvents(new login(), plugin);
-                getServer().getPluginManager().registerEvents(new CustomFallDamage(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new Herugrim(), plugin);
-                getServer().getPluginManager().registerEvents(new LobbyCombat(), plugin);
-                getServer().getPluginManager().registerEvents(new ambientDamage(), plugin);
-                getServer().getPluginManager().registerEvents(new voidOfLimits(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
-                getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
-                getServer().getPluginManager().registerEvents(new TeamCombat(), plugin);
 
                 getServer().getPluginManager().registerEvents(new DeathmessageDisable(), plugin);
-                getServer().getPluginManager().registerEvents(new InCombat(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new HelmsdeepJoin(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepLeave(), plugin);
