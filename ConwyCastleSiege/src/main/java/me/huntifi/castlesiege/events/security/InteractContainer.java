@@ -16,19 +16,12 @@ import java.util.Collection;
  */
 public class InteractContainer implements Listener {
 
-    private final Collection<Material> bannedBlocks;
-
-    /**
-     * Create a collection of blocks that are not instances of InventoryHolder
-     * and may not be interacted with
-     */
-    public InteractContainer() {
-        bannedBlocks = Arrays.asList(Material.ANVIL, Material.BELL, Material.CARTOGRAPHY_TABLE,
-                Material.CHIPPED_ANVIL, Material.CRAFTING_TABLE, Material.DAMAGED_ANVIL,
-                Material.DAYLIGHT_DETECTOR, Material.ENCHANTING_TABLE, Material.ENDER_CHEST,
-                Material.FLETCHING_TABLE, Material.FLOWER_POT, Material.GRINDSTONE,
-                Material.LOOM, Material.SMITHING_TABLE, Material.STONECUTTER);
-    }
+    // A collection of all blocks that cannot be interacted with
+    private static final Collection<Material> bannedBlocks = Arrays.asList(Material.ANVIL, Material.BELL, Material.CARTOGRAPHY_TABLE,
+            Material.CHIPPED_ANVIL, Material.CRAFTING_TABLE, Material.DAMAGED_ANVIL,
+            Material.DAYLIGHT_DETECTOR, Material.ENCHANTING_TABLE, Material.ENDER_CHEST,
+            Material.FLETCHING_TABLE, Material.FLOWER_POT, Material.GRINDSTONE,
+            Material.LOOM, Material.SMITHING_TABLE, Material.STONECUTTER);
 
     /**
      * Cancels event when player interacts inventory holder or other banned block
