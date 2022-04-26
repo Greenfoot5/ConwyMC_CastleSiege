@@ -12,8 +12,9 @@ import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
 import me.huntifi.castlesiege.commands.*;
-import me.huntifi.castlesiege.commands.message.MessageCommand;
-import me.huntifi.castlesiege.commands.message.ReplyCommand;
+import me.huntifi.castlesiege.commands.chat.MessageCommand;
+import me.huntifi.castlesiege.commands.chat.ReplyCommand;
+import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.staffCommands.*;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -155,6 +156,10 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
                 Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
+
+                // Chat
+                Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
+
                 // Kits
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
@@ -256,7 +261,6 @@ public class Main extends JavaPlugin implements Listener {
                 //getCommand("Mvp").setExecutor(new mvpCommand());
                 //getCommand("Mystats").setExecutor(new MystatsCommand());
 
-                //getCommand("t").setExecutor(new TeamChat());
                 getCommand("msg").setExecutor(new MessageCommand());
 
                 getCommand("r").setExecutor(new ReplyCommand());

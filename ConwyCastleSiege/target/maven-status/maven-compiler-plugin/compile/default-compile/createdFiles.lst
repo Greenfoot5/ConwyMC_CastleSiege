@@ -6,6 +6,7 @@ me\huntifi\castlesiege\events\combat\LobbyCombat.class
 me\huntifi\castlesiege\kits\kits\Warhound$1.class
 me\huntifi\castlesiege\kits\gui\UnlockedKitGUI.class
 me\huntifi\castlesiege\kits\gui\FreeKitGUI.class
+me\huntifi\castlesiege\commands\chat\MessageCommand.class
 me\huntifi\castlesiege\commands\KitCommand.class
 me\huntifi\castlesiege\events\combat\TeamCombat.class
 me\huntifi\castlesiege\kits\kits\Warhound.class
@@ -13,6 +14,7 @@ me\huntifi\castlesiege\events\death\DeathEvent$1.class
 me\huntifi\castlesiege\kits\kits\Ranger.class
 me\huntifi\castlesiege\events\security\InteractContainer.class
 me\huntifi\castlesiege\events\death\DeathEvent.class
+me\huntifi\castlesiege\commands\chat\ReplyCommand.class
 me\huntifi\castlesiege\kits\items\WoolHat.class
 me\huntifi\castlesiege\events\security\MapProtection.class
 me\huntifi\castlesiege\kits\gui\SelectorKitGUI.class
@@ -20,6 +22,7 @@ me\huntifi\castlesiege\kits\kits\Kit.class
 me\huntifi\castlesiege\kits\items\EquipmentSet.class
 me\huntifi\castlesiege\commands\SwitchCommand.class
 me\huntifi\castlesiege\kits\kits\Warhound$2.class
+me\huntifi\castlesiege\commands\chat\TeamChat.class
 me\huntifi\castlesiege\commands\TeamsCommand.class
 me\huntifi\castlesiege\events\combat\FallDamage.class
 me\huntifi\castlesiege\kits\gui\AbstractKitGUI.class

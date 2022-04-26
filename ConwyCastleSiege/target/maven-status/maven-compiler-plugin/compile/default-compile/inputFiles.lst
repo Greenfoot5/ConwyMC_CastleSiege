@@ -12,7 +12,6 @@ D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Helmsdeep\rams\Ma
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\kits\kits\Spearman.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\tags\NametagsEvent.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\stats\levels\RegisterLevel.java
-D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\message\ReplyCommand.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\staffCommands\UnsessionmuteCommand.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\flags\Flag.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Westtower.java
@@ -23,6 +22,7 @@ D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\events\join\stats
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\mvpCommand\HelmsdeepMVP.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagMethod.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\stats\StatsUpdater.java
+D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\chat\MessageCommand.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\kits\kits\Swordsman.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\database\MVPStats.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\maps\MapsList.java
@@ -41,7 +41,6 @@ D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\events\security\M
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\stats\MVP\MVPstats.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\animations\LonelyTowerFlag.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\animations\WestTower_Cloudcrawlers.java
-D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\message\MessageCommand.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Deathmessages\DeathmessageDisable.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\kits\kits\Ranger.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\SwitchCommand.java
@@ -58,6 +57,7 @@ D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\rulesCom
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\animations\Skyview_Cloudcrawlers.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Helmsdeep\Secrets\HelmsdeepSecretDoor.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\events\combat\ApplyRegeneration.java
+D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\TeamsCommand.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\kits\kits\FireArcher.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagName.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\database\SQLStats.java
@@ -73,6 +73,7 @@ D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\events\join\newLo
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\kits\kits\Crossbowman.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\mvpCommand\mvpCommand.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\events\join\stats\StatsSaving.java
+D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\chat\ReplyCommand.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\database\DatabaseKeepAliveEvent.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\events\join\login.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Lonelytower.java
@@ -83,9 +84,9 @@ D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Team
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Deathmessages\DeathscoresAsync.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\maps\WoolMapBlock.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagMessages.java
-D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\Teamchat\TeamChat.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\animations\Lonelytower_Cloudcrawlers.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Easttower.java
+D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\chat\TeamChat.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\maps\Gamemode.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\ReloadCommand.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\kits\kits\Shieldman.java
@@ -106,7 +107,6 @@ D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\maps\Team.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Helmsdeep\Gates\HelmsdeepMainGateBlocks.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\database\StatsStrings.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\stats\StatsEverything.java
-D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\teamCommand.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagDistance.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\animations\SkyviewTowerFlag.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\staffCommands\FlyCommand.java

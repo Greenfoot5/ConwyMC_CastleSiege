@@ -73,9 +73,6 @@ commands:
   Mystats:
     description: Opens a book that shows you your stats.
     usage: /Mystats
-  t:
-    description: Talk in team chat.
-    usage: /t
   s:
     description: Talk in staff chat.
     usage: /s
@@ -127,6 +124,14 @@ commands:
   Teams:
     description: Shows the size and name of all teams on the current map
     usage: /teams
+
+  # Chat
+  TeamChat:
+    description: Talk in team-chat
+    usage: /t <message>
+    aliases:
+      - team
+      - t
 
   # Kits
   kit:
