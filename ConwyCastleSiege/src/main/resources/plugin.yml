@@ -10,18 +10,6 @@ commands:
   fly:
     description: Staff command that enables flying.
     usage: /Fly
-  ping:
-    description: Shows your current ping!
-    usage: /Ping
-  discord:
-    description: Gives you the link to our discord!
-    usage: /Discord
-  rules:
-    description: Displays the rules!
-    usage: /Rules
-  maps:
-    description: Displays the map rotation!
-    usage: /Maps
   Gmc:
     description: Change your game mode to creative.
     usage: /Gmc
@@ -115,9 +103,6 @@ commands:
   SaveMap:
     description: Saves any changes made to the current map
     usage: /savemap
-  Teams:
-    description: Shows the size and name of all teams on the current map
-    usage: /teams
 
   # Chat
   Message:
@@ -139,6 +124,23 @@ commands:
     aliases:
       - team
       - t
+
+  # Info
+  Discord:
+    description: Gives the link to our discord
+    usage: /discord
+  Maps:
+    description: Shows all maps in rotation
+    usage: /maps
+  Ping:
+    description: Shows your current ping
+    usage: /ping
+  Rules:
+    description: Shows the rules
+    usage: /rules
+  Teams:
+    description: Shows the size and name of all teams on the current map
+    usage: /teams
 
   # Kits
   Kit:

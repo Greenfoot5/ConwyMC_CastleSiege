@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.commands;
+package me.huntifi.castlesiege.commands.info;
 
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
@@ -24,11 +24,10 @@ public class TeamsCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		Player p = (Player) sender;
 		Team[] teams = MapController.getCurrentMap().teams;
 
 		for (Team t : teams) {
-			p.sendMessage(String.format("%sTeam %s%s: %s%d",
+			sender.sendMessage(String.format("%sTeam %s%s: %s%d",
 					ChatColor.GREEN, t.primaryChatColor, t.name, ChatColor.WHITE, t.getTeamSize()));
 		}
 

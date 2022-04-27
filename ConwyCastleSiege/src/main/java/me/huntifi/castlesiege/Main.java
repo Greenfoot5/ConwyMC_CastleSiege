@@ -15,6 +15,7 @@ import me.huntifi.castlesiege.commands.*;
 import me.huntifi.castlesiege.commands.chat.PrivateMessage;
 import me.huntifi.castlesiege.commands.chat.ReplyMessage;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.commands.info.*;
 import me.huntifi.castlesiege.commands.staffCommands.*;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -156,12 +157,18 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
                 Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
-                Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
 
                 // Chat
                 Objects.requireNonNull(getCommand("Message")).setExecutor(new PrivateMessage());
                 Objects.requireNonNull(getCommand("Reply")).setExecutor(new ReplyMessage());
                 Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
+
+                // Info
+                Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
+                Objects.requireNonNull(getCommand("Maps")).setExecutor(new MapsCommand());
+                Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
+                Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
+                Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
 
                 // Kits
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
@@ -252,12 +259,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new VotesUnloading(), plugin);
 
                 getCommand("togglerank").setExecutor(new togglerankCommand());
-
-                getCommand("ping").setExecutor(new pingCommand());
-
-                getCommand("rules").setExecutor(new rulesCommand());
-
-                getCommand("discord").setExecutor(new discordCommand());
 
                 //getCommand("Mvp").setExecutor(new mvpCommand());
                 //getCommand("Mystats").setExecutor(new MystatsCommand());
