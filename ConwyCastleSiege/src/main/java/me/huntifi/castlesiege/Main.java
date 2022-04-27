@@ -12,8 +12,8 @@ import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
 import me.huntifi.castlesiege.commands.*;
-import me.huntifi.castlesiege.commands.chat.MessageCommand;
-import me.huntifi.castlesiege.commands.chat.ReplyCommand;
+import me.huntifi.castlesiege.commands.chat.PrivateMessage;
+import me.huntifi.castlesiege.commands.chat.ReplyMessage;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.staffCommands.*;
 import me.huntifi.castlesiege.data_types.Frame;
@@ -110,6 +110,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
+                getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
                 getServer().getPluginManager().registerEvents(new VoidLocation(), plugin);
 
                 // Combat
@@ -158,6 +159,8 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
 
                 // Chat
+                Objects.requireNonNull(getCommand("Message")).setExecutor(new PrivateMessage());
+                Objects.requireNonNull(getCommand("Reply")).setExecutor(new ReplyMessage());
                 Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
 
                 // Kits
@@ -198,7 +201,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new login(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new Herugrim(), plugin);
-                getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
 
                 getServer().getPluginManager().registerEvents(new DeathmessageDisable(), plugin);
 
@@ -227,7 +229,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new MVPstats(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new KitGUIcommand(), plugin);
-                getServer().getPluginManager().registerEvents(new MessageCommand(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepBallistaEvent(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new TwinbridgeFlag(), plugin);
@@ -260,10 +261,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 //getCommand("Mvp").setExecutor(new mvpCommand());
                 //getCommand("Mystats").setExecutor(new MystatsCommand());
-
-                getCommand("msg").setExecutor(new MessageCommand());
-
-                getCommand("r").setExecutor(new ReplyCommand());
 
                 //getCommand("maps").setExecutor(new MapsCommand());
                 getCommand("sui").setExecutor(new suicideCommand());
