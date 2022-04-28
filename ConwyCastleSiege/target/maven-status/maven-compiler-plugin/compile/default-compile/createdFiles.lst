@@ -1,5 +1,7 @@
 me\huntifi\castlesiege\kits\items\ItemCreator.class
 me\huntifi\castlesiege\kits\kits\Skirmisher.class
+me\huntifi\castlesiege\commands\info\TeamsCommand.class
+me\huntifi\castlesiege\commands\chat\PrivateMessage.class
 me\huntifi\castlesiege\kits\kits\Ranger$1.class
 me\huntifi\castlesiege\kits\kits\Shieldman.class
 me\huntifi\castlesiege\events\combat\LobbyCombat.class
@@ -12,6 +14,7 @@ me\huntifi\castlesiege\kits\kits\Warhound.class
 me\huntifi\castlesiege\events\death\DeathEvent$1.class
 me\huntifi\castlesiege\kits\kits\Ranger.class
 me\huntifi\castlesiege\events\security\InteractContainer.class
+me\huntifi\castlesiege\commands\info\PingCommand.class
 me\huntifi\castlesiege\events\death\DeathEvent.class
 me\huntifi\castlesiege\kits\items\WoolHat.class
 me\huntifi\castlesiege\events\security\MapProtection.class
@@ -20,8 +23,13 @@ me\huntifi\castlesiege\kits\kits\Kit.class
 me\huntifi\castlesiege\kits\items\EquipmentSet.class
 me\huntifi\castlesiege\commands\SwitchCommand.class
 me\huntifi\castlesiege\kits\kits\Warhound$2.class
+me\huntifi\castlesiege\commands\chat\ReplyMessage.class
+me\huntifi\castlesiege\commands\chat\TeamChat.class
+me\huntifi\castlesiege\commands\info\RulesCommand.class
 me\huntifi\castlesiege\events\combat\FallDamage.class
+me\huntifi\castlesiege\commands\info\DiscordCommand.class
 me\huntifi\castlesiege\kits\gui\AbstractKitGUI.class
+me\huntifi\castlesiege\commands\info\MapsCommand.class
 me\huntifi\castlesiege\kits\kits\Viking.class
 me\huntifi\castlesiege\kits\items\Enderchest.class
 me\huntifi\castlesiege\events\security\InventoryProtection.class

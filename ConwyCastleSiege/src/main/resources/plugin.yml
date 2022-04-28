@@ -10,18 +10,6 @@ commands:
   fly:
     description: Staff command that enables flying.
     usage: /Fly
-  ping:
-    description: Shows your current ping!
-    usage: /Ping
-  discord:
-    description: Gives you the link to our discord!
-    usage: /Discord
-  rules:
-    description: Displays the rules!
-    usage: /Rules
-  maps:
-    description: Displays the map rotation!
-    usage: /Maps
   Gmc:
     description: Change your game mode to creative.
     usage: /Gmc
@@ -67,27 +55,15 @@ commands:
   Playerid:
     description: Returns the target player's UUID.
     usage: /Playerid
-  Teams:
-    description: Shows the size of both teams.
-    usage: /Teams
   Mvp:
     description: Switches teams.
     usage: /Mvp
   Mystats:
     description: Opens a book that shows you your stats.
     usage: /Mystats
-  t:
-    description: Talk in team chat.
-    usage: /t
   s:
     description: Talk in staff chat.
     usage: /s
-  r:
-    description: Reply to a message.
-    usage: /r
-  msg:
-    description: Message a player!
-    usage: /r
   togglerank:
     description: Toggles the rank
     usage: /togglerank
@@ -128,64 +104,102 @@ commands:
     description: Saves any changes made to the current map
     usage: /savemap
 
+  # Chat
+  Message:
+    description: Privately message a player
+    usage: /msg <player> <message>
+    aliases:
+      - msg
+      - m
+      - whisper
+      - w
+  Reply:
+    description: Reply to the last player that sent you a private message
+    usage: /r <message>
+    aliases:
+      - r
+  TeamChat:
+    description: Talk in team-chat
+    usage: /t <message>
+    aliases:
+      - team
+      - t
+
+  # Info
+  Discord:
+    description: Gives the link to our discord
+    usage: /discord
+  Maps:
+    description: Shows all maps in rotation
+    usage: /maps
+  Ping:
+    description: Shows your current ping
+    usage: /ping
+  Rules:
+    description: Shows the rules
+    usage: /rules
+  Teams:
+    description: Shows the size and name of all teams on the current map
+    usage: /teams
+
   # Kits
-  kit:
+  Kit:
     description: Open the GUI for selecting kits
     usage: /kit <category>
-  archer:
+  Archer:
     description: Selects the archer kit
     usage: /archer
-  berserker:
+  Berserker:
     description: Selects the berserker kit
     usage: /berserker
-  cavalry:
+  Cavalry:
     description: Selects the cavalry kit
     usage: /cavalry
-  crossbowman:
+  Crossbowman:
     description: Selects the crossbowman kit
     usage: /crossbowman
-  engineer:
+  Engineer:
     description: Selects the engineer kit
     usage: /engineer
-  executioner:
+  Executioner:
     description: Selects the executioner kit
     usage: /executioner
-  firearcher:
+  FireArcher:
     description: Selects the firearcher kit
     usage: /firearcher
-  halberdier:
+  Halberdier:
     description: Selects the halberdier kit
     usage: /halberdier
-  ladderman:
+  Ladderman:
     description: Selects the ladderman kit
     usage: /ladderman
-  maceman:
+  Maceman:
     description: Selects the maceman kit
     usage: /maceman
-  medic:
+  Medic:
     description: Selects the medic kit
     usage: /medic
-  ranger:
+  Ranger:
     description: Selects the ranger kit
     usage: /ranger
-  scout:
+  Scout:
     description: Selects the scout kit
     usage: /scout
-  shieldman:
+  Shieldman:
     description: Selects the shieldman kit
     usage: /shieldman
-  skirmisher:
+  Skirmisher:
     description: Selects the skirmisher kit
     usage: /skirmisher
-  spearman:
+  Spearman:
     description: Selects the spearman kit
     usage: /spearman
-  swordsman:
+  Swordsman:
     description: Selects the swordsman kit
     usage: /swordsman
-  viking:
+  Viking:
     description: Selects the viking kit
     usage: /viking
-  warhound:
+  Warhound:
     description: Selects the warhound kit
     usage: /warhound

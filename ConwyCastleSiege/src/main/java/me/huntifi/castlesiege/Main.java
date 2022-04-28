@@ -12,8 +12,10 @@ import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
 import me.huntifi.castlesiege.commands.*;
-import me.huntifi.castlesiege.commands.message.MessageCommand;
-import me.huntifi.castlesiege.commands.message.ReplyCommand;
+import me.huntifi.castlesiege.commands.chat.PrivateMessage;
+import me.huntifi.castlesiege.commands.chat.ReplyMessage;
+import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.commands.info.*;
 import me.huntifi.castlesiege.commands.staffCommands.*;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -109,6 +111,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
+                getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
                 getServer().getPluginManager().registerEvents(new VoidLocation(), plugin);
 
                 // Combat
@@ -154,6 +157,19 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
                 Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
+
+                // Chat
+                Objects.requireNonNull(getCommand("Message")).setExecutor(new PrivateMessage());
+                Objects.requireNonNull(getCommand("Reply")).setExecutor(new ReplyMessage());
+                Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
+
+                // Info
+                Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
+                Objects.requireNonNull(getCommand("Maps")).setExecutor(new MapsCommand());
+                Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
+                Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
+                Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
+
                 // Kits
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
@@ -192,7 +208,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new login(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new Herugrim(), plugin);
-                getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
 
                 getServer().getPluginManager().registerEvents(new DeathmessageDisable(), plugin);
 
@@ -221,7 +236,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new MVPstats(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new KitGUIcommand(), plugin);
-                getServer().getPluginManager().registerEvents(new MessageCommand(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepBallistaEvent(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new TwinbridgeFlag(), plugin);
@@ -246,21 +260,8 @@ public class Main extends JavaPlugin implements Listener {
 
                 getCommand("togglerank").setExecutor(new togglerankCommand());
 
-                getCommand("ping").setExecutor(new pingCommand());
-
-                getCommand("rules").setExecutor(new rulesCommand());
-
-                getCommand("discord").setExecutor(new discordCommand());
-
-                getCommand("teams").setExecutor(new teamCommand());
-
                 //getCommand("Mvp").setExecutor(new mvpCommand());
                 //getCommand("Mystats").setExecutor(new MystatsCommand());
-
-                //getCommand("t").setExecutor(new TeamChat());
-                getCommand("msg").setExecutor(new MessageCommand());
-
-                getCommand("r").setExecutor(new ReplyCommand());
 
                 //getCommand("maps").setExecutor(new MapsCommand());
                 getCommand("sui").setExecutor(new suicideCommand());
