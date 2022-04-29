@@ -1,11 +1,11 @@
 package me.huntifi.castlesiege.events.security;
 
+import com.destroystokyo.paper.event.block.TNTPrimeEvent;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.Player;
+import org.bukkit.block.Block;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -14,6 +14,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -164,11 +165,11 @@ public class MapProtection implements Listener {
 	}
 
 	/**
-	 * Cancels event when TNT explodes
-	 * @param e The event called when TNT explodes
+	 * Stops tnt from being primed. Primed TNT will still explode
+	 * @param e Called when tnt is primed
 	 */
 	@EventHandler
-	public void onExplode(EntityExplodeEvent e) {
+	public void onTNTPrimed(TNTPrimeEvent e) {
 		e.setCancelled(true);
 	}
 }

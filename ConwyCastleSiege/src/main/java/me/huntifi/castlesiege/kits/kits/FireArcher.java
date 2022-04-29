@@ -299,29 +299,6 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
     }
 
     /**
-     * Remove fire from arrows when hitting tnt to prevent ignition
-     * @param e The event called when hitting tnt with an arrow
-     */
-    @EventHandler
-    public void onHitTnt(ProjectileHitEvent e) {
-        Entity a = e.getEntity();
-        Block b = e.getHitBlock();
-        if (a instanceof Arrow &&
-                b != null && b.getType() == Material.TNT) {
-            a.setFireTicks(0);
-        }
-    }
-
-    /**
-     * Prevent tnt from exploding - redundant?
-     * @param e The event called when tnt explodes
-     */
-    @EventHandler
-    public void onEntityExplode(EntityExplodeEvent e) {
-        e.setCancelled(true);
-    }
-
-    /**
      * Destroy a player's firepit when they die
      * @param e The event called when a player dies
      */
