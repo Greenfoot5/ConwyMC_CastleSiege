@@ -163,7 +163,7 @@ public class MapController implements CommandExecutor {
 
 				if (p != null) {
 					LevelingEvent.doLeveling();
-					MainStats.updateStats(p.getUniqueId(), p);
+					//MainStats.updateStats(p.getUniqueId(), p);
 				}
 			}
 			loadMap();
