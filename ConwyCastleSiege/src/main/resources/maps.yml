@@ -74,7 +74,7 @@ HelmsDeep:
     Attackers:
       name: "Uruk-hai"
       primary_color: "black"
-      secondary_color: "gray"
+      secondary_color: "dark_gray"
       lobby:
         spawn_point:
           x: 1745

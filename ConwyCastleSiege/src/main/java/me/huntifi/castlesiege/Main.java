@@ -389,12 +389,9 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private void sqlConnect() {
-        System.out.println("Creating SQL connection");
         SQL = new MySQL();
-        System.out.println("Created the MySQL class");
 
         try {
-            System.out.println("Connecting...");
             SQL.connect();
         } catch (ClassNotFoundException | SQLException e) {
             getLogger().warning("<!> Database is not connected! <!>");
@@ -729,6 +726,8 @@ public class Main extends JavaPlugin implements Listener {
                 colors.setSecond(ChatColor.GRAY);
                 break;
             case "dark_grey":
+            case "dark_gray":
+            case "darkgrey":
             case "darkgray":
                 colors.setFirst(Material.GRAY_WOOL);
                 colors.setSecond(ChatColor.DARK_GRAY);
