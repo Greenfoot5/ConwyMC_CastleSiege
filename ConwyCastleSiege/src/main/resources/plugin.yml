@@ -116,8 +116,7 @@ commands:
   Reply:
     description: Reply to the last player that sent you a private message
     usage: /r <message>
-    aliases:
-      - r
+    aliases: r
   TeamChat:
     description: Talk in team-chat
     usage: /t <message>
