@@ -1,7 +1,9 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.flags.Flag;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -88,7 +90,12 @@ public class Map {
         for (Team team : teams) {
             for (WoolMapBlock block : team.lobby.woolmap.woolMapBlocks) {
                 if (Objects.equals(block.flagName, flagName)) {
-                    block.blockLocation.getBlock().setType(getFlag(flagName).GetWoolMapBlock());
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            block.blockLocation.getBlock().setType(getFlag(flagName).GetWoolMapBlock());
+                        }
+                    }.runTask(Main.plugin);
                 }
             }
         }

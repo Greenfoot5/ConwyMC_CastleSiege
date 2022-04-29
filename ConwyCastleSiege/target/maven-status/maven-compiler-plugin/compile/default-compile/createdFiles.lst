@@ -110,6 +110,7 @@ me/huntifi/castlesiege/events/security/InventoryProtection.class
 me/huntifi/castlesiege/events/join/stats/StatsSaving.class
 me/huntifi/castlesiege/database/SQLGetter$2.class
 me/huntifi/castlesiege/Thunderstone/Flags/animations/EastTowerFlag.class
+me/huntifi/castlesiege/maps/Map$1.class
 me/huntifi/castlesiege/Helmsdeep/Secrets/HelmsdeepSecretDoor.class
 me/huntifi/castlesiege/Thunderstone/Rams/ThunderstoneRam.class
 me/huntifi/castlesiege/events/combat/TeamCombat.class

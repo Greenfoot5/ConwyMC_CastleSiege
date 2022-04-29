@@ -109,9 +109,9 @@ public class WallEvent implements Listener, Runnable {
 		// Check we're playing on Helms Deep
 		if(MapController.currentMapIs("HelmsDeep")) {
 			// Check the player is currently carrying the tnt
-			if (p.getUniqueId() == carrier) {
+			if (p.getUniqueId() == carrier && e.getClickedBlock() != null) {
 
-				if (Objects.requireNonNull(e.getClickedBlock()).getLocation().distance(PLACE_LOCATION) <= 5) {
+				if (e.getClickedBlock().getLocation().distance(PLACE_LOCATION) <= 5) {
 
 					// Reset stuff
 					WoolHat.setHead(p);
