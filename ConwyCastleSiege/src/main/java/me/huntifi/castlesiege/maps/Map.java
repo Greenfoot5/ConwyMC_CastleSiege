@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -16,6 +17,7 @@ public class Map {
     public String worldName;
     public Team[] teams;
     public Flag[] flags;
+    public Door[] doors;
     public Gamemode gamemode;
     public Tuple<Integer, Integer> duration = new Tuple<>(20, 0);
 

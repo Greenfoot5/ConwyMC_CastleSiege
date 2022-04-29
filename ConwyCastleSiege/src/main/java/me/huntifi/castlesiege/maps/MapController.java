@@ -4,6 +4,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -181,6 +182,11 @@ public class MapController implements CommandExecutor {
 			if (flag.region != null) {
 				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(currentMap.name()))))).addRegion(flag.region);
 			}
+		}
+
+		// Register doors
+		for (Door door : maps[mapIndex].doors) {
+			Main.plugin.getServer().getPluginManager().registerEvents(door, Main.plugin);
 		}
 
 		// Register the woolmap clicks

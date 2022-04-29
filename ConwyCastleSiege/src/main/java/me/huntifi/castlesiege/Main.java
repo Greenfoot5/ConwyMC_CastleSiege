@@ -30,17 +30,19 @@ import me.huntifi.castlesiege.events.join.login;
 import me.huntifi.castlesiege.events.security.InteractContainer;
 import me.huntifi.castlesiege.events.security.InventoryProtection;
 import me.huntifi.castlesiege.events.security.MapProtection;
-import me.huntifi.castlesiege.maps.objects.CaptureHandler;
-import me.huntifi.castlesiege.maps.objects.Flag;
-import me.huntifi.castlesiege.kits.gui.*;
+import me.huntifi.castlesiege.kits.gui.FreeKitGUI;
+import me.huntifi.castlesiege.kits.gui.SelectorKitGUI;
+import me.huntifi.castlesiege.kits.gui.UnlockedKitGUI;
 import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.kits.*;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
-import me.huntifi.castlesiege.security.*;
+import me.huntifi.castlesiege.maps.objects.CaptureHandler;
+import me.huntifi.castlesiege.maps.objects.Door;
+import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.security.Hunger;
 import me.huntifi.castlesiege.stats.MVP.MVPstats;
-import me.huntifi.castlesiege.tablist.Tablist;
 import me.huntifi.castlesiege.voting.GiveVoteCommand;
 import me.huntifi.castlesiege.voting.VoteListenerCommand;
 import me.huntifi.castlesiege.voting.VotesLoading;
@@ -69,11 +71,12 @@ public class Main extends JavaPlugin implements Listener {
     public static Plugin plugin;
     public static Main instance;
 
-    public Tablist tab;
+    //public Tablist tab;
     public static MySQL SQL;
 
     private YamlConfiguration mapsConfig;
     private YamlDocument flagsConfig;
+    private YamlDocument doorsConfig;
 
     @Override
     public void onEnable() {
@@ -413,6 +416,10 @@ public class Main extends JavaPlugin implements Listener {
         return this.flagsConfig;
     }
 
+    public YamlDocument getDoorsConfig() {
+        return this.doorsConfig;
+    }
+
     private void createConfigs() {
 
         // Setup the vector adapter
@@ -484,6 +491,14 @@ public class Main extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
+        // Load doors.yml with BoostedYAML
+        try {
+            doorsConfig = YamlDocument.create(new File(getDataFolder(), "doors.yml"),
+                    getClass().getResourceAsStream("doors.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // Load maps.yml with Spigot's yaml parser
         File mapsFile = new File(getDataFolder(), "maps.yml");
         if (!mapsFile.exists()) {
@@ -514,6 +529,8 @@ public class Main extends JavaPlugin implements Listener {
 
             // Flag Data
             loadFlags(mapPaths[i], map);
+            // Doors
+            loadDoors(mapPaths[i], map);
 
             // Team Data
             java.util.Map<String, Object> stringObjectTeam = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection(mapPaths[i] + ".teams")).getValues(false);
@@ -535,13 +552,7 @@ public class Main extends JavaPlugin implements Listener {
 
     private void loadFlags(String mapPath, Map map) {
         Route mapRoute = Route.from(mapPath);
-
-        Set<String> flagSet = getFlagsConfig().getSection(mapRoute).getRoutesAsStrings(false);
-        String[] flagPaths = new String[flagSet.size()];
-        int index = 0;
-        for (String str : flagSet) {
-            flagPaths[index++] = str;
-        }
+        String[] flagPaths = getPaths(getFlagsConfig(), mapRoute);
 
         map.flags = new Flag[flagPaths.length];
         for (int i = 0; i < flagPaths.length; i++) {
@@ -581,11 +592,7 @@ public class Main extends JavaPlugin implements Listener {
             if (getFlagsConfig().contains(captureRoute)) {
                 flag.animationAir = getFlagsConfig().getBoolean(flagRoute.add("animation_air"));
                 Route animationRoute = flagRoute.add("animation");
-                Set<String> animationSet = getFlagsConfig().getSection(animationRoute).getRoutesAsStrings(false);
-                String[] animationPaths = new String[animationSet.size()];
-                index = 0;
-                for (String str : animationSet)
-                    animationPaths[index++] = str;
+                String[] animationPaths = getPaths(getFlagsConfig(), animationRoute);
 
                 flag.animation = new Frame[animationPaths.length];
                 for (int j = 0; j < animationPaths.length; j++) {
@@ -660,6 +667,59 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         return woolMap;
+    }
+
+    private void loadDoors(String mapPath, Map map) {
+        Route mapRoute = Route.from(mapPath);
+        if (!getDoorsConfig().contains(mapRoute)) {
+            map.doors = new Door[0];
+            return;
+        }
+        String[] doorPaths = getPaths(getDoorsConfig(), mapRoute);
+
+        map.doors = new Door[doorPaths.length];
+        for (int i = 0; i < doorPaths.length; i++) {
+            // Create the flag
+            Route doorRoute = mapRoute.add(doorPaths[i]);
+            String flagName = getDoorsConfig().getString(doorRoute.add("flag"));
+            // Get the location at the centre of the object
+            //Location centre = getDoorsConfig().getAs(doorRoute.add("centre"), Vector.class).toLocation(Objects.requireNonNull(Bukkit.getWorld(map.worldName)));
+            Location centre = new Location(Bukkit.getWorld(map.worldName),
+                    getDoorsConfig().getInt(doorRoute.add("centre").add("x")),
+                    getDoorsConfig().getInt(doorRoute.add("centre").add("y")),
+                    getDoorsConfig().getInt(doorRoute.add("centre").add("z")));
+            // Fancy shit that makes the Tuple array of locations and materials
+            Route locationRoute = doorRoute.add("locations");
+            Route materialRoute = doorRoute.add("materials");
+            ArrayList<LinkedHashMap> doorVectors = (ArrayList<LinkedHashMap>) getDoorsConfig().get(locationRoute);
+            ArrayList<String> doorMaterials = (ArrayList<String>) getDoorsConfig().getStringList(materialRoute);
+            Tuple[] doorBlocks = new Tuple[doorVectors.size()];
+            for (int j = 0; j < doorVectors.size(); j++) {
+                try {
+                    doorBlocks[j] = new Tuple<>(new Vector(
+                            (int) doorVectors.get(j).get("x"),
+                            (int) doorVectors.get(j).get("y"),
+                            (int) doorVectors.get(j).get("z")),
+                            Material.getMaterial(doorMaterials.get(j)));
+                }
+                catch (NullPointerException e) {
+                    getLogger().warning("Missing material on " + doorPaths[i]);
+                }
+            }
+
+            Door door = new Door(flagName, centre, doorBlocks);
+            map.doors[i] = door;
+        }
+    }
+
+    private String[] getPaths(YamlDocument file, Route route) {
+        Set<String> set = file.getSection(route).getRoutesAsStrings(false);
+        String[] paths = new String[set.size()];
+        int index = 0;
+        for (String str : set) {
+            paths[index++] = str;
+        }
+        return paths;
     }
 
     private Location getLocationYawPitch(String locationPath, String worldName) {

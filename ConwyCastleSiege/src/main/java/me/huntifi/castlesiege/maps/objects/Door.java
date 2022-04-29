@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
@@ -21,15 +22,14 @@ public class Door implements Listener {
     private boolean open;
     private final String flagName;
     private final Location centre;
-    private final Tuple<Location, Material>[] doorBlocks;
+    private final Tuple<Vector, Material>[] doorBlocks;
 
-    public Door(String flagName, Location centre, Tuple<Location, Material>[] blocks) {
+    public Door(String flagName, Location centre, Tuple<Vector, Material>[] blocks) {
         open = false;
         this.flagName = flagName;
         this.centre = centre;
         doorBlocks = blocks;
     }
-
 
     @EventHandler
     public void onPressure(PlayerMoveEvent event) {
@@ -39,38 +39,28 @@ public class Door implements Listener {
         if (flag != null) {
 
             double distance = player.getLocation().distance(centre);
-
             if (player.getLocation().getBlock().getType().equals(Material.STONE_PRESSURE_PLATE) && distance <= 3) {
 
 				if (Objects.equals(flag.currentOwners, MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
-
 					if (!open) {
-
                         open = true;
-                        
-                        for (Tuple<Location, Material> tuple : doorBlocks) {
-                            tuple.getFirst().getBlock().setType(Material.AIR);
-                        }
 
+                        for (Tuple<Vector, Material> tuple : doorBlocks) {
+                            tuple.getFirst().toLocation(centre.getWorld()).getBlock().setType(Material.AIR);
+                        }
                         Objects.requireNonNull(centre.getWorld()).playSound(centre, Sound.BLOCK_WOODEN_DOOR_OPEN, 3, 1);
 
                         new BukkitRunnable() {
-
                             @Override
                             public void run() {
-
-                                for (Tuple<Location, Material> tuple : doorBlocks) {
-                                    tuple.getFirst().getBlock().setType(tuple.getSecond());
+                                for (Tuple<Vector, Material> tuple : doorBlocks) {
+                                    tuple.getFirst().toLocation(centre.getWorld()).getBlock().setType(tuple.getSecond());
                                 }
-
                                 Objects.requireNonNull(centre.getWorld()).playSound(centre, Sound.BLOCK_WOODEN_DOOR_OPEN, 3, 1);
-
                                 open = false;
                             }
-
                         }.runTaskLater(Main.plugin, 40);
                     }
-
 				} else {
 					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Your team does not control this door."));
 				}

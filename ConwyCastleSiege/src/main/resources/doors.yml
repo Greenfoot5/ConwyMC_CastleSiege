@@ -1,0 +1,43 @@
+##############
+# Helms Deep #
+##############
+
+HelmsDeep:
+  GreatHallExtraDoor:
+    # Name of the flag (must be exact)
+    flag: "Great Hall"
+    # Centre of the door
+    # Used to measure distance to the stone pressure plates,
+    # And plays the door sound
+    centre:
+      x: 996
+      y: 67
+      z: 964
+    # The locations of each of the blocks
+    locations:
+      - x: 996
+        y: 67
+        z: 964
+      - x: 996
+        y: 68
+        z: 964
+      - x: 996
+        y: 69
+        z: 964
+      - x: 996
+        y: 67
+        z: 963
+      - x: 996
+        y: 68
+        z: 963
+      - x: 996
+        y: 69
+        z: 963
+    # The material the block is (order matches with location)
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
