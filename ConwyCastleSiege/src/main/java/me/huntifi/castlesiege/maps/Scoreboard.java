@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.maps;
 
-import me.huntifi.castlesiege.flags.Flag;
+import me.huntifi.castlesiege.maps.objects.Flag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

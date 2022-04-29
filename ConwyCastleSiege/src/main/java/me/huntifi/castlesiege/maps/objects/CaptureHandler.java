@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.flags;
+package me.huntifi.castlesiege.maps.objects;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;

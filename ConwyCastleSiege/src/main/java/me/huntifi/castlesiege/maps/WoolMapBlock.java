@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.flags.Flag;
+import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;

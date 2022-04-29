@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.flags;
+package me.huntifi.castlesiege.maps.objects;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
