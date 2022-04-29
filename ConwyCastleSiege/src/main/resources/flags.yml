@@ -590,12 +590,12 @@ HelmsDeep:
     animation:
       0:
         ==: me.huntifi.castlesiege.data_types.Frame
-        primary_blocks:
+        secondary_blocks:
           - "==": Vector
             x: 1027
             y: 58
             z: 1000
-        air:
+        primary_blocks:
           - "==": Vector
             x: 1027
             y: 58
@@ -639,7 +639,7 @@ HelmsDeep:
             z: 999
           - "==": Vector
             x: 1027
-            y: 57
+            y: 56
             z: 1000
       2:
         ==: me.huntifi.castlesiege.data_types.Frame
@@ -672,7 +672,7 @@ HelmsDeep:
             z: 999
           - "==": Vector
             x: 1027
-            y: 56
+            y: 55
             z: 1000
       3:
         ==: me.huntifi.castlesiege.data_types.Frame
@@ -705,7 +705,7 @@ HelmsDeep:
             z: 999
           - "==": Vector
             x: 1027
-            y: 55
+            y: 54
             z: 1000
       4:
         ==: me.huntifi.castlesiege.data_types.Frame
@@ -1114,8 +1114,8 @@ HelmsDeep:
     name: "Great Hall"
     start_owners: "Rohan"
     scoreboard: 8
-    max_cap: 7
-    start_amount: 7
+    max_cap: 8
+    start_amount: 8
     progress_amount: 10
     spawn_point:
       x: 947
@@ -1176,10 +1176,6 @@ HelmsDeep:
             x: 968
             y: 78
             z: 994
-          - "==": Vector
-            x: 968
-            y: 78
-            z: 1006
         primary_blocks:
           - "==": Vector
             x: 968
@@ -1193,18 +1189,6 @@ HelmsDeep:
             x: 968
             y: 77
             z: 994
-          - "==": Vector
-            x: 968
-            y: 78
-            z: 1005
-          - "==": Vector
-            x: 968
-            y: 78
-            z: 1007
-          - "==": Vector
-            x: 968
-            y: 77
-            z: 1006
         air:
           - "==": Vector
             x: 968
@@ -1525,6 +1509,34 @@ HelmsDeep:
       6:
         ==: me.huntifi.castlesiege.data_types.Frame
         secondary_blocks:
+          - "==": Vector
+            x: 1022
+            y: 81
+            z: 1002
+          - "==": Vector
+            x: 1022
+            y: 80
+            z: 1002
+          - "==": Vector
+            x: 1022
+            y: 79
+            z: 1002
+          - "==": Vector
+            x: 1022
+            y: 78
+            z: 1002
+          - "==": Vector
+            x: 1022
+            y: 81
+            z: 998
+          - "==": Vector
+            x: 1022
+            y: 80
+            z: 998
+          - "==": Vector
+            x: 1022
+            y: 79
+            z: 998
           - "==": Vector
             x: 1022
             y: 78
