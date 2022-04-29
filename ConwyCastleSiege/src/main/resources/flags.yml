@@ -970,6 +970,7 @@ HelmsDeep:
             y: 151
             z: 1037
       7:
+        ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
           - "==": Vector
             x: 985
