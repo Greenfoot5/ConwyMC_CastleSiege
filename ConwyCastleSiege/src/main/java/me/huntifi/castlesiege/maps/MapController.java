@@ -239,14 +239,14 @@ public class MapController implements CommandExecutor {
 
 	/**
 	 * Checks if the current map has ended
-	 * @return If the map has currently ended
+	 * @return If all the flags belong to the same team
 	 */
 	public static Boolean hasMapEnded() {
-		// return false if all flags don't belong to the same team
 		String startingTeam = getCurrentMap().flags[0].currentOwners;
 		for (Flag flag : getCurrentMap().flags) {
-			if (startingTeam.equalsIgnoreCase(flag.currentOwners))
+			if (!startingTeam.equalsIgnoreCase(flag.currentOwners)) {
 				return false;
+			}
 		}
 		return true;
 	}
