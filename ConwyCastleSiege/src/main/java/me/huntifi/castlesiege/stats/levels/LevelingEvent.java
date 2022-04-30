@@ -1,13 +1,8 @@
 package me.huntifi.castlesiege.stats.levels;
 
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
-import me.huntifi.castlesiege.tags.NametagsEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 
-import java.util.UUID;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public class LevelingEvent {
 
@@ -40,7 +35,7 @@ public class LevelingEvent {
 
     public static void levelPlayer(Player player)
     {
-        UUID uuid = player.getUniqueId();
+        /*UUID uuid = player.getUniqueId();
         int oldLevel = StatsChanging.getLevel(uuid);
         int newLevel = getLevel(StatsChanging.getScore(uuid));
 
@@ -52,6 +47,6 @@ public class LevelingEvent {
             }
             StatsChanging.setLevel(uuid, 1);
             NametagsEvent.GiveNametag(player);
-        }
+        }*/
     }
 }

@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -220,12 +221,13 @@ public class Medic extends Kit implements Listener, CommandExecutor {
                 p.setFoodLevel(17);
                 p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 4));
 
-                // Send messages
+                // Send messages and award heal
                 if (q != null && !Objects.equals(p, q)) {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             NametagsEvent.color(q) + q.getName() + ChatColor.AQUA + "'s cake is healing you!"));
                     q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             ChatColor.AQUA + "Your cake is healing " + NametagsEvent.color(p) + p.getName()));
+                    UpdateStats.addHeal(q.getUniqueId());
                 } else {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             ChatColor.AQUA + "The cake is healing you!"));
@@ -285,6 +287,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
                      NametagsEvent.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                     ChatColor.AQUA + "You are healing " + NametagsEvent.color(r) + r.getName()));
+            UpdateStats.addHeal(p.getUniqueId());
         }
     }
 

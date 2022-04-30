@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.Helmsdeep.Gates;
 
 import java.util.ArrayList;
 
+import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,7 +21,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.sk89q.worldedit.WorldEditException;
 
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.structures.MakeStructure;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -60,7 +60,7 @@ public class HelmsdeepGreatHallDestroyEvent implements Listener {
 
 									GateHealth = GateHealth - 2;
 
-									MVPstats.addSupports(p.getUniqueId(), 0.5);  
+									UpdateStats.addSupports(p.getUniqueId(), 0.5);
 
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GRAY + "" + ChatColor.BOLD + "Gate Health: " + GateHealth));
 

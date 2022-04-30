@@ -99,7 +99,7 @@ public class PlayerData {
      * Add 1 point and coin per kill
      * Update the current kill streak
      */
-    public void addKills() {
+    public void addKill() {
         kills += 1;
         addScore(1);
         addCoins(1);
@@ -157,7 +157,7 @@ public class PlayerData {
      * Increase the player's heals by 1
      * Add 0.5 points and coins per heal
      */
-    public void addHeals() {
+    public void addHeal() {
         this.heals += 1;
         addScore(0.5);
         addCoins(0.5);
@@ -194,7 +194,7 @@ public class PlayerData {
      * Increase the player's assists by 1
      * Add 1 point and coin per assist
      */
-    public void addAssists() {
+    public void addAssist() {
         assists += 1;
         addScore(1);
         addCoins(1);
@@ -253,7 +253,7 @@ public class PlayerData {
     /**
      * Increase the player's secret count by 1
      */
-    public void addSecrets() {
+    public void addSecret() {
         secrets += 1;
     }
 
@@ -356,7 +356,7 @@ public class PlayerData {
      * Sets the coin multiplier
      * @param multiplier The multiplier to set
      */
-    public void setCoinMultiplier(double multiplier) {
+    public static void setCoinMultiplier(double multiplier) {
         coinMultiplier = multiplier;
     }
 }

@@ -23,7 +23,7 @@ public class ActiveData {
     }
 
     /**
-     * Remove a player for the active storage
+     * Remove a player from the active storage
      * @param uuid The unique ID of the player
      */
     public static void removePlayer(UUID uuid) {

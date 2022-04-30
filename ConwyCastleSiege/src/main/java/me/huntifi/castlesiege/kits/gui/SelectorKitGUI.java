@@ -45,6 +45,8 @@ public class SelectorKitGUI extends AbstractKitGUI {
             case "Shop":
             case "Rohan":
             case "Uruk-hai":
+            case "Thunderstone":
+            case "Cloud":
                 p.sendMessage(ChatColor.DARK_RED + "This feature is currently unavailable!");
                 break;
         }

@@ -1,24 +1,10 @@
 package me.huntifi.castlesiege.Thunderstone;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
-
-import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagRadius;
-import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagTeam;
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
-import me.huntifi.castlesiege.maps.MapController;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 
 public class TS_Woolmap implements Listener {
 	
@@ -27,7 +13,7 @@ public class TS_Woolmap implements Listener {
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 
-		Player p = e.getPlayer();
+		/*Player p = e.getPlayer();
 
 		UUID uuid = p.getUniqueId();
 
@@ -658,7 +644,7 @@ public class TS_Woolmap implements Listener {
 						}
 				}
 			}
-		}
+		}*/
 	}
 
 }

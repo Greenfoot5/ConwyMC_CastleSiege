@@ -4,6 +4,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import net.md_5.bungee.api.ChatMessageType;
@@ -260,6 +261,7 @@ public class Flag {
                 // Make sure they're on the capping team
                 if (MapController.getCurrentMap().getTeam(uuid).name.equals(currentOwners) == areOwnersCapping) {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+" + count + " flag-capping point(s)" + ChatColor.AQUA + " Flag: " + name));
+                    UpdateStats.addCaptures(player.getUniqueId(), count);
                 } else {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies are capturing the flag!"));
                 }

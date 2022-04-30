@@ -1,57 +1,44 @@
 package me.huntifi.castlesiege.commands.staffCommands;
 
+import me.huntifi.castlesiege.database.ActiveData;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
-
+/**
+ * Allows staff players to fly
+ */
 public class FlyCommand implements CommandExecutor {
-	
+
+	/**
+	 * Toggles flight for the player if they are staff
+	 * @param sender Source of the command
+	 * @param cmd Command which was executed
+	 * @param label Alias of the command which was used
+	 * @param args Passed command arguments
+	 * @return true
+	 */
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		Player p = (Player) sender;
+		String staffRank = ActiveData.getData(p.getUniqueId()).getStaffRank();
 
-		if(cmd.getName().equalsIgnoreCase("fly")) {
+		if ("AdminModeratorDeveloperChatMod+".contains(staffRank)) {
+			p.setFlying(!p.getAllowFlight());
+			p.setAllowFlight(!p.getAllowFlight());
 
-			if(sender instanceof Player) {
-
-				if (StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Moderator") 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Admin") 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod+") 
-						|| p.isOp() 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Developer")) {
-
-					if (p.getAllowFlight() == true) {
-						
-						p.setAllowFlight(false);
-						p.setFlying(false);
-						
-						p.sendMessage(ChatColor.DARK_GREEN + " Flying has been disabled for you!");
-						return true;
-
-					} else if (p.getAllowFlight() == false) {
-						
-						p.setAllowFlight(true);
-						p.setFlying(true);
-						
-						p.sendMessage(ChatColor.DARK_GREEN + " Flying has been enabled for you, enjoy your flight!");
-
-
-					}
-
-				} else {
-					
-					p.sendMessage(ChatColor.DARK_RED + "You are not permitted to use this command!");
-					
-				}
-
+			if (p.getAllowFlight()) {
+				p.sendMessage(ChatColor.DARK_GREEN + " Flying has been enabled for you, enjoy your flight!");
+			} else {
+				p.sendMessage(ChatColor.DARK_GREEN + " Flying has been disabled for you!");
 			}
+		} else {
+			p.sendMessage(ChatColor.DARK_RED + "You are not permitted to use this command!");
 		}
+
 		return true;
-
 	}
-
 }

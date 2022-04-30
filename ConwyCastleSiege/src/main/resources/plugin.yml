@@ -67,10 +67,6 @@ commands:
   togglerank:
     description: Toggles the rank
     usage: /togglerank
-  sui:
-    description: commit die
-    usage: /sui
-    aliases: suicide
   CheckFlagList:
     description: check helmsdeep arraylists
     usage: /CheckFlagList
@@ -103,6 +99,10 @@ commands:
   SaveMap:
     description: Saves any changes made to the current map
     usage: /savemap
+  Suicide:
+    description: commit die
+    usage: /suicide
+    aliases: sui
 
   # Chat
   Message:

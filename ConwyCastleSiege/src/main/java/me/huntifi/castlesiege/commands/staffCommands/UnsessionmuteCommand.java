@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.staffCommands;
 
+import me.huntifi.castlesiege.database.ActiveData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -7,8 +8,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 
 public class UnsessionmuteCommand implements CommandExecutor {
 
@@ -22,11 +21,11 @@ public class UnsessionmuteCommand implements CommandExecutor {
 
 			if(sender instanceof Player) {
 
-				if (StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Moderator") 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Admin") 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod+") 
+				if (ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Moderator")
+						|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Admin")
+						|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("ChatMod+")
 						|| p.isOp() 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Developer")) {
+						|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Developer")) {
 
 					Player mutedPlayer = Bukkit.getPlayer(args[0]);
 

@@ -9,8 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.database.SQLGetter;
-
 public class VotesUnloading implements Listener {
 
 	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
@@ -37,7 +35,7 @@ public class VotesUnloading implements Listener {
 
 			if (VotesLoading.PlayerVotes.containsKey(uuid)) {
 
-				SQLGetter.setVotes(uuid, VotesLoading.PlayerVotes.get(uuid));
+				//SQLGetter.setVotes(uuid, VotesLoading.PlayerVotes.get(uuid));
 				VotesLoading.PlayerVotes.remove(uuid);  
 
 			}

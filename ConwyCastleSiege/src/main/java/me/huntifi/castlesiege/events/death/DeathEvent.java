@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.death;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
@@ -8,6 +9,7 @@ import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -31,7 +33,7 @@ public class DeathEvent implements Listener {
             team.lobby.spawnPoint.setWorld(Bukkit.getWorld(MapController.getCurrentMap().worldName));
         }
 
-        //MVPstats.addDeaths(player.getUniqueId(), 1);
+        UpdateStats.addDeaths(player.getUniqueId(), 1);
         event.setRespawnLocation(team.lobby.spawnPoint);
         player.teleport(team.lobby.spawnPoint);
 
@@ -54,5 +56,14 @@ public class DeathEvent implements Listener {
             }
 
         }.runTaskLater(Main.plugin, 10);
+    }
+
+    /**
+     * Disable vanilla death messages
+     * @param e The event called when a player dies
+     */
+    @EventHandler
+    public void onDeathMessage(PlayerDeathEvent e) {
+        e.setDeathMessage(null);
     }
 }

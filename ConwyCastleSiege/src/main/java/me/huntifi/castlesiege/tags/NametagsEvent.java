@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.tags;
 
 import com.nametagedit.plugin.NametagEdit;
 import me.huntifi.castlesiege.commands.togglerankCommand;
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -16,13 +16,13 @@ public class NametagsEvent {
             return;
         }
 
-        int level = StatsChanging.getLevel(p.getUniqueId());
+        int level = ActiveData.getData(p.getUniqueId()).getLevel();
         String tagColor = "";
         String tag = "";
         ChatColor nameColor = MapController.getCurrentMap().getTeam(p.getUniqueId()).primaryChatColor;
 
         // Get the player's staff tag
-        String staffRank = StatsChanging.getStaffRank(p.getUniqueId());
+        String staffRank = ActiveData.getData(p.getUniqueId()).getStaffRank();
         switch (staffRank.toLowerCase()) {
             case "chatmod":
                 tagColor = "§9 ";
@@ -55,7 +55,7 @@ public class NametagsEvent {
         }
 
         // Get the player's donator rank
-        String donorRank = StatsChanging.getRank(p.getUniqueId());
+        String donorRank = ActiveData.getData(p.getUniqueId()).getRank();
         switch (donorRank.toLowerCase()) {
             case "esquire":
                 tagColor = "§3 ";

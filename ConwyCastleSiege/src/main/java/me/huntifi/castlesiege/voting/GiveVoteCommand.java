@@ -1,14 +1,13 @@
 package me.huntifi.castlesiege.voting;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.ActiveData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 
 public class GiveVoteCommand implements CommandExecutor {
 
@@ -22,10 +21,10 @@ public class GiveVoteCommand implements CommandExecutor {
 
 			if (cmd.getName().equalsIgnoreCase("givevote")) {
 
-				if (StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Moderator") 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Admin") 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod+") 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Developer")) {
+				if (ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Moderator")
+						|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Admin")
+						|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("ChatMod+")
+						|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Developer")) {
 
 					Player target = Bukkit.getServer().getPlayer(args[0]);
 

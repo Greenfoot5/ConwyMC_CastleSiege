@@ -34,6 +34,8 @@ public class KitCommand implements CommandExecutor {
         selGUI = new HashMap<>();
         selGUI.put("Rohan", new SelectorKitGUI().setTeam("Rohan"));
         selGUI.put("Uruk-hai", new SelectorKitGUI().setTeam("Uruk-hai"));
+        selGUI.put("Thunderstone Guard", new SelectorKitGUI().setTeam("Thunderstone Guard"));
+        selGUI.put("Cloud Crawlers", new SelectorKitGUI().setTeam("Cloud Crawlers"));
     }
 
     /**

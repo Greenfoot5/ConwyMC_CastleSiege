@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import net.md_5.bungee.api.chat.BaseComponent;
 
 public class MystatsBook {
@@ -32,7 +31,7 @@ public class MystatsBook {
 	  DecimalFormat NumberFormat = new DecimalFormat("0");
 	  
 	  
-	  String KDR = currencyFormat.format((StatsChanging.getKills(p.getUniqueId()) / StatsChanging.getDeaths(p.getUniqueId())));
+	  /*String KDR = currencyFormat.format((StatsChanging.getKills(p.getUniqueId()) / StatsChanging.getDeaths(p.getUniqueId())));
 	  String Score = NumberFormat.format(StatsChanging.getScore(p.getUniqueId()));
 	  //String NextLvl = NumberFormat.format(LevelingSystem.getEXPLevel(p));
 	  String Kills = NumberFormat.format(StatsChanging.getKills(p.getUniqueId()));
@@ -61,7 +60,7 @@ public class MystatsBook {
 	  
 	  meta.setPage(1, (Page1a + "\n\n" + Page1b + "\n" + Page1c + "\n\n" + Page1d + "\n" + Page1e + "\n" + Page1f + "\n" + Page1g +  "\n" + PageKDR + "\n" + Page1ca + "\n" + Page1h + "\n" + Page1i + "\n" + Page1j+ "\n"));
 	
-	  meta.addPage(Page1k);
+	  meta.addPage(Page1k);*/
   
 	  ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
 	  book.setItemMeta(meta);

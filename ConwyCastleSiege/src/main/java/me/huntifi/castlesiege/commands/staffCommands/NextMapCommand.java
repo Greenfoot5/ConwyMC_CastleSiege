@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.commands.staffCommands;
 
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,9 +19,9 @@ public class NextMapCommand implements CommandExecutor {
 		if(sender instanceof Player) {
 			Player p = (Player) sender;
 
-			if (StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Moderator") ||
-					StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Admin") ||
-					StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Developer") ||
+			if (ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Moderator") ||
+					ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Admin") ||
+					ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Developer") ||
 					p.isOp() ) {
 
 				Bukkit.getServer().broadcastMessage(

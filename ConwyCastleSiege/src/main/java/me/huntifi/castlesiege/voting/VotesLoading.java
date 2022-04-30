@@ -10,8 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
-import me.huntifi.castlesiege.database.SQLGetter;
-
 public class VotesLoading implements Listener {
 	
 	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
@@ -39,7 +37,7 @@ public class VotesLoading implements Listener {
 
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			
-			if (!PlayerVotes.containsKey(uuid)) { PlayerVotes.put(uuid, SQLGetter.getVotes(uuid));  }
+			//if (!PlayerVotes.containsKey(uuid)) { PlayerVotes.put(uuid, SQLGetter.getVotes(uuid));  }
 			
 		});
 		

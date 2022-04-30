@@ -1,13 +1,12 @@
 package me.huntifi.castlesiege.commands.staffCommands;
 
+import me.huntifi.castlesiege.database.ActiveData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 
 public class KickCommand implements CommandExecutor {
 
@@ -19,11 +18,11 @@ public class KickCommand implements CommandExecutor {
 
 			if(sender instanceof Player) {
 
-				if (StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Moderator") 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Admin") 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod") 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod+") 
-						|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Developer")) {
+				if (ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Moderator")
+						|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Admin")
+						|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("ChatMod")
+						|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("ChatMod+")
+						|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Developer")) {
 
 					Player kickedPlayer = Bukkit.getPlayer(args[0]);
 					

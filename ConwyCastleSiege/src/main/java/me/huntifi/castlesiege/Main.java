@@ -10,7 +10,6 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
 import me.huntifi.castlesiege.commands.*;
 import me.huntifi.castlesiege.commands.chat.PrivateMessage;
 import me.huntifi.castlesiege.commands.chat.ReplyMessage;
@@ -20,14 +19,13 @@ import me.huntifi.castlesiege.commands.staffCommands.*;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MySQL;
-import me.huntifi.castlesiege.database.SQLStats;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.*;
-import me.huntifi.castlesiege.events.database.LoadData;
-import me.huntifi.castlesiege.events.database.StoreData;
+import me.huntifi.castlesiege.database.StoreData;
+import me.huntifi.castlesiege.events.connection.PlayerConnect;
+import me.huntifi.castlesiege.events.connection.PlayerDisconnect;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.death.VoidLocation;
-import me.huntifi.castlesiege.events.join.login;
 import me.huntifi.castlesiege.events.security.InteractContainer;
 import me.huntifi.castlesiege.events.security.InventoryProtection;
 import me.huntifi.castlesiege.events.security.MapProtection;
@@ -71,7 +69,6 @@ public class Main extends JavaPlugin implements Listener {
     public static Plugin plugin;
     public static Main instance;
 
-    //public Tablist tab;
     public static MySQL SQL;
 
     private YamlConfiguration mapsConfig;
@@ -111,14 +108,12 @@ public class Main extends JavaPlugin implements Listener {
                 sessionManager.registerHandler(CaptureHandler.FACTORY, null);
 
                 // Rewrite Events
-                getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
-                getServer().getPluginManager().registerEvents(new VoidLocation(), plugin);
 
-                // Database
-                getServer().getPluginManager().registerEvents(new LoadData(), plugin);
-                getServer().getPluginManager().registerEvents(new StoreData(), plugin);
+                // Connection
+                getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);
+                getServer().getPluginManager().registerEvents(new PlayerDisconnect(), plugin);
 
                 // Combat
                 getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
@@ -127,6 +122,10 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new InCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new LobbyCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new TeamCombat(), plugin);
+
+                // Death
+                getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
+                getServer().getPluginManager().registerEvents(new VoidLocation(), plugin);
 
                 // Security
                 getServer().getPluginManager().registerEvents(new InteractContainer(), plugin);
@@ -159,6 +158,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new SelectorKitGUI(), plugin);
 
                 // Rewrite Commands
+                Objects.requireNonNull(getCommand("Suicide")).setExecutor(new SuicideCommand());
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
@@ -210,16 +210,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new SessionMuteCommand(), plugin);
                 //getServer().getPluginManager().registerEvents(new RegisterLevel(), plugin);
 
-                //getServer().getPluginManager().registerEvents(new StatsMvpJoinevent(), plugin);
-                //getServer().getPluginManager().registerEvents(new StatsSaving(), plugin);
-                //getServer().getPluginManager().registerEvents(new StatsLoading(), plugin);
-
-                //getServer().getPluginManager().registerEvents(new newLogin(), plugin);
-                getServer().getPluginManager().registerEvents(new login(), plugin);
-
                 //getServer().getPluginManager().registerEvents(new Herugrim(), plugin);
-
-                getServer().getPluginManager().registerEvents(new DeathmessageDisable(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new HelmsdeepJoin(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepLeave(), plugin);
@@ -243,8 +234,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateDestroyEvent(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallDestroyEvent(), plugin);
-
-                //getServer().getPluginManager().registerEvents(new KitGUIcommand(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepBallistaEvent(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new TwinbridgeFlag(), plugin);
@@ -271,9 +260,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 //getCommand("Mvp").setExecutor(new mvpCommand());
                 //getCommand("Mystats").setExecutor(new MystatsCommand());
-
-                //getCommand("maps").setExecutor(new MapsCommand());
-                getCommand("sui").setExecutor(new suicideCommand());
 
                 //getCommand("CheckFlagList").setExecutor(new FlagListCommand());
                 getCommand("s").setExecutor(new StaffChat());
@@ -366,7 +352,7 @@ public class Main extends JavaPlugin implements Listener {
         WorldCreator worldCreator = new WorldCreator("HelmsDeep");
         worldCreator.generateStructures(false);
         worldCreator.createWorld();
-        new StoreData().storeAll();
+        StoreData.storeAll();
         try {
             SQL.disconnect();
         } catch (NullPointerException ex) {
@@ -408,7 +394,6 @@ public class Main extends JavaPlugin implements Listener {
 
         if (SQL.isConnected()) {
             getLogger().info("<!> Database is connected! <!>");
-            SQLStats.createTable();
             this.getServer().getPluginManager().registerEvents(this, this);
         }
     }

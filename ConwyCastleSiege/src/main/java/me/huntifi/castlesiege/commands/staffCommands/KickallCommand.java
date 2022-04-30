@@ -1,13 +1,12 @@
 package me.huntifi.castlesiege.commands.staffCommands;
 
+import me.huntifi.castlesiege.database.ActiveData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 
 public class KickallCommand implements CommandExecutor {
 
@@ -20,7 +19,7 @@ public class KickallCommand implements CommandExecutor {
 
 		if (cmd.getName().equalsIgnoreCase("kickall")) {
 
-			if (StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Admin")) {
+			if (ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Admin")) {
 
 					if(args.length == 0) {
 

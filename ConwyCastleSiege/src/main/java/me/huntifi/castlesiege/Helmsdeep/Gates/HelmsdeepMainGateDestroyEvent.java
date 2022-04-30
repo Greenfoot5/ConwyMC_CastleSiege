@@ -1,9 +1,10 @@
 package me.huntifi.castlesiege.Helmsdeep.Gates;
 
 import com.sk89q.worldedit.WorldEditException;
+import me.huntifi.castlesiege.database.MVPStats;
+import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.structures.MakeStructure;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -56,7 +57,7 @@ public class HelmsdeepMainGateDestroyEvent implements Listener {
 
 									GateHealth = GateHealth - 2;
 
-									Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> { MVPstats.addSupports(p.getUniqueId(), 0.5);  });
+									Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> { UpdateStats.addSupports(p.getUniqueId(), 0.5);  });
 
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GRAY + "" + ChatColor.BOLD + "Gate Health: " + GateHealth));
 

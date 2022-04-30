@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.Deathmessages.DeathscoresAsync;
+import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
@@ -150,6 +151,7 @@ public abstract class Kit implements Listener {
         if (whoHit != null) {
 
             if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name)) {
+                UpdateStats.addKill(whoHit.getUniqueId());
 
                 if (Objects.requireNonNull(whoWasHit.getLastDamageCause()).getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
                     doKillMessage(whoWasHit, whoHit, projectileDeathMessage, projectileKillMessage);
@@ -168,12 +170,11 @@ public abstract class Kit implements Listener {
      * @param killMessage The message sent to the killer
      */
     private void doKillMessage(Player whoWasHit, Player whoHit, String[] deathMessage, String[] killMessage) {
-        DeathscoresAsync.doStats(whoHit, whoWasHit);
-
         whoWasHit.sendMessage(deathMessage[0] + NametagsEvent.color(whoHit) + whoHit.getName()
                 + ChatColor.RESET + deathMessage[1]);
         whoHit.sendMessage(killMessage[0] + NametagsEvent.color(whoWasHit) + whoWasHit.getName()
-                + ChatColor.RESET + killMessage[1] + ChatColor.GRAY + " (" + DeathscoresAsync.returnKillstreak(whoHit) + ")");
+                + ChatColor.RESET + killMessage[1] + ChatColor.GRAY +
+                " (" + ActiveData.getData(whoHit.getUniqueId()).getKillStreak() + ")");
     }
 
     /**
@@ -185,6 +186,7 @@ public abstract class Kit implements Listener {
         Player player = Bukkit.getPlayer(uuid);
         setItems(uuid);
         equippedKits.put(uuid, this);
+        ActiveData.getData(uuid).setKit(this.name);
 
         assert player != null;
         // Kills the player if they have spawned this life, otherwise heal them

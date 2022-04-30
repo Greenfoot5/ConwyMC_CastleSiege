@@ -1,7 +1,8 @@
 package me.huntifi.castlesiege.commands;
 
+import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
@@ -29,7 +30,7 @@ public class SwitchCommand implements CommandExecutor {
 		Map map = MapController.getCurrentMap();
 
 		// If the player is a donator
-		if (!Objects.equals(StatsChanging.getRank(p.getUniqueId()), "None")) {
+		if (!Objects.equals(ActiveData.getData(p.getUniqueId()).getRank(), "None")) {
 			// If the player hasn't specified a team, swap to the next one
 			if (args.length == 0) {
 				// Switch to the next team
@@ -62,14 +63,14 @@ public class SwitchCommand implements CommandExecutor {
 			}
 
 			// Kill the player
+			// Note: 1 death added on player respawn
 			p.setHealth(0);
 			Team team = map.getTeam(p.getUniqueId());
-			if (SINGLE_DEATH_RANKS.contains(StatsChanging.getRank(p.getUniqueId()))) {
+			if (SINGLE_DEATH_RANKS.contains(ActiveData.getData(p.getUniqueId()).getRank())) {
 				p.sendMessage("You switched to " + team.primaryChatColor + team.name + ChatColor.DARK_AQUA + " (+1 death)");
-				StatsChanging.addDeaths(p.getUniqueId(), 1);
 			} else {
 				p.sendMessage("You switched to " + team.primaryChatColor + team.name + ChatColor.DARK_AQUA + " (+2 deaths)");
-				StatsChanging.addDeaths(p.getUniqueId(), 2);
+				UpdateStats.addDeaths(p.getUniqueId(), 1);
 			}
 			return true;
 		}
@@ -91,7 +92,7 @@ public class SwitchCommand implements CommandExecutor {
 			// The player should die when switching
 			p.setHealth(0);
 			p.sendMessage("You switched to " + smallestTeam.primaryChatColor + smallestTeam.name + " (+2 deaths)");
-			//StatsChanging.addDeaths(p.getUniqueId(), 2);
+			UpdateStats.addDeaths(p.getUniqueId(), 1); // Note: 1 death added on player respawn
 		} else {
 			// Heal the player
 			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());

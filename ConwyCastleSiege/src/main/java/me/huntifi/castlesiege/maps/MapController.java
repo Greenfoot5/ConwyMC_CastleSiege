@@ -3,10 +3,10 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.stats.levels.LevelingEvent;
@@ -319,7 +319,7 @@ public class MapController implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 		if (commandSender instanceof ConsoleCommandSender || (commandSender instanceof Player
-				&& "AdminDeveloperModerator".contains((StatsChanging.getStaffRank(((Player) commandSender).getUniqueId())))))
+				&& "AdminDeveloperModerator".contains((ActiveData.getData(((Player) commandSender).getUniqueId()).getStaffRank()))))
 		{
 			commandSender.sendMessage(ChatColor.DARK_AQUA + "Saving world: " + getCurrentMap().worldName);
 

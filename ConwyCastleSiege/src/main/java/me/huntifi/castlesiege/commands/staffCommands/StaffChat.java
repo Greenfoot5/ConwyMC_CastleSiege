@@ -1,13 +1,12 @@
 package me.huntifi.castlesiege.commands.staffCommands;
 
+import me.huntifi.castlesiege.database.ActiveData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 
 public class StaffChat implements CommandExecutor {
 
@@ -19,11 +18,11 @@ public class StaffChat implements CommandExecutor {
 
 		if (cmd.getName().equalsIgnoreCase("s")) {
 
-			if (StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Moderator") 
-					|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Admin") 
-					|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod") 
-					|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("ChatMod+") 
-					|| StatsChanging.getStaffRank(p.getUniqueId()).equalsIgnoreCase("Developer")) {
+			if (ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Moderator")
+					|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Admin")
+					|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("ChatMod")
+					|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("ChatMod+")
+					|| ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Developer")) {
 
 				if (!(sender instanceof Player)) {
 					sender.sendMessage(ChatColor.RED + "Console's can't say things in staffchat.");
@@ -50,31 +49,31 @@ public class StaffChat implements CommandExecutor {
 
 					for (Player online : Bukkit.getOnlinePlayers()) {
 
-						if (StatsChanging.getStaffRank(online.getUniqueId()).equalsIgnoreCase("ChatMod")) {
+						if (ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("ChatMod")) {
 
 							String str = p.getDisplayName();
 
 							online.sendMessage(str + ChatColor.AQUA + " STAFF: " + ChatColor.WHITE + message);
 
-						} else if (StatsChanging.getStaffRank(online.getUniqueId()).equalsIgnoreCase("Admin")) {
+						} else if (ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Admin")) {
 
 							String str = p.getDisplayName();
 
 							online.sendMessage(str + ChatColor.AQUA + " STAFF: " + ChatColor.WHITE + message);
 
-						} else if (StatsChanging.getStaffRank(online.getUniqueId()).equalsIgnoreCase("Moderator")) {
+						} else if (ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Moderator")) {
 
 							String str = p.getDisplayName();
 
 							online.sendMessage(str + ChatColor.AQUA + " STAFF: " + ChatColor.WHITE + message);
 
-						} else if (StatsChanging.getStaffRank(online.getUniqueId()).equalsIgnoreCase("ChatMod+")) {
+						} else if (ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("ChatMod+")) {
 
 							String str = p.getDisplayName();
 
 							online.sendMessage(str + ChatColor.AQUA + " STAFF: " + ChatColor.WHITE + message);
 							
-						} else if (StatsChanging.getStaffRank(online.getUniqueId()).equalsIgnoreCase("Developer")) {
+						} else if (ActiveData.getData(p.getUniqueId()).getStaffRank().equalsIgnoreCase("Developer")) {
 
 							String str = p.getDisplayName();
 
