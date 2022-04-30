@@ -29,8 +29,8 @@ public class WoolMap implements Listener {
 
 		if (target != null && target.getState() instanceof Sign) {
 			for (WoolMapBlock block : woolMapBlocks) {
-				if (MapController.getCurrentMap().getFlag(block.flagName) != null && !MapController.hasMapEnded()) {
-					if (target.getLocation().distanceSquared(block.signLocation) <= 1) {
+				if (MapController.getCurrentMap().getFlag(block.flagName) != null) {
+					if (target.getLocation().distanceSquared(block.signLocation) <= 1 && !MapController.hasMapEnded()) {
 						// Remove mount
 						if (player.isInsideVehicle()) {
 							Objects.requireNonNull(player.getVehicle()).remove();
