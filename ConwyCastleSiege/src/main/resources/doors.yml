@@ -210,4 +210,32 @@ HelmsDeep:
   StorageDoor:
     # This door doesn't have a flag and can be opened by anyone
     centre:
-      x:
+      x: 996
+      y: 67
+      z: 1037
+    locations:
+      - x: 996
+        y: 67
+        z: 1037
+      - x: 996
+        y: 68
+        z: 1037)
+      - x: 996
+        y: 69
+        z: 1037
+      - x: 996
+        y: 67
+        z: 1036
+      - x: 996
+        y: 68
+        z: 1036
+      - x: 996
+        y: 69
+        z: 1036
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
