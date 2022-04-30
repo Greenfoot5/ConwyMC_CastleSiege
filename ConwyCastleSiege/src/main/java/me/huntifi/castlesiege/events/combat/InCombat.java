@@ -97,7 +97,7 @@ public class InCombat implements Listener {
 	 * Returns true if the player has taken damage in the last 8s
  	 */
 	public static boolean isPlayerInCombat(UUID uuid) {
-		return inCombat.get(uuid) != null && inCombat.get(uuid) <= 0;
+		return inCombat.get(uuid) != null && inCombat.get(uuid) > 0;
 	}
 
 	/**
