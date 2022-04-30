@@ -155,13 +155,20 @@ Thunderstone:
           yaw: -90
           pitch: 2
         woolmap:
+          cloud_camp:
+            flag_name: "The Camp"
+            wool_position:
+              x: -171
+              y: 205
+              z: 110
+            sign_direction: west
           stair_hall:
             flag_name: "The Stair Hall"
             wool_position:
-              x: 282
-              y: 15
-              z: 955
-            sign_direction: south
+              x: -171
+              y: 202
+              z: 107
+            sign_direction: west
     Attackers:
       name: "Cloud Crawlers"
       primary_color: "cyan"
@@ -169,15 +176,34 @@ Thunderstone:
       lobby:
         spawn_point:
           x: -191
-          y: 202
+          y: 203
           z: 159
           yaw: -90
           pitch: 1
         woolmap:
+          cloud_camp:
+            flag_name: "The Camp"
+            wool_position:
+              x: -174
+              y: 205
+              z: 163
+            sign_direction: west
           stair_hall:
             flag_name: "The Stair Hall"
             wool_position:
-              x: 282
-              y: 15
-              z: 955
-            sign_direction: south
+              x: -174
+              y: 202
+              z: 160
+            sign_direction: west
+          skyview_tower:
+            flag_name: "Skyview Tower"
+            wool_position:
+              x: -174
+              y: 203
+              z: 158
+            sign_direction: west
+          # Lonely Tower - -174 201 162
+          # West Tower - -174 204 160
+          # East Tower - -174 201 157
+          # Shifted Tower - - 174 204 156
+          # Twin Bridge - -174 204 154

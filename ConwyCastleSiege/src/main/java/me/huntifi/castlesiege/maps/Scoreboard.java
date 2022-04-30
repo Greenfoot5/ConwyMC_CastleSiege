@@ -14,6 +14,17 @@ import java.util.Objects;
  */
 public class Scoreboard implements Runnable {
 
+	/**
+	 * Clears the scoreboard
+	 */
+	public static void clearScoreboard() {
+		for (Player online : Bukkit.getOnlinePlayers()) {
+			for (Objective objective : online.getScoreboard().getObjectives()) {
+				objective.unregister();
+			}
+		}
+	}
+
 	public static String getEntryFromScore(Objective o, int score) {
 		if(o == null) return null;
 		if(!hasScoreTaken(o, score)) return null;
@@ -40,17 +51,20 @@ public class Scoreboard implements Runnable {
 
 	@Override
 	public void run() {
-
 		for (Player online : Bukkit.getOnlinePlayers()) {
-			// Per player scoreboard, nor normally needed, but we're displaying their display name
-			if (online.getScoreboard().equals(Objects.requireNonNull(Bukkit.getServer().getScoreboardManager()).getMainScoreboard())) {
+			// If the player is seeing the default scoreboard, we want to give them a new one
+			if (online.getScoreboard() == Objects.requireNonNull(Bukkit.getServer().getScoreboardManager()).getMainScoreboard()) {
 				online.setScoreboard(Bukkit.getServer().getScoreboardManager().getNewScoreboard());
 			}
 
+			// Gets the scoreboard displayed to the player
 			org.bukkit.scoreboard.Scoreboard score = online.getScoreboard();
 
-			//Per-player objectives, even though it doesn't matter what it's called since we're using per-player scoreboards.
+			// Title/display name of the scoreboard
 			String displayName = ChatColor.RED + "" + ChatColor.BOLD + "Castle Siege";
+
+			// If there isn't an object by the name of the player on the scoreboard,
+			// Create a new one
 			Objective objective;
 			if (score.getObjective(online.getName()) == null) {
 				objective = score.registerNewObjective(online.getName(), "dummy", displayName);
@@ -59,7 +73,7 @@ public class Scoreboard implements Runnable {
 			}
 
 			assert objective != null;
-			objective.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + displayName);
+			objective.setDisplayName(displayName);
 			replaceScore(objective, 15, ChatColor.DARK_GRAY + "");
 			replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + "Map: " + ChatColor.RESET + ChatColor.GREEN + MapController.getCurrentMap().name);
 

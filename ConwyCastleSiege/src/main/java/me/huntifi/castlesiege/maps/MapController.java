@@ -177,6 +177,9 @@ public class MapController implements CommandExecutor {
 	 * Loads the current map
 	 */
 	public static void loadMap() {
+		// Clear the scoreboard
+		Scoreboard.clearScoreboard();
+
 		// Register the flag regions
 		for (Flag flag : maps[mapIndex].flags) {
 			if (flag.region != null) {
