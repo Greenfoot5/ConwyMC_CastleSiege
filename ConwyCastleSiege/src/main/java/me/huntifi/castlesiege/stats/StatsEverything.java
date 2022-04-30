@@ -11,7 +11,6 @@ import me.huntifi.castlesiege.database.SQLGetter;
 import me.huntifi.castlesiege.database.SQLStats;
 import me.huntifi.castlesiege.events.join.stats.StatsChanging;
 import me.huntifi.castlesiege.events.join.stats.StatsLoading;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 
 public class StatsEverything {
@@ -74,7 +73,7 @@ public class StatsEverything {
 		
 		UUID uuid = p.getUniqueId();
 		
-		double kills = MVPstats.getKills(uuid);
+		/*double kills = MVPstats.getKills(uuid);
 		double heals = MVPstats.getHeals(uuid);
 		double deaths = MVPstats.getDeaths(uuid);
 		double assists = MVPstats.getAssists(uuid);
@@ -83,7 +82,8 @@ public class StatsEverything {
 		
 		double totalScore = (kills + assists + captures + (heals/2) + (supports/6) - deaths);
 		
-		return totalScore;
+		return totalScore;*/
+		return 0;
 		
 	}
 
@@ -91,7 +91,7 @@ public class StatsEverything {
 		
 		UUID uuid = p.getUniqueId();
 
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+		/*Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			
 			SQLStats.addKills(uuid, MVPstats.getKills(uuid));
 			SQLStats.addCaptures(uuid, MVPstats.getCaptures(uuid));
@@ -114,7 +114,7 @@ public class StatsEverything {
 				
 			});
 			
-		});
+		});*/
 
 	}
 
@@ -137,13 +137,13 @@ public class StatsEverything {
 
 	public static void UpdateMainListsWithMvpStats(UUID uuid) {
 
-		StatsChanging.addScore(uuid, MVPstats.getScore(uuid));
+		/*StatsChanging.addScore(uuid, MVPstats.getScore(uuid));
 		StatsChanging.addKills(uuid, MVPstats.getKills(uuid));
 		StatsChanging.addCaptures(uuid, MVPstats.getCaptures(uuid));
 		StatsChanging.addAssists(uuid, MVPstats.getAssists(uuid));
 		StatsChanging.addDeaths(uuid, MVPstats.getDeaths(uuid));
 		StatsChanging.addHeals(uuid, MVPstats.getHeals(uuid));
-		StatsChanging.addSupports(uuid, MVPstats.getSupports(uuid));
+		StatsChanging.addSupports(uuid, MVPstats.getSupports(uuid));*/
 
 	}
 	

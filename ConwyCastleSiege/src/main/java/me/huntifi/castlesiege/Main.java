@@ -19,11 +19,12 @@ import me.huntifi.castlesiege.commands.info.*;
 import me.huntifi.castlesiege.commands.staffCommands.*;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.database.DatabaseKeepAliveEvent;
 import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.SQLStats;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.*;
+import me.huntifi.castlesiege.events.database.LoadData;
+import me.huntifi.castlesiege.events.database.StoreData;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.death.VoidLocation;
 import me.huntifi.castlesiege.events.join.login;
@@ -42,7 +43,6 @@ import me.huntifi.castlesiege.maps.objects.CaptureHandler;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.security.Hunger;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.voting.GiveVoteCommand;
 import me.huntifi.castlesiege.voting.VoteListenerCommand;
 import me.huntifi.castlesiege.voting.VotesLoading;
@@ -64,7 +64,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
-
 
 public class Main extends JavaPlugin implements Listener {
 
@@ -115,6 +114,10 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
                 getServer().getPluginManager().registerEvents(new VoidLocation(), plugin);
+
+                // Database
+                getServer().getPluginManager().registerEvents(new LoadData(), plugin);
+                getServer().getPluginManager().registerEvents(new StoreData(), plugin);
 
                 // Combat
                 getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
@@ -235,7 +238,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateDestroyEvent(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallDestroyEvent(), plugin);
-                getServer().getPluginManager().registerEvents(new MVPstats(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new KitGUIcommand(), plugin);
                 //getServer().getPluginManager().registerEvents(new HelmsdeepBallistaEvent(), plugin);
@@ -294,7 +296,6 @@ public class Main extends JavaPlugin implements Listener {
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
                 //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new HelmsdeepMVPupdater(), 0, 20);
                 //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneMVPupdater(), 0, 20);
-                Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new DatabaseKeepAliveEvent(), 5900, 5900);
                 //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
 
                 //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MainGateReadyRam(), 200, 60);
@@ -361,6 +362,7 @@ public class Main extends JavaPlugin implements Listener {
         WorldCreator worldCreator = new WorldCreator("HelmsDeep");
         worldCreator.generateStructures(false);
         worldCreator.createWorld();
+        new StoreData().storeAll();
         try {
             SQL.disconnect();
         } catch (NullPointerException ex) {
