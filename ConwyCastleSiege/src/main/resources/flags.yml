@@ -1619,13 +1619,13 @@ Thunderstone:
     capture_area:
       type: "cuboid"
       min:
-        x: 984
-        y: 34
-        z: 1137
+        x: 175
+        y: 65
+        z: 73
       max:
-        x: 992
-        y: 40
-        z: 1145
+        x: 163
+        y: 69
+        z: 62
     animation_air: false
     animation:
       0:
@@ -1785,29 +1785,30 @@ Thunderstone:
   skyview:
     name: "Skyview Tower"
     start_owners: "Thunderstone Guard"
-    max_cap: 15
-    start_amount: 15
+    max_cap: 19
+    start_amount: 19
     progress_amount: 10
     scoreboard: 5
     spawn_point:
-      x: 182
-      y: 66
-      z: 67
+      x: 166
+      y: 154
+      z: 68
     capture_area:
       type: "cuboid"
       min:
-        x: 984
-        y: 34
-        z: 1137
+        x: 161
+        y: 153
+        z: 64
       max:
-        x: 992
-        y: 40
-        z: 1145
+        x: 177
+        y: 158
+        z: 80
     animation_air: false
     animation:
       0:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
+          # Main Flag
           - "==": Vector
             x: 169
             y: 158
@@ -1820,8 +1821,266 @@ Thunderstone:
             x: 168
             y: 159
             z: 78
+          # Decorations
+          - "==": Vector
+            x: 158
+            y: 122
+            z: 56
+          - "==": Vector
+            x: 158
+            y: 122
+            z: 55
+          - "==": Vector
+            x: 158
+            y: 122
+            z: 54
+          - "==": Vector
+            x: 157
+            y: 121
+            z: 53
+          - "==": Vector
+            x: 156
+            y: 120
+            z: 52
         secondary_blocks:
+          # Main Flag
           - "==": Vector
             x: 169
             y: 159
             z: 78
+          # Decorations
+          - "==": Vector
+            x: 158
+            y: 121
+            z: 56
+          - "==": Vector
+            x: 158
+            y: 121
+            z: 55
+          - "==": Vector
+            x: 158
+            y: 121
+            z: 54
+          - "==": Vector
+            x: 157
+            y: 120
+            z: 53
+          - "==": Vector
+            x: 156
+            y: 119
+            z: 52
+  east_tower:
+    name: "East Tower"
+    start_owners: "Thunderstone Guard"
+    max_cap: 9
+    start_amount: 9
+    progress_amount: 10
+    scoreboard: 5
+    spawn_point:
+      x: 182
+      y: 92
+      z: 83
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 178
+        y: 103
+        z: 59
+      max:
+        x: 189
+        y: 107
+        z: 48
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 183
+            y: 107
+            z: 52
+          - "==": Vector
+            x: 183
+            y: 107
+            z: 49
+        secondary_blocks:
+          - "==": Vector
+            x: 183
+            y: 106
+            z: 52
+          - "==": Vector
+            x: 183
+            y: 106
+            z: 49
+  lonely_tower:
+    name: "Lonely Tower"
+    start_owners: "Thunderstone Guard"
+    max_cap: 9
+    start_amount: 9
+    progress_amount: 10
+    scoreboard: 5
+    spawn_point:
+      x: 123
+      y: 97
+      z: 55
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 119
+        y: 108
+        z: 52
+      max:
+        x: 127
+        y: 112
+        z: 62
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 121
+            y: 112
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 112
+            z: 52
+        secondary_blocks:
+          - "==": Vector
+            x: 121
+            y: 111
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 111
+            z: 52
+  shifted_tower:
+    name: "Shifted Tower"
+    start_owners: "Thunderstone Guard"
+    max_cap: 9
+    start_amount: 9
+    progress_amount: 10
+    scoreboard: 5
+    spawn_point:
+      x: 230
+      y: 116
+      z: 82
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 226
+        y: 124
+        z: 73
+      max:
+        x: 239
+        y: 128
+        z: 86
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 232
+            y: 128
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 128
+            z: 76
+        secondary_blocks:
+          - "==": Vector
+            x: 232
+            y: 127
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 127
+            z: 76s
+  twin_bridge:
+    name: "Twin Bridge"
+    start_owners: "Thunderstone Guard"
+    max_cap: 9
+    start_amount: 9
+    progress_amount: 10
+    scoreboard: 5
+    spawn_point:
+      x: 292
+      y: 74
+      z: 83
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 282
+        y: 114
+        z: 71
+      max:
+        x: 299
+        y: 119
+        z: 88
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 291
+            y: 118
+            z: 78
+          - "==": Vector
+            x: 291
+            y: 118
+            z: 75
+        secondary_blocks:
+          - "==": Vector
+            x: 291
+            y: 117
+            z: 78
+          - "==": Vector
+            x: 291
+            y: 117
+            z: 75
+  west_tower:
+    name: "West Tower"
+    start_owners: "Thunderstone Guard"
+    max_cap: 9
+    start_amount: 9
+    progress_amount: 10
+    scoreboard: 5
+    spawn_point:
+      x: 156
+      y: 97
+      z: 82
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 151
+        y: 108
+        z: 79
+      max:
+        x: 162
+        y: 112
+        z: 90
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 156
+            y: 112
+            z: 86
+          - "==": Vector
+            x: 156
+            y: 112
+            z: 83
+        secondary_blocks:
+          - "==": Vector
+            x: 156
+            y: 111
+            z: 86
+          - "==": Vector
+            x: 156
+            y: 111
+            z: 83
