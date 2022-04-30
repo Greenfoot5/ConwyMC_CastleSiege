@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.Helmsdeep.Boat;
+package me.huntifi.castlesiege.maps.helms_deep;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +19,11 @@ import org.bukkit.plugin.Plugin;
 
 //import me.huntifi.castlesiege.teams.PlayerTeam;
 
-public class HelmsdeepCaveBoat implements Listener, Runnable {
-
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
+public class CavesBoat implements Listener, Runnable {
 
 	public static Location boatSpawn = new Location(Bukkit.getServer().getWorld("Helmsdeep"), 922, 30, 956, 90, -3);
 
-
-	public static ArrayList<Boat> Boats = new ArrayList<Boat>();
+	public static ArrayList<Boat> Boats = new ArrayList<>();
 
 	@EventHandler
 	public void enterBoat(VehicleEnterEvent e) {
@@ -155,10 +152,7 @@ public class HelmsdeepCaveBoat implements Listener, Runnable {
 
 	@Override
 	public void run() {
-
 		spawnNextBoat();
-
-
 	}
 
 

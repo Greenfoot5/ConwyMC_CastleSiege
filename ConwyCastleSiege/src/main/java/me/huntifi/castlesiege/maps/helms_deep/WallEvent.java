@@ -5,7 +5,6 @@ import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import me.huntifi.castlesiege.structures.MakeStructure;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -126,8 +125,6 @@ public class WallEvent implements Listener, Runnable {
 						// Inform the player and grant stats
 						p.spigot().sendMessage(ChatMessageType.ACTION_BAR,TextComponent.fromLegacyText(ChatColor.DARK_AQUA
 								+ "You placed the explosive down. (" + tnt_counter + 1 + "/" + TNT_LOCATIONS.length + ")"));
-						Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () ->
-								MVPstats.setSupports(p.getUniqueId(), MVPstats.getSupports(p.getUniqueId()) + 12.0 ));
 
 						// Spawn either the torch or tnt next
 						if (tnt_counter == 3) {
@@ -156,10 +153,6 @@ public class WallEvent implements Listener, Runnable {
 
 						// Create our explosion
 						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).createExplosion(TNT_LOCATIONS[0], 15, false, false, p);
-
-						// Give the player score
-						Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () ->
-								MVPstats.setSupports(p.getUniqueId(), MVPstats.getSupports(p.getUniqueId()) + 30.0 ));
 
 						// Play various sound effects to make it sound like a massive explosion
 						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[0], Sound.ENTITY_GENERIC_EXPLODE , 10000, 2 );
