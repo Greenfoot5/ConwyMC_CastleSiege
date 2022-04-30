@@ -5,6 +5,7 @@
 HelmsDeep:
   GreatHallExtraDoor:
     # Name of the flag (must be exact)
+    # If not flag is specified, the door will open for any player, no matter their team
     flag: "Great Hall"
     # Centre of the door
     # Used to measure distance to the stone pressure plates,
@@ -41,3 +42,172 @@ HelmsDeep:
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
+  CavesDoor:
+    flag: "Caves"
+    centre:
+      x: 994
+      y: 52
+      z: 970
+    locations:
+      - x: 994
+        y: 52
+        z: 970
+      - x: 994
+        y: 53
+        z: 970
+      - x: 994
+        y: 54
+        z: 970
+      - x: 994
+        y: 52
+        z: 969
+      - x: 994
+        y: 53
+        z: 969
+      - x: 994
+        y: 54
+        z: 969
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+  GreatHallLeftDoor:
+    centre:
+      x: 993
+      y: 65
+      z: 1016
+    locations:
+      - x: 993
+        y: 65
+        z: 1016
+      - x: 993
+        y: 66
+        z: 1016
+      - x: 993
+        y: 67
+        z: 1016
+      - x: 993
+        y: 65
+        z: 1015
+      - x: 993
+        y: 66
+        z: 1015
+      - x: 993
+        y: 67
+        z: 1015
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+  GreatHallRightDoor:
+    flag: "Great Hall"
+    centre:
+      x: 976
+      y: 72
+      z: 979
+    locations:
+      - x: 976
+        y: 72
+        z: 979
+      - x: 976
+        y: 73
+        z: 979
+      - x: 976
+        y: 74
+        z: 979
+      - x: 977
+        y: 72
+        z: 979
+      - x: 977
+        y: 73
+        z: 979
+      - x: 977
+        y: 74
+        z: 979
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+  MainGateLeftDoor:
+    flag: "Main Gate"
+    centre:
+      x: 1035
+      y: 52
+      z: 991
+    locations:
+      - x: 1035
+        y: 52
+        z: 992
+      - x: 1035
+        y: 53
+        z: 992
+      - x: 1035
+        y: 54
+        z: 992
+      - x: 1035
+        y: 55
+        z: 992
+      - x: 1035
+        y: 52
+        z: 991
+      - x: 1035
+        y: 53
+        z: 991
+      - x: 1035
+        y: 54
+        z: 991
+      - x: 1035
+        y: 55
+        z: 991
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+  MainGateRightDoor:
+    flag: "Main Gate"
+    centre:
+      x: 1035
+      y: 53
+      z: 1008
+    locations:
+      - x: 1035
+        y: 53
+        z: 1008
+      - x: 1035
+        y: 54
+        z: 1008
+      - x: 1035
+        y: 55
+        z: 1008
+      - x: 1035
+        y: 53
+        z: 1009
+      - x: 1035
+        y: 54
+        z: 1009
+      - x: 1035
+        y: 55
+        z: 1009
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+  StorageDoor:
+    # This door doesn't have a flag and can be opened by anyone
+    centre:
+      x:

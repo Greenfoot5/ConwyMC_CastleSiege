@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.maps.MapController;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -36,12 +37,13 @@ public class Door implements Listener {
 
         Player player = event.getPlayer();
         Flag flag = MapController.getCurrentMap().getFlag(flagName);
-        if (flag != null) {
+        // Make sure the player is playing, and the flag is on the correct map
+        if ((flag != null || Objects.equals(flagName, MapController.getCurrentMap().name)) && player.getGameMode() != GameMode.SPECTATOR) {
 
             double distance = player.getLocation().distance(centre);
             if (player.getLocation().getBlock().getType().equals(Material.STONE_PRESSURE_PLATE) && distance <= 3) {
 
-				if (Objects.equals(flag.currentOwners, MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
+				if (Objects.equals(flagName, "null") || Objects.equals(flag.currentOwners, MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
 					if (!open) {
                         open = true;
 
@@ -62,7 +64,7 @@ public class Door implements Listener {
                         }.runTaskLater(Main.plugin, 40);
                     }
 				} else {
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Your team does not control this door."));
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Your team does not control this door. You need to capture " + flagName + " first!"));
 				}
             }
         }

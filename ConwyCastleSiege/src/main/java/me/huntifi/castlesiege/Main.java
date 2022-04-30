@@ -681,7 +681,7 @@ public class Main extends JavaPlugin implements Listener {
         for (int i = 0; i < doorPaths.length; i++) {
             // Create the flag
             Route doorRoute = mapRoute.add(doorPaths[i]);
-            String flagName = getDoorsConfig().getString(doorRoute.add("flag"));
+            String flagName = getDoorsConfig().getString(doorRoute.add("flag"), map.name);
             // Get the location at the centre of the object
             //Location centre = getDoorsConfig().getAs(doorRoute.add("centre"), Vector.class).toLocation(Objects.requireNonNull(Bukkit.getWorld(map.worldName)));
             Location centre = new Location(Bukkit.getWorld(map.worldName),
