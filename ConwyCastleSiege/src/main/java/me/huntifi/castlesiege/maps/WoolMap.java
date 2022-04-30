@@ -25,28 +25,20 @@ public class WoolMap implements Listener {
 	public void onPlayerInteract(PlayerInteractEvent e) {
 
 		Player player = e.getPlayer();
-
 		Block target = player.getTargetBlockExact(50);
 
 		if (target != null && target.getState() instanceof Sign) {
-			Sign s = (Sign) target.getState();
 			for (WoolMapBlock block : woolMapBlocks) {
-				if (s.getLine(1).equalsIgnoreCase(block.flagName)) {
-					// Remove mount
-					if (player.isInsideVehicle()) {
-						player.getVehicle().remove();
+				if (MapController.getCurrentMap().getFlag(block.flagName) != null) {
+					if (target.getLocation().distanceSquared(block.signLocation) <= 1 && !MapController.hasMapEnded()) {
+						// Remove mount
+						if (player.isInsideVehicle()) {
+							Objects.requireNonNull(player.getVehicle()).remove();
+						}
+						// Spawn player with kit
+						block.SpawnPlayer(player.getUniqueId());
+						Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 					}
-					// Spawn player with kit
-					block.SpawnPlayer(player.getUniqueId());
-					Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
-				} else if (s.getLine(1).equalsIgnoreCase("Stair Hall") && Objects.equals(block.flagName, "The Stair Hall")) {
-					// Remove mount
-					if (player.isInsideVehicle()) {
-						player.getVehicle().remove();
-					}
-					// Spawn player with kit
-					block.SpawnPlayer(player.getUniqueId());
-					Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 				}
 			}
 		}

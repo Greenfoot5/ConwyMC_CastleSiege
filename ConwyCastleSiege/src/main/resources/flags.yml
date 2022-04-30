@@ -1595,8 +1595,195 @@ HelmsDeep:
 ################
 
 Thunderstone:
+  cloud_camp:
+    name: "Cloud Camp"
+    start_owners: "Cloud Crawlers"
+    max_cap: 1
+    progress_amount: 0
+    scoreboard: 0
+    spawn_point:
+      x: 90
+      y: 86
+      z: 106
   stairhall:
-    name: "The Stair Hall"
+    name: "Stair Hall"
+    start_owners: "Thunderstone Guard"
+    max_cap: 7
+    start_amount: 7
+    progress_amount: 10
+    scoreboard: 9
+    spawn_point:
+      x: 182
+      y: 66
+      z: 67
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 984
+        y: 34
+        z: 1137
+      max:
+        x: 992
+        y: 40
+        z: 1145
+    animation_air: false
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 170
+            y: 66
+            z: 70
+          - "==": Vector
+            x: 170
+            y: 66
+            z: 66
+        air:
+          - "==": Vector
+            x: 170
+            y: 65
+            z: 70
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 170
+            y: 66
+            z: 70
+          - "==": Vector
+            x: 170
+            y: 65
+            z: 70
+          - "==": Vector
+            x: 170
+            y: 66
+            z: 66
+        air:
+          - "==": Vector
+            x: 170
+            y: 65
+            z: 66
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 170
+            y: 65
+            z: 66
+        air:
+          - "==": Vector
+            x: 170
+            y: 64
+            z: 70
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 170
+            y: 64
+            z: 70
+        air:
+          - "==": Vector
+            x: 170
+            y: 64
+            z: 66
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 170
+            y: 64
+            z: 66
+        air:
+          - "==": Vector
+            x: 170
+            y: 63
+            z: 70
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 170
+            y: 63
+            z: 70
+        air:
+          - "==": Vector
+            x: 170
+            y: 78
+            z: 998
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 170
+            y: 66
+            z: 70
+          - "==": Vector
+            x: 170
+            y: 65
+            z: 70
+          - "==": Vector
+            x: 170
+            y: 64
+            z: 70
+          - "==": Vector
+            x: 170
+            y: 63
+            z: 70
+          - "==": Vector
+            x: 170
+            y: 66
+            z: 66
+          - "==": Vector
+            x: 170
+            y: 65
+            z: 66
+          - "==": Vector
+            x: 170
+            y: 64
+            z: 66
+          - "==": Vector
+            x: 170
+            y: 63
+            z: 66
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 170
+            y: 66
+            z: 70
+          - "==": Vector
+            x: 170
+            y: 65
+            z: 70
+          - "==": Vector
+            x: 170
+            y: 64
+            z: 70
+          - "==": Vector
+            x: 170
+            y: 63
+            z: 70
+          - "==": Vector
+            x: 170
+            y: 66
+            z: 66
+          - "==": Vector
+            x: 170
+            y: 65
+            z: 66
+          - "==": Vector
+            x: 170
+            y: 64
+            z: 66
+          - "==": Vector
+            x: 170
+            y: 63
+            z: 66
+  skyview:
+    name: "Skyview Tower"
     start_owners: "Thunderstone Guard"
     max_cap: 15
     start_amount: 15
@@ -1616,41 +1803,25 @@ Thunderstone:
         x: 992
         y: 40
         z: 1145
-    animation_air: true
+    animation_air: false
     animation:
       0:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
           - "==": Vector
-            x: 989
-            y: 38
-            z: 1141
+            x: 169
+            y: 158
+            z: 78
           - "==": Vector
-            x: 990
-            y: 38
-            z: 1141
+            x: 170
+            y: 159
+            z: 78
           - "==": Vector
-            x: 991
-            y: 38
-            z: 1141
-          - "==": Vector
-            x: 992
-            y: 38
-            z: 1141
+            x: 168
+            y: 159
+            z: 78
         secondary_blocks:
-          - "==": "Vector"
-            x: 989
-            y: 37
-            z: 1141
-          - "==": "Vector"
-            x: 990
-            y: 37
-            z: 1141
           - "==": Vector
-            x: 991
-            y: 37
-            z: 1141
-          - "==": Vector
-            x: 992
-            y: 37
-            z: 1141
+            x: 169
+            y: 159
+            z: 78

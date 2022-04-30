@@ -177,6 +177,9 @@ public class MapController implements CommandExecutor {
 	 * Loads the current map
 	 */
 	public static void loadMap() {
+		// Clear the scoreboard
+		Scoreboard.clearScoreboard();
+
 		// Register the flag regions
 		for (Flag flag : maps[mapIndex].flags) {
 			if (flag.region != null) {
@@ -247,6 +250,10 @@ public class MapController implements CommandExecutor {
 	 * @return If all the flags belong to the same team
 	 */
 	public static Boolean hasMapEnded() {
+		if (timer.hasGameEnded) {
+			return true;
+		}
+
 		String startingTeam = getCurrentMap().flags[0].currentOwners;
 		for (Flag flag : getCurrentMap().flags) {
 			if (!startingTeam.equalsIgnoreCase(flag.currentOwners)) {
