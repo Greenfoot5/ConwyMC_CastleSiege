@@ -3,6 +3,8 @@ package me.huntifi.castlesiege.events.connection;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.StoreData;
+import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,9 +26,16 @@ public class PlayerDisconnect implements Listener {
      */
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        Player p = e.getPlayer();
-        storeData(p.getUniqueId());
-        MapController.leaveTeam(p.getUniqueId());
+        UUID uuid = e.getPlayer().getUniqueId();
+        if (InCombat.isPlayerInCombat(uuid)) {
+            UpdateStats.addDeaths(uuid, 2);
+        } else if (!InCombat.isPlayerInLobby(uuid)) {
+            UpdateStats.addDeaths(uuid, 1);
+        }
+        InCombat.playerDied(uuid);
+
+        storeData(uuid);
+        MapController.leaveTeam(uuid);
     }
 
     /**

@@ -35,10 +35,8 @@ public class DeathEvent implements Listener {
 
         UpdateStats.addDeaths(player.getUniqueId(), 1);
         event.setRespawnLocation(team.lobby.spawnPoint);
-        player.teleport(team.lobby.spawnPoint);
 
         Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
-
         InCombat.playerDied(player.getUniqueId());
     }
 

@@ -24,6 +24,7 @@ public class PlayerData {
     private double rankPoints;
     private String staffRank;
     private String rank;
+    private String votes;
     private double coins;
 
     private static double coinMultiplier = 1;
@@ -52,6 +53,7 @@ public class PlayerData {
         this.rank = rankData.getString("RANK");
         this.staffRank = rankData.getString("STAFFRANK");
         this.rankPoints = rankData.getDouble("RANKPOINTS");
+        this.votes = rankData.getString("VOTES");
         this.coins = rankData.getDouble("COINS");
     }
 
@@ -334,6 +336,22 @@ public class PlayerData {
      */
     public void setRank(String rank) {
         this.rank = rank;
+    }
+
+    /**
+     * Get the player's votes
+     * @return The player's votes
+     */
+    public String getVotes() {
+        return votes;
+    }
+
+    /**
+     * Set the player's votes
+     * @param votes The votes to set
+     */
+    public void setVotes(String votes) {
+        this.votes = votes;
     }
 
     /**

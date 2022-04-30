@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.voting.VotesChanging;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -57,7 +58,7 @@ public class EquipmentSet {
         if (feet != null && feet.getAmount() > 0) {
             inv.setBoots(feet);
             // Voted boots
-            if (VotesChanging.getVotes(uuid).contains("V#2") && votedFeet != null && votedFeet.getAmount() > 0) {
+            if (ActiveData.getData(uuid).getVotes().contains("V#2") && votedFeet != null && votedFeet.getAmount() > 0) {
                 inv.setBoots(votedFeet);
             }
         }
@@ -73,7 +74,7 @@ public class EquipmentSet {
         }
 
         // Votes Weapon
-        if (VotesChanging.getVotes(uuid).contains("V#1") &&
+        if (ActiveData.getData(uuid).getVotes().contains("V#1") &&
                 votedWeapon != null && votedWeapon.getFirst().getAmount() > 0) {
             if (votedWeapon.getSecond() == -1) {
                 inv.setItemInOffHand(votedWeapon.getFirst());
@@ -83,7 +84,7 @@ public class EquipmentSet {
         }
 
         // Votes Ladders
-        if (VotesChanging.getVotes(uuid).contains("V#3") &&
+        if (ActiveData.getData(uuid).getVotes().contains("V#3") &&
                 votedLadders != null && votedLadders.getFirst().getAmount() > 0) {
             if (votedLadders.getSecond() == -1) {
                 inv.setItemInOffHand(votedLadders.getFirst());

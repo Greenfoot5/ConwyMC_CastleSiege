@@ -42,10 +42,6 @@ import me.huntifi.castlesiege.maps.objects.CaptureHandler;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.security.Hunger;
-import me.huntifi.castlesiege.voting.GiveVoteCommand;
-import me.huntifi.castlesiege.voting.VoteListenerCommand;
-import me.huntifi.castlesiege.voting.VotesLoading;
-import me.huntifi.castlesiege.voting.VotesUnloading;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
@@ -253,9 +249,6 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getPluginManager().registerEvents(new ThunderstoneGateDestroyEvent(), plugin);
                 //getServer().getPluginManager().registerEvents(new EastTowerFlag(), plugin);
 
-                getServer().getPluginManager().registerEvents(new VotesLoading(), plugin);
-                getServer().getPluginManager().registerEvents(new VotesUnloading(), plugin);
-
                 getCommand("togglerank").setExecutor(new togglerankCommand());
 
                 //getCommand("Mvp").setExecutor(new mvpCommand());
@@ -273,10 +266,6 @@ public class Main extends JavaPlugin implements Listener {
                 getCommand("sessionmute").setExecutor(new SessionMuteCommand());
 
                 getCommand("Unsessionmute").setExecutor(new UnsessionmuteCommand());
-
-                getCommand("givevote").setExecutor(new GiveVoteCommand());
-
-                getCommand("givevoter").setExecutor(new VoteListenerCommand());
 
 
                 //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneEndMap(), 0, 200);

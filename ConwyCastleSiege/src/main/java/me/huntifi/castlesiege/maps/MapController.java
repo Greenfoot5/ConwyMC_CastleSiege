@@ -14,6 +14,7 @@ import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -115,8 +116,9 @@ public class MapController implements CommandExecutor {
 			@Override
 			public void run() {
 				for (Player player : Bukkit.getOnlinePlayers()) {
-					if (getCurrentMap().getTeam(player.getUniqueId()) != null) {
-						player.setHealth(0);
+					Team team = getCurrentMap().getTeam(player.getUniqueId());
+					if (team != null) {
+						player.teleport(team.lobby.spawnPoint);
 					}
 				}
 				InCombat.clearCombat();
@@ -198,9 +200,9 @@ public class MapController implements CommandExecutor {
 		}
 
 		// Move all players to the new map and team
-		Kit.equippedKits = new HashMap<>();
 		for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
 			joinATeam(player.getUniqueId());
+			Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 		}
 
 		// Start the timer!
@@ -276,22 +278,14 @@ public class MapController implements CommandExecutor {
 		if (team.lobby.spawnPoint.getWorld() == null) {
 			team.lobby.spawnPoint.setWorld(Bukkit.getWorld(getCurrentMap().worldName));
 		}
+
 		player.teleport(team.lobby.spawnPoint);
-		player.getInventory().clear();
-		new Swordsman().addPlayer(uuid);
+		NametagsEvent.GiveNametag(player);
 
 		player.sendMessage("You joined" + team.primaryChatColor + " " + team.name);
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~");
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-
-		ItemStack wool = new ItemStack(team.primaryWool);
-		ItemMeta woolMeta = wool.getItemMeta();
-		assert woolMeta != null;
-		woolMeta.setDisplayName(ChatColor.GREEN + "WoolHat");
-		player.getInventory().setHelmet(wool);
-
-		NametagsEvent.GiveNametag(player);
 	}
 
 	/**

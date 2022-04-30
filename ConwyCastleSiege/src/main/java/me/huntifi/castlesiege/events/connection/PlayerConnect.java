@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.StoreData;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,6 +37,7 @@ public class PlayerConnect implements Listener {
         MVPStats.addPlayer(uuid);
 
         // Join a team and assign kit
+        InCombat.playerDied(uuid);
         MapController.joinATeam(uuid);
         p.performCommand(data.getKit());
 

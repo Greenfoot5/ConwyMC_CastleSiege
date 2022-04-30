@@ -62,15 +62,13 @@ public class SwitchCommand implements CommandExecutor {
 				}
 			}
 
-			// Kill the player
-			// Note: 1 death added on player respawn
-			p.setHealth(0);
-			Team team = map.getTeam(p.getUniqueId());
-			if (SINGLE_DEATH_RANKS.contains(ActiveData.getData(p.getUniqueId()).getRank())) {
-				p.sendMessage("You switched to " + team.primaryChatColor + team.name + ChatColor.DARK_AQUA + " (+1 death)");
+			// Spawn the player in their new lobby
+			if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+				spawnPlayer(p, 0);
+			} else if (SINGLE_DEATH_RANKS.contains(ActiveData.getData(p.getUniqueId()).getRank())) {
+				spawnPlayer(p, 1);
 			} else {
-				p.sendMessage("You switched to " + team.primaryChatColor + team.name + ChatColor.DARK_AQUA + " (+2 deaths)");
-				UpdateStats.addDeaths(p.getUniqueId(), 1);
+				spawnPlayer(p, 2);
 			}
 			return true;
 		}
@@ -89,18 +87,29 @@ public class SwitchCommand implements CommandExecutor {
 		smallestTeam.addPlayer(p.getUniqueId());
 
 		if (!InCombat.isPlayerInLobby(p.getUniqueId())) {
-			// The player should die when switching
-			p.setHealth(0);
-			p.sendMessage("You switched to " + smallestTeam.primaryChatColor + smallestTeam.name + " (+2 deaths)");
-			UpdateStats.addDeaths(p.getUniqueId(), 1); // Note: 1 death added on player respawn
+			spawnPlayer(p, 2);
 		} else {
-			// Heal the player
-			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
-			p.sendMessage("You switched to " + smallestTeam.primaryChatColor + smallestTeam.name + "");
-			// Teleport the player
-			p.teleport(smallestTeam.lobby.spawnPoint);
+			spawnPlayer(p, 0);
 		}
 
 	return true;
+	}
+
+	/**
+	 * Spawn a player in their new lobby and award deaths
+	 * @param p The player to spawn in their new lobby
+	 * @param deaths The amount of deaths the player should receive
+	 */
+	private void spawnPlayer(Player p, int deaths) {
+		Team team = MapController.getCurrentMap().getTeam(p.getUniqueId());
+
+		p.teleport(team.lobby.spawnPoint);
+		p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+
+		if (deaths > 0) {
+			p.sendMessage("You switched to " + team.primaryChatColor + team.name +
+					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)");
+			UpdateStats.addDeaths(p.getUniqueId(), deaths);
+		}
 	}
 }
