@@ -38,6 +38,7 @@ import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.kits.*;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
+import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.maps.objects.CaptureHandler;
 import me.huntifi.castlesiege.maps.objects.Door;
@@ -200,6 +201,10 @@ public class Main extends JavaPlugin implements Listener {
                 // Map Specific
                 // Helms Deep Only
                 getServer().getPluginManager().registerEvents(new WallEvent(), plugin);
+                CavesBoat boatEvent = new CavesBoat();
+                getServer().getPluginManager().registerEvents(boatEvent, plugin);
+                getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
+                boatEvent.spawnBoat();
 
                 // OLD EVENTS
                 getServer().getPluginManager().registerEvents(new SessionMuteCommand(), plugin);
@@ -332,7 +337,6 @@ public class Main extends JavaPlugin implements Listener {
 //		HelmsdeepTimer.HelmsdeepTimerEvent();
 //		HelmsdeepGreatHallBlocks.gateblocks();
 //		HelmsdeepMainGateBlocks.gateblocks();
-//		HelmsdeepCaveBoat.spawnFirstBoat();
 
                 //resets Thunderstone after restart
                 //ThunderstoneReset.onReset();

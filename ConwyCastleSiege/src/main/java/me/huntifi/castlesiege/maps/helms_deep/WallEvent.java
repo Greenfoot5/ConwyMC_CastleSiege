@@ -26,7 +26,7 @@ import java.util.UUID;
 /**
  * A class to handle the wall explosion on HelmsDeep
  */
-public class WallEvent implements Listener, Runnable {
+public class WallEvent implements Listener {
 	private int tnt_counter = 0;
 	private UUID carrier;
 
@@ -214,22 +214,5 @@ public class WallEvent implements Listener, Runnable {
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public void run() {
-		for (Player online : Bukkit.getOnlinePlayers()) {
-			if(MapController.currentMapIs("HelmsDeep")) {
-				if(online.getWorld() == (Bukkit.getWorld("HelmsDeep"))) {
-					if (!(tnt_counter == 4)) {
-						if (Objects.requireNonNull(online.getInventory().getHelmet()).getType() == Material.TNT) {
-							online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "" + ChatColor.BOLD + "You are holding an explosive!"));
-						} else if (online.getInventory().getHelmet().getType() == Material.GLOWSTONE) {
-							online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "" + ChatColor.BOLD + "You are holding the torch!"));
-						}
-					}
-				}
-			}
-		}
 	}
 }
