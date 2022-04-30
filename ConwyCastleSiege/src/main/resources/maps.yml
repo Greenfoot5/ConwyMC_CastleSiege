@@ -156,19 +156,31 @@ Thunderstone:
           pitch: 2
         woolmap:
           cloud_camp:
-            flag_name: "The Camp"
+            flag_name: "Cloud Camp"
             wool_position:
               x: -171
               y: 205
               z: 110
             sign_direction: west
           stair_hall:
-            flag_name: "The Stair Hall"
+            flag_name: "Stair Hall"
             wool_position:
               x: -171
               y: 202
               z: 107
             sign_direction: west
+          skyview:
+            flag_name: "Skyview Tower"
+            wool_position:
+              x: -171
+              y: 203
+              z: 105
+            sign_direction: west
+          # Lonely Tower - -171 201 109
+          # West Tower - -171 204 107
+          # East Tower - -171 201 104
+          # Shifted Tower - -171 204 103
+          # Twin Bridge - -171 204 101
     Attackers:
       name: "Cloud Crawlers"
       primary_color: "cyan"
@@ -182,14 +194,14 @@ Thunderstone:
           pitch: 1
         woolmap:
           cloud_camp:
-            flag_name: "The Camp"
+            flag_name: "Cloud Camp"
             wool_position:
               x: -174
               y: 205
               z: 163
             sign_direction: west
           stair_hall:
-            flag_name: "The Stair Hall"
+            flag_name: "Stair Hall"
             wool_position:
               x: -174
               y: 202

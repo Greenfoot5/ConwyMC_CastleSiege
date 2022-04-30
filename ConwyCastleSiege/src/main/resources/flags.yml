@@ -1596,7 +1596,7 @@ HelmsDeep:
 
 Thunderstone:
   cloud_camp:
-    name: "The Camp"
+    name: "Cloud Camp"
     start_owners: "Cloud Crawlers"
     max_cap: 1
     progress_amount: 0
@@ -1606,7 +1606,7 @@ Thunderstone:
       y: 86
       z: 106
   stairhall:
-    name: "The Stair Hall"
+    name: "Stair Hall"
     start_owners: "Thunderstone Guard"
     max_cap: 7
     start_amount: 7
