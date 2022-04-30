@@ -75,6 +75,7 @@ HelmsDeep:
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
   GreatHallLeftDoor:
+    flag: "Great Hall"
     centre:
       x: 993
       y: 65
@@ -175,6 +176,8 @@ HelmsDeep:
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
   MainGateRightDoor:
     flag: "Main Gate"
     centre:
@@ -219,7 +222,7 @@ HelmsDeep:
         z: 1037
       - x: 996
         y: 68
-        z: 1037)
+        z: 1037
       - x: 996
         y: 69
         z: 1037

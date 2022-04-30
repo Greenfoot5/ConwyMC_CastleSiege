@@ -712,7 +712,6 @@ public class Main extends JavaPlugin implements Listener {
                     getLogger().warning("Missing material on " + doorPaths[i]);
                 }
             }
-
             Door door = new Door(flagName, centre, doorBlocks);
             map.doors[i] = door;
         }
