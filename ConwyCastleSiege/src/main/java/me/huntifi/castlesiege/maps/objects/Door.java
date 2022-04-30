@@ -25,6 +25,12 @@ public class Door implements Listener {
     private final Location centre;
     private final Tuple<Vector, Material>[] doorBlocks;
 
+    /**
+     * Crates a new door
+     * @param flagName The flag or map name the door is assigned to
+     * @param centre The centre of the door (point for checking distance and playing the sound from)
+     * @param blocks The blocks that make up the door
+     */
     public Door(String flagName, Location centre, Tuple<Vector, Material>[] blocks) {
         open = false;
         this.flagName = flagName;
@@ -32,6 +38,10 @@ public class Door implements Listener {
         doorBlocks = blocks;
     }
 
+    /**
+     * Handles the opening and then closing of the door when a player steps on the pressure plates
+     * @param event Called when a player moves
+     */
     @EventHandler
     public void onPressure(PlayerMoveEvent event) {
 

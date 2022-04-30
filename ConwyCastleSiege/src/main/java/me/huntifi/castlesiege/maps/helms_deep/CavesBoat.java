@@ -18,6 +18,9 @@ import org.bukkit.event.vehicle.VehicleEnterEvent;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Handles spawning boats in the caves of HelmsDeep
+ */
 public class CavesBoat implements Listener, Runnable {
 
 	public static final Location SPAWN_LOCATION = new Location(Bukkit.getServer().getWorld("Helmsdeep"), 922, 30, 956, 90, -3);
