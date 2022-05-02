@@ -1,5 +1,8 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -105,9 +108,19 @@ public class Team {
 
     /**
      * Gets the MVP for the current team
+     * @return The unique ID and stats of the MVP, null if team is empty
      */
-    public void getMVP() {
-        // TODO - Setup MVP
+    public Tuple<UUID, PlayerData> getMVP() {
+        Tuple<UUID, PlayerData> mvp = null;
+
+        for (UUID uuid : players) {
+            PlayerData data = MVPStats.getStats(uuid);
+            if (mvp == null || data.getScore() > mvp.getSecond().getScore()) {
+                mvp = new Tuple<>(uuid, data);
+            }
+        }
+
+        return mvp;
     }
 
     /**
