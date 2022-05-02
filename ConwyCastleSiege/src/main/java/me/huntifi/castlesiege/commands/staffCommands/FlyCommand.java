@@ -8,6 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
  * Allows staff players to fly
  */
@@ -25,8 +28,9 @@ public class FlyCommand implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		Player p = (Player) sender;
 		String staffRank = ActiveData.getData(p.getUniqueId()).getStaffRank();
+		Collection<String> allowed = Arrays.asList("Admin", "Moderator", "Developer", "Chatmod+");
 
-		if ("AdminModeratorDeveloperChatMod+".contains(staffRank)) {
+		if (allowed.contains(staffRank)) {
 			p.setAllowFlight(!p.getAllowFlight());
 			p.setFlying(p.getAllowFlight());
 

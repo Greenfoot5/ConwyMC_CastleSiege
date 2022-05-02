@@ -15,7 +15,6 @@ D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Team
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\kits\kits\Medic.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\info\TeamsCommand.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\animations\Stairhall_Cloudcrawlers.java
-D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\mvpCommand\HelmsdeepMVP.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagMethod.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\kits\kits\Swordsman.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\info\PingCommand.java
@@ -60,7 +59,6 @@ D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\security\Hunger.j
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\maps\objects\CaptureHandler.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\events\death\VoidLocation.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\kits\kits\Crossbowman.java
-D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\mvpCommand\mvpCommand.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Lonelytower.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Shiftedtower.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagCaptureSpeed.java
@@ -166,7 +164,6 @@ D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\commands\info\Rul
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\maps\Timer.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\ThunderstoneEndMVP.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\data_types\Frame.java
-D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\mvpCommand\ThunderstoneMVP.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\structures\MakeStructure.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagRadius.java
 D:\Conwy\ConwyCastleSiege\src\main\java\me\huntifi\castlesiege\Thunderstone\Rams\ThunderstoneRamAnimation.java
