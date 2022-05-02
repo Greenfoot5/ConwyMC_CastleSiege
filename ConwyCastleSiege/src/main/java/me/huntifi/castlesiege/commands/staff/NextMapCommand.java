@@ -9,11 +9,23 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * Skips to the next map
+ */
 public class NextMapCommand implements CommandExecutor {
 
+	/**
+	 * Skip to the next map
+	 * @param sender Source of the command
+	 * @param cmd Command which was executed
+	 * @param label Alias of the command which was used
+	 * @param args Passed command arguments
+	 * @return true
+	 */
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if(sender instanceof Player) {
 			Player p = (Player) sender;
 			Bukkit.getServer().broadcastMessage(
