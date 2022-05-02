@@ -39,7 +39,7 @@ HelmsDeep:
       0:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 38
             z: 1141
@@ -56,11 +56,11 @@ HelmsDeep:
             y: 38
             z: 1141
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 37
             z: 1141
-          - "==": "Vector"
+          - "==": Vector
             x: 990
             y: 37
             z: 1141
@@ -75,7 +75,7 @@ HelmsDeep:
       1:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 39
             z: 1141
@@ -92,11 +92,11 @@ HelmsDeep:
             y: 39
             z: 1141
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 38
             z: 1141
-          - "==": "Vector"
+          - "==": Vector
             x: 990
             y: 38
             z: 1141
@@ -111,7 +111,7 @@ HelmsDeep:
       2:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 40
             z: 1141
@@ -128,11 +128,11 @@ HelmsDeep:
             y: 40
             z: 1141
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 39
             z: 1141
-          - "==": "Vector"
+          - "==": Vector
             x: 990
             y: 39
             z: 1141
@@ -147,7 +147,7 @@ HelmsDeep:
       3:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 41
             z: 1141
@@ -164,11 +164,11 @@ HelmsDeep:
             y: 41
             z: 1141
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 40
             z: 1141
-          - "==": "Vector"
+          - "==": Vector
             x: 990
             y: 40
             z: 1141
@@ -183,7 +183,7 @@ HelmsDeep:
       4:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 42
             z: 1141
@@ -200,11 +200,11 @@ HelmsDeep:
             y: 42
             z: 1141
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 41
             z: 1141
-          - "==": "Vector"
+          - "==": Vector
             x: 990
             y: 41
             z: 1141
@@ -219,7 +219,7 @@ HelmsDeep:
       5:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 43
             z: 1141
@@ -236,11 +236,11 @@ HelmsDeep:
             y: 43
             z: 1141
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 42
             z: 1141
-          - "==": "Vector"
+          - "==": Vector
             x: 990
             y: 42
             z: 1141
@@ -255,7 +255,7 @@ HelmsDeep:
       6:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 44
             z: 1141
@@ -272,11 +272,11 @@ HelmsDeep:
             y: 44
             z: 1141
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 43
             z: 1141
-          - "==": "Vector"
+          - "==": Vector
             x: 990
             y: 43
             z: 1141
@@ -291,7 +291,7 @@ HelmsDeep:
       7:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 45
             z: 1141
@@ -308,11 +308,11 @@ HelmsDeep:
             y: 45
             z: 1141
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 44
             z: 1141
-          - "==": "Vector"
+          - "==": Vector
             x: 990
             y: 44
             z: 1141
@@ -327,7 +327,7 @@ HelmsDeep:
       8:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 46
             z: 1141
@@ -344,11 +344,11 @@ HelmsDeep:
             y: 46
             z: 1141
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 45
             z: 1141
-          - "==": "Vector"
+          - "==": Vector
             x: 990
             y: 45
             z: 1141
@@ -363,7 +363,7 @@ HelmsDeep:
       9:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 47
             z: 1141
@@ -380,11 +380,11 @@ HelmsDeep:
             y: 47
             z: 1141
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 989
             y: 46
             z: 1141
-          - "==": "Vector"
+          - "==": Vector
             x: 990
             y: 46
             z: 1141
@@ -753,7 +753,7 @@ HelmsDeep:
       0:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 146
             z: 1037
@@ -770,7 +770,7 @@ HelmsDeep:
             y: 146
             z: 1037
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 145
             z: 1037
@@ -789,7 +789,7 @@ HelmsDeep:
       1:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 147
             z: 1037
@@ -806,7 +806,7 @@ HelmsDeep:
             y: 147
             z: 1037
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 146
             z: 1037
@@ -825,7 +825,7 @@ HelmsDeep:
       2:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 148
             z: 1037
@@ -842,7 +842,7 @@ HelmsDeep:
             y: 148
             z: 1037
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 147
             z: 1037
@@ -861,7 +861,7 @@ HelmsDeep:
       3:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 149
             z: 1037
@@ -878,7 +878,7 @@ HelmsDeep:
             y: 149
             z: 1037
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 148
             z: 1037
@@ -897,7 +897,7 @@ HelmsDeep:
       4:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 150
             z: 1037
@@ -914,7 +914,7 @@ HelmsDeep:
             y: 150
             z: 1037
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 149
             z: 1037
@@ -933,7 +933,7 @@ HelmsDeep:
       5:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 151
             z: 1037
@@ -950,7 +950,7 @@ HelmsDeep:
             y: 151
             z: 1037
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 150
             z: 1037
@@ -969,7 +969,7 @@ HelmsDeep:
       6:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 152
             z: 1037
@@ -986,7 +986,7 @@ HelmsDeep:
             y: 152
             z: 1037
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 151
             z: 1037
@@ -1041,7 +1041,7 @@ HelmsDeep:
       8:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 154
             z: 1037
@@ -1058,7 +1058,7 @@ HelmsDeep:
             y: 154
             z: 1037
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 153
             z: 1037
@@ -1077,7 +1077,7 @@ HelmsDeep:
       9:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 155
             z: 1037
@@ -1094,7 +1094,7 @@ HelmsDeep:
             y: 155
             z: 1037
         secondary_blocks:
-          - "==": "Vector"
+          - "==": Vector
             x: 985
             y: 154
             z: 1037
@@ -1997,7 +1997,7 @@ Thunderstone:
           - "==": Vector
             x: 232
             y: 127
-            z: 76s
+            z: 76
   twin_bridge:
     name: "Twin Bridge"
     start_owners: "Thunderstone Guard"
