@@ -3,6 +3,8 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.objects.Door;
@@ -133,9 +135,26 @@ public class MapController implements CommandExecutor {
 		    } else {
 				Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has lost!~~~~~~~~");
 			}
-			Bukkit.broadcastMessage(team.primaryChatColor + team.name + ChatColor.DARK_AQUA + " MVP: " + ChatColor.WHITE + "Coming Soon!");
-			//Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Score " + ChatColor.WHITE + currencyFormat.format(returnMVPScore(RohanMVP)) + ChatColor.DARK_AQUA + " | Kills " + ChatColor.WHITE + NumberFormat.format(MVPstats.getKills(RohanMVP.getUniqueId())) + ChatColor.DARK_AQUA + " | Deaths " + ChatColor.WHITE + NumberFormat.format(MVPstats.getDeaths(RohanMVP.getUniqueId())) + ChatColor.DARK_AQUA + " | KDR " + ChatColor.WHITE + currencyFormat.format((MVPstats.getKills(RohanMVP.getUniqueId()) / MVPstats.getDeaths(RohanMVP.getUniqueId()))) + ChatColor.DARK_AQUA + " | Assists " + ChatColor.WHITE + NumberFormat.format(MVPstats.getAssists(RohanMVP.getUniqueId())));
-			//Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "| Heals " + ChatColor.WHITE + NumberFormat.format(MVPstats.getHeals(RohanMVP.getUniqueId())) + ChatColor.DARK_AQUA + " | Captures " + ChatColor.WHITE + NumberFormat.format(MVPstats.getCaptures(RohanMVP.getUniqueId())) + ChatColor.DARK_AQUA + " | Supports " + ChatColor.WHITE + NumberFormat.format(MVPstats.getSupports(RohanMVP.getUniqueId())));
+
+			// Empty team -> go to next team
+			Tuple<UUID, PlayerData> mvp = team.getMVP();
+			if (mvp == null) {
+				Bukkit.broadcastMessage(team.primaryChatColor + team.name + ChatColor.DARK_AQUA
+						+ " MVP: " + ChatColor.WHITE + "N/A");
+				continue;
+			}
+
+			// Broadcast MVP
+			Bukkit.broadcastMessage(team.primaryChatColor + team.name + ChatColor.DARK_AQUA
+					+ " MVP: " + ChatColor.WHITE + Objects.requireNonNull(getPlayer(mvp.getFirst())).getName());
+			Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Score " + ChatColor.WHITE + mvp.getSecond().getScore()
+					+ ChatColor.DARK_AQUA + " | Kills " + ChatColor.WHITE + mvp.getSecond().getKills()
+					+ ChatColor.DARK_AQUA + " | Deaths " + ChatColor.WHITE + mvp.getSecond().getDeaths()
+					+ ChatColor.DARK_AQUA + " | KDR " + ChatColor.WHITE + mvp.getSecond().getKills() / mvp.getSecond().getDeaths()
+					+ ChatColor.DARK_AQUA + " | Assists " + ChatColor.WHITE + mvp.getSecond().getAssists());
+			Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "| Heals " + ChatColor.WHITE + mvp.getSecond().getHeals()
+					+ ChatColor.DARK_AQUA + " | Captures " + ChatColor.WHITE + mvp.getSecond().getCaptures()
+					+ ChatColor.DARK_AQUA + " | Supports " + ChatColor.WHITE + mvp.getSecond().getSupports());
 		}
 
 		// Begins the
