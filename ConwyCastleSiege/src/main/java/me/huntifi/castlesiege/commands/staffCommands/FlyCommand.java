@@ -27,8 +27,8 @@ public class FlyCommand implements CommandExecutor {
 		String staffRank = ActiveData.getData(p.getUniqueId()).getStaffRank();
 
 		if ("AdminModeratorDeveloperChatMod+".contains(staffRank)) {
-			p.setFlying(!p.getAllowFlight());
 			p.setAllowFlight(!p.getAllowFlight());
+			p.setFlying(p.getAllowFlight());
 
 			if (p.getAllowFlight()) {
 				p.sendMessage(ChatColor.DARK_GREEN + " Flying has been enabled for you, enjoy your flight!");
