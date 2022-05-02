@@ -55,9 +55,6 @@ commands:
   Playerid:
     description: Returns the target player's UUID.
     usage: /Playerid
-  Mvp:
-    description: Switches teams.
-    usage: /Mvp
   Mystats:
     description: Opens a book that shows you your stats.
     usage: /Mystats
@@ -131,6 +128,10 @@ commands:
   Maps:
     description: Shows all maps in rotation
     usage: /maps
+  MVP:
+    description: Shows the current MVP(s)
+    usage: /mvp(s)
+    aliases: mvps
   Ping:
     description: Shows your current ping
     usage: /ping

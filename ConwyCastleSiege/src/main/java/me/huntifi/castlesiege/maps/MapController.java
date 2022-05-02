@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
@@ -156,6 +157,7 @@ public class MapController implements CommandExecutor {
 					+ ChatColor.DARK_AQUA + " | Captures " + ChatColor.WHITE + mvp.getSecond().getCaptures()
 					+ ChatColor.DARK_AQUA + " | Supports " + ChatColor.WHITE + mvp.getSecond().getSupports());
 		}
+		MVPStats.reset();
 
 		// Begins the
 		new BukkitRunnable() {
