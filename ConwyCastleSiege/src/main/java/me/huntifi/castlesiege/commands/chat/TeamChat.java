@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.chat;
 
+import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
@@ -37,7 +38,7 @@ public class TeamChat implements CommandExecutor {
 		if (args.length == 0) {
 			toggleTeamChat(p);
 		} else {
-			sendTeamMessage(p, String.join(" ", args));
+			sendMessage(p, String.join(" ", args));
 		}
 
 		return true;
@@ -48,7 +49,7 @@ public class TeamChat implements CommandExecutor {
 	 * @param p The player that sends the message
 	 * @param m The message to send
 	 */
-	public static void sendTeamMessage(Player p, String m) {
+	public static void sendMessage(Player p, String m) {
 		Team t = MapController.getCurrentMap().getTeam(p.getUniqueId());
 		String s = p.getDisplayName() + ChatColor.DARK_AQUA + " TEAM: " + ChatColor.GRAY + m;
 
@@ -63,7 +64,7 @@ public class TeamChat implements CommandExecutor {
 
 	/**
 	 * Get the team-chat status of a player
-	 * @param uuid The unique id of the player
+	 * @param uuid The unique ID of the player
 	 * @return Whether the player is in team-chat mode
 	 */
 	public static boolean isTeamChatter(UUID uuid) {
@@ -80,8 +81,17 @@ public class TeamChat implements CommandExecutor {
 			teamChatters.remove(uuid);
 			p.sendMessage(ChatColor.DARK_AQUA + "You are no longer talking in team-chat!");
 		} else {
+			StaffChat.removePlayer(uuid);
 			teamChatters.add(uuid);
 			p.sendMessage(ChatColor.DARK_AQUA + "You are now talking in team-chat!");
 		}
+	}
+
+	/**
+	 * Remove the player from the team chatters
+	 * @param uuid The unique ID of the player
+	 */
+	public static void removePlayer(UUID uuid) {
+		teamChatters.remove(uuid);
 	}
 }

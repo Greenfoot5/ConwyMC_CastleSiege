@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.chat;
 
 import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.database.ActiveData;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -30,9 +31,13 @@ public class PlayerChat implements Listener {
 			e.setMessage(ChatColor.GRAY + e.getMessage());
 		}
 
-		// Send message in team-chat
+		// Send message in team-chat or staff-chat
 		if (TeamChat.isTeamChatter(p.getUniqueId())) {
-			TeamChat.sendTeamMessage(e.getPlayer(), e.getMessage());
+			TeamChat.sendMessage(e.getPlayer(), e.getMessage());
+			e.setCancelled(true);
+			return;
+		} else if (StaffChat.isStaffChatter(p.getUniqueId())) {
+			StaffChat.sendMessage(e.getPlayer(), e.getMessage());
 			e.setCancelled(true);
 			return;
 		}
