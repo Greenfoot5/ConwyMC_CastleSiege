@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.commands.staffCommands;
+package me.huntifi.castlesiege.commands.staff;
 
 import me.huntifi.castlesiege.database.ActiveData;
 import org.bukkit.Bukkit;

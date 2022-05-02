@@ -15,7 +15,7 @@ import me.huntifi.castlesiege.commands.chat.PrivateMessage;
 import me.huntifi.castlesiege.commands.chat.ReplyMessage;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.info.*;
-import me.huntifi.castlesiege.commands.staffCommands.*;
+import me.huntifi.castlesiege.commands.staff.*;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MySQL;
@@ -173,6 +173,10 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
 
+                // Staff
+                Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
+                Objects.requireNonNull(getCommand("Kick")).setExecutor(new KickCommand());
+
                 // Kits
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
@@ -257,10 +261,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 //getCommand("CheckFlagList").setExecutor(new FlagListCommand());
                 getCommand("s").setExecutor(new StaffChat());
-
-                getCommand("kick").setExecutor(new KickCommand());
-
-                getCommand("Fly").setExecutor(new FlyCommand());
 
                 getCommand("kickall").setExecutor(new KickallCommand());
 

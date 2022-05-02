@@ -89,9 +89,6 @@ commands:
   Unmute:
     description: Unmute a muted player!
     usage: /Unmute
-  Kick:
-    description: Kick a player from the server!
-    usage: /Kick
   Vanish:
     description: Vanish into the void!
     usage: /Vanish
@@ -187,9 +184,14 @@ commands:
 
   # Staff
   Fly:
-    description: Allows staff members to fly
+    description: Toggle flight
     usage: /fly
     permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  Kick:
+    description: Kick a player from the server
+    usage: /kick <player> <reason>
+    permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
 
   # Kits
