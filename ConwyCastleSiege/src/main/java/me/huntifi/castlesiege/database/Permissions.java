@@ -4,17 +4,23 @@ import me.huntifi.castlesiege.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * Configures player permissions
+ */
 public class Permissions {
 
     private static final HashMap<UUID, PermissionAttachment> perms = new HashMap<>();
 
+    /**
+     * Store the player's permission attachment to enable permission manipulations
+     * @param uuid The unique ID of the player
+     */
     public static void addPlayer(UUID uuid) {
         Player p = Bukkit.getPlayer(uuid);
         assert p != null;
@@ -23,6 +29,10 @@ public class Permissions {
         perms.put(uuid, attachment);
     }
 
+    /**
+     * Remove the player's permission attachment from storage
+     * @param uuid The unique ID of the player
+     */
     public static void removePlayer(UUID uuid) {
         Player p = Bukkit.getPlayer(uuid);
         assert p != null;
@@ -30,21 +40,43 @@ public class Permissions {
         perms.remove(uuid);
     }
 
-    public static void setPermission(UUID uuid, String permission) {
-        // Ensure a valid permission was given
-        permission = "castlesiege." + permission.toLowerCase();
-        Collection<String> allPerms = Arrays.asList("castlesiege.admin", "castlesiege.developer",
-                "castlesiege.moderator", "castlesiege.chatmod+", "castlesiege.chatmod");
-        if (!allPerms.contains(permission)) {
-            return;
+    /**
+     * Set the player's staff rank permission
+     * @param uuid The unique ID of the player
+     * @param permission The permission to set
+     */
+    public static void setStaffPermission(UUID uuid, String permission) {
+        Collection<String> staffPerms = Arrays.asList("admin", "developer", "moderator", "chatmod+", "chatmod");
+        if (staffPerms.contains(permission.toLowerCase())) {
+            setPermission(uuid, staffPerms, permission.toLowerCase());
         }
+    }
 
+    /**
+     * Set the player's donator rank permission
+     * @param uuid The unique ID of the player
+     * @param permission The permission to set
+     */
+    public static void setDonatorPermission(UUID uuid, String permission) {
+        Collection<String> donatorPerms = Arrays.asList("high king", "king", "duke", "count", "baron", "noble", "esquire");
+        if (donatorPerms.contains(permission.toLowerCase())) {
+            setPermission(uuid, donatorPerms, permission.toLowerCase());
+        }
+    }
+
+    /**
+     * Set the player's donator rank permission
+     * @param uuid The unique ID of the player
+     * @param possiblePerms All perms corresponding to the category
+     * @param permission The permission to set
+     */
+    private static void setPermission(UUID uuid, Collection<String> possiblePerms, String permission) {
         // Remove old permission and set new one
         PermissionAttachment attachment = perms.get(uuid);
-        for (String perm : allPerms) {
-            attachment.unsetPermission(perm);
+        for (String perm : possiblePerms) {
+            attachment.unsetPermission("castlesiege." + perm);
         }
-        attachment.setPermission(permission, true);
+        attachment.setPermission("castlesiege." + permission, true);
 
         // Update commands list
         Player p = Bukkit.getPlayer(uuid);
