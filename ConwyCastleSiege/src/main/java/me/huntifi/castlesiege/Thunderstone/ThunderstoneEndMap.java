@@ -23,7 +23,7 @@ public class ThunderstoneEndMap implements Runnable {
 
 				if (TS_hasEnded == false) {
 
-					ThunderstoneEndMVP.CloudcrawlersWin();
+					//ThunderstoneEndMVP.CloudcrawlersWin();
 
 						//EndMapAction.endMap(MapsList.Thunderstone);
 
@@ -39,7 +39,7 @@ public class ThunderstoneEndMap implements Runnable {
 
 				if (TS_hasEnded == false) {
 
-					ThunderstoneEndMVP.ThunderstoneGuardsWin();
+					//ThunderstoneEndMVP.ThunderstoneGuardsWin();
 
 						//EndMapAction.endMap(MapsList.Thunderstone);
 					

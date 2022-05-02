@@ -248,8 +248,6 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getPluginManager().registerEvents(new TS_FlagRadius(), plugin);
                 //getServer().getPluginManager().registerEvents(new ThunderstoneDeath(), plugin);
                 //getServer().getPluginManager().registerEvents(new ThunderstoneJoin(), plugin);
-                //getServer().getPluginManager().registerEvents(new HelmsdeepEndMVP(), plugin);
-                //getServer().getPluginManager().registerEvents(new ThunderstoneEndMVP(), plugin);
                 //getServer().getPluginManager().registerEvents(new TS_Woolmap(), plugin);
                 //getServer().getPluginManager().registerEvents(new TS_Woolmap_Distance(), plugin);
                 //getServer().getPluginManager().registerEvents(new ThunderstoneLeave(), plugin);
@@ -258,7 +256,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 getCommand("togglerank").setExecutor(new togglerankCommand());
 
-                //getCommand("Mvp").setExecutor(new mvpCommand());
                 //getCommand("Mystats").setExecutor(new MystatsCommand());
 
                 //getCommand("CheckFlagList").setExecutor(new FlagListCommand());
@@ -274,8 +271,6 @@ public class Main extends JavaPlugin implements Listener {
                 //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new HelmsdeepEndMap(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new HelmsdeepMVPupdater(), 0, 20);
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneMVPupdater(), 0, 20);
                 //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
 
                 //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MainGateReadyRam(), 200, 60);
