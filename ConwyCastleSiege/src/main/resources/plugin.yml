@@ -117,9 +117,6 @@ commands:
     description: Moderator command to give players their votes.
     usage: /Givevote
 
-  CSReload:
-    description: Reloads the Castle Siege Plugin
-    usage: /csreload
   Switch:
     description: Switches teams.
     usage: /switch
@@ -172,6 +169,11 @@ commands:
     usage: /teams
 
   # Staff
+  CSReload:
+    description: Reloads the Castle Siege Plugin
+    usage: /csreload
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
   Fly:
     description: Toggle flight
     usage: /fly
