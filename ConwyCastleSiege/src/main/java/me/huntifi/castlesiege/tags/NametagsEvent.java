@@ -47,10 +47,10 @@ public class NametagsEvent {
         }
 
         // Player has and wants to display a staff tag
-        if (!togglerankCommand.rankers.contains(p) && staffRank.equalsIgnoreCase("none")) {
+        if (!togglerankCommand.rankers.contains(p) && !staffRank.equalsIgnoreCase("")) {
 
             p.setDisplayName("§e" + level + tagColor + tag + " " + nameColor + p.getName());
-            NametagEdit.getApi().setPrefix(p, tag + nameColor + " ");
+            NametagEdit.getApi().setPrefix(p, tagColor + tag + nameColor + " ");
             return;
         }
 
@@ -81,7 +81,7 @@ public class NametagsEvent {
                 tagColor = "§e ";
                 tag = "King";
                 break;
-            case "highking":
+            case "high king":
                 tagColor = "§e ";
                 tag = "High King";
                 break;

@@ -210,7 +210,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 // OLD EVENTS
                 getServer().getPluginManager().registerEvents(new SessionMuteCommand(), plugin);
-                //getServer().getPluginManager().registerEvents(new RegisterLevel(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new Herugrim(), plugin);
 

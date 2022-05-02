@@ -3,9 +3,6 @@ package me.huntifi.castlesiege.commands.info;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.Team;
-import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -66,17 +63,18 @@ public class MyStatsCommand implements CommandExecutor {
         meta.addPage(ChatColor.BLACK + "Name: " + ChatColor.DARK_GRAY + p.getName() + "\n\n"
                 + ChatColor.BLACK + "Rank: " + ChatColor.DARK_GRAY + data.getStaffRank() + "\n"
                 + ChatColor.BLACK + "Donator: " + ChatColor.DARK_GRAY + data.getRank() + "\n\n"
-                + ChatColor.BLACK + "Score: " + ChatColor.DARK_GRAY + num.format(data.getScore()) + "\n"
-                + ChatColor.DARK_GREEN + "Kills: " + ChatColor.DARK_GRAY + data.getKills() + "\n"
-                + ChatColor.RED + "Deaths: " + ChatColor.DARK_GRAY + data.getDeaths() + "\n"
+                + ChatColor.BLACK + "Score: " + ChatColor.DARK_GRAY + dec.format(data.getScore()) + "\n"
+                + ChatColor.DARK_GREEN + "Kills: " + ChatColor.DARK_GRAY + num.format(data.getKills()) + "\n"
+                + ChatColor.RED + "Deaths: " + ChatColor.DARK_GRAY + num.format(data.getDeaths()) + "\n"
                 + ChatColor.BLACK + "KDR: " + ChatColor.DARK_GRAY + dec.format((data.getKills() / data.getDeaths())) + "\n"
                 + ChatColor.BLACK + "Assists: " + ChatColor.DARK_GRAY + num.format(data.getAssists()) + "\n"
                 + ChatColor.BLACK + "Supports: " + ChatColor.DARK_GRAY + num.format(data.getAssists()) + "\n"
                 + ChatColor.BLACK + "Heals: " + ChatColor.DARK_GRAY + num.format(data.getHeals()) + "\n"
                 + ChatColor.BLACK + "Captures: " + ChatColor.DARK_GRAY + num.format(data.getCaptures()) + "\n"
                 + ChatColor.BLACK + "Killstreak: " + ChatColor.DARK_GRAY + num.format(data.getMaxKillStreak()),
-                "Level: \n"             // TODO level
-                + "Next Level: \n\n");  // TODO next level;
+                ChatColor.BLACK + "Level: " + ChatColor.DARK_GRAY + num.format(data.getLevel()) + "\n"
+                + ChatColor.BLACK + "Next Level: " + ChatColor.DARK_GRAY +
+                        dec.format(8 * Math.pow(data.getLevel() + 1, 2) - 8 * data.getLevel() - data.getScore()));
 
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
         book.setItemMeta(meta);

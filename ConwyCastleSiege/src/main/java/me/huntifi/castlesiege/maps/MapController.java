@@ -11,20 +11,15 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.Swordsman;
-import me.huntifi.castlesiege.stats.levels.LevelingEvent;
 import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -182,13 +177,6 @@ public class MapController implements CommandExecutor {
 			currentMap = MapsList.values()[currentMap.ordinal() + 1];
 			mapIndex++;
 			getLogger().info("Loading next map: " + currentMap.name());
-			for (Player p : Bukkit.getOnlinePlayers()) {
-
-				if (p != null) {
-					LevelingEvent.doLeveling();
-					//MainStats.updateStats(p.getUniqueId(), p);
-				}
-			}
 			loadMap();
 			if (!oldMap.equals(currentMap.name())) {
 				unloadMap(oldMap);

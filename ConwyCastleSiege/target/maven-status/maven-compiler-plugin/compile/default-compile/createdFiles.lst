@@ -6,13 +6,11 @@ me\huntifi\castlesiege\Thunderstone\Flags\ThunderstoneReset.class
 me\huntifi\castlesiege\Thunderstone\Gate\ThunderstoneGateDestroyEvent.class
 me\huntifi\castlesiege\maps\WoolMap.class
 me\huntifi\castlesiege\commands\SuicideCommand.class
-me\huntifi\castlesiege\stats\levels\RegisterLevel.class
 me\huntifi\castlesiege\Helmsdeep\Gates\HelmsdeepGreatHallDestroyEvent.class
 me\huntifi\castlesiege\kits\kits\Medic$1.class
 me\huntifi\castlesiege\Helmsdeep\rams\MainGateRamAnimation.class
 me\huntifi\castlesiege\maps\objects\Flag$1.class
 me\huntifi\castlesiege\commands\info\TeamsCommand.class
-me\huntifi\castlesiege\stats\levels\RegisterLevel$1.class
 me\huntifi\castlesiege\events\combat\InCombat.class
 me\huntifi\castlesiege\kits\kits\Berserker$1.class
 me\huntifi\castlesiege\maps\helms_deep\WallEvent.class
@@ -198,7 +196,6 @@ me\huntifi\castlesiege\kits\kits\Halberdier.class
 me\huntifi\castlesiege\kits\items\Enderchest.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Shiftedtower.class
 me\huntifi\castlesiege\kits\kits\Ladderman.class
-me\huntifi\castlesiege\stats\levels\LevelingEvent.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Twinbridge.class
 me\huntifi\castlesiege\maps\objects\CaptureHandler.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagRadius.class
