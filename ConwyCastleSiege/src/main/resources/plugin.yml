@@ -123,9 +123,6 @@ commands:
   CSReload:
     description: Reloads the Castle Siege Plugin
     usage: /csreload
-  NextMap:
-    description: Skips the current map and goes directly to the next one.
-    usage: /nextmap
   Switch:
     description: Switches teams.
     usage: /switch
@@ -193,6 +190,11 @@ commands:
   KickAll:
     description: Kick all players from the server
     usage: /kickall <reason>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  NextMap:
+    description: Skips the current map and goes directly to the next one
+    usage: /nextmap
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
 
