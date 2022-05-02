@@ -176,6 +176,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Staff
                 Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
                 Objects.requireNonNull(getCommand("Kick")).setExecutor(new KickCommand());
+                Objects.requireNonNull(getCommand("KickAll")).setExecutor(new KickAllCommand());
 
                 // Kits
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
@@ -261,8 +262,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 //getCommand("CheckFlagList").setExecutor(new FlagListCommand());
                 getCommand("s").setExecutor(new StaffChat());
-
-                getCommand("kickall").setExecutor(new KickallCommand());
 
                 getCommand("sessionmute").setExecutor(new SessionMuteCommand());
 

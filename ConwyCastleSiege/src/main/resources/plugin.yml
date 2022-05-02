@@ -107,9 +107,6 @@ commands:
   CheckFlagList:
     description: check helmsdeep arraylists
     usage: /CheckFlagList
-  Kickall:
-    description: Kick all players from the server
-    usage: /Kickall
   Unsessionmute:
     description: Un-sessionmutes the player.
     usage: /Unsessionmute
@@ -191,6 +188,11 @@ commands:
   Kick:
     description: Kick a player from the server
     usage: /kick <player> <reason>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  KickAll:
+    description: Kick all players from the server
+    usage: /kickall <reason>
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
 
