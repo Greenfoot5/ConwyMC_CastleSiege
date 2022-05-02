@@ -1,10 +1,8 @@
 package me.huntifi.castlesiege.events.connection;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.database.LoadData;
-import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.castlesiege.database.StoreData;
+import me.huntifi.castlesiege.database.*;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.entity.Player;
@@ -40,6 +38,11 @@ public class PlayerConnect implements Listener {
         InCombat.playerDied(uuid);
         MapController.joinATeam(uuid);
         p.performCommand(data.getKit());
+
+        // Assign the player's staff permissions
+        String staffRank = data.getStaffRank();
+        Permissions.addPlayer(uuid);
+        Permissions.setPermission(uuid, staffRank);
 
         // Update the names stored in the database
         StoreData.updateName(uuid, "player_stats");

@@ -3,6 +3,7 @@ me\huntifi\castlesiege\data_types\PlayerData.class
 me\huntifi\castlesiege\database\LoadData.class
 me\huntifi\castlesiege\database\ActiveData.class
 me\huntifi\castlesiege\events\connection\PlayerConnect.class
+me\huntifi\castlesiege\database\Permissions.class
 me\huntifi\castlesiege\commands\info\MVPCommand$1.class
 me\huntifi\castlesiege\database\StoreData.class
 me\huntifi\castlesiege\commands\info\MVPCommand.class

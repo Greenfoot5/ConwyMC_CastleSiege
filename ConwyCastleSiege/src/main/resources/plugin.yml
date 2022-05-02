@@ -6,10 +6,28 @@ authors: [Huntifi, Greenfoot5]
 depends: [Votifier, WorldGuard, NametagEdit, WorldGuard]
 softdepend: [LibsDisguises, WorldEdit]
 load: STARTUP
+
+permissions:
+  castlesiege.admin:
+    description: Gives access to all CastleSiege admin commands
+    children:
+      castlesiege.developer: true
+  castlesiege.developer:
+    description: Gives access to all CastleSiege developer commands
+    children:
+      castlesiege.moderator: true
+  castlesiege.moderator:
+    description: Gives access to all CastleSiege moderator commands
+    children:
+      castlesiege.chatmod+: true
+  castlesiege.chatmod+:
+    description: Gives access to all CastleSiege chatmod+ commands
+    children:
+      castlesiege.chatmod: true
+  castlesiege.chatmod:
+    description: Gives access to all CastleSiege chatmod commands
+
 commands:
-  fly:
-    description: Staff command that enables flying.
-    usage: /Fly
   Gmc:
     description: Change your game mode to creative.
     usage: /Gmc
@@ -141,6 +159,13 @@ commands:
   Teams:
     description: Shows the size and name of all teams on the current map
     usage: /teams
+
+  # Staff
+  Fly:
+    description: Allows staff members to fly
+    usage: /fly
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
 
   # Kits
   Kit:

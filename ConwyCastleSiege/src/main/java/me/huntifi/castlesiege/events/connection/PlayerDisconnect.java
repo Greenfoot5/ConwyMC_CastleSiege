@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.Permissions;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -36,6 +37,7 @@ public class PlayerDisconnect implements Listener {
 
         storeData(uuid);
         MapController.leaveTeam(uuid);
+        Permissions.removePlayer(uuid);
     }
 
     /**
