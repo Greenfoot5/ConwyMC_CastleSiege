@@ -50,6 +50,7 @@ me\huntifi\castlesiege\database\ActiveData.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\ShiftedTowerFlag.class
 me\huntifi\castlesiege\maps\MapController$2.class
 me\huntifi\castlesiege\maps\Map.class
+me\huntifi\castlesiege\commands\info\MyStatsCommand$1.class
 me\huntifi\castlesiege\kits\gui\FreeKitGUI.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\TwinbridgeFlag$3.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Skyviewtower.class
@@ -67,10 +68,10 @@ me\huntifi\castlesiege\database\MVPStats.class
 me\huntifi\castlesiege\Helmsdeep\rams\GreatHallGateRam.class
 me\huntifi\castlesiege\kits\kits\Warhound.class
 me\huntifi\castlesiege\voting\GiveVoteCommand.class
-me\huntifi\castlesiege\stats\mystats\MystatsCommand.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagCounter.class
 me\huntifi\castlesiege\Helmsdeep\rams\MainGateRam.class
 me\huntifi\castlesiege\Helmsdeep\Gates\HelmsdeepMainGateDestroyEvent.class
+me\huntifi\castlesiege\commands\info\MyStatsCommand.class
 me\huntifi\castlesiege\Thunderstone\Rams\ThunderstoneGateReadyRam.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTowerFlag$4.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Skyview_ThunderstoneGuards.class
@@ -151,7 +152,6 @@ me\huntifi\castlesiege\Thunderstone\ThunderstoneDeath.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\TwinbridgeFlag$4.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Lonelytower_Cloudcrawlers.class
 me\huntifi\castlesiege\commands\SwitchCommand.class
-me\huntifi\castlesiege\stats\mystats\MystatsBook.class
 me\huntifi\castlesiege\commands\staff\SessionMuteCommand.class
 me\huntifi\castlesiege\Helmsdeep\Ballistae\Ballista1Cooldown$1.class
 me\huntifi\castlesiege\events\connection\PlayerDisconnect.class

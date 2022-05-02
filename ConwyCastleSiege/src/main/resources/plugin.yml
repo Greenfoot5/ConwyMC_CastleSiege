@@ -95,9 +95,6 @@ commands:
   Playerid:
     description: Returns the target player's UUID.
     usage: /Playerid
-  Mystats:
-    description: Opens a book that shows you your stats.
-    usage: /Mystats
   togglerank:
     description: Toggles the rank
     usage: /togglerank
@@ -158,6 +155,9 @@ commands:
     description: Shows the current MVP(s)
     usage: /mvp(s)
     aliases: mvps
+  MyStats:
+    description: Opens a book that shows your stats
+    usage: /mystats
   Ping:
     description: Shows your current ping
     usage: /ping

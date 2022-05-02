@@ -165,6 +165,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
                 Objects.requireNonNull(getCommand("Maps")).setExecutor(new MapsCommand());
                 Objects.requireNonNull(getCommand("MVP")).setExecutor(new MVPCommand());
+                Objects.requireNonNull(getCommand("MyStats")).setExecutor(new MyStatsCommand());
                 Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
                 Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
@@ -253,8 +254,6 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getPluginManager().registerEvents(new EastTowerFlag(), plugin);
 
                 getCommand("togglerank").setExecutor(new togglerankCommand());
-
-                //getCommand("Mystats").setExecutor(new MystatsCommand());
 
                 //getCommand("CheckFlagList").setExecutor(new FlagListCommand());
 
