@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.Thunderstone.TeamBonusses;
 
 import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagRadius;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -29,7 +28,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+1 flagcapping point(s)" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
 									
 								}
 							}
@@ -39,7 +38,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+1 flagcapping point(s)" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
 									
 								}
 							}
@@ -53,7 +52,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+2 flagcapping point(s) [Team Bonus]" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
 									
 								}
 							}
@@ -63,7 +62,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+2 flagcapping point(s) [Team Bonus]" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
 									
 								}
 							}
@@ -77,7 +76,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+3 flagcapping point(s) [Team Bonus]" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
 									
 								}
 							}
@@ -87,7 +86,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+3 flagcapping point(s) [Team Bonus]" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
 									
 								}
 							}
@@ -101,7 +100,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+4 flagcapping point(s) [Team Bonus]" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
 									
 								}
 							}
@@ -111,7 +110,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+4 flagcapping point(s) [Team Bonus]" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
 									
 								}
 							}
@@ -147,7 +146,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
 									return;
 								}
 							}
@@ -157,7 +156,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
 									return;
 								}
 							}
@@ -171,7 +170,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
 									return;
 								}
 							}
@@ -181,7 +180,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
 									return;
 								}
 							}
@@ -195,7 +194,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
 									return;
 								}
 							}
@@ -205,7 +204,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
 									return;
 								}
 							}
@@ -219,7 +218,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
 									return;
 								}
 							}
@@ -229,7 +228,7 @@ public class Messages_Twinbridge {
 								for (Player online : TS_FlagRadius.twinbridge2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Twinbridge"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
 									return;
 								}
 							}

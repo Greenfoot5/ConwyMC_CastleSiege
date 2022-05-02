@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.Thunderstone.Flags;
 
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -34,7 +33,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+1 flagcapping point(s)" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
 
 								}
 							}
@@ -44,7 +43,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+1 flagcapping point(s)" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
 
 								}
 							}
@@ -58,7 +57,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+2 flagcapping point(s) [Team Bonus]" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
 
 								}
 							}
@@ -68,7 +67,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+2 flagcapping point(s) [Team Bonus]" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
 
 								}
 							}
@@ -82,7 +81,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+3 flagcapping point(s) [Team Bonus]" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
 
 								}
 							}
@@ -92,7 +91,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+3 flagcapping point(s) [Team Bonus]" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
 
 								}
 							}
@@ -106,7 +105,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+4 flagcapping point(s) [Team Bonus]" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
 
 								}
 							}
@@ -116,7 +115,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+4 flagcapping point(s) [Team Bonus]" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
 
 								}
 							}
@@ -152,7 +151,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
 									return;
 								}
 							}
@@ -162,7 +161,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 1);
 									return;
 								}
 							}
@@ -176,7 +175,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
 									return;
 								}
 							}
@@ -186,7 +185,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 2);
 									return;
 								}
 							}
@@ -200,7 +199,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
 									return;
 								}
 							}
@@ -210,7 +209,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 3);
 									return;
 								}
 							}
@@ -224,7 +223,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall1) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
 									return;
 								}
 							}
@@ -234,7 +233,7 @@ public class TS_FlagCaptures {
 								for (Player online : TS_FlagRadius.stairhall2) {
 									online.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: The Stairhall"));
 									playSound(online);
-									MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
+									//MVPstats.setCaptures(online.getUniqueId(), MVPstats.getCaptures(online.getUniqueId()) + 4);
 									return;
 								}
 							}

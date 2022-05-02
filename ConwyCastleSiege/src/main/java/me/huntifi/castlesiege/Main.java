@@ -11,9 +11,7 @@ import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import me.huntifi.castlesiege.commands.*;
-import me.huntifi.castlesiege.commands.chat.PrivateMessage;
-import me.huntifi.castlesiege.commands.chat.ReplyMessage;
-import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.commands.chat.*;
 import me.huntifi.castlesiege.commands.info.*;
 import me.huntifi.castlesiege.commands.staff.*;
 import me.huntifi.castlesiege.data_types.Frame;
@@ -156,7 +154,6 @@ public class Main extends JavaPlugin implements Listener {
                 // Rewrite Commands
                 Objects.requireNonNull(getCommand("Suicide")).setExecutor(new SuicideCommand());
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
-                Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
 
                 // Chat
@@ -173,6 +170,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
 
                 // Staff
+                Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
                 Objects.requireNonNull(getCommand("Kick")).setExecutor(new KickCommand());
                 Objects.requireNonNull(getCommand("KickAll")).setExecutor(new KickAllCommand());
