@@ -2,10 +2,10 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.voting.VotesChanging;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -135,7 +135,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
                 p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 400, 1)));
                 p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 0)));
                 // Sword
-                if (!VotesChanging.getVotes(uuid).contains("V#1")) {
+                if (!ActiveData.getData(p.getUniqueId()).hasVote("sword")) {
                     p.getInventory().setItem(0, berserkSword);
                 } else {
                     p.getInventory().setItem(0, berserkSwordVoted);
@@ -147,7 +147,7 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
                     public void run() {
                         if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
                                 p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) == null) {
-                            if (!VotesChanging.getVotes(p.getUniqueId()).contains("V#1")) {
+                            if (!ActiveData.getData(p.getUniqueId()).hasVote("sword")) {
                                 p.getInventory().setItem(0, regularSword);
                             } else {
                                 p.getInventory().setItem(0, regularSwordVoted);

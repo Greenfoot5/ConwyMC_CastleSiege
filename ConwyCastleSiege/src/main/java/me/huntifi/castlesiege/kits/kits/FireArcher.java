@@ -1,11 +1,11 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.voting.VotesChanging;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -18,7 +18,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -193,7 +192,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
                 PlayerInventory inv = p.getInventory();
                 if (inv.getItemInOffHand().getType() != Material.CAULDRON &&
                         !inv.contains(Material.CAULDRON)) {
-                    if (!VotesChanging.getVotes(q.getUniqueId()).contains("V#1")) {
+                    if (!ActiveData.getData(p.getUniqueId()).hasVote("sword")) {
                         p.getInventory().addItem(firepit);
                     } else {
                         p.getInventory().addItem(firepitVoted);

@@ -95,9 +95,6 @@ commands:
   Playerid:
     description: Returns the target player's UUID.
     usage: /Playerid
-  togglerank:
-    description: Toggles the rank
-    usage: /togglerank
   CheckFlagList:
     description: check helmsdeep arraylists
     usage: /CheckFlagList
@@ -107,12 +104,6 @@ commands:
   sessionmute:
     description: Session mute the player.
     usage: /sessionmute
-  Givevoter:
-    description: Not for players, this is a console command.
-    usage: /Givevoter
-  Givevote:
-    description: Moderator command to give players their votes.
-    usage: /Givevote
 
   Switch:
     description: Switches teams.
@@ -177,6 +168,11 @@ commands:
   Fly:
     description: Toggle flight
     usage: /fly
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  GiveVote:
+    description: Give a player vote rewards
+    usage: /givevote <player> <vote>
     permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
   Kick:

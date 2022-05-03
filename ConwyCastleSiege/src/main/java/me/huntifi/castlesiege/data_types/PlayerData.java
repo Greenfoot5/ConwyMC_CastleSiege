@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.data_types;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 /**
  * Represents a player's data
@@ -24,7 +25,7 @@ public class PlayerData {
     private double rankPoints;
     private String staffRank;
     private String rank;
-    private String votes;
+    private HashMap<String, Long> votes;
     private double coins;
 
     private static double coinMultiplier = 1;
@@ -35,26 +36,27 @@ public class PlayerData {
      * @param rankData The data retrieved from player_rank
      * @throws SQLException If the columns don't match up
      */
-    public PlayerData(ResultSet statsData, ResultSet rankData) throws SQLException {
-        this.score = statsData.getDouble("SCORE");
-        this.kills = statsData.getDouble("KILLS");
-        this.deaths = statsData.getDouble("DEATHS");
-        this.captures = statsData.getDouble("CAPTURES");
-        this.assists = statsData.getDouble("ASSISTS");
-        this.heals = statsData.getDouble("HEALS");
-        this.supports = statsData.getDouble("SUPPORTS");
+    public PlayerData(ResultSet statsData, ResultSet rankData, HashMap<String, Long> votes) throws SQLException {
+        this.score = statsData.getDouble("score");
+        this.kills = statsData.getDouble("kills");
+        this.deaths = statsData.getDouble("deaths");
+        this.captures = statsData.getDouble("captures");
+        this.assists = statsData.getDouble("assists");
+        this.heals = statsData.getDouble("heals");
+        this.supports = statsData.getDouble("supports");
+        this.coins = statsData.getDouble("coins");
+        this.level = statsData.getInt("level");
+        this.mvps = statsData.getInt("mvps");
+        this.secrets = statsData.getInt("secrets");
         this.killStreak = 0;
-        this.maxKillStreak = statsData.getInt("KILLSTREAK");
-        this.mvps = statsData.getInt("MVPS");
-        this.secrets = statsData.getInt("SECRETS");
-        this.level = statsData.getInt("LEVEL");
-        this.kit = statsData.getString("KIT");
+        this.maxKillStreak = statsData.getInt("kill_streak");
+        this.kit = statsData.getString("kit");
 
-        this.rank = rankData.getString("RANK");
-        this.staffRank = rankData.getString("STAFFRANK");
-        this.rankPoints = rankData.getDouble("RANKPOINTS");
-        this.votes = rankData.getString("VOTES");
-        this.coins = rankData.getDouble("COINS");
+        this.rank = rankData.getString("rank");
+        this.staffRank = rankData.getString("staff_rank");
+        this.rankPoints = rankData.getDouble("rank_points");
+
+        this.votes = votes;
     }
 
     /**
@@ -342,16 +344,32 @@ public class PlayerData {
      * Get the player's votes
      * @return The player's votes
      */
-    public String getVotes() {
+    public HashMap<String, Long> getVotes() {
         return votes;
     }
 
     /**
-     * Set the player's votes
-     * @param votes The votes to set
+     * Get a player's specified vote
+     * @param vote The vote to get
+     * @return Whether the player has the specified vote
      */
-    public void setVotes(String votes) {
-        this.votes = votes;
+    public boolean hasVote(String vote) {
+        return votes.containsKey(vote);
+    }
+
+    /**
+     * Reset the player's votes
+     */
+    public void resetVotes() {
+        this.votes = new HashMap<>();
+    }
+
+    /**
+     * Set the specified vote to the current time
+     * @param vote The vote to set
+     */
+    public void setVote(String vote) {
+        votes.put(vote, System.currentTimeMillis());
     }
 
     /**

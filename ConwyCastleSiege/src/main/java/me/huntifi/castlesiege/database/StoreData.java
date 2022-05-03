@@ -2,16 +2,13 @@ package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
 import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -26,8 +23,8 @@ public class StoreData {
         PlayerData data = ActiveData.getData(uuid);
 
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE player_stats SET SCORE = ?, KILLS = ?, DEATHS = ?, CAPTURES = ?, ASSISTS = ?, HEALS = ?, "
-                        + "SUPPORTS = ?, MVPS = ?, SECRETS = ?, LEVEL = ?, KIT = ?, KILLSTREAK = ? WHERE UUID = ?");
+                "UPDATE player_stats SET score = ?, kills = ?, deaths = ?, captures = ?, assists = ?, heals = ?, "
+                        + "supports = ?, coins = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ? WHERE uuid = ?");
         ps.setDouble(1, data.getScore());
         ps.setDouble(2, data.getKills());
         ps.setDouble(3, data.getDeaths());
@@ -35,22 +32,22 @@ public class StoreData {
         ps.setDouble(5, data.getAssists());
         ps.setDouble(6, data.getHeals());
         ps.setDouble(7, data.getSupports());
-        ps.setInt(8, data.getMVPs());
-        ps.setInt(9, data.getSecrets());
-        ps.setInt(10, data.getLevel());
-        ps.setString(11, data.getKit());
+        ps.setDouble(8, data.getCoins());
+        ps.setInt(9, data.getMVPs());
+        ps.setInt(10, data.getSecrets());
+        ps.setInt(11, data.getLevel());
         ps.setInt(12, data.getMaxKillStreak());
-        ps.setString(13, uuid.toString());
+        ps.setString(13, data.getKit());
+        ps.setString(14, uuid.toString());
         ps.executeUpdate();
         ps.close();
 
         ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE player_rank SET RANK = ?, STAFFRANK = ?, RANKPOINTS = ?, COINS = ? WHERE UUID = ?");
+                "UPDATE player_rank SET rank = ?, staff_rank = ?, rank_points = ? WHERE uuid = ?");
         ps.setString(1, data.getRank());
         ps.setString(2, data.getStaffRank());
         ps.setDouble(3, data.getRankPoints());
-        ps.setDouble(4, data.getCoins());
-        ps.setString(5, uuid.toString());
+        ps.setString(4, uuid.toString());
         ps.executeUpdate();
         ps.close();
     }
@@ -72,7 +69,7 @@ public class StoreData {
 
     /**
      * Update the player name saved in the database
-     * @param uuid The unique ID of the user
+     * @param uuid The unique ID of the player
      * @param table The table to update
      */
     public static void updateName(UUID uuid, String table) {
@@ -81,8 +78,41 @@ public class StoreData {
             public void run() {
                 try {
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                            "UPDATE " + table + " SET NAME = ? WHERE UUID = ?");
+                            "UPDATE " + table + " SET name = ? WHERE uuid = ?");
                     ps.setString(1, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName());
+                    ps.setString(2, uuid.toString());
+                    ps.executeUpdate();
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.runTaskAsynchronously(Main.plugin);
+    }
+
+    /**
+     * Update the player's votes saved in the database
+     * @param uuid The unique ID of the player
+     */
+    public static void updateVotes(UUID uuid) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    // Create the votes string
+                    HashMap<String, Long> votes = ActiveData.getData(uuid).getVotes();
+                    StringBuilder sb = new StringBuilder();
+                    votes.forEach((key, value) -> {
+                        if (sb.length() > 0) {
+                            sb.append("%line%");
+                        }
+                        sb.append(key).append("//").append(value);
+                    });
+
+                    // Update the votes in the database
+                    PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                            "UPDATE VotingPlugin_Users SET LastVotes = ? WHERE uuid = ?");
+                    ps.setString(1, sb.toString());
                     ps.setString(2, uuid.toString());
                     ps.executeUpdate();
                     ps.close();
