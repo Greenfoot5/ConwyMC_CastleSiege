@@ -56,7 +56,8 @@ public class TeamChat implements CommandExecutor {
 	 */
 	public static void sendMessage(Player p, String m) {
 		Team t = MapController.getCurrentMap().getTeam(p.getUniqueId());
-		String s = p.getDisplayName() + ChatColor.DARK_AQUA + " TEAM: " + ChatColor.GRAY + m;
+		ChatColor color = p.hasPermission("castlesiege.chatmod") ? ChatColor.WHITE : ChatColor.GRAY;
+		String s = p.getDisplayName() + ChatColor.DARK_AQUA + " TEAM: " + color + m;
 
 		// Send the message to all team members
 		System.out.println(s);

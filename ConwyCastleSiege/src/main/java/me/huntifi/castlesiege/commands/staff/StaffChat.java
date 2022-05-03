@@ -64,7 +64,7 @@ public class StaffChat implements CommandExecutor {
 
 		// Send the message to all staff members
 		for (Player q : Bukkit.getOnlinePlayers()) {
-			if (!ActiveData.getData(q.getUniqueId()).getStaffRank().equalsIgnoreCase("")) {
+			if (q.hasPermission("castlesiege.chatmod")) {
 				q.sendMessage(s);
 			}
 		}
@@ -81,7 +81,7 @@ public class StaffChat implements CommandExecutor {
 		// Send the message to all staff members
 		System.out.println(s);
 		for (Player q : Bukkit.getOnlinePlayers()) {
-			if (!ActiveData.getData(q.getUniqueId()).getStaffRank().equalsIgnoreCase("")) {
+			if (q.hasPermission("castlesiege.chatmod")) {
 				q.sendMessage(s);
 			}
 		}

@@ -23,14 +23,6 @@ public class PlayerChat implements Listener {
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
 
-		// Set message colour to white or gray
-		String staffRank = ActiveData.getData(p.getUniqueId()).getStaffRank();
-		if (!staffRank.equalsIgnoreCase("")) {
-			e.setMessage(ChatColor.WHITE + e.getMessage());
-		} else {
-			e.setMessage(ChatColor.GRAY + e.getMessage());
-		}
-
 		// Send message in team-chat or staff-chat
 		if (TeamChat.isTeamChatter(p.getUniqueId())) {
 			TeamChat.sendMessage(e.getPlayer(), e.getMessage());
@@ -42,7 +34,9 @@ public class PlayerChat implements Listener {
 			return;
 		}
 
-		// Send regular message
+		// Set message colour to white or gray and send as regular message
+		ChatColor color = p.hasPermission("castlesiege.chatmod") ? ChatColor.WHITE : ChatColor.GRAY;
+		e.setMessage(color + e.getMessage());
 		e.setFormat("%s: %s");
 	}
 }
