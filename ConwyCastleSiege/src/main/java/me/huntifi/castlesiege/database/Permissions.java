@@ -45,11 +45,14 @@ public class Permissions {
      * @param uuid The unique ID of the player
      * @param permission The permission to set
      */
-    public static void setStaffPermission(UUID uuid, String permission) {
+    public static boolean setStaffPermission(UUID uuid, String permission) {
         Collection<String> staffPerms = Arrays.asList("admin", "developer", "moderator", "chatmod+", "chatmod");
         if (staffPerms.contains(permission.toLowerCase())) {
             setPermission(uuid, staffPerms, permission.toLowerCase());
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -57,11 +60,14 @@ public class Permissions {
      * @param uuid The unique ID of the player
      * @param permission The permission to set
      */
-    public static void setDonatorPermission(UUID uuid, String permission) {
-        Collection<String> donatorPerms = Arrays.asList("high king", "king", "duke", "count", "baron", "noble", "esquire");
+    public static boolean setDonatorPermission(UUID uuid, String permission) {
+        Collection<String> donatorPerms = Arrays.asList("high_king", "king", "duke", "count", "baron", "noble", "esquire");
         if (donatorPerms.contains(permission.toLowerCase())) {
             setPermission(uuid, donatorPerms, permission.toLowerCase());
+            return true;
         }
+
+        return false;
     }
 
     /**

@@ -104,6 +104,7 @@ me\huntifi\castlesiege\commands\staff\ReloadCommand.class
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagCaptures.class
 me\huntifi\castlesiege\maps\Team.class
 me\huntifi\castlesiege\commands\staff\StaffChat.class
+me\huntifi\castlesiege\commands\staff\GiveStaffRank.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTowerFlag$3.class
 me\huntifi\castlesiege\database\MySQL.class
 me\huntifi\castlesiege\events\combat\ArrowRemoval.class
@@ -118,6 +119,7 @@ me\huntifi\castlesiege\Helmsdeep\rams\MainGateRamAnimation$1.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTowerFlag.class
 me\huntifi\castlesiege\commands\staff\UnsessionmuteCommand.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\TwinbridgeFlag.class
+me\huntifi\castlesiege\commands\staff\GiveRank.class
 me\huntifi\castlesiege\Thunderstone\TeamBonusses\Messages_Westtower.class
 me\huntifi\castlesiege\kits\gui\SelectorKitGUI.class
 me\huntifi\castlesiege\kits\kits\Executioner.class

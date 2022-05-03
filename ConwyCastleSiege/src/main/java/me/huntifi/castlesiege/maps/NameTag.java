@@ -76,7 +76,7 @@ public class NameTag {
                 return "§4Duke ";
             case "king":
                 return "§eKing ";
-            case "high king":
+            case "high_king":
                 return "§eHigh King ";
             default:
                 return "";

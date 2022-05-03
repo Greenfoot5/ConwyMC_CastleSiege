@@ -29,7 +29,7 @@ permissions:
     description: Gives access to all CastleSiege Chatmod commands
 
   # Donator
-  castlesiege.high king:
+  castlesiege.high_king:
     description: Gives access to all CastleSiege High King commands
     children:
       castlesiege.king: true
@@ -65,15 +65,6 @@ commands:
   Gma:
     description: Change your game mode to adventure.
     usage: /Gma
-  Giverank:
-    description: Gives a rank to the targetted player.
-    usage: /Giverank
-  Givestaffrank:
-    description: Gives a staff rank to the targetted player.
-    usage: /Givestaffrank
-  Checkrank:
-    description: This is a controle check message to see if the database - ranks work.
-    usage: /Checkrank
   Ban:
     description: Ban a player!
     usage: /Ban
@@ -166,6 +157,16 @@ commands:
     description: Toggle flight
     usage: /fly
     permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  GiveRank:
+    description: Give a donator rank to a player
+    usage: /giverank <player> <rank>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  GiveStaffRank:
+    description: Give a staff rank to a player
+    usage: /givestaffrank <player> <rank>
+    permission: castlesiege.admin
     permission-message: You are not permitted to use this command!
   GiveVote:
     description: Give a player vote rewards
