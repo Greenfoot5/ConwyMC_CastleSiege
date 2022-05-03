@@ -31,8 +31,12 @@ public class LoadData {
             createEntry(uuid, "player_rank");
             Tuple<PreparedStatement, ResultSet> prRank = getData(uuid, "player_rank");
 
+            // Votes data
+            createEntry(uuid, "VotingPlugin_Users");
+            HashMap<String, Long> votes = getVotes(uuid);
+
             // Collect data and release resources
-            PlayerData data = new PlayerData(prStats.getSecond(), prRank.getSecond(), getVotes(uuid));
+            PlayerData data = new PlayerData(prStats.getSecond(), prRank.getSecond(), votes);
             prStats.getFirst().close();
             prRank.getFirst().close();
 
@@ -78,7 +82,7 @@ public class LoadData {
 
         // Get votes from the query result
         HashMap<String, Long> votes = new HashMap<>();
-        if (rs.next()) {
+        if (rs.next() && rs.getString(1) != null) {
             String[] voteArray = rs.getString(1).split("%line%");
             for (String vote : voteArray) {
                 if (Long.parseLong(vote.split("//")[1]) > System.currentTimeMillis() - 24 * 60 * 60 * 1000) {
@@ -92,14 +96,16 @@ public class LoadData {
     }
 
     /**
-     * Create an entry in the player_stats table, does nothing if entry already exists
+     * Create an entry in the specified table, does nothing if entry already exists
      * @param uuid The player for whom to create an entry
      * @param table The table to create an entry in
      * @throws SQLException If something goes wrong executing the insert
      */
     private static void createEntry(UUID uuid, String table) throws SQLException {
+        String name = table.equalsIgnoreCase("VotingPlugin_Users") ? "PlayerName" : "name";
+
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "INSERT IGNORE INTO " + table + " (name, uuid) VALUES (?, ?)");
+                "INSERT IGNORE INTO " + table + " (" + name + ", uuid) VALUES (?, ?)");
         ps.setString(1, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName());
         ps.setString(2, uuid.toString());
         ps.executeUpdate();
