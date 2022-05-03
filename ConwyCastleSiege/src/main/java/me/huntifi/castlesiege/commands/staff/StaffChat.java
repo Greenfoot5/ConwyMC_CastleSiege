@@ -36,6 +36,7 @@ public class StaffChat implements CommandExecutor {
 		// Console can't toggle staff-chat mode
 		if (sender instanceof ConsoleCommandSender) {
 			if (args.length == 0) {
+				sender.sendMessage("Console cannot toggle staff-chat mode!");
 				return false;
 			} else {
 				String message = String.join(" ", args);
@@ -62,7 +63,6 @@ public class StaffChat implements CommandExecutor {
 		String s = ChatColor.WHITE + "CONSOLE" + ChatColor.AQUA + " STAFF: " + ChatColor.WHITE + m;
 
 		// Send the message to all staff members
-		System.out.println(s);
 		for (Player q : Bukkit.getOnlinePlayers()) {
 			if (!ActiveData.getData(q.getUniqueId()).getStaffRank().equalsIgnoreCase("")) {
 				q.sendMessage(s);

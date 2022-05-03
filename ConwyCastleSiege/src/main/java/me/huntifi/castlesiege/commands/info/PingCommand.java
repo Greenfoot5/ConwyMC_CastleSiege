@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +25,11 @@ public class PingCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		if (sender instanceof ConsoleCommandSender) {
+			sender.sendMessage("Console cannot use /ping!");
+			return true;
+		}
+
 		Player p = (Player) sender;
 		p.sendMessage(ChatColor.DARK_AQUA + "Your ping is: " + ChatColor.AQUA + getPing(p) + ChatColor.DARK_AQUA + " ms.");
 		return true;

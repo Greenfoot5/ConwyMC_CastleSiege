@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
@@ -49,6 +50,11 @@ public class KitCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        if (sender instanceof ConsoleCommandSender) {
+            sender.sendMessage("Console cannot select kits!");
+            return true;
+        }
+
         Player p = (Player) sender;
         String team = MapController.getCurrentMap().getTeam(p.getUniqueId()).name;
 

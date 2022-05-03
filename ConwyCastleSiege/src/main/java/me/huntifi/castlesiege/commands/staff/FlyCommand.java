@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,6 +23,11 @@ public class FlyCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		if (sender instanceof ConsoleCommandSender) {
+			sender.sendMessage("Console cannot fly!");
+			return true;
+		}
+
 		Player p = (Player) sender;
 		p.setAllowFlight(!p.getAllowFlight());
 		p.setFlying(p.getAllowFlight());

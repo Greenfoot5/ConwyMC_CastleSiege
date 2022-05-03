@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -101,6 +102,11 @@ public class Berserker extends Kit implements Listener, CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        if (commandSender instanceof ConsoleCommandSender) {
+            commandSender.sendMessage("Console cannot select kits!");
+            return true;
+        }
+
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
     }

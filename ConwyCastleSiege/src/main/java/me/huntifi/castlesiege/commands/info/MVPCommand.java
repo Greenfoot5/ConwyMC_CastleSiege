@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -41,9 +42,11 @@ public class MVPCommand implements CommandExecutor {
                     for (Team team : MapController.getCurrentMap().teams) {
                         printMVP(sender, team);
                     }
-                } else {
+                } else if (!(sender instanceof ConsoleCommandSender)) {
                     UUID uuid = ((Player) sender).getUniqueId();
                     printMVP(sender, MapController.getCurrentMap().getTeam(uuid));
+                } else {
+                    sender.sendMessage("Console is not in a team!");
                 }
             }
         }.runTaskAsynchronously(Main.plugin);

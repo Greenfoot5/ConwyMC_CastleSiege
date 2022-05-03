@@ -11,6 +11,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -26,6 +27,11 @@ public class SwitchCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (sender instanceof ConsoleCommandSender) {
+			sender.sendMessage("Console cannot join a team!");
+			return true;
+		}
+
 		Player p = (Player) sender;
 		Map map = MapController.getCurrentMap();
 

@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -21,6 +22,11 @@ public class togglerankCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+		if (sender instanceof ConsoleCommandSender) {
+			sender.sendMessage("Console cannot toggle their rank!");
+			return true;
+		}
+
 		Player p = (Player) sender;
 
 		if(cmd.getName().equalsIgnoreCase("togglerank")) {
