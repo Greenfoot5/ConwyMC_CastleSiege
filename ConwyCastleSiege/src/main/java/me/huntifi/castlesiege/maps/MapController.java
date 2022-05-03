@@ -11,7 +11,6 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -289,7 +288,7 @@ public class MapController implements CommandExecutor {
 		}
 
 		player.teleport(team.lobby.spawnPoint);
-		NametagsEvent.GiveNametag(player);
+		NameTag.give(player);
 
 		player.sendMessage("You joined" + team.primaryChatColor + " " + team.name);
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");

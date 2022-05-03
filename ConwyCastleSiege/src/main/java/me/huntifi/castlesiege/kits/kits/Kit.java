@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
-import me.huntifi.castlesiege.tags.NametagsEvent;
+import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -170,9 +170,9 @@ public abstract class Kit implements Listener {
      * @param killMessage The message sent to the killer
      */
     private void doKillMessage(Player whoWasHit, Player whoHit, String[] deathMessage, String[] killMessage) {
-        whoWasHit.sendMessage(deathMessage[0] + NametagsEvent.color(whoHit) + whoHit.getName()
+        whoWasHit.sendMessage(deathMessage[0] + NameTag.color(whoHit) + whoHit.getName()
                 + ChatColor.RESET + deathMessage[1]);
-        whoHit.sendMessage(killMessage[0] + NametagsEvent.color(whoWasHit) + whoWasHit.getName()
+        whoHit.sendMessage(killMessage[0] + NameTag.color(whoWasHit) + whoWasHit.getName()
                 + ChatColor.RESET + killMessage[1] + ChatColor.GRAY +
                 " (" + ActiveData.getData(whoHit.getUniqueId()).getKillStreak() + ")");
     }
@@ -204,7 +204,7 @@ public abstract class Kit implements Listener {
     protected void disguise(Player p) {
         if (DisguiseAPI.isDisguised(p)) {
             DisguiseAPI.undisguiseToAll(p);
-            NametagsEvent.GiveNametag(p);
+            NameTag.give(p);
         }
     }
 }

@@ -74,9 +74,6 @@ commands:
   Checkrank:
     description: This is a controle check message to see if the database - ranks work.
     usage: /Checkrank
-  Togglerank:
-    description: Toggle your rank on and off.
-    usage: /Togglerank
   Ban:
     description: Ban a player!
     usage: /Ban
@@ -194,6 +191,11 @@ commands:
     description: Talk in staff-chat
     usage: /s <message>
     aliases: s
+    permission: castlesiege.chatmod
+    permission-message: You are not permitted to use this command!
+  ToggleRank:
+    description: Switch between staff and donator rank
+    usage: /togglerank
     permission: castlesiege.chatmod
     permission-message: You are not permitted to use this command!
 

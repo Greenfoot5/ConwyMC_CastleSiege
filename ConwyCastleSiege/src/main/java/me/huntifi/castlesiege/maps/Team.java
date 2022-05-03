@@ -3,7 +3,6 @@ package me.huntifi.castlesiege.maps;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.castlesiege.tags.NametagsEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -79,7 +78,7 @@ public class Team {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
         //player.setBedSpawnLocation(lobby.spawnPoint, true);
-        NametagsEvent.GiveNametag(player);
+        NameTag.give(player);
     }
 
     /**

@@ -29,7 +29,6 @@ me\huntifi\castlesiege\kits\kits\Shieldman.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\LonelyTowerFlag.class
 me\huntifi\castlesiege\Helmsdeep\rams\GreatHallRamAnimation.class
 me\huntifi\castlesiege\Thunderstone\Rams\ThunderstoneRamAnimation$1.class
-me\huntifi\castlesiege\commands\togglerankCommand.class
 me\huntifi\castlesiege\events\combat\LobbyCombat.class
 me\huntifi\castlesiege\database\LoadData.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\Stairhall_Cloudcrawlers.class
@@ -42,7 +41,6 @@ me\huntifi\castlesiege\Thunderstone\Flags\animations\WestTower_Cloudcrawlers.cla
 me\huntifi\castlesiege\Thunderstone\Flags\TS_FlagTeam.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\WestTower_ThunderstoneGuards.class
 me\huntifi\castlesiege\Main$1.class
-me\huntifi\castlesiege\tags\NametagsEvent.class
 me\huntifi\castlesiege\kits\gui\UnlockedKitGUI.class
 me\huntifi\castlesiege\database\ActiveData.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\ShiftedTowerFlag.class
@@ -76,6 +74,7 @@ me\huntifi\castlesiege\maps\Timer.class
 me\huntifi\castlesiege\events\connection\PlayerConnect.class
 me\huntifi\castlesiege\Thunderstone\ThunderstoneEndMap.class
 me\huntifi\castlesiege\events\combat\ApplyRegeneration.class
+me\huntifi\castlesiege\commands\staff\ToggleRankCommand.class
 me\huntifi\castlesiege\kits\kits\Maceman.class
 me\huntifi\castlesiege\events\death\DeathEvent$1.class
 me\huntifi\castlesiege\kits\kits\Ranger.class
@@ -114,6 +113,7 @@ me\huntifi\castlesiege\Thunderstone\Flags\animations\Stairhall_ThunderstoneGuard
 me\huntifi\castlesiege\kits\items\WoolHat.class
 me\huntifi\castlesiege\database\StoreData.class
 me\huntifi\castlesiege\maps\objects\Door.class
+me\huntifi\castlesiege\maps\NameTag.class
 me\huntifi\castlesiege\events\security\MapProtection.class
 me\huntifi\castlesiege\Helmsdeep\rams\MainGateRamAnimation$1.class
 me\huntifi\castlesiege\Thunderstone\Flags\animations\EastTowerFlag.class

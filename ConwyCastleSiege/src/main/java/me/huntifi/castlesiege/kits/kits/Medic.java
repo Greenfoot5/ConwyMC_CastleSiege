@@ -7,7 +7,7 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.tags.NametagsEvent;
+import me.huntifi.castlesiege.maps.NameTag;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -174,7 +174,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
                 cakeType = MapController.getCurrentMap().getTeam(p.getUniqueId())
                         == MapController.getCurrentMap().getTeam(q.getUniqueId()) ? " friendly" : "n enemy";
                 q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        ChatColor.RED + "Your cake was destroyed by " + NametagsEvent.color(p) + p.getName()));
+                        ChatColor.RED + "Your cake was destroyed by " + NameTag.color(p) + p.getName()));
             } else {
                 cake.setType(Material.AIR);
                 cakeType = " neutral";
@@ -230,9 +230,9 @@ public class Medic extends Kit implements Listener, CommandExecutor {
                 // Send messages and award heal
                 if (q != null && !Objects.equals(p, q)) {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NametagsEvent.color(q) + q.getName() + ChatColor.AQUA + "'s cake is healing you!"));
+                            NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s cake is healing you!"));
                     q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "Your cake is healing " + NametagsEvent.color(p) + p.getName()));
+                            ChatColor.AQUA + "Your cake is healing " + NameTag.color(p) + p.getName()));
                     UpdateStats.addHeal(q.getUniqueId());
                 } else {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
@@ -290,9 +290,9 @@ public class Medic extends Kit implements Listener, CommandExecutor {
             // Heal
             r.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 4));
             r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                     NametagsEvent.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));
+                     NameTag.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.AQUA + "You are healing " + NametagsEvent.color(r) + r.getName()));
+                    ChatColor.AQUA + "You are healing " + NameTag.color(r) + r.getName()));
             UpdateStats.addHeal(p.getUniqueId());
         }
     }

@@ -33,15 +33,15 @@ public class PlayerConnect implements Listener {
         ActiveData.addPlayer(uuid, data);
         MVPStats.addPlayer(uuid);
 
-        // Join a team and assign kit
-        InCombat.playerDied(uuid);
-        MapController.joinATeam(uuid);
-        p.performCommand(data.getKit());
-
         // Assign the player's staff and donator permissions
         Permissions.addPlayer(uuid);
         Permissions.setStaffPermission(uuid, data.getStaffRank());
         Permissions.setDonatorPermission(uuid, data.getRank());
+
+        // Join a team and assign kit
+        InCombat.playerDied(uuid);
+        MapController.joinATeam(uuid);
+        p.performCommand(data.getKit());
 
         // Update the names stored in the database
         StoreData.updateName(uuid, "player_stats");

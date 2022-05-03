@@ -1,11 +1,10 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.tags.NametagsEvent;
+import me.huntifi.castlesiege.maps.NameTag;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -130,13 +129,13 @@ public class Maceman extends Kit implements Listener, CommandExecutor {
                 // Enemy blocks stun
                 if (p.isBlocking()) {
                     q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NametagsEvent.color(p) + p.getName() + ChatColor.AQUA + " blocked your stun"));
+                            NameTag.color(p) + p.getName() + ChatColor.AQUA + " blocked your stun"));
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You blocked " + NametagsEvent.color(q) + q.getName() + ChatColor.AQUA + "'s stun"));
+                            ChatColor.AQUA + "You blocked " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s stun"));
                 } else {
                     q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You have stunned " + NametagsEvent.color(p) + p.getName()));
-                    p.sendMessage(ChatColor.DARK_RED + "You have been stunned by " + NametagsEvent.color(q) + q.getName() + ChatColor.DARK_RED + "!");
+                            ChatColor.AQUA + "You have stunned " + NameTag.color(p) + p.getName()));
+                    p.sendMessage(ChatColor.DARK_RED + "You have been stunned by " + NameTag.color(q) + q.getName() + ChatColor.DARK_RED + "!");
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 1)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 50, 1)));

@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.tags.NametagsEvent;
+import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -87,7 +87,7 @@ public class UpdateStats {
             assert p != null;
             p.sendMessage(ChatColor.DARK_GREEN + "Congratulations, you leveled up to level: " + ChatColor.YELLOW + level);
             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-            NametagsEvent.GiveNametag(p);
+            NameTag.give(p);
 
             // Announce every 10th level
             if (level % 10 == 0) {

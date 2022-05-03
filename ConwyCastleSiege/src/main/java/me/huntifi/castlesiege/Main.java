@@ -178,6 +178,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("KickAll")).setExecutor(new KickAllCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
                 Objects.requireNonNull(getCommand("StaffChat")).setExecutor(new StaffChat());
+                Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());
 
                 // Kits
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
@@ -252,8 +253,6 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getPluginManager().registerEvents(new ThunderstoneLeave(), plugin);
                 //getServer().getPluginManager().registerEvents(new ThunderstoneGateDestroyEvent(), plugin);
                 //getServer().getPluginManager().registerEvents(new EastTowerFlag(), plugin);
-
-                getCommand("togglerank").setExecutor(new togglerankCommand());
 
                 //getCommand("CheckFlagList").setExecutor(new FlagListCommand());
 

@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.tags.NametagsEvent;
+import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
@@ -105,7 +105,7 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
         wolfWatcher.setCollarColor(getCollarColor(p));
         wolfWatcher.setTamed(true);
 
-        mobDisguise.getWatcher().setCustomName(NametagsEvent.color(p) + p.getName());
+        mobDisguise.getWatcher().setCustomName(NameTag.color(p) + p.getName());
         mobDisguise.setCustomDisguiseName(true);
         mobDisguise.setHearSelfDisguise(true);
         mobDisguise.setSelfDisguiseVisible(false);
@@ -160,9 +160,9 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
             // Activate stun
             q.setCooldown(Material.GHAST_TEAR, 280);
             q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.AQUA + "You immobilised " + NametagsEvent.color(p) + p.getName() + ChatColor.AQUA + "."));
+                    ChatColor.AQUA + "You immobilised " + NameTag.color(p) + p.getName() + ChatColor.AQUA + "."));
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.DARK_RED + "You have been immobilised by " + NametagsEvent.color(q) + q.getName() + ChatColor.DARK_RED + "!"));
+                    ChatColor.DARK_RED + "You have been immobilised by " + NameTag.color(q) + q.getName() + ChatColor.DARK_RED + "!"));
             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 1 );
 
             // Apply potion effects

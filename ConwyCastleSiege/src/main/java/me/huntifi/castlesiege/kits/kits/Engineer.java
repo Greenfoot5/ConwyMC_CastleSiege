@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.tags.NametagsEvent;
+import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -22,7 +22,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -179,8 +178,8 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                 e.setCancelled(true);
                 traps.get(t).remove(trap);
                 trap.setType(Material.AIR);
-                p.sendMessage(ChatColor.RED + "You stepped on " + NametagsEvent.color(t) + t.getName() + ChatColor.RED + "'s trap.");
-                t.sendMessage(NametagsEvent.color(p) + p.getName() + ChatColor.GREEN + " stepped on your trap.");
+                p.sendMessage(ChatColor.RED + "You stepped on " + NameTag.color(t) + t.getName() + ChatColor.RED + "'s trap.");
+                t.sendMessage(NameTag.color(p) + p.getName() + ChatColor.GREEN + " stepped on your trap.");
 
                 // Prevent damage reduction from armor and resistance
                 PotionEffect resistance = p.getPotionEffect(PotionEffectType.DAMAGE_RESISTANCE);

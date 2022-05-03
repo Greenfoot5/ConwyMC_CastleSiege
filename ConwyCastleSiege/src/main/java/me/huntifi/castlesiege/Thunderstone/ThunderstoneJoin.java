@@ -43,7 +43,7 @@ public class ThunderstoneJoin implements Listener {
 					
 					ThunderstoneEndMVP.ThunderstoneGuards.put(p, MVPstats.getScore(p.getUniqueId()));
 					
-					NametagsEvent.GiveNametag(p);
+					NameTag.GiveNametag(p);
 
 			} else 
 
@@ -70,7 +70,7 @@ public class ThunderstoneJoin implements Listener {
 				
 				ThunderstoneEndMVP.Cloudcrawlers.put(p, MVPstats.getScore(p.getUniqueId()));
 				
-				NametagsEvent.GiveNametag(p);
+				NameTag.GiveNametag(p);
 				
 			}*/
 		}
