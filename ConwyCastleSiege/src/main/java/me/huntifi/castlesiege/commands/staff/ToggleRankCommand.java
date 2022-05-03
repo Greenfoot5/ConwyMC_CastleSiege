@@ -12,10 +12,21 @@ import org.bukkit.entity.Player;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Configures a player's shown rank
+ */
 public class ToggleRankCommand implements CommandExecutor {
 	
 	public static ArrayList<Player> showDonator = new ArrayList<Player>();
 
+	/**
+	 * Switch between staff and donator rank
+	 * @param sender Source of the command
+	 * @param cmd Command which was executed
+	 * @param label Alias of the command which was used
+	 * @param args Passed command arguments
+	 * @return true
+	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (sender instanceof ConsoleCommandSender) {
