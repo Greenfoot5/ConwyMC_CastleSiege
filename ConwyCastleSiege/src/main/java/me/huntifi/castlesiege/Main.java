@@ -10,8 +10,10 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import me.huntifi.castlesiege.commands.*;
 import me.huntifi.castlesiege.commands.chat.*;
+import me.huntifi.castlesiege.commands.gameplay.KitCommand;
+import me.huntifi.castlesiege.commands.gameplay.SuicideCommand;
+import me.huntifi.castlesiege.commands.gameplay.SwitchCommand;
 import me.huntifi.castlesiege.commands.info.*;
 import me.huntifi.castlesiege.commands.staff.*;
 import me.huntifi.castlesiege.data_types.Frame;
@@ -152,14 +154,16 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new SelectorKitGUI(), plugin);
 
                 // Rewrite Commands
-                Objects.requireNonNull(getCommand("Suicide")).setExecutor(new SuicideCommand());
-                Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
-                Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
 
                 // Chat
                 Objects.requireNonNull(getCommand("Message")).setExecutor(new PrivateMessage());
                 Objects.requireNonNull(getCommand("Reply")).setExecutor(new ReplyMessage());
                 Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
+
+                // Gameplay
+                Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
+                Objects.requireNonNull(getCommand("Suicide")).setExecutor(new SuicideCommand());
+                Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
 
                 // Info
                 Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());

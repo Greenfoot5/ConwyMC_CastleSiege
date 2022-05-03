@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.commands;
+package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;

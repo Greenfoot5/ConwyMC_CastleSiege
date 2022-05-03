@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.commands;
+package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.kits.gui.FreeKitGUI;
 import me.huntifi.castlesiege.kits.gui.UnlockedKitGUI;
