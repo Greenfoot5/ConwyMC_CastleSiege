@@ -2758,6 +2758,14 @@ Thunderstone:
           - "==": Vector
             x: 232
             y: 128
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 128
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 128
             z: 76
         secondary_blocks:
           - "==": Vector
@@ -2767,6 +2775,302 @@ Thunderstone:
           - "==": Vector
             x: 232
             y: 127
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 127
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 127
+            z: 76
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 232
+            y: 129
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 129
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 129
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 129
+            z: 76
+        secondary_blocks:
+          - "==": Vector
+            x: 232
+            y: 128
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 128
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 128
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 128
+            z: 76
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 232
+            y: 130
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 130
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 130
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 130
+            z: 76
+        secondary_blocks:
+          - "==": Vector
+            x: 232
+            y: 129
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 129
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 129
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 129
+            z: 76
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 232
+            y: 131
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 131
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 131
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 131
+            z: 76
+        secondary_blocks:
+          - "==": Vector
+            x: 232
+            y: 130
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 130
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 130
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 130
+            z: 76
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 232
+            y: 132
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 132
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 132
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 132
+            z: 76
+        secondary_blocks:
+          - "==": Vector
+            x: 232
+            y: 131
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 131
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 131
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 131
+            z: 76
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 232
+            y: 133
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 133
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 133
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 133
+            z: 76
+        secondary_blocks:
+          - "==": Vector
+            x: 232
+            y: 132
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 132
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 132
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 132
+            z: 76
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 232
+            y: 134
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 134
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 134
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 134
+            z: 76
+        secondary_blocks:
+          - "==": Vector
+            x: 232
+            y: 133
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 133
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 133
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 133
+            z: 76
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 232
+            y: 135
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 135
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 135
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 135
+            z: 76
+        secondary_blocks:
+          - "==": Vector
+            x: 232
+            y: 134
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 134
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 134
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 134
+            z: 76
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 232
+            y: 136
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 136
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 136
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 136
+            z: 76
+        secondary_blocks:
+          - "==": Vector
+            x: 232
+            y: 135
+            z: 79
+          - "==": Vector
+            x: 232
+            y: 135
+            z: 78
+          - "==": Vector
+            x: 232
+            y: 135
+            z: 77
+          - "==": Vector
+            x: 232
+            y: 135
             z: 76
   twin_bridge:
     name: "Twin Bridge"
