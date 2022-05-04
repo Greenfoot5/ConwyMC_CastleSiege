@@ -158,14 +158,14 @@ commands:
     usage: /fly
     permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
-  GiveRank:
-    description: Give a donator rank to a player
-    usage: /giverank <player> <rank>
+  SetRank:
+    description: Set a donator rank for a player
+    usage: /setrank <player> <rank>
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
-  GiveStaffRank:
-    description: Give a staff rank to a player
-    usage: /givestaffrank <player> <rank>
+  SetStaffRank:
+    description: Set a staff rank for a player
+    usage: /setstaffrank <player> <rank>
     permission: castlesiege.admin
     permission-message: You are not permitted to use this command!
   GiveVote:

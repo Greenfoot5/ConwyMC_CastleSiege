@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Gives a player a donator rank
  */
-public class GiveRank implements CommandExecutor {
+public class SetRank implements CommandExecutor {
 
     /**
      * Give the specified donator rank to the specified player
@@ -26,7 +26,7 @@ public class GiveRank implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if (args.length < 2) {
+        if (args.length == 0) {
             return false;
         }
 
@@ -38,11 +38,12 @@ public class GiveRank implements CommandExecutor {
         }
 
         // Set the player's donator rank
-        if (Permissions.setDonatorPermission(p.getUniqueId(), args[1].toLowerCase())) {
-            ActiveData.getData(p.getUniqueId()).setRank(args[1].toLowerCase());
+        String rank = args.length == 1 ? "" : args[1].toLowerCase();
+        if (Permissions.setDonatorPermission(p.getUniqueId(), rank)) {
+            ActiveData.getData(p.getUniqueId()).setRank(rank);
             NameTag.give(p);
         } else {
-            sender.sendMessage(ChatColor.DARK_RED + "Rank " + ChatColor.RED + args[1].toLowerCase() +
+            sender.sendMessage(ChatColor.DARK_RED + "Rank " + ChatColor.RED + rank +
                     ChatColor.DARK_RED + " is invalid!");
         }
         return true;
