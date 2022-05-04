@@ -1585,11 +1585,6 @@ HelmsDeep:
             y: 78
             z: 998
 
-
-
-
-
-
 ################
 # Thunderstone #
 ################
@@ -1600,7 +1595,7 @@ Thunderstone:
     start_owners: "Cloud Crawlers"
     max_cap: 1
     progress_amount: 0
-    scoreboard: 0
+    scoreboard: 1
     spawn_point:
       x: 90
       y: 86
@@ -1785,10 +1780,10 @@ Thunderstone:
   skyview:
     name: "Skyview Tower"
     start_owners: "Thunderstone Guard"
-    max_cap: 19
-    start_amount: 19
-    progress_amount: 10
-    scoreboard: 5
+    max_cap: 4
+    start_amount: 4
+    progress_amount: 5
+    scoreboard: 11
     spawn_point:
       x: 166
       y: 154
@@ -1869,13 +1864,180 @@ Thunderstone:
             x: 156
             y: 119
             z: 52
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          # Main Flag
+          - "==": Vector
+            x: 169
+            y: 158
+            z: 78
+          - "==": Vector
+            x: 170
+            y: 159
+            z: 78
+          - "==": Vector
+            x: 168
+            y: 159
+            z: 78
+          # Decorations
+          - "==": Vector
+            x: 158
+            y: 122
+            z: 56
+          - "==": Vector
+            x: 158
+            y: 122
+            z: 55
+          - "==": Vector
+            x: 158
+            y: 122
+            z: 54
+          - "==": Vector
+            x: 157
+            y: 121
+            z: 53
+          - "==": Vector
+            x: 156
+            y: 120
+            z: 52
+        secondary_blocks:
+          # Main Flag
+          - "==": Vector
+            x: 169
+            y: 159
+            z: 78
+          # Decorations
+          - "==": Vector
+            x: 158
+            y: 121
+            z: 56
+          - "==": Vector
+            x: 158
+            y: 121
+            z: 55
+          - "==": Vector
+            x: 158
+            y: 121
+            z: 54
+          - "==": Vector
+            x: 157
+            y: 120
+            z: 53
+          - "==": Vector
+            x: 156
+            y: 119
+            z: 52
+        air:
+          # Main Flag
+          - "==": Vector
+            x: 169
+            y: 157
+            z: 78
+          - "==": Vector
+            x: 170
+            y: 158
+            z: 78
+          - "==": Vector
+            x: 168
+            y: 158
+            z: 78
+      2:
+        # All Main Flag stuff now
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 169
+            y: 157
+            z: 78
+          - "==": Vector
+            x: 170
+            y: 158
+            z: 78
+          - "==": Vector
+            x: 168
+            y: 157
+            z: 78
+        secondary_blocks:
+          - "==": Vector
+            x: 169
+            y: 158
+            z: 78
+        air:
+          - "==": Vector
+            x: 169
+            y: 156
+            z: 78
+          - "==": Vector
+            x: 170
+            y: 157
+            z: 78
+          - "==": Vector
+            x: 168
+            y: 157
+            z: 78
+      3:
+        # All Main Flag stuff now
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 169
+            y: 156
+            z: 78
+          - "==": Vector
+            x: 170
+            y: 157
+            z: 78
+          - "==": Vector
+            x: 168
+            y: 156
+            z: 78
+        secondary_blocks:
+          - "==": Vector
+            x: 169
+            y: 157
+            z: 78
+        air:
+          - "==": Vector
+            x: 169
+            y: 155
+            z: 78
+          - "==": Vector
+            x: 170
+            y: 156
+            z: 78
+          - "==": Vector
+            x: 168
+            y: 156
+            z: 78
+      4:
+        # All Main Flag stuff now
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 169
+            y: 155
+            z: 78
+          - "==": Vector
+            x: 170
+            y: 156
+            z: 78
+          - "==": Vector
+            x: 168
+            y: 156
+            z: 78
+        secondary_blocks:
+          - "==": Vector
+            x: 169
+            y: 156
+            z: 78
   east_tower:
     name: "East Tower"
     start_owners: "Thunderstone Guard"
     max_cap: 9
     start_amount: 9
     progress_amount: 10
-    scoreboard: 5
+    scoreboard: 6
     spawn_point:
       x: 182
       y: 92
@@ -1918,7 +2080,7 @@ Thunderstone:
     max_cap: 9
     start_amount: 9
     progress_amount: 10
-    scoreboard: 5
+    scoreboard: 10
     spawn_point:
       x: 123
       y: 97
@@ -1961,7 +2123,7 @@ Thunderstone:
     max_cap: 9
     start_amount: 9
     progress_amount: 10
-    scoreboard: 5
+    scoreboard: 7
     spawn_point:
       x: 230
       y: 116
@@ -2004,7 +2166,7 @@ Thunderstone:
     max_cap: 9
     start_amount: 9
     progress_amount: 10
-    scoreboard: 5
+    scoreboard: 8
     spawn_point:
       x: 292
       y: 74
