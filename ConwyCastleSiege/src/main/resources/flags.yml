@@ -2034,8 +2034,8 @@ Thunderstone:
   east_tower:
     name: "East Tower"
     start_owners: "Thunderstone Guard"
-    max_cap: 9
-    start_amount: 9
+    max_cap: 8
+    start_amount: 8
     progress_amount: 10
     scoreboard: 6
     spawn_point:
@@ -2381,8 +2381,8 @@ Thunderstone:
   lonely_tower:
     name: "Lonely Tower"
     start_owners: "Thunderstone Guard"
-    max_cap: 9
-    start_amount: 9
+    max_cap: 8
+    start_amount: 8
     progress_amount: 10
     scoreboard: 10
     spawn_point:
@@ -2411,6 +2411,14 @@ Thunderstone:
           - "==": Vector
             x: 121
             y: 112
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 112
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 112
             z: 52
         secondary_blocks:
           - "==": Vector
@@ -2420,12 +2428,308 @@ Thunderstone:
           - "==": Vector
             x: 121
             y: 111
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 111
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 111
+            z: 52
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 121
+            y: 113
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 113
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 113
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 113
+            z: 52
+        secondary_blocks:
+          - "==": Vector
+            x: 121
+            y: 112
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 112
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 112
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 112
+            z: 52
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 121
+            y: 114
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 114
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 114
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 114
+            z: 52
+        secondary_blocks:
+          - "==": Vector
+            x: 121
+            y: 113
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 113
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 113
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 113
+            z: 52
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 121
+            y: 115
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 115
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 115
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 115
+            z: 52
+        secondary_blocks:
+          - "==": Vector
+            x: 121
+            y: 114
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 114
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 114
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 114
+            z: 52
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 121
+            y: 116
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 116
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 116
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 116
+            z: 52
+        secondary_blocks:
+          - "==": Vector
+            x: 121
+            y: 115
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 115
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 115
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 115
+            z: 52
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 121
+            y: 117
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 117
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 117
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 117
+            z: 52
+        secondary_blocks:
+          - "==": Vector
+            x: 121
+            y: 116
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 116
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 116
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 116
+            z: 52
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 121
+            y: 118
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 118
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 118
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 118
+            z: 52
+        secondary_blocks:
+          - "==": Vector
+            x: 121
+            y: 117
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 117
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 117
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 117
+            z: 52
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 121
+            y: 119
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 119
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 119
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 119
+            z: 52
+        secondary_blocks:
+          - "==": Vector
+            x: 121
+            y: 118
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 118
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 118
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 118
+            z: 52
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 121
+            y: 120
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 120
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 120
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 120
+            z: 52
+        secondary_blocks:
+          - "==": Vector
+            x: 121
+            y: 119
+            z: 55
+          - "==": Vector
+            x: 121
+            y: 119
+            z: 54
+          - "==": Vector
+            x: 121
+            y: 119
+            z: 53
+          - "==": Vector
+            x: 121
+            y: 119
             z: 52
   shifted_tower:
     name: "Shifted Tower"
     start_owners: "Thunderstone Guard"
-    max_cap: 9
-    start_amount: 9
+    max_cap: 8
+    start_amount: 8
     progress_amount: 10
     scoreboard: 7
     spawn_point:
@@ -2467,8 +2771,8 @@ Thunderstone:
   twin_bridge:
     name: "Twin Bridge"
     start_owners: "Thunderstone Guard"
-    max_cap: 9
-    start_amount: 9
+    max_cap: 8
+    start_amount: 8
     progress_amount: 10
     scoreboard: 8
     spawn_point:
@@ -2510,8 +2814,8 @@ Thunderstone:
   west_tower:
     name: "West Tower"
     start_owners: "Thunderstone Guard"
-    max_cap: 9
-    start_amount: 9
+    max_cap: 8
+    start_amount: 8
     progress_amount: 10
     scoreboard: 5
     spawn_point:
