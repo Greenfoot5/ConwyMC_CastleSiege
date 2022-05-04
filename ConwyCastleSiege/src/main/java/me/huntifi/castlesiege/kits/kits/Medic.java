@@ -303,7 +303,6 @@ public class Medic extends Kit implements Listener, CommandExecutor {
      */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        super.onDeath(e);
         destroyCake(e.getEntity());
     }
 

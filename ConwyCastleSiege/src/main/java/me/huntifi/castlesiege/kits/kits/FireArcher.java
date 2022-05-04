@@ -309,7 +309,6 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
      */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        super.onDeath(e);
         destroyFirepit(e.getEntity());
     }
 

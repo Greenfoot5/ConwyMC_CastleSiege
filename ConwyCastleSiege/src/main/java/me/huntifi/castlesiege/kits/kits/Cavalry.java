@@ -181,7 +181,6 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
      */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        super.onDeath(e);
         removeHorse(e.getEntity(), e.getEntity().getVehicle());
     }
 

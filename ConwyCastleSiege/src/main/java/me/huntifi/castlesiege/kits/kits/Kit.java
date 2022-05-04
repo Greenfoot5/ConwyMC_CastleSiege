@@ -1,7 +1,9 @@
 package me.huntifi.castlesiege.kits.kits;
 
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
@@ -24,7 +26,7 @@ import java.util.*;
 /**
  * The abstract kit
  */
-public abstract class Kit implements Listener {
+public abstract class Kit {
     public String name;
     public int baseHealth;
     protected int kbResistance = 0;
@@ -139,45 +141,6 @@ public abstract class Kit implements Listener {
     }
 
     /**
-     * Handle a player's death
-     * @param e The event called when a player dies
-     */
-    @EventHandler
-    public void onDeath(PlayerDeathEvent e) {
-
-        Player whoWasHit = e.getEntity();
-        Player whoHit = whoWasHit.getKiller();
-
-        if (whoHit != null) {
-
-            if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name)) {
-                UpdateStats.addKill(whoHit.getUniqueId());
-
-                if (Objects.requireNonNull(whoWasHit.getLastDamageCause()).getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
-                    doKillMessage(whoWasHit, whoHit, projectileDeathMessage, projectileKillMessage);
-                } else {
-                    doKillMessage(whoWasHit, whoHit, deathMessage, killMessage);
-                }
-            }
-        }
-    }
-
-    /**
-     * Send kill and death messages to the players
-     * @param whoWasHit The player who died
-     * @param whoHit The player who killed
-     * @param deathMessage The message sent to the person who died
-     * @param killMessage The message sent to the killer
-     */
-    private void doKillMessage(Player whoWasHit, Player whoHit, String[] deathMessage, String[] killMessage) {
-        whoWasHit.sendMessage(deathMessage[0] + NameTag.color(whoHit) + whoHit.getName()
-                + ChatColor.RESET + deathMessage[1]);
-        whoHit.sendMessage(killMessage[0] + NameTag.color(whoWasHit) + whoWasHit.getName()
-                + ChatColor.RESET + killMessage[1] + ChatColor.GRAY +
-                " (" + ActiveData.getData(whoHit.getUniqueId()).getKillStreak() + ")");
-    }
-
-    /**
      * Register the player as using this kit and set their items
      * @param uuid The unique id of the player to register
      */
@@ -206,5 +169,21 @@ public abstract class Kit implements Listener {
             DisguiseAPI.undisguiseToAll(p);
             NameTag.give(p);
         }
+    }
+
+    /**
+     * Get the kill and death messages for a melee kill
+     * @return Melee kill message, melee death message
+     */
+    public Tuple<String[], String[]> getMeleeMessage() {
+        return new Tuple<>(killMessage, deathMessage);
+    }
+
+    /**
+     * Get the kill and death messages for a projectile kill
+     * @return Projectile kill message, projectile death message
+     */
+    public Tuple<String[], String[]> getProjectileMessage() {
+        return new Tuple<>(projectileKillMessage, projectileDeathMessage);
     }
 }

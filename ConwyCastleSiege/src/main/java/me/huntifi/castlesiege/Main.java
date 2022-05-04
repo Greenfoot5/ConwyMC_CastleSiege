@@ -113,6 +113,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Combat
                 getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
+                getServer().getPluginManager().registerEvents(new AssistKill(), plugin);
                 getServer().getPluginManager().registerEvents(new FallDamage(), plugin);
                 getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
                 getServer().getPluginManager().registerEvents(new InCombat(), plugin);
@@ -129,7 +130,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new MapProtection(), plugin);
 
                 // Kits
-                getServer().getPluginManager().registerEvents(new Archer(), plugin);
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
@@ -141,11 +141,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Maceman(), plugin);
                 getServer().getPluginManager().registerEvents(new Medic(), plugin);
                 getServer().getPluginManager().registerEvents(new Ranger(), plugin);
-                getServer().getPluginManager().registerEvents(new Scout(), plugin);
-                getServer().getPluginManager().registerEvents(new Shieldman(), plugin);
-                getServer().getPluginManager().registerEvents(new Skirmisher(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
-                getServer().getPluginManager().registerEvents(new Swordsman(), plugin);
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
                 // Kit GUIs
