@@ -38,7 +38,7 @@ public class SetRank implements CommandExecutor {
         }
 
         // Set the player's donator rank
-        String rank = args.length == 1 ? "" : args[1].toLowerCase();
+        String rank = args.length == 1 || args[1].equalsIgnoreCase("none") ? "" : args[1].toLowerCase();
         if (Permissions.setDonatorPermission(p.getUniqueId(), rank)) {
             ActiveData.getData(p.getUniqueId()).setRank(rank);
             NameTag.give(p);

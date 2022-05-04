@@ -2,7 +2,7 @@ name: CastleSiege
 main: me.huntifi.castlesiege.Main
 version: 1.1.1
 api-version: 1.13
-authors: [Huntifi, Greenfoot5]
+authors: [Huntifi, Greenfoot5, kasteelvuur]
 depends: [Votifier, WorldGuard, NametagEdit, WorldGuard]
 softdepend: [LibsDisguises, WorldEdit]
 load: STARTUP

@@ -38,7 +38,7 @@ public class SetStaffRank implements CommandExecutor {
         }
 
         // Set the player's staff rank
-        String rank = args.length == 1 ? "" : args[1].toLowerCase();
+        String rank = args.length == 1 || args[1].equalsIgnoreCase("none") ? "" : args[1].toLowerCase();
         if (Permissions.setStaffPermission(p.getUniqueId(), rank)) {
             ActiveData.getData(p.getUniqueId()).setStaffRank(rank);
             NameTag.give(p);
