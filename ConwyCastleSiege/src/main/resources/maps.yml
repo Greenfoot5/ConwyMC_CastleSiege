@@ -176,11 +176,41 @@ Thunderstone:
               y: 203
               z: 105
             sign_direction: west
-          # Lonely Tower - -171 201 109
-          # West Tower - -171 204 107
-          # East Tower - -171 201 104
-          # Shifted Tower - -171 204 103
-          # Twin Bridge - -171 204 101
+          lonely_tower:
+            flag_name: "Lonely Tower"
+            wool_position:
+              x: -171
+              y: 201
+              z: 109
+            sign_direction: west
+          west_tower:
+            flag_name: "West Tower"
+            wool_position:
+              x: -171
+              y: 204
+              z: 107
+            sign_direction: west
+          east_tower:
+            flag_name: "East Tower"
+            wool_position:
+              x: -171
+              y: 201
+              z: 104
+            sign_direction: west
+          shifted_tower:
+            flag_name: "Shifted Tower"
+            wool_position:
+              x: -171
+              y: 204
+              z: 103
+            sign_direction: west
+          twin_bridge:
+            flag_name: "Twin Bridge"
+            wool_position:
+              x: -171
+              y: 204
+              z: 101
+            sign_direction: west
     Attackers:
       name: "Cloud Crawlers"
       primary_color: "cyan"
@@ -214,8 +244,37 @@ Thunderstone:
               y: 203
               z: 158
             sign_direction: west
-          # Lonely Tower - -174 201 162
-          # West Tower - -174 204 160
-          # East Tower - -174 201 157
-          # Shifted Tower - - 174 204 156
-          # Twin Bridge - -174 204 154
+          lonely_tower:
+            flag_name: "Lonely Tower"
+            wool_position:
+              x: -174
+              y: 201
+              z: 162
+            sign_direction: west
+          west_tower:
+            flag_name: "West Tower"
+            wool_position:
+              x: -174
+              y: 204
+              z: 160
+            sign_direction: west
+          east_tower:
+            flag_name: "East Tower"
+            wool_position:
+              x: -174
+              y: 201
+              z: 157
+            sign_direction: west
+          shifted_tower:
+            flag_name: "Shifted Tower"
+            wool_position:
+              x: -174
+              y: 204
+              z: 156
+            sign_direction: west
+          twin_bridge:
+            flag_name: "Twin Bridge"
+            wool_position:
+              x: -174
+              y: 204
+              z: 154
