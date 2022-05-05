@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.events.connection;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.*;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -9,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
@@ -24,27 +26,32 @@ public class PlayerConnect implements Listener {
      */
     @EventHandler (priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Player p = e.getPlayer();
+                UUID uuid = p.getUniqueId();
 
-        // Load the player's data
-        PlayerData data = LoadData.load(uuid);
-        assert data != null;
-        ActiveData.addPlayer(uuid, data);
-        MVPStats.addPlayer(uuid);
+                // Load the player's data
+                PlayerData data = LoadData.load(uuid);
+                assert data != null;
+                ActiveData.addPlayer(uuid, data);
+                MVPStats.addPlayer(uuid);
 
-        // Assign the player's staff and donator permissions
-        Permissions.addPlayer(uuid);
-        Permissions.setStaffPermission(uuid, data.getStaffRank());
-        Permissions.setDonatorPermission(uuid, data.getRank());
+                // Assign the player's staff and donator permissions
+                Permissions.addPlayer(uuid);
+                Permissions.setStaffPermission(uuid, data.getStaffRank());
+                Permissions.setDonatorPermission(uuid, data.getRank());
 
-        // Join a team and assign kit
-        InCombat.playerDied(uuid);
-        MapController.joinATeam(uuid);
-        p.performCommand(data.getKit());
+                // Join a team and assign kit
+                InCombat.playerDied(uuid);
+                MapController.joinATeam(uuid);
+                p.performCommand(data.getKit());
 
-        // Update the names stored in the database
-        StoreData.updateName(uuid, "player_stats");
-        StoreData.updateName(uuid, "player_rank");
+                // Update the names stored in the database
+                StoreData.updateName(uuid, "player_stats");
+                StoreData.updateName(uuid, "player_rank");
+            }
+        }.runTaskAsynchronously(Main.plugin);
     }
 }

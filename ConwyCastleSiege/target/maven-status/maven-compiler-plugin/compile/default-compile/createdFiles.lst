@@ -203,6 +203,7 @@ me\huntifi\castlesiege\commands\staff\SetRank.class
 me\huntifi\castlesiege\Thunderstone\ThunderstoneJoin.class
 me\huntifi\castlesiege\events\death\VoidLocation.class
 me\huntifi\castlesiege\maps\MapController.class
+me\huntifi\castlesiege\events\connection\PlayerConnect$1.class
 me\huntifi\castlesiege\Helmsdeep\Gates\HelmsdeepGreatHallBlocks.class
 me\huntifi\castlesiege\database\StoreData$2.class
 me\huntifi\castlesiege\kits\kits\Crossbowman.class
