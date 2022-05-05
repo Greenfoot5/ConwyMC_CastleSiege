@@ -165,7 +165,7 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 	 * Activate the spearman ability of destroying all ladders directly below the broken one
 	 * @param e The event called when breaking a ladder
 	 */
-	@EventHandler
+	@EventHandler (priority = EventPriority.LOWEST)
 	public void onBreakLadder(BlockBreakEvent e) {
 		Player p = e.getPlayer();
 		if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {

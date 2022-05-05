@@ -31,7 +31,7 @@ public class MapProtection implements Listener {
 	 * Cancels event when player places block
 	 * @param e The event called when a player places a block
 	 */
-	@EventHandler (priority = EventPriority.LOWEST)
+	@EventHandler (priority = EventPriority.LOW)
 	 public void onBlockPlace(BlockPlaceEvent e) {
 		// Allow building in creative mode
 		Player p = e.getPlayer();
@@ -50,7 +50,7 @@ public class MapProtection implements Listener {
 	 * Cancels event when player destroys a block
 	 * @param e The event called when a player breaks a block
 	 */
-	@EventHandler (priority = EventPriority.LOWEST)
+	@EventHandler (priority = EventPriority.LOW)
 	public void onBlockBreak(BlockBreakEvent e) {
 		// Allow breaking in creative mode
 		Player p = e.getPlayer();
