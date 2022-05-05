@@ -1,8 +1,9 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
@@ -15,15 +16,12 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 /**
  * Allows the player to swap teams
  */
 public class SwitchCommand implements CommandExecutor {
-
-	private static final List<String> SINGLE_DEATH_RANKS = Arrays.asList("baron", "duke", "king", "high king");
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -36,7 +34,7 @@ public class SwitchCommand implements CommandExecutor {
 		Map map = MapController.getCurrentMap();
 
 		// If the player is a donator
-		if (!Objects.equals(ActiveData.getData(p.getUniqueId()).getRank(), "None")) {
+		if (p.hasPermission("castlesiege.esquire")) {
 			// If the player hasn't specified a team, swap to the next one
 			if (args.length == 0) {
 				// Switch to the next team
@@ -71,7 +69,7 @@ public class SwitchCommand implements CommandExecutor {
 			// Spawn the player in their new lobby
 			if (InCombat.isPlayerInLobby(p.getUniqueId())) {
 				spawnPlayer(p, 0);
-			} else if (SINGLE_DEATH_RANKS.contains(ActiveData.getData(p.getUniqueId()).getRank())) {
+			} else if (p.hasPermission("castlesiege.baron")) {
 				spawnPlayer(p, 1);
 			} else {
 				spawnPlayer(p, 2);
@@ -108,14 +106,15 @@ public class SwitchCommand implements CommandExecutor {
 	 */
 	private void spawnPlayer(Player p, int deaths) {
 		Team team = MapController.getCurrentMap().getTeam(p.getUniqueId());
-
-		p.teleport(team.lobby.spawnPoint);
-		p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
-
 		if (deaths > 0) {
+			p.setHealth(0);
 			p.sendMessage("You switched to " + team.primaryChatColor + team.name +
 					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)");
-			UpdateStats.addDeaths(p.getUniqueId(), deaths);
+			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
+		} else {
+			p.teleport(team.lobby.spawnPoint);
+			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+			Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
 		}
 	}
 }

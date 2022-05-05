@@ -126,7 +126,7 @@ public class PlayerData {
      */
     public void addDeaths(double deaths) {
         this.deaths += deaths;
-        addScore(-1);
+        addScore(-deaths);
         killStreak = 0;
     }
 
