@@ -3,9 +3,9 @@ package me.huntifi.castlesiege.commands.info;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,8 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.text.DecimalFormat;
+import java.util.*;
 
 import static org.bukkit.Bukkit.getPlayer;
 
@@ -39,12 +39,23 @@ public class MVPCommand implements CommandExecutor {
             @Override
             public void run() {
                 if (label.equalsIgnoreCase("MVPs")) {
+                    // Print the MVP of each team
                     for (Team team : MapController.getCurrentMap().teams) {
-                        printMVP(sender, team);
+                        for (String message : getMVPMessage(team)) {
+                            sender.sendMessage(message);
+                        }
                     }
+
                 } else if (!(sender instanceof ConsoleCommandSender)) {
+                    // Print the MVP of the player's team and their own stats
                     UUID uuid = ((Player) sender).getUniqueId();
-                    printMVP(sender, MapController.getCurrentMap().getTeam(uuid));
+                    for (String message : getMVPMessage(MapController.getCurrentMap().getTeam(uuid))) {
+                        sender.sendMessage(message);
+                    }
+                    for (String message : getPlayerMessage(uuid)) {
+                        sender.sendMessage(message);
+                    }
+
                 } else {
                     sender.sendMessage("Console is not in a team!");
                 }
@@ -55,29 +66,58 @@ public class MVPCommand implements CommandExecutor {
     }
 
     /**
-     * Print the MVP to the recipient
-     * @param r The recipient for whom to print
-     * @param t The team whose MVP to print
+     * Get the MVP message for a player
+     * @param uuid The unique ID of the player
      */
-    private void printMVP(CommandSender r, Team t) {
-        // Empty team -> no MVP
+    private Collection<String> getPlayerMessage(UUID uuid) {
+        PlayerData data = MVPStats.getStats(uuid);
+        Team team = MapController.getCurrentMap().getTeam(uuid);
+        return getMessage(uuid, data, team, false);
+    }
+
+    /**
+     * Get the MVP message for a team
+     * @param t The team for which to get the MVP
+     */
+    public static Collection<String> getMVPMessage(Team t) {
         Tuple<UUID, PlayerData> mvp = t.getMVP();
         if (mvp == null) {
-            r.sendMessage(t.primaryChatColor + t.name + ChatColor.DARK_AQUA
+            return Collections.singletonList(t.primaryChatColor + t.name + ChatColor.DARK_AQUA
                     + " MVP: " + ChatColor.WHITE + "N/A");
-            return;
+        }
+        return getMessage(mvp.getFirst(), mvp.getSecond(), t, true);
+    }
+
+    /**
+     * Get the MVP message for a player
+     * @param data The player's data
+     * @param t The team that the player is part of
+     * @param mvp Whether the player is their team's MVP
+     */
+    private static Collection<String> getMessage(UUID uuid, PlayerData data, Team t, boolean mvp) {
+        Collection<String> message = new ArrayList<>();
+
+        // Header
+        if (mvp) {
+            message.add(t.primaryChatColor + t.name + ChatColor.DARK_AQUA
+                    + " MVP: " + ChatColor.WHITE + Objects.requireNonNull(getPlayer(uuid)).getName());
+        } else {
+            message.add(t.primaryChatColor + t.name + ChatColor.DARK_AQUA + " You:");
         }
 
-        // Print MVP
-        r.sendMessage(t.primaryChatColor + t.name + ChatColor.DARK_AQUA
-                + " MVP: " + ChatColor.WHITE + Objects.requireNonNull(getPlayer(mvp.getFirst())).getName());
-        r.sendMessage(ChatColor.DARK_AQUA + "Score " + ChatColor.WHITE + mvp.getSecond().getScore()
-                + ChatColor.DARK_AQUA + " | Kills " + ChatColor.WHITE + mvp.getSecond().getKills()
-                + ChatColor.DARK_AQUA + " | Deaths " + ChatColor.WHITE + mvp.getSecond().getDeaths()
-                + ChatColor.DARK_AQUA + " | KDR " + ChatColor.WHITE + mvp.getSecond().getKills() / mvp.getSecond().getDeaths()
-                + ChatColor.DARK_AQUA + " | Assists " + ChatColor.WHITE + mvp.getSecond().getAssists());
-        r.sendMessage(ChatColor.DARK_AQUA + "| Heals " + ChatColor.WHITE + mvp.getSecond().getHeals()
-                + ChatColor.DARK_AQUA + " | Captures " + ChatColor.WHITE + mvp.getSecond().getCaptures()
-                + ChatColor.DARK_AQUA + " | Supports " + ChatColor.WHITE + mvp.getSecond().getSupports());
+        // Stats
+        DecimalFormat dec = new DecimalFormat("0.00");
+        DecimalFormat num = new DecimalFormat("0");
+
+        message.add(ChatColor.DARK_AQUA + "Score " + ChatColor.WHITE + dec.format(data.getScore())
+                + ChatColor.DARK_AQUA + " | Kills " + ChatColor.WHITE + num.format(data.getKills())
+                + ChatColor.DARK_AQUA + " | Deaths " + ChatColor.WHITE + num.format(data.getDeaths())
+                + ChatColor.DARK_AQUA + " | KDR " + ChatColor.WHITE + dec.format(data.getKills() / data.getDeaths())
+                + ChatColor.DARK_AQUA + " | Assists " + ChatColor.WHITE + num.format(data.getAssists()));
+        message.add(ChatColor.DARK_AQUA + "| Heals " + ChatColor.WHITE + num.format(data.getHeals())
+                + ChatColor.DARK_AQUA + " | Captures " + ChatColor.WHITE + num.format(data.getCaptures())
+                + ChatColor.DARK_AQUA + " | Supports " + ChatColor.WHITE + num.format(data.getSupports()));
+
+        return message;
     }
 }

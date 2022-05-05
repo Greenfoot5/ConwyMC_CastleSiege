@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.info.MVPCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
@@ -140,16 +141,9 @@ public class MapController implements CommandExecutor {
 			}
 
 			// Broadcast MVP
-			Bukkit.broadcastMessage(team.primaryChatColor + team.name + ChatColor.DARK_AQUA
-					+ " MVP: " + ChatColor.WHITE + Objects.requireNonNull(getPlayer(mvp.getFirst())).getName());
-			Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Score " + ChatColor.WHITE + mvp.getSecond().getScore()
-					+ ChatColor.DARK_AQUA + " | Kills " + ChatColor.WHITE + mvp.getSecond().getKills()
-					+ ChatColor.DARK_AQUA + " | Deaths " + ChatColor.WHITE + mvp.getSecond().getDeaths()
-					+ ChatColor.DARK_AQUA + " | KDR " + ChatColor.WHITE + mvp.getSecond().getKills() / mvp.getSecond().getDeaths()
-					+ ChatColor.DARK_AQUA + " | Assists " + ChatColor.WHITE + mvp.getSecond().getAssists());
-			Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "| Heals " + ChatColor.WHITE + mvp.getSecond().getHeals()
-					+ ChatColor.DARK_AQUA + " | Captures " + ChatColor.WHITE + mvp.getSecond().getCaptures()
-					+ ChatColor.DARK_AQUA + " | Supports " + ChatColor.WHITE + mvp.getSecond().getSupports());
+			for (String message : MVPCommand.getMVPMessage(team)) {
+				Bukkit.broadcastMessage(message);
+			}
 		}
 		MVPStats.reset();
 

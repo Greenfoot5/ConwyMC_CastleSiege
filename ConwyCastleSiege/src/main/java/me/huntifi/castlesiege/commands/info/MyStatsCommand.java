@@ -68,8 +68,8 @@ public class MyStatsCommand implements CommandExecutor {
         DecimalFormat num = new DecimalFormat("0");
 
         meta.addPage(ChatColor.BLACK + "Name: " + ChatColor.DARK_GRAY + p.getName() + "\n\n"
-                + ChatColor.BLACK + "Rank: " + ChatColor.DARK_GRAY + NameTag.convertRank(data.getStaffRank()) + "\n"
-                + ChatColor.BLACK + "Donator: " + ChatColor.DARK_GRAY + NameTag.convertRank(data.getRank()) + "\n\n"
+                + ChatColor.BLACK + "Rank: " + NameTag.convertRank(data.getStaffRank()) + "\n"
+                + ChatColor.BLACK + "Donator: " + NameTag.convertRank(data.getRank()) + "\n\n"
                 + ChatColor.BLACK + "Score: " + ChatColor.DARK_GRAY + dec.format(data.getScore()) + "\n"
                 + ChatColor.DARK_GREEN + "Kills: " + ChatColor.DARK_GRAY + num.format(data.getKills()) + "\n"
                 + ChatColor.RED + "Deaths: " + ChatColor.DARK_GRAY + num.format(data.getDeaths()) + "\n"
