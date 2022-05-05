@@ -11,7 +11,12 @@ public class Hunger implements Runnable {
 	@Override
 	public void run() {
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, "Halberdier")) {
+			String kit = Kit.equippedKits.get(p.getUniqueId()).name;
+			if (kit == null) {
+				continue;
+			}
+
+			if (Objects.equals(kit, "Halberdier")) {
 				p.setFoodLevel(4);
 			} else {
 				p.setFoodLevel(p.getFoodLevel() + 1);
