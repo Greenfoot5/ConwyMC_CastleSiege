@@ -188,14 +188,17 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                 assert armor != null;
                 armor.setBaseValue(-armor.getValue());
 
-                // Deal damage, without trapper if it won't kill to prevent knockback
-                if (p.getHealth() > 25) {
-                    p.damage(25);
-                } else {
-                    p.damage(25, t);
-                }
+                // Prevent knockback indicating the trapper's position
+                AttributeInstance kb = p.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);
+                assert kb != null;
+                double kbValue = kb.getBaseValue();
+                kb.setBaseValue(2);
 
-                // Revert armor and resistance changes
+                // Deal damage
+                p.damage(25, t);
+
+                // Revert knockback, armor, and resistance changes
+                kb.setBaseValue(kbValue);
                 armor.setBaseValue(0);
                 if (resistance != null) {
                     p.addPotionEffect(resistance);
