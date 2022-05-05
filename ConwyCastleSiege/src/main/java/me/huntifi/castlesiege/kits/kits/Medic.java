@@ -155,7 +155,7 @@ public class Medic extends Kit implements Listener, CommandExecutor {
      * Break a cake
      * @param e The event called when breaking a cake
      */
-    @EventHandler (priority = EventPriority.HIGHEST)
+    @EventHandler (priority = EventPriority.LOWEST)
     public void onBreakCake(BlockBreakEvent e) {
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {

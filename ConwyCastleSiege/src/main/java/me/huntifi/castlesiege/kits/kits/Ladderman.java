@@ -13,6 +13,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -101,7 +102,7 @@ public class Ladderman extends Kit implements Listener, CommandExecutor {
      * Activate the ladderman ability of retrieving broken ladders
      * @param e The event called when breaking ladders
      */
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST)
     public void onBreakLadder(BlockBreakEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
