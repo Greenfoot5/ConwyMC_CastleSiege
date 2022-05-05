@@ -51,6 +51,28 @@ public class PlayerConnect implements Listener {
                 UUID uuid = p.getUniqueId();
                 PlayerData data = LoadData.load(uuid);
                 assert data != null;
+
+                //
+                applyData(p, data);
+
+                // Update the names stored in the database
+                StoreData.updateName(uuid, "player_stats");
+                StoreData.updateName(uuid, "player_rank");
+            }
+        }.runTaskAsynchronously(Main.plugin);
+    }
+
+    /**
+     * Apply the retrieved data to the player
+     * @param p The player
+     * @param data The player's data
+     */
+    private void applyData(Player p, PlayerData data) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                // Actively store data
+                UUID uuid = p.getUniqueId();
                 ActiveData.addPlayer(uuid, data);
                 MVPStats.addPlayer(uuid);
 
@@ -65,11 +87,7 @@ public class PlayerConnect implements Listener {
 
                 // Apply the correct name representation
                 NameTag.give(p);
-
-                // Update the names stored in the database
-                StoreData.updateName(uuid, "player_stats");
-                StoreData.updateName(uuid, "player_rank");
             }
-        }.runTaskAsynchronously(Main.plugin);
+        }.runTask(Main.plugin);
     }
 }
