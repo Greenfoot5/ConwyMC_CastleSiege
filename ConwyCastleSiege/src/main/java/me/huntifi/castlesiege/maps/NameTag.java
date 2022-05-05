@@ -50,7 +50,7 @@ public class NameTag {
      * @param rank The rank to convert
      * @return A formatted rank or an empty string if invalid
      */
-    private static String convertRank(String rank) {
+    public static String convertRank(String rank) {
         switch (rank.toLowerCase()) {
             // Staff Ranks
             case "chatmod":
