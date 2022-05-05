@@ -217,56 +217,12 @@ public class Main extends JavaPlugin implements Listener {
 
                 //getServer().getPluginManager().registerEvents(new Herugrim(), plugin);
 
-                //getServer().getPluginManager().registerEvents(new HelmsdeepJoin(), plugin);
-                //getServer().getPluginManager().registerEvents(new HelmsdeepLeave(), plugin);
-                //getServer().getPluginManager().registerEvents(new HelmsdeepDeath(), plugin);
-                //getServer().getPluginManager().registerEvents(new FlagRadius(), plugin);
-                //getServer().getPluginManager().registerEvents(new SupplyCampFlag(), plugin);
-                //getServer().getPluginManager().registerEvents(new CavesFlag(), plugin);
-                //getServer().getPluginManager().registerEvents(new MainGateFlag(), plugin);
-                //getServer().getPluginManager().registerEvents(new CourtyardFlag(), plugin);
-                //getServer().getPluginManager().registerEvents(new GreatHallsFlag(), plugin);
-                //getServer().getPluginManager().registerEvents(new HornFlag(), plugin);
-                //getServer().getPluginManager().registerEvents(new WoolMap(), plugin);
-
-                //getServer().getPluginManager().registerEvents(new HelmsdeepCavesDoor(), plugin);
-                //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallLeftDoor(), plugin);
-                //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallRightDoor(), plugin);
-                //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateLeftDoor(), plugin);
-                //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateRightDoor(), plugin);
-                //getServer().getPluginManager().registerEvents(new HelmsdeepStorageDoor(), plugin);
-                //getServer().getPluginManager().registerEvents(new GreatHallExtraDoor(), plugin);
-
-                //getServer().getPluginManager().registerEvents(new HelmsdeepMainGateDestroyEvent(), plugin);
-                //getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallDestroyEvent(), plugin);
-                //getServer().getPluginManager().registerEvents(new HelmsdeepBallistaEvent(), plugin);
-
-                //getServer().getPluginManager().registerEvents(new TwinbridgeFlag(), plugin);
-                //getServer().getPluginManager().registerEvents(new SkyviewTowerFlag(), plugin);
-                //getServer().getPluginManager().registerEvents(new LonelyTowerFlag(), plugin);
-                //getServer().getPluginManager().registerEvents(new WestTowerFlag(), plugin);
-                //getServer().getPluginManager().registerEvents(new StairhallFlag(), plugin);
-                //getServer().getPluginManager().registerEvents(new ShiftedTowerFlag(), plugin);
-                //getServer().getPluginManager().registerEvents(new TS_FlagRadius(), plugin);
-                //getServer().getPluginManager().registerEvents(new ThunderstoneDeath(), plugin);
-                //getServer().getPluginManager().registerEvents(new ThunderstoneJoin(), plugin);
-                //getServer().getPluginManager().registerEvents(new TS_Woolmap(), plugin);
-                //getServer().getPluginManager().registerEvents(new TS_Woolmap_Distance(), plugin);
-                //getServer().getPluginManager().registerEvents(new ThunderstoneLeave(), plugin);
-                //getServer().getPluginManager().registerEvents(new ThunderstoneGateDestroyEvent(), plugin);
-                //getServer().getPluginManager().registerEvents(new EastTowerFlag(), plugin);
-
-                //getCommand("CheckFlagList").setExecutor(new FlagListCommand());
-
                 getCommand("sessionmute").setExecutor(new SessionMuteCommand());
 
                 getCommand("Unsessionmute").setExecutor(new UnsessionmuteCommand());
 
 
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneEndMap(), 0, 200);
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new HelmsdeepCaveBoat(), 0, 200);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 20);
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new HelmsdeepEndMap(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
                 //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
@@ -285,30 +241,8 @@ public class Main extends JavaPlugin implements Listener {
 
                 getLogger().info("Plugin has been enabled!");
 
-                // Cheap Rewrite Stuff
+                // Begin the map loop
                 MapController.startLoop();
-
-                //Tablist
-
-//		plugin.tab = new Tablist(plugin);
-//		tab.addHeader("&e*_︵_︵_︵_ &5ConwyMC&e _︵_︵_︵_*\n&5Join the discord: &bhttps://discord.gg/AUDqTpC");
-//		tab.addHeader("&e*_︵_︵_︵_ &dConwyMC&e _︵_︵_︵_*\n&dJoin the discord: &bhttps://discord.gg/AUDqTpC");
-//
-//		tab.addFooter("&5Castle Siege  -  Alpha Testing");
-//		tab.addFooter("&dCastle Siege  -  Alpha Testing");
-//
-//		tab.showTab();
-
-                //Activate the map Helmsdeep + reset
-
-//		HelmsdeepReset.onReset();
-//		HelmsdeepTimer.HelmsdeepTimerEvent();
-//		HelmsdeepGreatHallBlocks.gateblocks();
-//		HelmsdeepMainGateBlocks.gateblocks();
-
-                //resets Thunderstone after restart
-                //ThunderstoneReset.onReset();
-                //ThunderstoneGateBlocks.gateblocks();
 
 //		new BukkitRunnable() {
 //
