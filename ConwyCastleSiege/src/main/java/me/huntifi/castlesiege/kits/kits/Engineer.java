@@ -274,16 +274,14 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
      */
     private void placeTrap(BlockPlaceEvent e, Player p) {
         // Ensure that the player has a corresponding list
-        if (!traps.containsKey(p)) {
-            traps.put(p, new ArrayList<>());
-        }
+        traps.putIfAbsent(p, new ArrayList<>());
         ArrayList<Block> trapList = traps.get(p);
 
         // Already placed max amount of traps
         if (trapList.size() == 8) {
-            p.sendMessage(ChatColor.RED + "You have placed your maximum amount of traps.");
-            p.sendMessage(ChatColor.RED + "Pick your traps up if you need them or destroy them and restock.");
-            return;
+            Block firstPlaced = trapList.get(0);
+            firstPlaced.setType(Material.AIR);
+            trapList.remove(firstPlaced);
         }
 
         // Place the trap
