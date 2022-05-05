@@ -22,8 +22,14 @@ public class NameTag {
             return;
         }
 
-        // Get the player's wanted rank
+        // Only set name tag color if data has not been loaded yet
         PlayerData data = ActiveData.getData(p.getUniqueId());
+        if (data == null) {
+            NametagEdit.getApi().setPrefix(p, color(p).toString());
+            return;
+        }
+
+        // Get the player's wanted rank
         String rank;
         if (p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)) {
             rank = convertRank(data.getStaffRank());

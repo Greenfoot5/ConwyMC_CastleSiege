@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.*;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,19 +21,34 @@ import java.util.UUID;
 public class PlayerConnect implements Listener {
 
     /**
+     * Load the player's data
      * Assign the player to a team
-     * Give the player their last used kit
      * @param e The event called when a player join the game
      */
     @EventHandler (priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent e) {
+        // Load data and perform related actions
+        Player p = e.getPlayer();
+        loadData(p);
+
+        // Join team
+        UUID uuid = p.getUniqueId();
+        MapController.joinATeam(uuid);
+
+    }
+
+    /**
+     * Load the player's data
+     * Apply stored data
+     * Update the player's name in the database
+     * @param p The player
+     */
+    private void loadData(Player p) {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Player p = e.getPlayer();
-                UUID uuid = p.getUniqueId();
-
                 // Load the player's data
+                UUID uuid = p.getUniqueId();
                 PlayerData data = LoadData.load(uuid);
                 assert data != null;
                 ActiveData.addPlayer(uuid, data);
@@ -43,10 +59,12 @@ public class PlayerConnect implements Listener {
                 Permissions.setStaffPermission(uuid, data.getStaffRank());
                 Permissions.setDonatorPermission(uuid, data.getRank());
 
-                // Join a team and assign kit
+                // Assign stored kit
                 InCombat.playerDied(uuid);
-                MapController.joinATeam(uuid);
                 p.performCommand(data.getKit());
+
+                // Apply the correct name representation
+                NameTag.give(p);
 
                 // Update the names stored in the database
                 StoreData.updateName(uuid, "player_stats");
