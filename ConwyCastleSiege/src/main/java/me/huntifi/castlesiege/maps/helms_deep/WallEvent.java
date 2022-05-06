@@ -2,11 +2,10 @@ package me.huntifi.castlesiege.maps.helms_deep;
 
 
 import com.sk89q.worldedit.WorldEditException;
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.structures.MakeStructure;
+import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -142,7 +141,7 @@ public class WallEvent implements Listener {
 						// Paste the wall in the correct location
 						final Location wallLoc = new Location(Bukkit.getWorld("HelmsDeep"), 1040, 34, 1140);
 						try {
-							MakeStructure.createSchematicStructure(wallLoc, "HelmsdeepWallBroken", "HelmsDeep");
+							SchematicSpawner.spawnSchematic(wallLoc, "HelmsdeepWallBroken", "HelmsDeep");
 						} catch (WorldEditException e1) {
 							e1.printStackTrace();
 						}

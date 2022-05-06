@@ -1,0 +1,62 @@
+package me.huntifi.castlesiege.structures;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Objects;
+
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.plugin.Plugin;
+
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
+import com.sk89q.worldedit.function.operation.Operation;
+import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.session.ClipboardHolder;
+
+/**
+ * Handles spawning a schematic
+ */
+public class SchematicSpawner {
+
+	/**
+	 * Spawns a schematic at a certain location
+	 * @param spawnLocation The location to spawn the schematic
+	 * @param schematicName The name of the schematic to spawn
+	 * @param worldName The name of the world to spawn the schematic in
+	 */
+	public static void spawnSchematic(Location spawnLocation, String schematicName, String worldName) throws WorldEditException {
+
+		Plugin worldEditPlugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
+		assert worldEditPlugin != null;
+		File schematic = new File(worldEditPlugin.getDataFolder() + File.separator + "/schematics/" + schematicName + ".schem");
+		ClipboardFormat format = ClipboardFormats.findByFile(schematic);
+		
+		try {
+			assert format != null;
+			try (ClipboardReader reader = format.getReader(Files.newInputStream(schematic.toPath()))) {
+			    Clipboard clipboard = reader.read();
+			    com.sk89q.worldedit.world.World world = BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(worldName)));
+
+				try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
+					Operation operation = new ClipboardHolder(clipboard)
+							.createPaste(editSession)
+							.to(BlockVector3.at(spawnLocation.getBlockX(), spawnLocation.getBlockY(), spawnLocation.getZ()))
+							.ignoreAirBlocks(false)
+							.build();
+					Operations.complete(operation);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

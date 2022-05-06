@@ -78,7 +78,7 @@ public class MainGateRam implements Runnable {
 
 
 	//try {
-	//	MakeStructure.createSchematicStructure(ram, "Classic_Ram", "HelmsDeep");
+	//	SchematicSpawner.spawnSchematic(ram, "Classic_Ram", "HelmsDeep");
 	//} catch (WorldEditException e) {
 	//	e.printStackTrace();
 	//}
