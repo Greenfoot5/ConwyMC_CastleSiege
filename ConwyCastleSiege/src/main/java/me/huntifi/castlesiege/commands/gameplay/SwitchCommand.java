@@ -114,6 +114,7 @@ public class SwitchCommand implements CommandExecutor {
 		} else {
 			p.teleport(team.lobby.spawnPoint);
 			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+			p.sendMessage("You switched to " + team.primaryChatColor + team.name);
 			Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
 		}
 	}
