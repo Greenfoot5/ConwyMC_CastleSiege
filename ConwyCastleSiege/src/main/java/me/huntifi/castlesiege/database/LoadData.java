@@ -49,7 +49,7 @@ public class LoadData {
     }
 
     /**
-     * Get all data a table in the database
+     * Get a user's data from a table in the database
      * @param uuid The unique id of the player whose data to get
      * @param table The table to get the data from
      * @return A tuple of the prepared statement (to close later) and the query's result

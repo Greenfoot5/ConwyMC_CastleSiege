@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Store a player's data when they leave the game
+ */
 public class StoreData {
 
     /**
