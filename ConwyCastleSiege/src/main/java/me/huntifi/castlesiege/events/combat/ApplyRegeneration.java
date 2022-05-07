@@ -28,8 +28,14 @@ public class ApplyRegeneration implements Runnable {
 
 					double maxHealth = Objects.requireNonNull(online.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
 
+					// Make sure the player has been assigned a kit already
+					Kit kit = Kit.equippedKits.get(online.getUniqueId());
+					if (kit == null) {
+						continue;
+					}
+
 					// Halberdier gets double the health regen
-					if (Kit.equippedKits.get(online.getUniqueId()).name.equalsIgnoreCase("Halberdier")) {
+					if (kit.name.equalsIgnoreCase("Halberdier")) {
 						online.setHealth(Math.min(online.getHealth() + REGEN_AMOUNT * 2, maxHealth));
 					} else {
 						online.setHealth(Math.min(online.getHealth() + REGEN_AMOUNT, maxHealth));
