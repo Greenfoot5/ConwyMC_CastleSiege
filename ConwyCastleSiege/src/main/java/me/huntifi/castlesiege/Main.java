@@ -677,7 +677,6 @@ public class Main extends JavaPlugin implements Listener {
                 colors.setSecond(ChatColor.DARK_GRAY);
                 break;
             case "dark_blue":
-            case "blue":
                 colors.setFirst(Material.BLUE_WOOL);
                 colors.setSecond(ChatColor.DARK_BLUE);
                 break;
@@ -729,6 +728,9 @@ public class Main extends JavaPlugin implements Listener {
                 colors.setFirst(Material.GRAY_WOOL);
                 colors.setSecond(ChatColor.DARK_GRAY);
                 break;
+            case "blue":
+                colors.setFirst(Material.BLUE_WOOL);
+                colors.setSecond(ChatColor.BLUE);
             case "light_blue":
                 colors.setFirst(Material.LIGHT_BLUE_WOOL);
                 colors.setSecond(ChatColor.BLUE);

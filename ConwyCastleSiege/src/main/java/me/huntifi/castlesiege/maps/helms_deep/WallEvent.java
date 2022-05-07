@@ -120,6 +120,7 @@ public class WallEvent implements Listener {
 					if (tnt_counter < TNT_LOCATIONS.length) {
 						// Place the tnt
 						TNT_LOCATIONS[0].getBlock().setType(Material.TNT);
+						System.out.println("Added TNT");
 						tnt_counter++;
 
 						// Inform the player and grant stats

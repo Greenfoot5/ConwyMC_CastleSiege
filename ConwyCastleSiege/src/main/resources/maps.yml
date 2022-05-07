@@ -291,7 +291,7 @@ Elwynn:
   teams:
     Defenders:
       name: "The Alliance"
-      primary_color: "dark_blue"
+      primary_color: "blue"
       secondary_color: "light_gold"
       lobby:
         spawn_point:
