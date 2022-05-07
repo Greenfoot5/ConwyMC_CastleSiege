@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.Gate;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
@@ -18,8 +19,16 @@ public class Map {
     public Team[] teams;
     public Flag[] flags;
     public Door[] doors;
+    public Gate[] gates;
     public Gamemode gamemode;
     public Tuple<Integer, Integer> duration = new Tuple<>(20, 0);
+
+    public Map() {
+        teams = new Team[0];
+        flags = new Flag[0];
+        doors = new Door[0];
+        gates = new Gate[0];
+    }
 
     /**
      * Get the team a player is on

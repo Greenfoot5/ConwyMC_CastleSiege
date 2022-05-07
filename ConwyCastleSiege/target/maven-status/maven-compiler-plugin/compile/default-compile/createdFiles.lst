@@ -1,5 +1,4 @@
-me\huntifi\castlesiege\maps\objects\Gate.class
-me\huntifi\castlesiege\maps\objects\Gate$1.class
-me\huntifi\castlesiege\events\combat\AssistKill.class
-me\huntifi\castlesiege\events\connection\PlayerConnect$2.class
-me\huntifi\castlesiege\events\connection\PlayerConnect$1.class
+me/huntifi/castlesiege/maps/objects/Gate.class
+me/huntifi/castlesiege/structures/SchematicSpawner.class
+me/huntifi/castlesiege/maps/objects/Gate$1.class
+me/huntifi/castlesiege/events/connection/PlayerConnect$2.class

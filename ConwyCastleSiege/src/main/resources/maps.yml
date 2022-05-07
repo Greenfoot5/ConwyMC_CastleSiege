@@ -136,8 +136,8 @@ HelmsDeep:
 Thunderstone:
   world: "Thunderstone"
   name: "Thunderstone"
-  start_time: 9000
-  doDaylightCycle: false
+  start_time: 0
+  doDaylightCycle: true
   gamemode: "Assault"
   duration:
     minutes: 30
@@ -279,3 +279,107 @@ Thunderstone:
               y: 204
               z: 154
             sign_direction: west
+Elwynn:
+  world: "Elwynn"
+  name: "Elwynn"
+  start_time: 0
+  doDaylightCycle: true
+  gamemode: "Charge"
+  duration:
+    minutes: 30
+    seconds: 0
+  teams:
+    Defenders:
+      name: "The Alliance"
+      primary_color: "dark_blue"
+      secondary_color: "light_gold"
+      lobby:
+        spawn_point:
+          x: 368
+          y: 134
+          z: 205
+          yaw: -90
+          pitch: 1
+        woolmap:
+          blackrock_camp:
+            flag_name: "Blackrock Camp"
+            wool_position:
+              x: 353
+              y: 133
+              z: 188
+            sign_direction: up
+          northshire_abbey:
+            flag_name: "Northshire Abbey"
+            wool_position:
+              x: 349
+              y: 133
+              z: 186
+            sign_direction: up
+          guard_outpost:
+            flag_name: "Guard's Outpost"
+            wool_position:
+              x: 349
+              y: 133
+              z: 191
+            sign_direction: up
+          the_forest_path:
+            flag_name: "The Forest Path"
+            wool_position:
+              x: 347
+              y: 133
+              z: 194
+            sign_direction: up
+          goldshire:
+            flag_name: "Goldshire"
+            wool_position:
+              x: 348
+              y: 133
+              z: 198
+            sign_direction: up
+    Attackers:
+      name: "Blackrock"
+      primary_color: "orange"
+      secondary_color: "red"
+      lobby:
+        spawn_point:
+          x: 372
+          y: 135
+          z: 80
+          yaw: 90
+          pitch: 0
+        woolmap:
+          camp:
+            flag_name: "Blackrock Camp"
+            wool_position:
+              x: 356
+              y: 134
+              z: 76
+            sign_direction: up
+          abbey:
+            flag_name: "Northshire Abbey"
+            wool_position:
+              x: 352
+              y: 134
+              z: 74
+            sign_direction: up
+          outpost:
+            flag_name: "Guard's Outpost"
+            wool_position:
+              x: 352
+              y: 134
+              z: 79
+            sign_direction: up
+          forest_path:
+            flag_name: "The Forest Path"
+            wool_position:
+              x: 350
+              y: 134
+              z: 82
+            sign_direction: up
+          diggershire:
+            flag_name: "Goldshire"
+            wool_position:
+              x: 351
+              y: 134
+              z: 86
+            sign_direction: up

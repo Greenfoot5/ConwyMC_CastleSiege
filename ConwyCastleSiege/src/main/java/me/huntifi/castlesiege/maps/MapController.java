@@ -12,6 +12,7 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.objects.Gate;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -36,7 +37,6 @@ import static org.bukkit.Bukkit.*;
  */
 public class MapController implements CommandExecutor {
 
-	public static MapsList currentMap = MapsList.HelmsDeep;
 	public static Map[] maps;
 	public static int mapIndex = 0;
 	public static Timer timer;
@@ -45,7 +45,6 @@ public class MapController implements CommandExecutor {
 	 * Begins the map loop
 	 */
 	public static void startLoop() {
-		currentMap = MapsList.values()[0];
 		loadMap();
 	}
 
@@ -54,20 +53,19 @@ public class MapController implements CommandExecutor {
 	 * @param mapName the name of the map to set the current map to
 	 */
 	public static void setMap(String mapName) {
-		String oldMap = currentMap.name();
-		switch (mapName.toLowerCase()) {
-			case "helmsdeep":
-				currentMap = MapsList.HelmsDeep;
-				break;
-			case "thunderstone":
-				currentMap = MapsList.Thunderstone;
-				break;
-		}
-		getLogger().info("Loading map - " + mapName);
+		String oldMap = maps[mapIndex].name;
+		for (int i = 0; i < maps.length; i++) {
+			if (Objects.equals(maps[i].name, mapName)) {
+				getLogger().info("Loading map - " + mapName);
 
-		loadMap();
-		if (!oldMap.equals(mapName))
-			unloadMap(oldMap);
+				mapIndex = i;
+
+				loadMap();
+				if (!oldMap.equals(mapName))
+					unloadMap(oldMap);
+				return;
+			}
+		}
 	}
 
 	/**
@@ -85,6 +83,7 @@ public class MapController implements CommandExecutor {
 				winners = getCurrentMap().teams[0].name;
 				break;
 			case Assault:
+			case Charge:
 				// Check if the defenders have won
 				for (Flag flag : getCurrentMap().flags) {
 					if (Objects.equals(flag.currentOwners, getCurrentMap().teams[0].name)) {
@@ -161,17 +160,16 @@ public class MapController implements CommandExecutor {
 	 * Increments the map by one
 	 */
 	private static void nextMap() {
-		String oldMap = currentMap.name();
+		String oldMap = maps[mapIndex].name;
 		if (finalMap()) {
 			getLogger().info("Completed map cycle! Restarting server...");
 			getServer().spigot().restart();
 		}
 		else {
-			currentMap = MapsList.values()[currentMap.ordinal() + 1];
 			mapIndex++;
-			getLogger().info("Loading next map: " + currentMap.name());
+			getLogger().info("Loading next map: " + maps[mapIndex].name);
 			loadMap();
-			if (!oldMap.equals(currentMap.name())) {
+			if (!oldMap.equals(maps[mapIndex].name)) {
 				unloadMap(oldMap);
 			}
 		}
@@ -187,13 +185,18 @@ public class MapController implements CommandExecutor {
 		// Register the flag regions
 		for (Flag flag : maps[mapIndex].flags) {
 			if (flag.region != null) {
-				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(currentMap.name()))))).addRegion(flag.region);
+				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps[mapIndex].worldName))))).addRegion(flag.region);
 			}
 		}
 
 		// Register doors
 		for (Door door : maps[mapIndex].doors) {
 			Main.plugin.getServer().getPluginManager().registerEvents(door, Main.plugin);
+		}
+
+		// Register gates
+		for (Gate gate : maps[mapIndex].gates) {
+			Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
 		}
 
 		// Register the woolmap clicks
@@ -230,7 +233,7 @@ public class MapController implements CommandExecutor {
 	 * @return If mapName is the same as the current map
 	 */
 	public static Boolean currentMapIs(String mapName) {
-		return currentMap.name().equalsIgnoreCase(mapName);
+		return maps[mapIndex].name.equalsIgnoreCase(mapName);
 	}
 
 	/**
@@ -238,7 +241,7 @@ public class MapController implements CommandExecutor {
 	 * @return if the game is on the final map
 	 */
 	public static boolean finalMap() {
-		return currentMap.ordinal() == MapsList.values().length - 1;
+		return mapIndex == maps.length - 1;
 	}
 
 	/**

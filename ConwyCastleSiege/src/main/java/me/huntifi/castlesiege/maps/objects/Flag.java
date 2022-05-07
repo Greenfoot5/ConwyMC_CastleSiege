@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import net.md_5.bungee.api.ChatMessageType;
@@ -15,10 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -53,6 +51,9 @@ public class Flag {
     // Scoreboard value
     public int scoreboard;
 
+    // Charge Data
+    private String startingTeam;
+
     /**
      * Creates a new flag
      * @param name the name of the flag
@@ -63,6 +64,7 @@ public class Flag {
     public Flag(String name, String startingTeam, int maxCapValue, int progressAmount) {
         this.name = name;
         this.currentOwners = startingTeam;
+        this.startingTeam = startingTeam;
         this.maxCap = maxCapValue;
         animationIndex = maxCapValue;
         this.progressAmount = progressAmount;
@@ -152,6 +154,14 @@ public class Flag {
     private synchronized void captureProgress() {
         if (progress == 0) {
             currentOwners = getLargestTeam();
+        }
+
+        // If the game mode is Charge, you can't recap a flag
+        if (MapController.getCurrentMap().gamemode.equals(Gamemode.Charge)) {
+            if (!Objects.equals(startingTeam, currentOwners)) {
+                if (!Objects.equals(currentOwners, getLargestTeam()))
+                    return;
+            }
         }
 
         Tuple<Integer, Integer> counts = getPlayerCounts();

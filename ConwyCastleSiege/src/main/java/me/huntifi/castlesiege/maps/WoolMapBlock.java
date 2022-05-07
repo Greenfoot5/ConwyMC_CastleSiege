@@ -21,7 +21,6 @@ public class WoolMapBlock {
     public String flagName;
     public Location blockLocation;
     public Location signLocation;
-    public BlockFace signDirection;
 
     /**
      * Attempts to spawn a player at a flag

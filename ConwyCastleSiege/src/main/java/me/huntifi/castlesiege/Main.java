@@ -10,7 +10,9 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import me.huntifi.castlesiege.commands.chat.*;
+import me.huntifi.castlesiege.commands.chat.PrivateMessage;
+import me.huntifi.castlesiege.commands.chat.ReplyMessage;
+import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.gameplay.KitCommand;
 import me.huntifi.castlesiege.commands.gameplay.SuicideCommand;
 import me.huntifi.castlesiege.commands.gameplay.SwitchCommand;
@@ -19,9 +21,9 @@ import me.huntifi.castlesiege.commands.staff.*;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MySQL;
+import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.*;
-import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
 import me.huntifi.castlesiege.events.connection.PlayerDisconnect;
 import me.huntifi.castlesiege.events.death.DeathEvent;
@@ -44,7 +46,6 @@ import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.security.Hunger;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
-import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
@@ -70,6 +71,7 @@ public class Main extends JavaPlugin implements Listener {
     private YamlConfiguration mapsConfig;
     private YamlDocument flagsConfig;
     private YamlDocument doorsConfig;
+    private YamlDocument gatesConfig;
 
     @Override
     public void onEnable() {
@@ -87,8 +89,6 @@ public class Main extends JavaPlugin implements Listener {
             @Override
             public void run() {
                 getLogger().info("Resuming loading plugin...");
-                getLogger().info("Loading all worlds...");
-                createWorld();
                 getLogger().info("Loading configuration files...");
                 createConfigs();
                 getLogger().info("Loading maps from configuration...");
@@ -278,25 +278,31 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private void resetWorlds() {
-        for (MapsList mapName : MapsList.values()) {
-            try {
-                FileUtils.copyDirectory(new File(Bukkit.getWorldContainer(), mapName + "_save"),
-                        new File(Bukkit.getWorldContainer(), mapName.toString()));
-            } catch (IOException e) {
-                e.printStackTrace();
+        //Creating a File object for directory
+        File directoryPath = new File(String.valueOf(Bukkit.getWorldContainer()));
+        //List of all files and directories
+        String[] contents = directoryPath.list();
+        System.out.println("List of files and directories in the specified directory:");
+        assert contents != null;
+        for (String content : contents) {
+            if (content.endsWith("_save")) {
+                String worldName = content.substring(0, content.length() - 5);
+                try {
+                    FileUtils.copyDirectory(new File(Bukkit.getWorldContainer(), worldName + "_save"),
+                            new File(Bukkit.getWorldContainer(), worldName));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
-    private void createWorld() {
-        for (MapsList mapName : MapsList.values()) {
-            WorldCreator worldCreator = new WorldCreator(mapName.name());
-            worldCreator.generateStructures(false);
-            worldCreator.createWorld();
-        }
-        for (World world : Bukkit.getWorlds()) {
-            world.setAutoSave(false);
-        }
+    private void createWorld(String worldName) {
+        WorldCreator worldCreator = new WorldCreator(worldName);
+        worldCreator.generateStructures(false);
+        World world = worldCreator.createWorld();
+        assert world != null;
+        world.setAutoSave(false);
     }
 
     private void sqlConnect() {
@@ -325,6 +331,10 @@ public class Main extends JavaPlugin implements Listener {
 
     public YamlDocument getDoorsConfig() {
         return this.doorsConfig;
+    }
+
+    public YamlDocument getGatesConfig() {
+        return this.gatesConfig;
     }
 
     private void createConfigs() {
@@ -406,6 +416,14 @@ public class Main extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
+        // Load gates.yml with BoostedYAML
+        try {
+            gatesConfig = YamlDocument.create(new File(getDataFolder(), "gates.yml"),
+                    getClass().getResourceAsStream("gates.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // Load maps.yml with Spigot's yaml parser
         File mapsFile = new File(getDataFolder(), "maps.yml");
         if (!mapsFile.exists()) {
@@ -433,6 +451,9 @@ public class Main extends JavaPlugin implements Listener {
             map.name = this.getMapsConfig().getString(mapPaths[i] + ".name");
             map.worldName = this.getMapsConfig().getString(mapPaths[i] + ".world");
             map.gamemode = Gamemode.valueOf(this.getMapsConfig().getString(mapPaths[i] + ".gamemode"));
+
+            // World Data
+            createWorld(map.worldName);
 
             // Flag Data
             loadFlags(mapPaths[i], map);
@@ -555,20 +576,20 @@ public class Main extends JavaPlugin implements Listener {
             // Get the wall sign's direction
             switch (Objects.requireNonNull(this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".sign_direction")).toLowerCase()) {
                 case "east":
-                    block.signDirection = BlockFace.EAST;
                     block.signLocation.add(1, 0, 0);
                     break;
                 case "south":
-                    block.signDirection = BlockFace.SOUTH;
                     block.signLocation.add(0, 0, 1);
                     break;
                 case "west":
-                    block.signDirection = BlockFace.WEST;
                     block.signLocation.add(-1, 0, 0);
                     break;
-                default:
-                    block.signDirection = BlockFace.NORTH;
+                case "north":
                     block.signLocation.add(0, 0, -1);
+                case "up":
+                    block.signLocation.add(0, 1, 0);
+                default:
+                    block.signLocation.add(0, 0, 0);
             }
             woolMap.woolMapBlocks[i] = block;
         }
@@ -616,6 +637,10 @@ public class Main extends JavaPlugin implements Listener {
             Door door = new Door(flagName, centre, doorBlocks);
             map.doors[i] = door;
         }
+    }
+
+    private void loadGates(String mapPath, Map map) {
+
     }
 
     private String[] getPaths(YamlDocument file, Route route) {
@@ -674,15 +699,21 @@ public class Main extends JavaPlugin implements Listener {
             case "brown":
                 colors.setFirst(Material.BROWN_WOOL);
                 colors.setSecond(ChatColor.DARK_RED);
+                break;
             case "dark_purple":
             case "purple":
                 colors.setFirst(Material.PURPLE_WOOL);
                 colors.setSecond(ChatColor.DARK_PURPLE);
                 break;
             case "gold":
+            case "dark_gold":
             case "dark_yellow":
             case "orange":
                 colors.setFirst(Material.ORANGE_WOOL);
+                colors.setSecond(ChatColor.GOLD);
+                break;
+            case "light_gold":
+                colors.setFirst(Material.YELLOW_WOOL);
                 colors.setSecond(ChatColor.GOLD);
                 break;
             case "light_gray":

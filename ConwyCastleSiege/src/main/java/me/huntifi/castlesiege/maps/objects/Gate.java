@@ -7,10 +7,7 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,11 +26,11 @@ import java.util.UUID;
  */
 public class Gate implements Listener {
     private final String name;
-    private final String flagName;
+    private String flagName;
 
-    private final Vector min;
-    private final Vector max;
-    private final String schematicName;
+    private Vector min;
+    private Vector max;
+    private String schematicName;
     private Vector schematicLocation;
     private Vector breachSoundLocation;
 
@@ -45,20 +42,40 @@ public class Gate implements Listener {
     /**
      * Creates a new gate
      * @param displayName The display name of the gate
+     */
+    public Gate(String displayName) {
+        this.name = displayName;
+        isBreached = false;
+    }
+
+    /**
      * @param flagName The name of the flag the gate belongs to. Stops friendlies from breaking the gate
+     */
+    public void setFlagName(String flagName) {
+        this.flagName = flagName;
+    }
+
+    /**
      * @param min The minimum position of the part of the gate you can hit
      * @param max The maximum position of the part of the gate you can hit
-     * @param schematicName The name of the schematic to spawn when the gate is breached
-     * @param startingHealth The starting health of the gate
      */
-    public Gate(String displayName, String flagName, Vector min, Vector max, String schematicName, int startingHealth) {
-        this.name = displayName;
-        this.flagName = flagName;
+    public void setHitBox(Vector min, Vector max) {
         this.min = min;
         this.max = max;
+    }
+
+    /**
+     * @param schematicName The name of the schematic to spawn when the gate is breached
+     */
+    public void setSchematicName(String schematicName) {
         this.schematicName = schematicName;
-        this.health = startingHealth;
-        isBreached = false;
+    }
+
+    /**
+     * @param health The current health of the gate
+     */
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     /**
@@ -68,6 +85,11 @@ public class Gate implements Listener {
     public void setBreachSoundLocation(Vector location) {
         breachSoundLocation = location;
     }
+
+    /**
+     * Sets the location the schematic is spawned at
+     * @param location the vector of the location
+     */
     public void setSchematicLocation(Vector location) {
         schematicLocation = location;
     }
@@ -80,6 +102,24 @@ public class Gate implements Listener {
             }
         }
         return false;
+    }
+
+    private void gateBreached(World world) {
+        for (Player all : Bukkit.getOnlinePlayers()) {
+            all.sendMessage(ChatColor.RED + name + "has been breached!");
+        }
+
+        try {
+            SchematicSpawner.spawnSchematic(schematicLocation.toLocation(
+                    Objects.requireNonNull(world)), schematicName, world.getName());
+        } catch (WorldEditException e) {
+            e.printStackTrace();
+        }
+
+        Objects.requireNonNull(world).playSound(
+                breachSoundLocation.toLocation(world), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR , 5, 1 );
+        isBreached = true;
+
     }
 
     @EventHandler
@@ -131,20 +171,7 @@ public class Gate implements Listener {
                         }
                     } else {
                         if (!isBreached) {
-                            for (Player all : Bukkit.getOnlinePlayers()) {
-                                all.sendMessage(ChatColor.RED + name + "has been breached!");
-                            }
-
-                            try {
-                                SchematicSpawner.spawnSchematic(schematicLocation.toLocation(
-                                        Objects.requireNonNull(soundLoc.getWorld())), schematicName, soundLoc.getWorld().getName());
-                            } catch (WorldEditException e) {
-                                e.printStackTrace();
-                            }
-
-                            Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(
-                                    breachSoundLocation.toLocation(soundLoc.getWorld()), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR , 5, 1 );
-                            isBreached = true;
+                            gateBreached(soundLoc.getWorld());
                         }
                     }
                 }
