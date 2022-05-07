@@ -1,19 +1,15 @@
 package me.huntifi.castlesiege.events.connection;
 
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.*;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.net.InetAddress;
 import java.sql.PreparedStatement;
@@ -119,7 +115,6 @@ public class PlayerConnect implements Listener {
     /**
      * Load the player's data
      * Actively store the loaded data
-     * Update the player's name in the database
      * @param uuid The unique ID of the player
      */
     private void loadData(UUID uuid) {

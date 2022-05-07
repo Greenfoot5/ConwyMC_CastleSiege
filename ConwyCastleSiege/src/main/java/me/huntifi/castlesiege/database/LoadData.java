@@ -108,4 +108,18 @@ public class LoadData {
         ps.executeUpdate();
         ps.close();
     }
+
+    /**
+     * Get the top players from the database
+     * @param order The category to order by
+     * @return A tuple of the prepared statement (to close later) and the query's result
+     * @throws SQLException If something goes wrong executing the query
+     */
+    public static Tuple<PreparedStatement, ResultSet> getTop(String order) throws SQLException {
+        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "SELECT * FROM player_stats ORDER BY " + order + " DESC LIMIT 10");
+
+        ResultSet rs = ps.executeQuery();
+        return new Tuple<>(ps, rs);
+    }
 }
