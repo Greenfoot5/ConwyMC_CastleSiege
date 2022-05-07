@@ -21,7 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.sk89q.worldedit.WorldEditException;
 
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.structures.MakeStructure;
+import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -96,7 +96,7 @@ public class HelmsdeepGreatHallDestroyEvent implements Listener {
 									}
 
 									try {
-										MakeStructure.createSchematicStructure(loc, "HelmsdeepGreatHallBroken", "HelmsDeep");
+										SchematicSpawner.spawnSchematic(loc, "HelmsdeepGreatHallBroken", "HelmsDeep");
 									} catch (WorldEditException e) {
 										e.printStackTrace();
 									}

@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.Thunderstone.Rams;
 
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,7 +14,6 @@ import com.sk89q.worldedit.WorldEditException;
 
 import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateDestroyEvent;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.structures.MakeStructure;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -39,13 +39,13 @@ public class ThunderstoneRamAnimation implements Runnable {
 					if (!hasRammed) {
 
 						try {
-							MakeStructure.createSchematicStructure(startRam, "clear_ram_east", "Thunderstone");
+							SchematicSpawner.spawnSchematic(startRam, "clear_ram_east", "Thunderstone");
 						} catch (WorldEditException e) {
 							e.printStackTrace();
 						}
 
 						try {
-							MakeStructure.createSchematicStructure(ram, "ram_east", "Thunderstone");
+							SchematicSpawner.spawnSchematic(ram, "ram_east", "Thunderstone");
 						} catch (WorldEditException e) {
 							e.printStackTrace();
 						}
@@ -65,7 +65,7 @@ public class ThunderstoneRamAnimation implements Runnable {
 								}
 
 								try {
-									MakeStructure.createSchematicStructure(loc, "ThunderstoneGateBreached", "Thunderstone");
+									SchematicSpawner.spawnSchematic(loc, "ThunderstoneGateBreached", "Thunderstone");
 								} catch (WorldEditException e) {
 									e.printStackTrace();
 								}
@@ -73,7 +73,7 @@ public class ThunderstoneRamAnimation implements Runnable {
 								//clear the ram (otherwise it would just kinda be there in the air)
 								
 								try {
-									MakeStructure.createSchematicStructure(startRam, "clear_ram_east", "Thunderstone");
+									SchematicSpawner.spawnSchematic(startRam, "clear_ram_east", "Thunderstone");
 								} catch (WorldEditException e) {
 									e.printStackTrace();
 								}
@@ -107,13 +107,13 @@ public class ThunderstoneRamAnimation implements Runnable {
 								if (hasRammed) {
 
 									try {
-										MakeStructure.createSchematicStructure(ram, "clear_ram_east", "Thunderstone");
+										SchematicSpawner.spawnSchematic(ram, "clear_ram_east", "Thunderstone");
 									} catch (WorldEditException e) {
 										e.printStackTrace();
 									}
 
 									try {
-										MakeStructure.createSchematicStructure(startRam, "ram_east", "Thunderstone");
+										SchematicSpawner.spawnSchematic(startRam, "ram_east", "Thunderstone");
 									} catch (WorldEditException e) {
 										e.printStackTrace();
 									}

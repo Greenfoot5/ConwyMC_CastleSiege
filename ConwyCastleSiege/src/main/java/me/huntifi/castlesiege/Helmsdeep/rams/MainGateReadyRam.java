@@ -1,12 +1,12 @@
 package me.huntifi.castlesiege.Helmsdeep.rams;
 
+import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import com.sk89q.worldedit.WorldEditException;
 
 import me.huntifi.castlesiege.Helmsdeep.Gates.HelmsdeepMainGateDestroyEvent;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.structures.MakeStructure;
 
 public class MainGateReadyRam implements Runnable {
 
@@ -28,13 +28,13 @@ public class MainGateReadyRam implements Runnable {
 				if (!isRamReady) {
 
 					try {
-						MakeStructure.createSchematicStructure(ram, "Classic_Ram", "HelmsDeep");
+						SchematicSpawner.spawnSchematic(ram, "Classic_Ram", "HelmsDeep");
 					} catch (WorldEditException e) {
 						e.printStackTrace();
 					}
 
 					try {
-						MakeStructure.createSchematicStructure(startRam, "removeRam_Maingate", "HelmsDeep");
+						SchematicSpawner.spawnSchematic(startRam, "removeRam_Maingate", "HelmsDeep");
 					} catch (WorldEditException e) {
 						e.printStackTrace();
 					}
@@ -49,19 +49,19 @@ public class MainGateReadyRam implements Runnable {
 				Location ramFix = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 1044, 54, 1000); //did this to remove an extra block.
 
 				try {
-					MakeStructure.createSchematicStructure(startRam, "Classic_Ram", "HelmsDeep");
+					SchematicSpawner.spawnSchematic(startRam, "Classic_Ram", "HelmsDeep");
 				} catch (WorldEditException e) {
 					e.printStackTrace();
 				}
 
 				try {
-					MakeStructure.createSchematicStructure(ram, "removeRam_Maingate", "HelmsDeep");
+					SchematicSpawner.spawnSchematic(ram, "removeRam_Maingate", "HelmsDeep");
 				} catch (WorldEditException e) {
 					e.printStackTrace();
 				}
 
 				try {
-					MakeStructure.createSchematicStructure(ramFix, "removeRam_Maingate", "HelmsDeep");
+					SchematicSpawner.spawnSchematic(ramFix, "removeRam_Maingate", "HelmsDeep");
 				} catch (WorldEditException e) {
 					e.printStackTrace();
 				}
@@ -73,19 +73,19 @@ public class MainGateReadyRam implements Runnable {
 					Location ramFix = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 1044, 54, 1000); //did this to remove an extra block.
 
 					try {
-						MakeStructure.createSchematicStructure(startRam, "Classic_Ram", "HelmsDeep");
+						SchematicSpawner.spawnSchematic(startRam, "Classic_Ram", "HelmsDeep");
 					} catch (WorldEditException e) {
 						e.printStackTrace();
 					}
 
 					try {
-						MakeStructure.createSchematicStructure(ram, "removeRam_Maingate", "HelmsDeep");
+						SchematicSpawner.spawnSchematic(ram, "removeRam_Maingate", "HelmsDeep");
 					} catch (WorldEditException e) {
 						e.printStackTrace();
 					}
 
 					try {
-						MakeStructure.createSchematicStructure(ramFix, "removeRam_Maingate", "HelmsDeep");
+						SchematicSpawner.spawnSchematic(ramFix, "removeRam_Maingate", "HelmsDeep");
 					} catch (WorldEditException e) {
 						e.printStackTrace();
 					}

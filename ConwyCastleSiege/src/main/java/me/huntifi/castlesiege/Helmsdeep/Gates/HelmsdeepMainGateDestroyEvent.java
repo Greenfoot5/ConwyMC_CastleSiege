@@ -1,11 +1,10 @@
 package me.huntifi.castlesiege.Helmsdeep.Gates;
 
 import com.sk89q.worldedit.WorldEditException;
-import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.structures.MakeStructure;
+import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -92,7 +91,7 @@ public class HelmsdeepMainGateDestroyEvent implements Listener {
 										}
 
 										try {
-											MakeStructure.createSchematicStructure(loc, "HelmsdeepMainGateBroken", "HelmsDeep");
+											SchematicSpawner.spawnSchematic(loc, "HelmsdeepMainGateBroken", "HelmsDeep");
 										} catch (WorldEditException e) {
 											e.printStackTrace();
 										}

@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.Helmsdeep.rams;
 
-import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.UpdateStats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +13,7 @@ import com.sk89q.worldedit.WorldEditException;
 
 import me.huntifi.castlesiege.Helmsdeep.Gates.HelmsdeepGreatHallDestroyEvent;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.structures.MakeStructure;
+import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -40,13 +39,13 @@ public class GreatHallRamAnimation implements Runnable {
 					if (!hasRammed) {
 
 						try {
-							MakeStructure.createSchematicStructure(startRam, "removeRam_Maingate", "HelmsDeep");
+							SchematicSpawner.spawnSchematic(startRam, "removeRam_Maingate", "HelmsDeep");
 						} catch (WorldEditException e) {
 							e.printStackTrace();
 						}
 
 						try {
-							MakeStructure.createSchematicStructure(ram, "Classic_Ram", "HelmsDeep");
+							SchematicSpawner.spawnSchematic(ram, "Classic_Ram", "HelmsDeep");
 						} catch (WorldEditException e) {
 							e.printStackTrace();
 						}
@@ -66,7 +65,7 @@ public class GreatHallRamAnimation implements Runnable {
 								}
 
 								try {
-									MakeStructure.createSchematicStructure(loc, "HelmsdeepGreatHallBroken", "HelmsDeep");
+									SchematicSpawner.spawnSchematic(loc, "HelmsdeepGreatHallBroken", "HelmsDeep");
 								} catch (WorldEditException e) {
 									e.printStackTrace();
 								}
@@ -74,7 +73,7 @@ public class GreatHallRamAnimation implements Runnable {
 								//clear the ram in the air, otherwise it would stay there... �-�
 								
 								try {
-									MakeStructure.createSchematicStructure(startRam, "removeRam_Maingate", "HelmsDeep");
+									SchematicSpawner.spawnSchematic(startRam, "removeRam_Maingate", "HelmsDeep");
 								} catch (WorldEditException e) {
 									e.printStackTrace();
 								}
@@ -108,13 +107,13 @@ public class GreatHallRamAnimation implements Runnable {
 								if (hasRammed) {
 
 									try {
-										MakeStructure.createSchematicStructure(ram, "removeRam_Maingate", "HelmsDeep");
+										SchematicSpawner.spawnSchematic(ram, "removeRam_Maingate", "HelmsDeep");
 									} catch (WorldEditException e) {
 										e.printStackTrace();
 									}
 
 									try {
-										MakeStructure.createSchematicStructure(startRam, "Classic_Ram", "HelmsDeep");
+										SchematicSpawner.spawnSchematic(startRam, "Classic_Ram", "HelmsDeep");
 									} catch (WorldEditException e) {
 										e.printStackTrace();
 									}
