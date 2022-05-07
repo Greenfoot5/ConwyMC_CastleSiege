@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.*;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
@@ -10,9 +11,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.net.InetAddress;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
@@ -21,73 +28,107 @@ import java.util.UUID;
 public class PlayerConnect implements Listener {
 
     /**
-     * Load the player's data
-     * Assign the player to a team
+     * Assign the player's data and join a team
      * @param e The event called when a player join the game
      */
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        // Load data and perform related actions
         Player p = e.getPlayer();
-        loadData(p);
-
-        // Join team
         UUID uuid = p.getUniqueId();
-        MapController.joinATeam(uuid);
+        PlayerData data = ActiveData.getData(uuid);
 
+        // Assign the player's staff and donator permissions
+        Permissions.addPlayer(uuid);
+        Permissions.setStaffPermission(uuid, data.getStaffRank());
+        Permissions.setDonatorPermission(uuid, data.getRank());
+
+        // Assign the player to a team
+        MapController.joinATeam(e.getPlayer().getUniqueId());
+
+        // Assign stored kit
+        InCombat.playerDied(uuid);
+        p.performCommand(data.getKit());
+
+        // Update the names stored in the database
+        StoreData.updateName(uuid, "player_stats");
+        StoreData.updateName(uuid, "player_rank");
+    }
+
+    /**
+     * Check if the player is allowed to join the game
+     * Load the player's data
+     * @param e The event called when a player attempts to join the server
+     * @throws SQLException If something goes wrong executing a query
+     */
+    // TODO - Load other punishment data and actively store them?
+    @EventHandler
+    public void preLogin(AsyncPlayerPreLoginEvent e) throws SQLException {
+        Tuple<Boolean, String> banned = isBanned(e.getUniqueId(), e.getAddress());
+        if (banned.getFirst()) {
+            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, banned.getSecond());
+            return;
+        }
+
+        // The player is allowed to join, so we can start loading their data
+        loadData(e.getUniqueId());
+    }
+
+    /**
+     * Check if the player is banned
+     * @param uuid The unique ID of the player
+     * @param ip The IP-address of the player
+     * @return Whether the player is banned, and the reason for that ban
+     * @throws SQLException If something goes wrong executing the query
+     */
+    private Tuple<Boolean, String> isBanned(UUID uuid, InetAddress ip) throws SQLException {
+        // Check all ban records for this uuid to see if one is still active
+        Tuple<PreparedStatement, ResultSet> prUUID = Punishments.get(uuid, "ban");
+        Tuple<Boolean, String> uuidBan = checkBan(prUUID.getSecond());
+        prUUID.getFirst().close();
+        if (uuidBan.getFirst()) {
+            return uuidBan;
+        }
+
+        // Check all ban records for this IP to see if one is still active
+        Tuple<PreparedStatement, ResultSet> prIP = Punishments.getIPBan(ip);
+        Tuple<Boolean, String> ipBan = checkBan(prIP.getSecond());
+        prIP.getFirst().close();
+        if (ipBan.getFirst()) {
+            return ipBan;
+        }
+
+        // No active ban record was found
+        return new Tuple<>(false, "");
+    }
+
+    /**
+     * Check if the query result contains an active ban
+     * @param rs The result of a query
+     * @return Whether an active ban is present, and the reason for that ban
+     * @throws SQLException If something goes wrong getting data from the query
+     */
+    private Tuple<Boolean, String> checkBan(ResultSet rs) throws SQLException {
+        while (rs.next()) {
+            if (rs.getTimestamp("end").after(new Timestamp(System.currentTimeMillis()))) {
+                return new Tuple<>(true, rs.getString("reason"));
+            }
+        }
+        return new Tuple<>(false, "");
     }
 
     /**
      * Load the player's data
-     * Apply stored data
+     * Actively store the loaded data
      * Update the player's name in the database
-     * @param p The player
+     * @param uuid The unique ID of the player
      */
-    private void loadData(Player p) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // Load the player's data
-                UUID uuid = p.getUniqueId();
-                PlayerData data = LoadData.load(uuid);
-                assert data != null;
+    private void loadData(UUID uuid) {
+        // Load the player's data
+        PlayerData data = LoadData.load(uuid);
+        assert data != null;
 
-                //
-                applyData(p, data);
-
-                // Update the names stored in the database
-                StoreData.updateName(uuid, "player_stats");
-                StoreData.updateName(uuid, "player_rank");
-            }
-        }.runTaskAsynchronously(Main.plugin);
-    }
-
-    /**
-     * Apply the retrieved data to the player
-     * @param p The player
-     * @param data The player's data
-     */
-    private void applyData(Player p, PlayerData data) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // Actively store data
-                UUID uuid = p.getUniqueId();
-                ActiveData.addPlayer(uuid, data);
-                MVPStats.addPlayer(uuid);
-
-                // Assign the player's staff and donator permissions
-                Permissions.addPlayer(uuid);
-                Permissions.setStaffPermission(uuid, data.getStaffRank());
-                Permissions.setDonatorPermission(uuid, data.getRank());
-
-                // Assign stored kit
-                InCombat.playerDied(uuid);
-                p.performCommand(data.getKit());
-
-                // Apply the correct name representation
-                NameTag.give(p);
-            }
-        }.runTask(Main.plugin);
+        // Actively store data
+        ActiveData.addPlayer(uuid, data);
+        MVPStats.addPlayer(uuid);
     }
 }

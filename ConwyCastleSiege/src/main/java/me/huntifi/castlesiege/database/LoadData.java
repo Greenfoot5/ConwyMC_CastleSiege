@@ -102,12 +102,9 @@ public class LoadData {
      * @throws SQLException If something goes wrong executing the insert
      */
     private static void createEntry(UUID uuid, String table) throws SQLException {
-        String name = table.equalsIgnoreCase("VotingPlugin_Users") ? "PlayerName" : "name";
-
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "INSERT IGNORE INTO " + table + " (" + name + ", uuid) VALUES (?, ?)");
-        ps.setString(1, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName());
-        ps.setString(2, uuid.toString());
+                "INSERT IGNORE INTO " + table + " (uuid) VALUES (?)");
+        ps.setString(1, uuid.toString());
         ps.executeUpdate();
         ps.close();
     }
