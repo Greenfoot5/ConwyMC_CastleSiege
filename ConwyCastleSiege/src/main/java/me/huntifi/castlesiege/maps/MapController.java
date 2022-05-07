@@ -131,14 +131,6 @@ public class MapController implements CommandExecutor {
 				Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has lost!~~~~~~~~");
 			}
 
-			// Empty team -> go to next team
-			Tuple<UUID, PlayerData> mvp = team.getMVP();
-			if (mvp == null) {
-				Bukkit.broadcastMessage(team.primaryChatColor + team.name + ChatColor.DARK_AQUA
-						+ " MVP: " + ChatColor.WHITE + "N/A");
-				continue;
-			}
-
 			// Broadcast MVP
 			for (String message : MVPCommand.getMVPMessage(team)) {
 				Bukkit.broadcastMessage(message);
