@@ -43,6 +43,7 @@ public class SelectorKitGUI extends AbstractKitGUI {
                 p.performCommand("kit unlocked");
                 break;
             case "Shop":
+            case "Team":
             case "Rohan":
             case "Uruk-hai":
             case "Thunderstone":
@@ -57,7 +58,11 @@ public class SelectorKitGUI extends AbstractKitGUI {
      * @param teamName The name of the team
      */
     public Inventory setTeam(String teamName) {
-        gui.setItem(16, team(teamName));
+        if (teamName == null) {
+            gui.setItem(16, team("Team"));
+        } else {
+            gui.setItem(16, team(teamName));
+        }
         return this.gui;
     }
 
