@@ -100,6 +100,13 @@ public class Flag {
     }
 
     /**
+     * Called when the game ends
+     */
+    public void clear() {
+        players.clear();
+    }
+
+    /**
      * Find out if the flag is under attack
      * @return if the flag is under attack
      */

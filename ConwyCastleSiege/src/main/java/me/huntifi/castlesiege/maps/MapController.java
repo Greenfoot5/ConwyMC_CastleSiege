@@ -107,7 +107,6 @@ public class MapController implements CommandExecutor {
 				break;
 		}
 
-		// Kills all the players
 		// Moves all players to the lobby
 		new BukkitRunnable() {
 			@Override
@@ -121,6 +120,11 @@ public class MapController implements CommandExecutor {
 				InCombat.clearCombat();
 			}
 		}.runTask(Main.plugin);
+
+		// Clear all capture zones
+		for (Flag flag : getCurrentMap().flags) {
+			flag.clear();
+		}
 
 		// Broadcast the winners
 		for (Team team : getCurrentMap().teams) {
@@ -138,7 +142,7 @@ public class MapController implements CommandExecutor {
 		}
 		MVPStats.reset();
 
-		// Begins the
+		// Begins the next map
 		new BukkitRunnable() {
 			@Override
 			public void run() {
