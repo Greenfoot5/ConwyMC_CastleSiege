@@ -107,6 +107,9 @@ commands:
     aliases: t
 
   # Info
+  Coins:
+    description: Shows the player's coins
+    usage: /coins
   Discord:
     description: Gives the link to our discord
     usage: /discord

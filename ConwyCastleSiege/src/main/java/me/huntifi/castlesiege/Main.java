@@ -162,6 +162,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
 
                 // Info
+                Objects.requireNonNull(getCommand("Coins")).setExecutor(new CoinsCommand());
                 Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
                 Objects.requireNonNull(getCommand("Maps")).setExecutor(new MapsCommand());
                 Objects.requireNonNull(getCommand("MVP")).setExecutor(new MVPCommand());
