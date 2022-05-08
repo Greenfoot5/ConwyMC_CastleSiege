@@ -43,6 +43,7 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
      */
     public Warhound() {
         super("Warhound", 110);
+        super.canCap = false;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
