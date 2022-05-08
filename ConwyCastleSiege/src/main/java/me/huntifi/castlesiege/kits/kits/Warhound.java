@@ -112,6 +112,7 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
 
         mobDisguise.setEntity(p);
         mobDisguise.startDisguise();
+        NameTag.give(p);
     }
 
     /**
