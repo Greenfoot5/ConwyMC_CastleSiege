@@ -52,7 +52,7 @@ public class Flag {
     public int scoreboard;
 
     // Charge Data
-    private String startingTeam;
+    private final String startingTeam;
 
     /**
      * Creates a new flag
@@ -100,6 +100,13 @@ public class Flag {
     }
 
     /**
+     * Called when the game ends
+     */
+    public void clear() {
+        players.clear();
+    }
+
+    /**
      * Find out if the flag is under attack
      * @return if the flag is under attack
      */
@@ -110,7 +117,7 @@ public class Flag {
 
         Tuple<Integer, Integer> counts = getPlayerCounts();
 
-        return counts.getFirst() > counts.getSecond();
+        return counts.getFirst() < counts.getSecond();
     }
 
     /**

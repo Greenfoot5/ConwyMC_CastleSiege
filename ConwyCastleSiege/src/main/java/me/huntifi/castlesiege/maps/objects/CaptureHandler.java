@@ -9,6 +9,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.session.MoveType;
 import com.sk89q.worldguard.session.Session;
 import com.sk89q.worldguard.session.handler.Handler;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 
 import java.util.Set;
@@ -50,7 +51,8 @@ public class CaptureHandler extends Handler {
         // Player entered a flag capture zone
         for (ProtectedRegion region : entered) {
             Flag flag = MapController.getCurrentMap().getFlag(region.getId().replace('_', ' '));
-            if (flag != null && player.isPlayer() && !player.getGameMode().toString().equals("spectator")) {
+            if (flag != null && player.isPlayer() && !player.getGameMode().toString().equals("spectator")
+                    && Kit.equippedKits.get(player.getUniqueId()).canCap) {
                 flag.playerEnter(BukkitAdapter.adapt(player));
             }
         }
@@ -58,7 +60,8 @@ public class CaptureHandler extends Handler {
         // Player left a flag capture zone
         for (ProtectedRegion region : exited) {
             Flag flag = MapController.getCurrentMap().getFlag(region.getId().replace('_', ' '));
-            if (flag != null && player.isPlayer() && player.getGameMode() != GameMode.REGISTRY.get("spectator")) {
+            if (flag != null && player.isPlayer() && player.getGameMode() != GameMode.REGISTRY.get("spectator")
+                    && Kit.equippedKits.get(player.getUniqueId()).canCap) {
                 flag.playerExit(BukkitAdapter.adapt(player));
             }
         }

@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.objects.Flag;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,9 +36,21 @@ public class PlayerDisconnect implements Listener {
         }
         InCombat.playerDied(uuid);
 
+        stopCapping(e.getPlayer());
+
         storeData(uuid);
         MapController.leaveTeam(uuid);
         Permissions.removePlayer(uuid);
+    }
+
+    /**
+     * Remove the player from all capping zones
+     * @param p The player
+     */
+    private void stopCapping(Player p) {
+        for (Flag flag : MapController.getCurrentMap().flags) {
+            flag.playerExit(p);
+        }
     }
 
     /**

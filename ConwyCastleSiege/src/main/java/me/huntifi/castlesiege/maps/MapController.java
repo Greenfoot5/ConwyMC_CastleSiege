@@ -107,7 +107,6 @@ public class MapController implements CommandExecutor {
 				break;
 		}
 
-		// Kills all the players
 		// Moves all players to the lobby
 		new BukkitRunnable() {
 			@Override
@@ -122,6 +121,11 @@ public class MapController implements CommandExecutor {
 			}
 		}.runTask(Main.plugin);
 
+		// Clear all capture zones
+		for (Flag flag : getCurrentMap().flags) {
+			flag.clear();
+		}
+
 		// Broadcast the winners
 		for (Team team : getCurrentMap().teams) {
 			Bukkit.broadcastMessage("");
@@ -131,14 +135,6 @@ public class MapController implements CommandExecutor {
 				Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has lost!~~~~~~~~");
 			}
 
-			// Empty team -> go to next team
-			Tuple<UUID, PlayerData> mvp = team.getMVP();
-			if (mvp == null) {
-				Bukkit.broadcastMessage(team.primaryChatColor + team.name + ChatColor.DARK_AQUA
-						+ " MVP: " + ChatColor.WHITE + "N/A");
-				continue;
-			}
-
 			// Broadcast MVP
 			for (String message : MVPCommand.getMVPMessage(team)) {
 				Bukkit.broadcastMessage(message);
@@ -146,7 +142,7 @@ public class MapController implements CommandExecutor {
 		}
 		MVPStats.reset();
 
-		// Begins the
+		// Begins the next map
 		new BukkitRunnable() {
 			@Override
 			public void run() {

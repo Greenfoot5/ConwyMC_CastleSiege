@@ -53,6 +53,7 @@ permissions:
     description: Gives access to all CastleSiege Esquire commands
 
 commands:
+  # TODO - These command have yet to be reimplemented
   Gmc:
     description: Change your game mode to creative.
     usage: /Gmc
@@ -80,30 +81,12 @@ commands:
   Vanish:
     description: Vanish into the void!
     usage: /Vanish
-  Playerid:
-    description: Returns the target player's UUID.
-    usage: /Playerid
-  CheckFlagList:
-    description: check helmsdeep arraylists
-    usage: /CheckFlagList
   Unsessionmute:
     description: Un-sessionmutes the player.
     usage: /Unsessionmute
   sessionmute:
     description: Session mute the player.
     usage: /sessionmute
-
-  Switch:
-    description: Switches teams.
-    usage: /switch
-    aliases: sw
-  SaveMap:
-    description: Saves any changes made to the current map
-    usage: /savemap
-  Suicide:
-    description: commit die
-    usage: /suicide
-    aliases: sui
 
   # Chat
   Message:
@@ -124,6 +107,9 @@ commands:
     aliases: t
 
   # Info
+  Coins:
+    description: Shows the player's coins
+    usage: /coins
   Discord:
     description: Gives the link to our discord
     usage: /discord
@@ -146,6 +132,25 @@ commands:
   Teams:
     description: Shows the size and name of all teams on the current map
     usage: /teams
+  Top:
+    description: Shows the leaderboard
+    usage: /top <category>
+    aliases:
+      - toplist
+      - leaderboard
+
+  # Gameplay
+  Switch:
+    description: Switches teams.
+    usage: /switch
+    aliases: sw
+  SaveMap:
+    description: Saves any changes made to the current map
+    usage: /savemap
+  Suicide:
+    description: commit die
+    usage: /suicide
+    aliases: sui
 
   # Staff
   CSReload:

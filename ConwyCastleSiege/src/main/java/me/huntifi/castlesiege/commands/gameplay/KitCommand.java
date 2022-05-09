@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.kits.gui.FreeKitGUI;
 import me.huntifi.castlesiege.kits.gui.UnlockedKitGUI;
 import me.huntifi.castlesiege.kits.gui.SelectorKitGUI;
 import me.huntifi.castlesiege.maps.MapController;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -60,7 +61,11 @@ public class KitCommand implements CommandExecutor {
 
         if (args.length == 0) {
             // No arguments passed -> open kit selector GUI
-            p.openInventory(selGUI.get(team));
+            Inventory gui = selGUI.get(team);
+            if (gui == null) {
+                gui = new SelectorKitGUI().setTeam(null);
+            }
+            p.openInventory(gui);
             return true;
         } else if (args.length == 1) {
             // One argument passed -> open sub-GUI
@@ -82,7 +87,8 @@ public class KitCommand implements CommandExecutor {
             p.openInventory(kitGUI.get(arg.toLowerCase()));
             return true;
         } else if (arg.equalsIgnoreCase("team") || arg.equalsIgnoreCase(team)) {
-            p.openInventory(kitGUI.get(team));
+            p.sendMessage(ChatColor.DARK_RED + "This feature is currently unavailable!");
+            // p.openInventory(kitGUI.get(team));
             return true;
         }
 

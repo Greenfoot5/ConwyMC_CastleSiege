@@ -162,6 +162,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
 
                 // Info
+                Objects.requireNonNull(getCommand("Coins")).setExecutor(new CoinsCommand());
                 Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
                 Objects.requireNonNull(getCommand("Maps")).setExecutor(new MapsCommand());
                 Objects.requireNonNull(getCommand("MVP")).setExecutor(new MVPCommand());
@@ -169,6 +170,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
                 Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
+                Objects.requireNonNull(getCommand("Top")).setExecutor(new Leaderboard());
 
                 // Staff
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());

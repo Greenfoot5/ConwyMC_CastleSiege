@@ -31,6 +31,8 @@ public abstract class Kit {
     public int baseHealth;
     protected int kbResistance = 0;
 
+    public boolean canCap;
+
     // Equipment
     protected EquipmentSet equipment;
     protected int heldItemSlot = 0;
@@ -55,6 +57,8 @@ public abstract class Kit {
         this.name = name;
         this.baseHealth = baseHealth;
         players = new ArrayList<>();
+
+        canCap = true;
 
         // Equipment
         equipment = new EquipmentSet();

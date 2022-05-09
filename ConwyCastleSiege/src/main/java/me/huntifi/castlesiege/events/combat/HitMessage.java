@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Displays the hit message and sound when a player hits a player or animal with an arrow
@@ -35,7 +36,7 @@ public class HitMessage implements Listener {
 
 				Player hit = (Player) e.getHitEntity();
 
-				if (MapController.getCurrentMap().getTeam(p.getUniqueId()) == MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
+				if (MapController.getCurrentMap().getTeam(p.getUniqueId()) != MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
 					// Notifies the player
 					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "Hit (" + hit.getName() + ")"));
 					playSound(p);
@@ -46,6 +47,10 @@ public class HitMessage implements Listener {
 
 			// They hit an animal
 			} else if (e.getHitEntity() instanceof Animals || e.getHitEntity() instanceof Bat) {
+				if (sameTeamPassenger(p.getUniqueId(), e.getHitEntity())) {
+					return;
+				}
+
 				// Notify the player
 				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "Hit (" + Objects.requireNonNull(e.getHitEntity()).getType() + ")"));
 				playSound(p);
@@ -54,6 +59,22 @@ public class HitMessage implements Listener {
 				InCombat.addPlayerToCombat(p.getUniqueId());
 			}
 		}
+	}
+
+	/**
+	 * Checks if an entity was hit that is being ridden by a teammate
+	 * @param uuid The unique ID of the shooter
+	 * @param e The entity that was shot
+	 * @return Whether the entity is being ridden by a teammate
+	 */
+	private boolean sameTeamPassenger(UUID uuid, Entity e) {
+		if (e.getPassengers().isEmpty() || !(e.getPassengers().get(0) instanceof Player)) {
+			return false;
+		}
+
+		Player rider = (Player) e.getPassengers().get(0);
+		return MapController.getCurrentMap().getTeam(uuid) ==
+				MapController.getCurrentMap().getTeam(rider.getUniqueId());
 	}
 
 	/**

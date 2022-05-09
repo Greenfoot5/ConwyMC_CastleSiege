@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.maps.objects.Flag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -57,6 +58,7 @@ public class DeathEvent implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
         respawn(event.getEntity());
+        stopCapping(event.getEntity());
         updateStats(event);
     }
 
@@ -71,6 +73,16 @@ public class DeathEvent implements Listener {
                 p.spigot().respawn();
             }
         }.runTaskLater(Main.plugin, 10);
+    }
+
+    /**
+     * Remove the player from all capping zones
+     * @param p The player
+     */
+    private void stopCapping(Player p) {
+        for (Flag flag : MapController.getCurrentMap().flags) {
+            flag.playerExit(p);
+        }
     }
 
     /**

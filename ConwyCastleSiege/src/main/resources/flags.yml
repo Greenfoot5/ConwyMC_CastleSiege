@@ -440,6 +440,14 @@ HelmsDeep:
         secondary_blocks:
           - "==": Vector
             x: 870
+            y: 57
+            z: 942
+          - "==": Vector
+            x: 866
+            y: 57
+            z: 942
+          - "==": Vector
+            x: 870
             y: 56
             z: 942
         air:

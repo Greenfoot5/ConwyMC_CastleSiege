@@ -114,8 +114,8 @@ public class MVPCommand implements CommandExecutor {
                 + ChatColor.DARK_AQUA + " | Deaths " + ChatColor.WHITE + num.format(data.getDeaths())
                 + ChatColor.DARK_AQUA + " | KDR " + ChatColor.WHITE + dec.format(data.getKills() / data.getDeaths())
                 + ChatColor.DARK_AQUA + " | Assists " + ChatColor.WHITE + num.format(data.getAssists()));
-        message.add(ChatColor.DARK_AQUA + "| Heals " + ChatColor.WHITE + num.format(data.getHeals())
-                + ChatColor.DARK_AQUA + " | Captures " + ChatColor.WHITE + num.format(data.getCaptures())
+        message.add(ChatColor.DARK_AQUA + " | Captures " + ChatColor.WHITE + num.format(data.getCaptures())
+                + ChatColor.DARK_AQUA + " | Heals " + ChatColor.WHITE + num.format(data.getHeals())
                 + ChatColor.DARK_AQUA + " | Supports " + ChatColor.WHITE + num.format(data.getSupports()));
 
         return message;
