@@ -1,6 +1,7 @@
 me\huntifi\castlesiege\commands\info\CoinsCommand.class
 me\huntifi\castlesiege\maps\objects\Gate.class
 me\huntifi\castlesiege\maps\objects\Gate$1.class
+me\huntifi\castlesiege\database\KeepAlive.class
 me\huntifi\castlesiege\commands\info\Leaderboard.class
 me\huntifi\castlesiege\structures\SchematicSpawner.class
 me\huntifi\castlesiege\commands\info\Leaderboard$1.class
