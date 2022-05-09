@@ -242,3 +242,48 @@ HelmsDeep:
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
+      
+##############
+# Abrakhan #
+##############
+
+Abrakhan:
+  GatehouseDoor:
+    # Name of the flag (must be exact)
+    # If not flag is specified, the door will open for any player, no matter their team
+    flag: "abrakhan_gatehouse"
+    # Centre of the door
+    # Used to measure distance to the stone pressure plates,
+    # And plays the door sound
+    centre:
+      x: 58
+      y: 31
+      z: -29
+    # The locations of each of the blocks
+    locations:
+      - x: 59
+        y: 33
+        z: -29
+      - x: 59
+        y: 32
+        z: -29
+      - x: 59
+        y: 31
+        z: -29
+      - x: 58
+        y: 33
+        z: -29
+      - x: 58
+        y: 32
+        z: -29
+      - x: 58
+        y: 31
+        z: -29
+    # The material the block is (order matches with location)
+    materials:
+      - "OAK_LOG"
+      - "OAK_LOG"
+      - "OAK_LOG"
+      - "OAK_LOG"
+      - "OAK_LOG"
+      - "OAK_LOG"

@@ -1,3 +1,177 @@
+Abrakhan:
+  world: "Abrakhan"
+  name: "Abrakhan"
+  start_time: 0
+  doDaylightCycle: true
+  gamemode: "Assault"
+  duration:
+    minutes: 30
+    seconds: 0
+  teams:
+    Defenders:
+      name: "Abrakhan Guard"
+      primary_color: "dark_green"
+      secondary_color: "light_green"
+      lobby:
+        spawn_point:
+          x: 89
+          y: 19
+          z: -814
+          yaw: 90
+          pitch: -3
+        woolmap:
+          market:
+            flag_name: "Market"
+            wool_position:
+              x: 76
+              y: 19
+              z: -813
+            sign_direction: up
+          gallows:
+            flag_name: "Gallows"
+            wool_position:
+              x: 76
+              y: 19
+              z: -816
+            sign_direction: up
+          abrakhan_port:
+            flag_name: "Port"
+            wool_position:
+              x: 76
+              y: 19
+              z: -810
+            sign_direction: up
+          abrakhan_gatehouse:
+            flag_name: "Gatehouse"
+            wool_position:
+              x: 74
+              y: 19
+              z: -813
+            sign_direction: up
+          garden:
+            flag_name: "Garden"
+            wool_position:
+              x: 74
+              y: 19
+              z: -817
+            sign_direction: up
+          abrakhan_inner_gatehouse:
+            flag_name: "Inn. Gatehouse"
+            wool_position:
+              x: 70
+              y: 19
+              z: -815
+            sign_direction: up
+          abrakhan_keep:
+            flag_name: "Keep"
+            wool_position:
+              x: 69
+              y: 19
+              z: -814
+            sign_direction: up
+          abrakhan_kings_tower:
+            flag_name: "King's Tower"
+            wool_position:
+              x: 68
+              y: 19
+              z: -813
+            sign_direction: up
+          abrakhan_storage:
+            flag_name: "Storage"
+            wool_position:
+              x: 68
+              y: 19
+              z: -811
+            sign_direction: up
+          abrakhan_prison_tower:
+            flag_name: "Prison Tower"
+            wool_position:
+              x: 68
+              y: 19
+              z: -816
+            sign_direction: up
+    Attackers:
+      name: "Desert Raiders"
+      primary_color: "orange"
+      secondary_color: "yellow"
+      lobby:
+        spawn_point:
+          x: 92
+          y: 16
+          z: 816
+          yaw: -180
+          pitch: -1
+        woolmap:
+          market:
+            flag_name: "Market"
+            wool_position:
+              x: 90
+              y: 17
+              z: 806
+            sign_direction: south
+          gallows:
+            flag_name: "Gallows"
+            wool_position:
+              x: 93
+              y: 17
+              z: 806
+            sign_direction: south
+          abrakhan_port:
+            flag_name: "Port"
+            wool_position:
+              x: 87
+              y: 17
+              z: 806
+            sign_direction: south
+          abrakhan_gatehouse:
+            flag_name: "Gatehouse"
+            wool_position:
+              x: 90
+              y: 19
+              z: 806
+            sign_direction: south
+          garden:
+            flag_name: "Garden"
+            wool_position:
+              x: 94
+              y: 19
+              z: 806
+            sign_direction: south
+          abrakhan_inner_gatehouse:
+            flag_name: "Inner Gatehouse"
+            wool_position:
+              x: 92
+              y: 23
+              z: 806
+            sign_direction: south
+          abrakhan_keep:
+            flag_name: "Keep"
+            wool_position:
+              x: 91
+              y: 24
+              z: 806
+            sign_direction: south
+          abrakhan_kings_tower:
+            flag_name: "King's Tower"
+            wool_position:
+              x: 90
+              y: 25
+              z: 806
+            sign_direction: south
+          abrakhan_storage:
+            flag_name: "Storage"
+            wool_position:
+              x: 88
+              y: 25
+              z: 806
+            sign_direction: south
+          abrakhan_prison_tower:
+            flag_name: "Prison Tower"
+            wool_position:
+              x: 93
+              y: 25
+              z: 806
+            sign_direction: south
 HelmsDeep:
   world: "HelmsDeep"
   name: "Helm's Deep"
@@ -556,178 +730,4 @@ Conwy:
               x: -55
               y: 91
               z: 598
-            sign_direction: south
-Abrakhan:
-  world: "Abrakhan"
-  name: "Abrakhan"
-  start_time: 0
-  doDaylightCycle: true
-  gamemode: "Assault"
-  duration:
-    minutes: 30
-    seconds: 0
-  teams:
-    Defenders:
-      name: "Abrakhan Guard"
-      primary_color: "dark_green"
-      secondary_color: "green"
-      lobby:
-        spawn_point:
-          x: 89
-          y: 19
-          z: -814
-          yaw: 90
-          pitch: -3
-        woolmap:
-          market:
-            flag_name: "Market"
-            wool_position:
-              x: 76
-              y: 19
-              z: -813
-            sign_direction: up
-          gallows:
-            flag_name: "Gallows"
-            wool_position:
-              x: 76
-              y: 19
-              z: -816
-            sign_direction: up
-          abrakhan_port:
-            flag_name: "Port"
-            wool_position:
-              x: 76
-              y: 19
-              z: -810
-            sign_direction: up
-          abrakhan_gatehouse:
-            flag_name: "Gatehouse"
-            wool_position:
-              x: 74
-              y: 19
-              z: -813
-            sign_direction: up
-          garden:
-            flag_name: "Garden"
-            wool_position:
-              x: 74
-              y: 19
-              z: -817
-            sign_direction: south
-          abrakhan_inner_gatehouse:
-            flag_name: "Inner Gatehouse"
-            wool_position:
-              x: 70
-              y: 19
-              z: -815
-            sign_direction: up
-          abrakhan_keep:
-            flag_name: "Keep"
-            wool_position:
-              x: 69
-              y: 19
-              z: -814
-            sign_direction: up
-          abrakhan_kings_tower:
-            flag_name: "King's Tower"
-            wool_position:
-              x: 68
-              y: 19
-              z: -813
-            sign_direction: up
-          abrakhan_storage:
-            flag_name: "Storage"
-            wool_position:
-              x: 68
-              y: 19
-              z: -811
-            sign_direction: up
-          abrakhan_prison_tower:
-            flag_name: "Prison Tower"
-            wool_position:
-              x: 68
-              y: 19
-              z: -816
-            sign_direction: up
-    Attackers:
-      name: "Desert Raiders"
-      primary_color: "orange"
-      secondary_color: "yellow"
-      lobby:
-        spawn_point:
-          x: 92
-          y: 15
-          z: 816
-          yaw: -180
-          pitch: -1
-        woolmap:
-          market:
-            flag_name: "Market"
-            wool_position:
-              x: 90
-              y: 17
-              z: 806
-            sign_direction: south
-          gallows:
-            flag_name: "Gallows"
-            wool_position:
-              x: 93
-              y: 17
-              z: 806
-            sign_direction: south
-          abrakhan_port:
-            flag_name: "Port"
-            wool_position:
-              x: 87
-              y: 17
-              z: 806
-            sign_direction: south
-          abrakhan_gatehouse:
-            flag_name: "Gatehouse"
-            wool_position:
-              x: 90
-              y: 19
-              z: 806
-            sign_direction: south
-          garden:
-            flag_name: "Garden"
-            wool_position:
-              x: 94
-              y: 19
-              z: 806
-            sign_direction: south
-          abrakhan_inner_gatehouse:
-            flag_name: "Inner Gatehouse"
-            wool_position:
-              x: 92
-              y: 23
-              z: 806
-            sign_direction: south
-          abrakhan_keep:
-            flag_name: "Keep"
-            wool_position:
-              x: 91
-              y: 24
-              z: 806
-            sign_direction: south
-          abrakhan_kings_tower:
-            flag_name: "King's Tower"
-            wool_position:
-              x: 90
-              y: 25
-              z: 806
-            sign_direction: south
-          abrakhan_storage:
-            flag_name: "Storage"
-            wool_position:
-              x: 88
-              y: 25
-              z: 806
-            sign_direction: south
-          abrakhan_prison_tower:
-            flag_name: "Prison Tower"
-            wool_position:
-              x: 93
-              y: 25
-              z: 806
             sign_direction: south
