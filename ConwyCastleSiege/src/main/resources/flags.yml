@@ -9506,6 +9506,7 @@ Abrakhan:
             z: -15
       8:
         ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
           - "==": Vector
             x: 143
             y: 62
@@ -9947,6 +9948,7 @@ Abrakhan:
             z: -87
       8:
         ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
           - "==": Vector
             x: 40
             y: 64
