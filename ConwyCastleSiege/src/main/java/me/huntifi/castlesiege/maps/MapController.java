@@ -4,14 +4,12 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.info.MVPCommand;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
-import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
@@ -79,7 +77,7 @@ public class MapController implements CommandExecutor {
 		String winners;
 		switch(getCurrentMap().gamemode) {
 			case Control:
-				getLogger().severe("Control gamemode has not been implemented yet! Defaulting to teams[0] as winners");
+				getLogger().severe("Control game mode has not been implemented yet! Defaulting to teams[0] as winners");
 				winners = getCurrentMap().teams[0].name;
 				break;
 			case Assault:
@@ -193,6 +191,7 @@ public class MapController implements CommandExecutor {
 		// Register gates
 		for (Gate gate : maps[mapIndex].gates) {
 			Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
+			System.out.println("Registered gate " + gate.getName());
 		}
 
 		// Register the woolmap clicks

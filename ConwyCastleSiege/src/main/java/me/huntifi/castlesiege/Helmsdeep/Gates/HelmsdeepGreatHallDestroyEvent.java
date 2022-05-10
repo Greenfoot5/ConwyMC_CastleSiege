@@ -79,9 +79,9 @@ public class HelmsdeepGreatHallDestroyEvent implements Listener {
 								}
 
 
-							} else if (GateHealth < 2) {
+							} else {
 
-								if (isBreached != true) {
+								if (!isBreached) {
 
 
 									Location loc = new Location(plugin.getServer().getWorld("HelmsDeep"), 969, 72, 1000);

@@ -48,7 +48,7 @@ public class WallEvent implements Listener {
 		Player player = e.getPlayer();
 
 		// Check we're on HelmsDeep
-		if(MapController.currentMapIs("HelmsDeep")) {
+		if(MapController.getCurrentMap().worldName.equals("HelmsDeep")) {
 			// Check the player has right-clicked a block while standing within 5 blocks of the spawner
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.getLocation().distance(PICKUP_LOCATION) <= 5) {
 				// If the player clicks on some TNT
@@ -106,7 +106,7 @@ public class WallEvent implements Listener {
 		Player p = e.getPlayer();
 
 		// Check we're playing on Helms Deep
-		if(MapController.currentMapIs("HelmsDeep")) {
+		if(MapController.getCurrentMap().worldName.equals("HelmsDeep")) {
 			// Check the player is currently carrying the tnt
 			if (p.getUniqueId() == carrier && e.getClickedBlock() != null) {
 
@@ -120,7 +120,6 @@ public class WallEvent implements Listener {
 					if (tnt_counter < TNT_LOCATIONS.length) {
 						// Place the tnt
 						TNT_LOCATIONS[0].getBlock().setType(Material.TNT);
-						System.out.println("Added TNT");
 						tnt_counter++;
 
 						// Inform the player and grant stats
@@ -199,7 +198,7 @@ public class WallEvent implements Listener {
 	 * @return If the player was the carrier
 	 */
 	private boolean nullCarrier(Player player) {
-		if (MapController.currentMapIs("HelmsDeep")) {
+		if (MapController.getCurrentMap().worldName.equals("HelmsDeep")) {
 
 			assert player != null;
 			if (player.getWorld() == (Bukkit.getWorld("HelmsDeep"))) {

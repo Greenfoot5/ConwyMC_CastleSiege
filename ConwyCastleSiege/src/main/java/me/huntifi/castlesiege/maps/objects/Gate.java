@@ -48,6 +48,10 @@ public class Gate implements Listener {
         isBreached = false;
     }
 
+    public String getName() {
+        return name;
+    }
+
     /**
      * @param flagName The name of the flag the gate belongs to. Stops friendlies from breaking the gate
      */
@@ -62,13 +66,16 @@ public class Gate implements Listener {
     public void setHitBox(Vector min, Vector max) {
         this.min = min;
         this.max = max;
+        System.out.println("Hit box min: " + min);
     }
 
     /**
      * @param schematicName The name of the schematic to spawn when the gate is breached
+     * @param location the vector of the location
      */
-    public void setSchematicName(String schematicName) {
+    public void setSchematic(String schematicName, Vector location) {
         this.schematicName = schematicName;
+        this.schematicLocation = location;
     }
 
     /**
@@ -86,16 +93,7 @@ public class Gate implements Listener {
         breachSoundLocation = location;
     }
 
-    /**
-     * Sets the location the schematic is spawned at
-     * @param location the vector of the location
-     */
-    public void setSchematicLocation(Vector location) {
-        schematicLocation = location;
-    }
-
     private boolean isGateBlock(Block block) {
-        Location location = block.getLocation();
         if (min.getX() <= block.getX() && block.getX() <= max.getX()) {
             if (min.getY() <= block.getY() && block.getY() <= max.getY()) {
                 return min.getZ() <= block.getZ() && block.getZ() <= max.getZ();
@@ -106,7 +104,7 @@ public class Gate implements Listener {
 
     private void gateBreached(World world) {
         for (Player all : Bukkit.getOnlinePlayers()) {
-            all.sendMessage(ChatColor.RED + name + "has been breached!");
+            all.sendMessage(ChatColor.RED + getName() + " has been breached!");
         }
 
         try {
@@ -137,8 +135,7 @@ public class Gate implements Listener {
                 Location soundLoc = Objects.requireNonNull(event.getClickedBlock()).getLocation();
 
                 if (isGateBlock(event.getClickedBlock())) {
-
-                    if (!player.isSprinting()) {
+                    if (!player.isSprinting() && !isBreached) {
                         player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                                 TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "You need to sprint in order to bash the gate!"));
                         return;
@@ -153,9 +150,7 @@ public class Gate implements Listener {
 
                             health -= 2;
 
-                            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                                UpdateStats.addSupports(player.getUniqueId(), 0.5);
-                            });
+                            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> UpdateStats.addSupports(player.getUniqueId(), 0.5));
 
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                                     TextComponent.fromLegacyText(ChatColor.GRAY + "" + ChatColor.BOLD + "Gate Health: " + health));

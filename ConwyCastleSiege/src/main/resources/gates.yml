@@ -1,0 +1,53 @@
+HelmsDeep:
+  MainGate:
+    display_name: "Main Gate"
+    flag_name: "Main Gate"
+    min:
+      ==: org.bukkit.util.Vector
+      x: 1037
+      y: 52
+      z: 998
+    max:
+      ==: org.bukkit.util.Vector
+      x: 1037
+      y: 57
+      z: 1002
+    breach_sound:
+      ==: org.bukkit.util.Vector
+      x: 1038
+      y: 52
+      z: 1000
+    schematic:
+      name: "HD_MainGate_Breached"
+      location:
+        ==: org.bukkit.util.Vector
+        x: 1038
+        y: 52
+        z: 1000
+    start_health: 16
+  GreatHall:
+    display_name: "Great Hall"
+    flag_name: "Great Hall"
+    min:
+      ==: org.bukkit.util.Vector
+      x: 970
+      y: 72
+      z: 998
+    max:
+      ==: org.bukkit.util.Vector
+      x: 970
+      y: 77
+      z: 1002
+    breach_sound:
+      ==: org.bukkit.util.Vector
+      x: 970
+      y: 73
+      z: 1000
+    schematic:
+      name: "HelmsDeepGreatHallBroken"
+      location:
+        ==: org.bukkit.util.Vector
+        x: 970
+        y: 73
+        z: 1000
+    start_health: 16

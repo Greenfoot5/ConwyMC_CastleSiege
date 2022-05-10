@@ -44,6 +44,7 @@ import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.maps.objects.CaptureHandler;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.security.Hunger;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
@@ -286,7 +287,6 @@ public class Main extends JavaPlugin implements Listener {
         File directoryPath = new File(String.valueOf(Bukkit.getWorldContainer()));
         //List of all files and directories
         String[] contents = directoryPath.list();
-        System.out.println("List of files and directories in the specified directory:");
         assert contents != null;
         for (String content : contents) {
             if (content.endsWith("_save")) {
@@ -463,6 +463,8 @@ public class Main extends JavaPlugin implements Listener {
             loadFlags(mapPaths[i], map);
             // Doors
             loadDoors(mapPaths[i], map);
+            // Gates
+            loadGates(mapPaths[i], map);
 
             // Team Data
             java.util.Map<String, Object> stringObjectTeam = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection(mapPaths[i] + ".teams")).getValues(false);
@@ -644,7 +646,29 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private void loadGates(String mapPath, Map map) {
+        Route mapRoute = Route.from(mapPath);
+        if (!getGatesConfig().contains(mapRoute)) {
+            map.gates = new Gate[0];
+            return;
+        }
+        String[] gatePaths = getPaths(getGatesConfig(), mapRoute);
 
+        map.gates = new Gate[gatePaths.length];
+        for (int i = 0; i < gatePaths.length; i++) {
+            // Create the gate
+            Route gateRoute = mapRoute.add(gatePaths[i]);
+            Gate gate = new Gate(getGatesConfig().getString(gateRoute.add("display_name")));
+            gate.setFlagName(getGatesConfig().getString(gateRoute.add("flag_name")));
+            gate.setHealth(getGatesConfig().getInt(gateRoute.add("start_health")));
+
+            gate.setHitBox(getGatesConfig().getAs(gateRoute.add("min"), Vector.class),
+                    getGatesConfig().getAs(gateRoute.add("max"), Vector.class));
+            gate.setSchematic(getGatesConfig().getString(gateRoute.add("schematic").add("name")),
+                    getGatesConfig().getAs(gateRoute.add("schematic").add("location"), Vector.class));
+            gate.setBreachSoundLocation(getGatesConfig().getAs(gateRoute.add("breach_sound"), Vector.class));
+
+            map.gates[i] = gate;
+        }
     }
 
     private String[] getPaths(YamlDocument file, Route route) {

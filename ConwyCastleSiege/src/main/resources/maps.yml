@@ -183,6 +183,7 @@ HelmsDeep:
     minutes: 30
     seconds: 0
   teams:
+    # In Assault, defenders are always listed first
     Defenders:
       name: "Rohan"
       primary_color: "dark_green"
