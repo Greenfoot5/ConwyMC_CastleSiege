@@ -1,11 +1,13 @@
 package me.huntifi.castlesiege.kits.kits;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -21,6 +23,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,6 +32,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
@@ -37,6 +41,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -47,7 +52,7 @@ import java.util.*;
 public class Engineer extends Kit implements Listener, CommandExecutor {
 
     private static final HashMap<Player, ArrayList<Block>> traps = new HashMap<>();
-    private static final HashMap<Player, Location> ballistae = new HashMap<>();
+    private static final HashMap<Player, Tuple<Location, Boolean>> ballistae = new HashMap<>();
 
     /**
      * Set the equipment and attributes of this kit
@@ -275,7 +280,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                 return;
             }
 
-            ballistae.put((Player) e.getEntered(), dispenserFace);
+            ballistae.put((Player) e.getEntered(), new Tuple<>(dispenserFace, false));
         }
     }
 
@@ -288,8 +293,45 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         if (ballistae.containsKey(e.getPlayer()) &&
                 (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK)) {
             Player p = e.getPlayer();
-            Arrow a = p.getWorld().spawnArrow(ballistae.get(p), p.getLocation().getDirection(), 2, 0);
+            Tuple<Location, Boolean> ballista = ballistae.get(p);
+
+            // On cooldown
+            if (ballista.getSecond()) {
+                return;
+            }
+
+            // Shoot arrow
+            Arrow a = p.getWorld().spawnArrow(ballista.getFirst(), p.getLocation().getDirection(), 2, 0);
             a.setShooter(p);
+            a.setDamage(50);
+
+            // Set cooldown
+            ballista.setSecond(true);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    ballista.setSecond(false);
+                }
+            }.runTaskLater(Main.plugin, 100);
+        }
+    }
+
+    /**
+     * Damage all enemy players within a 1 block radius
+     * @param e The event called when an arrow hits a block or entity
+     */
+    @EventHandler (priority = EventPriority.LOWEST)
+    public void onHitBallista(ProjectileHitEvent e) {
+        if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player
+                && ballistae.containsKey((Player) e.getEntity().getShooter())) {
+
+            Player shooter = (Player) e.getEntity().getShooter();
+            Team team = MapController.getCurrentMap().getTeam(shooter.getUniqueId());
+            for (Entity hit : e.getEntity().getNearbyEntities(1, 1, 1)) {
+                if (hit instanceof Player && MapController.getCurrentMap().getTeam(hit.getUniqueId()) != team) {
+                    ((Player) hit).damage(20, shooter);
+                }
+            }
         }
     }
 
@@ -390,7 +432,11 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                 .orElse(null);
     }
 
-    // TODO
+    /**
+     * Get the location of the face of the dispenser
+     * @param loc The location of the dispenser
+     * @return The dispenser's face location, or null if no dispenser location was provided
+     */
     private Location getDispenserFace(Location loc) {
         Block dispenser = loc.getBlock();
         if (dispenser.getType() != Material.DISPENSER) {
