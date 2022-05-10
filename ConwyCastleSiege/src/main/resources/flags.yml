@@ -5361,3 +5361,6338 @@ Elwynn:
             x: -16
             y: 86
             z: 164
+
+################
+#    Conwy     #
+################
+
+Conwy:
+  rebellion_camp:
+    name: "Rebellion Camp"
+    start_owners: "The Rebellion"
+    max_cap: 1
+    progress_amount: 0
+    scoreboard: 1
+    spawn_point:
+      x: 17
+      y: 73
+      z: 37
+      #yaw:-38
+      #pitch:-2
+  northwest_tower:
+    name: "Northwest Tower"
+    start_owners: "The English"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 5
+    spawn_point:
+      x: 30
+      y: 121
+      z: 178
+      yaw: -33
+      pitch: 4
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 39
+        y: 130
+        z: 184
+      max:
+        x: 23
+        y: 139
+        z: 170
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 134
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 134
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 134
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 134
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 133
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 133
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 133
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 133
+            z: 177
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 135
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 135
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 135
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 135
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 134
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 134
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 134
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 134
+            z: 177
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 136
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 136
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 136
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 136
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 135
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 135
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 135
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 135
+            z: 177
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 137
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 137
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 137
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 137
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 136
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 136
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 136
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 136
+            z: 177
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 138
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 138
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 138
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 138
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 137
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 137
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 137
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 137
+            z: 177
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 139
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 139
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 139
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 139
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 138
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 138
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 138
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 138
+            z: 177
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 140
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 140
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 140
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 140
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 139
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 139
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 139
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 139
+            z: 177
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 141
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 141
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 141
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 141
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 140
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 140
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 140
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 140
+            z: 177
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 142
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 142
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 142
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 142
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 141
+            z: 177
+          - "==": Vector
+            x: 29
+            y: 141
+            z: 177
+          - "==": Vector
+            x: 28
+            y: 141
+            z: 177
+          - "==": Vector
+            x: 27
+            y: 141
+            z: 177
+  kitchen_tower:
+    name: "Kitchen Tower"
+    start_owners: "The English"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 6
+    spawn_point:
+      x: 86
+      y: 120
+      z: 175
+      #yaw: -22
+      #pitch: 4
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 93
+        y: 139
+        z: 169
+      max:
+        x: 77
+        y: 130
+        z: 185
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 134
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 134
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 134
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 134
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 133
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 133
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 133
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 133
+            z: 177
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 135
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 135
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 135
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 135
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 134
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 134
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 134
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 134
+            z: 177
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 136
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 136
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 136
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 136
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 135
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 135
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 135
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 135
+            z: 177
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 137
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 137
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 137
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 137
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 136
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 136
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 136
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 136
+            z: 177
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 138
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 138
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 138
+            z: 178
+          - "==": Vector
+            x: 81
+            y: 138
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 137
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 137
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 137
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 137
+            z: 177
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 139
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 139
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 139
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 139
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 138
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 138
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 138
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 138
+            z: 177
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 140
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 140
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 140
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 140
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 139
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 139
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 139
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 139
+            z: 177
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 141
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 141
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 141
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 141
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 140
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 140
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 140
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 140
+            z: 177
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 142
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 142
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 142
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 142
+            z: 177
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 141
+            z: 177
+          - "==": Vector
+            x: 83
+            y: 141
+            z: 177
+          - "==": Vector
+            x: 82
+            y: 141
+            z: 177
+          - "==": Vector
+            x: 81
+            y: 141
+            z: 177
+  stockhouse:
+    name: "Stockhouse"
+    start_owners: "The English"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 7
+    spawn_point:
+      x: 138
+      y: 121
+      z: 176
+      #yaw: -45
+      #pitch: 2
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 141
+        y: 149
+        z: 179
+      max:
+        x: 149
+        y: 142
+        z: 187
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 145
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 145
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 145
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 145
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 144
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 144
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 144
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 144
+            z: 183
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 146
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 146
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 146
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 146
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 145
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 145
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 145
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 145
+            z: 183
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 147
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 147
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 147
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 147
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 146
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 146
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 146
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 146
+            z: 183
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 148
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 148
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 148
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 148
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 147
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 147
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 147
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 147
+            z: 183
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 149
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 149
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 149
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 149
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 148
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 148
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 148
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 148
+            z: 183
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 150
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 150
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 150
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 150
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 149
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 149
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 149
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 149
+            z: 183
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 151
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 151
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 151
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 151
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 150
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 150
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 150
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 150
+            z: 183
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 152
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 152
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 152
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 152
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 151
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 151
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 151
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 151
+            z: 183
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 153
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 153
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 153
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 153
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 152
+            z: 183
+          - "==": Vector
+            x: 143
+            y: 152
+            z: 183
+          - "==": Vector
+            x: 142
+            y: 152
+            z: 183
+          - "==": Vector
+            x: 141
+            y: 152
+            z: 183
+  chapel_tower:
+    name: "Chapel Tower"
+    start_owners: "The English"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 8
+    spawn_point:
+      x: 199
+      y: 121
+      z: 177
+      yaw: 51
+      pitch: 1
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 196
+        y: 150
+        z: 187
+      max:
+        x: 188
+        y: 142
+        z: 179
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 145
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 145
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 145
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 145
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 144
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 144
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 144
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 144
+            z: 183
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 146
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 146
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 146
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 146
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 145
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 145
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 145
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 145
+            z: 183
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 147
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 147
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 147
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 147
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 146
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 146
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 146
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 146
+            z: 183
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 148
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 148
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 148
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 148
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 147
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 147
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 147
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 147
+            z: 183
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 149
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 149
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 149
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 149
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 148
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 148
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 148
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 148
+            z: 183
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 150
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 150
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 150
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 150
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 149
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 149
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 149
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 149
+            z: 183
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 151
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 151
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 151
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 151
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 150
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 150
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 150
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 150
+            z: 183
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 152
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 152
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 152
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 152
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 151
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 151
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 151
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 151
+            z: 183
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 153
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 153
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 153
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 153
+            z: 183
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 152
+            z: 183
+          - "==": Vector
+            x: 190
+            y: 152
+            z: 183
+          - "==": Vector
+            x: 189
+            y: 152
+            z: 183
+          - "==": Vector
+            x: 188
+            y: 152
+            z: 183
+  port:
+    name: "Port"
+    start_owners: "The English"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 9
+    spawn_point:
+      x: 239
+      y: 89
+      z: 221
+      yaw: -117
+      pitch: 1
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 264
+        y: 66
+        z: 228
+      max:
+        x: 253
+        y: 76
+        z: 215
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 258
+            y: 69
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 69
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 69
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 69
+            z: 222
+        secondary_blocks:
+          - "==": Vector
+            x: 258
+            y: 68
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 68
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 68
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 68
+            z: 222
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 258
+            y: 70
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 70
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 70
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 70
+            z: 222
+        secondary_blocks:
+          - "==": Vector
+            x: 258
+            y: 69
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 69
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 69
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 69
+            z: 222
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 258
+            y: 71
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 71
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 71
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 71
+            z: 222
+        secondary_blocks:
+          - "==": Vector
+            x: 258
+            y: 70
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 70
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 70
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 70
+            z: 222
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 258
+            y: 72
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 72
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 72
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 72
+            z: 222
+        secondary_blocks:
+          - "==": Vector
+            x: 258
+            y: 71
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 71
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 71
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 71
+            z: 222
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 258
+            y: 73
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 73
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 73
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 73
+            z: 222
+        secondary_blocks:
+          - "==": Vector
+            x: 258
+            y: 72
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 72
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 72
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 72
+            z: 222
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 258
+            y: 74
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 74
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 74
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 74
+            z: 222
+        secondary_blocks:
+          - "==": Vector
+            x: 258
+            y: 73
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 73
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 73
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 73
+            z: 222
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 258
+            y: 75
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 75
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 75
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 75
+            z: 222
+        secondary_blocks:
+          - "==": Vector
+            x: 258
+            y: 74
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 74
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 74
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 74
+            z: 222
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 258
+            y: 76
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 76
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 76
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 76
+            z: 222
+        secondary_blocks:
+          - "==": Vector
+            x: 258
+            y: 75
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 75
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 75
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 75
+            z: 222
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 258
+            y: 77
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 77
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 77
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 77
+            z: 222
+        secondary_blocks:
+          - "==": Vector
+            x: 258
+            y: 76
+            z: 222
+          - "==": Vector
+            x: 257
+            y: 76
+            z: 222
+          - "==": Vector
+            x: 256
+            y: 76
+            z: 222
+          - "==": Vector
+            x: 255
+            y: 76
+            z: 222
+  kings_tower:
+    name: "King's Tower"
+    start_owners: "The English"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 10
+    spawn_point:
+      x: 197
+      y: 120
+      z: 234
+      yaw: 175
+      pitch: 5
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 196
+        y: 142
+        z: 231
+      max:
+        x: 188
+        y: 150
+        z: 223
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 145
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 145
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 145
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 145
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 144
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 144
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 144
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 144
+            z: 227
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 146
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 146
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 146
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 146
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 145
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 145
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 145
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 145
+            z: 227
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 147
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 147
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 147
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 147
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 146
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 146
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 146
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 146
+            z: 227
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 148
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 148
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 148
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 148
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 147
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 147
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 147
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 147
+            z: 227
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 149
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 149
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 149
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 149
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 148
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 148
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 148
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 148
+            z: 227
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 150
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 150
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 150
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 150
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 149
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 149
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 149
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 149
+            z: 227
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 151
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 151
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 151
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 151
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 150
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 150
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 150
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 150
+            z: 227
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 152
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 152
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 152
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 152
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 151
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 151
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 151
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 151
+            z: 227
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 191
+            y: 153
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 153
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 153
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 153
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 191
+            y: 152
+            z: 227
+          - "==": Vector
+            x: 190
+            y: 152
+            z: 227
+          - "==": Vector
+            x: 189
+            y: 152
+            z: 227
+          - "==": Vector
+            x: 188
+            y: 152
+            z: 227
+  bakehouse_tower:
+    name: "Bakehouse Tower"
+    start_owners: "The English"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 11
+    spawn_point:
+      x: 140
+      y: 121
+      z: 233
+      yaw: -145
+      pitch: 1
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 141
+        y: 142
+        z: 223
+      max:
+        x: 149
+        y: 150
+        z: 231
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 145
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 145
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 145
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 145
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 144
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 144
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 144
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 144
+            z: 227
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 146
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 146
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 146
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 146
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 145
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 145
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 145
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 145
+            z: 227
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 147
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 147
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 147
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 147
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 146
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 146
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 146
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 146
+            z: 227
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 148
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 148
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 148
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 148
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 147
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 147
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 147
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 147
+            z: 227
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 149
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 149
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 149
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 149
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 148
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 148
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 148
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 148
+            z: 227
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 150
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 150
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 150
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 150
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 149
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 149
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 149
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 149
+            z: 227
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 151
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 151
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 151
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 151
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 150
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 150
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 150
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 150
+            z: 227
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 152
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 152
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 152
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 152
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 151
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 151
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 151
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 151
+            z: 227
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 144
+            y: 153
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 153
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 153
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 153
+            z: 227
+        secondary_blocks:
+          - "==": Vector
+            x: 144
+            y: 152
+            z: 227
+          - "==": Vector
+            x: 143
+            y: 152
+            z: 227
+          - "==": Vector
+            x: 142
+            y: 152
+            z: 227
+          - "==": Vector
+            x: 141
+            y: 152
+            z: 227
+  prison_tower:
+    name: "Prison Tower"
+    start_owners: "The English"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 4
+    spawn_point:
+      x: 87
+      y: 120
+      z: 249
+      yaw: -150
+      pitch: 3
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 93
+        y: 130
+        z: 258
+      max:
+        x: 77
+        y: 141
+        z: 242
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 134
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 134
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 134
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 134
+            z: 250
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 133
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 133
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 133
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 133
+            z: 250
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 135
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 135
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 135
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 135
+            z: 250
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 134
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 134
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 134
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 134
+            z: 250
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 136
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 136
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 136
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 136
+            z: 250
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 135
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 135
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 135
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 135
+            z: 250
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 137
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 137
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 137
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 137
+            z: 250
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 136
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 136
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 136
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 136
+            z: 250
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 138
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 138
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 138
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 138
+            z: 250
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 137
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 137
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 137
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 137
+            z: 250
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 139
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 139
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 139
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 139
+            z: 250
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 138
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 138
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 138
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 138
+            z: 250
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 140
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 140
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 140
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 140
+            z: 250
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 139
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 139
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 139
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 139
+            z: 250
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 141
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 141
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 141
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 141
+            z: 250
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 140
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 140
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 140
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 140
+            z: 250
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 84
+            y: 142
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 142
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 142
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 142
+            z: 250
+        secondary_blocks:
+          - "==": Vector
+            x: 84
+            y: 141
+            z: 250
+          - "==": Vector
+            x: 83
+            y: 141
+            z: 250
+          - "==": Vector
+            x: 82
+            y: 141
+            z: 250
+          - "==": Vector
+            x: 81
+            y: 141
+            z: 250
+  southwest_tower:
+    name: "Southwest Tower"
+    start_owners: "The English"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 3
+    spawn_point:
+      x: 30
+      y: 120
+      z: 225
+      yaw: -111
+      pitch: 2
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 39
+        y: 130
+        z: 217
+      max:
+        x: 23
+        y: 139
+        z: 233
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 134
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 134
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 134
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 134
+            z: 225
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 133
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 133
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 133
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 133
+            z: 225
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 135
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 135
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 135
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 135
+            z: 225
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 134
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 134
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 134
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 134
+            z: 225
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 136
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 136
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 136
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 136
+            z: 225
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 135
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 135
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 135
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 135
+            z: 225
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 137
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 137
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 137
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 137
+            z: 225
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 136
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 136
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 136
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 136
+            z: 225
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 138
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 138
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 138
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 138
+            z: 225
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 137
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 137
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 137
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 137
+            z: 225
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 139
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 139
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 139
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 139
+            z: 225
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 138
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 138
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 138
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 138
+            z: 225
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 140
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 140
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 140
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 140
+            z: 225
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 139
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 139
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 139
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 139
+            z: 225
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 141
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 141
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 141
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 141
+            z: 225
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 140
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 140
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 140
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 140
+            z: 225
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 30
+            y: 142
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 142
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 142
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 142
+            z: 225
+        secondary_blocks:
+          - "==": Vector
+            x: 30
+            y: 141
+            z: 225
+          - "==": Vector
+            x: 29
+            y: 141
+            z: 225
+          - "==": Vector
+            x: 28
+            y: 141
+            z: 225
+          - "==": Vector
+            x: 27
+            y: 141
+            z: 225
+
+################
+#    Abrakhan  #
+################
+
+Abrakhan:
+  gallows:
+    name: "Gallows"
+    start_owners: "Desert Raiders"
+    max_cap: 7
+    start_amount: 7
+    progress_amount: 10
+    scoreboard: 2
+    spawn_point:
+      x: 116
+      y: 14
+      z: 69
+      #yaw:-178
+      #pitch:-2
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 120
+        y: 21
+        z: 44
+      max:
+        x: 114
+        y: 15
+        z: 50
+    animation_air: false
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 115
+            y: 20
+            z: 48
+          - "==": Vector
+            x: 119
+            y: 20
+            z: 48
+        air:
+          - "==": Vector
+            x: 115
+            y: 19
+            z: 48
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 115
+            y: 19
+            z: 48
+        air:
+          - "==": Vector
+            x: 119
+            y: 19
+            z: 48
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 119
+            y: 19
+            z: 48
+        air:
+          - "==": Vector
+            x: 115
+            y: 18
+            z: 48
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 115
+            y: 18
+            z: 48
+        air:
+          - "==": Vector
+            x: 119
+            y: 18
+            z: 48
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 119
+            y: 18
+            z: 48
+        air:
+          - "==": Vector
+            x: 48
+            y: 17
+            z: 115
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 48
+            y: 17
+            z: 115
+        air:
+          - "==": Vector
+            x: 119
+            y: 17
+            z: 48
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 115
+            y: 20
+            z: 48
+          - "==": Vector
+            x: 115
+            y: 19
+            z: 48
+          - "==": Vector
+            x: 115
+            y: 18
+            z: 48
+          - "==": Vector
+            x: 115
+            y: 17
+            z: 48
+          - "==": Vector
+            x: 119
+            y: 20
+            z: 48
+          - "==": Vector
+            x: 119
+            y: 19
+            z: 48
+          - "==": Vector
+            x: 119
+            y: 18
+            z: 48
+          - "==": Vector
+            x: 119
+            y: 17
+            z: 48
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 115
+            y: 20
+            z: 48
+          - "==": Vector
+            x: 115
+            y: 19
+            z: 48
+          - "==": Vector
+            x: 115
+            y: 18
+            z: 48
+          - "==": Vector
+            x: 115
+            y: 17
+            z: 48
+          - "==": Vector
+            x: 119
+            y: 20
+            z: 48
+          - "==": Vector
+            x: 119
+            y: 19
+            z: 48
+          - "==": Vector
+            x: 119
+            y: 18
+            z: 48
+          - "==": Vector
+            x: 119
+            y: 17
+            z: 48
+  market:
+    name: "Market"
+    start_owners: "Desert Raiders"
+    scoreboard: 3
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    spawn_point:
+      x: 68
+      y: 14
+      z: 6
+      #yaw: -53
+      #pitch: 0
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 79
+        y: 13
+        z: 20
+      max:
+        x: 62
+        y: 25
+        z: 33
+    animation_air: false
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        secondary_blocks:
+          - "==": Vector
+            x: 56
+            y: 20
+            z: 38
+          - "==": Vector
+            x: 56
+            y: 20
+            z: 16
+        primary_blocks:
+          - "==": Vector
+            x: 56
+            y: 20
+            z: 37
+          - "==": Vector
+            x: 56
+            y: 20
+            z: 39
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 38
+          - "==": Vector
+            x: 56
+            y: 20
+            z: 17
+          - "==": Vector
+            x: 56
+            y: 20
+            z: 15
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 16
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 56
+            y: 20
+            z: 17
+          - "==": Vector
+            x: 56
+            y: 20
+            z: 15
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 16
+        secondary_blocks:
+          - "==": Vector
+            x: 56
+            y: 20
+            z: 16
+        air:
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 16
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 17
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 15
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 56
+            y: 20
+            z: 37
+          - "==": Vector
+            x: 56
+            y: 20
+            z: 39
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 38
+        secondary_blocks:
+          - "==": Vector
+            x: 56
+            y: 20
+            z: 38
+        air:
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 39
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 37
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 38
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 16
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 17
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 15
+        secondary_blocks:
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 16
+        air:
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 16
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 17
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 15
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 39
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 37
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 38
+        secondary_blocks:
+          - "==": Vector
+            x: 56
+            y: 19
+            z: 38
+        air:
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 39
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 37
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 38
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 16
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 17
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 15
+        secondary_blocks:
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 16
+        air:
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 15
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 17
+          - "==": Vector
+            x: 56
+            y: 16
+            z: 16
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 39
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 37
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 38
+        secondary_blocks:
+          - "==": Vector
+            x: 56
+            y: 18
+            z: 38
+        air:
+          - "==": Vector
+            x: 56
+            y: 16
+            z: 38
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 37
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 39
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 15
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 17
+          - "==": Vector
+            x: 56
+            y: 16
+            z: 16
+        secondary_blocks:
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 16
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 56
+            y: 16
+            z: 38
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 37
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 39
+        secondary_blocks:
+          - "==": Vector
+            x: 56
+            y: 17
+            z: 38
+  abrakhan_port:
+    name: "Port"
+    start_owners: "Abrakhan Guard"
+    max_cap: 4
+    start_amount: 4
+    progress_amount: 5
+    scoreboard: 4
+    spawn_point:
+      x: -13
+      y: 12
+      z: 46
+    capture_area:
+      type: "cuboid"
+      min:
+        x: -44
+        y: 35
+        z: 55
+      max:
+        x: -34
+        y: 14
+        z: 49
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: -43
+            y: 34
+            z: 51
+          - "==": Vector
+            x: -42
+            y: 34
+            z: 51
+          - "==": Vector
+            x: -41
+            y: 34
+            z: 51
+          - "==": Vector
+            x: -40
+            y: 34
+            z: 51
+        secondary_blocks:
+          - "==": Vector
+            x: -43
+            y: 33
+            z: 51
+          - "==": Vector
+            x: -42
+            y: 33
+            z: 51
+          - "==": Vector
+            x: -41
+            y: 33
+            z: 51
+          - "==": Vector
+            x: -40
+            y: 33
+            z: 51
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: -43
+            y: 35
+            z: 51
+          - "==": Vector
+            x: -42
+            y: 35
+            z: 51
+          - "==": Vector
+            x: -41
+            y: 35
+            z: 51
+          - "==": Vector
+            x: -40
+            y: 35
+            z: 51
+        secondary_blocks:
+          - "==": Vector
+            x: -43
+            y: 34
+            z: 51
+          - "==": Vector
+            x: -42
+            y: 34
+            z: 51
+          - "==": Vector
+            x: -41
+            y: 34
+            z: 51
+          - "==": Vector
+            x: -40
+            y: 34
+            z: 51
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: -43
+            y: 36
+            z: 51
+          - "==": Vector
+            x: -42
+            y: 36
+            z: 51
+          - "==": Vector
+            x: -41
+            y: 36
+            z: 51
+          - "==": Vector
+            x: -40
+            y: 36
+            z: 51
+        secondary_blocks:
+          - "==": Vector
+            x: -43
+            y: 35
+            z: 51
+          - "==": Vector
+            x: -42
+            y: 35
+            z: 51
+          - "==": Vector
+            x: -41
+            y: 35
+            z: 51
+          - "==": Vector
+            x: -40
+            y: 35
+            z: 51
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: -43
+            y: 37
+            z: 51
+          - "==": Vector
+            x: -42
+            y: 37
+            z: 51
+          - "==": Vector
+            x: -41
+            y: 37
+            z: 51
+          - "==": Vector
+            x: -40
+            y: 37
+            z: 51
+        secondary_blocks:
+          - "==": Vector
+            x: -43
+            y: 36
+            z: 51
+          - "==": Vector
+            x: -42
+            y: 36
+            z: 51
+          - "==": Vector
+            x: -41
+            y: 36
+            z: 51
+          - "==": Vector
+            x: -40
+            y: 36
+            z: 51
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: -43
+            y: 38
+            z: 51
+          - "==": Vector
+            x: -42
+            y: 38
+            z: 51
+          - "==": Vector
+            x: -41
+            y: 38
+            z: 51
+          - "==": Vector
+            x: -40
+            y: 38
+            z: 51
+        secondary_blocks:
+          - "==": Vector
+            x: -43
+            y: 37
+            z: 51
+          - "==": Vector
+            x: -42
+            y: 37
+            z: 51
+          - "==": Vector
+            x: -41
+            y: 37
+            z: 51
+          - "==": Vector
+            x: -40
+            y: 37
+            z: 51
+  garden:
+    name: "Garden"
+    start_owners: "Abrakhan Guard"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 5
+    spawn_point:
+      x: 124
+      y: 39
+      z: -37
+      yaw: 56
+      pitch: 1
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 141
+        y: 50
+        z: -20
+      max:
+        x: 150
+        y: 57
+        z: -11
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 143
+            y: 54
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 54
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 54
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 54
+            z: -15
+        secondary_blocks:
+          - "==": Vector
+            x: 143
+            y: 53
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 53
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 53
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 53
+            z: -15
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 143
+            y: 55
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 55
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 55
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 55
+            z: -15
+        secondary_blocks:
+          - "==": Vector
+            x: 143
+            y: 54
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 54
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 54
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 54
+            z: -15
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 143
+            y: 56
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 56
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 56
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 56
+            z: -15
+        secondary_blocks:
+          - "==": Vector
+            x: 143
+            y: 55
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 55
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 55
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 55
+            z: -15
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 143
+            y: 57
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 57
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 57
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 57
+            z: -15
+        secondary_blocks:
+          - "==": Vector
+            x: 143
+            y: 56
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 56
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 56
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 56
+            z: -15
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 143
+            y: 58
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 58
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 58
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 58
+            z: -15
+        secondary_blocks:
+          - "==": Vector
+            x: 143
+            y: 57
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 57
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 57
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 57
+            z: -15
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 143
+            y: 59
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 59
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 59
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 59
+            z: -15
+        secondary_blocks:
+          - "==": Vector
+            x: 143
+            y: 58
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 58
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 58
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 58
+            z: -15
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 143
+            y: 60
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 60
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 60
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 60
+            z: -15
+        secondary_blocks:
+          - "==": Vector
+            x: 143
+            y: 59
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 59
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 59
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 59
+            z: -15
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 143
+            y: 61
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 61
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 61
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 61
+            z: -15
+        secondary_blocks:
+          - "==": Vector
+            x: 143
+            y: 60
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 60
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 60
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 60
+            z: -15
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 143
+            y: 62
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 62
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 62
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 62
+            z: -15
+        secondary_blocks:
+          - "==": Vector
+            x: 143
+            y: 61
+            z: -15
+          - "==": Vector
+            x: 142
+            y: 61
+            z: -15
+          - "==": Vector
+            x: 141
+            y: 61
+            z: -15
+          - "==": Vector
+            x: 140
+            y: 61
+            z: -15
+  abrakhan_gatehouse:
+    name: "Gatehouse"
+    start_owners: "Abrakhan Guard"
+    max_cap: 4
+    start_amount: 4
+    progress_amount: 5
+    scoreboard: 6
+    spawn_point:
+      x: 73
+      y: 31
+      z: -25
+      yaw: -90
+      pitch: 1
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 63
+        y: 45
+        z: -34
+      max:
+        x: 54
+        y: 48
+        z: -28
+    animation_air: false
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 59
+            y: 43
+            z: -35
+          - "==": Vector
+            x: 59
+            y: 43
+            z: -27
+        secondary_blocks:
+          - "==": Vector
+            x: 58
+            y: 43
+            z: -35
+          - "==": Vector
+            x: 58
+            y: 43
+            z: -27
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 59
+            y: 42
+            z: -35
+        secondary_blocks:
+          - "==": Vector
+            x: 58
+            y: 42
+            z: -35
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 59
+            y: 42
+            z: -27
+        secondary_blocks:
+          - "==": Vector
+            x: 58
+            y: 42
+            z: -27
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 59
+            y: 51
+            z: -35
+        secondary_blocks:
+          - "==": Vector
+            x: 58
+            y: 51
+            z: -35
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 59
+            y: 41
+            z: -27
+        secondary_blocks:
+          - "==": Vector
+            x: 58
+            y: 41
+            z: -27
+  abrakhan_storage:
+    name: "Storage"
+    start_owners: "Abrakhan Guard"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 7
+    spawn_point:
+      x: 43
+      y: 38
+      z: -90
+      yaw: 1
+      pitch: 5
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 36
+        y: 47
+        z: -82
+      max:
+        x: 46
+        y: 53
+        z: -92
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 40
+            y: 56
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 56
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 56
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 56
+            z: -87
+        secondary_blocks:
+          - "==": Vector
+            x: 40
+            y: 55
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 55
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 55
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 55
+            z: -87
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 40
+            y: 57
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 57
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 57
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 57
+            z: -87
+        secondary_blocks:
+          - "==": Vector
+            x: 40
+            y: 56
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 56
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 56
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 56
+            z: -87
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 40
+            y: 58
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 58
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 58
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 58
+            z: -87
+        secondary_blocks:
+          - "==": Vector
+            x: 40
+            y: 57
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 57
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 57
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 57
+            z: -87
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 40
+            y: 59
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 59
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 59
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 59
+            z: -87
+        secondary_blocks:
+          - "==": Vector
+            x: 40
+            y: 58
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 58
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 58
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 58
+            z: -87
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 40
+            y: 60
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 60
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 60
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 60
+            z: -87
+        secondary_blocks:
+          - "==": Vector
+            x: 40
+            y: 59
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 59
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 59
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 59
+            z: -87
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 40
+            y: 61
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 61
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 61
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 61
+            z: -87
+        secondary_blocks:
+          - "==": Vector
+            x: 40
+            y: 60
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 60
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 60
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 60
+            z: -87
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 40
+            y: 62
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 62
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 62
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 62
+            z: -87
+        secondary_blocks:
+          - "==": Vector
+            x: 40
+            y: 61
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 61
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 61
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 61
+            z: -87
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 40
+            y: 63
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 63
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 63
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 63
+            z: -87
+        secondary_blocks:
+          - "==": Vector
+            x: 40
+            y: 62
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 62
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 62
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 62
+            z: -87
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 40
+            y: 64
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 64
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 64
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 64
+            z: -87
+        secondary_blocks:
+          - "==": Vector
+            x: 40
+            y: 63
+            z: -87
+          - "==": Vector
+            x: 39
+            y: 63
+            z: -87
+          - "==": Vector
+            x: 38
+            y: 63
+            z: -87
+          - "==": Vector
+            x: 37
+            y: 63
+            z: -87
+  abrakhan_inner_gatehouse:
+    name: "Inner Gatehouse"
+    start_owners: "Abrakhan Guard"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 8
+    spawn_point:
+      x: 111
+      y: 54
+      z: -82
+      yaw: 53
+      pitch: -1
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 114
+        y: 75
+        z: -93
+      max:
+        x: 100
+        y: 68
+        z: -79
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 106
+            y: 72
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 72
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 72
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 72
+            z: -86
+        secondary_blocks:
+          - "==": Vector
+            x: 106
+            y: 71
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 71
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 71
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 71
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 71
+            z: -86
+            #Flags at the actual gate
+          - "==": Vector
+            x: 104
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 105
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 106
+            y: 67
+            z: -52
+            #Flags at the actual gate numero dos
+          - "==": Vector
+            x: 127
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 128
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 129
+            y: 67
+            z: -52
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 106
+            y: 73
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 73
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 73
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 73
+            z: -86
+        secondary_blocks:
+          - "==": Vector
+            x: 106
+            y: 72
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 72
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 72
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 72
+            z: -86
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 106
+            y: 74
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 74
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 74
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 74
+            z: -86
+        secondary_blocks:
+          - "==": Vector
+            x: 106
+            y: 73
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 73
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 73
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 73
+            z: -86
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 106
+            y: 75
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 75
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 75
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 75
+            z: -86
+        secondary_blocks:
+          - "==": Vector
+            x: 106
+            y: 74
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 74
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 74
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 74
+            z: -86
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 106
+            y: 76
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 76
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 76
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 76
+            z: -86
+        secondary_blocks:
+          - "==": Vector
+            x: 106
+            y: 75
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 75
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 75
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 75
+            z: -86
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 106
+            y: 77
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 77
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 77
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 77
+            z: -86
+        secondary_blocks:
+          - "==": Vector
+            x: 106
+            y: 76
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 76
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 76
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 76
+            z: -86
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 106
+            y: 78
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 78
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 78
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 78
+            z: -86
+        secondary_blocks:
+          - "==": Vector
+            x: 106
+            y: 77
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 77
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 77
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 77
+            z: -86
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 106
+            y: 79
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 79
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 79
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 79
+            z: -86
+        secondary_blocks:
+          - "==": Vector
+            x: 106
+            y: 78
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 78
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 78
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 78
+            z: -86
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 106
+            y: 80
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 80
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 80
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 80
+            z: -86
+        secondary_blocks:
+          - "==": Vector
+            x: 106
+            y: 79
+            z: -86
+          - "==": Vector
+            x: 105
+            y: 79
+            z: -86
+          - "==": Vector
+            x: 104
+            y: 79
+            z: -86
+          - "==": Vector
+            x: 103
+            y: 79
+            z: -86
+  abrakhan_prison_tower:
+    name: "Prison Tower"
+    start_owners: "Abrakhan Guard"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 8
+    spawn_point:
+      x: 130
+      y: 53
+      z: -112
+      yaw: 47
+      pitch: 3
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 123
+        y: 75
+        z: -106
+      max:
+        x: 137
+        y: 68
+        z: -120
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 129
+            y: 72
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 72
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 72
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 72
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 129
+            y: 71
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 71
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 71
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 71
+            z: -113
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 129
+            y: 73
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 73
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 73
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 73
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 129
+            y: 72
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 72
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 72
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 72
+            z: -113
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 129
+            y: 74
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 74
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 74
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 74
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 129
+            y: 73
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 73
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 73
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 73
+            z: -113
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 129
+            y: 75
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 75
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 75
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 75
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 129
+            y: 74
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 74
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 74
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 74
+            z: -113
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 129
+            y: 76
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 76
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 76
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 76
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 129
+            y: 75
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 75
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 75
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 75
+            z: -113
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 129
+            y: 77
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 77
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 77
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 77
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 129
+            y: 76
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 76
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 76
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 76
+            z: -113
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 129
+            y: 78
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 78
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 78
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 78
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 129
+            y: 77
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 77
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 77
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 77
+            z: -113
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 129
+            y: 79
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 79
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 79
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 79
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 129
+            y: 78
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 78
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 78
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 78
+            z: -113
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 129
+            y: 80
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 80
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 80
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 80
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 129
+            y: 79
+            z: -113
+          - "==": Vector
+            x: 128
+            y: 79
+            z: -113
+          - "==": Vector
+            x: 127
+            y: 79
+            z: -113
+          - "==": Vector
+            x: 126
+            y: 79
+            z: -113
+  abrakhan_kings_tower:
+    name: "King's Tower"
+    start_owners: "Abrakhan Guard"
+    max_cap: 8
+    start_amount: 8
+    progress_amount: 10
+    scoreboard: 9
+    spawn_point:
+      x: 80
+      y: 58
+      z: -111
+      yaw: 179
+      pitch: 3
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 84
+        y: 74
+        z: -105
+      max:
+        x: 69
+        y: 89
+        z: -120
+    animation_air: true
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 76
+            y: 86
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 86
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 86
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 86
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 76
+            y: 85
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 85
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 85
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 85
+            z: -113
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 76
+            y: 87
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 87
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 87
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 87
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 76
+            y: 86
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 86
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 86
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 86
+            z: -113
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 76
+            y: 88
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 88
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 88
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 88
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 76
+            y: 87
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 87
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 87
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 87
+            z: -113
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 76
+            y: 89
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 89
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 89
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 89
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 76
+            y: 88
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 88
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 88
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 88
+            z: -113
+      4:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 76
+            y: 90
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 90
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 90
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 90
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 76
+            y: 89
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 89
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 89
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 89
+            z: -113
+      5:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 76
+            y: 91
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 91
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 91
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 91
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 76
+            y: 90
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 90
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 90
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 90
+            z: -113
+      6:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 76
+            y: 92
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 92
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 92
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 92
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 76
+            y: 91
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 91
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 91
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 91
+            z: -113
+      7:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 76
+            y: 93
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 93
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 93
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 93
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 76
+            y: 92
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 92
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 92
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 92
+            z: -113
+      8:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        primary_blocks:
+          - "==": Vector
+            x: 76
+            y: 94
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 94
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 94
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 94
+            z: -113
+        secondary_blocks:
+          - "==": Vector
+            x: 76
+            y: 93
+            z: -113
+          - "==": Vector
+            x: 75
+            y: 93
+            z: -113
+          - "==": Vector
+            x: 74
+            y: 93
+            z: -113
+          - "==": Vector
+            x: 73
+            y: 93
+            z: -113
+  abrakhan_keep:
+    name: "Keep"
+    start_owners: "Abrakhan Guard"
+    scoreboard: 10
+    max_cap: 3
+    start_amount: 3
+    progress_amount: 4
+    spawn_point:
+      x: 101
+      y: 47
+      z: -95
+      yaw: -178
+      pitch: 2
+    capture_area:
+      type: "cuboid"
+      min:
+        x: 96
+        y: 52
+        z: -104
+      max:
+        x: 80
+        y: 48
+        z: -95
+    animation_air: false
+    animation:
+      0:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        #flag L1
+        primary_blocks:
+          - "==": Vector
+            x: 93
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 92
+            y: 52
+            z: -95
+          - "==": Vector
+            x: 94
+            y: 52
+            z: -95
+            #next flag (there are 6)  L2
+          - "==": Vector
+            x: 88
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 89
+            y: 52
+            z: -95
+          - "==": Vector
+            x: 87
+            y: 52
+            z: -95
+            #next flag (there are 6)  L3
+          - "==": Vector
+            x: 83
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 84
+            y: 52
+            z: -95
+          - "==": Vector
+            x: 82
+            y: 52
+            z: -95
+            #next flag (there are 6)  R1
+          - "==": Vector
+            x: 93
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 94
+            y: 52
+            z: -104
+          - "==": Vector
+            x: 92
+            y: 52
+            z: -104
+            #next flag (there are 6)  R2
+          - "==": Vector
+            x: 88
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 89
+            y: 52
+            z: -104
+          - "==": Vector
+            x: 87
+            y: 52
+            z: -104
+            #next flag (there are 6)   R3
+          - "==": Vector
+            x: 83
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 84
+            y: 52
+            z: -104
+          - "==": Vector
+            x: 82
+            y: 52
+            z: -104
+        secondary_blocks:
+            #next flag (there are 6)   L1
+          - "==": Vector
+            x: 93
+            y: 52
+            z: -95
+            #next flag (there are 6)   L2
+          - "==": Vector
+            x: 88
+            y: 52
+            z: -95
+            #next flag (there are 6)   L3
+          - "==": Vector
+            x: 83
+            y: 52
+            z: -95
+            #next flag (there are 6)   R1
+          - "==": Vector
+            x: 93
+            y: 52
+            z: -104
+            #next flag (there are 6)   R2
+          - "==": Vector
+            x: 88
+            y: 52
+            z: -104
+            #next flag (there are 6)   R3
+          - "==": Vector
+            x: 83
+            y: 52
+            z: -104
+      1:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        #flag L1
+        primary_blocks:
+          - "==": Vector
+            x: 93
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 92
+            y: 52
+            z: -95
+          - "==": Vector
+            x: 94
+            y: 52
+            z: -95
+            #next flag (there are 6)  L2
+          - "==": Vector
+            x: 88
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 89
+            y: 52
+            z: -95
+          - "==": Vector
+            x: 87
+            y: 52
+            z: -95
+            #next flag (there are 6)  L3
+          - "==": Vector
+            x: 83
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 84
+            y: 52
+            z: -95
+          - "==": Vector
+            x: 82
+            y: 52
+            z: -95
+            #next flag (there are 6)  R1
+          - "==": Vector
+            x: 93
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 94
+            y: 52
+            z: -104
+          - "==": Vector
+            x: 92
+            y: 52
+            z: -104
+            #next flag (there are 6)  R2
+          - "==": Vector
+            x: 88
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 89
+            y: 52
+            z: -104
+          - "==": Vector
+            x: 87
+            y: 52
+            z: -104
+            #next flag (there are 6)   R3
+          - "==": Vector
+            x: 83
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 84
+            y: 52
+            z: -104
+          - "==": Vector
+            x: 82
+            y: 52
+            z: -104
+        secondary_blocks:
+            #next flag (there are 6)   L1
+          - "==": Vector
+            x: 93
+            y: 52
+            z: -95
+            #next flag (there are 6)   L2
+          - "==": Vector
+            x: 88
+            y: 52
+            z: -95
+            #next flag (there are 6)   L3
+          - "==": Vector
+            x: 83
+            y: 52
+            z: -95
+            #next flag (there are 6)   R1
+          - "==": Vector
+            x: 93
+            y: 52
+            z: -104
+            #next flag (there are 6)   R2
+          - "==": Vector
+            x: 88
+            y: 52
+            z: -104
+            #next flag (there are 6)   R3
+          - "==": Vector
+            x: 83
+            y: 52
+            z: -104
+        air:
+          - "==": Vector
+            x: 93
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 92
+            y: 52
+            z: -95
+          - "==": Vector
+            x: 94
+            y: 52
+            z: -95
+            #next flag (there are 6)  L2
+          - "==": Vector
+            x: 88
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 89
+            y: 52
+            z: -95
+          - "==": Vector
+            x: 87
+            y: 52
+            z: -95
+            #next flag (there are 6)  L3
+          - "==": Vector
+            x: 83
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 84
+            y: 52
+            z: -95
+          - "==": Vector
+            x: 82
+            y: 52
+            z: -95
+            #next flag (there are 6)  R1
+          - "==": Vector
+            x: 93
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 94
+            y: 52
+            z: -104
+          - "==": Vector
+            x: 92
+            y: 52
+            z: -104
+            #next flag (there are 6)  R2
+          - "==": Vector
+            x: 88
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 89
+            y: 52
+            z: -104
+          - "==": Vector
+            x: 87
+            y: 52
+            z: -104
+            #next flag (there are 6)   R3
+          - "==": Vector
+            x: 83
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 84
+            y: 52
+            z: -104
+          - "==": Vector
+            x: 82
+            y: 52
+            z: -104
+      2:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        #flag L1
+        primary_blocks:
+          - "==": Vector
+            x: 93
+            y: 50
+            z: -95
+          - "==": Vector
+            x: 92
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 94
+            y: 51
+            z: -95
+            #next flag (there are 6)  L2
+          - "==": Vector
+            x: 88
+            y: 50
+            z: -95
+          - "==": Vector
+            x: 89
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 87
+            y: 51
+            z: -95
+            #next flag (there are 6)  L3
+          - "==": Vector
+            x: 83
+            y: 50
+            z: -95
+          - "==": Vector
+            x: 84
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 82
+            y: 51
+            z: -95
+            #next flag (there are 6)  R1
+          - "==": Vector
+            x: 93
+            y: 50
+            z: -104
+          - "==": Vector
+            x: 94
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 92
+            y: 51
+            z: -104
+            #next flag (there are 6)  R2
+          - "==": Vector
+            x: 88
+            y: 50
+            z: -104
+          - "==": Vector
+            x: 89
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 87
+            y: 51
+            z: -104
+            #next flag (there are 6)   R3
+          - "==": Vector
+            x: 83
+            y: 50
+            z: -104
+          - "==": Vector
+            x: 84
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 82
+            y: 51
+            z: -104
+        secondary_blocks:
+            #next flag (there are 6)   L1
+          - "==": Vector
+            x: 93
+            y: 51
+            z: -95
+            #next flag (there are 6)   L2
+          - "==": Vector
+            x: 88
+            y: 51
+            z: -95
+            #next flag (there are 6)   L3
+          - "==": Vector
+            x: 83
+            y: 51
+            z: -95
+            #next flag (there are 6)   R1
+          - "==": Vector
+            x: 93
+            y: 51
+            z: -104
+            #next flag (there are 6)   R2
+          - "==": Vector
+            x: 88
+            y: 51
+            z: -104
+            #next flag (there are 6)   R3
+          - "==": Vector
+            x: 83
+            y: 51
+            z: -104
+        air:
+          - "==": Vector
+            x: 93
+            y: 50
+            z: -95
+          - "==": Vector
+            x: 92
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 94
+            y: 51
+            z: -95
+            #next flag (there are 6)  L2
+          - "==": Vector
+            x: 88
+            y: 50
+            z: -95
+          - "==": Vector
+            x: 89
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 87
+            y: 51
+            z: -95
+            #next flag (there are 6)  L3
+          - "==": Vector
+            x: 83
+            y: 50
+            z: -95
+          - "==": Vector
+            x: 84
+            y: 51
+            z: -95
+          - "==": Vector
+            x: 82
+            y: 51
+            z: -95
+            #next flag (there are 6)  R1
+          - "==": Vector
+            x: 93
+            y: 50
+            z: -104
+          - "==": Vector
+            x: 94
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 92
+            y: 51
+            z: -104
+            #next flag (there are 6)  R2
+          - "==": Vector
+            x: 88
+            y: 50
+            z: -104
+          - "==": Vector
+            x: 89
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 87
+            y: 51
+            z: -104
+            #next flag (there are 6)   R3
+          - "==": Vector
+            x: 83
+            y: 50
+            z: -104
+          - "==": Vector
+            x: 84
+            y: 51
+            z: -104
+          - "==": Vector
+            x: 82
+            y: 51
+            z: -104
+      3:
+        ==: me.huntifi.castlesiege.data_types.Frame
+        #flag L1
+        primary_blocks:
+          - "==": Vector
+            x: 93
+            y: 48
+            z: -95
+          - "==": Vector
+            x: 92
+            y: 49
+            z: -95
+          - "==": Vector
+            x: 94
+            y: 49
+            z: -95
+            #next flag (there are 6)  L2
+          - "==": Vector
+            x: 88
+            y: 48
+            z: -95
+          - "==": Vector
+            x: 89
+            y: 49
+            z: -95
+          - "==": Vector
+            x: 87
+            y: 49
+            z: -95
+            #next flag (there are 6)  L3
+          - "==": Vector
+            x: 83
+            y: 48
+            z: -95
+          - "==": Vector
+            x: 84
+            y: 49
+            z: -95
+          - "==": Vector
+            x: 82
+            y: 49
+            z: -95
+            #next flag (there are 6)  R1
+          - "==": Vector
+            x: 93
+            y: 48
+            z: -104
+          - "==": Vector
+            x: 94
+            y: 49
+            z: -104
+          - "==": Vector
+            x: 92
+            y: 49
+            z: -104
+            #next flag (there are 6)  R2
+          - "==": Vector
+            x: 88
+            y: 48
+            z: -104
+          - "==": Vector
+            x: 89
+            y: 49
+            z: -104
+          - "==": Vector
+            x: 87
+            y: 49
+            z: -104
+            #next flag (there are 6)   R3
+          - "==": Vector
+            x: 83
+            y: 48
+            z: -104
+          - "==": Vector
+            x: 84
+            y: 49
+            z: -104
+          - "==": Vector
+            x: 82
+            y: 49
+            z: -104
+        secondary_blocks:
+            #next flag (there are 6)   L1
+          - "==": Vector
+            x: 93
+            y: 49
+            z: -95
+            #next flag (there are 6)   L2
+          - "==": Vector
+            x: 88
+            y: 49
+            z: -95
+            #next flag (there are 6)   L3
+          - "==": Vector
+            x: 83
+            y: 49
+            z: -95
+            #next flag (there are 6)   R1
+          - "==": Vector
+            x: 93
+            y: 49
+            z: -104
+            #next flag (there are 6)   R2
+          - "==": Vector
+            x: 88
+            y: 49
+            z: -104
+            #next flag (there are 6)   R3
+          - "==": Vector
+            x: 83
+            y: 49
+            z: -104
