@@ -51,3 +51,31 @@ HelmsDeep:
         y: 73
         z: 1000
     start_health: 400
+
+SoldiersPeak:
+  soldier_maingate:
+    display_name: "Main Gate"
+    flag_name: "Main Gate"
+    min:
+      ==: org.bukkit.util.Vector
+      x: 914
+      y: 42
+      z: 188
+    max:
+      ==: org.bukkit.util.Vector
+      x: 922
+      y: 51
+      z: 188
+    breach_sound:
+      ==: org.bukkit.util.Vector
+      x: 918
+      y: 42
+      z: 189
+    schematic:
+      name: "SP_MainGate_Breached"
+      location:
+        ==: org.bukkit.util.Vector
+        x: 918
+        y: 42
+        z: 189
+    start_health: 400
