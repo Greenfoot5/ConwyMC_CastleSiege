@@ -242,7 +242,7 @@ HelmsDeep:
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
-      
+
 ##############
 # Abrakhan #
 ##############
@@ -251,7 +251,7 @@ Abrakhan:
   GatehouseDoor:
     # Name of the flag (must be exact)
     # If not flag is specified, the door will open for any player, no matter their team
-    flag: "abrakhan_gatehouse"
+    flag: "Gatehouse"
     # Centre of the door
     # Used to measure distance to the stone pressure plates,
     # And plays the door sound
@@ -287,3 +287,89 @@ Abrakhan:
       - "OAK_LOG"
       - "OAK_LOG"
       - "OAK_LOG"
+
+SoldiersPeak:
+  upper_courtyardDoor1:
+    # Name of the flag (must be exact)
+    # If not flag is specified, the door will open for any player, no matter their team
+    flag: ""
+    # Centre of the door
+    # Used to measure distance to the stone pressure plates,
+    # And plays the door sound
+    centre:
+      x: 895
+      y: 77
+      z: 113
+    # The locations of each of the blocks
+    locations:
+      - x: 895
+        y: 77
+        z: 113
+      - x: 895
+        y: 78
+        z: 113
+      - x: 895
+        y: 79
+        z: 113
+      - x: 894
+        y: 77
+        z: 113
+      - x: 894
+        y: 78
+        z: 113
+      - x: 894
+        y: 79
+        z: 113
+    # The material the block is (order matches with location)
+    materials:
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+  upper_courtyardDoor2:
+    # Name of the flag (must be exact)
+    # If not flag is specified, the door will open for any player, no matter their team
+    flag: ""
+    # Centre of the door
+    # Used to measure distance to the stone pressure plates,
+    # And plays the door sound
+    centre:
+      x: 861
+      y: 76
+      z: 117
+    # The locations of each of the blocks
+    locations:
+      - x: 861
+        y: 76
+        z: 117
+      - x: 861
+        y: 79
+        z: 117
+      - x: 861
+        y: 78
+        z: 117
+      - x: 861
+        y: 77
+        z: 117
+      - x: 861
+        y: 76
+        z: 118
+      - x: 861
+        y: 79
+        z: 118
+      - x: 861
+        y: 78
+        z: 118
+      - x: 861
+        y: 77
+        z: 118
+    # The material the block is (order matches with location)
+    materials:
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
