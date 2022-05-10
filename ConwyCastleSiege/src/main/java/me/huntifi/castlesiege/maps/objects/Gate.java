@@ -141,14 +141,16 @@ public class Gate implements Listener {
                         return;
                     }
 
+                    int damage = getDamage(player.getUniqueId());
+
                     // Check there's at least 2hp left
-                    if (health > 2) {
+                    if (health > damage) {
 
                         if (!recentHitters.contains(player.getUniqueId())) {
 
                             recentHitters.add(player.getUniqueId());
 
-                            health -= 2;
+                            health -= damage;
 
                             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> UpdateStats.addSupports(player.getUniqueId(), 0.5));
 
@@ -171,6 +173,21 @@ public class Gate implements Listener {
                     }
                 }
             }
+        }
+    }
+
+    private int getDamage(UUID uuid) {
+        int teamSize = MapController.getCurrentMap().getTeam(uuid).getTeamSize();
+        if (teamSize <= 3) {
+            return 8;
+        } else if (teamSize <= 6) {
+            return 6;
+        } else if (teamSize <= 10) {
+            return 4;
+        } else if (teamSize <= 15) {
+            return 3;
+        } else {
+            return 2;
         }
     }
 }

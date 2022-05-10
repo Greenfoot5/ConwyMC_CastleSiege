@@ -290,9 +290,6 @@ Abrakhan:
 
 SoldiersPeak:
   upper_courtyardDoor1:
-    # Name of the flag (must be exact)
-    # If not flag is specified, the door will open for any player, no matter their team
-    flag: ""
     # Centre of the door
     # Used to measure distance to the stone pressure plates,
     # And plays the door sound
@@ -329,9 +326,6 @@ SoldiersPeak:
       - "ACACIA_LOG"
       - "ACACIA_LOG"
   upper_courtyardDoor2:
-    # Name of the flag (must be exact)
-    # If not flag is specified, the door will open for any player, no matter their team
-    flag: ""
     # Centre of the door
     # Used to measure distance to the stone pressure plates,
     # And plays the door sound
@@ -367,6 +361,8 @@ SoldiersPeak:
         z: 118
     # The material the block is (order matches with location)
     materials:
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
       - "ACACIA_LOG"
       - "ACACIA_LOG"
       - "ACACIA_LOG"

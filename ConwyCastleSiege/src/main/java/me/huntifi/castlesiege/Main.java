@@ -560,7 +560,7 @@ public class Main extends JavaPlugin implements Listener {
 
     private Lobby loadLobby(String lobbyPath, Map map) {
         Lobby lobby = new Lobby();
-        lobby.spawnPoint = getLocationYawPitch(lobbyPath + ".spawn_point", map.worldName);
+        lobby.spawnPoint = getLocation(lobbyPath + ".spawn_point", map.worldName);
         lobby.woolmap = loadWoolMap(lobbyPath + ".woolmap", map);
         return lobby;
     }
@@ -681,20 +681,13 @@ public class Main extends JavaPlugin implements Listener {
         return paths;
     }
 
-    private Location getLocationYawPitch(String locationPath, String worldName) {
-        int x = this.getMapsConfig().getInt(locationPath + ".x");
-        int y = this.getMapsConfig().getInt(locationPath + ".y");
-        int z = this.getMapsConfig().getInt(locationPath + ".z");
-        int yaw = this.getMapsConfig().getInt(locationPath + ".yaw");
-        int pitch = this.getMapsConfig().getInt(locationPath + ".pitch");
-        return new Location(Bukkit.getServer().getWorld(worldName), x, y, z, yaw, pitch);
-    }
-
     private Location getLocation(String locationPath, String worldName) {
         int x = this.getMapsConfig().getInt(locationPath + ".x");
         int y = this.getMapsConfig().getInt(locationPath + ".y");
         int z = this.getMapsConfig().getInt(locationPath + ".z");
-        return new Location(Bukkit.getServer().getWorld(worldName), x, y, z);
+        int yaw = this.getMapsConfig().getInt(locationPath + ".yaw", 90);
+        int pitch = this.getMapsConfig().getInt(locationPath + ".pitch", 0);
+        return new Location(Bukkit.getServer().getWorld(worldName), x, y, z, yaw, pitch);
     }
 
     private Tuple<Material, ChatColor> getColors(String color) {
