@@ -8,15 +8,20 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Directional;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,6 +31,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
@@ -39,7 +46,8 @@ import java.util.*;
  */
 public class Engineer extends Kit implements Listener, CommandExecutor {
 
-    public static HashMap<Player, ArrayList<Block>> traps = new HashMap<>();
+    private static final HashMap<Player, ArrayList<Block>> traps = new HashMap<>();
+    private static final HashMap<Player, Location> ballistae = new HashMap<>();
 
     /**
      * Set the equipment and attributes of this kit
@@ -250,21 +258,72 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     }
 
     /**
-     * Destroy all traps when their placer dies
+     * Set a player to be operating a ballista
+     * @param e The event called when a player enters a minecart
+     */
+    @EventHandler
+    public void onEnterBallista(VehicleEnterEvent e) {
+        if (e.getVehicle() instanceof Minecart && e.getEntered() instanceof Player) {
+
+            // Ensure that the entered minecart is a ballista and the player is an engineer
+            Location dispenserFace = getDispenserFace(e.getVehicle().getLocation().add(0, 2, 0));
+            if (dispenserFace == null) {
+                return;
+            } else if (!Objects.equals(Kit.equippedKits.get(e.getEntered().getUniqueId()).name, name)) {
+                e.getEntered().sendMessage(ChatColor.DARK_RED + "Only engineers can use a ballista!");
+                e.setCancelled(true);
+                return;
+            }
+
+            ballistae.put((Player) e.getEntered(), dispenserFace);
+        }
+    }
+
+    /**
+     * Fire arrow from ballista
+     * @param e The event called when a ballista operator left-clicks
+     */
+    @EventHandler
+    public void onFireBallista(PlayerInteractEvent e) {
+        if (ballistae.containsKey(e.getPlayer()) &&
+                (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK)) {
+            Player p = e.getPlayer();
+            Arrow a = p.getWorld().spawnArrow(ballistae.get(p), p.getLocation().getDirection(), 2, 0);
+            a.setShooter(p);
+        }
+    }
+
+    /**
+     * Remove the player from their ballista
+     * @param e The event called when a player exits a minecart
+     */
+    @EventHandler
+    public void onExitBallista(VehicleExitEvent e) {
+        if (e.getExited() instanceof Player) {
+            ballistae.remove((Player) e.getExited());
+        }
+    }
+
+    /**
+     * Destroy all player's traps
+     * Remove the player from their ballista
      * @param e The event called when a player dies
      */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         destroyAllTraps(e.getEntity());
+        ballistae.remove(e.getEntity());
     }
 
     /**
-     * Destroy all traps when their placer leaves the game
+     * Destroy all player's traps
+     * Remove the player from their ballista
      * @param e The event called when a player leaves the game
      */
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         destroyAllTraps(e.getPlayer());
+        ballistae.remove(e.getPlayer());
     }
 
     /**
@@ -329,5 +388,27 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                 .filter(entry -> entry.getValue().contains(trap))
                 .findFirst().map(Map.Entry::getKey)
                 .orElse(null);
+    }
+
+    // TODO
+    private Location getDispenserFace(Location loc) {
+        Block dispenser = loc.getBlock();
+        if (dispenser.getType() != Material.DISPENSER) {
+            return null;
+        }
+
+        BlockFace facing = ((Directional) dispenser.getBlockData()).getFacing();
+        switch (facing) {
+            case NORTH:
+                return loc.add(0, 0, -0.5);
+            case EAST:
+                return loc.add(0.5, 0, 0);
+            case SOUTH:
+                return loc.add(0, 0, 0.5);
+            case WEST:
+                return loc.add(-0.5, 0, 0);
+            default:
+                return null;
+        }
     }
 }
