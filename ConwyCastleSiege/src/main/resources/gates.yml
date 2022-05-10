@@ -24,7 +24,7 @@ HelmsDeep:
         x: 1038
         y: 52
         z: 1000
-    start_health: 16
+    start_health: 400
   GreatHall:
     display_name: "Great Hall"
     flag_name: "Great Hall"
@@ -50,4 +50,4 @@ HelmsDeep:
         x: 970
         y: 73
         z: 1000
-    start_health: 16
+    start_health: 400
