@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.database.UpdateStats;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,7 +32,7 @@ public class SuicideCommand implements CommandExecutor {
 
 		Player p = (Player) sender;
 		p.setHealth(0);
-		p.sendMessage("You have committed suicide (+2 deaths)");
+		p.sendMessage("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)");
 		UpdateStats.addDeaths(p.getUniqueId(), 1); // Note: 1 death added on player respawn
 		return true;
 	}
