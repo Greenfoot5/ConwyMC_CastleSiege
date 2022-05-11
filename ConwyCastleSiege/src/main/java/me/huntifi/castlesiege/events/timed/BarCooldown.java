@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits;
+package me.huntifi.castlesiege.events.timed;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
