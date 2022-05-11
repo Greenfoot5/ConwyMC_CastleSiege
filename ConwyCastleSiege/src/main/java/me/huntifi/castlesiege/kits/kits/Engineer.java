@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
@@ -304,13 +305,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
             a.setDamage(50);
 
             // Set cooldown
-            ballista.setSecond(true);
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    ballista.setSecond(false);
-                }
-            }.runTaskLater(Main.plugin, 100);
+            ballistaCooldown(p);
         }
     }
 
@@ -456,5 +451,22 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
             default:
                 return null;
         }
+    }
+
+    /**
+     * Set the player's ballista cooldown to 100 ticks
+     * @param p The player
+     */
+    private void ballistaCooldown(Player p) {
+        Tuple<Location, Boolean> ballista = ballistae.get(p);
+        ballista.setSecond(true);
+        BarCooldown.add(p.getUniqueId(), 100);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                ballista.setSecond(false);
+            }
+        }.runTaskLater(Main.plugin, 100);
     }
 }
