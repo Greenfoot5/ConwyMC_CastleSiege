@@ -227,7 +227,7 @@ public class Main extends JavaPlugin implements Listener {
                 getCommand("Unsessionmute").setExecutor(new UnsessionmuteCommand());
 
 
-                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 5);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);

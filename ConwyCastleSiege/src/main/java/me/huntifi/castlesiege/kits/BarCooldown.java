@@ -14,7 +14,7 @@ public class BarCooldown implements Runnable {
     private static final HashMap<UUID, Long> cooldowns = new HashMap<>();
 
     /**
-     * Decrease the cooldown of all players by 5 ticks
+     * Decrease the cooldown of all players by 1 tick
      */
     @Override
     public void run() {
@@ -35,7 +35,7 @@ public class BarCooldown implements Runnable {
      * @param cooldown The cooldown in ticks
      */
     public static void add(UUID uuid, long cooldown) {
-        if (cooldown < 5) {
+        if (cooldown <= 0) {
             return;
         }
 
@@ -45,7 +45,7 @@ public class BarCooldown implements Runnable {
         }
 
         p.setExp(1);
-        cooldowns.put(uuid, cooldown / 5);
+        cooldowns.put(uuid, cooldown);
     }
 
     /**

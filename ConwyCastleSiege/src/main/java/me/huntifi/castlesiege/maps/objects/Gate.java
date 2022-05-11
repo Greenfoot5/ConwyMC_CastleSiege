@@ -129,7 +129,7 @@ public class Gate implements Listener {
         if (flag != null) {
 
             // Check the player is left-clicking and the gate isn't friendly
-            if(!Objects.equals(MapController.getCurrentMap().getTeam(player.getUniqueId()).name, flag.currentOwners)
+            if(!Objects.equals(MapController.getCurrentMap().getTeam(player.getUniqueId()).name, flag.getCurrentOwners())
                     && event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
                 Location soundLoc = Objects.requireNonNull(event.getClickedBlock()).getLocation();

@@ -299,10 +299,10 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
             }
 
             // Shoot arrow
-            p.getWorld().playSound(ballista.getFirst(), Sound.ENTITY_ENDER_DRAGON_FLAP, 1, 1);
+            p.getWorld().playSound(ballista.getFirst(), Sound.ENTITY_ENDER_DRAGON_FLAP, 1, 3);
             Arrow a = p.getWorld().spawnArrow(ballista.getFirst(), p.getLocation().getDirection(), 4, 0);
             a.setShooter(p);
-            a.setDamage(50);
+            a.setDamage(20);
 
             // Set cooldown
             ballistaCooldown(p);
@@ -320,9 +320,9 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
 
             Player shooter = (Player) e.getEntity().getShooter();
             Team team = MapController.getCurrentMap().getTeam(shooter.getUniqueId());
-            for (Entity hit : e.getEntity().getNearbyEntities(1, 1, 1)) {
+            for (Entity hit : e.getEntity().getNearbyEntities(2, 2, 2)) {
                 if (hit instanceof Player && MapController.getCurrentMap().getTeam(hit.getUniqueId()) != team) {
-                    ((Player) hit).damage(20, shooter);
+                    ((Player) hit).damage(40, shooter);
                 }
             }
 
@@ -338,6 +338,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     public void onExitBallista(VehicleExitEvent e) {
         if (e.getExited() instanceof Player) {
             ballistae.remove((Player) e.getExited());
+            BarCooldown.remove(e.getExited().getUniqueId());
         }
     }
 
@@ -350,6 +351,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     public void onDeath(PlayerDeathEvent e) {
         destroyAllTraps(e.getEntity());
         ballistae.remove(e.getEntity());
+        BarCooldown.remove(e.getEntity().getUniqueId());
     }
 
     /**
@@ -361,6 +363,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     public void onLeave(PlayerQuitEvent e) {
         destroyAllTraps(e.getPlayer());
         ballistae.remove(e.getPlayer());
+        BarCooldown.remove(e.getPlayer().getUniqueId());
     }
 
     /**
@@ -441,13 +444,13 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
         BlockFace facing = ((Directional) dispenser.getBlockData()).getFacing();
         switch (facing) {
             case NORTH:
-                return loc.add(0, 0, -0.5);
+                return dispenser.getLocation().add(0.5, 0.4, -0.1);
             case EAST:
-                return loc.add(0.5, 0, 0);
+                return dispenser.getLocation().add(1.1, 0.4, 0.5);
             case SOUTH:
-                return loc.add(0, 0, 0.5);
+                return dispenser.getLocation().add(0.5, 0.4, 1.1);
             case WEST:
-                return loc.add(-0.5, 0, 0);
+                return dispenser.getLocation().add(-0.1, 0.4, 0.5);
             default:
                 return null;
         }
