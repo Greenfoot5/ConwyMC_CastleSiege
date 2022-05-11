@@ -18,15 +18,15 @@ public class BarCooldown implements Runnable {
      */
     @Override
     public void run() {
-        cooldowns.forEach( (uuid, cooldown) -> {
+        for (UUID uuid : cooldowns.keySet()) {
             Player p = Bukkit.getPlayer(uuid);
             if (p == null || !p.isOnline() || p.getExp() == 0) {
                 remove(uuid);
                 return;
             }
 
-            p.setExp(Math.max(0, p.getExp() - 1F / cooldown));
-        });
+            p.setExp(Math.max(0, p.getExp() - 1F / cooldowns.get(uuid)));
+        }
     }
 
     /**
