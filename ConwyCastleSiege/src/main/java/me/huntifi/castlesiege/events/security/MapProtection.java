@@ -19,6 +19,7 @@ import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.vehicle.VehicleDestroyEvent;
 
 import java.util.Objects;
 
@@ -124,6 +125,22 @@ public class MapProtection implements Listener {
 		}
 
 		if (e.getRightClicked() instanceof ArmorStand) {
+			e.setCancelled(true);
+		}
+	}
+
+	/**
+	 * Cancels event when player destroys a minecart
+	 * @param e The event called when a minecart is destroyed
+	 */
+	@EventHandler
+	public void onDestroyMinecart(VehicleDestroyEvent e) {
+		// Allow breaking in creative mode
+		if (e.getAttacker() instanceof Player && ((Player) e.getAttacker()).getGameMode() == GameMode.CREATIVE) {
+			return;
+		}
+
+		if (e.getVehicle() instanceof Minecart) {
 			e.setCancelled(true);
 		}
 	}

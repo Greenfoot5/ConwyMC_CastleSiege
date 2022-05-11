@@ -3,15 +3,13 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
@@ -301,18 +299,13 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
             }
 
             // Shoot arrow
-            Arrow a = p.getWorld().spawnArrow(ballista.getFirst(), p.getLocation().getDirection(), 2, 0);
+            p.getWorld().playSound(ballista.getFirst(), Sound.ENTITY_ENDER_DRAGON_FLAP, 1, 1);
+            Arrow a = p.getWorld().spawnArrow(ballista.getFirst(), p.getLocation().getDirection(), 4, 0);
             a.setShooter(p);
             a.setDamage(50);
 
             // Set cooldown
-            ballista.setSecond(true);
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    ballista.setSecond(false);
-                }
-            }.runTaskLater(Main.plugin, 100);
+            ballistaCooldown(p);
         }
     }
 
@@ -332,6 +325,8 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                     ((Player) hit).damage(20, shooter);
                 }
             }
+
+            e.getEntity().getWorld().playSound(e.getEntity().getLocation(), Sound.ENTITY_ENDER_DRAGON_HURT, 1, 1);
         }
     }
 
@@ -456,5 +451,22 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
             default:
                 return null;
         }
+    }
+
+    /**
+     * Set the player's ballista cooldown to 100 ticks
+     * @param p The player
+     */
+    private void ballistaCooldown(Player p) {
+        Tuple<Location, Boolean> ballista = ballistae.get(p);
+        ballista.setSecond(true);
+        BarCooldown.add(p.getUniqueId(), 100);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                ballista.setSecond(false);
+            }
+        }.runTaskLater(Main.plugin, 100);
     }
 }
