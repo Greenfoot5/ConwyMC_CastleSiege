@@ -906,3 +906,163 @@ Thunderstone:
               y: 204
               z: 154
             sign_direction: west
+RoyalCrypts:
+  world: "RoyalCrypts"
+  name: "Royal Crypts"
+  start_time: 0
+  doDaylightCycle: true
+  gamemode: "Assault"
+  duration:
+    minutes: 30
+    seconds: 0
+  teams:
+    Defenders:
+      name: "Tomb Guardians"
+      primary_color: "white"
+      secondary_color: "light_gray"
+      lobby:
+        spawn_point:
+          x: -1062
+          y: 12
+          z: 760
+          yaw: -89
+          pitch: 7
+        woolmap:
+          entrance:
+            flag_name: "The Entrance"
+            wool_position:
+              x: -1038
+              y: 12
+              z: 752
+            sign_direction: west
+          flooded_chamber:
+            flag_name: "Flooded Chamber"
+            wool_position:
+              x: -1038
+              y: 12
+              z: 755
+            sign_direction: west
+          memorial:
+            flag_name: "The Memorial"
+            wool_position:
+              x: -1038
+              y: 14
+              z: 758
+            sign_direction: west
+          old_library:
+            flag_name: "Old Library"
+            wool_position:
+              x: -1038
+              y: 13
+              z: 762
+            sign_direction: west
+          old_library:
+            flag_name: "Old Library"
+            wool_position:
+              x: -1038
+              y: 13
+              z: 762
+            sign_direction: west
+          lower_crypts:
+            flag_name: "Lower Crypts"
+            wool_position:
+              x: -1038
+              y: 15
+              z: 762
+            sign_direction: west
+          skeleton_tomb:
+            flag_name: "Leoric's Tomb"
+            wool_position:
+              x: -1038
+              y: 16
+              z: 761
+            sign_direction: west
+          skeleton_bridge:
+            flag_name: "The Bridge"
+            wool_position:
+              x: -1038
+              y: 16
+              z: 769
+            sign_direction: west
+          bonelake:
+            flag_name: "The Bonelake"
+            wool_position:
+              x: -1038
+              y: 8
+              z: 761
+            sign_direction: west
+    Attackers:
+      name: "Tristram"
+      primary_color: "black"
+      secondary_color: "red"
+      lobby:
+        spawn_point:
+          x: -1106
+          y: 15
+          z: 860
+          yaw: -89
+          pitch: 7
+        woolmap:
+          entrance:
+            flag_name: "Entrance"
+            wool_position:
+              x: -1083
+              y: 14
+              z: 852
+            sign_direction: west
+          flooded_chamber:
+            flag_name: "Flooded Chamber"
+            wool_position:
+              x: -1083
+              y: 14
+              z: 855
+            sign_direction: west
+          memorial:
+            flag_name: "The Memorial"
+            wool_position:
+              x: -1083
+              y: 16
+              z: 858
+            sign_direction: west
+          old_library:
+            flag_name: "Old Library"
+            wool_position:
+              x: -1083
+              y: 15
+              z: 862
+            sign_direction: west
+          old_library:
+            flag_name: "Old Library"
+            wool_position:
+              x: -1083
+              y: 15
+              z: 862
+            sign_direction: west
+          lower_crypts:
+            flag_name: "Lower Crypts"
+            wool_position:
+              x: -1083
+              y: 17
+              z: 862
+            sign_direction: west
+          skeleton_tomb:
+            flag_name: "Leoric's Tomb"
+            wool_position:
+              x: -1083
+              y: 18
+              z: 861
+            sign_direction: west
+          skeleton_bridge:
+            flag_name: "The Bridge"
+            wool_position:
+              x: -1083
+              y: 18
+              z: 869
+            sign_direction: west
+          bonelake:
+            flag_name: "The Bonelake"
+            wool_position:
+              x: -1083
+              y: 10
+              z: 861
+            sign_direction: west
