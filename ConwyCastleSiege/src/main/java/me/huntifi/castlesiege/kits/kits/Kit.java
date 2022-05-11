@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.kits.kits;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
@@ -20,6 +21,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -139,10 +141,15 @@ public abstract class Kit {
      * @param uuid The unique id of the player for whom to apply the potion effects
      */
     private void applyPotionEffects(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        if (player == null) { return; }
-        player.getActivePotionEffects().clear();
-        player.addPotionEffects(potionEffects);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Player player = Bukkit.getPlayer(uuid);
+                if (player == null) { return; }
+                player.getActivePotionEffects().clear();
+                player.addPotionEffects(potionEffects);
+            }
+        }.runTaskLater(Main.plugin, 1);
     }
 
     /**

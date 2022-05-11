@@ -18,6 +18,7 @@ me\huntifi\castlesiege\kits\kits\Medic.class
 me\huntifi\castlesiege\kits\kits\Archer.class
 me\huntifi\castlesiege\maps\Team.class
 me\huntifi\castlesiege\database\StoreData.class
+me\huntifi\castlesiege\kits\kits\Kit$1.class
 me\huntifi\castlesiege\maps\Timer$1.class
 me\huntifi\castlesiege\commands\info\Leaderboard.class
 me\huntifi\castlesiege\kits\kits\Kit.class
