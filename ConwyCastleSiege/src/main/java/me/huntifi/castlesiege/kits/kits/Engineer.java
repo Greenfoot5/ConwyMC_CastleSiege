@@ -8,10 +8,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
@@ -301,6 +298,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
             }
 
             // Shoot arrow
+            p.getWorld().playSound(ballista.getFirst(), Sound.ENTITY_ENDER_DRAGON_FLAP, 1, 1);
             Arrow a = p.getWorld().spawnArrow(ballista.getFirst(), p.getLocation().getDirection(), 2, 0);
             a.setShooter(p);
             a.setDamage(50);
@@ -332,6 +330,8 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                     ((Player) hit).damage(20, shooter);
                 }
             }
+
+            e.getEntity().getWorld().playSound(e.getEntity().getLocation(), Sound.ENTITY_ENDER_DRAGON_HURT, 1, 1);
         }
     }
 
