@@ -985,7 +985,7 @@ RoyalCrypts:
               z: 769
             sign_direction: west
           bonelake:
-            flag_name: "The Bonelake"
+            flag_name: "Bonelake"
             wool_position:
               x: -1038
               y: 8
@@ -1004,7 +1004,7 @@ RoyalCrypts:
           pitch: 7
         woolmap:
           entrance:
-            flag_name: "Entrance"
+            flag_name: "The Entrance"
             wool_position:
               x: -1083
               y: 14
@@ -1060,7 +1060,7 @@ RoyalCrypts:
               z: 869
             sign_direction: west
           bonelake:
-            flag_name: "The Bonelake"
+            flag_name: "Bonelake"
             wool_position:
               x: -1083
               y: 10
