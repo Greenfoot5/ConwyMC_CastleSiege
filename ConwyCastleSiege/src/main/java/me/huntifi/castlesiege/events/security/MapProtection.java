@@ -96,7 +96,7 @@ public class MapProtection implements Listener {
 	}
 
 	/**
-	 * Cancels event when entity damages armor stand or item frame
+	 * Cancels event when entity damages armor stand, item frame, or minecart
 	 * @param e The event called when an entity is damaged
 	 */
 	@EventHandler
@@ -106,7 +106,8 @@ public class MapProtection implements Listener {
 			return;
 		}
 
-		if (e.getEntity() instanceof ArmorStand || e.getEntity() instanceof ItemFrame) {
+		if (e.getEntity() instanceof ArmorStand || e.getEntity() instanceof ItemFrame
+				|| e.getEntity() instanceof Minecart) {
 			e.setCancelled(true);
 		}
 	}
