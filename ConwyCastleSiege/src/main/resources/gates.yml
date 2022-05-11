@@ -51,9 +51,11 @@ HelmsDeep:
         y: 73
         z: 1000
     start_health: 400
+    ram:
+      direction:
 
 SoldiersPeak:
-  soldier_maingate:
+  main_gate:
     display_name: "Main Gate"
     flag_name: "Main Gate"
     min:

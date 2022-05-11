@@ -38,7 +38,7 @@ public class WoolMapBlock {
 
         if (team != null && team.hasPlayer(uuid))
         {
-            if (!Objects.equals(flag.currentOwners, team.name))
+            if (!Objects.equals(flag.getCurrentOwners(), team.name))
             {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                         TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));

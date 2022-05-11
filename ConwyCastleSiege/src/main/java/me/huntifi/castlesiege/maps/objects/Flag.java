@@ -31,7 +31,7 @@ public class Flag {
     public ProtectedRegion region;
 
     // Game Data
-    public String currentOwners;
+    private String currentOwners;
     private final int maxCap;
     private final int progressAmount;
     private int progress;
@@ -80,6 +80,14 @@ public class Flag {
     public String getSpawnMessage() {
         Team team = MapController.getCurrentMap().getTeam(currentOwners);
         return team.secondaryChatColor + "Spawning at:" + team.primaryChatColor + " " + name;
+    }
+
+    public String getCurrentOwners() {
+        if (animationIndex == 0) {
+            return null;
+        }
+
+        return currentOwners;
     }
 
     /**
@@ -445,12 +453,12 @@ public class Flag {
      * @return The Material to set
      */
     public Material GetWoolMapBlock() {
-        Team team = MapController.getCurrentMap().getTeam(currentOwners);
         // Flag is neutral
-        if (team == null) {
+        if (getCurrentOwners() == null) {
             return Material.GRAY_WOOL;
         }
 
+        Team team = MapController.getCurrentMap().getTeam(getCurrentOwners());
         // Flag is fully captured
         if (progress / progressMultiplier == maxCap) {
             return team.primaryWool;

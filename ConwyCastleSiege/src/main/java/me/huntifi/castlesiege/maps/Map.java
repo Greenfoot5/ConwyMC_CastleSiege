@@ -50,6 +50,10 @@ public class Map {
      * @return The team, or null if none is found
      */
     public Team getTeam(String teamName) {
+        if (teamName == null) {
+            return null;
+        }
+
         for (Team team : teams) {
             if (team.name.equals(teamName)) {
                 return team;

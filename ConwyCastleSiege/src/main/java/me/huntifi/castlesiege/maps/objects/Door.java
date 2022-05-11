@@ -52,12 +52,12 @@ public class Door implements Listener {
 
             double distance = player.getLocation().distance(centre);
             if (player.getLocation().getBlock().getType().equals(Material.STONE_PRESSURE_PLATE) && distance <= 3) {
-				if (Objects.equals(flagName, MapController.getCurrentMap().name) || Objects.equals(flag.currentOwners, MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
+				if (Objects.equals(flagName, MapController.getCurrentMap().name) || Objects.equals(Objects.requireNonNull(flag).getCurrentOwners(), MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
 					if (!open) {
                         open = true;
 
                         for (Tuple<Vector, Material> tuple : doorBlocks) {
-                            tuple.getFirst().toLocation(centre.getWorld()).getBlock().setType(Material.AIR);
+                            tuple.getFirst().toLocation(Objects.requireNonNull(centre.getWorld())).getBlock().setType(Material.AIR);
                         }
                         Objects.requireNonNull(centre.getWorld()).playSound(centre, Sound.BLOCK_WOODEN_DOOR_OPEN, 3, 1);
 

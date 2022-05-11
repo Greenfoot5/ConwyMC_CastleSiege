@@ -84,8 +84,8 @@ public class Scoreboard implements Runnable {
 
 			for (int i = 0; i < MapController.getCurrentMap().flags.length; i++) {
 				Flag flag = MapController.getCurrentMap().flags[i];
-				Team owners = MapController.getCurrentMap().getTeam(flag.currentOwners);
-				Scoreboard.replaceScore(objective, flag.scoreboard, flag.animationIndex == 0 ? ChatColor.GRAY + flag.name : owners.primaryChatColor + flag.name);
+				Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
+				Scoreboard.replaceScore(objective, flag.scoreboard, owners == null ? ChatColor.GRAY + flag.name : owners.primaryChatColor + flag.name);
 			}
 
 			// Actually displays the scoreboard

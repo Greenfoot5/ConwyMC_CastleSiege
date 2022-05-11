@@ -84,7 +84,7 @@ public class MapController implements CommandExecutor {
 			case Charge:
 				// Check if the defenders have won
 				for (Flag flag : getCurrentMap().flags) {
-					if (Objects.equals(flag.currentOwners, getCurrentMap().teams[0].name)) {
+					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].name)) {
 						winners = getCurrentMap().teams[0].name;
 						break;
 					}
@@ -93,7 +93,7 @@ public class MapController implements CommandExecutor {
 				// Get a count of who owns which flag
 				java.util.Map<String, Integer> flagCounts = new HashMap<>();
 				for (Flag flag : getCurrentMap().flags) {
-					flagCounts.merge(flag.currentOwners, 1, Integer::sum);
+					flagCounts.merge(flag.getCurrentOwners(), 1, Integer::sum);
 				}
 				// Get the team with the largest
 				winners = (String) flagCounts.keySet().toArray()[0];
@@ -256,9 +256,9 @@ public class MapController implements CommandExecutor {
 			return true;
 		}
 
-		String startingTeam = getCurrentMap().flags[0].currentOwners;
+		String startingTeam = getCurrentMap().flags[0].getCurrentOwners();
 		for (Flag flag : getCurrentMap().flags) {
-			if (!startingTeam.equalsIgnoreCase(flag.currentOwners)) {
+			if (!startingTeam.equalsIgnoreCase(flag.getCurrentOwners())) {
 				return false;
 			}
 		}
