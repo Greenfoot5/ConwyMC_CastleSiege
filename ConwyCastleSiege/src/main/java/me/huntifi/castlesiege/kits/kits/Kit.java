@@ -85,6 +85,7 @@ public abstract class Kit {
         healthAttribute.setBaseValue(baseHealth);
         player.setHealthScaled(true);
         player.setHealth(baseHealth);
+        player.setFireTicks(0);
 
         // Knockback resistance
         AttributeInstance kbAttribute = player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);
