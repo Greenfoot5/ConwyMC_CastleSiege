@@ -299,7 +299,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
 
             // Shoot arrow
             p.getWorld().playSound(ballista.getFirst(), Sound.ENTITY_ENDER_DRAGON_FLAP, 1, 1);
-            Arrow a = p.getWorld().spawnArrow(ballista.getFirst(), p.getLocation().getDirection(), 2, 0);
+            Arrow a = p.getWorld().spawnArrow(ballista.getFirst(), p.getLocation().getDirection(), 4, 0);
             a.setShooter(p);
             a.setDamage(50);
 
