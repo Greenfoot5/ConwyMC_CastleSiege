@@ -326,7 +326,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                 }
             }
 
-            e.getEntity().getWorld().playSound(e.getEntity().getLocation(), Sound.ENTITY_ENDER_DRAGON_HURT, 1, 1);
+            e.getEntity().getWorld().playSound(e.getEntity().getLocation(), Sound.ENTITY_ENDER_DRAGON_HURT, 4, 1);
         }
     }
 
