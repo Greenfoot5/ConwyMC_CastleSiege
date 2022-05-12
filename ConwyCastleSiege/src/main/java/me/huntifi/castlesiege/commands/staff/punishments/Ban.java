@@ -14,6 +14,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.InetAddress;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -98,21 +102,23 @@ public class Ban implements CommandExecutor {
         s.sendMessage(ChatColor.DARK_GREEN + "Successfully banned: " + ChatColor.GREEN + args[0]);
 
         // Kick the player if they are online
-        kick(uuid, reason);
+        kick(uuid, reason, args[1]);
     }
 
     /**
      * Kick the banned player from the server
      * @param uuid The unique ID of the player
      * @param reason The reason for the ban
+     * @param duration The duration of the ban
      */
-    private void kick(UUID uuid, String reason) {
+    private void kick(UUID uuid, String reason, String duration) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 Player p = Bukkit.getPlayer(uuid);
                 if (p != null) {
-                    p.kickPlayer(ChatColor.DARK_RED + "[BAN] " + ChatColor.RED + reason);
+                    p.kickPlayer(ChatColor.DARK_RED + "\n[BAN] " + ChatColor.RED + reason
+                            + ChatColor.DARK_RED + "\n[EXPIRES IN] " + ChatColor.RED + getExpire(duration));
                 }
             }
         }.runTask(Main.plugin);
@@ -153,5 +159,31 @@ public class Ban implements CommandExecutor {
                 return 0;
         }
         return num;
+    }
+
+    /**
+     * Get the duration in string representation
+     * @param duration The duration input string
+     * @return The converted duration, empty string if invalid duration (should never happen)
+     */
+    private String getExpire(String duration) {
+        char unit = duration.charAt(duration.length() - 1);
+        String num = duration.substring(0, duration.length() - 1);
+
+        switch (unit) {
+            case 'y':
+                return num + " year(s)";
+            case 'M':
+                return num + " month(s)";
+            case 'd':
+                return num + " day(s)";
+            case 'h':
+                return num + " hour(s)";
+            case 'm':
+                return num + " minute(s)";
+            case 's':
+                return num + " second(s)";
+        }
+        return "";
     }
 }

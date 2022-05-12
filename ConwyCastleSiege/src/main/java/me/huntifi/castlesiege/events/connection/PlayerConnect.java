@@ -13,10 +13,8 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.net.InetAddress;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 /**
@@ -60,10 +58,11 @@ public class PlayerConnect implements Listener {
     // TODO - Load other punishment data and actively store them?
     @EventHandler
     public void preLogin(AsyncPlayerPreLoginEvent e) throws SQLException {
-        Tuple<Boolean, String> banned = isBanned(e.getUniqueId(), e.getAddress());
-        if (banned.getFirst()) {
+        Tuple<String, Timestamp> banned = getBan(e.getUniqueId(), e.getAddress());
+        if (banned != null) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
-                    ChatColor.DARK_RED + "[BAN] " + ChatColor.RED + banned.getSecond());
+                    ChatColor.DARK_RED + "\n[BAN] " + ChatColor.RED + banned.getFirst()
+                            + ChatColor.DARK_RED + "\n[EXPIRES IN] " + ChatColor.RED + getExpire(banned.getSecond()));
             return;
         }
 
@@ -72,46 +71,82 @@ public class PlayerConnect implements Listener {
     }
 
     /**
-     * Check if the player is banned
+     * Get the player's active ban
      * @param uuid The unique ID of the player
      * @param ip The IP-address of the player
-     * @return Whether the player is banned, and the reason for that ban
+     * @return The reason and end of an active ban, null if no active ban was found
      * @throws SQLException If something goes wrong executing the query
      */
-    private Tuple<Boolean, String> isBanned(UUID uuid, InetAddress ip) throws SQLException {
+    private Tuple<String, Timestamp> getBan(UUID uuid, InetAddress ip) throws SQLException {
         // Check all ban records for this uuid to see if one is still active
         Tuple<PreparedStatement, ResultSet> prUUID = Punishments.get(uuid, "ban");
-        Tuple<Boolean, String> uuidBan = checkBan(prUUID.getSecond());
+        Tuple<String, Timestamp> uuidBan = checkBan(prUUID.getSecond());
         prUUID.getFirst().close();
-        if (uuidBan.getFirst()) {
+        if (uuidBan != null) {
             return uuidBan;
         }
 
         // Check all ban records for this IP to see if one is still active
         Tuple<PreparedStatement, ResultSet> prIP = Punishments.getIPBan(ip);
-        Tuple<Boolean, String> ipBan = checkBan(prIP.getSecond());
+        Tuple<String, Timestamp> ipBan = checkBan(prIP.getSecond());
         prIP.getFirst().close();
-        if (ipBan.getFirst()) {
-            return ipBan;
-        }
-
-        // No active ban record was found
-        return new Tuple<>(false, "");
+        return ipBan;
     }
 
     /**
      * Check if the query result contains an active ban
      * @param rs The result of a query
-     * @return Whether an active ban is present, and the reason for that ban
+     * @return The reason and end of an active ban, null if no active ban was found
      * @throws SQLException If something goes wrong getting data from the query
      */
-    private Tuple<Boolean, String> checkBan(ResultSet rs) throws SQLException {
+    private Tuple<String, Timestamp> checkBan(ResultSet rs) throws SQLException {
         while (rs.next()) {
             if (rs.getTimestamp("end").after(new Timestamp(System.currentTimeMillis()))) {
-                return new Tuple<>(true, rs.getString("reason"));
+                return new Tuple<>(rs.getString("reason"), rs.getTimestamp("end"));
             }
         }
-        return new Tuple<>(false, "");
+        return null;
+    }
+
+    /**
+     * Get a string representation of the remaining ban duration
+     * @param end The ban's end time
+     * @return The ban's remaining duration
+     */
+    private String getExpire(Timestamp end) {
+        long duration = (end.getTime() - System.currentTimeMillis()) / 1000;
+
+        if (duration >= 60) {
+            duration /= 60;
+        } else {
+            return duration + " second(s)";
+        }
+
+        if (duration >= 60) {
+            duration /= 60;
+        } else {
+            return duration + " minute(s)";
+        }
+
+        if (duration >= 24) {
+            duration /= 24;
+        } else {
+            return duration + " hour(s)";
+        }
+
+        if (duration >= 30.42) {
+            duration /= 30.42;
+        } else {
+            return duration + " day(s)";
+        }
+
+        if (duration >= 12) {
+            duration /= 12;
+        } else {
+            return duration + " month(s)";
+        }
+
+        return new DecimalFormat("0").format(duration) + " year(s)";
     }
 
     /**
