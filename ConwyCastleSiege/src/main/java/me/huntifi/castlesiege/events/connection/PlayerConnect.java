@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.*;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -61,7 +62,8 @@ public class PlayerConnect implements Listener {
     public void preLogin(AsyncPlayerPreLoginEvent e) throws SQLException {
         Tuple<Boolean, String> banned = isBanned(e.getUniqueId(), e.getAddress());
         if (banned.getFirst()) {
-            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, banned.getSecond());
+            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
+                    ChatColor.DARK_RED + "[BAN] " + ChatColor.RED + banned.getSecond());
             return;
         }
 

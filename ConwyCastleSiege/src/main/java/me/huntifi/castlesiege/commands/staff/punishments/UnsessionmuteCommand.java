@@ -1,5 +1,6 @@
-package me.huntifi.castlesiege.commands.staff;
+package me.huntifi.castlesiege.commands.staff.punishments;
 
+import me.huntifi.castlesiege.commands.staff.punishments.SessionMuteCommand;
 import me.huntifi.castlesiege.database.ActiveData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

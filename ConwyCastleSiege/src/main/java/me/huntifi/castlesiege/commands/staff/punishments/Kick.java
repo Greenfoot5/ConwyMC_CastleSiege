@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.commands.staff;
+package me.huntifi.castlesiege.commands.staff.punishments;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Kicks a player from the server
  */
-public class KickCommand implements CommandExecutor {
+public class Kick implements CommandExecutor {
 
 	/**
 	 * Kicks a player

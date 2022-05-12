@@ -18,6 +18,7 @@ import me.huntifi.castlesiege.commands.gameplay.SuicideCommand;
 import me.huntifi.castlesiege.commands.gameplay.SwitchCommand;
 import me.huntifi.castlesiege.commands.info.*;
 import me.huntifi.castlesiege.commands.staff.*;
+import me.huntifi.castlesiege.commands.staff.punishments.*;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.KeepAlive;
@@ -176,14 +177,17 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
                 Objects.requireNonNull(getCommand("Top")).setExecutor(new Leaderboard());
 
+                // Staff - Punishments
+                Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());
+                Objects.requireNonNull(getCommand("Kick")).setExecutor(new Kick());
+                Objects.requireNonNull(getCommand("KickAll")).setExecutor(new KickAll());
+
                 // Staff
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
                 Objects.requireNonNull(getCommand("SetRank")).setExecutor(new SetRank());
                 Objects.requireNonNull(getCommand("SetStaffRank")).setExecutor(new SetStaffRank());
                 Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
-                Objects.requireNonNull(getCommand("Kick")).setExecutor(new KickCommand());
-                Objects.requireNonNull(getCommand("KickAll")).setExecutor(new KickAllCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
                 Objects.requireNonNull(getCommand("StaffChat")).setExecutor(new StaffChat());
                 Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());

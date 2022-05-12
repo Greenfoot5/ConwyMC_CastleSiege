@@ -66,12 +66,6 @@ commands:
   Gma:
     description: Change your game mode to adventure.
     usage: /Gma
-  Ban:
-    description: Ban a player!
-    usage: /Ban
-  Unban:
-    description: Unban a banned player!
-    usage: /Unban
   Mute:
     description: Mute a player!
     usage: /Mute
@@ -152,7 +146,29 @@ commands:
     usage: /suicide
     aliases: sui
 
-  # Staff
+  # Staff - Punishments
+  Ban:
+    description: Ban a player
+    usage: /ban <player> <time> <reason>
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  Kick:
+    description: Kick a player from the server
+    usage: /kick <player> <reason>
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  KickAll:
+    description: Kick all players from the server
+    usage: /kickall <reason>
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  Unban:
+    description: Unban a banned player
+    usage: /unban <player>
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+
+  # Staff - ...
   CSReload:
     description: Reloads the Castle Siege Plugin
     usage: /csreload
@@ -177,16 +193,6 @@ commands:
     description: Give a player vote rewards
     usage: /givevote <player> <vote>
     permission: castlesiege.chatmod+
-    permission-message: You are not permitted to use this command!
-  Kick:
-    description: Kick a player from the server
-    usage: /kick <player> <reason>
-    permission: castlesiege.moderator
-    permission-message: You are not permitted to use this command!
-  KickAll:
-    description: Kick all players from the server
-    usage: /kickall <reason>
-    permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
   NextMap:
     description: Skips the current map and goes directly to the next one

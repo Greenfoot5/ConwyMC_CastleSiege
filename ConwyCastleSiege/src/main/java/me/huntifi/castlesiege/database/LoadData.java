@@ -122,4 +122,27 @@ public class LoadData {
         ResultSet rs = ps.executeQuery();
         return new Tuple<>(ps, rs);
     }
+
+    /**
+     * Get the UUID of a player from our database
+     * @param name The name of the player
+     * @return The player's UUID, or null if the name is not in the database
+     * @throws SQLException If something goes wrong executing the query
+     */
+    public static UUID getUUID(String name) throws SQLException {
+        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "SELECT uuid FROM player_rank WHERE name=?");
+        ps.setString(1, name);
+        ResultSet rs = ps.executeQuery();
+
+        UUID uuid;
+        if (rs.next()) {
+            uuid = UUID.fromString(rs.getString(1));
+        } else {
+            uuid = null;
+        }
+
+        ps.close();
+        return uuid;
+    }
 }
