@@ -48,7 +48,8 @@ public class Door implements Listener {
         Player player = event.getPlayer();
         Flag flag = MapController.getCurrentMap().getFlag(flagName);
         // Make sure the player is playing, and the flag is on the correct map
-        if ((flag != null || Objects.equals(flagName, MapController.getCurrentMap().name)) && player.getGameMode() != GameMode.SPECTATOR) {
+        if (Objects.equals(Objects.requireNonNull(centre.getWorld()).getName(), MapController.getCurrentMap().worldName)
+                && player.getGameMode() != GameMode.SPECTATOR) {
 
             double distance = player.getLocation().distance(centre);
             if (player.getLocation().getBlock().getType().equals(Material.STONE_PRESSURE_PLATE) && distance <= 3) {

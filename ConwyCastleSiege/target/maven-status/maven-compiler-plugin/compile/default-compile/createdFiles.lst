@@ -31,6 +31,7 @@ me\huntifi\castlesiege\kits\kits\Kit.class
 me\huntifi\castlesiege\data_types\Frame.class
 me\huntifi\castlesiege\kits\items\EquipmentSet.class
 me\huntifi\castlesiege\kits\kits\Shieldman.class
+me\huntifi\castlesiege\maps\NameTag$1.class
 me\huntifi\castlesiege\events\connection\PlayerDisconnect$1.class
 me\huntifi\castlesiege\Thunderstone\Rams\ThunderstoneRamAnimation$1.class
 me\huntifi\castlesiege\events\combat\LobbyCombat.class
