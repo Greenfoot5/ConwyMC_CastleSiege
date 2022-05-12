@@ -146,6 +146,17 @@ public class MapProtection implements Listener {
 	}
 
 	/**
+	 * Cancels event when player destroys and end crystal
+	 * @param e The event called when and end crystal explodes
+	 */
+	@EventHandler
+	public void onDestroyEndCrystal(EntityExplodeEvent e) {
+		if (e.getEntity() instanceof EnderCrystal) {
+			e.setCancelled(true);
+		}
+	}
+
+	/**
 	 * Cancels event when player puts out fire
 	 * @param e The event called when a player left clicks fire
 	 */
