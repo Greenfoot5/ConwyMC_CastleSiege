@@ -13,6 +13,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -43,17 +45,22 @@ public class Door implements Listener {
      * @param event Called when a player moves
      */
     @EventHandler
-    public void onPressure(PlayerMoveEvent event) {
+    public void onPressure(PlayerInteractEvent event) {
+        if (event.getAction() != Action.PHYSICAL || event.getClickedBlock() == null
+                || event.getClickedBlock().getType() != Material.STONE_PRESSURE_PLATE) {
+            return;
+        }
 
-        Player player = event.getPlayer();
-        Flag flag = MapController.getCurrentMap().getFlag(flagName);
         // Make sure the player is playing, and the flag is on the correct map
-        if (Objects.equals(Objects.requireNonNull(centre.getWorld()).getName(), MapController.getCurrentMap().worldName)
-                && player.getGameMode() != GameMode.SPECTATOR) {
+        if (Objects.equals(Objects.requireNonNull(centre.getWorld()).getName(), MapController.getCurrentMap().worldName)) {
 
+            Player player = event.getPlayer();
             double distance = player.getLocation().distance(centre);
-            if (player.getLocation().getBlock().getType().equals(Material.STONE_PRESSURE_PLATE) && distance <= 3) {
-				if (Objects.equals(flagName, MapController.getCurrentMap().name) || Objects.equals(Objects.requireNonNull(flag).getCurrentOwners(), MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
+            if (distance <= 3) {
+
+                Flag flag = MapController.getCurrentMap().getFlag(flagName);
+				if (Objects.equals(flagName, MapController.getCurrentMap().name) ||
+                        Objects.equals(Objects.requireNonNull(flag).getCurrentOwners(), MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
 					if (!open) {
                         open = true;
 
