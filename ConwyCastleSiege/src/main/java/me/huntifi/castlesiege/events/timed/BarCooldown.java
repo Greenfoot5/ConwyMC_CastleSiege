@@ -54,5 +54,10 @@ public class BarCooldown implements Runnable {
      */
     public static void remove(UUID uuid) {
         cooldowns.remove(uuid);
+
+        Player p = Bukkit.getPlayer(uuid);
+        if (p != null && p.isOnline()) {
+            p.setExp(0);
+        }
     }
 }

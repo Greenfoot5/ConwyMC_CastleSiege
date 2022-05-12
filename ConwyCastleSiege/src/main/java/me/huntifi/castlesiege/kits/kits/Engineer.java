@@ -351,7 +351,6 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     public void onDeath(PlayerDeathEvent e) {
         destroyAllTraps(e.getEntity());
         ballistae.remove(e.getEntity());
-        BarCooldown.remove(e.getEntity().getUniqueId());
     }
 
     /**
@@ -363,7 +362,6 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
     public void onLeave(PlayerQuitEvent e) {
         destroyAllTraps(e.getPlayer());
         ballistae.remove(e.getPlayer());
-        BarCooldown.remove(e.getPlayer().getUniqueId());
     }
 
     /**

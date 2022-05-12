@@ -43,6 +43,7 @@ public class PlayerConnect implements Listener {
         // Assign stored kit
         InCombat.playerDied(uuid);
         p.performCommand(data.getKit());
+        p.setExp(0);
 
         // Update the names stored in the database
         StoreData.updateName(uuid, "player_stats");
