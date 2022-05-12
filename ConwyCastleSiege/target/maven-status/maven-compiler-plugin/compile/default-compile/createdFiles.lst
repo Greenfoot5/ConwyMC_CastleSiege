@@ -13,6 +13,7 @@ me\huntifi\castlesiege\maps\objects\Flag$1.class
 me\huntifi\castlesiege\commands\info\MVPCommand.class
 me\huntifi\castlesiege\commands\info\TeamsCommand.class
 me\huntifi\castlesiege\events\combat\InCombat.class
+me\huntifi\castlesiege\commands\staff\punishments\Unban$1.class
 me\huntifi\castlesiege\kits\kits\Berserker$1.class
 me\huntifi\castlesiege\commands\staff\punishments\UnsessionmuteCommand.class
 me\huntifi\castlesiege\maps\helms_deep\WallEvent.class
@@ -57,6 +58,7 @@ me\huntifi\castlesiege\kits\kits\Swordsman.class
 me\huntifi\castlesiege\events\timed\BarCooldown.class
 me\huntifi\castlesiege\commands\staff\FlyCommand.class
 me\huntifi\castlesiege\kits\kits\Medic$2.class
+me\huntifi\castlesiege\commands\staff\punishments\Unban.class
 me\huntifi\castlesiege\events\combat\TeamCombat.class
 me\huntifi\castlesiege\maps\Lobby.class
 me\huntifi\castlesiege\Helmsdeep\rams\MainGateReadyRam.class

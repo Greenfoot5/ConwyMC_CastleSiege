@@ -68,4 +68,20 @@ public class Punishments {
         ps.executeUpdate();
         ps.close();
     }
+
+    /**
+     * Unban a player
+     * @param name The name of the player
+     * @throws SQLException If something goes wrong executing the insert
+     */
+    public static void unban(String name) throws SQLException {
+        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "UPDATE punishments SET end = ? WHERE end > ? AND name = ? ");
+        ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+        ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+        ps.setString(3, name);
+
+        ps.executeUpdate();
+        ps.close();
+    }
 }
