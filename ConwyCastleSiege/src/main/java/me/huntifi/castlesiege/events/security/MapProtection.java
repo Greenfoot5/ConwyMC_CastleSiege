@@ -97,7 +97,7 @@ public class MapProtection implements Listener {
 	}
 
 	/**
-	 * Cancels event when entity damages armor stand or item frame
+	 * Cancels event when entity damages armor stand, item frame, or ender crystal
 	 * @param e The event called when an entity is damaged
 	 */
 	@EventHandler
@@ -107,7 +107,8 @@ public class MapProtection implements Listener {
 			return;
 		}
 
-		if (e.getEntity() instanceof ArmorStand || e.getEntity() instanceof ItemFrame) {
+		if (e.getEntity() instanceof ArmorStand || e.getEntity() instanceof ItemFrame
+				|| e.getEntity() instanceof EnderCrystal) {
 			e.setCancelled(true);
 		}
 	}
@@ -141,17 +142,6 @@ public class MapProtection implements Listener {
 		}
 
 		if (e.getVehicle() instanceof Minecart) {
-			e.setCancelled(true);
-		}
-	}
-
-	/**
-	 * Cancels event when player destroys and end crystal
-	 * @param e The event called when and end crystal explodes
-	 */
-	@EventHandler
-	public void onDestroyEndCrystal(EntityExplodeEvent e) {
-		if (e.getEntity() instanceof EnderCrystal) {
 			e.setCancelled(true);
 		}
 	}
