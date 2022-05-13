@@ -13,32 +13,34 @@ import java.util.UUID;
 public class Punishments {
 
     /**
-     * Get a player's punishment data from the database
+     * Get a player's current ban from the database
      * @param uuid The unique ID of the player whose data to get
-     * @param type The type of punishment to get from the database
      * @return A tuple of the prepared statement (to close later) and the query's result
      * @throws SQLException If something goes wrong executing the query
      */
-    public static Tuple<PreparedStatement, ResultSet> get(UUID uuid, String type) throws SQLException {
+    public static Tuple<PreparedStatement, ResultSet> getBan(UUID uuid) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT reason, end FROM punishments WHERE uuid=? AND type=?");
+                "SELECT reason, end FROM punishments WHERE uuid = ? AND type = 'ban' AND end > ?"
+                        + " ORDER BY end DESC LIMIT 1");
         ps.setString(1, uuid.toString());
-        ps.setString(2, type);
+        ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
 
         ResultSet rs = ps.executeQuery();
         return new Tuple<>(ps, rs);
     }
 
     /**
-     * Get an IP's ban data from the database
+     * Get an IP's current ban from the database
      * @param ip The IP whose data to get
      * @return A tuple of the prepared statement (to close later) and the query's result
      * @throws SQLException If something goes wrong executing the query
      */
     public static Tuple<PreparedStatement, ResultSet> getIPBan(InetAddress ip) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT reason, end FROM punishments WHERE ip=? AND type='ban'");
+                "SELECT reason, end FROM punishments WHERE ip = ? AND type = 'ban' AND end > ?"
+                        + " ORDER BY end DESC LIMIT 1");
         ps.setString(1, ip.toString());
+        ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
 
         ResultSet rs = ps.executeQuery();
         return new Tuple<>(ps, rs);

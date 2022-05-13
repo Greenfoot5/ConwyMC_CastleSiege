@@ -80,7 +80,7 @@ public class PlayerConnect implements Listener {
      */
     private Tuple<String, Timestamp> getBan(UUID uuid, InetAddress ip) throws SQLException {
         // Check all ban records for this uuid to see if one is still active
-        Tuple<PreparedStatement, ResultSet> prUUID = Punishments.get(uuid, "ban");
+        Tuple<PreparedStatement, ResultSet> prUUID = Punishments.getBan(uuid);
         Tuple<String, Timestamp> uuidBan = checkBan(prUUID.getSecond());
         prUUID.getFirst().close();
         if (uuidBan != null) {
@@ -101,10 +101,8 @@ public class PlayerConnect implements Listener {
      * @throws SQLException If something goes wrong getting data from the query
      */
     private Tuple<String, Timestamp> checkBan(ResultSet rs) throws SQLException {
-        while (rs.next()) {
-            if (rs.getTimestamp("end").after(new Timestamp(System.currentTimeMillis()))) {
-                return new Tuple<>(rs.getString("reason"), rs.getTimestamp("end"));
-            }
+        if (rs.next()) {
+            return new Tuple<>(rs.getString("reason"), rs.getTimestamp("end"));
         }
         return null;
     }
