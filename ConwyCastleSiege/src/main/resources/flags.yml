@@ -15303,7 +15303,6 @@ Toucan_Moria:
             z: -25
   durins_bridge:
     name: "Durin's Bridge"
-    start_owners: ""
     max_cap: 7
     start_amount: 0
     progress_amount: 10
@@ -15482,7 +15481,6 @@ Toucan_Moria:
             z: 0
   2nd_hall:
     name: "2nd Hall"
-    start_owners: ""
     max_cap: 7
     start_amount: 0
     progress_amount: 10
@@ -15661,7 +15659,6 @@ Toucan_Moria:
             z: 10
   stairs:
     name: "Stairs"
-    start_owners: ""
     max_cap: 7
     start_amount: 0
     progress_amount: 10
@@ -15984,7 +15981,6 @@ Toucan_Moria:
             z: -85
   21st_hall:
     name: "21st Hall"
-    start_owners: ""
     max_cap: 7
     start_amount: 0
     progress_amount: 10
@@ -16163,7 +16159,6 @@ Toucan_Moria:
             z: 10
   crossroads:
     name: "Crossroads"
-    start_owners: ""
     max_cap: 7
     start_amount: 0
     progress_amount: 10
@@ -16342,7 +16337,6 @@ Toucan_Moria:
             z: 17
   mithril_lodes:
     name: "Mithril Lodes"
-    start_owners: ""
     max_cap: 7
     start_amount: 0
     progress_amount: 10
@@ -16521,7 +16515,6 @@ Toucan_Moria:
             z: 7
   long_deep:
     name: "Long Deep"
-    start_owners: ""
     max_cap: 7
     start_amount: 0
     progress_amount: 10
@@ -16700,7 +16693,6 @@ Toucan_Moria:
             z: -28
   hollin_cave:
     name: "Hollin Cave"
-    start_owners: ""
     max_cap: 7
     start_amount: 0
     progress_amount: 10

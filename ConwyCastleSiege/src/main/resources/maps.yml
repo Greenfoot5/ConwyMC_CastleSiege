@@ -590,7 +590,7 @@ Toucan_Moria:
           x: 213
           y: 5
           z: -13
-          yaw: -90
+          yaw: 90
           pitch: -3
         woolmap:
           hollin_gate:
