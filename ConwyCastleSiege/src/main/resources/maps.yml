@@ -1066,3 +1066,177 @@ RoyalCrypts:
               y: 10
               z: 861
             sign_direction: west
+Toucan_Moria:
+  world: "toucan_moria"
+  name: "Moria"
+  start_time: 0
+  doDaylightCycle: true
+  gamemode: "Assault"
+  duration:
+    minutes: 40
+    seconds: 0
+  teams:
+    Defenders:
+      name: "The Dwarves"
+      primary_color: "orange"
+      secondary_color: "yellow"
+      lobby:
+        spawn_point:
+          x: 217
+          y: 5
+          z: -88
+          yaw: 91
+          pitch: -2
+        woolmap:
+          hollin_gate:
+            flag_name: "Hollin Gate"
+            wool_position:
+              x: 201
+              y: 10
+              z: -81
+            sign_direction: east
+          hollin_cave:
+            flag_name: "Hollin Cave"
+            wool_position:
+              x: 201
+              y: 11
+              z: -84
+            sign_direction: east
+          long_deep:
+            flag_name: "Long Deep"
+            wool_position:
+              x: 201
+              y: 9
+              z: -85
+            sign_direction: east
+          crossroads:
+            flag_name: "Crossroads"
+            wool_position:
+              x: 201
+              y: 9
+              z: -87
+            sign_direction: east
+          21st_hall:
+            flag_name: "21st Hall"
+            wool_position:
+              x: 201
+              y: 10
+              z: -88
+            sign_direction: east
+          balins_tomb:
+            flag_name: "Balin's Tomb"
+            wool_position:
+              x: 201
+              y: 11
+              z: -89
+            sign_direction: east
+          stairs:
+            flag_name: "Stairs"
+            wool_position:
+              x: 201
+              y: 11
+              z: -92
+            sign_direction: east
+          2nd_hall:
+            flag_name: "2nd Hall"
+            wool_position:
+              x: 201
+              y: 7
+              z: -92
+            sign_direction: east
+          durins_bridge:
+            flag_name: "Durin's Bridge"
+            wool_position:
+              x: 201
+              y: 9
+              z: -96
+            sign_direction: east
+          dimrill_gate:
+            flag_name: "Dimrill Gate"
+            wool_position:
+              x: 201
+              y: 9
+              z: -99
+            sign_direction: east
+    Attackers:
+      name: "The Orcs"
+      primary_color: "dark_green"
+      secondary_color: "light_green"
+      lobby:
+        spawn_point:
+          x: -215
+          y: 5
+          z: -13
+          yaw: -90
+          pitch: -3
+        woolmap:
+          hollin_gate:
+            flag_name: "Hollin Gate"
+            wool_position:
+              x: 201
+              y: 10
+              z: -6
+            sign_direction: east
+          hollin_cave:
+            flag_name: "Hollin Cave"
+            wool_position:
+              x: 201
+              y: 11
+              z: -9
+            sign_direction: east
+          long_deep:
+            flag_name: "Long Deep"
+            wool_position:
+              x: 201
+              y: 9
+              z: -10
+            sign_direction: east
+          crossroads:
+            flag_name: "Crossroads"
+            wool_position:
+              x: 201
+              y: 9
+              z: -12
+            sign_direction: east
+          21st_hall:
+            flag_name: "21st Hall"
+            wool_position:
+              x: 201
+              y: 10
+              z: -13
+            sign_direction: east
+          balins_tomb:
+            flag_name: "Balin's Tomb"
+            wool_position:
+              x: 201
+              y: 11
+              z: -14
+            sign_direction: east
+          stairs:
+            flag_name: "Stairs"
+            wool_position:
+              x: 201
+              y: 11
+              z: -17
+            sign_direction: east
+          2nd_hall:
+            flag_name: "2nd Hall"
+            wool_position:
+              x: 201
+              y: 7
+              z: -17
+            sign_direction: east
+          durins_bridge:
+            flag_name: "Durin's Bridge"
+            wool_position:
+              x: 201
+              y: 9
+              z: -21
+            sign_direction: east
+          dimrill_gate:
+            flag_name: "Dimrill Gate"
+            wool_position:
+              x: 201
+              y: 9
+              z: -24
+            sign_direction: east
