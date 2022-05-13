@@ -69,12 +69,6 @@ commands:
   Vanish:
     description: Vanish into the void!
     usage: /Vanish
-  Unsessionmute:
-    description: Un-sessionmutes the player.
-    usage: /Unsessionmute
-  sessionmute:
-    description: Session mute the player.
-    usage: /sessionmute
 
   # Chat
   Message:

@@ -91,16 +91,18 @@ public class Punishments {
     }
 
     /**
-     * Unban a player
+     * End a player's punishment
      * @param name The name of the player
+     * @param type The type of punishment to end
      * @throws SQLException If something goes wrong executing the insert
      */
-    public static void unban(String name) throws SQLException {
+    public static void end(String name, String type) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE punishments SET end = ? WHERE end > ? AND name = ? ");
+                "UPDATE punishments SET end = ? WHERE end > ? AND name = ? AND type = ?");
         ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
         ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
         ps.setString(3, name);
+        ps.setString(4, type);
 
         ps.executeUpdate();
         ps.close();

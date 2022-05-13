@@ -183,6 +183,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("KickAll")).setExecutor(new KickAll());
                 Objects.requireNonNull(getCommand("Mute")).setExecutor(new Mute());
                 Objects.requireNonNull(getCommand("Unban")).setExecutor(new Unban());
+                Objects.requireNonNull(getCommand("Unmute")).setExecutor(new Unmute());
 
                 // Staff
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
@@ -225,13 +226,8 @@ public class Main extends JavaPlugin implements Listener {
                 boatEvent.spawnBoat();
 
                 // OLD EVENTS
-                getServer().getPluginManager().registerEvents(new SessionMuteCommand(), plugin);
 
                 //getServer().getPluginManager().registerEvents(new Herugrim(), plugin);
-
-                getCommand("sessionmute").setExecutor(new SessionMuteCommand());
-
-                getCommand("Unsessionmute").setExecutor(new UnsessionmuteCommand());
 
 
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);
