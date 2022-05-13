@@ -190,11 +190,22 @@ public class Flag {
             currentOwners = getLargestTeam();
         }
 
-        // If the game mode is Charge, you can't recap a flag
+        // If the game mode is Charge,
         if (MapController.getCurrentMap().gamemode.equals(Gamemode.Charge)) {
+            // You can't recap a flag
             if (!Objects.equals(startingTeam, currentOwners)) {
                 if (!Objects.equals(currentOwners, getLargestTeam()))
                     return;
+            }
+
+            // You can't cap the next flag until the previous is capped
+            Flag[] flags = MapController.getCurrentMap().flags;
+            for (int i = 0; i < flags.length; i++) {
+                if (Objects.equals(flags[i].name, name)) {
+                    if (!Objects.equals(flags[i - 1].currentOwners, getLargestTeam())) {
+                        return;
+                    }
+                }
             }
         }
 

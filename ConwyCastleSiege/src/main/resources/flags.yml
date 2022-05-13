@@ -3779,6 +3779,7 @@ Thunderstone:
 # Elwynn #
 ##########
 
+# NOTE - As Elwynn is a Charge game mode, the flags are placed in capture order
 Elwynn:
   black_rock_camp:
     name: "Blackrock Camp"
