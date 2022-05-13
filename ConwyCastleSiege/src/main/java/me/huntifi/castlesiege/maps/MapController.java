@@ -24,9 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 import static org.bukkit.Bukkit.*;
 
@@ -43,7 +41,19 @@ public class MapController implements CommandExecutor {
 	 * Begins the map loop
 	 */
 	public static void startLoop() {
+		List<Map> shuffledMaps = Arrays.asList(maps);
+		Collections.shuffle(shuffledMaps);
+		maps = shuffledMaps.toArray(new Map[maps.length]);
 		loadMap();
+	}
+
+	public static Map getUnplayedMap(String mapName) {
+		for (int i = mapIndex; i < maps.length; i++) {
+			if (Objects.equals(maps[i].name, mapName)) {
+				return maps[i];
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -73,7 +83,7 @@ public class MapController implements CommandExecutor {
 	public static void endMap() {
 		timer.hasGameEnded = true;
 
-		// Calculate the winner based on the gamemode
+		// Calculate the winner based on the game mode
 		String winners;
 		switch(getCurrentMap().gamemode) {
 			case Control:
@@ -212,6 +222,13 @@ public class MapController implements CommandExecutor {
 	 * Does any unloading needed for the current map
 	 */
 	public static void unloadMap(String worldName) {
+		InCombat.clearCombat();
+		MVPStats.reset();
+
+		for (Flag flag : getCurrentMap().flags) {
+			flag.clear();
+		}
+
 		for (Map map:maps) {
 			if (Objects.equals(map.worldName, worldName)) {
 				for (Team team:map.teams) {

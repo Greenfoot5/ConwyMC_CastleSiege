@@ -51,7 +51,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
      * Set the equipment and attributes of this kit
      */
     public FireArcher() {
-        super("FireArcher", 105);
+        super("Fire Archer", 105);
 
         // Equipment stuff
         EquipmentSet es = new EquipmentSet();
@@ -141,7 +141,13 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
             return true;
         }
 
-        super.addPlayer(((Player) commandSender).getUniqueId());
+        Player player = (Player) commandSender;
+
+        if (ActiveData.getData(player.getUniqueId()).hasVote("kits")) {
+            super.addPlayer(player.getUniqueId());
+        } else {
+            player.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You need to vote to use this kit!");
+        }
         return true;
     }
 

@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -94,7 +95,13 @@ public class Ladderman extends Kit implements Listener, CommandExecutor {
             return true;
         }
 
-        super.addPlayer(((Player) commandSender).getUniqueId());
+        Player player = (Player) commandSender;
+
+        if (ActiveData.getData(player.getUniqueId()).hasVote("kits")) {
+            super.addPlayer(player.getUniqueId());
+        } else {
+            player.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You need to vote to use this kit!");
+        }
         return true;
     }
 

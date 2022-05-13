@@ -10,13 +10,15 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 /**
- * Skips to the next map
+ * Skips maps to another one
  */
-public class NextMapCommand implements CommandExecutor {
+public class SetMapCommand implements CommandExecutor {
 
 	/**
-	 * Skip to the next map
+	 * Skip ahead to a specified map in the cycle
 	 * @param sender Source of the command
 	 * @param cmd Command which was executed
 	 * @param label Alias of the command which was used
@@ -25,16 +27,23 @@ public class NextMapCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		String mapName = String.join(" ", args);
+		if (MapController.getUnplayedMap(mapName) == null) {
+			sender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "That isn't a valid map or has already been played this restart!");
+			return true;
+		}
+
 		if(sender instanceof Player) {
 			Player p = (Player) sender;
+			MapController.setMap(mapName);
 			Bukkit.getServer().broadcastMessage(
-					p.getDisplayName() + ChatColor.YELLOW + " has skipped to the next map!");
-			MapController.endMap();
+					p.getDisplayName() + ChatColor.YELLOW + " has set the map to " + mapName + "!");
+
 
 		} else if (sender instanceof ConsoleCommandSender) {
+			MapController.setMap(mapName);
 			Bukkit.getServer().broadcastMessage(
-					ChatColor.DARK_AQUA + "Console" + ChatColor.YELLOW + " has skipped to the next map!");
-			MapController.endMap();
+					ChatColor.DARK_AQUA + "Console" + ChatColor.YELLOW + " has set the map to " + mapName + "!");
 		}
 
 		return true;

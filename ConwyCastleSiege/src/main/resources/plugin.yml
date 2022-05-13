@@ -197,6 +197,16 @@ commands:
     usage: /nextmap
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
+  SetMap:
+    description: Skips to the specified map in the rotation
+    usage: /setmap <map name>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  SetTimer:
+    description: Sets the time left on the map to the specified time
+    usage: /settimer <mins> <seconds>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
   StaffChat:
     description: Talk in staff-chat
     usage: /s <message>
