@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.chat;
 
 import me.huntifi.castlesiege.commands.staff.StaffChat;
+import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
@@ -39,7 +40,12 @@ public class TeamChat implements CommandExecutor {
 			return true;
 		}
 
+		// Check if the player is muted
 		Player p = (Player) sender;
+		if (Mute.isMuted(p.getUniqueId())) {
+			return true;
+		}
+
 		if (args.length == 0) {
 			toggleTeamChat(p);
 		} else {

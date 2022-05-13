@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.commands.chat;
 import java.util.HashMap;
 import java.util.Objects;
 
+import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -62,6 +63,11 @@ public class PrivateMessage implements CommandExecutor {
 	 * @param m The message that is sent
 	 */
 	public void sendMessage(CommandSender s, CommandSender r, String m) {
+		// Check if the player is muted
+		if (s instanceof Player && Mute.isMuted(((Player) s).getUniqueId())) {
+			return;
+		}
+
 		// Get team colors
 		Enum<ChatColor> sColor = getTeamColor(s);
 		Enum<ChatColor> rColor = getTeamColor(r);

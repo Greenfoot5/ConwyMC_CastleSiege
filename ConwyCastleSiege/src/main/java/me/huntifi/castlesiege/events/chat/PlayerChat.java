@@ -2,12 +2,18 @@ package me.huntifi.castlesiege.events.chat;
 
 import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
+import me.huntifi.castlesiege.commands.staff.punishments.Mute;
+import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+import java.sql.Timestamp;
 
 /**
  * Customises a player's chat message
@@ -22,6 +28,12 @@ public class PlayerChat implements Listener {
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
+
+		// Check if the player is muted
+		if (Mute.isMuted(p.getUniqueId())) {
+			e.setCancelled(true);
+			return;
+		}
 
 		// Send message in team-chat or staff-chat
 		if (TeamChat.isTeamChatter(p.getUniqueId())) {

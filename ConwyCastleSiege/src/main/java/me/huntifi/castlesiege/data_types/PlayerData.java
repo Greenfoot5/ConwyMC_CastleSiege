@@ -2,12 +2,16 @@ package me.huntifi.castlesiege.data_types;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 /**
  * Represents a player's data
  */
 public class PlayerData {
+
+    private Tuple<String, Timestamp> mute;
 
     private double score;
     private double kills;
@@ -36,7 +40,9 @@ public class PlayerData {
      * @param rankData The data retrieved from player_rank
      * @throws SQLException If the columns don't match up
      */
-    public PlayerData(ResultSet statsData, ResultSet rankData, HashMap<String, Long> votes) throws SQLException {
+    public PlayerData(ResultSet mute, ResultSet statsData, ResultSet rankData, HashMap<String, Long> votes) throws SQLException {
+        this.mute = mute.next() ? new Tuple<>(mute.getString("reason"), mute.getTimestamp("end")) : null;
+
         this.score = statsData.getDouble("score");
         this.kills = statsData.getDouble("kills");
         this.deaths = statsData.getDouble("deaths");
@@ -72,6 +78,27 @@ public class PlayerData {
         this.assists = 0;
         this.killStreak = 0;
         this.coins = 0;
+    }
+
+    /**
+     * Get the player's current mute
+     * @return The player's mute reason and expire timestamp, null if not muted
+     */
+    public Tuple<String, Timestamp> getMute() {
+        return mute;
+    }
+
+    /**
+     * Set the player's mute
+     * @param reason The reason for the mute
+     * @param end The end of the mute
+     */
+    public void setMute(String reason, Timestamp end) {
+        if (reason == null || end == null) {
+            mute = null;
+        } else {
+            mute = new Tuple<>(reason, end);
+        }
     }
 
     /**

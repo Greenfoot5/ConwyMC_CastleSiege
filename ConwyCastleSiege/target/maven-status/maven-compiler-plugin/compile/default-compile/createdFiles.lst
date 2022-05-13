@@ -2,6 +2,7 @@ me\huntifi\castlesiege\kits\items\ItemCreator.class
 me\huntifi\castlesiege\kits\kits\Engineer$1.class
 me\huntifi\castlesiege\kits\kits\Kit$1.class
 me\huntifi\castlesiege\commands\staff\punishments\KickAll.class
+me\huntifi\castlesiege\commands\staff\punishments\Mute.class
 me\huntifi\castlesiege\kits\gui\SelectorKitGUI.class
 me\huntifi\castlesiege\kits\kits\Skirmisher.class
 me\huntifi\castlesiege\maps\objects\Door$1.class
@@ -70,6 +71,7 @@ me\huntifi\castlesiege\database\UpdateStats.class
 me\huntifi\castlesiege\maps\objects\Gate.class
 me\huntifi\castlesiege\kits\kits\Warhound.class
 me\huntifi\castlesiege\commands\gameplay\SuicideCommand.class
+me\huntifi\castlesiege\commands\staff\punishments\Mute$1.class
 me\huntifi\castlesiege\events\combat\InCombat$1.class
 me\huntifi\castlesiege\Helmsdeep\rams\MainGateRam.class
 me\huntifi\castlesiege\commands\info\MyStatsCommand.class
@@ -85,6 +87,7 @@ me\huntifi\castlesiege\events\connection\PlayerConnect.class
 me\huntifi\castlesiege\Thunderstone\Gate\ThunderstoneGateDestroyEvent$1.class
 me\huntifi\castlesiege\commands\info\RulesCommand.class
 me\huntifi\castlesiege\commands\staff\ToggleRankCommand.class
+me\huntifi\castlesiege\commands\staff\punishments\PunishmentTime.class
 me\huntifi\castlesiege\kits\kits\Maceman.class
 me\huntifi\castlesiege\events\death\DeathEvent$1.class
 me\huntifi\castlesiege\maps\objects\Flag.class

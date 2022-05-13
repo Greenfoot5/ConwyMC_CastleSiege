@@ -23,6 +23,9 @@ public class LoadData {
      */
     public static PlayerData load(UUID uuid) {
         try {
+            // Mute data
+            Tuple<PreparedStatement, ResultSet> prMute = Punishments.getActive(uuid, "mute");
+
             // Stats data
             createEntry(uuid, "player_stats");
             Tuple<PreparedStatement, ResultSet> prStats = getData(uuid, "player_stats");
@@ -36,7 +39,8 @@ public class LoadData {
             HashMap<String, Long> votes = getVotes(uuid);
 
             // Collect data and release resources
-            PlayerData data = new PlayerData(prStats.getSecond(), prRank.getSecond(), votes);
+            PlayerData data = new PlayerData(prMute.getSecond(), prStats.getSecond(), prRank.getSecond(), votes);
+            prMute.getFirst().close();
             prStats.getFirst().close();
             prRank.getFirst().close();
 

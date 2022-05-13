@@ -66,12 +66,6 @@ commands:
   Gma:
     description: Change your game mode to adventure.
     usage: /Gma
-  Mute:
-    description: Mute a player!
-    usage: /Mute
-  Unmute:
-    description: Unmute a muted player!
-    usage: /Unmute
   Vanish:
     description: Vanish into the void!
     usage: /Vanish
@@ -162,10 +156,20 @@ commands:
     usage: /kickall <reason>
     permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
+  Mute:
+    description: Mute a player
+    usage: /mute <player> <time> <reason>
+    permission: castlesiege.chatmod
+    permission-message: You are not permitted to use this command!
   Unban:
     description: Unban a banned player
     usage: /unban <player>
     permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  Unmute:
+    description: Unmute a muted player
+    usage: /unmute <player>
+    permission: castlesiege.chatmod
     permission-message: You are not permitted to use this command!
 
   # Staff - ...

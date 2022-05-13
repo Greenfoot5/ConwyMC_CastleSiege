@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.events.connection;
 
+import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.*;
@@ -56,14 +57,13 @@ public class PlayerConnect implements Listener {
      * @param e The event called when a player attempts to join the server
      * @throws SQLException If something goes wrong executing a query
      */
-    // TODO - Load other punishment data and actively store them?
     @EventHandler
     public void preLogin(AsyncPlayerPreLoginEvent e) throws SQLException {
         Tuple<String, Timestamp> banned = getBan(e.getUniqueId(), e.getAddress());
         if (banned != null) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
                     ChatColor.DARK_RED + "\n[BAN] " + ChatColor.RED + banned.getFirst()
-                            + ChatColor.DARK_RED + "\n[EXPIRES IN] " + ChatColor.RED + getExpire(banned.getSecond()));
+                            + ChatColor.DARK_RED + "\n[EXPIRES IN] " + ChatColor.RED + PunishmentTime.getExpire(banned.getSecond()));
             return;
         }
 
@@ -80,7 +80,7 @@ public class PlayerConnect implements Listener {
      */
     private Tuple<String, Timestamp> getBan(UUID uuid, InetAddress ip) throws SQLException {
         // Check all ban records for this uuid to see if one is still active
-        Tuple<PreparedStatement, ResultSet> prUUID = Punishments.getBan(uuid);
+        Tuple<PreparedStatement, ResultSet> prUUID = Punishments.getActive(uuid, "ban");
         Tuple<String, Timestamp> uuidBan = checkBan(prUUID.getSecond());
         prUUID.getFirst().close();
         if (uuidBan != null) {
@@ -105,47 +105,6 @@ public class PlayerConnect implements Listener {
             return new Tuple<>(rs.getString("reason"), rs.getTimestamp("end"));
         }
         return null;
-    }
-
-    /**
-     * Get a string representation of the remaining ban duration
-     * @param end The ban's end time
-     * @return The ban's remaining duration
-     */
-    private String getExpire(Timestamp end) {
-        long duration = (end.getTime() - System.currentTimeMillis()) / 1000;
-
-        if (duration >= 60) {
-            duration /= 60;
-        } else {
-            return duration + " second(s)";
-        }
-
-        if (duration >= 60) {
-            duration /= 60;
-        } else {
-            return duration + " minute(s)";
-        }
-
-        if (duration >= 24) {
-            duration /= 24;
-        } else {
-            return duration + " hour(s)";
-        }
-
-        if (duration >= 30.42) {
-            duration /= 30.42;
-        } else {
-            return duration + " day(s)";
-        }
-
-        if (duration >= 12) {
-            duration /= 12;
-        } else {
-            return duration + " month(s)";
-        }
-
-        return new DecimalFormat("0").format(duration) + " year(s)";
     }
 
     /**
