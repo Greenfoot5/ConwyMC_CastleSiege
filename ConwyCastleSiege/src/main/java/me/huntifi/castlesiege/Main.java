@@ -498,10 +498,19 @@ public class Main extends JavaPlugin implements Listener {
             // Create the flag
             Route flagRoute = mapRoute.add(flagPaths[i]);
             String name = getFlagsConfig().getString(flagRoute.add("name"));
-            Flag flag = new Flag(name,
-                    getFlagsConfig().getString(flagRoute.add("start_owners")),
-                    getFlagsConfig().getInt(flagRoute.add("max_cap")),
-                    getFlagsConfig().getInt(flagRoute.add("progress_amount")));
+            Flag flag;
+            if (getFlagsConfig().contains(flagRoute.add("start_amount"))) {
+                flag = new Flag(name,
+                        getFlagsConfig().getString(flagRoute.add("start_owners")),
+                        getFlagsConfig().getInt(flagRoute.add("max_cap")),
+                        getFlagsConfig().getInt(flagRoute.add("progress_amount")),
+                        getFlagsConfig().getInt(flagRoute.add("start_amount")));
+            } else {
+                flag = new Flag(name,
+                        getFlagsConfig().getString(flagRoute.add("start_owners")),
+                        getFlagsConfig().getInt(flagRoute.add("max_cap")),
+                        getFlagsConfig().getInt(flagRoute.add("progress_amount")));
+            }
 
             // Set the spawn point
             flag.spawnPoint = new Location(Bukkit.getWorld(map.worldName),
@@ -663,7 +672,7 @@ public class Main extends JavaPlugin implements Listener {
             // Create the gate
             Route gateRoute = mapRoute.add(gatePaths[i]);
             Gate gate = new Gate(getGatesConfig().getString(gateRoute.add("display_name")));
-            gate.setFlagName(getGatesConfig().getString(gateRoute.add("flag_name")));
+            gate.setFlagName(getGatesConfig().getString(gateRoute.add("flag_name")), map.name);
             gate.setHealth(getGatesConfig().getInt(gateRoute.add("start_health")));
 
             gate.setHitBox(getGatesConfig().getAs(gateRoute.add("min"), Vector.class),

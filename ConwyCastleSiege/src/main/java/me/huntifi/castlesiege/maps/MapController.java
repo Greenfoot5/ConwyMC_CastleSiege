@@ -191,7 +191,6 @@ public class MapController implements CommandExecutor {
 		// Register gates
 		for (Gate gate : maps[mapIndex].gates) {
 			Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
-			System.out.println("Registered gate " + gate.getName());
 		}
 
 		// Register the woolmap clicks

@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.maps.objects;
 
 import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.util.Direction;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.maps.MapController;
@@ -27,6 +28,7 @@ import java.util.UUID;
 public class Gate implements Listener {
     private final String name;
     private String flagName;
+    private String mapName;
 
     private Vector min;
     private Vector max;
@@ -38,6 +40,10 @@ public class Gate implements Listener {
     private boolean isBreached;
 
     private final ArrayList<UUID> recentHitters = new ArrayList<>();
+
+    // Ram data
+    private Direction direction = Direction.WEST;
+    private int ramIndex = 0;
 
     /**
      * Creates a new gate
@@ -55,8 +61,9 @@ public class Gate implements Listener {
     /**
      * @param flagName The name of the flag the gate belongs to. Stops friendlies from breaking the gate
      */
-    public void setFlagName(String flagName) {
+    public void setFlagName(String flagName, String mapName) {
         this.flagName = flagName;
+        this.mapName = mapName;
     }
 
     /**
@@ -66,7 +73,6 @@ public class Gate implements Listener {
     public void setHitBox(Vector min, Vector max) {
         this.min = min;
         this.max = max;
-        System.out.println("Hit box min: " + min);
     }
 
     /**
@@ -126,7 +132,7 @@ public class Gate implements Listener {
         Player player = event.getPlayer();
         Flag flag = MapController.getCurrentMap().getFlag(flagName);
         // Make sure the player is playing, and the flag is on the correct map
-        if (flag != null) {
+        if (flag != null && Objects.equals(mapName, MapController.getCurrentMap().name)) {
 
             // Check the player is left-clicking and the gate isn't friendly
             if(!Objects.equals(MapController.getCurrentMap().getTeam(player.getUniqueId()).name, flag.getCurrentOwners())

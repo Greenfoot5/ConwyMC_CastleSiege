@@ -17,7 +17,6 @@ public class Timer {
 		seconds = startSeconds;
 		startTimer();
 	}
-
 	public void startTimer() {
 
 		new BukkitRunnable() {
@@ -30,7 +29,7 @@ public class Timer {
 				else if (seconds == 0) {
 					minutes--;
 					seconds = 59;
-				} else if ((minutes == 0 && seconds == 1) || minutes <= 0) {
+				} else if ((minutes == 0 && seconds <= 1) || minutes < 0) {
 					minutes = 0;
 					seconds = 0;
 					hasGameEnded = true;

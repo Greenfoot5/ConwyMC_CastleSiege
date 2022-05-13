@@ -74,6 +74,25 @@ public class Flag {
     }
 
     /**
+     * Creates a new flag with a different start_amount
+     * @param name the name of the flag
+     * @param startingTeam the team that controls the flag at the beginning of the game
+     * @param maxCapValue the maximum animation amount
+     * @param progressAmount How much progress is made by a single person
+     */
+    public Flag(String name, String startingTeam, int maxCapValue, int progressAmount, int startAmount) {
+        this.name = name;
+        this.currentOwners = startingTeam;
+        this.startingTeam = startingTeam;
+        this.maxCap = maxCapValue;
+        animationIndex = startAmount;
+        this.progressAmount = progressAmount;
+        this.players = new ArrayList<>();
+        progress = progressMultiplier * startAmount;
+        isRunning = new AtomicInteger(0);
+    }
+
+    /**
      * Gets the message to send to the user when they spawn in
      * @return the message to send
      */
@@ -326,7 +345,7 @@ public class Flag {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
                 String team = MapController.getCurrentMap().getTeam(uuid).name;
-                if (currentOwners.equals(team)) {
+                if (team.equals(currentOwners)) {
                     counts.setFirst(counts.getFirst() + 1);
                 } else {
                     counts.setSecond(counts.getSecond() + 1);
