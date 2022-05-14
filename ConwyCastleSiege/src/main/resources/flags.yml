@@ -4987,19 +4987,19 @@ Elwynn:
             z: 164
         secondary_blocks:
           - "==": Vector
-            x: -19
+            x: -197
             y: 76
             z: 164
           - "==": Vector
-            x: -18
+            x: -196
             y: 75
             z: 164
           - "==": Vector
-            x: -17
+            x: -195
             y: 75
             z: 164
           - "==": Vector
-            x: -16
+            x: -194
             y: 76
             z: 164
       1:
@@ -5023,19 +5023,19 @@ Elwynn:
             z: 164
         secondary_blocks:
           - "==": Vector
-            x: -19
+            x: -197
             y: 77
             z: 164
           - "==": Vector
-            x: -18
+            x: -196
             y: 76
             z: 164
           - "==": Vector
-            x: -17
+            x: -195
             y: 76
             z: 164
           - "==": Vector
-            x: -16
+            x: -194
             y: 77
             z: 164
       2:
@@ -5059,19 +5059,19 @@ Elwynn:
             z: 164
         secondary_blocks:
           - "==": Vector
-            x: -19
+            x: -197
             y: 78
             z: 164
           - "==": Vector
-            x: -18
+            x: -196
             y: 77
             z: 164
           - "==": Vector
-            x: -17
+            x: -195
             y: 77
             z: 164
           - "==": Vector
-            x: -16
+            x: -194
             y: 78
             z: 164
       3:
@@ -5095,19 +5095,19 @@ Elwynn:
             z: 164
         secondary_blocks:
           - "==": Vector
-            x: -19
+            x: -197
             y: 79
             z: 164
           - "==": Vector
-            x: -18
+            x: -196
             y: 78
             z: 164
           - "==": Vector
-            x: -17
+            x: -195
             y: 78
             z: 164
           - "==": Vector
-            x: -16
+            x: -194
             y: 79
             z: 164
       4:
@@ -5131,19 +5131,19 @@ Elwynn:
             z: 164
         secondary_blocks:
           - "==": Vector
-            x: -19
+            x: -197
             y: 80
             z: 164
           - "==": Vector
-            x: -18
+            x: -196
             y: 79
             z: 164
           - "==": Vector
-            x: -17
+            x: -195
             y: 79
             z: 164
           - "==": Vector
-            x: -16
+            x: -194
             y: 80
             z: 164
       5:
@@ -5167,19 +5167,19 @@ Elwynn:
             z: 164
         secondary_blocks:
           - "==": Vector
-            x: -19
+            x: -197
             y: 81
             z: 164
           - "==": Vector
-            x: -18
+            x: -196
             y: 80
             z: 164
           - "==": Vector
-            x: -17
+            x: -195
             y: 80
             z: 164
           - "==": Vector
-            x: -16
+            x: -194
             y: 81
             z: 164
       6:
@@ -5207,15 +5207,15 @@ Elwynn:
             y: 82
             z: 164
           - "==": Vector
-            x: -18
+            x: -196
             y: 81
             z: 164
           - "==": Vector
-            x: -17
+            x: -195
             y: 81
             z: 164
           - "==": Vector
-            x: -16
+            x: -194
             y: 82
             z: 164
       7:
@@ -5243,15 +5243,15 @@ Elwynn:
             y: 83
             z: 164
           - "==": Vector
-            x: -18
+            x: -196
             y: 82
             z: 164
           - "==": Vector
-            x: -17
+            x: -195
             y: 82
             z: 164
           - "==": Vector
-            x: -16
+            x: -194
             y: 83
             z: 164
       8:
@@ -5279,15 +5279,15 @@ Elwynn:
             y: 84
             z: 164
           - "==": Vector
-            x: -18
+            x: -196
             y: 83
             z: 164
           - "==": Vector
-            x: -17
+            x: -195
             y: 83
             z: 164
           - "==": Vector
-            x: -16
+            x: -194
             y: 84
             z: 164
       9:
@@ -5315,15 +5315,15 @@ Elwynn:
             y: 85
             z: 164
           - "==": Vector
-            x: -18
+            x: -196
             y: 84
             z: 164
           - "==": Vector
-            x: -17
+            x: -195
             y: 84
             z: 164
           - "==": Vector
-            x: -16
+            x: -194
             y: 85
             z: 164
       10:
@@ -5351,15 +5351,15 @@ Elwynn:
             y: 86
             z: 164
           - "==": Vector
-            x: -18
+            x: -196
             y: 85
             z: 164
           - "==": Vector
-            x: -17
+            x: -195
             y: 85
             z: 164
           - "==": Vector
-            x: -16
+            x: -194
             y: 86
             z: 164
 
