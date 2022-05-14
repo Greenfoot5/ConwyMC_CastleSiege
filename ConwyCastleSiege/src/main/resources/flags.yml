@@ -8536,7 +8536,7 @@ Abrakhan:
     scoreboard: 2
     spawn_point:
       x: 116
-      y: 14
+      y: 15
       z: 69
       #yaw:-178
       #pitch:-2
@@ -10002,8 +10002,8 @@ Abrakhan:
       x: 111
       y: 54
       z: -82
-      yaw: 53
-      pitch: -1
+      yaw: 66
+      pitch: 1
     capture_area:
       type: "cuboid"
       min:
@@ -10379,7 +10379,7 @@ Abrakhan:
     scoreboard: 8
     spawn_point:
       x: 130
-      y: 53
+      y: 54
       z: -112
       yaw: 47
       pitch: 3
@@ -10728,8 +10728,8 @@ Abrakhan:
     scoreboard: 9
     spawn_point:
       x: 80
-      y: 58
-      z: -111
+      y: 59
+      z: -109
       yaw: 179
       pitch: 3
     capture_area:
@@ -11077,10 +11077,10 @@ Abrakhan:
     progress_amount: 4
     spawn_point:
       x: 101
-      y: 47
+      y: 48
       z: -95
-      yaw: -178
-      pitch: 2
+      yaw: -180
+      pitch: 0
     capture_area:
       type: "cuboid"
       min:
@@ -11713,7 +11713,7 @@ SoldiersPeak:
       x: 995
       y: 35
       z: 331
-      yaw: -158
+      yaw: 140
       pitch: 2
   soldier_maingate:
     name: "Main Gate"
@@ -12075,8 +12075,8 @@ SoldiersPeak:
       x: 957
       y: 43
       z: 175
-      yaw: -177
-      pitch: -2
+      yaw: 177
+      pitch: 1
     capture_area:
       type: "cuboid"
       min:
@@ -12424,7 +12424,7 @@ SoldiersPeak:
       x: 858
       y: 76
       z: 129
-      yaw: -132
+      yaw: -82
       pitch: -2
     capture_area:
       type: "cuboid"
@@ -12771,8 +12771,10 @@ SoldiersPeak:
     progress_amount: 5
     spawn_point:
       x: 908
-      y: 52
+      y: 53
       z: 124
+      yaw: 90
+      pitch: -1
     capture_area:
       type: "cuboid"
       min:
@@ -12945,9 +12947,9 @@ SoldiersPeak:
     scoreboard: 5
     spawn_point:
       x: 854
-      y: 57
+      y: 58
       z: 132
-      yaw: 179
+      yaw: -166
       pitch: 0
     capture_area:
       type: "cuboid"
@@ -13126,8 +13128,8 @@ SoldiersPeak:
       x: 904
       y: 67
       z: 128
-      yaw: 90
-      pitch: 4
+      yaw: 89
+      pitch: 2
     capture_area:
       type: "cuboid"
       min:
@@ -13305,8 +13307,8 @@ SoldiersPeak:
       x: 862
       y: 65
       z: 91
-      yaw: -88
-      pitch: -3
+      yaw: -12
+      pitch: 0
     capture_area:
       type: "cuboid"
       min:
@@ -13479,12 +13481,12 @@ SoldiersPeak:
     max_cap: 4
     start_amount: 4
     progress_amount: 5
-    scoreboard: 8
+    scoreboard: 9
     spawn_point:
       x: 901
       y: 132
       z: 93
-      yaw: 90
+      yaw: 52
       pitch: -1
     capture_area:
       type: "cuboid"
@@ -13643,7 +13645,7 @@ SoldiersPeak:
   arcane_tower:
     name: "Arcane Tower"
     start_owners: "The Wardens"
-    scoreboard: 9
+    scoreboard: 10
     max_cap: 5
     start_amount: 5
     progress_amount: 6
@@ -13651,7 +13653,7 @@ SoldiersPeak:
       x: 943
       y: 118
       z: 97
-      yaw: 128
+      yaw: 123
       pitch: 1
     capture_area:
       type: "cuboid"
@@ -13806,7 +13808,6 @@ SoldiersPeak:
             x: 966
             y: 126
             z: 87
-
 
 ###################
 # The Royal Crypts #
@@ -14651,7 +14652,7 @@ RoyalCrypts:
             y: 99
             z: 628
   bonelake:
-    name: "The Bonelake"
+    name: "Bonelake"
     start_owners: "Tomb Guardians"
     max_cap: 7
     start_amount: 7

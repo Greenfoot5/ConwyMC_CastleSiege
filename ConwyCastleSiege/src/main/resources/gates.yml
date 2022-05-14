@@ -81,3 +81,93 @@ SoldiersPeak:
         y: 42
         z: 189
     start_health: 400
+    ram:
+      direction:
+  entrance_gate:
+    display_name: "Keep Entrance"
+    flag_name: "Keep Entrance"
+    min:
+      ==: org.bukkit.util.Vector
+      x: 917
+      y: 52
+      z: 121
+    max:
+      ==: org.bukkit.util.Vector
+      x: 917
+      y: 59
+      z: 127
+    breach_sound:
+      ==: org.bukkit.util.Vector
+      x: 917
+      y: 52
+      z: 124
+    schematic:
+      name: "Soldiers_Peak_Entrance_Gate_Breached"
+      location:
+        ==: org.bukkit.util.Vector
+        x: 918
+        y: 52
+        z: 124
+    start_health: 800
+    ram:
+      direction:
+
+Abrakhan:
+  abrakhan_main_gate:
+    display_name: "Gatehouse"
+    flag_name: "Gatehouse"
+    min:
+      ==: org.bukkit.util.Vector
+      x: 92
+      y: 31
+      z: -18
+    max:
+      ==: org.bukkit.util.Vector
+      x: 94
+      y: 34
+      z: -18
+    breach_sound:
+      ==: org.bukkit.util.Vector
+      x: 93
+      y: 31
+      z: -18
+    schematic:
+      name: "Abrakhan_Gate_Breached"
+      location:
+        ==: org.bukkit.util.Vector
+        x: 93
+        y: 31
+        z: -16
+    start_health: 400
+    ram:
+      direction:
+
+Thunderstone:
+  stair_hall:
+    display_name: "Stair Hall"
+    flag_name: "Stair Hall"
+    min:
+      ==: org.bukkit.util.Vector
+      x: 157
+      y: 65
+      z: 65
+    max:
+      ==: org.bukkit.util.Vector
+      x: 157
+      y: 70
+      z: 69
+    breach_sound:
+      ==: org.bukkit.util.Vector
+      x: 157
+      y: 65
+      z: 67
+    schematic:
+      name: "Thunderstone_Breached"
+      location:
+        ==: org.bukkit.util.Vector
+        x: 156
+        y: 65
+        z: 67
+    start_health: 500
+    ram:
+      direction:
