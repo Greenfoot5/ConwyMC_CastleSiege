@@ -8536,7 +8536,7 @@ Abrakhan:
     scoreboard: 2
     spawn_point:
       x: 116
-      y: 14
+      y: 15
       z: 69
       #yaw:-178
       #pitch:-2
@@ -9992,7 +9992,7 @@ Abrakhan:
             y: 63
             z: -87
   abrakhan_inner_gatehouse:
-    name: "Inner Gatehouse"
+    name: "Inn. Gatehouse"
     start_owners: "Abrakhan Guard"
     max_cap: 8
     start_amount: 8
@@ -10002,8 +10002,8 @@ Abrakhan:
       x: 111
       y: 54
       z: -82
-      yaw: 53
-      pitch: -1
+      yaw: 66
+      pitch: 1
     capture_area:
       type: "cuboid"
       min:
@@ -10379,7 +10379,7 @@ Abrakhan:
     scoreboard: 8
     spawn_point:
       x: 130
-      y: 53
+      y: 54
       z: -112
       yaw: 47
       pitch: 3
@@ -10728,8 +10728,8 @@ Abrakhan:
     scoreboard: 9
     spawn_point:
       x: 80
-      y: 58
-      z: -111
+      y: 59
+      z: -109
       yaw: 179
       pitch: 3
     capture_area:
@@ -11077,10 +11077,10 @@ Abrakhan:
     progress_amount: 4
     spawn_point:
       x: 101
-      y: 47
+      y: 48
       z: -95
-      yaw: -178
-      pitch: 2
+      yaw: -180
+      pitch: 0
     capture_area:
       type: "cuboid"
       min:
@@ -13479,7 +13479,7 @@ SoldiersPeak:
     max_cap: 4
     start_amount: 4
     progress_amount: 5
-    scoreboard: 8
+    scoreboard: 9
     spawn_point:
       x: 901
       y: 132
@@ -13643,7 +13643,7 @@ SoldiersPeak:
   arcane_tower:
     name: "Arcane Tower"
     start_owners: "The Wardens"
-    scoreboard: 9
+    scoreboard: 10
     max_cap: 5
     start_amount: 5
     progress_amount: 6
@@ -13806,7 +13806,6 @@ SoldiersPeak:
             x: 966
             y: 126
             z: 87
-
 
 ###################
 # The Royal Crypts #
@@ -14651,7 +14650,7 @@ RoyalCrypts:
             y: 99
             z: 628
   bonelake:
-    name: "The Bonelake"
+    name: "Bonelake"
     start_owners: "Tomb Guardians"
     max_cap: 7
     start_amount: 7
