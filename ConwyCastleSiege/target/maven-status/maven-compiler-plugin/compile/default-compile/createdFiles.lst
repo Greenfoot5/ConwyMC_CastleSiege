@@ -29,6 +29,7 @@ me/huntifi/castlesiege/events/connection/PlayerConnect.class
 me/huntifi/castlesiege/events/combat/InCombat.class
 me/huntifi/castlesiege/Main$2.class
 me/huntifi/castlesiege/kits/kits/Shieldman.class
+me/huntifi/castlesiege/events/timed/Tips.class
 me/huntifi/castlesiege/kits/kits/Berserker.class
 me/huntifi/castlesiege/commands/info/MVPCommand.class
 me/huntifi/castlesiege/Helmsdeep/Secrets/Herugrim.class

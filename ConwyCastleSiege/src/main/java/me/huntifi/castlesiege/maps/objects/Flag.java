@@ -203,6 +203,13 @@ public class Flag {
             for (int i = 0; i < flags.length; i++) {
                 if (Objects.equals(flags[i].name, name)) {
                     if (!Objects.equals(flags[i - 1].currentOwners, getLargestTeam())) {
+                        for (UUID uuid : players)
+                        {
+                            if (!Objects.equals(MapController.getCurrentMap().getTeam(uuid).name, currentOwners)) {
+                                Objects.requireNonNull(Bukkit.getPlayer(uuid)).sendMessage(ChatColor.GOLD + "[!] "
+                                        + ChatColor.DARK_RED + "You must capture flags in order on this map, and the previous one doesn't belong to your team!");
+                            }
+                        }
                         return;
                     }
                 }

@@ -35,6 +35,7 @@ import me.huntifi.castlesiege.events.security.InventoryProtection;
 import me.huntifi.castlesiege.events.security.MapProtection;
 import me.huntifi.castlesiege.events.timed.ApplyRegeneration;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
+import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.kits.gui.FreeKitGUI;
 import me.huntifi.castlesiege.kits.gui.SelectorKitGUI;
 import me.huntifi.castlesiege.kits.gui.UnlockedKitGUI;
@@ -107,6 +108,9 @@ public class Main extends JavaPlugin implements Listener {
                 SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
                 // second param allows for ordering of handlers - see the JavaDocs
                 sessionManager.registerHandler(CaptureHandler.FACTORY, null);
+
+                // Tips
+                new Tips().runTaskTimer(plugin, Tips.TIME_BETWEEN_TIPS * 20L, Tips.TIME_BETWEEN_TIPS * 20L);
 
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
