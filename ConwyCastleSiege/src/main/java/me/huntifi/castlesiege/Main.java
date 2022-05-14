@@ -35,6 +35,7 @@ import me.huntifi.castlesiege.events.security.InventoryProtection;
 import me.huntifi.castlesiege.events.security.MapProtection;
 import me.huntifi.castlesiege.events.timed.ApplyRegeneration;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
+import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.kits.gui.FreeKitGUI;
 import me.huntifi.castlesiege.kits.gui.SelectorKitGUI;
@@ -49,11 +50,8 @@ import me.huntifi.castlesiege.maps.objects.CaptureHandler;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
-import me.huntifi.castlesiege.events.timed.Hunger;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -74,7 +72,7 @@ public class Main extends JavaPlugin implements Listener {
 
     public static MySQL SQL;
 
-    private YamlConfiguration mapsConfig;
+    private YamlDocument[] mapConfigs;
     private YamlDocument flagsConfig;
     private YamlDocument doorsConfig;
     private YamlDocument gatesConfig;
@@ -336,8 +334,17 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     // File Configuration
-    public YamlConfiguration getMapsConfig() {
-        return this.mapsConfig;
+    public YamlDocument getMapConfig(String name) {
+        for (YamlDocument config : mapConfigs) {
+            String[] mapPaths = getPaths(config, null);
+
+            for (String mapPath : mapPaths) {
+                if (config.getString(Route.from(mapPath).add("name")).equals(name)) {
+                    return config;
+                }
+            }
+        }
+        return null;
     }
 
     public YamlDocument getFlagsConfig() {
@@ -439,64 +446,83 @@ public class Main extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
-        // Load maps.yml with Spigot's yaml parser
-        File mapsFile = new File(getDataFolder(), "maps.yml");
-        if (!mapsFile.exists()) {
-            mapsFile.getParentFile().mkdirs();
-            saveResource("maps.yml", false);
+        // Add all config ymls from the maps foldr
+        File directoryPath = new File(String.valueOf(getDataFolder()), "maps");
+        // List of all files and directories
+        String[] contents = directoryPath.list();
+        assert contents != null;
+        mapConfigs = new YamlDocument[contents.length];
+        for (int i = 0; i < contents.length; i++) {
+            if (contents[i].endsWith(".yml")) {
+                try {
+                    mapConfigs[i] = YamlDocument.create(new File(directoryPath.getPath(), contents[i]),
+                            getClass().getResourceAsStream(contents[i]));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
-        mapsConfig = new YamlConfiguration();
-        try {
-            mapsConfig.load(mapsFile);
-        } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
+//        // Load maps.yml with Spigot's yaml parser
+//        File mapsFile = new File(getDataFolder(), "maps.yml");
+//        if (!mapsFile.exists()) {
+//            mapsFile.getParentFile().mkdirs();
+//            saveResource("maps.yml", false);
+//        }
+//
+//        mapsConfig = new YamlConfiguration();
+//        try {
+//            mapsConfig.load(mapsFile);
+//        } catch (IOException | InvalidConfigurationException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void loadMaps() {
         // Load the maps
-        java.util.Map<String, Object> stringObjectMap = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection("")).getValues(false);
-        String[] mapPaths = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
+        for (YamlDocument config : mapConfigs) {
+            // Probably shouldn't do this, but it makes it easier
+            if (config == null)
+                continue;
+            String[] mapPaths = getPaths(config, null);
 
-        MapController.maps = new Map[mapPaths.length];
-        for (int i = 0; i < mapPaths.length; i++) {
-            // Basic Map Details
-            Map map = new Map();
-            map.name = this.getMapsConfig().getString(mapPaths[i] + ".name");
-            map.worldName = this.getMapsConfig().getString(mapPaths[i] + ".world");
-            map.gamemode = Gamemode.valueOf(this.getMapsConfig().getString(mapPaths[i] + ".gamemode"));
+            for (String mapPath : mapPaths) {
+                // Basic Map Details
+                Map map = new Map();
+                Route mapRoute = Route.from(mapPath);
+                map.name = config.getString(mapRoute.add("name"));
+                map.worldName = config.getString(mapRoute.add("world"));
+                map.gamemode = Gamemode.valueOf(config.getString(mapRoute.add("gamemode")));
 
-            // World Data
-            createWorld(map.worldName);
+                // World Data
+                createWorld(map.worldName);
 
-            // Flag Data
-            loadFlags(mapPaths[i], map);
-            // Doors
-            loadDoors(mapPaths[i], map);
-            // Gates
-            loadGates(mapPaths[i], map);
+                // Flag Data
+                loadFlags(mapRoute, map);
+                // Doors
+                loadDoors(mapRoute, map);
+                // Gates
+                loadGates(mapRoute, map);
 
-            // Team Data
-            java.util.Map<String, Object> stringObjectTeam = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection(mapPaths[i] + ".teams")).getValues(false);
-            String[] teamPaths = stringObjectTeam.keySet().toArray(new String[stringObjectTeam.size()]);
-            map.teams = new Team[teamPaths.length];
-            for (int j = 0; j < teamPaths.length; j++) {
-                String path = mapPaths[i] + ".teams." + teamPaths[j];
-                map.teams[j] = loadTeam(path, map);
+                // Team Data
+                String[] teamPaths = getPaths(config, Route.from(mapPath).add("teams"));
+                map.teams = new Team[teamPaths.length];
+                for (int j = 0; j < teamPaths.length; j++) {
+                    Route route = mapRoute.add("teams").add(teamPaths[j]);
+                    map.teams[j] = loadTeam(route, map, config);
+                }
+
+                // Timer data
+                map.duration = new Tuple<>(config.getInt(mapRoute.add("duration").add("minutes")),
+                        config.getInt(mapRoute.add("duration").add("minutes")));
+
+                // Save the map
+                MapController.maps.add(map);
             }
-
-            // Timer data
-            map.duration = new Tuple<>(this.getMapsConfig().getInt(mapPaths[i] + ".duration.minutes"),
-                    this.getMapsConfig().getInt(mapPaths[i] + ".duration.seconds"));
-
-            // Save the map
-            MapController.maps[i] = map;
         }
     }
 
-    private void loadFlags(String mapPath, Map map) {
-        Route mapRoute = Route.from(mapPath);
+    private void loadFlags(Route mapRoute, Map map) {
         String[] flagPaths = getPaths(getFlagsConfig(), mapRoute);
 
         map.flags = new Flag[flagPaths.length];
@@ -519,10 +545,7 @@ public class Main extends JavaPlugin implements Listener {
             }
 
             // Set the spawn point
-            flag.spawnPoint = new Location(Bukkit.getWorld(map.worldName),
-                    getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("x")),
-                    getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("y")),
-                    getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("z")));
+            flag.spawnPoint = getLocation(flagRoute.add("spawn_point"), map.worldName, flagsConfig);
 
             // Set the capture area
             Route captureRoute = flagRoute.add("capture_area");
@@ -561,46 +584,46 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
-    private Team loadTeam(String teamPath, Map map) {
-        String name = this.getMapsConfig().getString(teamPath + ".name");
+    private Team loadTeam(Route teamPath, Map map, YamlDocument config) {
+        String name = config.getString(teamPath.add("name"));
         Team team = new Team(name);
 
         // Colours
-        Tuple<Material, ChatColor> colors = getColors(Objects.requireNonNull(this.getMapsConfig().getString(teamPath + ".primary_color")).toLowerCase());
+        Tuple<Material, ChatColor> colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("primary_color")).toLowerCase()));
         team.primaryWool = colors.getFirst();
         team.primaryChatColor = colors.getSecond();
-        colors = getColors(Objects.requireNonNull(this.getMapsConfig().getString(teamPath + ".secondary_color")).toLowerCase());
+        colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("secondary_color")).toLowerCase()));
         team.secondaryWool = colors.getFirst();
         team.secondaryChatColor = colors.getSecond();
 
         // Setup lobby
-        team.lobby = loadLobby(teamPath + ".lobby", map);
+        team.lobby = loadLobby(teamPath.add("lobby"), map, config);
         return team;
     }
 
-    private Lobby loadLobby(String lobbyPath, Map map) {
+    private Lobby loadLobby(Route lobbyPath, Map map, YamlDocument config) {
         Lobby lobby = new Lobby();
-        lobby.spawnPoint = getLocation(lobbyPath + ".spawn_point", map.worldName);
-        lobby.woolmap = loadWoolMap(lobbyPath + ".woolmap", map);
+        lobby.spawnPoint = getLocation(lobbyPath.add("spawn_point"), map.worldName, config);
+        lobby.woolmap = loadWoolMap(lobbyPath.add("woolmap"), map, config);
         return lobby;
     }
 
-    private WoolMap loadWoolMap(String woolMapPath, Map map) {
+    private WoolMap loadWoolMap(Route woolMapPath, Map map, YamlDocument config) {
         WoolMap woolMap = new WoolMap();
-        java.util.Map<String, Object> stringObjectMap = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection(woolMapPath)).getValues(false);
-        String[] mapFlags = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
+        String[] mapFlags = getPaths(config, woolMapPath);
         woolMap.woolMapBlocks = new WoolMapBlock[mapFlags.length];
 
         // Loop through all the wool blocks
         for (int i = 0; i < mapFlags.length; i++) {
             WoolMapBlock block = new WoolMapBlock();
+            Route mapFlagRoute = woolMapPath.add(mapFlags[i]);
 
-            block.flagName = this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".flag_name");
-            block.blockLocation = getLocation(woolMapPath + "." + mapFlags[i] + ".wool_position", map.worldName);
+            block.flagName = config.getString(mapFlagRoute.add("flag_name"));
+            block.blockLocation = getLocation(mapFlagRoute.add("wool_position"), map.worldName, config);
             block.signLocation = block.blockLocation.clone();
 
             // Get the wall sign's direction
-            switch (Objects.requireNonNull(this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".sign_direction")).toLowerCase()) {
+            switch (Objects.requireNonNull(config.getString(mapFlagRoute.add("sign_direction")).toLowerCase())) {
                 case "east":
                     block.signLocation.add(1, 0, 0);
                     break;
@@ -623,8 +646,7 @@ public class Main extends JavaPlugin implements Listener {
         return woolMap;
     }
 
-    private void loadDoors(String mapPath, Map map) {
-        Route mapRoute = Route.from(mapPath);
+    private void loadDoors(Route mapRoute, Map map) {
         if (!getDoorsConfig().contains(mapRoute)) {
             map.doors = new Door[0];
             return;
@@ -665,8 +687,7 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
-    private void loadGates(String mapPath, Map map) {
-        Route mapRoute = Route.from(mapPath);
+    private void loadGates(Route mapRoute, Map map) {
         if (!getGatesConfig().contains(mapRoute)) {
             map.gates = new Gate[0];
             return;
@@ -692,7 +713,12 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private String[] getPaths(YamlDocument file, Route route) {
-        Set<String> set = file.getSection(route).getRoutesAsStrings(false);
+        Set<String> set;
+        if (route != null) {
+            set = file.getSection(route).getRoutesAsStrings(false);
+        } else {
+            set = file.getRoutesAsStrings(false);
+        }
         String[] paths = new String[set.size()];
         int index = 0;
         for (String str : set) {
@@ -701,12 +727,12 @@ public class Main extends JavaPlugin implements Listener {
         return paths;
     }
 
-    private Location getLocation(String locationPath, String worldName) {
-        int x = this.getMapsConfig().getInt(locationPath + ".x");
-        int y = this.getMapsConfig().getInt(locationPath + ".y");
-        int z = this.getMapsConfig().getInt(locationPath + ".z");
-        int yaw = this.getMapsConfig().getInt(locationPath + ".yaw", 90);
-        int pitch = this.getMapsConfig().getInt(locationPath + ".pitch", 0);
+    private Location getLocation(Route locationPath, String worldName, YamlDocument config) {
+        int x = config.getInt(locationPath.add("x"));
+        int y = config.getInt(locationPath.add("y"));
+        int z = config.getInt(locationPath.add("z"));
+        int yaw = config.getInt(locationPath.add("yaw"), 90);
+        int pitch = config.getInt(locationPath.add("pitch"), 0);
         return new Location(Bukkit.getServer().getWorld(worldName), x, y, z, yaw, pitch);
     }
 

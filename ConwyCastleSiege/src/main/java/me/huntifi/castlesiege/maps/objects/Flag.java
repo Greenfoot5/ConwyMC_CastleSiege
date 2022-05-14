@@ -423,6 +423,10 @@ public class Flag {
      */
     private synchronized void animate(boolean isCapUp, String teamName) {
 
+        if (MapController.hasMapEnded()) {
+            MapController.endMap();
+        }
+
         MapController.getCurrentMap().UpdateWoolMaps(name);
 
         new BukkitRunnable() {

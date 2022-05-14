@@ -106,6 +106,7 @@
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/commands/chat/TeamChat.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/commands/gameplay/SwitchCommand.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/maps/Team.java
+/Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/events/timed/Tips.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/Helmsdeep/Secrets/HelmsdeepSecretDoor.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/events/combat/HitMessage.java
 /Users/harvey/Developer/MC/ConwyMC_CastleSiege/ConwyCastleSiege/src/main/java/me/huntifi/castlesiege/events/security/InteractContainer.java

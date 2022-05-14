@@ -851,7 +851,7 @@ Elwynn:
   doDaylightCycle: true
   gamemode: "Charge"
   duration:
-    minutes: 30
+    minutes: 25
     seconds: 0
   teams:
     Defenders:

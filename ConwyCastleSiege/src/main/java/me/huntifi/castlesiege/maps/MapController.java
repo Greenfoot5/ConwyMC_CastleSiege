@@ -33,7 +33,7 @@ import static org.bukkit.Bukkit.*;
  */
 public class MapController implements CommandExecutor {
 
-	public static Map[] maps;
+	public static List<Map> maps = new ArrayList<>();
 	public static int mapIndex = 0;
 	public static Timer timer;
 
@@ -41,16 +41,14 @@ public class MapController implements CommandExecutor {
 	 * Begins the map loop
 	 */
 	public static void startLoop() {
-		List<Map> shuffledMaps = Arrays.asList(maps);
-		Collections.shuffle(shuffledMaps);
-		maps = shuffledMaps.toArray(new Map[maps.length]);
+		Collections.shuffle(maps);
 		loadMap();
 	}
 
 	public static Map getUnplayedMap(String mapName) {
-		for (int i = mapIndex; i < maps.length; i++) {
-			if (Objects.equals(maps[i].name, mapName)) {
-				return maps[i];
+		for (int i = mapIndex; i < maps.size(); i++) {
+			if (Objects.equals(maps.get(i).name, mapName)) {
+				return maps.get(i);
 			}
 		}
 		return null;
@@ -61,9 +59,9 @@ public class MapController implements CommandExecutor {
 	 * @param mapName the name of the map to set the current map to
 	 */
 	public static void setMap(String mapName) {
-		String oldMap = maps[mapIndex].name;
-		for (int i = 0; i < maps.length; i++) {
-			if (Objects.equals(maps[i].name, mapName)) {
+		String oldMap = maps.get(mapIndex).name;
+		for (int i = 0; i < maps.size(); i++) {
+			if (Objects.equals(maps.get(i).name, mapName)) {
 				getLogger().info("Loading map - " + mapName);
 
 				mapIndex = i;
@@ -164,16 +162,16 @@ public class MapController implements CommandExecutor {
 	 * Increments the map by one
 	 */
 	private static void nextMap() {
-		String oldMap = maps[mapIndex].name;
+		String oldMap = maps.get(mapIndex).name;
 		if (finalMap()) {
 			getLogger().info("Completed map cycle! Restarting server...");
 			getServer().spigot().restart();
 		}
 		else {
 			mapIndex++;
-			getLogger().info("Loading next map: " + maps[mapIndex].name);
+			getLogger().info("Loading next map: " + maps.get(mapIndex).name);
 			loadMap();
-			if (!oldMap.equals(maps[mapIndex].name)) {
+			if (!oldMap.equals(maps.get(mapIndex).name)) {
 				unloadMap(oldMap);
 			}
 		}
@@ -187,24 +185,24 @@ public class MapController implements CommandExecutor {
 		Scoreboard.clearScoreboard();
 
 		// Register the flag regions
-		for (Flag flag : maps[mapIndex].flags) {
+		for (Flag flag : maps.get(mapIndex).flags) {
 			if (flag.region != null) {
-				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps[mapIndex].worldName))))).addRegion(flag.region);
+				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName))))).addRegion(flag.region);
 			}
 		}
 
 		// Register doors
-		for (Door door : maps[mapIndex].doors) {
+		for (Door door : maps.get(mapIndex).doors) {
 			Main.plugin.getServer().getPluginManager().registerEvents(door, Main.plugin);
 		}
 
 		// Register gates
-		for (Gate gate : maps[mapIndex].gates) {
+		for (Gate gate : maps.get(mapIndex).gates) {
 			Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
 		}
 
 		// Register the woolmap clicks
-		for (Team team : maps[mapIndex].teams) {
+		for (Team team : maps.get(mapIndex).teams) {
 			getServer().getPluginManager().registerEvents(team.lobby.woolmap, Main.plugin);
 		}
 
@@ -244,7 +242,7 @@ public class MapController implements CommandExecutor {
 	 * @return If mapName is the same as the current map
 	 */
 	public static Boolean currentMapIs(String mapName) {
-		return maps[mapIndex].name.equalsIgnoreCase(mapName);
+		return maps.get(mapIndex).name.equalsIgnoreCase(mapName);
 	}
 
 	/**
@@ -252,7 +250,7 @@ public class MapController implements CommandExecutor {
 	 * @return if the game is on the final map
 	 */
 	public static boolean finalMap() {
-		return mapIndex == maps.length - 1;
+		return mapIndex == maps.size() - 1;
 	}
 
 	/**
@@ -260,7 +258,7 @@ public class MapController implements CommandExecutor {
 	 * @return A string containing the current map's name
 	 */
 	public static Map getCurrentMap() {
-		return maps[mapIndex];
+		return maps.get(mapIndex);
 	}
 
 	/**
@@ -287,7 +285,7 @@ public class MapController implements CommandExecutor {
 	 */
 	public static void joinATeam(UUID uuid) {
 		Player player = Bukkit.getPlayer(uuid);
-		Team team = maps[mapIndex].smallestTeam();
+		Team team = maps.get(mapIndex).smallestTeam();
 
 		team.addPlayer(uuid);
 		assert player != null;
