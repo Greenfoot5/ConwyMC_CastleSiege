@@ -1,5 +1,7 @@
 package me.huntifi.castlesiege.Thunderstone.Rams;
 
+import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -11,22 +13,20 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.sk89q.worldedit.WorldEditException;
 
 import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateDestroyEvent;
-import me.huntifi.castlesiege.maps.currentMaps;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
-import me.huntifi.castlesiege.structures.MakeStructure;
+import me.huntifi.castlesiege.maps.MapController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class ThunderstoneRamAnimation implements Runnable {
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	boolean hasRammed = false;
 
 	@Override
 	public void run() {
 
-		if(currentMaps.currentMapIs("Thunderstone")) {
+		if(MapController.currentMapIs("Thunderstone")) {
 
 			Location ram = new Location(Bukkit.getServer().getWorld("Thunderstone"), 150, 67, 67); //location of schematic for when ramming (touching door)
  
@@ -39,13 +39,13 @@ public class ThunderstoneRamAnimation implements Runnable {
 					if (!hasRammed) {
 
 						try {
-							MakeStructure.createSchematicStructure(startRam, "clear_ram_east", "Thunderstone");
+							SchematicSpawner.spawnSchematic(startRam, "clear_ram_east", "Thunderstone");
 						} catch (WorldEditException e) {
 							e.printStackTrace();
 						}
 
 						try {
-							MakeStructure.createSchematicStructure(ram, "ram_east", "Thunderstone");
+							SchematicSpawner.spawnSchematic(ram, "ram_east", "Thunderstone");
 						} catch (WorldEditException e) {
 							e.printStackTrace();
 						}
@@ -65,7 +65,7 @@ public class ThunderstoneRamAnimation implements Runnable {
 								}
 
 								try {
-									MakeStructure.createSchematicStructure(loc, "ThunderstoneGateBreached", "Thunderstone");
+									SchematicSpawner.spawnSchematic(loc, "ThunderstoneGateBreached", "Thunderstone");
 								} catch (WorldEditException e) {
 									e.printStackTrace();
 								}
@@ -73,7 +73,7 @@ public class ThunderstoneRamAnimation implements Runnable {
 								//clear the ram (otherwise it would just kinda be there in the air)
 								
 								try {
-									MakeStructure.createSchematicStructure(startRam, "clear_ram_east", "Thunderstone");
+									SchematicSpawner.spawnSchematic(startRam, "clear_ram_east", "Thunderstone");
 								} catch (WorldEditException e) {
 									e.printStackTrace();
 								}
@@ -90,7 +90,7 @@ public class ThunderstoneRamAnimation implements Runnable {
 							
 							for (Player p : ThunderstoneRam.rammingPlayers) {
 							
-							MVPstats.addSupports(p.getUniqueId(), 8.5);
+							UpdateStats.addSupports(p.getUniqueId(), 8.5);
 							p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GRAY + "" + ChatColor.BOLD + "Gate Health: " + ThunderstoneGateDestroyEvent.GateHealth));
 							
 							}
@@ -107,13 +107,13 @@ public class ThunderstoneRamAnimation implements Runnable {
 								if (hasRammed) {
 
 									try {
-										MakeStructure.createSchematicStructure(ram, "clear_ram_east", "Thunderstone");
+										SchematicSpawner.spawnSchematic(ram, "clear_ram_east", "Thunderstone");
 									} catch (WorldEditException e) {
 										e.printStackTrace();
 									}
 
 									try {
-										MakeStructure.createSchematicStructure(startRam, "ram_east", "Thunderstone");
+										SchematicSpawner.spawnSchematic(startRam, "ram_east", "Thunderstone");
 									} catch (WorldEditException e) {
 										e.printStackTrace();
 									}

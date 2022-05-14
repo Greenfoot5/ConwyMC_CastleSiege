@@ -1,0 +1,371 @@
+##############
+# Helms Deep #
+##############
+
+HelmsDeep:
+  GreatHallExtraDoor:
+    # Name of the flag (must be exact)
+    # If not flag is specified, the door will open for any player, no matter their team
+    flag: "Great Hall"
+    # Centre of the door
+    # Used to measure distance to the stone pressure plates,
+    # And plays the door sound
+    centre:
+      x: 996
+      y: 67
+      z: 964
+    # The locations of each of the blocks
+    locations:
+      - x: 996
+        y: 67
+        z: 964
+      - x: 996
+        y: 68
+        z: 964
+      - x: 996
+        y: 69
+        z: 964
+      - x: 996
+        y: 67
+        z: 963
+      - x: 996
+        y: 68
+        z: 963
+      - x: 996
+        y: 69
+        z: 963
+    # The material the block is (order matches with location)
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+  CavesDoor:
+    flag: "Caves"
+    centre:
+      x: 994
+      y: 52
+      z: 970
+    locations:
+      - x: 994
+        y: 52
+        z: 970
+      - x: 994
+        y: 53
+        z: 970
+      - x: 994
+        y: 54
+        z: 970
+      - x: 994
+        y: 52
+        z: 969
+      - x: 994
+        y: 53
+        z: 969
+      - x: 994
+        y: 54
+        z: 969
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+  GreatHallLeftDoor:
+    flag: "Great Hall"
+    centre:
+      x: 993
+      y: 65
+      z: 1016
+    locations:
+      - x: 993
+        y: 65
+        z: 1016
+      - x: 993
+        y: 66
+        z: 1016
+      - x: 993
+        y: 67
+        z: 1016
+      - x: 993
+        y: 65
+        z: 1015
+      - x: 993
+        y: 66
+        z: 1015
+      - x: 993
+        y: 67
+        z: 1015
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+  GreatHallRightDoor:
+    flag: "Great Hall"
+    centre:
+      x: 976
+      y: 72
+      z: 979
+    locations:
+      - x: 976
+        y: 72
+        z: 979
+      - x: 976
+        y: 73
+        z: 979
+      - x: 976
+        y: 74
+        z: 979
+      - x: 977
+        y: 72
+        z: 979
+      - x: 977
+        y: 73
+        z: 979
+      - x: 977
+        y: 74
+        z: 979
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+  MainGateLeftDoor:
+    flag: "Main Gate"
+    centre:
+      x: 1035
+      y: 52
+      z: 991
+    locations:
+      - x: 1035
+        y: 52
+        z: 992
+      - x: 1035
+        y: 53
+        z: 992
+      - x: 1035
+        y: 54
+        z: 992
+      - x: 1035
+        y: 55
+        z: 992
+      - x: 1035
+        y: 52
+        z: 991
+      - x: 1035
+        y: 53
+        z: 991
+      - x: 1035
+        y: 54
+        z: 991
+      - x: 1035
+        y: 55
+        z: 991
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+  MainGateRightDoor:
+    flag: "Main Gate"
+    centre:
+      x: 1035
+      y: 53
+      z: 1008
+    locations:
+      - x: 1035
+        y: 53
+        z: 1008
+      - x: 1035
+        y: 54
+        z: 1008
+      - x: 1035
+        y: 55
+        z: 1008
+      - x: 1035
+        y: 53
+        z: 1009
+      - x: 1035
+        y: 54
+        z: 1009
+      - x: 1035
+        y: 55
+        z: 1009
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+  StorageDoor:
+    # This door doesn't have a flag and can be opened by anyone
+    centre:
+      x: 996
+      y: 67
+      z: 1037
+    locations:
+      - x: 996
+        y: 67
+        z: 1037
+      - x: 996
+        y: 68
+        z: 1037
+      - x: 996
+        y: 69
+        z: 1037
+      - x: 996
+        y: 67
+        z: 1036
+      - x: 996
+        y: 68
+        z: 1036
+      - x: 996
+        y: 69
+        z: 1036
+    materials:
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+      - "SPRUCE_LOG"
+
+##############
+# Abrakhan #
+##############
+
+Abrakhan:
+  GatehouseDoor:
+    # Name of the flag (must be exact)
+    # If not flag is specified, the door will open for any player, no matter their team
+    flag: "Gatehouse"
+    # Centre of the door
+    # Used to measure distance to the stone pressure plates,
+    # And plays the door sound
+    centre:
+      x: 58
+      y: 31
+      z: -29
+    # The locations of each of the blocks
+    locations:
+      - x: 59
+        y: 33
+        z: -29
+      - x: 59
+        y: 32
+        z: -29
+      - x: 59
+        y: 31
+        z: -29
+      - x: 58
+        y: 33
+        z: -29
+      - x: 58
+        y: 32
+        z: -29
+      - x: 58
+        y: 31
+        z: -29
+    # The material the block is (order matches with location)
+    materials:
+      - "OAK_LOG"
+      - "OAK_LOG"
+      - "OAK_LOG"
+      - "OAK_LOG"
+      - "OAK_LOG"
+      - "OAK_LOG"
+
+SoldiersPeak:
+  upper_courtyardDoor1:
+    # Centre of the door
+    # Used to measure distance to the stone pressure plates,
+    # And plays the door sound
+    centre:
+      x: 895
+      y: 77
+      z: 113
+    # The locations of each of the blocks
+    locations:
+      - x: 895
+        y: 77
+        z: 113
+      - x: 895
+        y: 78
+        z: 113
+      - x: 895
+        y: 79
+        z: 113
+      - x: 894
+        y: 77
+        z: 113
+      - x: 894
+        y: 78
+        z: 113
+      - x: 894
+        y: 79
+        z: 113
+    # The material the block is (order matches with location)
+    materials:
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+  upper_courtyardDoor2:
+    # Centre of the door
+    # Used to measure distance to the stone pressure plates,
+    # And plays the door sound
+    centre:
+      x: 861
+      y: 76
+      z: 117
+    # The locations of each of the blocks
+    locations:
+      - x: 861
+        y: 76
+        z: 117
+      - x: 861
+        y: 79
+        z: 117
+      - x: 861
+        y: 78
+        z: 117
+      - x: 861
+        y: 77
+        z: 117
+      - x: 861
+        y: 76
+        z: 118
+      - x: 861
+        y: 79
+        z: 118
+      - x: 861
+        y: 78
+        z: 118
+      - x: 861
+        y: 77
+        z: 118
+    # The material the block is (order matches with location)
+    materials:
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"
+      - "ACACIA_LOG"

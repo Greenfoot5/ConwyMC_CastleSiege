@@ -1,0 +1,245 @@
+package me.huntifi.castlesiege.kits.kits;
+
+import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.EquipmentSet;
+import me.huntifi.castlesiege.kits.items.ItemCreator;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.Objects;
+
+/**
+ * The ranger kit
+ */
+public class Ranger extends Kit implements Listener, CommandExecutor {
+
+    /**
+     * Set the equipment and attributes of this kit
+     */
+    public Ranger() {
+        super("Ranger", 105);
+
+        // Equipment Stuff
+        EquipmentSet es = new EquipmentSet();
+        super.heldItemSlot = 0;
+
+        // Weapon
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
+                ChatColor.GREEN + "Dagger", null,
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18)));
+        // Voted weapon
+        es.votedWeapon = new Tuple<>(
+                ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
+                        ChatColor.GREEN + "Dagger",
+                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
+                0);
+
+        // Chestplate
+        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+                ChatColor.GREEN + "Leather Chestplate", null, null,
+                Color.fromRGB(28, 165, 33));
+
+        // Leggings
+        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+                ChatColor.GREEN + "Leather Leggings", null, null,
+                Color.fromRGB(32, 183, 37));
+
+        // Boots
+        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+                ChatColor.GREEN + "Leather Boots", null, null,
+                Color.fromRGB(28, 165, 33));
+        // Voted Boots
+        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+                ChatColor.GREEN + "Leather Boots",
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
+                Color.fromRGB(28, 165, 33));
+
+        // Regular Bow
+        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
+                ChatColor.GREEN + "Bow", null, null);
+
+        // Volley Bow
+        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.BOW),
+                ChatColor.GREEN + "Volley Bow",
+                Collections.singletonList(ChatColor.AQUA + "Shoot 3 arrows at once"), null);
+
+        // Burst Bow
+        es.hotbar[3] = ItemCreator.item(new ItemStack(Material.BOW),
+                ChatColor.GREEN + "Burst Bow",
+                Collections.singletonList(ChatColor.AQUA + "Shoot 3 consecutive arrows"), null);
+
+        // Ladders
+        es.hotbar[4] = new ItemStack(Material.LADDER, 4);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 4);
+
+        // Arrows
+        es.hotbar[7] = new ItemStack(Material.ARROW, 48);
+
+        super.equipment = es;
+
+        // Perm Potion Effect
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
+
+        // Death Messages
+        super.projectileDeathMessage[0] = "You were turned into a porcupine by ";
+        super.projectileKillMessage[0] = "You turned ";
+        super.projectileKillMessage[1] = " into a porcupine";
+    }
+
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
+    @Override
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        if (commandSender instanceof ConsoleCommandSender) {
+            commandSender.sendMessage("Console cannot select kits!");
+            return true;
+        }
+
+        super.addPlayer(((Player) commandSender).getUniqueId());
+        return true;
+    }
+
+    /**
+     * Set the arrow-damage of a ranger's arrows
+     * @param e The event called when a player is hit by an arrow
+     */
+    @EventHandler (priority = EventPriority.LOW)
+    public void onArrowHit(ProjectileHitEvent e) {
+        if (e.getEntity() instanceof Arrow &&
+                e.getEntity().getShooter() instanceof Player &&
+                Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
+            ((Arrow) e.getEntity()).setDamage(13);
+        }
+    }
+
+    /**
+     * Activate the volley or burst ability
+     * @param e The event called when a player shoots a bow
+     */
+    @EventHandler
+    public void onShootBow(EntityShootBowEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+
+        if (e.getEntity() instanceof Player &&
+                Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
+            Player p = (Player) e.getEntity();
+            String b = e.getBow().getItemMeta().getDisplayName();
+
+            if (Objects.equals(b, ChatColor.GREEN + "Volley Bow")) {
+                Vector v = e.getProjectile().getVelocity();
+                volleyAbility(p, v);
+            } else if (Objects.equals(b, ChatColor.GREEN + "Burst Bow")) {
+                burstAbility(p, e.getForce());
+            }
+        }
+    }
+
+    /**
+     * Activate the volley ability, shooting 3 arrows at once
+     * @param p The ranger shooting their volley bow
+     * @param v The vector of the original arrow
+     */
+    private void volleyAbility(Player p, Vector v) {
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                ChatColor.GREEN + "You shot your volley bow!"));
+        p.setCooldown(Material.BOW, 100);
+
+        // Shoot the extra arrows
+        if (removeArrow(p)) {
+            p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
+        }
+        if (removeArrow(p)) {
+            p.launchProjectile(Arrow.class, v.rotateAroundY(-0.314));
+        }
+    }
+
+    /**
+     * Activate the burst ability, shooting 3 arrows consecutively
+     * @param p The ranger shooting their burst bow
+     * @param force The force of the original arrow
+     */
+    private void burstAbility(Player p, float force) {
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                ChatColor.GREEN + "You shot your burst bow!"));
+        p.setCooldown(Material.BOW, 100);
+        burstArrow(p, force, 10);
+        burstArrow(p, force, 20);
+    }
+
+    /**
+     * Shoot a single arrow from the burst ability
+     * @param p The ranger shooting their burst bow
+     * @param force The force of the original arrow
+     * @param d The delay with which to shoot the arrow
+     */
+    private void burstArrow(Player p, float force, int d) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                // Shoot iff the player has an arrow
+                if (removeArrow(p)) {
+                    Arrow a = p.launchProjectile(Arrow.class);
+                    a.setVelocity(a.getVelocity().multiply(force));
+                }
+            }
+        }.runTaskLater(Main.plugin, d);
+    }
+
+    /**
+     * Remove an arrow from the player's inventory
+     * @param p The player from whom to remove an arrow
+     * @return true if the player has an arrow to remove, false otherwise
+     */
+    private boolean removeArrow(Player p) {
+        PlayerInventory inv = p.getInventory();
+
+        // Try offhand first
+        if (inv.getItemInOffHand().getType() == Material.ARROW) {
+            ItemStack o = inv.getItemInOffHand();
+            o.setAmount(o.getAmount() - 1);
+            return true;
+        // Try inventory
+        } else if (inv.contains(Material.ARROW)) {
+            inv.removeItem(new ItemStack(Material.ARROW));
+            return true;
+        }
+
+        // No arrow found
+        return false;
+    }
+}

@@ -1,5 +1,9 @@
 package me.huntifi.castlesiege.Helmsdeep.Secrets;
 
+import me.huntifi.castlesiege.Main;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,25 +13,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 
 public class HelmsdeepSecretDoor implements Listener {
 
-	public Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
-
 	boolean isOpen;
 
-	Location doorLoc = new Location(plugin.getServer().getWorld("HelmsDeep"), 990, 61, 982);
+	Location doorLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 61, 982);
 
-	Location chestLoc = new Location(plugin.getServer().getWorld("HelmsDeep"), 992, 62, 983);
+	Location chestLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 992, 62, 983);
 	
-	Location stonebuttonLoc = new Location(plugin.getServer().getWorld("HelmsDeep"), 990, 63, 979);
+	Location stonebuttonLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 63, 979);
 
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event){
@@ -39,28 +35,25 @@ public class HelmsdeepSecretDoor implements Listener {
 
 				Player p = event.getPlayer();
 
-				if (!LobbyPlayer.containsPlayer(p)) {
+
+				if (!isOpen) {
+
+					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened a secret door!"));
+					isOpen = true;
+					openDoor();
+
+					new BukkitRunnable() {
+
+						@Override
+						public void run() {
+
+							isOpen = false;
+							closeDoor();
+						}
+					}.runTaskLater(Main.plugin, 80);
 
 
-					if (isOpen != true) {
-
-						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened a secret door!"));
-						isOpen = true;
-						openDoor();
-
-						new BukkitRunnable() {
-
-							@Override
-							public void run() {
-
-								isOpen = false;
-								closeDoor();
-							}
-						}.runTaskLater(plugin, 80);
-
-
-					}
-				} 
+				}
 			}
 		}
 	}
@@ -69,21 +62,21 @@ public class HelmsdeepSecretDoor implements Listener {
 	public void openDoor() {
 
 		Bukkit.getWorld("HelmsDeep").playSound(doorLoc, Sound.BLOCK_WOODEN_DOOR_OPEN , 1, 2);
-		Location Block1 = new Location(plugin.getServer().getWorld("HelmsDeep"), 989, 62, 981);
+		Location Block1 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 989, 62, 981);
 		Block1.getBlock().setType(Material.AIR);
-		Location Block2 = new Location(plugin.getServer().getWorld("HelmsDeep"), 989, 63, 981);
+		Location Block2 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 989, 63, 981);
 		Block2.getBlock().setType(Material.AIR);	
-		Location Block3 = new Location(plugin.getServer().getWorld("HelmsDeep"), 989, 64, 981);
+		Location Block3 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 989, 64, 981);
 		Block3.getBlock().setType(Material.AIR);
-		Location Block4 = new Location(plugin.getServer().getWorld("HelmsDeep"), 989, 65, 981);
+		Location Block4 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 989, 65, 981);
 		Block4.getBlock().setType(Material.AIR);
-		Location Block5 = new Location(plugin.getServer().getWorld("HelmsDeep"), 990, 62, 981);
+		Location Block5 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 62, 981);
 		Block5.getBlock().setType(Material.AIR);
-		Location Block6 = new Location(plugin.getServer().getWorld("HelmsDeep"), 990, 63, 981);
+		Location Block6 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 63, 981);
 		Block6.getBlock().setType(Material.AIR);
-		Location Block7 = new Location(plugin.getServer().getWorld("HelmsDeep"), 990, 64, 981);
+		Location Block7 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 64, 981);
 		Block7.getBlock().setType(Material.AIR);
-		Location Block8 = new Location(plugin.getServer().getWorld("HelmsDeep"), 990, 65, 981);
+		Location Block8 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 65, 981);
 		Block8.getBlock().setType(Material.AIR);
 
 	}
@@ -92,21 +85,21 @@ public class HelmsdeepSecretDoor implements Listener {
 	public void closeDoor() {
 
 		Bukkit.getWorld("HelmsDeep").playSound(doorLoc, Sound.BLOCK_WOODEN_DOOR_OPEN , 1, 2);
-		Location Block1 = new Location(plugin.getServer().getWorld("HelmsDeep"), 989, 62, 981);
+		Location Block1 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 989, 62, 981);
 		Block1.getBlock().setType(Material.STONE);
-		Location Block2 = new Location(plugin.getServer().getWorld("HelmsDeep"), 989, 63, 981);
+		Location Block2 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 989, 63, 981);
 		Block2.getBlock().setType(Material.STONE);	
-		Location Block3 = new Location(plugin.getServer().getWorld("HelmsDeep"), 989, 64, 981);
+		Location Block3 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 989, 64, 981);
 		Block3.getBlock().setType(Material.STONE);
-		Location Block4 = new Location(plugin.getServer().getWorld("HelmsDeep"), 989, 65, 981);
+		Location Block4 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 989, 65, 981);
 		Block4.getBlock().setType(Material.STONE);
-		Location Block5 = new Location(plugin.getServer().getWorld("HelmsDeep"), 990, 62, 981);
+		Location Block5 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 62, 981);
 		Block5.getBlock().setType(Material.STONE);
-		Location Block6 = new Location(plugin.getServer().getWorld("HelmsDeep"), 990, 63, 981);
+		Location Block6 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 63, 981);
 		Block6.getBlock().setType(Material.STONE);
-		Location Block7 = new Location(plugin.getServer().getWorld("HelmsDeep"), 990, 64, 981);
+		Location Block7 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 64, 981);
 		Block7.getBlock().setType(Material.STONE);
-		Location Block8 = new Location(plugin.getServer().getWorld("HelmsDeep"), 990, 65, 981);
+		Location Block8 = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 65, 981);
 		Block8.getBlock().setType(Material.STONE);
 	}
 	
@@ -121,27 +114,24 @@ public class HelmsdeepSecretDoor implements Listener {
 
 				Player p = event.getPlayer();
 
-				if (!LobbyPlayer.containsPlayer(p)) {
+				if (!isOpen) {
 
-					if (isOpen != true) {
+					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have reopened the secret door!"));
+					isOpen = true;
+					openDoor();
 
-						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have reopened the secret door!"));
-						isOpen = true;
-						openDoor();
+					new BukkitRunnable() {
 
-						new BukkitRunnable() {
+						@Override
+						public void run() {
 
-							@Override
-							public void run() {
-
-								isOpen = false;
-								closeDoor();
-							}
-						}.runTaskLater(plugin, 80);
+							isOpen = false;
+							closeDoor();
+						}
+					}.runTaskLater(Main.plugin, 80);
 
 
-					}
-				} 
+				}
 			}
 		}
 	}

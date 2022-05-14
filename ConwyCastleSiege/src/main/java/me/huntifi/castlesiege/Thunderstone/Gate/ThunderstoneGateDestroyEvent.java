@@ -2,6 +2,9 @@ package me.huntifi.castlesiege.Thunderstone.Gate;
 
 import java.util.ArrayList;
 
+import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -16,10 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.WorldEditException;
 
-import me.huntifi.castlesiege.maps.currentMaps;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
-import me.huntifi.castlesiege.structures.MakeStructure;
-import me.huntifi.castlesiege.woolmap.LobbyPlayer;
+import me.huntifi.castlesiege.maps.MapController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -31,16 +31,16 @@ public class ThunderstoneGateDestroyEvent implements Listener {
 
 	public static boolean isBreached = false;
 
-	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+	Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
 
 		Player p = event.getPlayer();
 
-		if(currentMaps.currentMapIs("Thunderstone")) {
+		if(MapController.currentMapIs("Thunderstone")) {
 
-			if (!LobbyPlayer.containsPlayer(p)) {
+			if (InCombat.isPlayerInLobby(p.getUniqueId())) {
 
 				if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
@@ -58,7 +58,7 @@ public class ThunderstoneGateDestroyEvent implements Listener {
 
 									GateHealth = GateHealth - 2;
 
-									MVPstats.addSupports(p.getUniqueId(), 0.5);  
+									UpdateStats.addSupports(p.getUniqueId(), 0.5);
 
 									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GRAY + "" + ChatColor.BOLD + "Gate Health: " + GateHealth));
 
@@ -92,7 +92,7 @@ public class ThunderstoneGateDestroyEvent implements Listener {
 									}
 
 									try {
-										MakeStructure.createSchematicStructure(loc, "ThunderstoneGateBreached", "Thunderstone");
+										SchematicSpawner.spawnSchematic(loc, "ThunderstoneGateBreached", "Thunderstone");
 									} catch (WorldEditException e) {
 										e.printStackTrace();
 									}

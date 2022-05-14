@@ -6,8 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import me.huntifi.castlesiege.maps.currentMaps;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+import me.huntifi.castlesiege.maps.MapController;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class GreatHallGateRam implements Runnable {
 
@@ -20,7 +20,7 @@ public class GreatHallGateRam implements Runnable {
 	@Override
 	public void run() {
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		/*if(MapController.currentMapIs("HelmsDeep")) {
 
 			for (Player rammer : PlayerTeam.Urukhai) {
 
@@ -73,7 +73,7 @@ public class GreatHallGateRam implements Runnable {
 				return;
 				
 			}
-		}
+		}*/
 
 	}
 

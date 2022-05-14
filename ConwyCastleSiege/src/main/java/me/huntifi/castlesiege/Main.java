@@ -1,489 +1,821 @@
 package me.huntifi.castlesiege;
 
-import java.sql.SQLException;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
+import com.sk89q.worldguard.session.SessionManager;
+import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.route.Route;
+import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
+import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
+import me.huntifi.castlesiege.commands.chat.PrivateMessage;
+import me.huntifi.castlesiege.commands.chat.ReplyMessage;
+import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.commands.gameplay.KitCommand;
+import me.huntifi.castlesiege.commands.gameplay.SuicideCommand;
+import me.huntifi.castlesiege.commands.gameplay.SwitchCommand;
+import me.huntifi.castlesiege.commands.info.*;
+import me.huntifi.castlesiege.commands.staff.*;
+import me.huntifi.castlesiege.commands.staff.punishments.*;
+import me.huntifi.castlesiege.data_types.Frame;
+import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.KeepAlive;
+import me.huntifi.castlesiege.database.MySQL;
+import me.huntifi.castlesiege.database.StoreData;
+import me.huntifi.castlesiege.events.chat.PlayerChat;
+import me.huntifi.castlesiege.events.combat.*;
+import me.huntifi.castlesiege.events.connection.PlayerConnect;
+import me.huntifi.castlesiege.events.connection.PlayerDisconnect;
+import me.huntifi.castlesiege.events.death.DeathEvent;
+import me.huntifi.castlesiege.events.death.VoidLocation;
+import me.huntifi.castlesiege.events.security.InteractContainer;
+import me.huntifi.castlesiege.events.security.InventoryProtection;
+import me.huntifi.castlesiege.events.security.MapProtection;
+import me.huntifi.castlesiege.events.timed.ApplyRegeneration;
+import me.huntifi.castlesiege.events.timed.BarCooldown;
+import me.huntifi.castlesiege.events.timed.Tips;
+import me.huntifi.castlesiege.kits.gui.FreeKitGUI;
+import me.huntifi.castlesiege.kits.gui.SelectorKitGUI;
+import me.huntifi.castlesiege.kits.gui.UnlockedKitGUI;
+import me.huntifi.castlesiege.kits.items.Enderchest;
+import me.huntifi.castlesiege.kits.kits.*;
+import me.huntifi.castlesiege.maps.Map;
+import me.huntifi.castlesiege.maps.*;
+import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
+import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
+import me.huntifi.castlesiege.maps.objects.CaptureHandler;
+import me.huntifi.castlesiege.maps.objects.Door;
+import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.events.timed.Hunger;
+import org.apache.commons.io.FileUtils;
+import org.bukkit.*;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
-import me.huntifi.castlesiege.Database.DatabaseKeepAliveEvent;
-import me.huntifi.castlesiege.Database.MySQL;
-import me.huntifi.castlesiege.Database.SQLGetter;
-import me.huntifi.castlesiege.Database.SQLstats;
-import me.huntifi.castlesiege.Deathmessages.DeathmessageDisable;
-import me.huntifi.castlesiege.Helmsdeep.HelmsdeepDeath;
-import me.huntifi.castlesiege.Helmsdeep.HelmsdeepEndMVP;
-import me.huntifi.castlesiege.Helmsdeep.HelmsdeepEndMap;
-import me.huntifi.castlesiege.Helmsdeep.HelmsdeepJoin;
-import me.huntifi.castlesiege.Helmsdeep.HelmsdeepLeave;
-import me.huntifi.castlesiege.Helmsdeep.HelmsdeepMVPupdater;
-import me.huntifi.castlesiege.Helmsdeep.HelmsdeepTimer;
-import me.huntifi.castlesiege.Helmsdeep.Woolmap;
-import me.huntifi.castlesiege.Helmsdeep.Woolmap_Distance;
-import me.huntifi.castlesiege.Helmsdeep.Ballistae.HelmsdeepBallistaEvent;
-import me.huntifi.castlesiege.Helmsdeep.Boat.HelmsdeepCaveBoat;
-import me.huntifi.castlesiege.Helmsdeep.Gates.HelmsdeepGreatHallBlocks;
-import me.huntifi.castlesiege.Helmsdeep.Gates.HelmsdeepGreatHallDestroyEvent;
-import me.huntifi.castlesiege.Helmsdeep.Gates.HelmsdeepMainGateBlocks;
-import me.huntifi.castlesiege.Helmsdeep.Gates.HelmsdeepMainGateDestroyEvent;
-import me.huntifi.castlesiege.Helmsdeep.Kits.GUI.KitGUI_Isengard_Command;
-import me.huntifi.castlesiege.Helmsdeep.Kits.GUI.KitGUI_Rohan_Command;
-import me.huntifi.castlesiege.Helmsdeep.Secrets.HelmsdeepSecretDoor;
-import me.huntifi.castlesiege.Helmsdeep.Secrets.Herugrim;
-import me.huntifi.castlesiege.Helmsdeep.Wall.WallEvent;
-import me.huntifi.castlesiege.Helmsdeep.doors.GreatHallExtraDoor;
-import me.huntifi.castlesiege.Helmsdeep.doors.HelmsdeepCavesDoor;
-import me.huntifi.castlesiege.Helmsdeep.doors.HelmsdeepGreatHallLeftDoor;
-import me.huntifi.castlesiege.Helmsdeep.doors.HelmsdeepGreatHallRightDoor;
-import me.huntifi.castlesiege.Helmsdeep.doors.HelmsdeepMainGateLeftDoor;
-import me.huntifi.castlesiege.Helmsdeep.doors.HelmsdeepMainGateRightDoor;
-import me.huntifi.castlesiege.Helmsdeep.doors.HelmsdeepStorageDoor;
-import me.huntifi.castlesiege.Helmsdeep.flags.FlagListCommand;
-import me.huntifi.castlesiege.Helmsdeep.flags.FlagRadius;
-import me.huntifi.castlesiege.Helmsdeep.flags.HelmsdeepReset;
-import me.huntifi.castlesiege.Helmsdeep.flags.animations.CavesFlag;
-import me.huntifi.castlesiege.Helmsdeep.flags.animations.CourtyardFlag;
-import me.huntifi.castlesiege.Helmsdeep.flags.animations.GreatHallsFlag;
-import me.huntifi.castlesiege.Helmsdeep.flags.animations.HornFlag;
-import me.huntifi.castlesiege.Helmsdeep.flags.animations.MainGateFlag;
-import me.huntifi.castlesiege.Helmsdeep.flags.animations.SupplyCampFlag;
-import me.huntifi.castlesiege.Helmsdeep.rams.GreatHallGateRam;
-import me.huntifi.castlesiege.Helmsdeep.rams.GreatHallGateReadyRam;
-import me.huntifi.castlesiege.Helmsdeep.rams.GreatHallRamAnimation;
-import me.huntifi.castlesiege.Helmsdeep.rams.MainGateRam;
-import me.huntifi.castlesiege.Helmsdeep.rams.MainGateRamAnimation;
-import me.huntifi.castlesiege.Helmsdeep.rams.MainGateReadyRam;
-import me.huntifi.castlesiege.Thunderstone.TS_Woolmap;
-import me.huntifi.castlesiege.Thunderstone.TS_Woolmap_Distance;
-import me.huntifi.castlesiege.Thunderstone.ThunderstoneDeath;
-import me.huntifi.castlesiege.Thunderstone.ThunderstoneEndMVP;
-import me.huntifi.castlesiege.Thunderstone.ThunderstoneEndMap;
-import me.huntifi.castlesiege.Thunderstone.ThunderstoneJoin;
-import me.huntifi.castlesiege.Thunderstone.ThunderstoneLeave;
-import me.huntifi.castlesiege.Thunderstone.ThunderstoneMVPupdater;
-import me.huntifi.castlesiege.Thunderstone.Flags.TS_FlagRadius;
-import me.huntifi.castlesiege.Thunderstone.Flags.ThunderstoneReset;
-import me.huntifi.castlesiege.Thunderstone.Flags.animations.EastTowerFlag;
-import me.huntifi.castlesiege.Thunderstone.Flags.animations.LonelyTowerFlag;
-import me.huntifi.castlesiege.Thunderstone.Flags.animations.ShiftedTowerFlag;
-import me.huntifi.castlesiege.Thunderstone.Flags.animations.SkyviewTowerFlag;
-import me.huntifi.castlesiege.Thunderstone.Flags.animations.StairhallFlag;
-import me.huntifi.castlesiege.Thunderstone.Flags.animations.TwinbridgeFlag;
-import me.huntifi.castlesiege.Thunderstone.Flags.animations.WestTowerFlag;
-import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateBlocks;
-import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateDestroyEvent;
-import me.huntifi.castlesiege.Thunderstone.KitsGUI.KitsGUI_Cloudcrawlers_Command;
-import me.huntifi.castlesiege.Thunderstone.KitsGUI.KitsGUI_ThunderstoneGuard_Command;
-import me.huntifi.castlesiege.Thunderstone.Rams.ThunderstoneGateReadyRam;
-import me.huntifi.castlesiege.Thunderstone.Rams.ThunderstoneRam;
-import me.huntifi.castlesiege.Thunderstone.Rams.ThunderstoneRamAnimation;
-import me.huntifi.castlesiege.chat.PlayerChat;
-import me.huntifi.castlesiege.combat.ApplyRegeneration;
-import me.huntifi.castlesiege.combat.CustomRegeneration;
-import me.huntifi.castlesiege.combat.EatCake;
-import me.huntifi.castlesiege.combat.HitMessage;
-import me.huntifi.castlesiege.combat.NoHurtTeam;
-import me.huntifi.castlesiege.combat.arrowRemoval;
-import me.huntifi.castlesiege.joinevents.login;
-import me.huntifi.castlesiege.joinevents.newLogin;
-import me.huntifi.castlesiege.joinevents.stats.StatsLoading;
-import me.huntifi.castlesiege.joinevents.stats.StatsSaving;
-import me.huntifi.castlesiege.kits.Enderchest;
-import me.huntifi.castlesiege.kits.KitGUIcommand;
-import me.huntifi.castlesiege.kits.KitsCommand;
-import me.huntifi.castlesiege.kits.Archer.DeathArcher;
-import me.huntifi.castlesiege.kits.Berserker.BerserkerAbility;
-import me.huntifi.castlesiege.kits.Berserker.BerserkerDeath;
-import me.huntifi.castlesiege.kits.Cavalry.CavalryAbility;
-import me.huntifi.castlesiege.kits.Cavalry.CavalryDeath;
-import me.huntifi.castlesiege.kits.Classic.ClassicGui_Command;
-import me.huntifi.castlesiege.kits.Crossbowman.CrossbowmanAbility;
-import me.huntifi.castlesiege.kits.Crossbowman.CrossbowmanDeath;
-import me.huntifi.castlesiege.kits.Engineer.DeathEngineer;
-import me.huntifi.castlesiege.kits.Engineer.EngineerCobweb;
-import me.huntifi.castlesiege.kits.Executioner.ExecutionerAbility;
-import me.huntifi.castlesiege.kits.Executioner.ExecutionerDeath;
-import me.huntifi.castlesiege.kits.FireArcher.DeathFirearcher;
-import me.huntifi.castlesiege.kits.FireArcher.FireArcherAbility;
-import me.huntifi.castlesiege.kits.Halberdier.DeathHalberdier;
-import me.huntifi.castlesiege.kits.Halberdier.HalberdierAbility;
-import me.huntifi.castlesiege.kits.Maceman.MacemanAbility;
-import me.huntifi.castlesiege.kits.Maceman.MacemanDeath;
-import me.huntifi.castlesiege.kits.Ranger.DeathRanger;
-import me.huntifi.castlesiege.kits.Ranger.RangerAbility;
-import me.huntifi.castlesiege.kits.Shieldman.DeathShieldman;
-import me.huntifi.castlesiege.kits.Skirmisher.SkirmisherDeath;
-import me.huntifi.castlesiege.kits.Spearman.DeathSpearman;
-import me.huntifi.castlesiege.kits.Spearman.SpearmanAbility;
-import me.huntifi.castlesiege.kits.Swordsman.DeathSwordsman;
-import me.huntifi.castlesiege.kits.Viking.VikingAbility;
-import me.huntifi.castlesiege.kits.Viking.VikingDeath;
-import me.huntifi.castlesiege.kits.VotedKits.VotedKitsGUI_Command;
-import me.huntifi.castlesiege.kits.VotedKits.Ladderman.LaddermanAbility;
-import me.huntifi.castlesiege.kits.VotedKits.Ladderman.LaddermanDeath;
-import me.huntifi.castlesiege.kits.VotedKits.Scout.ScoutDeath;
-import me.huntifi.castlesiege.kits.Warhound.Warhound;
-import me.huntifi.castlesiege.kits.Warhound.WarhoundAbility;
-import me.huntifi.castlesiege.kits.Warhound.WarhoundDeath;
-import me.huntifi.castlesiege.kits.medic.MedicAbilities;
-import me.huntifi.castlesiege.kits.medic.MedicDeath;
-import me.huntifi.castlesiege.ladders.LadderEvent;
-import me.huntifi.castlesiege.maps.currentMaps;
-import me.huntifi.castlesiege.mvpCommand.mvpCommand;
-import me.huntifi.castlesiege.playerCommands.MapsCommand;
-import me.huntifi.castlesiege.playerCommands.discordCommand;
-import me.huntifi.castlesiege.playerCommands.pingCommand;
-import me.huntifi.castlesiege.playerCommands.rulesCommand;
-import me.huntifi.castlesiege.playerCommands.suicideCommand;
-import me.huntifi.castlesiege.playerCommands.teamCommand;
-import me.huntifi.castlesiege.playerCommands.togglerankCommand;
-import me.huntifi.castlesiege.playerCommands.Teamchat.TeamChat;
-import me.huntifi.castlesiege.playerCommands.message.MessageCommand;
-import me.huntifi.castlesiege.playerCommands.message.ReplyCommand;
-import me.huntifi.castlesiege.playerCommands.staffCommands.FlyCommand;
-import me.huntifi.castlesiege.playerCommands.staffCommands.KickCommand;
-import me.huntifi.castlesiege.playerCommands.staffCommands.KickallCommand;
-import me.huntifi.castlesiege.playerCommands.staffCommands.NextMapCommand;
-import me.huntifi.castlesiege.playerCommands.staffCommands.SessionMuteCommand;
-import me.huntifi.castlesiege.playerCommands.staffCommands.StaffChat;
-import me.huntifi.castlesiege.playerCommands.staffCommands.UnsessionmuteCommand;
-import me.huntifi.castlesiege.scoreboard.scoreboard;
-import me.huntifi.castlesiege.security.CustomFallDamage;
-import me.huntifi.castlesiege.security.DropItemSecurity;
-import me.huntifi.castlesiege.security.Hunger;
-import me.huntifi.castlesiege.security.NoCombat;
-import me.huntifi.castlesiege.security.NoFireDestroy;
-import me.huntifi.castlesiege.security.NoMoveInventory;
-import me.huntifi.castlesiege.security.NoPaintingDestroy;
-import me.huntifi.castlesiege.security.NoTouchArmorstand;
-import me.huntifi.castlesiege.security.NoTouchPaintings;
-import me.huntifi.castlesiege.security.ambientDamage;
-import me.huntifi.castlesiege.security.armorTakeOff;
-import me.huntifi.castlesiege.security.destroyBlocks;
-import me.huntifi.castlesiege.security.instarespawn;
-import me.huntifi.castlesiege.security.placeBlocks;
-import me.huntifi.castlesiege.security.preventBlockOpening;
-import me.huntifi.castlesiege.security.voidOfLimits;
-import me.huntifi.castlesiege.security.wheat;
-import me.huntifi.castlesiege.stats.MVP.MVPstats;
-import me.huntifi.castlesiege.stats.MVP.StatsMvpJoinevent;
-import me.huntifi.castlesiege.stats.levels.RegisterLevel;
-import me.huntifi.castlesiege.stats.mystats.MystatsCommand;
-import me.huntifi.castlesiege.tablist.Tablist;
-import me.huntifi.castlesiege.teams.SwitchCommand;
-import me.huntifi.castlesiege.voting.GiveVoteCommand;
-import me.huntifi.castlesiege.voting.VoteListenerCommand;
-import me.huntifi.castlesiege.voting.VotesLoading;
-import me.huntifi.castlesiege.voting.VotesUnloading;
-
-
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.*;
 
 public class Main extends JavaPlugin implements Listener {
 
-	public Tablist tab;
-	public static MySQL SQL;
+    public static Plugin plugin;
+    public static Main instance;
 
-	public SQLGetter data;
-	public SQLstats data3;
+    public static MySQL SQL;
 
+    private YamlConfiguration mapsConfig;
+    private YamlDocument flagsConfig;
+    private YamlDocument doorsConfig;
+    private YamlDocument gatesConfig;
 
-	@Override
-	public void onEnable() {
+    @Override
+    public void onEnable() {
 
-		SQL = new MySQL();
-		this.data = new SQLGetter(this);
-		this.data3 = new SQLstats(this);
+        getLogger().info("Enabling Plugin...");
 
-		createWorld();
+        plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
+        instance = this;
 
-		getServer().getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "Thedarkage Plugin has been enabled!");
+        getLogger().info("Resetting all maps...");
+        resetWorlds();
+        getLogger().info("Waiting until POSTWORLD to continue enabling...");
+        new BukkitRunnable() {
 
-		try {
-			SQL.connect();
-		} catch (ClassNotFoundException | SQLException e) {
-			Bukkit.getLogger().info("<!> Database is not connected! <!>");
-			getServer().getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "<!> Database is not connected! <!>");
-		}
+            @Override
+            public void run() {
+                getLogger().info("Resuming loading plugin...");
+                getLogger().info("Loading configuration files...");
+                createConfigs();
+                getLogger().info("Loading maps from configuration...");
+                loadMaps();
 
-		if (SQL.isConnected()) {
+                getLogger().info("Connecting to database...");
+                // SQL Stuff
+                sqlConnect();
 
-			Bukkit.getLogger().info("<!> Database is connected! <!>");
-			getServer().getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "<!> Database is connected! <!>");
-			SQLstats.createTable();
-			this.getServer().getPluginManager().registerEvents(this, this);
+                // World Guard
+                SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
+                // second param allows for ordering of handlers - see the JavaDocs
+                sessionManager.registerHandler(CaptureHandler.FACTORY, null);
 
-		}
+                // Tips
+                new Tips().runTaskTimer(plugin, Tips.TIME_BETWEEN_TIPS * 20L, Tips.TIME_BETWEEN_TIPS * 20L);
 
-		getServer().getPluginManager().registerEvents(new Warhound(), this);
-		getServer().getPluginManager().registerEvents(new SessionMuteCommand(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepSecretDoor(), this);
-		getServer().getPluginManager().registerEvents(new EatCake(), this);
-		getServer().getPluginManager().registerEvents(new RegisterLevel(), this);
-		getServer().getPluginManager().registerEvents(new NoMoveInventory(), this);
-		getServer().getPluginManager().registerEvents(new NoTouchArmorstand(), this);
-		getServer().getPluginManager().registerEvents(new NoTouchPaintings(), this);
-		getServer().getPluginManager().registerEvents(new KitsGUI_ThunderstoneGuard_Command(), this);
-		getServer().getPluginManager().registerEvents(new KitsGUI_Cloudcrawlers_Command(), this);
-		getServer().getPluginManager().registerEvents(new ScoutDeath(), this);
-		getServer().getPluginManager().registerEvents(new ScoutDeath(), this);
-		getServer().getPluginManager().registerEvents(new LaddermanDeath(), this);
-		getServer().getPluginManager().registerEvents(new LaddermanAbility(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepCaveBoat(), this);
-		getServer().getPluginManager().registerEvents(new arrowRemoval(), this);
-		getServer().getPluginManager().registerEvents(new HitMessage(), this);
-		getServer().getPluginManager().registerEvents(new EngineerCobweb(), this);
-		getServer().getPluginManager().registerEvents(new DeathEngineer(), this);
-		getServer().getPluginManager().registerEvents(new StatsMvpJoinevent(), this);
-		getServer().getPluginManager().registerEvents(new StatsSaving(), this);
-		getServer().getPluginManager().registerEvents(new StatsLoading(), this);
+                // Rewrite Events
+                getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
+                getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
 
-		getServer().getPluginManager().registerEvents(new RangerAbility(), this);
-		getServer().getPluginManager().registerEvents(new DeathRanger(), this);
-		getServer().getPluginManager().registerEvents(new HalberdierAbility(), this);
-		getServer().getPluginManager().registerEvents(new DeathHalberdier(), this);
-		getServer().getPluginManager().registerEvents(new Woolmap_Distance(), this);
-		getServer().getPluginManager().registerEvents(new CavalryAbility(), this);
-		getServer().getPluginManager().registerEvents(new CavalryDeath(), this);
-		getServer().getPluginManager().registerEvents(new CrossbowmanDeath(), this);
-		getServer().getPluginManager().registerEvents(new CrossbowmanAbility(), this);
-		getServer().getPluginManager().registerEvents(new VikingAbility(), this);
-		getServer().getPluginManager().registerEvents(new VikingDeath(), this);
-		getServer().getPluginManager().registerEvents(new MacemanAbility(), this);
-		getServer().getPluginManager().registerEvents(new ExecutionerAbility(), this);
-		getServer().getPluginManager().registerEvents(new ExecutionerDeath(), this);
-		getServer().getPluginManager().registerEvents(new BerserkerAbility(), this);
-		getServer().getPluginManager().registerEvents(new BerserkerDeath(), this);
-		getServer().getPluginManager().registerEvents(new MacemanDeath(), this);
-		getServer().getPluginManager().registerEvents(new VotedKitsGUI_Command(), this);
-		getServer().getPluginManager().registerEvents(new ClassicGui_Command(), this);
-		getServer().getPluginManager().registerEvents(new KitGUI_Rohan_Command(), this);
-		getServer().getPluginManager().registerEvents(new KitGUI_Isengard_Command(), this);
-		getServer().getPluginManager().registerEvents(new newLogin(), this);
-		getServer().getPluginManager().registerEvents(new login(), this);
-		getServer().getPluginManager().registerEvents(new CustomFallDamage(), this);
-		getServer().getPluginManager().registerEvents(new preventBlockOpening(), this);
-		getServer().getPluginManager().registerEvents(new Herugrim(), this);
-		getServer().getPluginManager().registerEvents(new destroyBlocks(), this);
-		getServer().getPluginManager().registerEvents(new placeBlocks(), this);
-		getServer().getPluginManager().registerEvents(new wheat(), this);
-		getServer().getPluginManager().registerEvents(new NoPaintingDestroy(), this);
-		getServer().getPluginManager().registerEvents(new NoFireDestroy(), this);
-		getServer().getPluginManager().registerEvents(new NoCombat(), this);
-		getServer().getPluginManager().registerEvents(new instarespawn(), this);
-		getServer().getPluginManager().registerEvents(new ambientDamage(), this);
-		getServer().getPluginManager().registerEvents(new voidOfLimits(), this);
-		getServer().getPluginManager().registerEvents(new PlayerChat(), this);
-		getServer().getPluginManager().registerEvents(new DropItemSecurity(), this);
-		getServer().getPluginManager().registerEvents(new Enderchest(), this);
-		getServer().getPluginManager().registerEvents(new NoHurtTeam(), this);
+                // Connection
+                getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);
+                getServer().getPluginManager().registerEvents(new PlayerDisconnect(), plugin);
 
-		getServer().getPluginManager().registerEvents(new DeathArcher(), this);
-		getServer().getPluginManager().registerEvents(new SkirmisherDeath(), this);
-		getServer().getPluginManager().registerEvents(new DeathSwordsman(), this);
-		getServer().getPluginManager().registerEvents(new DeathShieldman(), this);
-		getServer().getPluginManager().registerEvents(new DeathFirearcher(), this);
-		getServer().getPluginManager().registerEvents(new DeathSpearman(), this);
-		getServer().getPluginManager().registerEvents(new DeathmessageDisable(), this);
-		getServer().getPluginManager().registerEvents(new CustomRegeneration(), this);
+                // Combat
+                getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
+                getServer().getPluginManager().registerEvents(new AssistKill(), plugin);
+                getServer().getPluginManager().registerEvents(new FallDamage(), plugin);
+                getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
+                getServer().getPluginManager().registerEvents(new InCombat(), plugin);
+                getServer().getPluginManager().registerEvents(new LobbyCombat(), plugin);
+                getServer().getPluginManager().registerEvents(new TeamCombat(), plugin);
 
-		getServer().getPluginManager().registerEvents(new HelmsdeepJoin(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepLeave(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepDeath(), this);
-		getServer().getPluginManager().registerEvents(new FlagRadius(), this);
-		getServer().getPluginManager().registerEvents(new SupplyCampFlag(), this);
-		getServer().getPluginManager().registerEvents(new CavesFlag(), this);
-		getServer().getPluginManager().registerEvents(new MainGateFlag(), this);
-		getServer().getPluginManager().registerEvents(new CourtyardFlag(), this);
-		getServer().getPluginManager().registerEvents(new GreatHallsFlag(), this);
-		getServer().getPluginManager().registerEvents(new HornFlag(), this);
-		getServer().getPluginManager().registerEvents(new Woolmap(), this);
+                // Death
+                getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
+                getServer().getPluginManager().registerEvents(new VoidLocation(), plugin);
 
-		getServer().getPluginManager().registerEvents(new HelmsdeepCavesDoor(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallLeftDoor(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallRightDoor(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepMainGateLeftDoor(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepMainGateRightDoor(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepStorageDoor(), this);
-		getServer().getPluginManager().registerEvents(new GreatHallExtraDoor(), this);
-		getServer().getPluginManager().registerEvents(new WallEvent(), this);
-		getServer().getPluginManager().registerEvents(new LadderEvent(), this);
-		getServer().getPluginManager().registerEvents(new armorTakeOff(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepMainGateDestroyEvent(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepGreatHallDestroyEvent(), this);
-		getServer().getPluginManager().registerEvents(new MVPstats(), this);
-		getServer().getPluginManager().registerEvents(new SpearmanAbility(), this);
-		getServer().getPluginManager().registerEvents(new KitGUIcommand(), this);
-		getServer().getPluginManager().registerEvents(new MessageCommand(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepBallistaEvent(), this);
+                // Security
+                getServer().getPluginManager().registerEvents(new InteractContainer(), plugin);
+                getServer().getPluginManager().registerEvents(new InventoryProtection(), plugin);
+                getServer().getPluginManager().registerEvents(new MapProtection(), plugin);
 
-		getServer().getPluginManager().registerEvents(new TwinbridgeFlag(), this);
-		getServer().getPluginManager().registerEvents(new SkyviewTowerFlag(), this);
-		getServer().getPluginManager().registerEvents(new LonelyTowerFlag(), this);
-		getServer().getPluginManager().registerEvents(new WestTowerFlag(), this);
-		getServer().getPluginManager().registerEvents(new StairhallFlag(), this);
-		getServer().getPluginManager().registerEvents(new ShiftedTowerFlag(), this);
-		getServer().getPluginManager().registerEvents(new TS_FlagRadius(), this);
-		getServer().getPluginManager().registerEvents(new ThunderstoneDeath(), this);
-		getServer().getPluginManager().registerEvents(new ThunderstoneJoin(), this);
-		getServer().getPluginManager().registerEvents(new HelmsdeepEndMVP(), this);
-		getServer().getPluginManager().registerEvents(new ThunderstoneEndMVP(), this);
-		getServer().getPluginManager().registerEvents(new TS_Woolmap(), this);
-		getServer().getPluginManager().registerEvents(new TS_Woolmap_Distance(), this);
-		getServer().getPluginManager().registerEvents(new ThunderstoneLeave(), this);
-		getServer().getPluginManager().registerEvents(new ThunderstoneGateDestroyEvent(), this);
-		getServer().getPluginManager().registerEvents(new EastTowerFlag(), this);
-		
-		getServer().getPluginManager().registerEvents(new VotesLoading(), this);
-		getServer().getPluginManager().registerEvents(new VotesUnloading(), this);
+                // Kits
+                getServer().getPluginManager().registerEvents(new Berserker(), plugin);
+                getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
+                getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
+                getServer().getPluginManager().registerEvents(new Engineer(), plugin);
+                getServer().getPluginManager().registerEvents(new Executioner(), plugin);
+                getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
+                getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
+                getServer().getPluginManager().registerEvents(new Ladderman(), plugin);
+                getServer().getPluginManager().registerEvents(new Maceman(), plugin);
+                getServer().getPluginManager().registerEvents(new Medic(), plugin);
+                getServer().getPluginManager().registerEvents(new Ranger(), plugin);
+                getServer().getPluginManager().registerEvents(new Spearman(), plugin);
+                getServer().getPluginManager().registerEvents(new Viking(), plugin);
+                getServer().getPluginManager().registerEvents(new Warhound(), plugin);
+                // Kit GUIs
+                getServer().getPluginManager().registerEvents(new FreeKitGUI(), plugin);
+                getServer().getPluginManager().registerEvents(new UnlockedKitGUI(), plugin);
+                getServer().getPluginManager().registerEvents(new SelectorKitGUI(), plugin);
 
-		getServer().getPluginManager().registerEvents(new FireArcherAbility(), this);
-		getServer().getPluginManager().registerEvents(new MedicAbilities(), this);
-		
-		getServer().getPluginManager().registerEvents(new WarhoundDeath(), this);
-		getServer().getPluginManager().registerEvents(new MedicDeath(), this);
-		getServer().getPluginManager().registerEvents(new WarhoundAbility(), this);
+                // Rewrite Commands
 
-		getCommand("KitThunderstoneGuards").setExecutor(new KitsGUI_ThunderstoneGuard_Command());
-		getCommand("KitCloudcrawlers").setExecutor(new KitsGUI_Cloudcrawlers_Command());
-		getCommand("Switch").setExecutor(new SwitchCommand());
-		getCommand("VoterKitGUI").setExecutor(new VotedKitsGUI_Command());
-		getCommand("ClassicGUI").setExecutor(new ClassicGui_Command());
-		getCommand("togglerank").setExecutor(new togglerankCommand());
-		getCommand("KitRohan").setExecutor(new KitGUI_Rohan_Command());
-		getCommand("KitIsengard").setExecutor(new KitGUI_Isengard_Command());
-		getCommand("ping").setExecutor(new pingCommand());
-		getCommand("rules").setExecutor(new rulesCommand());
-		getCommand("discord").setExecutor(new discordCommand());
-		getCommand("teams").setExecutor(new teamCommand());
-		getCommand("Kit").setExecutor(new KitsCommand());
-		getCommand("Mvp").setExecutor(new mvpCommand());
-		getCommand("KitGUI").setExecutor(new KitGUIcommand());
-		getCommand("Mystats").setExecutor(new MystatsCommand());
-		getCommand("NextMap").setExecutor(new NextMapCommand());
-		getCommand("t").setExecutor(new TeamChat());
-		getCommand("msg").setExecutor(new MessageCommand());
-		getCommand("r").setExecutor(new ReplyCommand());
-		getCommand("maps").setExecutor(new MapsCommand());
-		getCommand("sui").setExecutor(new suicideCommand());
-		getCommand("CheckFlagList").setExecutor(new FlagListCommand());
-		getCommand("s").setExecutor(new StaffChat());
-		getCommand("kick").setExecutor(new KickCommand());
-		getCommand("Fly").setExecutor(new FlyCommand());
-		getCommand("kickall").setExecutor(new KickallCommand());
-		getCommand("sessionmute").setExecutor(new SessionMuteCommand());
-		getCommand("Unsessionmute").setExecutor(new UnsessionmuteCommand());
-		
-		getCommand("givevote").setExecutor(new GiveVoteCommand());
-		getCommand("givevoter").setExecutor(new VoteListenerCommand());
+                // Chat
+                Objects.requireNonNull(getCommand("Message")).setExecutor(new PrivateMessage());
+                Objects.requireNonNull(getCommand("Reply")).setExecutor(new ReplyMessage());
+                Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
+
+                // Gameplay
+                Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
+                Objects.requireNonNull(getCommand("Suicide")).setExecutor(new SuicideCommand());
+                Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
+
+                // Info
+                Objects.requireNonNull(getCommand("Coins")).setExecutor(new CoinsCommand());
+                Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
+                Objects.requireNonNull(getCommand("Maps")).setExecutor(new MapsCommand());
+                Objects.requireNonNull(getCommand("MVP")).setExecutor(new MVPCommand());
+                Objects.requireNonNull(getCommand("MyStats")).setExecutor(new MyStatsCommand());
+                Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
+                Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
+                Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
+                Objects.requireNonNull(getCommand("Top")).setExecutor(new Leaderboard());
+
+                // Staff - Punishments
+                Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());
+                Objects.requireNonNull(getCommand("Kick")).setExecutor(new Kick());
+                Objects.requireNonNull(getCommand("KickAll")).setExecutor(new KickAll());
+                Objects.requireNonNull(getCommand("Mute")).setExecutor(new Mute());
+                Objects.requireNonNull(getCommand("Unban")).setExecutor(new Unban());
+                Objects.requireNonNull(getCommand("Unmute")).setExecutor(new Unmute());
+
+                // Staff
+                Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
+                Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
+                Objects.requireNonNull(getCommand("SetRank")).setExecutor(new SetRank());
+                Objects.requireNonNull(getCommand("SetStaffRank")).setExecutor(new SetStaffRank());
+                Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
+                Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
+                Objects.requireNonNull(getCommand("SetMap")).setExecutor(new SetMapCommand());
+                Objects.requireNonNull(getCommand("SetTimer")).setExecutor(new SetTimerCommand());
+                Objects.requireNonNull(getCommand("StaffChat")).setExecutor(new StaffChat());
+                Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());
+
+                // Kits
+                Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
+                Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
+                Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
+                Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
+                Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
+                Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
+                Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
+                Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
+                Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
+                Objects.requireNonNull(getCommand("Ladderman")).setExecutor(new Ladderman());
+                Objects.requireNonNull(getCommand("Maceman")).setExecutor(new Maceman());
+                Objects.requireNonNull(getCommand("Medic")).setExecutor(new Medic());
+                Objects.requireNonNull(getCommand("Ranger")).setExecutor(new Ranger());
+                Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
+                Objects.requireNonNull(getCommand("Shieldman")).setExecutor(new Shieldman());
+                Objects.requireNonNull(getCommand("Skirmisher")).setExecutor(new Skirmisher());
+                Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
+                Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
+                Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
+                Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
+
+                // Map Specific
+                // Helms Deep Only
+                getServer().getPluginManager().registerEvents(new WallEvent(), plugin);
+                CavesBoat boatEvent = new CavesBoat();
+                getServer().getPluginManager().registerEvents(boatEvent, plugin);
+                getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
+                boatEvent.spawnBoat();
+
+                // OLD EVENTS
+
+                //getServer().getPluginManager().registerEvents(new Herugrim(), plugin);
 
 
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneEndMap(), 0, 200);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepCaveBoat(), 0, 200);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new scoreboard(), 0, 20);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepEndMap(), 0, 20);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new ApplyRegeneration(), 0, 75);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new Hunger(), 0, 20);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new HelmsdeepMVPupdater(), 0, 20);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneMVPupdater(), 0, 20);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new HalberdierAbility(), 100, 25);
-		Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new DatabaseKeepAliveEvent(), 500, 500);
-		Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, new Herugrim(), 10, 10);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 20);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
+                Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
+                //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
 
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new MainGateReadyRam(), 200, 60);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new MainGateRamAnimation(), 200, MainGateRam.rammingSpeed);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new MainGateRam(), 200, 40);
-		
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new GreatHallGateReadyRam(), 200, 60);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new GreatHallRamAnimation(), 200, GreatHallGateRam.rammingSpeed);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new GreatHallGateRam(), 200, 40);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MainGateReadyRam(), 200, 60);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MainGateRamAnimation(), 200, MainGateRam.rammingSpeed);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MainGateRam(), 200, 40);
 
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneGateReadyRam(), 200, 60);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneRamAnimation(), 200, ThunderstoneRam.rammingSpeed);
-		Bukkit.getServer().getScheduler().runTaskTimer(this, new ThunderstoneRam(), 200, 40);
-		
-		currentMaps.setMap("HelmsDeep");
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new GreatHallGateReadyRam(), 200, 60);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new GreatHallRamAnimation(), 200, GreatHallGateRam.rammingSpeed);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new GreatHallGateRam(), 200, 40);
 
-		//Tablist
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneGateReadyRam(), 200, 60);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneRamAnimation(), 200, ThunderstoneRam.rammingSpeed);
+                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneRam(), 200, 40);
 
-//		this.tab = new Tablist(this);
-//		tab.addHeader("&e*_︵_︵_︵_ &5ConwyMC&e _︵_︵_︵_*\n&5Join the discord: &bhttps://discord.gg/AUDqTpC");
-//		tab.addHeader("&e*_︵_︵_︵_ &dConwyMC&e _︵_︵_︵_*\n&dJoin the discord: &bhttps://discord.gg/AUDqTpC");
+                getLogger().info("Plugin has been enabled!");
+
+                // Begin the map loop
+                MapController.startLoop();
+
+//		new BukkitRunnable() {
 //
-//		tab.addFooter("&5Castle Siege  -  Alpha Testing");
-//		tab.addFooter("&dCastle Siege  -  Alpha Testing");
+//			@Override
+//			public void run() {
 //
-//		tab.showTab();
+//				Herugrim.spawnHerugrim();
+//
+//			}
+//		}.runTaskLater(plugin, 200);
+            }
+        }.runTaskLater(plugin, 1);
+    }
 
-		//Activate the map Helmsdeep + reset
+    @Override
+    public void onDisable() {
+        getLogger().info("Disabling plugin...");
+        // Unloads everything
+        HandlerList.unregisterAll(plugin);
+        for (World world:Bukkit.getWorlds()) {
+            Bukkit.unloadWorld(world, false);
+        }
+        WorldCreator worldCreator = new WorldCreator("HelmsDeep");
+        worldCreator.generateStructures(false);
+        worldCreator.createWorld();
+        StoreData.storeAll();
+        try {
+            SQL.disconnect();
+        } catch (NullPointerException ex) {
+            getLogger().warning("SQL could not disconnect, it doesn't exist!");
+        }
+        getLogger().info("Plugin has been disabled!");
+    }
 
-		HelmsdeepReset.onReset();
-		HelmsdeepTimer.HelmsdeepTimerEvent();
-		HelmsdeepGreatHallBlocks.gateblocks();
-		HelmsdeepMainGateBlocks.gateblocks();
-		HelmsdeepCaveBoat.spawnFirstBoat();
+    private void resetWorlds() {
+        //Creating a File object for directory
+        File directoryPath = new File(String.valueOf(Bukkit.getWorldContainer()));
+        //List of all files and directories
+        String[] contents = directoryPath.list();
+        assert contents != null;
+        for (String content : contents) {
+            if (content.endsWith("_save")) {
+                String worldName = content.substring(0, content.length() - 5);
+                try {
+                    FileUtils.copyDirectory(new File(Bukkit.getWorldContainer(), worldName + "_save"),
+                            new File(Bukkit.getWorldContainer(), worldName));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
-		//resets Thunderstone after restart
-		ThunderstoneReset.onReset();
-		ThunderstoneGateBlocks.gateblocks();
-		
-		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+    private void createWorld(String worldName) {
+        WorldCreator worldCreator = new WorldCreator(worldName);
+        worldCreator.generateStructures(false);
+        World world = worldCreator.createWorld();
+        assert world != null;
+        world.setAutoSave(false);
+    }
 
-		new BukkitRunnable() {
+    private void sqlConnect() {
+        SQL = new MySQL();
 
-			@Override
-			public void run() {
-				
-				Herugrim.spawnHerugrim();
+        try {
+            SQL.connect();
+        } catch (ClassNotFoundException | SQLException e) {
+            getLogger().warning("<!> Database is not connected! <!>");
+        }
 
-			}
-		}.runTaskLater(plugin, 200);
+        if (SQL.isConnected()) {
+            getLogger().info("<!> Database is connected! <!>");
+            this.getServer().getPluginManager().registerEvents(this, this);
+        }
+    }
 
-	}
+    // File Configuration
+    public YamlConfiguration getMapsConfig() {
+        return this.mapsConfig;
+    }
 
-	@Override
-	public void onDisable() {
+    public YamlDocument getFlagsConfig() {
+        return this.flagsConfig;
+    }
 
-		SQL.disconnect();
+    public YamlDocument getDoorsConfig() {
+        return this.doorsConfig;
+    }
 
-		getServer().getConsoleSender().sendMessage(ChatColor.DARK_RED + "Thedarkage Plugin has been disabled!");
+    public YamlDocument getGatesConfig() {
+        return this.gatesConfig;
+    }
 
-	}
-	World world;
+    private void createConfigs() {
 
-	private void createWorld() {
-		WorldCreator d = new WorldCreator("HelmsDeep");
-		d.generateStructures(false);
-		WorldCreator t = new WorldCreator("Thunderstone");
-		t.generateStructures(false);
+        // Setup the vector adapter
+        TypeAdapter<Vector> vectorAdapter = new TypeAdapter<Vector>() {
+            @NotNull
+            @Override
+            public java.util.Map<Object, Object> serialize(@NotNull Vector vector) {
+                java.util.Map<Object, Object> map = new HashMap<>();
+                map.put("x", vector.getX());
+                map.put("y", vector.getY());
+                map.put("z", vector.getZ());
+                return map;
+            }
 
-		world = d.createWorld();
-		world = t.createWorld();
-	}
+            @NotNull
+            @Override
+            public Vector deserialize(@NotNull java.util.Map<Object, Object> map) {
+                Vector vector = new Vector();
+                vector.setX((Integer) map.get("x"));
+                vector.setY((Integer) map.get("y"));
+                vector.setZ((Integer) map.get("z"));
+                return vector;
+            }
 
+            //public Vector deserialize(@NotNull ArrayList<>)
+        };
+        StandardSerializer.getDefault().register(Vector.class, vectorAdapter);
 
-	@EventHandler
-	public void onJoin(PlayerJoinEvent e) {
+        // Setup the frame adapter
+        TypeAdapter<Frame> frameAdapter = new TypeAdapter<Frame>() {
 
-		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ConwyCastleSiege");
+            @NotNull
+            public java.util.Map<Object, Object> serialize(@NotNull Frame object) {
+                java.util.Map<Object, Object> map = new HashMap<>();
+                map.put("primary_blocks", object.primary_blocks);
+                map.put("secondary_blocks", object.secondary_blocks);
+                map.put("air", object.air);
+                return map;
+            }
 
-		Player p = e.getPlayer();
+            @NotNull
+            public Frame deserialize(@NotNull java.util.Map<Object, Object> map) {
+                Frame frame = new Frame();
+                if (map.get("primary_blocks") != null) {
+                    for (Object v : (ArrayList) map.get("primary_blocks")) {
+                        frame.primary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                    }
+                }
+                if (map.get("secondary_blocks") != null) {
+                    for (Object v : (ArrayList) map.get("secondary_blocks")) {
+                        frame.secondary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                    }
+                }
+                if (map.get("air") != null) {
+                    for (Object v : (ArrayList) map.get("air")) {
+                        frame.air.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                    }
+                }
+                return frame;
+            }
+        };
+        StandardSerializer.getDefault().register(Frame.class, frameAdapter);
 
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        // Load flags.yml with BoostedYAML
+        try {
+            flagsConfig = YamlDocument.create(new File(getDataFolder(), "flags.yml"),
+                    getClass().getResourceAsStream("flags.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-			if (!SQLstats.exists(p.getUniqueId())) {
+        // Load doors.yml with BoostedYAML
+        try {
+            doorsConfig = YamlDocument.create(new File(getDataFolder(), "doors.yml"),
+                    getClass().getResourceAsStream("doors.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-				SQLstats.createPlayer(p);
+        // Load gates.yml with BoostedYAML
+        try {
+            gatesConfig = YamlDocument.create(new File(getDataFolder(), "gates.yml"),
+                    getClass().getResourceAsStream("gates.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-			}
-		});
-	}
-	
+        // Load maps.yml with Spigot's yaml parser
+        File mapsFile = new File(getDataFolder(), "maps.yml");
+        if (!mapsFile.exists()) {
+            mapsFile.getParentFile().mkdirs();
+            saveResource("maps.yml", false);
+        }
+
+        mapsConfig = new YamlConfiguration();
+        try {
+            mapsConfig.load(mapsFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadMaps() {
+        // Load the maps
+        java.util.Map<String, Object> stringObjectMap = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection("")).getValues(false);
+        String[] mapPaths = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
+
+        MapController.maps = new Map[mapPaths.length];
+        for (int i = 0; i < mapPaths.length; i++) {
+            // Basic Map Details
+            Map map = new Map();
+            map.name = this.getMapsConfig().getString(mapPaths[i] + ".name");
+            map.worldName = this.getMapsConfig().getString(mapPaths[i] + ".world");
+            map.gamemode = Gamemode.valueOf(this.getMapsConfig().getString(mapPaths[i] + ".gamemode"));
+
+            // World Data
+            createWorld(map.worldName);
+
+            // Flag Data
+            loadFlags(mapPaths[i], map);
+            // Doors
+            loadDoors(mapPaths[i], map);
+            // Gates
+            loadGates(mapPaths[i], map);
+
+            // Team Data
+            java.util.Map<String, Object> stringObjectTeam = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection(mapPaths[i] + ".teams")).getValues(false);
+            String[] teamPaths = stringObjectTeam.keySet().toArray(new String[stringObjectTeam.size()]);
+            map.teams = new Team[teamPaths.length];
+            for (int j = 0; j < teamPaths.length; j++) {
+                String path = mapPaths[i] + ".teams." + teamPaths[j];
+                map.teams[j] = loadTeam(path, map);
+            }
+
+            // Timer data
+            map.duration = new Tuple<>(this.getMapsConfig().getInt(mapPaths[i] + ".duration.minutes"),
+                    this.getMapsConfig().getInt(mapPaths[i] + ".duration.seconds"));
+
+            // Save the map
+            MapController.maps[i] = map;
+        }
+    }
+
+    private void loadFlags(String mapPath, Map map) {
+        Route mapRoute = Route.from(mapPath);
+        String[] flagPaths = getPaths(getFlagsConfig(), mapRoute);
+
+        map.flags = new Flag[flagPaths.length];
+        for (int i = 0; i < flagPaths.length; i++) {
+            // Create the flag
+            Route flagRoute = mapRoute.add(flagPaths[i]);
+            String name = getFlagsConfig().getString(flagRoute.add("name"));
+            Flag flag;
+            if (getFlagsConfig().contains(flagRoute.add("start_amount"))) {
+                flag = new Flag(name,
+                        getFlagsConfig().getString(flagRoute.add("start_owners")),
+                        getFlagsConfig().getInt(flagRoute.add("max_cap")),
+                        getFlagsConfig().getInt(flagRoute.add("progress_amount")),
+                        getFlagsConfig().getInt(flagRoute.add("start_amount")));
+            } else {
+                flag = new Flag(name,
+                        getFlagsConfig().getString(flagRoute.add("start_owners")),
+                        getFlagsConfig().getInt(flagRoute.add("max_cap")),
+                        getFlagsConfig().getInt(flagRoute.add("progress_amount")));
+            }
+
+            // Set the spawn point
+            flag.spawnPoint = new Location(Bukkit.getWorld(map.worldName),
+                    getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("x")),
+                    getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("y")),
+                    getFlagsConfig().getDouble(flagRoute.add("spawn_point").add("z")));
+
+            // Set the capture area
+            Route captureRoute = flagRoute.add("capture_area");
+            if (getFlagsConfig().contains(captureRoute)
+                    && getFlagsConfig().getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
+                BlockVector3 min = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("min").add("x")),
+                        getFlagsConfig().getInt(captureRoute.add("min").add("y")),
+                        getFlagsConfig().getInt(captureRoute.add("min").add("z")));
+                BlockVector3 max = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("max").add("x")),
+                        getFlagsConfig().getInt(captureRoute.add("max").add("y")),
+                        getFlagsConfig().getInt(captureRoute.add("max").add("z")));
+                flag.region = new ProtectedCuboidRegion(flag.name.replace(' ', '_'), true, min, max);
+
+                flag.region.setFlag(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.BLOCK_PLACE, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.INTERACT, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.PVP, StateFlag.State.ALLOW);
+                //Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(map.worldName))))).addRegion(region);
+            }
+
+            if (getFlagsConfig().contains(captureRoute)) {
+                flag.animationAir = getFlagsConfig().getBoolean(flagRoute.add("animation_air"));
+                Route animationRoute = flagRoute.add("animation");
+                String[] animationPaths = getPaths(getFlagsConfig(), animationRoute);
+
+                flag.animation = new Frame[animationPaths.length];
+                for (int j = 0; j < animationPaths.length; j++) {
+                    Frame frame = getFlagsConfig().getAs(animationRoute.add(animationPaths[j]), Frame.class);
+                    flag.animation[j] = frame;
+                }
+            }
+
+            flag.scoreboard = getFlagsConfig().getInt(flagRoute.add("scoreboard"));
+
+            map.flags[i] = flag;
+        }
+    }
+
+    private Team loadTeam(String teamPath, Map map) {
+        String name = this.getMapsConfig().getString(teamPath + ".name");
+        Team team = new Team(name);
+
+        // Colours
+        Tuple<Material, ChatColor> colors = getColors(Objects.requireNonNull(this.getMapsConfig().getString(teamPath + ".primary_color")).toLowerCase());
+        team.primaryWool = colors.getFirst();
+        team.primaryChatColor = colors.getSecond();
+        colors = getColors(Objects.requireNonNull(this.getMapsConfig().getString(teamPath + ".secondary_color")).toLowerCase());
+        team.secondaryWool = colors.getFirst();
+        team.secondaryChatColor = colors.getSecond();
+
+        // Setup lobby
+        team.lobby = loadLobby(teamPath + ".lobby", map);
+        return team;
+    }
+
+    private Lobby loadLobby(String lobbyPath, Map map) {
+        Lobby lobby = new Lobby();
+        lobby.spawnPoint = getLocation(lobbyPath + ".spawn_point", map.worldName);
+        lobby.woolmap = loadWoolMap(lobbyPath + ".woolmap", map);
+        return lobby;
+    }
+
+    private WoolMap loadWoolMap(String woolMapPath, Map map) {
+        WoolMap woolMap = new WoolMap();
+        java.util.Map<String, Object> stringObjectMap = Objects.requireNonNull(this.getMapsConfig().getConfigurationSection(woolMapPath)).getValues(false);
+        String[] mapFlags = stringObjectMap.keySet().toArray(new String[stringObjectMap.size()]);
+        woolMap.woolMapBlocks = new WoolMapBlock[mapFlags.length];
+
+        // Loop through all the wool blocks
+        for (int i = 0; i < mapFlags.length; i++) {
+            WoolMapBlock block = new WoolMapBlock();
+
+            block.flagName = this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".flag_name");
+            block.blockLocation = getLocation(woolMapPath + "." + mapFlags[i] + ".wool_position", map.worldName);
+            block.signLocation = block.blockLocation.clone();
+
+            // Get the wall sign's direction
+            switch (Objects.requireNonNull(this.getMapsConfig().getString(woolMapPath + "." + mapFlags[i] + ".sign_direction")).toLowerCase()) {
+                case "east":
+                    block.signLocation.add(1, 0, 0);
+                    break;
+                case "south":
+                    block.signLocation.add(0, 0, 1);
+                    break;
+                case "west":
+                    block.signLocation.add(-1, 0, 0);
+                    break;
+                case "north":
+                    block.signLocation.add(0, 0, -1);
+                case "up":
+                    block.signLocation.add(0, 1, 0);
+                default:
+                    block.signLocation.add(0, 0, 0);
+            }
+            woolMap.woolMapBlocks[i] = block;
+        }
+
+        return woolMap;
+    }
+
+    private void loadDoors(String mapPath, Map map) {
+        Route mapRoute = Route.from(mapPath);
+        if (!getDoorsConfig().contains(mapRoute)) {
+            map.doors = new Door[0];
+            return;
+        }
+        String[] doorPaths = getPaths(getDoorsConfig(), mapRoute);
+
+        map.doors = new Door[doorPaths.length];
+        for (int i = 0; i < doorPaths.length; i++) {
+            // Create the flag
+            Route doorRoute = mapRoute.add(doorPaths[i]);
+            String flagName = getDoorsConfig().getString(doorRoute.add("flag"), map.name);
+            // Get the location at the centre of the object
+            //Location centre = getDoorsConfig().getAs(doorRoute.add("centre"), Vector.class).toLocation(Objects.requireNonNull(Bukkit.getWorld(map.worldName)));
+            Location centre = new Location(Bukkit.getWorld(map.worldName),
+                    getDoorsConfig().getInt(doorRoute.add("centre").add("x")),
+                    getDoorsConfig().getInt(doorRoute.add("centre").add("y")),
+                    getDoorsConfig().getInt(doorRoute.add("centre").add("z")));
+            // Fancy shit that makes the Tuple array of locations and materials
+            Route locationRoute = doorRoute.add("locations");
+            Route materialRoute = doorRoute.add("materials");
+            ArrayList<LinkedHashMap> doorVectors = (ArrayList<LinkedHashMap>) getDoorsConfig().get(locationRoute);
+            ArrayList<String> doorMaterials = (ArrayList<String>) getDoorsConfig().getStringList(materialRoute);
+            Tuple[] doorBlocks = new Tuple[doorVectors.size()];
+            for (int j = 0; j < doorVectors.size(); j++) {
+                try {
+                    doorBlocks[j] = new Tuple<>(new Vector(
+                            (int) doorVectors.get(j).get("x"),
+                            (int) doorVectors.get(j).get("y"),
+                            (int) doorVectors.get(j).get("z")),
+                            Material.getMaterial(doorMaterials.get(j)));
+                }
+                catch (NullPointerException e) {
+                    getLogger().warning("Missing material on " + doorPaths[i]);
+                }
+            }
+            Door door = new Door(flagName, centre, doorBlocks);
+            map.doors[i] = door;
+        }
+    }
+
+    private void loadGates(String mapPath, Map map) {
+        Route mapRoute = Route.from(mapPath);
+        if (!getGatesConfig().contains(mapRoute)) {
+            map.gates = new Gate[0];
+            return;
+        }
+        String[] gatePaths = getPaths(getGatesConfig(), mapRoute);
+
+        map.gates = new Gate[gatePaths.length];
+        for (int i = 0; i < gatePaths.length; i++) {
+            // Create the gate
+            Route gateRoute = mapRoute.add(gatePaths[i]);
+            Gate gate = new Gate(getGatesConfig().getString(gateRoute.add("display_name")));
+            gate.setFlagName(getGatesConfig().getString(gateRoute.add("flag_name")), map.name);
+            gate.setHealth(getGatesConfig().getInt(gateRoute.add("start_health")));
+
+            gate.setHitBox(getGatesConfig().getAs(gateRoute.add("min"), Vector.class),
+                    getGatesConfig().getAs(gateRoute.add("max"), Vector.class));
+            gate.setSchematic(getGatesConfig().getString(gateRoute.add("schematic").add("name")),
+                    getGatesConfig().getAs(gateRoute.add("schematic").add("location"), Vector.class));
+            gate.setBreachSoundLocation(getGatesConfig().getAs(gateRoute.add("breach_sound"), Vector.class));
+
+            map.gates[i] = gate;
+        }
+    }
+
+    private String[] getPaths(YamlDocument file, Route route) {
+        Set<String> set = file.getSection(route).getRoutesAsStrings(false);
+        String[] paths = new String[set.size()];
+        int index = 0;
+        for (String str : set) {
+            paths[index++] = str;
+        }
+        return paths;
+    }
+
+    private Location getLocation(String locationPath, String worldName) {
+        int x = this.getMapsConfig().getInt(locationPath + ".x");
+        int y = this.getMapsConfig().getInt(locationPath + ".y");
+        int z = this.getMapsConfig().getInt(locationPath + ".z");
+        int yaw = this.getMapsConfig().getInt(locationPath + ".yaw", 90);
+        int pitch = this.getMapsConfig().getInt(locationPath + ".pitch", 0);
+        return new Location(Bukkit.getServer().getWorld(worldName), x, y, z, yaw, pitch);
+    }
+
+    private Tuple<Material, ChatColor> getColors(String color) {
+        Tuple<Material, ChatColor> colors = new Tuple<>(Material.WHITE_WOOL, ChatColor.WHITE);
+        switch (color) {
+            case "black":
+                colors.setFirst(Material.BLACK_WOOL);
+                colors.setSecond(ChatColor.DARK_GRAY);
+                break;
+            case "dark_blue":
+                colors.setFirst(Material.BLUE_WOOL);
+                colors.setSecond(ChatColor.DARK_BLUE);
+                break;
+            case "dark_green":
+            case "green":
+                colors.setFirst(Material.GREEN_WOOL);
+                colors.setSecond(ChatColor.DARK_GREEN);
+                break;
+            case "cyan":
+            case "dark_aqua":
+                colors.setFirst(Material.CYAN_WOOL);
+                colors.setSecond(ChatColor.DARK_AQUA);
+                break;
+            case "dark_red":
+            case "red":
+                colors.setFirst(Material.RED_WOOL);
+                colors.setSecond(ChatColor.DARK_RED);
+                break;
+            case "brown":
+                colors.setFirst(Material.BROWN_WOOL);
+                colors.setSecond(ChatColor.DARK_RED);
+                break;
+            case "dark_purple":
+            case "purple":
+                colors.setFirst(Material.PURPLE_WOOL);
+                colors.setSecond(ChatColor.DARK_PURPLE);
+                break;
+            case "gold":
+            case "dark_gold":
+            case "dark_yellow":
+            case "orange":
+                colors.setFirst(Material.ORANGE_WOOL);
+                colors.setSecond(ChatColor.GOLD);
+                break;
+            case "light_gold":
+                colors.setFirst(Material.YELLOW_WOOL);
+                colors.setSecond(ChatColor.GOLD);
+                break;
+            case "light_gray":
+            case "light_grey":
+            case "gray":
+                colors.setFirst(Material.LIGHT_GRAY_WOOL);
+                colors.setSecond(ChatColor.GRAY);
+                break;
+            case "dark_grey":
+            case "dark_gray":
+            case "darkgrey":
+            case "darkgray":
+                colors.setFirst(Material.GRAY_WOOL);
+                colors.setSecond(ChatColor.DARK_GRAY);
+                break;
+            case "blue":
+                colors.setFirst(Material.BLUE_WOOL);
+                colors.setSecond(ChatColor.BLUE);
+            case "light_blue":
+                colors.setFirst(Material.LIGHT_BLUE_WOOL);
+                colors.setSecond(ChatColor.BLUE);
+                break;
+            case "light_green":
+            case "lime":
+                colors.setFirst(Material.LIME_WOOL);
+                colors.setSecond(ChatColor.GREEN);
+                break;
+            case "aqua":
+                colors.setFirst(Material.LIGHT_BLUE_WOOL);
+                colors.setSecond(ChatColor.AQUA);
+                break;
+            case "light_red":
+                colors.setFirst(Material.PINK_WOOL);
+                colors.setSecond(ChatColor.RED);
+                break;
+            case "light_purple":
+            case "magenta":
+                colors.setFirst(Material.MAGENTA_WOOL);
+                colors.setSecond(ChatColor.LIGHT_PURPLE);
+                break;
+            case "pink":
+                colors.setFirst(Material.PINK_WOOL);
+                colors.setSecond(ChatColor.LIGHT_PURPLE);
+                break;
+            case "light_yellow":
+            case "yellow":
+                colors.setFirst(Material.YELLOW_WOOL);
+                colors.setSecond(ChatColor.YELLOW);
+                break;
+            case "white":
+            default:
+                colors.setFirst(Material.WHITE_WOOL);
+                colors.setSecond(ChatColor.WHITE);
+        }
+
+        return colors;
+    }
+
+    public void reload() {
+        plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Reloading plugin...");
+        onDisable();
+        onEnable();
+        plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Plugin Reloaded!");
+    }
 }

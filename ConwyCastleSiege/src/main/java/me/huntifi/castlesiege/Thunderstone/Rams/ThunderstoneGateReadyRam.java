@@ -1,13 +1,13 @@
 package me.huntifi.castlesiege.Thunderstone.Rams;
 
+import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import com.sk89q.worldedit.WorldEditException;
 
 import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateDestroyEvent;
-import me.huntifi.castlesiege.maps.currentMaps;
-import me.huntifi.castlesiege.structures.MakeStructure;
+import me.huntifi.castlesiege.maps.MapController;
 
 public class ThunderstoneGateReadyRam implements Runnable {
 
@@ -18,7 +18,7 @@ public class ThunderstoneGateReadyRam implements Runnable {
 	@Override
 	public void run() {
 
-		if(currentMaps.currentMapIs("Thunderstone")) {
+		if(MapController.currentMapIs("Thunderstone")) {
 
 			Location ram = new Location(Bukkit.getServer().getWorld("Thunderstone"), 149, 67, 67);
 
@@ -31,13 +31,13 @@ public class ThunderstoneGateReadyRam implements Runnable {
 					if (!isRamReady) {
 
 						try {
-							MakeStructure.createSchematicStructure(ram, "ram_east", "Thunderstone");
+							SchematicSpawner.spawnSchematic(ram, "ram_east", "Thunderstone");
 						} catch (WorldEditException e) {
 							e.printStackTrace();
 						}
 
 						try {
-							MakeStructure.createSchematicStructure(startRam, "clear_ram_east", "Thunderstone");
+							SchematicSpawner.spawnSchematic(startRam, "clear_ram_east", "Thunderstone");
 						} catch (WorldEditException e) {
 							e.printStackTrace();
 						}
@@ -56,19 +56,19 @@ public class ThunderstoneGateReadyRam implements Runnable {
 					Location ramFix = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 150, 67, 67); //did this to remove an extra block.
 
 					try {
-						MakeStructure.createSchematicStructure(startRam, "ram_east", "Thunderstone");
+						SchematicSpawner.spawnSchematic(startRam, "ram_east", "Thunderstone");
 					} catch (WorldEditException e) {
 						e.printStackTrace();
 					}
 
 					try {
-						MakeStructure.createSchematicStructure(ram, "clear_ram_east", "Thunderstone");
+						SchematicSpawner.spawnSchematic(ram, "clear_ram_east", "Thunderstone");
 					} catch (WorldEditException e) {
 						e.printStackTrace();
 					}
 
 					try {
-						MakeStructure.createSchematicStructure(ramFix, "clear_ram_east", "Thunderstone");
+						SchematicSpawner.spawnSchematic(ramFix, "clear_ram_east", "Thunderstone");
 					} catch (WorldEditException e) {
 						e.printStackTrace();
 					}

@@ -1,28 +1,59 @@
-name: ConwyCastleSiege
+name: CastleSiege
 main: me.huntifi.castlesiege.Main
-version: 1.1.0
+version: 1.1.1
 api-version: 1.13
-author: Huntifi
-depends: [Votifier]
+authors: [Huntifi, Greenfoot5, kasteelvuur]
+depends: [Votifier, WorldGuard, NametagEdit, WorldGuard]
+softdepend: [LibsDisguises, WorldEdit]
+load: STARTUP
+
+permissions:
+  # Staff
+  castlesiege.admin:
+    description: Gives access to all CastleSiege Admin commands
+    children:
+      castlesiege.developer: true
+  castlesiege.developer:
+    description: Gives access to all CastleSiege Developer commands
+    children:
+      castlesiege.moderator: true
+  castlesiege.moderator:
+    description: Gives access to all CastleSiege Moderator commands
+    children:
+      castlesiege.chatmod+: true
+  castlesiege.chatmod+:
+    description: Gives access to all CastleSiege Chatmod+ commands
+    children:
+      castlesiege.chatmod: true
+  castlesiege.chatmod:
+    description: Gives access to all CastleSiege Chatmod commands
+
+  # Donator
+  castlesiege.high_king:
+    description: Gives access to all CastleSiege High King commands
+    children:
+      castlesiege.king: true
+  castlesiege.king:
+    description: Gives access to all CastleSiege King commands
+    children:
+      castlesiege.duke: true
+  castlesiege.duke:
+    description: Gives access to all CastleSiege Count commands
+    children:
+      castlesiege.baron: true
+  castlesiege.baron:
+    description: Gives access to all CastleSiege Baron commands
+    children:
+      castlesiege.noble: true
+  castlesiege.noble:
+    description: Gives access to all CastleSiege Noble commands
+    children:
+      castlesiege.esquire: true
+  castlesiege.esquire:
+    description: Gives access to all CastleSiege Esquire commands
+
 commands:
-  fly:
-    description: Staff command that enables flying.
-    usage: /Fly
-  ping:
-    description: Shows your current ping!
-    usage: /Ping
-  discord:
-    description: Gives you the link to our discord!
-    usage: /Discord
-  rules:
-    description: Displays the rules!
-    usage: /Rules
-  NextMap:
-    description: Skips the current map and goes directly to the next one.
-    usage: /NextMap
-  maps:
-    description: Displays the map rotation!
-    usage: /Maps
+  # TODO - These command have yet to be reimplemented
   Gmc:
     description: Change your game mode to creative.
     usage: /Gmc
@@ -35,109 +66,217 @@ commands:
   Gma:
     description: Change your game mode to adventure.
     usage: /Gma
-  Giverank:
-    description: Gives a rank to the targetted player.
-    usage: /Giverank
-  Givestaffrank:
-    description: Gives a staff rank to the targetted player.
-    usage: /Givestaffrank
-  Checkrank:
-    description: This is a controle check message to see if the database - ranks work.
-    usage: /Checkrank
-  Togglerank:
-    description: Toggle your rank on and off.
-    usage: /Togglerank
-  Ban:
-    description: Ban a player!
-    usage: /Ban
-  Unban:
-    description: Unban a banned player!
-    usage: /Unban
-  Mute:
-    description: Mute a player!
-    usage: /Mute
-  Unmute:
-    description: Unmute a muted player!
-    usage: /Unmute
-  Kick:
-    description: Kick a player from the server!
-    usage: /Kick
   Vanish:
     description: Vanish into the void!
     usage: /Vanish
-  Playerid:
-    description: Returns the target player's UUID.
-    usage: /Playerid
+
+  # Chat
+  Message:
+    description: Privately message a player
+    usage: /msg <player> <message>
+    aliases:
+      - msg
+      - m
+      - whisper
+      - w
+  Reply:
+    description: Reply to the last player that sent you a private message
+    usage: /r <message>
+    aliases: r
+  TeamChat:
+    description: Talk in team-chat
+    usage: /t <message>
+    aliases: t
+
+  # Info
+  Coins:
+    description: Shows the player's coins
+    usage: /coins
+  Discord:
+    description: Gives the link to our discord
+    usage: /discord
+  Maps:
+    description: Shows all maps in rotation
+    usage: /maps
+  MVP:
+    description: Shows the current MVP(s)
+    usage: /mvp(s)
+    aliases: mvps
+  MyStats:
+    description: Opens a book that shows your stats
+    usage: /mystats
+  Ping:
+    description: Shows your current ping
+    usage: /ping
+  Rules:
+    description: Shows the rules
+    usage: /rules
   Teams:
-    description: Shows the size of both teams.
-    usage: /Teams
+    description: Shows the size and name of all teams on the current map
+    usage: /teams
+  Top:
+    description: Shows the leaderboard
+    usage: /top <category>
+    aliases:
+      - toplist
+      - leaderboard
+
+  # Gameplay
   Switch:
     description: Switches teams.
-    usage: /Switch
-  Kit:
-    description: Switches teams.
-    usage: /Kit
-  Mvp:
-    description: Switches teams.
-    usage: /Mvp
-  KitGUI:
-    description: Opens the kit GUI.
-    usage: /KitGUI
-  Mystats:
-    description: Opens a book that shows you your stats.
-    usage: /Mystats
-  t:
-    description: Talk in team chat.
-    usage: /t
-  s:
-    description: Talk in staff chat.
-    usage: /s
-  r:
-    description: Reply to a message.
-    usage: /r
-  msg:
-    description: Message a player!
-    usage: /r
-  KitRohan:
-    description: GUI Rohan-Helmsdeep
-    usage: /KitRohan
-  KitIsengard:
-    description: GUI Isengard-Helmsdeep
-    usage: /KitIsengard
-  togglerank:
-    description: Toggles the rank
-    usage: /togglerank
-  Classicgui:
-    description: open classic gui
-    usage: /classicgui
-  VoterKitGUI:
-    description: open voterkit gui
-    usage: /VoterKitGUI
-  KitThunderstoneGuards:
-    description: open thunderstone GUI
-    usage: /KitThunderstoneGuards
-  KitCloudcrawlers:
-    description: open cloudcrawler thunderstone GUI
-    usage: /KitCloudcrawlers
-  sui:
+    usage: /switch
+    aliases: sw
+  SaveMap:
+    description: Saves any changes made to the current map
+    usage: /savemap
+  Suicide:
     description: commit die
-    usage: /sui
-    aliases: suicide
-  CheckFlagList:
-    description: check helmsdeep arraylists
-    usage: /CheckFlagList
-  Kickall:
+    usage: /suicide
+    aliases: sui
+
+  # Staff - Punishments
+  Ban:
+    description: Ban a player
+    usage: /ban <player> <time> <reason>
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  Kick:
+    description: Kick a player from the server
+    usage: /kick <player> <reason>
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  KickAll:
     description: Kick all players from the server
-    usage: /Kickall
-  Unsessionmute:
-    description: Un-sessionmutes the player.
-    usage: /Unsessionmute
-  sessionmute:
-    description: Session mute the player.
-    usage: /sessionmute
-  Givevoter:
-    description: Not for players, this is a console command.
-    usage: /Givevoter
-  Givevote:
-    description: Moderator command to give players their votes.
-    usage: /Givevote
+    usage: /kickall <reason>
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  Mute:
+    description: Mute a player
+    usage: /mute <player> <time> <reason>
+    permission: castlesiege.chatmod
+    permission-message: You are not permitted to use this command!
+  Unban:
+    description: Unban a banned player
+    usage: /unban <player>
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  Unmute:
+    description: Unmute a muted player
+    usage: /unmute <player>
+    permission: castlesiege.chatmod
+    permission-message: You are not permitted to use this command!
+
+  # Staff - ...
+  CSReload:
+    description: Reloads the Castle Siege Plugin
+    usage: /csreload
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  Fly:
+    description: Toggle flight
+    usage: /fly
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  SetRank:
+    description: Set a donator rank for a player
+    usage: /setrank <player> <rank>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  SetStaffRank:
+    description: Set a staff rank for a player
+    usage: /setstaffrank <player> <rank>
+    permission: castlesiege.admin
+    permission-message: You are not permitted to use this command!
+  GiveVote:
+    description: Give a player vote rewards
+    usage: /givevote <player> <vote>
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  NextMap:
+    description: Skips the current map and goes directly to the next one
+    usage: /nextmap
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  SetMap:
+    description: Skips to the specified map in the rotation
+    usage: /setmap <map name>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  SetTimer:
+    description: Sets the time left on the map to the specified time
+    usage: /settimer <mins> <seconds>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  StaffChat:
+    description: Talk in staff-chat
+    usage: /s <message>
+    aliases: s
+    permission: castlesiege.chatmod
+    permission-message: You are not permitted to use this command!
+  ToggleRank:
+    description: Switch between staff and donator rank
+    usage: /togglerank
+    permission: castlesiege.chatmod
+    permission-message: You are not permitted to use this command!
+
+  # Kits
+  Kit:
+    description: Open the GUI for selecting kits
+    usage: /kit <category>
+  Archer:
+    description: Selects the archer kit
+    usage: /archer
+  Berserker:
+    description: Selects the berserker kit
+    usage: /berserker
+  Cavalry:
+    description: Selects the cavalry kit
+    usage: /cavalry
+  Crossbowman:
+    description: Selects the crossbowman kit
+    usage: /crossbowman
+  Engineer:
+    description: Selects the engineer kit
+    usage: /engineer
+  Executioner:
+    description: Selects the executioner kit
+    usage: /executioner
+  FireArcher:
+    description: Selects the firearcher kit
+    usage: /firearcher
+  Halberdier:
+    description: Selects the halberdier kit
+    usage: /halberdier
+  Ladderman:
+    description: Selects the ladderman kit
+    usage: /ladderman
+  Maceman:
+    description: Selects the maceman kit
+    usage: /maceman
+  Medic:
+    description: Selects the medic kit
+    usage: /medic
+  Ranger:
+    description: Selects the ranger kit
+    usage: /ranger
+  Scout:
+    description: Selects the scout kit
+    usage: /scout
+  Shieldman:
+    description: Selects the shieldman kit
+    usage: /shieldman
+  Skirmisher:
+    description: Selects the skirmisher kit
+    usage: /skirmisher
+  Spearman:
+    description: Selects the spearman kit
+    usage: /spearman
+  Swordsman:
+    description: Selects the swordsman kit
+    usage: /swordsman
+  Viking:
+    description: Selects the viking kit
+    usage: /viking
+  Warhound:
+    description: Selects the warhound kit
+    usage: /warhound

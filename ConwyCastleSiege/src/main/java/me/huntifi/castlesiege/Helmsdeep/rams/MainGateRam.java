@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import me.huntifi.castlesiege.maps.currentMaps;
-import me.huntifi.castlesiege.teams.PlayerTeam;
+import me.huntifi.castlesiege.maps.MapController;
+//import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class MainGateRam implements Runnable {
 	
@@ -19,7 +19,7 @@ public class MainGateRam implements Runnable {
 	@Override
 	public void run() {
 
-		if(currentMaps.currentMapIs("HelmsDeep")) {
+		/*if(MapController.currentMapIs("HelmsDeep")) {
 
 			for (Player rammer : PlayerTeam.Urukhai) {
 
@@ -72,13 +72,13 @@ public class MainGateRam implements Runnable {
 				return;
 				
 			}
-		}
+		}*/
 
 	}
 
 
 	//try {
-	//	MakeStructure.createSchematicStructure(ram, "Classic_Ram", "HelmsDeep");
+	//	SchematicSpawner.spawnSchematic(ram, "Classic_Ram", "HelmsDeep");
 	//} catch (WorldEditException e) {
 	//	e.printStackTrace();
 	//}
