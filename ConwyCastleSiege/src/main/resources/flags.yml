@@ -4946,8 +4946,8 @@ Elwynn:
   goldshire:
     name: "Goldshire"
     start_owners: "The Alliance"
-    max_cap: 11
-    start_amount: 11
+    max_cap: 10
+    start_amount: 10
     progress_amount: 10
     scoreboard: 5
     spawn_point:
