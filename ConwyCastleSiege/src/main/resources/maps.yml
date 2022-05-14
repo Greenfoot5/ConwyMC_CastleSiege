@@ -56,7 +56,7 @@ Abrakhan:
               z: -817
             sign_direction: up
           abrakhan_inner_gatehouse:
-            flag_name: "Inn. Gatehouse"
+            flag_name: "Inner Gatehouse"
             wool_position:
               x: 70
               y: 19

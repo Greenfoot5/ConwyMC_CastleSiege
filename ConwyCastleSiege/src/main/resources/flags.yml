@@ -9992,7 +9992,7 @@ Abrakhan:
             y: 63
             z: -87
   abrakhan_inner_gatehouse:
-    name: "Inn. Gatehouse"
+    name: "Inner Gatehouse"
     start_owners: "Abrakhan Guard"
     max_cap: 8
     start_amount: 8
