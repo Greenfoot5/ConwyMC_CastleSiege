@@ -14,6 +14,7 @@ import java.util.UUID;
 
 /**
  * Load a player's data when they join the game
+ * These methods should only be called asynchronously
  */
 public class LoadData {
 
@@ -148,5 +149,41 @@ public class LoadData {
 
         ps.close();
         return uuid;
+    }
+
+    /**
+     * Get the rank points of a player from our database
+     * @param name The name of the player
+     * @return The player's rank points, or -1 if the name is not in the database
+     * @throws SQLException If something goes wrong executing the query
+     */
+    public static double getRankPoints(String name) throws SQLException {
+        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "SELECT rank_points FROM player_rank WHERE name=?");
+        ps.setString(1, name);
+        ResultSet rs = ps.executeQuery();
+
+        double rankPoints;
+        if (rs.next()) {
+            rankPoints = rs.getDouble(1);
+        } else {
+            rankPoints = -1;
+        }
+
+        ps.close();
+        return rankPoints;
+    }
+
+    /**
+     * Get the top 10 donators
+     * @return A tuple of the prepared statement (to close later) and the query's result
+     * @throws SQLException If something goes wrong executing the query
+     */
+    public static Tuple<PreparedStatement, ResultSet> getTopDonators() throws SQLException {
+        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "SELECT * FROM player_rank ORDER BY rank_points DESC LIMIT 10");
+
+        ResultSet rs = ps.executeQuery();
+        return new Tuple<>(ps, rs);
     }
 }

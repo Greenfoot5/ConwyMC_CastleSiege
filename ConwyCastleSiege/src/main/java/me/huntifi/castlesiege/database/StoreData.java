@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.staff.RankPoints;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -47,7 +48,7 @@ public class StoreData {
 
         ps = Main.SQL.getConnection().prepareStatement(
                 "UPDATE player_rank SET rank = ?, staff_rank = ?, rank_points = ? WHERE uuid = ?");
-        ps.setString(1, data.getRank());
+        ps.setString(1, RankPoints.getRank(data.getRankPoints()));
         ps.setString(2, data.getStaffRank());
         ps.setDouble(3, data.getRankPoints());
         ps.setString(4, uuid.toString());
@@ -84,6 +85,29 @@ public class StoreData {
                             "UPDATE " + table + " SET name = ? WHERE uuid = ?");
                     ps.setString(1, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName());
                     ps.setString(2, uuid.toString());
+                    ps.executeUpdate();
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.runTaskAsynchronously(Main.plugin);
+    }
+
+    /**
+     * Update the player's donator rank saved in the database
+     * @param name The name of the player
+     */
+    public static void updateRank(String name, String rank, double rp) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                            "UPDATE player_rank SET rank = ?, rank_points = ? WHERE name = ?");
+                    ps.setString(1, rank);
+                    ps.setDouble(2, rp);
+                    ps.setString(3, name);
                     ps.executeUpdate();
                     ps.close();
                 } catch (SQLException e) {

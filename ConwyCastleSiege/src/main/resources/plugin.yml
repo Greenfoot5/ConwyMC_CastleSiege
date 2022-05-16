@@ -36,8 +36,16 @@ permissions:
   castlesiege.king:
     description: Gives access to all CastleSiege King commands
     children:
+      castlesiege.viceroy: true
+  castlesiege.viceroy:
+    description: Gives access to all CastleSiege Viceroy commands
+    children:
       castlesiege.duke: true
   castlesiege.duke:
+    description: Gives access to all CastleSiege Duke commands
+    children:
+      castlesiege.count: true
+  castlesiege.count:
     description: Gives access to all CastleSiege Count commands
     children:
       castlesiege.baron: true
@@ -177,11 +185,6 @@ commands:
     usage: /fly
     permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
-  SetRank:
-    description: Set a donator rank for a player
-    usage: /setrank <player> <rank>
-    permission: castlesiege.moderator
-    permission-message: You are not permitted to use this command!
   SetStaffRank:
     description: Set a staff rank for a player
     usage: /setstaffrank <player> <rank>
@@ -195,6 +198,11 @@ commands:
   NextMap:
     description: Skips the current map and goes directly to the next one
     usage: /nextmap
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  RankPoints:
+    description: Manages a player's rank points
+    usage: /rankpoints <player> <set | add | remove> <amount>
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
   SetMap:

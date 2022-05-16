@@ -60,14 +60,12 @@ public class Permissions {
      * @param uuid The unique ID of the player
      * @param permission The permission to set
      */
-    public static boolean setDonatorPermission(UUID uuid, String permission) {
-        Collection<String> donatorPerms = Arrays.asList("high_king", "king", "duke", "count", "baron", "noble", "esquire", "");
+    public static void setDonatorPermission(UUID uuid, String permission) {
+        Collection<String> donatorPerms = Arrays.asList("high_king", "king", "viceroy", "duke",
+                "count", "baron", "noble", "esquire", "");
         if (donatorPerms.contains(permission.toLowerCase())) {
-            setPermission(uuid, ActiveData.getData(uuid).getRank(), permission.toLowerCase());
-            return true;
+            setPermission(uuid, ActiveData.getData(uuid).getRank().toLowerCase(), permission.toLowerCase());
         }
-
-        return false;
     }
 
     /**
@@ -79,10 +77,10 @@ public class Permissions {
     private static void setPermission(UUID uuid, String currentPerm, String newPerm) {
         // Remove old permission and set new one
         PermissionAttachment attachment = perms.get(uuid);
-        if (!currentPerm.equals("")) {
+        if (!currentPerm.isEmpty()) {
             attachment.unsetPermission("castlesiege." + currentPerm);
         }
-        if (!newPerm.equals("")) {
+        if (!newPerm.isEmpty()) {
             attachment.setPermission("castlesiege." + newPerm, true);
         }
 

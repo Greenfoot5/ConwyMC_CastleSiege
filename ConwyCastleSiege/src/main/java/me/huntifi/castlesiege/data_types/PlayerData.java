@@ -331,8 +331,8 @@ public class PlayerData {
      * Add to the player's rank points
      * @param rankPoints The rank points to add
      */
-    public void addRankPoints(double rankPoints) {
-        this.rankPoints += rankPoints;
+    public void setRankPoints(double rankPoints) {
+        this.rankPoints = rankPoints;
     }
 
     /**

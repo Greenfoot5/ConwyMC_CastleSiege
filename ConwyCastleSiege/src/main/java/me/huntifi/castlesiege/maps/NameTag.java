@@ -82,12 +82,14 @@ public class NameTag {
                 return "§3Esquire ";
             case "noble":
                 return "§aNoble ";
-            case "count":
-                return "§6Count ";
             case "baron":
                 return "§5Baron ";
+            case "count":
+                return "§6Count ";
             case "duke":
                 return "§4Duke ";
+            case "viceroy":
+                return "§dViceroy ";
             case "king":
                 return "§eKing ";
             case "high_king":

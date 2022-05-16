@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.staff.RankPoints;
 import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -131,5 +132,13 @@ public class PlayerConnect implements Listener {
         // Actively store data
         ActiveData.addPlayer(uuid, data);
         MVPStats.addPlayer(uuid);
+
+        // Set the player's donator top rank
+        if (data.getRankPoints() > 0) {
+            String rank = RankPoints.getTopRank(uuid);
+            if (!rank.isEmpty()) {
+                data.setRank(rank);
+            }
+        }
     }
 }

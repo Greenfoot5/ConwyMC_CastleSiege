@@ -19,9 +19,7 @@ public class MVPStats {
      * @param uuid The unique ID of the player
      */
     public static void addPlayer(UUID uuid) {
-        if (!stats.containsKey(uuid)) {
-            stats.put(uuid, new PlayerData());
-        }
+        stats.putIfAbsent(uuid, new PlayerData());
     }
 
     /**
