@@ -38,6 +38,7 @@ me\huntifi\castlesiege\maps\NameTag$1.class
 me\huntifi\castlesiege\events\connection\PlayerDisconnect$1.class
 me\huntifi\castlesiege\Thunderstone\Rams\ThunderstoneRamAnimation$1.class
 me\huntifi\castlesiege\commands\staff\punishments\Unmute$1.class
+me\huntifi\castlesiege\database\UpdateStats$1.class
 me\huntifi\castlesiege\events\combat\LobbyCombat.class
 me\huntifi\castlesiege\database\LoadData.class
 me\huntifi\castlesiege\commands\info\CoinsCommand.class

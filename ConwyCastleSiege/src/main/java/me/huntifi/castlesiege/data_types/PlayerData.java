@@ -58,7 +58,6 @@ public class PlayerData {
         this.maxKillStreak = statsData.getInt("kill_streak");
         this.kit = statsData.getString("kit");
 
-        this.rank = rankData.getString("rank");
         this.staffRank = rankData.getString("staff_rank");
         this.rankPoints = rankData.getDouble("rank_points");
 

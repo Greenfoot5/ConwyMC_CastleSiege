@@ -93,7 +93,7 @@ public class RankPoints implements CommandExecutor {
      * @param rp The rank points
      */
     private void setRankPoints(CommandSender s, String name, double rp) {
-        StoreData.updateRank(name, getRank(rp), rp);
+        StoreData.updateRank(name, rp);
         updateOnline(name, rp);
         s.sendMessage(ChatColor.GREEN + name + " now has " + ChatColor.YELLOW + rp + ChatColor.GREEN + " rank points.");
     }

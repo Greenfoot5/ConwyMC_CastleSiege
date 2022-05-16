@@ -134,6 +134,7 @@ public class PlayerConnect implements Listener {
         MVPStats.addPlayer(uuid);
 
         // Set the player's donator top rank
+        data.setRank(RankPoints.getRank(data.getRankPoints()));
         if (data.getRankPoints() > 0) {
             String rank = RankPoints.getTopRank(uuid);
             if (!rank.isEmpty()) {

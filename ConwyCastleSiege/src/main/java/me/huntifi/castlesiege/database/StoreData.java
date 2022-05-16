@@ -47,11 +47,10 @@ public class StoreData {
         ps.close();
 
         ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE player_rank SET rank = ?, staff_rank = ?, rank_points = ? WHERE uuid = ?");
-        ps.setString(1, RankPoints.getRank(data.getRankPoints()));
-        ps.setString(2, data.getStaffRank());
-        ps.setDouble(3, data.getRankPoints());
-        ps.setString(4, uuid.toString());
+                "UPDATE player_rank SET staff_rank = ?, rank_points = ? WHERE uuid = ?");
+        ps.setString(1, data.getStaffRank());
+        ps.setDouble(2, data.getRankPoints());
+        ps.setString(3, uuid.toString());
         ps.executeUpdate();
         ps.close();
     }
@@ -98,16 +97,15 @@ public class StoreData {
      * Update the player's donator rank saved in the database
      * @param name The name of the player
      */
-    public static void updateRank(String name, String rank, double rp) {
+    public static void updateRank(String name, double rp) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 try {
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                            "UPDATE player_rank SET rank = ?, rank_points = ? WHERE name = ?");
-                    ps.setString(1, rank);
-                    ps.setDouble(2, rp);
-                    ps.setString(3, name);
+                            "UPDATE player_rank SET rank_points = ? WHERE name = ?");
+                    ps.setDouble(1, rp);
+                    ps.setString(2, name);
                     ps.executeUpdate();
                     ps.close();
                 } catch (SQLException e) {
