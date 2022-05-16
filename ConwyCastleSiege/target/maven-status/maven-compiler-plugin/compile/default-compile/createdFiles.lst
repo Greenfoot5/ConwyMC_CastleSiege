@@ -11,6 +11,7 @@ me\huntifi\castlesiege\maps\WoolMap.class
 me\huntifi\castlesiege\kits\kits\Executioner.class
 me\huntifi\castlesiege\kits\kits\Medic$1.class
 me\huntifi\castlesiege\maps\objects\Flag$1.class
+me\huntifi\castlesiege\commands\staff\BroadcastMessage.class
 me\huntifi\castlesiege\commands\donator\JoinMessage.class
 me\huntifi\castlesiege\commands\info\MVPCommand.class
 me\huntifi\castlesiege\commands\info\TeamsCommand.class
@@ -71,6 +72,7 @@ me\huntifi\castlesiege\events\combat\TeamCombat.class
 me\huntifi\castlesiege\maps\Lobby.class
 me\huntifi\castlesiege\Helmsdeep\rams\MainGateReadyRam.class
 me\huntifi\castlesiege\maps\Scoreboard.class
+me\huntifi\castlesiege\commands\staff\SetCoinMultiplier.class
 me\huntifi\castlesiege\database\MVPStats.class
 me\huntifi\castlesiege\Helmsdeep\rams\GreatHallGateRam.class
 me\huntifi\castlesiege\database\UpdateStats.class
@@ -160,6 +162,7 @@ me\huntifi\castlesiege\commands\staff\punishments\Ban$1.class
 me\huntifi\castlesiege\kits\items\WoolHat.class
 me\huntifi\castlesiege\Main$3.class
 me\huntifi\castlesiege\Helmsdeep\Secrets\HelmsdeepSecretDoor.class
+me\huntifi\castlesiege\commands\info\CoinMultiplier.class
 me\huntifi\castlesiege\database\StoreData.class
 me\huntifi\castlesiege\maps\objects\Door.class
 me\huntifi\castlesiege\maps\NameTag.class

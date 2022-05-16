@@ -118,6 +118,9 @@ commands:
     aliases: sui
 
   # Info
+  CoinMultiplier:
+    description: Shows the active coin multiplier
+    usage: /coinmultiplier
   Coins:
     description: Shows the player's coins
     usage: /coins
@@ -216,6 +219,11 @@ commands:
   RankPoints:
     description: Manages a player's rank points
     usage: /rankpoints <player> <set | add | remove> <amount>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  SetCoinMultiplier:
+    description: Sets the active coin multiplier
+    usage: /setcoinmultiplier <multiplier>
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
   SetMap:

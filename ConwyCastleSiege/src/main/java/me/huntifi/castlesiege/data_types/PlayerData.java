@@ -433,6 +433,14 @@ public class PlayerData {
     }
 
     /**
+     * Get the active coin multiplier
+     * @return The active coin multiplier
+     */
+    public static double getCoinMultiplier() {
+        return coinMultiplier;
+    }
+
+    /**
      * Sets the coin multiplier
      * @param multiplier The multiplier to set
      */
