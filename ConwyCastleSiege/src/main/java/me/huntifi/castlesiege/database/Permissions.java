@@ -63,8 +63,8 @@ public class Permissions {
     public static void setDonatorPermission(UUID uuid, String permission) {
         Collection<String> donatorPerms = Arrays.asList("high_king", "king", "viceroy", "duke",
                 "count", "baron", "noble", "esquire", "");
-        if (donatorPerms.contains(permission.toLowerCase())) {
-            setPermission(uuid, ActiveData.getData(uuid).getRank().toLowerCase(), permission.toLowerCase());
+        if (donatorPerms.contains(permission)) {
+            setPermission(uuid, ActiveData.getData(uuid).getRank(), permission);
         }
     }
 

@@ -153,13 +153,13 @@ public class RankPoints implements CommandExecutor {
                 if (top.getSecond().getString("uuid").equalsIgnoreCase(uuid.toString())) {
                     if (i == 1) {
                         top.getFirst().close();
-                        return  "High_King";
+                        return  "high_king";
                     } else if (i <= 3) {
                         top.getFirst().close();
-                        return  "King";
+                        return  "king";
                     } else {
                         top.getFirst().close();
-                        return  "Viceroy";
+                        return  "viceroy";
                     }
                 }
                 i++;
@@ -181,15 +181,15 @@ public class RankPoints implements CommandExecutor {
      */
     public static String getRank(double rp) {
         if (rp > 80) {
-            return "Duke";
+            return "duke";
         } else if (rp > 60) {
-            return "Count";
+            return "count";
         } else if (rp > 40) {
-            return "Baron";
+            return "baron";
         } else if (rp > 20) {
-            return "Noble";
+            return "noble";
         } else if (rp > 0) {
-            return "Esquire";
+            return "esquire";
         } else {
             return "";
         }
