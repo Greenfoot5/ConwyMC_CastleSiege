@@ -8,6 +8,11 @@
   <component name="FacetManager">
     <facet type="minecraft" name="Minecraft">
       <configuration>
+        <userChosenTypes>
+          <map>
+            <entry key="SPONGE" value="false" />
+          </map>
+        </userChosenTypes>
         <autoDetectTypes>
           <platformType>SPIGOT</platformType>
           <platformType>PAPER</platformType>

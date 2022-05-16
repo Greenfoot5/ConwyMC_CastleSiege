@@ -183,6 +183,11 @@ commands:
     permission-message: You are not permitted to use this command!
 
   # Staff - ...
+  Broadcast:
+    description: Send a special message to everyone on the server!
+    usage: /Broadcast <message>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
   CSReload:
     description: Reloads the Castle Siege Plugin
     usage: /csreload

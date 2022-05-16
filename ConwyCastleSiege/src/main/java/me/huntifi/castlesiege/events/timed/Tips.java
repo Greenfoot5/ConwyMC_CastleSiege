@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class Tips extends BukkitRunnable {
     // time in seconds between sending out tips
-    public static int TIME_BETWEEN_TIPS = 90;
+    public static int TIME_BETWEEN_TIPS = 180;
     private final Random random = new Random();
 
     // Quick and dirty, needs to be expanded to allow for conditions and be read from a yml
@@ -32,7 +32,10 @@ public class Tips extends BukkitRunnable {
             "Need a refresher on the rules? Check out /rules!",
             "Cheating or the use of hacks is strictly forbidden on this server, when seen using these you will be banned instantly.",
             "If you're having a hard time getting to a flag, there's often more than one way to get there...",
-            "Have you found all the secrets yet?"
+            "Have you found all the secrets yet?",
+            "Being shot at by archers? Try to find some cover!",
+            "Rams no longer requier 4 people, instead the damage inflicted to the gate is increased with each player on the ram.",
+            "Got lag? Get optifine!"
     };
 
     // Sends a random tip to all players
