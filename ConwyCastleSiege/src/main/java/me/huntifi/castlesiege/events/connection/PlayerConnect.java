@@ -36,6 +36,13 @@ public class PlayerConnect implements Listener {
         UUID uuid = p.getUniqueId();
         PlayerData data = ActiveData.getData(uuid);
 
+        // Ensure the player's data was loaded correctly
+        if (data == null) {
+            p.kickPlayer(ChatColor.DARK_RED + "Something went wrong loading your data!\n"
+                    + "Please try joining again or contact staff if this issue persists.");
+            return;
+        }
+
         // Set the join message
         if (!data.getJoinMessage().isEmpty()) {
             e.setJoinMessage(ChatColor.YELLOW + data.getJoinMessage());

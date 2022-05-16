@@ -199,7 +199,8 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
      * @param e The horse that is to be removed
      */
     private void removeHorse(Player p, Entity e) {
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
+        if (Kit.equippedKits.containsKey(p.getUniqueId()) &&
+                Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                 e instanceof Horse) {
             e.remove();
         }

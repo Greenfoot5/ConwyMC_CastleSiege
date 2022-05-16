@@ -30,6 +30,10 @@ public class PlayerDisconnect implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         UUID uuid = e.getPlayer().getUniqueId();
+        if (ActiveData.getData(uuid) == null) {
+            return;
+        }
+
         if (InCombat.isPlayerInCombat(uuid)) {
             UpdateStats.addDeaths(uuid, 2);
         } else if (!InCombat.isPlayerInLobby(uuid)) {
