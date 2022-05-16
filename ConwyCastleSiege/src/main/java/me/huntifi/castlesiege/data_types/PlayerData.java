@@ -29,6 +29,7 @@ public class PlayerData {
     private double rankPoints;
     private String staffRank;
     private String rank;
+    private String joinMessage;
     private HashMap<String, Long> votes;
     private double coins;
 
@@ -58,8 +59,9 @@ public class PlayerData {
         this.maxKillStreak = statsData.getInt("kill_streak");
         this.kit = statsData.getString("kit");
 
-        this.staffRank = rankData.getString("staff_rank");
+        this.staffRank = rankData.getString("staff_rank").toLowerCase();
         this.rankPoints = rankData.getDouble("rank_points");
+        this.joinMessage = rankData.getString("join_message");
 
         this.votes = votes;
     }
@@ -364,6 +366,22 @@ public class PlayerData {
      */
     public void setRank(String rank) {
         this.rank = rank;
+    }
+
+    /**
+     * Get the player's custom join message
+     * @return The player's custom join message
+     */
+    public String getJoinMessage() {
+        return joinMessage;
+    }
+
+    /**
+     * Set the player's custom join message
+     * @param joinMessage The custom join message
+     */
+    public void setJoinMessage(String joinMessage) {
+        this.joinMessage = joinMessage;
     }
 
     /**

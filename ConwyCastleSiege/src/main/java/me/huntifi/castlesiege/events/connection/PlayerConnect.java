@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.net.InetAddress;
 import java.sql.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -34,6 +35,11 @@ public class PlayerConnect implements Listener {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         PlayerData data = ActiveData.getData(uuid);
+
+        // Set the join message
+        if (!data.getJoinMessage().isEmpty()) {
+            e.setJoinMessage(ChatColor.YELLOW + data.getJoinMessage());
+        }
 
         // Assign the player's staff and donator permissions
         Permissions.addPlayer(uuid);

@@ -13,6 +13,7 @@ import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import me.huntifi.castlesiege.commands.chat.PrivateMessage;
 import me.huntifi.castlesiege.commands.chat.ReplyMessage;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.commands.donator.JoinMessage;
 import me.huntifi.castlesiege.commands.gameplay.KitCommand;
 import me.huntifi.castlesiege.commands.gameplay.SuicideCommand;
 import me.huntifi.castlesiege.commands.gameplay.SwitchCommand;
@@ -164,6 +165,9 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Message")).setExecutor(new PrivateMessage());
                 Objects.requireNonNull(getCommand("Reply")).setExecutor(new ReplyMessage());
                 Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
+
+                // Donator
+                Objects.requireNonNull(getCommand("JoinMessage")).setExecutor(new JoinMessage());
 
                 // Gameplay
                 Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());

@@ -47,10 +47,11 @@ public class StoreData {
         ps.close();
 
         ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE player_rank SET staff_rank = ?, rank_points = ? WHERE uuid = ?");
+                "UPDATE player_rank SET staff_rank = ?, rank_points = ?, join_message = ? WHERE uuid = ?");
         ps.setString(1, data.getStaffRank());
         ps.setDouble(2, data.getRankPoints());
-        ps.setString(3, uuid.toString());
+        ps.setString(3, data.getJoinMessage());
+        ps.setString(4, uuid.toString());
         ps.executeUpdate();
         ps.close();
     }

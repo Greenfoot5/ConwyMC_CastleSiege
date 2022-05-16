@@ -96,6 +96,27 @@ commands:
     usage: /t <message>
     aliases: t
 
+  # Donator
+  JoinMessage:
+    description: Sets your custom join message
+    usage: /joinmsg <set | reset> <message>
+    aliases: joinmsg
+    permission: castlesiege.esquire
+    permission-message: Only donators are permitted to use this command!
+
+  # Gameplay
+  Switch:
+    description: Switches teams.
+    usage: /switch
+    aliases: sw
+  SaveMap:
+    description: Saves any changes made to the current map
+    usage: /savemap
+  Suicide:
+    description: commit die
+    usage: /suicide
+    aliases: sui
+
   # Info
   Coins:
     description: Shows the player's coins
@@ -128,19 +149,6 @@ commands:
     aliases:
       - toplist
       - leaderboard
-
-  # Gameplay
-  Switch:
-    description: Switches teams.
-    usage: /switch
-    aliases: sw
-  SaveMap:
-    description: Saves any changes made to the current map
-    usage: /savemap
-  Suicide:
-    description: commit die
-    usage: /suicide
-    aliases: sui
 
   # Staff - Punishments
   Ban:
