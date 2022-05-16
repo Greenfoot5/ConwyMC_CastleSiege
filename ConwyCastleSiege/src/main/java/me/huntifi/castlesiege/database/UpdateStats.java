@@ -1,11 +1,13 @@
 package me.huntifi.castlesiege.database;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
@@ -78,21 +80,39 @@ public class UpdateStats {
      * @param uuid The unique ID of the player
      */
     private static void level(UUID uuid) {
-        PlayerData data = ActiveData.getData(uuid);
-        int level = data.getLevel() + 1;
-        if (data.getScore() >= 8 * level * level - 8 * (level - 1)) {
-            data.addLevel();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                PlayerData data = ActiveData.getData(uuid);
+                int level = data.getLevel() + 1;
+                if (data.getScore() >= levelScore(level)) {
+                    data.addLevel();
 
-            Player p = Bukkit.getPlayer(uuid);
-            assert p != null;
-            p.sendMessage(ChatColor.DARK_GREEN + "Congratulations, you leveled up to level: " + ChatColor.YELLOW + level);
-            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-            NameTag.give(p);
+                    Player p = Bukkit.getPlayer(uuid);
+                    assert p != null;
+                    p.sendMessage(ChatColor.DARK_GREEN + "Congratulations, you leveled up to level: " + ChatColor.YELLOW + level);
+                    p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+                    NameTag.give(p);
 
-            // Announce every 10th level
-            if (level % 10 == 0) {
-                Bukkit.broadcastMessage(ChatColor.GOLD + p.getName() + " has reached level " + level + "!");
+                    // Announce every 10th level
+                    if (level % 10 == 0) {
+                        Bukkit.broadcastMessage(ChatColor.GOLD + p.getName() + " has reached level " + level + "!");
+                    }
+                }
             }
+        }.runTaskAsynchronously(Main.plugin);
+    }
+
+    /**
+     * Recursive function to calculate the score required for a level
+     * @param lvl The level
+     * @return The score required to reach the level
+     */
+    public static double levelScore(int lvl) {
+        if (lvl > 0) {
+            return 8 * lvl * lvl - 8 * (lvl - 1) + levelScore(lvl -1);
         }
+
+        return 0;
     }
 }
