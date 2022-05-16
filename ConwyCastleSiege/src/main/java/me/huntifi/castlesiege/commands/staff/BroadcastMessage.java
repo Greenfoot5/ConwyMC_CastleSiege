@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.staff;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -43,13 +44,13 @@ public class BroadcastMessage implements CommandExecutor {
 
                         if (p.hasPermission("castlesiege.moderator")) {
 
-                            Bukkit.broadcastMessage(broadcastPrefix + message);
+                            Bukkit.broadcastMessage(broadcastPrefix + ChatColor.translateAlternateColorCodes('&', message));
 
                         }
 
                     } else {
 
-                        Bukkit.broadcastMessage(broadcastPrefix + message);
+                        Bukkit.broadcastMessage(broadcastPrefix + ChatColor.translateAlternateColorCodes('&', message));
 
                     }
 
