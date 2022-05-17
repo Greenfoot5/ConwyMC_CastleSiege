@@ -8,6 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Objects;
@@ -139,7 +140,11 @@ public class StoreData {
                     // Update the votes in the database
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                             "UPDATE VotingPlugin_Users SET LastVotes = ? WHERE uuid = ?");
-                    ps.setString(1, sb.toString());
+                    if (sb.length() > 0) {
+                        ps.setString(1, sb.toString());
+                    } else {
+                        ps.setNull(1, Types.VARCHAR);
+                    }
                     ps.setString(2, uuid.toString());
                     ps.executeUpdate();
                     ps.close();
