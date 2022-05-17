@@ -152,41 +152,43 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
     @EventHandler
     public void chargeHit(EntityDamageByEntityEvent ed) {
 
-        Player p = (Player) ed.getDamager();
-        UUID uuid = p.getUniqueId();
+        if (ed.getDamager() instanceof Player) {
 
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
-            return;
-        }
+            Player p = (Player) ed.getDamager();
+            UUID uuid = p.getUniqueId();
 
-        Location loc = p.getLocation();
+            // Prevent using in lobby
+            if (InCombat.isPlayerInLobby(uuid)) {
+                return;
+            }
 
-        if (ed.getEntity() instanceof Player && ed.getDamager() instanceof Player) {
-            Player q = (Player) ed.getDamager();
+            Location loc = p.getLocation();
 
-            if (MapController.getCurrentMap().getTeam(p.getUniqueId())
-                    != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
+            if (ed.getEntity() instanceof Player) {
+                Player q = (Player) ed.getDamager();
+
+                if (MapController.getCurrentMap().getTeam(p.getUniqueId())
+                        != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
+
+                    if (vanguards) {
+
+                        for (PotionEffect effect : p.getActivePotionEffects())
+                            p.removePotionEffect(effect.getType());
+                        p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
+                        p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
+                        vanguards = false;
+                    }
+                }
+
+            } else {
 
                 if (vanguards) {
-
                     for (PotionEffect effect : p.getActivePotionEffects())
                         p.removePotionEffect(effect.getType());
                     p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
                     p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
                     vanguards = false;
                 }
-            }
-
-        } else {
-
-            if (vanguards) {
-
-                for (PotionEffect effect : p.getActivePotionEffects())
-                    p.removePotionEffect(effect.getType());
-                p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
-                p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
-                vanguards = false;
             }
         }
     }
