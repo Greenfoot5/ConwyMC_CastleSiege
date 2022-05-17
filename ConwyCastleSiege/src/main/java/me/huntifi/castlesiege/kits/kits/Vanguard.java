@@ -19,7 +19,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -33,13 +35,13 @@ import java.util.*;
  */
 public class Vanguard extends Kit implements Listener, CommandExecutor {
 
-    private boolean vanguards;
+    private ArrayList<Player> vanguards = new ArrayList<>();
 
     /**
      * Set the equipment and attributes of this kit
      */
     public Vanguard() {
-        super("Vanguard", 110);
+        super("Vanguard", 115);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -114,7 +116,7 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
                     if (cooldown == 0) {
-                        p.setCooldown(Material.DIAMOND_SWORD, 160);
+                        p.setCooldown(Material.DIAMOND_SWORD, 260);
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.AQUA + "You are charging forward"));
                         p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 70, 3)));
@@ -122,18 +124,18 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
                         p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 70, 3)));
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST , 1, 1 );
 
-                        if (!vanguards) {
-                            vanguards = true;
+                        if (!vanguards.contains(p)) {
+                            vanguards.add(p);
                         }
 
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                if (vanguards) {
-                                    vanguards = false;
+                                if (vanguards.contains(p)) {
+                                    vanguards.remove(p);
                                 }
                             }
-                        }.runTaskLater(Main.plugin, 160);
+                        }.runTaskLater(Main.plugin, 260);
 
                     } else {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
@@ -145,6 +147,30 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
     }
 
     /**
+     * @param e to prevent being in the arraylist double.
+     */
+    @EventHandler
+    public void onUserQuit(PlayerQuitEvent e){
+        Player p = e.getPlayer();
+        if (vanguards.contains(p)) {
+            vanguards.remove(p);
+        }
+
+    }
+
+    /**
+     * @param e to prevent being in the arraylist double.
+     */
+    @EventHandler
+    public void onUserLeave(PlayerDeathEvent e){
+        Player p = (Player) e.getEntity();
+        if (vanguards.contains(p)) {
+            vanguards.remove(p);
+        }
+
+    }
+
+    /**
      *
      * @param ed remove the potion effects on hit.
      */
@@ -152,43 +178,41 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
     @EventHandler
     public void chargeHit(EntityDamageByEntityEvent ed) {
 
-        if (ed.getDamager() instanceof Player) {
+        Player p = (Player) ed.getDamager();
+        UUID uuid = p.getUniqueId();
 
-            Player p = (Player) ed.getDamager();
-            UUID uuid = p.getUniqueId();
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
 
-            // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(uuid)) {
-                return;
-            }
+        Location loc = p.getLocation();
 
-            Location loc = p.getLocation();
+        if (ed.getEntity() instanceof Player && ed.getDamager() instanceof Player) {
+            Player q = (Player) ed.getDamager();
 
-            if (ed.getEntity() instanceof Player) {
-                Player q = (Player) ed.getDamager();
+            if (MapController.getCurrentMap().getTeam(p.getUniqueId())
+                    != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
 
-                if (MapController.getCurrentMap().getTeam(p.getUniqueId())
-                        != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
+                if (vanguards.contains(p)) {
 
-                    if (vanguards) {
-
-                        for (PotionEffect effect : p.getActivePotionEffects())
-                            p.removePotionEffect(effect.getType());
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
-                        p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
-                        vanguards = false;
-                    }
-                }
-
-            } else {
-
-                if (vanguards) {
                     for (PotionEffect effect : p.getActivePotionEffects())
                         p.removePotionEffect(effect.getType());
                     p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
                     p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
-                    vanguards = false;
+                    vanguards.remove(p);
                 }
+            }
+
+        } else {
+
+            if (vanguards.contains(p)) {
+
+                for (PotionEffect effect : p.getActivePotionEffects())
+                    p.removePotionEffect(effect.getType());
+                p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
+                p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
+                vanguards.remove(p);
             }
         }
     }
