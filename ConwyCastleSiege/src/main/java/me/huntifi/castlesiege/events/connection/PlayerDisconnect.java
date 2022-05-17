@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import org.bukkit.ChatColor;
@@ -51,6 +52,7 @@ public class PlayerDisconnect implements Listener {
 
         storeData(uuid);
         MapController.leaveTeam(uuid);
+        Kit.equippedKits.remove(uuid);
         Permissions.removePlayer(uuid);
         BarCooldown.remove(uuid);
     }
