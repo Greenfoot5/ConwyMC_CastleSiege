@@ -10,12 +10,12 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Manages custom join messages
+ * Manages custom leave messages
  */
-public class JoinMessage implements CommandExecutor {
+public class LeaveMessage implements CommandExecutor {
 
     /**
-     * Change the player's custom join message if valid arguments are supplied
+     * Change the player's custom leave message if valid arguments are supplied
      * @param sender Source of the command
      * @param cmd Command which was executed
      * @param label Alias of the command which was used
@@ -25,7 +25,7 @@ public class JoinMessage implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage("Console cannot set their join message!");
+            sender.sendMessage("Console cannot set their leave message!");
             return true;
         }
 
@@ -43,7 +43,7 @@ public class JoinMessage implements CommandExecutor {
     }
 
     /**
-     * Set the player's custom join message
+     * Set the player's custom leave message
      * @param p The player
      * @param message The message
      */
@@ -53,11 +53,11 @@ public class JoinMessage implements CommandExecutor {
             return;
         }
 
-        ActiveData.getData(p.getUniqueId()).setJoinMessage(message);
+        ActiveData.getData(p.getUniqueId()).setLeaveMessage(message);
         if (message.isEmpty()) {
-            p.sendMessage(ChatColor.GREEN + "Your join message has been reset.");
+            p.sendMessage(ChatColor.GREEN + "Your leave message has been reset.");
         } else {
-            p.sendMessage(ChatColor.GREEN + "Your join message has been set to: " + ChatColor.YELLOW + message);
+            p.sendMessage(ChatColor.GREEN + "Your leave message has been set to: " + ChatColor.YELLOW + message);
         }
     }
 }

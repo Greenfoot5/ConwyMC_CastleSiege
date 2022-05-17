@@ -104,6 +104,7 @@ me\huntifi\castlesiege\events\combat\FallDamage.class
 me\huntifi\castlesiege\kits\kits\Ranger.class
 me\huntifi\castlesiege\kits\kits\Engineer$2.class
 me\huntifi\castlesiege\maps\objects\CaptureHandler$Factory.class
+me\huntifi\castlesiege\commands\donator\LeaveMessage.class
 me\huntifi\castlesiege\Helmsdeep\Secrets\HelmsdeepSecretDoor$1.class
 me\huntifi\castlesiege\commands\staff\punishments\Ban$2.class
 me\huntifi\castlesiege\commands\info\DiscordCommand.class

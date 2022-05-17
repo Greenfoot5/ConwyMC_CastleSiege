@@ -30,6 +30,7 @@ public class PlayerData {
     private String staffRank;
     private String rank;
     private String joinMessage;
+    private String leaveMessage;
     private HashMap<String, Long> votes;
     private double coins;
 
@@ -62,6 +63,7 @@ public class PlayerData {
         this.staffRank = rankData.getString("staff_rank").toLowerCase();
         this.rankPoints = rankData.getDouble("rank_points");
         this.joinMessage = rankData.getString("join_message");
+        this.leaveMessage = rankData.getString("leave_message");
 
         this.votes = votes;
     }
@@ -382,6 +384,22 @@ public class PlayerData {
      */
     public void setJoinMessage(String joinMessage) {
         this.joinMessage = joinMessage;
+    }
+
+    /**
+     * Get the player's custom leave message
+     * @return The player's custom leave message
+     */
+    public String getLeaveMessage() {
+        return leaveMessage;
+    }
+
+    /**
+     * Set the player's custom leave message
+     * @param leaveMessage The custom leave message
+     */
+    public void setLeaveMessage(String leaveMessage) {
+        this.leaveMessage = leaveMessage;
     }
 
     /**

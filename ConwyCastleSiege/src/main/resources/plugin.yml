@@ -103,6 +103,12 @@ commands:
     aliases: joinmsg
     permission: castlesiege.esquire
     permission-message: Only donators are permitted to use this command!
+  LeaveMessage:
+    description: Sets your custom leave message
+    usage: /leavemsg <set | reset> <message>
+    aliases: leavemsg
+    permission: castlesiege.esquire
+    permission-message: Only donators are permitted to use this command!
 
   # Gameplay
   Switch:
