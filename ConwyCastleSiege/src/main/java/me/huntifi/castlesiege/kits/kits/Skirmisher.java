@@ -93,6 +93,10 @@ public class Skirmisher extends Kit implements CommandExecutor {
 
         if (ActiveData.getData(player.getUniqueId()).hasVote("kits")) {
             super.addPlayer(player.getUniqueId());
+        } else if (Kit.equippedKits.get(player.getUniqueId()) == null) {
+            player.performCommand("swordsman");
+            player.sendMessage(ChatColor.DARK_RED + "You need to vote to use " + ChatColor.RED + name
+                    + ChatColor.DARK_RED + " again!");
         } else {
             player.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You need to vote to use this kit!");
         }

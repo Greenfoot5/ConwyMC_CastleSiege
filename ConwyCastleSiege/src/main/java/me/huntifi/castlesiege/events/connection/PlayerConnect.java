@@ -74,16 +74,6 @@ public class PlayerConnect implements Listener {
      */
     @EventHandler
     public void preLogin(AsyncPlayerPreLoginEvent e) throws SQLException {
-        if (!Main.SQL.isConnected()) {
-            try {
-                Main.SQL.connect();
-            } catch (Exception ex) {
-                e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
-                        ChatColor.RED + "The database could not be reached! "
-                                + "Please contact staff if this issue persists.");
-            }
-        }
-
         Tuple<String, Timestamp> banned = getBan(e.getUniqueId(), e.getAddress());
         if (banned != null) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
