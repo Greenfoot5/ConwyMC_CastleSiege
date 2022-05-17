@@ -26,7 +26,7 @@ public class UnlockedKitGUI extends AbstractKitGUI {
         super(ChatColor.DARK_GREEN + "Unlocked Kits");
         gui = createInventory();
         kitNames = Arrays.asList("Berserker", "Cavalry", "Crossbowman", "Engineer", "Executioner",
-                "Halberdier", "Maceman", "Medic", "Ranger", "Viking", "Warhound");
+                "Halberdier", "Maceman", "Medic", "Ranger", "Viking", "Warhound", "Vanguard");
     }
 
     /**
@@ -55,9 +55,10 @@ public class UnlockedKitGUI extends AbstractKitGUI {
         Inventory inv = emptyInventory();
 
         // Place content in the inventory
-        inv.setItem(11, berserker());
-        inv.setItem(13, executioner());
-        inv.setItem(15, maceman());
+        inv.setItem(10, berserker());
+        inv.setItem(12, vanguard());
+        inv.setItem(14, executioner());
+        inv.setItem(16, maceman());
 
         inv.setItem(28, viking());
         inv.setItem(37, halberdier());
@@ -251,6 +252,24 @@ public class UnlockedKitGUI extends AbstractKitGUI {
                         ChatColor.DARK_GREEN + "[Weapon]:" + ChatColor.GREEN + " Fangs.",
                         ChatColor.DARK_GREEN + "[Effects]:" + ChatColor.GREEN + " Resistance, Jump Boost, Speed 4",
                         ChatColor.DARK_GREEN + "[Ability]:" + ChatColor.GREEN + " Slow down enemies and make them bleed.",
+                        ChatColor.DARK_GREEN + "[Status]:" + ChatColor.GREEN + " Unlocked with coins.",
+                        ChatColor.GOLD + "------------------------------"), null);
+    }
+
+
+    /**
+     * Create an item used to represent the vanguard kit
+     * @return An item that represent the vanguard kit
+     */
+    private ItemStack vanguard() {
+        return ItemCreator.item(new ItemStack(Material.DIAMOND_SWORD),
+                ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Vanguard",
+                Arrays.asList(ChatColor.GOLD + "------------------------------",
+                        ChatColor.DARK_GREEN + "[Desc]:" + ChatColor.GREEN + " A warrior with the ability to charge.",
+                        ChatColor.DARK_GREEN + "[Armor]:" + ChatColor.GREEN + " Leather armor, iron leggings.",
+                        ChatColor.DARK_GREEN + "[Weapon]:" + ChatColor.GREEN + " Reinforced Iron Sword.",
+                        ChatColor.DARK_GREEN + "[Effects]:" + ChatColor.GREEN + " Jump Boost",
+                        ChatColor.DARK_GREEN + "[Ability]:" + ChatColor.GREEN + " Charge at high speed and more damage on impact.",
                         ChatColor.DARK_GREEN + "[Status]:" + ChatColor.GREEN + " Unlocked with coins.",
                         ChatColor.GOLD + "------------------------------"), null);
     }

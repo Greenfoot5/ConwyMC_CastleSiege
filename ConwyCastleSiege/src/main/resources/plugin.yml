@@ -315,3 +315,6 @@ commands:
   Warhound:
     description: Selects the warhound kit
     usage: /warhound
+  Vanguard:
+    description: Selects the vanguard kit
+    usage: /vanguard

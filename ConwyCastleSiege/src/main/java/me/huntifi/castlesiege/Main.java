@@ -155,6 +155,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
+                getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
                 // Kit GUIs
                 getServer().getPluginManager().registerEvents(new FreeKitGUI(), plugin);
                 getServer().getPluginManager().registerEvents(new UnlockedKitGUI(), plugin);
@@ -231,6 +232,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
+                Objects.requireNonNull(getCommand("Vanguard")).setExecutor(new Vanguard());
 
                 // Map Specific
                 // Helms Deep Only

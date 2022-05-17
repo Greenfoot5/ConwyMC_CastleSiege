@@ -149,6 +149,7 @@ me\huntifi\castlesiege\commands\staff\ReloadCommand.class
 me\huntifi\castlesiege\Helmsdeep\Ballistae\HelmsdeepBallistaEvent.class
 me\huntifi\castlesiege\maps\Team.class
 me\huntifi\castlesiege\events\death\VoidLocation.class
+me\huntifi\castlesiege\kits\kits\Vanguard.class
 me\huntifi\castlesiege\commands\staff\punishments\Unmute.class
 me\huntifi\castlesiege\commands\staff\StaffChat.class
 me\huntifi\castlesiege\maps\MapController.class
@@ -163,6 +164,7 @@ me\huntifi\castlesiege\commands\staff\punishments\Ban$1.class
 me\huntifi\castlesiege\kits\items\WoolHat.class
 me\huntifi\castlesiege\Main$3.class
 me\huntifi\castlesiege\Helmsdeep\Secrets\HelmsdeepSecretDoor.class
+me\huntifi\castlesiege\kits\kits\Vanguard$1.class
 me\huntifi\castlesiege\commands\info\CoinMultiplier.class
 me\huntifi\castlesiege\database\StoreData.class
 me\huntifi\castlesiege\maps\objects\Door.class
