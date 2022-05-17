@@ -38,13 +38,13 @@ public class Scout extends Kit implements CommandExecutor {
         // Weapon
         es.hotbar[0] = ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
                 ChatColor.GREEN + "Shortsword", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 19)));
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18)));
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
                         ChatColor.GREEN + "Shortsword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 21))),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
                 0);
 
         // Chestplate
