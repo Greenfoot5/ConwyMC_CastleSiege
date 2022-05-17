@@ -26,7 +26,7 @@ public class UnlockedKitGUI extends AbstractKitGUI {
         super(ChatColor.DARK_GREEN + "Unlocked Kits");
         gui = createInventory();
         kitNames = Arrays.asList("Berserker", "Cavalry", "Crossbowman", "Engineer", "Executioner",
-                "Halberdier", "Maceman", "Medic", "Ranger", "Viking", "Warhound", "Vanguard");
+                "Halberdier", "Maceman", "Medic", "Ranger", "Vanguard", "Viking", "Warhound");
     }
 
     /**
@@ -224,6 +224,23 @@ public class UnlockedKitGUI extends AbstractKitGUI {
     }
 
     /**
+     * Create an item used to represent the vanguard kit
+     * @return An item that represent the vanguard kit
+     */
+    private ItemStack vanguard() {
+        return ItemCreator.item(new ItemStack(Material.DIAMOND_SWORD),
+                ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET + ChatColor.GREEN + " Vanguard",
+                Arrays.asList(ChatColor.GOLD + "------------------------------",
+                        ChatColor.DARK_GREEN + "[Desc]:" + ChatColor.GREEN + " A warrior with the ability to charge.",
+                        ChatColor.DARK_GREEN + "[Armor]:" + ChatColor.GREEN + " Leather armor, iron leggings.",
+                        ChatColor.DARK_GREEN + "[Weapon]:" + ChatColor.GREEN + " Reinforced Iron Sword.",
+                        ChatColor.DARK_GREEN + "[Effects]:" + ChatColor.GREEN + " Jump Boost",
+                        ChatColor.DARK_GREEN + "[Ability]:" + ChatColor.GREEN + " Charge at high speed and more damage on impact.",
+                        ChatColor.DARK_GREEN + "[Status]:" + ChatColor.GREEN + " Unlocked with coins.",
+                        ChatColor.GOLD + "------------------------------"), null);
+    }
+
+    /**
      * Create an item used to represent the viking kit
      * @return An item that represent the viking kit
      */
@@ -257,20 +274,5 @@ public class UnlockedKitGUI extends AbstractKitGUI {
     }
 
 
-    /**
-     * Create an item used to represent the vanguard kit
-     * @return An item that represent the vanguard kit
-     */
-    private ItemStack vanguard() {
-        return ItemCreator.item(new ItemStack(Material.DIAMOND_SWORD),
-                ChatColor.GREEN + "" + ChatColor.BOLD + "CLASS:" + ChatColor.RESET +  ChatColor.GREEN + " Vanguard",
-                Arrays.asList(ChatColor.GOLD + "------------------------------",
-                        ChatColor.DARK_GREEN + "[Desc]:" + ChatColor.GREEN + " A warrior with the ability to charge.",
-                        ChatColor.DARK_GREEN + "[Armor]:" + ChatColor.GREEN + " Leather armor, iron leggings.",
-                        ChatColor.DARK_GREEN + "[Weapon]:" + ChatColor.GREEN + " Reinforced Iron Sword.",
-                        ChatColor.DARK_GREEN + "[Effects]:" + ChatColor.GREEN + " Jump Boost",
-                        ChatColor.DARK_GREEN + "[Ability]:" + ChatColor.GREEN + " Charge at high speed and more damage on impact.",
-                        ChatColor.DARK_GREEN + "[Status]:" + ChatColor.GREEN + " Unlocked with coins.",
-                        ChatColor.GOLD + "------------------------------"), null);
-    }
 }
+

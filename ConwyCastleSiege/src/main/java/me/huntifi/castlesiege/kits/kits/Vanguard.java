@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.maps.MapController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -187,13 +188,32 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
 
         Location loc = p.getLocation();
 
-        if (vanguards.contains(p)) {
+        if (ed.getEntity() instanceof Player && ed.getDamager() instanceof Player) {
+            Player q = (Player) ed.getDamager();
 
-            for (PotionEffect effect : p.getActivePotionEffects())
-                p.removePotionEffect(effect.getType());
-            p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
-            p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
-            vanguards.remove(p);
+            if (MapController.getCurrentMap().getTeam(p.getUniqueId())
+                    != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
+
+                if (vanguards.contains(p)) {
+
+                    for (PotionEffect effect : p.getActivePotionEffects())
+                        p.removePotionEffect(effect.getType());
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
+                    p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
+                    vanguards.remove(p);
+                }
+            }
+
+        } else {
+
+            if (vanguards.contains(p)) {
+
+                for (PotionEffect effect : p.getActivePotionEffects())
+                    p.removePotionEffect(effect.getType());
+                p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
+                p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
+                vanguards.remove(p);
+            }
         }
     }
 
