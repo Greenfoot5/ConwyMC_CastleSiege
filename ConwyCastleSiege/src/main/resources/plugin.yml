@@ -152,12 +152,16 @@ commands:
   Teams:
     description: Shows the size and name of all teams on the current map
     usage: /teams
+
+  # Leaderboards
   Top:
     description: Shows the leaderboard
-    usage: /top <category>
+    usage: /top <position>
     aliases:
       - toplist
+      - topscore
       - leaderboard
+
 
   # Staff - Punishments
   Ban:
