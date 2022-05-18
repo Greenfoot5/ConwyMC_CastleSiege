@@ -14858,7 +14858,7 @@ RoyalCrypts:
     max_cap: 8
     start_amount: 8
     progress_amount: 10
-    scoreboard: 7
+    scoreboard: 8
     spawn_point:
       x: -828
       y: 73
