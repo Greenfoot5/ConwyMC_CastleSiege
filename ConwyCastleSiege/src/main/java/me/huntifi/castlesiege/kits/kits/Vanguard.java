@@ -35,7 +35,7 @@ import java.util.*;
  */
 public class Vanguard extends Kit implements Listener, CommandExecutor {
 
-    private ArrayList<Player> vanguards = new ArrayList<>();
+    private boolean vanguards = false;
 
     /**
      * Set the equipment and attributes of this kit
@@ -123,17 +123,12 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
                         p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 70, 1)));
                         p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 70, 3)));
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST , 1, 1 );
-
-                        if (!vanguards.contains(p)) {
-                            vanguards.add(p);
-                        }
+                        vanguards = true;
 
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                if (vanguards.contains(p)) {
-                                    vanguards.remove(p);
-                                }
+                                    vanguards = false;
                             }
                         }.runTaskLater(Main.plugin, 260);
 
@@ -144,30 +139,6 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
                 }
             }
         }
-    }
-
-    /**
-     * @param e to prevent being in the arraylist double.
-     */
-    @EventHandler
-    public void onUserQuit(PlayerQuitEvent e){
-        Player p = e.getPlayer();
-        if (vanguards.contains(p)) {
-            vanguards.remove(p);
-        }
-
-    }
-
-    /**
-     * @param e to prevent being in the arraylist double.
-     */
-    @EventHandler
-    public void onUserLeave(PlayerDeathEvent e){
-        Player p = (Player) e.getEntity();
-        if (vanguards.contains(p)) {
-            vanguards.remove(p);
-        }
-
     }
 
     /**
@@ -195,27 +166,27 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
                 if (MapController.getCurrentMap().getTeam(p.getUniqueId())
                         != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
 
-                    if (vanguards.contains(p)) {
+                    if (vanguards) {
 
                         for (PotionEffect effect : p.getActivePotionEffects())
                             p.removePotionEffect(effect.getType());
                         p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
                         p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
-                        vanguards.remove(p);
+                        vanguards = false;
                     }
                 }
 
-            } else {
+                } else {
 
-                if (vanguards.contains(p)) {
+                    if (vanguards) {
 
-                    for (PotionEffect effect : p.getActivePotionEffects())
-                        p.removePotionEffect(effect.getType());
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
-                    p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
-                    vanguards.remove(p);
+                        for (PotionEffect effect : p.getActivePotionEffects())
+                            p.removePotionEffect(effect.getType());
+                        p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
+                        p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
+                        vanguards = false;
+                    }
                 }
-            }
         }
     }
 
