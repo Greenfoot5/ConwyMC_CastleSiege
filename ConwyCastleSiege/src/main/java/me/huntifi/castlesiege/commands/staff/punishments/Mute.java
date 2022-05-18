@@ -88,10 +88,10 @@ public class Mute implements CommandExecutor {
             return;
         }
 
-        // Get the ban reason
+        // Get the mute reason
         String reason = String.join(" ", args).split(" ", 3)[2];
 
-        // Apply the ban to our database
+        // Apply the mute to our database
         Punishments.add(args[0], uuid, null, "mute", reason, duration);
         muteOnline(uuid, reason, args[1]);
         s.sendMessage(ChatColor.DARK_GREEN + "Successfully muted: " + ChatColor.GREEN + args[0]);

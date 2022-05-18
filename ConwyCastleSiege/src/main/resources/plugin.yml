@@ -190,6 +190,11 @@ commands:
     usage: /unmute <player>
     permission: castlesiege.chatmod
     permission-message: You are not permitted to use this command!
+  Warn:
+    description: Warn a player
+    usage: /warn <player> <reason>
+    permission: castlesiege.chatmod
+    permission-message: You are not permitted to use this command!
 
   # Staff - ...
   Broadcast:
