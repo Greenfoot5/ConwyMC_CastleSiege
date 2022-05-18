@@ -193,8 +193,8 @@ commands:
 
   # Staff - ...
   Broadcast:
-    description: Send a special message to everyone on the server!
-    usage: /Broadcast <message>
+    description: Send a special message to everyone on the server
+    usage: /broadcast <message>
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
   CSReload:
@@ -309,12 +309,12 @@ commands:
   Swordsman:
     description: Selects the swordsman kit
     usage: /swordsman
+  Vanguard:
+    description: Selects the vanguard kit
+    usage: /vanguard
   Viking:
     description: Selects the viking kit
     usage: /viking
   Warhound:
     description: Selects the warhound kit
     usage: /warhound
-  Vanguard:
-    description: Selects the vanguard kit
-    usage: /vanguard

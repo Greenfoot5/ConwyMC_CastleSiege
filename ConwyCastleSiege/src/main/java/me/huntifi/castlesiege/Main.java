@@ -198,7 +198,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Unmute")).setExecutor(new Unmute());
 
                 // Staff
-                Objects.requireNonNull(getCommand("broadcast")).setExecutor(new BroadcastMessage());
+                Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastMessage());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
                 Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
@@ -230,9 +230,9 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Skirmisher")).setExecutor(new Skirmisher());
                 Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
+                Objects.requireNonNull(getCommand("Vanguard")).setExecutor(new Vanguard());
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
-                Objects.requireNonNull(getCommand("Vanguard")).setExecutor(new Vanguard());
 
                 // Map Specific
                 // Helms Deep Only
