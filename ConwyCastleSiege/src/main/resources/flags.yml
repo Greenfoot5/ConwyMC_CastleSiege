@@ -13,6 +13,8 @@ HelmsDeep:
       x: 1172
       y: 35
       z: 1121
+      yaw: 92
+      pitch: 0
   supply_camp:
     name: "Supply Camp"
     start_owners: "Rohan"
@@ -21,9 +23,11 @@ HelmsDeep:
     progress_amount: 10
     scoreboard: 5
     spawn_point:
-      x: 969
+      x: 961
       y: 35
-      z: 1130
+      z: 1119
+      yaw: -93
+      pitch: -3
     capture_area:
       type: "cuboid"
       min:
@@ -404,9 +408,11 @@ HelmsDeep:
     progress_amount: 10
     scoreboard: 11
     spawn_point:
-      x: 875
-      y: 52
-      z: 932
+      x: 888
+      y: 55
+      z: 929
+      yaw: 2
+      pitch: 4
     capture_area:
       type: "cuboid"
       min:
@@ -584,6 +590,8 @@ HelmsDeep:
       x: 1022
       y: 52
       z: 977
+      yaw: -24
+      pitch: -2
     capture_area:
       type: "cuboid"
       min:
@@ -745,7 +753,9 @@ HelmsDeep:
     spawn_point:
       x: 981
       y: 127
-      z: 1040
+      z: 1043
+      yaw: 178
+      pitch: 2
     capture_area:
       type: "cuboid"
       min:
@@ -1129,6 +1139,8 @@ HelmsDeep:
       x: 947
       y: 72
       z: 1000
+      yaw: -90
+      pitch: -1
     capture_area:
       type: "cuboid"
       min:
@@ -1426,6 +1438,8 @@ HelmsDeep:
       x: 1009
       y: 67
       z: 1000
+      yaw: -90
+      pitch: -1
     capture_area:
       type: "cuboid"
       min:
@@ -3792,6 +3806,8 @@ Elwynn:
       x: 185
       y: 86
       z: -110
+      yaw: 90
+      pitch: 1
   abbey:
     name: "Northshire Abbey"
     start_owners: "The Alliance"
@@ -3803,6 +3819,8 @@ Elwynn:
       x: 3
       y: 81
       z: -139
+      yaw: 0
+      pitch: -1
     capture_area:
       type: "cuboid"
       min:
@@ -4642,6 +4660,8 @@ Elwynn:
       x: -124
       y: 79
       z: 64
+      yaw: -180
+      pitch: -3
     capture_area:
       type: "cuboid"
       min:
@@ -4952,8 +4972,10 @@ Elwynn:
     scoreboard: 5
     spawn_point:
       x: -208
-      y: 75
+      y: 76
       z: 159
+      yaw: -98
+      pitch: 1
     capture_area:
       type: "cuboid"
       min:
@@ -5376,23 +5398,23 @@ Conwy:
     scoreboard: 1
     spawn_point:
       x: 17
-      y: 73
+      y: 74
       z: 37
-      #yaw:-38
-      #pitch:-2
+      yaw: -38
+      pitch: -5
   northwest_tower:
     name: "Northwest Tower"
     start_owners: "The English"
     max_cap: 8
     start_amount: 8
     progress_amount: 10
-    scoreboard: 5
+    scoreboard: 10
     spawn_point:
       x: 30
-      y: 121
+      y: 122
       z: 178
       yaw: -33
-      pitch: 4
+      pitch: 1
     capture_area:
       type: "cuboid"
       min:
@@ -5735,13 +5757,13 @@ Conwy:
     max_cap: 8
     start_amount: 8
     progress_amount: 10
-    scoreboard: 6
+    scoreboard: 9
     spawn_point:
       x: 86
-      y: 120
+      y: 121
       z: 175
-      #yaw: -22
-      #pitch: 4
+      yaw: -20
+      pitch: 1
     capture_area:
       type: "cuboid"
       min:
@@ -6084,13 +6106,13 @@ Conwy:
     max_cap: 8
     start_amount: 8
     progress_amount: 10
-    scoreboard: 7
+    scoreboard: 8
     spawn_point:
       x: 138
-      y: 121
+      y: 122
       z: 176
-      #yaw: -45
-      #pitch: 2
+      yaw: -45
+      pitch: 0
     capture_area:
       type: "cuboid"
       min:
@@ -6433,10 +6455,10 @@ Conwy:
     max_cap: 8
     start_amount: 8
     progress_amount: 10
-    scoreboard: 8
+    scoreboard: 7
     spawn_point:
       x: 199
-      y: 121
+      y: 122
       z: 177
       yaw: 51
       pitch: 1
@@ -6782,12 +6804,12 @@ Conwy:
     max_cap: 8
     start_amount: 8
     progress_amount: 10
-    scoreboard: 9
+    scoreboard: 6
     spawn_point:
       x: 239
-      y: 89
+      y: 90
       z: 221
-      yaw: -117
+      yaw: -165
       pitch: 1
     capture_area:
       type: "cuboid"
@@ -7131,13 +7153,13 @@ Conwy:
     max_cap: 8
     start_amount: 8
     progress_amount: 10
-    scoreboard: 10
+    scoreboard: 5
     spawn_point:
       x: 197
-      y: 120
+      y: 121
       z: 234
       yaw: 175
-      pitch: 5
+      pitch: 1
     capture_area:
       type: "cuboid"
       min:
@@ -7480,12 +7502,12 @@ Conwy:
     max_cap: 8
     start_amount: 8
     progress_amount: 10
-    scoreboard: 11
+    scoreboard: 4
     spawn_point:
       x: 140
-      y: 121
+      y: 122
       z: 233
-      yaw: -145
+      yaw: -141
       pitch: 1
     capture_area:
       type: "cuboid"
@@ -7829,12 +7851,12 @@ Conwy:
     max_cap: 8
     start_amount: 8
     progress_amount: 10
-    scoreboard: 4
+    scoreboard: 3
     spawn_point:
       x: 87
-      y: 120
+      y: 121
       z: 249
-      yaw: -150
+      yaw: -143
       pitch: 3
     capture_area:
       type: "cuboid"
@@ -8178,13 +8200,13 @@ Conwy:
     max_cap: 8
     start_amount: 8
     progress_amount: 10
-    scoreboard: 3
+    scoreboard: 2
     spawn_point:
       x: 30
-      y: 120
+      y: 121
       z: 225
-      yaw: -111
-      pitch: 2
+      yaw: -116
+      pitch: 0
     capture_area:
       type: "cuboid"
       min:
@@ -14991,7 +15013,7 @@ Toucan_Moria:
       x: -620
       y: 117
       z: -6
-      yaw: -124
+      yaw: -135
       pitch: -1
     capture_area:
       type: "cuboid"
@@ -15130,7 +15152,7 @@ Toucan_Moria:
     max_cap: 7
     start_amount: 7
     progress_amount: 10
-    scoreboard: 2
+    scoreboard: 11
     spawn_point:
       x: 147
       y: 94
@@ -15308,22 +15330,22 @@ Toucan_Moria:
     max_cap: 7
     start_amount: 0
     progress_amount: 10
-    scoreboard: 3
+    scoreboard: 10
     spawn_point:
-      x: 89
+      x: 99
       y: 119
-      z: -2
-      yaw: 90
+      z: 4
+      yaw: 121
       pitch: 0
     capture_area:
       type: "cuboid"
       min:
-        x: 91
+        x: 96
         y: 118
-        z: 6
+        z: 5
       max:
         x: 86
-        y: 123
+        y: 124
         z: -9
     animation_air: false
     animation:
@@ -15486,23 +15508,23 @@ Toucan_Moria:
     max_cap: 7
     start_amount: 0
     progress_amount: 10
-    scoreboard: 4
+    scoreboard: 9
     spawn_point:
       x: -38
       y: 105
       z: 28
-      yaw: -179
+      yaw: -111
       pitch: 0
     capture_area:
       type: "cuboid"
       min:
-        x: -52
-        y: 116
-        z: 16
-      max:
-        x: -56
+        x: -63
         y: 105
         z: 5
+      max:
+        x: -52
+        y: 114
+        z: 16
     animation_air: false
     animation:
       0:
@@ -15664,7 +15686,7 @@ Toucan_Moria:
     max_cap: 7
     start_amount: 0
     progress_amount: 10
-    scoreboard: 5
+    scoreboard: 8
     spawn_point:
       x: -20
       y: 170
@@ -15839,17 +15861,16 @@ Toucan_Moria:
             z: -84
   balins_tomb:
     name: "Balin's Tomb"
-    start_owners: ""
     max_cap: 8
     start_amount: 0
     progress_amount: 10
-    scoreboard: 6
+    scoreboard: 7
     spawn_point:
       x: -61
-      y: 184
+      y: 185
       z: -78
-      yaw: -55
-      pitch: 0
+      yaw: 124
+      pitch: -3
     capture_area:
       type: "cuboid"
       min:
@@ -15988,21 +16009,21 @@ Toucan_Moria:
     progress_amount: 10
     scoreboard: 6
     spawn_point:
-      x: -172
-      y: 184
-      z: 5
-      yaw: 35
-      pitch: 2
+      x: -169
+      y: 185
+      z: 2
+      yaw: -41
+      pitch: -2
     capture_area:
       type: "cuboid"
       min:
-        x: -157
-        y: 192
-        z: 17
-      max:
-        x: -169
+        x: -158
         y: 184
-        z: 2
+        z: 15
+      max:
+        x: -168
+        y: 191
+        z: 5
     animation_air: false
     animation:
       0:
@@ -16164,23 +16185,23 @@ Toucan_Moria:
     max_cap: 7
     start_amount: 0
     progress_amount: 10
-    scoreboard: 7
+    scoreboard: 5
     spawn_point:
       x: -248
-      y: 184
+      y: 185
       z: -1
-      yaw: 1
-      pitch: 0
+      yaw: 24
+      pitch: -1
     capture_area:
       type: "cuboid"
       min:
-        x: -253
-        y: 183
-        z: 13
-      max:
-        x: -263
-        y: 190
+        x: -262
+        y: 191
         z: 22
+      max:
+        x: -252
+        y: 184
+        z: 12
     animation_air: false
     animation:
       0:
@@ -16342,12 +16363,12 @@ Toucan_Moria:
     max_cap: 7
     start_amount: 0
     progress_amount: 10
-    scoreboard: 8
+    scoreboard: 4
     spawn_point:
       x: -367
       y: 156
       z: -0
-      yaw: 59
+      yaw: 27
       pitch: -3
     capture_area:
       type: "cuboid"
@@ -16520,11 +16541,11 @@ Toucan_Moria:
     max_cap: 7
     start_amount: 0
     progress_amount: 10
-    scoreboard: 9
+    scoreboard: 3
     spawn_point:
-      x: -449
+      x: -454
       y: 138
-      z: -21
+      z: -14
       yaw: -136
       pitch: -1
     capture_area:
@@ -16698,13 +16719,13 @@ Toucan_Moria:
     max_cap: 7
     start_amount: 0
     progress_amount: 10
-    scoreboard: 10
+    scoreboard: 2
     spawn_point:
       x: -527
       y: 126
       z: -85
-      yaw: -112
-      pitch: 2
+      yaw: -135
+      pitch: -2
     capture_area:
       type: "cuboid"
       min:

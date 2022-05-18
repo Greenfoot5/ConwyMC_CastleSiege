@@ -161,10 +161,11 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
             Location loc = p.getLocation();
 
             if (ed.getEntity() instanceof Player) {
-                Player q = (Player) ed.getDamager();
+                Player q = (Player) ed.getEntity();
 
-                if (MapController.getCurrentMap().getTeam(p.getUniqueId())
-                        != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
+                if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
+                        MapController.getCurrentMap().getTeam(p.getUniqueId())
+                                != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
 
                     if (vanguards) {
 
