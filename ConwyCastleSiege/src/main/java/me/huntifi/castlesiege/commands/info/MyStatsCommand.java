@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.commands.info;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -81,7 +82,7 @@ public class MyStatsCommand implements CommandExecutor {
                 + ChatColor.BLACK + "Killstreak: " + ChatColor.DARK_GRAY + num.format(data.getMaxKillStreak()),
                 ChatColor.BLACK + "Level: " + ChatColor.DARK_GRAY + num.format(data.getLevel()) + "\n"
                 + ChatColor.BLACK + "Next Level: " + ChatColor.DARK_GRAY +
-                        dec.format(8 * Math.pow(data.getLevel() + 1, 2) - 8 * data.getLevel() - data.getScore()));
+                        dec.format(UpdateStats.levelScore(data.getLevel() + 1) - data.getScore()));
 
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
         book.setItemMeta(meta);

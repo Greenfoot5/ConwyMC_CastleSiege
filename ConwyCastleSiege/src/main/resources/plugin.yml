@@ -36,8 +36,16 @@ permissions:
   castlesiege.king:
     description: Gives access to all CastleSiege King commands
     children:
+      castlesiege.viceroy: true
+  castlesiege.viceroy:
+    description: Gives access to all CastleSiege Viceroy commands
+    children:
       castlesiege.duke: true
   castlesiege.duke:
+    description: Gives access to all CastleSiege Duke commands
+    children:
+      castlesiege.count: true
+  castlesiege.count:
     description: Gives access to all CastleSiege Count commands
     children:
       castlesiege.baron: true
@@ -88,7 +96,37 @@ commands:
     usage: /t <message>
     aliases: t
 
+  # Donator
+  JoinMessage:
+    description: Sets your custom join message
+    usage: /joinmsg <set | reset> <message>
+    aliases: joinmsg
+    permission: castlesiege.esquire
+    permission-message: Only donators are permitted to use this command!
+  LeaveMessage:
+    description: Sets your custom leave message
+    usage: /leavemsg <set | reset> <message>
+    aliases: leavemsg
+    permission: castlesiege.esquire
+    permission-message: Only donators are permitted to use this command!
+
+  # Gameplay
+  Switch:
+    description: Switches teams.
+    usage: /switch
+    aliases: sw
+  SaveMap:
+    description: Saves any changes made to the current map
+    usage: /savemap
+  Suicide:
+    description: commit die
+    usage: /suicide
+    aliases: sui
+
   # Info
+  CoinMultiplier:
+    description: Shows the active coin multiplier
+    usage: /coinmultiplier
   Coins:
     description: Shows the player's coins
     usage: /coins
@@ -114,25 +152,25 @@ commands:
   Teams:
     description: Shows the size and name of all teams on the current map
     usage: /teams
+
+  # Leaderboards
   Top:
-    description: Shows the leaderboard
-    usage: /top <category>
+    description: Shows the score leaderboard
+    usage: /top <position>
     aliases:
       - toplist
+      - topscore
       - leaderboard
+  TopCaptures:
+    description: Shows the captures leaderboard
+    usage: /topcaptures <position>
+  TopDeaths:
+    description: Shows the deaths leaderboard
+    usage: /topdeaths <position>
+  TopKills:
+    description: Shows the kills leaderboard
+    usage: /topkills <position>
 
-  # Gameplay
-  Switch:
-    description: Switches teams.
-    usage: /switch
-    aliases: sw
-  SaveMap:
-    description: Saves any changes made to the current map
-    usage: /savemap
-  Suicide:
-    description: commit die
-    usage: /suicide
-    aliases: sui
 
   # Staff - Punishments
   Ban:
@@ -165,8 +203,18 @@ commands:
     usage: /unmute <player>
     permission: castlesiege.chatmod
     permission-message: You are not permitted to use this command!
+  Warn:
+    description: Warn a player
+    usage: /warn <player> <reason>
+    permission: castlesiege.chatmod
+    permission-message: You are not permitted to use this command!
 
   # Staff - ...
+  Broadcast:
+    description: Send a special message to everyone on the server
+    usage: /broadcast <message>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
   CSReload:
     description: Reloads the Castle Siege Plugin
     usage: /csreload
@@ -176,11 +224,6 @@ commands:
     description: Toggle flight
     usage: /fly
     permission: castlesiege.chatmod+
-    permission-message: You are not permitted to use this command!
-  SetRank:
-    description: Set a donator rank for a player
-    usage: /setrank <player> <rank>
-    permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
   SetStaffRank:
     description: Set a staff rank for a player
@@ -195,6 +238,16 @@ commands:
   NextMap:
     description: Skips the current map and goes directly to the next one
     usage: /nextmap
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  RankPoints:
+    description: Manages a player's rank points
+    usage: /rankpoints <player> <set | add | remove> <amount>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+  SetCoinMultiplier:
+    description: Sets the active coin multiplier
+    usage: /setcoinmultiplier <multiplier>
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
   SetMap:
@@ -274,6 +327,9 @@ commands:
   Swordsman:
     description: Selects the swordsman kit
     usage: /swordsman
+  Vanguard:
+    description: Selects the vanguard kit
+    usage: /vanguard
   Viking:
     description: Selects the viking kit
     usage: /viking

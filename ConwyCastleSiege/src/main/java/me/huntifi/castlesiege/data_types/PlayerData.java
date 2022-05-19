@@ -29,6 +29,8 @@ public class PlayerData {
     private double rankPoints;
     private String staffRank;
     private String rank;
+    private String joinMessage;
+    private String leaveMessage;
     private HashMap<String, Long> votes;
     private double coins;
 
@@ -58,9 +60,10 @@ public class PlayerData {
         this.maxKillStreak = statsData.getInt("kill_streak");
         this.kit = statsData.getString("kit");
 
-        this.rank = rankData.getString("rank");
-        this.staffRank = rankData.getString("staff_rank");
+        this.staffRank = rankData.getString("staff_rank").toLowerCase();
         this.rankPoints = rankData.getDouble("rank_points");
+        this.joinMessage = rankData.getString("join_message");
+        this.leaveMessage = rankData.getString("leave_message");
 
         this.votes = votes;
     }
@@ -331,8 +334,8 @@ public class PlayerData {
      * Add to the player's rank points
      * @param rankPoints The rank points to add
      */
-    public void addRankPoints(double rankPoints) {
-        this.rankPoints += rankPoints;
+    public void setRankPoints(double rankPoints) {
+        this.rankPoints = rankPoints;
     }
 
     /**
@@ -365,6 +368,38 @@ public class PlayerData {
      */
     public void setRank(String rank) {
         this.rank = rank;
+    }
+
+    /**
+     * Get the player's custom join message
+     * @return The player's custom join message
+     */
+    public String getJoinMessage() {
+        return joinMessage;
+    }
+
+    /**
+     * Set the player's custom join message
+     * @param joinMessage The custom join message
+     */
+    public void setJoinMessage(String joinMessage) {
+        this.joinMessage = joinMessage;
+    }
+
+    /**
+     * Get the player's custom leave message
+     * @return The player's custom leave message
+     */
+    public String getLeaveMessage() {
+        return leaveMessage;
+    }
+
+    /**
+     * Set the player's custom leave message
+     * @param leaveMessage The custom leave message
+     */
+    public void setLeaveMessage(String leaveMessage) {
+        this.leaveMessage = leaveMessage;
     }
 
     /**
@@ -413,6 +448,14 @@ public class PlayerData {
      */
     public void addCoins(double coins) {
         this.coins += coins * coinMultiplier;
+    }
+
+    /**
+     * Get the active coin multiplier
+     * @return The active coin multiplier
+     */
+    public static double getCoinMultiplier() {
+        return coinMultiplier;
     }
 
     /**

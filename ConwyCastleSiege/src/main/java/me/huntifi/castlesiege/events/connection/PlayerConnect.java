@@ -1,5 +1,7 @@
 package me.huntifi.castlesiege.events.connection;
 
+import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.staff.RankPoints;
 import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -16,6 +18,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.net.InetAddress;
 import java.sql.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -32,6 +35,18 @@ public class PlayerConnect implements Listener {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         PlayerData data = ActiveData.getData(uuid);
+
+        // Ensure the player's data was loaded correctly
+        if (data == null) {
+            p.kickPlayer(ChatColor.DARK_RED + "Something went wrong loading your data!\n"
+                    + "Please try joining again or contact staff if this issue persists.");
+            return;
+        }
+
+        // Set the join message
+        if (!data.getJoinMessage().isEmpty()) {
+            e.setJoinMessage(ChatColor.YELLOW + data.getJoinMessage());
+        }
 
         // Assign the player's staff and donator permissions
         Permissions.addPlayer(uuid);
@@ -120,5 +135,14 @@ public class PlayerConnect implements Listener {
         // Actively store data
         ActiveData.addPlayer(uuid, data);
         MVPStats.addPlayer(uuid);
+
+        // Set the player's donator top rank
+        data.setRank(RankPoints.getRank(data.getRankPoints()));
+        if (data.getRankPoints() > 0) {
+            String rank = RankPoints.getTopRank(uuid);
+            if (!rank.isEmpty()) {
+                data.setRank(rank);
+            }
+        }
     }
 }

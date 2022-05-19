@@ -65,7 +65,7 @@ public class NameTag {
      * @return A formatted rank or an empty string if invalid
      */
     public static String convertRank(String rank) {
-        switch (rank.toLowerCase()) {
+        switch (rank) {
             // Staff Ranks
             case "chatmod":
                 return "§9ChatMod ";
@@ -82,12 +82,14 @@ public class NameTag {
                 return "§3Esquire ";
             case "noble":
                 return "§aNoble ";
-            case "count":
-                return "§6Count ";
             case "baron":
                 return "§5Baron ";
+            case "count":
+                return "§6Count ";
             case "duke":
                 return "§4Duke ";
+            case "viceroy":
+                return "§dViceroy ";
             case "king":
                 return "§eKing ";
             case "high_king":

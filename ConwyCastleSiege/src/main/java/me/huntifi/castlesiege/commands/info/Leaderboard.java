@@ -24,15 +24,8 @@ import java.util.Objects;
  */
 public class Leaderboard implements CommandExecutor {
 
-    private final Collection<String> categories = Arrays.asList(
-            "score", "kills", "deaths", "assists", "captures", "heals", "supports");
-
-    // TODO:
-    // Allow specific leaderboard spot to be requested
-    // Work out categories
-
     /**
-     * Print the leaderboard to the player if a valid category was supplied
+     * Print the score leaderboard to the player
      * @param sender Source of the command
      * @param cmd Command which was executed
      * @param label Alias of the command which was used
@@ -41,13 +34,34 @@ public class Leaderboard implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        String category;
+        switch (cmd.getName()) {
+            case "Top":
+                category = "score";
+                break;
+            case "TopCaptures":
+                category = "captures";
+                break;
+            case "TopDeaths":
+                category = "deaths";
+                break;
+            case "TopKills":
+                category = "kills";
+                break;
+            default:
+                sender.sendMessage(ChatColor.DARK_RED + "Something went wrong! Please contact an administrator.");
+                return true;
+        }
+
         if (args.length == 0) {
-            display(sender, "score");
-        } else if (categories.contains(args[0].toLowerCase())) {
-            display(sender, args[0].toLowerCase());
+            display(sender, category, 0);
         } else {
-            sender.sendMessage(ChatColor.DARK_RED + "Category " + ChatColor.RED + args[0] +
-                    ChatColor.DARK_RED + " is invalid!");
+            try {
+                display(sender, category, Integer.parseInt(args[0]));
+            } catch (NumberFormatException e) {
+                // TODO - player specified
+                sender.sendMessage(ChatColor.DARK_RED + "Searching by player is currently not supported!");
+            }
         }
 
         return true;
@@ -57,13 +71,16 @@ public class Leaderboard implements CommandExecutor {
      * Print the leaderboard to the player, sorted by the supplied category
      * @param sender Source of the command
      * @param category The category to sort by
+     * @param requested The requested position
      */
-    private void display(CommandSender sender, String category) {
+    private void display(CommandSender sender, String category, int requested) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 try {
-                    Tuple<PreparedStatement, ResultSet> top = LoadData.getTop(category);
+                    int offset = requested < 6 ? 0 : Math.min(requested - 5, 90);
+
+                    Tuple<PreparedStatement, ResultSet> top = LoadData.getTop(category, offset);
 
                     // Send header
                     sender.sendMessage(ChatColor.AQUA + "#. Player " +
@@ -77,11 +94,12 @@ public class Leaderboard implements CommandExecutor {
                     // Send entries
                     DecimalFormat dec = new DecimalFormat("0.00");
                     DecimalFormat num = new DecimalFormat("0");
-                    int pos = 0;
+                    int pos = offset;
                     while (top.getSecond().next()) {
                         pos++;
+                        ChatColor color = pos == requested ? ChatColor.AQUA : ChatColor.DARK_AQUA;
                         sender.sendMessage(ChatColor.GRAY + num.format(pos) + ". " +
-                                ChatColor.DARK_AQUA + top.getSecond().getString("name") + " " +
+                                color + top.getSecond().getString("name") + " " +
                                 ChatColor.GOLD + top.getSecond().getInt("level") + " " +
                                 ChatColor.WHITE + num.format(top.getSecond().getDouble("score")) + " " +
                                 ChatColor.GREEN + num.format(top.getSecond().getDouble("kills")) + " " +

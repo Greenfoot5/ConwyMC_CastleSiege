@@ -325,7 +325,7 @@ Conwy:
       lobby:
         spawn_point:
           x: 99
-          y: 88
+          y: 89
           z: 610
           yaw: 2
           pitch: -10
@@ -365,13 +365,6 @@ Conwy:
               y: 94
               z: 622
             sign_direction: north
-          port:
-            flag_name: "Port"
-            wool_position:
-              x: 95
-              y: 93
-              z: 622
-            sign_direction: north
           kings_tower:
             flag_name: "King's Tower"
             wool_position:
@@ -398,6 +391,13 @@ Conwy:
             wool_position:
               x: 102
               y: 92
+              z: 622
+            sign_direction: north
+          port:
+            flag_name: "Port"
+            wool_position:
+              x: 95
+              y: 93
               z: 622
             sign_direction: north
     Attackers:
@@ -447,13 +447,6 @@ Conwy:
               y: 89
               z: 598
             sign_direction: south
-          port:
-            flag_name: "Port"
-            wool_position:
-              x: -62
-              y: 90
-              z: 598
-            sign_direction: south
           kings_tower:
             flag_name: "King's Tower"
             wool_position:
@@ -480,6 +473,13 @@ Conwy:
             wool_position:
               x: -55
               y: 91
+              z: 598
+            sign_direction: south
+          port:
+            flag_name: "Port"
+            wool_position:
+              x: -62
+              y: 90
               z: 598
             sign_direction: south
 Toucan_Moria:

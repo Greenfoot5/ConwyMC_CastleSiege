@@ -13,6 +13,8 @@ import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import me.huntifi.castlesiege.commands.chat.PrivateMessage;
 import me.huntifi.castlesiege.commands.chat.ReplyMessage;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.commands.donator.JoinMessage;
+import me.huntifi.castlesiege.commands.donator.LeaveMessage;
 import me.huntifi.castlesiege.commands.gameplay.KitCommand;
 import me.huntifi.castlesiege.commands.gameplay.SuicideCommand;
 import me.huntifi.castlesiege.commands.gameplay.SwitchCommand;
@@ -151,6 +153,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
+                getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
                 // Kit GUIs
                 getServer().getPluginManager().registerEvents(new FreeKitGUI(), plugin);
                 getServer().getPluginManager().registerEvents(new UnlockedKitGUI(), plugin);
@@ -163,12 +166,17 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Reply")).setExecutor(new ReplyMessage());
                 Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
 
+                // Donator
+                Objects.requireNonNull(getCommand("LeaveMessage")).setExecutor(new LeaveMessage());
+                Objects.requireNonNull(getCommand("JoinMessage")).setExecutor(new JoinMessage());
+
                 // Gameplay
                 Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
                 Objects.requireNonNull(getCommand("Suicide")).setExecutor(new SuicideCommand());
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
 
                 // Info
+                Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
                 Objects.requireNonNull(getCommand("Coins")).setExecutor(new CoinsCommand());
                 Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
                 Objects.requireNonNull(getCommand("Maps")).setExecutor(new MapsCommand());
@@ -177,7 +185,12 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
                 Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
+
+                // Leaderboards
                 Objects.requireNonNull(getCommand("Top")).setExecutor(new Leaderboard());
+                Objects.requireNonNull(getCommand("TopCaptures")).setExecutor(new Leaderboard());
+                Objects.requireNonNull(getCommand("TopDeaths")).setExecutor(new Leaderboard());
+                Objects.requireNonNull(getCommand("TopKills")).setExecutor(new Leaderboard());
 
                 // Staff - Punishments
                 Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());
@@ -186,14 +199,17 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Mute")).setExecutor(new Mute());
                 Objects.requireNonNull(getCommand("Unban")).setExecutor(new Unban());
                 Objects.requireNonNull(getCommand("Unmute")).setExecutor(new Unmute());
+                Objects.requireNonNull(getCommand("Warn")).setExecutor(new Warn());
 
                 // Staff
+                Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastMessage());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
-                Objects.requireNonNull(getCommand("SetRank")).setExecutor(new SetRank());
+                Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
                 Objects.requireNonNull(getCommand("SetStaffRank")).setExecutor(new SetStaffRank());
                 Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
+                Objects.requireNonNull(getCommand("RankPoints")).setExecutor(new RankPoints());
                 Objects.requireNonNull(getCommand("SetMap")).setExecutor(new SetMapCommand());
                 Objects.requireNonNull(getCommand("SetTimer")).setExecutor(new SetTimerCommand());
                 Objects.requireNonNull(getCommand("StaffChat")).setExecutor(new StaffChat());
@@ -218,6 +234,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Skirmisher")).setExecutor(new Skirmisher());
                 Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
+                Objects.requireNonNull(getCommand("Vanguard")).setExecutor(new Vanguard());
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
 

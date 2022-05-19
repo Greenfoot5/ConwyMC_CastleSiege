@@ -1,12 +1,14 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.staff.RankPoints;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Objects;
@@ -46,11 +48,12 @@ public class StoreData {
         ps.close();
 
         ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE player_rank SET rank = ?, staff_rank = ?, rank_points = ? WHERE uuid = ?");
-        ps.setString(1, data.getRank());
-        ps.setString(2, data.getStaffRank());
-        ps.setDouble(3, data.getRankPoints());
-        ps.setString(4, uuid.toString());
+                "UPDATE player_rank SET staff_rank = ?, rank_points = ?, join_message = ?, leave_message = ? WHERE uuid = ?");
+        ps.setString(1, data.getStaffRank());
+        ps.setDouble(2, data.getRankPoints());
+        ps.setString(3, data.getJoinMessage());
+        ps.setString(4, data.getLeaveMessage());
+        ps.setString(5, uuid.toString());
         ps.executeUpdate();
         ps.close();
     }
@@ -94,6 +97,28 @@ public class StoreData {
     }
 
     /**
+     * Update the player's donator rank saved in the database
+     * @param name The name of the player
+     */
+    public static void updateRank(String name, double rp) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                            "UPDATE player_rank SET rank_points = ? WHERE name = ?");
+                    ps.setDouble(1, rp);
+                    ps.setString(2, name);
+                    ps.executeUpdate();
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.runTaskAsynchronously(Main.plugin);
+    }
+
+    /**
      * Update the player's votes saved in the database
      * @param uuid The unique ID of the player
      */
@@ -115,7 +140,11 @@ public class StoreData {
                     // Update the votes in the database
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                             "UPDATE VotingPlugin_Users SET LastVotes = ? WHERE uuid = ?");
-                    ps.setString(1, sb.toString());
+                    if (sb.length() > 0) {
+                        ps.setString(1, sb.toString());
+                    } else {
+                        ps.setNull(1, Types.VARCHAR);
+                    }
                     ps.setString(2, uuid.toString());
                     ps.executeUpdate();
                     ps.close();

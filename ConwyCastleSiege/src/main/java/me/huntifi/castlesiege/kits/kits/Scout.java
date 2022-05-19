@@ -38,13 +38,13 @@ public class Scout extends Kit implements CommandExecutor {
         // Weapon
         es.hotbar[0] = ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
                 ChatColor.GREEN + "Shortsword", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 19)));
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18)));
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
                         ChatColor.GREEN + "Shortsword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 21))),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
                 0);
 
         // Chestplate
@@ -98,6 +98,10 @@ public class Scout extends Kit implements CommandExecutor {
 
         if (ActiveData.getData(player.getUniqueId()).hasVote("kits")) {
             super.addPlayer(player.getUniqueId());
+        } else if (Kit.equippedKits.get(player.getUniqueId()) == null) {
+            player.performCommand("swordsman");
+            player.sendMessage(ChatColor.DARK_RED + "You need to vote to use " + ChatColor.RED + name
+                    + ChatColor.DARK_RED + " again!");
         } else {
             player.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You need to vote to use this kit!");
         }

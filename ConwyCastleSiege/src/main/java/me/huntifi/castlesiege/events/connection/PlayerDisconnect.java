@@ -7,8 +7,10 @@ import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Flag;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +32,15 @@ public class PlayerDisconnect implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         UUID uuid = e.getPlayer().getUniqueId();
+        if (ActiveData.getData(uuid) == null) {
+            return;
+        }
+
+        // Set the leave message
+        if (!ActiveData.getData(uuid).getLeaveMessage().isEmpty()) {
+            e.setQuitMessage(ChatColor.YELLOW + ActiveData.getData(uuid).getLeaveMessage());
+        }
+
         if (InCombat.isPlayerInCombat(uuid)) {
             UpdateStats.addDeaths(uuid, 2);
         } else if (!InCombat.isPlayerInLobby(uuid)) {
@@ -41,6 +52,7 @@ public class PlayerDisconnect implements Listener {
 
         storeData(uuid);
         MapController.leaveTeam(uuid);
+        Kit.equippedKits.remove(uuid);
         Permissions.removePlayer(uuid);
         BarCooldown.remove(uuid);
     }
