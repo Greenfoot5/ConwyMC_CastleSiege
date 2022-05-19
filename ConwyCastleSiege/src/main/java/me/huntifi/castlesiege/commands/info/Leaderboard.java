@@ -34,11 +34,30 @@ public class Leaderboard implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        String category;
+        switch (cmd.getName()) {
+            case "Top":
+                category = "score";
+                break;
+            case "TopCaptures":
+                category = "captures";
+                break;
+            case "TopDeaths":
+                category = "deaths";
+                break;
+            case "TopKills":
+                category = "kills";
+                break;
+            default:
+                sender.sendMessage(ChatColor.DARK_RED + "Something went wrong! Please contact an administrator.");
+                return true;
+        }
+
         if (args.length == 0) {
-            display(sender, "score", 0);
+            display(sender, category, 0);
         } else {
             try {
-                display(sender, "score", Integer.parseInt(args[0]));
+                display(sender, category, Integer.parseInt(args[0]));
             } catch (NumberFormatException e) {
                 // TODO - player specified
                 sender.sendMessage(ChatColor.DARK_RED + "Searching by player is currently not supported!");

@@ -155,12 +155,21 @@ commands:
 
   # Leaderboards
   Top:
-    description: Shows the leaderboard
+    description: Shows the score leaderboard
     usage: /top <position>
     aliases:
       - toplist
       - topscore
       - leaderboard
+  TopCaptures:
+    description: Shows the captures leaderboard
+    usage: /topcaptures <position>
+  TopDeaths:
+    description: Shows the deaths leaderboard
+    usage: /topdeaths <position>
+  TopKills:
+    description: Shows the kills leaderboard
+    usage: /topkills <position>
 
 
   # Staff - Punishments
