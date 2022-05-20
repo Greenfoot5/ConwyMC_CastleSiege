@@ -407,7 +407,7 @@ Conwy:
       lobby:
         spawn_point:
           x: -58
-          y: 86
+          y: 87
           z: 612
           yaw: -180
           pitch: -1

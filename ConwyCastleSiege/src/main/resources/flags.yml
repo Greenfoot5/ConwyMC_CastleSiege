@@ -8635,16 +8635,16 @@ Abrakhan:
             z: 48
         air:
           - "==": Vector
-            x: 48
+            x: 115
             y: 17
-            z: 115
+            z: 48
       5:
         ==: me.huntifi.castlesiege.data_types.Frame
         secondary_blocks:
           - "==": Vector
-            x: 48
+            x: 115
             y: 17
-            z: 115
+            z: 48
         air:
           - "==": Vector
             x: 119
