@@ -21,6 +21,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -28,6 +29,17 @@ import java.util.UUID;
  * Manages what happens when a player dies
  */
 public class DeathEvent implements Listener {
+
+    private static final HashMap<Player, Player> killerMap = new HashMap<>();
+
+    /**
+     * Set the killer of a player
+     * @param target The player who dies
+     * @param killer The player who killed
+     */
+    public static void setKiller(Player target, Player killer) {
+        killerMap.put(target, killer);
+    }
 
     /**
      * Spawn the player correctly
@@ -98,7 +110,8 @@ public class DeathEvent implements Listener {
         UpdateStats.addDeaths(target.getUniqueId(), 1);
 
         // Kill
-        Player killer = target.getKiller();
+        Player killer = killerMap.getOrDefault(target, target.getKiller());
+        killerMap.remove(target);
         if (killer != null) {
             UpdateStats.addKill(killer.getUniqueId());
 

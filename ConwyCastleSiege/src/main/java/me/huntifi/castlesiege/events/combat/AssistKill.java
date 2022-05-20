@@ -43,7 +43,7 @@ public class AssistKill implements Listener {
      * @param attacker The attacker
      * @param damage The final damage that was dealt
      */
-    private void addDamager(UUID target, UUID attacker, double damage) {
+    public static void addDamager(UUID target, UUID attacker, double damage) {
         damageMap.putIfAbsent(target, new HashMap<>());
         damageMap.get(target).merge(attacker, damage, Double::sum);
     }

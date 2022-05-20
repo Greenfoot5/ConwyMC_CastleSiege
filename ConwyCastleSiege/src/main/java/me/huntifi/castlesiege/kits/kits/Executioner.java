@@ -1,7 +1,9 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
@@ -17,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -125,24 +128,15 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 				assert healthAttribute != null;
 
 				// Execute
-				if (whoWasHit.getHealth() <= e.getFinalDamage()) {
-					Location loc = whoWasHit.getLocation();
-					whoWasHit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
-				} else if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.37) {
-					// Replace this damage with one that kills
+				if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.37) {
 					e.setCancelled(true);
 
-					// Prevent damage reduction from armor and resistance
-					whoWasHit.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-					AttributeInstance armor = whoWasHit.getAttribute(Attribute.GENERIC_ARMOR);
-					assert armor != null;
-					armor.setBaseValue(-armor.getValue());
+					Location loc = whoWasHit.getLocation();
+					whoWasHit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
 
-					// Kill opponent with damage done by executioner
-					whoWasHit.damage(healthAttribute.getValue(), whoHit);
-
-					// Revert armor
-					armor.setBaseValue(0);
+					AssistKill.addDamager(whoWasHit.getUniqueId(), whoHit.getUniqueId(), whoWasHit.getHealth());
+					DeathEvent.setKiller(whoWasHit, whoHit);
+					whoWasHit.setHealth(0);
 				}
 			}
 		}
