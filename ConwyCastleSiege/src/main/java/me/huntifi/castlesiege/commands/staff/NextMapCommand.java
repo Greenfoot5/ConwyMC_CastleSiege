@@ -27,14 +27,22 @@ public class NextMapCommand implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if(sender instanceof Player) {
 			Player p = (Player) sender;
-			Bukkit.getServer().broadcastMessage(
-					p.getDisplayName() + ChatColor.YELLOW + " has skipped to the next map!");
-			MapController.endMap();
+			if (!MapController.hasMapEnded()) {
+				Bukkit.getServer().broadcastMessage(
+						p.getDisplayName() + ChatColor.YELLOW + " has skipped to the next map!");
+				MapController.endMap();
+			} else {
+				p.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Map has already ended!");
+			}
 
 		} else if (sender instanceof ConsoleCommandSender) {
-			Bukkit.getServer().broadcastMessage(
-					ChatColor.DARK_AQUA + "Console" + ChatColor.YELLOW + " has skipped to the next map!");
-			MapController.endMap();
+			if (!MapController.hasMapEnded()) {
+				Bukkit.getServer().broadcastMessage(
+						ChatColor.DARK_AQUA + "Console" + ChatColor.YELLOW + " has skipped to the next map!");
+				MapController.endMap();
+			} else {
+				sender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Map has already ended!");
+			}
 		}
 
 		return true;
