@@ -4,6 +4,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.info.MVPCommand;
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -37,11 +38,19 @@ public class MapController implements CommandExecutor {
 	public static int mapIndex = 0;
 	public static Timer timer;
 
+	public static boolean isMatch = false;
+	public static int mapCount = 3;
+	public static Tuple<Integer, Integer> delays = new Tuple<>(0, 0);
+
+	public static boolean keepTeams = false;
+	private static ArrayList<ArrayList<UUID>> teams = new ArrayList<>();
+
 	/**
 	 * Begins the map loop
 	 */
 	public static void startLoop() {
-		Collections.shuffle(maps);
+		if (!isMatch)
+			Collections.shuffle(maps);
 		loadMap();
 	}
 
@@ -52,6 +61,32 @@ public class MapController implements CommandExecutor {
 			}
 		}
 		return null;
+	}
+
+	public static Map getMap(String mapName) {
+		for (Map map : maps) {
+			if (Objects.equals(map.name, mapName))
+				return map;
+		}
+		return null;
+	}
+
+	/**
+	 * Sets the maps, and enables match mode
+	 * Returns false if a map cannot be found
+	 * @param mapNames A list of map names to play
+	 */
+	public static void setMaps(String[] mapNames) {
+		List<Map> newMaps = new ArrayList<>();
+		for (String mapName : mapNames) {
+			Map map = getMap(mapName);
+			if (map != null) {
+				newMaps.add(map);
+			} else {
+				getLogger().severe("Could not load match mode. Could not find map: `" + mapName + "`");
+			}
+		}
+		isMatch = true;
 	}
 
 	/**
@@ -207,9 +242,30 @@ public class MapController implements CommandExecutor {
 		}
 
 		// Move all players to the new map and team
-		for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
-			joinATeam(player.getUniqueId());
-			Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+		if (!keepTeams || teams.size() > 0 && maps.get(mapIndex).teams.length > teams.size()) {
+			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
+				joinATeam(player.getUniqueId());
+				Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+			}
+		} else {
+			for (int i = 0; i < teams.size(); i++) {
+				for (UUID uuid : teams.get(i)) {
+					// Check the player exists
+					Player player = Bukkit.getPlayer(uuid);
+					if (player != null) {
+						if (maps.get(mapIndex).teams.length < i - 1)
+							maps.get(mapIndex).teams[i].addPlayer(uuid);
+						else
+							joinATeam(uuid);
+					}
+				}
+			}
+			// Make sure all online players are on a team
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (maps.get(mapIndex).getTeam(player.getUniqueId()) == null) {
+					joinATeam(player.getUniqueId());
+				}
+			}
 		}
 
 		// Start the timer!
@@ -250,7 +306,7 @@ public class MapController implements CommandExecutor {
 	 * @return if the game is on the final map
 	 */
 	public static boolean finalMap() {
-		return mapIndex == maps.size() - 1;
+		return mapIndex == maps.size() - 1 || mapIndex == mapCount;
 	}
 
 	/**

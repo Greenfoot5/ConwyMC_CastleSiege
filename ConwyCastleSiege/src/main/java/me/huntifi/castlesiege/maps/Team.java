@@ -123,6 +123,13 @@ public class Team {
     }
 
     /**
+     * @return An ArrayList of all UUIDs on the time
+     */
+    public ArrayList<UUID> getPlayers() {
+        return players;
+    }
+
+    /**
      * Clears the team's members
      */
     public void clear() {

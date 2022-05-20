@@ -1,0 +1,18 @@
+# How many maps to play before restarting the server
+map_count: 3
+
+# Should
+delays:
+  game: 0
+  map: 0
+# Settings for if the game is a match
+match:
+  enabled: false
+  # If players should remain on the same team
+  keep_teams: false
+  # Overrides map count
+  # List the names of the maps being played and in what order
+  maps:
+    - "Helm's Deep"
+    - "Thunderstone"
+    - "Elwynn"
