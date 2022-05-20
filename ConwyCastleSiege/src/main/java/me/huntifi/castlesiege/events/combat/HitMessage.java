@@ -24,21 +24,21 @@ public class HitMessage implements Listener {
 	 */
 	@EventHandler
 	public void onHit(ProjectileHitEvent e) {
-
-		Arrow arrow = (Arrow) e.getEntity();
-		Player p = (Player) arrow.getShooter();
-
 		// Check it was a player that fired an arrow
-		if (e.getEntity() instanceof Arrow && arrow.getShooter() instanceof Player && p != null) {
+		if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player) {
+			Arrow arrow = (Arrow) e.getEntity();
+			Player p = (Player) arrow.getShooter();
 
 			// If the player hit another player
 			if (e.getHitEntity() instanceof Player) {
-
 				Player hit = (Player) e.getHitEntity();
 
-				if (MapController.getCurrentMap().getTeam(p.getUniqueId()) != MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
-					// Notifies the player
-					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "Hit (" + hit.getName() + ")"));
+				if (MapController.getCurrentMap().getTeam(p.getUniqueId()) !=
+						MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
+
+					// Notify the player
+					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+							ChatColor.DARK_AQUA + "Hit (" + hit.getName() + ")"));
 					playSound(p);
 
 					// The shooter has interacted with the game
@@ -52,7 +52,8 @@ public class HitMessage implements Listener {
 				}
 
 				// Notify the player
-				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "Hit (" + Objects.requireNonNull(e.getHitEntity()).getType() + ")"));
+				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+						ChatColor.DARK_AQUA + "Hit (" + Objects.requireNonNull(e.getHitEntity()).getType() + ")"));
 				playSound(p);
 
 				// The shooter has interacted with the game

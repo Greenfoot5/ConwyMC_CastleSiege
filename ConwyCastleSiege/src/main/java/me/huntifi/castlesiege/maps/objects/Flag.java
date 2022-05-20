@@ -256,8 +256,8 @@ public class Flag {
 
         // Owners have capped enough to publicly take control
         } else if (capProgress == 1 && animationIndex == 0) {
-            broadcastTeam(currentOwners);
             animationIndex += 1;
+            broadcastTeam(currentOwners);
 
             notifyPlayers(true);
 
