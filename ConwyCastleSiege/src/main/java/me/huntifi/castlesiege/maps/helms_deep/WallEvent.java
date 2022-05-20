@@ -119,12 +119,12 @@ public class WallEvent implements Listener {
 					// The player is trying to place tnt
 					if (tnt_counter < TNT_LOCATIONS.length) {
 						// Place the tnt
-						TNT_LOCATIONS[0].getBlock().setType(Material.TNT);
+						TNT_LOCATIONS[tnt_counter].getBlock().setType(Material.TNT);
 						tnt_counter++;
 
 						// Inform the player and grant stats
 						p.spigot().sendMessage(ChatMessageType.ACTION_BAR,TextComponent.fromLegacyText(ChatColor.DARK_AQUA
-								+ "You placed the explosive down. (" + tnt_counter + 1 + "/" + TNT_LOCATIONS.length + ")"));
+								+ "You placed the explosive down. (" + tnt_counter + "/" + TNT_LOCATIONS.length + ")"));
 						UpdateStats.addSupports(p.getUniqueId(), 12);
 
 						// Spawn either the torch or tnt next
