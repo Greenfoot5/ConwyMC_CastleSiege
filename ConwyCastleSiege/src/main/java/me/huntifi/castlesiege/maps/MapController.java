@@ -317,7 +317,7 @@ public class MapController implements CommandExecutor {
 	 * @return if the game is on the final map
 	 */
 	public static boolean finalMap() {
-		return mapIndex == maps.size() - 1 || mapIndex >= mapCount - 1;
+		return mapIndex == maps.size() - 1 || mapIndex >= mapCount;
 	}
 
 	/**

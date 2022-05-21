@@ -161,24 +161,20 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
 
             if (ed.getEntity() instanceof Player) {
                 Player hit = (Player) ed.getEntity();
-                System.out.println("Is Player");
 
                 if (!(Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                         MapController.getCurrentMap().getTeam(p.getUniqueId())
                                 != MapController.getCurrentMap().getTeam(hit.getUniqueId()))) {
-                    System.out.println("Nah ah!");
                     return;
                 }
             }
 
             if (vanguards) {
-                System.out.println("Clearing Effects");
                 for (PotionEffect effect : p.getActivePotionEffects()) {
                     if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 3)
                             || (effect.getType().getName().equals(PotionEffectType.JUMP.getName()) && effect.getAmplifier() == 1)
                             || (effect.getType().getName().equals(PotionEffectType.INCREASE_DAMAGE.getName()) && effect.getAmplifier() == 3)) {
                         p.removePotionEffect(effect.getType());
-                        System.out.println("Effect Cleared");
                     }
                 }
                 p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
