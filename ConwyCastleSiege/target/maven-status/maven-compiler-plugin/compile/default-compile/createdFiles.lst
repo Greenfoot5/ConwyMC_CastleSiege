@@ -7,6 +7,7 @@ me\huntifi\castlesiege\commands\staff\RankPoints.class
 me\huntifi\castlesiege\database\UpdateStats$1.class
 me\huntifi\castlesiege\commands\staff\punishments\Warn.class
 me\huntifi\castlesiege\commands\staff\SetCoinMultiplier.class
+me\huntifi\castlesiege\events\combat\HurtAnimation.class
 me\huntifi\castlesiege\commands\donator\LeaveMessage.class
 me\huntifi\castlesiege\commands\staff\RankPoints$1.class
 me\huntifi\castlesiege\kits\kits\Vanguard.class

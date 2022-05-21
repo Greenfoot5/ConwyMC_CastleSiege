@@ -117,7 +117,8 @@ public class DeathEvent implements Listener {
 
             // Kill and death messages
             Kit kit = Kit.equippedKits.get(killer.getUniqueId());
-            if (Objects.requireNonNull(target.getLastDamageCause()).getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
+            if (target.getLastDamageCause() != null
+                    && target.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
                 killDeathMessage(killer, target, kit.getProjectileMessage());
             } else {
                 killDeathMessage(killer, target, kit.getMeleeMessage());

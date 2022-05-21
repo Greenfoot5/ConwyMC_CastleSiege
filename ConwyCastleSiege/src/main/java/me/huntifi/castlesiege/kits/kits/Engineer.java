@@ -2,7 +2,10 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.AssistKill;
+import me.huntifi.castlesiege.events.combat.HurtAnimation;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -190,28 +193,14 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                 p.sendMessage(ChatColor.RED + "You stepped on " + NameTag.color(t) + t.getName() + ChatColor.RED + "'s trap.");
                 t.sendMessage(NameTag.color(p) + p.getName() + ChatColor.GREEN + " stepped on your trap.");
 
-                // Prevent damage reduction from armor and resistance
-                PotionEffect resistance = p.getPotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-                p.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-                AttributeInstance armor = p.getAttribute(Attribute.GENERIC_ARMOR);
-                assert armor != null;
-                armor.setBaseValue(-armor.getValue());
-
-                // Prevent knockback indicating the trapper's position
-                AttributeInstance kb = p.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);
-                assert kb != null;
-                double kbValue = kb.getBaseValue();
-                kb.setBaseValue(2);
-
                 // Deal damage
-                p.damage(25, t);
-
-                // Revert knockback, armor, and resistance changes
-                kb.setBaseValue(kbValue);
-                armor.setBaseValue(0);
-                if (resistance != null) {
-                    p.addPotionEffect(resistance);
+                double damage = Math.min(p.getHealth(), 25);
+                if (damage == p.getHealth()) {
+                    DeathEvent.setKiller(p, t);
                 }
+                AssistKill.addDamager(p.getUniqueId(), t.getUniqueId(), damage);
+                HurtAnimation.trigger(p);
+                p.setHealth(p.getHealth() - damage);
             }
         }
     }
@@ -241,7 +230,7 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                 trap.setType(Material.AIR);
                 p.sendMessage(ChatColor.RED + "Your horse stepped on " + NameTag.color(t) + t.getName() + ChatColor.RED + "'s trap.");
                 t.sendMessage(NameTag.color(p) + p.getName() + ChatColor.GREEN + "'s horse stepped on your trap.");
-                h.damage(30);
+                h.damage(50);
             }
         }
     }
