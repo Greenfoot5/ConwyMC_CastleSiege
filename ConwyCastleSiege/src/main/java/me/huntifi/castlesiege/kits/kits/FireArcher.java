@@ -179,6 +179,11 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
             cauldrons.put(p, e.getBlockPlaced());
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                     TextComponent.fromLegacyText(ChatColor.AQUA + "You placed down your Firepit!"));
+            for (PotionEffect effect : p.getActivePotionEffects()) {
+                if (effect.getType().getName().equals(PotionEffectType.SLOW.getName()) && effect.getAmplifier() == 0) {
+                    p.removePotionEffect(effect.getType());
+                }
+            }
         }
     }
 
@@ -203,6 +208,8 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
                 destroyFirepit(q);
                 q.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                         TextComponent.fromLegacyText(ChatColor.AQUA + "You took back your Firepit!"));
+                // Perm Potion Effect
+                q.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 999999, 0));
 
                 // Can only hold 1 firepit at a time
                 PlayerInventory inv = p.getInventory();

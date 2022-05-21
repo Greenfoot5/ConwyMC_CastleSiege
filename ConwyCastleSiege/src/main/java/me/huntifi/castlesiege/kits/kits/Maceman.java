@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * The maceman kit
@@ -132,7 +133,7 @@ public class Maceman extends Kit implements Listener, CommandExecutor {
                             NameTag.color(p) + p.getName() + ChatColor.AQUA + " blocked your stun"));
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             ChatColor.AQUA + "You blocked " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s stun"));
-                } else if (p.isSneaking()) {
+                } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
                     q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             NameTag.color(p) + p.getName() + ChatColor.AQUA + " dodged your stun"));
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(

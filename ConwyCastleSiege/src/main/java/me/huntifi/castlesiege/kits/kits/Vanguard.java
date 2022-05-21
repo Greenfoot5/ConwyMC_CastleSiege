@@ -129,10 +129,9 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-
                                     vanguards = false;
                             }
-                        }.runTaskLater(Main.plugin, 260);
+                        }.runTaskLater(Main.plugin, 100);
 
                     } else {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
