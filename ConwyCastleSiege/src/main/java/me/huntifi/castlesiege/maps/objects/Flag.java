@@ -195,7 +195,8 @@ public class Flag {
             // You can't recap a flag
             if (!Objects.equals(startingTeam, currentOwners)) {
                 if (!Objects.equals(currentOwners, getLargestTeam()))
-                    return;
+                    if (animationIndex == maxCap)
+                        return;
             }
 
             // You can't cap the next flag until the previous is capped
