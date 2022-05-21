@@ -202,8 +202,22 @@ public class Flag {
             // You can't cap the next flag until the previous is capped
             Flag[] flags = MapController.getCurrentMap().flags;
             for (int i = 0; i < flags.length; i++) {
+                // Get the index of this flag
                 if (Objects.equals(flags[i].name, name)) {
-                    if (!Objects.equals(flags[i - 1].currentOwners, getLargestTeam())) {
+                    // Get the previous flag
+                    Flag previousFlag;
+                    // If the largest team are the defenders
+                    if (Objects.equals(getLargestTeam(), MapController.getCurrentMap().teams[0].name)) {
+                        // The defenders can always cap the last flag
+                        if (i + 1 < flags.length)
+                            previousFlag = flags[i + 1];
+                        else {
+                            return;
+                        }
+                    } else {
+                        previousFlag = flags[i-1];
+                    }
+                    if (!Objects.equals(previousFlag.getCurrentOwners(), getLargestTeam())) {
                         for (UUID uuid : players)
                         {
                             if (!Objects.equals(MapController.getCurrentMap().getTeam(uuid).name, currentOwners)) {

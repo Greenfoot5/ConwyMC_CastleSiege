@@ -52,8 +52,11 @@ public class MapController implements CommandExecutor {
 	 * Begins the map loop
 	 */
 	public static void startLoop() {
-		if (!isMatch)
+		if (!isMatch) {
 			Collections.shuffle(maps);
+			if ( mapCount > 0 && mapCount < maps.size())
+				maps = maps.subList(0, mapCount);
+		}
 		loadMap();
 	}
 
@@ -314,7 +317,7 @@ public class MapController implements CommandExecutor {
 	 * @return if the game is on the final map
 	 */
 	public static boolean finalMap() {
-		return mapIndex == maps.size() - 1 || mapIndex == mapCount;
+		return mapIndex == maps.size() - 1 || mapIndex >= mapCount - 1;
 	}
 
 	/**

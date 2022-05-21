@@ -540,7 +540,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Timer data
                 map.duration = new Tuple<>(config.getInt(mapRoute.add("duration").add("minutes")),
-                        config.getInt(mapRoute.add("duration").add("minutes")));
+                        config.getInt(mapRoute.add("duration").add("seconds")));
 
                 // Save the map
                 MapController.maps.add(map);
