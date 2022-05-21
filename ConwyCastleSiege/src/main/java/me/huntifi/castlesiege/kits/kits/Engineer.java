@@ -20,15 +20,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Minecart;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -214,6 +212,36 @@ public class Engineer extends Kit implements Listener, CommandExecutor {
                 if (resistance != null) {
                     p.addPotionEffect(resistance);
                 }
+            }
+        }
+    }
+
+    /**
+     * Activate the engineer ability for opponents walking on their traps
+     * @param e The event called when a player steps on a stone pressure plate
+     */
+    @EventHandler
+    public void onHorseWalkOverTrap(EntityInteractEvent e) {
+        // Check if the player stepped on a trap
+        Block trap = e.getBlock();
+        if (trap.getType() == Material.STONE_PRESSURE_PLATE && e.getEntity() instanceof Horse
+                && !e.getEntity().getPassengers().isEmpty()
+                && e.getEntity().getPassengers().get(0) instanceof Player) {
+
+            // Check if the trap should trigger
+            Horse h = (Horse) e.getEntity();
+            Player p = (Player) h.getPassengers().get(0);
+            Player t = getTrapper(trap);
+            if (t != null && MapController.getCurrentMap().getTeam(p.getUniqueId())
+                    != MapController.getCurrentMap().getTeam(t.getUniqueId())) {
+
+                // Trigger the trap
+                e.setCancelled(true);
+                traps.get(t).remove(trap);
+                trap.setType(Material.AIR);
+                p.sendMessage(ChatColor.RED + "Your horse stepped on " + NameTag.color(t) + t.getName() + ChatColor.RED + "'s trap.");
+                t.sendMessage(NameTag.color(p) + p.getName() + ChatColor.GREEN + "'s horse stepped on your trap.");
+                h.damage(30);
             }
         }
     }
