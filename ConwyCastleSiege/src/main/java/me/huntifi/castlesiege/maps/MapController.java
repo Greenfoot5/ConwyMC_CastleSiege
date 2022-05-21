@@ -327,6 +327,9 @@ public class MapController implements CommandExecutor {
 		}
 
 		String startingTeam = getCurrentMap().flags[0].getCurrentOwners();
+		if (startingTeam == null) {
+			return false;
+		}
 		for (Flag flag : getCurrentMap().flags) {
 			if (!startingTeam.equalsIgnoreCase(flag.getCurrentOwners())) {
 				return false;
