@@ -129,6 +129,7 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
+
                                     vanguards = false;
                             }
                         }.runTaskLater(Main.plugin, 260);
@@ -161,20 +162,26 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
 
             if (ed.getEntity() instanceof Player) {
                 Player hit = (Player) ed.getEntity();
+                System.out.println("Is Player");
 
                 if (!(Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                         MapController.getCurrentMap().getTeam(p.getUniqueId())
                                 != MapController.getCurrentMap().getTeam(hit.getUniqueId()))) {
+                    System.out.println("Nah ah!");
                     return;
                 }
             }
 
             if (vanguards) {
-                for (PotionEffect effect : p.getActivePotionEffects())
-                    if ((effect.getType() == PotionEffectType.SPEED && effect.getAmplifier() == 3)
-                            || (effect.getType() == PotionEffectType.JUMP && effect.getAmplifier() == 1)
-                            || effect.getType() == PotionEffectType.INCREASE_DAMAGE && effect.getAmplifier() == 3)
+                System.out.println("Clearing Effects");
+                for (PotionEffect effect : p.getActivePotionEffects()) {
+                    if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 3)
+                            || (effect.getType().getName().equals(PotionEffectType.JUMP.getName()) && effect.getAmplifier() == 1)
+                            || (effect.getType().getName().equals(PotionEffectType.INCREASE_DAMAGE.getName()) && effect.getAmplifier() == 3)) {
                         p.removePotionEffect(effect.getType());
+                        System.out.println("Effect Cleared");
+                    }
+                }
                 p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
                 p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
                 vanguards = false;

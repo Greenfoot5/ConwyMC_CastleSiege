@@ -132,6 +132,11 @@ public class Maceman extends Kit implements Listener, CommandExecutor {
                             NameTag.color(p) + p.getName() + ChatColor.AQUA + " blocked your stun"));
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             ChatColor.AQUA + "You blocked " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s stun"));
+                } else if (p.isSneaking()) {
+                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                            NameTag.color(p) + p.getName() + ChatColor.AQUA + " dodged your stun"));
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                            ChatColor.AQUA + "You dodged " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s stun"));
                 } else {
                     q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             ChatColor.AQUA + "You have stunned " + NameTag.color(p) + p.getName()));
