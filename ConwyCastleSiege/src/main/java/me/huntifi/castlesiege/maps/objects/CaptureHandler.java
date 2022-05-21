@@ -60,8 +60,7 @@ public class CaptureHandler extends Handler {
         // Player left a flag capture zone
         for (ProtectedRegion region : exited) {
             Flag flag = MapController.getCurrentMap().getFlag(region.getId().replace('_', ' '));
-            if (flag != null && player.isPlayer() && player.getGameMode() != GameMode.REGISTRY.get("spectator")
-                    && Kit.equippedKits.get(player.getUniqueId()).canCap) {
+            if (flag != null && player.isPlayer() && player.getGameMode() != GameMode.REGISTRY.get("spectator")) {
                 flag.playerExit(BukkitAdapter.adapt(player));
             }
         }
