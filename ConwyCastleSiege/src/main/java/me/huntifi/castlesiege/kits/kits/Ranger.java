@@ -141,7 +141,7 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            ((Arrow) e.getEntity()).setDamage(13);
+            ((Arrow) e.getEntity()).setDamage(12);
         }
     }
 

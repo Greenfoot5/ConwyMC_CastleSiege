@@ -19,16 +19,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * The Vanguard kit
@@ -51,14 +52,14 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
         es.hotbar[0] = ItemCreator.item(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Reinforced Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "Right-click to activate charge ability."),
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20)));
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18)));
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.item(new ItemStack(Material.DIAMOND_SWORD),
                         ChatColor.GREEN + "Reinforced Iron Sword",
                         Arrays.asList(ChatColor.AQUA + "Right-click to activate charge ability.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22))),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
                 0);
 
         // Chestplate
@@ -142,10 +143,8 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
     }
 
     /**
-     *
      * @param ed remove the potion effects on hit.
      */
-
     @EventHandler
     public void chargeHit(EntityDamageByEntityEvent ed) {
 
@@ -161,33 +160,25 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
             Location loc = p.getLocation();
 
             if (ed.getEntity() instanceof Player) {
-                Player q = (Player) ed.getEntity();
+                Player hit = (Player) ed.getEntity();
 
-                if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
+                if (!(Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                         MapController.getCurrentMap().getTeam(p.getUniqueId())
-                                != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
-
-                    if (vanguards) {
-
-                        for (PotionEffect effect : p.getActivePotionEffects())
-                            p.removePotionEffect(effect.getType());
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
-                        p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
-                        vanguards = false;
-                    }
+                                != MapController.getCurrentMap().getTeam(hit.getUniqueId()))) {
+                    return;
                 }
+            }
 
-                } else {
-
-                    if (vanguards) {
-
-                        for (PotionEffect effect : p.getActivePotionEffects())
-                            p.removePotionEffect(effect.getType());
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
-                        p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
-                        vanguards = false;
-                    }
-                }
+            if (vanguards) {
+                for (PotionEffect effect : p.getActivePotionEffects())
+                    if ((effect.getType() == PotionEffectType.SPEED && effect.getAmplifier() == 3)
+                            || (effect.getType() == PotionEffectType.JUMP && effect.getAmplifier() == 1)
+                            || effect.getType() == PotionEffectType.INCREASE_DAMAGE && effect.getAmplifier() == 3)
+                        p.removePotionEffect(effect.getType());
+                p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
+                p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
+                vanguards = false;
+            }
         }
     }
 
