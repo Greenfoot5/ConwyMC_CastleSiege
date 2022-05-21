@@ -1,10 +1,13 @@
 # How many maps to play before restarting the server
 map_count: 3
 
-# Should
 delays:
+  # Seconds before starting the game (players stay in the lobby of the first map)
   game: 0
-  map: 0
+  # Seconds to keep players in the lobby before the map starts
+  lobby: 0
+  # How long in seconds players are allowed to spawn at any location and explore the map
+  exploration: 0
 # Settings for if the game is a match
 match:
   enabled: false

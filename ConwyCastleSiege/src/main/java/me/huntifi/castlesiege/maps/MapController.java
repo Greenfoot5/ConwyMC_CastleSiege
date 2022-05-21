@@ -4,7 +4,6 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.info.MVPCommand;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -38,12 +37,16 @@ public class MapController implements CommandExecutor {
 	public static int mapIndex = 0;
 	public static Timer timer;
 
-	public static boolean isMatch = false;
 	public static int mapCount = 3;
-	public static Tuple<Integer, Integer> delays = new Tuple<>(0, 0);
 
+	// Delays
+	public static int preGameDelay = 0;
+	public static int preMapDelay = 0;
+	public static int explorationTime = 0;
+
+	public static boolean isMatch = false;
 	public static boolean keepTeams = false;
-	private static ArrayList<ArrayList<UUID>> teams = new ArrayList<>();
+	private static final ArrayList<ArrayList<UUID>> teams = new ArrayList<>();
 
 	/**
 	 * Begins the map loop
@@ -76,7 +79,7 @@ public class MapController implements CommandExecutor {
 	 * Returns false if a map cannot be found
 	 * @param mapNames A list of map names to play
 	 */
-	public static void setMaps(String[] mapNames) {
+	public static void setMaps(List<String> mapNames) {
 		List<Map> newMaps = new ArrayList<>();
 		for (String mapName : mapNames) {
 			Map map = getMap(mapName);
@@ -86,7 +89,7 @@ public class MapController implements CommandExecutor {
 				getLogger().severe("Could not load match mode. Could not find map: `" + mapName + "`");
 			}
 		}
-		isMatch = true;
+		maps = newMaps;
 	}
 
 	/**
@@ -248,6 +251,7 @@ public class MapController implements CommandExecutor {
 				Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 			}
 		} else {
+			Collections.shuffle(teams);
 			for (int i = 0; i < teams.size(); i++) {
 				for (UUID uuid : teams.get(i)) {
 					// Check the player exists
@@ -286,7 +290,11 @@ public class MapController implements CommandExecutor {
 		for (Map map:maps) {
 			if (Objects.equals(map.worldName, worldName)) {
 				for (Team team:map.teams) {
-					team.clear();
+					if (keepTeams) {
+						teams.add(new ArrayList<>(team.getPlayers()));
+					} else {
+						team.clear();
+					}
 				}
 			}
 		}

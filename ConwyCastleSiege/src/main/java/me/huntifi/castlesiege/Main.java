@@ -78,6 +78,7 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument flagsConfig;
     private YamlDocument doorsConfig;
     private YamlDocument gatesConfig;
+    private YamlDocument gameConfig;
 
     @Override
     public void onEnable() {
@@ -99,6 +100,8 @@ public class Main extends JavaPlugin implements Listener {
                 createConfigs();
                 getLogger().info("Loading maps from configuration...");
                 loadMaps();
+                getLogger().info("Loading game configuration...");
+                loadConfig();
 
                 getLogger().info("Connecting to database...");
                 // SQL Stuff
@@ -350,20 +353,6 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
-    // File Configuration
-    public YamlDocument getMapConfig(String name) {
-        for (YamlDocument config : mapConfigs) {
-            String[] mapPaths = getPaths(config, null);
-
-            for (String mapPath : mapPaths) {
-                if (config.getString(Route.from(mapPath).add("name")).equals(name)) {
-                    return config;
-                }
-            }
-        }
-        return null;
-    }
-
     public YamlDocument getFlagsConfig() {
         return this.flagsConfig;
     }
@@ -463,7 +452,7 @@ public class Main extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
-        // Add all config ymls from the maps foldr
+        // Add all config ymls from the maps folder
         File directoryPath = new File(String.valueOf(getDataFolder()), "maps");
         // List of all files and directories
         String[] contents = directoryPath.list();
@@ -471,6 +460,7 @@ public class Main extends JavaPlugin implements Listener {
         mapConfigs = new YamlDocument[contents.length];
         for (int i = 0; i < contents.length; i++) {
             if (contents[i].endsWith(".yml")) {
+                // Load the yml with BoostedYAML
                 try {
                     mapConfigs[i] = YamlDocument.create(new File(directoryPath.getPath(), contents[i]),
                             getClass().getResourceAsStream(contents[i]));
@@ -480,19 +470,38 @@ public class Main extends JavaPlugin implements Listener {
             }
         }
 
-//        // Load maps.yml with Spigot's yaml parser
-//        File mapsFile = new File(getDataFolder(), "maps.yml");
-//        if (!mapsFile.exists()) {
-//            mapsFile.getParentFile().mkdirs();
-//            saveResource("maps.yml", false);
-//        }
-//
-//        mapsConfig = new YamlConfiguration();
-//        try {
-//            mapsConfig.load(mapsFile);
-//        } catch (IOException | InvalidConfigurationException e) {
-//            e.printStackTrace();
-//        }
+        // Load config.yml with BoostedYAML
+        try {
+            gameConfig = YamlDocument.create(new File(getDataFolder(), "config.yml"),
+                    getClass().getResourceAsStream("config.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sets values in MapController from config.yml
+     * Anything missing is set to the defaults supplied in MapController
+     */
+    private void loadConfig() {
+        // Map Count
+        MapController.mapCount = gameConfig.getInt(Route.from("map_count"), MapController.mapCount);
+
+        // Delays
+        Route route = Route.from("delays");
+        MapController.preGameDelay = gameConfig.getInt(route.add("game"), MapController.preGameDelay);
+        MapController.preMapDelay = gameConfig.getInt(route.add("map"), MapController.preMapDelay);
+        MapController.explorationTime = gameConfig.getInt(route.add("exploration"), MapController.explorationTime);
+
+        // Match Details
+        route = Route.from("match");
+        MapController.isMatch = gameConfig.getBoolean(route.add("enabled"), MapController.isMatch);
+        if (MapController.isMatch) {
+            MapController.keepTeams = gameConfig.getBoolean(route.add("keep_teams"), MapController.keepTeams);
+            if (gameConfig.contains(route.add("maps"))) {
+                MapController.setMaps(gameConfig.getStringList(route.add("maps")));
+            }
+        }
     }
 
     private void loadMaps() {
