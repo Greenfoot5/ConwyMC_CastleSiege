@@ -145,7 +145,7 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
 
         // Warhound bit enemy player
         if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name)) {
-            p.addPotionEffect((new PotionEffect(PotionEffectType.WITHER, 25, 5)));
+            p.addPotionEffect((new PotionEffect(PotionEffectType.WITHER, 25, 3)));
             stun(p, q);
         }
     }
