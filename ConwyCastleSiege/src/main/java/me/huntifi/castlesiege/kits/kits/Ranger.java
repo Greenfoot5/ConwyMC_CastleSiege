@@ -24,6 +24,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
@@ -40,6 +41,8 @@ import java.util.UUID;
  * The ranger kit
  */
 public class Ranger extends Kit implements Listener, CommandExecutor {
+
+    private boolean isReady = false;
 
     /**
      * Set the equipment and attributes of this kit
@@ -280,6 +283,7 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
                    if (damagerloc.getYaw() <= hitloc.getYaw() + 30 && damagerloc.getYaw() >= hitloc.getYaw() - 30
                    && p.isSneaking()) {
 
+                       ed.setCancelled(true);
                        hit.sendMessage(ChatColor.RED + "You got backstabbed.");
                        AssistKill.addDamager(hit.getUniqueId(), p.getUniqueId(), hit.getHealth());
                        DeathEvent.setKiller(hit, p);
@@ -291,6 +295,22 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
         }
     }
 
+    /**
+     *
+     * @param e exp bar shows as full indicating the ranger is ready to backstab.
+     */
+    @EventHandler
+    public void backStabDetection(PlayerToggleSneakEvent e) {
 
+        Player p = e.getPlayer();
 
+        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
+
+            if (p.isSneaking()) {
+                p.setExp(1);
+            } else {
+                p.setExp(0);
+            }
+        }
+    }
 }
