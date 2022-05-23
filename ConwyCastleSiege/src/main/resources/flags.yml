@@ -9069,6 +9069,18 @@ Abrakhan:
             x: -40
             y: 34
             z: 51
+          - "==": Vector
+            x: -40
+            y: 19
+            z: 75
+          - "==": Vector
+            x: -41
+            y: 19
+            z: 75
+          - "==": Vector
+            x: -42
+            y: 19
+            z: 76
         secondary_blocks:
           - "==": Vector
             x: -43
@@ -9105,6 +9117,18 @@ Abrakhan:
             x: -40
             y: 35
             z: 51
+          - "==": Vector
+            x: -40
+            y: 19
+            z: 75
+          - "==": Vector
+            x: -41
+            y: 19
+            z: 75
+          - "==": Vector
+            x: -42
+            y: 19
+            z: 76
         secondary_blocks:
           - "==": Vector
             x: -43
@@ -9260,331 +9284,331 @@ Abrakhan:
         primary_blocks:
           - "==": Vector
             x: 143
-            y: 54
+            y: 53
             z: -15
           - "==": Vector
             x: 142
-            y: 54
+            y: 53
             z: -15
           - "==": Vector
             x: 141
-            y: 54
+            y: 53
             z: -15
           - "==": Vector
             x: 140
-            y: 54
+            y: 53
             z: -15
         secondary_blocks:
           - "==": Vector
             x: 143
-            y: 53
+            y: 52
             z: -15
           - "==": Vector
             x: 142
-            y: 53
+            y: 52
             z: -15
           - "==": Vector
             x: 141
-            y: 53
+            y: 52
             z: -15
           - "==": Vector
             x: 140
-            y: 53
+            y: 52
             z: -15
       1:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
           - "==": Vector
             x: 143
-            y: 55
+            y: 54
             z: -15
           - "==": Vector
             x: 142
-            y: 55
+            y: 54
             z: -15
           - "==": Vector
             x: 141
-            y: 55
+            y: 54
             z: -15
           - "==": Vector
             x: 140
-            y: 55
+            y: 54
             z: -15
         secondary_blocks:
           - "==": Vector
             x: 143
-            y: 54
+            y: 53
             z: -15
           - "==": Vector
             x: 142
-            y: 54
+            y: 53
             z: -15
           - "==": Vector
             x: 141
-            y: 54
+            y: 53
             z: -15
           - "==": Vector
             x: 140
-            y: 54
+            y: 53
             z: -15
       2:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
           - "==": Vector
             x: 143
-            y: 56
+            y: 55
             z: -15
           - "==": Vector
             x: 142
-            y: 56
+            y: 55
             z: -15
           - "==": Vector
             x: 141
-            y: 56
+            y: 55
             z: -15
           - "==": Vector
             x: 140
-            y: 56
+            y: 55
             z: -15
         secondary_blocks:
           - "==": Vector
             x: 143
-            y: 55
+            y: 54
             z: -15
           - "==": Vector
             x: 142
-            y: 55
+            y: 54
             z: -15
           - "==": Vector
             x: 141
-            y: 55
+            y: 54
             z: -15
           - "==": Vector
             x: 140
-            y: 55
+            y: 54
             z: -15
       3:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
           - "==": Vector
             x: 143
-            y: 57
+            y: 56
             z: -15
           - "==": Vector
             x: 142
-            y: 57
+            y: 56
             z: -15
           - "==": Vector
             x: 141
-            y: 57
+            y: 56
             z: -15
           - "==": Vector
             x: 140
-            y: 57
+            y: 56
             z: -15
         secondary_blocks:
           - "==": Vector
             x: 143
-            y: 56
+            y: 55
             z: -15
           - "==": Vector
             x: 142
-            y: 56
+            y: 55
             z: -15
           - "==": Vector
             x: 141
-            y: 56
+            y: 55
             z: -15
           - "==": Vector
             x: 140
-            y: 56
+            y: 55
             z: -15
       4:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
           - "==": Vector
             x: 143
-            y: 58
+            y: 57
             z: -15
           - "==": Vector
             x: 142
-            y: 58
+            y: 57
             z: -15
           - "==": Vector
             x: 141
-            y: 58
+            y: 57
             z: -15
           - "==": Vector
             x: 140
-            y: 58
+            y: 57
             z: -15
         secondary_blocks:
           - "==": Vector
             x: 143
-            y: 57
+            y: 56
             z: -15
           - "==": Vector
             x: 142
-            y: 57
+            y: 56
             z: -15
           - "==": Vector
             x: 141
-            y: 57
+            y: 56
             z: -15
           - "==": Vector
             x: 140
-            y: 57
+            y: 56
             z: -15
       5:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
           - "==": Vector
             x: 143
-            y: 59
+            y: 58
             z: -15
           - "==": Vector
             x: 142
-            y: 59
+            y: 58
             z: -15
           - "==": Vector
             x: 141
-            y: 59
+            y: 58
             z: -15
           - "==": Vector
             x: 140
-            y: 59
+            y: 58
             z: -15
         secondary_blocks:
           - "==": Vector
             x: 143
-            y: 58
+            y: 57
             z: -15
           - "==": Vector
             x: 142
-            y: 58
+            y: 57
             z: -15
           - "==": Vector
             x: 141
-            y: 58
+            y: 57
             z: -15
           - "==": Vector
             x: 140
-            y: 58
+            y: 57
             z: -15
       6:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
           - "==": Vector
             x: 143
-            y: 60
+            y: 59
             z: -15
           - "==": Vector
             x: 142
-            y: 60
+            y: 59
             z: -15
           - "==": Vector
             x: 141
-            y: 60
+            y: 59
             z: -15
           - "==": Vector
             x: 140
-            y: 60
+            y: 59
             z: -15
         secondary_blocks:
           - "==": Vector
             x: 143
-            y: 59
+            y: 58
             z: -15
           - "==": Vector
             x: 142
-            y: 59
+            y: 58
             z: -15
           - "==": Vector
             x: 141
-            y: 59
+            y: 58
             z: -15
           - "==": Vector
             x: 140
-            y: 59
+            y: 58
             z: -15
       7:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
           - "==": Vector
             x: 143
-            y: 61
+            y: 60
             z: -15
           - "==": Vector
             x: 142
-            y: 61
+            y: 60
             z: -15
           - "==": Vector
             x: 141
-            y: 61
+            y: 60
             z: -15
           - "==": Vector
             x: 140
-            y: 61
+            y: 60
             z: -15
         secondary_blocks:
           - "==": Vector
             x: 143
-            y: 60
+            y: 59
             z: -15
           - "==": Vector
             x: 142
-            y: 60
+            y: 59
             z: -15
           - "==": Vector
             x: 141
-            y: 60
+            y: 59
             z: -15
           - "==": Vector
             x: 140
-            y: 60
+            y: 59
             z: -15
       8:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
           - "==": Vector
             x: 143
-            y: 62
+            y: 61
             z: -15
           - "==": Vector
             x: 142
-            y: 62
+            y: 61
             z: -15
           - "==": Vector
             x: 141
-            y: 62
+            y: 61
             z: -15
           - "==": Vector
             x: 140
-            y: 62
+            y: 61
             z: -15
         secondary_blocks:
           - "==": Vector
             x: 143
-            y: 61
+            y: 60
             z: -15
           - "==": Vector
             x: 142
-            y: 61
+            y: 60
             z: -15
           - "==": Vector
             x: 141
-            y: 61
+            y: 60
             z: -15
           - "==": Vector
             x: 140
-            y: 61
+            y: 60
             z: -15
   abrakhan_gatehouse:
     name: "Gatehouse"
     start_owners: "Abrakhan Guard"
-    max_cap: 4
-    start_amount: 4
-    progress_amount: 5
+    max_cap: 3
+    start_amount: 3
+    progress_amount: 4
     scoreboard: 6
     spawn_point:
       x: 73
@@ -9629,45 +9653,91 @@ Abrakhan:
         primary_blocks:
           - "==": Vector
             x: 59
+            y: 43
+            z: -35
+          - "==": Vector
+            x: 59
+            y: 43
+            z: -27
+        secondary_blocks:
+          - "==": Vector
+            x: 58
+            y: 43
+            z: -35
+          - "==": Vector
+            x: 58
+            y: 43
+            z: -27
+        air:
+          - "==": Vector
+            x: 59
             y: 42
             z: -35
-        secondary_blocks:
+          - "==": Vector
+            x: 59
+            y: 42
+            z: -27
           - "==": Vector
             x: 58
             y: 42
             z: -35
+          - "==": Vector
+            x: 58
+            y: 42
+            z: -27
       2:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
           - "==": Vector
             x: 59
             y: 42
+            z: -35
+          - "==": Vector
+            x: 59
+            y: 42
             z: -27
         secondary_blocks:
           - "==": Vector
             x: 58
             y: 42
+            z: -35
+          - "==": Vector
+            x: 58
+            y: 42
+            z: -27
+        air:
+          - "==": Vector
+            x: 59
+            y: 41
+            z: -35
+          - "==": Vector
+            x: 59
+            y: 41
+            z: -27
+          - "==": Vector
+            x: 58
+            y: 41
+            z: -35
+          - "==": Vector
+            x: 58
+            y: 41
             z: -27
       3:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
           - "==": Vector
             x: 59
-            y: 51
+            y: 41
             z: -35
-        secondary_blocks:
-          - "==": Vector
-            x: 58
-            y: 51
-            z: -35
-      4:
-        ==: me.huntifi.castlesiege.data_types.Frame
-        primary_blocks:
           - "==": Vector
             x: 59
             y: 41
             z: -27
         secondary_blocks:
+          - "==": Vector
+            x: 58
+            y: 41
+            z: -35
           - "==": Vector
             x: 58
             y: 41
@@ -10148,6 +10218,32 @@ Abrakhan:
             x: 103
             y: 72
             z: -86
+            #Flags at the actual gate
+          - "==": Vector
+            x: 104
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 105
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 106
+            y: 67
+            z: -52
+            #Flags at the actual gate numero dos
+          - "==": Vector
+            x: 127
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 128
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 129
+            y: 67
+            z: -52
       2:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
@@ -10184,6 +10280,32 @@ Abrakhan:
             x: 103
             y: 73
             z: -86
+            #Flags at the actual gate
+          - "==": Vector
+            x: 104
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 105
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 106
+            y: 67
+            z: -52
+            #Flags at the actual gate numero dos
+          - "==": Vector
+            x: 127
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 128
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 129
+            y: 67
+            z: -52
       3:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
@@ -10220,6 +10342,32 @@ Abrakhan:
             x: 103
             y: 74
             z: -86
+            #Flags at the actual gate
+          - "==": Vector
+            x: 104
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 105
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 106
+            y: 67
+            z: -52
+            #Flags at the actual gate numero dos
+          - "==": Vector
+            x: 127
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 128
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 129
+            y: 67
+            z: -52
       4:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
@@ -10256,6 +10404,32 @@ Abrakhan:
             x: 103
             y: 75
             z: -86
+            #Flags at the actual gate
+          - "==": Vector
+            x: 104
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 105
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 106
+            y: 67
+            z: -52
+            #Flags at the actual gate numero dos
+          - "==": Vector
+            x: 127
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 128
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 129
+            y: 67
+            z: -52
       5:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
@@ -10292,6 +10466,32 @@ Abrakhan:
             x: 103
             y: 76
             z: -86
+            #Flags at the actual gate
+          - "==": Vector
+            x: 104
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 105
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 106
+            y: 67
+            z: -52
+            #Flags at the actual gate numero dos
+          - "==": Vector
+            x: 127
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 128
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 129
+            y: 67
+            z: -52
       6:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
@@ -10328,6 +10528,32 @@ Abrakhan:
             x: 103
             y: 77
             z: -86
+            #Flags at the actual gate
+          - "==": Vector
+            x: 104
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 105
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 106
+            y: 67
+            z: -52
+            #Flags at the actual gate numero dos
+          - "==": Vector
+            x: 127
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 128
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 129
+            y: 67
+            z: -52
       7:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
@@ -10364,6 +10590,32 @@ Abrakhan:
             x: 103
             y: 78
             z: -86
+            #Flags at the actual gate
+          - "==": Vector
+            x: 104
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 105
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 106
+            y: 67
+            z: -52
+            #Flags at the actual gate numero dos
+          - "==": Vector
+            x: 127
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 128
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 129
+            y: 67
+            z: -52
       8:
         ==: me.huntifi.castlesiege.data_types.Frame
         primary_blocks:
@@ -10383,6 +10635,32 @@ Abrakhan:
             x: 103
             y: 80
             z: -86
+            #Flags at the actual gate
+          - "==": Vector
+            x: 104
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 105
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 106
+            y: 67
+            z: -52
+            #Flags at the actual gate numero dos
+          - "==": Vector
+            x: 127
+            y: 67
+            z: -53
+          - "==": Vector
+            x: 128
+            y: 67
+            z: -52
+          - "==": Vector
+            x: 129
+            y: 67
+            z: -52
         secondary_blocks:
           - "==": Vector
             x: 106
@@ -10793,6 +11071,122 @@ Abrakhan:
             x: 73
             y: 86
             z: -113
+          # Tower side - north
+          - "==": Vector
+            x: 76
+            y: 70
+            z: -121
+          - "==": Vector
+            x: 76
+            y: 69
+            z: -121
+          - "==": Vector
+            x: 76
+            y: 68
+            z: -121
+          - "==": Vector
+            x: 77
+            y: 67
+            z: -121
+          - "==": Vector
+            x: 78
+            y: 70
+            z: -121
+          - "==": Vector
+            x: 78
+            y: 69
+            z: -121
+          - "==": Vector
+            x: 78
+            y: 68
+            z: -121
+          # Tower side - east
+          - "==": Vector
+            x: 85
+            y: 70
+            z: -114
+          - "==": Vector
+            x: 85
+            y: 69
+            z: -114
+          - "==": Vector
+            x: 85
+            y: 68
+            z: -114
+          - "==": Vector
+            x: 85
+            y: 67
+            z: -113
+          - "==": Vector
+            x: 85
+            y: 70
+            z: -112
+          - "==": Vector
+            x: 85
+            y: 69
+            z: -112
+          - "==": Vector
+            x: 85
+            y: 68
+            z: -112
+          # Tower side - south
+          - "==": Vector
+            x: 76
+            y: 70
+            z: -105
+          - "==": Vector
+            x: 76
+            y: 69
+            z: -105
+          - "==": Vector
+            x: 76
+            y: 68
+            z: -105
+          - "==": Vector
+            x: 77
+            y: 67
+            z: -105
+          - "==": Vector
+            x: 78
+            y: 70
+            z: -105
+          - "==": Vector
+            x: 78
+            y: 69
+            z: -105
+          - "==": Vector
+            x: 78
+            y: 68
+            z: -105
+          # Tower side - west
+          - "==": Vector
+            x: 69
+            y: 70
+            z: -114
+          - "==": Vector
+            x: 69
+            y: 69
+            z: -114
+          - "==": Vector
+            x: 69
+            y: 68
+            z: -114
+          - "==": Vector
+            x: 69
+            y: 67
+            z: -113
+          - "==": Vector
+            x: 69
+            y: 70
+            z: -112
+          - "==": Vector
+            x: 69
+            y: 69
+            z: -112
+          - "==": Vector
+            x: 69
+            y: 68
+            z: -112
         secondary_blocks:
           - "==": Vector
             x: 76
@@ -10809,6 +11203,58 @@ Abrakhan:
           - "==": Vector
             x: 73
             y: 85
+            z: -113
+          # Tower side - north
+          - "==": Vector
+            x: 77
+            y: 70
+            z: -121
+          - "==": Vector
+            x: 77
+            y: 69
+            z: -121
+          - "==": Vector
+            x: 77
+            y: 68
+            z: -121
+          # Tower side - east
+          - "==": Vector
+            x: 85
+            y: 70
+            z: -113
+          - "==": Vector
+            x: 85
+            y: 69
+            z: -113
+          - "==": Vector
+            x: 85
+            y: 68
+            z: -113
+          # Tower side - south
+          - "==": Vector
+            x: 77
+            y: 70
+            z: -105
+          - "==": Vector
+            x: 77
+            y: 69
+            z: -105
+          - "==": Vector
+            x: 77
+            y: 68
+            z: -105
+          # Tower side - west
+          - "==": Vector
+            x: 69
+            y: 70
+            z: -113
+          - "==": Vector
+            x: 69
+            y: 69
+            z: -113
+          - "==": Vector
+            x: 69
+            y: 68
             z: -113
       1:
         ==: me.huntifi.castlesiege.data_types.Frame
@@ -10829,6 +11275,122 @@ Abrakhan:
             x: 73
             y: 87
             z: -113
+          # Tower side - north
+          - "==": Vector
+            x: 76
+            y: 70
+            z: -121
+          - "==": Vector
+            x: 76
+            y: 69
+            z: -121
+          - "==": Vector
+            x: 76
+            y: 68
+            z: -121
+          - "==": Vector
+            x: 77
+            y: 67
+            z: -121
+          - "==": Vector
+            x: 78
+            y: 70
+            z: -121
+          - "==": Vector
+            x: 78
+            y: 69
+            z: -121
+          - "==": Vector
+            x: 78
+            y: 68
+            z: -121
+          # Tower side - east
+          - "==": Vector
+            x: 85
+            y: 70
+            z: -114
+          - "==": Vector
+            x: 85
+            y: 69
+            z: -114
+          - "==": Vector
+            x: 85
+            y: 68
+            z: -114
+          - "==": Vector
+            x: 85
+            y: 67
+            z: -113
+          - "==": Vector
+            x: 85
+            y: 70
+            z: -112
+          - "==": Vector
+            x: 85
+            y: 69
+            z: -112
+          - "==": Vector
+            x: 85
+            y: 68
+            z: -112
+          # Tower side - south
+          - "==": Vector
+            x: 76
+            y: 70
+            z: -105
+          - "==": Vector
+            x: 76
+            y: 69
+            z: -105
+          - "==": Vector
+            x: 76
+            y: 68
+            z: -105
+          - "==": Vector
+            x: 77
+            y: 67
+            z: -105
+          - "==": Vector
+            x: 78
+            y: 70
+            z: -105
+          - "==": Vector
+            x: 78
+            y: 69
+            z: -105
+          - "==": Vector
+            x: 78
+            y: 68
+            z: -105
+          # Tower side - west
+          - "==": Vector
+            x: 69
+            y: 70
+            z: -114
+          - "==": Vector
+            x: 69
+            y: 69
+            z: -114
+          - "==": Vector
+            x: 69
+            y: 68
+            z: -114
+          - "==": Vector
+            x: 69
+            y: 67
+            z: -113
+          - "==": Vector
+            x: 69
+            y: 70
+            z: -112
+          - "==": Vector
+            x: 69
+            y: 69
+            z: -112
+          - "==": Vector
+            x: 69
+            y: 68
+            z: -112
         secondary_blocks:
           - "==": Vector
             x: 76
@@ -10845,6 +11407,58 @@ Abrakhan:
           - "==": Vector
             x: 73
             y: 86
+            z: -113
+          # Tower side - north
+          - "==": Vector
+            x: 77
+            y: 70
+            z: -121
+          - "==": Vector
+            x: 77
+            y: 69
+            z: -121
+          - "==": Vector
+            x: 77
+            y: 68
+            z: -121
+          # Tower side - east
+          - "==": Vector
+            x: 85
+            y: 70
+            z: -113
+          - "==": Vector
+            x: 85
+            y: 69
+            z: -113
+          - "==": Vector
+            x: 85
+            y: 68
+            z: -113
+          # Tower side - south
+          - "==": Vector
+            x: 77
+            y: 70
+            z: -105
+          - "==": Vector
+            x: 77
+            y: 69
+            z: -105
+          - "==": Vector
+            x: 77
+            y: 68
+            z: -105
+          # Tower side - west
+          - "==": Vector
+            x: 69
+            y: 70
+            z: -113
+          - "==": Vector
+            x: 69
+            y: 69
+            z: -113
+          - "==": Vector
+            x: 69
+            y: 68
             z: -113
       2:
         ==: me.huntifi.castlesiege.data_types.Frame
@@ -11350,80 +11964,80 @@ Abrakhan:
         air:
           - "==": Vector
             x: 93
-            y: 51
+            y: 50
             z: -95
           - "==": Vector
             x: 92
-            y: 52
+            y: 51
             z: -95
           - "==": Vector
             x: 94
-            y: 52
+            y: 51
             z: -95
             #next flag (there are 6)  L2
           - "==": Vector
             x: 88
-            y: 51
+            y: 50
             z: -95
           - "==": Vector
             x: 89
-            y: 52
+            y: 51
             z: -95
           - "==": Vector
             x: 87
-            y: 52
+            y: 51
             z: -95
             #next flag (there are 6)  L3
           - "==": Vector
             x: 83
-            y: 51
+            y: 50
             z: -95
           - "==": Vector
             x: 84
-            y: 52
+            y: 51
             z: -95
           - "==": Vector
             x: 82
-            y: 52
+            y: 51
             z: -95
             #next flag (there are 6)  R1
           - "==": Vector
             x: 93
-            y: 51
+            y: 50
             z: -104
           - "==": Vector
             x: 94
-            y: 52
+            y: 51
             z: -104
           - "==": Vector
             x: 92
-            y: 52
+            y: 51
             z: -104
             #next flag (there are 6)  R2
           - "==": Vector
             x: 88
-            y: 51
+            y: 50
             z: -104
           - "==": Vector
             x: 89
-            y: 52
+            y: 51
             z: -104
           - "==": Vector
             x: 87
-            y: 52
+            y: 51
             z: -104
             #next flag (there are 6)   R3
           - "==": Vector
             x: 83
-            y: 51
+            y: 50
             z: -104
           - "==": Vector
             x: 84
-            y: 52
+            y: 51
             z: -104
           - "==": Vector
             x: 82
-            y: 52
+            y: 51
             z: -104
       2:
         ==: me.huntifi.castlesiege.data_types.Frame
@@ -11507,7 +12121,7 @@ Abrakhan:
             y: 51
             z: -104
         secondary_blocks:
-            #next flag (there are 6)   L1
+          #next flag (there are 6)   L1
           - "==": Vector
             x: 93
             y: 51
@@ -11540,80 +12154,80 @@ Abrakhan:
         air:
           - "==": Vector
             x: 93
-            y: 50
+            y: 49
             z: -95
           - "==": Vector
             x: 92
-            y: 51
+            y: 50
             z: -95
           - "==": Vector
             x: 94
-            y: 51
+            y: 50
             z: -95
             #next flag (there are 6)  L2
           - "==": Vector
             x: 88
-            y: 50
+            y: 49
             z: -95
           - "==": Vector
             x: 89
-            y: 51
+            y: 50
             z: -95
           - "==": Vector
             x: 87
-            y: 51
+            y: 50
             z: -95
             #next flag (there are 6)  L3
           - "==": Vector
             x: 83
-            y: 50
+            y: 49
             z: -95
           - "==": Vector
             x: 84
-            y: 51
+            y: 50
             z: -95
           - "==": Vector
             x: 82
-            y: 51
+            y: 50
             z: -95
             #next flag (there are 6)  R1
           - "==": Vector
             x: 93
-            y: 50
+            y: 49
             z: -104
           - "==": Vector
             x: 94
-            y: 51
+            y: 50
             z: -104
           - "==": Vector
             x: 92
-            y: 51
+            y: 50
             z: -104
             #next flag (there are 6)  R2
           - "==": Vector
             x: 88
-            y: 50
+            y: 49
             z: -104
           - "==": Vector
             x: 89
-            y: 51
+            y: 50
             z: -104
           - "==": Vector
             x: 87
-            y: 51
+            y: 50
             z: -104
             #next flag (there are 6)   R3
           - "==": Vector
             x: 83
-            y: 50
+            y: 49
             z: -104
           - "==": Vector
             x: 84
-            y: 51
+            y: 50
             z: -104
           - "==": Vector
             x: 82
-            y: 51
+            y: 50
             z: -104
       3:
         ==: me.huntifi.castlesiege.data_types.Frame
@@ -11621,111 +12235,111 @@ Abrakhan:
         primary_blocks:
           - "==": Vector
             x: 93
-            y: 48
+            y: 49
             z: -95
           - "==": Vector
             x: 92
-            y: 49
+            y: 50
             z: -95
           - "==": Vector
             x: 94
-            y: 49
+            y: 50
             z: -95
             #next flag (there are 6)  L2
           - "==": Vector
             x: 88
-            y: 48
+            y: 49
             z: -95
           - "==": Vector
             x: 89
-            y: 49
+            y: 50
             z: -95
           - "==": Vector
             x: 87
-            y: 49
+            y: 50
             z: -95
             #next flag (there are 6)  L3
           - "==": Vector
             x: 83
-            y: 48
+            y: 49
             z: -95
           - "==": Vector
             x: 84
-            y: 49
+            y: 50
             z: -95
           - "==": Vector
             x: 82
-            y: 49
+            y: 50
             z: -95
             #next flag (there are 6)  R1
           - "==": Vector
             x: 93
-            y: 48
+            y: 49
             z: -104
           - "==": Vector
             x: 94
-            y: 49
+            y: 50
             z: -104
           - "==": Vector
             x: 92
-            y: 49
+            y: 50
             z: -104
             #next flag (there are 6)  R2
           - "==": Vector
             x: 88
-            y: 48
+            y: 49
             z: -104
           - "==": Vector
             x: 89
-            y: 49
+            y: 50
             z: -104
           - "==": Vector
             x: 87
-            y: 49
+            y: 50
             z: -104
             #next flag (there are 6)   R3
           - "==": Vector
             x: 83
-            y: 48
+            y: 49
             z: -104
           - "==": Vector
             x: 84
-            y: 49
+            y: 50
             z: -104
           - "==": Vector
             x: 82
-            y: 49
+            y: 50
             z: -104
         secondary_blocks:
             #next flag (there are 6)   L1
           - "==": Vector
             x: 93
-            y: 49
+            y: 50
             z: -95
             #next flag (there are 6)   L2
           - "==": Vector
             x: 88
-            y: 49
+            y: 50
             z: -95
             #next flag (there are 6)   L3
           - "==": Vector
             x: 83
-            y: 49
+            y: 50
             z: -95
             #next flag (there are 6)   R1
           - "==": Vector
             x: 93
-            y: 49
+            y: 50
             z: -104
             #next flag (there are 6)   R2
           - "==": Vector
             x: 88
-            y: 49
+            y: 50
             z: -104
             #next flag (there are 6)   R3
           - "==": Vector
             x: 83
-            y: 49
+            y: 50
             z: -104
 
 ###################
