@@ -47,7 +47,7 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		super.heldItemSlot = 0;
 
 		// Weapon
-		es.hotbar[0] = ItemCreator.item(new ItemStack(Material.STICK),
+		es.hotbar[0] = ItemCreator.item(new ItemStack(Material.STICK, 5),
 				ChatColor.GREEN + "Spear",
 				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."),
 				Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 48)));
@@ -113,9 +113,10 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 	 * @param e The event called when right-clicking with a stick
 	 */
 	@EventHandler
-	public void Charge(PlayerInteractEvent e) {
+	public void throwSpear(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 		UUID uuid = p.getUniqueId();
+		ItemStack stick = p.getInventory().getItemInMainHand();
 		int cooldown = p.getCooldown(Material.STICK);
 
 		// Prevent using in lobby
@@ -124,11 +125,11 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		}
 
 		if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-			if (p.getInventory().getItemInMainHand().getType().equals(Material.STICK)) {
+			if (stick.getType().equals(Material.STICK)) {
 				if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-
 					if (cooldown == 0) {
 						p.setCooldown(Material.STICK, 160);
+						stick.setAmount(stick.getAmount() - 1);
 						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
 								ChatColor.AQUA + "You threw your spear!"));
 						p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.0));
