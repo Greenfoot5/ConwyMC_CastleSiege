@@ -2,14 +2,15 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.maps.MapController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -32,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * The ranger kit
@@ -242,4 +245,52 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
         // No arrow found
         return false;
     }
+
+
+    /**
+     * @param ed this event basically insta kills players when they are looking somewhat
+     *           in the same direction as the damager whilst the damager sneaks.
+     */
+    @EventHandler
+    public void backStabDamage(EntityDamageByEntityEvent ed) {
+
+        if (ed.getDamager() instanceof Player) {
+            Player p = (Player) ed.getDamager();
+            UUID uuid = p.getUniqueId();
+
+            // Prevent using in lobby
+            if (InCombat.isPlayerInLobby(uuid)) {
+                return;
+            }
+
+            Location loc = p.getLocation();
+
+            if (ed.getEntity() instanceof Player) {
+                Player hit = (Player) ed.getEntity();
+
+                if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
+                        MapController.getCurrentMap().getTeam(p.getUniqueId())
+                                != MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
+
+                    Location hitloc = hit.getLocation();
+                    Location damagerloc = p.getLocation();
+
+                   //Basically what happens here is you check whether the player
+                    // is not looking at you at all (so having their back aimed at you.)
+                   if (damagerloc.getYaw() <= hitloc.getYaw() + 30 && damagerloc.getYaw() >= hitloc.getYaw() - 30
+                   && p.isSneaking()) {
+
+                       hit.sendMessage(ChatColor.RED + "You got backstabbed.");
+                       AssistKill.addDamager(hit.getUniqueId(), p.getUniqueId(), hit.getHealth());
+                       DeathEvent.setKiller(hit, p);
+                       hit.setHealth(0);
+
+                   }
+                }
+            }
+        }
+    }
+
+
+
 }
