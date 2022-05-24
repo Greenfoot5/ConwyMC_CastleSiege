@@ -316,7 +316,7 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
     public void onFireDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player &&
                 e.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK) {
-            e.setDamage(6);
+            e.setDamage(2);
         }
     }
 
