@@ -42,15 +42,15 @@ public class Ladderman extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Shortsword", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20)));
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.STONE_AXE),
+                ChatColor.GREEN + "Short Axe", null,
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 12)));
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.item(new ItemStack(Material.STONE_SWORD),
-                        ChatColor.GREEN + "Shortsword",
+                ItemCreator.item(new ItemStack(Material.STONE_AXE),
+                        ChatColor.GREEN + "Short Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22))),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 14))),
                 0);
 
         // Chestplate
