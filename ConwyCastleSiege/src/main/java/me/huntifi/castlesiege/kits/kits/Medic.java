@@ -37,6 +37,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -128,6 +129,20 @@ public class Medic extends Kit implements Listener, CommandExecutor {
 
         super.addPlayer(((Player) commandSender).getUniqueId());
         return true;
+    }
+
+    /**
+     * Allow medics to see people's health
+     * @param p The medic player
+     */
+    @Override
+    protected void displayHealth(Player p) {
+        Scoreboard scoreboard = p.getScoreboard();
+        if (scoreboard.getObjective("healthDisplay") == null) {
+            Objective healthDisplay = scoreboard.registerNewObjective("healthDisplay",
+                    Criterias.HEALTH, ChatColor.DARK_RED + "❤");
+            healthDisplay.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        }
     }
 
     /**
