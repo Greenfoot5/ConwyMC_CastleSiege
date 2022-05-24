@@ -3,12 +3,14 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
@@ -165,6 +167,8 @@ public abstract class Kit {
         // Kills the player if they have spawned this life, otherwise heal them
         if (!InCombat.isPlayerInLobby(uuid)) {
             player.setHealth(0);
+            player.sendMessage("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)");
+            UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
         } else {
             player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
         }
