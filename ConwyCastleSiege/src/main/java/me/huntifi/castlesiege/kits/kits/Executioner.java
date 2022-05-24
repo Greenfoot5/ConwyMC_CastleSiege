@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.AssistKill;
-import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -19,10 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -131,8 +127,10 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 				if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.37) {
 					e.setCancelled(true);
 
-					Location loc = whoWasHit.getLocation();
+					Location loc = whoWasHit.getEyeLocation();
 					whoWasHit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
+					Material wool = MapController.getCurrentMap().getTeam(whoWasHit.getUniqueId()).primaryWool;
+					whoWasHit.getWorld().dropItem(loc, new ItemStack(wool)).setPickupDelay(32767);
 
 					AssistKill.addDamager(whoWasHit.getUniqueId(), whoHit.getUniqueId(), whoWasHit.getHealth());
 					DeathEvent.setKiller(whoWasHit, whoHit);
