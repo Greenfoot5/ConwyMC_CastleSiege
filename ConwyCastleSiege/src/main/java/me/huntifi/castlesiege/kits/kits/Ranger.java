@@ -5,9 +5,9 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
+import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.maps.MapController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -42,7 +42,8 @@ import java.util.UUID;
  */
 public class Ranger extends Kit implements Listener, CommandExecutor {
 
-    private boolean isReady = false;
+    private boolean canBackstab = false;
+    private BukkitRunnable br = null;
 
     /**
      * Set the equipment and attributes of this kit
@@ -251,65 +252,69 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
 
 
     /**
-     * @param ed this event basically insta kills players when they are looking somewhat
-     *           in the same direction as the damager whilst the damager sneaks.
+     * Instantly kills players when hit in the back by a sneaking ranger
+     * @param ed The event called when a player attacks another player
      */
-    @EventHandler
+    @EventHandler (ignoreCancelled = true)
     public void backStabDamage(EntityDamageByEntityEvent ed) {
-
-        if (ed.getDamager() instanceof Player) {
+        if (ed.getDamager() instanceof Player && ed.getEntity() instanceof Player) {
             Player p = (Player) ed.getDamager();
-            UUID uuid = p.getUniqueId();
+            Player hit = (Player) ed.getEntity();
 
-            // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(uuid)) {
-                return;
-            }
+            if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
+                Location hitLoc = hit.getLocation();
+                Location damagerLoc = p.getLocation();
 
-            Location loc = p.getLocation();
+                // Basically what happens here is you check whether the player
+                // is not looking at you at all (so having their back aimed at you.)
+                if (damagerLoc.getYaw() <= hitLoc.getYaw() + 30 && damagerLoc.getYaw() >= hitLoc.getYaw() - 30
+                        && canBackstab) {
 
-            if (ed.getEntity() instanceof Player) {
-                Player hit = (Player) ed.getEntity();
+                    ed.setCancelled(true);
+                    hit.sendMessage(ChatColor.RED + "You got backstabbed.");
+                    AssistKill.addDamager(hit.getUniqueId(), p.getUniqueId(), hit.getHealth());
+                    DeathEvent.setKiller(hit, p);
+                    hit.setHealth(0);
 
-                if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
-                        MapController.getCurrentMap().getTeam(p.getUniqueId())
-                                != MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
-
-                    Location hitloc = hit.getLocation();
-                    Location damagerloc = p.getLocation();
-
-                   //Basically what happens here is you check whether the player
-                    // is not looking at you at all (so having their back aimed at you.)
-                   if (damagerloc.getYaw() <= hitloc.getYaw() + 30 && damagerloc.getYaw() >= hitloc.getYaw() - 30
-                   && p.isSneaking()) {
-
-                       ed.setCancelled(true);
-                       hit.sendMessage(ChatColor.RED + "You got backstabbed.");
-                       AssistKill.addDamager(hit.getUniqueId(), p.getUniqueId(), hit.getHealth());
-                       DeathEvent.setKiller(hit, p);
-                       hit.setHealth(0);
-
-                   }
                 }
             }
         }
     }
 
     /**
-     *
+     * The event called when a player starts and stops sneaking
      * @param e exp bar shows as full indicating the ranger is ready to backstab.
      */
     @EventHandler
     public void backStabDetection(PlayerToggleSneakEvent e) {
-
         Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
 
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
 
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            if (br != null) {
+                br.cancel();
+                br = null;
+            }
+
+            // p.isSneaking() gives the sneaking status before the SneakEvent is processed
             if (p.isSneaking()) {
-                p.setExp(1);
+                canBackstab = false;
+                BarCooldown.remove(uuid);
             } else {
-                p.setExp(0);
+                br = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        canBackstab = true;
+                        br = null;
+                    }
+                };
+                br.runTaskLater(Main.plugin, 40);
+                BarCooldown.add(uuid, 40);
             }
         }
     }
