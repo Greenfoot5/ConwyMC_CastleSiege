@@ -7,7 +7,6 @@ HelmsDeep:
     # The trigger of the door.
     # Is either "PressurePlate" or "Lever"
     trigger: "PressurePlate"
-
     # Name of the flag (must be exact)
     # If not flag is specified, the door will open for any player, no matter their team
     flag: "Great Hall"
@@ -41,17 +40,7 @@ HelmsDeep:
     # The material the block is (order matches with location)
     closed_materials:
       - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
     open_materials:
-      - AIR
-      - AIR
-      - AIR
-      - AIR
-      - AIR
       - AIR
   CavesDoor:
     flag: "Caves"
@@ -78,12 +67,7 @@ HelmsDeep:
       - x: 994
         y: 54
         z: 969
-    materials:
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
+    closed_materials:
       - "SPRUCE_LOG"
   GreatHallLeftDoor:
     flag: "Great Hall"
@@ -110,12 +94,7 @@ HelmsDeep:
       - x: 993
         y: 67
         z: 1015
-    materials:
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
+    closed_materials:
       - "SPRUCE_LOG"
   GreatHallRightDoor:
     flag: "Great Hall"
@@ -142,12 +121,7 @@ HelmsDeep:
       - x: 977
         y: 74
         z: 979
-    materials:
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
+    closed_materials:
       - "SPRUCE_LOG"
   MainGateLeftDoor:
     flag: "Main Gate"
@@ -180,14 +154,7 @@ HelmsDeep:
       - x: 1035
         y: 55
         z: 991
-    materials:
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
+    closed_materials:
       - "SPRUCE_LOG"
   MainGateRightDoor:
     flag: "Main Gate"
@@ -214,12 +181,7 @@ HelmsDeep:
       - x: 1035
         y: 55
         z: 1009
-    materials:
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
+    closed_materials:
       - "SPRUCE_LOG"
   StorageDoor:
     # This door doesn't have a flag and can be opened by anyone
@@ -246,12 +208,7 @@ HelmsDeep:
       - x: 996
         y: 69
         z: 1036
-    materials:
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
-      - "SPRUCE_LOG"
+    closed_materials:
       - "SPRUCE_LOG"
 
 ##############
@@ -260,6 +217,7 @@ HelmsDeep:
 
 Abrakhan:
   GatehouseDoor:
+    trigger: "plate"
     # Name of the flag (must be exact)
     # If not flag is specified, the door will open for any player, no matter their team
     flag: "Gatehouse"
@@ -291,13 +249,187 @@ Abrakhan:
         y: 31
         z: -29
     # The material the block is (order matches with location)
-    materials:
+    closed_materials:
       - "OAK_LOG"
-      - "OAK_LOG"
-      - "OAK_LOG"
-      - "OAK_LOG"
-      - "OAK_LOG"
-      - "OAK_LOG"
+  guarden_gate:
+    trigger: "lever"
+    centre:
+      x: 119
+      y: 46
+      z: -52
+    locations:
+      - x: 120
+        y: 49
+        z: -51
+      - x: 119
+        y: 49
+        z: -51
+      - x: 118
+        y: 49
+        z: -51
+      - x: 117
+        y: 49
+        z: -51
+      - x: 120
+        y: 48
+        z: -51
+      - x: 119
+        y: 48
+        z: -51
+      - x: 118
+        y: 48
+        z: -51
+      - x: 117
+        y: 48
+        z: -51
+      - x: 120
+        y: 47
+        z: -51
+      - x: 119
+        y: 47
+        z: -51
+      - x: 118
+        y: 47
+        z: -51
+      - x: 117
+        y: 47
+        z: -51
+      - x: 120
+        y: 46
+        z: -51
+      - x: 119
+        y: 46
+        z: -51
+      - x: 118
+        y: 46
+        z: -51
+      - x: 117
+        y: 46
+        z: -51
+      - x: 120
+        y: 45
+        z: -51
+      - x: 119
+        y: 45
+        z: -51
+      - x: 118
+        y: 45
+        z: -51
+      - x: 117
+        y: 45
+        z: -51
+    closed_materials:
+      - "OAK_FENCE"
+    lever_position:
+      x: 117
+      y: 49
+      z: -55
+  inner_gate:
+    trigger: "lever"
+    centre:
+      x: 119
+      y: 49
+      z: -85
+    closed_materials:
+      - "OAK_FENCE"
+    locations:
+      - x: 119
+        y: 51
+        z: -85
+      - x: 118
+        y: 51
+        z: -85
+      - x: 120
+        y: 50
+        z: -85
+      - x: 119
+        y: 50
+        z: -85
+      - x: 118
+        y: 50
+        z: -85
+      - x: 117
+        y: 50
+        z: -85
+      - x: 120
+        y: 49
+        z: -85
+      - x: 119
+        y: 49
+        z: -85
+      - x: 118
+        y: 49
+        z: -85
+      - x: 117
+        y: 49
+        z: -85
+      - x: 120
+        y: 48
+        z: -85
+      - x: 119
+        y: 48
+        z: -85
+      - x: 118
+        y: 48
+        z: -85
+      - x: 117
+        y: 48
+        z: -85
+    lever_position:
+      x: 117
+      y: 49
+      z: -87
+  KeepLeverGate:
+    trigger: "lever"
+    centre:
+      x: 108
+      y: 49
+      z: -99
+    lever_position:
+      x: 107
+      y: 49
+      z: -101
+    # The locations of each of the blocks
+    locations:
+      - x: 108
+        y: 48
+        z: -101
+      - x: 108
+        y: 48
+        z: -100
+      - x: 108
+        y: 48
+        z: -99
+      - x: 108
+        y: 48
+        z: -98
+      - x: 108
+        y: 49
+        z: -101
+      - x: 108
+        y: 49
+        z: -100
+      - x: 108
+        y: 49
+        z: -99
+      - x: 108
+        y: 49
+        z: -98
+      - x: 108
+        y: 50
+        z: -101
+      - x: 108
+        y: 50
+        z: -100
+      - x: 108
+        y: 50
+        z: -99
+      - x: 108
+        y: 50
+        z: -98
+    # The material the block is (order matches with location)
+    closed_materials:
+      - "OAK_FENCE"
 
 SoldiersPeak:
   upper_courtyardDoor1:
@@ -329,12 +461,7 @@ SoldiersPeak:
         y: 79
         z: 113
     # The material the block is (order matches with location)
-    materials:
-      - "ACACIA_LOG"
-      - "ACACIA_LOG"
-      - "ACACIA_LOG"
-      - "ACACIA_LOG"
-      - "ACACIA_LOG"
+    closed_materials:
       - "ACACIA_LOG"
   upper_courtyardDoor2:
     # Centre of the door
@@ -370,13 +497,9 @@ SoldiersPeak:
       - x: 861
         y: 77
         z: 118
+      - x: 861
+        y: 80
+        z: 118
     # The material the block is (order matches with location)
-    materials:
-      - "ACACIA_LOG"
-      - "ACACIA_LOG"
-      - "ACACIA_LOG"
-      - "ACACIA_LOG"
-      - "ACACIA_LOG"
-      - "ACACIA_LOG"
-      - "ACACIA_LOG"
+    closed_materials:
       - "ACACIA_LOG"

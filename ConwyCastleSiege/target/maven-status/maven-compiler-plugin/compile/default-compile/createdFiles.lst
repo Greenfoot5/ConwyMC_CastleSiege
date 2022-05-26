@@ -1,4 +1,5 @@
-me\huntifi\castlesiege\events\combat\DamageBalance$1.class
-me\huntifi\castlesiege\events\combat\HurtAnimation.class
-me\huntifi\castlesiege\events\combat\DamageBalance.class
-me\huntifi\castlesiege\kits\kits\Ranger$2.class
+me/huntifi/castlesiege/maps/objects/LeverDoor.class
+me/huntifi/castlesiege/maps/objects/PressurePlateDoor$1.class
+me/huntifi/castlesiege/maps/objects/PressurePlateDoor.class
+me/huntifi/castlesiege/maps/objects/LeverDoor$1.class
+me/huntifi/castlesiege/kits/kits/Ranger$2.class

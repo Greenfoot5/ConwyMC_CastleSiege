@@ -48,10 +48,7 @@ import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
-import me.huntifi.castlesiege.maps.objects.CaptureHandler;
-import me.huntifi.castlesiege.maps.objects.PressurePlateDoor;
-import me.huntifi.castlesiege.maps.objects.Flag;
-import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.maps.objects.*;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
 import org.bukkit.event.HandlerList;
@@ -686,15 +683,11 @@ public class Main extends JavaPlugin implements Listener {
             Route doorRoute = mapRoute.add(doorPaths[i]);
             String flagName = getDoorsConfig().getString(doorRoute.add("flag"), map.name);
             // Get the location at the centre of the object
-            //Location centre = getDoorsConfig().getAs(doorRoute.add("centre"), Vector.class).toLocation(Objects.requireNonNull(Bukkit.getWorld(map.worldName)));
-            Location centre = new Location(Bukkit.getWorld(map.worldName),
-                    getDoorsConfig().getInt(doorRoute.add("centre").add("x")),
-                    getDoorsConfig().getInt(doorRoute.add("centre").add("y")),
-                    getDoorsConfig().getInt(doorRoute.add("centre").add("z")));
+            Location centre = getLocation(doorRoute.add("centre"), map.worldName, getDoorsConfig());
             // Fancy shit that makes the Tuple array of locations and materials
             Route locationRoute = doorRoute.add("locations");
             Route openMaterialRoute = doorRoute.add("open_materials");
-            Route closeMaterialRoute = doorRoute.add("close_materials");
+            Route closeMaterialRoute = doorRoute.add("closed_materials");
             ArrayList<LinkedHashMap> doorVectors = (ArrayList<LinkedHashMap>) getDoorsConfig().get(locationRoute);
             ArrayList<String> openDoorMaterials = (ArrayList<String>) getDoorsConfig().getStringList(openMaterialRoute, null);
             ArrayList<String> closeDoorMaterials = (ArrayList<String>) getDoorsConfig().getStringList(closeMaterialRoute, null);
@@ -722,7 +715,29 @@ public class Main extends JavaPlugin implements Listener {
                     getLogger().warning("Missing material on " + doorPaths[i]);
                 }
             }
-            PressurePlateDoor door = new PressurePlateDoor(flagName, centre, doorBlocks);
+            // Split up the variations for lever and pressure plate doors
+            Tuple<Sound, Sound> sounds;
+            Door door;
+            switch (getDoorsConfig().getString(doorRoute.add("trigger"), "plate").toLowerCase()) {
+                case "switch":
+                case "lever":
+                    sounds = new Tuple<>(Sound.valueOf(getDoorsConfig().getString(doorRoute.add("closed_sound"), "ENTITY_ZOMBIE_ATTACK_IRON_DOOR")),
+                            Sound.valueOf(getDoorsConfig().getString(doorRoute.add("open_sound"), "ENTITY_ZOMBIE_ATTACK_IRON_DOOR")));
+                    Location leverPos = getLocation(doorRoute.add("lever_position"), map.worldName, getDoorsConfig());
+                    int timer = (int) (getDoorsConfig().getFloat(doorRoute.add("timer"), 10f) * 20);
+                    door = new LeverDoor(flagName, centre, doorBlocks, sounds, timer, leverPos);
+                    break;
+                case "pressureplate":
+                case "pressure plate":
+                case "plate":
+                case "pressure":
+                default:
+                    sounds = new Tuple<>(Sound.valueOf(getDoorsConfig().getString(doorRoute.add("closed_sound"), "BLOCK_WOODEN_DOOR_OPEN")),
+                            Sound.valueOf(getDoorsConfig().getString(doorRoute.add("open_sound"), "BLOCK_WOODEN_DOOR_OPEN")));
+                    timer = (int) (getDoorsConfig().getFloat(doorRoute.add("timer"), 2f) * 20);
+                    door = new PressurePlateDoor(flagName, centre, doorBlocks, sounds, timer);
+                    break;
+            }
             map.doors[i] = door;
         }
     }
