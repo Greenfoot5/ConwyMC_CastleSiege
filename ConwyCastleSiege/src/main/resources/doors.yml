@@ -4,6 +4,10 @@
 
 HelmsDeep:
   GreatHallExtraDoor:
+    # The trigger of the door.
+    # Is either "PressurePlate" or "Lever"
+    trigger: "PressurePlate"
+
     # Name of the flag (must be exact)
     # If not flag is specified, the door will open for any player, no matter their team
     flag: "Great Hall"
@@ -35,13 +39,20 @@ HelmsDeep:
         y: 69
         z: 963
     # The material the block is (order matches with location)
-    materials:
+    closed_materials:
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
       - "SPRUCE_LOG"
+    open_materials:
+      - AIR
+      - AIR
+      - AIR
+      - AIR
+      - AIR
+      - AIR
   CavesDoor:
     flag: "Caves"
     centre:

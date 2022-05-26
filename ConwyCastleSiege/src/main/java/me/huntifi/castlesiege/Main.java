@@ -49,7 +49,7 @@ import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.maps.objects.CaptureHandler;
-import me.huntifi.castlesiege.maps.objects.Door;
+import me.huntifi.castlesiege.maps.objects.PressurePlateDoor;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import org.apache.commons.io.FileUtils;
@@ -675,12 +675,12 @@ public class Main extends JavaPlugin implements Listener {
 
     private void loadDoors(Route mapRoute, Map map) {
         if (!getDoorsConfig().contains(mapRoute)) {
-            map.doors = new Door[0];
+            map.doors = new PressurePlateDoor[0];
             return;
         }
         String[] doorPaths = getPaths(getDoorsConfig(), mapRoute);
 
-        map.doors = new Door[doorPaths.length];
+        map.doors = new PressurePlateDoor[doorPaths.length];
         for (int i = 0; i < doorPaths.length; i++) {
             // Create the flag
             Route doorRoute = mapRoute.add(doorPaths[i]);
@@ -693,23 +693,36 @@ public class Main extends JavaPlugin implements Listener {
                     getDoorsConfig().getInt(doorRoute.add("centre").add("z")));
             // Fancy shit that makes the Tuple array of locations and materials
             Route locationRoute = doorRoute.add("locations");
-            Route materialRoute = doorRoute.add("materials");
+            Route openMaterialRoute = doorRoute.add("open_materials");
+            Route closeMaterialRoute = doorRoute.add("close_materials");
             ArrayList<LinkedHashMap> doorVectors = (ArrayList<LinkedHashMap>) getDoorsConfig().get(locationRoute);
-            ArrayList<String> doorMaterials = (ArrayList<String>) getDoorsConfig().getStringList(materialRoute);
-            Tuple[] doorBlocks = new Tuple[doorVectors.size()];
+            ArrayList<String> openDoorMaterials = (ArrayList<String>) getDoorsConfig().getStringList(openMaterialRoute, null);
+            ArrayList<String> closeDoorMaterials = (ArrayList<String>) getDoorsConfig().getStringList(closeMaterialRoute, null);
+            Tuple<Vector, Tuple<Material, Material>>[] doorBlocks = new Tuple[doorVectors.size()];
             for (int j = 0; j < doorVectors.size(); j++) {
                 try {
+                    Tuple<Material, Material> mats = new Tuple<>(Material.AIR, Material.AIR);
+                    if (closeDoorMaterials != null && j < closeDoorMaterials.size())
+                        mats.setFirst(Material.getMaterial(closeDoorMaterials.get(j)));
+                    else if (closeDoorMaterials != null)
+                        mats.setFirst(Material.getMaterial(closeDoorMaterials.get(j % closeDoorMaterials.size())));
+
+                    if (openDoorMaterials != null && j < openDoorMaterials.size())
+                        mats.setSecond(Material.getMaterial(openDoorMaterials.get(j)));
+                    else if (openDoorMaterials != null)
+                        mats.setSecond(Material.getMaterial(openDoorMaterials.get(j % openDoorMaterials.size())));
+
                     doorBlocks[j] = new Tuple<>(new Vector(
                             (int) doorVectors.get(j).get("x"),
                             (int) doorVectors.get(j).get("y"),
                             (int) doorVectors.get(j).get("z")),
-                            Material.getMaterial(doorMaterials.get(j)));
+                            mats);
                 }
                 catch (NullPointerException e) {
                     getLogger().warning("Missing material on " + doorPaths[i]);
                 }
             }
-            Door door = new Door(flagName, centre, doorBlocks);
+            PressurePlateDoor door = new PressurePlateDoor(flagName, centre, doorBlocks);
             map.doors[i] = door;
         }
     }
