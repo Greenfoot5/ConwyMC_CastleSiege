@@ -84,7 +84,6 @@ public class Door implements Listener {
      */
     protected MultipleFacing calculateFacingEdges(MultipleFacing data, Location blockLocation) {
         for (BlockFace face : data.getAllowedFaces()) {
-            System.out.println(face);
             Location checkLoc = blockLocation.add(face.getDirection());
             if (checkLoc.getBlock().getBlockData().getMaterial().isOccluding()) {
                 data.setFace(face, true);

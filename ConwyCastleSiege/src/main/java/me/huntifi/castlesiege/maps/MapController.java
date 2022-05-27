@@ -125,21 +125,23 @@ public class MapController implements CommandExecutor {
 		timer.hasGameEnded = true;
 
 		// Calculate the winner based on the game mode
-		String winners;
+		String winners = null;
 		switch(getCurrentMap().gamemode) {
 			case Control:
 				getLogger().severe("Control game mode has not been implemented yet! Defaulting to teams[0] as winners");
 				winners = getCurrentMap().teams[0].name;
 				break;
-			case Assault:
 			case Charge:
 				// Check if the defenders have won
 				for (Flag flag : getCurrentMap().flags) {
 					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].name)) {
 						winners = getCurrentMap().teams[0].name;
-						break;
 					}
 				}
+				if (winners != null)
+					break;
+			case Assault:
+			case Domination:
 			default:
 				// Get a count of who owns which flag
 				java.util.Map<String, Integer> flagCounts = new HashMap<>();
@@ -155,7 +157,6 @@ public class MapController implements CommandExecutor {
 				}
 				break;
 		}
-
 		// Moves all players to the lobby
 		new BukkitRunnable() {
 			@Override
