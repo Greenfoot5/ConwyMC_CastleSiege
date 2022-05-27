@@ -17,9 +17,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class LeverDoor extends Door {
     private final Location leverPosition;
+    private final AtomicInteger openCounts = new AtomicInteger(0);
 
     /**
      * Creates a new door
@@ -58,12 +60,13 @@ public class LeverDoor extends Door {
                     // If the gate is closed (lever powered)
                     if (((Powerable) event.getClickedBlock().getBlockData()).isPowered()) {
                         open();
+                        openCounts.getAndIncrement();
 
                         new BukkitRunnable() {
                             @Override
                             public void run() {
                                 Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
-                                if (leverData.isPowered())
+                                if (openCounts.getAndDecrement() > 1 && !leverData.isPowered())
                                     return;
                                 close();
                                 leverData.setPowered(true);
