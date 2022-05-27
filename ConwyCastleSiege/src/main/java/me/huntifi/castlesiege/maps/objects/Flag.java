@@ -144,7 +144,7 @@ public class Flag {
 
         Tuple<Integer, Integer> counts = getPlayerCounts();
 
-        return counts.getFirst() < counts.getSecond();
+        return counts.getSecond() != 0;
     }
 
     /**
@@ -360,10 +360,6 @@ public class Flag {
         else if (currentOwners != null)
         {
             Bukkit.broadcastMessage(ChatColor.GRAY + "~~~ " + name + " has been neutralised! ~~~");
-        }
-
-        if (MapController.hasMapEnded()) {
-            MapController.endMap();
         }
     }
 
