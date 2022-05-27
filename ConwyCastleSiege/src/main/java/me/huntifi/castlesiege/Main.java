@@ -537,6 +537,8 @@ public class Main extends JavaPlugin implements Listener {
                 map.name = config.getString(mapRoute.add("name"));
                 map.worldName = config.getString(mapRoute.add("world"));
                 map.gamemode = Gamemode.valueOf(config.getString(mapRoute.add("gamemode")));
+                map.startTime = config.getInt(mapRoute.add("start_time"), 0);
+                map.daylightCycle = config.getBoolean(mapRoute.add("doDaylightCycle"), true);
 
                 // World Data
                 createWorld(map.worldName);

@@ -14,6 +14,8 @@ import me.huntifi.castlesiege.maps.objects.Gate;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameRule;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -274,6 +276,12 @@ public class MapController implements CommandExecutor {
 				}
 			}
 		}
+
+		// Setup the time
+		World world = Bukkit.getWorld(maps.get(mapIndex).worldName);
+		assert world != null;
+		world.setTime(maps.get(mapIndex).startTime);
+		world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, maps.get(mapIndex).daylightCycle);
 
 		// Start the timer!
 		timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond());

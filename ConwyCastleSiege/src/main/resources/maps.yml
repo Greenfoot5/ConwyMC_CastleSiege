@@ -1,8 +1,6 @@
 Abrakhan:
   world: "Abrakhan"
   name: "Abrakhan"
-  start_time: 0
-  doDaylightCycle: true
   gamemode: "Assault"
   duration:
     minutes: 30
@@ -176,7 +174,7 @@ HelmsDeep:
   world: "HelmsDeep"
   name: "Helm's Deep"
   # The relative time is analogous to hours * 1000
-  start_time: 22000
+  start_time: 21500
   doDaylightCycle: false
   gamemode: "Assault"
   duration:
@@ -485,8 +483,6 @@ Conwy:
 Toucan_Moria:
   world: "Toucan_Moria"
   name: "Moria"
-  start_time: 0
-  doDaylightCycle: true
   gamemode: "Domination"
   duration:
     minutes: 40
@@ -673,8 +669,6 @@ Toucan_Moria:
 SoldiersPeak:
   world: "SoldiersPeak"
   name: "Soldier's Peak"
-  start_time: 0
-  doDaylightCycle: true
   gamemode: "Assault"
   duration:
     minutes: 30
@@ -847,8 +841,6 @@ SoldiersPeak:
 Elwynn:
   world: "Elwynn"
   name: "Elwynn"
-  start_time: 0
-  doDaylightCycle: true
   gamemode: "Charge"
   duration:
     minutes: 25
@@ -951,8 +943,6 @@ Elwynn:
 Thunderstone:
   world: "Thunderstone"
   name: "Thunderstone"
-  start_time: 0
-  doDaylightCycle: true
   gamemode: "Assault"
   duration:
     minutes: 30
@@ -1097,8 +1087,6 @@ Thunderstone:
 RoyalCrypts:
   world: "RoyalCrypts"
   name: "Royal Crypts"
-  start_time: 0
-  doDaylightCycle: true
   gamemode: "Assault"
   duration:
     minutes: 30

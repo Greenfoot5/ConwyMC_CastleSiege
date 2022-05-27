@@ -16,6 +16,8 @@ import java.util.UUID;
 public class Map {
     public String name;
     public String worldName;
+    public int startTime;
+    public boolean daylightCycle;
     public Team[] teams;
     public Flag[] flags;
     public Door[] doors;

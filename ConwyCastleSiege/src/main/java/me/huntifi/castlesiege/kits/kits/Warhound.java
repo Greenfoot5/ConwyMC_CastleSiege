@@ -52,13 +52,13 @@ public class Warhound extends Kit implements Listener, CommandExecutor {
         // Weapon
         es.hotbar[0] = ItemCreator.item(new ItemStack(Material.GHAST_TEAR),
                 ChatColor.RED + "Fangs", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 6)));
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 8)));
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.item(new ItemStack(Material.GHAST_TEAR),
                         ChatColor.RED + "Fangs",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 8))),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 10))),
                 0);
 
         super.equipment = es;
