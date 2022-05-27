@@ -12,6 +12,9 @@ import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
+/**
+ * Represents a door
+ */
 public class Door implements Listener {
     protected final String flagName;
     protected final Location centre;
@@ -36,6 +39,9 @@ public class Door implements Listener {
         this.timer = timer;
     }
 
+    /**
+     * Opens the door
+     */
     protected void open() {
         for (Tuple<Vector, Tuple<Material, Material>> tuple : doorBlocks) {
             // Set the block
@@ -51,6 +57,9 @@ public class Door implements Listener {
         Objects.requireNonNull(centre.getWorld()).playSound(centre, sounds.getSecond(), 3, 1);
     }
 
+    /**
+     * Closes the door
+     */
     protected void close() {
         for (Tuple<Vector, Tuple<Material, Material>> tuple : doorBlocks) {
             // Set the block
@@ -66,6 +75,13 @@ public class Door implements Listener {
         Objects.requireNonNull(centre.getWorld()).playSound(centre, sounds.getFirst(), 3, 1);
     }
 
+    /**
+     * *Should* fix edge connections for multi-facing blocks (i.e. fences)
+     * @param data The MultipleFacing block data for the block
+     * @param blockLocation The location of the block
+     * @return The data with the connections fixed
+     * TODO - This doesn't actually sort the connections
+     */
     protected MultipleFacing calculateFacingEdges(MultipleFacing data, Location blockLocation) {
         for (BlockFace face : data.getAllowedFaces()) {
             System.out.println(face);

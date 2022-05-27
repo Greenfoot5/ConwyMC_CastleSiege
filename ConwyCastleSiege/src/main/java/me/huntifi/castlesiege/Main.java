@@ -289,17 +289,23 @@ public class Main extends JavaPlugin implements Listener {
         }.runTaskLater(plugin, 1);
     }
 
+    /**
+     * Called when the plugin is disabled
+     */
     @Override
     public void onDisable() {
         getLogger().info("Disabling plugin...");
-        // Unloads everything
+        // Unregister all listeners
         HandlerList.unregisterAll(plugin);
+        // Unload all worlds
         for (World world:Bukkit.getWorlds()) {
             Bukkit.unloadWorld(world, false);
         }
+        // Reload the original world - HelmsDeep
         WorldCreator worldCreator = new WorldCreator("HelmsDeep");
         worldCreator.generateStructures(false);
         worldCreator.createWorld();
+        // Save data and disconnect the SQL
         StoreData.storeAll();
         try {
             SQL.disconnect();
@@ -309,6 +315,9 @@ public class Main extends JavaPlugin implements Listener {
         getLogger().info("Plugin has been disabled!");
     }
 
+    /**
+     * Loads all worlds from their save folder
+     */
     private void resetWorlds() {
         //Creating a File object for directory
         File directoryPath = new File(String.valueOf(Bukkit.getWorldContainer()));
@@ -316,6 +325,7 @@ public class Main extends JavaPlugin implements Listener {
         String[] contents = directoryPath.list();
         assert contents != null;
         for (String content : contents) {
+            // If the server is a save
             if (content.endsWith("_save")) {
                 String worldName = content.substring(0, content.length() - 5);
                 try {
@@ -328,6 +338,10 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
+    /**
+     * Creates/loads a world
+     * @param worldName The name of the world to load
+     */
     private void createWorld(String worldName) {
         WorldCreator worldCreator = new WorldCreator(worldName);
         worldCreator.generateStructures(false);
@@ -336,6 +350,9 @@ public class Main extends JavaPlugin implements Listener {
         world.setAutoSave(false);
     }
 
+    /**
+     * Connects to the SQL database
+     */
     private void sqlConnect() {
         SQL = new MySQL();
 
@@ -363,6 +380,9 @@ public class Main extends JavaPlugin implements Listener {
         return this.gatesConfig;
     }
 
+    /**
+     * Creates/loads our configs
+     */
     private void createConfigs() {
 
         // Setup the vector adapter
