@@ -42,7 +42,7 @@ public class LeverDoor extends Door {
      */
     @EventHandler
     public void onSwitch(PlayerInteractEvent event) {
-        if (event.getClickedBlock().getType() == Material.LEVER) {
+        if (event.getClickedBlock() == null || event.getClickedBlock().getType() != Material.LEVER) {
             return;
         }
 
@@ -50,23 +50,24 @@ public class LeverDoor extends Door {
         if (Objects.equals(Objects.requireNonNull(centre.getWorld()).getName(), MapController.getCurrentMap().worldName)) {
 
             Player player = event.getPlayer();
-            if (event.getClickedBlock().getLocation() == leverPosition) {
+            if (event.getClickedBlock().getLocation().distanceSquared(leverPosition) <= 1) {
 
-                Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
                 Flag flag = MapController.getCurrentMap().getFlag(flagName);
                 if (Objects.equals(flagName, MapController.getCurrentMap().name) ||
                         Objects.equals(Objects.requireNonNull(flag).getCurrentOwners(), MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
                     // If the gate is closed (lever powered)
-                    if (leverData.isPowered()) {
+                    if (((Powerable) event.getClickedBlock().getBlockData()).isPowered()) {
                         open();
 
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                if (!leverData.isPowered())
+                                Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
+                                if (leverData.isPowered())
                                     return;
                                 close();
-                                leverData.setPowered(false);
+                                leverData.setPowered(true);
+                                event.getClickedBlock().setBlockData(leverData);
                             }
                         }.runTaskLater(Main.plugin, timer);
                     } else {

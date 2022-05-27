@@ -259,18 +259,6 @@ Abrakhan:
       z: -52
     locations:
       - x: 120
-        y: 49
-        z: -51
-      - x: 119
-        y: 49
-        z: -51
-      - x: 118
-        y: 49
-        z: -51
-      - x: 117
-        y: 49
-        z: -51
-      - x: 120
         y: 48
         z: -51
       - x: 119
@@ -333,12 +321,6 @@ Abrakhan:
     closed_materials:
       - "OAK_FENCE"
     locations:
-      - x: 119
-        y: 51
-        z: -85
-      - x: 118
-        y: 51
-        z: -85
       - x: 120
         y: 50
         z: -85

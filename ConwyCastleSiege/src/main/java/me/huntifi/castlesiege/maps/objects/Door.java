@@ -4,6 +4,9 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.MultipleFacing;
 import org.bukkit.event.Listener;
 import org.bukkit.util.Vector;
 
@@ -33,17 +36,44 @@ public class Door implements Listener {
         this.timer = timer;
     }
 
-    public void open() {
+    protected void open() {
         for (Tuple<Vector, Tuple<Material, Material>> tuple : doorBlocks) {
-            tuple.getFirst().toLocation(Objects.requireNonNull(centre.getWorld())).getBlock().setType(tuple.getSecond().getSecond());
+            // Set the block
+            Location location = tuple.getFirst().toLocation(Objects.requireNonNull(centre.getWorld()));
+            location.getBlock().setType(tuple.getSecond().getSecond());
+
+            // If it's a fence, we'll need to set all the faces correctly.
+            BlockData data = location.getBlock().getBlockData();
+            if (data instanceof MultipleFacing) {
+                location.getBlock().setBlockData(calculateFacingEdges((MultipleFacing) data, location));
+            }
         }
         Objects.requireNonNull(centre.getWorld()).playSound(centre, sounds.getSecond(), 3, 1);
     }
 
-    public void close() {
+    protected void close() {
         for (Tuple<Vector, Tuple<Material, Material>> tuple : doorBlocks) {
-            tuple.getFirst().toLocation(Objects.requireNonNull(centre.getWorld())).getBlock().setType(tuple.getSecond().getFirst());
+            // Set the block
+            Location location = tuple.getFirst().toLocation(Objects.requireNonNull(centre.getWorld()));
+            location.getBlock().setType(tuple.getSecond().getFirst());
+
+            // If it's a fence, we'll need to set all the faces correctly.
+            BlockData data = location.getBlock().getBlockData();
+            if (data instanceof MultipleFacing) {
+                location.getBlock().setBlockData(calculateFacingEdges((MultipleFacing) data, location));
+            }
         }
         Objects.requireNonNull(centre.getWorld()).playSound(centre, sounds.getFirst(), 3, 1);
+    }
+
+    protected MultipleFacing calculateFacingEdges(MultipleFacing data, Location blockLocation) {
+        for (BlockFace face : data.getAllowedFaces()) {
+            System.out.println(face);
+            Location checkLoc = blockLocation.add(face.getDirection());
+            if (checkLoc.getBlock().getBlockData().getMaterial().isOccluding()) {
+                data.setFace(face, true);
+            }
+        }
+        return data;
     }
 }

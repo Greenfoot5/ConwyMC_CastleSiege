@@ -672,12 +672,12 @@ public class Main extends JavaPlugin implements Listener {
 
     private void loadDoors(Route mapRoute, Map map) {
         if (!getDoorsConfig().contains(mapRoute)) {
-            map.doors = new PressurePlateDoor[0];
+            map.doors = new Door[0];
             return;
         }
         String[] doorPaths = getPaths(getDoorsConfig(), mapRoute);
 
-        map.doors = new PressurePlateDoor[doorPaths.length];
+        map.doors = new Door[doorPaths.length];
         for (int i = 0; i < doorPaths.length; i++) {
             // Create the flag
             Route doorRoute = mapRoute.add(doorPaths[i]);
