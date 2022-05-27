@@ -61,15 +61,15 @@ public class Medic extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
-                ChatColor.GREEN + "Dagger", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16)));
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
+                ChatColor.GREEN + "Scalpel", null,
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 14)));
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
-                        ChatColor.GREEN + "Dagger",
+                ItemCreator.item(new ItemStack(Material.IRON_SWORD),
+                        ChatColor.GREEN + "Scalpel",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16))),
                 0);
 
         // Chestplate
@@ -110,6 +110,9 @@ public class Medic extends Kit implements Listener, CommandExecutor {
 
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
+
+        super.killMessage[0] = "You examined the insides of ";
+        super.deathMessage[0] = "You had your insides examined by ";
     }
 
     /**

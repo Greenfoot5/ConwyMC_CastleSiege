@@ -56,15 +56,15 @@ public class Ranger extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
+        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.STONE_SWORD),
                 ChatColor.GREEN + "Dagger", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18)));
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 17)));
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
+                ItemCreator.item(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Dagger",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
+                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 19))),
                 0);
 
         // Chestplate

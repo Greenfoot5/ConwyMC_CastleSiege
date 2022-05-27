@@ -124,7 +124,7 @@ public class Executioner extends Kit implements Listener, CommandExecutor {
 				assert healthAttribute != null;
 
 				// Execute
-				if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.37) {
+				if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.40) {
 					e.setCancelled(true);
 
 					Location loc = whoWasHit.getEyeLocation();

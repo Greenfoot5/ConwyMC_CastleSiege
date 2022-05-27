@@ -53,7 +53,7 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 				Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 48)));
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				ItemCreator.item(new ItemStack(Material.STICK),
+				ItemCreator.item(new ItemStack(Material.STICK, 5),
 						ChatColor.GREEN + "Spear",
 						Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
 								ChatColor.AQUA + "- voted: +2 damage"),
