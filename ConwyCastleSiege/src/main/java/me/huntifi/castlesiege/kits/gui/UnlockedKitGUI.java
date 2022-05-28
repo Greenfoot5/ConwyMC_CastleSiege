@@ -151,7 +151,7 @@ public class UnlockedKitGUI extends AbstractKitGUI {
                         ChatColor.DARK_GREEN + "[Desc]:" + ChatColor.GREEN + " A light unit with the capability to execute enemies.",
                         ChatColor.DARK_GREEN + "[Armor]:" + ChatColor.GREEN + " Leather armor.",
                         ChatColor.DARK_GREEN + "[Weapon]:" + ChatColor.GREEN + " Iron axe.",
-                        ChatColor.DARK_GREEN + "[Ability]:" + ChatColor.GREEN + " Insta-kills enemies that are below 35% hp.",
+                        ChatColor.DARK_GREEN + "[Ability]:" + ChatColor.GREEN + " Insta-kills enemies that are below 40% hp.",
                         ChatColor.DARK_GREEN + "[Status]:" + ChatColor.GREEN + " Unlocked with coins.",
                         ChatColor.GOLD + "------------------------------"), null);
     }
