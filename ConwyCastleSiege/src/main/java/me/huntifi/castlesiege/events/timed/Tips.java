@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.events.timed;
 
-import me.huntifi.castlesiege.Main;
-import org.bukkit.ChatColor;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
@@ -40,6 +39,6 @@ public class Tips extends BukkitRunnable {
 
     // Sends a random tip to all players
     public void run() {
-        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[i] " + ChatColor.AQUA + tips[random.nextInt(tips.length)]);
+        Messenger.broadcastTip(tips[random.nextInt(tips.length)]);
     }
 }
