@@ -5,7 +5,6 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,7 +26,7 @@ public class NameTag {
         // Only set name tag color if data has not been loaded yet
         PlayerData data = ActiveData.getData(p.getUniqueId());
         if (data == null) {
-            NametagEdit.getApi().setPrefix(p, color(p).toString());
+            NametagEdit.getApi().setPrefix(p, color(p));
             return;
         }
 
@@ -55,8 +54,12 @@ public class NameTag {
      * @param p The player
      * @return The player's chat color
      */
-    public static ChatColor color(Player p) {
-        return MapController.getCurrentMap().getTeam(p.getUniqueId()).primaryChatColor;
+    public static String color(Player p) {
+        if (!MapController.isSpectator(p.getUniqueId())) {
+            return MapController.getCurrentMap().getTeam(p.getUniqueId()).primaryChatColor.toString();
+        } else {
+            return ChatColor.GRAY + ChatColor.ITALIC.toString();
+        }
     }
 
     /**

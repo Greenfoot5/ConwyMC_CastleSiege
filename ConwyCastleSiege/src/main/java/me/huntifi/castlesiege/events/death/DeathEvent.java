@@ -22,7 +22,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -50,6 +49,9 @@ public class DeathEvent implements Listener {
         Player player = event.getPlayer();
         Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
 
+        if (team == null && MapController.isSpectator(player.getUniqueId())) {
+            event.setRespawnLocation(MapController.getCurrentMap().flags[0].spawnPoint);
+        }
         assert team != null && team.lobby.spawnPoint != null;
         if (team.lobby.spawnPoint.getWorld() == null) {
             team.lobby.spawnPoint.setWorld(Bukkit.getWorld(MapController.getCurrentMap().worldName));

@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.commands.staff;
 
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -46,15 +47,15 @@ public class SpectateCommand implements CommandExecutor {
             MapController.joinATeam(player.getUniqueId());
             player.setGameMode(GameMode.SURVIVAL);
             InCombat.playerDied(player.getUniqueId());
-            spectators.remove(player.getUniqueId());
         } else {
             Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
             team.removePlayer(player.getUniqueId());
+            spectators.add(player.getUniqueId());
             player.setGameMode(GameMode.SPECTATOR);
             if (InCombat.isPlayerInLobby(player.getUniqueId())) {
                 player.teleport(MapController.getCurrentMap().flags[0].spawnPoint);
             }
-            spectators.add(player.getUniqueId());
+            NameTag.give(player);
         }
         return true;
     }
