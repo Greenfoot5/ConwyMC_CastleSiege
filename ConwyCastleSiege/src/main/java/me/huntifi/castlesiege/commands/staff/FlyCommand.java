@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.staff;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -25,12 +26,13 @@ public class FlyCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (sender instanceof ConsoleCommandSender) {
-			sender.sendMessage("Console cannot fly!");
+			Messenger.sendError("Console cannot fly!", sender);
 			return true;
 		} else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
-			sender.sendMessage("Spectators can already fly!");
+			Messenger.sendError("Spectators can already fly!", sender);
 		}
 
+		assert sender instanceof Player;
 		Player p = (Player) sender;
 		p.setAllowFlight(!p.getAllowFlight());
 		p.setFlying(p.getAllowFlight());

@@ -31,7 +31,7 @@ public class PingCommand implements CommandExecutor {
 		}
 
 		Player p = (Player) sender;
-		p.sendMessage(ChatColor.DARK_AQUA + "Your ping is: " + ChatColor.AQUA + getPing(p) + ChatColor.DARK_AQUA + " ms.");
+		p.sendMessage(ChatColor.GOLD + "[p] " + ChatColor.DARK_AQUA + "Your ping is: " + ChatColor.AQUA + getPing(p) + ChatColor.DARK_AQUA + " ms.");
 		return true;
 	}
 

@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MVPStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.ChatColor;
@@ -57,7 +58,7 @@ public class MVPCommand implements CommandExecutor {
                     }
 
                 } else {
-                    sender.sendMessage("Console is not in a team!");
+                    Messenger.sendError("Console is not in a team!", sender);
                 }
             }
         }.runTaskAsynchronously(Main.plugin);

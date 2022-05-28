@@ -1,8 +1,11 @@
 package me.huntifi.castlesiege.events.chat;
 
 import me.huntifi.castlesiege.Main;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -18,12 +21,25 @@ public class Messenger {
         sender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + message);
     }
 
+    public static void sendActionError(String message, @NotNull Player sender) {
+        sender.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + message));
+    }
+
     /**
      * Broadcasts an error message to everyone on the server
      * @param message The error message
      */
     public static void broadcastError(String message) {
-        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[i] " + ChatColor.DARK_RED + message);
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + message);
+    }
+
+    public static void sendWarning(String message, @NotNull CommandSender sender) {
+        sender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.RED + message);
+    }
+
+    public static void broadcastWarning(String message) {
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[!] " + ChatColor.RED + message);
     }
 
     /**

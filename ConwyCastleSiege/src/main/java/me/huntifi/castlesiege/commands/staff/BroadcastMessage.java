@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.staff;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -56,7 +57,7 @@ public class BroadcastMessage implements CommandExecutor {
 
                 } else {
 
-                    s.sendMessage("§4Right what are you doing... ? Can't send an empty broadcast message can you now?");
+                    Messenger.sendError("Right what are you doing... ? Can't send an empty broadcast message can you now?", s);
                     return false;
                 }
 

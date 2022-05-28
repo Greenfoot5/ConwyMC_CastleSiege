@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
@@ -228,18 +229,18 @@ public abstract class Kit implements CommandExecutor {
      * @return true
      */
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (commandSender instanceof ConsoleCommandSender) {
-            commandSender.sendMessage("Console cannot select kits!");
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        if (sender instanceof ConsoleCommandSender) {
+            Messenger.sendError("Console cannot select kits!", sender);
             return true;
 
-        } else if (commandSender instanceof Player) {
-            if (MapController.isSpectator(((Player) commandSender).getUniqueId())) {
-                commandSender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Spectators cannot select kits!");
+        } else if (sender instanceof Player) {
+            if (MapController.isSpectator(((Player) sender).getUniqueId())) {
+                Messenger.sendError("Spectators cannot select kits!", sender);
                 return true;
 
             } else {
-                addPlayer(((Player) commandSender).getUniqueId());
+                addPlayer(((Player) sender).getUniqueId());
             }
             return true;
         }

@@ -90,7 +90,7 @@ public class UpdateStats {
 
                     Player p = Bukkit.getPlayer(uuid);
                     assert p != null;
-                    p.sendMessage(ChatColor.DARK_GREEN + "Congratulations, you leveled up to level: " + ChatColor.YELLOW + level);
+                    p.sendMessage(ChatColor.GOLD + "[+] " + ChatColor.DARK_GREEN + "Congratulations, you leveled up to level: " + ChatColor.YELLOW + level);
                     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                     NameTag.give(p);
 

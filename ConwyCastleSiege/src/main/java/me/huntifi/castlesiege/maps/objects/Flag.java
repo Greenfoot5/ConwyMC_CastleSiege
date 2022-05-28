@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
@@ -221,8 +222,8 @@ public class Flag {
                         for (UUID uuid : players)
                         {
                             if (!Objects.equals(MapController.getCurrentMap().getTeam(uuid).name, currentOwners)) {
-                                Objects.requireNonNull(Bukkit.getPlayer(uuid)).sendMessage(ChatColor.GOLD + "[!] "
-                                        + ChatColor.DARK_RED + "You must capture flags in order on this map, and the previous one doesn't belong to your team!");
+                                Messenger.sendError("You must capture flags in order on this map, and the previous one doesn't belong to your team!",
+                                        Objects.requireNonNull(Bukkit.getPlayer(uuid)));
                             }
                         }
                         return;

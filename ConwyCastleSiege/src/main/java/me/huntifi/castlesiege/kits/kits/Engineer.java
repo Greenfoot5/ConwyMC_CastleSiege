@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.HurtAnimation;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -230,7 +231,7 @@ public class Engineer extends Kit implements Listener {
 
             // Check if player is the trap's owner
             if (!traps.containsKey(p) || !traps.get(p).contains(e.getClickedBlock())) {
-                p.sendMessage(ChatColor.DARK_RED + "You can't pick up traps that are not your own.");
+                Messenger.sendWarning("You can't pick up traps that are not your own.", p);
                 return;
             }
 
@@ -264,7 +265,7 @@ public class Engineer extends Kit implements Listener {
             if (dispenserFace == null) {
                 return;
             } else if (!Objects.equals(Kit.equippedKits.get(e.getEntered().getUniqueId()).name, name)) {
-                e.getEntered().sendMessage(ChatColor.DARK_RED + "Only engineers can use a ballista!");
+                Messenger.sendError("Only engineers can use a ballista!", e.getEntered());
                 e.setCancelled(true);
                 return;
             }

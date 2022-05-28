@@ -1,6 +1,7 @@
 
 package me.huntifi.castlesiege.commands.chat;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,10 +33,10 @@ public class ReplyMessage implements CommandExecutor {
 		PrivateMessage pm = new PrivateMessage();
 		CommandSender r = pm.getLastSender(s);
 		if (r == null) {
-			s.sendMessage(ChatColor.DARK_RED + "Nobody has messaged you!");
+			Messenger.sendError("Nobody has messaged you!", s);
 			return true;
 		} else if (r instanceof Player && !((Player) r).isOnline()) {
-			s.sendMessage(ChatColor.DARK_RED + "This player is no longer online!");
+			Messenger.sendError("This player is no longer online!", s);
 			return true;
 		}
 

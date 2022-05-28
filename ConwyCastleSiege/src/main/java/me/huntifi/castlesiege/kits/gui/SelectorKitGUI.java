@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.kits.gui;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -48,7 +49,7 @@ public class SelectorKitGUI extends AbstractKitGUI {
             case "Uruk-hai":
             case "Thunderstone":
             case "Cloud":
-                p.sendMessage(ChatColor.DARK_RED + "This feature is currently unavailable!");
+                Messenger.sendError("This feature is currently unavailable!", p);
                 break;
         }
     }

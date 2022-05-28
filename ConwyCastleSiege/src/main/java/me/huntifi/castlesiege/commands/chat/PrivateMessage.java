@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -43,10 +44,10 @@ public class PrivateMessage implements CommandExecutor {
 		// Make sure that a correct recipient is supplied
 		// Cannot send message to yourself
 		if (r == null) {
-			s.sendMessage(ChatColor.DARK_RED + "Could not find player: " + ChatColor.RED + args[0]);
+			Messenger.sendError( "Could not find player: " + ChatColor.RED + args[0], s);
 			return true;
 		} else if (Objects.equals(s, r)) {
-			s.sendMessage(ChatColor.RED + "You are not a clown. You are the entire circus.");
+			Messenger.sendWarning(ChatColor.RED + "You are not a clown. You are the entire circus.", s);
 			return true;
 		}
 

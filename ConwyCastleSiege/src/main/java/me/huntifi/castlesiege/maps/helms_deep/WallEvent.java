@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.maps.helms_deep;
 
 import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
@@ -89,7 +90,7 @@ public class WallEvent implements Listener {
 						// Notify the player(s)
 						player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA
 								+ "You picked up the torch!"));
-						Bukkit.broadcastMessage(ChatColor.RED + player.getName() + " has picked up the torch!");
+						Messenger.broadcastWarning(player.getName() + " has picked up the torch!");
 						carrier = player.getUniqueId();
 					}
 				}
@@ -163,7 +164,7 @@ public class WallEvent implements Listener {
 						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[0], Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST , 10000, 2 );
 						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[1], Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 10000, 2 );
 						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[2], Sound.ENTITY_DRAGON_FIREBALL_EXPLODE , 10000, 2 );
-						Bukkit.broadcastMessage(ChatColor.RED + "The Deeping Wall has been blown up!");
+						Messenger.broadcastWarning("The Deeping Wall has been blown up!");
 
 						tnt_counter++;
 					}

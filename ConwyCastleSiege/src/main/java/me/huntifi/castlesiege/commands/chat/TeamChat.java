@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.commands.chat;
 
 import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
@@ -36,10 +37,10 @@ public class TeamChat implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (sender instanceof ConsoleCommandSender) {
-			sender.sendMessage("Team chat cannot be used from console!");
+			Messenger.sendError("Team chat cannot be used from console!", sender);
 			return true;
 		} else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
-			sender.sendMessage("Spectators don't have a team!");
+			Messenger.sendError("Spectators don't have a team!", sender);
 			return true;
 		}
 

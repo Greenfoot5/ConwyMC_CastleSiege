@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.staff;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -32,7 +33,7 @@ public class NextMapCommand implements CommandExecutor {
 						p.getDisplayName() + ChatColor.YELLOW + " has skipped to the next map!");
 				MapController.endMap();
 			} else {
-				p.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Map has already ended!");
+				Messenger.sendError("Map has already ended!", p);
 			}
 
 		} else if (sender instanceof ConsoleCommandSender) {
@@ -41,7 +42,7 @@ public class NextMapCommand implements CommandExecutor {
 						ChatColor.DARK_AQUA + "Console" + ChatColor.YELLOW + " has skipped to the next map!");
 				MapController.endMap();
 			} else {
-				sender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Map has already ended!");
+				Messenger.sendError("Map has already ended!", sender);
 			}
 		}
 

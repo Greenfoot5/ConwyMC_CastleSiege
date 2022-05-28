@@ -1,14 +1,14 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.objects.Flag;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
@@ -40,18 +40,16 @@ public class WoolMapBlock {
         {
             if (!Objects.equals(flag.getCurrentOwners(), team.name))
             {
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Your team does not own this flag at the moment."));
+                Messenger.sendActionError("Your team does not own this flag at the moment.", player);
             }
             else if (flag.underAttack())
             {
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You can't spawn here. This flag is under attack!"));
+                Messenger.sendActionError("You can't spawn here. This flag is under attack!", player);
             }
             else if (Kit.equippedKits.get(uuid) == null)
             {
-                player.sendMessage(ChatColor.DARK_RED + "You can't join the battlefield without a kit/class!");
-                player.sendMessage(ChatColor.DARK_RED + "Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!");
+                Messenger.sendError("You can't join the battlefield without a kit/class!", player);
+                Messenger.sendError("Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!", player);
             } else {
                 InCombat.playerSpawned(uuid);
                 player.teleport(flag.spawnPoint);

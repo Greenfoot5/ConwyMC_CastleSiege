@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.commands.staff.SpectateCommand;
 import me.huntifi.castlesiege.commands.info.MVPCommand;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.objects.Door;
@@ -436,18 +437,18 @@ public class MapController implements CommandExecutor {
 	 * TODO - FIX!
 	 */
 	@Override
-	public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-		if (commandSender instanceof ConsoleCommandSender || (commandSender instanceof Player
-				&& "AdminDeveloperModerator".contains((ActiveData.getData(((Player) commandSender).getUniqueId()).getStaffRank()))))
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+		if (sender instanceof ConsoleCommandSender || (sender instanceof Player
+				&& "AdminDeveloperModerator".contains((ActiveData.getData(((Player) sender).getUniqueId()).getStaffRank()))))
 		{
-			commandSender.sendMessage(ChatColor.DARK_AQUA + "Saving world: " + getCurrentMap().worldName);
+			sender.sendMessage(ChatColor.DARK_AQUA + "Saving world: " + getCurrentMap().worldName);
 
 			Objects.requireNonNull(getWorld(getCurrentMap().worldName)).save();
 			copyFileStructure(new File(Bukkit.getWorldContainer(), getCurrentMap().worldName + "_save"), Objects.requireNonNull(getWorld(getCurrentMap().worldName)).getWorldFolder());
 
-			commandSender.sendMessage(ChatColor.GREEN + "Saved " + getCurrentMap().worldName + "!");
+			sender.sendMessage(ChatColor.GREEN + "Saved " + getCurrentMap().worldName + "!");
 		} else {
-			commandSender.sendMessage(ChatColor.DARK_RED + "You don't have permission to do that!");
+			Messenger.sendError("You don't have permission to do that!", sender);
 		}
 		return true;
 	}
