@@ -271,6 +271,11 @@ commands:
     usage: /togglerank
     permission: castlesiege.chatmod
     permission-message: You are not permitted to use this command!
+  Spectate:
+    description: Makes you, or another player, a spectator.
+    usage: /spectate [player]
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
 
   # Kits
   Kit:

@@ -10,10 +10,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,7 +18,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -31,7 +26,7 @@ import java.util.Random;
 /**
  * The maceman kit
  */
-public class Maceman extends Kit implements Listener, CommandExecutor {
+public class Maceman extends Kit implements Listener {
 
     /**
      * Set the equipment and attributes of this kit
@@ -84,25 +79,6 @@ public class Maceman extends Kit implements Listener, CommandExecutor {
         super.deathMessage[1] = "'s mace";
         super.killMessage[0] = "You cracked ";
         super.killMessage[1] = "'s skull";
-    }
-
-    /**
-     * Register the player as using this kit and set their items
-     * @param commandSender Source of the command
-     * @param command Command which was executed
-     * @param s Alias of the command which was used
-     * @param strings Passed command arguments
-     * @return true
-     */
-    @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (commandSender instanceof ConsoleCommandSender) {
-            commandSender.sendMessage("Console cannot select kits!");
-            return true;
-        }
-
-        super.addPlayer(((Player) commandSender).getUniqueId());
-        return true;
     }
 
     /**

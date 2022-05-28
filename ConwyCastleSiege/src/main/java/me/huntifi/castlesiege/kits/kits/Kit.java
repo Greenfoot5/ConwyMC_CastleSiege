@@ -7,25 +7,31 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 /**
  * The abstract kit
  */
-public abstract class Kit {
+public abstract class Kit implements CommandExecutor {
     public String name;
     public int baseHealth;
     protected int kbResistance = 0;
@@ -211,5 +217,32 @@ public abstract class Kit {
      */
     public Tuple<String[], String[]> getProjectileMessage() {
         return new Tuple<>(projectileKillMessage, projectileDeathMessage);
+    }
+
+    /**
+     * Register the player as using this kit and set their items
+     * @param commandSender Source of the command
+     * @param command Command which was executed
+     * @param s Alias of the command which was used
+     * @param strings Passed command arguments
+     * @return true
+     */
+    @Override
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        if (commandSender instanceof ConsoleCommandSender) {
+            commandSender.sendMessage("Console cannot select kits!");
+            return true;
+
+        } else if (commandSender instanceof Player) {
+            if (MapController.isSpectator(((Player) commandSender).getUniqueId())) {
+                commandSender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Spectators cannot select kits!");
+                return true;
+
+            } else {
+                addPlayer(((Player) commandSender).getUniqueId());
+            }
+            return true;
+        }
+        return false;
     }
 }

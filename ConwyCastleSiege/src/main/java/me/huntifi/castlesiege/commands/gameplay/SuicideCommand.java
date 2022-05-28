@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,6 +28,9 @@ public class SuicideCommand implements CommandExecutor {
 							 @NotNull String[] args) {
 		if (sender instanceof ConsoleCommandSender) {
 			sender.sendMessage("Console cannot die!");
+			return true;
+		}else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
+			sender.sendMessage("Spectators cannot die!");
 			return true;
 		}
 

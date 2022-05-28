@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.staff.SpectateCommand;
 import me.huntifi.castlesiege.commands.info.MVPCommand;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
@@ -253,8 +254,10 @@ public class MapController implements CommandExecutor {
 		// Move all players to the new map and team
 		if (!keepTeams || teams.size() > 0 && maps.get(mapIndex).teams.length > teams.size()) {
 			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
-				joinATeam(player.getUniqueId());
-				Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+				if (!SpectateCommand.spectators.contains(player.getUniqueId())) {
+					joinATeam(player.getUniqueId());
+					Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+				}
 			}
 		} else {
 			Collections.shuffle(teams);
@@ -272,9 +275,20 @@ public class MapController implements CommandExecutor {
 			}
 			// Make sure all online players are on a team
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (maps.get(mapIndex).getTeam(player.getUniqueId()) == null) {
-					joinATeam(player.getUniqueId());
+				if (!SpectateCommand.spectators.contains(player.getUniqueId())) {
+					if (maps.get(mapIndex).getTeam(player.getUniqueId()) == null) {
+						joinATeam(player.getUniqueId());
+					}
 				}
+			}
+		}
+
+		// Teleport Spectators
+		int i = 0;
+		while (i < SpectateCommand.spectators.size()) {
+			Player player = Bukkit.getPlayer(SpectateCommand.spectators.get(i));
+			if (player != null) {
+				player.teleport(getCurrentMap().flags[0].spawnPoint);
 			}
 		}
 
@@ -390,7 +404,18 @@ public class MapController implements CommandExecutor {
 		Team team = map.getTeam(uuid);
 		if (team != null) {
 			team.removePlayer(uuid);
+		} else {
+			if (isSpectator(uuid)) {
+				SpectateCommand.spectators.remove(uuid);
+			}
 		}
+	}
+
+	/**
+	 * Checks if a player is a spectator
+	 */
+	public static boolean isSpectator(UUID uuid) {
+		return SpectateCommand.spectators.contains(uuid);
 	}
 
 	private static void copyFileStructure(File source, File target){

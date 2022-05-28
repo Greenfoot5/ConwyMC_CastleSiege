@@ -9,10 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -26,7 +22,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.util.Collections;
@@ -36,7 +31,7 @@ import java.util.UUID;
 /**
  * The cavalry kit
  */
-public class Cavalry extends Kit implements Listener, CommandExecutor {
+public class Cavalry extends Kit implements Listener {
 
     /**
      * Set the equipment and attributes of this kit
@@ -86,25 +81,6 @@ public class Cavalry extends Kit implements Listener, CommandExecutor {
                 ChatColor.GREEN + "Spawn Horse", null, null);
 
         super.equipment = es;
-    }
-
-    /**
-     * Register the player as using this kit and set their items
-     * @param commandSender Source of the command
-     * @param command Command which was executed
-     * @param s Alias of the command which was used
-     * @param strings Passed command arguments
-     * @return true
-     */
-    @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (commandSender instanceof ConsoleCommandSender) {
-            commandSender.sendMessage("Console cannot select kits!");
-            return true;
-        }
-
-        super.addPlayer(((Player) commandSender).getUniqueId());
-        return true;
     }
 
     /**

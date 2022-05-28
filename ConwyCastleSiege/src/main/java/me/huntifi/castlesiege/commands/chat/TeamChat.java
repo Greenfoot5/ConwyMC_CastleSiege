@@ -38,6 +38,9 @@ public class TeamChat implements CommandExecutor {
 		if (sender instanceof ConsoleCommandSender) {
 			sender.sendMessage("Team chat cannot be used from console!");
 			return true;
+		} else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
+			sender.sendMessage("Spectators don't have a team!");
+			return true;
 		}
 
 		// Check if the player is muted

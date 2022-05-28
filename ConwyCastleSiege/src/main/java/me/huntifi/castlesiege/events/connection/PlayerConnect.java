@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.events.connection;
 
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.RankPoints;
 import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
 import me.huntifi.castlesiege.data_types.PlayerData;
@@ -16,9 +15,10 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.net.InetAddress;
-import java.sql.*;
-import java.text.DecimalFormat;
-import java.util.HashMap;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /**

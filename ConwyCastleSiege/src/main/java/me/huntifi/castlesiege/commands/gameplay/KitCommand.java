@@ -54,6 +54,9 @@ public class KitCommand implements CommandExecutor {
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage("Console cannot select kits!");
             return true;
+        } else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
+            sender.sendMessage("Spectators cannot select kits!");
+            return true;
         }
 
         Player p = (Player) sender;

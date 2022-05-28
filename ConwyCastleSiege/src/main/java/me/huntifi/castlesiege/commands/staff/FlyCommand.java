@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.staff;
 
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,6 +27,8 @@ public class FlyCommand implements CommandExecutor {
 		if (sender instanceof ConsoleCommandSender) {
 			sender.sendMessage("Console cannot fly!");
 			return true;
+		} else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
+			sender.sendMessage("Spectators can already fly!");
 		}
 
 		Player p = (Player) sender;

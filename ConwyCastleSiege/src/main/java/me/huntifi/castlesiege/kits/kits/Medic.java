@@ -15,10 +15,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Cake;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -37,15 +33,17 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.*;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.scoreboard.Criterias;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.*;
 
 /**
  * The medic kit
  */
-public class Medic extends Kit implements Listener, CommandExecutor {
+public class Medic extends Kit implements Listener {
 
     public static HashMap<Player, Block> cakes = new HashMap<>();
     public static ArrayList<Player> cooldown = new ArrayList<>();
@@ -113,25 +111,6 @@ public class Medic extends Kit implements Listener, CommandExecutor {
 
         super.killMessage[0] = "You examined the insides of ";
         super.deathMessage[0] = "You had your insides examined by ";
-    }
-
-    /**
-     * Register the player as using this kit and set their items
-     * @param commandSender Source of the command
-     * @param command Command which was executed
-     * @param s Alias of the command which was used
-     * @param strings Passed command arguments
-     * @return true
-     */
-    @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (commandSender instanceof ConsoleCommandSender) {
-            commandSender.sendMessage("Console cannot select kits!");
-            return true;
-        }
-
-        super.addPlayer(((Player) commandSender).getUniqueId());
-        return true;
     }
 
     /**

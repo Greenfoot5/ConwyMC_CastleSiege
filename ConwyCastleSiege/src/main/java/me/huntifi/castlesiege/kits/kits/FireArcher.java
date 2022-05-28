@@ -13,10 +13,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -25,7 +21,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.*;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -33,14 +31,13 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 /**
  * The fire archer kit
  */
-public class FireArcher extends Kit implements Listener, CommandExecutor {
+public class FireArcher extends VoterKit implements Listener {
 
     public static HashMap<Player, Block> cauldrons = new HashMap<>();
     private final ItemStack fireArrow;
@@ -124,35 +121,6 @@ public class FireArcher extends Kit implements Listener, CommandExecutor {
 
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 0));
-    }
-
-    /**
-     * Register the player as using this kit and set their items
-     * @param commandSender Source of the command
-     * @param command Command which was executed
-     * @param s Alias of the command which was used
-     * @param strings Passed command arguments
-     * @return true
-     */
-    @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (commandSender instanceof ConsoleCommandSender) {
-            commandSender.sendMessage("Console cannot select kits!");
-            return true;
-        }
-
-        Player player = (Player) commandSender;
-
-        if (ActiveData.getData(player.getUniqueId()).hasVote("kits")) {
-            super.addPlayer(player.getUniqueId());
-        } else if (Kit.equippedKits.get(player.getUniqueId()) == null) {
-            player.performCommand("swordsman");
-            player.sendMessage(ChatColor.DARK_RED + "You need to vote to use " + ChatColor.RED + name
-                    + ChatColor.DARK_RED + " again!");
-        } else {
-            player.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You need to vote to use this kit!");
-        }
-        return true;
     }
 
     /**

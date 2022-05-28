@@ -9,10 +9,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -24,7 +20,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,7 +29,7 @@ import java.util.UUID;
 /**
  * The spearman kit
  */
-public class Spearman extends Kit implements Listener, CommandExecutor {
+public class Spearman extends Kit implements Listener {
 
 	/**
 	 * Set the equipment and attributes of this kit
@@ -87,25 +82,6 @@ public class Spearman extends Kit implements Listener, CommandExecutor {
 		// Death Messages
 		super.projectileDeathMessage[0] = "You were impaled by ";
 		super.projectileKillMessage[0] = "You impaled ";
-	}
-
-	/**
-	 * Register the player as using this kit and set their items
-	 * @param commandSender Source of the command
-	 * @param command Command which was executed
-	 * @param s Alias of the command which was used
-	 * @param strings Passed command arguments
-	 * @return true
-	 */
-	@Override
-	public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-		if (commandSender instanceof ConsoleCommandSender) {
-			commandSender.sendMessage("Console cannot select kits!");
-			return true;
-		}
-
-		super.addPlayer(((Player) commandSender).getUniqueId());
-		return true;
 	}
 
 	/**
