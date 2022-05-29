@@ -3,9 +3,12 @@ package me.huntifi.castlesiege.kits.items;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.UUID;
@@ -47,18 +50,18 @@ public class EquipmentSet {
         inv.clear();
 
         if (chest != null && chest.getAmount() > 0) {
-            inv.setChestplate(chest);
+            inv.setChestplate(clearDefence(chest));
         }
 
         if (legs != null && legs.getAmount() > 0) {
-            inv.setLeggings(legs);
+            inv.setLeggings(clearDefence(legs));
         }
 
         if (feet != null && feet.getAmount() > 0) {
-            inv.setBoots(feet);
+            inv.setBoots(clearDefence(feet));
             // Voted boots
             if (ActiveData.getData(uuid).hasVote("boots") && votedFeet != null && votedFeet.getAmount() > 0) {
-                inv.setBoots(votedFeet);
+                inv.setBoots(clearDefence(votedFeet));
             }
         }
 
@@ -91,5 +94,13 @@ public class EquipmentSet {
                 inv.setItem(votedLadders.getSecond(), votedLadders.getFirst());
             }
         }
+    }
+
+    private ItemStack clearDefence(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("RemoveArmour", 0.0, AttributeModifier.Operation.ADD_SCALAR));
+        meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier("RemoveToughness", 0.0, AttributeModifier.Operation.ADD_SCALAR));
+        item.setItemMeta(meta);
+        return item;
     }
 }
