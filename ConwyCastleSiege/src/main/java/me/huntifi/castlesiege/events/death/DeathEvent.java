@@ -59,6 +59,7 @@ public class DeathEvent implements Listener {
 
         event.setRespawnLocation(team.lobby.spawnPoint);
         Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+        player.setWalkSpeed(0.2f);
         InCombat.playerDied(player.getUniqueId());
     }
 
