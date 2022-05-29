@@ -682,10 +682,10 @@ public class Main extends JavaPlugin implements Listener {
                     break;
                 case "north":
                     block.signLocation.add(0, 0, -1);
+                    break;
                 case "up":
                     block.signLocation.add(0, 1, 0);
-                default:
-                    block.signLocation.add(0, 0, 0);
+                    break;
             }
             woolMap.woolMapBlocks[i] = block;
         }
