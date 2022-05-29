@@ -38,7 +38,7 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
      * Set the equipment and attributes of this kit
      */
     public Vanguard() {
-        super("Vanguard", 115);
+        super("Vanguard", 125);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
