@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
+import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
@@ -89,6 +90,7 @@ public class Warhound extends Kit implements Listener {
         mobDisguise.setCustomDisguiseName(true);
         mobDisguise.setHearSelfDisguise(true);
         mobDisguise.setSelfDisguiseVisible(false);
+        mobDisguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
 
         mobDisguise.setEntity(p);
         mobDisguise.startDisguise();
