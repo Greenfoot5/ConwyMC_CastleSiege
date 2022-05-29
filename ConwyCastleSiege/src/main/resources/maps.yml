@@ -1341,8 +1341,8 @@ Firelands:
             sign_direction: west
     Attackers:
       name: "Burning Crusade"
-      primary_color: "dark_green"
-      secondary_color: "light_green"
+      primary_color: "light_green"
+      secondary_color: "dark_green"
       lobby:
         spawn_point:
           x: -378
