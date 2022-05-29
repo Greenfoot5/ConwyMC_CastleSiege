@@ -32,10 +32,7 @@ public class DamageBalance implements Listener {
             case DROWNING:
             case DRYOUT:
             case FALLING_BLOCK:
-            case FIRE:
-            case FIRE_TICK:
             case HOT_FLOOR:
-            case LAVA:
             case LIGHTNING:
             case MAGIC:
             case MELTING:
@@ -44,6 +41,12 @@ public class DamageBalance implements Listener {
             case THORNS:
             case WITHER:
                 e.setDamage(e.getDamage() * 5);
+                break;
+            case FIRE:
+            case FIRE_TICK:
+            case LAVA:
+                e.setDamage(e.getDamage() * 2.5);
+                break;
         }
     }
 }
