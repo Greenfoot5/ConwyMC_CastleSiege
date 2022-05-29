@@ -36,6 +36,7 @@ public abstract class Kit implements CommandExecutor {
     public String name;
     public int baseHealth;
     protected int kbResistance = 0;
+    protected double regenAmount = 3;
 
     public boolean canCap;
 
@@ -220,9 +221,13 @@ public abstract class Kit implements CommandExecutor {
         return new Tuple<>(projectileKillMessage, projectileDeathMessage);
     }
 
+    public double getRegen() {
+        return regenAmount;
+    }
+
     /**
      * Register the player as using this kit and set their items
-     * @param commandSender Source of the command
+     * @param sender Source of the command
      * @param command Command which was executed
      * @param s Alias of the command which was used
      * @param strings Passed command arguments

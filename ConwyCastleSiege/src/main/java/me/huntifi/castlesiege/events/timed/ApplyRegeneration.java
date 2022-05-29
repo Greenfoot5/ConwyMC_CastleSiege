@@ -13,8 +13,6 @@ import java.util.Objects;
  */
 public class ApplyRegeneration implements Runnable {
 
-	private final static double REGEN_AMOUNT = 3.0;
-
 	/**
 	 * Grants players health back depending on class
 	 */
@@ -35,12 +33,7 @@ public class ApplyRegeneration implements Runnable {
 						continue;
 					}
 
-					// Halberdier gets double the health regen
-					if (kit.name.equalsIgnoreCase("Halberdier")) {
-						online.setHealth(Math.min(online.getHealth() + REGEN_AMOUNT * 2, maxHealth));
-					} else {
-						online.setHealth(Math.min(online.getHealth() + REGEN_AMOUNT, maxHealth));
-					}
+					online.setHealth(Math.min(online.getHealth() + kit.getRegen(), maxHealth));
 				}
 			}
 		}

@@ -31,6 +31,7 @@ public class Halberdier extends Kit implements Listener {
     public Halberdier() {
         super("Halberdier", 160);
         super.kbResistance = 2;
+        super.regenAmount = 6;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
