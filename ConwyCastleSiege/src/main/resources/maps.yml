@@ -1228,3 +1228,210 @@ RoyalCrypts:
               y: 10
               z: 861
             sign_direction: west
+Firelands:
+  world: "Firelands"
+  name: "Firelands"
+  gamemode: "Assault"
+  duration:
+    minutes: 40
+    seconds: 0
+  teams:
+    Defenders:
+      name: "Hellfire Guards"
+      primary_color: "dark_purple"
+      secondary_color: "magenta"
+      lobby:
+        spawn_point:
+          x: -393
+          y: 107
+          z: 93
+          yaw: -89
+          pitch: -2
+        woolmap:
+          dark_portal:
+            flag_name: "Dark Portal"
+            wool_position:
+              x: -358
+              y: 113
+              z: 93
+            sign_direction: west
+          hellgate:
+            flag_name: "Hellgate"
+            wool_position:
+              x: -357
+              y: 112
+              z: 93
+            sign_direction: west
+          great_cavern:
+            flag_name: "Great Cavern"
+            wool_position:
+              x: -357
+              y: 111
+              z: 96
+            sign_direction: west
+          helltown:
+            flag_name: "Helltown"
+            wool_position:
+              x: -357
+              y: 111
+              z: 98
+            sign_direction: west
+          staircase:
+            flag_name: "Staircase"
+            wool_position:
+              x: -357
+              y: 109
+              z: 98
+            sign_direction: west
+          staircase:
+            flag_name: "Staircase"
+            wool_position:
+              x: -357
+              y: 109
+              z: 98
+            sign_direction: west
+          mines:
+            flag_name: "Mines"
+            wool_position:
+              x: -357
+              y: 105
+              z: 98
+            sign_direction: west
+          dark_tower:
+            flag_name: "Dark Tower"
+            wool_position:
+              x: -357
+              y: 106
+              z: 94
+            sign_direction: west
+          dark_fortress:
+            flag_name: "Dark Fortress"
+            wool_position:
+              x: -357
+              y: 103
+              z: 91
+            sign_direction: west
+          upper_auldern:
+            flag_name: "Upper Auldern"
+            wool_position:
+              x: -357
+              y: 104
+              z: 88
+            sign_direction: west
+          lower_auldern:
+            flag_name: "Lower Auldern"
+            wool_position:
+              x: -357
+              y: 105
+              z: 87
+            sign_direction: west
+          abbey:
+            flag_name: "The Abbey"
+            wool_position:
+              x: -357
+              y: 107
+              z: 88
+            sign_direction: west
+          dragons_cave:
+            flag_name: "Dragon's Cave"
+            wool_position:
+              x: -357
+              y: 111
+              z: 89
+            sign_direction: west
+    Attackers:
+      name: "Burning Crusade"
+      primary_color: "light_green"
+      secondary_color: "dark_green"
+      lobby:
+        spawn_point:
+          x: -378
+          y: 100
+          z: -28
+          yaw: -87
+          pitch: 1
+        woolmap:
+          dark_portal:
+            flag_name: "Dark Portal"
+            wool_position:
+              x: -359
+              y: 99
+              z: -28
+            sign_direction: west
+          hellgate:
+            flag_name: "Hellgate"
+            wool_position:
+              x: -358
+              y: 100
+              z: -28
+            sign_direction: west
+          great_cavern:
+            flag_name: "Great Cavern"
+            wool_position:
+              x: -358
+              y: 101
+              z: -31
+            sign_direction: west
+          helltown:
+            flag_name: "Helltown"
+            wool_position:
+              x: -358
+              y: 101
+              z: -33
+            sign_direction: west
+          staircase:
+            flag_name: "Staircase"
+            wool_position:
+              x: -358
+              y: 103
+              z: -33
+            sign_direction: west
+          mines:
+            flag_name: "Mines"
+            wool_position:
+              x: -358
+              y: 107
+              z: -33
+            sign_direction: west
+          dark_tower:
+            flag_name: "Dark Tower"
+            wool_position:
+              x: -358
+              y: 106
+              z: -29
+            sign_direction: west
+          dark_fortress:
+            flag_name: "Dark Fortress"
+            wool_position:
+              x: -358
+              y: 109
+              z: -26
+            sign_direction: west
+          upper_auldern:
+            flag_name: "Upper Auldern"
+            wool_position:
+              x: -358
+              y: 108
+              z: -23
+            sign_direction: west
+          lower_auldern:
+            flag_name: "Lower Auldern"
+            wool_position:
+              x: -358
+              y: 107
+              z: -22
+            sign_direction: west
+          abbey:
+            flag_name: "The Abbey"
+            wool_position:
+              x: -358
+              y: 105
+              z: -23
+            sign_direction: west
+          dragons_cave:
+            flag_name: "Dragon's Cave"
+            wool_position:
+              x: -358
+              y: 101
+              z: -24
+            sign_direction: west

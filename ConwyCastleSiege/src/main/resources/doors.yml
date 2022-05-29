@@ -485,3 +485,117 @@ SoldiersPeak:
     # The material the block is (order matches with location)
     closed_materials:
       - "ACACIA_LOG"
+
+
+Firelands:
+  FortressLeverGate:
+    trigger: "lever"
+    centre:
+      x: -237
+      y: 109
+      z: 174
+    lever_position:
+      x: -234
+      y: 111
+      z: 177
+    # The locations of each of the blocks
+    locations:
+      - x: -239
+        y: 109
+        z: 174
+      - x: -239
+        y: 110
+        z: 174
+      - x: -239
+        y: 111
+        z: 174
+      - x: -238
+        y: 109
+        z: 174
+      - x: -238
+        y: 110
+        z: 174
+      - x: -238
+        y: 111
+        z: 174
+      - x: -237
+        y: 109
+        z: 174
+      - x: -237
+        y: 110
+        z: 174
+      - x: -237
+        y: 111
+        z: 174
+      - x: -236
+        y: 109
+        z: 174
+      - x: -236
+        y: 110
+        z: 174
+      - x: -236
+        y: 111
+        z: 174
+    # The material the block is (order matches with location)
+    closed_materials:
+      - "IRON_BARS"
+  MinesLeverGate:
+    trigger: "lever"
+    centre:
+      x: -232
+      y: 110
+      z: 263
+    lever_position:
+      x: -229
+      y: 111
+      z: 261
+    # The locations of each of the blocks
+    locations:
+      - x: -230
+        y: 110
+        z: 263
+      - x: -230
+        y: 111
+        z: 263
+      - x: -230
+        y: 112
+        z: 263
+      - x: -231
+        y: 110
+        z: 263
+      - x: -231
+        y: 111
+        z: 263
+      - x: -231
+        y: 112
+        z: 263
+      - x: -232
+        y: 110
+        z: 263
+      - x: -232
+        y: 111
+        z: 263
+      - x: -232
+        y: 112
+        z: 263
+      - x: -233
+        y: 110
+        z: 263
+      - x: -233
+        y: 111
+        z: 263
+      - x: -233
+        y: 112
+        z: 263
+      - x: -234
+        y: 110
+        z: 263
+      - x: -234
+        y: 111
+        z: 263
+      - x: -234
+        y: 112
+        z: 263
+    # The material the block is (order matches with location)
+    closed_materials:
+      - "IRON_BARS"
