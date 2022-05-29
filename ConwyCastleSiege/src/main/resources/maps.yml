@@ -1283,13 +1283,6 @@ Firelands:
               y: 109
               z: 98
             sign_direction: west
-          staircase:
-            flag_name: "Staircase"
-            wool_position:
-              x: -357
-              y: 109
-              z: 98
-            sign_direction: west
           mines:
             flag_name: "Mines"
             wool_position:
