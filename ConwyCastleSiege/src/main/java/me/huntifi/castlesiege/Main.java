@@ -39,9 +39,7 @@ import me.huntifi.castlesiege.events.timed.ApplyRegeneration;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
-import me.huntifi.castlesiege.kits.gui.FreeKitGUI;
-import me.huntifi.castlesiege.kits.gui.SelectorKitGUI;
-import me.huntifi.castlesiege.kits.gui.UnlockedKitGUI;
+import me.huntifi.castlesiege.kits.gui.*;
 import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.kits.*;
 import me.huntifi.castlesiege.maps.Map;
@@ -76,6 +74,7 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument doorsConfig;
     private YamlDocument gatesConfig;
     private YamlDocument gameConfig;
+    private YamlDocument kitsConfig;
 
     @Override
     public void onEnable() {
@@ -99,6 +98,8 @@ public class Main extends JavaPlugin implements Listener {
                 loadMaps();
                 getLogger().info("Loading game configuration...");
                 loadConfig();
+                getLogger().info("Loading kit GUI configuration...");
+                loadKits();
 
                 getLogger().info("Connecting to database...");
                 // SQL Stuff
@@ -499,6 +500,38 @@ public class Main extends JavaPlugin implements Listener {
                     getClass().getResourceAsStream("config.yml"));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        // Load kits.yml with BoostedYAML
+        try {
+            kitsConfig = YamlDocument.create(new File(getDataFolder(), "kits.yml"),
+                    getClass().getResourceAsStream("kits.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Create the inventories corresponding to the GUIs in kits.yml
+     */
+    private void loadKits() {
+        String[] guiPaths = getPaths(kitsConfig, null);
+        for (String guiPath : guiPaths) {
+            Route guiRoute = Route.from(guiPath);
+            String guiName = kitsConfig.getString(guiRoute.add("name"));
+            KitGui gui = new KitGui(guiName);
+
+            String[] itemPaths = getPaths(kitsConfig, guiRoute.add("items"));
+            for (String itemPath : itemPaths) {
+                Route itemRoute = Route.from(itemPath);
+                String itemName = kitsConfig.getString(itemRoute.add("name"));
+                Material material = Material.getMaterial(kitsConfig.getString(itemRoute.add("material")));
+                List<String> lore = kitsConfig.getStringList(itemRoute.add("lore"));
+                int location = kitsConfig.getInt(itemRoute.add("location"));
+                gui.addItem(itemName, material, lore, location);
+            }
+
+            KitGuiController.guis.add(gui);
         }
     }
 
