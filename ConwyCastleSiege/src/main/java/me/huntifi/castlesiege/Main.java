@@ -160,6 +160,9 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new UnlockedKitGUI(), plugin);
                 getServer().getPluginManager().registerEvents(new SelectorKitGUI(), plugin);
 
+                //catapults
+                getServer().getPluginManager().registerEvents(new Catapults(), plugin);
+
                 // Rewrite Commands
 
                 // Chat
@@ -175,6 +178,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
                 Objects.requireNonNull(getCommand("Suicide")).setExecutor(new SuicideCommand());
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
+
 
                 // Info
                 Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
