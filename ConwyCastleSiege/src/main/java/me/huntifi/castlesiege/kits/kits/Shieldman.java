@@ -29,15 +29,14 @@ public class Shieldman extends VoterKit {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Longsword", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20)));
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
+                ChatColor.GREEN + "Longsword", null, null, 15.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.item(new ItemStack(Material.STONE_SWORD),
+                ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Longsword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22))),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 17.5),
                 0);
 
         // Shield

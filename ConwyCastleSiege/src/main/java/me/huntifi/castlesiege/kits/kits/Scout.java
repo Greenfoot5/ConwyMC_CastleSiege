@@ -29,15 +29,14 @@ public class Scout extends VoterKit {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
-                ChatColor.GREEN + "Shortsword", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18)));
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
+                ChatColor.GREEN + "Shortsword", null, null, 13.5);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.item(new ItemStack(Material.WOODEN_SWORD),
+                ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
                         ChatColor.GREEN + "Shortsword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 15.5),
                 0);
 
         // Chestplate

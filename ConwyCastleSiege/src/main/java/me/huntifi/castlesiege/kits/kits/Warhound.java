@@ -49,15 +49,14 @@ public class Warhound extends Kit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.GHAST_TEAR),
-                ChatColor.RED + "Fangs", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 8)));
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
+                ChatColor.RED + "Fangs", null, null, 9.5);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.item(new ItemStack(Material.GHAST_TEAR),
+                ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
                         ChatColor.RED + "Fangs",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 10))),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 11.5),
                 0);
 
         super.equipment = es;

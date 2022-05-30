@@ -39,15 +39,14 @@ public class Maceman extends Kit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.IRON_SHOVEL),
-                ChatColor.GREEN + "Mace", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 26)));
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SHOVEL),
+                ChatColor.GREEN + "Mace", null, null, 18);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.item(new ItemStack(Material.IRON_SHOVEL),
+                ItemCreator.weapon(new ItemStack(Material.IRON_SHOVEL),
                         ChatColor.GREEN + "Mace",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 28))),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 20),
                 0);
 
         // Chestplate

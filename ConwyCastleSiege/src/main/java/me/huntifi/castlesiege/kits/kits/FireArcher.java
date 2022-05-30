@@ -85,25 +85,24 @@ public class FireArcher extends VoterKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 16)));
 
         // Firepit
-        firepit = ItemCreator.item(new ItemStack(Material.CAULDRON),
+        firepit = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
                 ChatColor.GREEN + "Firepit", Arrays.asList("",
                         ChatColor.AQUA + "Place the firepit down, then",
                         ChatColor.AQUA + "right click it with an arrow.", "",
                         ChatColor.AQUA + "(tip): This firepit is very hard, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
-                Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 20),
-                        new Tuple<>(Enchantment.KNOCKBACK, 1)));
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 11.5);
         es.hotbar[1] = firepit;
         // Voted Firepit
-        firepitVoted = ItemCreator.item(new ItemStack(Material.CAULDRON),
+        firepitVoted = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
                 ChatColor.GREEN + "Firepit", Arrays.asList("",
                         ChatColor.AQUA + "Place the firepit down, then",
                         ChatColor.AQUA + "right click it with an arrow.", "",
                         ChatColor.AQUA + "- voted: + 2 damage.",
                         ChatColor.AQUA + "(tip): This firepit is very hard, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
-                Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 22),
-                        new Tuple<>(Enchantment.KNOCKBACK, 1)));
+                Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
+                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 13.5);
         es.votedWeapon = new Tuple<>(firepitVoted, 1);
 
         // Arrows

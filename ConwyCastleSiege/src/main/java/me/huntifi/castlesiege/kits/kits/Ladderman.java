@@ -36,15 +36,14 @@ public class Ladderman extends VoterKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.STONE_AXE),
-                ChatColor.GREEN + "Short Axe", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 12)));
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_AXE),
+                ChatColor.GREEN + "Short Axe", null, null, 15.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.item(new ItemStack(Material.STONE_AXE),
+                ItemCreator.weapon(new ItemStack(Material.STONE_AXE),
                         ChatColor.GREEN + "Short Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 14))),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 17.5),
                 0);
 
         // Chestplate

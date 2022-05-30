@@ -35,15 +35,14 @@ public class Viking extends Kit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.IRON_AXE),
-                ChatColor.GREEN + "Giant Battle Axe", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20)));
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
+                ChatColor.GREEN + "Giant Battle Axe", null, null, 19.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.item(new ItemStack(Material.IRON_AXE),
+                ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                         ChatColor.GREEN + "Giant Battle Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22))),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 21.5),
                 0);
 
         // Chestplate

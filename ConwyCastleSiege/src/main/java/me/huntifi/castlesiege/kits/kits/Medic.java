@@ -59,15 +59,14 @@ public class Medic extends Kit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Scalpel", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 12)));
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                ChatColor.GREEN + "Scalpel", null, null, 12.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.item(new ItemStack(Material.IRON_SWORD),
+                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Scalpel",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16))),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 14.5),
                 0);
 
         // Chestplate

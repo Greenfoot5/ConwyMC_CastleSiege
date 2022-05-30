@@ -26,15 +26,14 @@ public class Swordsman extends Kit {
 		super.heldItemSlot = 0;
 
 		// Weapon
-		es.hotbar[0] = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
-				ChatColor.GREEN + "Iron Sword", null,
-				Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20)));
+		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+				ChatColor.GREEN + "Iron Sword", null, null, 16.5);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				ItemCreator.item(new ItemStack(Material.IRON_SWORD),
+				ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
 						ChatColor.GREEN + "Iron Sword",
 						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22))),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 18.5),
 				0);
 
 		// Chestplate

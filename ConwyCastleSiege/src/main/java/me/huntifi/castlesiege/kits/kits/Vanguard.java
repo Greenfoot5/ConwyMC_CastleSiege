@@ -45,17 +45,17 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.DIAMOND_SWORD),
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Reinforced Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "Right-click to activate charge ability."),
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18)));
+                null, 16.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.item(new ItemStack(Material.DIAMOND_SWORD),
+                ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                         ChatColor.GREEN + "Reinforced Iron Sword",
                         Arrays.asList(ChatColor.AQUA + "Right-click to activate charge ability.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20))),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 18.5),
                 0);
 
         // Chestplate

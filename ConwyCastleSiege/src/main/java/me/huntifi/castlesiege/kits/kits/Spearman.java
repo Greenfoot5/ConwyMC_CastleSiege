@@ -42,17 +42,16 @@ public class Spearman extends Kit implements Listener {
 		super.heldItemSlot = 0;
 
 		// Weapon
-		es.hotbar[0] = ItemCreator.item(new ItemStack(Material.STICK, 5),
+		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 5),
 				ChatColor.GREEN + "Spear",
-				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."),
-				Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 48)));
+				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, 25.5);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				ItemCreator.item(new ItemStack(Material.STICK, 5),
+				ItemCreator.weapon(new ItemStack(Material.STICK, 5),
 						ChatColor.GREEN + "Spear",
 						Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
 								ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 50))),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 27.5),
 				0);
 
 		// Chestplate

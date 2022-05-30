@@ -1,11 +1,3 @@
-me\huntifi\castlesiege\commands\staff\SpectateCommand.class
-me\huntifi\castlesiege\maps\objects\PressurePlateDoor$1.class
-me\huntifi\castlesiege\maps\objects\Catapults.class
-me\huntifi\castlesiege\kits\kits\VoterKit.class
-me\huntifi\castlesiege\maps\objects\PressurePlateDoor.class
-me\huntifi\castlesiege\kits\kits\Ranger$2.class
-me\huntifi\castlesiege\maps\objects\Catapults$2.class
-me\huntifi\castlesiege\maps\objects\LeverDoor.class
-me\huntifi\castlesiege\maps\objects\Catapults$1.class
-me\huntifi\castlesiege\events\chat\Messenger.class
-me\huntifi\castlesiege\maps\objects\LeverDoor$1.class
+me/huntifi/castlesiege/maps/objects/Catapults$1.class
+me/huntifi/castlesiege/maps/objects/Catapults$2.class
+me/huntifi/castlesiege/maps/objects/Catapults.class
