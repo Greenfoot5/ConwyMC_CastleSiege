@@ -33,7 +33,7 @@ public class FallDamage implements Listener {
         if (landedOn.contains(Material.HAY_BLOCK)) {
             e.setCancelled(true);
         } else {
-            e.setDamage(e.getDamage() * 5);
+            e.setDamage(e.getDamage() * 8);
         }
     }
 

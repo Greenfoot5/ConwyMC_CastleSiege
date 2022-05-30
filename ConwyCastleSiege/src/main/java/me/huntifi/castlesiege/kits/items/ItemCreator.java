@@ -5,12 +5,14 @@ import org.bukkit.Color;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Serves as a tool to easily create items for kits
@@ -29,8 +31,8 @@ public class ItemCreator {
                                  List<Tuple<Enchantment, Integer>> enchants) {
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        //itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        //itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
         itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         itemMeta.setUnbreakable(true);
@@ -72,7 +74,10 @@ public class ItemCreator {
 
     private static ItemStack setDamage(ItemStack item, double damage) {
         ItemMeta meta = item.getItemMeta();
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier("SetDamage", damage, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
+                new AttributeModifier(UUID.randomUUID(), "SetHandDamage", damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
+                new AttributeModifier(UUID.randomUUID(), "SetOffHandDamage", damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
         item.setItemMeta(meta);
         return item;
     }

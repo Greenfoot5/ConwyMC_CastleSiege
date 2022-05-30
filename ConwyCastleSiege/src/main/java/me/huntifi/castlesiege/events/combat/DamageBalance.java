@@ -1,14 +1,9 @@
 package me.huntifi.castlesiege.events.combat;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Modifies the fall damage taken by players
@@ -40,12 +35,12 @@ public class DamageBalance implements Listener {
             case SUFFOCATION:
             case THORNS:
             case WITHER:
-                e.setDamage(e.getDamage() * 5);
+                e.setDamage(e.getDamage() * 7);
                 break;
             case FIRE:
             case FIRE_TICK:
             case LAVA:
-                e.setDamage(e.getDamage() * 2.5);
+                e.setDamage(e.getDamage() * 5);
                 break;
         }
     }
