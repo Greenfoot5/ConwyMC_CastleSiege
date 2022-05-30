@@ -135,8 +135,8 @@ public class PlayerData {
      */
     public void addKill() {
         kills += 1;
-        addScore(1);
-        addCoins(1);
+        addScore(2);
+        addCoins(2);
         addKillStreak();
     }
 
