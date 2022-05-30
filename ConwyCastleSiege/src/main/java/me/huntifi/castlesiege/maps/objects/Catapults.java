@@ -84,7 +84,7 @@ public class Catapults implements Listener {
 
                   if (event.getClickedBlock().getLocation().distanceSquared(lever) <= 1) {
 
-                        if (((Powerable) event.getClickedBlock().getBlockData()).isPowered() && canShoot == true) {
+                        if (!((Powerable) event.getClickedBlock().getBlockData()).isPowered() && canShoot == true) {
 
                               //In here do whatever must be done after activating the lever.
 
@@ -100,12 +100,12 @@ public class Catapults implements Listener {
                                           // the catapult should also be able to be refilled by engineers.
 
                                           Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
-                                          if (!leverData.isPowered())
+                                          if (leverData.isPowered())
                                                 return;
 
                                           catapultReloading(Bukkit.getWorld("Abrakhan"));
 
-                                          leverData.setPowered(true);
+                                          leverData.setPowered(false);
                                           event.getClickedBlock().setBlockData(leverData);
 
                                     }
