@@ -133,9 +133,7 @@ public class DeathEvent implements Listener {
         UUID assist = AssistKill.get(target.getUniqueId());
         if (assist != null) {
             UpdateStats.addAssist(assist);
-            if (killer == null || !killer.getUniqueId().equals(assist)) {
-                assistMessage(assist, target);
-            }
+            assistMessage(assist, target);
         }
     }
 
