@@ -47,7 +47,7 @@ public class Ranger extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Ranger() {
-        super("Ranger", 105);
+        super("Ranger", 140, 3.5);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

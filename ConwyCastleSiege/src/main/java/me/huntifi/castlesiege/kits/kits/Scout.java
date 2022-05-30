@@ -22,7 +22,7 @@ public class Scout extends VoterKit {
      * Set the equipment and attributes of this kit
      */
     public Scout() {
-        super("Scout", 100);
+        super("Scout", 130, 4);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

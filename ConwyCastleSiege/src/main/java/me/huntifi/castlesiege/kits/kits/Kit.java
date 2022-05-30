@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseAPI;
+import net.bytebuddy.implementation.bind.annotation.Default;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
@@ -36,7 +37,7 @@ public abstract class Kit implements CommandExecutor {
     public String name;
     public int baseHealth;
     protected int kbResistance = 0;
-    protected double regenAmount = 3;
+    protected double regenAmount;
 
     public boolean canCap;
 
@@ -60,9 +61,10 @@ public abstract class Kit implements CommandExecutor {
      * @param name This kit's name
      * @param baseHealth This kit's base health
      */
-    public Kit(String name, int baseHealth) {
+    public Kit(String name, int baseHealth, double regenAmount) {
         this.name = name;
         this.baseHealth = baseHealth;
+        this.regenAmount = regenAmount;
         players = new ArrayList<>();
 
         canCap = true;

@@ -28,7 +28,7 @@ public class Executioner extends Kit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Executioner() {
-		super("Executioner", 115);
+		super("Executioner", 160, 5);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();

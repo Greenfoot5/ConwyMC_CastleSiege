@@ -38,7 +38,7 @@ public class Berserker extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Berserker() {
-        super("Berserker", 110);
+        super("Berserker", 110, 3);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

@@ -16,8 +16,8 @@ public abstract class VoterKit extends Kit {
      * @param name       This kit's name
      * @param baseHealth This kit's base health
      */
-    public VoterKit(String name, int baseHealth) {
-        super(name, baseHealth);
+    public VoterKit(String name, int baseHealth, double regenAmount) {
+        super(name, baseHealth, regenAmount);
     }
 
     /**

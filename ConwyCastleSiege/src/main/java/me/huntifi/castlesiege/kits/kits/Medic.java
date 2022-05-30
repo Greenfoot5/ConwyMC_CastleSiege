@@ -52,7 +52,7 @@ public class Medic extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Medic() {
-        super("Medic", 100);
+        super("Medic", 130, 6);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -61,7 +61,7 @@ public class Medic extends Kit implements Listener {
         // Weapon
         es.hotbar[0] = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Scalpel", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 14)));
+                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 12)));
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.item(new ItemStack(Material.IRON_SWORD),

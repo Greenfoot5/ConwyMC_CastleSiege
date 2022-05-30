@@ -28,7 +28,7 @@ public class Crossbowman extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Crossbowman() {
-        super("Crossbowman", 105);
+        super("Crossbowman", 165, 4.5);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
