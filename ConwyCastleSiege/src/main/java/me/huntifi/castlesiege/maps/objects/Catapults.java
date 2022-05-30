@@ -100,8 +100,6 @@ public class Catapults implements Listener {
                                           // the catapult should also be able to be refilled by engineers.
 
                                           Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
-                                          if (leverData.isPowered())
-                                                return;
 
                                           catapultReloading(Bukkit.getWorld("Abrakhan"));
 
