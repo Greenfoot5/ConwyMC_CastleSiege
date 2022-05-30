@@ -107,7 +107,6 @@ public class Executioner extends Kit implements Listener {
 					Material wool = MapController.getCurrentMap().getTeam(whoWasHit.getUniqueId()).primaryWool;
 					whoWasHit.getWorld().dropItem(loc, new ItemStack(wool)).setPickupDelay(32767);
 
-					AssistKill.addDamager(whoWasHit.getUniqueId(), whoHit.getUniqueId(), whoWasHit.getHealth());
 					DeathEvent.setKiller(whoWasHit, whoHit);
 					whoWasHit.setHealth(0);
 				}

@@ -117,6 +117,7 @@ public class DeathEvent implements Listener {
         killerMap.remove(target);
         if (killer != null) {
             UpdateStats.addKill(killer.getUniqueId());
+            AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
 
             // Kill and death messages
             Kit kit = Kit.equippedKits.get(killer.getUniqueId());

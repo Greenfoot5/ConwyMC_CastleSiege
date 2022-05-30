@@ -49,6 +49,15 @@ public class AssistKill implements Listener {
     }
 
     /**
+     * Remove damage done by attacker to target's entry
+     * @param target The player that was attacked
+     * @param attacker The attacker
+     */
+    public static void removeDamager(UUID target, UUID attacker) {
+        damageMap.get(target).remove(attacker);
+    }
+
+    /**
      * Get the player that dealt the most damage to the specified player
      * Stop tracking the specified player
      * @param uuid The unique ID of the killed player
