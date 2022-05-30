@@ -49,9 +49,9 @@ public class Catapults implements Listener {
       //The cooldown of the catapult default should be 40 seconds,
       // at 20 seconds the catapult comes back down but at 0 seconds it is refilled.
       //Unless an engineer fills it up first then the cooldown is put to 0 seconds.
-      private final int catapultTimer = 40;
+      private final int catapultTimer = 800;
 
-      private final int catapultComeDownTimer = 20;
+      private final int catapultComeDownTimer = 400;
 
       private Direction direction;
 
@@ -84,7 +84,7 @@ public class Catapults implements Listener {
 
                   if (event.getClickedBlock().getLocation().distanceSquared(lever) <= 1) {
 
-                        if (((Powerable) event.getClickedBlock().getBlockData()).isPowered() && canShoot == true) {
+                        if (!((Powerable) event.getClickedBlock().getBlockData()).isPowered() && canShoot == true) {
 
                               //In here do whatever must be done after activating the lever.
 
@@ -100,12 +100,10 @@ public class Catapults implements Listener {
                                           // the catapult should also be able to be refilled by engineers.
 
                                           Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
-                                          if (!leverData.isPowered())
-                                                return;
 
                                           catapultReloading(Bukkit.getWorld("Abrakhan"));
 
-                                          leverData.setPowered(true);
+                                          leverData.setPowered(false);
                                           event.getClickedBlock().setBlockData(leverData);
 
                                     }
@@ -128,7 +126,7 @@ public class Catapults implements Listener {
 
                               player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                               TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "This catapult is still reloading."));
-
+                              event.setCancelled(true);
                         }
 
                   }
