@@ -2,6 +2,8 @@ package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import org.bukkit.Color;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -43,6 +45,12 @@ public class ItemCreator {
         return item;
     }
 
+    public static ItemStack weapon(ItemStack item, String name, List<String> lore,
+                                   List<Tuple<Enchantment, Integer>> enchants, double damage) {
+        return setDamage(item(item, name, lore, enchants), damage);
+
+    }
+
     /**
      * Create a specified piece of leather armor
      * @param item The item to apply all flags and parameters to
@@ -60,5 +68,12 @@ public class ItemCreator {
         itemMeta.setColor(color);
         leatherItem.setItemMeta(itemMeta);
         return leatherItem;
+    }
+
+    private static ItemStack setDamage(ItemStack item, double damage) {
+        ItemMeta meta = item.getItemMeta();
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier("SetDamage", damage, AttributeModifier.Operation.ADD_NUMBER));
+        item.setItemMeta(meta);
+        return item;
     }
 }

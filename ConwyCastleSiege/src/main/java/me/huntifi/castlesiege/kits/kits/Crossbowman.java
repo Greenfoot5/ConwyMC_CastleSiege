@@ -35,8 +35,12 @@ public class Crossbowman extends Kit implements Listener {
         super.heldItemSlot = 0;
 
         // Crossbow
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.CROSSBOW),
-                ChatColor.GREEN + "Crossbow", null, null);
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.CROSSBOW),
+                ChatColor.GREEN + "Crossbow", null, null, 1);
+        es.votedWeapon = new Tuple<>(ItemCreator.weapon(new ItemStack(Material.CROSSBOW),
+                ChatColor.GREEN + "Crossbow",
+                Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 3), 0);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),

@@ -45,15 +45,14 @@ public class Berserker extends Kit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        regularSword = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 20)));
+        regularSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                ChatColor.GREEN + "Iron Sword", null, null, 16.5);
         es.hotbar[0] = regularSword;
         // Voted Weapon
-        regularSwordVoted = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
+        regularSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 22)));
+                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 18.5);
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
         // Ladders

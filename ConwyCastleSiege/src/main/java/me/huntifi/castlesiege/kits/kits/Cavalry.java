@@ -44,15 +44,14 @@ public class Cavalry extends Kit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Sabre", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 16)));
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                ChatColor.GREEN + "Sabre", null, null, 14.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.item(new ItemStack(Material.IRON_SWORD),
+                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Sabre",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_ALL, 18))),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 16.5),
                 0);
 
         // Chestplate
