@@ -1,0 +1,30 @@
+selector:
+  name: "&2Kit Selector"
+  items:
+    free:
+      name: "&eFree Kits"
+      material: "IRON_BLOCK"
+      lore:
+        - "&5Play as one of the free kits!"
+        - "&5Certain kits will require voting first."
+      location: 10
+    unlocked:
+      name: "&eUnlocked Kits"
+      material: "GOLD_BLOCK"
+      lore:
+        - "&5Play as one of the unlocked kits!"
+        - "&5These kits can be unlocked in the shop."
+      location: 13
+    team:
+      name: "&eTeam Kits"
+      material: "EMERALD_BLOCK"
+      lore:
+        - "&5Play as one of the team-specific kits!"
+        - "&5These kits depend on the team you are in."
+      location: 16
+    shop:
+      name: "&eShop"
+      material: "SUNFLOWER"
+      lore:
+        - "&5Unlock kits here!"
+      location: 40
