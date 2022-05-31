@@ -108,6 +108,8 @@ public class Catapult implements Listener {
 
       private double forwardValueSouthZ = 25;
 
+      FallingBlock projectile;
+
       @EventHandler
       public void onSwitch(PlayerInteractEvent event) {
 
@@ -313,16 +315,7 @@ public class Catapult implements Listener {
 
             Byte blockData = 0x0;
 
-            Snowball projectile = (Snowball) world.spawnEntity(projectileLoc, EntityType.SNOWBALL);
-
-            MiscDisguise cobbleDisguise = new MiscDisguise(DisguiseType.FALLING_BLOCK);
-            FallingBlockWatcher watcher = (FallingBlockWatcher) cobbleDisguise.getWatcher();
-            ItemStack cobble = new ItemStack(Material.COBBLESTONE);
-            watcher.setNoGravity(false);
-            watcher.setYawLocked(true);
-            watcher.setBlock(cobble);
-            cobbleDisguise.setEntity(projectile);
-            cobbleDisguise.startDisguise();
+            projectile = (FallingBlock) world.spawnFallingBlock(projectileLoc, Material.COBBLESTONE, blockData);
 
             switch (facing) {
 
@@ -337,7 +330,7 @@ public class Catapult implements Listener {
                         Vector v = new Vector(vecX, vecY, vecZ);
 
                         projectile.setVelocity(v);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4.7));
 
                         break;
 
@@ -352,7 +345,7 @@ public class Catapult implements Listener {
                         Vector v2 = new Vector(vecX2, vecY2, vecZ2);
 
                         projectile.setVelocity(v2);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4.7));
 
 
                         break;
@@ -368,7 +361,7 @@ public class Catapult implements Listener {
                         Vector v3 = new Vector(vecX3, vecY3, vecZ3);
 
                         projectile.setVelocity(v3);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4.7));
                         break;
 
                   case "south":
@@ -382,7 +375,7 @@ public class Catapult implements Listener {
                         Vector v4 = new Vector(vecX4, vecY4, vecZ4);
 
                         projectile.setVelocity(v4);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4.7));
 
                         break;
 
@@ -394,21 +387,22 @@ public class Catapult implements Listener {
       }
 
       @EventHandler
-      public void onImpact(ProjectileHitEvent event) {
+      public void onImpact(EntityChangeBlockEvent event) {
 
-            if (event.getEntity() instanceof Snowball) {
+            if (event.getEntity() instanceof FallingBlock) {
 
-                  Snowball ball = (Snowball) event.getEntity();
+                  FallingBlock ball = (FallingBlock) event.getEntity();
 
                   if (world == null) {
-                    return;
-                  }
-
-                  if (ball.getShooter() instanceof Player) {
                         return;
                   }
 
-                  event.getHitBlock().getWorld().createExplosion(event.getHitBlock().getLocation(), 5F, false, true);
+                  if (ball != projectile) {
+                        return;
+                  }
+
+                  event.getBlock().getWorld().createExplosion(event.getBlock().getLocation(), 4F, false, true);
+                  event.setCancelled(true);
             }
 
 
