@@ -73,7 +73,7 @@ public class Main extends JavaPlugin implements Listener {
 
     private YamlDocument[] mapConfigs;
     private YamlDocument flagsConfig;
-    private YamlDocument doorsConfig;
+    private YamlDocument[] doorsConfig;
     private YamlDocument gatesConfig;
     private YamlDocument gameConfig;
 
@@ -377,8 +377,13 @@ public class Main extends JavaPlugin implements Listener {
         return this.flagsConfig;
     }
 
-    public YamlDocument getDoorsConfig() {
-        return this.doorsConfig;
+    public YamlDocument getDoorsConfig(Route mapPath) {
+        for (YamlDocument document : doorsConfig) {
+            if (document.contains(mapPath)) {
+                return document;
+            }
+        }
+        return null;
     }
 
     public YamlDocument getGatesConfig() {
@@ -459,13 +464,7 @@ public class Main extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
-        // Load doors.yml with BoostedYAML
-        try {
-            doorsConfig = YamlDocument.create(new File(getDataFolder(), "doors.yml"),
-                    getClass().getResourceAsStream("doors.yml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        doorsConfig = loadYMLs("doors");
 
         // Load gates.yml with BoostedYAML
         try {
@@ -475,23 +474,7 @@ public class Main extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
-        // Add all config ymls from the maps folder
-        File directoryPath = new File(String.valueOf(getDataFolder()), "maps");
-        // List of all files and directories
-        String[] contents = directoryPath.list();
-        assert contents != null;
-        mapConfigs = new YamlDocument[contents.length];
-        for (int i = 0; i < contents.length; i++) {
-            if (contents[i].endsWith(".yml")) {
-                // Load the yml with BoostedYAML
-                try {
-                    mapConfigs[i] = YamlDocument.create(new File(directoryPath.getPath(), contents[i]),
-                            getClass().getResourceAsStream(contents[i]));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        mapConfigs = loadYMLs("maps");
 
         // Load config.yml with BoostedYAML
         try {
@@ -500,6 +483,28 @@ public class Main extends JavaPlugin implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private YamlDocument[] loadYMLs(String folderName) {
+        // Add all config ymls from the doors folder
+        File directoryPath = new File(String.valueOf(getDataFolder()), folderName);
+        // List of all files and directories
+        String[] contents = directoryPath.list();
+        assert contents != null;
+        List<YamlDocument> configs = new ArrayList<>();
+        for (String content : contents) {
+            if (content.endsWith(".yml")) {
+                // Load the yml with BoostedYAML
+                try {
+                    configs.add(YamlDocument.create(new File(directoryPath.getPath(), content),
+                            getClass().getResourceAsStream(content)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return configs.toArray(new YamlDocument[configs.size()]);
     }
 
     /**
@@ -698,26 +703,27 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private void loadDoors(Route mapRoute, Map map) {
-        if (!getDoorsConfig().contains(mapRoute)) {
+        YamlDocument doorConfig = getDoorsConfig(mapRoute);
+        if (doorConfig == null) {
             map.doors = new Door[0];
             return;
         }
-        String[] doorPaths = getPaths(getDoorsConfig(), mapRoute);
+        String[] doorPaths = getPaths(doorConfig, mapRoute);
 
         map.doors = new Door[doorPaths.length];
         for (int i = 0; i < doorPaths.length; i++) {
             // Create the flag
             Route doorRoute = mapRoute.add(doorPaths[i]);
-            String flagName = getDoorsConfig().getString(doorRoute.add("flag"), map.name);
+            String flagName = doorConfig.getString(doorRoute.add("flag"), map.name);
             // Get the location at the centre of the object
-            Location centre = getLocation(doorRoute.add("centre"), map.worldName, getDoorsConfig());
+            Location centre = getLocation(doorRoute.add("centre"), map.worldName, doorConfig);
             // Fancy shit that makes the Tuple array of locations and materials
             Route locationRoute = doorRoute.add("locations");
             Route openMaterialRoute = doorRoute.add("open_materials");
             Route closeMaterialRoute = doorRoute.add("closed_materials");
-            ArrayList<LinkedHashMap> doorVectors = (ArrayList<LinkedHashMap>) getDoorsConfig().get(locationRoute);
-            ArrayList<String> openDoorMaterials = (ArrayList<String>) getDoorsConfig().getStringList(openMaterialRoute, null);
-            ArrayList<String> closeDoorMaterials = (ArrayList<String>) getDoorsConfig().getStringList(closeMaterialRoute, null);
+            ArrayList<LinkedHashMap> doorVectors = (ArrayList<LinkedHashMap>) doorConfig.get(locationRoute);
+            ArrayList<String> openDoorMaterials = (ArrayList<String>) doorConfig.getStringList(openMaterialRoute, null);
+            ArrayList<String> closeDoorMaterials = (ArrayList<String>) doorConfig.getStringList(closeMaterialRoute, null);
             Tuple<Vector, Tuple<Material, Material>>[] doorBlocks = new Tuple[doorVectors.size()];
             for (int j = 0; j < doorVectors.size(); j++) {
                 try {
@@ -745,13 +751,13 @@ public class Main extends JavaPlugin implements Listener {
             // Split up the variations for lever and pressure plate doors
             Tuple<Sound, Sound> sounds;
             Door door;
-            switch (getDoorsConfig().getString(doorRoute.add("trigger"), "plate").toLowerCase()) {
+            switch (doorConfig.getString(doorRoute.add("trigger"), "plate").toLowerCase()) {
                 case "switch":
                 case "lever":
-                    sounds = new Tuple<>(Sound.valueOf(getDoorsConfig().getString(doorRoute.add("closed_sound"), "ENTITY_ZOMBIE_ATTACK_IRON_DOOR")),
-                            Sound.valueOf(getDoorsConfig().getString(doorRoute.add("open_sound"), "ENTITY_ZOMBIE_ATTACK_IRON_DOOR")));
-                    Location leverPos = getLocation(doorRoute.add("lever_position"), map.worldName, getDoorsConfig());
-                    int timer = (int) (getDoorsConfig().getFloat(doorRoute.add("timer"), 10f) * 20);
+                    sounds = new Tuple<>(Sound.valueOf(doorConfig.getString(doorRoute.add("closed_sound"), "ENTITY_ZOMBIE_ATTACK_IRON_DOOR")),
+                            Sound.valueOf(doorConfig.getString(doorRoute.add("open_sound"), "ENTITY_ZOMBIE_ATTACK_IRON_DOOR")));
+                    Location leverPos = getLocation(doorRoute.add("lever_position"), map.worldName, doorConfig);
+                    int timer = (int) (doorConfig.getFloat(doorRoute.add("timer"), 10f) * 20);
                     door = new LeverDoor(flagName, centre, doorBlocks, sounds, timer, leverPos);
                     break;
                 case "pressureplate":
@@ -759,9 +765,9 @@ public class Main extends JavaPlugin implements Listener {
                 case "plate":
                 case "pressure":
                 default:
-                    sounds = new Tuple<>(Sound.valueOf(getDoorsConfig().getString(doorRoute.add("closed_sound"), "BLOCK_WOODEN_DOOR_OPEN")),
-                            Sound.valueOf(getDoorsConfig().getString(doorRoute.add("open_sound"), "BLOCK_WOODEN_DOOR_OPEN")));
-                    timer = (int) (getDoorsConfig().getFloat(doorRoute.add("timer"), 2f) * 20);
+                    sounds = new Tuple<>(Sound.valueOf(doorConfig.getString(doorRoute.add("closed_sound"), "BLOCK_WOODEN_DOOR_OPEN")),
+                            Sound.valueOf(doorConfig.getString(doorRoute.add("open_sound"), "BLOCK_WOODEN_DOOR_OPEN")));
+                    timer = (int) (doorConfig.getFloat(doorRoute.add("timer"), 2f) * 20);
                     door = new PressurePlateDoor(flagName, centre, doorBlocks, sounds, timer);
                     break;
             }
