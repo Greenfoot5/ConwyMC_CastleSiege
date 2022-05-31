@@ -32,7 +32,7 @@ public class KitGuiController {
      * @return The input string, with its first two characters removed if they specify a color
      */
     private static String trimColor(String string) {
-        if (string.length() >= 2 && string.startsWith("&")) {
+        if (string.length() >= 2 && string.startsWith("§")) {
             return string.substring(2);
         }
         return string;
