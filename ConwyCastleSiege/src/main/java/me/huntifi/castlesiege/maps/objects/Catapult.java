@@ -11,11 +11,14 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.Powerable;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -46,6 +49,9 @@ public class Catapult implements Listener {
       //Should basically be the middle of the catapult at the top.
       private Location catapultSoundLocation = new Location(Bukkit.getWorld("Abrakhan"), 75, 19, 56);
 
+      //Should basically be the middle of the catapult at the top but at least 1 block higher or further than the sound loc.
+      private Location catapultProjectileLocation = new Location(Bukkit.getWorld("Abrakhan"), 75, 20, 56);
+
       //Is the catapult ready to be refilled by an engineer?
       private boolean canBeRefilled;
 
@@ -73,6 +79,8 @@ public class Catapult implements Listener {
       //If you wonder what this is it is the location of where the refill happens.
       private Location cobblestone_refill;
 
+      private String catapultFacing = "north";
+
       @EventHandler
       public void onSwitch(PlayerInteractEvent event) {
 
@@ -92,6 +100,8 @@ public class Catapult implements Listener {
                               //In here do whatever must be done after activating the lever.
 
                               catapultShot(Bukkit.getWorld("Abrakhan"));
+
+                              shootCatapultProjectile(catapultProjectileLocation, "north", Bukkit.getWorld("Abrakhan"));
 
                               canShoot = false;
 
@@ -254,6 +264,84 @@ public class Catapult implements Listener {
                   }
             } else {
                   return;
+            }
+
+      }
+
+
+     //This is the projectile that needs to be shot and the direction.
+      public void shootCatapultProjectile(Location projectileLoc, String facing, World world) {
+
+            if (world == null) {
+                  return;
+            }
+
+      projectileLoc = catapultProjectileLocation;
+
+            Snowball projectile = world.spawn(projectileLoc, Snowball.class);
+
+            switch (facing) {
+
+                  case "north":
+
+                        double vecX = left_right;
+
+                        double vecY = up_down;
+
+                        double vecZ = projectileLoc.getZ();
+
+                        Vector v = new Vector(vecX, vecY, vecZ).normalize();
+
+                        projectile.setVelocity(v);
+
+                        break;
+
+                  case "east":
+
+                        double vecX2 = projectileLoc.getZ();
+
+                        double vecY2 = up_down;
+
+                        double vecZ2 = left_right;
+
+                        Vector v2 = new Vector(vecX2, vecY2, vecZ2).normalize();
+
+                        projectile.setVelocity(v2);
+
+
+                        break;
+
+                  case "west":
+
+                        double vecZ3 = left_right;
+
+                        double vecX3 = projectileLoc.getZ();
+
+                        double vecY3 = up_down;
+
+                        Vector v3 = new Vector(vecX3, vecY3, vecZ3).normalize();
+
+                        projectile.setVelocity(v3);
+
+                        break;
+
+                  case "south":
+
+                        double vecY4 = up_down;
+
+                        double vecX4 = left_right;
+
+                        double vecZ4 = projectileLoc.getZ();
+
+                        Vector v4 = new Vector(vecX4, vecY4, vecZ4).normalize();
+
+                        projectile.setVelocity(v4);
+
+                        break;
+
+
+                  default:
+                        break;
             }
 
       }
