@@ -161,7 +161,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new SelectorKitGUI(), plugin);
 
                 //catapults
-                getServer().getPluginManager().registerEvents(new Catapults(), plugin);
+                getServer().getPluginManager().registerEvents(new Catapult(), plugin);
 
                 // Rewrite Commands
 

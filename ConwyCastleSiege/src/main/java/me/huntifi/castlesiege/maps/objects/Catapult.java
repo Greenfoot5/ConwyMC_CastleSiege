@@ -8,10 +8,13 @@ import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -19,7 +22,7 @@ import org.bukkit.util.Vector;
 import java.util.Objects;
 
 
-public class Catapults implements Listener {
+public class Catapult implements Listener {
 
       private final String name = "";
 
@@ -168,6 +171,89 @@ public class Catapults implements Listener {
                   SchematicSpawner.spawnSchematic(schematicLocation, catapultSchem, world.getName());
             } catch (WorldEditException e) {
                   e.printStackTrace();
+            }
+
+      }
+
+      @EventHandler
+      public void onClickAimVertical(PlayerInteractEvent event) {
+
+            Block target = event.getClickedBlock();
+
+            if (target != null && target.getState() instanceof Sign) {
+
+                  Sign sign = (Sign) event.getClickedBlock().getState();
+
+                  if (sign.getLine(0).equalsIgnoreCase("Aim up/down")) {
+
+                        up_down = Double.parseDouble(sign.getLine(2));
+
+                        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+
+                              if (up_down >= 10) {
+
+                                    up_down = Double.parseDouble(sign.getLine(2)) - 1;
+                                    sign.setLine(2, up_down + "");
+                                    sign.update();
+
+                              }
+                        }
+
+                        if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
+
+                              if (up_down <= 90) {
+
+                                    up_down = Double.parseDouble(sign.getLine(2)) + 1;
+                                    sign.setLine(2, up_down + "");
+                                    sign.update();
+
+                              }
+                        }
+
+                  }
+            } else {
+                 return;
+            }
+      }
+
+      @EventHandler
+      public void onClickAimHorizontal(PlayerInteractEvent event) {
+
+            Block target = event.getClickedBlock();
+
+            if (target != null && target.getState() instanceof Sign) {
+
+                  Sign sign = (Sign) event.getClickedBlock().getState();
+
+                  if (sign.getLine(0).equalsIgnoreCase("Aim left/right")) {
+
+                        left_right = Double.parseDouble(sign.getLine(2));
+
+                        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+
+                              if (left_right < 45) {
+
+                                    left_right = Double.parseDouble(sign.getLine(2)) + 0.5;
+                                    sign.setLine(2, left_right + "");
+                                    sign.update();
+
+                              }
+                        }
+
+                        if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
+
+                              if (left_right > -45) {
+
+                                    left_right = Double.parseDouble(sign.getLine(2)) - 0.5;
+                                    sign.setLine(2, left_right + "");
+                                    sign.update();
+
+                              }
+                        }
+
+                  }
+            } else {
+                  return;
             }
 
       }
