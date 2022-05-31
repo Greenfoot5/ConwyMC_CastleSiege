@@ -5,6 +5,12 @@ import com.sk89q.worldedit.util.Direction;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
+import me.libraryaddict.disguise.LibsDisguises;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
+import me.libraryaddict.disguise.disguisetypes.MiscDisguise;
+import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import me.libraryaddict.disguise.disguisetypes.watchers.FallingBlockWatcher;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -22,6 +28,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -91,8 +98,6 @@ public class Catapult implements Listener {
       private String catapultFacing = "north";
 
       //Basically the projectile
-
-      private FallingBlock projectile;
 
       //serves as a third value for the shooting vectors, this makes sure it shoots straight and not backwards.
       private double forwardValueNorthZ = -25;
@@ -216,7 +221,7 @@ public class Catapult implements Listener {
 
             Player p = event.getPlayer();
 
-            if (target != null && target.getState() instanceof Sign && p.getLocation().distance(up_down_sign) <= 3) {
+            if (target != null && target.getState() instanceof Sign && p.getLocation().distance(up_down_sign) <= 4) {
 
                   Sign sign = (Sign) event.getClickedBlock().getState();
 
@@ -226,7 +231,7 @@ public class Catapult implements Listener {
 
                         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
-                              if (up_down >= 10) {
+                              if (up_down >= 5) {
 
                                     up_down = Double.parseDouble(sign.getLine(2)) - 1;
                                     sign.setLine(2, up_down + "");
@@ -259,7 +264,7 @@ public class Catapult implements Listener {
 
             Player p = event.getPlayer();
 
-            if (target != null && target.getState() instanceof Sign && p.getLocation().distance(left_right_sign) <= 3) {
+            if (target != null && target.getState() instanceof Sign && p.getLocation().distance(left_right_sign) <= 4) {
 
                         Sign sign = (Sign) event.getClickedBlock().getState();
 
@@ -308,8 +313,16 @@ public class Catapult implements Listener {
 
             Byte blockData = 0x0;
 
-            projectile = world.spawnFallingBlock(projectileLoc, Material.COBBLESTONE, blockData);
+            Snowball projectile = (Snowball) world.spawnEntity(projectileLoc, EntityType.SNOWBALL);
 
+            MiscDisguise cobbleDisguise = new MiscDisguise(DisguiseType.FALLING_BLOCK);
+            FallingBlockWatcher watcher = (FallingBlockWatcher) cobbleDisguise.getWatcher();
+            ItemStack cobble = new ItemStack(Material.COBBLESTONE);
+            watcher.setNoGravity(false);
+            watcher.setYawLocked(true);
+            watcher.setBlock(cobble);
+            cobbleDisguise.setEntity(projectile);
+            cobbleDisguise.startDisguise();
 
             switch (facing) {
 
@@ -324,7 +337,7 @@ public class Catapult implements Listener {
                         Vector v = new Vector(vecX, vecY, vecZ);
 
                         projectile.setVelocity(v);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
 
                         break;
 
@@ -339,7 +352,7 @@ public class Catapult implements Listener {
                         Vector v2 = new Vector(vecX2, vecY2, vecZ2);
 
                         projectile.setVelocity(v2);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
 
 
                         break;
@@ -355,7 +368,7 @@ public class Catapult implements Listener {
                         Vector v3 = new Vector(vecX3, vecY3, vecZ3);
 
                         projectile.setVelocity(v3);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
                         break;
 
                   case "south":
@@ -369,7 +382,7 @@ public class Catapult implements Listener {
                         Vector v4 = new Vector(vecX4, vecY4, vecZ4);
 
                         projectile.setVelocity(v4);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
 
                         break;
 
@@ -381,22 +394,21 @@ public class Catapult implements Listener {
       }
 
       @EventHandler
-      public void onImpact(EntityChangeBlockEvent event) {
+      public void onImpact(ProjectileHitEvent event) {
 
-            if (event.getEntity() instanceof FallingBlock) {
+            if (event.getEntity() instanceof Snowball) {
 
-                  FallingBlock block = (FallingBlock) event.getEntity();
+                  Snowball ball = (Snowball) event.getEntity();
 
                   if (world == null) {
                     return;
                   }
 
-                  if (block != projectile) {
+                  if (ball.getShooter() instanceof Player) {
                         return;
                   }
 
-                  event.getBlock().getWorld().createExplosion(event.getBlock().getLocation(), 5F, false, true);
-                  event.setCancelled(true);
+                  event.getHitBlock().getWorld().createExplosion(event.getHitBlock().getLocation(), 5F, false, true);
             }
 
 
