@@ -10,14 +10,19 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.material.MaterialData;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -27,9 +32,13 @@ import java.util.Objects;
 
 public class Catapult implements Listener {
 
+
+
       private final String name = "";
 
       private String mapName;
+
+      private World world = Bukkit.getWorld("Abrakhan");
 
       //In this case the name of the schematic should always be catapult_normal, other two are catapult_reloading and catapultShotSchem.
       private String catapultSchem = "catapult_normal";
@@ -50,7 +59,7 @@ public class Catapult implements Listener {
       private Location catapultSoundLocation = new Location(Bukkit.getWorld("Abrakhan"), 75, 19, 56);
 
       //Should basically be the middle of the catapult at the top but at least 1 block higher or further than the sound loc.
-      private Location catapultProjectileLocation = new Location(Bukkit.getWorld("Abrakhan"), 75, 20, 56);
+      private Location catapultProjectileLocation = new Location(Bukkit.getWorld("Abrakhan"), 75, 20, 54);
 
       //Is the catapult ready to be refilled by an engineer?
       private boolean canBeRefilled;
@@ -80,6 +89,10 @@ public class Catapult implements Listener {
       private Location cobblestone_refill;
 
       private String catapultFacing = "north";
+
+      //Basically the projectile
+
+      private FallingBlock projectile;
 
       @EventHandler
       public void onSwitch(PlayerInteractEvent event) {
@@ -115,6 +128,8 @@ public class Catapult implements Listener {
                                           Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
 
                                           catapultReloading(Bukkit.getWorld("Abrakhan"));
+
+                                          if (leverData == null) { return; }
 
                                           leverData.setPowered(false);
                                           event.getClickedBlock().setBlockData(leverData);
@@ -278,7 +293,10 @@ public class Catapult implements Listener {
 
       projectileLoc = catapultProjectileLocation;
 
-            Snowball projectile = world.spawn(projectileLoc, Snowball.class);
+            Byte blockData = 0x0;
+
+            projectile = world.spawnFallingBlock(projectileLoc, Material.COBBLESTONE, blockData);
+
 
             switch (facing) {
 
@@ -286,12 +304,13 @@ public class Catapult implements Listener {
 
                         double vecX = left_right;
 
-                        double vecY = up_down;
-
                         double vecZ = projectileLoc.getZ();
 
-                        Vector v = new Vector(vecX, vecY, vecZ).normalize();
+                        double vecY = up_down;
 
+                        Vector v = new Vector(vecX, vecY, vecZ);
+
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
                         projectile.setVelocity(v);
 
                         break;
@@ -304,8 +323,9 @@ public class Catapult implements Listener {
 
                         double vecZ2 = left_right;
 
-                        Vector v2 = new Vector(vecX2, vecY2, vecZ2).normalize();
+                        Vector v2 = new Vector(vecX2, vecY2, vecZ2);
 
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
                         projectile.setVelocity(v2);
 
 
@@ -315,14 +335,14 @@ public class Catapult implements Listener {
 
                         double vecZ3 = left_right;
 
-                        double vecX3 = projectileLoc.getZ();
+                        double vecX3 = projectileLoc.getX();
 
                         double vecY3 = up_down;
 
-                        Vector v3 = new Vector(vecX3, vecY3, vecZ3).normalize();
+                        Vector v3 = new Vector(vecX3, vecY3, vecZ3);
 
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
                         projectile.setVelocity(v3);
-
                         break;
 
                   case "south":
@@ -333,8 +353,9 @@ public class Catapult implements Listener {
 
                         double vecZ4 = projectileLoc.getZ();
 
-                        Vector v4 = new Vector(vecX4, vecY4, vecZ4).normalize();
+                        Vector v4 = new Vector(vecX4, vecY4, vecZ4);
 
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
                         projectile.setVelocity(v4);
 
                         break;
@@ -343,6 +364,28 @@ public class Catapult implements Listener {
                   default:
                         break;
             }
+
+      }
+
+      @EventHandler
+      public void onImpact(EntityChangeBlockEvent event) {
+
+            if (event.getEntity() instanceof FallingBlock) {
+
+                  FallingBlock block = (FallingBlock) event.getEntity();
+
+                  if (world == null) {
+                    return;
+                  }
+
+                  if (block != projectile) {
+                        return;
+                  }
+
+                  event.getBlock().getWorld().createExplosion(event.getBlock().getLocation(), 6F, false, true);
+
+            }
+
 
       }
 
