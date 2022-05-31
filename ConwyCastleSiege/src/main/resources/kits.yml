@@ -1,66 +1,66 @@
 selector:
-  name: "&2Kit Selector"
+  name: "§2Kit Selector"
   items:
     free:
-      name: "&eFree Kits"
+      name: "§eFree Kits"
       material: "IRON_BLOCK"
       lore:
-        - "&5Play as one of the free kits!"
-        - "&5Certain kits will require voting first."
+        - "Play as one of the free kits!"
+        - "Certain kits will require voting first."
       location: 10
     unlocked:
-      name: "&eUnlocked Kits"
+      name: "§eUnlocked Kits"
       material: "GOLD_BLOCK"
       lore:
-        - "&5Play as one of the unlocked kits!"
-        - "&5These kits can be unlocked in the shop."
+        - "Play as one of the unlocked kits!"
+        - "These kits can be unlocked in the shop."
       location: 13
     team:
-      name: "&eTeam Kits"
+      name: "§eTeam Kits"
       material: "EMERALD_BLOCK"
       lore:
-        - "&5Play as one of the team-specific kits!"
-        - "&5These kits depend on the team you are in."
+        - "Play as one of the team-specific kits!"
+        - "These kits depend on the team you are in."
       location: 16
     shop:
-      name: "&eShop"
+      name: "§eShop"
       material: "SUNFLOWER"
       lore:
-        - "&5Unlock kits here!"
+        - "§5Unlock kits here!"
       location: 40
 free:
-  name: "&2Free Kits"
+  name: "§2Free Kits"
   items:
     archer:
-      name: "&a&lCLASS:&r&a Archer"
+      name: "§a§lCLASS:§r§a Archer"
       material: "BOW"
       lore:
-        - "&6------------------------------"
-        - "&2[Desc]:&a The standard ranged kit."
-        - "&2[Armor]:&a Leather armor."
-        - "&2[Weapon]:&a Wooden sword, bow and 32 arrows."
-        - "&2[Status]:&a Free to play!"
-        - "&6------------------------------"
+        - "§6------------------------------"
+        - "§2[Desc]:§a The standard ranged kit."
+        - "§2[Armor]:§a Leather armor."
+        - "§2[Weapon]:§a Wooden sword, bow and 32 arrows."
+        - "§2[Status]:§a Free to play!"
+        - "§6------------------------------"
       location: 10
     spearman:
-      name: "&a&lCLASS:&r&a Spearman"
+      name: "§a§lCLASS:§r§a Spearman"
       material: "STICK"
       lore:
-        - "&6------------------------------"
-        - "&2[Desc]:&a A kit that can throw spears."
-        - "&2[Armor]:&a Chainmail armor."
-        - "&2[Weapon]:&a 5 spears."
-        - "&2[Status]:&a Free to play!"
-        - "&6------------------------------"
+        - "§6------------------------------"
+        - "§2[Desc]:§a A kit that can throw spears."
+        - "§2[Armor]:§a Chainmail armor."
+        - "§2[Weapon]:§a 5 spears."
+        - "§2[Status]:§a Free to play!"
+        - "§6------------------------------"
       location: 13
     swordsman:
-      name: "&a&lCLASS:&r&a Swordsman"
+      name: "§a§lCLASS:§r§a Swordsman"
       material: "IRON_SWORD"
       lore:
-        - "&6------------------------------"
-        - "&2[Desc]:&a The standard melee kit."
-        - "&2[Armor]:&a Iron armor."
-        - "&2[Weapon]:&a Iron sword."
-        - "&2[Status]:&a Free to play!"
-        - "&6------------------------------"
+        - "§6------------------------------"
+        - "§2[Desc]:§a The standard melee kit."
+        - "§2[Armor]:§a Iron armor."
+        - "§2[Weapon]:§a Iron sword."
+        - "§2[Status]:§a Free to play!"
+        - "§6------------------------------"
       location: 16
