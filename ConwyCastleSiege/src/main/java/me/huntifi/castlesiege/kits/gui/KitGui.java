@@ -4,17 +4,26 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A GUI used to select and buy kits
  */
-public class KitGui {
+public class KitGui implements Listener {
 
-    private final Inventory gui;
+    private Inventory gui;
+
+    /**
+     * Empty constructor used for listener
+     */
+    public KitGui() {}
 
     /**
      * Create an inventory
@@ -41,5 +50,30 @@ public class KitGui {
      */
     public void open(Player p) {
         p.openInventory(gui);
+    }
+
+    /**
+     * Open the GUI corresponding to the clicked item
+     * @param e A click event while in the GUI
+     */
+    @EventHandler
+    public void onClick(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+        if (!Objects.equals(e.getClickedInventory(), gui)) {
+            return;
+        }
+
+        // Make sure an actual item was clicked
+        ItemStack clicked = e.getCurrentItem();
+        if (clicked == null || clicked.getItemMeta() == null || !clicked.getItemMeta().hasDisplayName()) {
+            return;
+        }
+
+        // Call the GUI specific click handler
+        String itemName = clicked.getItemMeta().getDisplayName();
+        KitGui clickedGui = KitGuiController.get(itemName);
+        if (clickedGui != null) {
+            clickedGui.open(p);
+        }
     }
 }

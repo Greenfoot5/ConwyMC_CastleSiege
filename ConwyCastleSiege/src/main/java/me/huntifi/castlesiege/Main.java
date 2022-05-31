@@ -158,6 +158,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
                 // Kit GUIs
                 getServer().getPluginManager().registerEvents(new FreeKitGUI(), plugin);
+                getServer().getPluginManager().registerEvents(new KitGui(), plugin);
                 getServer().getPluginManager().registerEvents(new UnlockedKitGUI(), plugin);
                 getServer().getPluginManager().registerEvents(new SelectorKitGUI(), plugin);
 
