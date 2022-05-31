@@ -524,7 +524,7 @@ public class Main extends JavaPlugin implements Listener {
 
             String[] itemPaths = getPaths(kitsConfig, guiRoute.add("items"));
             for (String itemPath : itemPaths) {
-                Route itemRoute = Route.from(itemPath);
+                Route itemRoute = guiRoute.add("items").add(itemPath);
                 String itemName = kitsConfig.getString(itemRoute.add("name"));
                 Material material = Material.getMaterial(kitsConfig.getString(itemRoute.add("material")));
                 List<String> lore = kitsConfig.getStringList(itemRoute.add("lore"));
