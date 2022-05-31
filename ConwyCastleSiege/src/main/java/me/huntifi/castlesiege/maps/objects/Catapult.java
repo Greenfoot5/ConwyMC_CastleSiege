@@ -94,8 +94,14 @@ public class Catapult implements Listener {
 
       private FallingBlock projectile;
 
-      //serves as a third value for the shooting vectors
-      private double forwardValue = -20;
+      //serves as a third value for the shooting vectors, this makes sure it shoots straight and not backwards.
+      private double forwardValueNorthZ = -25;
+
+      private double forwardValueEastX = 25;
+
+      private double forwardValueWestX = -25;
+
+      private double forwardValueSouthZ = 25;
 
       @EventHandler
       public void onSwitch(PlayerInteractEvent event) {
@@ -208,7 +214,9 @@ public class Catapult implements Listener {
 
             Block target = event.getClickedBlock();
 
-            if (target != null && target.getState() instanceof Sign) {
+            Player p = event.getPlayer();
+
+            if (target != null && target.getState() instanceof Sign && target.getLocation() == up_down_sign) {
 
                   Sign sign = (Sign) event.getClickedBlock().getState();
 
@@ -249,40 +257,42 @@ public class Catapult implements Listener {
 
             Block target = event.getClickedBlock();
 
-            if (target != null && target.getState() instanceof Sign) {
+            Player p = event.getPlayer();
 
-                  Sign sign = (Sign) event.getClickedBlock().getState();
+            if (target != null && target.getState() instanceof Sign && target.getLocation() == left_right_sign) {
 
-                  if (sign.getLine(0).equalsIgnoreCase("Aim left/right")) {
+                        Sign sign = (Sign) event.getClickedBlock().getState();
 
-                        left_right = Double.parseDouble(sign.getLine(2));
+                        if (sign.getLine(0).equalsIgnoreCase("Aim left/right")) {
 
-                        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                              left_right = Double.parseDouble(sign.getLine(2));
 
-                              if (left_right < 45) {
+                              if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
-                                    left_right = Double.parseDouble(sign.getLine(2)) + 0.5;
-                                    sign.setLine(2, left_right + "");
-                                    sign.update();
+                                    if (left_right < 45) {
 
+                                          left_right = Double.parseDouble(sign.getLine(2)) + 0.5;
+                                          sign.setLine(2, left_right + "");
+                                          sign.update();
+
+                                    }
                               }
-                        }
 
-                        if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                              if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
-                              if (left_right > -45) {
+                                    if (left_right > -45) {
 
-                                    left_right = Double.parseDouble(sign.getLine(2)) - 0.5;
-                                    sign.setLine(2, left_right + "");
-                                    sign.update();
+                                          left_right = Double.parseDouble(sign.getLine(2)) - 0.5;
+                                          sign.setLine(2, left_right + "");
+                                          sign.update();
 
+                                    }
                               }
-                        }
 
+                        }
+                  } else {
+                        return;
                   }
-            } else {
-                  return;
-            }
 
       }
 
@@ -307,14 +317,14 @@ public class Catapult implements Listener {
 
                         double vecX = left_right;
 
-                        double vecZ = forwardValue;
+                        double vecZ = forwardValueNorthZ;
 
                         double vecY = up_down;
 
                         Vector v = new Vector(vecX, vecY, vecZ);
 
                         projectile.setVelocity(v);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4));
 
                         break;
 
@@ -329,7 +339,7 @@ public class Catapult implements Listener {
                         Vector v2 = new Vector(vecX2, vecY2, vecZ2);
 
                         projectile.setVelocity(v2);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4));
 
 
                         break;
@@ -345,7 +355,7 @@ public class Catapult implements Listener {
                         Vector v3 = new Vector(vecX3, vecY3, vecZ3);
 
                         projectile.setVelocity(v3);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4));
                         break;
 
                   case "south":
@@ -354,12 +364,12 @@ public class Catapult implements Listener {
 
                         double vecX4 = left_right;
 
-                        double vecZ4 = projectileLoc.getZ();
+                        double vecZ4 = forwardValueSouthZ;
 
                         Vector v4 = new Vector(vecX4, vecY4, vecZ4);
 
                         projectile.setVelocity(v4);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4));
 
                         break;
 
