@@ -94,6 +94,9 @@ public class Catapult implements Listener {
 
       private FallingBlock projectile;
 
+      //serves as a third value for the shooting vectors
+      private double forwardValue = -20;
+
       @EventHandler
       public void onSwitch(PlayerInteractEvent event) {
 
@@ -304,14 +307,14 @@ public class Catapult implements Listener {
 
                         double vecX = left_right;
 
-                        double vecZ = projectileLoc.getZ();
+                        double vecZ = forwardValue;
 
                         double vecY = up_down;
 
                         Vector v = new Vector(vecX, vecY, vecZ);
 
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
                         projectile.setVelocity(v);
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
 
                         break;
 
@@ -325,8 +328,8 @@ public class Catapult implements Listener {
 
                         Vector v2 = new Vector(vecX2, vecY2, vecZ2);
 
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
                         projectile.setVelocity(v2);
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
 
 
                         break;
@@ -341,8 +344,8 @@ public class Catapult implements Listener {
 
                         Vector v3 = new Vector(vecX3, vecY3, vecZ3);
 
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
                         projectile.setVelocity(v3);
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
                         break;
 
                   case "south":
@@ -355,8 +358,8 @@ public class Catapult implements Listener {
 
                         Vector v4 = new Vector(vecX4, vecY4, vecZ4);
 
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
                         projectile.setVelocity(v4);
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3));
 
                         break;
 
@@ -382,8 +385,8 @@ public class Catapult implements Listener {
                         return;
                   }
 
-                  event.getBlock().getWorld().createExplosion(event.getBlock().getLocation(), 6F, false, true);
-
+                  event.getBlock().getWorld().createExplosion(event.getBlock().getLocation(), 5F, false, true);
+                  event.setCancelled(true);
             }
 
 
