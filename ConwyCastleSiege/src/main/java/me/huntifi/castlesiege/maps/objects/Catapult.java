@@ -216,7 +216,7 @@ public class Catapult implements Listener {
 
             Player p = event.getPlayer();
 
-            if (target != null && target.getState() instanceof Sign && target.getLocation() == up_down_sign) {
+            if (target != null && target.getState() instanceof Sign && p.getLocation().distance(up_down_sign) <= 3) {
 
                   Sign sign = (Sign) event.getClickedBlock().getState();
 
@@ -259,7 +259,7 @@ public class Catapult implements Listener {
 
             Player p = event.getPlayer();
 
-            if (target != null && target.getState() instanceof Sign && target.getLocation() == left_right_sign) {
+            if (target != null && target.getState() instanceof Sign && p.getLocation().distance(left_right_sign) <= 3) {
 
                         Sign sign = (Sign) event.getClickedBlock().getState();
 
