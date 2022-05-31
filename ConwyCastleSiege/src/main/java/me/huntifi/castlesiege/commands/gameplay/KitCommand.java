@@ -1,8 +1,6 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
-import me.huntifi.castlesiege.kits.gui.FreeKitGUI;
-import me.huntifi.castlesiege.kits.gui.UnlockedKitGUI;
-import me.huntifi.castlesiege.kits.gui.SelectorKitGUI;
+import me.huntifi.castlesiege.kits.gui.*;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -64,11 +62,8 @@ public class KitCommand implements CommandExecutor {
 
         if (args.length == 0) {
             // No arguments passed -> open kit selector GUI
-            Inventory gui = selGUI.get(team);
-            if (gui == null) {
-                gui = new SelectorKitGUI().setTeam(null);
-            }
-            p.openInventory(gui);
+            KitGui gui = KitGuiController.get("Kit Selector");
+            gui.open(p);
             return true;
         } else if (args.length == 1) {
             // One argument passed -> open sub-GUI

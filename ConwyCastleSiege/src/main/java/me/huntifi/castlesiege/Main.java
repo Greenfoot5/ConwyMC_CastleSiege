@@ -531,7 +531,7 @@ public class Main extends JavaPlugin implements Listener {
                 gui.addItem(itemName, material, lore, location);
             }
 
-            KitGuiController.guis.add(gui);
+            KitGuiController.add(guiName, gui);
         }
     }
 
