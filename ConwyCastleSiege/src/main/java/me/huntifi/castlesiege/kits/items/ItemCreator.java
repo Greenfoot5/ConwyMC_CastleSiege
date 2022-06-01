@@ -31,8 +31,8 @@ public class ItemCreator {
                                  List<Tuple<Enchantment, Integer>> enchants) {
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
-        //itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        //itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
         itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         itemMeta.setUnbreakable(true);
