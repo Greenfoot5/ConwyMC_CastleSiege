@@ -75,10 +75,12 @@ public class Catapult implements Listener {
       private Vector cobblestone_refill;
       private String catapultFacing;
       //serves as a third value for the shooting vectors, this makes sure it shoots straight and not backwards.
-      private double forwardValueNorthZ = -30.0;
-      private double forwardValueEastX = 30.0;
-      private double forwardValueWestX = -30.0;
-      private double forwardValueSouthZ = 30.0;
+      private double forwardValueNorthZ = -34.0;
+      private double forwardValueEastX = 34.0;
+      private double forwardValueWestX = -34.0;
+      private double forwardValueSouthZ = 34.0;
+
+      private FallingBlock projectilePassenger;
 
 
       /**
@@ -415,7 +417,7 @@ public class Catapult implements Listener {
 
                               if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
-                                    if (left_right < 45) {
+                                    if (left_right < 55) {
 
                                           left_right = Double.parseDouble(sign.getLine(2)) + 0.5;
                                           sign.setLine(2, left_right + "");
@@ -426,7 +428,7 @@ public class Catapult implements Listener {
 
                               if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
-                                    if (left_right > -45) {
+                                    if (left_right > -55) {
 
                                           left_right = Double.parseDouble(sign.getLine(2)) - 0.5;
                                           sign.setLine(2, left_right + "");
@@ -463,7 +465,7 @@ public class Catapult implements Listener {
 
            projectile.setGravity(true);
 
-           FallingBlock projectilePassenger = (FallingBlock) world.spawnFallingBlock(projectileLoc, Material.COBBLESTONE, blockData);
+           projectilePassenger = (FallingBlock) world.spawnFallingBlock(projectileLoc, Material.COBBLESTONE, blockData);
 
            projectilePassenger.setDropItem(false);
 
@@ -482,7 +484,7 @@ public class Catapult implements Listener {
                         Vector v = new Vector(vecX, vecY, vecZ);
 
                         projectile.setVelocity(v);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.0));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
 
                         break;
 
@@ -497,7 +499,7 @@ public class Catapult implements Listener {
                         Vector v2 = new Vector(vecX2, vecY2, vecZ2);
 
                         projectile.setVelocity(v2);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.0));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
 
 
                         break;
@@ -513,7 +515,7 @@ public class Catapult implements Listener {
                         Vector v3 = new Vector(vecX3, vecY3, vecZ3);
 
                         projectile.setVelocity(v3);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.0));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
                         break;
 
                   case "south":
@@ -527,7 +529,7 @@ public class Catapult implements Listener {
                         Vector v4 = new Vector(vecX4, vecY4, vecZ4);
 
                         projectile.setVelocity(v4);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.0));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
 
                         break;
 
@@ -573,6 +575,9 @@ public class Catapult implements Listener {
       @EventHandler
       public void onImpact(EntityChangeBlockEvent event) {
             if (event.getEntity() instanceof FallingBlock) {
+                  if (event.getEntity() != projectilePassenger) {
+                        return;
+                  }
               event.setCancelled(true);
             }
       }
@@ -587,15 +592,15 @@ public class Catapult implements Listener {
 
         for (Block b : event.blockList()) {
 
-              float x = (float) -3 + (float) (Math.random() *((3-3) + 1));
-              float y = (float) -3 + (float) (Math.random() *((3-3) + 1));
-              float z = (float) -3 + (float) (Math.random() *((3-3) + 1));
+              float x = (float) -5 + (float) (Math.random() *((5-5) + 1));
+              float y = (float) -5 + (float) (Math.random() *((5-5) + 1));
+              float z = (float) -5 + (float) (Math.random() *((5-5) + 1));
 
               FallingBlock fallingblock = b.getWorld().spawnFallingBlock(b.getLocation(), b.getType(), b.getData());
               fallingblock.setDropItem(false);
               fallingblock.setVelocity(new Vector(x,y,z));
-              b.setType(Material.AIR);
 
+              b.setType(Material.AIR);
         }
 
 
