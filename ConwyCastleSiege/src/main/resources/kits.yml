@@ -37,8 +37,10 @@ free:
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a The standard ranged kit."
-        - "§2[Armor]:§a Leather armor."
-        - "§2[Weapon]:§a Wooden sword, bow and 32 arrows."
+        - "§2[Health]:§a 130"
+        - "§2[Melee Damage]:§a 17.5"
+        - "§2[Ranged Damage]:§a TBD"
+        - "§2[Regen]:§a 4"
         - "§2[Status]:§a Free to play!"
         - "§6------------------------------"
       location: 10
@@ -48,8 +50,10 @@ free:
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A kit that can throw spears."
-        - "§2[Armor]:§a Chainmail armor."
-        - "§2[Weapon]:§a 5 spears."
+        - "§2[Health]:§a 190"
+        - "§2[Melee Damage]:§a 30.5"
+        - "§2[Ranged Damage]:§a TBD"
+        - "§2[Regen]:§a 5"
         - "§2[Status]:§a Free to play!"
         - "§6------------------------------"
       location: 13
@@ -59,8 +63,9 @@ free:
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a The standard melee kit."
-        - "§2[Armor]:§a Iron armor."
-        - "§2[Weapon]:§a Iron sword."
+        - "§2[Health]:§a 200"
+        - "§2[Melee Damage]:§a 21.5"
+        - "§2[Regen]:§a 5.5"
         - "§2[Status]:§a Free to play!"
         - "§6------------------------------"
       location: 16
