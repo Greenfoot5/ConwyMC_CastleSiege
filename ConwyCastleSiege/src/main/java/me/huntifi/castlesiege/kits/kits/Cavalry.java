@@ -147,11 +147,9 @@ public class Cavalry extends Kit implements Listener {
      */
     @EventHandler
     public void onDismount(EntityDismountEvent e) {
-
-        if (!(e.getDismounted() instanceof Horse)) {
-        return;
-        }
+        if (e.getEntity() instanceof Player) {
             removeHorse((Player) e.getEntity(), e.getDismounted());
+        }
     }
 
     /**
