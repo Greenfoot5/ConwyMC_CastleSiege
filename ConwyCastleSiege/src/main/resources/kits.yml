@@ -12,7 +12,7 @@ selector:
       name: "§eUnlocked Kits"
       material: "GOLD_BLOCK"
       lore:
-        - "Play as one of the unlocked kits!"
+        - "Play as one of your unlocked kits!"
         - "These kits can be unlocked in the shop."
       location: 13
     team:

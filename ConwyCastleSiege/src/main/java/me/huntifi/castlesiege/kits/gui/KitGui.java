@@ -18,12 +18,7 @@ import java.util.Objects;
  */
 public class KitGui implements Listener {
 
-    private Inventory gui;
-
-    /**
-     * Empty constructor used for listener
-     */
-    public KitGui() {}
+    private final Inventory gui;
 
     /**
      * Create an inventory

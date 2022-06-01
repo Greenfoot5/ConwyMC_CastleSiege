@@ -158,7 +158,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
                 // Kit GUIs
                 getServer().getPluginManager().registerEvents(new FreeKitGUI(), plugin);
-                getServer().getPluginManager().registerEvents(new KitGui(), plugin);
                 getServer().getPluginManager().registerEvents(new UnlockedKitGUI(), plugin);
                 getServer().getPluginManager().registerEvents(new SelectorKitGUI(), plugin);
 
@@ -521,6 +520,7 @@ public class Main extends JavaPlugin implements Listener {
             Route guiRoute = Route.from(guiPath);
             String guiName = kitsConfig.getString(guiRoute.add("name"));
             KitGui gui = new KitGui(guiName);
+            getServer().getPluginManager().registerEvents(gui, plugin);
 
             String[] itemPaths = getPaths(kitsConfig, guiRoute.add("items"));
             for (String itemPath : itemPaths) {
