@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
@@ -240,6 +241,11 @@ public class MapController implements CommandExecutor {
 		// Register doors
 		for (Door door : maps.get(mapIndex).doors) {
 			Main.plugin.getServer().getPluginManager().registerEvents(door, Main.plugin);
+		}
+
+		// Register gates
+		for (Catapult catapult : maps.get(mapIndex).catapults) {
+			Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
 		}
 
 		// Register gates

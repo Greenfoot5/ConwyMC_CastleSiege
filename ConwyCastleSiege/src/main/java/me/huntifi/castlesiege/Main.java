@@ -77,6 +77,8 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument gatesConfig;
     private YamlDocument gameConfig;
 
+    private YamlDocument catapultsConfig;
+
     @Override
     public void onEnable() {
 
@@ -159,9 +161,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new FreeKitGUI(), plugin);
                 getServer().getPluginManager().registerEvents(new UnlockedKitGUI(), plugin);
                 getServer().getPluginManager().registerEvents(new SelectorKitGUI(), plugin);
-
-                //catapults
-                getServer().getPluginManager().registerEvents(new Catapult(), plugin);
 
                 // Rewrite Commands
 
@@ -377,6 +376,8 @@ public class Main extends JavaPlugin implements Listener {
         return this.flagsConfig;
     }
 
+    public YamlDocument getCatapultsConfig() { return this.catapultsConfig; }
+
     public YamlDocument getDoorsConfig(Route mapPath) {
         for (YamlDocument document : doorsConfig) {
             if (document.contains(mapPath)) {
@@ -474,6 +475,14 @@ public class Main extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
+        // Load catapults.yml with BoostedYAML
+        try {
+            catapultsConfig = YamlDocument.create(new File(getDataFolder(), "catapults.yml"),
+                    getClass().getResourceAsStream("catapults.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         mapConfigs = loadYMLs("maps");
 
         // Load config.yml with BoostedYAML
@@ -559,6 +568,8 @@ public class Main extends JavaPlugin implements Listener {
                 loadDoors(mapRoute, map);
                 // Gates
                 loadGates(mapRoute, map);
+                // Catapults
+                loadCatapults(mapRoute, map);
 
                 // Team Data
                 String[] teamPaths = getPaths(config, Route.from(mapPath).add("teams"));
@@ -775,6 +786,8 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
+
+
     private void loadGates(Route mapRoute, Map map) {
         if (!getGatesConfig().contains(mapRoute)) {
             map.gates = new Gate[0];
@@ -798,6 +811,36 @@ public class Main extends JavaPlugin implements Listener {
 
             map.gates[i] = gate;
         }
+    }
+
+    private void loadCatapults(Route mapRoute, Map map) {
+
+        YamlDocument doorConfig = getDoorsConfig(mapRoute);
+        if (!getCatapultsConfig().contains(mapRoute)) {
+            map.catapults = new Catapult[0];
+            return;
+        }
+
+        String[] catapultPaths = getPaths(getCatapultsConfig(), mapRoute);
+
+        map.catapults = new Catapult[catapultPaths.length];
+
+        for (int i = 0; i < catapultPaths.length; i++) {
+
+            Route catapultRoute = mapRoute.add(catapultPaths[i]);
+            Catapult catapult = new Catapult(getCatapultsConfig().getString(catapultRoute.add("display_name")));
+            catapult.setWorldName(getCatapultsConfig().getString(catapultRoute.add("world")));
+            catapult.setCatapultFacing(getCatapultsConfig().getString(catapultRoute.add("direction")));
+            catapult.setSchematicLocation(getCatapultsConfig().getAs(catapultRoute.add("schematic_location"), Vector.class));
+            catapult.setLeverLocation(getCatapultsConfig().getAs(catapultRoute.add("lever_location"), Vector.class));
+            catapult.setUpDownLocation(getCatapultsConfig().getAs(catapultRoute.add("upDown_sign_location"), Vector.class));
+            catapult.setRightLeftLocation(getCatapultsConfig().getAs(catapultRoute.add("rightLeft_sign_location"), Vector.class));
+            catapult.setSoundLocation(getCatapultsConfig().getAs(catapultRoute.add("sound_location"), Vector.class));
+            catapult.setProjectileLocation(getCatapultsConfig().getAs(catapultRoute.add("projectile_location"), Vector.class));
+
+            map.catapults[i] = catapult;
+        }
+
     }
 
     private String[] getPaths(YamlDocument file, Route route) {

@@ -1,0 +1,74 @@
+Abrakhan:
+  LeftCatapult:
+    display_name: "Left Catapult"
+    #direction determines where the catapult will aim at.
+    world: "Abrakhan"
+    direction: "north"
+    #the schematic location should be at the same location as the right/left sign.
+    schematic_location:
+      ==: org.bukkit.util.Vector
+      x: 73
+      y: 14
+      z: 59
+    lever_location:
+      ==: org.bukkit.util.Vector
+      x: 73
+      y: 15
+      z: 58
+    upDown_sign_location:
+      ==: org.bukkit.util.Vector
+      x: 73
+      y: 14
+      z: 60
+    rightLeft_sign_location:
+      ==: org.bukkit.util.Vector
+      x: 73
+      y: 14
+      z: 59
+    sound_location:
+      ==: org.bukkit.util.Vector
+      x: 75
+      y: 20
+      z: 55
+    projectile_location:
+      ==: org.bukkit.util.Vector
+      x: 75
+      y: 20
+      z: 55
+  RightCatapult:
+    display_name: "Right Catapult"
+    #direction determines where the catapult will aim at.
+    world: "Abrakhan"
+    direction: "north"
+    schematic_location:
+      ==: org.bukkit.util.Vector
+      x: 100
+      y: 14
+      z: 61
+    lever_location:
+      ==: org.bukkit.util.Vector
+      x: 100
+      y: 15
+      z: 60
+    upDown_sign_location:
+      ==: org.bukkit.util.Vector
+      x: 100
+      y: 14
+      z: 62
+    rightLeft_sign_location:
+      ==: org.bukkit.util.Vector
+      x: 100
+      y: 14
+      z: 61
+    sound_location:
+      ==: org.bukkit.util.Vector
+      x: 102
+      y: 20
+      z: 57
+    projectile_location:
+      ==: org.bukkit.util.Vector
+      x: 102
+      y: 20
+      z: 57
+
+

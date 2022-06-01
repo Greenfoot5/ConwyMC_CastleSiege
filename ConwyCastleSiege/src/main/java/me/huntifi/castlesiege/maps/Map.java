@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
@@ -22,6 +23,8 @@ public class Map {
     public Flag[] flags;
     public Door[] doors;
     public Gate[] gates;
+
+    public Catapult[] catapults;
     public Gamemode gamemode;
     public Tuple<Integer, Integer> duration = new Tuple<>(20, 0);
 
@@ -30,6 +33,7 @@ public class Map {
         flags = new Flag[0];
         doors = new Door[0];
         gates = new Gate[0];
+        catapults = new Catapult[0];
     }
 
     /**
