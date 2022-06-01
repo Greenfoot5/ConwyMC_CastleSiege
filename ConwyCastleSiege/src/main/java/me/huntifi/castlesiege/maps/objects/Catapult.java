@@ -26,6 +26,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -100,15 +101,13 @@ public class Catapult implements Listener {
       //Basically the projectile
 
       //serves as a third value for the shooting vectors, this makes sure it shoots straight and not backwards.
-      private double forwardValueNorthZ = -25;
+      private double forwardValueNorthZ = -30;
 
-      private double forwardValueEastX = 25;
+      private double forwardValueEastX = 30;
 
-      private double forwardValueWestX = -25;
+      private double forwardValueWestX = -30;
 
-      private double forwardValueSouthZ = 25;
-
-      FallingBlock projectile;
+      private double forwardValueSouthZ = 30;
 
       @EventHandler
       public void onSwitch(PlayerInteractEvent event) {
@@ -315,7 +314,13 @@ public class Catapult implements Listener {
 
             Byte blockData = 0x0;
 
-            projectile = (FallingBlock) world.spawnFallingBlock(projectileLoc, Material.COBBLESTONE, blockData);
+           Snowball projectile = (Snowball) world.spawn(catapultProjectileLocation, Snowball.class);
+
+           projectile.setGravity(true);
+
+           FallingBlock projectilePassenger = (FallingBlock) world.spawnFallingBlock(projectileLoc, Material.COBBLESTONE, blockData);
+
+           projectile.addPassenger(projectilePassenger);
 
             switch (facing) {
 
@@ -387,23 +392,55 @@ public class Catapult implements Listener {
       }
 
       @EventHandler
-      public void onImpact(EntityChangeBlockEvent event) {
+      public void onImpact(ProjectileHitEvent event) {
 
-            if (event.getEntity() instanceof FallingBlock) {
+            if (event.getEntity() instanceof Snowball) {
 
-                  FallingBlock ball = (FallingBlock) event.getEntity();
+                  Snowball ball = (Snowball) event.getEntity();
 
                   if (world == null) {
                         return;
                   }
 
-                  if (ball != projectile) {
+                  if (ball.getShooter() instanceof Player) {
                         return;
                   }
 
-                  event.getBlock().getWorld().createExplosion(event.getBlock().getLocation(), 4F, false, true);
-                  event.setCancelled(true);
+                  if (ball.getPassengers() == null) {
+                        return;
+                  } else {
+                        ball.getPassengers().remove(0);
+                  }
+
+                  event.getHitBlock().getWorld().createExplosion(event.getHitBlock().getLocation(), 3F, false, true);
+
             }
+
+
+      }
+
+      @EventHandler
+      public void onImpact(EntityChangeBlockEvent event) {
+            if (event.getEntity() instanceof FallingBlock) {
+              event.setCancelled(true);
+            }
+      }
+
+      @EventHandler
+      public void onEntityExplode(EntityExplodeEvent event) {
+
+        for (Block b : event.blockList()) {
+
+              float x = (float) -3 + (float) (Math.random() *((5-3) + 1));
+              float y = (float) -3 + (float) (Math.random() *((5-3) + 1));
+              float z = (float) -3 + (float) (Math.random() *((5-3) + 1));
+
+              FallingBlock fallingblock = b.getWorld().spawnFallingBlock(b.getLocation(), b.getType(), b.getData());
+              fallingblock.setDropItem(false);
+              fallingblock.setVelocity(new Vector(x,y,z));
+              b.setType(Material.AIR);
+
+        }
 
 
       }
