@@ -814,8 +814,7 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private void loadCatapults(Route mapRoute, Map map) {
-
-        YamlDocument doorConfig = getDoorsConfig(mapRoute);
+        
         if (!getCatapultsConfig().contains(mapRoute)) {
             map.catapults = new Catapult[0];
             return;

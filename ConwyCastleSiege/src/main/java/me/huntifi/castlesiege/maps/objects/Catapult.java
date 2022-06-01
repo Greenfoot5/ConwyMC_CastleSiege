@@ -34,13 +34,13 @@ public class Catapult implements Listener {
       private String worldName;
 
       //In this case the name of the schematic should always be catapult_normal, other two are catapult_reloading and catapultShotSchem.
-      private String catapultSchem = "catapult_normal";
+      private String catapultSchem;
 
       //when it comes back down, so without cobblestone yet.
-      private String catapultReloadingSchem = "catapult_reloading";
+      private String catapultReloadingSchem;
 
       //After it shot
-      private String catapultShotSchem = "catapultShotSchem";
+      private String catapultShotSchem;
 
       //Is the catapult ready?
       private boolean canShoot = true;
@@ -63,7 +63,7 @@ public class Catapult implements Listener {
       private final int catapultTimer = 800;
 
       private final int catapultComeDownTimer = 400;
-      private Direction direction;
+
       //the value for aim up / down, which is 20.0 by default.
       private double up_down = 20.0;
       //the value for aim left/right
@@ -75,10 +75,10 @@ public class Catapult implements Listener {
       private Vector cobblestone_refill;
       private String catapultFacing;
       //serves as a third value for the shooting vectors, this makes sure it shoots straight and not backwards.
-      private double forwardValueNorthZ = -30;
-      private double forwardValueEastX = 30;
-      private double forwardValueWestX = -30;
-      private double forwardValueSouthZ = 30;
+      private double forwardValueNorthZ = -30.0;
+      private double forwardValueEastX = 30.0;
+      private double forwardValueWestX = -30.0;
+      private double forwardValueSouthZ = 30.0;
 
 
       /**
@@ -231,7 +231,7 @@ public class Catapult implements Listener {
 
                               catapultShot(Bukkit.getWorld(MapController.getCurrentMap().worldName));
 
-                              shootCatapultProjectile(catapultProjectileLocation.toLocation(Bukkit.getWorld(worldName)), "north", Bukkit.getWorld(MapController.getCurrentMap().worldName));
+                              shootCatapultProjectile(catapultProjectileLocation.toLocation(Bukkit.getWorld(worldName)), catapultFacing, Bukkit.getWorld(MapController.getCurrentMap().worldName));
 
                               canShoot = false;
 
@@ -482,7 +482,7 @@ public class Catapult implements Listener {
                         Vector v = new Vector(vecX, vecY, vecZ);
 
                         projectile.setVelocity(v);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4.7));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.0));
 
                         break;
 
@@ -497,7 +497,7 @@ public class Catapult implements Listener {
                         Vector v2 = new Vector(vecX2, vecY2, vecZ2);
 
                         projectile.setVelocity(v2);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4.7));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.0));
 
 
                         break;
@@ -513,7 +513,7 @@ public class Catapult implements Listener {
                         Vector v3 = new Vector(vecX3, vecY3, vecZ3);
 
                         projectile.setVelocity(v3);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4.7));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.0));
                         break;
 
                   case "south":
@@ -527,7 +527,7 @@ public class Catapult implements Listener {
                         Vector v4 = new Vector(vecX4, vecY4, vecZ4);
 
                         projectile.setVelocity(v4);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(4.7));
+                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.0));
 
                         break;
 
@@ -587,9 +587,9 @@ public class Catapult implements Listener {
 
         for (Block b : event.blockList()) {
 
-              float x = (float) -3 + (float) (Math.random() *((5-3) + 1));
-              float y = (float) -4 + (float) (Math.random() *((5-5) + 1));
-              float z = (float) -3 + (float) (Math.random() *((5-3) + 1));
+              float x = (float) -3 + (float) (Math.random() *((3-3) + 1));
+              float y = (float) -3 + (float) (Math.random() *((3-3) + 1));
+              float z = (float) -3 + (float) (Math.random() *((3-3) + 1));
 
               FallingBlock fallingblock = b.getWorld().spawnFallingBlock(b.getLocation(), b.getType(), b.getData());
               fallingblock.setDropItem(false);

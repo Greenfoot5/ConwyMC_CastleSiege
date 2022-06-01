@@ -1,3 +1,113 @@
+Conwy:
+  RightConwyCatapult:
+    display_name: "Right Conwy Catapult"
+    #direction determines where the catapult will aim at.
+    world: "Conwy"
+    direction: "south"
+    #the schematic location should be at the same location as the right/left sign.
+    schematic_location:
+      ==: org.bukkit.util.Vector
+      x: 43
+      y: 74
+      z: 76
+    lever_location:
+      ==: org.bukkit.util.Vector
+      x: 43
+      y: 75
+      z: 77
+    upDown_sign_location:
+      ==: org.bukkit.util.Vector
+      x: 43
+      y: 74
+      z: 75
+    rightLeft_sign_location:
+      ==: org.bukkit.util.Vector
+      x: 43
+      y: 74
+      z: 76
+    sound_location:
+      ==: org.bukkit.util.Vector
+      x: 41
+      y: 80
+      z: 80
+    projectile_location:
+      ==: org.bukkit.util.Vector
+      x: 41
+      y: 80
+      z: 81
+  MiddleConwyCatapult:
+    display_name: "Middle Conwy Catapult"
+    #direction determines where the catapult will aim at.
+    world: "Conwy"
+    direction: "south"
+    #the schematic location should be at the same location as the right/left sign.
+    schematic_location:
+      ==: org.bukkit.util.Vector
+      x: 65
+      y: 70
+      z: 79
+    lever_location:
+      ==: org.bukkit.util.Vector
+      x: 65
+      y: 71
+      z: 80
+    upDown_sign_location:
+      ==: org.bukkit.util.Vector
+      x: 65
+      y: 70
+      z: 78
+    rightLeft_sign_location:
+      ==: org.bukkit.util.Vector
+      x: 65
+      y: 70
+      z: 79
+    sound_location:
+      ==: org.bukkit.util.Vector
+      x: 63
+      y: 76
+      z: 83
+    projectile_location:
+      ==: org.bukkit.util.Vector
+      x: 63
+      y: 77
+      z: 84
+  LeftConwyCatapult:
+    display_name: "Left Conwy Catapult"
+    #direction determines where the catapult will aim at.
+    world: "Conwy"
+    direction: "south"
+    #the schematic location should be at the same location as the right/left sign.
+    schematic_location:
+      ==: org.bukkit.util.Vector
+      x: 83
+      y: 70
+      z: 95
+    lever_location:
+      ==: org.bukkit.util.Vector
+      x: 83
+      y: 71
+      z: 96
+    upDown_sign_location:
+      ==: org.bukkit.util.Vector
+      x: 83
+      y: 70
+      z: 94
+    rightLeft_sign_location:
+      ==: org.bukkit.util.Vector
+      x: 83
+      y: 70
+      z: 95
+    sound_location:
+      ==: org.bukkit.util.Vector
+      x: 81
+      y: 76
+      z: 99
+    projectile_location:
+      ==: org.bukkit.util.Vector
+      x: 81
+      y: 77
+      z: 100
+
 Abrakhan:
   LeftCatapult:
     display_name: "Left Catapult"
