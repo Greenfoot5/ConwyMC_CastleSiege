@@ -559,7 +559,7 @@ public class Catapult implements Listener {
                         ball.getPassengers().remove(0);
                   }
 
-                  event.getHitBlock().getWorld().createExplosion(event.getHitBlock().getLocation(), 4F, false, true);
+                  event.getHitBlock().getWorld().createExplosion(event.getHitBlock().getLocation(), 3F, false, true);
 
             }
 
