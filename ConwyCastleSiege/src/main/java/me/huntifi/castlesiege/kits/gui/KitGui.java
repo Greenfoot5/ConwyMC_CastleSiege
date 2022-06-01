@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,6 +20,7 @@ import java.util.Objects;
 public class KitGui implements Listener {
 
     private final Inventory gui;
+    private final HashMap<Integer, String> command = new HashMap<>();
 
     /**
      * Create an inventory
@@ -35,8 +37,9 @@ public class KitGui implements Listener {
      * @param lore The lore of the item
      * @param location The location of the item
      */
-    public void addItem(String name, Material material, List<String> lore, int location) {
+    public void addItem(String name, Material material, List<String> lore, int location, String command) {
         gui.setItem(location, ItemCreator.item(new ItemStack(material), name, lore, null));
+        this.command.put(location, command);
     }
 
     /**
@@ -58,17 +61,10 @@ public class KitGui implements Listener {
             return;
         }
 
-        // Make sure an actual item was clicked
-        ItemStack clicked = e.getCurrentItem();
-        if (clicked == null || clicked.getItemMeta() == null || !clicked.getItemMeta().hasDisplayName()) {
-            return;
-        }
-
-        // Call the GUI specific click handler
-        String itemName = clicked.getItemMeta().getDisplayName();
-        KitGui clickedGui = KitGuiController.get(itemName);
-        if (clickedGui != null) {
-            clickedGui.open(p);
+        // Perform the command that belongs to the clicked item slot
+        String c = command.get(e.getSlot());
+        if (c != null) {
+            p.performCommand(c);
         }
     }
 }

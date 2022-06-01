@@ -1,5 +1,6 @@
 selector:
   name: "§2Kit Selector"
+  key: "selector"
   items:
     free:
       name: "§eFree Kits"
@@ -8,13 +9,15 @@ selector:
         - "Play as one of the free kits!"
         - "Certain kits will require voting first."
       location: 10
-    unlocked:
-      name: "§eUnlocked Kits"
+      command: "kit free"
+    premium:
+      name: "§ePremium Kits"
       material: "GOLD_BLOCK"
       lore:
-        - "Play as one of your unlocked kits!"
+        - "Play as one of the premium kits!"
         - "These kits can be unlocked in the shop."
       location: 13
+      command: "kit premium"
     team:
       name: "§eTeam Kits"
       material: "EMERALD_BLOCK"
@@ -22,14 +25,17 @@ selector:
         - "Play as one of the team-specific kits!"
         - "These kits depend on the team you are in."
       location: 16
+      command: "kit team"
     shop:
       name: "§eShop"
       material: "SUNFLOWER"
       lore:
         - "Unlock kits here!"
       location: 40
+      command: "kit shop"
 free:
   name: "§2Free Kits"
+  key: "free"
   items:
     archer:
       name: "§a§lCLASS:§r§a Archer"
@@ -44,6 +50,7 @@ free:
         - "§2[Status]:§a Free to play!"
         - "§6------------------------------"
       location: 10
+      command: "archer"
     spearman:
       name: "§a§lCLASS:§r§a Spearman"
       material: "STICK"
@@ -57,6 +64,7 @@ free:
         - "§2[Status]:§a Free to play!"
         - "§6------------------------------"
       location: 13
+      command: "spearman"
     swordsman:
       name: "§a§lCLASS:§r§a Swordsman"
       material: "IRON_SWORD"
@@ -69,6 +77,7 @@ free:
         - "§2[Status]:§a Free to play!"
         - "§6------------------------------"
       location: 16
+      command: "swordsman"
     fire_archer:
       name: "§a§lCLASS:§r§a Fire Archer"
       material: "BLAZE_POWDER"
@@ -85,6 +94,7 @@ free:
         - "§2[Status]:§a Voter kit."
         - "§6------------------------------"
       location: 28
+      command: "firearcher"
     ladderman:
       name: "§a§lCLASS:§r§a Ladderman"
       material: "LADDER"
@@ -98,6 +108,7 @@ free:
         - "§2[Status]:§a Voter kit."
         - "§6------------------------------"
       location: 31
+      command: "ladderman"
     shieldman:
       name: "§a§lCLASS:§r§a Shieldman"
       material: "SHIELD"
@@ -111,6 +122,7 @@ free:
         - "§2[Status]:§a Voter kit."
         - "§6------------------------------"
       location: 34
+      command: "shieldman"
     scout:
       name: "§a§lCLASS:§r§a Scout"
       material: "LEATHER_BOOTS"
@@ -123,7 +135,8 @@ free:
         - "§2[Effects]:§a Speed 2, Jump Boost 1."
         - "§2[Status]:§a Voter kit."
         - "§6------------------------------"
-      location: 38
+      location: 37
+      command: "scout"
     skirmisher:
       name: "§a§lCLASS:§r§a Skirmisher"
       material: "IRON_BOOTS"
@@ -136,4 +149,5 @@ free:
         - "§2[Effects]:§a Speed 1, Jump Boost 1."
         - "§2[Status]:§a Voter kit."
         - "§6------------------------------"
-      location: 42
+      location: 43
+      command: "skirmisher"

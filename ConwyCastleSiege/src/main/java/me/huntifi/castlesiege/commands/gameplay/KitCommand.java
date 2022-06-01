@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.gui.*;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
@@ -17,26 +18,6 @@ import java.util.HashMap;
  * Allows the player to select a kit
  */
 public class KitCommand implements CommandExecutor {
-
-    private final HashMap<String, Inventory> kitGUI;
-    private final HashMap<String, Inventory> selGUI;
-
-    /**
-     * Create instances of GUIs used by the kit command
-     */
-    public KitCommand() {
-        // Kit GUIs
-        kitGUI = new HashMap<>();
-        kitGUI.put("free", new FreeKitGUI().getGui());
-        kitGUI.put("unlocked", new UnlockedKitGUI().getGui());
-
-        // Selector GUIs
-        selGUI = new HashMap<>();
-        selGUI.put("Rohan", new SelectorKitGUI().setTeam("Rohan"));
-        selGUI.put("Uruk-hai", new SelectorKitGUI().setTeam("Uruk-hai"));
-        selGUI.put("Thunderstone Guard", new SelectorKitGUI().setTeam("Thunderstone Guard"));
-        selGUI.put("Cloud Crawlers", new SelectorKitGUI().setTeam("Cloud Crawlers"));
-    }
 
     /**
      * Opens the kit selector GUI for the command source if no arguments are passed
@@ -58,35 +39,18 @@ public class KitCommand implements CommandExecutor {
         }
 
         Player p = (Player) sender;
-        String team = MapController.getCurrentMap().getTeam(p.getUniqueId()).name;
-
         if (args.length == 0) {
             // No arguments passed -> open kit selector GUI
-            KitGui gui = KitGuiController.get("Kit Selector");
-            gui.open(p);
+            KitGuiController.get("selector").open(p);
             return true;
         } else if (args.length == 1) {
-            // One argument passed -> open sub-GUI
-            return subGUI(p, team, args[0]);
-        }
-
-        return false;
-    }
-
-    /**
-     * Opens the specified kits GUI
-     * @param p The player for whom to open the GUI
-     * @param team The name of the player's team
-     * @param arg The specified kit GUI
-     * @return true if a valid sub-GUI was specified, false otherwise
-     */
-    private boolean subGUI(Player p, String team, String arg) {
-        if (arg.equalsIgnoreCase("free") || arg.equalsIgnoreCase("unlocked")) {
-            p.openInventory(kitGUI.get(arg.toLowerCase()));
-            return true;
-        } else if (arg.equalsIgnoreCase("team") || arg.equalsIgnoreCase(team)) {
-            p.sendMessage(ChatColor.DARK_RED + "This feature is currently unavailable!");
-            // p.openInventory(kitGUI.get(team));
+            // One argument passed -> open specified GUI
+            KitGui gui = KitGuiController.get(args[0].toLowerCase());
+            if (gui == null) {
+                Messenger.sendError("Unknown category: " + ChatColor.RED + args[0], p);
+            } else {
+                gui.open(p);
+            }
             return true;
         }
 

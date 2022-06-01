@@ -501,8 +501,7 @@ public class Main extends JavaPlugin implements Listener {
         String[] guiPaths = getPaths(kitsConfig, null);
         for (String guiPath : guiPaths) {
             Route guiRoute = Route.from(guiPath);
-            String guiName = kitsConfig.getString(guiRoute.add("name"));
-            KitGui gui = new KitGui(guiName);
+            KitGui gui = new KitGui(kitsConfig.getString(guiRoute.add("name")));
             getServer().getPluginManager().registerEvents(gui, plugin);
 
             String[] itemPaths = getPaths(kitsConfig, guiRoute.add("items"));
@@ -512,10 +511,11 @@ public class Main extends JavaPlugin implements Listener {
                 Material material = Material.getMaterial(kitsConfig.getString(itemRoute.add("material")));
                 List<String> lore = kitsConfig.getStringList(itemRoute.add("lore"));
                 int location = kitsConfig.getInt(itemRoute.add("location"));
-                gui.addItem(itemName, material, lore, location);
+                String command = kitsConfig.getString(itemRoute.add("command"));
+                gui.addItem(itemName, material, lore, location, command);
             }
 
-            KitGuiController.add(guiName, gui);
+            KitGuiController.add(kitsConfig.getString(guiRoute.add("key")), gui);
         }
     }
 
