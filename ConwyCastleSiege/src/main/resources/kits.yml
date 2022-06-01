@@ -69,3 +69,71 @@ free:
         - "§2[Status]:§a Free to play!"
         - "§6------------------------------"
       location: 16
+    fire_archer:
+      name: "§a§lCLASS:§r§a Fire Archer"
+      material: "BLAZE_POWDER"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A slow archer that can put enemies on fire."
+        - "§2[Health]:§a 140"
+        - "§2[Melee Damage]:§a 16.5"
+        - "§2[Ranged Damage]:§a TBD"
+        - "§2[Regen]:§a 4"
+        - "§2[Effects]:§a Slowness 1."
+        - "§2[Ability]:§a Can put down a firepit. By clicking the"
+        - "§2[Ability]:§a firepit with arrows, you create fire-arrows."
+        - "§2[Status]:§a Voter kit."
+        - "§6------------------------------"
+      location: 28
+    ladderman:
+      name: "§a§lCLASS:§r§a Ladderman"
+      material: "LADDER"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A useful kit for climbing up walls."
+        - "§2[Health]:§a 185"
+        - "§2[Melee Damage]:§a 20.5"
+        - "§2[Regen]:§a 5"
+        - "§2[Effects]:§a Jump Boost 2."
+        - "§2[Status]:§a Voter kit."
+        - "§6------------------------------"
+      location: 31
+    shieldman:
+      name: "§a§lCLASS:§r§a Shieldman"
+      material: "SHIELD"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A tank melee kit with a shield."
+        - "§2[Health]:§a 190"
+        - "§2[Melee Damage]:§a 20.5"
+        - "§2[Regen]:§a 6"
+        - "§2[Effects]:§a Resistance 1, Slowness 1, Mining Fatigue 1."
+        - "§2[Status]:§a Voter kit."
+        - "§6------------------------------"
+      location: 34
+    scout:
+      name: "§a§lCLASS:§r§a Scout"
+      material: "LEATHER_BOOTS"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A very fast melee kit."
+        - "§2[Health]:§a 130"
+        - "§2[Melee Damage]:§a 18.5"
+        - "§2[Regen]:§a 4"
+        - "§2[Effects]:§a Speed 2, Jump Boost 1."
+        - "§2[Status]:§a Voter kit."
+        - "§6------------------------------"
+      location: 38
+    skirmisher:
+      name: "§a§lCLASS:§r§a Skirmisher"
+      material: "IRON_BOOTS"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A more mobile melee kit."
+        - "§2[Health]:§a 185"
+        - "§2[Melee Damage]:§a 21.5"
+        - "§2[Regen]:§a 5"
+        - "§2[Effects]:§a Speed 1, Jump Boost 1."
+        - "§2[Status]:§a Voter kit."
+        - "§6------------------------------"
+      location: 42
