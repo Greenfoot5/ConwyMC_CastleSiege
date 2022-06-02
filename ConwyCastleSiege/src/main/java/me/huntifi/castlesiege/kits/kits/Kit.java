@@ -202,7 +202,7 @@ public abstract class Kit implements CommandExecutor {
      * Sets the player's ability to see people's health
      * @param p The player
      */
-    protected void displayHealth(Player p) {
+    private void displayHealth(Player p) {
         Scoreboard scoreboard = p.getScoreboard();
         Objective healthDisplay = scoreboard.getObjective("healthDisplay");
 
