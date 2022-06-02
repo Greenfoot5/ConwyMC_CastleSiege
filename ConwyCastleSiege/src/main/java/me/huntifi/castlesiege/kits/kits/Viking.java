@@ -5,8 +5,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -86,19 +84,8 @@ public class Viking extends Kit implements Listener {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
             Player p = (Player) e.getEntity();
-            AttributeInstance armor = p.getAttribute(Attribute.GENERIC_ARMOR);
-            assert armor != null;
-            double armorValue = armor.getValue();
-
-            // Remove player's armor if present and deal intended damage
-            // Note: resistance effect still reduces damage taken
-            if (armorValue == 0) {
-                armor.setBaseValue(0);
-            } else {
-                e.setCancelled(true);
-                armor.setBaseValue(-armorValue);
-                p.damage(e.getDamage(), e.getDamager());
-            }
+            int baseHealth = Kit.equippedKits.get(p.getUniqueId()).baseHealth;
+            e.setDamage(baseHealth * e.getDamage() / 100);
         }
     }
 }
