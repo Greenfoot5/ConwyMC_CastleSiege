@@ -388,6 +388,10 @@ public class Catapult implements Listener {
 
             Player p = event.getPlayer();
 
+            if (!p.getWorld().equals(left_right_sign.toLocation(Bukkit.getWorld(worldName)))) {
+                  return;
+            }
+
             if (target != null && target.getState() instanceof Sign && p.getLocation().distance(up_down_sign.toLocation(Bukkit.getWorld(worldName))) <= 4) {
 
                   Sign sign = (Sign) event.getClickedBlock().getState();
@@ -434,6 +438,10 @@ public class Catapult implements Listener {
             Block target = event.getClickedBlock();
 
             Player p = event.getPlayer();
+
+            if (!p.getWorld().equals(left_right_sign.toLocation(Bukkit.getWorld(worldName)))) {
+                  return;
+            }
 
             if (target != null && target.getState() instanceof Sign && p.getLocation().distance(left_right_sign.toLocation(Bukkit.getWorld(worldName))) <= 4) {
 
