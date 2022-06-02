@@ -3,6 +3,8 @@ package me.huntifi.castlesiege.maps.objects;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.util.Direction;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.kits.kits.Engineer;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
@@ -17,14 +19,17 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Objects;
+import java.util.UUID;
 
 
 public class Catapult implements Listener {
@@ -42,9 +47,6 @@ public class Catapult implements Listener {
       //After it shot
       private String catapultShotSchem;
 
-      //Is the catapult ready?
-      private boolean canShoot = true;
-
       //This is the same location as the location of the aim left/right sign.
       private Vector schematicLocation;
 
@@ -56,6 +58,12 @@ public class Catapult implements Listener {
 
       //Is the catapult ready to be refilled by an engineer?
       private boolean canBeRefilled;
+
+      //The location of the cobblestone, so engineer can refill.
+      private Vector catapultCobblestoneLocation;
+
+      //Is the catapult ready?
+      private boolean canShoot = true;
 
       //The cooldown of the catapult default should be 40 seconds,
       // at 20 seconds the catapult comes back down but at 0 seconds it is refilled.
@@ -152,6 +160,16 @@ public class Catapult implements Listener {
 
       /**
        *
+       * @param leverLoc Location of the cobblestone
+       */
+      public void setCobblestoneLocation(Vector cobbleLoc) {
+            this.catapultCobblestoneLocation = cobbleLoc;
+      }
+
+      public Vector getCobblestoneLocation() {  return catapultCobblestoneLocation; }
+
+      /**
+       *
        * @param leverLoc Location of the catapult projectile, its initial point.
        */
       public void setProjectileLocation(Vector projectileLoc) {
@@ -216,7 +234,7 @@ public class Catapult implements Listener {
       @EventHandler
       public void onSwitch(PlayerInteractEvent event) {
 
-            if (event.getClickedBlock() == null || event.getClickedBlock().getType() != Material.LEVER) {
+            if (event.getClickedBlock() == null || event.getClickedBlock().getType() != Material.LEVER || event.getAction() == Action.LEFT_CLICK_BLOCK) {
                   return;
             }
 
@@ -237,6 +255,8 @@ public class Catapult implements Listener {
 
                               canShoot = false;
 
+                              canBeRefilled = false;
+
                               new BukkitRunnable() {
                                     @Override
                                     public void run() {
@@ -250,6 +270,8 @@ public class Catapult implements Listener {
 
                                           if (leverData == null) { return; }
 
+                                          canBeRefilled = true;
+                                          canShoot = false;
                                           leverData.setPowered(false);
                                           event.getClickedBlock().setBlockData(leverData);
 
@@ -257,13 +279,20 @@ public class Catapult implements Listener {
 
                               }.runTaskLater(Main.plugin, catapultComeDownTimer);
 
-
                               new BukkitRunnable() {
                                     @Override
                                     public void run() {
 
+                                          if (catapultCobblestoneLocation.toLocation
+                                                  (Bukkit.getWorld(worldName)).getBlock().getType() == Material.COBBLESTONE_SLAB
+                                          || canBeRefilled == false || canShoot == true) {
+                                                this.cancel();
+                                                return;
+                                          }
+
                                           catapultRefilled(Bukkit.getWorld(MapController.getCurrentMap().worldName));
                                           canShoot = true;
+                                          canBeRefilled = false;
 
                                     }
 
@@ -606,4 +635,47 @@ public class Catapult implements Listener {
 
       }
 
+
+      @EventHandler
+      public void engineerRefill(BlockPlaceEvent event) {
+
+            Player p = event.getPlayer();
+            UUID uuid = p.getUniqueId();
+
+            if (Objects.equals(Kit.equippedKits.get(uuid).name, "Engineer")) {
+
+                  if (event.getBlockAgainst().getLocation().distance
+                          (catapultCobblestoneLocation.toLocation(Bukkit.getWorld(worldName))) < 2) {
+
+                        if (event.getBlock().getType() != Material.COBBLESTONE) {
+                              p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                                      TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "not cobblestone"));
+                              return;
+                        }
+
+                        if (canBeRefilled == false) {
+                              p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                                      TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "canBeRefilled == false"));
+                              return;
+                        }
+
+                        if (canShoot == true) {
+                              p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                                      TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "canShoot == true"));
+                              return;
+                        }
+
+                        catapultCobblestoneLocation.toLocation(Bukkit.getWorld(worldName)).getBlock().setType(Material.COBBLESTONE_SLAB);
+                        canBeRefilled = false;
+                        canShoot = true;
+
+                        ItemStack cobble = p.getInventory().getItem(5);
+                        if (p.getInventory().getItem(5).getType() != Material.COBBLESTONE) {
+                              return;
+                        }
+                        cobble.setAmount(cobble.getAmount() - 1);
+
+                  }
+            }
+      }
 }

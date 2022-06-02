@@ -35,6 +35,11 @@ Conwy:
       x: 41
       y: 80
       z: 81
+    engineer_cobblestone_location:
+      ==: org.bukkit.util.Vector
+      x: 41
+      y: 75
+      z: 71
   MiddleConwyCatapult:
     display_name: "Middle Conwy Catapult"
     #direction determines where the catapult will aim at.
@@ -71,6 +76,11 @@ Conwy:
       x: 63
       y: 77
       z: 84
+    engineer_cobblestone_location:
+      ==: org.bukkit.util.Vector
+      x: 63
+      y: 71
+      z: 74
   LeftConwyCatapult:
     display_name: "Left Conwy Catapult"
     #direction determines where the catapult will aim at.
@@ -107,7 +117,11 @@ Conwy:
       x: 81
       y: 77
       z: 100
-
+    engineer_cobblestone_location:
+      ==: org.bukkit.util.Vector
+      x: 81
+      y: 71
+      z: 90
 Abrakhan:
   LeftCatapult:
     display_name: "Left Catapult"
@@ -145,6 +159,11 @@ Abrakhan:
       x: 75
       y: 20
       z: 55
+    engineer_cobblestone_location:
+      ==: org.bukkit.util.Vector
+      x: 75
+      y: 15
+      z: 64
   RightCatapult:
     display_name: "Right Catapult"
     #direction determines where the catapult will aim at.
@@ -180,5 +199,10 @@ Abrakhan:
       x: 102
       y: 20
       z: 57
+    engineer_cobblestone_location:
+      ==: org.bukkit.util.Vector
+      x: 102
+      y: 15
+      z: 66
 
 
