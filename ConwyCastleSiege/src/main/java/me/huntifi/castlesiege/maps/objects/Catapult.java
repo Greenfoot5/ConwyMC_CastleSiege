@@ -13,6 +13,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.Powerable;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -20,9 +21,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -251,7 +250,7 @@ public class Catapult implements Listener {
 
                               catapultShot(Bukkit.getWorld(MapController.getCurrentMap().worldName));
 
-                              shootCatapultProjectile(catapultProjectileLocation.toLocation(Bukkit.getWorld(worldName)), catapultFacing, Bukkit.getWorld(MapController.getCurrentMap().worldName));
+                              shootCatapultProjectile(catapultProjectileLocation.toLocation(Bukkit.getWorld(worldName)), catapultFacing, Bukkit.getWorld(MapController.getCurrentMap().worldName), player);
 
                               canShoot = false;
 
@@ -480,7 +479,7 @@ public class Catapult implements Listener {
        * @param world the world the projectile should be shot in
        */
      //This is the projectile that needs to be shot and the direction.
-      public void shootCatapultProjectile(Location projectileLoc, String facing, World world) {
+      public void shootCatapultProjectile(Location projectileLoc, String facing, World world, Player shooter) {
 
             if (world == null) {
                   return;
@@ -491,6 +490,8 @@ public class Catapult implements Listener {
             Byte blockData = 0x0;
 
            Snowball projectile = (Snowball) world.spawn(catapultProjectileLocation.toLocation(Bukkit.getWorld(worldName)), Snowball.class);
+
+           projectile.setShooter(shooter);
 
            projectile.setGravity(true);
 
@@ -621,14 +622,13 @@ public class Catapult implements Listener {
 
         for (Block b : event.blockList()) {
 
-              float x = (float) -5 + (float) (Math.random() *((5-5) + 1));
-              float y = (float) -5 + (float) (Math.random() *((5-5) + 1));
-              float z = (float) -5 + (float) (Math.random() *((5-5) + 1));
+              float x = (float) -2 + (float) (Math.random() *((5- -5) + 1));
+              float y = (float) -6 + (float) (Math.random() *((5- -5) + 1));
+              float z = (float) -2 + (float) (Math.random() *((5- -5) + 1));
 
               FallingBlock fallingblock = b.getWorld().spawnFallingBlock(b.getLocation(), b.getType(), b.getData());
-              fallingblock.setDropItem(false);
               fallingblock.setVelocity(new Vector(x,y,z));
-
+              fallingblock.setDropItem(false);
               b.setType(Material.AIR);
         }
 
@@ -675,6 +675,32 @@ public class Catapult implements Listener {
                         }
                         cobble.setAmount(cobble.getAmount() - 1);
 
+                  }
+            }
+      }
+
+      @EventHandler
+      public void onExplosionDamage(EntityDamageByEntityEvent event) {
+
+            if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
+
+                  if (event.getDamager() instanceof Snowball) {
+
+                        Snowball damager = (Snowball) event.getDamager();
+
+                        if (!(damager.getShooter() instanceof Player)) {
+                              return;
+                        }
+
+                        Player shooter = (Player) damager.getShooter();
+
+                        //any non player creatures take loads of damage.
+                        if (!(event.getEntity() instanceof Player)) {
+                              event.setDamage(100);
+                              return;
+                        }
+
+                        event.setDamage(100);
                   }
             }
       }
