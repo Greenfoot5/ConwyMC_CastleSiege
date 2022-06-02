@@ -33,10 +33,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Criterias;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.*;
 
@@ -53,6 +49,7 @@ public class Medic extends Kit implements Listener {
      */
     public Medic() {
         super("Medic", 130, 6);
+        super.canSeeHealth = true;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -110,20 +107,6 @@ public class Medic extends Kit implements Listener {
 
         super.killMessage[0] = "You dissected ";
         super.deathMessage[0] = "You had your insides examined by ";
-    }
-
-    /**
-     * Allow medics to see people's health
-     * @param p The medic player
-     */
-    @Override
-    protected void displayHealth(Player p) {
-        Scoreboard scoreboard = p.getScoreboard();
-        if (scoreboard.getObjective("healthDisplay") == null) {
-            Objective healthDisplay = scoreboard.registerNewObjective("healthDisplay",
-                    Criterias.HEALTH, ChatColor.DARK_RED + "❤");
-            healthDisplay.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        }
     }
 
     /**

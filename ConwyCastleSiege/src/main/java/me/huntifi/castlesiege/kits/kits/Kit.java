@@ -11,7 +11,6 @@ import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseAPI;
-import net.bytebuddy.implementation.bind.annotation.Default;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
@@ -24,6 +23,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Criterias;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
@@ -40,6 +41,7 @@ public abstract class Kit implements CommandExecutor {
     protected double regenAmount;
 
     public boolean canCap;
+    protected boolean canSeeHealth;
 
     // Equipment
     protected EquipmentSet equipment;
@@ -68,6 +70,7 @@ public abstract class Kit implements CommandExecutor {
         players = new ArrayList<>();
 
         canCap = true;
+        canSeeHealth = false;
 
         // Equipment
         equipment = new EquipmentSet();
@@ -196,13 +199,17 @@ public abstract class Kit implements CommandExecutor {
     }
 
     /**
-     * Disallow players to see people's health
+     * Sets the player's ability to see people's health
      * @param p The player
      */
     protected void displayHealth(Player p) {
         Scoreboard scoreboard = p.getScoreboard();
         Objective healthDisplay = scoreboard.getObjective("healthDisplay");
-        if (healthDisplay != null) {
+
+        if (canSeeHealth && healthDisplay == null) {
+            scoreboard.registerNewObjective("healthDisplay", Criterias.HEALTH,
+                    ChatColor.DARK_RED + "❤").setDisplaySlot(DisplaySlot.BELOW_NAME);
+        } else if (healthDisplay != null){
             healthDisplay.unregister();
         }
     }

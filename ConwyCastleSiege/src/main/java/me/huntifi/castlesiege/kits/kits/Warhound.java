@@ -43,6 +43,7 @@ public class Warhound extends Kit implements Listener {
     public Warhound() {
         super("Warhound", 90, 3);
         super.canCap = false;
+        super.canSeeHealth = true;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
