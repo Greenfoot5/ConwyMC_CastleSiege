@@ -39,9 +39,7 @@ import me.huntifi.castlesiege.events.timed.ApplyRegeneration;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
-import me.huntifi.castlesiege.kits.gui.FreeKitGUI;
-import me.huntifi.castlesiege.kits.gui.SelectorKitGUI;
-import me.huntifi.castlesiege.kits.gui.UnlockedKitGUI;
+import me.huntifi.castlesiege.kits.gui.*;
 import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.kits.*;
 import me.huntifi.castlesiege.maps.Map;
@@ -76,6 +74,7 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument[] doorsConfig;
     private YamlDocument gatesConfig;
     private YamlDocument gameConfig;
+    private YamlDocument kitsConfig;
 
     private YamlDocument catapultsConfig;
 
@@ -101,6 +100,8 @@ public class Main extends JavaPlugin implements Listener {
                 loadMaps();
                 getLogger().info("Loading game configuration...");
                 loadConfig();
+                getLogger().info("Loading kit GUI configuration...");
+                loadKits();
 
                 getLogger().info("Connecting to database...");
                 // SQL Stuff
@@ -157,10 +158,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
                 getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
-                // Kit GUIs
-                getServer().getPluginManager().registerEvents(new FreeKitGUI(), plugin);
-                getServer().getPluginManager().registerEvents(new UnlockedKitGUI(), plugin);
-                getServer().getPluginManager().registerEvents(new SelectorKitGUI(), plugin);
 
                 // Rewrite Commands
 
@@ -492,6 +489,14 @@ public class Main extends JavaPlugin implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Load kits.yml with BoostedYAML
+        try {
+            kitsConfig = YamlDocument.create(new File(getDataFolder(), "kits.yml"),
+                    getClass().getResourceAsStream("kits.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private YamlDocument[] loadYMLs(String folderName) {
@@ -514,6 +519,31 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         return configs.toArray(new YamlDocument[configs.size()]);
+    }
+
+    /**
+     * Create the inventories corresponding to the GUIs in kits.yml
+     */
+    private void loadKits() {
+        String[] guiPaths = getPaths(kitsConfig, null);
+        for (String guiPath : guiPaths) {
+            Route guiRoute = Route.from(guiPath);
+            KitGui gui = new KitGui(kitsConfig.getString(guiRoute.add("name")));
+            getServer().getPluginManager().registerEvents(gui, plugin);
+
+            String[] itemPaths = getPaths(kitsConfig, guiRoute.add("items"));
+            for (String itemPath : itemPaths) {
+                Route itemRoute = guiRoute.add("items").add(itemPath);
+                String itemName = kitsConfig.getString(itemRoute.add("name"));
+                Material material = Material.getMaterial(kitsConfig.getString(itemRoute.add("material")));
+                List<String> lore = kitsConfig.getStringList(itemRoute.add("lore"));
+                int location = kitsConfig.getInt(itemRoute.add("location"));
+                String command = kitsConfig.getString(itemRoute.add("command"));
+                gui.addItem(itemName, material, lore, location, command);
+            }
+
+            KitGuiController.add(kitsConfig.getString(guiRoute.add("key")), gui);
+        }
     }
 
     /**
