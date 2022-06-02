@@ -156,10 +156,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
                 getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
-                // Kit GUIs
-                getServer().getPluginManager().registerEvents(new FreeKitGUI(), plugin);
-                getServer().getPluginManager().registerEvents(new UnlockedKitGUI(), plugin);
-                getServer().getPluginManager().registerEvents(new SelectorKitGUI(), plugin);
 
                 //catapults
                 getServer().getPluginManager().registerEvents(new Catapult(), plugin);
@@ -494,6 +490,28 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
+    private YamlDocument[] loadYMLs(String folderName) {
+        // Add all config ymls from the doors folder
+        File directoryPath = new File(String.valueOf(getDataFolder()), folderName);
+        // List of all files and directories
+        String[] contents = directoryPath.list();
+        assert contents != null;
+        List<YamlDocument> configs = new ArrayList<>();
+        for (String content : contents) {
+            if (content.endsWith(".yml")) {
+                // Load the yml with BoostedYAML
+                try {
+                    configs.add(YamlDocument.create(new File(directoryPath.getPath(), content),
+                            getClass().getResourceAsStream(content)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return configs.toArray(new YamlDocument[configs.size()]);
+    }
+
     /**
      * Create the inventories corresponding to the GUIs in kits.yml
      */
@@ -517,28 +535,6 @@ public class Main extends JavaPlugin implements Listener {
 
             KitGuiController.add(kitsConfig.getString(guiRoute.add("key")), gui);
         }
-    }
-
-    private YamlDocument[] loadYMLs(String folderName) {
-        // Add all config ymls from the doors folder
-        File directoryPath = new File(String.valueOf(getDataFolder()), folderName);
-        // List of all files and directories
-        String[] contents = directoryPath.list();
-        assert contents != null;
-        List<YamlDocument> configs = new ArrayList<>();
-        for (String content : contents) {
-            if (content.endsWith(".yml")) {
-                // Load the yml with BoostedYAML
-                try {
-                    configs.add(YamlDocument.create(new File(directoryPath.getPath(), content),
-                            getClass().getResourceAsStream(content)));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return configs.toArray(new YamlDocument[configs.size()]);
     }
 
     /**
