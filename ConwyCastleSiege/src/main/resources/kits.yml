@@ -157,7 +157,7 @@ free:
       material: "BARRIER"
       lore:
         - "§cReturn to the previous interface."
-      location: 40
+      location: 49
       command: "kit selector"
 premium:
   name: "§2Premium Kits"
@@ -347,6 +347,28 @@ premium:
         - "§6------------------------------"
       location: 43
       command: "warhound"
+    back:
+      name: "§4§lGo Back"
+      material: "BARRIER"
+      lore:
+        - "§cReturn to the previous interface."
+      location: 49
+      command: "kit selector"
+team:
+  name: "§2Team Kits"
+  key: "team"
+  items:
+    back:
+      name: "§4§lGo Back"
+      material: "BARRIER"
+      lore:
+        - "§cReturn to the previous interface."
+      location: 49
+      command: "kit selector"
+shop:
+  name: "§2Shop"
+  key: "shop"
+  items:
     back:
       name: "§4§lGo Back"
       material: "BARRIER"
