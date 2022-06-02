@@ -727,38 +727,12 @@ public class Main extends JavaPlugin implements Listener {
             Route doorRoute = mapRoute.add(doorPaths[i]);
             String flagName = doorConfig.getString(doorRoute.add("flag"), map.name);
             // Get the location at the centre of the object
-            Location centre = getLocation(doorRoute.add("centre"), map.worldName, doorConfig);
+            Location centre = getLocation(doorRoute.add("schematic_location"), map.worldName, doorConfig);
             // Fancy shit that makes the Tuple array of locations and materials
-            Route locationRoute = doorRoute.add("locations");
-            Route openMaterialRoute = doorRoute.add("open_materials");
-            Route closeMaterialRoute = doorRoute.add("closed_materials");
-            ArrayList<LinkedHashMap> doorVectors = (ArrayList<LinkedHashMap>) doorConfig.get(locationRoute);
-            ArrayList<String> openDoorMaterials = (ArrayList<String>) doorConfig.getStringList(openMaterialRoute, null);
-            ArrayList<String> closeDoorMaterials = (ArrayList<String>) doorConfig.getStringList(closeMaterialRoute, null);
-            Tuple<Vector, Tuple<Material, Material>>[] doorBlocks = new Tuple[doorVectors.size()];
-            for (int j = 0; j < doorVectors.size(); j++) {
-                try {
-                    Tuple<Material, Material> mats = new Tuple<>(Material.AIR, Material.AIR);
-                    if (closeDoorMaterials != null && j < closeDoorMaterials.size())
-                        mats.setFirst(Material.getMaterial(closeDoorMaterials.get(j)));
-                    else if (closeDoorMaterials != null)
-                        mats.setFirst(Material.getMaterial(closeDoorMaterials.get(j % closeDoorMaterials.size())));
-
-                    if (openDoorMaterials != null && j < openDoorMaterials.size())
-                        mats.setSecond(Material.getMaterial(openDoorMaterials.get(j)));
-                    else if (openDoorMaterials != null)
-                        mats.setSecond(Material.getMaterial(openDoorMaterials.get(j % openDoorMaterials.size())));
-
-                    doorBlocks[j] = new Tuple<>(new Vector(
-                            (int) doorVectors.get(j).get("x"),
-                            (int) doorVectors.get(j).get("y"),
-                            (int) doorVectors.get(j).get("z")),
-                            mats);
-                }
-                catch (NullPointerException e) {
-                    getLogger().warning("Missing material on " + doorPaths[i]);
-                }
-            }
+            Route openSchematicRoute = doorRoute.add("open_schematic");
+            Route closeSchematicRoute = doorRoute.add("closed_schematic");
+            Tuple<String, String> schematicNames = new Tuple<>(doorConfig.getString(closeSchematicRoute, null),
+                    doorConfig.getString(openSchematicRoute, null));
             // Split up the variations for lever and pressure plate doors
             Tuple<Sound, Sound> sounds;
             Door door;
@@ -769,7 +743,7 @@ public class Main extends JavaPlugin implements Listener {
                             Sound.valueOf(doorConfig.getString(doorRoute.add("open_sound"), "ENTITY_ZOMBIE_ATTACK_IRON_DOOR")));
                     Location leverPos = getLocation(doorRoute.add("lever_position"), map.worldName, doorConfig);
                     int timer = (int) (doorConfig.getFloat(doorRoute.add("timer"), 10f) * 20);
-                    door = new LeverDoor(flagName, centre, doorBlocks, sounds, timer, leverPos);
+                    door = new LeverDoor(flagName, centre, schematicNames, sounds, timer, leverPos);
                     break;
                 case "pressureplate":
                 case "pressure plate":
@@ -779,7 +753,7 @@ public class Main extends JavaPlugin implements Listener {
                     sounds = new Tuple<>(Sound.valueOf(doorConfig.getString(doorRoute.add("closed_sound"), "BLOCK_WOODEN_DOOR_OPEN")),
                             Sound.valueOf(doorConfig.getString(doorRoute.add("open_sound"), "BLOCK_WOODEN_DOOR_OPEN")));
                     timer = (int) (doorConfig.getFloat(doorRoute.add("timer"), 2f) * 20);
-                    door = new PressurePlateDoor(flagName, centre, doorBlocks, sounds, timer);
+                    door = new PressurePlateDoor(flagName, centre, schematicNames, sounds, timer);
                     break;
             }
             map.doors[i] = door;

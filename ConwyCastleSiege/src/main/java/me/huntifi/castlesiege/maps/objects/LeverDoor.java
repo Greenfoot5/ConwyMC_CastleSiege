@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.maps.objects;
 
+import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.maps.MapController;
@@ -14,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -28,13 +28,13 @@ public class LeverDoor extends Door {
      *
      * @param flagName The flag or map name the door is assigned to
      * @param centre  The centre of the door (point for checking distance and playing the sound from)
-     * @param blocks  The blocks that make up the door
+     * @param schematics  The names of the two schematics
      * @param sounds  The sounds to play when closing/opening the door
      * @param levelPosition The position of the lever
      */
-    public LeverDoor(String flagName, Location centre, Tuple<Vector, Tuple<Material, Material>>[] blocks, Tuple<Sound, Sound> sounds,
+    public LeverDoor(String flagName, Location centre, Tuple<String, String> schematics, Tuple<Sound, Sound> sounds,
                      int timer, Location levelPosition) {
-        super(flagName, centre, blocks, sounds, timer);
+        super(flagName, centre, schematics, sounds, timer);
         this.leverPosition = levelPosition;
     }
 
@@ -59,7 +59,11 @@ public class LeverDoor extends Door {
                         Objects.equals(Objects.requireNonNull(flag).getCurrentOwners(), MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
                     // If the gate is closed (lever powered)
                     if (((Powerable) event.getClickedBlock().getBlockData()).isPowered()) {
-                        open();
+                        try {
+                            open();
+                        } catch (WorldEditException e) {
+                            throw new RuntimeException(e);
+                        }
                         openCounts.getAndIncrement();
 
                         new BukkitRunnable() {
@@ -68,13 +72,21 @@ public class LeverDoor extends Door {
                                 Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
                                 if (openCounts.getAndDecrement() > 1 && !leverData.isPowered())
                                     return;
-                                close();
+                                try {
+                                    close();
+                                } catch (WorldEditException e) {
+                                    throw new RuntimeException(e);
+                                }
                                 leverData.setPowered(true);
                                 event.getClickedBlock().setBlockData(leverData);
                             }
                         }.runTaskLater(Main.plugin, timer);
                     } else {
-                        close();
+                        try {
+                            close();
+                        } catch (WorldEditException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 } else {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Your team does not control this! You need to capture " + flagName + " first!"));
