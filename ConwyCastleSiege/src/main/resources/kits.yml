@@ -45,7 +45,7 @@ free:
         - "§2[Desc]:§a The standard ranged kit."
         - "§2[Health]:§a 130"
         - "§2[Melee Damage]:§a 17.5"
-        - "§2[Ranged Damage]:§a TBD"
+        - "§2[Ranged Damage]:§a 26"
         - "§2[Regen]:§a 4"
         - "§2[Status]:§a Free to play!"
         - "§6------------------------------"
@@ -59,8 +59,9 @@ free:
         - "§2[Desc]:§a A kit that can throw spears."
         - "§2[Health]:§a 190"
         - "§2[Melee Damage]:§a 30.5"
-        - "§2[Ranged Damage]:§a TBD"
+        - "§2[Ranged Damage]:§a 26"
         - "§2[Regen]:§a 5"
+        - "§2[Ability]:§a Spears can be thrown by right-clicking."
         - "§2[Status]:§a Free to play!"
         - "§6------------------------------"
       location: 13
@@ -86,9 +87,9 @@ free:
         - "§2[Desc]:§a A slow archer that can put enemies on fire."
         - "§2[Health]:§a 140"
         - "§2[Melee Damage]:§a 16.5"
-        - "§2[Ranged Damage]:§a TBD"
+        - "§2[Ranged Damage]:§a 16"
         - "§2[Regen]:§a 4"
-        - "§2[Effects]:§a Slowness 1."
+        - "§2[Effects]:§a Slowness 1"
         - "§2[Ability]:§a Can put down a firepit. By clicking the"
         - "§2[Ability]:§a firepit with arrows, you create fire-arrows."
         - "§2[Status]:§a Voter kit."
@@ -104,7 +105,7 @@ free:
         - "§2[Health]:§a 185"
         - "§2[Melee Damage]:§a 20.5"
         - "§2[Regen]:§a 5"
-        - "§2[Effects]:§a Jump Boost 2."
+        - "§2[Effects]:§a Jump Boost 2"
         - "§2[Status]:§a Voter kit."
         - "§6------------------------------"
       location: 31
@@ -118,7 +119,7 @@ free:
         - "§2[Health]:§a 190"
         - "§2[Melee Damage]:§a 20.5"
         - "§2[Regen]:§a 6"
-        - "§2[Effects]:§a Resistance 1, Slowness 1, Mining Fatigue 1."
+        - "§2[Effects]:§a Resistance 1, Slowness 1, Mining Fatigue 1"
         - "§2[Status]:§a Voter kit."
         - "§6------------------------------"
       location: 34
@@ -132,7 +133,7 @@ free:
         - "§2[Health]:§a 130"
         - "§2[Melee Damage]:§a 18.5"
         - "§2[Regen]:§a 4"
-        - "§2[Effects]:§a Speed 2, Jump Boost 1."
+        - "§2[Effects]:§a Speed 2, Jump Boost 1"
         - "§2[Status]:§a Voter kit."
         - "§6------------------------------"
       location: 37
@@ -146,8 +147,210 @@ free:
         - "§2[Health]:§a 185"
         - "§2[Melee Damage]:§a 21.5"
         - "§2[Regen]:§a 5"
-        - "§2[Effects]:§a Speed 1, Jump Boost 1."
+        - "§2[Effects]:§a Speed 1, Jump Boost 1"
         - "§2[Status]:§a Voter kit."
         - "§6------------------------------"
       location: 43
       command: "skirmisher"
+    back:
+      name: "§4§lGo Back"
+      material: "BARRIER"
+      lore:
+        - "§cReturn to the previous interface."
+      location: 40
+      command: "kit selector"
+premium:
+  name: "§2Premium Kits"
+  key: "premium"
+  items:
+    berserker:
+      name: "§a§lCLASS:§r§a Berserker"
+      material: "POTION"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a An armorless warrior with high dps and speed."
+        - "§2[Health]:§a 110"
+        - "§2[Melee Damage]:§a 21.5"
+        - "§2[Regen]:§a 3"
+        - "§2[Effects]:§a Speed 1"
+        - "§2[Ability]:§a Go berserk by drinking a potion."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+      location: 10
+      command: "berserker"
+    vanguard:
+      name: "§a§lCLASS:§r§a Vanguard"
+      material: "DIAMOND_SWORD"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A warrior with the ability to charge."
+        - "§2[Health]:§a 195"
+        - "§2[Melee Damage]:§a 21.5"
+        - "§2[Regen]:§a 6"
+        - "§2[Effects]:§a Jump Boost 1"
+        - "§2[Ability]:§a Charge at high speed and deal more damage on impact."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+      location: 12
+      command: "vanguard"
+    executioner:
+      name: "§a§lCLASS:§r§a Executioner"
+      material: "IRON_AXE"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A kit with the ability to execute enemies."
+        - "§2[Health]:§a 160"
+        - "§2[Melee Damage]:§a 24.5"
+        - "§2[Regen]:§a 5"
+        - "§2[Ability]:§a Insta-kills enemies that are below 40% hp."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+      location: 14
+      command: "executioner"
+    maceman:
+      name: "§a§lCLASS:§r§a Maceman"
+      material: "IRON_SHOVEL"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A kit with the ability to stun enemies."
+        - "§2[Health]:§a 170"
+        - "§2[Melee Damage]:§a 23"
+        - "§2[Regen]:§a 5"
+        - "§2[Ability]:§a Hits enemies with extra force,"
+        - "§2[Ability]:§a causing Blindness 2 and Slowness 2."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+      location: 16
+      command: "maceman"
+    viking:
+      name: "§a§lCLASS:§r§a Viking"
+      material: "CHAINMAIL_CHESTPLATE"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A kit with the ability to ignore armor."
+        - "§2[Health]:§a 195"
+        - "§2[Melee Damage]:§a 24.5"
+        - "§2[Regen]:§a 5"
+        - "§2[Effects]:§a Slowness 1, Mining Fatigue 1"
+        - "§2[Ability]:§a Ignore the target's armor."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+      location: 28
+      command: "viking"
+    halberdier:
+      name: "§a§lCLASS:§r§a Halberdier"
+      material: "DIAMOND_CHESTPLATE"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A tank kit that deals extra damage to mounted units."
+        - "§2[Health]:§a 360"
+        - "§2[Melee Damage]:§a 28.5"
+        - "§2[Regen]:§a 14"
+        - "§2[Effects]:§a Slowness 3, Mining Fatigue 4, Resistance 1"
+        - "§2[Ability]:§a Deals 50% more damage to mounted units."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+      location: 37
+      command: "halberdier"
+    medic:
+      name: "§a§lCLASS:§r§a Medic"
+      material: "CAKE"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A support kit that heals allies."
+        - "§2[Health]:§a 130"
+        - "§2[Melee Damage]:§a 17.5"
+        - "§2[Regen]:§a 6"
+        - "§2[Effects]:§a Speed 1"
+        - "§2[Ability]:§a Heals allies on right-click with bandages."
+        - "§2[Ability]:§a Can place cakes on the ground to heal allies."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+      location: 30
+      command: "medic"
+    engineer:
+      name: "§a§lCLASS:§r§a Engineer"
+      material: "COBWEB"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A support kit that specializes in using tools."
+        - "§2[Health]:§a 145"
+        - "§2[Melee Damage]:§a 18.5"
+        - "§2[Regen]:§a 4"
+        - "§2[Effects]:§a Jump Boost 1"
+        - "§2[Ability]:§a Can place traps and cobwebs, repair walls and wooden"
+        - "§2[Ability]:§a structures, refill catapults, and operate ballistae."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+      location: 39
+      command: "engineer"
+    ranger:
+      name: "§a§lCLASS:§r§a Ranger"
+      material: "LIME_DYE"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A support kit that specializes in using tools."
+        - "§2[Health]:§a 140"
+        - "§2[Melee Damage]:§a 19"
+        - "§2[Ranged Damage]:§a 12"
+        - "§2[Regen]:§a 3.5"
+        - "§2[Effects]:§a Speed 1"
+        - "§2[Ability]:§a Can shoot 3 arrows at once with the volley bow."
+        - "§2[Ability]:§a Can shoot 3 consecutive arrows with the burst bow."
+        - "§2[Ability]:§a Can insta-kill enemies by backstabbing them."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+      location: 32
+      command: "ranger"
+    crossbowman:
+      name: "§a§lCLASS:§r§a Crossbowman"
+      material: "CROSSBOW"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A ranged kit that functions like a sniper."
+        - "§2[Health]:§a 165"
+        - "§2[Melee Damage]:§a 1"
+        - "§2[Ranged Damage]:§a 35"
+        - "§2[Regen]:§a 4.5"
+        - "§2[Effects]:§a Slowness 2"
+        - "§2[Ability]:§a Shoots arrows in a straight line."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+      location: 41
+      command: "crossbowman"
+    cavalry:
+      name: "§a§lCLASS:§r§a Cavalry"
+      material: "IRON_HORSE_ARMOR"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A basic mounted kit."
+        - "§2[Health]:§a 170"
+        - "§2[Melee Damage]:§a 19.5"
+        - "§2[Regen]:§a 5"
+        - "§2[Ability]:§a Right click the wheat to mount your horse."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+      location: 34
+      command: "cavalry"
+    warhound:
+      name: "§a§lCLASS:§r§a Warhound"
+      material: "GHAST_TEAR"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A special kit where you play as a wolf."
+        - "§2[Health]:§a 90"
+        - "§2[Melee Damage]:§a 14.5"
+        - "§2[Regen]:§a 3"
+        - "§2[Effects]:§a Speed 4, Jump Boost 1, Resistance 1, Night Vision 1"
+        - "§2[Ability]:§a Slow down enemies and make them bleed."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+      location: 43
+      command: "warhound"
+    back:
+      name: "§4§lGo Back"
+      material: "BARRIER"
+      lore:
+        - "§cReturn to the previous interface."
+      location: 49
+      command: "kit selector"
