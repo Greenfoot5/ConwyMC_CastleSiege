@@ -108,7 +108,7 @@ public class Medic extends Kit implements Listener {
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
 
-        super.killMessage[0] = "You examined the insides of ";
+        super.killMessage[0] = "You dissected ";
         super.deathMessage[0] = "You had your insides examined by ";
     }
 

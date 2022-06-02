@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -101,7 +102,11 @@ public class Berserker extends Kit implements Listener {
 
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (e.getItem() != null && e.getItem().getType() == Material.POTION) {
-                p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
+                if (e.getHand() == EquipmentSlot.HAND) {
+                    p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
+                } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+                    p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
+                }
                 // Potion effects
                 new BukkitRunnable() {
                     @Override
