@@ -50,7 +50,7 @@ public class PressurePlateDoor extends Door {
 
             Player player = event.getPlayer();
             double distance = player.getLocation().distance(centre);
-            if (distance <= 3) {
+            if (distance <= 4) {
 
                 Flag flag = MapController.getCurrentMap().getFlag(flagName);
 				if (Objects.equals(flagName, MapController.getCurrentMap().name) ||

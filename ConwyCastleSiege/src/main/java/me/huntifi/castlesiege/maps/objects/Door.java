@@ -25,7 +25,7 @@ public class Door implements Listener {
      * Creates a new door
      * @param flagName The flag or map name the door is assigned to
      * @param centre The centre of the door (point for checking distance and playing the sound from)
-     * @param blocks The blocks that make up the door
+     * @param schematics The blocks that make up the door
      * @param sounds The sounds to play when the door is closed/opened
      */
     public Door(String flagName, Location centre, Tuple<String, String> schematics, Tuple<Sound, Sound> sounds,
@@ -49,7 +49,7 @@ public class Door implements Listener {
      * Closes the door
      */
     protected void close() throws WorldEditException {
-        SchematicSpawner.spawnSchematic(centre, schematicNames.getFirst(), MapController.getCurrentMap().worldName);
+        SchematicSpawner.spawnSchematic(centre, schematicNames.getFirst(), centre.getWorld().getName());
         Objects.requireNonNull(centre.getWorld()).playSound(centre, sounds.getFirst(), 3, 1);
     }
 }
