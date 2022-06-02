@@ -64,16 +64,15 @@ public class Berserker extends Kit implements Listener {
                 ChatColor.GOLD + "Berserker Potion", null, null);
 
         // Berserk Weapon
-        berserkSword = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
+        berserkSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword", null,
-                Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 56),
-                        new Tuple<>(Enchantment.KNOCKBACK, 1)));
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 57.5);
         // Voted Berserk Weapon
-        berserkSwordVoted = ItemCreator.item(new ItemStack(Material.IRON_SWORD),
+        berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                Arrays.asList(new Tuple<>(Enchantment.DAMAGE_ALL, 58),
-                        new Tuple<>(Enchantment.KNOCKBACK, 1)));
+                Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
+                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 59.5);
 
         super.equipment = es;
 
