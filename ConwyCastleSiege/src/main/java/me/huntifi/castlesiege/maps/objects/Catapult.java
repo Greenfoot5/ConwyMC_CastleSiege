@@ -388,7 +388,7 @@ public class Catapult implements Listener {
 
             Player p = event.getPlayer();
 
-            if (!p.getWorld().equals(left_right_sign.toLocation(Bukkit.getWorld(worldName)))) {
+            if (p.getWorld() != Bukkit.getWorld(worldName)) {
                   return;
             }
 
@@ -439,7 +439,7 @@ public class Catapult implements Listener {
 
             Player p = event.getPlayer();
 
-            if (!p.getWorld().equals(left_right_sign.toLocation(Bukkit.getWorld(worldName)))) {
+            if (p.getWorld() != Bukkit.getWorld(worldName)) {
                   return;
             }
 
