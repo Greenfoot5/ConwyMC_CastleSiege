@@ -388,11 +388,9 @@ public class Catapult implements Listener {
 
             Player p = event.getPlayer();
 
-            if (!p.getWorld().equals(left_right_sign.toLocation(Bukkit.getWorld(worldName)))) {
-                  return;
-            }
-
-            if (target != null && target.getState() instanceof Sign && p.getLocation().distance(up_down_sign.toLocation(Bukkit.getWorld(worldName))) <= 4) {
+            if (target != null && target.getState() instanceof Sign &&
+                    p.getLocation().distance(up_down_sign.toLocation(Bukkit.getWorld(worldName))) <= 4 &&
+                    p.getWorld() == Bukkit.getWorld(worldName)) {
 
                   Sign sign = (Sign) event.getClickedBlock().getState();
 
@@ -439,11 +437,13 @@ public class Catapult implements Listener {
 
             Player p = event.getPlayer();
 
-            if (!p.getWorld().equals(left_right_sign.toLocation(Bukkit.getWorld(worldName)))) {
+            if (p.getWorld() != Bukkit.getWorld(worldName)) {
                   return;
             }
 
-            if (target != null && target.getState() instanceof Sign && p.getLocation().distance(left_right_sign.toLocation(Bukkit.getWorld(worldName))) <= 4) {
+            if (target != null && target.getState() instanceof Sign
+                    && p.getLocation().distance(left_right_sign.toLocation(Bukkit.getWorld(worldName))) <= 4
+                    && p.getWorld() == Bukkit.getWorld(worldName)) {
 
                         Sign sign = (Sign) event.getClickedBlock().getState();
 
@@ -599,6 +599,11 @@ public class Catapult implements Listener {
                         ball.getPassengers().remove(0);
                   }
 
+                  if (event.getHitEntity() instanceof Player) {
+                        event.getHitEntity().getWorld().createExplosion(event.getEntity().getLocation(), 3F, false, true);
+                        return;
+                  }
+
                   event.getHitBlock().getWorld().createExplosion(event.getHitBlock().getLocation(), 3F, false, true);
 
             }
@@ -690,9 +695,12 @@ public class Catapult implements Listener {
       @EventHandler
       public void onExplosionDamage(EntityDamageByEntityEvent event) {
 
-            if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
+                        if (event.getDamager() instanceof Snowball) {
 
-                  if (event.getDamager() instanceof Snowball) {
+                        if (event.getEntity().getLastDamageCause().getCause()
+                                != EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
+                              return;
+                        }
 
                         Snowball damager = (Snowball) event.getDamager();
 
@@ -709,7 +717,7 @@ public class Catapult implements Listener {
                         }
 
                         event.setDamage(100);
-                  }
+
             }
       }
 }
