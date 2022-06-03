@@ -826,17 +826,19 @@ public class Main extends JavaPlugin implements Listener {
         for (int i = 0; i < catapultPaths.length; i++) {
 
             Route catapultRoute = mapRoute.add(catapultPaths[i]);
-            Catapult catapult = new Catapult(getCatapultsConfig().getString(catapultRoute.add("display_name")));
-            catapult.setWorldName(getCatapultsConfig().getString(catapultRoute.add("world")));
-            catapult.setCatapultFacing(getCatapultsConfig().getString(catapultRoute.add("direction")));
-            catapult.setSchematicLocation(getCatapultsConfig().getAs(catapultRoute.add("schematic_location"), Vector.class));
-            catapult.setLeverLocation(getCatapultsConfig().getAs(catapultRoute.add("lever_location"), Vector.class));
-            catapult.setUpDownLocation(getCatapultsConfig().getAs(catapultRoute.add("upDown_sign_location"), Vector.class));
-            catapult.setRightLeftLocation(getCatapultsConfig().getAs(catapultRoute.add("rightLeft_sign_location"), Vector.class));
-            catapult.setSoundLocation(getCatapultsConfig().getAs(catapultRoute.add("sound_location"), Vector.class));
-            catapult.setProjectileLocation(getCatapultsConfig().getAs(catapultRoute.add("projectile_location"), Vector.class));
-            catapult.setCobblestoneLocation(getCatapultsConfig().getAs(catapultRoute.add("engineer_cobblestone_location"), Vector.class));
+            String cName = getCatapultsConfig().getString(catapultRoute.add("display_name"));
+            String cWorld = getCatapultsConfig().getString(catapultRoute.add("world"));
+            String cDirection = getCatapultsConfig().getString(catapultRoute.add("direction"));
+            Vector cSchematic = getCatapultsConfig().getAs(catapultRoute.add("schematic_location"), Vector.class);
+            Vector cLever = getCatapultsConfig().getAs(catapultRoute.add("lever_location"), Vector.class);
+            Vector cUpDown = getCatapultsConfig().getAs(catapultRoute.add("upDown_sign_location"), Vector.class);
+            Vector cLeftRight = getCatapultsConfig().getAs(catapultRoute.add("rightLeft_sign_location"), Vector.class);
+            Vector cSound = getCatapultsConfig().getAs(catapultRoute.add("sound_location"), Vector.class);
+            Vector cProjectile = getCatapultsConfig().getAs(catapultRoute.add("projectile_location"), Vector.class);
+            Vector cCobblestone = getCatapultsConfig().getAs(catapultRoute.add("engineer_cobblestone_location"), Vector.class);
 
+            Catapult catapult = new Catapult(cName, cWorld, cDirection, cSchematic,
+                    cLever, cUpDown, cLeftRight, cSound, cProjectile, cCobblestone);
             map.catapults[i] = catapult;
         }
 

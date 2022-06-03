@@ -36,7 +36,7 @@ public class Catapult implements Listener {
 
       private final String name;
 
-      private String worldName;
+      private final String worldName;
 
       //In this case the name of the schematic should always be catapult_normal, other two are catapult_reloading and catapultShotSchem.
       private String catapultSchem;
@@ -48,19 +48,19 @@ public class Catapult implements Listener {
       private String catapultShotSchem;
 
       //This is the same location as the location of the aim left/right sign.
-      private Vector schematicLocation;
+      private final Vector schematicLocation;
 
       //Should basically be the middle of the catapult at the top.
-      private Vector catapultSoundLocation;
+      private final Vector catapultSoundLocation;
 
       //Should basically be the middle of the catapult at the top but at least 1 block higher or further than the sound loc.
-      private Vector catapultProjectileLocation;
+      private final Vector catapultProjectileLocation;
 
       //Is the catapult ready to be refilled by an engineer?
       private boolean canBeRefilled;
 
       //The location of the cobblestone, so engineer can refill.
-      private Vector catapultCobblestoneLocation;
+      private final Vector catapultCobblestoneLocation;
 
       //Is the catapult ready?
       private boolean canShoot = true;
@@ -76,12 +76,12 @@ public class Catapult implements Listener {
       private double up_down = 20.0;
       //the value for aim left/right
       private double left_right = 0.0;
-      private Vector lever;
-      private Vector left_right_sign;
-      private Vector up_down_sign;
+      private final Vector lever;
+      private final Vector left_right_sign;
+      private final Vector up_down_sign;
       //If you wonder what this is it is the location of where the refill happens.
       private Vector cobblestone_refill;
-      private String catapultFacing;
+      private final String catapultFacing;
       //serves as a third value for the shooting vectors, this makes sure it shoots straight and not backwards.
       private double forwardValueNorthZ = -34.0;
       private double forwardValueEastX = 34.0;
@@ -94,140 +94,94 @@ public class Catapult implements Listener {
 
       private Player shooter;
 
-
       /**
-       * Creates a new catapult
-       * @param displayName The display name of the gate
+       * Create a new catapult
+       * @param name The name of the catapult
+       * @param worldName The name of the world in which the catapult is location
+       * @param direction The direction in which the catapult is facing
+       * @param schematicLocation The location where the catapult schematics are placed
+       * @param leverLocation The location of the catapult's lever
+       * @param upDownSignLocation The location of the catapult's up/down sign
+       * @param leftRightSignLocation The location of the catapult's left/right sign
+       * @param soundLocation The location where the catapult's sounds are played
+       * @param projectileLocation The location where the catapult's projectiles are launched
+       * @param cobblestoneLocation The location where
        */
-      public Catapult(String displayName) {
-            this.name = displayName;
+      public Catapult(String name, String worldName, String direction, Vector schematicLocation,
+                      Vector leverLocation, Vector upDownSignLocation, Vector leftRightSignLocation,
+                      Vector soundLocation, Vector projectileLocation, Vector cobblestoneLocation) {
+            this.name = name;
+            this.worldName = worldName;
+            this.catapultFacing = direction;
+            this.schematicLocation = schematicLocation;
+            this.lever = leverLocation;
+            this.up_down_sign = upDownSignLocation;
+            this.left_right_sign = leftRightSignLocation;
+            this.catapultSoundLocation = soundLocation;
+            this.catapultProjectileLocation = projectileLocation;
+            this.catapultCobblestoneLocation = cobblestoneLocation;
       }
 
+      /**
+       * Get the name of this catapult
+       * @return The catapult's name
+       */
       public String getName() {
             return name;
       }
 
-
-      /**
-       *
-       * @param world the world name for bukkit.getWorld
-       */
-      public void setWorldName(String world) {
-
-            this.worldName = world;
-
-      }
-
       public String getWorldName() { return worldName; }
 
-      /**
-       *
-       * @param direction This has to be defined as "north" or "east" or "west" or "south"
-       */
-      public void setCatapultFacing(String direction) {
-            this.catapultFacing = direction;
-      }
 
       public String getCatapultDirection() {
             return catapultFacing;
       }
 
-      /**
-       *
-       * @param leverLoc Location of the lever
-       */
-      public void setLeverLocation(Vector leverLoc) {
-            this.lever = leverLoc;
-      }
-
       public Vector getleverLocation() {  return lever; }
-
-      /**
-       *
-       * @param leverLoc Location of the schematic
-       */
-      public void setSchematicLocation(Vector schemLoc) {
-            this.schematicLocation = schemLoc;
-      }
 
       public Vector getSchematicLocation() {  return schematicLocation; }
 
-      /**
-       *
-       * @param leverLoc Location of the catapult sounds
-       */
-      public void setSoundLocation(Vector soundLoc) {
-            this.catapultSoundLocation = soundLoc;
-      }
-
       public Vector getsoundLocation() {  return catapultSoundLocation; }
-
-      /**
-       *
-       * @param leverLoc Location of the cobblestone
-       */
-      public void setCobblestoneLocation(Vector cobbleLoc) {
-            this.catapultCobblestoneLocation = cobbleLoc;
-      }
 
       public Vector getCobblestoneLocation() {  return catapultCobblestoneLocation; }
 
-      /**
-       *
-       * @param leverLoc Location of the catapult projectile, its initial point.
-       */
-      public void setProjectileLocation(Vector projectileLoc) {
-            this.catapultProjectileLocation = projectileLoc;
-      }
 
       public Vector getProjectileLocation() {  return catapultProjectileLocation; }
 
-      /**
-       * @param leverLoc Location of the Up/Down sign
-       */
-      public void setUpDownLocation(Vector upDownSignLocation) {
-            this.up_down_sign = upDownSignLocation;
-      }
 
       public Vector getupdownLocation() {  return up_down_sign; }
 
-      /**
-       * @param leverLoc Location of the Aim Right/Left sign
-       */
-      public void setRightLeftLocation(Vector rightLeftSignLocation) {
-            this.left_right_sign = rightLeftSignLocation;
-      }
 
       public Vector getrightleftLocation() {  return left_right_sign; }
 
       /**
-       *
+       * TODO
        * @param schematicName the schematic when the catapult is ready to fire
        * @param location schem spawn loc
        */
       public void setCatapultSchematic(String schematicName, Vector location) {
             this.catapultSchem = schematicName;
-            this.schematicLocation = location;
+            //this.schematicLocation = location;
       }
 
       /**
-       *
+       * TODO
        * @param schematicName the schematic when the catapult is reloading
        * @param location schem spawn loc
        */
       public void setCatapultReloadingSchematic(String schematicName, Vector location) {
             this.catapultReloadingSchem = schematicName;
-            this.schematicLocation = location;
+            //this.schematicLocation = location;
       }
 
       /**
-       *
+       * TODO
        * @param schematicName the schematic when the catapult shoots/has shot
        * @param location schem spawn loc
        */
       public void setCatapultShootSchematic(String schematicName, Vector location) {
             this.catapultShotSchem = schematicName;
-            this.schematicLocation = location;
+            //this.schematicLocation = location;
       }
 
       /**
