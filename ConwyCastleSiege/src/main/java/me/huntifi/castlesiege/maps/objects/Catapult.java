@@ -90,6 +90,8 @@ public class Catapult implements Listener {
 
       private FallingBlock projectilePassenger;
 
+      private Snowball ball;
+
 
       /**
        * Creates a new catapult
@@ -498,17 +500,17 @@ public class Catapult implements Listener {
 
             Byte blockData = 0x0;
 
-           Snowball projectile = (Snowball) world.spawn(catapultProjectileLocation.toLocation(Bukkit.getWorld(worldName)), Snowball.class);
+           ball = (Snowball) world.spawn(catapultProjectileLocation.toLocation(Bukkit.getWorld(worldName)), Snowball.class);
 
-           projectile.setShooter(shooter);
+           ball.setShooter(shooter);
 
-           projectile.setGravity(true);
+           ball.setGravity(true);
 
            projectilePassenger = (FallingBlock) world.spawnFallingBlock(projectileLoc, Material.COBBLESTONE, blockData);
 
            projectilePassenger.setDropItem(false);
 
-           projectile.addPassenger(projectilePassenger);
+            ball.addPassenger(projectilePassenger);
 
             switch (facing) {
 
@@ -522,8 +524,8 @@ public class Catapult implements Listener {
 
                         Vector v = new Vector(vecX, vecY, vecZ);
 
-                        projectile.setVelocity(v);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
+                        ball.setVelocity(v);
+                        ball.setVelocity(ball.getVelocity().normalize().multiply(3.5));
 
                         break;
 
@@ -537,8 +539,8 @@ public class Catapult implements Listener {
 
                         Vector v2 = new Vector(vecX2, vecY2, vecZ2);
 
-                        projectile.setVelocity(v2);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
+                        ball.setVelocity(v2);
+                        ball.setVelocity(ball.getVelocity().normalize().multiply(3.5));
 
 
                         break;
@@ -553,8 +555,8 @@ public class Catapult implements Listener {
 
                         Vector v3 = new Vector(vecX3, vecY3, vecZ3);
 
-                        projectile.setVelocity(v3);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
+                        ball.setVelocity(v3);
+                        ball.setVelocity(ball.getVelocity().normalize().multiply(3.5));
                         break;
 
                   case "south":
@@ -567,8 +569,8 @@ public class Catapult implements Listener {
 
                         Vector v4 = new Vector(vecX4, vecY4, vecZ4);
 
-                        projectile.setVelocity(v4);
-                        projectile.setVelocity(projectile.getVelocity().normalize().multiply(3.5));
+                        ball.setVelocity(v4);
+                        ball.setVelocity(ball.getVelocity().normalize().multiply(3.5));
 
                         break;
 
@@ -588,21 +590,24 @@ public class Catapult implements Listener {
 
             if (event.getEntity() instanceof Snowball) {
 
-                  Snowball ball = (Snowball) event.getEntity();
+                  if (ball == event.getEntity()) {
 
-                  if (ball.getPassengers() == null) {
-                        return;
-                  } else {
-                        ball.getPassengers().remove(0);
+                        ball = (Snowball) event.getEntity();
+
+                        if (ball.getPassengers() == null) {
+                              return;
+                        } else {
+                              ball.getPassengers().remove(0);
+                        }
+
+                        if (event.getHitEntity() instanceof Player) {
+                              event.getHitEntity().getWorld().createExplosion(event.getEntity().getLocation(), 3F, false, true);
+                              return;
+                        }
+
+                        event.getHitBlock().getWorld().createExplosion(event.getHitBlock().getLocation(), 3F, false, true);
+
                   }
-
-                  if (event.getHitEntity() instanceof Player) {
-                        event.getHitEntity().getWorld().createExplosion(event.getEntity().getLocation(), 3F, false, true);
-                        return;
-                  }
-
-                  event.getHitBlock().getWorld().createExplosion(event.getHitBlock().getLocation(), 3F, false, true);
-
             }
 
 
@@ -665,7 +670,7 @@ public class Catapult implements Listener {
 
                         if (canBeRefilled == false) {
                               p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                                      TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "canBeRefilled == false"));
+                                      TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Catapult is already refilled"));
                               return;
                         }
 
@@ -704,17 +709,19 @@ public class Catapult implements Listener {
 
                   Player whoWasHit = (Player) e.getEntity();
 
-                  Snowball ball = (Snowball) whoWasHit.getKiller();
+                  if (ball == whoWasHit.getKiller()) {
 
-                  Player whoHit = (Player) ball.getShooter();
+                        ball = (Snowball) whoWasHit.getKiller();
 
-                  if (whoWasHit.getLastDamage() >= whoWasHit.getHealth()) {
-                        e.setCancelled(true);
-                        whoWasHit.setHealth(0);
-                        DeathEvent.setKiller(whoWasHit, whoHit);
+                        Player whoHit = (Player) ball.getShooter();
+
+                        if (whoWasHit.getLastDamage() >= whoWasHit.getHealth()) {
+                              e.setCancelled(true);
+                              DeathEvent.setKiller(whoWasHit, whoHit);
+                              whoWasHit.setHealth(0);
+                        }
 
                   }
-
             }
 
       }
