@@ -1,13 +1,17 @@
 package me.huntifi.castlesiege.events.combat;
 
+import me.huntifi.castlesiege.Main;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -16,6 +20,7 @@ import java.util.UUID;
 public class AssistKill implements Listener {
 
     private static final HashMap<UUID, HashMap<UUID, Double>> damageMap = new HashMap<>();
+    private static final HashMap<UUID, List<BukkitRunnable>> brMap = new HashMap<>();
 
     /**
      * Track the attacker and amount of damage when a player takes damages
@@ -46,6 +51,17 @@ public class AssistKill implements Listener {
     public static void addDamager(UUID target, UUID attacker, double damage) {
         damageMap.putIfAbsent(target, new HashMap<>());
         damageMap.get(target).merge(attacker, damage, Double::sum);
+
+        // Damage should no longer be counted towards an assist after 1 minute
+        BukkitRunnable br = new BukkitRunnable() {
+            @Override
+            public void run() {
+                damageMap.get(target).merge(attacker, -damage, Double::sum);
+            }
+        };
+        brMap.putIfAbsent(target, new ArrayList<>());
+        brMap.get(target).add(br);
+        br.runTaskLater(Main.plugin, 1200);
     }
 
     /**
@@ -64,6 +80,10 @@ public class AssistKill implements Listener {
      * @return The unique ID of the max damage dealer, null if never attacked by a player
      */
     public static UUID get(UUID uuid) {
+        List<BukkitRunnable> brList = brMap.getOrDefault(uuid , new ArrayList<>());
+        cancelRunnables(brList);
+        brList.clear();
+
         HashMap<UUID, Double> damagers = damageMap.get(uuid);
         if (damagers == null || damagers.isEmpty()) {
             return null;
@@ -77,6 +97,22 @@ public class AssistKill implements Listener {
      * Remove all tracked damage.
      */
     public static void reset() {
+        for (List<BukkitRunnable> brList : brMap.values()) {
+            cancelRunnables(brList);
+        }
+        brMap.clear();
         damageMap.clear();
+    }
+
+    /**
+     * Cancels bukkit runnables if they haven't been cancelled yet
+     * @param brList A list of bukkit runnables that should be cancelled
+     */
+    private static void cancelRunnables(List<BukkitRunnable> brList) {
+        for (BukkitRunnable br : brList) {
+            if (!br.isCancelled()) {
+                br.cancel();
+            }
+        }
     }
 }
