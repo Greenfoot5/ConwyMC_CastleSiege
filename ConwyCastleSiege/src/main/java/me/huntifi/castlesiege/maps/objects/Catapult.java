@@ -92,6 +92,8 @@ public class Catapult implements Listener {
 
       private Snowball ball;
 
+      private Player shooter;
+
 
       /**
        * Creates a new catapult
@@ -253,11 +255,13 @@ public class Catapult implements Listener {
 
                               catapultShot(Bukkit.getWorld(MapController.getCurrentMap().worldName));
 
-                              shootCatapultProjectile(catapultProjectileLocation.toLocation(Bukkit.getWorld(worldName)), catapultFacing, Bukkit.getWorld(MapController.getCurrentMap().worldName), player);
+                              shootCatapultProjectile(catapultProjectileLocation.toLocation(Bukkit.getWorld(worldName)), catapultFacing, Bukkit.getWorld(MapController.getCurrentMap().worldName));
 
                               canShoot = false;
 
                               canBeRefilled = false;
+
+                              shooter = player;
 
                               new BukkitRunnable() {
                                     @Override
@@ -490,7 +494,7 @@ public class Catapult implements Listener {
        * @param world the world the projectile should be shot in
        */
      //This is the projectile that needs to be shot and the direction.
-      public void shootCatapultProjectile(Location projectileLoc, String facing, World world, Player shooter) {
+      public void shootCatapultProjectile(Location projectileLoc, String facing, World world) {
 
             if (world == null) {
                   return;
@@ -510,7 +514,7 @@ public class Catapult implements Listener {
 
            projectilePassenger.setDropItem(false);
 
-            ball.addPassenger(projectilePassenger);
+           ball.addPassenger(projectilePassenger);
 
             switch (facing) {
 
@@ -696,34 +700,33 @@ public class Catapult implements Listener {
 
       @EventHandler
       public void onExplosionDamage(EntityDamageEvent e) {
-            if (e.isCancelled() || e.getCause() != EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
+            if (e.isCancelled() || e.getCause() != EntityDamageEvent.DamageCause.BLOCK_EXPLOSION
+                    ) {
                   return;
             }
             e.setDamage(180);
       }
 
       @EventHandler
-      public void onKill(EntityDamageByEntityEvent e) {
+      public void onKill(PlayerDeathEvent e) {
 
-            if (e.getEntity() instanceof Player && e.getDamager() instanceof Snowball) {
+                  Player whoDied = (Player) e.getEntity();
+                        if (e.getEntity().getLastDamageCause() instanceof EntityDamageEvent) {
 
-                  Player whoWasHit = (Player) e.getEntity();
+                              whoDied.sendMessage("e.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent");
 
-                  if (ball == whoWasHit.getKiller()) {
+                              EntityDamageEvent cause = (EntityDamageEvent) whoDied.getLastDamageCause();
 
-                        ball = (Snowball) whoWasHit.getKiller();
+                              if (cause.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION
+                                      || cause.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
 
-                        Player whoHit = (Player) ball.getShooter();
+                                    whoDied.sendMessage("You ded");
 
-                        if (whoWasHit.getLastDamage() >= whoWasHit.getHealth()) {
-                              e.setCancelled(true);
-                              DeathEvent.setKiller(whoWasHit, whoHit);
-                              whoWasHit.setHealth(0);
+                                    shooter.sendMessage("You killed them");
+
+                                    DeathEvent.setKiller(whoDied, shooter);
+
+                              }
                         }
-
-                  }
-            }
-
       }
-
 }
