@@ -63,9 +63,9 @@ Lakeborough:
     #the schematic location should be at the same location as the right/left sign.
     location:
       ==: org.bukkit.util.Vector
-      x: -1679
+      x: -1680
       y: 16
-      z: -313
+      z: -314
   VillageCatapult:
     display_name: "Village Catapult"
     #direction determines where the catapult will aim at.
@@ -74,6 +74,6 @@ Lakeborough:
     #the schematic location should be at the same location as the right/left sign.
     location:
       ==: org.bukkit.util.Vector
-      x: -1532
+      x: -1533
       y: 24
-      z: -280
+      z: -281

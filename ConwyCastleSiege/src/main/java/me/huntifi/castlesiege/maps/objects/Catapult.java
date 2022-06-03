@@ -516,11 +516,11 @@ public class Catapult implements Listener {
                         }
 
                         if (event.getHitEntity() instanceof Player) {
-                              event.getHitEntity().getWorld().createExplosion(event.getEntity().getLocation(), 3F, false, true);
+                              event.getHitEntity().getWorld().createExplosion(event.getEntity().getLocation(), 4F, false, true);
                               return;
                         }
 
-                        event.getHitBlock().getWorld().createExplosion(event.getHitBlock().getLocation(), 3F, false, true);
+                        event.getHitBlock().getWorld().createExplosion(event.getHitBlock().getLocation(), 4F, false, true);
 
                   }
             }
@@ -540,29 +540,6 @@ public class Catapult implements Listener {
                   }
               event.setCancelled(true);
             }
-      }
-
-
-      /**
-       *
-       * @param event this event causes a little nice explosion animation.
-       */
-      @EventHandler
-      public void onEntityExplode(EntityExplodeEvent event) {
-
-        for (Block b : event.blockList()) {
-
-              float x = (float) -2 + (float) (Math.random() *((5- -5) + 1));
-              float y = (float) -6 + (float) (Math.random() *((5- -5) + 1));
-              float z = (float) -2 + (float) (Math.random() *((5- -5) + 1));
-
-              FallingBlock fallingblock = b.getWorld().spawnFallingBlock(b.getLocation(), b.getType(), b.getData());
-              fallingblock.setVelocity(new Vector(x,y,z));
-              fallingblock.setDropItem(false);
-              b.setType(Material.AIR);
-        }
-
-
       }
 
 
