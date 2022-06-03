@@ -30,37 +30,26 @@ import java.util.UUID;
 
 public class Catapult implements Listener {
 
+      // Names of the catapult and the world that it's in
       private final String name;
-
       private final String world;
 
-      //In this case the name of the schematic should always be catapult_normal, other two are catapult_reloading and catapultShotSchem.
-      private final String schematicNormal;
-
-      //when it comes back down, so without cobblestone yet.
-      private final String schematicReloading;
-
-      //After it shot
-      private final String schematicShot;
-
-      //This is the same location as the location of the aim left/right sign.
-      private final Vector schematicLocation;
-
-      //Should basically be the middle of the catapult at the top.
+      // Different locations used by the catapult
+      private final Vector cobblestone;
+      private final Vector projectile;
       private final Vector sound;
 
-      //Should basically be the middle of the catapult at the top but at least 1 block higher or further than the sound loc.
-      private final Vector projectile;
+      // Location and names of the schematics for the different catapult states
+      private final Vector schematicLocation;
+      private final String schematicNormal;
+      private final String schematicReloading;
+      private final String schematicShot;
 
-      //Is the catapult ready to be refilled by an engineer?
-      private boolean canBeRefilled;
-
-      //The location of the cobblestone, so engineer can refill.
-      private final Vector cobblestone;
-
-      //Is the catapult ready?
+      // Booleans used to represent the catapult state
+      private boolean canBeRefilled = false;
       private boolean canShoot = true;
 
+      // TODO - Sort out the following variables
       //The cooldown of the catapult default should be 40 seconds,
       // at 20 seconds the catapult comes back down but at 0 seconds it is refilled.
       //Unless an engineer fills it up first then the cooldown is put to 0 seconds.
@@ -75,8 +64,6 @@ public class Catapult implements Listener {
       private final Vector lever;
       private final Vector signLeftRight;
       private final Vector signUpDown;
-      //If you wonder what this is it is the location of where the refill happens.
-      private Vector cobblestone_refill;
       private final String direction;
       //serves as a third value for the shooting vectors, this makes sure it shoots straight and not backwards.
       private double forwardValueNorthZ = -34.0;
