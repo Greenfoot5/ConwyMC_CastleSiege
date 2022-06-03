@@ -37,8 +37,8 @@ public class AssistKill implements Listener {
     }
 
     /**
-     * Create an entry for the target if absent
-     * Add damage done by attacker to target's entry
+     * Create an entry for the target if absent.
+     * Add damage done by attacker to target's entry.
      * @param target The player that was attacked
      * @param attacker The attacker
      * @param damage The final damage that was dealt
@@ -49,7 +49,7 @@ public class AssistKill implements Listener {
     }
 
     /**
-     * Remove damage done by attacker to target's entry
+     * Remove damage done by attacker to target's entry.
      * @param target The player that was attacked
      * @param attacker The attacker
      */
@@ -58,8 +58,8 @@ public class AssistKill implements Listener {
     }
 
     /**
-     * Get the player that dealt the most damage to the specified player
-     * Stop tracking the specified player
+     * Get the player that dealt the most damage to the specified player.
+     * Stop tracking the specified player.
      * @param uuid The unique ID of the killed player
      * @return The unique ID of the max damage dealer, null if never attacked by a player
      */
@@ -71,5 +71,12 @@ public class AssistKill implements Listener {
 
         damageMap.remove(uuid);
         return damagers.entrySet().stream().max((x, y) -> x.getValue() > y.getValue() ? 1 : -1).get().getKey();
+    }
+
+    /**
+     * Remove all tracked damage.
+     */
+    public static void reset() {
+        damageMap.clear();
     }
 }

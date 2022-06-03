@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.commands.info.MVPCommand;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.objects.Catapult;
@@ -194,6 +195,7 @@ public class MapController implements CommandExecutor {
 			}
 		}
 		MVPStats.reset();
+		AssistKill.reset();
 
 		// Begins the next map
 		new BukkitRunnable() {
