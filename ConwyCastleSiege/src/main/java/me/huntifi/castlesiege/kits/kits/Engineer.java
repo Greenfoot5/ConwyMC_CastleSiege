@@ -311,9 +311,9 @@ public class Engineer extends Kit implements Listener {
 
             Player shooter = (Player) e.getEntity().getShooter();
             Team team = MapController.getCurrentMap().getTeam(shooter.getUniqueId());
-            for (Entity hit : e.getEntity().getNearbyEntities(2, 2, 2)) {
+            for (Entity hit : e.getEntity().getNearbyEntities(2.5, 2.5, 2.5)) {
                 if (hit instanceof Player && MapController.getCurrentMap().getTeam(hit.getUniqueId()) != team) {
-                    ((Player) hit).damage(40, shooter);
+                    ((Player) hit).damage(75, shooter);
                 }
             }
 
