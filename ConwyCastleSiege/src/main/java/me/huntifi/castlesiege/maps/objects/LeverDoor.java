@@ -70,7 +70,7 @@ public class LeverDoor extends Door {
                             @Override
                             public void run() {
                                 Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
-                                if (openCounts.getAndDecrement() > 1 && !leverData.isPowered())
+                                if (openCounts.getAndDecrement() > 1 || leverData.isPowered())
                                     return;
                                 try {
                                     close();

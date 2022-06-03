@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.maps.objects;
 
 import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Location;
 import org.bukkit.Sound;
