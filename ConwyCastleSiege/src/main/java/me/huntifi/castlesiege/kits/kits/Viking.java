@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import org.bukkit.ChatColor;
@@ -34,7 +35,7 @@ public class Viking extends Kit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                ChatColor.GREEN + "Giant Battle Axe", null, null, 18);
+                ChatColor.GREEN + "Giant Battle Axe", null, null, 20);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
@@ -85,7 +86,10 @@ public class Viking extends Kit implements Listener {
                 Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
             Player p = (Player) e.getEntity();
             int baseHealth = Kit.equippedKits.get(p.getUniqueId()).baseHealth;
-            e.setDamage(baseHealth * e.getDamage() / 100);
+            int voted = 0;
+            if (ActiveData.getData(p.getUniqueId()).hasVote("sword"))
+                voted = 2;
+            e.setDamage((baseHealth * e.getDamage() / 100) + voted);
         }
     }
 }
