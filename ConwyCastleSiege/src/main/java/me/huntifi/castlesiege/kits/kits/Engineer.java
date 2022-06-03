@@ -452,13 +452,13 @@ public class Engineer extends Kit implements Listener {
     private void ballistaCooldown(Player p) {
         Tuple<Location, Boolean> ballista = ballistae.get(p);
         ballista.setSecond(true);
-        BarCooldown.add(p.getUniqueId(), 100);
+        BarCooldown.add(p.getUniqueId(), 80);
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 ballista.setSecond(false);
             }
-        }.runTaskLater(Main.plugin, 100);
+        }.runTaskLater(Main.plugin, 80);
     }
 }
