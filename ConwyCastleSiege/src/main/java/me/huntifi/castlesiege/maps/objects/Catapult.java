@@ -1,10 +1,7 @@
 package me.huntifi.castlesiege.maps.objects;
 
 import com.sk89q.worldedit.WorldEditException;
-import com.sk89q.worldedit.util.Direction;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.death.DeathEvent;
-import me.huntifi.castlesiege.kits.kits.Engineer;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
@@ -14,7 +11,6 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.Powerable;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -39,13 +35,13 @@ public class Catapult implements Listener {
       private final String worldName;
 
       //In this case the name of the schematic should always be catapult_normal, other two are catapult_reloading and catapultShotSchem.
-      private String catapultSchem;
+      private final String catapultNormalSchem;
 
       //when it comes back down, so without cobblestone yet.
-      private String catapultReloadingSchem;
+      private final String catapultReloadingSchem;
 
       //After it shot
-      private String catapultShotSchem;
+      private final String catapultShotSchem;
 
       //This is the same location as the location of the aim left/right sign.
       private final Vector schematicLocation;
@@ -110,9 +106,10 @@ public class Catapult implements Listener {
       public Catapult(String name, String worldName, String direction, Vector schematicLocation,
                       Vector leverLocation, Vector upDownSignLocation, Vector leftRightSignLocation,
                       Vector soundLocation, Vector projectileLocation, Vector cobblestoneLocation) {
+            // Set passed variables
             this.name = name;
             this.worldName = worldName;
-            this.catapultFacing = direction;
+            this.catapultFacing = direction; // TODO - Compute other values with this
             this.schematicLocation = schematicLocation;
             this.lever = leverLocation;
             this.up_down_sign = upDownSignLocation;
@@ -120,6 +117,33 @@ public class Catapult implements Listener {
             this.catapultSoundLocation = soundLocation;
             this.catapultProjectileLocation = projectileLocation;
             this.catapultCobblestoneLocation = cobblestoneLocation;
+
+            // Set variables based on this catapult's direction
+            switch (direction.toLowerCase()) {
+                  case "north":
+                        catapultNormalSchem = "Catapult_Normal_North";
+                        catapultReloadingSchem = "Catapult_Reloading_North";
+                        catapultShotSchem = "Catapult_Shot_North";
+                        break;
+                  case "east":
+                        catapultNormalSchem = "Catapult_Normal_East";
+                        catapultReloadingSchem = "Catapult_Reloading_East";
+                        catapultShotSchem = "Catapult_Shot_East";
+                        break;
+                  case "south":
+                        catapultNormalSchem = "Catapult_Normal_South";
+                        catapultReloadingSchem = "Catapult_Reloading_South";
+                        catapultShotSchem = "Catapult_Shot_South";
+                        break;
+                  case "west":
+                        catapultNormalSchem = "Catapult_Normal_West";
+                        catapultReloadingSchem = "Catapult_Reloading_West";
+                        catapultShotSchem = "Catapult_Shot_West";
+                        break;
+                  default:
+                        throw new IllegalArgumentException("The direction " + direction
+                                + " cannot be applied to a catapult");
+            }
       }
 
       /**
@@ -153,36 +177,6 @@ public class Catapult implements Listener {
 
 
       public Vector getrightleftLocation() {  return left_right_sign; }
-
-      /**
-       * TODO
-       * @param schematicName the schematic when the catapult is ready to fire
-       * @param location schem spawn loc
-       */
-      public void setCatapultSchematic(String schematicName, Vector location) {
-            this.catapultSchem = schematicName;
-            //this.schematicLocation = location;
-      }
-
-      /**
-       * TODO
-       * @param schematicName the schematic when the catapult is reloading
-       * @param location schem spawn loc
-       */
-      public void setCatapultReloadingSchematic(String schematicName, Vector location) {
-            this.catapultReloadingSchem = schematicName;
-            //this.schematicLocation = location;
-      }
-
-      /**
-       * TODO
-       * @param schematicName the schematic when the catapult shoots/has shot
-       * @param location schem spawn loc
-       */
-      public void setCatapultShootSchematic(String schematicName, Vector location) {
-            this.catapultShotSchem = schematicName;
-            //this.schematicLocation = location;
-      }
 
       /**
        *
@@ -278,11 +272,6 @@ public class Catapult implements Listener {
 
       private void catapultShot(World world) {
 
-            if (catapultFacing.equalsIgnoreCase("north")) { catapultShotSchem = "Catapult_Shot_North"; }
-            if (catapultFacing.equalsIgnoreCase("south")) { catapultShotSchem = "Catapult_Shot_South"; }
-            if (catapultFacing.equalsIgnoreCase("east")) { catapultShotSchem = "Catapult_Shot_East"; }
-            if (catapultFacing.equalsIgnoreCase("west")) { catapultShotSchem = "Catapult_Shot_West"; }
-
             try {
                   SchematicSpawner.spawnSchematic(schematicLocation.toLocation(Bukkit.getWorld(worldName)), catapultShotSchem, world.getName());
             } catch (WorldEditException e) {
@@ -300,11 +289,6 @@ public class Catapult implements Listener {
        */
 
       private void catapultReloading(World world) {
-
-            if (catapultFacing.equalsIgnoreCase("north")) { catapultReloadingSchem = "Catapult_Reloading_North"; }
-            if (catapultFacing.equalsIgnoreCase("south")) { catapultReloadingSchem = "Catapult_Reloading_South"; }
-            if (catapultFacing.equalsIgnoreCase("east")) { catapultReloadingSchem = "Catapult_Reloading_East"; }
-            if (catapultFacing.equalsIgnoreCase("west")) { catapultReloadingSchem = "Catapult_Reloading_West"; }
 
             try {
                   SchematicSpawner.spawnSchematic(schematicLocation.toLocation(Bukkit.getWorld(worldName)), catapultReloadingSchem, world.getName());
@@ -324,13 +308,8 @@ public class Catapult implements Listener {
 
       private void catapultRefilled(World world) {
 
-            if (catapultFacing.equalsIgnoreCase("north")) { catapultSchem = "Catapult_Normal_North"; }
-            if (catapultFacing.equalsIgnoreCase("south")) { catapultSchem = "Catapult_Normal_South"; }
-            if (catapultFacing.equalsIgnoreCase("east")) { catapultSchem = "Catapult_Normal_East"; }
-            if (catapultFacing.equalsIgnoreCase("west")) { catapultSchem = "Catapult_Normal_West"; }
-
             try {
-                  SchematicSpawner.spawnSchematic(schematicLocation.toLocation(Bukkit.getWorld(worldName)), catapultSchem, world.getName());
+                  SchematicSpawner.spawnSchematic(schematicLocation.toLocation(Bukkit.getWorld(worldName)), catapultNormalSchem, world.getName());
             } catch (WorldEditException e) {
                   e.printStackTrace();
             }
