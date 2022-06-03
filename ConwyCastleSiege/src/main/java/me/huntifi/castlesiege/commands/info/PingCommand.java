@@ -29,9 +29,18 @@ public class PingCommand implements CommandExecutor {
 			sender.sendMessage("Console cannot use /ping!");
 			return true;
 		}
-
 		Player p = (Player) sender;
-		p.sendMessage(ChatColor.GOLD + "[p] " + ChatColor.DARK_AQUA + "Your ping is: " + ChatColor.AQUA + getPing(p) + ChatColor.DARK_AQUA + " ms.");
+		Player t = p; //set target to sender by default
+		if (args.length == 1) {
+			t = Bukkit.getPlayer(args[0]); //get target player specified in arg
+			if (t == null) { //if target does not exist/is not online
+				Messenger.sendError("Could not find player: "  + ChatColor.RED + args[0]+".", p);
+				return false;
+			}
+		}
+
+		String innerMessage = (t == p) ? "Your ": t.getName()+"'s ";
+		Messenger.sendInfo(innerMessage + "ping is" + ChatColor.AQUA + getPing(t) + ChatColor.DARK_AQUA + "ms.", p);
 		return true;
 	}
 
@@ -53,3 +62,4 @@ public class PingCommand implements CommandExecutor {
 	}
 
 }
+

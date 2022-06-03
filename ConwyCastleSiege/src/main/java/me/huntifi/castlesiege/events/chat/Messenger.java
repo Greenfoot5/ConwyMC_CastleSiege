@@ -92,4 +92,8 @@ public class Messenger {
     public static void broadcastLore(String message) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[l] " + ChatColor.BLUE + message);
     }
+
+    public static void sendInfo(String message, @NotNull CommandSender sender) {
+        sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.AQUA + message);
+    }
 }
