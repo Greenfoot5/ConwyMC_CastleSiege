@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.maps.objects;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.util.Direction;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.kits.Engineer;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
@@ -589,10 +590,6 @@ public class Catapult implements Listener {
 
                   Snowball ball = (Snowball) event.getEntity();
 
-                  if (ball.getShooter() instanceof Player) {
-                        return;
-                  }
-
                   if (ball.getPassengers() == null) {
                         return;
                   } else {
@@ -693,31 +690,32 @@ public class Catapult implements Listener {
       }
 
       @EventHandler
-      public void onExplosionDamage(EntityDamageByEntityEvent event) {
+      public void onExplosionDamage(EntityDamageEvent e) {
+            if (e.isCancelled() || e.getCause() != EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
+                  return;
+            }
+            e.setDamage(180);
+      }
 
-                        if (event.getDamager() instanceof Snowball) {
+      @EventHandler
+      public void onKill(PlayerDeathEvent e) {
 
-                        if (event.getEntity().getLastDamageCause().getCause()
-                                != EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
-                              return;
-                        }
+            if (e.getEntity() instanceof Player) {
 
-                        Snowball damager = (Snowball) event.getDamager();
+                  Player p = (Player) e.getEntity();
 
-                        if (!(damager.getShooter() instanceof Player)) {
-                              return;
-                        }
+                 if (p.getKiller() instanceof Snowball) {
 
-                        Player shooter = (Player) damager.getShooter();
+                       Snowball ball = (Snowball) p.getKiller();
 
-                        //any non player creatures take loads of damage.
-                        if (!(event.getEntity() instanceof Player)) {
-                              event.setDamage(100);
-                              return;
-                        }
+                       Player killer = (Player) ball.getShooter();
 
-                        event.setDamage(100);
+                       DeathEvent.setKiller(p, killer);
+
+                 }
 
             }
+
       }
+
 }
