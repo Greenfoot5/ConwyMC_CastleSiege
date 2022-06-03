@@ -10,14 +10,9 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import me.huntifi.castlesiege.commands.chat.PrivateMessage;
-import me.huntifi.castlesiege.commands.chat.ReplyMessage;
-import me.huntifi.castlesiege.commands.chat.TeamChat;
-import me.huntifi.castlesiege.commands.donator.JoinMessage;
-import me.huntifi.castlesiege.commands.donator.LeaveMessage;
-import me.huntifi.castlesiege.commands.gameplay.KitCommand;
-import me.huntifi.castlesiege.commands.gameplay.SuicideCommand;
-import me.huntifi.castlesiege.commands.gameplay.SwitchCommand;
+import me.huntifi.castlesiege.commands.chat.*;
+import me.huntifi.castlesiege.commands.donator.*;
+import me.huntifi.castlesiege.commands.gameplay.*;
 import me.huntifi.castlesiege.commands.info.*;
 import me.huntifi.castlesiege.commands.staff.*;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
@@ -162,6 +157,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Rewrite Commands
 
                 // Chat
+                Objects.requireNonNull(getCommand("GlobalChat")).setExecutor(new GlobalChat());
                 Objects.requireNonNull(getCommand("Message")).setExecutor(new PrivateMessage());
                 Objects.requireNonNull(getCommand("Reply")).setExecutor(new ReplyMessage());
                 Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
@@ -174,7 +170,6 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
                 Objects.requireNonNull(getCommand("Suicide")).setExecutor(new SuicideCommand());
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
-
 
                 // Info
                 Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());

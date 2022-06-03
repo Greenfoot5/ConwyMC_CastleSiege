@@ -79,6 +79,10 @@ commands:
     usage: /Vanish
 
   # Chat
+  GlobalChat:
+    description: Talk in global-chat
+    usage: /g <message>
+    aliases: g
   Message:
     description: Privately message a player
     usage: /msg <player> <message>
