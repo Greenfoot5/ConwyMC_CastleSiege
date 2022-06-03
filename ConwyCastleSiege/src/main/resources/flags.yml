@@ -21856,7 +21856,7 @@ Lakeborough:
       type: "cuboid"
       min:
         x: -1588
-        y: 49
+        y: 48
         z: -383
       max:
         x: -1572
