@@ -698,21 +698,22 @@ public class Catapult implements Listener {
       }
 
       @EventHandler
-      public void onKill(PlayerDeathEvent e) {
+      public void onKill(EntityDamageByEntityEvent e) {
 
-            if (e.getEntity() instanceof Player) {
+            if (e.getEntity() instanceof Player && e.getDamager() instanceof Snowball) {
 
-                  Player p = (Player) e.getEntity();
+                  Player whoWasHit = (Player) e.getEntity();
 
-                 if (p.getKiller() instanceof Snowball) {
+                  Snowball ball = (Snowball) whoWasHit.getKiller();
 
-                       Snowball ball = (Snowball) p.getKiller();
+                  Player whoHit = (Player) ball.getShooter();
 
-                       Player killer = (Player) ball.getShooter();
+                  if (whoWasHit.getLastDamage() >= whoWasHit.getHealth()) {
+                        e.setCancelled(true);
+                        whoWasHit.setHealth(0);
+                        DeathEvent.setKiller(whoWasHit, whoHit);
 
-                       DeathEvent.setKiller(p, killer);
-
-                 }
+                  }
 
             }
 
