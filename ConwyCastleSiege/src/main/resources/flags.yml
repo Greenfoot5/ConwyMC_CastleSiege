@@ -19401,7 +19401,7 @@ Lakeborough:
   watchtower:
     name: "Watchtower"
     max_cap: 8
-    start_amount: 8
+    start_amount: 0
     progress_amount: 10
     scoreboard: 3
     spawn_point:
@@ -19749,7 +19749,7 @@ Lakeborough:
   village:
     name: "Village"
     max_cap: 8
-    start_amount: 8
+    start_amount: 0
     progress_amount: 10
     scoreboard: 4
     spawn_point:
