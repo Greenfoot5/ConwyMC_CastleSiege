@@ -87,7 +87,7 @@ public class Crossbowman extends Kit implements Listener {
      */
     @EventHandler
     public void shootCrossbow(EntityShootBowEvent e) {
-        if (e.isCancelled()) {
+        if (e.isCancelled() || !(e.getEntity() instanceof Player)) {
             return;
         }
 
