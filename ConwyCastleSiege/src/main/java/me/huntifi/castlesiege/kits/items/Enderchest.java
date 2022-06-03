@@ -20,12 +20,12 @@ import java.util.UUID;
 public class Enderchest implements Listener {
 
 	/**
-	 * Refills a player's inventory when they right-click an enderchest
-	 * @param e The event called when a player right-clicks an enderchest
+	 * Refills a player's inventory when they click an enderchest
+	 * @param e The event called when a player clicks an enderchest
 	 */
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e){
-		if(e.getAction() == Action.RIGHT_CLICK_BLOCK &&
+		if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK) &&
 				Objects.requireNonNull(e.getClickedBlock()).getType() == Material.ENDER_CHEST){
 			Player p = e.getPlayer();
 			UUID uuid = p.getUniqueId();
@@ -35,14 +35,6 @@ public class Enderchest implements Listener {
 			p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
 					ChatColor.DARK_GREEN + "Equipment resupplied"));
 
-			// TODO - Prevent deletion of Herugrim
-			// Old code to prevent deletion
-			/*Bukkit.getScheduler().runTask(Main.plugin, () -> {
-
-			if (Herugrim.containsHerugrim.contains(p)) { if(MapController.currentMapIs("HelmsDeep")) { p.getInventory().addItem(Herugrim.getHerugrim()); }  }
-			WoolHat.setHead(p);
-
-			});*/
 		}
 	}
 }
