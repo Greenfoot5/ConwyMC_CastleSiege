@@ -157,38 +157,6 @@ public class Catapult implements Listener {
       }
 
       /**
-       * Get the name of this catapult
-       * @return The catapult's name
-       */
-      public String getName() {
-            return name;
-      }
-
-      public String getWorld() { return world; }
-
-
-      public String getCatapultDirection() {
-            return direction;
-      }
-
-      public Vector getleverLocation() {  return lever; }
-
-      public Vector getSchematicLocation() {  return schematicLocation; }
-
-      public Vector getsoundLocation() {  return sound; }
-
-      public Vector getCobblestoneLocation() {  return cobblestone; }
-
-
-      public Vector getProjectile() {  return projectile; }
-
-
-      public Vector getupdownLocation() {  return signUpDown; }
-
-
-      public Vector getrightleftLocation() {  return signLeftRight; }
-
-      /**
        *
        * @param event This entire event is the catapult animation from the moment you activate the lever.
        */
