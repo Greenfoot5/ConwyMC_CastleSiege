@@ -52,7 +52,7 @@ public class LeverDoor extends Door {
         if (Objects.equals(Objects.requireNonNull(centre.getWorld()).getName(), MapController.getCurrentMap().worldName)) {
 
             Player player = event.getPlayer();
-            if (event.getClickedBlock().getLocation().distanceSquared(leverPosition) <= 1) {
+            if (event.getClickedBlock().getLocation().distanceSquared(leverPosition) < 1) {
 
                 Flag flag = MapController.getCurrentMap().getFlag(flagName);
                 if (Objects.equals(flagName, MapController.getCurrentMap().name) ||
