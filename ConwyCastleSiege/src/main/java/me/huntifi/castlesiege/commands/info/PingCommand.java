@@ -42,7 +42,7 @@ public class PingCommand implements CommandExecutor {
 		}
 
 		String innerMessage = (t == p) ? "Your ": t.getName()+"'s ";
-		Messenger.sendInfo(innerMessage + "ping is" + ChatColor.AQUA + getPing(t) + ChatColor.DARK_AQUA + "ms.", p);
+		Messenger.sendInfo(innerMessage + "ping is " + ChatColor.AQUA + getPing(t) + ChatColor.DARK_AQUA + "ms.", p);
 		return true;
 	}
 
