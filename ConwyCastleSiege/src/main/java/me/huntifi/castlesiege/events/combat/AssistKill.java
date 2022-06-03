@@ -65,7 +65,7 @@ public class AssistKill implements Listener {
      */
     public static UUID get(UUID uuid) {
         HashMap<UUID, Double> damagers = damageMap.get(uuid);
-        if (damagers == null) {
+        if (damagers == null || damagers.isEmpty()) {
             return null;
         }
 
