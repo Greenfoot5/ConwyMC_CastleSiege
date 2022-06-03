@@ -706,27 +706,4 @@ public class Catapult implements Listener {
             }
             e.setDamage(180);
       }
-
-      @EventHandler
-      public void onKill(PlayerDeathEvent e) {
-
-                  Player whoDied = (Player) e.getEntity();
-                        if (e.getEntity().getLastDamageCause() instanceof EntityDamageEvent) {
-
-                              whoDied.sendMessage("e.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent");
-
-                              EntityDamageEvent cause = (EntityDamageEvent) whoDied.getLastDamageCause();
-
-                              if (cause.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION
-                                      || cause.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
-
-                                    whoDied.sendMessage("You ded");
-
-                                    shooter.sendMessage("You killed them");
-
-                                    DeathEvent.setKiller(whoDied, shooter);
-
-                              }
-                        }
-      }
 }
