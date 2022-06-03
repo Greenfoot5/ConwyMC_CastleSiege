@@ -1,7 +1,4 @@
-me\huntifi\castlesiege\maps\objects\Catapult$2.class
-me\huntifi\castlesiege\kits\gui\KitGuiController.class
-me\huntifi\castlesiege\events\combat\AssistKill$1.class
-me\huntifi\castlesiege\commands\chat\GlobalChat.class
-me\huntifi\castlesiege\kits\gui\KitGui.class
-me\huntifi\castlesiege\maps\objects\Catapult.class
-me\huntifi\castlesiege\maps\objects\Catapult$1.class
+me/huntifi/castlesiege/kits/gui/KitGui.class
+me/huntifi/castlesiege/events/combat/AssistKill$1.class
+me/huntifi/castlesiege/commands/chat/GlobalChat.class
+me/huntifi/castlesiege/kits/gui/KitGuiController.class

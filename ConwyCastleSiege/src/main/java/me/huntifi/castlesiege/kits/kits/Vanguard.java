@@ -120,10 +120,7 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
                         p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 70, 1)));
 
                         //Diminishing strength effect
-//                        p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 40, 3)));
-//                        p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 50, 2)));
-//                        p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1)));
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 70, 0)));
+                        p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 70, 3)));
 
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST , 1, 1 );
                         vanguards = true;
