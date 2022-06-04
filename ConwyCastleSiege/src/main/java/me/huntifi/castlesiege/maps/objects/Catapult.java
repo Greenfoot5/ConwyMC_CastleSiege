@@ -55,8 +55,6 @@ public class Catapult implements Listener {
     //Unless an engineer fills it up first then the cooldown is put to 0 seconds.
     private final int catapultTimer = 800;
 
-    private final int catapultComeDownTimer = 400;
-
     //the value for aim up / down, which is 20.0 by default.
     private double up_down = 20.0;
     //the value for aim left/right
@@ -179,29 +177,7 @@ public class Catapult implements Listener {
 
             // Check if the catapult can be shot
             if (!((Powerable) clickedBlock.getBlockData()).isPowered() && canShoot) {
-                shoot(player, clickedBlock);
-
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-
-                        //In here make the catapult come down,
-                        // the catapult should also be able to be refilled by engineers.
-
-                        Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
-
-                        catapultReloading();
-
-                        if (leverData == null) { return; }
-
-                        canBeRefilled = true;
-                        canShoot = false;
-                        leverData.setPowered(false);
-                        event.getClickedBlock().setBlockData(leverData);
-
-                    }
-
-                }.runTaskLater(Main.plugin, catapultComeDownTimer);
+                shoot(player);
 
                 new BukkitRunnable() {
                     @Override
@@ -231,8 +207,11 @@ public class Catapult implements Listener {
 
     }
 
-    // TODO
-    private void shoot(Player player, Block clickedBlock) {
+    /**
+     * Shoot the catapult and start the timing for it coming back down again
+     * @param player The player who shot the catapult
+     */
+    private void shoot(Player player) {
         try {
             // Animate the shot and play the shooting sound
             SchematicSpawner.spawnSchematic(schematicLocation, schematicShot, world.getName());
@@ -243,18 +222,32 @@ public class Catapult implements Listener {
             canShoot = false;
             canBeRefilled = false;
 
+            // Start the 20s timer for the catapult coming back down
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    tension();
+                }
+            }.runTaskLater(Main.plugin, 400);
+
         } catch (WorldEditException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * TODO
-     */
-    private void catapultReloading() {
+    // TODO
+    private void tension() {
         try {
+            // Animate the tensioning and play the tensioning sound
             SchematicSpawner.spawnSchematic(schematicLocation, schematicReloading, world.getName());
             world.playSound(sound, Sound.BLOCK_DISPENSER_DISPENSE, 5, 1);
+
+            // Perform the tensioning
+            Powerable leverData = (Powerable) lever.getBlock().getBlockData();
+            leverData.setPowered(false);
+            lever.getBlock().setBlockData(leverData);
+            canBeRefilled = true;
+
         } catch (WorldEditException e) {
             e.printStackTrace();
         }
