@@ -197,7 +197,6 @@ public class Catapult implements Listener {
             // Perform the shot
             launchProjectile();
             canShoot = false;
-            canRefill = false;
 
             // Start the 20s timer for the catapult coming back down
             new BukkitRunnable() {
@@ -410,47 +409,27 @@ public class Catapult implements Listener {
     }
 
     /**
-     * TODO - Rework function and write documentation
-     * @param event
+     * Allows engineers to refill catapults
+     * @param event The event called when a block is placed
      */
     @EventHandler
     public void engineerRefill(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+        UUID uuid = player.getUniqueId();
+        Block block = event.getBlock();
 
-        Player p = event.getPlayer();
-        UUID uuid = p.getUniqueId();
+        // Ensure that an engineer placed a block in the catapult's bucket
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, "Engineer")
+                && block.getLocation().distance(cobblestone) <= 1) {
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, "Engineer")) {
-
-            if (event.getBlockAgainst().getLocation().distance
-                    (cobblestone) < 2) {
-
-                if (event.getBlock().getType() != Material.COBBLESTONE) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "not cobblestone"));
-                    return;
-                }
-
-                if (!canRefill) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Catapult is already refilled"));
-                    return;
-                }
-
-                if (canShoot) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "canShoot == true"));
-                    return;
-                }
-
-                cobblestone.getBlock().setType(Material.COBBLESTONE_SLAB);
-                canRefill = false;
-                canShoot = true;
-
-                ItemStack cobble = p.getInventory().getItem(5);
-                if (p.getInventory().getItem(5).getType() != Material.COBBLESTONE) {
-                    return;
-                }
-                cobble.setAmount(cobble.getAmount() - 1);
+            if (event.getBlock().getType() != Material.COBBLESTONE) {
+                Messenger.sendActionError("The catapult can only be reloaded with cobblestone", player);
+            } else if (!canRefill) {
+                Messenger.sendActionError("The catapult already has a projectile ready", player);
+            } else {
+                refill();
+                ItemStack item = event.getItemInHand();
+                item.setAmount(item.getAmount() - 1);
             }
         }
     }
