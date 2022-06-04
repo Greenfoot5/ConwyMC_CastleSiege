@@ -3,6 +3,8 @@ package me.huntifi.castlesiege.maps.objects;
 import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.combat.AssistKill;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
@@ -68,6 +70,7 @@ public class Catapult implements Listener {
     private FallingBlock projectilePassenger;
 
     private Snowball ball;
+    private Player shooter;
 
     /**
      * Create a new catapult
@@ -172,7 +175,8 @@ public class Catapult implements Listener {
 
             // Check if the catapult can be shot
             if (canShoot) {
-                shoot(player);
+                shooter = player;
+                shoot();
             } else {
                 Messenger.sendActionError("This catapult is still reloading", player);
                 event.setCancelled(true);
@@ -183,16 +187,15 @@ public class Catapult implements Listener {
 
     /**
      * Shoot the catapult and start the timer for it coming back down again
-     * @param player The player who shot the catapult
      */
-    private void shoot(Player player) {
+    private void shoot() {
         try {
             // Animate the shot and play the shooting sound
             SchematicSpawner.spawnSchematic(schematicLocation, schematicShot, world.getName());
             world.playSound(sound, Sound.ENTITY_BLAZE_SHOOT, 5, 1);
 
             // Perform the shot
-            launchProjectile(player);
+            launchProjectile();
             canShoot = false;
             canRefill = false;
 
@@ -309,7 +312,7 @@ public class Catapult implements Listener {
      * TODO - Rework function and write documentation
      */
     //This is the projectile that needs to be shot and the direction.
-    public void launchProjectile(Player shooter) {
+    public void launchProjectile() {
 
         byte blockData = 0x0;
 
@@ -402,7 +405,7 @@ public class Catapult implements Listener {
     public void onImpact(ProjectileHitEvent event) {
         if (Objects.equals(ball, event.getEntity())) {
             ball.getPassengers().get(0).remove();
-            world.createExplosion(ball.getLocation(), 4F, false, true);
+            world.createExplosion(ball.getLocation(), 4F, false, true, shooter);
         }
     }
 
@@ -448,19 +451,7 @@ public class Catapult implements Listener {
                     return;
                 }
                 cobble.setAmount(cobble.getAmount() - 1);
-
             }
-        }
-    }
-
-    /**
-     * Set the explosion damage
-     * @param e The event called when an entity takes damage
-     */
-    @EventHandler (ignoreCancelled = true)
-    public void onExplosionDamage(EntityDamageEvent e) {
-        if (e.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
-            e.setDamage(180);
         }
     }
 }
