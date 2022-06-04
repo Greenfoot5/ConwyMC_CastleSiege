@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -30,17 +31,17 @@ import java.util.UUID;
 
 public class Catapult implements Listener {
 
-      // Names of the catapult and the world that it's in
+      // Name of the catapult and the world that it's in
       private final String name;
-      private final String world;
+      private final World world;
 
       // Different locations used by the catapult
-      private final Vector cobblestone;
-      private final Vector projectile;
-      private final Vector sound;
+      private final Location cobblestone;
+      private final Location projectile;
+      private final Location sound;
 
       // Location and names of the schematics for the different catapult states
-      private final Vector schematicLocation;
+      private final Location schematicLocation;
       private final String schematicNormal;
       private final String schematicReloading;
       private final String schematicShot;
@@ -61,9 +62,9 @@ public class Catapult implements Listener {
       private double up_down = 20.0;
       //the value for aim left/right
       private double left_right = 0.0;
-      private final Vector lever;
-      private final Vector signLeftRight;
-      private final Vector signUpDown;
+      private final Location lever;
+      private final Location signLeftRight;
+      private final Location signUpDown;
       private final String direction;
       //serves as a third value for the shooting vectors, this makes sure it shoots straight and not backwards.
       private double forwardValueNorthZ = -34.0;
@@ -87,20 +88,25 @@ public class Catapult implements Listener {
       public Catapult(String name, String world, String direction, Vector location) {
             // Set direction independent variables
             this.name = name;
-            this.world = world;
+            this.world = Bukkit.getWorld(world);
             this.direction = direction;
-            this.schematicLocation = location;
-            this.signLeftRight = location;
+
+            // Ensure that a valid world is supplied
+            if (this.world == null)
+                  throw new IllegalArgumentException("The world " + world + " does not exist!");
+
+            this.schematicLocation = location.toLocation(this.world);
+            this.signLeftRight = location.toLocation(this.world);
 
             // Set direction dependent variables
             switch (direction.toLowerCase()) {
                   case "north":
                         // Locations
-                        this.lever = new Vector(0, 1, -1).add(location);
-                        this.signUpDown = new Vector(0, 0, 1).add(location);
-                        this.sound = new Vector(2, 6, -4).add(location);
-                        this.projectile = new Vector(2, 6, -5).add(location);
-                        this.cobblestone = new Vector(2, 1, 5).add(location);
+                        this.lever = new Vector(0, 1, -1).add(location).toLocation(this.world);
+                        this.signUpDown = new Vector(0, 0, 1).add(location).toLocation(this.world);
+                        this.sound = new Vector(2, 6, -4).add(location).toLocation(this.world);
+                        this.projectile = new Vector(2, 6, -5).add(location).toLocation(this.world);
+                        this.cobblestone = new Vector(2, 1, 5).add(location).toLocation(this.world);
 
                         // Schematics
                         this.schematicNormal = "Catapult_Normal_North";
@@ -110,11 +116,11 @@ public class Catapult implements Listener {
 
                   case "east":
                         // Locations
-                        this.lever = new Vector(1, 1, 0).add(location);
-                        this.signUpDown = new Vector(-1, 0, 0).add(location);
-                        this.sound = new Vector(4, 6, 2).add(location);
-                        this.projectile = new Vector(5, 6, 2).add(location);
-                        this.cobblestone = new Vector(-5, 1, 2).add(location);
+                        this.lever = new Vector(1, 1, 0).add(location).toLocation(this.world);
+                        this.signUpDown = new Vector(-1, 0, 0).add(location).toLocation(this.world);
+                        this.sound = new Vector(4, 6, 2).add(location).toLocation(this.world);
+                        this.projectile = new Vector(5, 6, 2).add(location).toLocation(this.world);
+                        this.cobblestone = new Vector(-5, 1, 2).add(location).toLocation(this.world);
 
                         // Schematics
                         this.schematicNormal = "Catapult_Normal_East";
@@ -124,11 +130,11 @@ public class Catapult implements Listener {
 
                   case "south":
                         // Locations
-                        this.lever = new Vector(0, 1, 1).add(location);
-                        this.signUpDown = new Vector(0, 0, -1).add(location);
-                        this.sound = new Vector(-2, 6, 4).add(location);
-                        this.projectile = new Vector(-2, 6, 5).add(location);
-                        this.cobblestone = new Vector(-2, 1, -5).add(location);
+                        this.lever = new Vector(0, 1, 1).add(location).toLocation(this.world);
+                        this.signUpDown = new Vector(0, 0, -1).add(location).toLocation(this.world);
+                        this.sound = new Vector(-2, 6, 4).add(location).toLocation(this.world);
+                        this.projectile = new Vector(-2, 6, 5).add(location).toLocation(this.world);
+                        this.cobblestone = new Vector(-2, 1, -5).add(location).toLocation(this.world);
 
                         // Schematics
                         this.schematicNormal = "Catapult_Normal_South";
@@ -138,11 +144,11 @@ public class Catapult implements Listener {
 
                   case "west":
                         // Locations
-                        this.lever = new Vector(-1, 1, 0).add(location);
-                        this.signUpDown = new Vector(1, 0, 0).add(location);
-                        this.sound = new Vector(-4, 6, -2).add(location);
-                        this.projectile = new Vector(-5, 6, -2).add(location);
-                        this.cobblestone = new Vector(5, 1, -2).add(location);
+                        this.lever = new Vector(-1, 1, 0).add(location).toLocation(this.world);
+                        this.signUpDown = new Vector(1, 0, 0).add(location).toLocation(this.world);
+                        this.sound = new Vector(-4, 6, -2).add(location).toLocation(this.world);
+                        this.projectile = new Vector(-5, 6, -2).add(location).toLocation(this.world);
+                        this.cobblestone = new Vector(5, 1, -2).add(location).toLocation(this.world);
 
                         // Schematics
                         schematicNormal = "Catapult_Normal_West";
@@ -151,37 +157,38 @@ public class Catapult implements Listener {
                         break;
 
                   default:
+                        // Ensure that a valid direction is supplied
                         throw new IllegalArgumentException("The direction " + direction
                                 + " cannot be applied to a catapult!");
             }
       }
 
       /**
-       *
-       * @param event This entire event is the catapult animation from the moment you activate the lever.
+       * Handles shooting the catapult
+       * @param event The event called when pulling a lever
        */
 
       @EventHandler
       public void onSwitch(PlayerInteractEvent event) {
-
-            if (event.getClickedBlock() == null || event.getClickedBlock().getType() != Material.LEVER || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+            if (event.getClickedBlock() == null || event.getClickedBlock().getType() != Material.LEVER
+                    || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
                   return;
             }
 
             // Make sure the player is playing, and the lever is on the correct map
-            if (Objects.equals(Objects.requireNonNull(lever.toLocation(Bukkit.getWorld(world)).getWorld()).getName(), MapController.getCurrentMap().worldName)) {
+            if (Objects.equals(MapController.getCurrentMap().worldName, world.getName())) {
 
                   Player player = event.getPlayer();
 
-                  if (event.getClickedBlock().getLocation().distanceSquared(lever.toLocation(Bukkit.getWorld(world))) <= 1) {
+                  if (event.getClickedBlock().getLocation().distance(lever) == 0) {
 
-                        if (!((Powerable) event.getClickedBlock().getBlockData()).isPowered() && canShoot == true) {
+                        if (!((Powerable) event.getClickedBlock().getBlockData()).isPowered() && canShoot) {
 
                               //In here do whatever must be done after activating the lever.
 
-                              catapultShot(Bukkit.getWorld(MapController.getCurrentMap().worldName));
+                              catapultShot(world);
 
-                              shootCatapultProjectile(projectile.toLocation(Bukkit.getWorld(world)), direction, Bukkit.getWorld(MapController.getCurrentMap().worldName));
+                              shootCatapultProjectile(projectile, direction, world);
 
                               canShoot = false;
 
@@ -198,7 +205,7 @@ public class Catapult implements Listener {
 
                                           Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
 
-                                          catapultReloading(Bukkit.getWorld(MapController.getCurrentMap().worldName));
+                                          catapultReloading(world);
 
                                           if (leverData == null) { return; }
 
@@ -215,14 +222,13 @@ public class Catapult implements Listener {
                                     @Override
                                     public void run() {
 
-                                          if (cobblestone.toLocation
-                                                  (Bukkit.getWorld(world)).getBlock().getType() == Material.COBBLESTONE_SLAB
-                                          || canBeRefilled == false || canShoot == true) {
+                                          if (cobblestone.getBlock().getType() == Material.COBBLESTONE_SLAB
+                                          || !canBeRefilled || canShoot) {
                                                 this.cancel();
                                                 return;
                                           }
 
-                                          catapultRefilled(Bukkit.getWorld(MapController.getCurrentMap().worldName));
+                                          catapultRefilled(world);
                                           canShoot = true;
                                           canBeRefilled = false;
 
@@ -251,13 +257,12 @@ public class Catapult implements Listener {
       private void catapultShot(World world) {
 
             try {
-                  SchematicSpawner.spawnSchematic(schematicLocation.toLocation(Bukkit.getWorld(this.world)), schematicShot, world.getName());
+                  SchematicSpawner.spawnSchematic(schematicLocation, schematicShot, world.getName());
             } catch (WorldEditException e) {
                   e.printStackTrace();
             }
 
-            Objects.requireNonNull(world).playSound(
-                    sound.toLocation(Bukkit.getWorld(this.world)), Sound.ENTITY_BLAZE_SHOOT , 5, 1 );
+            Objects.requireNonNull(world).playSound(sound, Sound.ENTITY_BLAZE_SHOOT, 5, 1 );
 
       }
 
@@ -269,13 +274,12 @@ public class Catapult implements Listener {
       private void catapultReloading(World world) {
 
             try {
-                  SchematicSpawner.spawnSchematic(schematicLocation.toLocation(Bukkit.getWorld(this.world)), schematicReloading, world.getName());
+                  SchematicSpawner.spawnSchematic(schematicLocation, schematicReloading, world.getName());
             } catch (WorldEditException e) {
                   e.printStackTrace();
             }
 
-            Objects.requireNonNull(world).playSound(
-                    sound.toLocation(Bukkit.getWorld(this.world)), Sound.BLOCK_DISPENSER_DISPENSE , 5, 1);
+            Objects.requireNonNull(world).playSound(sound, Sound.BLOCK_DISPENSER_DISPENSE, 5, 1);
 
       }
 
@@ -287,7 +291,7 @@ public class Catapult implements Listener {
       private void catapultRefilled(World world) {
 
             try {
-                  SchematicSpawner.spawnSchematic(schematicLocation.toLocation(Bukkit.getWorld(this.world)), schematicNormal, world.getName());
+                  SchematicSpawner.spawnSchematic(schematicLocation, schematicNormal, world.getName());
             } catch (WorldEditException e) {
                   e.printStackTrace();
             }
@@ -307,8 +311,8 @@ public class Catapult implements Listener {
             Player p = event.getPlayer();
 
             if (target != null && target.getState() instanceof Sign &&
-                    p.getLocation().distance(signUpDown.toLocation(Bukkit.getWorld(world))) <= 4 &&
-                    p.getWorld() == Bukkit.getWorld(world)) {
+                    p.getLocation().distance(signUpDown) <= 4 &&
+                    p.getWorld() == world) {
 
                   Sign sign = (Sign) event.getClickedBlock().getState();
 
@@ -355,15 +359,15 @@ public class Catapult implements Listener {
 
             Player p = event.getPlayer();
 
-            if (p.getWorld() != Bukkit.getWorld(world)) {
+            if (p.getWorld() != world) {
                   return;
             }
 
             if (target != null && target.getState() instanceof Sign
-                    && p.getLocation().distance(signLeftRight.toLocation(Bukkit.getWorld(world))) <= 4
-                    && p.getWorld() == Bukkit.getWorld(world)) {
+                    && p.getLocation().distance(signLeftRight) <= 4
+                    && p.getWorld() == world) {
 
-                        Sign sign = (Sign) event.getClickedBlock().getState();
+                        Sign sign = (Sign) target.getState();
 
                         if (sign.getLine(0).equalsIgnoreCase("Aim left/right")) {
 
@@ -411,11 +415,11 @@ public class Catapult implements Listener {
                   return;
             }
 
-           projectileLoc = projectile.toLocation(Bukkit.getWorld(this.world));
+           projectileLoc = projectile;
 
             Byte blockData = 0x0;
 
-           ball = (Snowball) world.spawn(projectile.toLocation(Bukkit.getWorld(this.world)), Snowball.class);
+           ball = (Snowball) world.spawn(projectile, Snowball.class);
 
            ball.setShooter(shooter);
 
@@ -552,7 +556,7 @@ public class Catapult implements Listener {
             if (Objects.equals(Kit.equippedKits.get(uuid).name, "Engineer")) {
 
                   if (event.getBlockAgainst().getLocation().distance
-                          (cobblestone.toLocation(Bukkit.getWorld(world))) < 2) {
+                          (cobblestone) < 2) {
 
                         if (event.getBlock().getType() != Material.COBBLESTONE) {
                               p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
@@ -560,19 +564,19 @@ public class Catapult implements Listener {
                               return;
                         }
 
-                        if (canBeRefilled == false) {
+                        if (!canBeRefilled) {
                               p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                                       TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Catapult is already refilled"));
                               return;
                         }
 
-                        if (canShoot == true) {
+                        if (canShoot) {
                               p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                                       TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "canShoot == true"));
                               return;
                         }
 
-                        cobblestone.toLocation(Bukkit.getWorld(world)).getBlock().setType(Material.COBBLESTONE_SLAB);
+                        cobblestone.getBlock().setType(Material.COBBLESTONE_SLAB);
                         canBeRefilled = false;
                         canShoot = true;
 
