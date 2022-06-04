@@ -46,15 +46,10 @@ public class Catapult implements Listener {
     private final String schematicShot;
 
     // Booleans used to represent the catapult state
-    private boolean canBeRefilled = false;
+    private boolean canRefill = false;
     private boolean canShoot = true;
 
     // TODO - Sort out the following variables
-    //The cooldown of the catapult default should be 40 seconds,
-    // at 20 seconds the catapult comes back down but at 0 seconds it is refilled.
-    //Unless an engineer fills it up first then the cooldown is put to 0 seconds.
-    private final int catapultTimer = 800;
-
     //the value for aim up / down, which is 20.0 by default.
     private double up_down = 20.0;
     //the value for aim left/right
@@ -199,7 +194,7 @@ public class Catapult implements Listener {
             // Perform the shot
             launchProjectile(player);
             canShoot = false;
-            canBeRefilled = false;
+            canRefill = false;
 
             // Start the 20s timer for the catapult coming back down
             new BukkitRunnable() {
@@ -222,12 +217,7 @@ public class Catapult implements Listener {
             // Animate the tensioning and play the tensioning sound
             SchematicSpawner.spawnSchematic(schematicLocation, schematicReloading, world.getName());
             world.playSound(sound, Sound.BLOCK_DISPENSER_DISPENSE, 5, 1);
-
-            // Perform the tensioning
-            Powerable leverData = (Powerable) lever.getBlock().getBlockData();
-            leverData.setPowered(false);
-            lever.getBlock().setBlockData(leverData);
-            canBeRefilled = true;
+            canRefill = true;
 
             // Start the 20s timer for the catapult being refilled automatically
             new BukkitRunnable() {
@@ -242,26 +232,20 @@ public class Catapult implements Listener {
         }
     }
 
-    // TODO
-    private void refill() {
-        if (cobblestone.getBlock().getType() == Material.COBBLESTONE_SLAB
-                || !canBeRefilled || canShoot) {
-            return;
-        }
-
-        catapultRefilled();
-        canShoot = true;
-        canBeRefilled = false;
-    }
-
     /**
-     * TODO
+     * Refill the catapult's bucket
      */
-    private void catapultRefilled() {
-        try {
-            SchematicSpawner.spawnSchematic(schematicLocation, schematicNormal, world.getName());
-        } catch (WorldEditException e) {
-            e.printStackTrace();
+    private void refill() {
+        if (canRefill) {
+            // Perform the visual changes
+            Powerable leverData = (Powerable) lever.getBlock().getBlockData();
+            leverData.setPowered(false);
+            lever.getBlock().setBlockData(leverData);
+            cobblestone.getBlock().setType(Material.COBBLESTONE_SLAB);
+
+            // Perform the logical changes
+            canShoot = true;
+            canRefill = false;
         }
     }
 
@@ -522,7 +506,7 @@ public class Catapult implements Listener {
                     return;
                 }
 
-                if (!canBeRefilled) {
+                if (!canRefill) {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                             TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Catapult is already refilled"));
                     return;
@@ -535,7 +519,7 @@ public class Catapult implements Listener {
                 }
 
                 cobblestone.getBlock().setType(Material.COBBLESTONE_SLAB);
-                canBeRefilled = false;
+                canRefill = false;
                 canShoot = true;
 
                 ItemStack cobble = p.getInventory().getItem(5);
