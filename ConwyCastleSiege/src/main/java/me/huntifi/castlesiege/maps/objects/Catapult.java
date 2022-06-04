@@ -51,12 +51,12 @@ public class Catapult implements Listener {
 
     // TODO - Sort out the following variables
     //the value for aim up / down, which is 20.0 by default.
-    private double up_down = 20.0;
+    private double aimVertical = 20.0;
     //the value for aim left/right
     private double left_right = 0.0;
     private final Location lever;
     private final Location signLeftRight;
-    private final Location signUpDown;
+    private final Location signVertical;
     private final String direction;
     //serves as a third value for the shooting vectors, this makes sure it shoots straight and not backwards.
     private double forwardValueNorthZ = -34.0;
@@ -93,7 +93,7 @@ public class Catapult implements Listener {
             case "north":
                 // Locations
                 this.lever = new Vector(0, 1, -1).add(location).toLocation(this.world);
-                this.signUpDown = new Vector(0, 0, 1).add(location).toLocation(this.world);
+                this.signVertical = new Vector(0, 0, 1).add(location).toLocation(this.world);
                 this.sound = new Vector(2, 6, -4).add(location).toLocation(this.world);
                 this.projectile = new Vector(2, 6, -5).add(location).toLocation(this.world);
                 this.cobblestone = new Vector(2, 1, 5).add(location).toLocation(this.world);
@@ -107,7 +107,7 @@ public class Catapult implements Listener {
             case "east":
                 // Locations
                 this.lever = new Vector(1, 1, 0).add(location).toLocation(this.world);
-                this.signUpDown = new Vector(-1, 0, 0).add(location).toLocation(this.world);
+                this.signVertical = new Vector(-1, 0, 0).add(location).toLocation(this.world);
                 this.sound = new Vector(4, 6, 2).add(location).toLocation(this.world);
                 this.projectile = new Vector(5, 6, 2).add(location).toLocation(this.world);
                 this.cobblestone = new Vector(-5, 1, 2).add(location).toLocation(this.world);
@@ -121,7 +121,7 @@ public class Catapult implements Listener {
             case "south":
                 // Locations
                 this.lever = new Vector(0, 1, 1).add(location).toLocation(this.world);
-                this.signUpDown = new Vector(0, 0, -1).add(location).toLocation(this.world);
+                this.signVertical = new Vector(0, 0, -1).add(location).toLocation(this.world);
                 this.sound = new Vector(-2, 6, 4).add(location).toLocation(this.world);
                 this.projectile = new Vector(-2, 6, 5).add(location).toLocation(this.world);
                 this.cobblestone = new Vector(-2, 1, -5).add(location).toLocation(this.world);
@@ -135,7 +135,7 @@ public class Catapult implements Listener {
             case "west":
                 // Locations
                 this.lever = new Vector(-1, 1, 0).add(location).toLocation(this.world);
-                this.signUpDown = new Vector(1, 0, 0).add(location).toLocation(this.world);
+                this.signVertical = new Vector(1, 0, 0).add(location).toLocation(this.world);
                 this.sound = new Vector(-4, 6, -2).add(location).toLocation(this.world);
                 this.projectile = new Vector(-5, 6, -2).add(location).toLocation(this.world);
                 this.cobblestone = new Vector(5, 1, -2).add(location).toLocation(this.world);
@@ -256,46 +256,25 @@ public class Catapult implements Listener {
 
     @EventHandler
     public void onClickAimVertical(PlayerInteractEvent event) {
-
         Block target = event.getClickedBlock();
-
         Player p = event.getPlayer();
-
         if (target != null && target.getState() instanceof Sign &&
-                p.getLocation().distance(signUpDown) <= 4 && // TODO - Check the world first
-                p.getWorld() == world) {
+                Objects.equals(p.getWorld(), world) && target.getLocation().distance(signVertical) == 0) {
 
-            Sign sign = (Sign) event.getClickedBlock().getState();
-
-            if (sign.getLine(0).equalsIgnoreCase("Aim up/down")) {
-
-                up_down = Double.parseDouble(sign.getLine(2));
-
-                if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-
-                    if (up_down >= 5) {
-
-                        up_down = Double.parseDouble(sign.getLine(2)) - 1;
-                        sign.setLine(2, up_down + "");
-                        sign.update();
-
-                    }
-                }
-
-                if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
-
-                    if (up_down <= 90) {
-
-                        up_down = Double.parseDouble(sign.getLine(2)) + 1;
-                        sign.setLine(2, up_down + "");
-                        sign.update();
-
-                    }
-                }
-
+            // Decrease the catapult's vertical aim
+            if (event.getAction() == Action.RIGHT_CLICK_BLOCK && aimVertical > 1) {
+                aimVertical -= 1;
             }
-        } else {
-            return;
+
+            // Increase the catapult's vertical aim
+            if (event.getAction() == Action.LEFT_CLICK_BLOCK && aimVertical < 90) {
+                aimVertical += 1;
+            }
+
+            // Update the sign
+            Sign sign = (Sign) target.getState();
+            sign.setLine(2, aimVertical + "");
+            sign.update();
         }
     }
 
@@ -381,7 +360,7 @@ public class Catapult implements Listener {
 
                 double vecZ = forwardValueNorthZ;
 
-                double vecY = up_down;
+                double vecY = aimVertical;
 
                 Vector v = new Vector(vecX, vecY, vecZ);
 
@@ -394,7 +373,7 @@ public class Catapult implements Listener {
 
                 double vecX2 = forwardValueEastX;
 
-                double vecY2 = up_down;
+                double vecY2 = aimVertical;
 
                 double vecZ2 = left_right;
 
@@ -412,7 +391,7 @@ public class Catapult implements Listener {
 
                 double vecX3 = forwardValueWestX;
 
-                double vecY3 = up_down;
+                double vecY3 = aimVertical;
 
                 Vector v3 = new Vector(vecX3, vecY3, vecZ3);
 
@@ -422,7 +401,7 @@ public class Catapult implements Listener {
 
             case "south":
 
-                double vecY4 = up_down;
+                double vecY4 = aimVertical;
 
                 double vecX4 = left_right;
 
