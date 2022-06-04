@@ -53,9 +53,9 @@ public class Catapult implements Listener {
     //the value for aim up / down, which is 20.0 by default.
     private double aimVertical = 20.0;
     //the value for aim left/right
-    private double left_right = 0.0;
+    private double aimHorizontal = 0.0;
     private final Location lever;
-    private final Location signLeftRight;
+    private final Location signHorizontal;
     private final Location signVertical;
     private final String direction;
     //serves as a third value for the shooting vectors, this makes sure it shoots straight and not backwards.
@@ -86,7 +86,7 @@ public class Catapult implements Listener {
             throw new IllegalArgumentException("The world " + world + " does not exist!");
 
         this.schematicLocation = location.toLocation(this.world);
-        this.signLeftRight = location.toLocation(this.world);
+        this.signHorizontal = location.toLocation(this.world);
 
         // Set direction dependent variables
         switch (direction.toLowerCase()) {
@@ -250,10 +250,9 @@ public class Catapult implements Listener {
     }
 
     /**
-     * TODO
-     * @param event Makes the aim up/down sign of the catapult interactable
+     * Handles interactions with the aim up/down sign of the catapult
+     * @param event The event called when interacting with a sign
      */
-
     @EventHandler
     public void onClickAimVertical(PlayerInteractEvent event) {
         Block target = event.getClickedBlock();
@@ -261,12 +260,12 @@ public class Catapult implements Listener {
         if (target != null && target.getState() instanceof Sign &&
                 Objects.equals(p.getWorld(), world) && target.getLocation().distance(signVertical) == 0) {
 
-            // Decrease the catapult's vertical aim
+            // Decrease (down) the catapult's vertical aim
             if (event.getAction() == Action.RIGHT_CLICK_BLOCK && aimVertical > 1) {
                 aimVertical -= 1;
             }
 
-            // Increase the catapult's vertical aim
+            // Increase (up) the catapult's vertical aim
             if (event.getAction() == Action.LEFT_CLICK_BLOCK && aimVertical < 90) {
                 aimVertical += 1;
             }
@@ -279,57 +278,31 @@ public class Catapult implements Listener {
     }
 
     /**
-     * TODO
-     * @param event makes the left/right sign of a catapult interactable
+     * Handles interactions with the aim left/right sign of the catapult
+     * @param event The event called when interacting with a sign
      */
     @EventHandler
     public void onClickAimHorizontal(PlayerInteractEvent event) {
-
         Block target = event.getClickedBlock();
-
         Player p = event.getPlayer();
+        if (target != null && target.getState() instanceof Sign &&
+                Objects.equals(p.getWorld(), world) && target.getLocation().distance(signHorizontal) == 0) {
 
-        if (p.getWorld() != world) {
-            return;
-        }
-
-        if (target != null && target.getState() instanceof Sign
-                && p.getLocation().distance(signLeftRight) <= 4
-                && p.getWorld() == world) {
-
-            Sign sign = (Sign) target.getState();
-
-            if (sign.getLine(0).equalsIgnoreCase("Aim left/right")) {
-
-                left_right = Double.parseDouble(sign.getLine(2));
-
-                if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-
-                    if (left_right < 55) {
-
-                        left_right = Double.parseDouble(sign.getLine(2)) + 0.5;
-                        sign.setLine(2, left_right + "");
-                        sign.update();
-
-                    }
-                }
-
-                if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
-
-                    if (left_right > -55) {
-
-                        left_right = Double.parseDouble(sign.getLine(2)) - 0.5;
-                        sign.setLine(2, left_right + "");
-                        sign.update();
-
-                    }
-                }
-
+            // Increase (right) the catapult's horizontal aim
+            if (event.getAction() == Action.RIGHT_CLICK_BLOCK && aimHorizontal < 55) {
+                aimHorizontal += 0.5;
             }
-        } else {
-            return;
-        }
 
+            // Decrease (left) the catapult's horizontal aim
+            if (event.getAction() == Action.LEFT_CLICK_BLOCK && aimHorizontal > -55) {
+                aimHorizontal -= 0.5;
+            }
+
+            // Update the sign
+            Sign sign = (Sign) target.getState();
+            sign.setLine(2, aimHorizontal + "");
+            sign.update();
+        }
     }
 
     /**
@@ -356,7 +329,7 @@ public class Catapult implements Listener {
 
             case "north":
 
-                double vecX = left_right;
+                double vecX = aimHorizontal;
 
                 double vecZ = forwardValueNorthZ;
 
@@ -375,7 +348,7 @@ public class Catapult implements Listener {
 
                 double vecY2 = aimVertical;
 
-                double vecZ2 = left_right;
+                double vecZ2 = aimHorizontal;
 
                 Vector v2 = new Vector(vecX2, vecY2, vecZ2);
 
@@ -387,7 +360,7 @@ public class Catapult implements Listener {
 
             case "west":
 
-                double vecZ3 = left_right;
+                double vecZ3 = aimHorizontal;
 
                 double vecX3 = forwardValueWestX;
 
@@ -403,7 +376,7 @@ public class Catapult implements Listener {
 
                 double vecY4 = aimVertical;
 
-                double vecX4 = left_right;
+                double vecX4 = aimHorizontal;
 
                 double vecZ4 = forwardValueSouthZ;
 
