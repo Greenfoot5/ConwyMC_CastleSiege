@@ -37,6 +37,9 @@ public class DamageBalance implements Listener {
             case WITHER:
                 e.setDamage(e.getDamage() * 7);
                 break;
+            case ENTITY_EXPLOSION:
+                e.setDamage(180);
+                break;
             case FIRE:
             case FIRE_TICK:
             case LAVA:
