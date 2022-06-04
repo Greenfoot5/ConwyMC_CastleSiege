@@ -261,7 +261,7 @@ public class Catapult implements Listener {
                 Objects.equals(p.getWorld(), world) && target.getLocation().distance(signVertical) == 0) {
 
             // Decrease (down) the catapult's vertical aim
-            if (event.getAction() == Action.RIGHT_CLICK_BLOCK && aimVertical > 1) {
+            if (event.getAction() == Action.RIGHT_CLICK_BLOCK && aimVertical > -15) {
                 aimVertical -= 1;
             }
 

@@ -77,3 +77,114 @@ Lakeborough:
       x: -1533
       y: 24
       z: -281
+Contario:
+  ContuCatapult:
+    display_name: "Contu Catapult"
+    #direction determines where the catapult will aim at.
+    world: "Contario"
+    direction: "west"
+    #the schematic location should be at the same location as the right/left sign.
+    location:
+      ==: org.bukkit.util.Vector
+      x: 90
+      y: 37
+      z: -26
+  CastleCatapult1:
+    display_name: "CastleCatapult1"
+    #direction determines where the catapult will aim at.
+    world: "Contario"
+    direction: "east"
+    #the schematic location should be at the same location as the right/left sign.
+    location:
+      ==: org.bukkit.util.Vector
+      x: -31
+      y: 61
+      z: -38
+  CastleCatapult2:
+    display_name: "CastleCatapult2"
+    #direction determines where the catapult will aim at.
+    world: "Contario"
+    direction: "east"
+    #the schematic location should be at the same location as the right/left sign.
+    location:
+      ==: org.bukkit.util.Vector
+      x: -43
+      y: 61
+      z: -14
+  CastleCatapult3:
+    display_name: "CastleCatapult3"
+    #direction determines where the catapult will aim at.
+    world: "Contario"
+    direction: "south"
+    #the schematic location should be at the same location as the right/left sign.
+    location:
+      ==: org.bukkit.util.Vector
+      x: -75
+      y: 61
+      z: 20
+  CastleCatapult4:
+    display_name: "CastleCatapult4"
+    #direction determines where the catapult will aim at.
+    world: "Contario"
+    direction: "south"
+    #the schematic location should be at the same location as the right/left sign.
+    location:
+      ==: org.bukkit.util.Vector
+      x: -128
+      y: 61
+      z: -23
+  CampCatapult1:
+    display_name: "CampCatapult1"
+    #direction determines where the catapult will aim at.
+    world: "Contario"
+    direction: "north"
+    #the schematic location should be at the same location as the right/left sign.
+    location:
+      ==: org.bukkit.util.Vector
+      x: -21
+      y: 32
+      z: 96
+  CampCatapult2:
+    display_name: "CampCatapult2"
+    #direction determines where the catapult will aim at.
+    world: "Contario"
+    direction: "north"
+    #the schematic location should be at the same location as the right/left sign.
+    location:
+      ==: org.bukkit.util.Vector
+      x: -49
+      y: 32
+      z: 99
+  CampCatapult3:
+    display_name: "CampCatapult3"
+    #direction determines where the catapult will aim at.
+    world: "Contario"
+    direction: "north"
+    #the schematic location should be at the same location as the right/left sign.
+    location:
+      ==: org.bukkit.util.Vector
+      x: -75
+      y: 32
+      z: 106
+  CampCatapult4:
+    display_name: "CampCatapult4"
+    #direction determines where the catapult will aim at.
+    world: "Contario"
+    direction: "north"
+    #the schematic location should be at the same location as the right/left sign.
+    location:
+      ==: org.bukkit.util.Vector
+      x: -103
+      y: 32
+      z: 107
+  CampCatapult5:
+    display_name: "CampCatapult5"
+    #direction determines where the catapult will aim at.
+    world: "Contario"
+    direction: "north"
+    #the schematic location should be at the same location as the right/left sign.
+    location:
+      ==: org.bukkit.util.Vector
+      x: -125
+      y: 32
+      z: 103
