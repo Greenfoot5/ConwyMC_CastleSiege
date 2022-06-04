@@ -11,6 +11,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.Powerable;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -79,7 +80,7 @@ public class Catapult implements Listener {
         // Set direction independent variables
         this.name = name;
         this.world = Bukkit.getWorld(world);
-        this.direction = direction;
+        this.direction = direction.toLowerCase();
 
         // Ensure that a valid world is supplied
         if (this.world == null)
@@ -89,7 +90,7 @@ public class Catapult implements Listener {
         this.signHorizontal = location.toLocation(this.world);
 
         // Set direction dependent variables
-        switch (direction.toLowerCase()) {
+        switch (this.direction) {
             case "north":
                 // Locations
                 this.lever = new Vector(0, 1, -1).add(location).toLocation(this.world);
@@ -157,7 +158,6 @@ public class Catapult implements Listener {
      * Handles shooting the catapult
      * @param event The event called when pulling a lever
      */
-
     @EventHandler
     public void onPullLever(PlayerInteractEvent event) {
         Block clickedBlock = event.getClickedBlock();
@@ -233,7 +233,7 @@ public class Catapult implements Listener {
     }
 
     /**
-     * Refill the catapult's bucket
+     * Refill the catapult's bucket and allow it to be shot again
      */
     private void refill() {
         if (canRefill) {
@@ -306,7 +306,7 @@ public class Catapult implements Listener {
     }
 
     /**
-     * TODO
+     * TODO - Rework function and write documentation
      */
     //This is the projectile that needs to be shot and the direction.
     public void launchProjectile(Player shooter) {
@@ -395,52 +395,21 @@ public class Catapult implements Listener {
     }
 
     /**
-     *
-     * @param event This event is the catapult projectile's explosion.
+     * Delete the cobblestone and create an explosion on impact
+     * @param event The event called when the snowball hits something
      */
     @EventHandler
     public void onImpact(ProjectileHitEvent event) {
-
-        if (event.getEntity() instanceof Snowball) {
-
-            if (ball == event.getEntity()) {
-
-                ball = (Snowball) event.getEntity();
-
-                if (ball.getPassengers() == null) {
-                    return;
-                } else {
-                    ball.getPassengers().remove(0);
-                }
-
-                if (event.getHitEntity() instanceof Player) {
-                    event.getHitEntity().getWorld().createExplosion(event.getEntity().getLocation(), 4F, false, true);
-                    return;
-                }
-
-                event.getHitBlock().getWorld().createExplosion(event.getHitBlock().getLocation(), 4F, false, true);
-
-            }
+        if (Objects.equals(ball, event.getEntity())) {
+            ball.getPassengers().get(0).remove();
+            world.createExplosion(ball.getLocation(), 4F, false, true);
         }
-
-
     }
 
     /**
-     *
-     * @param event This event makes sure the falling block doesn't turn into a block.
+     * TODO - Rework function and write documentation
+     * @param event
      */
-    @EventHandler
-    public void onImpact(EntityChangeBlockEvent event) {
-        if (event.getEntity() instanceof FallingBlock) {
-            if (event.getEntity() != projectilePassenger) {
-                return;
-            }
-            event.setCancelled(true);
-        }
-    }
-
-
     @EventHandler
     public void engineerRefill(BlockPlaceEvent event) {
 
@@ -484,12 +453,14 @@ public class Catapult implements Listener {
         }
     }
 
-    @EventHandler
+    /**
+     * Set the explosion damage
+     * @param e The event called when an entity takes damage
+     */
+    @EventHandler (ignoreCancelled = true)
     public void onExplosionDamage(EntityDamageEvent e) {
-        if (e.isCancelled() || e.getCause() != EntityDamageEvent.DamageCause.BLOCK_EXPLOSION
-        ) {
-            return;
+        if (e.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
+            e.setDamage(180);
         }
-        e.setDamage(180);
     }
 }
