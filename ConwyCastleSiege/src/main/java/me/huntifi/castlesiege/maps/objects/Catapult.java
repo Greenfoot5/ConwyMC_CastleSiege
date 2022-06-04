@@ -337,6 +337,7 @@ public class Catapult implements Listener {
 
         // Ensure that an engineer placed a block in the catapult's bucket
         if (Objects.equals(Kit.equippedKits.get(uuid).name, "Engineer")
+                && Objects.equals(player.getWorld(), world)
                 && block.getLocation().distance(cobblestone) <= 1) {
 
             if (event.getBlock().getType() != Material.COBBLESTONE) {
