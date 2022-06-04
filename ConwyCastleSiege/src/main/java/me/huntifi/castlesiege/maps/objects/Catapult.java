@@ -215,9 +215,11 @@ public class Catapult implements Listener {
     private void refill() {
         if (canRefill) {
             // Perform the visual changes
-            Powerable leverData = (Powerable) lever.getBlock().getBlockData(); // TODO - Ensure there's still a lever
-            leverData.setPowered(false);
-            lever.getBlock().setBlockData(leverData);
+            if (lever.getBlock().getBlockData() instanceof Powerable) {
+                Powerable leverData = (Powerable) lever.getBlock().getBlockData();
+                leverData.setPowered(false);
+                lever.getBlock().setBlockData(leverData);
+            }
             cobblestone.getBlock().setType(Material.COBBLESTONE_SLAB);
 
             // Perform the logical changes
