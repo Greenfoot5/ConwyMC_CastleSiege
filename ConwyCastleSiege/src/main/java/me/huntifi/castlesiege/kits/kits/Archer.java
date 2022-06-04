@@ -27,12 +27,12 @@ public class Archer extends Kit {
 
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
-				ChatColor.GREEN + "Dagger", null, null, 17.5);
+				ChatColor.GREEN + "Dagger", null, null, 27.5);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
 						ChatColor.GREEN + "Dagger",
 						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 19.5),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 29.5),
 				0);
 
 		// Chestplate

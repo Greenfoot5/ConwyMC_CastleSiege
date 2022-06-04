@@ -91,7 +91,7 @@ public class FireArcher extends VoterKit implements Listener {
                         ChatColor.AQUA + "right click it with an arrow.", "",
                         ChatColor.AQUA + "(tip): This firepit is very hard, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 16.5);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 20.5);
         es.hotbar[1] = firepit;
         // Voted Firepit
         firepitVoted = ItemCreator.weapon(new ItemStack(Material.CAULDRON),

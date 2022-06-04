@@ -47,13 +47,13 @@ public class Berserker extends Kit implements Listener {
 
         // Weapon
         regularSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword", null, null, 21.5);
+                ChatColor.GREEN + "Iron Sword", null, null, 31.5);
         es.hotbar[0] = regularSword;
         // Voted Weapon
         regularSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 23.5);
+                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 33.5);
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
         // Ladders
@@ -67,7 +67,7 @@ public class Berserker extends Kit implements Listener {
         // Berserk Weapon
         berserkSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword", null,
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 57.5);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 77.5);
         // Voted Berserk Weapon
         berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword",
