@@ -4,7 +4,6 @@ import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -24,7 +23,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -76,8 +74,6 @@ public class Catapult implements Listener {
     private FallingBlock projectilePassenger;
 
     private Snowball ball;
-
-    private Player shooter;
 
     /**
      * Create a new catapult
@@ -183,16 +179,7 @@ public class Catapult implements Listener {
 
             // Check if the catapult can be shot
             if (!((Powerable) clickedBlock.getBlockData()).isPowered() && canShoot) {
-
-                catapultShot(world);
-
-                shootCatapultProjectile(projectile, direction, world);
-
-                canShoot = false;
-
-                canBeRefilled = false;
-
-                shooter = player;
+                shoot(player, clickedBlock);
 
                 new BukkitRunnable() {
                     @Override
@@ -203,7 +190,7 @@ public class Catapult implements Listener {
 
                         Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
 
-                        catapultReloading(world);
+                        catapultReloading();
 
                         if (leverData == null) { return; }
 
@@ -226,7 +213,7 @@ public class Catapult implements Listener {
                             return;
                         }
 
-                        catapultRefilled(world);
+                        catapultRefilled();
                         canShoot = true;
                         canBeRefilled = false;
 
@@ -235,7 +222,7 @@ public class Catapult implements Listener {
                 }.runTaskLater(Main.plugin, catapultTimer);
 
             } else {
-                Messenger.sendActionError("This catapult is still reloading.", player);
+                Messenger.sendActionError("This catapult is still reloading", player);
                 event.setCancelled(true);
             }
 
@@ -244,57 +231,48 @@ public class Catapult implements Listener {
 
     }
 
-    /**
-     *
-     * @param world The world the schematic should be spawned in
-     */
-
-    private void catapultShot(World world) {
-
+    // TODO
+    private void shoot(Player player, Block clickedBlock) {
         try {
+            // Animate the shot and play the shooting sound
             SchematicSpawner.spawnSchematic(schematicLocation, schematicShot, world.getName());
+            world.playSound(sound, Sound.ENTITY_BLAZE_SHOOT, 5, 1);
+
+            // Perform the shot
+            launchProjectile(player);
+            canShoot = false;
+            canBeRefilled = false;
+
         } catch (WorldEditException e) {
             e.printStackTrace();
         }
-
-        Objects.requireNonNull(world).playSound(sound, Sound.ENTITY_BLAZE_SHOOT, 5, 1 );
-
     }
 
     /**
-     *
-     * @param world The world the schematic should be spawned in
+     * TODO
      */
-
-    private void catapultReloading(World world) {
-
+    private void catapultReloading() {
         try {
             SchematicSpawner.spawnSchematic(schematicLocation, schematicReloading, world.getName());
+            world.playSound(sound, Sound.BLOCK_DISPENSER_DISPENSE, 5, 1);
         } catch (WorldEditException e) {
             e.printStackTrace();
         }
-
-        Objects.requireNonNull(world).playSound(sound, Sound.BLOCK_DISPENSER_DISPENSE, 5, 1);
-
     }
 
     /**
-     *
-     * @param world The world the schematic should be spawned in
+     * TODO
      */
-
-    private void catapultRefilled(World world) {
-
+    private void catapultRefilled() {
         try {
             SchematicSpawner.spawnSchematic(schematicLocation, schematicNormal, world.getName());
         } catch (WorldEditException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
-     *
+     * TODO
      * @param event Makes the aim up/down sign of the catapult interactable
      */
 
@@ -344,7 +322,7 @@ public class Catapult implements Listener {
     }
 
     /**
-     *
+     * TODO
      * @param event makes the left/right sign of a catapult interactable
      */
     @EventHandler
@@ -398,35 +376,26 @@ public class Catapult implements Listener {
     }
 
     /**
-     *
-     * @param projectileLoc The location from where the projectile should be shot from
-     * @param facing This has to be north, south, west or east!
-     * @param world the world the projectile should be shot in
+     * TODO
      */
     //This is the projectile that needs to be shot and the direction.
-    public void shootCatapultProjectile(Location projectileLoc, String facing, World world) {
+    public void launchProjectile(Player shooter) {
 
-        if (world == null) {
-            return;
-        }
+        byte blockData = 0x0;
 
-        projectileLoc = projectile;
-
-        Byte blockData = 0x0;
-
-        ball = (Snowball) world.spawn(projectile, Snowball.class);
+        ball = world.spawn(projectile, Snowball.class);
 
         ball.setShooter(shooter);
 
         ball.setGravity(true);
 
-        projectilePassenger = (FallingBlock) world.spawnFallingBlock(projectileLoc, Material.COBBLESTONE, blockData);
+        projectilePassenger = world.spawnFallingBlock(projectile, Material.COBBLESTONE, blockData);
 
         projectilePassenger.setDropItem(false);
 
         ball.addPassenger(projectilePassenger);
 
-        switch (facing) {
+        switch (direction) {
 
             case "north":
 
