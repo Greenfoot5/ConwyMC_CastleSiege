@@ -29,16 +29,11 @@ import java.util.UUID;
 
 public class Catapult implements Listener {
 
-    // Name of the catapult and the world that it's in
-    private final String name;
+    // General variables used by the catapult
+    private final String direction;
     private final World world;
 
-    // Different locations used by the catapult
-    private final Location cobblestone;
-    private final Location projectile;
-    private final Location sound;
-
-    // Location and names of the schematics for the different catapult states
+    // Location and names of the schematics used for the different catapult states
     private final Location schematicLocation;
     private final String schematicReloading;
     private final String schematicShot;
@@ -47,36 +42,32 @@ public class Catapult implements Listener {
     private boolean canRefill = false;
     private boolean canShoot = true;
 
-    // TODO - Sort out the following variables
-    //the value for aim up / down, which is 20.0 by default.
-    private double aimVertical = 20.0;
-    //the value for aim left/right
+    // Variables used for operating the catapult
     private double aimHorizontal = 0.0;
+    private double aimVertical = 20.0;
     private final Location lever;
     private final Location signHorizontal;
     private final Location signVertical;
-    private final String direction;
 
-    private Snowball snowball;
+    // Variables used for shooting the catapult
+    private final Location cobblestone;
+    private final Location projectile;
+    private final Location sound;
     private Player shooter;
+    private Snowball snowball;
 
     /**
      * Create a new catapult
-     * @param name The name of the catapult
      * @param world The name of the world in which the catapult is location
      * @param direction The direction in which the catapult is facing
      * @param location The base location for the catapult
      */
-    public Catapult(String name, String world, String direction, Vector location) {
+    public Catapult(String world, String direction, Vector location) {
         // Set direction independent variables
-        this.name = name;
         this.world = Bukkit.getWorld(world);
-        this.direction = direction.toLowerCase();
-
-        // Ensure that a valid world is supplied
         if (this.world == null)
             throw new IllegalArgumentException("The world " + world + " does not exist!");
-
+        this.direction = direction.toLowerCase();
         this.schematicLocation = location.toLocation(this.world);
         this.signHorizontal = location.toLocation(this.world);
 

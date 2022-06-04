@@ -826,12 +826,11 @@ public class Main extends JavaPlugin implements Listener {
         for (int i = 0; i < catapultPaths.length; i++) {
 
             Route catapultRoute = mapRoute.add(catapultPaths[i]);
-            String name = getCatapultsConfig().getString(catapultRoute.add("name"));
             String world = getCatapultsConfig().getString(catapultRoute.add("world"));
             String direction = getCatapultsConfig().getString(catapultRoute.add("direction"));
             Vector location = getCatapultsConfig().getAs(catapultRoute.add("location"), Vector.class);
 
-            Catapult catapult = new Catapult(name, world, direction, location);
+            Catapult catapult = new Catapult(world, direction, location);
             map.catapults[i] = catapult;
         }
 
