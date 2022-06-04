@@ -164,7 +164,7 @@ public class Catapult implements Listener {
      */
 
     @EventHandler
-    public void onSwitch(PlayerInteractEvent event) {
+    public void onPullLever(PlayerInteractEvent event) {
         Block clickedBlock = event.getClickedBlock();
         if (clickedBlock == null || clickedBlock.getType() != Material.LEVER
                 || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
@@ -176,39 +176,18 @@ public class Catapult implements Listener {
         if (Objects.equals(player.getWorld(), world) && clickedBlock.getLocation().distance(lever) == 0) {
 
             // Check if the catapult can be shot
-            if (!((Powerable) clickedBlock.getBlockData()).isPowered() && canShoot) {
+            if (canShoot) {
                 shoot(player);
-
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-
-                        if (cobblestone.getBlock().getType() == Material.COBBLESTONE_SLAB
-                                || !canBeRefilled || canShoot) {
-                            this.cancel();
-                            return;
-                        }
-
-                        catapultRefilled();
-                        canShoot = true;
-                        canBeRefilled = false;
-
-                    }
-
-                }.runTaskLater(Main.plugin, catapultTimer);
-
             } else {
                 Messenger.sendActionError("This catapult is still reloading", player);
                 event.setCancelled(true);
             }
-
-
         }
 
     }
 
     /**
-     * Shoot the catapult and start the timing for it coming back down again
+     * Shoot the catapult and start the timer for it coming back down again
      * @param player The player who shot the catapult
      */
     private void shoot(Player player) {
@@ -235,7 +214,9 @@ public class Catapult implements Listener {
         }
     }
 
-    // TODO
+    /**
+     * Tension the catapult and start the timer for it being refilled
+     */
     private void tension() {
         try {
             // Animate the tensioning and play the tensioning sound
@@ -248,9 +229,29 @@ public class Catapult implements Listener {
             lever.getBlock().setBlockData(leverData);
             canBeRefilled = true;
 
+            // Start the 20s timer for the catapult being refilled automatically
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    refill();
+                }
+            }.runTaskLater(Main.plugin, 400);
+
         } catch (WorldEditException e) {
             e.printStackTrace();
         }
+    }
+
+    // TODO
+    private void refill() {
+        if (cobblestone.getBlock().getType() == Material.COBBLESTONE_SLAB
+                || !canBeRefilled || canShoot) {
+            return;
+        }
+
+        catapultRefilled();
+        canShoot = true;
+        canBeRefilled = false;
     }
 
     /**
