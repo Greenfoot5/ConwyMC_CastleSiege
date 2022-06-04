@@ -3,17 +3,13 @@ package me.huntifi.castlesiege.maps.objects;
 import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.events.combat.AssistKill;
-import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Powerable;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -44,7 +40,6 @@ public class Catapult implements Listener {
 
     // Location and names of the schematics for the different catapult states
     private final Location schematicLocation;
-    private final String schematicNormal;
     private final String schematicReloading;
     private final String schematicShot;
 
@@ -61,15 +56,8 @@ public class Catapult implements Listener {
     private final Location signHorizontal;
     private final Location signVertical;
     private final String direction;
-    //serves as a third value for the shooting vectors, this makes sure it shoots straight and not backwards.
-    private double forwardValueNorthZ = -34.0;
-    private double forwardValueEastX = 34.0;
-    private double forwardValueWestX = -34.0;
-    private double forwardValueSouthZ = 34.0;
 
-    private FallingBlock projectilePassenger;
-
-    private Snowball ball;
+    private Snowball snowball;
     private Player shooter;
 
     /**
@@ -103,7 +91,6 @@ public class Catapult implements Listener {
                 this.cobblestone = new Vector(2, 1, 5).add(location).toLocation(this.world);
 
                 // Schematics
-                this.schematicNormal = "Catapult_Normal_North";
                 this.schematicReloading = "Catapult_Reloading_North";
                 this.schematicShot = "Catapult_Shot_North";
                 break;
@@ -117,7 +104,6 @@ public class Catapult implements Listener {
                 this.cobblestone = new Vector(-5, 1, 2).add(location).toLocation(this.world);
 
                 // Schematics
-                this.schematicNormal = "Catapult_Normal_East";
                 this.schematicReloading = "Catapult_Reloading_East";
                 this.schematicShot = "Catapult_Shot_East";
                 break;
@@ -131,7 +117,6 @@ public class Catapult implements Listener {
                 this.cobblestone = new Vector(-2, 1, -5).add(location).toLocation(this.world);
 
                 // Schematics
-                this.schematicNormal = "Catapult_Normal_South";
                 this.schematicReloading = "Catapult_Reloading_South";
                 this.schematicShot = "Catapult_Shot_South";
                 break;
@@ -145,7 +130,6 @@ public class Catapult implements Listener {
                 this.cobblestone = new Vector(5, 1, -2).add(location).toLocation(this.world);
 
                 // Schematics
-                schematicNormal = "Catapult_Normal_West";
                 schematicReloading = "Catapult_Reloading_West";
                 schematicShot = "Catapult_Shot_West";
                 break;
@@ -308,92 +292,32 @@ public class Catapult implements Listener {
     }
 
     /**
-     * TODO - Rework function and write documentation
+     * Launch the catapult's projectile
      */
-    //This is the projectile that needs to be shot and the direction.
     public void launchProjectile() {
+        // Spawn a falling cobblestone block riding a snowball
+        BlockData blockData = Bukkit.createBlockData(Material.COBBLESTONE);
+        FallingBlock cobblestone = world.spawnFallingBlock(projectile, blockData);
+        snowball = world.spawn(projectile, Snowball.class);
+        snowball.addPassenger(cobblestone);
 
-        byte blockData = 0x0;
-
-        ball = world.spawn(projectile, Snowball.class);
-
-        ball.setShooter(shooter);
-
-        ball.setGravity(true);
-
-        projectilePassenger = world.spawnFallingBlock(projectile, Material.COBBLESTONE, blockData);
-
-        projectilePassenger.setDropItem(false);
-
-        ball.addPassenger(projectilePassenger);
-
+        // Set the snowball's velocity
+        Vector vector = new Vector();
         switch (direction) {
-
             case "north":
-
-                double vecX = aimHorizontal;
-
-                double vecZ = forwardValueNorthZ;
-
-                double vecY = aimVertical;
-
-                Vector v = new Vector(vecX, vecY, vecZ);
-
-                ball.setVelocity(v);
-                ball.setVelocity(ball.getVelocity().normalize().multiply(3.5));
-
+                vector = new Vector(aimHorizontal, aimVertical, -34);
                 break;
-
             case "east":
-
-                double vecX2 = forwardValueEastX;
-
-                double vecY2 = aimVertical;
-
-                double vecZ2 = aimHorizontal;
-
-                Vector v2 = new Vector(vecX2, vecY2, vecZ2);
-
-                ball.setVelocity(v2);
-                ball.setVelocity(ball.getVelocity().normalize().multiply(3.5));
-
-
+                vector = new Vector(34, aimVertical, aimHorizontal);
                 break;
-
-            case "west":
-
-                double vecZ3 = aimHorizontal;
-
-                double vecX3 = forwardValueWestX;
-
-                double vecY3 = aimVertical;
-
-                Vector v3 = new Vector(vecX3, vecY3, vecZ3);
-
-                ball.setVelocity(v3);
-                ball.setVelocity(ball.getVelocity().normalize().multiply(3.5));
-                break;
-
             case "south":
-
-                double vecY4 = aimVertical;
-
-                double vecX4 = aimHorizontal;
-
-                double vecZ4 = forwardValueSouthZ;
-
-                Vector v4 = new Vector(vecX4, vecY4, vecZ4);
-
-                ball.setVelocity(v4);
-                ball.setVelocity(ball.getVelocity().normalize().multiply(3.5));
-
+                vector = new Vector(aimHorizontal, aimVertical, 34);
                 break;
-
-
-            default:
+            case "west":
+                vector = new Vector(-34, aimVertical, aimHorizontal);
                 break;
         }
-
+        snowball.setVelocity(vector.normalize().multiply(3.5));
     }
 
     /**
@@ -402,9 +326,9 @@ public class Catapult implements Listener {
      */
     @EventHandler
     public void onImpact(ProjectileHitEvent event) {
-        if (Objects.equals(ball, event.getEntity())) {
-            ball.getPassengers().get(0).remove();
-            world.createExplosion(ball.getLocation(), 4F, false, true, shooter);
+        if (Objects.equals(snowball, event.getEntity())) {
+            snowball.getPassengers().get(0).remove();
+            world.createExplosion(snowball.getLocation(), 4F, false, true, shooter);
         }
     }
 
