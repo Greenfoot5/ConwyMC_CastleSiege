@@ -215,7 +215,7 @@ public class Catapult implements Listener {
     private void refill() {
         if (canRefill) {
             // Perform the visual changes
-            Powerable leverData = (Powerable) lever.getBlock().getBlockData();
+            Powerable leverData = (Powerable) lever.getBlock().getBlockData(); // TODO - Ensure there's still a lever
             leverData.setPowered(false);
             lever.getBlock().setBlockData(leverData);
             cobblestone.getBlock().setType(Material.COBBLESTONE_SLAB);
@@ -302,10 +302,10 @@ public class Catapult implements Listener {
                 vector = new Vector(34, aimVertical, aimHorizontal);
                 break;
             case "south":
-                vector = new Vector(aimHorizontal, aimVertical, 34);
+                vector = new Vector(-aimHorizontal, aimVertical, 34);
                 break;
             case "west":
-                vector = new Vector(-34, aimVertical, aimHorizontal);
+                vector = new Vector(-34, aimVertical, -aimHorizontal);
                 break;
         }
         snowball.setVelocity(vector.normalize().multiply(3.5));
