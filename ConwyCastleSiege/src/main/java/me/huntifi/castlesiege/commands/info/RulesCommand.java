@@ -37,18 +37,20 @@ public class RulesCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender p, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		p.sendMessage("The list of rules everyone must follow!" + ChatColor.BOLD + " Don't break them.");
-		p.sendMessage(border); //print out border
+		StringBuilder sb = new StringBuilder();
+		sb.append("The list of rules everyone must follow!" + ChatColor.BOLD + " Don't break them.\n");
+		sb.append(ChatColor.WHITE + border+"\n"); //print out border
 		int i = 0;
 		ChatColor col; //alternates between grey and white
 		for (String s : rulesList) {
 			if (i % 2 == 0) { //so 0 would be white, 1 grey, 2 white, 3 grey, 4 white etc
 				col = ChatColor.WHITE;
 			} else { col = ChatColor.GRAY; }
-			p.sendMessage(ChatColor.YELLOW + "" + (i+1) + col + ")" + s);
+			sb.append(ChatColor.YELLOW + "" + (i+1) + col + ")" + s + "\n");
 			i += 1;
 		}
-		p.sendMessage(border);
+		sb.append(ChatColor.WHITE + border);
+		p.sendMessage(sb.toString());
 		return true;
 	}
 }
