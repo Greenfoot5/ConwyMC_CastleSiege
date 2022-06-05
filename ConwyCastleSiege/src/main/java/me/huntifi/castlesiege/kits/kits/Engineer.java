@@ -2,6 +2,8 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.Explosion;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.HurtAnimation;
@@ -16,6 +18,8 @@ import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
@@ -383,7 +387,10 @@ public class Engineer extends Kit implements Listener {
      * @param e The event called when placing a wooden plank
      */
     private void placeWood(BlockPlaceEvent e) {
-        // TODO - Implement
+        BlockState blockState = Explosion.getWood(e.getBlock().getLocation());
+        if (blockState != null) {
+            placeBlock(e, blockState);
+        }
     }
 
     /**
@@ -391,7 +398,31 @@ public class Engineer extends Kit implements Listener {
      * @param e The event called when placing stone
      */
     private void placeStone(BlockPlaceEvent e) {
-        // TODO - Implement
+        BlockState blockState = Explosion.getStone(e.getBlock().getLocation());
+        if (blockState != null) {
+            placeBlock(e, blockState);
+        }
+    }
+
+    /**
+     * Finish the repair process
+     * @param e The original place event
+     * @param blockState The state of the block to place
+     */
+    private void placeBlock(BlockPlaceEvent e, BlockState blockState) {
+        // Remove one of the used item from the player and award a support point
+        ItemStack item = e.getItemInHand();
+        item.setAmount(item.getAmount() - 1);
+        UpdateStats.addSupports(e.getPlayer().getUniqueId(), 1);
+
+        // Place the block on the next tick to prevent it being overwritten by the original place event
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                BlockData data = blockState.getBlockData();
+                blockState.getBlock().setBlockData(data);
+            }
+        }.runTask(Main.plugin);
     }
 
     /**
