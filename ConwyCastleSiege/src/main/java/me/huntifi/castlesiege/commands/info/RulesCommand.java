@@ -46,7 +46,7 @@ public class RulesCommand implements CommandExecutor {
 			if (i % 2 == 0) { //so 0 would be white, 1 grey, 2 white, 3 grey, 4 white etc
 				col = ChatColor.WHITE;
 			} else { col = ChatColor.GRAY; }
-			sb.append(ChatColor.YELLOW + "" + (i+1) + col + ")" + s + "\n");
+			sb.append(ChatColor.YELLOW + "" + (i+1) + col + ") " + s + "\n");
 			i += 1;
 		}
 		sb.append(ChatColor.WHITE + border);
