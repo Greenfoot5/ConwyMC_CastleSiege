@@ -345,9 +345,16 @@ public class Catapult implements Listener {
             } else if (!canRefill) {
                 Messenger.sendActionError("The catapult already has a projectile ready", player);
             } else {
-                refill();
-                ItemStack item = event.getItemInHand();
-                item.setAmount(item.getAmount() - 1);
+                // Perform the refill on the next tick to prevent overwriting the cobblestone slab
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        refill();
+                        ItemStack item = event.getItemInHand();
+                        item.setAmount(item.getAmount() - 1);
+                    }
+                }.runTask(Main.plugin);
+
             }
         }
     }
