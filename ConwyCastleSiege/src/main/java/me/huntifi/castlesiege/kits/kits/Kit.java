@@ -41,6 +41,7 @@ public abstract class Kit implements CommandExecutor {
     protected double regenAmount;
 
     public boolean canCap;
+    public boolean canClimb;
     protected boolean canSeeHealth;
 
     // Equipment
@@ -70,6 +71,7 @@ public abstract class Kit implements CommandExecutor {
         players = new ArrayList<>();
 
         canCap = true;
+        canClimb = true;
         canSeeHealth = false;
 
         // Equipment

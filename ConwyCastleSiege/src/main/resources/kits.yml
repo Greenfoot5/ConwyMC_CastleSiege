@@ -173,7 +173,8 @@ premium:
         - "§2[Melee Damage]:§a 21.5"
         - "§2[Regen]:§a 3"
         - "§2[Effects]:§a Speed 1"
-        - "§2[Ability]:§a Go berserk by drinking a potion."
+        - "§2[Ability]:§a Go berserk by drinking a potion, giving"
+        - "§2[Ability]:§a Speed 2, Strength 1, Nausea 1"
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 10

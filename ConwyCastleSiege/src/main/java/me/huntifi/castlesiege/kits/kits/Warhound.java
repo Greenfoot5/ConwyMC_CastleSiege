@@ -43,6 +43,7 @@ public class Warhound extends Kit implements Listener {
     public Warhound() {
         super("Warhound", 90, 3);
         super.canCap = false;
+        super.canClimb = false;
         super.canSeeHealth = true;
 
         // Equipment Stuff
@@ -95,20 +96,6 @@ public class Warhound extends Kit implements Listener {
         mobDisguise.setEntity(p);
         mobDisguise.startDisguise();
         NameTag.give(p);
-    }
-
-    /**
-     * Prevent the warhound from climbing up ladders
-     * @param e The event called when moving on a ladder
-     */
-    @EventHandler
-    public void onClimb(PlayerMoveEvent e) {
-        Player p = e.getPlayer();
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
-                p.getLocation().getBlock().getType() == Material.LADDER &&
-                e.getTo() != null && e.getTo().getY() - e.getFrom().getY() > 0) {
-            e.setCancelled(true);
-        }
     }
 
     /**
