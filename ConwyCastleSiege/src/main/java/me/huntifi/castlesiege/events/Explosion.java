@@ -18,7 +18,31 @@ public class Explosion implements Listener {
     private static final HashMap<Location, BlockState> wood = new HashMap<>();
 
     /**
-     * TODO
+     * Get a repairable stone type block
+     * @param location The location where the block used to be
+     * @return The block state of a stone type block, or null if there was none
+     */
+    public static BlockState getStone(Location location) {
+        BlockState hybridState = hybrid.remove(location);
+        if (hybridState == null)
+            return stone.remove(location);
+        else return hybridState;
+    }
+
+    /**
+     * Get a repairable wood type block
+     * @param location The location where the block used to be
+     * @return The block state of a wood type block, or null if there was none
+     */
+    public static BlockState getWood(Location location) {
+        BlockState hybridState = hybrid.remove(location);
+        if (hybridState == null)
+            return wood.remove(location);
+        else return hybridState;
+    }
+
+    /**
+     * Get all blocks that were blown up and register them
      */
     @EventHandler (priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onExplode(EntityExplodeEvent e) {
@@ -28,8 +52,8 @@ public class Explosion implements Listener {
     }
 
     /**
-     * Register exploded blocks in their corresponding hashmap
-     * @param block The exploded block
+     * Register a block in their corresponding hashmap
+     * @param block The block to register
      */
     private void register(Block block) {
         switch (block.getType()) {
