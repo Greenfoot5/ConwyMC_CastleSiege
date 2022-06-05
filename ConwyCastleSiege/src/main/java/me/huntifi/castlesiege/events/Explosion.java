@@ -95,6 +95,8 @@ public class Explosion implements Listener {
             case COBBLESTONE_STAIRS:
             case COBBLESTONE_WALL:
 
+            case CRACKED_STONE_BRICKS:
+
             case CUT_RED_SANDSTONE:
             case CUT_RED_SANDSTONE_SLAB:
             case CUT_SANDSTONE:
