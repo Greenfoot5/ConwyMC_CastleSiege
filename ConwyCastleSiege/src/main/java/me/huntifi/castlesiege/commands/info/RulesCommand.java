@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
  * Shows the player the rules
  */
 public class RulesCommand implements CommandExecutor {
-
 	/**
 	 * Print the rules to the player
 	 * @param p Source of the command
@@ -19,37 +18,37 @@ public class RulesCommand implements CommandExecutor {
 	 * @param args Passed command arguments
 	 * @return true
 	 */
+	private final static String[] rulesList = {
+			"Hacks and Mods are not allowed, if you attempt to hack you will get banned without warning!",
+			"Xray is not allowed, that includes transparent blocks!",
+			"No abusing bugs. Report a bug immediately. Do not tell others how to use the bug.",
+			"No spamming. Do not say the same thing more than once or twice. Do not spam chat with arguments.",
+			"No trolling. We have a zero-tolerance policy for trolling. We know what trolling is and it will not be tolerated.",
+			"Use English in the server chat.",
+			"Do not advertise other servers, unless they are a sub-community of Thedarkage.",
+			"Do not use hacked clients. Zero-tolerance policy. You will be banned without warning!",
+			"Do not insult other players and don't be a racist, no hate-speech or bullying.",
+			"Staff have a final say. Do not attempt to argue against punishment decisions once a final decision is given.",
+			"Do not pvp log.",
+			"Do not evade punishments.",
+			"Do not post NSFW content."
+	};
+	private final static String border = "-----------------------------------------------------";
+
 	@Override
 	public boolean onCommand(@NotNull CommandSender p, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		p.sendMessage("The list of rules everyone must follow!" + ChatColor.BOLD + " Don't break them.");
-		p.sendMessage("-----------------------------------------------------");
-		p.sendMessage(ChatColor.YELLOW + "1" + ChatColor.WHITE +
-				") Hacks and Mods are not allowed, if you attempt to hack you will get banned without warning!");
-		p.sendMessage(ChatColor.YELLOW + "2" + ChatColor.GRAY +
-				") Xray is not allowed, that includes transparent blocks!");
-		p.sendMessage(ChatColor.YELLOW + "3" + ChatColor.WHITE +
-				") No abusing bugs. Report a bug immediately. Do not tell others how to use the bug.");
-		p.sendMessage(ChatColor.YELLOW + "4" + ChatColor.GRAY +
-				") No spamming. Do not say the same thing more than once or twice. Do not spam chat with arguments.");
-		p.sendMessage(ChatColor.YELLOW + "5" + ChatColor.WHITE +
-				") No trolling. We have a zero-tolerance policy for trolling. We know what trolling is and it will not be tolerated.");
-		p.sendMessage(ChatColor.YELLOW + "6" + ChatColor.GRAY +
-				") Use English in the server chat.");
-		p.sendMessage(ChatColor.YELLOW + "7" + ChatColor.WHITE +
-				") Do not advertise other servers, unless they are a sub-community of Thedarkage.");
-		p.sendMessage(ChatColor.YELLOW + "8" + ChatColor.GRAY +
-				") Do not use hacked clients. Zero-tolerance policy. You will be banned without warning!");
-		p.sendMessage(ChatColor.YELLOW + "9" + ChatColor.WHITE +
-				") Do not insult other players and don't be a racist, no hate-speech or bullying.");
-		p.sendMessage(ChatColor.YELLOW + "10" + ChatColor.GRAY +
-				") Staff have a final say. Do not attempt to argue against punishment decisions once a final decision is given.");
-		p.sendMessage(ChatColor.YELLOW + "11" + ChatColor.WHITE +
-				") Do not pvp log.");
-		p.sendMessage(ChatColor.YELLOW + "12" + ChatColor.GRAY +
-				") Do not evade punishments.");
-		p.sendMessage(ChatColor.YELLOW + "13" + ChatColor.WHITE +
-				") Do not post NSFW content.");
-		p.sendMessage("-----------------------------------------------------");
+		p.sendMessage(border); //print out border
+		int i = 0;
+		ChatColor col; //alternates between grey and white
+		for (String s : rulesList) {
+			if (i % 2 == 0) { //so 0 would be white, 1 grey, 2 white, 3 grey, 4 white etc
+				col = ChatColor.WHITE;
+			} else { col = ChatColor.GRAY; }
+			p.sendMessage(ChatColor.YELLOW + "" + (i+1) + col + ")" + s);
+			i += 1;
+		}
+		p.sendMessage(border);
 		return true;
 	}
 }
