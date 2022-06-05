@@ -572,18 +572,24 @@ public class Flag {
      */
     public ChatColor getFlagColour() {
 
-        Flag flag = MapController.getCurrentMap().getFlag(name);
+        if (name != null) {
 
-        Team team = MapController.getCurrentMap().getTeam(getCurrentOwners());
+            Flag flag = MapController.getCurrentMap().getFlag(name);
 
+            Team team = MapController.getCurrentMap().getTeam(getCurrentOwners());
 
-        if (Objects.equals(flag.getCurrentOwners(), team.name)) {
+            if (Objects.equals(flag.getCurrentOwners(), team.name)) {
 
-            return team.primaryChatColor;
+                return team.primaryChatColor;
 
+            } else {
+
+                return ChatColor.GRAY;
+            }
         }
-        return ChatColor.GRAY;
-    }
+            return ChatColor.GRAY;
+        }
+
 
 
 }
