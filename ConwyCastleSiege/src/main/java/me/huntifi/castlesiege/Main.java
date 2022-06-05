@@ -22,6 +22,7 @@ import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.Explosion;
+import me.huntifi.castlesiege.events.Movement;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.*;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
@@ -114,6 +115,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new Explosion(), plugin);
+                getServer().getPluginManager().registerEvents(new Movement(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
 
                 // Connection
