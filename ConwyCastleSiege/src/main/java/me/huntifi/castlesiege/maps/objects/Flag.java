@@ -13,6 +13,8 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -54,6 +56,15 @@ public class Flag {
 
     // Charge Data
     private final String startingTeam;
+
+    //The entity to create the flag's nametag
+    private ArmorStand hologram;
+
+    //The location of the hologram
+    public Location holoLoc;
+
+    //Hologram colour
+    public String colour;
 
     /**
      * Creates a new flag
@@ -357,10 +368,18 @@ public class Flag {
         {
             Team team = MapController.getCurrentMap().getTeam(newTeam);
             Bukkit.broadcastMessage(team.primaryChatColor + "~~~ " + newTeam + " has captured " + name + "! ~~~");
+
+            //Hologram
+            if (hologram == null) { return; }
+            updateHologram();
         }
         else if (currentOwners != null)
         {
             Bukkit.broadcastMessage(ChatColor.GRAY + "~~~ " + name + " has been neutralised! ~~~");
+
+            //Hologram
+            if (hologram == null) { return; }
+            updateHologram();
         }
     }
 
@@ -519,5 +538,86 @@ public class Flag {
 
         // Flag is not fully captured
         return team.secondaryWool;
+    }
+
+    /**
+     *
+     * @param spawn Location of the hologram, basically where it should spawn
+     */
+    public void createHologram(Location spawn) {
+        if (spawn.getWorld() == null) { return; }
+        hologram = (ArmorStand) spawn.getWorld().spawnEntity(spawn, EntityType.ARMOR_STAND);
+        hologram.setVisible(false);
+        hologram.setGravity(false);
+        hologram.setCustomNameVisible(true);
+         if (colour == null || name == null) {
+          return;
+         }
+        hologram.setCustomName(ChatColor.BOLD +  "Flag: " + getColour(colour) + name);
+    }
+
+    public void updateHologram() {
+        if (colour == null || name == null) {
+            return;
+        }
+        hologram.setCustomName(ChatColor.BOLD + "Flag: " + getColour(colour) + name);
+        hologram.setCustomNameVisible(true);
+    }
+    
+    
+    public ChatColor getColour(String input) {
+
+        switch (input) {
+            case "black":
+                return ChatColor.BLACK;
+            case "dark_blue":
+                return ChatColor.DARK_BLUE;
+            case "green":
+            case "dark_green":
+                return ChatColor.DARK_GREEN;
+            case "aqua":
+            case "cyan":
+                return ChatColor.AQUA;
+            case "light_blue":
+            case "dark_aqua":
+                return ChatColor.DARK_AQUA;
+            case "brown":
+            case "dark_red":
+                return ChatColor.DARK_RED;
+            case "red":
+                return ChatColor.RED;
+            case "dark_purple":
+            case "purple":
+                return ChatColor.DARK_PURPLE;
+            case "gold":
+            case "dark_gold":
+            case "dark_yellow":
+            case "orange":
+                return ChatColor.GOLD;
+            case "Yellow":
+            case "light_gold":
+                return ChatColor.YELLOW;
+            case "light_gray":
+            case "light_grey":
+            case "gray":
+                return ChatColor.GRAY;
+            case "dark_grey":
+            case "dark_gray":
+            case "darkgrey":
+            case "darkgray":
+                return ChatColor.DARK_GRAY;
+            case "blue":
+                return ChatColor.BLUE;
+            case "light_green":
+            case "lime":
+                return ChatColor.GREEN;
+            case "light_purple":
+            case "magenta":
+            case "pink":
+                return ChatColor.LIGHT_PURPLE;
+            case "white":
+            default:
+                return ChatColor.WHITE;
+        }
     }
 }

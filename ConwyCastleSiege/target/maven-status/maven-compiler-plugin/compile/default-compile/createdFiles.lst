@@ -4,6 +4,7 @@ me\huntifi\castlesiege\commands\info\TeamsCommand.class
 me\huntifi\castlesiege\kits\kits\Shieldman.class
 me\huntifi\castlesiege\kits\kits\Warhound$1.class
 me\huntifi\castlesiege\commands\staff\punishments\Warn.class
+me\huntifi\castlesiege\maps\objects\Catapult$3.class
 me\huntifi\castlesiege\kits\kits\Medic$2.class
 me\huntifi\castlesiege\commands\staff\SetCoinMultiplier.class
 me\huntifi\castlesiege\database\MVPStats.class

@@ -641,6 +641,12 @@ public class Main extends JavaPlugin implements Listener {
             // Set the spawn point
             flag.spawnPoint = getLocation(flagRoute.add("spawn_point"), map.worldName, flagsConfig);
 
+            //Hologram colour
+            flag.colour = getFlagsConfig().getString(flagRoute.add("hologram_colour"));
+
+            //Hologram Location
+            flag.holoLoc = getLocation(flagRoute.add("hologram_location"), map.worldName, flagsConfig);
+
             // Set the capture area
             Route captureRoute = flagRoute.add("capture_area");
             if (getFlagsConfig().contains(captureRoute)

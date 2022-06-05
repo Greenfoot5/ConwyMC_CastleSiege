@@ -5402,6 +5402,11 @@ Conwy:
       z: 37
       yaw: -38
       pitch: -5
+    hologram_colour: "white"
+    hologram_location:
+      x: 21
+      y: 78
+      z: 43
   northwest_tower:
     name: "Northwest Tower"
     start_owners: "The English"
