@@ -23,10 +23,10 @@ public class Explosion implements Listener {
      * @return The block state of a stone type block, or null if there was none
      */
     public static BlockState getStone(Location location) {
-        BlockState hybridState = hybrid.remove(location);
-        if (hybridState == null)
+        BlockState blockState = hybrid.remove(location);
+        if (blockState == null)
             return stone.remove(location);
-        else return hybridState;
+        else return blockState;
     }
 
     /**
@@ -35,10 +35,19 @@ public class Explosion implements Listener {
      * @return The block state of a wood type block, or null if there was none
      */
     public static BlockState getWood(Location location) {
-        BlockState hybridState = hybrid.remove(location);
-        if (hybridState == null)
+        BlockState blockState = hybrid.remove(location);
+        if (blockState == null)
             return wood.remove(location);
-        else return hybridState;
+        else return blockState;
+    }
+
+    /**
+     * Clear the repairable blocks
+     */
+    public static void reset() {
+        hybrid.clear();
+        stone.clear();
+        wood.clear();
     }
 
     /**
