@@ -5402,7 +5402,6 @@ Conwy:
       z: 37
       yaw: -38
       pitch: -5
-    hologram_colour: "white"
     hologram_location:
       x: 21
       y: 78
@@ -5420,6 +5419,10 @@ Conwy:
       z: 178
       yaw: -33
       pitch: 1
+    hologram_location:
+      x: 40
+      y: 123
+      z: 187
     capture_area:
       type: "cuboid"
       min:
