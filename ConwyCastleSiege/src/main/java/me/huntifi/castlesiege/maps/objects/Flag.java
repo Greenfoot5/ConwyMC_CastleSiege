@@ -574,6 +574,7 @@ public class Flag {
 
         Team team = MapController.getCurrentMap().getTeam(getCurrentOwners());
 
+
         if (Objects.equals(flag.getCurrentOwners(), team.name)) {
 
             return team.primaryChatColor;

@@ -241,6 +241,7 @@ public class MapController implements CommandExecutor {
 			if (flag.region != null) {
 				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName))))).addRegion(flag.region);
 
+				if (flag.getFlagColour() == null) { return; }
 				flag.createHologram(flag.holoLoc, flag.getFlagColour());
 			}
 		}

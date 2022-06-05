@@ -28,6 +28,7 @@ me\huntifi\castlesiege\maps\helms_deep\CavesBoat.class
 me\huntifi\castlesiege\kits\kits\Warhound$2.class
 me\huntifi\castlesiege\kits\kits\Engineer$3.class
 me\huntifi\castlesiege\events\Explosion.class
+me\huntifi\castlesiege\events\Movement.class
 me\huntifi\castlesiege\commands\gameplay\KitCommand.class
 me\huntifi\castlesiege\commands\staff\punishments\Ban$2.class
 me\huntifi\castlesiege\commands\info\DiscordCommand.class
