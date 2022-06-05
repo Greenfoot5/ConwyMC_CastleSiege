@@ -154,9 +154,10 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Medic(), plugin);
                 getServer().getPluginManager().registerEvents(new Ranger(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
-                getServer().getPluginManager().registerEvents(new Viking(), plugin);
-                getServer().getPluginManager().registerEvents(new Warhound(), plugin);
                 getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
+                getServer().getPluginManager().registerEvents(new Viking(), plugin);
+                getServer().getPluginManager().registerEvents(new Warbear(), plugin);
+                getServer().getPluginManager().registerEvents(new Warhound(), plugin);
 
                 // Rewrite Commands
 
@@ -237,6 +238,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
                 Objects.requireNonNull(getCommand("Vanguard")).setExecutor(new Vanguard());
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
+                Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
 
                 // Map Specific
