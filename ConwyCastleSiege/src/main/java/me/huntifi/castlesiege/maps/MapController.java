@@ -107,6 +107,7 @@ public class MapController implements CommandExecutor {
 	 * @param mapName the name of the map to set the current map to
 	 */
 	public static void setMap(String mapName) {
+		timer.hasGameEnded = true;
 		String oldMap = maps.get(mapIndex).name;
 		for (int i = 0; i < maps.size(); i++) {
 			if (Objects.equals(maps.get(i).name, mapName)) {
