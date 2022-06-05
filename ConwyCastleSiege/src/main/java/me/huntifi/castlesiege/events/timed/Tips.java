@@ -10,8 +10,10 @@ import java.util.Random;
  */
 public class Tips extends BukkitRunnable {
     // time in seconds between sending out tips
-    public static int TIME_BETWEEN_TIPS = 180;
+    public static int TIME_BETWEEN_TIPS = 15;
     private final Random random = new Random();
+    private int oldIndex = -1; //used to prevent same tip 2x in a row
+    // -1 to allow for any initial tip to be sent
 
     // Quick and dirty, needs to be expanded to allow for conditions and be read from a yml
     private static final String[] tips = new String[] {
@@ -39,6 +41,11 @@ public class Tips extends BukkitRunnable {
 
     // Sends a random tip to all players
     public void run() {
-        Messenger.broadcastTip(tips[random.nextInt(tips.length)]);
+        int newIndex;
+        do {
+            newIndex = random.nextInt(tips.length);
+        } while (newIndex == oldIndex);
+        oldIndex = newIndex; //set oldIndex to newIndex to prepare for next tip
+        Messenger.broadcastTip(tips[newIndex]);
     }
 }
