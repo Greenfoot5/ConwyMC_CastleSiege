@@ -552,6 +552,8 @@ public class Flag {
         hologram = (ArmorStand) spawn.getWorld().spawnEntity(spawn, EntityType.ARMOR_STAND);
         hologram.setVisible(false);
         hologram.setGravity(false);
+        hologram.setCollidable(false);
+        hologram.setInvulnerable(true);
         hologram.setCustomNameVisible(true);
         hologram.setCustomName(ChatColor.BOLD +  "Flag: " + teamColour + name);
     }

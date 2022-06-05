@@ -5772,6 +5772,10 @@ Conwy:
       z: 175
       yaw: -20
       pitch: 1
+    hologram_location:
+      x: 88
+      y: 123
+      z: 190
     capture_area:
       type: "cuboid"
       min:
@@ -6121,6 +6125,10 @@ Conwy:
       z: 176
       yaw: -45
       pitch: 0
+    hologram_location:
+      x: 148
+      y: 122
+      z: 187
     capture_area:
       type: "cuboid"
       min:
@@ -6470,6 +6478,10 @@ Conwy:
       z: 177
       yaw: 51
       pitch: 1
+    hologram_location:
+      x: 187
+      y: 124
+      z: 187
     capture_area:
       type: "cuboid"
       min:
@@ -6819,6 +6831,10 @@ Conwy:
       z: 221
       yaw: -165
       pitch: 1
+    hologram_location:
+      x: 258
+      y: 82
+      z: 222
     capture_area:
       type: "cuboid"
       min:
@@ -7168,6 +7184,10 @@ Conwy:
       z: 234
       yaw: 175
       pitch: 1
+    hologram_location:
+      x: 194
+      y: 123
+      z: 219
     capture_area:
       type: "cuboid"
       min:
@@ -7517,6 +7537,10 @@ Conwy:
       z: 233
       yaw: -141
       pitch: 1
+    hologram_location:
+      x: 149
+      y: 124
+      z: 222
     capture_area:
       type: "cuboid"
       min:
@@ -7866,6 +7890,10 @@ Conwy:
       z: 249
       yaw: -143
       pitch: 3
+    hologram_location:
+      x: 93
+      y: 123
+      z: 237
     capture_area:
       type: "cuboid"
       min:
@@ -8215,6 +8243,10 @@ Conwy:
       z: 225
       yaw: -116
       pitch: 0
+    hologram_location:
+      x: 45
+      y: 123
+      z: 220
     capture_area:
       type: "cuboid"
       min:
