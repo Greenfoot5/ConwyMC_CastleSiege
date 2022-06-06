@@ -36,7 +36,9 @@ public class Tips extends BukkitRunnable {
             "Have you found all the secrets yet?",
             "Being shot at by archers? Try to find some cover!",
             "Rams no longer require 4 people, instead the damage inflicted to the gate is increased with each player on the ram.",
-            "Got lag? Get optifine!"
+            "Got lag? Get optifine!",
+            "Donators can set an unique leave and join message with /joinmsg and /leavemsg!",
+            "Donators can switch whenever they want, no matter the amount of players!"
     };
 
     // Sends a random tip to all players
