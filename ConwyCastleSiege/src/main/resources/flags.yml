@@ -15,6 +15,10 @@ HelmsDeep:
       z: 1121
       yaw: 92
       pitch: 0
+    hologram_location:
+      x: 1160
+      y: 42
+      z: 1116
   supply_camp:
     name: "Supply Camp"
     start_owners: "Rohan"
@@ -28,6 +32,10 @@ HelmsDeep:
       z: 1119
       yaw: -93
       pitch: -3
+    hologram_location:
+      x: 993
+      y: 40
+      z: 1137
     capture_area:
       type: "cuboid"
       min:
@@ -413,6 +421,10 @@ HelmsDeep:
       z: 929
       yaw: 2
       pitch: 4
+    hologram_location:
+      x: 874
+      y: 55
+      z: 938
     capture_area:
       type: "cuboid"
       min:
@@ -592,6 +604,10 @@ HelmsDeep:
       z: 977
       yaw: -24
       pitch: -2
+    hologram_location:
+      x: 1031
+      y: 57
+      z: 1000
     capture_area:
       type: "cuboid"
       min:
@@ -756,6 +772,10 @@ HelmsDeep:
       z: 1043.5
       yaw: 178
       pitch: 2
+    hologram_location:
+      x: 982
+      y: 145
+      z: 1040
     capture_area:
       type: "cuboid"
       min:
@@ -1141,6 +1161,10 @@ HelmsDeep:
       z: 1000
       yaw: -90
       pitch: -1
+    hologram_location:
+      x: 957
+      y: 77
+      z: 1000
     capture_area:
       type: "cuboid"
       min:
@@ -1440,6 +1464,10 @@ HelmsDeep:
       z: 1000
       yaw: -90
       pitch: -1
+    hologram_location:
+      x: 1028
+      y: 80
+      z: 1000
     capture_area:
       type: "cuboid"
       min:
@@ -1622,6 +1650,10 @@ Thunderstone:
       x: 90
       y: 86
       z: 106
+    hologram_location:
+      x: 92
+      y: 89
+      z: 106
   stairhall:
     name: "Stair Hall"
     start_owners: "Thunderstone Guard"
@@ -1633,6 +1665,10 @@ Thunderstone:
       x: 182
       y: 66
       z: 67
+    hologram_location:
+      x: 166
+      y: 70
+      z: 68
     capture_area:
       type: "cuboid"
       min:
@@ -1810,6 +1846,10 @@ Thunderstone:
       x: 166
       y: 154
       z: 68
+    hologram_location:
+      x: 169
+      y: 157
+      z: 73
     capture_area:
       type: "cuboid"
       min:
@@ -2064,6 +2104,10 @@ Thunderstone:
       x: 182
       y: 92
       z: 83
+    hologram_location:
+      x: 179
+      y: 100
+      z: 60
     capture_area:
       type: "cuboid"
       min:
@@ -2411,6 +2455,10 @@ Thunderstone:
       x: 123
       y: 97
       z: 55
+    hologram_location:
+      x: 130
+      y: 101
+      z: 56
     capture_area:
       type: "cuboid"
       min:
@@ -2758,6 +2806,10 @@ Thunderstone:
       x: 230
       y: 116
       z: 82
+    hologram_location:
+      x: 246
+      y: 121
+      z: 79
     capture_area:
       type: "cuboid"
       min:
@@ -3105,6 +3157,10 @@ Thunderstone:
       x: 292
       y: 74
       z: 83
+    hologram_location:
+      x: 279
+      y: 113
+      z: 80
     capture_area:
       type: "cuboid"
       min:
@@ -3452,6 +3508,10 @@ Thunderstone:
       x: 156
       y: 97
       z: 82
+    hologram_location:
+      x: 158
+      y: 101
+      z: 77
     capture_area:
       type: "cuboid"
       min:
@@ -3808,6 +3868,10 @@ Elwynn:
       z: -110
       yaw: 90
       pitch: 1
+    hologram_location:
+      x: 148
+      y: 80
+      z: -107
   abbey:
     name: "Northshire Abbey"
     start_owners: "The Alliance"
@@ -3821,6 +3885,10 @@ Elwynn:
       z: -139
       yaw: 0
       pitch: -1
+    hologram_location:
+      x: -9
+      y: 83
+      z: -117
     capture_area:
       type: "cuboid"
       min:
@@ -4240,6 +4308,10 @@ Elwynn:
       x: -97
       y: 79
       z: -6
+    hologram_location:
+      x: -116
+      y: 84
+      z: -8
     capture_area:
       type: "cuboid"
       min:
@@ -4662,6 +4734,10 @@ Elwynn:
       z: 64
       yaw: -180
       pitch: -3
+    hologram_location:
+      x: -128
+      y: 84
+      z: 48
     capture_area:
       type: "cuboid"
       min:
@@ -4976,6 +5052,10 @@ Elwynn:
       z: 159
       yaw: -98
       pitch: 1
+    hologram_location:
+      x: -196
+      y: 79
+      z: 160
     capture_area:
       type: "cuboid"
       min:
@@ -8600,8 +8680,12 @@ Abrakhan:
       x: 116
       y: 15
       z: 69
-      #yaw:-178
-      #pitch:-2
+      yaw: -178
+      pitch: -2
+    hologram_location:
+      x: 117
+      y: 19
+      z: 51
     capture_area:
       type: "cuboid"
       min:
@@ -8779,8 +8863,12 @@ Abrakhan:
       x: 68
       y: 14
       z: 6
-      #yaw: -53
-      #pitch: 0
+      yaw: -53
+      pitch: 0
+    hologram_location:
+      x: 72
+      y: 20
+      z: 27
     capture_area:
       type: "cuboid"
       min:
@@ -9078,6 +9166,12 @@ Abrakhan:
       x: -13
       y: 12
       z: 46
+      yaw: 90
+      pitch: 0
+    hologram_location:
+      x: -32
+      y: 17
+      z: 46
     capture_area:
       type: "cuboid"
       min:
@@ -9307,6 +9401,10 @@ Abrakhan:
       z: -37
       yaw: 56
       pitch: 1
+    hologram_location:
+      x: 142
+      y: 42
+      z: -25
     capture_area:
       type: "cuboid"
       min:
@@ -9656,6 +9754,10 @@ Abrakhan:
       z: -25
       yaw: -90
       pitch: 1
+    hologram_location:
+      x: 59
+      y: 41
+      z: -37
     capture_area:
       type: "cuboid"
       min:
@@ -9795,6 +9897,10 @@ Abrakhan:
       z: -90
       yaw: 1
       pitch: 5
+    hologram_location:
+      x: 41
+      y: 42
+      z: -79
     capture_area:
       type: "cuboid"
       min:
@@ -10144,6 +10250,10 @@ Abrakhan:
       z: -82
       yaw: 66
       pitch: 1
+    hologram_location:
+      x: 107
+      y: 73
+      z: -81
     capture_area:
       type: "cuboid"
       min:
@@ -10731,6 +10841,10 @@ Abrakhan:
       z: -112
       yaw: 47
       pitch: 3
+    hologram_location:
+      x: 130
+      y: 72
+      z: -108
     capture_area:
       type: "cuboid"
       min:
@@ -11080,6 +11194,10 @@ Abrakhan:
       z: -109
       yaw: 179
       pitch: 3
+    hologram_location:
+      x: 107
+      y: 73
+      z: -81
     capture_area:
       type: "cuboid"
       min:
@@ -11764,7 +11882,11 @@ Abrakhan:
       y: 48
       z: -95
       yaw: -180
-      pitch: 0
+      pitch:
+    hologram_location:
+      x: 83
+      y: 51
+      z: -100
     capture_area:
       type: "cuboid"
       min:
@@ -12399,6 +12521,10 @@ SoldiersPeak:
       z: 331
       yaw: 140
       pitch: 2
+    hologram_location:
+      x: 995
+      y: 39
+      z: 333
   soldier_maingate:
     name: "Main Gate"
     start_owners: "The Wardens"
@@ -12412,6 +12538,10 @@ SoldiersPeak:
       z: 188
       yaw: -90
       pitch: 0
+    hologram_location:
+      x: 975
+      y: 93
+      z: 187
     capture_area:
       type: "cuboid"
       min:
@@ -12761,6 +12891,10 @@ SoldiersPeak:
       z: 175
       yaw: 177
       pitch: 1
+    hologram_location:
+      x: 939
+      y: 49
+      z: 162
     capture_area:
       type: "cuboid"
       min:
@@ -13110,6 +13244,10 @@ SoldiersPeak:
       z: 129
       yaw: -82
       pitch: -2
+    hologram_location:
+      x: 887
+      y: 81
+      z: 132
     capture_area:
       type: "cuboid"
       min:
@@ -13459,6 +13597,10 @@ SoldiersPeak:
       z: 124
       yaw: 90
       pitch: -1
+    hologram_location:
+      x: 909
+      y: 56
+      z: 124
     capture_area:
       type: "cuboid"
       min:
@@ -13635,6 +13777,10 @@ SoldiersPeak:
       z: 132
       yaw: -166
       pitch: 0
+    hologram_location:
+      x: 859
+      y: 56
+      z: 140
     capture_area:
       type: "cuboid"
       min:
@@ -13814,6 +13960,10 @@ SoldiersPeak:
       z: 128
       yaw: 89
       pitch: 2
+    hologram_location:
+      x: 899
+      y: 69
+      z: 106
     capture_area:
       type: "cuboid"
       min:
@@ -13993,6 +14143,10 @@ SoldiersPeak:
       z: 91
       yaw: -12
       pitch: 0
+    hologram_location:
+      x: 868
+      y: 70
+      z: 87
     capture_area:
       type: "cuboid"
       min:
@@ -14172,6 +14326,10 @@ SoldiersPeak:
       z: 93
       yaw: 52
       pitch: -1
+    hologram_location:
+      x: 856
+      y: 122
+      z: 92
     capture_area:
       type: "cuboid"
       min:
@@ -14339,6 +14497,10 @@ SoldiersPeak:
       z: 97
       yaw: 123
       pitch: 1
+    hologram_location:
+      x: 959
+      y: 127
+      z: 92
     capture_area:
       type: "cuboid"
       min:
@@ -14507,9 +14669,13 @@ RoyalCrypts:
     spawn_point:
       x: -958
       y: 60
-      z: 675
+      z: 674
       yaw: -1
       pitch: 0
+    hologram_location:
+      x: -959
+      y: 64
+      z: 691
   flooded_chamber:
     name: "Flooded Chamber"
     start_owners: "Tomb Guardians"
@@ -14523,6 +14689,10 @@ RoyalCrypts:
       z: 714
       yaw: -179
       pitch: 0
+    hologram_location:
+      x: -908
+      y: 66
+      z: 695
     capture_area:
       type: "cuboid"
       min:
@@ -14667,6 +14837,10 @@ RoyalCrypts:
       z: 718
       yaw: -179
       pitch: 0
+    hologram_location:
+      x: -873
+      y: 64
+      z: 671
     capture_area:
       type: "cuboid"
       min:
@@ -14846,6 +15020,10 @@ RoyalCrypts:
       z: 711
       yaw: -179
       pitch: 0
+    hologram_location:
+      x: -833
+      y: 64
+      z: 684
     capture_area:
       type: "cuboid"
       min:
@@ -15025,6 +15203,10 @@ RoyalCrypts:
       z: 614
       yaw: -4
       pitch: 0
+    hologram_location:
+      x: -833
+      y: 33
+      z: 670
     capture_area:
       type: "cuboid"
       min:
@@ -15204,6 +15386,10 @@ RoyalCrypts:
       z: 643
       yaw: -129
       pitch: -1
+    hologram_location:
+      x: -799
+      y: 103
+      z: 630
     capture_area:
       type: "cuboid"
       min:
@@ -15348,6 +15534,10 @@ RoyalCrypts:
       z: 794
       yaw: -90
       pitch: 5
+    hologram_location:
+      x: -792
+      y: 84
+      z: 801
     capture_area:
       type: "cuboid"
       min:
@@ -15527,6 +15717,10 @@ RoyalCrypts:
       z: 660
       yaw: -105
       pitch: -5
+    hologram_location:
+      x: -842
+      y: 78
+      z: 648
     capture_area:
       type: "cuboid"
       min:
@@ -15677,6 +15871,10 @@ Toucan_Moria:
       z: -6
       yaw: -135
       pitch: -1
+    hologram_location:
+      x: -625
+      y: 111
+      z: -28
     capture_area:
       type: "cuboid"
       min:
@@ -15821,6 +16019,10 @@ Toucan_Moria:
       z: -33
       yaw: 41
       pitch: -2
+    hologram_location:
+      x: 152
+      y: 98
+      z: -21
     capture_area:
       type: "cuboid"
       min:
@@ -15999,6 +16201,10 @@ Toucan_Moria:
       z: 4
       yaw: 121
       pitch: 0
+    hologram_location:
+      x: 92
+      y: 122
+      z: -2
     capture_area:
       type: "cuboid"
       min:
@@ -16177,6 +16383,10 @@ Toucan_Moria:
       z: 28
       yaw: -111
       pitch: 0
+    hologram_location:
+      x: -53
+      y: 109
+      z: 6
     capture_area:
       type: "cuboid"
       min:
@@ -16355,6 +16565,10 @@ Toucan_Moria:
       z: -82
       yaw: -179
       pitch: 0
+    hologram_location:
+      x: -18
+      y: 175
+      z: -87
     capture_area:
       type: "cuboid"
       min:
@@ -16533,6 +16747,10 @@ Toucan_Moria:
       z: -78
       yaw: 124
       pitch: -3
+    hologram_location:
+      x: -67.5
+      y: 188
+      z: -83.5
     capture_area:
       type: "cuboid"
       min:
@@ -16676,6 +16894,10 @@ Toucan_Moria:
       z: 2
       yaw: -41
       pitch: -2
+    hologram_location:
+      x: -163
+      y: 192
+      z: 10
     capture_area:
       type: "cuboid"
       min:
@@ -16854,6 +17076,10 @@ Toucan_Moria:
       z: -1
       yaw: 24
       pitch: -1
+    hologram_location:
+      x: -257
+      y: 191
+      z: 17
     capture_area:
       type: "cuboid"
       min:
@@ -17032,6 +17258,10 @@ Toucan_Moria:
       z: -0
       yaw: 27
       pitch: -3
+    hologram_location:
+      x: -342
+      y: 161
+      z: 11
     capture_area:
       type: "cuboid"
       min:
@@ -17210,6 +17440,10 @@ Toucan_Moria:
       z: -14
       yaw: -136
       pitch: -1
+    hologram_location:
+      x: -441
+      y: 140
+      z: -29
     capture_area:
       type: "cuboid"
       min:
@@ -17388,6 +17622,10 @@ Toucan_Moria:
       z: -85
       yaw: -135
       pitch: -2
+    hologram_location:
+      x: -519
+      y: 130
+      z: -89
     capture_area:
       type: "cuboid"
       min:
@@ -17572,6 +17810,10 @@ Firelands:
       z: 225
       yaw: 90
       pitch: 0
+    hologram_location:
+      x: 59
+      y: 101
+      z: 225
   hellgate:
     name: "hellgate"
     start_owners: "Hellfire Guards"
@@ -17585,6 +17827,10 @@ Firelands:
       z: 238
       yaw: -179
       pitch: -2
+    hologram_location:
+      x: -48
+      y: 92
+      z: 245
     capture_area:
       type: "cuboid"
       min:
@@ -17764,6 +18010,10 @@ Firelands:
       z: 286
       yaw: 90
       pitch: -2
+    hologram_location:
+      x: -96
+      y: 62
+      z: 300
     capture_area:
       type: "cuboid"
       min:
@@ -17836,6 +18086,10 @@ Firelands:
       z: 283
       yaw: -49
       pitch: -1
+    hologram_location:
+      x: -182
+      y: 88
+      z: 307
     capture_area:
       type: "cuboid"
       min:
@@ -18015,6 +18269,10 @@ Firelands:
       z: 312
       yaw: 90
       pitch: -1
+    hologram_location:
+      x: -55
+      y: 77
+      z: 323
     capture_area:
       type: "cuboid"
       min:
@@ -18189,11 +18447,15 @@ Firelands:
     progress_amount: 10
     scoreboard: 5
     spawn_point:
-      x: -110
-      y: 86
-      z: 328
+      x: -112
+      y: 85
+      z: 327
       yaw: 130
       pitch: -1
+    hologram_location:
+      x: -118
+      y: 102
+      z: 320
     capture_area:
       type: "cuboid"
       min:
@@ -18373,6 +18635,10 @@ Firelands:
       z: 174
       yaw: 130
       pitch: -1
+    hologram_location:
+      x: -66
+      y: 81
+      z: 183
     capture_area:
       type: "cuboid"
       min:
@@ -18547,11 +18813,15 @@ Firelands:
     progress_amount: 10
     scoreboard: 7
     spawn_point:
-      x: -153
-      y: 73
-      z: 141
-      yaw: 1
+      x: -180
+      y: 75
+      z: 128
+      yaw: -90
       pitch: -1
+    hologram_location:
+      x: -170
+      y: 79
+      z: 142
     capture_area:
       type: "cuboid"
       min:
@@ -18731,6 +19001,10 @@ Firelands:
       z: 143
       yaw: -90
       pitch: -1
+    hologram_location:
+      x: -175
+      y: 110
+      z: 145
     capture_area:
       type: "cuboid"
       min:
@@ -18910,6 +19184,10 @@ Firelands:
       z: 184
       yaw: -89
       pitch: -1
+    hologram_location:
+      x: -235
+      y: 104
+      z: 214
     capture_area:
       type: "cuboid"
       min:
@@ -19089,6 +19367,10 @@ Firelands:
       z: 231
       yaw: -90
       pitch: -1
+    hologram_location:
+      x: -198
+      y: 117
+      z: 239
     capture_area:
       type: "cuboid"
       min:
@@ -19268,6 +19550,10 @@ Firelands:
       z: 176
       yaw: 90
       pitch: -1
+    hologram_location:
+      x: -140
+      y: 102
+      z: 176
     capture_area:
       type: "cuboid"
       min:
@@ -19426,6 +19712,10 @@ Lakeborough:
       z: -281
       yaw: 180
       pitch: 0
+    hologram_location:
+      x: -1687
+      y: 20
+      z: -296
   south_camp:
     name: "South Camp"
     start_owners: "The Barbarians"
@@ -19438,6 +19728,10 @@ Lakeborough:
       z: -112
       yaw: -167
       pitch: 0
+    hologram_location:
+      x: -1595
+      y: 15
+      z: -118
   watchtower:
     name: "Watchtower"
     max_cap: 8
@@ -19450,6 +19744,10 @@ Lakeborough:
       z: -198
       yaw: -115
       pitch: 6
+    hologram_location:
+      x: -1561
+      y: 39
+      z: -199
     capture_area:
       type: "cuboid"
       min:
@@ -19798,6 +20096,10 @@ Lakeborough:
       z: -273
       yaw: -90
       pitch: -2
+    hologram_location:
+      x: -1522
+      y: 32
+      z: -257
     capture_area:
       type: "cuboid"
       min:
@@ -20147,6 +20449,10 @@ Lakeborough:
       z: -349
       yaw: 90
       pitch: -2
+    hologram_location:
+      x: -1528
+      y: 37
+      z: -362
     capture_area:
       type: "cuboid"
       min:
@@ -20496,6 +20802,10 @@ Lakeborough:
       z: -364
       yaw: -90
       pitch: -2
+    hologram_location:
+      x: -1544
+      y: 39
+      z: -360
     capture_area:
       type: "cuboid"
       min:
@@ -20845,6 +21155,10 @@ Lakeborough:
       z: -346
       yaw: 0
       pitch: 0
+    hologram_location:
+      x: -1560
+      y: 39
+      z: -350
     capture_area:
       type: "cuboid"
       min:
@@ -21194,6 +21508,10 @@ Lakeborough:
       z: -363
       yaw: 161
       pitch: 0
+    hologram_location:
+      x: -1593
+      y: 39
+      z: -369
     capture_area:
       type: "cuboid"
       min:
@@ -21543,6 +21861,10 @@ Lakeborough:
       z: -408
       yaw: 176
       pitch: 0
+    hologram_location:
+      x: -1561
+      y: 39
+      z: -406
     capture_area:
       type: "cuboid"
       min:
@@ -21892,6 +22214,10 @@ Lakeborough:
       z: -390
       yaw: -90
       pitch: 0
+    hologram_location:
+      x: -1580
+      y: 55
+      z: -386
     capture_area:
       type: "cuboid"
       min:
@@ -22246,6 +22572,10 @@ Contario:
       z: 122
       yaw: -180
       pitch: 0
+    hologram_location:
+      x: -88
+      y: 37
+      z: 111
   contu:
     name: "Contu"
     max_cap: 8
@@ -22258,6 +22588,10 @@ Contario:
       z: -17
       yaw: 6
       pitch: 1
+    hologram_location:
+      x: 24
+      y: 36
+      z: 7
     capture_area:
       type: "cuboid"
       min:
@@ -22607,6 +22941,10 @@ Contario:
       z: 13
       yaw: -90
       pitch: 0
+    hologram_location:
+      x: -40
+      y: 88
+      z: 21
     capture_area:
       type: "cuboid"
       min:
@@ -22956,6 +23294,10 @@ Contario:
       z: -69
       yaw: -99
       pitch: 0
+    hologram_location:
+      x: -44
+      y: 65
+      z: -67
     capture_area:
       type: "cuboid"
       min:
@@ -23305,6 +23647,10 @@ Contario:
       z: -83
       yaw: -7
       pitch: 0
+    hologram_location:
+      x: -82
+      y: 84
+      z: -94
     capture_area:
       type: "cuboid"
       min:
@@ -23484,6 +23830,10 @@ Contario:
       z: -54
       yaw: -90
       pitch: 0
+    hologram_location:
+      x: -82
+      y: 51
+      z: -59
     capture_area:
       type: "cuboid"
       min:
@@ -23833,6 +24183,10 @@ Contario:
       z: -15
       yaw: -51
       pitch: 0
+    hologram_location:
+      x: -77
+      y: 66
+      z: -22
     capture_area:
       type: "cuboid"
       min:
@@ -24182,6 +24536,10 @@ Contario:
       z: 17
       yaw: -146
       pitch: 0
+    hologram_location:
+      x: -106
+      y: 66
+      z: 11
     capture_area:
       type: "cuboid"
       min:
@@ -24531,6 +24889,10 @@ Contario:
       z: -63
       yaw: -28
       pitch: 0
+    hologram_location:
+      x: -118
+      y: 66
+      z: -55
     capture_area:
       type: "cuboid"
       min:

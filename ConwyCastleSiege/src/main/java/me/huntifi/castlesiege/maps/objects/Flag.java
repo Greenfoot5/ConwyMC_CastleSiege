@@ -576,14 +576,19 @@ public class Flag {
 
             Flag flag = MapController.getCurrentMap().getFlag(name);
 
-            Team team = MapController.getCurrentMap().getTeam(getCurrentOwners());
+            if (flag.getCurrentOwners() != null) {
 
-            if (Objects.equals(flag.getCurrentOwners(), team.name)) {
+                Team team = MapController.getCurrentMap().getTeam(getCurrentOwners());
 
-                return team.primaryChatColor;
+                if (Objects.equals(flag.getCurrentOwners(), team.name)) {
 
+                    return team.primaryChatColor;
+
+                } else {
+
+                    return ChatColor.GRAY;
+                }
             } else {
-
                 return ChatColor.GRAY;
             }
         }
