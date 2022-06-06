@@ -555,6 +555,7 @@ public class Flag {
         hologram.setCollidable(false);
         hologram.setInvulnerable(true);
         hologram.setCustomNameVisible(true);
+        hologram.setSmall(true);
         hologram.setCustomName(ChatColor.BOLD +  "Flag: " + teamColour + name);
     }
 

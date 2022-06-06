@@ -10834,7 +10834,7 @@ Abrakhan:
     max_cap: 8
     start_amount: 8
     progress_amount: 10
-    scoreboard: 8
+    scoreboard: 9
     spawn_point:
       x: 130
       y: 54
@@ -11187,7 +11187,7 @@ Abrakhan:
     max_cap: 8
     start_amount: 8
     progress_amount: 10
-    scoreboard: 9
+    scoreboard: 10
     spawn_point:
       x: 80
       y: 59
@@ -11195,9 +11195,9 @@ Abrakhan:
       yaw: 179
       pitch: 3
     hologram_location:
-      x: 107
-      y: 73
-      z: -81
+      x: 77
+      y: 77
+      z: -110
     capture_area:
       type: "cuboid"
       min:
@@ -11873,7 +11873,7 @@ Abrakhan:
   abrakhan_keep:
     name: "Keep"
     start_owners: "Abrakhan Guard"
-    scoreboard: 10
+    scoreboard: 11
     max_cap: 3
     start_amount: 3
     progress_amount: 4
@@ -18820,7 +18820,7 @@ Firelands:
       pitch: -1
     hologram_location:
       x: -170
-      y: 79
+      y: 77
       z: 142
     capture_area:
       type: "cuboid"
@@ -19003,7 +19003,7 @@ Firelands:
       pitch: -1
     hologram_location:
       x: -175
-      y: 110
+      y: 108
       z: 145
     capture_area:
       type: "cuboid"
@@ -19186,7 +19186,7 @@ Firelands:
       pitch: -1
     hologram_location:
       x: -235
-      y: 104
+      y: 102
       z: 214
     capture_area:
       type: "cuboid"
@@ -20451,7 +20451,7 @@ Lakeborough:
       pitch: -2
     hologram_location:
       x: -1528
-      y: 37
+      y: 36
       z: -362
     capture_area:
       type: "cuboid"
@@ -20804,7 +20804,7 @@ Lakeborough:
       pitch: -2
     hologram_location:
       x: -1544
-      y: 39
+      y: 38
       z: -360
     capture_area:
       type: "cuboid"
@@ -21157,7 +21157,7 @@ Lakeborough:
       pitch: 0
     hologram_location:
       x: -1560
-      y: 39
+      y: 38
       z: -350
     capture_area:
       type: "cuboid"
@@ -21510,7 +21510,7 @@ Lakeborough:
       pitch: 0
     hologram_location:
       x: -1593
-      y: 39
+      y: 38
       z: -369
     capture_area:
       type: "cuboid"
@@ -21863,7 +21863,7 @@ Lakeborough:
       pitch: 0
     hologram_location:
       x: -1561
-      y: 39
+      y: 38
       z: -406
     capture_area:
       type: "cuboid"
