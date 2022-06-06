@@ -62,7 +62,7 @@ public class Archer extends Kit {
 		// Bow
 		es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
 				ChatColor.GREEN + "Bow", null,
-				Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 26)));
+				Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 14)));
 
 		super.equipment = es;
 	}
