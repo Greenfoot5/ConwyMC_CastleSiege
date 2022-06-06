@@ -76,6 +76,11 @@ public class PlayerConnect implements Listener {
                     + " to Castle Siege!" + ChatColor.DARK_PURPLE + " ----- ");
 
         }
+
+        p.sendMessage(ChatColor.DARK_RED + "Hello " + ChatColor.GREEN + p.getName());
+        p.sendMessage(ChatColor.DARK_RED + "Welcome to Castle Siege!");
+        p.sendMessage(ChatColor.DARK_PURPLE + "There are currently " + Bukkit.getOnlinePlayers().size() + " player(s) online.");
+        p.sendMessage(ChatColor.DARK_PURPLE + "The max amount of players is 100.");
     }
 
     /**
