@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.*;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -64,6 +65,17 @@ public class PlayerConnect implements Listener {
         // Update the names stored in the database
         StoreData.updateName(uuid, "player_stats");
         StoreData.updateName(uuid, "player_rank");
+
+        //Welcomes new players!
+        if (!p.hasPlayedBefore()) {
+
+            String broadcastPrefix = "§2[§4ConwyMC§2] ";
+
+            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "Welcome " + p.getName() + " to Castle Siege!");
+            Bukkit.broadcastMessage(broadcastPrefix + ChatColor.DARK_PURPLE + " ----- " + ChatColor.LIGHT_PURPLE + "Welcome " + p.getName()
+                    + " to Castle Siege!" + ChatColor.DARK_PURPLE + " ----- ");
+
+        }
     }
 
     /**
