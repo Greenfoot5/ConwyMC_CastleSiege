@@ -3,7 +3,10 @@ package me.huntifi.castlesiege.events.chat;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,11 +20,13 @@ public class PlayerChat implements Listener {
 	/**
 	 * Set message color to white for staff and gray otherwise
 	 * Send the message in a specific mode if applicable
+	 *
 	 * @param e The event called when a player sends a message
 	 */
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
+		String message = e.getMessage();
 
 		// Check if the player is muted
 		if (Mute.isMuted(p.getUniqueId())) {
@@ -40,10 +45,32 @@ public class PlayerChat implements Listener {
 			return;
 		}
 
+
 		// Set message colour to white or gray and send as regular message
 		ChatColor color = p.hasPermission("castlesiege.chatmod") ? ChatColor.WHITE : ChatColor.GRAY;
-		e.setMessage(color + e.getMessage());
+
+		String colorC = p.hasPermission("castlesiege.chatmod") ? "&f" : "&7";
+
+		//Allow to tag players in chat
+		for (Player tagged : Bukkit.getOnlinePlayers()) {
+			if (message.contains("@" + tagged.getName())) {
+				playTagSound(tagged);
+			}
+		}
+
+		e.setMessage(color + message);
 		e.setFormat("%s: %s");
+	}
+
+	private void playTagSound(Player player) {
+		Location location = player.getLocation();
+
+		Sound effect = Sound.BLOCK_NOTE_BLOCK_BASEDRUM;
+
+		float volume = 1f; //1 = 100%
+		float pitch = 0.5f; //Float between 0.5 and 2.0
+
+		player.playSound(location, effect, volume, pitch);
 	}
 }
 
