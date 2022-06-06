@@ -24532,7 +24532,7 @@ Contario:
     scoreboard: 7
     spawn_point:
       x: -106
-      y: 50
+      y: 51
       z: 17
       yaw: -146
       pitch: 0
@@ -24885,7 +24885,7 @@ Contario:
     scoreboard: 8
     spawn_point:
       x: -118
-      y: 55
+      y: 56
       z: -63
       yaw: -28
       pitch: 0
