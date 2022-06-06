@@ -70,17 +70,18 @@ public class PlayerConnect implements Listener {
         if (!p.hasPlayedBefore()) {
 
             String broadcastPrefix = "§2[§4ConwyMC§2] ";
-
-            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "Welcome " + p.getName() + " to Castle Siege!");
             Bukkit.broadcastMessage(broadcastPrefix + ChatColor.DARK_PURPLE + " ----- " + ChatColor.LIGHT_PURPLE + "Welcome " + p.getName()
                     + " to Castle Siege!" + ChatColor.DARK_PURPLE + " ----- ");
+            p.sendMessage(ChatColor.DARK_PURPLE + "There are currently " + Bukkit.getOnlinePlayers().size() + " player(s) online.");
+            p.sendMessage(ChatColor.DARK_PURPLE + "The max amount of players is 100.");
 
+        } else {
+            p.sendMessage(ChatColor.DARK_RED + "Hello " + ChatColor.GREEN + p.getName());
+            p.sendMessage(ChatColor.DARK_RED + "Welcome to Castle Siege!");
+            p.sendMessage(ChatColor.DARK_PURPLE + "There are currently " + Bukkit.getOnlinePlayers().size() + " player(s) online.");
+            p.sendMessage(ChatColor.DARK_PURPLE + "The max amount of players is 100.");
         }
 
-        p.sendMessage(ChatColor.DARK_RED + "Hello " + ChatColor.GREEN + p.getName());
-        p.sendMessage(ChatColor.DARK_RED + "Welcome to Castle Siege!");
-        p.sendMessage(ChatColor.DARK_PURPLE + "There are currently " + Bukkit.getOnlinePlayers().size() + " player(s) online.");
-        p.sendMessage(ChatColor.DARK_PURPLE + "The max amount of players is 100.");
     }
 
     /**
