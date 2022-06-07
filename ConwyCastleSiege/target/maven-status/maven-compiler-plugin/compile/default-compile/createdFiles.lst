@@ -15,4 +15,5 @@ me\huntifi\castlesiege\events\Movement.class
 me\huntifi\castlesiege\kits\kits\Warbear.class
 me\huntifi\castlesiege\commands\gameplay\KitCommand.class
 me\huntifi\castlesiege\events\Explosion$1.class
+me\huntifi\castlesiege\kits\kits\teamKits\HelmsdeepBerserker.class
 me\huntifi\castlesiege\kits\kits\teamKits\HelmsdeepRangedCavalry.class

@@ -42,8 +42,8 @@ public abstract class Kit implements CommandExecutor {
     protected double regenAmount;
 
     //map for the map specific kits and the team
-    public static String playableWorld;
-    public static String teamName;
+    protected String playableWorld;
+    protected String teamName;
 
     //Collection of map specific kits
     public static ArrayList<String> mapSpecificKits = new ArrayList<String>();
@@ -270,4 +270,5 @@ public abstract class Kit implements CommandExecutor {
         }
         return false;
     }
+
 }

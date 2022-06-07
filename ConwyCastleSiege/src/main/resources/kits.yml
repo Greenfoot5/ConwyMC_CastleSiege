@@ -376,8 +376,6 @@ team:
         - "§5TEAM: §2Rohan"
       location: 0
       command: "HelmsdeepLancer"
-      map: "Helm's Deep"
-      team: "Rohan"
     ranged_cavalry:
       name: "§a§lCLASS:§r§a Ranged Cavalry"
       material: "BOW"
@@ -394,8 +392,23 @@ team:
         - "§5TEAM: §2Rohan"
       location: 1
       command: "HelmsdeepRangedCavalry"
-      map: "Helm's Deep"
-      team: "Rohan"
+    uruk_berserker:
+      name: "§a§lCLASS:§r§a Uruk Berserker"
+      material: "REDSTONE"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a Melee unit that deals AOE damage!"
+        - "§2[Health]:§a 120"
+        - "§2[Melee Damage]:§a 35.0"
+        - "§2[Regen]:§a 3"
+        - "§2[Ability]:§a Cooldown ability that deals 1.5x damage"
+        - "§2[Ability]:§a to all enemies in a 2 block radius."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+        - "§5MAP: Helm's Deep"
+        - "§5TEAM: §8Uruk-Hai"
+      location: 2
+      command: "HelmsdeepBerserker"
     back:
       name: "§4§lGo Back"
       material: "BARRIER"

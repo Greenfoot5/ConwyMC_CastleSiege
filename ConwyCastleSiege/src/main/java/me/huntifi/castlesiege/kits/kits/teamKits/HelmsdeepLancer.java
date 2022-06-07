@@ -39,8 +39,6 @@ public class HelmsdeepLancer extends MapKit implements Listener {
         super("Lancer", 170, 5);
 
 
-
-
     // Equipment Stuff
     EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;
@@ -57,7 +55,7 @@ public class HelmsdeepLancer extends MapKit implements Listener {
             0);
 
         // Weapon
-        es.offhand = ItemCreator.weapon(new ItemStack(Material.STICK, 3),
+        es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.STICK, 3),
                 ChatColor.GREEN + "Spear",
                 Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, 30.5);
         // Voted Weapon
@@ -87,11 +85,11 @@ public class HelmsdeepLancer extends MapKit implements Listener {
             Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
     // Ladders
-    es.hotbar[1] = new ItemStack(Material.LADDER, 4);
+    es.hotbar[2] = new ItemStack(Material.LADDER, 4);
     es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
 
     // Horse
-    es.hotbar[2] = ItemCreator.item(new ItemStack(Material.WHEAT),
+    es.hotbar[3] = ItemCreator.item(new ItemStack(Material.WHEAT),
     ChatColor.GREEN + "Spawn Horse", null, null);
 
         super.equipment = es;

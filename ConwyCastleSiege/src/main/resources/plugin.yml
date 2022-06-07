@@ -309,6 +309,9 @@ commands:
   Halberdier:
     description: Selects the halberdier kit
     usage: /halberdier
+  HelmsdeepBerserker:
+    description: Selects the Berserker kit on Helm's Deep
+    usage: /helmsdeepberserker
   HelmsdeepLancer:
     description: Selects the Lancer kit on Helm's Deep
     usage: /helmsdeeplancer
