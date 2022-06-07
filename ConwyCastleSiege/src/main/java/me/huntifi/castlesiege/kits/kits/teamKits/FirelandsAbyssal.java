@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.teamKits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -22,6 +23,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -169,24 +171,37 @@ public class FirelandsAbyssal extends MapKit implements Listener {
         }
     }
 
-    @EventHandler
-    public void FireballDamage(EntityDamageByEntityEvent e) {
+    @EventHandler(priority = EventPriority.HIGHEST)
+    private void FireballDamage(EntityDamageByEntityEvent e) {
         if (e.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE) || e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION)) {
             if (e.getDamager() instanceof Fireball) {
                 LargeFireball fire = (LargeFireball) e.getDamager();
                 if (fire.getShooter() instanceof Player) {
-
                     Player damager = (Player) fire.getShooter();
                     if (!(e.getEntity() instanceof Player)) {
                         e.setDamage(200);
                         return; }
                     Player hit = (Player) e.getEntity();
                     if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)
-                    || MapController.getCurrentMap().getTeam(shooter.getUniqueId())
+                            && MapController.getCurrentMap().getTeam(damager.getUniqueId())
+                            != MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
+                        if ((hit.getHealth() - e.getDamage() > 0)) {
+                            e.setCancelled(true);
+                            hit.damage(100);
+                            return;
+                        } else {
+                            e.setCancelled(true);
+                            DeathEvent.setKiller(hit, damager);
+                            hit.setHealth(0);
+                            return;
+                        }
+                    }
+                    if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)
+                    && MapController.getCurrentMap().getTeam(damager.getUniqueId())
                             == MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
+                        e.setCancelled(true);
                         e.setDamage(0);
-                    } else {
-                        e.setDamage(100);
+                        return;
                     }
                 }
             }
