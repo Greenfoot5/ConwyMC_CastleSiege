@@ -39,6 +39,8 @@ import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.kits.gui.*;
 import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.kits.*;
+import me.huntifi.castlesiege.kits.kits.teamKits.HelmsdeepLancer;
+import me.huntifi.castlesiege.kits.kits.teamKits.HelmsdeepRangedCavalry;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
@@ -149,6 +151,8 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Executioner(), plugin);
                 getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
+                getServer().getPluginManager().registerEvents(new HelmsdeepLancer(), plugin);
+                getServer().getPluginManager().registerEvents(new HelmsdeepRangedCavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new Ladderman(), plugin);
                 getServer().getPluginManager().registerEvents(new Maceman(), plugin);
                 getServer().getPluginManager().registerEvents(new Medic(), plugin);
@@ -227,6 +231,8 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
                 Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
+                Objects.requireNonNull(getCommand("HelmsdeepLancer")).setExecutor(new HelmsdeepLancer());
+                Objects.requireNonNull(getCommand("HelmsdeepRangedCavalry")).setExecutor(new HelmsdeepRangedCavalry());
                 Objects.requireNonNull(getCommand("Ladderman")).setExecutor(new Ladderman());
                 Objects.requireNonNull(getCommand("Maceman")).setExecutor(new Maceman());
                 Objects.requireNonNull(getCommand("Medic")).setExecutor(new Medic());
@@ -540,6 +546,8 @@ public class Main extends JavaPlugin implements Listener {
                 List<String> lore = kitsConfig.getStringList(itemRoute.add("lore"));
                 int location = kitsConfig.getInt(itemRoute.add("location"));
                 String command = kitsConfig.getString(itemRoute.add("command"));
+                Kit.playableWorld = kitsConfig.getString(itemRoute.add("map"));
+                Kit.teamName = kitsConfig.getString(itemRoute.add("team"));
                 gui.addItem(itemName, material, lore, location, command);
             }
 

@@ -309,6 +309,12 @@ commands:
   Halberdier:
     description: Selects the halberdier kit
     usage: /halberdier
+  HelmsdeepLancer:
+    description: Selects the Lancer kit on Helm's Deep
+    usage: /helmsdeeplancer
+  HelmsdeepRangedCavalry:
+    description: Selects the Ranged Cavalry kit on Helm's Deep
+    usage: /helmsdeeprangedcavalry
   Ladderman:
     description: Selects the ladderman kit
     usage: /ladderman
