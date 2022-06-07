@@ -210,7 +210,7 @@ public class HelmsdeepLancer extends MapKit implements Listener {
     public void throwSpear(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
-        ItemStack stick = p.getInventory().getItemInOffHand();
+        ItemStack stick = p.getInventory().getItemInMainHand();
         int cooldown = p.getCooldown(Material.STICK);
 
         // Prevent using in lobby
