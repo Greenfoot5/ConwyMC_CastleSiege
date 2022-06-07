@@ -423,7 +423,7 @@ team:
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
         - "§5MAP: Firelands"
-        - "§5TEAM: §aBurning Crusade"
+        - "§5TEAM: §aBurning Legion"
       location: 3
       command: "firelandsabyssal"
     back:

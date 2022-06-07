@@ -88,7 +88,7 @@ public class FirelandsAbyssal extends MapKit implements Listener {
         super.killMessage[1] = " to death ";
 
         super.playableWorld = "Firelands";
-        super.teamName = "Burning Crusade";
+        super.teamName = "Burning Legion";
 
     }
 
@@ -122,6 +122,10 @@ public class FirelandsAbyssal extends MapKit implements Listener {
 
     public void spawnMagmaProjectile(Player p) {
 
+        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+            return;
+        }
+
         Location above = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 2, p.getLocation().getZ());
 
         BlockData blockData = Bukkit.createBlockData(Material.MAGMA_BLOCK);
@@ -148,6 +152,9 @@ public class FirelandsAbyssal extends MapKit implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
+                if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+                    return;
+                }
         if (magma == null) { return; }
         Location eye = p.getEyeLocation();
         Location loc = eye.add(eye.getDirection().multiply(1.2));
