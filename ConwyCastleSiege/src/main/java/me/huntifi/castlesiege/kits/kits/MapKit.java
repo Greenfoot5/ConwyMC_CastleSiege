@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.kits.kits;
 
+import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
@@ -21,6 +22,7 @@ public abstract class MapKit extends Kit {
      */
     public MapKit(String name, int baseHealth, double regenAmount) {
         super(name, baseHealth, regenAmount);
+        super.mapSpecificKits.add(name);
     }
 
     /**
@@ -42,26 +44,29 @@ public abstract class MapKit extends Kit {
                 commandSender.sendMessage("Spectators cannot select kits!");
                 return true;
 
+
             } else {
                 Player player = (Player) commandSender;
+                Player p = (Player) commandSender;
+                PlayerData data = ActiveData.getData(p.getUniqueId());
                 if (playableWorld.equalsIgnoreCase(MapController.getCurrentMap().name)) {
-
-                    Player p = (Player) commandSender;
 
                     if (teamName.equalsIgnoreCase(MapController.getCurrentMap().getTeam(p.getUniqueId()).name)) {
                         super.addPlayer(player.getUniqueId());
                         return true;
 
                     } else if (!teamName.equalsIgnoreCase(MapController.getCurrentMap().getTeam(p.getUniqueId()).name)) {
-                        player.performCommand("swordsman");
-                        player.sendMessage(ChatColor.DARK_RED + "Can't use this kit as this team!");
-                        return true;
+                            player.performCommand("swordsman");
+                            player.sendMessage(ChatColor.DARK_RED + "Can't use this kit as this team!");
+                            return true;
                     }
 
                 } else if (!playableWorld.equalsIgnoreCase(MapController.getCurrentMap().name)) {
-                    player.performCommand("swordsman");
-                    player.sendMessage(ChatColor.DARK_RED + "You can't use your current kit on this map! So you are put on Swordsman. ");
-                    return true;
+
+                        player.performCommand("swordsman");
+                        player.sendMessage(ChatColor.DARK_RED + "You can't use your current kit on this map! So you are put on Swordsman. ");
+                        return true;
+
                 }
             }
 

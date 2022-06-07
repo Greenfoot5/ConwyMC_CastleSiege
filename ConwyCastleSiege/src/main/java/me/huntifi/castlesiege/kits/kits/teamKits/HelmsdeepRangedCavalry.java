@@ -81,6 +81,8 @@ public class HelmsdeepRangedCavalry extends MapKit implements Listener {
         // Arrows
         es.hotbar[4] = new ItemStack(Material.ARROW, 20);
 
+        super.canClimb = true;
+
         super.equipment = es;
 
         super.playableWorld = "Helm's Deep";

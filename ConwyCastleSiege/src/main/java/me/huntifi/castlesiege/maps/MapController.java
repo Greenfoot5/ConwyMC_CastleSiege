@@ -12,6 +12,7 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
@@ -271,6 +272,15 @@ public class MapController implements CommandExecutor {
 			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
 				if (!SpectateCommand.spectators.contains(player.getUniqueId())) {
 					joinATeam(player.getUniqueId());
+					//If the player is using a map specific kit it shall be removed
+					// and they will be given swordsman instead.
+					for (String kit : Kit.mapSpecificKits) {
+						if (ActiveData.getData(player.getUniqueId()).getKit().equalsIgnoreCase(kit)) {
+							Kit.equippedKits.remove(player.getUniqueId());
+							Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
+							ActiveData.getData(player.getUniqueId()).setKit("swordsman");
+						}
+					}
 					Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 				}
 			}

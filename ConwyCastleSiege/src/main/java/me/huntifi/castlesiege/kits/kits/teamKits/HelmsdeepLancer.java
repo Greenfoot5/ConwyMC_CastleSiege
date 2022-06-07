@@ -96,6 +96,8 @@ public class HelmsdeepLancer extends MapKit implements Listener {
 
         super.equipment = es;
 
+        super.canClimb = true;
+
         // Death Messages
         super.projectileDeathMessage[0] = "You were impaled by ";
         super.projectileKillMessage[0] = "You impaled ";

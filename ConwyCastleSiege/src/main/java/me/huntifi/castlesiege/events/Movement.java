@@ -16,6 +16,7 @@ public class Movement implements Listener {
     @EventHandler
     public void onClimb(PlayerMoveEvent e) {
         Player p = e.getPlayer();
+        if (Kit.equippedKits.get(p.getUniqueId()) == null) { return;}
         if (!Kit.equippedKits.get(p.getUniqueId()).canClimb &&
                 p.getLocation().getBlock().getType() == Material.LADDER &&
                 e.getTo() != null && e.getTo().getY() - e.getFrom().getY() > 0) {

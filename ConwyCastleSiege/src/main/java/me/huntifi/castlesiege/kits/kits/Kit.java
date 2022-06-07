@@ -45,6 +45,9 @@ public abstract class Kit implements CommandExecutor {
     public static String playableWorld;
     public static String teamName;
 
+    //Collection of map specific kits
+    public static ArrayList<String> mapSpecificKits = new ArrayList<String>();
+
     public boolean canCap;
     public boolean canClimb;
     protected boolean canSeeHealth;

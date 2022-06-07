@@ -55,6 +55,13 @@ public class PlayerDisconnect implements Listener {
         Kit.equippedKits.remove(uuid);
         Permissions.removePlayer(uuid);
         BarCooldown.remove(uuid);
+
+        //If the player is using a map specific kit it shall be removed.
+        for (String kit : Kit.mapSpecificKits) {
+        if (ActiveData.getData(uuid).getKit().equalsIgnoreCase(kit)) {
+            ActiveData.getData(uuid).setKit("swordsman");
+          }
+        }
     }
 
     /**
