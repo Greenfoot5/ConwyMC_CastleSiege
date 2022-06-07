@@ -1,9 +1,11 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
@@ -118,6 +120,13 @@ public class SwitchCommand implements CommandExecutor {
 			p.teleport(team.lobby.spawnPoint);
 			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
 			p.sendMessage("You switched to " + team.primaryChatColor + team.name);
+			for (String kit : Kit.mapSpecificKits) {
+				if (ActiveData.getData(p.getUniqueId()).getKit().equalsIgnoreCase(kit)) {
+					Kit.equippedKits.remove(p.getUniqueId());
+					Kit.equippedKits.put(p.getUniqueId(), new Swordsman());
+					ActiveData.getData(p.getUniqueId()).setKit("swordsman");
+				}
+			}
 			Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
 		}
 	}
