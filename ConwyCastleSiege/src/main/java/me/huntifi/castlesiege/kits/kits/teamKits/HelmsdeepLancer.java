@@ -37,6 +37,7 @@ public class HelmsdeepLancer extends MapKit implements Listener {
 
     public HelmsdeepLancer() {
         super("Lancer", 170, 5);
+        super.mapSpecificKits.add("Lancer");
 
 
     // Equipment Stuff

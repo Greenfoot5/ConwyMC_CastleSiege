@@ -29,6 +29,7 @@ public class HelmsdeepBerserker extends MapKit implements Listener {
 
     public HelmsdeepBerserker() {
         super("Uruk Berserker", 120, 3);
+        super.mapSpecificKits.add("Uruk Berserker");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

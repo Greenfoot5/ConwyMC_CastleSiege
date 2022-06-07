@@ -1,4 +1,6 @@
 me\huntifi\castlesiege\commands\info\TeamsCommand.class
+me\huntifi\castlesiege\kits\kits\teamKits\FirelandsAbyssal.class
+me\huntifi\castlesiege\kits\kits\teamKits\FirelandsAbyssal$1.class
 me\huntifi\castlesiege\maps\objects\Catapult$3.class
 me\huntifi\castlesiege\database\MVPStats.class
 me\huntifi\castlesiege\Helmsdeep\rams\GreatHallGateRam.class
@@ -17,3 +19,4 @@ me\huntifi\castlesiege\commands\gameplay\KitCommand.class
 me\huntifi\castlesiege\events\Explosion$1.class
 me\huntifi\castlesiege\kits\kits\teamKits\HelmsdeepBerserker.class
 me\huntifi\castlesiege\kits\kits\teamKits\HelmsdeepRangedCavalry.class
+me\huntifi\castlesiege\kits\kits\teamKits\FirelandsAbyssal$2.class

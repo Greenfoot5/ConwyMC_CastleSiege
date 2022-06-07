@@ -33,6 +33,7 @@ public class HelmsdeepRangedCavalry extends MapKit implements Listener {
     
     public HelmsdeepRangedCavalry() {
         super("Ranged Cavalry", 130, 6);
+        super.mapSpecificKits.add("Ranged Cavalry");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

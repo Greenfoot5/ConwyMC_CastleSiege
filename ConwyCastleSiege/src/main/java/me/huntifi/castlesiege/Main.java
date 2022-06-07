@@ -39,6 +39,7 @@ import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.kits.gui.*;
 import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.kits.*;
+import me.huntifi.castlesiege.kits.kits.teamKits.FirelandsAbyssal;
 import me.huntifi.castlesiege.kits.kits.teamKits.HelmsdeepBerserker;
 import me.huntifi.castlesiege.kits.kits.teamKits.HelmsdeepLancer;
 import me.huntifi.castlesiege.kits.kits.teamKits.HelmsdeepRangedCavalry;
@@ -151,6 +152,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Engineer(), plugin);
                 getServer().getPluginManager().registerEvents(new Executioner(), plugin);
                 getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
+                getServer().getPluginManager().registerEvents(new FirelandsAbyssal(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
                 getServer().getPluginManager().registerEvents(new HelmsdeepBerserker(), plugin);
                 getServer().getPluginManager().registerEvents(new HelmsdeepLancer(), plugin);
@@ -232,6 +234,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
                 Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
                 Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
+                Objects.requireNonNull(getCommand("FirelandsAbyssal")).setExecutor(new FirelandsAbyssal());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
                 Objects.requireNonNull(getCommand("HelmsdeepBerserker")).setExecutor(new HelmsdeepBerserker());
                 Objects.requireNonNull(getCommand("HelmsdeepLancer")).setExecutor(new HelmsdeepLancer());

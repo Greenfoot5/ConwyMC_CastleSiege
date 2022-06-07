@@ -409,6 +409,23 @@ team:
         - "§5TEAM: §8Uruk-Hai"
       location: 2
       command: "HelmsdeepBerserker"
+    abbysal:
+      name: "§a§lCLASS:§r§a Abyssal"
+      material: "MAGMA_BLOCK"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A supportive tank with explosive abilities."
+        - "§2[Health]:§a 300"
+        - "§2[Melee Damage]:§a 30.5"
+        - "§2[Regen]:§a 3"
+        - "§2[Ability]:§a Right click your fists to create"
+        - "§2[Ability]:§a a magma projectile that fires over time."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+        - "§5MAP: Firelands"
+        - "§5TEAM: §aBurning Crusade"
+      location: 3
+      command: "firelandsabyssal"
     back:
       name: "§4§lGo Back"
       material: "BARRIER"
