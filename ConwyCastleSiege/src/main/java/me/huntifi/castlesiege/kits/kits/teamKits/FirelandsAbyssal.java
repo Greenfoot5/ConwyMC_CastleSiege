@@ -46,7 +46,7 @@ public class FirelandsAbyssal extends MapKit implements Listener {
      *
      */
     public FirelandsAbyssal() {
-        super("Abyssal", 300, 3);
+        super("Abyssal", 200, 3);
         super.mapSpecificKits.add("Abyssal");
         super.canCap = true;
         super.canClimb = false;

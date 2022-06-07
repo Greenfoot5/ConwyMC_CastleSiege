@@ -121,7 +121,8 @@ public class SwitchCommand implements CommandExecutor {
 			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
 			p.sendMessage("You switched to " + team.primaryChatColor + team.name);
 			for (String kit : Kit.mapSpecificKits) {
-				if (ActiveData.getData(p.getUniqueId()).getKit().equalsIgnoreCase(kit)) {
+				if (ActiveData.getData(p.getUniqueId()).getKit().equalsIgnoreCase(kit)
+						|| Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, kit)) {
 					Kit.equippedKits.remove(p.getUniqueId());
 					Kit.equippedKits.put(p.getUniqueId(), new Swordsman());
 					ActiveData.getData(p.getUniqueId()).setKit("swordsman");

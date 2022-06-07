@@ -415,7 +415,7 @@ team:
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A supportive tank with explosive abilities."
-        - "§2[Health]:§a 300"
+        - "§2[Health]:§a 200"
         - "§2[Melee Damage]:§a 30.5"
         - "§2[Regen]:§a 3"
         - "§2[Ability]:§a Right click your fists to create"

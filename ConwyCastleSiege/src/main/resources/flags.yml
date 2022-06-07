@@ -17800,7 +17800,7 @@ Toucan_Moria:
 Firelands:
   dark_portal:
     name: "Dark Portal"
-    start_owners: "Burning Crusade"
+    start_owners: "Burning Legion"
     max_cap: 1
     progress_amount: 0
     scoreboard: 0
@@ -17815,7 +17815,7 @@ Firelands:
       y: 101
       z: 225
   hellgate:
-    name: "hellgate"
+    name: "Hellgate"
     start_owners: "Hellfire Guards"
     max_cap: 8
     start_amount: 8

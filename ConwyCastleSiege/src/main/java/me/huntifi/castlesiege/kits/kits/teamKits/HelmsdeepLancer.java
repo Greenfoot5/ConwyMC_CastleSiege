@@ -66,7 +66,7 @@ public class HelmsdeepLancer extends MapKit implements Listener {
                         Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32.5),
-                0);
+                1);
 
     // Chestplate
     es.chest = ItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
@@ -87,7 +87,7 @@ public class HelmsdeepLancer extends MapKit implements Listener {
 
     // Ladders
     es.hotbar[2] = new ItemStack(Material.LADDER, 4);
-    es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
+    es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
     // Horse
     es.hotbar[3] = ItemCreator.item(new ItemStack(Material.WHEAT),

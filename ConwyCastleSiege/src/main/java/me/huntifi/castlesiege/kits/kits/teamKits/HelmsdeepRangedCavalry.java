@@ -73,7 +73,7 @@ public class HelmsdeepRangedCavalry extends MapKit implements Listener {
 
         // Ladders
         es.hotbar[2] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
         // Horse
         es.hotbar[3] = ItemCreator.item(new ItemStack(Material.WHEAT),
