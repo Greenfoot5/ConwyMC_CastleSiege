@@ -104,12 +104,14 @@ public class HelmsdeepBerserker extends MapKit implements Listener {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             ChatColor.AQUA + "You blocked " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s cleave"));
                 } else {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP , 1, 1 );
+                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_BIG_FALL , 1, 1 );
                     e.setDamage(e.getDamage() * 1.5);
 
                     for (Player all : Bukkit.getOnlinePlayers()) {
                         if (p.getWorld() != all.getWorld()) { return; }
-                        if (p.getLocation().distance(all.getLocation()) < 2.1 && all != p) {
+                        if (all == p) { return; }
+                        if (all == q) { return; }
+                        if (all.getLocation().distance(p.getLocation()) < 2.1) {
                             if ((all.getHealth() - e.getDamage() > 0)) {
                                 all.damage(e.getDamage());
                             } else {
