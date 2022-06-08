@@ -330,6 +330,9 @@ commands:
   Medic:
     description: Selects the medic kit
     usage: /medic
+  Moriaorc:
+    description: Selects the Moria Orc kit for Moria
+    usage: /moriaorc
   Ranger:
     description: Selects the ranger kit
     usage: /ranger

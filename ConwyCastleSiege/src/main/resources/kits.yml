@@ -426,6 +426,21 @@ team:
         - "§5TEAM: §aBurning Legion"
       location: 3
       command: "firelandsabyssal"
+    moria_orc:
+      name: "§a§lCLASS:§r§a Moria Orc"
+      material: "BOW"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a An archer with poisonous arrows"
+        - "§2[Health]:§a 130"
+        - "§2[Melee Damage]:§a 19.0"
+        - "§2[Regen]:§a 4"
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+        - "§5MAP: Moria"
+        - "§5TEAM: §2The Orcs"
+      location: 4
+      command: "Moriaorc"
     back:
       name: "§4§lGo Back"
       material: "BARRIER"

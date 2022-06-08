@@ -39,10 +39,7 @@ import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.kits.gui.*;
 import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.kits.*;
-import me.huntifi.castlesiege.kits.kits.teamKits.FirelandsAbyssal;
-import me.huntifi.castlesiege.kits.kits.teamKits.HelmsdeepBerserker;
-import me.huntifi.castlesiege.kits.kits.teamKits.HelmsdeepLancer;
-import me.huntifi.castlesiege.kits.kits.teamKits.HelmsdeepRangedCavalry;
+import me.huntifi.castlesiege.kits.kits.teamKits.*;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
@@ -160,6 +157,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Ladderman(), plugin);
                 getServer().getPluginManager().registerEvents(new Maceman(), plugin);
                 getServer().getPluginManager().registerEvents(new Medic(), plugin);
+                getServer().getPluginManager().registerEvents(new MoriaOrc(), plugin);
                 getServer().getPluginManager().registerEvents(new Ranger(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
                 getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
@@ -242,6 +240,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Ladderman")).setExecutor(new Ladderman());
                 Objects.requireNonNull(getCommand("Maceman")).setExecutor(new Maceman());
                 Objects.requireNonNull(getCommand("Medic")).setExecutor(new Medic());
+                Objects.requireNonNull(getCommand("Moriaorc")).setExecutor(new MoriaOrc());
                 Objects.requireNonNull(getCommand("Ranger")).setExecutor(new Ranger());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
                 Objects.requireNonNull(getCommand("Shieldman")).setExecutor(new Shieldman());
