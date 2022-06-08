@@ -1333,7 +1333,7 @@ Firelands:
               z: 89
             sign_direction: west
     Attackers:
-      name: "Burning Crusade"
+      name: "Burning Legion"
       primary_color: "light_green"
       secondary_color: "dark_green"
       lobby:

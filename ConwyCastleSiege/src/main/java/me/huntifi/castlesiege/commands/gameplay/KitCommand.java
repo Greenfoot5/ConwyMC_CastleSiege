@@ -13,6 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Allows the player to select a kit
@@ -42,18 +43,30 @@ public class KitCommand implements CommandExecutor {
         if (args.length == 0) {
             // No arguments passed -> open kit selector GUI
             KitGuiController.get("selector").open(p);
-            return true;
-        } else if (args.length == 1) {
-            // One argument passed -> open specified GUI
-            KitGui gui = KitGuiController.get(args[0].toLowerCase());
+        } else {
+            // Arguments passed -> open specified GUI
+            String category = String.join(" ", args);
+            KitGui gui = get(p.getUniqueId(), category.toLowerCase());
             if (gui == null) {
                 Messenger.sendError("Unknown category: " + ChatColor.RED + args[0], p);
             } else {
                 gui.open(p);
             }
-            return true;
         }
+        return true;
+    }
 
-        return false;
+    /**
+     * Retrieve the specified kit GUI
+     * @param uuid The unique id of the player who wants to open the GUI
+     * @param category The category that should be opened
+     * @return The specified GUI, or the player's team GUI if the category is "team"
+     */
+    private KitGui get(UUID uuid, String category) {
+        if (category.equals("team")) {
+            String team = MapController.getCurrentMap().getTeam(uuid).name;
+            return KitGuiController.get(team.toLowerCase());
+        }
+        return KitGuiController.get(category);
     }
 }
