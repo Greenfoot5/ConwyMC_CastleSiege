@@ -446,13 +446,13 @@ burning_legion:
         - "§6------------------------------"
         - "§5MAP: Firelands"
         - "§5TEAM: §aBurning Legion"
-      location: 23
+      location: 22
       command: "firelandsabyssal"
 hellfire_guards:
   name: "§5Hellfire Guards Kits"
   key: "hellfire guards"
   items:
-    abbysal:
+    hellsteed:
       name: "§a§lCLASS:§r§a Hellsteed"
       material: "LEATHER_HORSE_ARMOR"
       lore:
@@ -468,8 +468,8 @@ hellfire_guards:
         - "§6------------------------------"
         - "§5MAP: Firelands"
         - "§5TEAM: §5Hellfire Guards"
-      location: 21
-      command: "firelandsabyssal"
+      location: 22
+      command: "firelandshellsteed"
     back:
       name: "§4§lGo Back"
       material: "BARRIER"

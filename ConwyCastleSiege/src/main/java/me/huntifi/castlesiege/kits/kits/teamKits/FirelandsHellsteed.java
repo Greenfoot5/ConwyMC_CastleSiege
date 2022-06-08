@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits.teamKits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -19,18 +20,21 @@ import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
+import org.bukkit.entity.NPC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collections;
 import java.util.Objects;
+import java.util.UUID;
 
 public class FirelandsHellsteed extends MapKit implements Listener {
     /**
@@ -38,7 +42,7 @@ public class FirelandsHellsteed extends MapKit implements Listener {
      *
      * **/
     public FirelandsHellsteed() {
-        super("Hellsteed", 300, 7);
+        super("Hellsteed", 200, 7);
         super.mapSpecificKits.add("Hellsteed");
         super.canCap = false;
         super.canClimb = false;
@@ -60,19 +64,29 @@ public class FirelandsHellsteed extends MapKit implements Listener {
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 12),
                 0);
 
-        // Claws
+        // stomp
         es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.ANVIL),
-                ChatColor.RED + "Stomp", null, null, 20);
+                ChatColor.GREEN + "Stomp", null, null, 20);
+
+        // stomp
+        es.hotbar[7] = ItemCreator.weapon(new ItemStack(Material.BARRIER),
+                ChatColor.RED + "Eject", null, null, 0);
+
 
         super.equipment = es;
 
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 5));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 1));
 
         // Death Messages
         super.deathMessage[0] = "You were trampled by ";
         super.killMessage[0] = "You trampled ";
         super.killMessage[1] = " to death";
+
+        super.playableWorld = "Firelands";
+        super.teamName = "Hellfire Guards";
 
     }
 
@@ -168,17 +182,45 @@ public class FirelandsHellsteed extends MapKit implements Listener {
     @EventHandler
     public void onPlayerInteractAtEntity(PlayerInteractEntityEvent event) {
 
-        if (event.getRightClicked() instanceof Player) {
-
+        if (event.getRightClicked() instanceof Player && (!(event.getRightClicked() instanceof NPC))) {
             Player p = event.getPlayer();
             Player clicked = (Player) event.getRightClicked();
 
+            if (clicked.getUniqueId() == null) { return; }
             if (Objects.equals(Kit.equippedKits.get(clicked.getUniqueId()).name, name)
                     && MapController.getCurrentMap().getTeam(clicked.getUniqueId())
-                    != MapController.getCurrentMap().getTeam(p.getUniqueId())) {
+                    == MapController.getCurrentMap().getTeam(p.getUniqueId())) {
 
                 clicked.addPassenger(p);
 
+            } else if (MapController.getCurrentMap().getTeam(clicked.getUniqueId()) == null) {
+                return;
+            } else {
+                return;
+            }
+        }
+    }
+
+
+    @EventHandler
+    public void onEject(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
+                e.getItem() != null && e.getItem().getType() == Material.BARRIER) {
+            int cooldown = p.getCooldown(Material.BARRIER);
+            if (cooldown == 0) {
+
+                if (p.getPassengers() != null) {
+                    p.setCooldown(Material.BARRIER, 20);
+                    p.eject();
+                }
             }
         }
     }
