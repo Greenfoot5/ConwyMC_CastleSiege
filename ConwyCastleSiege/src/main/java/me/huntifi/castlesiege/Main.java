@@ -146,6 +146,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
+                getServer().getPluginManager().registerEvents(new CryptsFallen(), plugin);
                 getServer().getPluginManager().registerEvents(new Engineer(), plugin);
                 getServer().getPluginManager().registerEvents(new Executioner(), plugin);
                 getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
@@ -229,6 +230,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
                 Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
+                Objects.requireNonNull(getCommand("CryptsFallen")).setExecutor(new CryptsFallen());
                 Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
                 Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
                 Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());

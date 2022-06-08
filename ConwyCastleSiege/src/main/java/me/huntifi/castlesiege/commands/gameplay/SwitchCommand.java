@@ -111,11 +111,17 @@ public class SwitchCommand implements CommandExecutor {
 	 */
 	private void spawnPlayer(Player p, int deaths) {
 		Team team = MapController.getCurrentMap().getTeam(p.getUniqueId());
+
+		//Check what type of switch it is (on battlefield or not?)
 		if (deaths > 0) {
+
+			//Set player health to 0 and teleport them to their new lobby
 			p.setHealth(0);
 			p.sendMessage("You switched to " + team.primaryChatColor + team.name +
 					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)");
 			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
+			Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
+
 			//reset kit when switching on the battlefield
 			for (String kit : Kit.mapSpecificKits) {
 				if (ActiveData.getData(p.getUniqueId()).getKit().equalsIgnoreCase(kit)
@@ -125,8 +131,15 @@ public class SwitchCommand implements CommandExecutor {
 					ActiveData.getData(p.getUniqueId()).setKit("swordsman");
 				}
 			}
-			Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
+			p.teleport(team.lobby.spawnPoint);
+
 		} else {
+
+			//Teleport to new lobby with full health
+			p.teleport(team.lobby.spawnPoint);
+			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+			p.sendMessage("You switched to " + team.primaryChatColor + team.name);
+
 			//reset the team specific kit
 			for (String kit : Kit.mapSpecificKits) {
 				if (ActiveData.getData(p.getUniqueId()).getKit().equalsIgnoreCase(kit)
@@ -136,10 +149,8 @@ public class SwitchCommand implements CommandExecutor {
 					ActiveData.getData(p.getUniqueId()).setKit("swordsman");
 				}
 			}
+
 			Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
-			p.teleport(team.lobby.spawnPoint);
-			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
-			p.sendMessage("You switched to " + team.primaryChatColor + team.name);
 		}
 	}
 }

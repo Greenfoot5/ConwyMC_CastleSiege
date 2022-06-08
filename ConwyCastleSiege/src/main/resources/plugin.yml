@@ -294,6 +294,9 @@ commands:
   Cavalry:
     description: Selects the cavalry kit
     usage: /cavalry
+  CryptsFallen:
+    description: Selects the Fallen kit for Royal Crypts as Tomb Guardians
+    usage: /cryptsfallen
   Crossbowman:
     description: Selects the crossbowman kit
     usage: /crossbowman

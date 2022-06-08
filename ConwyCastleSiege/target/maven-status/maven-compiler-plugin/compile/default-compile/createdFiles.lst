@@ -10,6 +10,7 @@ me\huntifi\castlesiege\events\death\DeathEvent$1.class
 me\huntifi\castlesiege\events\combat\AssistKill$1.class
 me\huntifi\castlesiege\kits\kits\teamKits\FirelandsHellsteed.class
 me\huntifi\castlesiege\events\death\DeathEvent.class
+me\huntifi\castlesiege\kits\kits\teamKits\CryptsFallen.class
 me\huntifi\castlesiege\kits\kits\teamKits\MoriaOrc.class
 me\huntifi\castlesiege\kits\kits\MapKit.class
 me\huntifi\castlesiege\kits\kits\Engineer$3.class

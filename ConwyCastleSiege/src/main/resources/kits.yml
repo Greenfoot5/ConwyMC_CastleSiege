@@ -470,6 +470,26 @@ hellfire_guards:
         - "§5TEAM: §5Hellfire Guards"
       location: 22
       command: "firelandshellsteed"
+tomb_guardians:
+  name: "§fTomb Guardians Kits"
+  key: "tomb guardians"
+  items:
+    hellsteed:
+      name: "§a§lCLASS:§r§a Fallen"
+      material: "WITHER_SKELETON_SKULL"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a Basically a wither skeleton"
+        - "§2[Health]:§a 150"
+        - "§2[Melee Damage]:§a 25"
+        - "§2[Regen]:§a 10"
+        - "§2[Ability]:§a You deal wither damage on cooldown."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+        - "§5MAP: Royal Crypts"
+        - "§5TEAM: §fTomb Guardians"
+      location: 22
+      command: "cryptsfallen"
     back:
       name: "§4§lGo Back"
       material: "BARRIER"
