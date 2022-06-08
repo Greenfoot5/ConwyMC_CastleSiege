@@ -307,8 +307,11 @@ commands:
     description: Selects the firearcher kit
     usage: /firearcher
   FirelandsAbyssal:
-    description: Selects the Abyssal kit from firelands for the Burning Crusade
+    description: Selects the Abyssal kit from firelands for the Burning Legion
     usage: /firelandsabyssal
+  FirelandsHellsteed:
+    description: Selects the Hellsteed kit from firelands for the Burning Legion
+    usage: /firelandshellsteed
   Halberdier:
     description: Selects the halberdier kit
     usage: /halberdier

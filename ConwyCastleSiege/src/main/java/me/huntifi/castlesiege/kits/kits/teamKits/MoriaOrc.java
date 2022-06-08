@@ -28,6 +28,7 @@ public class MoriaOrc extends MapKit implements Listener {
 
     public MoriaOrc() {
         super("Moria Orc", 130, 4);
+        super.mapSpecificKits.add("Moria Orc");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

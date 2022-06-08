@@ -150,6 +150,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Executioner(), plugin);
                 getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
                 getServer().getPluginManager().registerEvents(new FirelandsAbyssal(), plugin);
+                getServer().getPluginManager().registerEvents(new FirelandsHellsteed(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
                 getServer().getPluginManager().registerEvents(new HelmsdeepBerserker(), plugin);
                 getServer().getPluginManager().registerEvents(new HelmsdeepLancer(), plugin);
@@ -233,6 +234,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
                 Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
                 Objects.requireNonNull(getCommand("FirelandsAbyssal")).setExecutor(new FirelandsAbyssal());
+                Objects.requireNonNull(getCommand("FirelandsHellsteed")).setExecutor(new FirelandsHellsteed());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
                 Objects.requireNonNull(getCommand("HelmsdeepBerserker")).setExecutor(new HelmsdeepBerserker());
                 Objects.requireNonNull(getCommand("HelmsdeepLancer")).setExecutor(new HelmsdeepLancer());

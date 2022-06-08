@@ -56,15 +56,13 @@ public abstract class MapKit extends Kit {
                         return true;
 
                     } else if (!teamName.equalsIgnoreCase(MapController.getCurrentMap().getTeam(p.getUniqueId()).name)) {
-                            player.performCommand("swordsman");
                             player.sendMessage(ChatColor.DARK_RED + "Can't use this kit as this team!");
                             return true;
                     }
 
                 } else if (!playableWorld.equalsIgnoreCase(MapController.getCurrentMap().name)) {
 
-                        player.performCommand("swordsman");
-                        player.sendMessage(ChatColor.DARK_RED + "You can't use your current kit on this map! So you are put on Swordsman. ");
+                        player.sendMessage(ChatColor.DARK_RED + "You can't use your current kit on this map!");
                         return true;
 
                 }

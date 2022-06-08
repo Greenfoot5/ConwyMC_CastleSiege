@@ -116,10 +116,7 @@ public class SwitchCommand implements CommandExecutor {
 			p.sendMessage("You switched to " + team.primaryChatColor + team.name +
 					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)");
 			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
-		} else {
-			p.teleport(team.lobby.spawnPoint);
-			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
-			p.sendMessage("You switched to " + team.primaryChatColor + team.name);
+			//reset kit when switching on the battlefield
 			for (String kit : Kit.mapSpecificKits) {
 				if (ActiveData.getData(p.getUniqueId()).getKit().equalsIgnoreCase(kit)
 						|| Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, kit)) {
@@ -129,6 +126,20 @@ public class SwitchCommand implements CommandExecutor {
 				}
 			}
 			Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
+		} else {
+			//reset the team specific kit
+			for (String kit : Kit.mapSpecificKits) {
+				if (ActiveData.getData(p.getUniqueId()).getKit().equalsIgnoreCase(kit)
+						|| Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, kit)) {
+					Kit.equippedKits.remove(p.getUniqueId());
+					Kit.equippedKits.put(p.getUniqueId(), new Swordsman());
+					ActiveData.getData(p.getUniqueId()).setKit("swordsman");
+				}
+			}
+			Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
+			p.teleport(team.lobby.spawnPoint);
+			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+			p.sendMessage("You switched to " + team.primaryChatColor + team.name);
 		}
 	}
 }
