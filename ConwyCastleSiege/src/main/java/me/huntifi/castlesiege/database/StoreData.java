@@ -29,7 +29,7 @@ public class StoreData {
 
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "UPDATE player_stats SET score = ?, kills = ?, deaths = ?, assists = ?, captures = ?, heals = ?, "
-                        + "supports = ?, coins = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ? WHERE uuid = ?");
+                        + "supports = ?, coins = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ?, bounty = ? WHERE uuid = ?");
         ps.setDouble(1, data.getScore());
         ps.setDouble(2, data.getKills());
         ps.setDouble(3, data.getDeaths());
@@ -43,8 +43,8 @@ public class StoreData {
         ps.setInt(11, data.getLevel());
         ps.setInt(12, data.getMaxKillStreak());
         ps.setString(13, data.getKit());
-        ps.setString(14, uuid.toString());
-        ps.setInt(15, data.getBounty());
+        ps.setInt(14, data.getBounty());
+        ps.setString(15, uuid.toString());
         ps.executeUpdate();
         ps.close();
 
