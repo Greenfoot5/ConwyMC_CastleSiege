@@ -69,7 +69,6 @@ public class KitGui implements Listener {
         if (c != null) {
             p.closeInventory();
             p.performCommand(c);
-            p.sendMessage(ChatColor.YELLOW + "Kit: " + Kit.equippedKits.get(p));
         }
     }
 }
