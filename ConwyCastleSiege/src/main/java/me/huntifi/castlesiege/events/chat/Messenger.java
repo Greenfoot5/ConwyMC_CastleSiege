@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -95,5 +96,19 @@ public class Messenger {
 
     public static void sendInfo(String message, @NotNull CommandSender sender) {
         sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.AQUA + message);
+    }
+
+    public static void broadcastPaidBounty(String payee, String bountied, int amount, int total) {
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
+                + ChatColor.YELLOW + payee + ChatColor.YELLOW + " added " + amount + " to " + ChatColor.GOLD + bountied
+                + ChatColor.YELLOW + "'s bounty! Their total bounty is "
+                + ChatColor.GOLD + total + ChatColor.YELLOW + "!");
+    }
+
+    public static void broadcastKillstreakBounty(String bountied, int kills, int amount, int total) {
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
+                + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " has achieved a kill streak of " + ChatColor.AQUA + kills
+                + ChatColor.YELLOW + "! Their bounty has increased by " + amount + ". It's now at "
+                + ChatColor.GOLD + total + ChatColor.YELLOW + "!");
     }
 }

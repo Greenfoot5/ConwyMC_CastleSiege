@@ -44,6 +44,7 @@ public class StoreData {
         ps.setInt(12, data.getMaxKillStreak());
         ps.setString(13, data.getKit());
         ps.setString(14, uuid.toString());
+        ps.setInt(15, data.getBounty());
         ps.executeUpdate();
         ps.close();
 
