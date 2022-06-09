@@ -145,44 +145,6 @@ public class HelmsDeepRangedCavalry extends MapKit implements Listener {
     }
 
     /**
-     * Remove the horse when its rider dies
-     * @param e The event called when a player dies
-     */
-    @EventHandler
-    public void onDeath(PlayerDeathEvent e) {
-        removeHorse(e.getEntity(), e.getEntity().getVehicle());
-    }
-
-    /**
-     * Remove the horse when its rider leaves the game
-     * @param e The event called when a player leaves the game
-     */
-    @EventHandler
-    public void onLeave(PlayerQuitEvent e) {
-        removeHorse(e.getPlayer(), e.getPlayer().getVehicle());
-    }
-
-    /**
-     * Remove the horse
-     * @param p The player that was riding the horse
-     * @param e The horse that is to be removed
-     */
-    private void removeHorse(Player p, Entity e) {
-        if (Kit.equippedKits.containsKey(p.getUniqueId()) &&
-                Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
-                e instanceof Horse) {
-            e.remove();
-        }
-    }
-
-    @EventHandler
-    public void onDismount(EntityDismountEvent e) {
-        if (e.getEntity() instanceof Player) {
-            removeHorse((Player) e.getEntity(), e.getDismounted());
-        }
-    }
-
-    /**
      * Set the arrow-damage of a ranged cavalry's arrows
      * @param e The event called when a player is hit by an arrow
      */
