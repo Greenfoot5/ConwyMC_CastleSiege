@@ -7,7 +7,7 @@ import me.huntifi.castlesiege.commands.staff.SpectateCommand;
 import me.huntifi.castlesiege.commands.info.MVPCommand;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.castlesiege.events.Explosion;
+import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;

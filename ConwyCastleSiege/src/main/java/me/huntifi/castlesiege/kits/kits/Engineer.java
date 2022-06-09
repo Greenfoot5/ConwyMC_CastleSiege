@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.Explosion;
+import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.HurtAnimation;
