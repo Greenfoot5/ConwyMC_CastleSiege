@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.events;
+package me.huntifi.castlesiege.events.gameplay;
 
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Material;
@@ -7,6 +7,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+/**
+ * Handles player movement events
+ */
 public class Movement implements Listener {
 
     /**

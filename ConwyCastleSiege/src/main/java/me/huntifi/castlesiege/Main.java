@@ -21,8 +21,9 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
-import me.huntifi.castlesiege.events.Explosion;
-import me.huntifi.castlesiege.events.Movement;
+import me.huntifi.castlesiege.events.gameplay.Dismount;
+import me.huntifi.castlesiege.events.gameplay.Explosion;
+import me.huntifi.castlesiege.events.gameplay.Movement;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.*;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
@@ -115,8 +116,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
-                getServer().getPluginManager().registerEvents(new Explosion(), plugin);
-                getServer().getPluginManager().registerEvents(new Movement(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
 
                 // Connection
@@ -136,6 +135,11 @@ public class Main extends JavaPlugin implements Listener {
                 // Death
                 getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
                 getServer().getPluginManager().registerEvents(new VoidLocation(), plugin);
+
+                // Gameplay
+                getServer().getPluginManager().registerEvents(new Dismount(), plugin);
+                getServer().getPluginManager().registerEvents(new Explosion(), plugin);
+                getServer().getPluginManager().registerEvents(new Movement(), plugin);
 
                 // Security
                 getServer().getPluginManager().registerEvents(new InteractContainer(), plugin);

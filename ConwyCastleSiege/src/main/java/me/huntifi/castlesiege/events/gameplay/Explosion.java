@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.events;
+package me.huntifi.castlesiege.events.gameplay;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -10,6 +10,9 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 
 import java.util.HashMap;
 
+/**
+ * Handles explosion events
+ */
 public class Explosion implements Listener {
 
     // Maps used to store the old states of destroyed stone and wood type blocks
