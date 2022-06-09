@@ -29,11 +29,10 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class HelmsdeepRangedCavalry extends MapKit implements Listener {
+public class HelmsDeepRangedCavalry extends MapKit implements Listener {
     
-    public HelmsdeepRangedCavalry() {
-        super("Ranged Cavalry", 130, 6);
-        super.mapSpecificKits.add("Ranged Cavalry");
+    public HelmsDeepRangedCavalry() {
+        super("Ranged Cavalry", 130, 6, "Helm's Deep", "Rohan");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -68,7 +67,7 @@ public class HelmsdeepRangedCavalry extends MapKit implements Listener {
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
                 ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
@@ -85,9 +84,6 @@ public class HelmsdeepRangedCavalry extends MapKit implements Listener {
         super.canClimb = true;
 
         super.equipment = es;
-
-        super.playableWorld = "Helm's Deep";
-        super.teamName = "Rohan";
     }
 
     /**

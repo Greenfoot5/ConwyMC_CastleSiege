@@ -82,7 +82,7 @@ public class Medic extends Kit implements Listener {
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 ChatColor.GREEN + "Golden Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Bandages

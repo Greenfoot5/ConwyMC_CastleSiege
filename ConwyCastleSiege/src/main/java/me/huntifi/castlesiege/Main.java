@@ -153,9 +153,9 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new FirelandsAbyssal(), plugin);
                 getServer().getPluginManager().registerEvents(new FirelandsHellsteed(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
-                getServer().getPluginManager().registerEvents(new HelmsdeepBerserker(), plugin);
-                getServer().getPluginManager().registerEvents(new HelmsdeepLancer(), plugin);
-                getServer().getPluginManager().registerEvents(new HelmsdeepRangedCavalry(), plugin);
+                getServer().getPluginManager().registerEvents(new HelmsDeepBerserker(), plugin);
+                getServer().getPluginManager().registerEvents(new HelmsDeepLancer(), plugin);
+                getServer().getPluginManager().registerEvents(new HelmsDeepRangedCavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new Ladderman(), plugin);
                 getServer().getPluginManager().registerEvents(new Maceman(), plugin);
                 getServer().getPluginManager().registerEvents(new Medic(), plugin);
@@ -238,9 +238,9 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("FirelandsAbyssal")).setExecutor(new FirelandsAbyssal());
                 Objects.requireNonNull(getCommand("FirelandsHellsteed")).setExecutor(new FirelandsHellsteed());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
-                Objects.requireNonNull(getCommand("HelmsdeepBerserker")).setExecutor(new HelmsdeepBerserker());
-                Objects.requireNonNull(getCommand("HelmsdeepLancer")).setExecutor(new HelmsdeepLancer());
-                Objects.requireNonNull(getCommand("HelmsdeepRangedCavalry")).setExecutor(new HelmsdeepRangedCavalry());
+                Objects.requireNonNull(getCommand("HelmsDeepBerserker")).setExecutor(new HelmsDeepBerserker());
+                Objects.requireNonNull(getCommand("HelmsDeepLancer")).setExecutor(new HelmsDeepLancer());
+                Objects.requireNonNull(getCommand("HelmsDeepRangedCavalry")).setExecutor(new HelmsDeepRangedCavalry());
                 Objects.requireNonNull(getCommand("Ladderman")).setExecutor(new Ladderman());
                 Objects.requireNonNull(getCommand("Maceman")).setExecutor(new Maceman());
                 Objects.requireNonNull(getCommand("Medic")).setExecutor(new Medic());

@@ -34,7 +34,7 @@ public class CryptsFallen extends MapKit implements Listener {
      *
      */
     public CryptsFallen() {
-        super("Fallen", 150, 10);
+        super("Fallen", 150, 10, "Royal Crypts", "Tomb Guardians");
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;
@@ -58,9 +58,6 @@ public class CryptsFallen extends MapKit implements Listener {
 
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 0));
-
-        super.playableWorld = "Royal Crypts";
-        super.teamName = "Tomb Guardians";
 
         // Death Messages
         super.deathMessage[0] = "You were withered away by ";

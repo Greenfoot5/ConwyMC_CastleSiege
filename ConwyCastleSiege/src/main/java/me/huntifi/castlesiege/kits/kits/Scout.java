@@ -57,7 +57,7 @@ public class Scout extends VoterKit {
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3)),
                 Color.fromRGB(64, 87, 1));
 

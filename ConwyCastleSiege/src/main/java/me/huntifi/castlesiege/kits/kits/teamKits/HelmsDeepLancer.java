@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits.teamKits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -33,12 +34,10 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class HelmsdeepLancer extends MapKit implements Listener {
+public class HelmsDeepLancer extends MapKit implements Listener {
 
-    public HelmsdeepLancer() {
-        super("Lancer", 170, 5);
-        super.mapSpecificKits.add("Lancer");
-
+    public HelmsDeepLancer() {
+        super("Lancer", 170, 5, "Helm's Deep", "Rohan");
 
     // Equipment Stuff
     EquipmentSet es = new EquipmentSet();
@@ -82,7 +81,7 @@ public class HelmsdeepLancer extends MapKit implements Listener {
     // Voted Boots
     es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
     ChatColor.GREEN + "Iron Boots",
-            Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
+            Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
             Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
     // Ladders
@@ -100,9 +99,6 @@ public class HelmsdeepLancer extends MapKit implements Listener {
         // Death Messages
         super.projectileDeathMessage[0] = "You were impaled by ";
         super.projectileKillMessage[0] = "You impaled ";
-
-        super.playableWorld = "Helm's Deep";
-        super.teamName = "Rohan";
 
     }
 
@@ -127,7 +123,7 @@ public class HelmsdeepLancer extends MapKit implements Listener {
                 p.setCooldown(Material.WHEAT, 600);
 
                 if (p.isInsideVehicle()) {
-                    p.getVehicle().remove();
+                    Objects.requireNonNull(p.getVehicle()).remove();
                 }
                 spawnHorse(p);
             }
@@ -145,13 +141,17 @@ public class HelmsdeepLancer extends MapKit implements Listener {
         horse.setOwner(p);
         horse.setAdult();
         AttributeInstance hAttribute = horse.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        assert hAttribute != null;
         hAttribute.setBaseValue(125.0);
         horse.setHealth(125.0);
         AttributeInstance kbAttribute = horse.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);
+        assert kbAttribute != null;
         kbAttribute.setBaseValue(1);
         AttributeInstance speedAttribute = horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
+        assert speedAttribute != null;
         speedAttribute.setBaseValue(0.2425);
         AttributeInstance jumpAttribute = horse.getAttribute(Attribute.HORSE_JUMP_STRENGTH);
+        assert jumpAttribute != null;
         jumpAttribute.setBaseValue(0.8);
 
         horse.getInventory().setSaddle(new ItemStack(Material.SADDLE)); // Gives horse saddle
@@ -230,8 +230,7 @@ public class HelmsdeepLancer extends MapKit implements Listener {
                         p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.5));
 
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your spear yet."));
+                        Messenger.sendActionError(ChatColor.BOLD + "You can't throw your spear yet.", p);
                     }
                 }
             }

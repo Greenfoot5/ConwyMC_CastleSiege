@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.database.*;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.MapKit;
+import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -74,8 +75,6 @@ public class PlayerConnect implements Listener {
             String broadcastPrefix = "§2[§4ConwyMC§2] ";
             Bukkit.broadcastMessage(broadcastPrefix + ChatColor.DARK_PURPLE + " ----- " + ChatColor.LIGHT_PURPLE + "Welcome " + p.getName()
                     + " to Castle Siege!" + ChatColor.DARK_PURPLE + " ----- ");
-            p.sendMessage(ChatColor.DARK_PURPLE + "There are currently " + Bukkit.getOnlinePlayers().size() + " player(s) online.");
-            p.sendMessage(ChatColor.DARK_PURPLE + "The max amount of players is 100.");
 
         } else {
             p.sendMessage(ChatColor.DARK_RED + "Hello " + ChatColor.GREEN + p.getName());
@@ -85,12 +84,11 @@ public class PlayerConnect implements Listener {
         }
 
         //If the player is using a map specific kit it shall be removed.
-        for (String kit : Kit.mapSpecificKits) {
-            if (ActiveData.getData(uuid).getKit().equalsIgnoreCase(kit)) {
-                ActiveData.getData(uuid).setKit("swordsman");
-            }
+        if (Kit.equippedKits.get(uuid) instanceof MapKit) {
+            Kit.equippedKits.remove(uuid);
+            Kit.equippedKits.put(uuid, new Swordsman());
+            ActiveData.getData(uuid).setKit("swordsman");
         }
-
     }
 
     /**

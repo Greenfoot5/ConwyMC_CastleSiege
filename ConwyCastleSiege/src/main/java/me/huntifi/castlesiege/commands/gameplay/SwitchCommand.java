@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
@@ -35,6 +36,7 @@ public class SwitchCommand implements CommandExecutor {
 			return true;
 		}
 
+		assert sender instanceof Player;
 		Player p = (Player) sender;
 		Map map = MapController.getCurrentMap();
 
@@ -120,17 +122,7 @@ public class SwitchCommand implements CommandExecutor {
 			p.sendMessage("You switched to " + team.primaryChatColor + team.name +
 					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)");
 			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
-			Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
 
-			//reset kit when switching on the battlefield
-			for (String kit : Kit.mapSpecificKits) {
-				if (ActiveData.getData(p.getUniqueId()).getKit().equalsIgnoreCase(kit)
-						|| Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, kit)) {
-					Kit.equippedKits.remove(p.getUniqueId());
-					Kit.equippedKits.put(p.getUniqueId(), new Swordsman());
-					ActiveData.getData(p.getUniqueId()).setKit("swordsman");
-				}
-			}
 			p.teleport(team.lobby.spawnPoint);
 
 		} else {
@@ -140,16 +132,15 @@ public class SwitchCommand implements CommandExecutor {
 			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
 			p.sendMessage("You switched to " + team.primaryChatColor + team.name);
 
-			//reset the team specific kit
-			for (String kit : Kit.mapSpecificKits) {
-				if (ActiveData.getData(p.getUniqueId()).getKit().equalsIgnoreCase(kit)
-						|| Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, kit)) {
-					Kit.equippedKits.remove(p.getUniqueId());
-					Kit.equippedKits.put(p.getUniqueId(), new Swordsman());
-					ActiveData.getData(p.getUniqueId()).setKit("swordsman");
-				}
-			}
+		}
 
+		// Remove any team specific kits
+		Kit kit = Kit.equippedKits.get(p.getUniqueId());
+		if (kit instanceof MapKit && !Objects.equals(((MapKit) kit).getTeamName(), team.name)) {
+			Kit.equippedKits.remove(p.getUniqueId());
+			Kit.equippedKits.put(p.getUniqueId(), new Swordsman());
+			ActiveData.getData(p.getUniqueId()).setKit("swordsman");
+		} else {
 			Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
 		}
 	}

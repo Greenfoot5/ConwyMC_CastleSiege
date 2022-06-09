@@ -24,12 +24,11 @@ import java.util.Collections;
 import java.util.Objects;
 
 
-public class HelmsdeepBerserker extends MapKit implements Listener {
+public class HelmsDeepBerserker extends MapKit implements Listener {
 
 
-    public HelmsdeepBerserker() {
-        super("Uruk Berserker", 120, 3);
-        super.mapSpecificKits.add("Uruk Berserker");
+    public HelmsDeepBerserker() {
+        super("Uruk Berserker", 120, 3, "Helm's Deep", "Uruk-hai");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -37,14 +36,15 @@ public class HelmsdeepBerserker extends MapKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Cleaver", Collections.singletonList(ChatColor.AQUA + "Deals AOE damage but has a cooldown."), null, 35.0);
+                ChatColor.GREEN + "Cleaver", Collections.singletonList(ChatColor.AQUA + "Deals AOE damage but has a cooldown."),
+                null, 35.0);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Cleaver",
                         Arrays.asList(ChatColor.AQUA + "Deals AOE damage but has a cooldown.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.SWEEPING_EDGE, 2)), 35.0),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37.0),
                 0);
 
         // Leggings
@@ -58,7 +58,7 @@ public class HelmsdeepBerserker extends MapKit implements Listener {
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
@@ -72,9 +72,6 @@ public class HelmsdeepBerserker extends MapKit implements Listener {
         // Death Messages
         super.deathMessage[0] = "You were cut in half by ";
         super.killMessage[0] = "You cut deeply into ";
-
-        super.playableWorld = "Helm's Deep";
-        super.teamName = "Uruk-hai";
 
     }
 
@@ -108,17 +105,18 @@ public class HelmsdeepBerserker extends MapKit implements Listener {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_BIG_FALL , 1, 1 );
                     e.setDamage(e.getDamage() * 1.5);
 
-                    for (Player all : Bukkit.getOnlinePlayers()) {
-                        if (p.getWorld() != all.getWorld()) { return; }
-                        if (all == p) { return; }
-                        if (all == q) { return; }
-                        if (all.getLocation().distance(p.getLocation()) < 2.1) {
-                            if ((all.getHealth() - e.getDamage() > 0)) {
-                                all.damage(e.getDamage());
+                    for (Player o : Bukkit.getOnlinePlayers()) {
+                        if (p.getWorld() != o.getWorld() || o == p || o == q) {
+                            return;
+                        }
+
+                        if (o.getLocation().distance(p.getLocation()) < 2.1) {
+                            if ((o.getHealth() - e.getDamage() > 0)) {
+                                o.damage(e.getDamage());
                             } else {
                                 e.setCancelled(true);
-                                DeathEvent.setKiller(all, p);
-                                all.setHealth(0);
+                                DeathEvent.setKiller(o, p);
+                                o.setHealth(0);
                             }
                         }
                     }
@@ -126,5 +124,4 @@ public class HelmsdeepBerserker extends MapKit implements Listener {
             }
         }
     }
-
 }

@@ -45,13 +45,13 @@ public class Cavalry extends Kit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Sabre", null, null, 29.5);
+                ChatColor.GREEN + "Sabre", null, null, 34.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Sabre",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31.5),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 36.5),
                 0);
 
         // Chestplate
@@ -68,7 +68,7 @@ public class Cavalry extends Kit implements Listener {
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders

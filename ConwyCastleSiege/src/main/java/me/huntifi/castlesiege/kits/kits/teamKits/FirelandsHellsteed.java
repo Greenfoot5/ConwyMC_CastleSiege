@@ -12,20 +12,17 @@ import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import me.libraryaddict.disguise.disguisetypes.watchers.AbstractHorseWatcher;
 import me.libraryaddict.disguise.disguisetypes.watchers.HorseWatcher;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.NPC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -42,8 +39,7 @@ public class FirelandsHellsteed extends MapKit implements Listener {
      *
      * **/
     public FirelandsHellsteed() {
-        super("Hellsteed", 200, 7);
-        super.mapSpecificKits.add("Hellsteed");
+        super("Hellsteed", 200, 7, "Firelands", "Hellfire Guards");
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;
@@ -84,9 +80,6 @@ public class FirelandsHellsteed extends MapKit implements Listener {
         super.deathMessage[0] = "You were trampled by ";
         super.killMessage[0] = "You trampled ";
         super.killMessage[1] = " to death";
-
-        super.playableWorld = "Firelands";
-        super.teamName = "Hellfire Guards";
 
     }
 
@@ -186,17 +179,12 @@ public class FirelandsHellsteed extends MapKit implements Listener {
             Player p = event.getPlayer();
             Player clicked = (Player) event.getRightClicked();
 
-            if (clicked.getUniqueId() == null) { return; }
+            clicked.getUniqueId();
             if (Objects.equals(Kit.equippedKits.get(clicked.getUniqueId()).name, name)
                     && MapController.getCurrentMap().getTeam(clicked.getUniqueId())
                     == MapController.getCurrentMap().getTeam(p.getUniqueId())) {
 
                 clicked.addPassenger(p);
-
-            } else if (MapController.getCurrentMap().getTeam(clicked.getUniqueId()) == null) {
-                return;
-            } else {
-                return;
             }
         }
     }
@@ -217,12 +205,10 @@ public class FirelandsHellsteed extends MapKit implements Listener {
             int cooldown = p.getCooldown(Material.BARRIER);
             if (cooldown == 0) {
 
-                if (p.getPassengers() != null) {
-                    p.setCooldown(Material.BARRIER, 20);
-                    p.eject();
-                }
+                p.getPassengers();
+                p.setCooldown(Material.BARRIER, 20);
+                p.eject();
             }
         }
     }
-
 }

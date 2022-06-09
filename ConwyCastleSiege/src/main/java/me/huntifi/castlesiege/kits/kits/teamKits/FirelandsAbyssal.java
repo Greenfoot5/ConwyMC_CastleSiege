@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits.teamKits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -11,17 +12,16 @@ import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseConfig;
-import me.libraryaddict.disguise.disguisetypes.DisguiseType;
-import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.*;
+import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.LargeFireball;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -41,13 +41,13 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class FirelandsAbyssal extends MapKit implements Listener {
-    /**
-     * Create a kit with basic settings
-     *
-     */
+
+    private FallingBlock magma;
+    private Fireball ball;
+    private Player shooter;
+
     public FirelandsAbyssal() {
-        super("Abyssal", 200, 3);
-        super.mapSpecificKits.add("Abyssal");
+        super("Abyssal", 200, 3, "Firelands", "Burning Legion");
         super.canCap = true;
         super.canClimb = false;
         super.canSeeHealth = true;
@@ -87,9 +87,6 @@ public class FirelandsAbyssal extends MapKit implements Listener {
         super.killMessage[0] = "You crushed ";
         super.killMessage[1] = " to death ";
 
-        super.playableWorld = "Firelands";
-        super.teamName = "Burning Legion";
-
     }
 
 
@@ -113,12 +110,6 @@ public class FirelandsAbyssal extends MapKit implements Listener {
         playerDisguise.startDisguise();
         NameTag.give(p);
     }
-
-    private FallingBlock magma;
-
-    private Fireball ball;
-
-    private Player shooter;
 
     public void spawnMagmaProjectile(Player p) {
 
@@ -158,7 +149,7 @@ public class FirelandsAbyssal extends MapKit implements Listener {
         if (magma == null) { return; }
         Location eye = p.getEyeLocation();
         Location loc = eye.add(eye.getDirection().multiply(1.2));
-        ball = (Fireball) p.getWorld().spawn(loc, Fireball.class);
+        ball = p.getWorld().spawn(loc, Fireball.class);
         ball.addPassenger(magma);
         ball.setShooter(p);
         ball.setYield(0.1F);
@@ -178,7 +169,7 @@ public class FirelandsAbyssal extends MapKit implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     private void FireballDamage(EntityDamageByEntityEvent e) {
         if (e.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE) || e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION)) {
             if (e.getDamager() instanceof Fireball) {
@@ -208,7 +199,6 @@ public class FirelandsAbyssal extends MapKit implements Listener {
                             == MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
                         e.setCancelled(true);
                         e.setDamage(0);
-                        return;
                     }
                 }
             }
@@ -243,8 +233,7 @@ public class FirelandsAbyssal extends MapKit implements Listener {
                                 spawnMagmaProjectile(p);
                                 launchProjectile(p);
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't launch your magma block just yet."));
+                        Messenger.sendActionError(ChatColor.BOLD + "You can't launch your magma block just yet.", p);
                     }
                 }
             }

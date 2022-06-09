@@ -58,7 +58,7 @@ public class Viking extends Kit implements Listener {
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
                 ChatColor.GREEN + "Chainmail Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders

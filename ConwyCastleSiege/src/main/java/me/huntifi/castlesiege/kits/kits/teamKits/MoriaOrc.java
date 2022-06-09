@@ -27,8 +27,7 @@ public class MoriaOrc extends MapKit implements Listener {
 
 
     public MoriaOrc() {
-        super("Moria Orc", 130, 4);
-        super.mapSpecificKits.add("Moria Orc");
+        super("Moria Orc", 130, 4, "Moria", "The Orcs");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -62,7 +61,7 @@ public class MoriaOrc extends MapKit implements Listener {
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(68, 65, 16));
 
@@ -94,10 +93,6 @@ public class MoriaOrc extends MapKit implements Listener {
         // Death Messages
         super.projectileDeathMessage[0] = "You were shot to death by ";
         super.projectileKillMessage[0] = "You shot ";
-
-        super.playableWorld = "Moria";
-        super.teamName = "The Orcs";
-
     }
 
     /**

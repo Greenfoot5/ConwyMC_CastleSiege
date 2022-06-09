@@ -27,12 +27,12 @@ public class Archer extends Kit {
 
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
-				ChatColor.GREEN + "Dagger", null, null, 27.5);
+				ChatColor.GREEN + "Dagger", null, null, 33);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
 						ChatColor.GREEN + "Dagger",
 						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 29.5),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 35),
 				0);
 
 		// Chestplate
@@ -49,7 +49,7 @@ public class Archer extends Kit {
 		// Voted Boots
 		es.votedFeet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
 				ChatColor.GREEN + "Leather Boots",
-				Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
+				Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders

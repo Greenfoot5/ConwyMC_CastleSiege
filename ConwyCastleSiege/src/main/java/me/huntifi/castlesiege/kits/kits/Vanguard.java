@@ -74,7 +74,7 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
         // Voted boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider +2"),
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(99, 179, 101));
 

@@ -10,7 +10,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
-import me.huntifi.castlesiege.maps.Team;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -40,13 +39,6 @@ public abstract class Kit implements CommandExecutor {
     public int baseHealth;
     protected int kbResistance = 0;
     protected double regenAmount;
-
-    //map for the map specific kits and the team
-    protected String playableWorld;
-    protected String teamName;
-
-    //Collection of map specific kits
-    public static ArrayList<String> mapSpecificKits = new ArrayList<String>();
 
     public boolean canCap;
     public boolean canClimb;

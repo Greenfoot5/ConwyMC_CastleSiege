@@ -375,7 +375,7 @@ rohan:
         - "§5MAP: Helm's Deep"
         - "§5TEAM: §2Rohan"
       location: 21
-      command: "HelmsdeepLancer"
+      command: "HelmsDeepLancer"
     ranged_cavalry:
       name: "§a§lCLASS:§r§a Ranged Cavalry"
       material: "BOW"
@@ -391,7 +391,7 @@ rohan:
         - "§5MAP: Helm's Deep"
         - "§5TEAM: §2Rohan"
       location: 23
-      command: "HelmsdeepRangedCavalry"
+      command: "HelmsDeepRangedCavalry"
     back:
       name: "§4§lGo Back"
       material: "BARRIER"
@@ -419,7 +419,7 @@ uruk-hai:
         - "§5MAP: Helm's Deep"
         - "§5TEAM: §8Uruk-Hai"
       location: 22
-      command: "HelmsdeepBerserker"
+      command: "HelmsDeepBerserker"
     back:
       name: "§4§lGo Back"
       material: "BARRIER"
