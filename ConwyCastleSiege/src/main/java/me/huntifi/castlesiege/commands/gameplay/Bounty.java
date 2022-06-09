@@ -52,6 +52,7 @@ public class Bounty implements CommandExecutor {
         Player payee = (Player) sender;
         if (!ActiveData.getData(payee.getUniqueId()).takeCoins(amount)) {
             Messenger.sendError("You don't have enough coins to do that!", sender);
+            return true;
         }
         int totalBounty = ActiveData.getData(bountied.getUniqueId()).getAndAddBounty(amount);
         Messenger.broadcastPaidBounty(NameTag.color(payee) + payee.getName(),
