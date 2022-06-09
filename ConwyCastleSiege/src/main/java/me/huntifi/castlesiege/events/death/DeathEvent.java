@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.death;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.gameplay.Bounty;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
@@ -134,6 +135,11 @@ public class DeathEvent implements Listener {
         if (assist != null) {
             UpdateStats.addAssist(assist);
             assistMessage(assist, target);
+            if (killer != null) {
+                Bounty.grantRewards(target, killer, Bukkit.getPlayer(assist));
+            }
+        } else if (killer != null ) {
+            Bounty.grantRewards(target, killer);
         }
     }
 

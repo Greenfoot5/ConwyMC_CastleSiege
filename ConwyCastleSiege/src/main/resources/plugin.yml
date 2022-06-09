@@ -126,6 +126,9 @@ commands:
     description: commit die
     usage: /suicide
     aliases: sui
+  Bounty:
+    description: Add a bounty to a player
+    usage: /bounty <player> [amount]
 
   # Info
   CoinMultiplier:
