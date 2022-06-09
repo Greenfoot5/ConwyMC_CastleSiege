@@ -16,16 +16,26 @@ public class Bounty implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (args.length != 2) {
+        if (args.length != 2 && args.length != 1) {
             return false;
         }
 
         Player bountied = Bukkit.getPlayer(args[0]);
-        int amount = Integer.parseInt(args[1]);
         if (bountied == null) {
             Messenger.sendError("That's not a valid player!", sender);
             return true;
-        } else if (amount < 100) {
+        }
+
+        if (args.length == 1) {
+            int amount = ActiveData.getData(bountied.getUniqueId()).getBounty();
+            sender.sendMessage(ChatColor.GOLD + "[B] " + ChatColor.YELLOW + NameTag.color(bountied) + bountied.getName()
+                    + ChatColor.YELLOW + " has a bounty of "
+                    + ChatColor.GOLD + amount + ChatColor.YELLOW + " coins on their head.");
+            return true;
+        }
+
+        int amount = Integer.parseInt(args[1]);
+        if (amount < 100) {
             Messenger.sendError("Bounties must be at least 100!", sender);
             return true;
         }

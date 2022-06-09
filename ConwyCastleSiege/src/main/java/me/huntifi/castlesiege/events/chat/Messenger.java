@@ -116,13 +116,13 @@ public class Messenger {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
                 + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " was killed by "
                 + killer + ChatColor.YELLOW + " with some help from " + assistant + " and they have claimed "
-                + ChatColor.GOLD + amount + ChatColor.YELLOW + " for the kill!");
+                + ChatColor.GOLD + amount + ChatColor.YELLOW + " coins for the kill!");
     }
 
     public static void broadcastBountyClaimed(String bountied, String killer, int amount) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
                 + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " was killed by "
                 + killer + ChatColor.YELLOW + " and they have claimed "
-                + ChatColor.GOLD + amount + ChatColor.YELLOW + " for the kill!");
+                + ChatColor.GOLD + amount + ChatColor.YELLOW + " coins for the kill!");
     }
 }
