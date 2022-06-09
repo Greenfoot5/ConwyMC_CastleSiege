@@ -4,7 +4,6 @@ import me.huntifi.castlesiege.Main;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -115,8 +114,8 @@ public class Messenger {
     public static void broadcastBountyClaimed(String bountied, String killer, String assistant, int amount) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
                 + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " was killed by "
-                + killer + ChatColor.YELLOW + " with some help from " + assistant + " and they have claimed "
-                + ChatColor.GOLD + amount + ChatColor.YELLOW + " coins for the kill!");
+                + killer + ChatColor.YELLOW + " with some help from " + assistant + ChatColor.YELLOW +  " and they have shared "
+                + ChatColor.GOLD + amount + ChatColor.YELLOW + " coins between them for the kill!");
     }
 
     public static void broadcastBountyClaimed(String bountied, String killer, int amount) {

@@ -83,7 +83,7 @@ public class Bounty implements CommandExecutor {
 
         int assistAmount = bounty / 3;
         ActiveData.getData(assist.getUniqueId()).addCoinsClean(assistAmount);
-        ActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty = assistAmount);
+        ActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty - assistAmount);
 
         Messenger.broadcastBountyClaimed(NameTag.color(bountied) + bountied.getName(),
                 NameTag.color(killer) + killer.getName(), NameTag.color(assist) + assist.getName(), bounty);
