@@ -111,4 +111,18 @@ public class Messenger {
                 + ChatColor.YELLOW + "! Their bounty has increased by " + amount + ". It's now at "
                 + ChatColor.GOLD + total + ChatColor.YELLOW + "!");
     }
+
+    public static void broadcastBountyClaimed(String bountied, String killer, String assistant, int amount) {
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
+                + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " was killed by "
+                + killer + ChatColor.YELLOW + " with some help from " + assistant + " and they have claimed "
+                + ChatColor.GOLD + amount + ChatColor.YELLOW + " for the kill!");
+    }
+
+    public static void broadcastBountyClaimed(String bountied, String killer, int amount) {
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
+                + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " was killed by "
+                + killer + ChatColor.YELLOW + " and they have claimed "
+                + ChatColor.GOLD + amount + ChatColor.YELLOW + " for the kill!");
+    }
 }

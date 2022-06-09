@@ -451,6 +451,10 @@ public class PlayerData {
         this.coins += coins * coinMultiplier;
     }
 
+    public void addCoinsClean(double coins) {
+        this.coins += coins;
+    }
+
     public boolean takeCoins(double amount) {
         if (this.coins < amount) {
             return false;

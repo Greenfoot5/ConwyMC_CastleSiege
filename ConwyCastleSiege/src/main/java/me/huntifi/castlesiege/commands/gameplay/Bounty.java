@@ -48,4 +48,34 @@ public class Bounty implements CommandExecutor {
                 NameTag.color(bountied) + bountied.getName(), amount, totalBounty);
         return true;
     }
+
+    public static void grantRewards(Player bountied, Player killer) {
+        int bounty = ActiveData.getData(bountied.getUniqueId()).getBountyAndClear();
+        if (bounty <= 0) {
+            return;
+        }
+
+        ActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty);
+        Messenger.broadcastBountyClaimed(NameTag.color(bountied) + bountied.getName(),
+                NameTag.color(killer) + killer.getName(), bounty);
+    }
+
+    public static void grantRewards(Player bountied, Player killer, Player assist) {
+        if (assist == null) {
+            grantRewards(bountied, killer);
+            return;
+        }
+
+        int bounty = ActiveData.getData(bountied.getUniqueId()).getBountyAndClear();
+        if (bounty <= 0) {
+            return;
+        }
+
+        int assistAmount = bounty / 3;
+        ActiveData.getData(assist.getUniqueId()).addCoinsClean(assistAmount);
+        ActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty = assistAmount);
+
+        Messenger.broadcastBountyClaimed(NameTag.color(bountied) + bountied.getName(),
+                NameTag.color(killer) + killer.getName(), NameTag.color(assist) + assist.getName(), bounty);
+    }
 }
