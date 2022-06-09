@@ -123,12 +123,9 @@ public class SwitchCommand implements CommandExecutor {
 					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)");
 			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
 
-			p.teleport(team.lobby.spawnPoint);
-
 		} else {
 
 			//Teleport to new lobby with full health
-			p.teleport(team.lobby.spawnPoint);
 			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
 			p.sendMessage("You switched to " + team.primaryChatColor + team.name);
 
@@ -143,5 +140,7 @@ public class SwitchCommand implements CommandExecutor {
 		} else {
 			Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
 		}
+
+		p.teleport(team.lobby.spawnPoint);
 	}
 }
