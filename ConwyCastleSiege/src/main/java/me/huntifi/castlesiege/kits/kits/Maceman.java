@@ -98,9 +98,9 @@ public class Maceman extends Kit implements Listener {
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
                     MapController.getCurrentMap().getTeam(q.getUniqueId())
                             != MapController.getCurrentMap().getTeam(p.getUniqueId()) &&
-                    q.getInventory().getItemInMainHand().getType() == Material.IRON_SHOVEL &&
-                    q.getCooldown(Material.IRON_SHOVEL) == 0) {
-                q.setCooldown(Material.IRON_SHOVEL, 200);
+                    q.getInventory().getItemInMainHand().getType() == Material.DIAMOND_SHOVEL &&
+                    q.getCooldown(Material.DIAMOND_SHOVEL) == 0) {
+                q.setCooldown(Material.DIAMOND_SHOVEL, 200);
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {

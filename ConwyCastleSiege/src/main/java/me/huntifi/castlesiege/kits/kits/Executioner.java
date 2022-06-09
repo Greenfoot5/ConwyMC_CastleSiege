@@ -93,7 +93,7 @@ public class Executioner extends Kit implements Listener {
 
 			// Executioner hits with axe
 			if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name) &&
-					whoHit.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
+					whoHit.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE) {
 
 				AttributeInstance healthAttribute = whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 				assert healthAttribute != null;

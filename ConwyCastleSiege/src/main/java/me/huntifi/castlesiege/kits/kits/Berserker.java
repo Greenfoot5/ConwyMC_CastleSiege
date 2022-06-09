@@ -46,7 +46,7 @@ public class Berserker extends Kit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        regularSword = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
+        regularSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword", null, null, 37);
         es.hotbar[0] = regularSword;
         // Voted Weapon
