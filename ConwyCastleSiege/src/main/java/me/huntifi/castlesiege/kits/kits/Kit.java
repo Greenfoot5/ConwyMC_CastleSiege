@@ -177,6 +177,7 @@ public abstract class Kit implements CommandExecutor {
         setItems(uuid);
         equippedKits.put(uuid, this);
         ActiveData.getData(uuid).setKit(this.name);
+        player.sendMessage(ChatColor.YELLOW + "Kit: " + Kit.equippedKits.get(player));
 
         assert player != null;
         // Kills the player if they have spawned this life, otherwise heal them
