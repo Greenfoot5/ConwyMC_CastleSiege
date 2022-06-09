@@ -65,7 +65,7 @@ public class PlayerChat implements Listener {
 	private void playTagSound(Player player) {
 		Location location = player.getLocation();
 
-		Sound effect = Sound.BLOCK_NOTE_BLOCK_BASEDRUM;
+		Sound effect = Sound.BLOCK_NOTE_BLOCK_BELL;
 
 		float volume = 1f; //1 = 100%
 		float pitch = 0.5f; //Float between 0.5 and 2.0
