@@ -119,6 +119,8 @@ public class DeathEvent implements Listener {
         if (killer != null) {
             UpdateStats.addKill(killer.getUniqueId());
             AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
+            // Check for bounty
+            Bounty.killstreak(killer);
 
             // Kill and death messages
             Kit kit = Kit.equippedKits.get(killer.getUniqueId());

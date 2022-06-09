@@ -88,4 +88,30 @@ public class Bounty implements CommandExecutor {
         Messenger.broadcastBountyClaimed(NameTag.color(bountied) + bountied.getName(),
                 NameTag.color(killer) + killer.getName(), NameTag.color(assist) + assist.getName(), bounty);
     }
+
+    public static void killstreak(Player killer) {
+        int amount = 25;
+        switch (ActiveData.getData(killer.getUniqueId()).getKillStreak()) {
+            case 5:
+                amount *= 2;
+                break;
+            case 10:
+                amount *= 4;
+                break;
+            case 15:
+                amount *= 8;
+                break;
+            case 20:
+                amount *= 6;
+                break;
+            case 35:
+                amount *= 10;
+                break;
+        }
+        if (amount != 25) {
+            int total = ActiveData.getData(killer.getUniqueId()).getAndAddBounty(amount);
+            Messenger.broadcastKillstreakBounty(NameTag.color(killer) + killer.getName(),
+                    ActiveData.getData(killer.getUniqueId()).getKillStreak(), amount, total);
+        }
+    }
 }
