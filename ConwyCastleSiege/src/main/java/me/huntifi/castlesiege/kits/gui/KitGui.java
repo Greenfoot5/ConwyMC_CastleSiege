@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -66,7 +67,9 @@ public class KitGui implements Listener {
         // Perform the command that belongs to the clicked item slot
         String c = command.get(e.getSlot());
         if (c != null) {
+            p.closeInventory();
             p.performCommand(c);
+            p.sendMessage(ChatColor.YELLOW + "Kit: " + Kit.equippedKits.get(p));
         }
     }
 }
