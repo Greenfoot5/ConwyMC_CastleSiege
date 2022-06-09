@@ -1650,6 +1650,8 @@ Thunderstone:
       x: 90
       y: 86
       z: 106
+      yaw: -110
+      pitch: 0
     hologram_location:
       x: 92
       y: 89
@@ -1846,6 +1848,8 @@ Thunderstone:
       x: 166
       y: 154
       z: 68
+      yaw: -45
+      pitch: 0
     hologram_location:
       x: 169
       y: 157
@@ -2104,6 +2108,8 @@ Thunderstone:
       x: 182
       y: 92
       z: 83
+      yaw: 180
+      pitch: 0
     hologram_location:
       x: 179
       y: 100
@@ -2455,6 +2461,8 @@ Thunderstone:
       x: 123
       y: 97
       z: 55
+      yaw: 0
+      pitch: 1
     hologram_location:
       x: 130
       y: 101
@@ -2806,6 +2814,8 @@ Thunderstone:
       x: 230
       y: 116
       z: 82
+      yaw: 180
+      pitch: 0
     hologram_location:
       x: 246
       y: 121
@@ -3157,6 +3167,8 @@ Thunderstone:
       x: 292
       y: 74
       z: 83
+      yaw: 90
+      pitch: 0
     hologram_location:
       x: 279
       y: 113
@@ -3508,6 +3520,8 @@ Thunderstone:
       x: 156
       y: 97
       z: 82
+      yaw: -90
+      pitch: 0
     hologram_location:
       x: 158
       y: 101
@@ -4308,6 +4322,8 @@ Elwynn:
       x: -97
       y: 79
       z: -6
+      yaw: 0
+      pitch: 0
     hologram_location:
       x: -116
       y: 84
@@ -14669,7 +14685,7 @@ RoyalCrypts:
     spawn_point:
       x: -958
       y: 60
-      z: 674
+      z: 671
       yaw: -1
       pitch: 0
     hologram_location:
