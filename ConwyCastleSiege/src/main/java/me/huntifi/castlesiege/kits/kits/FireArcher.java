@@ -82,7 +82,7 @@ public class FireArcher extends VoterKit implements Listener {
         // Bow
         es.hotbar[0] = ItemCreator.item(new ItemStack(Material.BOW),
                 ChatColor.GREEN + "Bow", null,
-                Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 16)));
+                Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 9)));
 
         // Firepit
         firepit = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
@@ -91,7 +91,7 @@ public class FireArcher extends VoterKit implements Listener {
                         ChatColor.AQUA + "right click it with an arrow.", "",
                         ChatColor.AQUA + "(tip): This firepit is very hard, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 20.5);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 26);
         es.hotbar[1] = firepit;
         // Voted Firepit
         firepitVoted = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
@@ -102,7 +102,7 @@ public class FireArcher extends VoterKit implements Listener {
                         ChatColor.AQUA + "(tip): This firepit is very hard, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
-                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 18.5);
+                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 28);
         es.votedWeapon = new Tuple<>(firepitVoted, 1);
 
         // Arrows

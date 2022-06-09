@@ -38,7 +38,7 @@ public class Viking extends Kit implements Listener {
                 ChatColor.GREEN + "Giant Battle Axe", null, null, 30);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
+                ItemCreator.weapon(new ItemStack(Material.STONE_AXE),
                         ChatColor.GREEN + "Giant Battle Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 30),

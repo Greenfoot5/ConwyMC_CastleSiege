@@ -35,14 +35,14 @@ public class Executioner extends Kit implements Listener {
 		super.heldItemSlot = 0;
                 
 		// Weapon
-		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-				ChatColor.GREEN + "Iron Axe", null, null, 34.5);
+		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
+				ChatColor.GREEN + "Iron Axe", null, null, 40);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
+				ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
 						ChatColor.GREEN + "Iron Axe",
 						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 36.5),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 42),
 				0);
                 
 		// Chestplate

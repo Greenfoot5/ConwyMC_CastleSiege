@@ -28,14 +28,14 @@ public class Skirmisher extends VoterKit {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword", null, null, 31.5);
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
+                ChatColor.GREEN + "Iron Sword", null, null, 37);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                         ChatColor.GREEN + "Iron Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 33.5),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 39),
                 0);
 
         // Chestplate

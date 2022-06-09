@@ -37,14 +37,14 @@ public class Halberdier extends Kit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                ChatColor.GREEN + "Halberd", null, null, 35.5);
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
+                ChatColor.GREEN + "Halberd", null, null, 41);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
+                ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
                         ChatColor.GREEN + "Halberd",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37.5),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 42),
                 0);
 
         // Chestplate

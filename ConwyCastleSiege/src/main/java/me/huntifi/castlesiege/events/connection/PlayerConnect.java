@@ -7,7 +7,6 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.*;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
@@ -63,6 +62,11 @@ public class PlayerConnect implements Listener {
         // Assign stored kit
         InCombat.playerDied(uuid);
         p.performCommand(data.getKit());
+        if (Kit.equippedKits.get(uuid) == null) {
+            Kit.equippedKits.remove(uuid);
+            Kit.equippedKits.put(uuid, new Swordsman());
+            ActiveData.getData(uuid).setKit("swordsman");
+        }
         p.setExp(0);
 
         // Update the names stored in the database
@@ -81,13 +85,6 @@ public class PlayerConnect implements Listener {
             p.sendMessage(ChatColor.DARK_RED + "Welcome to Castle Siege!");
             p.sendMessage(ChatColor.DARK_PURPLE + "There are currently " + Bukkit.getOnlinePlayers().size() + " player(s) online.");
             p.sendMessage(ChatColor.DARK_PURPLE + "The max amount of players is 100.");
-        }
-
-        //If the player is using a map specific kit it shall be removed.
-        if (Kit.equippedKits.get(uuid) instanceof MapKit) {
-            Kit.equippedKits.remove(uuid);
-            Kit.equippedKits.put(uuid, new Swordsman());
-            ActiveData.getData(uuid).setKit("swordsman");
         }
     }
 
