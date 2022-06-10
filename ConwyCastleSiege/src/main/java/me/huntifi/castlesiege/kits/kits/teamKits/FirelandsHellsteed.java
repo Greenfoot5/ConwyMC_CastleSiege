@@ -13,12 +13,12 @@ import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.HorseWatcher;
+import net.citizensnpcs.api.npc.NPC;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Horse;
-import org.bukkit.entity.NPC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -179,7 +179,13 @@ public class FirelandsHellsteed extends MapKit implements Listener {
             Player p = event.getPlayer();
             Player clicked = (Player) event.getRightClicked();
 
-            clicked.getUniqueId();
+            if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+                return;
+            }
+
+            if (clicked.getUniqueId() == null || Kit.equippedKits.get(clicked.getUniqueId()).name == null) {
+                return;
+            }
             if (Objects.equals(Kit.equippedKits.get(clicked.getUniqueId()).name, name)
                     && MapController.getCurrentMap().getTeam(clicked.getUniqueId())
                     == MapController.getCurrentMap().getTeam(p.getUniqueId())) {

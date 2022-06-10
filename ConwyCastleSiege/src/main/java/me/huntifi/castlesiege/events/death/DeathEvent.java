@@ -50,6 +50,10 @@ public class DeathEvent implements Listener {
         Player player = event.getPlayer();
         Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
 
+        if (player.getPassengers() != null) {
+            player.eject();
+        }
+
         if (team == null && MapController.isSpectator(player.getUniqueId())) {
             event.setRespawnLocation(MapController.getCurrentMap().flags[0].spawnPoint);
         }

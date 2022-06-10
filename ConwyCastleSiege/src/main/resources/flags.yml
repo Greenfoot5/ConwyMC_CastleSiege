@@ -14683,9 +14683,9 @@ RoyalCrypts:
     progress_amount: 0
     scoreboard: 1
     spawn_point:
-      x: -958
-      y: 60
-      z: 671
+      x: -958.5
+      y: 61
+      z: 671.5
       yaw: -1
       pitch: 0
     hologram_location:

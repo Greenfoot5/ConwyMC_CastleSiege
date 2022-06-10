@@ -35,8 +35,8 @@ public class Bounty implements CommandExecutor {
         }
 
         int amount = Integer.parseInt(args[1]);
-        if (amount < 100) {
-            Messenger.sendError("Bounties must be at least 100!", sender);
+        if (amount < 25) {
+            Messenger.sendError("Bounties must be at least 25!", sender);
             return true;
         }
 
@@ -94,19 +94,19 @@ public class Bounty implements CommandExecutor {
         int amount = 25;
         switch (ActiveData.getData(killer.getUniqueId()).getKillStreak()) {
             case 5:
-                amount *= 2;
+                amount *= 1;
                 break;
             case 10:
-                amount *= 4;
+                amount *= 2;
                 break;
             case 15:
-                amount *= 8;
+                amount *= 3;
                 break;
             case 20:
-                amount *= 6;
+                amount *= 4;
                 break;
             case 35:
-                amount *= 10;
+                amount *= 7;
                 break;
         }
         if (amount != 25) {
