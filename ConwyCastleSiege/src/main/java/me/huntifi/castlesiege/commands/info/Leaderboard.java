@@ -48,6 +48,9 @@ public class Leaderboard implements CommandExecutor {
             case "TopKills":
                 category = "kills";
                 break;
+            case "Bounties":
+                category = "bounty";
+                break;
             default:
                 sender.sendMessage(ChatColor.DARK_RED + "Something went wrong! Please contact an administrator.");
                 return true;

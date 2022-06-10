@@ -100,28 +100,27 @@ public class Messenger {
     public static void broadcastPaidBounty(String payee, String bountied, int amount, int total) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
                 + ChatColor.YELLOW + payee + ChatColor.YELLOW + " added " + amount + " to " + ChatColor.GOLD + bountied
-                + ChatColor.YELLOW + "'s bounty! Their total bounty is "
+                + ChatColor.YELLOW + "'s bounty! The total is "
                 + ChatColor.GOLD + total + ChatColor.YELLOW + "!");
     }
 
     public static void broadcastKillstreakBounty(String bountied, int kills, int amount, int total) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
-                + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " has achieved a kill streak of " + ChatColor.AQUA + kills
-                + ChatColor.YELLOW + "! Their bounty has increased by " + amount + ". It's now at "
-                + ChatColor.GOLD + total + ChatColor.YELLOW + "!");
+                + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " has reached a " + ChatColor.AQUA + kills
+                + ChatColor.YELLOW + " kill streak! Their bounty has to " + ChatColor.GOLD + total + ChatColor.YELLOW + "!");
     }
 
     public static void broadcastBountyClaimed(String bountied, String killer, String assistant, int amount) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
                 + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " was killed by "
-                + killer + ChatColor.YELLOW + " with some help from " + assistant + ChatColor.YELLOW +  " and they have shared "
-                + ChatColor.GOLD + amount + ChatColor.YELLOW + " coins between them for the kill!");
+                + killer + ChatColor.YELLOW + " and " + assistant + ChatColor.YELLOW +  "! They shared the "
+                + ChatColor.GOLD + amount + ChatColor.YELLOW + " bounty between them.");
     }
 
     public static void broadcastBountyClaimed(String bountied, String killer, int amount) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
                 + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " was killed by "
-                + killer + ChatColor.YELLOW + " and they have claimed "
-                + ChatColor.GOLD + amount + ChatColor.YELLOW + " coins for the kill!");
+                + killer + ChatColor.YELLOW + " and they claimed the "
+                + ChatColor.GOLD + amount + ChatColor.YELLOW + " bounty!");
     }
 }

@@ -50,9 +50,7 @@ public class DeathEvent implements Listener {
         Player player = event.getPlayer();
         Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
 
-        if (player.getPassengers() != null) {
-            player.eject();
-        }
+        player.eject();
 
         if (team == null && MapController.isSpectator(player.getUniqueId())) {
             event.setRespawnLocation(MapController.getCurrentMap().flags[0].spawnPoint);
@@ -144,7 +142,7 @@ public class DeathEvent implements Listener {
             if (killer != null) {
                 Bounty.grantRewards(target, killer, Bukkit.getPlayer(assist));
             }
-        } else if (killer != null ) {
+        } else if (killer != null) {
             Bounty.grantRewards(target, killer);
         }
     }

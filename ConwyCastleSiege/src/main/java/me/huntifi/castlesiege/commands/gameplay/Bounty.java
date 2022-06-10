@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class Bounty implements CommandExecutor {
 
+    private static final int MIN_BOUNTY = 25;
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (args.length != 2 && args.length != 1) {
@@ -35,8 +37,8 @@ public class Bounty implements CommandExecutor {
         }
 
         int amount = Integer.parseInt(args[1]);
-        if (amount < 25) {
-            Messenger.sendError("Bounties must be at least 25!", sender);
+        if (amount < MIN_BOUNTY) {
+            Messenger.sendError("Bounties must be at least " + MIN_BOUNTY + "!", sender);
             return true;
         }
 
@@ -91,25 +93,25 @@ public class Bounty implements CommandExecutor {
     }
 
     public static void killstreak(Player killer) {
-        int amount = 25;
+        int amount = 0;
         switch (ActiveData.getData(killer.getUniqueId()).getKillStreak()) {
             case 5:
-                amount = 30;
+                amount = 10;
                 break;
             case 10:
-                amount *= 2;
+                amount = 20;
                 break;
             case 15:
-                amount *= 3;
+                amount = 30;
                 break;
             case 20:
-                amount *= 4;
+                amount = 40;
                 break;
             case 35:
-                amount *= 7;
+                amount = 70;
                 break;
         }
-        if (amount != 25) {
+        if (amount > 0) {
             int total = ActiveData.getData(killer.getUniqueId()).getAndAddBounty(amount);
             Messenger.broadcastKillstreakBounty(NameTag.color(killer) + killer.getName(),
                     ActiveData.getData(killer.getUniqueId()).getKillStreak(), amount, total);

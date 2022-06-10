@@ -180,6 +180,11 @@ commands:
   TopKills:
     description: Shows the kills leaderboard
     usage: /topkills <position>
+  Bounties:
+    description: Shows the bounties leaderboard
+    usage: /bounties <position>
+    aliases:
+      - topbounty
 
 
   # Staff - Punishments
