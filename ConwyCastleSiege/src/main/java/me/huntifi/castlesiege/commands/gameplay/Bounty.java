@@ -94,7 +94,7 @@ public class Bounty implements CommandExecutor {
         int amount = 25;
         switch (ActiveData.getData(killer.getUniqueId()).getKillStreak()) {
             case 5:
-                amount *= 1;
+                amount = 30;
                 break;
             case 10:
                 amount *= 2;

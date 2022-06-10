@@ -159,6 +159,9 @@ commands:
   Teams:
     description: Shows the size and name of all teams on the current map
     usage: /teams
+  Whois:
+    description: Returns all previous names of a player!
+    usage: /whois
 
   # Leaderboards
   Top:

@@ -14,6 +14,7 @@ import me.huntifi.castlesiege.commands.chat.*;
 import me.huntifi.castlesiege.commands.donator.*;
 import me.huntifi.castlesiege.commands.gameplay.*;
 import me.huntifi.castlesiege.commands.info.*;
+import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
 import me.huntifi.castlesiege.commands.staff.*;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
 import me.huntifi.castlesiege.data_types.Frame;
@@ -199,6 +200,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
                 Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
+                Objects.requireNonNull(getCommand("whois")).setExecutor(new WhoisCommand());
 
                 // Leaderboards
                 Objects.requireNonNull(getCommand("Top")).setExecutor(new Leaderboard());
