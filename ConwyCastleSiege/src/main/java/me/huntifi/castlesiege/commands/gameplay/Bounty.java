@@ -1,6 +1,9 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
+import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
@@ -10,14 +13,25 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
 
 public class Bounty implements CommandExecutor {
 
     private static final int MIN_BOUNTY = 25;
+    private static final int MIN_CLAIM = 100;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        if (command.getName().equals("Bounties")) {
+            return bounties(sender, args);
+        }
+
         if (args.length != 2 && args.length != 1) {
             return false;
         }
@@ -62,6 +76,48 @@ public class Bounty implements CommandExecutor {
         return true;
     }
 
+    private boolean bounties(@NotNull CommandSender sender, @NotNull String[] args) {
+        int requested;
+        try {
+            requested = args.length == 0 ? 0 : Integer.parseInt(args[0]);
+        } catch (NumberFormatException e) {
+            Messenger.sendError("Use /bounty to get the bounty for a player!", sender);
+            return false;
+        }
+        int finalRequested = requested;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    int offset = finalRequested < 6 ? 0 : Math.min(finalRequested - 5, 90);
+
+                    Tuple<PreparedStatement, ResultSet> top = LoadData.getTop("bounty", offset);
+
+                    // Send header
+                    sender.sendMessage(ChatColor.AQUA + "#. Player " + ChatColor.GOLD + "Bounty");
+
+                    // Send entries
+                    DecimalFormat num = new DecimalFormat("0");
+                    int pos = offset;
+                    while (top.getSecond().next()) {
+                        pos++;
+                        ChatColor color = pos == finalRequested ? ChatColor.AQUA : ChatColor.DARK_AQUA;
+                        sender.sendMessage(ChatColor.GRAY + num.format(pos) + ". " +
+                                color + top.getSecond().getString("name") + " " +
+                                ChatColor.GOLD + top.getSecond().getInt("bounty"));
+                    }
+                    top.getFirst().close();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    sender.sendMessage(ChatColor.DARK_RED +
+                            "Something went wrong! Please contact an administrator if this issue persists.");
+                }
+            }
+        }.runTaskAsynchronously(Main.plugin);
+        return true;
+    }
+
     public static void grantRewards(Player bountied, Player killer) {
         int bounty = ActiveData.getData(bountied.getUniqueId()).getBountyAndClear();
         if (bounty <= 0) {
@@ -88,8 +144,10 @@ public class Bounty implements CommandExecutor {
         ActiveData.getData(assist.getUniqueId()).addCoinsClean(assistAmount);
         ActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty - assistAmount);
 
-        Messenger.broadcastBountyClaimed(NameTag.color(bountied) + bountied.getName(),
-                NameTag.color(killer) + killer.getName(), NameTag.color(assist) + assist.getName(), bounty);
+        if (bounty >= MIN_CLAIM) {
+            Messenger.broadcastBountyClaimed(NameTag.color(bountied) + bountied.getName(),
+                    NameTag.color(killer) + killer.getName(), NameTag.color(assist) + assist.getName(), bounty);
+        }
     }
 
     public static void killstreak(Player killer) {

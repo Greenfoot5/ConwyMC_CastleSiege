@@ -189,6 +189,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Suicide")).setExecutor(new SuicideCommand());
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("Bounty")).setExecutor(new Bounty());
+                Objects.requireNonNull(getCommand("Bounties")).setExecutor(new Bounty());
 
                 // Info
                 Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
@@ -207,7 +208,6 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopCaptures")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopDeaths")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopKills")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("Bounties")).setExecutor(new Leaderboard());
 
                 // Staff - Punishments
                 Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());

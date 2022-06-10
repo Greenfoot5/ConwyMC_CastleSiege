@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.commands.info;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.LoadData;
-import org.bukkit.Bukkit;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,9 +15,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
 
 /**
  * Shows the player the leaderboard
@@ -48,9 +45,6 @@ public class Leaderboard implements CommandExecutor {
             case "TopKills":
                 category = "kills";
                 break;
-            case "Bounties":
-                category = "bounty";
-                break;
             default:
                 sender.sendMessage(ChatColor.DARK_RED + "Something went wrong! Please contact an administrator.");
                 return true;
@@ -63,7 +57,7 @@ public class Leaderboard implements CommandExecutor {
                 display(sender, category, Integer.parseInt(args[0]));
             } catch (NumberFormatException e) {
                 // TODO - player specified
-                sender.sendMessage(ChatColor.DARK_RED + "Searching by player is currently not supported!");
+                Messenger.sendError("Searching by player is currently not supported!", sender);
             }
         }
 
