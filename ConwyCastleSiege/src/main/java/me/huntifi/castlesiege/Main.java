@@ -281,6 +281,7 @@ public class Main extends JavaPlugin implements Listener {
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MapBorder(), 0, 80);
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
                 //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
 
@@ -612,6 +613,10 @@ public class Main extends JavaPlugin implements Listener {
                 map.gamemode = Gamemode.valueOf(config.getString(mapRoute.add("gamemode")));
                 map.startTime = config.getInt(mapRoute.add("start_time"), 0);
                 map.daylightCycle = config.getBoolean(mapRoute.add("doDaylightCycle"), true);
+                //map.northZ = config.getDouble(mapRoute.add("northborder"), 0.0);
+                //map.southZ = config.getDouble(mapRoute.add("southborder"), 0.0);
+                //map.westX = config.getDouble(mapRoute.add("westborder"), 0.0);
+                //map.eastX = config.getDouble(mapRoute.add("eastborder"), 0.0);
 
                 // World Data
                 createWorld(map.worldName);
