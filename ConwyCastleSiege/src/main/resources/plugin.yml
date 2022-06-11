@@ -117,11 +117,8 @@ commands:
   # Gameplay
   Switch:
     description: Switches teams.
-    usage: /switch
+    usage: /switch [team name]
     aliases: sw
-  SaveMap:
-    description: Saves any changes made to the current map
-    usage: /savemap
   Suicide:
     description: commit die
     usage: /suicide
@@ -289,6 +286,11 @@ commands:
   Spectate:
     description: Makes you, or another player, a spectator.
     usage: /spectate [player]
+    permission: castlesiege.chatmod+
+    permission-message: You are not permitted to use this command!
+  ForceSwitch:
+    description: Forefully switches a player to a different team
+    usage: /forceswitch <player> [team name]
     permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
 

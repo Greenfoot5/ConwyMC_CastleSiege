@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.MapKit;
@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
@@ -17,6 +18,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -27,7 +29,10 @@ import java.util.Objects;
 public class SwitchCommand implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, @NotNull String[] args) {
+		if (cmd.getName().equals("ForceSwitch")) {
+			return forceSwitch(args);
+		}
 		if (sender instanceof ConsoleCommandSender) {
 			sender.sendMessage("Console cannot join a team!");
 			return true;
@@ -44,33 +49,10 @@ public class SwitchCommand implements CommandExecutor {
 		if (p.hasPermission("castlesiege.esquire")) {
 			// If the player hasn't specified a team, swap to the next one
 			if (args.length == 0) {
-				// Switch to the next team
-				int index = 0;
-				for (int i = 0; i < map.teams.length; i++) {
-					if (map.teams[i].hasPlayer(p.getUniqueId())) {
-						index = i;
-					}
-				}
-
-				// If we're looping
-				index++;
-				if (index == map.teams.length) {
-					map.teams[index - 1].removePlayer(p.getUniqueId());
-					map.teams[0].addPlayer(p.getUniqueId());
-				} else {
-					map.teams[index - 1].removePlayer(p.getUniqueId());
-					map.teams[index].addPlayer(p.getUniqueId());
-				}
+				switchToNextTeam(map, p);
 			} else {
-				// The player has specified a team, and we should swap to that if it's a valid team
-				Team team = map.getTeam(String.join(" ", args));
-				if (team != null) {
-					map.getTeam(p.getUniqueId()).removePlayer(p.getUniqueId());
-					team.addPlayer(p.getUniqueId());
-				} else {
-					p.sendMessage(ChatColor.DARK_AQUA + Arrays.toString(args) + ChatColor.RED + " isn't a valid team name!");
+				if (switchToSpecificTeam(map, p, args))
 					return true;
-				}
 			}
 
 			// Spawn the player in their new lobby
@@ -89,7 +71,7 @@ public class SwitchCommand implements CommandExecutor {
 		Team oldTeam = MapController.getCurrentMap().getTeam(p.getUniqueId());
 		Team smallestTeam = MapController.getCurrentMap().smallestTeam();
 		if (oldTeam == smallestTeam) {
-			p.sendMessage(ChatColor.RED + "Can't switch right now teams would be imbalanced. Donators avoid this restriction!");
+			Messenger.sendError("Can't switch right now teams would be imbalanced. Donators avoid this restriction!", p);
 			return true;
 		}
 
@@ -116,19 +98,21 @@ public class SwitchCommand implements CommandExecutor {
 
 		//Check what type of switch it is (on battlefield or not?)
 		if (deaths > 0) {
-
 			//Set player health to 0 and teleport them to their new lobby
 			p.setHealth(0);
 			p.sendMessage("You switched to " + team.primaryChatColor + team.name +
 					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)");
 			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
 
-		} else {
-
+		} else if (deaths == 0){
 			//Teleport to new lobby with full health
 			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
 			p.sendMessage("You switched to " + team.primaryChatColor + team.name);
 
+		} else {
+			//Teleport to new lobby with full health
+			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+			p.sendMessage("You were forcefully switched to " + team.primaryChatColor + team.name);
 		}
 
 		// Remove any team specific kits
@@ -142,5 +126,61 @@ public class SwitchCommand implements CommandExecutor {
 		}
 
 		p.teleport(team.lobby.spawnPoint);
+	}
+
+	private void switchToNextTeam(Map map, Player p) {
+		// Switch to the next team
+		int index = 0;
+		for (int i = 0; i < map.teams.length; i++) {
+			if (map.teams[i].hasPlayer(p.getUniqueId())) {
+				index = i;
+			}
+		}
+
+		// If we're looping
+		index++;
+		if (index == map.teams.length) {
+			map.teams[index - 1].removePlayer(p.getUniqueId());
+			map.teams[0].addPlayer(p.getUniqueId());
+		} else {
+			map.teams[index - 1].removePlayer(p.getUniqueId());
+			map.teams[index].addPlayer(p.getUniqueId());
+		}
+	}
+
+	private boolean forceSwitch(@NotNull String[] args) {
+		Player p = Bukkit.getPlayer(args[0]);
+
+		if (p != null && MapController.isSpectator((p).getUniqueId())) {
+			p.sendMessage("Spectators don't have a team! Remove them from a spectator first!");
+			return true;
+		}
+
+		Map map = MapController.getCurrentMap();
+		// If the player hasn't specified a team, swap to the next one
+		if (args.length == 1) {
+			switchToNextTeam(map, p);
+		} else {
+			if (switchToSpecificTeam(map, p, Arrays.copyOfRange(args, 1, args.length)))
+				return true;
+		}
+
+		// Spawn the player in their new lobby
+		assert p != null;
+		spawnPlayer(p, -1);
+		return true;
+	}
+
+	private boolean switchToSpecificTeam(Map map, Player p, String[] args) {
+		// The player has specified a team, and we should swap to that if it's a valid team
+		Team team = map.getTeam(String.join(" ", args));
+		if (team != null) {
+			map.getTeam(p.getUniqueId()).removePlayer(p.getUniqueId());
+			team.addPlayer(p.getUniqueId());
+		} else {
+			Messenger.sendError(ChatColor.DARK_AQUA + Arrays.toString(args) + ChatColor.RED + " isn't a valid team name!", p);
+			return true;
+		}
+		return false;
 	}
 }

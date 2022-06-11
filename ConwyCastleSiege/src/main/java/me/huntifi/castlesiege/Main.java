@@ -185,7 +185,6 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("JoinMessage")).setExecutor(new JoinMessage());
 
                 // Gameplay
-                Objects.requireNonNull(getCommand("SaveMap")).setExecutor(new MapController());
                 Objects.requireNonNull(getCommand("Suicide")).setExecutor(new SuicideCommand());
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("Bounty")).setExecutor(new Bounty());
@@ -232,6 +231,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("StaffChat")).setExecutor(new StaffChat());
                 Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());
                 Objects.requireNonNull(getCommand("Spectate")).setExecutor(new SpectateCommand());
+                Objects.requireNonNull(getCommand("ForceSwitch")).setExecutor(new SwitchCommand());
 
                 // Kits
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());

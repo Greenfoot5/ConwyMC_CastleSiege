@@ -3,14 +3,13 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.staff.SpectateCommand;
 import me.huntifi.castlesiege.commands.info.MVPCommand;
+import me.huntifi.castlesiege.commands.staff.SpectateCommand;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.castlesiege.events.gameplay.Explosion;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.kits.kits.Swordsman;
@@ -20,16 +19,10 @@ import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameRule;
 import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +33,7 @@ import static org.bukkit.Bukkit.*;
 /**
  * Manages what map the game is currently on
  */
-public class MapController implements CommandExecutor {
+public class MapController {
 
 	public static List<Map> maps = new ArrayList<>();
 	public static int mapIndex = 0;
@@ -462,25 +455,4 @@ public class MapController implements CommandExecutor {
 		}
 	}
 
-	/**
-	 * Save map command.
-	 * Saves the current map to the backup save
-	 * TODO - FIX!
-	 */
-	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-		if (sender instanceof ConsoleCommandSender || (sender instanceof Player
-				&& "AdminDeveloperModerator".contains((ActiveData.getData(((Player) sender).getUniqueId()).getStaffRank()))))
-		{
-			sender.sendMessage(ChatColor.DARK_AQUA + "Saving world: " + getCurrentMap().worldName);
-
-			Objects.requireNonNull(getWorld(getCurrentMap().worldName)).save();
-			copyFileStructure(new File(Bukkit.getWorldContainer(), getCurrentMap().worldName + "_save"), Objects.requireNonNull(getWorld(getCurrentMap().worldName)).getWorldFolder());
-
-			sender.sendMessage(ChatColor.GREEN + "Saved " + getCurrentMap().worldName + "!");
-		} else {
-			Messenger.sendError("You don't have permission to do that!", sender);
-		}
-		return true;
-	}
 }
