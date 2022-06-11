@@ -29,7 +29,7 @@ public class Ladderman extends VoterKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Ladderman() {
-        super("Ladderman", 185, 5);
+        super("Ladderman", 185, 7);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

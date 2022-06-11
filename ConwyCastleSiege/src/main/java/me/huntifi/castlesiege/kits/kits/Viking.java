@@ -27,7 +27,7 @@ public class Viking extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Viking() {
-        super("Viking", 195, 5);
+        super("Viking", 195, 7);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

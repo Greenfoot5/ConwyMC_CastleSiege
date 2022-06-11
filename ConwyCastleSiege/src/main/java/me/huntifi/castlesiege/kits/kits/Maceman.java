@@ -32,7 +32,7 @@ public class Maceman extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Maceman() {
-        super("Maceman", 170, 5);
+        super("Maceman", 170, 7);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

@@ -19,7 +19,7 @@ public class Archer extends Kit {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Archer() {
-		super("Archer", 130, 4);
+		super("Archer", 130, 6);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();

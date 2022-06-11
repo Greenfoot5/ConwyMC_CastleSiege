@@ -37,7 +37,7 @@ public class Cavalry extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Cavalry() {
-        super("Cavalry", 170, 5);
+        super("Cavalry", 170, 7);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

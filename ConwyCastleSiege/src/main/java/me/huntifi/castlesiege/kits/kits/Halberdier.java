@@ -29,7 +29,7 @@ public class Halberdier extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Halberdier() {
-        super("Halberdier", 360, 14);
+        super("Halberdier", 360, 16);
         super.kbResistance = 2;
 
         // Equipment Stuff

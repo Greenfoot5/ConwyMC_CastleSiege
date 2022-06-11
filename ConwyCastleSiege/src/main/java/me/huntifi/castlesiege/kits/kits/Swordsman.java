@@ -19,7 +19,7 @@ public class Swordsman extends Kit {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Swordsman() {
-		super("Swordsman", 200, 5.5);
+		super("Swordsman", 200, 7.5);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();

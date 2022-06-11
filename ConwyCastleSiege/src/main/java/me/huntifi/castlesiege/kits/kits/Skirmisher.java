@@ -21,7 +21,7 @@ public class Skirmisher extends VoterKit {
      * Set the equipment and attributes of this kit
      */
     public Skirmisher() {
-        super("Skirmisher", 185, 5);
+        super("Skirmisher", 185, 7);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

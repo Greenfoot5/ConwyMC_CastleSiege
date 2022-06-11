@@ -49,13 +49,13 @@ import java.util.*;
 public class Engineer extends Kit implements Listener {
 
     private static final HashMap<Player, ArrayList<Block>> traps = new HashMap<>();
-    private static final HashMap<Player, Tuple<Location, Boolean>> ballistae = new HashMap<>();
+    private static final HashMap<Player, Tuple<Location, Boolean>> ballista = new HashMap<>();
 
     /**
      * Set the equipment and attributes of this kit
      */
     public Engineer() {
-        super("Engineer", 145, 4);
+        super("Engineer", 145, 6);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -230,7 +230,7 @@ public class Engineer extends Kit implements Listener {
         // Check if engineer tries to pick up
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
                 e.getAction() == Action.LEFT_CLICK_BLOCK &&
-                e.getClickedBlock().getType() == Material.STONE_PRESSURE_PLATE) {
+                Objects.requireNonNull(e.getClickedBlock()).getType() == Material.STONE_PRESSURE_PLATE) {
 
             // Check if player is the trap's owner
             if (!traps.containsKey(p) || !traps.get(p).contains(e.getClickedBlock())) {
@@ -273,7 +273,7 @@ public class Engineer extends Kit implements Listener {
                 return;
             }
 
-            ballistae.put((Player) e.getEntered(), new Tuple<>(dispenserFace, false));
+            ballista.put((Player) e.getEntered(), new Tuple<>(dispenserFace, false));
         }
     }
 
@@ -283,10 +283,10 @@ public class Engineer extends Kit implements Listener {
      */
     @EventHandler
     public void onFireBallista(PlayerInteractEvent e) {
-        if (ballistae.containsKey(e.getPlayer()) &&
+        if (ballista.containsKey(e.getPlayer()) &&
                 (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK)) {
             Player p = e.getPlayer();
-            Tuple<Location, Boolean> ballista = ballistae.get(p);
+            Tuple<Location, Boolean> ballista = Engineer.ballista.get(p);
 
             // On cooldown
             if (ballista.getSecond()) {
@@ -311,7 +311,7 @@ public class Engineer extends Kit implements Listener {
     @EventHandler (priority = EventPriority.LOWEST)
     public void onHitBallista(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player
-                && ballistae.containsKey((Player) e.getEntity().getShooter())) {
+                && ballista.containsKey((Player) e.getEntity().getShooter())) {
 
             Player shooter = (Player) e.getEntity().getShooter();
             Team team = MapController.getCurrentMap().getTeam(shooter.getUniqueId());
@@ -332,7 +332,7 @@ public class Engineer extends Kit implements Listener {
     @EventHandler
     public void onExitBallista(VehicleExitEvent e) {
         if (e.getExited() instanceof Player) {
-            ballistae.remove((Player) e.getExited());
+            ballista.remove((Player) e.getExited());
             BarCooldown.remove(e.getExited().getUniqueId());
         }
     }
@@ -345,7 +345,7 @@ public class Engineer extends Kit implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         destroyAllTraps(e.getEntity());
-        ballistae.remove(e.getEntity());
+        ballista.remove(e.getEntity());
     }
 
     /**
@@ -356,7 +356,7 @@ public class Engineer extends Kit implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         destroyAllTraps(e.getPlayer());
-        ballistae.remove(e.getPlayer());
+        ballista.remove(e.getPlayer());
     }
 
     /**
@@ -481,7 +481,7 @@ public class Engineer extends Kit implements Listener {
      * @param p The player
      */
     private void ballistaCooldown(Player p) {
-        Tuple<Location, Boolean> ballista = ballistae.get(p);
+        Tuple<Location, Boolean> ballista = Engineer.ballista.get(p);
         ballista.setSecond(true);
         BarCooldown.add(p.getUniqueId(), 80);
 

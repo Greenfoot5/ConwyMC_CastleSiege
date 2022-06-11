@@ -48,7 +48,7 @@ public class Medic extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Medic() {
-        super("Medic", 130, 6);
+        super("Medic", 130, 8);
         super.canSeeHealth = true;
 
         // Equipment Stuff
