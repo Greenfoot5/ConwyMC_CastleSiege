@@ -204,7 +204,7 @@ public class Medic extends Kit implements Listener {
 
                 // Eat cake
                 p.setFoodLevel(17);
-                p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 4));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
 
                 // Send messages and award heal
                 if (q != null && !Objects.equals(p, q)) {
@@ -264,10 +264,10 @@ public class Medic extends Kit implements Listener {
                 public void run() {
                     cooldown.remove(r);
                 }
-            }.runTaskLater(Main.plugin, 40);
+            }.runTaskLater(Main.plugin, 100);
 
             // Heal
-            r.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 4));
+            r.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
             r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                      NameTag.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(

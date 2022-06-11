@@ -23,7 +23,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -41,7 +40,7 @@ public class Warhound extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Warhound() {
-        super("Warhound", 90, 5);
+        super("Warhound", 80, 5);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;
