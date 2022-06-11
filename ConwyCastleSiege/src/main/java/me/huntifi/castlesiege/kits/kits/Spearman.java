@@ -35,7 +35,7 @@ public class Spearman extends Kit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Spearman() {
-		super("Spearman", 180, 5);
+		super("Spearman", 170, 5);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();

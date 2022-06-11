@@ -594,6 +594,9 @@ public class Main extends JavaPlugin implements Listener {
             MapController.disableSwitching = gameConfig.getBoolean(route.add("disable_switching"), MapController.disableSwitching);
             if (gameConfig.contains(route.add("maps"))) {
                 MapController.setMaps(gameConfig.getStringList(route.add("maps")));
+                if (gameConfig.getBoolean(route.add("shuffle_maps"), false)) {
+                    Collections.shuffle(MapController.maps);
+                }
             }
         }
     }
