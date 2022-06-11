@@ -117,9 +117,9 @@ public class MapController implements CommandExecutor {
 
 				mapIndex = i;
 
-				loadMap();
 				if (!oldMap.equals(mapName))
 					unloadMap(oldMap);
+				loadMap();
 				return;
 			}
 		}
@@ -224,10 +224,11 @@ public class MapController implements CommandExecutor {
 		else {
 			mapIndex++;
 			getLogger().info("Loading next map: " + maps.get(mapIndex).name);
-			loadMap();
 			if (!oldMap.equals(maps.get(mapIndex).name)) {
 				unloadMap(oldMap);
 			}
+			loadMap();
+
 		}
 	}
 
@@ -275,14 +276,7 @@ public class MapController implements CommandExecutor {
 					joinATeam(player.getUniqueId());
 					//If the player is using a map specific kit it shall be removed
 					// and they will be given swordsman instead.
-					Kit kit = Kit.equippedKits.get(player.getUniqueId());
-					if (kit instanceof MapKit) {
-						Kit.equippedKits.remove(player.getUniqueId());
-						Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
-						ActiveData.getData(player.getUniqueId()).setKit("swordsman");
-					} else {
-						Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
-					}
+					checkMapKit(player);
 				}
 			}
 		} else {
@@ -305,6 +299,7 @@ public class MapController implements CommandExecutor {
 					if (maps.get(mapIndex).getTeam(player.getUniqueId()) == null) {
 						joinATeam(player.getUniqueId());
 					}
+					checkMapKit(player);
 				}
 			}
 		}
@@ -326,6 +321,17 @@ public class MapController implements CommandExecutor {
 
 		// Start the timer!
 		timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond());
+	}
+
+	private static void checkMapKit(Player player) {
+		Kit kit = Kit.equippedKits.get(player.getUniqueId());
+		if (kit instanceof MapKit) {
+			Kit.equippedKits.remove(player.getUniqueId());
+			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
+			ActiveData.getData(player.getUniqueId()).setKit("swordsman");
+		} else {
+			Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+		}
 	}
 
 	/**

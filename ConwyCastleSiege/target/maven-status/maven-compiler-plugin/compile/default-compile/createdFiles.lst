@@ -1,5 +1,6 @@
-me\huntifi\castlesiege\commands\mojang\PreviousPLayerNameEntry.class
-me\huntifi\castlesiege\commands\mojang\WhoisCommand.class
-me\huntifi\castlesiege\commands\mojang\PreviousPLayerNameEntry$PreviousPlayerNameEntry.class
-me\huntifi\castlesiege\commands\mojang\WhoisCommand$1.class
-me\huntifi\castlesiege\commands\mojang\NameLookup.class
+me/huntifi/castlesiege/commands/gameplay/Bounty$1.class
+me/huntifi/castlesiege/commands/mojang/NameLookup.class
+me/huntifi/castlesiege/commands/mojang/PreviousPLayerNameEntry$PreviousPlayerNameEntry.class
+me/huntifi/castlesiege/commands/mojang/PreviousPLayerNameEntry.class
+me/huntifi/castlesiege/commands/mojang/WhoisCommand$1.class
+me/huntifi/castlesiege/commands/mojang/WhoisCommand.class
