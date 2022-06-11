@@ -1,15 +1,7 @@
-<<<<<<< HEAD
 me/huntifi/castlesiege/commands/gameplay/Bounty$1.class
 me/huntifi/castlesiege/commands/mojang/NameLookup.class
 me/huntifi/castlesiege/commands/mojang/PreviousPLayerNameEntry$PreviousPlayerNameEntry.class
+me/huntifi/castlesiege/maps/MapBorder.class
 me/huntifi/castlesiege/commands/mojang/PreviousPLayerNameEntry.class
 me/huntifi/castlesiege/commands/mojang/WhoisCommand$1.class
 me/huntifi/castlesiege/commands/mojang/WhoisCommand.class
-=======
-me\huntifi\castlesiege\commands\mojang\PreviousPLayerNameEntry.class
-me\huntifi\castlesiege\commands\mojang\WhoisCommand.class
-me\huntifi\castlesiege\maps\MapBorder.class
-me\huntifi\castlesiege\commands\mojang\PreviousPLayerNameEntry$PreviousPlayerNameEntry.class
-me\huntifi\castlesiege\commands\mojang\WhoisCommand$1.class
-me\huntifi\castlesiege\commands\mojang\NameLookup.class
->>>>>>> 299fec56c87583469fd5d3a8847cae4e428efc4e

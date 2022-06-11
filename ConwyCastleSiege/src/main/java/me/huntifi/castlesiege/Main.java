@@ -232,6 +232,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());
                 Objects.requireNonNull(getCommand("Spectate")).setExecutor(new SpectateCommand());
                 Objects.requireNonNull(getCommand("ForceSwitch")).setExecutor(new SwitchCommand());
+                Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new SwitchCommand());
 
                 // Kits
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
@@ -590,6 +591,7 @@ public class Main extends JavaPlugin implements Listener {
         MapController.isMatch = gameConfig.getBoolean(route.add("enabled"), MapController.isMatch);
         if (MapController.isMatch) {
             MapController.keepTeams = gameConfig.getBoolean(route.add("keep_teams"), MapController.keepTeams);
+            MapController.disableSwitching = gameConfig.getBoolean(route.add("disable_switching"), MapController.disableSwitching);
             if (gameConfig.contains(route.add("maps"))) {
                 MapController.setMaps(gameConfig.getStringList(route.add("maps")));
             }

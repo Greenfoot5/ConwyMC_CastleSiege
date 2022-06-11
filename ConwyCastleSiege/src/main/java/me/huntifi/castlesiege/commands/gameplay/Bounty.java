@@ -172,7 +172,7 @@ public class Bounty implements CommandExecutor {
         if (amount > 0) {
             int total = ActiveData.getData(killer.getUniqueId()).getAndAddBounty(amount);
             Messenger.broadcastKillstreakBounty(NameTag.color(killer) + killer.getName(),
-                    ActiveData.getData(killer.getUniqueId()).getKillStreak(), amount, total);
+                    ActiveData.getData(killer.getUniqueId()).getKillStreak(), total);
         }
     }
 }

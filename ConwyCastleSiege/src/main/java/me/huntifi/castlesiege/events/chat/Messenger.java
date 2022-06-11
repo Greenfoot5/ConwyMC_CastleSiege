@@ -26,14 +26,6 @@ public class Messenger {
                 TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + message));
     }
 
-    /**
-     * Broadcasts an error message to everyone on the server
-     * @param message The error message
-     */
-    public static void broadcastError(String message) {
-        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + message);
-    }
-
     public static void sendWarning(String message, @NotNull CommandSender sender) {
         sender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.RED + message);
     }
@@ -94,7 +86,11 @@ public class Messenger {
     }
 
     public static void sendInfo(String message, @NotNull CommandSender sender) {
-        sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.AQUA + message);
+        sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.GREEN + message);
+    }
+
+    public static void broadcastInfo(String message) {
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[i] " + ChatColor.GREEN + message);
     }
 
     public static void broadcastPaidBounty(String payee, String bountied, int amount, int total) {
@@ -104,7 +100,7 @@ public class Messenger {
                 + ChatColor.GOLD + total + ChatColor.YELLOW + "!");
     }
 
-    public static void broadcastKillstreakBounty(String bountied, int kills, int amount, int total) {
+    public static void broadcastKillstreakBounty(String bountied, int kills, int total) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
                 + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " has reached a " + ChatColor.AQUA + kills
                 + ChatColor.YELLOW + " kill streak! Their bounty has to " + ChatColor.GOLD + total + ChatColor.YELLOW + "!");

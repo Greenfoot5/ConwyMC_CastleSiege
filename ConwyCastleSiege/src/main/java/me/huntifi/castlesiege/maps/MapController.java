@@ -49,6 +49,7 @@ public class MapController {
 	public static boolean isMatch = false;
 	public static boolean keepTeams = false;
 	private static final ArrayList<ArrayList<UUID>> teams = new ArrayList<>();
+	public static boolean disableSwitching = false;
 
 	/**
 	 * Begins the map loop

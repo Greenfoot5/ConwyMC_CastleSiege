@@ -33,11 +33,26 @@ public class SwitchCommand implements CommandExecutor {
 		if (cmd.getName().equals("ForceSwitch")) {
 			return forceSwitch(args);
 		}
+		if (cmd.getName().equals("ToggleSwitching")) {
+			if (args.length == 1) {
+				MapController.disableSwitching = Boolean.getBoolean(args[0]);
+			} else {
+				MapController.disableSwitching = !MapController.disableSwitching;
+			}
+			Messenger.broadcastInfo("Switching is now " + (MapController.disableSwitching ? "disabled." : "enabled."));
+			return true;
+		}
+
+		if (MapController.disableSwitching) {
+			Messenger.sendError("Switching teams is currently disabled!", sender);
+			return true;
+		}
+
 		if (sender instanceof ConsoleCommandSender) {
 			sender.sendMessage("Console cannot join a team!");
 			return true;
 		} else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
-			sender.sendMessage("Spectators don't have a team!");
+			Messenger.sendError("Spectators don't have a team!", sender);
 			return true;
 		}
 
@@ -100,19 +115,19 @@ public class SwitchCommand implements CommandExecutor {
 		if (deaths > 0) {
 			//Set player health to 0 and teleport them to their new lobby
 			p.setHealth(0);
-			p.sendMessage("You switched to " + team.primaryChatColor + team.name +
-					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)");
+			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name +
+					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)", p);
 			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
 
 		} else if (deaths == 0){
 			//Teleport to new lobby with full health
 			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
-			p.sendMessage("You switched to " + team.primaryChatColor + team.name);
+			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name, p);
 
 		} else {
 			//Teleport to new lobby with full health
 			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
-			p.sendMessage("You were forcefully switched to " + team.primaryChatColor + team.name);
+			Messenger.sendInfo("You were forcefully switched to " + team.primaryChatColor + team.name, p);
 		}
 
 		// Remove any team specific kits
@@ -152,7 +167,7 @@ public class SwitchCommand implements CommandExecutor {
 		Player p = Bukkit.getPlayer(args[0]);
 
 		if (p != null && MapController.isSpectator((p).getUniqueId())) {
-			p.sendMessage("Spectators don't have a team! Remove them from a spectator first!");
+			Messenger.sendError("Spectators don't have a team! Remove them from a spectator first!", p);
 			return true;
 		}
 

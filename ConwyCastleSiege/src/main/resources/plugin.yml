@@ -293,6 +293,11 @@ commands:
     usage: /forceswitch <player> [team name]
     permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
+  ToggleSwitching:
+    description: Disables/Enables non-forceful switching
+    usage: /toggleswitching [true/false]
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
 
   # Kits
   Kit:
