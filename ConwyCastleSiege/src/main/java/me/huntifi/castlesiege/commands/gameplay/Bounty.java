@@ -1,9 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
@@ -91,7 +89,11 @@ public class Bounty implements CommandExecutor {
                 try {
                     int offset = finalRequested < 6 ? 0 : Math.min(finalRequested - 5, 90);
 
-                    Tuple<PreparedStatement, ResultSet> top = LoadData.getTop("bounty", offset);
+                    PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                            "SELECT * FROM player_stats ORDER BY bounty DESC LIMIT 10 OFFSET ?");
+                    ps.setInt(1, offset);
+
+                    ResultSet rs = ps.executeQuery();
 
                     // Send header
                     sender.sendMessage(ChatColor.AQUA + "#. Player " + ChatColor.GOLD + "Bounty");
@@ -99,14 +101,14 @@ public class Bounty implements CommandExecutor {
                     // Send entries
                     DecimalFormat num = new DecimalFormat("0");
                     int pos = offset;
-                    while (top.getSecond().next()) {
+                    while (rs.next()) {
                         pos++;
                         ChatColor color = pos == finalRequested ? ChatColor.AQUA : ChatColor.DARK_AQUA;
                         sender.sendMessage(ChatColor.GRAY + num.format(pos) + ". " +
-                                color + top.getSecond().getString("name") + " " +
-                                ChatColor.GOLD + top.getSecond().getInt("bounty"));
+                                color + rs.getString("name") + " " +
+                                ChatColor.GOLD + rs.getInt("bounty"));
                     }
-                    top.getFirst().close();
+                    ps.close();
 
                 } catch (SQLException e) {
                     e.printStackTrace();
