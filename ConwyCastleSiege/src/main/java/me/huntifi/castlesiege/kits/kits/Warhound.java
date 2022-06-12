@@ -142,17 +142,14 @@ public class Warhound extends Kit implements Listener {
             // Prevent movement
             AttributeInstance kb = p.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);
             assert kb != null;
-            double kbValue = kb.getBaseValue();
-            float walkSpeed = p.getWalkSpeed();
-
             kb.setBaseValue(2);
             p.setWalkSpeed(0);
 
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    kb.setBaseValue(kbValue);
-                    p.setWalkSpeed(walkSpeed);
+                    kb.setBaseValue(Kit.equippedKits.get(p.getUniqueId()).kbResistance);
+                    p.setWalkSpeed(0.2f);
                 }
             }.runTaskLater(Main.plugin, 80);
         }
