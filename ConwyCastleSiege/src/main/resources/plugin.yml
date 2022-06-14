@@ -59,6 +59,8 @@ permissions:
       castlesiege.esquire: true
   castlesiege.esquire:
     description: Gives access to all CastleSiege Esquire commands
+  castlesiege.vip:
+    description: Gives access to all CastleSiege VIP commands
 
 commands:
   # TODO - These command have yet to be reimplemented
