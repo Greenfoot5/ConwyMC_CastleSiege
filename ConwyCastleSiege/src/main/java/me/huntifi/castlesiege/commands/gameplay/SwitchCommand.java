@@ -85,7 +85,7 @@ public class SwitchCommand implements CommandExecutor {
 		// Get the next team in the loop with fewer players
 		Team oldTeam = MapController.getCurrentMap().getTeam(p.getUniqueId());
 		Team smallestTeam = MapController.getCurrentMap().smallestTeam();
-		if (oldTeam == smallestTeam) {
+		if (oldTeam.getTeamSize() <= smallestTeam.getTeamSize()) {
 			Messenger.sendError("Can't switch right now teams would be imbalanced. Donators avoid this restriction!", p);
 			return true;
 		}
