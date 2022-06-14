@@ -70,13 +70,14 @@ public class Main extends JavaPlugin implements Listener {
     public static MySQL SQL;
 
     private YamlDocument[] mapConfigs;
-    private YamlDocument flagsConfig;
-    private YamlDocument[] doorsConfig;
-    private YamlDocument gatesConfig;
+    private YamlDocument[] flagsConfigs;
+    private YamlDocument[] doorsConfigs;
+    private YamlDocument[] gatesConfigs;
+    private YamlDocument[] catapultsConfigs;
+
     private YamlDocument gameConfig;
     private YamlDocument kitsConfig;
 
-    private YamlDocument catapultsConfig;
 
     @Override
     public void onEnable() {
@@ -393,16 +394,30 @@ public class Main extends JavaPlugin implements Listener {
             getLogger().info("<!> Database is connected! <!>");
             this.getServer().getPluginManager().registerEvents(this, this);
         }
+
+        // Load bounties
+        Bounty.loadBounties();
     }
 
-    public YamlDocument getFlagsConfig() {
-        return this.flagsConfig;
+    public YamlDocument getFlagsConfig(Route flagPath) {
+        for (YamlDocument document : flagsConfigs) {
+            if (document.contains(flagPath)) {
+                return document;
+            }
+        }
+        return null;
     }
 
-    public YamlDocument getCatapultsConfig() { return this.catapultsConfig; }
+    public YamlDocument getCatapultsConfig(Route cataPath) {
+        for (YamlDocument document : catapultsConfigs) {
+        if (document.contains(cataPath)) {
+            return document;
+        }
+    }
+        return null;}
 
     public YamlDocument getDoorsConfig(Route mapPath) {
-        for (YamlDocument document : doorsConfig) {
+        for (YamlDocument document : doorsConfigs) {
             if (document.contains(mapPath)) {
                 return document;
             }
@@ -410,8 +425,13 @@ public class Main extends JavaPlugin implements Listener {
         return null;
     }
 
-    public YamlDocument getGatesConfig() {
-        return this.gatesConfig;
+    public YamlDocument getGatesConfig(Route gatePath) {
+        for (YamlDocument document : gatesConfigs) {
+            if (document.contains(gatePath)) {
+                return document;
+            }
+        }
+        return null;
     }
 
     /**
@@ -480,31 +500,13 @@ public class Main extends JavaPlugin implements Listener {
         };
         StandardSerializer.getDefault().register(Frame.class, frameAdapter);
 
-        // Load flags.yml with BoostedYAML
-        try {
-            flagsConfig = YamlDocument.create(new File(getDataFolder(), "flags.yml"),
-                    getClass().getResourceAsStream("flags.yml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        flagsConfigs = loadYMLs("flags");
 
-        doorsConfig = loadYMLs("doors");
+        doorsConfigs = loadYMLs("doors");
 
-        // Load gates.yml with BoostedYAML
-        try {
-            gatesConfig = YamlDocument.create(new File(getDataFolder(), "gates.yml"),
-                    getClass().getResourceAsStream("gates.yml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        gatesConfigs = loadYMLs("gates");
 
-        // Load catapults.yml with BoostedYAML
-        try {
-            catapultsConfig = YamlDocument.create(new File(getDataFolder(), "catapults.yml"),
-                    getClass().getResourceAsStream("catapults.yml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        catapultsConfigs = loadYMLs("catapults");
 
         mapConfigs = loadYMLs("maps");
 
@@ -654,43 +656,44 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private void loadFlags(Route mapRoute, Map map) {
-        String[] flagPaths = getPaths(getFlagsConfig(), mapRoute);
+        YamlDocument flagConfig = getFlagsConfig(mapRoute);
+        String[] flagPaths = getPaths(flagConfig, mapRoute);
 
         map.flags = new Flag[flagPaths.length];
         for (int i = 0; i < flagPaths.length; i++) {
             // Create the flag
             Route flagRoute = mapRoute.add(flagPaths[i]);
-            String name = getFlagsConfig().getString(flagRoute.add("name"));
+            String name = flagConfig.getString(flagRoute.add("name"));
             Flag flag;
-            if (getFlagsConfig().contains(flagRoute.add("start_amount"))) {
+            if (flagConfig.contains(flagRoute.add("start_amount"))) {
                 flag = new Flag(name,
-                        getFlagsConfig().getString(flagRoute.add("start_owners")),
-                        getFlagsConfig().getInt(flagRoute.add("max_cap")),
-                        getFlagsConfig().getInt(flagRoute.add("progress_amount")),
-                        getFlagsConfig().getInt(flagRoute.add("start_amount")));
+                        flagConfig.getString(flagRoute.add("start_owners")),
+                        flagConfig.getInt(flagRoute.add("max_cap")),
+                        flagConfig.getInt(flagRoute.add("progress_amount")),
+                        flagConfig.getInt(flagRoute.add("start_amount")));
             } else {
                 flag = new Flag(name,
-                        getFlagsConfig().getString(flagRoute.add("start_owners")),
-                        getFlagsConfig().getInt(flagRoute.add("max_cap")),
-                        getFlagsConfig().getInt(flagRoute.add("progress_amount")));
+                        flagConfig.getString(flagRoute.add("start_owners")),
+                        flagConfig.getInt(flagRoute.add("max_cap")),
+                        flagConfig.getInt(flagRoute.add("progress_amount")));
             }
 
             // Set the spawn point
-            flag.spawnPoint = getLocation(flagRoute.add("spawn_point"), map.worldName, flagsConfig);
+            flag.spawnPoint = getLocation(flagRoute.add("spawn_point"), map.worldName, flagConfig);
 
             //Hologram Location
-            flag.holoLoc = getLocation(flagRoute.add("hologram_location"), map.worldName, flagsConfig);
+            flag.holoLoc = getLocation(flagRoute.add("hologram_location"), map.worldName, flagConfig);
 
             // Set the capture area
             Route captureRoute = flagRoute.add("capture_area");
-            if (getFlagsConfig().contains(captureRoute)
-                    && getFlagsConfig().getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
-                BlockVector3 min = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("min").add("x")),
-                        getFlagsConfig().getInt(captureRoute.add("min").add("y")),
-                        getFlagsConfig().getInt(captureRoute.add("min").add("z")));
-                BlockVector3 max = BlockVector3.at(getFlagsConfig().getInt(captureRoute.add("max").add("x")),
-                        getFlagsConfig().getInt(captureRoute.add("max").add("y")),
-                        getFlagsConfig().getInt(captureRoute.add("max").add("z")));
+            if (flagConfig.contains(captureRoute)
+                    && flagConfig.getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
+                BlockVector3 min = BlockVector3.at(flagConfig.getInt(captureRoute.add("min").add("x")),
+                        flagConfig.getInt(captureRoute.add("min").add("y")),
+                        flagConfig.getInt(captureRoute.add("min").add("z")));
+                BlockVector3 max = BlockVector3.at(flagConfig.getInt(captureRoute.add("max").add("x")),
+                        flagConfig.getInt(captureRoute.add("max").add("y")),
+                        flagConfig.getInt(captureRoute.add("max").add("z")));
                 flag.region = new ProtectedCuboidRegion(flag.name.replace(' ', '_'), true, min, max);
 
                 flag.region.setFlag(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
@@ -700,19 +703,19 @@ public class Main extends JavaPlugin implements Listener {
                 //Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(map.worldName))))).addRegion(region);
             }
 
-            if (getFlagsConfig().contains(captureRoute)) {
-                flag.animationAir = getFlagsConfig().getBoolean(flagRoute.add("animation_air"));
+            if (flagConfig.contains(captureRoute)) {
+                flag.animationAir = flagConfig.getBoolean(flagRoute.add("animation_air"));
                 Route animationRoute = flagRoute.add("animation");
-                String[] animationPaths = getPaths(getFlagsConfig(), animationRoute);
+                String[] animationPaths = getPaths(flagConfig, animationRoute);
 
                 flag.animation = new Frame[animationPaths.length];
                 for (int j = 0; j < animationPaths.length; j++) {
-                    Frame frame = getFlagsConfig().getAs(animationRoute.add(animationPaths[j]), Frame.class);
+                    Frame frame = flagConfig.getAs(animationRoute.add(animationPaths[j]), Frame.class);
                     flag.animation[j] = frame;
                 }
             }
 
-            flag.scoreboard = getFlagsConfig().getInt(flagRoute.add("scoreboard"));
+            flag.scoreboard = flagConfig.getInt(flagRoute.add("scoreboard"));
 
             map.flags[i] = flag;
         }
@@ -830,47 +833,48 @@ public class Main extends JavaPlugin implements Listener {
 
 
     private void loadGates(Route mapRoute, Map map) {
-        if (!getGatesConfig().contains(mapRoute)) {
+        YamlDocument gateConfig = getGatesConfig(mapRoute);
+        if (!Objects.nonNull(gateConfig)) {
             map.gates = new Gate[0];
             return;
         }
-        String[] gatePaths = getPaths(getGatesConfig(), mapRoute);
+        String[] gatePaths = getPaths(gateConfig, mapRoute);
 
         map.gates = new Gate[gatePaths.length];
         for (int i = 0; i < gatePaths.length; i++) {
             // Create the gate
             Route gateRoute = mapRoute.add(gatePaths[i]);
-            Gate gate = new Gate(getGatesConfig().getString(gateRoute.add("display_name")));
-            gate.setFlagName(getGatesConfig().getString(gateRoute.add("flag_name")), map.name);
-            gate.setHealth(getGatesConfig().getInt(gateRoute.add("start_health")));
+            Gate gate = new Gate(gateConfig.getString(gateRoute.add("display_name")));
+            gate.setFlagName(gateConfig.getString(gateRoute.add("flag_name")), map.name);
+            gate.setHealth(gateConfig.getInt(gateRoute.add("start_health")));
 
-            gate.setHitBox(getGatesConfig().getAs(gateRoute.add("min"), Vector.class),
-                    getGatesConfig().getAs(gateRoute.add("max"), Vector.class));
-            gate.setSchematic(getGatesConfig().getString(gateRoute.add("schematic").add("name")),
-                    getGatesConfig().getAs(gateRoute.add("schematic").add("location"), Vector.class));
-            gate.setBreachSoundLocation(getGatesConfig().getAs(gateRoute.add("breach_sound"), Vector.class));
+            gate.setHitBox(gateConfig.getAs(gateRoute.add("min"), Vector.class),
+                    gateConfig.getAs(gateRoute.add("max"), Vector.class));
+            gate.setSchematic(gateConfig.getString(gateRoute.add("schematic").add("name")),
+                    gateConfig.getAs(gateRoute.add("schematic").add("location"), Vector.class));
+            gate.setBreachSoundLocation(gateConfig.getAs(gateRoute.add("breach_sound"), Vector.class));
 
             map.gates[i] = gate;
         }
     }
 
     private void loadCatapults(Route mapRoute, Map map) {
-
-        if (!getCatapultsConfig().contains(mapRoute)) {
+        YamlDocument cataConfig = getCatapultsConfig(mapRoute);
+        if (!Objects.nonNull(cataConfig)) {
             map.catapults = new Catapult[0];
             return;
         }
 
-        String[] catapultPaths = getPaths(getCatapultsConfig(), mapRoute);
+        String[] catapultPaths = getPaths(cataConfig, mapRoute);
 
         map.catapults = new Catapult[catapultPaths.length];
 
         for (int i = 0; i < catapultPaths.length; i++) {
 
             Route catapultRoute = mapRoute.add(catapultPaths[i]);
-            String world = getCatapultsConfig().getString(catapultRoute.add("world"));
-            String direction = getCatapultsConfig().getString(catapultRoute.add("direction"));
-            Vector location = getCatapultsConfig().getAs(catapultRoute.add("location"), Vector.class);
+            String world = cataConfig.getString(catapultRoute.add("world"));
+            String direction = cataConfig.getString(catapultRoute.add("direction"));
+            Vector location = cataConfig.getAs(catapultRoute.add("location"), Vector.class);
 
             Catapult catapult = new Catapult(world, direction, location);
             map.catapults[i] = catapult;

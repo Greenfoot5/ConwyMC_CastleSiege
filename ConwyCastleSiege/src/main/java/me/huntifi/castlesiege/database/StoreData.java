@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.gameplay.Bounty;
 import me.huntifi.castlesiege.commands.staff.RankPoints;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import org.bukkit.Bukkit;
@@ -29,7 +30,7 @@ public class StoreData {
 
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "UPDATE player_stats SET score = ?, kills = ?, deaths = ?, assists = ?, captures = ?, heals = ?, "
-                        + "supports = ?, coins = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ?, bounty = ? WHERE uuid = ?");
+                        + "supports = ?, coins = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ? WHERE uuid = ?");
         ps.setDouble(1, data.getScore());
         ps.setDouble(2, data.getKills());
         ps.setDouble(3, data.getDeaths());
@@ -43,8 +44,7 @@ public class StoreData {
         ps.setInt(11, data.getLevel());
         ps.setInt(12, data.getMaxKillStreak());
         ps.setString(13, data.getKit());
-        ps.setInt(14, data.getBounty());
-        ps.setString(15, uuid.toString());
+        ps.setString(14, uuid.toString());
         ps.executeUpdate();
         ps.close();
 
@@ -72,6 +72,7 @@ public class StoreData {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        Bounty.saveBounties();
     }
 
     /**

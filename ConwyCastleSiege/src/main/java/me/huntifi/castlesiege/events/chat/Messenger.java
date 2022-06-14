@@ -93,6 +93,10 @@ public class Messenger {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[i] " + ChatColor.GREEN + message);
     }
 
+    public static void sendBounty(String message, @NotNull CommandSender sender) {
+        sender.sendMessage(ChatColor.GOLD + "[B] " + ChatColor.YELLOW + message);
+    }
+
     public static void broadcastPaidBounty(String payee, String bountied, int amount, int total) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
                 + ChatColor.YELLOW + payee + ChatColor.YELLOW + " added " + amount + " to " + ChatColor.GOLD + bountied
@@ -103,20 +107,20 @@ public class Messenger {
     public static void broadcastKillstreakBounty(String bountied, int kills, int total) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
                 + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " has reached a " + ChatColor.AQUA + kills
-                + ChatColor.YELLOW + " kill streak! Their bounty has to " + ChatColor.GOLD + total + ChatColor.YELLOW + "!");
+                + ChatColor.YELLOW + " kill streak! Their bounty has increased to " + ChatColor.GOLD + total + ChatColor.YELLOW + "!");
     }
 
     public static void broadcastBountyClaimed(String bountied, String killer, String assistant, int amount) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
                 + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " was killed by "
                 + killer + ChatColor.YELLOW + " and " + assistant + ChatColor.YELLOW +  "! They shared the "
-                + ChatColor.GOLD + amount + ChatColor.YELLOW + " bounty between them.");
+                + ChatColor.GOLD + amount + ChatColor.YELLOW + " coin bounty between them.");
     }
 
     public static void broadcastBountyClaimed(String bountied, String killer, int amount) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
                 + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " was killed by "
                 + killer + ChatColor.YELLOW + " and they claimed the "
-                + ChatColor.GOLD + amount + ChatColor.YELLOW + " bounty!");
+                + ChatColor.GOLD + amount + ChatColor.YELLOW + " coin bounty!");
     }
 }

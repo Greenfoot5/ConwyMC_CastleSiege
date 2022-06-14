@@ -24,7 +24,6 @@ public class PlayerData {
     private int mvps;
     private int secrets;
     private String kit;
-    private int bounty;
     private int level;
     private double rankPoints;
     private String staffRank;
@@ -59,7 +58,6 @@ public class PlayerData {
         this.killStreak = 0;
         this.maxKillStreak = statsData.getInt("kill_streak");
         this.kit = statsData.getString("kit");
-        this.bounty = statsData.getInt("bounty");
 
         this.staffRank = rankData.getString("staff_rank").toLowerCase();
         this.rankPoints = rankData.getDouble("rank_points");
@@ -477,24 +475,5 @@ public class PlayerData {
      */
     public static void setCoinMultiplier(double multiplier) {
         coinMultiplier = multiplier;
-    }
-
-    public int getBounty() {
-        return bounty;
-    }
-
-    public int getAndAddBounty(int amount) {
-        bounty += amount;
-        return bounty;
-    }
-
-    public void addBounty(int amount) {
-        bounty += amount;
-    }
-
-    public int getBountyAndClear() {
-        int amount = bounty;
-        bounty = 0;
-        return amount;
     }
 }
