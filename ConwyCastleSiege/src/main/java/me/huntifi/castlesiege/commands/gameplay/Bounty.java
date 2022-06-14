@@ -251,7 +251,7 @@ public class Bounty implements CommandExecutor {
                         "UPDATE player_stats SET bounty = ? WHERE uuid = ?");
 
             ps.setInt(1, bounty.getSecond());
-            ps.setString(14, bounty.getFirst().toString());
+            ps.setString(2, bounty.getFirst().toString());
             ps.executeUpdate();
             ps.close();
             } catch (SQLException ignored) {}
