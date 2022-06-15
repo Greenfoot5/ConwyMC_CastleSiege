@@ -34,7 +34,7 @@ public class CryptsFallen extends MapKit implements Listener {
      *
      */
     public CryptsFallen() {
-        super("Fallen", 150, 10, "Royal Crypts", "Tomb Guardians");
+        super("Fallen", 160, 20, "Royal Crypts", "Tomb Guardians");
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;
@@ -107,10 +107,10 @@ public class CryptsFallen extends MapKit implements Listener {
                             != MapController.getCurrentMap().getTeam(p.getUniqueId()) &&
                     q.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD &&
                     q.getCooldown(Material.IRON_SWORD) == 0) {
-                q.setCooldown(Material.IRON_SWORD, 60);
+                q.setCooldown(Material.IRON_SWORD, 50);
 
                 if (!p.isBlocking()) {
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.WITHER, 100, 1)));
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.WITHER, 120, 1)));
                 }
             }
         }

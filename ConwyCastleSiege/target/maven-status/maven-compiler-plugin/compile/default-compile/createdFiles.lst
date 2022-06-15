@@ -101,6 +101,7 @@ me\huntifi\castlesiege\kits\kits\teamKits\FirelandsHellsteed.class
 me\huntifi\castlesiege\kits\kits\Archer.class
 me\huntifi\castlesiege\kits\kits\FireArcher.class
 me\huntifi\castlesiege\events\death\DeathEvent.class
+me\huntifi\castlesiege\kits\kits\teamKits\Elytrier.class
 me\huntifi\castlesiege\kits\kits\VoterKit.class
 me\huntifi\castlesiege\commands\staff\ReloadCommand.class
 me\huntifi\castlesiege\kits\kits\teamKits\CryptsFallen.class
@@ -147,6 +148,7 @@ me\huntifi\castlesiege\maps\objects\LeverDoor.class
 me\huntifi\castlesiege\commands\staff\punishments\Unmute$1.class
 me\huntifi\castlesiege\kits\kits\Scout.class
 me\huntifi\castlesiege\events\gameplay\Movement.class
+me\huntifi\castlesiege\kits\kits\teamKits\Elytrier$1.class
 me\huntifi\castlesiege\maps\objects\Catapult.class
 me\huntifi\castlesiege\events\connection\PlayerDisconnect.class
 me\huntifi\castlesiege\kits\kits\Engineer.class

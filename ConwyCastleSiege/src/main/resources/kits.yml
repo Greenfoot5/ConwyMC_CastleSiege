@@ -525,6 +525,34 @@ orc:
         - "§cReturn to the previous interface."
       location: 49
       command: "kit selector"
+thunderstoneGuard:
+  name: "§6Thunderstone Guard"
+  key: "thunderstone guard"
+  items:
+    moria_orc:
+      name: "§a§lCLASS:§r§a Elytrier"
+      material: "ELYTRA"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A melee unit with the ability to glide"
+        - "§2[Health]:§a 160"
+        - "§2[Melee Damage]:§a 26"
+        - "§2[Regen]:§a 5"
+        - "§2[Effects]:§a Slow falling, haste and speed"
+        - "§2[Ability]:§a Can drop a bom and can glide in the air!"
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+        - "§5MAP: Thunderstone"
+        - "§5TEAM: §6Thunderstone Guard"
+      location: 22
+      command: "Elytrier"
+    back:
+      name: "§4§lGo Back"
+      material: "BARRIER"
+      lore:
+        - "§cReturn to the previous interface."
+      location: 49
+      command: "kit selector"
 shop:
   name: "§2Shop"
   key: "shop"

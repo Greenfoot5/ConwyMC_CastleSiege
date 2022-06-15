@@ -323,6 +323,9 @@ commands:
   Engineer:
     description: Selects the engineer kit
     usage: /engineer
+  Elytrier:
+    description: Selects the Elytrier kit for Thunderstone Guard
+    usage: /elytrier
   Executioner:
     description: Selects the executioner kit
     usage: /executioner
