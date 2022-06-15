@@ -121,7 +121,7 @@ public class Warbear extends Kit implements Listener {
      */
     private void bite(Player bear, Player player) {
         bear.setCooldown(Material.GHAST_TEAR, 100);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 0));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80, 0));
     }
 
     /**
@@ -131,8 +131,8 @@ public class Warbear extends Kit implements Listener {
      */
     private void scratch(Player bear, Player player) {
         bear.setCooldown(Material.DEAD_HORN_CORAL_FAN, 40);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 1));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 20, 1));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 1));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 80, 2));
     }
 
     /**
@@ -146,7 +146,7 @@ public class Warbear extends Kit implements Listener {
                 && player.getInventory().getItemInMainHand().getType() == Material.RABBIT_FOOT
                 && player.getCooldown(Material.RABBIT_FOOT) == 0) {
             player.setCooldown(Material.RABBIT_FOOT, 600);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 2));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, 2));
         }
     }
 }

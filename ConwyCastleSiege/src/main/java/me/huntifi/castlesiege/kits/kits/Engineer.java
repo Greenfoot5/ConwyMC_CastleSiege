@@ -172,7 +172,7 @@ public class Engineer extends Kit implements Listener {
                 t.sendMessage(NameTag.color(p) + p.getName() + ChatColor.GREEN + " stepped on your trap.");
 
                 // Deal damage
-                double damage = Math.min(p.getHealth(), 25);
+                double damage = Math.min(p.getHealth(), 40);
                 if (damage == p.getHealth()) {
                     DeathEvent.setKiller(p, t);
                 }
@@ -208,7 +208,7 @@ public class Engineer extends Kit implements Listener {
                 trap.setType(Material.AIR);
                 p.sendMessage(ChatColor.RED + "Your horse stepped on " + NameTag.color(t) + t.getName() + ChatColor.RED + "'s trap.");
                 t.sendMessage(NameTag.color(p) + p.getName() + ChatColor.GREEN + "'s horse stepped on your trap.");
-                h.damage(50);
+                h.damage(60);
             }
         }
     }

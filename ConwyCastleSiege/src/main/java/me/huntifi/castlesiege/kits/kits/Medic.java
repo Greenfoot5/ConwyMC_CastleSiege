@@ -48,7 +48,7 @@ public class Medic extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Medic() {
-        super("Medic", 130, 8);
+        super("Medic", 110, 8);
         super.canSeeHealth = true;
 
         // Equipment Stuff
@@ -57,13 +57,13 @@ public class Medic extends Kit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
-                ChatColor.GREEN + "Scalpel", null, null, 33);
+                ChatColor.GREEN + "Scalpel", null, null, 25);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
                         ChatColor.GREEN + "Scalpel",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 35),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 27),
                 0);
 
         // Chestplate
