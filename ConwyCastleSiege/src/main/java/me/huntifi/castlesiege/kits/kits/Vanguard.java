@@ -86,6 +86,7 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
 
         //passive effects
         super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 1));
 
         // Death Messages
         super.projectileDeathMessage[0] = "You were killed by ";

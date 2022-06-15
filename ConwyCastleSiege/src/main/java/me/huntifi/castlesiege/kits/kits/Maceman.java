@@ -40,13 +40,13 @@ public class Maceman extends Kit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
-                ChatColor.GREEN + "Mace", null, null, 38);
+                ChatColor.GREEN + "Mace", null, null, 33);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
                         ChatColor.GREEN + "Mace",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 40),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 35),
                 0);
 
         // Chestplate
@@ -118,10 +118,11 @@ public class Maceman extends Kit implements Listener {
                             ChatColor.AQUA + "You have stunned " + NameTag.color(p) + p.getName()));
                     p.sendMessage(ChatColor.DARK_RED + "You have been stunned by " + NameTag.color(q) + q.getName() + ChatColor.DARK_RED + "!");
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 1)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 50, 1)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 50, 1)));
-                    e.setDamage(e.getDamage() * 1.5);
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 60, 1)));
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 60, 2)));
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 60, 2)));
+                    e.setDamage(e.getDamage() * 0.75);
                 }
             }
         }

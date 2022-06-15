@@ -29,7 +29,7 @@ public class Halberdier extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Halberdier() {
-        super("Halberdier", 360, 16);
+        super("Halberdier", 320, 16);
         super.kbResistance = 2;
 
         // Equipment Stuff
@@ -69,7 +69,7 @@ public class Halberdier extends Kit implements Listener {
 
         // Perm Potion Effects
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 2));
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 3));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 1));
         super.potionEffects.add(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 999999, 0));
 
         // Death Messages

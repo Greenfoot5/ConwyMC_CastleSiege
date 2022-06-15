@@ -24,6 +24,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -266,12 +267,25 @@ public class FireArcher extends VoterKit implements Listener {
                 try {
                     Arrow a = (Arrow) e.getProjectile();
                     if (Objects.equals(a.getColor(), Color.ORANGE)) {
-                        a.setFireTicks(180);
+                        a.setFireTicks(260);
                     }
                 } catch (Exception ex) {
                     // No fire arrow was shot
                 }
             }
+        }
+    }
+
+    /**
+     * Set the arrow-damage of a Fire Archer's arrows
+     * @param e The event called when a player is hit by an arrow
+     */
+    @EventHandler (priority = EventPriority.LOW)
+    public void onArrowHit(ProjectileHitEvent e) {
+        if (e.getEntity() instanceof Arrow &&
+                e.getEntity().getShooter() instanceof Player &&
+                Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
+            ((Arrow) e.getEntity()).setDamage(10);
         }
     }
 
@@ -283,7 +297,7 @@ public class FireArcher extends VoterKit implements Listener {
     public void onFireDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player &&
                 e.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK) {
-            e.setDamage(2);
+            e.setDamage(10);
         }
     }
 

@@ -27,7 +27,7 @@ public class Executioner extends Kit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Executioner() {
-		super("Executioner", 160, 7);
+		super("Executioner", 150, 7);
 		super.canSeeHealth = true;
 
 		// Equipment Stuff

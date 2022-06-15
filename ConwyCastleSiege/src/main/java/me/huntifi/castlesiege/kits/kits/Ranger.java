@@ -110,6 +110,7 @@ public class Ranger extends Kit implements Listener {
 
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 0));
 
         // Death Messages
         super.projectileDeathMessage[0] = "You were turned into a porcupine by ";
