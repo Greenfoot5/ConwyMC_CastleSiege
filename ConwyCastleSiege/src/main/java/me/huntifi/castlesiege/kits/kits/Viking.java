@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import org.bukkit.ChatColor;
@@ -23,6 +22,8 @@ import java.util.Objects;
  */
 public class Viking extends Kit implements Listener {
 
+    private static final double PERCENTAGE_DAMAGE = 0.15;
+
     /**
      * Set the equipment and attributes of this kit
      */
@@ -35,13 +36,13 @@ public class Viking extends Kit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                ChatColor.GREEN + "Giant Battle Axe", null, null, 30);
+                ChatColor.GREEN + "Giant Battle Axe", null, null, 18);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_AXE),
                         ChatColor.GREEN + "Giant Battle Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 30),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 20),
                 0);
 
         // Chestplate
@@ -86,10 +87,7 @@ public class Viking extends Kit implements Listener {
                 Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
             Player p = (Player) e.getEntity();
             int baseHealth = Kit.equippedKits.get(p.getUniqueId()).baseHealth;
-            int voted = 0;
-            if (ActiveData.getData(p.getUniqueId()).hasVote("sword"))
-                voted = 2;
-            e.setDamage((baseHealth * e.getDamage() / 100) + voted);
+            e.setDamage((baseHealth * PERCENTAGE_DAMAGE) + e.getDamage());
         }
     }
 }
