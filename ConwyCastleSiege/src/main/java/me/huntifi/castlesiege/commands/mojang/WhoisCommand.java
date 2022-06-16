@@ -47,8 +47,13 @@ public class WhoisCommand implements CommandExecutor {
                 @Override
                 public void run() {
                     for (PreviousPLayerNameEntry.PreviousPlayerNameEntry entry : previousNames) {
-                        p.sendMessage(ChatColor.LIGHT_PURPLE + "Name: " + ChatColor.YELLOW + entry.getPlayerName());
-                        p.sendMessage(ChatColor.LIGHT_PURPLE + "Time of change: " + ChatColor.YELLOW + new Date(entry.getChangeTime()));
+                        long timeChanged = entry.getChangeTime();
+                        if (timeChanged != 0) {
+                            p.sendMessage(ChatColor.LIGHT_PURPLE + "Name: " + ChatColor.YELLOW + entry.getPlayerName());
+                            p.sendMessage(ChatColor.LIGHT_PURPLE + "Time of change: " + ChatColor.YELLOW + new Date(timeChanged));
+                        } else {
+                            p.sendMessage(ChatColor.LIGHT_PURPLE + "Original Name: " + ChatColor.YELLOW + entry.getPlayerName());
+                        }
                     }
                     p.sendMessage(ChatColor.DARK_PURPLE + "-----------------------------------");
                 }
