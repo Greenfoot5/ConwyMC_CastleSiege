@@ -48,7 +48,7 @@ public class WhoisCommand implements CommandExecutor {
                 public void run() {
                     for (PreviousPLayerNameEntry.PreviousPlayerNameEntry entry : previousNames) {
                         long timeChanged = entry.getChangeTime();
-                        if (timeChanged != 0) {
+                        if (timeChanged != 0) { // only show time if it is a name change
                             p.sendMessage(ChatColor.LIGHT_PURPLE + "Name: " + ChatColor.YELLOW + entry.getPlayerName());
                             p.sendMessage(ChatColor.LIGHT_PURPLE + "Time of change: " + ChatColor.YELLOW + new Date(timeChanged));
                         } else {
