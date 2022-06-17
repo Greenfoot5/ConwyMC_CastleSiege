@@ -700,6 +700,10 @@ public class Main extends JavaPlugin implements Listener {
 
                 flag.region.setFlag(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
                 flag.region.setFlag(Flags.BLOCK_PLACE, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.DAMAGE_ANIMALS, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.DESTROY_VEHICLE, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.FALL_DAMAGE, StateFlag.State.ALLOW);
+                flag.region.setFlag(Flags.HEALTH_REGEN, StateFlag.State.ALLOW);
                 flag.region.setFlag(Flags.INTERACT, StateFlag.State.ALLOW);
                 flag.region.setFlag(Flags.PVP, StateFlag.State.ALLOW);
                 //Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(map.worldName))))).addRegion(region);
