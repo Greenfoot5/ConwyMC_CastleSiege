@@ -42,7 +42,7 @@ public class DamageBalance implements Listener {
                 e.setDamage(e.getDamage() * 7);
                 break;
             case ENTITY_EXPLOSION:
-                e.setDamage(e.getDamage() * 5.2);
+                e.setDamage(e.getDamage() * 7);
                 break;
             case FIRE:
             case FIRE_TICK:
