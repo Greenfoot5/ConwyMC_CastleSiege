@@ -24,7 +24,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
@@ -32,12 +31,12 @@ import java.util.UUID;
 public class ThunderstoneElytrier extends TeamKit implements Listener {
 
     private final static int POTION_COOLDOWN = 360;
-    private Timestamp currentCooldownTime;
+    private long currentCooldownTime;
 
     public ThrownPotion potion;
 
     public ThunderstoneElytrier() {
-        super("Elytrier", 130, 8, "Thunderstone", "Thunderstone Guard", 5000);
+        super("Elytrier", 110, 7, "Thunderstone", "Thunderstone Guard", 5000);
         super.canCap = false;
         super.canSeeHealth = true;
         // Equipment Stuff
@@ -109,9 +108,9 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
     public void refillItems(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
-        int cooldown = player.getCooldown(Material.RED_DYE);
         super.refillItems(uuid);
-        player.setCooldown(Material.RED_DYE, cooldown);
+        if (currentCooldownTime > System.currentTimeMillis())
+            player.setCooldown(Material.RED_DYE, (int) (currentCooldownTime - System.currentTimeMillis()));
     }
 
     /**
@@ -219,7 +218,9 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                         potion.setShooter(p);
 
                         p.setCooldown(Material.RED_DYE, POTION_COOLDOWN);
-                        currentCooldownTime = new Timestamp(System.currentTimeMillis() + POTION_COOLDOWN * 50);
+                        currentCooldownTime = System.currentTimeMillis() + POTION_COOLDOWN * 50;
+                        Messenger.sendInfo("Cooldown: " + currentCooldownTime, p);
+                        Messenger.sendInfo("Current Time: " + System.currentTimeMillis(), p);
                     } else if (!p.isGliding()){
                         Messenger.sendActionError(ChatColor.BOLD + "You can't drop a heal whilst not gliding!", p);
                     } else {
