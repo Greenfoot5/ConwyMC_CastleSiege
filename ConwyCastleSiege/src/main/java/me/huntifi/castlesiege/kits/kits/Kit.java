@@ -12,6 +12,7 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.DisguiseConfig;
+import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -204,7 +205,7 @@ public abstract class Kit implements CommandExecutor {
      * @param p The player to (un)disguise
      * @param disguise The disguise to disguise the player as
      */
-    protected void disguise(Player p, MobDisguise disguise) {
+    protected void disguise(Player p, Disguise disguise) {
         if (disguise == null) {
             if (DisguiseAPI.isDisguised(p)) {
                 DisguiseAPI.undisguiseToAll(p);

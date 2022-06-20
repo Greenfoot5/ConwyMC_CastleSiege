@@ -66,19 +66,11 @@ public class CryptsFallen extends TeamKit implements Listener {
      * @param p The player to (un)disguise
      */
     @Override
-    protected void disguise(Player p) {
+    protected void setDisguise(Player p) {
         MobDisguise mobDisguise = new MobDisguise(DisguiseType.WITHER_SKELETON);
-
-        mobDisguise.getWatcher().setCustomName(NameTag.color(p) + p.getName());
-        mobDisguise.setCustomDisguiseName(true);
-        mobDisguise.setHearSelfDisguise(true);
         mobDisguise.setModifyBoundingBox(true);
-        mobDisguise.setSelfDisguiseVisible(false);
-        mobDisguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
 
-        mobDisguise.setEntity(p);
-        mobDisguise.startDisguise();
-        NameTag.give(p);
+        disguise(p, mobDisguise);
     }
 
 

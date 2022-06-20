@@ -89,7 +89,7 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
      * @param p The player to (un)disguise
      */
     @Override
-    protected void disguise(Player p) {
+    protected void setDisguise(Player p) {
 
         ItemStack horseArmor = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_HORSE_ARMOR),
                 ChatColor.GREEN + "Leather Armor", null, null,
@@ -97,10 +97,6 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
 
         MobDisguise mobDisguise = new MobDisguise(DisguiseType.HORSE);
 
-        mobDisguise.getWatcher().setCustomName(NameTag.color(p) + p.getName());
-        mobDisguise.setCustomDisguiseName(true);
-        mobDisguise.setHearSelfDisguise(true);
-        mobDisguise.setSelfDisguiseVisible(false);
         mobDisguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
 
         HorseWatcher horseWatcher = (HorseWatcher) mobDisguise.getWatcher();
@@ -110,9 +106,7 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
         horseWatcher.setStyle(Horse.Style.BLACK_DOTS);
         horseWatcher.setTamed(true);
 
-        mobDisguise.setEntity(p);
-        mobDisguise.startDisguise();
-        NameTag.give(p);
+        disguise(p, mobDisguise);
     }
 
 

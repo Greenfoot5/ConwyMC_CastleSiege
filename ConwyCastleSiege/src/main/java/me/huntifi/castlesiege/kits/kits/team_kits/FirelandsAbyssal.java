@@ -95,20 +95,13 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
      * @param p The player to (un)disguise
      */
     @Override
-    protected void disguise(Player p) {
+    protected void setDisguise(Player p) {
         PlayerDisguise playerDisguise = new PlayerDisguise("hiderr");
 
-        playerDisguise.getWatcher().setCustomName(NameTag.color(p) + p.getName());
         playerDisguise.getWatcher().setCapeEnabled(false);
         playerDisguise.getWatcher().setParticlesColor(Color.GREEN);
-        playerDisguise.setSelfDisguiseVisible(false);
-        playerDisguise.setHearSelfDisguise(true);
-        playerDisguise.setCustomDisguiseName(true);
-        playerDisguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
 
-        playerDisguise.setEntity(p);
-        playerDisguise.startDisguise();
-        NameTag.give(p);
+        disguise(p, playerDisguise);
     }
 
     public void spawnMagmaProjectile(Player p) {
