@@ -19,7 +19,7 @@ import java.util.UUID;
 public class UnlockedKitCommand implements CommandExecutor {
 
     /**
-     * Set, add to, or remove from the player's rank points
+     * Add / Remove a kit from a player.
      *
      * @param sender Source of the command
      * @param cmd    Command which was executed
