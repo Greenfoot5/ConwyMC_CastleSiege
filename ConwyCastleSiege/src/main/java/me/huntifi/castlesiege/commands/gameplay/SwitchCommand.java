@@ -141,6 +141,7 @@ public class SwitchCommand implements CommandExecutor {
 		}
 
 		p.teleport(team.lobby.spawnPoint);
+		InCombat.playerDied(p.getUniqueId());
 	}
 
 	private void switchToNextTeam(Map map, Player p) {
