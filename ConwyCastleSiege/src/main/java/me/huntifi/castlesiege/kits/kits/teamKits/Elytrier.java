@@ -37,7 +37,7 @@ import java.util.UUID;
 public class Elytrier extends MapKit implements Listener {
 
     public Elytrier() {
-        super("", 130, 5, "Thunderstone", "Thunderstone Guard");
+        super("", 130, 5, "Thunderstone", "Thunderstone Guard", 5000);
         super.canCap = false;
         super.canSeeHealth = true;
         // Equipment Stuff

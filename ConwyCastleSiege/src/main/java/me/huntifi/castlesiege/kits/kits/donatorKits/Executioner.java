@@ -1,9 +1,11 @@
-package me.huntifi.castlesiege.kits.kits;
+package me.huntifi.castlesiege.kits.kits.donatorKits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -21,13 +23,13 @@ import java.util.Objects;
 /**
  * The executioner kit
  */
-public class Executioner extends Kit implements Listener {
+public class Executioner extends DonatorKit implements Listener {
 
 	/**
 	 * Set the equipment and attributes of this kit
 	 */
 	public Executioner() {
-		super("Executioner", 150, 7);
+		super("Executioner", 150, 7, 6000);
 		super.canSeeHealth = true;
 
 		// Equipment Stuff

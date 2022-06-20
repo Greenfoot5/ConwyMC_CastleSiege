@@ -27,7 +27,7 @@ public class MoriaOrc extends MapKit implements Listener {
 
 
     public MoriaOrc() {
-        super("Moria Orc", 130, 4, "Moria", "The Orcs");
+        super("Moria Orc", 130, 4, "Moria", "The Orcs", 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

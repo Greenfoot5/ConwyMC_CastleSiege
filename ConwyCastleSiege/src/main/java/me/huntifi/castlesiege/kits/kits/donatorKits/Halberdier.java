@@ -1,8 +1,10 @@
-package me.huntifi.castlesiege.kits.kits;
+package me.huntifi.castlesiege.kits.kits.donatorKits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -23,13 +25,13 @@ import java.util.Objects;
 /**
  * The halberdier kit
  */
-public class Halberdier extends Kit implements Listener {
+public class Halberdier extends DonatorKit implements Listener {
 
     /**
      * Set the equipment and attributes of this kit
      */
     public Halberdier() {
-        super("Halberdier", 320, 16);
+        super("Halberdier", 320, 16, 7500);
         super.kbResistance = 2;
 
         // Equipment Stuff

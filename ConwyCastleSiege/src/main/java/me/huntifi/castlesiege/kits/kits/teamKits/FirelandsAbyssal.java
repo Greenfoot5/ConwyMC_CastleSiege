@@ -47,7 +47,7 @@ public class FirelandsAbyssal extends MapKit implements Listener {
     private Player shooter;
 
     public FirelandsAbyssal() {
-        super("Abyssal", 200, 3, "Firelands", "Burning Legion");
+        super("Abyssal", 200, 3, "Firelands", "Burning Legion", 5000);
         super.canCap = true;
         super.canClimb = false;
         super.canSeeHealth = true;

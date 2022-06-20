@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits;
+package me.huntifi.castlesiege.kits.kits.donatorKits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -6,6 +6,8 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -28,7 +30,7 @@ import java.util.UUID;
 /**
  * The berserker kit
  */
-public class Berserker extends Kit implements Listener {
+public class Berserker extends DonatorKit implements Listener {
 
     private final ItemStack regularSword;
     private final ItemStack regularSwordVoted;
@@ -39,7 +41,7 @@ public class Berserker extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Berserker() {
-        super("Berserker", 100, 6);
+        super("Berserker", 100, 6, 6000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

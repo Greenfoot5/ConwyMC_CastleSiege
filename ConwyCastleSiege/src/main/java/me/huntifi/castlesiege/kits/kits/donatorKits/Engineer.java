@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits;
+package me.huntifi.castlesiege.kits.kits.donatorKits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -12,6 +12,8 @@ import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
@@ -46,7 +48,7 @@ import java.util.*;
 /**
  * The engineer kit
  */
-public class Engineer extends Kit implements Listener {
+public class Engineer extends DonatorKit implements Listener {
 
     private static final HashMap<Player, ArrayList<Block>> traps = new HashMap<>();
     private static final HashMap<Player, Tuple<Location, Boolean>> ballista = new HashMap<>();
@@ -55,7 +57,7 @@ public class Engineer extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Engineer() {
-        super("Engineer", 145, 6);
+        super("Engineer", 145, 6, 7500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

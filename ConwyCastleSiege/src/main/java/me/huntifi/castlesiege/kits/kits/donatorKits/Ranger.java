@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits;
+package me.huntifi.castlesiege.kits.kits.donatorKits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -8,6 +8,8 @@ import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -38,7 +40,7 @@ import java.util.UUID;
 /**
  * The ranger kit
  */
-public class Ranger extends Kit implements Listener {
+public class Ranger extends DonatorKit implements Listener {
 
     private boolean canBackstab = false;
     private BukkitRunnable br = null;
@@ -47,7 +49,7 @@ public class Ranger extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Ranger() {
-        super("Ranger", 140, 5.5);
+        super("Ranger", 140, 5.5, 6000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

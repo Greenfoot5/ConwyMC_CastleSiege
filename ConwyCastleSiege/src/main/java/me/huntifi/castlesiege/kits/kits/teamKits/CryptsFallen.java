@@ -34,7 +34,7 @@ public class CryptsFallen extends MapKit implements Listener {
      *
      */
     public CryptsFallen() {
-        super("Fallen", 160, 20, "Royal Crypts", "Tomb Guardians");
+        super("Fallen", 160, 20, "Royal Crypts", "Tomb Guardians", 1500);
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;

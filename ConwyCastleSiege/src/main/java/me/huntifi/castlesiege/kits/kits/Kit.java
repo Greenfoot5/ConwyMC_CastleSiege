@@ -37,7 +37,7 @@ import java.util.*;
 public abstract class Kit implements CommandExecutor {
     public String name;
     public int baseHealth;
-    protected int kbResistance = 0;
+    public int kbResistance = 0;
     protected double regenAmount;
 
     public boolean canCap;

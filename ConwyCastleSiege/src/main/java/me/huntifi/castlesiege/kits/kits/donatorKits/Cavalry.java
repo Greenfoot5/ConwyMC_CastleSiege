@@ -1,9 +1,11 @@
-package me.huntifi.castlesiege.kits.kits;
+package me.huntifi.castlesiege.kits.kits.donatorKits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -31,13 +33,13 @@ import java.util.UUID;
 /**
  * The cavalry kit
  */
-public class Cavalry extends Kit implements Listener {
+public class Cavalry extends DonatorKit implements Listener {
 
     /**
      * Set the equipment and attributes of this kit
      */
     public Cavalry() {
-        super("Cavalry", 170, 7);
+        super("Cavalry", 170, 7, 7500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

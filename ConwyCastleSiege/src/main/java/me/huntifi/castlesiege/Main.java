@@ -16,6 +16,7 @@ import me.huntifi.castlesiege.commands.gameplay.*;
 import me.huntifi.castlesiege.commands.info.*;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
 import me.huntifi.castlesiege.commands.staff.*;
+import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -41,6 +42,7 @@ import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.kits.gui.*;
 import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.kits.*;
+import me.huntifi.castlesiege.kits.kits.donatorKits.*;
 import me.huntifi.castlesiege.kits.kits.teamKits.*;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
@@ -231,8 +233,9 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("SetMap")).setExecutor(new SetMapCommand());
                 Objects.requireNonNull(getCommand("SetTimer")).setExecutor(new SetTimerCommand());
                 Objects.requireNonNull(getCommand("StaffChat")).setExecutor(new StaffChat());
-                Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());
                 Objects.requireNonNull(getCommand("Spectate")).setExecutor(new SpectateCommand());
+                Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());
+                Objects.requireNonNull(getCommand("Unlockedkit")).setExecutor(new UnlockedKitCommand());
                 Objects.requireNonNull(getCommand("ForceSwitch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new SwitchCommand());
 
@@ -305,6 +308,9 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Begin the map loop
                 MapController.startLoop();
+
+                //Register kit names
+                KitList.registerExistingKits();
 
 //		new BukkitRunnable() {
 //

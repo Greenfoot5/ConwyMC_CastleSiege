@@ -4,16 +4,13 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.Bounty;
 import me.huntifi.castlesiege.commands.staff.RankPoints;
 import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.UUID;
+import java.sql.*;
+import java.sql.Date;
+import java.util.*;
 
 /**
  * Store a player's data when they leave the game
@@ -118,6 +115,54 @@ public class StoreData {
                 }
             }
         }.runTaskAsynchronously(Main.plugin);
+    }
+
+
+    /**
+     *
+     * @param uuid player's UUID
+     * @param kitName name of the kit to unlock
+     * @param duration the value to add to the current time
+     * @param isDonation true = paid with money, false = paid with coins or else
+     */
+    public static void addUnlockedKit(UUID uuid, String kitName, long duration, boolean isDonation) throws SQLException {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                            "INSERT INTO player_unlocks VALUES (?, ?, ?, ?, ?, ?)");
+                    ps.setString(1, Bukkit.getPlayer(uuid).getName());
+                    ps.setString(2, uuid.toString());
+                    ps.setString(3, kitName);
+                    ps.setTimestamp(4, new Timestamp(System.currentTimeMillis() + duration));
+                    ps.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+                    ps.setBoolean(6, isDonation);
+                    ps.executeUpdate();
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.runTaskAsynchronously(Main.plugin);
+    }
+
+    /**
+     * End a player's punishment
+     * @param uuid The UUID of the player
+     * @param kitName The type of Kit to end
+     * @throws SQLException If something goes wrong executing the insert
+     */
+    public static void endUnlockedKit(UUID uuid, String kitName) throws SQLException {
+        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "UPDATE player_unlocks SET unlocked_until = ? WHERE unlocked_until > ? AND uuid = ? AND unlocked_kits = ?");
+        ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+        ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+        ps.setString(3, uuid.toString());
+        ps.setString(4, kitName);
+
+        ps.executeUpdate();
+        ps.close();
     }
 
     /**

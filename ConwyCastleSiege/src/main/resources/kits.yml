@@ -32,7 +32,7 @@ selector:
       lore:
         - "Unlock kits here!"
       location: 40
-      command: "kit shop"
+      command: "buy"
 free:
   name: "§2Free Kits"
   key: "free"

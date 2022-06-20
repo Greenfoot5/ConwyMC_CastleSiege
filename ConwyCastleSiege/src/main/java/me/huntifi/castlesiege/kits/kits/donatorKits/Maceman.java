@@ -1,8 +1,10 @@
-package me.huntifi.castlesiege.kits.kits;
+package me.huntifi.castlesiege.kits.kits.donatorKits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import net.md_5.bungee.api.ChatMessageType;
@@ -26,13 +28,13 @@ import java.util.Random;
 /**
  * The maceman kit
  */
-public class Maceman extends Kit implements Listener {
+public class Maceman extends DonatorKit implements Listener {
 
     /**
      * Set the equipment and attributes of this kit
      */
     public Maceman() {
-        super("Maceman", 170, 7);
+        super("Maceman", 170, 7, 6000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

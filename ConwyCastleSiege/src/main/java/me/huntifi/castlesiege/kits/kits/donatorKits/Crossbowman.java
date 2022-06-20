@@ -1,8 +1,10 @@
-package me.huntifi.castlesiege.kits.kits;
+package me.huntifi.castlesiege.kits.kits.donatorKits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -22,13 +24,13 @@ import java.util.Objects;
 /**
  * The crossbowman kit
  */
-public class Crossbowman extends Kit implements Listener {
+public class Crossbowman extends DonatorKit implements Listener {
 
     /**
      * Set the equipment and attributes of this kit
      */
     public Crossbowman() {
-        super("Crossbowman", 165, 6.5);
+        super("Crossbowman", 165, 6.5, 7500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

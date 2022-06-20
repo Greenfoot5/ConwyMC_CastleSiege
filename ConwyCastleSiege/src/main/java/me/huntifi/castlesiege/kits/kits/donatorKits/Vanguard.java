@@ -1,10 +1,12 @@
-package me.huntifi.castlesiege.kits.kits;
+package me.huntifi.castlesiege.kits.kits.donatorKits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -30,7 +32,7 @@ import java.util.UUID;
 /**
  * The Vanguard kit
  */
-public class Vanguard extends Kit implements Listener, CommandExecutor {
+public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
 
     private boolean vanguards = false;
 
@@ -38,7 +40,7 @@ public class Vanguard extends Kit implements Listener, CommandExecutor {
      * Set the equipment and attributes of this kit
      */
     public Vanguard() {
-        super("Vanguard", 195, 8);
+        super("Vanguard", 195, 8, 6000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

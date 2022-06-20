@@ -1,9 +1,11 @@
-package me.huntifi.castlesiege.kits.kits;
+package me.huntifi.castlesiege.kits.kits.donatorKits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -21,13 +23,13 @@ import java.util.Objects;
 /**
  * The viking kit
  */
-public class Viking extends Kit implements Listener {
+public class Viking extends DonatorKit implements Listener {
 
     /**
      * Set the equipment and attributes of this kit
      */
     public Viking() {
-        super("Viking", 195, 7);
+        super("Viking", 195, 7, 6000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

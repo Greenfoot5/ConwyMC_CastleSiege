@@ -1,9 +1,11 @@
-package me.huntifi.castlesiege.kits.kits;
+package me.huntifi.castlesiege.kits.kits.donatorKits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseConfig;
@@ -34,13 +36,13 @@ import java.util.Objects;
 /**
  * The warhound kit
  */
-public class Warhound extends Kit implements Listener {
+public class Warhound extends DonatorKit implements Listener {
 
     /**
      * Set the equipment and attributes of this kit
      */
     public Warhound() {
-        super("Warhound", 80, 7);
+        super("Warhound", 80, 7, 7500);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;
