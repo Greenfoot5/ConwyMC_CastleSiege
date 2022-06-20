@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits.donator_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -17,6 +18,7 @@ import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,6 +30,9 @@ import java.util.UUID;
  * The cavalry kit
  */
 public class Cavalry extends DonatorKit implements Listener {
+
+    public final static int HORSE_COOLDOWN = 600;
+    private Horse horse;
 
     /**
      * Set the equipment and attributes of this kit
@@ -96,10 +101,9 @@ public class Cavalry extends DonatorKit implements Listener {
                 e.getItem() != null && e.getItem().getType() == Material.WHEAT) {
             int cooldown = p.getCooldown(Material.WHEAT);
             if (cooldown == 0) {
-                p.setCooldown(Material.WHEAT, 600);
 
-                if (p.isInsideVehicle() && p.getVehicle() != null) {
-                    p.getVehicle().remove();
+                if (p.isInsideVehicle()) {
+                    Messenger.sendActionError("Leave your current vehicle to spawn a horse!", p);
                 }
                 spawnHorse(p);
             }

@@ -179,7 +179,6 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                     if (cooldown == 0 && p.isGliding()) {
                         p.setCooldown(Material.FIREWORK_ROCKET, 40);
                         p.setVelocity(p.getVelocity().multiply(3.5));
-                        e.setCancelled(true);
                     } else if (!p.isGliding()){
                         Messenger.sendActionError(ChatColor.BOLD + "You can't launch yourself whilst not gliding!", p);
                     } else {
@@ -188,6 +187,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                 }
             }
         }
+        e.setCancelled(true);
     }
 
 

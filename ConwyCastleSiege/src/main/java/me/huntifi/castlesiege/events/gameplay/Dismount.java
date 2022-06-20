@@ -1,12 +1,20 @@
 package me.huntifi.castlesiege.events.gameplay;
 
+import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.donator_kits.Cavalry;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.spigotmc.event.entity.EntityDismountEvent;
+
+import java.util.Objects;
 
 /**
  * Handles dismount events
@@ -20,6 +28,12 @@ public class Dismount implements Listener {
     @EventHandler
     public void onDismount(EntityDismountEvent e) {
         removeHorse(e.getDismounted());
+        if (e.getEntity() instanceof Player) {
+            Player p = (Player) e.getEntity();
+            if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, "Cavalry")) {
+                p.setCooldown(Material.WHEAT, Cavalry.HORSE_COOLDOWN);
+            }
+        }
     }
 
     /**
@@ -38,6 +52,18 @@ public class Dismount implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         removeHorse(e.getPlayer().getVehicle());
+    }
+
+    @EventHandler
+    public void onDeath(EntityDeathEvent e) {
+        if (e.getEntity().getType() == EntityType.HORSE) {
+            Horse horse = (Horse) e.getEntity();
+            Entity passenger = horse.getPassengers().get(0);
+            Player p = (Player) passenger;
+            if (p != null && Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, "Cavalry")) {
+                p.setCooldown(Material.WHEAT, Cavalry.HORSE_COOLDOWN);
+            }
+        }
     }
 
     /**
