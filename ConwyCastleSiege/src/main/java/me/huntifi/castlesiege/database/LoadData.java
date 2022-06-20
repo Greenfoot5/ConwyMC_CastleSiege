@@ -4,9 +4,11 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 
+import java.net.InetAddress;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -184,5 +186,73 @@ public class LoadData {
 
         ResultSet rs = ps.executeQuery();
         return new Tuple<>(ps, rs);
+    }
+
+
+    /**
+     * Get a player's unlocked kits data from the database
+     * @param uuid The unique ID of the player whose data to get
+     * @param kitName The type of kit to get from the database
+     * @return A tuple of the prepared statement (to close later) and the query's result
+     * @throws SQLException If something goes wrong executing the query
+     */
+    public static Tuple<PreparedStatement, ResultSet> getAllUnlockedKits(UUID uuid, String kitName) throws SQLException {
+        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "SELECT unlocked_kits, unlocked_until FROM player_unlocks WHERE uuid = ? AND unlocked_kits = ?");
+        ps.setString(1, uuid.toString());
+        ps.setString(2, kitName);
+
+        ResultSet rs = ps.executeQuery();
+        return new Tuple<>(ps, rs);
+    }
+
+
+    /**
+     * Get a players kit from the database
+     * @param uuid The unique ID of the player whose data to get
+     * @param kitName The type of kit to get from the database
+     * @return A tuple of the prepared statement (to close later) and the query's result
+     * @throws SQLException If something goes wrong executing the query
+     */
+    public static Tuple<PreparedStatement, ResultSet> getActiveKit(UUID uuid, String kitName) throws SQLException {
+        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "SELECT unlocked_kits, unlocked_until FROM player_unlocks WHERE uuid = ? AND unlocked_kits = ? AND unlocked_until > ?"
+                        + " ORDER BY unlocked_until DESC LIMIT 1");
+        ps.setString(1, uuid.toString());
+        ps.setString(2, kitName);
+        ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+
+        ResultSet rs = ps.executeQuery();
+        return new Tuple<>(ps, rs);
+    }
+
+    /**
+     * Get the player's kit with most recent expire time
+     * @param uuid The unique ID of the player
+     * @return The reason and end of an active ban, null if no active ban was found
+     * @throws SQLException If something goes wrong executing the query
+     */
+    public static Tuple<String, Timestamp> getUnlockedKit(UUID uuid, String kitName) throws SQLException {
+        // Check all ban records for this uuid to see if one is still active
+        Tuple<PreparedStatement, ResultSet> prUUID = getActiveKit(uuid, kitName);
+        Tuple<String, Timestamp> uuidKit = checkKit(prUUID.getSecond());
+        prUUID.getFirst().close();
+        if (uuidKit != null) {
+            return uuidKit;
+        }
+        return null;
+    }
+
+    /**
+     * Check if the query result contains an active kit
+     * @param rs The result of a query
+     * @return The reason and end of an active ban, null if no active ban was found
+     * @throws SQLException If something goes wrong getting data from the query
+     */
+    public static Tuple<String, Timestamp> checkKit(ResultSet rs) throws SQLException {
+        if (rs.next()) {
+            return new Tuple<>(rs.getString("unlocked_kits"), rs.getTimestamp("unlocked_until"));
+        }
+        return null;
     }
 }

@@ -1,6 +1,6 @@
 name: CastleSiege
 main: me.huntifi.castlesiege.Main
-version: 1.1.1
+version: 1.2.1
 api-version: 1.13
 authors: [Huntifi, Greenfoot5, kasteelvuur]
 depends: [Votifier, WorldGuard, NametagEdit, WorldGuard]
@@ -301,6 +301,12 @@ commands:
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
 
+  # Donations
+  UnlockedKit:
+    description: Disables/Enables non-forceful switching
+    usage: /Unlockedkit [Player Name] [add/remove] [Kit Name] [Time]
+    permission: castlesiege.developer
+    permission-message: You are not permitted to use this command!
   # Kits
   Kit:
     description: Open the GUI for selecting kits

@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.kits.kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -79,6 +80,7 @@ public class PlayerConnect implements Listener {
             String broadcastPrefix = "§2[§4ConwyMC§2] ";
             Bukkit.broadcastMessage(broadcastPrefix + ChatColor.DARK_PURPLE + " ----- " + ChatColor.LIGHT_PURPLE + "Welcome " + p.getName()
                     + " to Castle Siege!" + ChatColor.DARK_PURPLE + " ----- ");
+            p.sendMessage(ChatColor.GREEN + "If you encounter a problem or need help, contact us on Discord and create a support ticket");
 
         } else {
             p.sendMessage(ChatColor.DARK_RED + "Hello " + ChatColor.GREEN + p.getName());
@@ -86,6 +88,8 @@ public class PlayerConnect implements Listener {
             p.sendMessage(ChatColor.DARK_PURPLE + "There are currently " + Bukkit.getOnlinePlayers().size() + " player(s) online.");
             p.sendMessage(ChatColor.DARK_PURPLE + "The max amount of players is 100.");
         }
+        ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+        Bukkit.dispatchCommand(console, "ocm toggle " + p.getName() + " off");
     }
 
     /**

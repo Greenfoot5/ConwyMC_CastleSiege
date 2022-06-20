@@ -43,9 +43,7 @@ public class RulesCommand implements CommandExecutor {
 		int i = 0;
 		ChatColor col; //alternates between grey and white
 		for (String s : rulesList) {
-			if (i % 2 == 0) { //so 0 would be white, 1 grey, 2 white, 3 grey, 4 white etc
-				col = ChatColor.WHITE;
-			} else { col = ChatColor.GRAY; }
+			col = (i % 2 == 0) ? ChatColor.WHITE: ChatColor.GRAY;
 			sb.append(ChatColor.YELLOW + "" + (i+1) + col + ") " + s + "\n");
 			i++;
 		}

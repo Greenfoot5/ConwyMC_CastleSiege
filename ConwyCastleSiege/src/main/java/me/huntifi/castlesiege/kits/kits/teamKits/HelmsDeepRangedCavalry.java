@@ -32,7 +32,7 @@ import java.util.UUID;
 public class HelmsDeepRangedCavalry extends MapKit implements Listener {
     
     public HelmsDeepRangedCavalry() {
-        super("Ranged Cavalry", 130, 6, "Helm's Deep", "Rohan");
+        super("Ranged Cavalry", 130, 6, "Helm's Deep", "Rohan", 3500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
