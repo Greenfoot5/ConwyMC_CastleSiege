@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -136,12 +137,10 @@ public class DeathEvent implements Listener {
 
         // Assist
         UUID assist = AssistKill.get(target.getUniqueId());
-        if (assist != null) {
+        if (assist != null && Objects.requireNonNull(killer).getUniqueId() != assist) {
             UpdateStats.addAssist(assist);
             assistMessage(assist, target);
-            if (killer != null) {
-                Bounty.grantRewards(target, killer, Bukkit.getPlayer(assist));
-            }
+            Bounty.grantRewards(target, killer, Bukkit.getPlayer(assist));
         } else if (killer != null) {
             Bounty.grantRewards(target, killer);
         }
