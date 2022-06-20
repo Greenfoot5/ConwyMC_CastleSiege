@@ -157,7 +157,7 @@ public abstract class Kit implements CommandExecutor {
      * Remove all potion effects from the player and apply this kit's potion effects
      * @param uuid The unique id of the player for whom to apply the potion effects
      */
-    private void applyPotionEffects(UUID uuid) {
+    protected void applyPotionEffects(UUID uuid) {
         new BukkitRunnable() {
             @Override
             public void run() {

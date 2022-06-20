@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
@@ -30,8 +31,7 @@ import java.util.UUID;
 
 public class ThunderstoneElytrier extends TeamKit implements Listener {
 
-    private final static int POTION_COOLDOWN = 360;
-    private long currentCooldownTime;
+    private final static int POTION_COOLDOWN = 300;
 
     public ThrownPotion potion;
 
@@ -107,10 +107,16 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
     @Override
     public void refillItems(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
-        assert player != null;
-        super.refillItems(uuid);
-        if (currentCooldownTime > System.currentTimeMillis())
-            player.setCooldown(Material.RED_DYE, (int) (currentCooldownTime - System.currentTimeMillis()));
+        if (player == null) { return; }
+
+        // Equipment
+        equipment.setEquipment(uuid);
+
+        // Wool hat
+        WoolHat.setHead(player);
+
+        // Potion effects
+        applyPotionEffects(uuid);
     }
 
     /**
@@ -170,7 +176,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (fist.getType().equals(Material.FIREWORK_ROCKET)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0) {
+                    if (cooldown == 0 && p.isGliding()) {
                         p.setCooldown(Material.FIREWORK_ROCKET, 40);
                         p.setVelocity(p.getVelocity().multiply(3.5));
                         e.setCancelled(true);
@@ -204,7 +210,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (fist.getType().equals(Material.RED_DYE)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0) {
+                    if (cooldown == 0 && p.isGliding()) {
 
                         Location loc = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() - 1, p.getLocation().getZ());
                         ItemStack itemStack = new ItemStack(Material.SPLASH_POTION);
@@ -218,9 +224,6 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                         potion.setShooter(p);
 
                         p.setCooldown(Material.RED_DYE, POTION_COOLDOWN);
-                        currentCooldownTime = System.currentTimeMillis() + POTION_COOLDOWN * 50;
-                        Messenger.sendInfo("Cooldown: " + currentCooldownTime, p);
-                        Messenger.sendInfo("Current Time: " + System.currentTimeMillis(), p);
                     } else if (!p.isGliding()){
                         Messenger.sendActionError(ChatColor.BOLD + "You can't drop a heal whilst not gliding!", p);
                     } else {
