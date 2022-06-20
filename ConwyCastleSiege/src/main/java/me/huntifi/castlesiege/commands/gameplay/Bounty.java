@@ -244,7 +244,8 @@ public class Bounty implements CommandExecutor {
     }
 
     public static void saveBounties(){
-        for (Tuple<UUID, Integer> bounty : bounties) {
+        for (UUID uuid : ActiveData.getPlayers()) {
+            Tuple<UUID, Integer> bounty = new Tuple<>(uuid, getBounty(uuid));
             PreparedStatement ps;
             try {
                 ps = Main.SQL.getConnection().prepareStatement(
