@@ -38,20 +38,25 @@ public abstract class VoterKit extends Kit {
             if (MapController.isSpectator(((Player) commandSender).getUniqueId())) {
                 commandSender.sendMessage("Spectators cannot select kits!");
                 return true;
+            }
 
-            } else {
-                Player player = (Player) commandSender;
-                if (ActiveData.getData(player.getUniqueId()).hasVote("kits")) {
-                    super.addPlayer(player.getUniqueId());
-
-                } else if (Kit.equippedKits.get(player.getUniqueId()) == null) {
+            Player player = (Player) commandSender;
+            // If they already have the kit equipped, but haven't voted
+            if (!ActiveData.getData(player.getUniqueId()).hasVote("kits")) {
+                if (Kit.equippedKits.get(player.getUniqueId()) == null) {
                     player.performCommand("swordsman");
                     player.sendMessage(ChatColor.DARK_RED + "You need to vote to use " + ChatColor.RED + name
                             + ChatColor.DARK_RED + " again!");
+
+                // If they are trying to equip the kit, but haven't voted
                 } else {
                     player.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You need to vote to use this kit!");
                 }
+                return true;
             }
+
+
+            super.addPlayer(player.getUniqueId());
             return true;
         }
         return false;

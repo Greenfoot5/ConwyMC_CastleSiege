@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
@@ -10,18 +9,14 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
-
 public abstract class DonatorKit extends Kit {
 
-    //coinprice
-    protected double coinPrice;
+    protected double price;
 
 
     public DonatorKit(String name, int baseHealth, double regenAmount, double coins) {
         super(name, baseHealth, regenAmount);
-        coinPrice = coins;
+        price = coins;
     }
 
     /**
@@ -40,21 +35,17 @@ public abstract class DonatorKit extends Kit {
         } else if (sender instanceof Player) {
             if (MapController.isSpectator(((Player) sender).getUniqueId())) {
                 Messenger.sendError("Spectators cannot select kits!", sender);
+                return true;
+            }
 
-            } else {
+            Player player = (Player) sender;
+            boolean hasKit = LoadData.hasKit(((Player) sender).getUniqueId(), name);
+            if (!hasKit) {
+                Messenger.sendError("You don't own this kit!" , sender);
+                return true;
+            }
 
-                    Player player = (Player) sender;
-                        try {
-                            Tuple<String, Timestamp> hasKit = LoadData.getUnlockedKit(((Player) sender).getUniqueId(), name);
-                            if (hasKit != null) {
-                                super.addPlayer(player.getUniqueId());
-                            } else {
-                                Messenger.sendError("You don't own this kit!" , sender);
-                            }
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
-                }
+            super.addPlayer(player.getUniqueId());
             return true;
         }
         return false;

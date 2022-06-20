@@ -255,10 +255,9 @@ public abstract class Kit implements CommandExecutor {
             if (MapController.isSpectator(((Player) sender).getUniqueId())) {
                 Messenger.sendError("Spectators cannot select kits!", sender);
                 return true;
-
-            } else {
-                addPlayer(((Player) sender).getUniqueId());
             }
+
+            addPlayer(((Player) sender).getUniqueId());
             return true;
         }
         return false;

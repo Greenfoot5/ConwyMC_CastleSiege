@@ -213,7 +213,7 @@ public class LoadData {
      * @return A tuple of the prepared statement (to close later) and the query's result
      * @throws SQLException If something goes wrong executing the query
      */
-    public static Tuple<PreparedStatement, ResultSet> getActiveKit(UUID uuid, String kitName) throws SQLException {
+    private static Tuple<PreparedStatement, ResultSet> getActiveKit(UUID uuid, String kitName) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "SELECT unlocked_kits, unlocked_until FROM player_unlocks WHERE uuid = ? AND unlocked_kits = ? AND unlocked_until > ?"
                         + " ORDER BY unlocked_until DESC LIMIT 1");
@@ -226,29 +226,30 @@ public class LoadData {
     }
 
     /**
-     * Get the player's kit with most recent expire time
-     * @param uuid The unique ID of the player
-     * @return The reason and end of an active ban, null if no active ban was found
-     * @throws SQLException If something goes wrong executing the query
-     */
-    public static Tuple<String, Timestamp> getUnlockedKit(UUID uuid, String kitName) throws SQLException {
-        // Check all ban records for this uuid to see if one is still active
-        Tuple<PreparedStatement, ResultSet> prUUID = getActiveKit(uuid, kitName);
-        Tuple<String, Timestamp> uuidKit = checkKit(prUUID.getSecond());
-        prUUID.getFirst().close();
-        return uuidKit;
-    }
-
-    /**
      * Check if the query result contains an active kit
      * @param rs The result of a query
      * @return The reason and end of an active ban, null if no active ban was found
      * @throws SQLException If something goes wrong getting data from the query
      */
-    public static Tuple<String, Timestamp> checkKit(ResultSet rs) throws SQLException {
+    public static Timestamp getKitTimestamp(ResultSet rs) throws SQLException {
         if (rs.next()) {
-            return new Tuple<>(rs.getString("unlocked_kits"), rs.getTimestamp("unlocked_until"));
+            return rs.getTimestamp("unlocked_until");
         }
-        return null;
+        return new Timestamp(0);
+    }
+
+    /**
+     * Returns if the uuid currently has a kit unlocked
+     */
+    public static boolean hasKit(UUID uuid, String kitName) {
+        Timestamp timestamp;
+        try {
+            Tuple<PreparedStatement, ResultSet> activeKit = getActiveKit(uuid, kitName);
+            timestamp = getKitTimestamp(activeKit.getSecond());
+            activeKit.getFirst().close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return timestamp.after(new Timestamp(System.currentTimeMillis()));
     }
 }

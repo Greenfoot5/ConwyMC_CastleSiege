@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
@@ -10,13 +9,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
-
-public abstract class MapKit extends Kit {
-
-    //coinprice
-    protected double coinPrice;
+public abstract class MapKit extends DonatorKit {
 
     //map for the map specific kits and the team
     protected String map;
@@ -33,10 +26,13 @@ public abstract class MapKit extends Kit {
      * @param coins the amount of coins this kit costs
      */
     public MapKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins) {
-        super(name, baseHealth, regenAmount);
+        super(name, baseHealth, regenAmount, coins);
         team = playableTeam;
         map = playableMap;
-        coinPrice = coins;
+    }
+
+    public String getTeamName() {
+        return team;
     }
 
     /**
@@ -55,36 +51,30 @@ public abstract class MapKit extends Kit {
         } else if (sender instanceof Player) {
             if (MapController.isSpectator(((Player) sender).getUniqueId())) {
                 Messenger.sendError("Spectators cannot select kits!", sender);
-
-            } else {
-                if (map.equalsIgnoreCase(MapController.getCurrentMap().name)) {
-
-                    Player player = (Player) sender;
-                    if (team.equalsIgnoreCase(MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
-                        try {
-                            Tuple<String, Timestamp> hasKit = LoadData.getUnlockedKit(((Player) sender).getUniqueId(), name);
-                            if (hasKit != null) {
-                                super.addPlayer(player.getUniqueId());
-                            } else {
-                                Messenger.sendError("You don't own this kit!" , sender);
-                            }
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else {
-                        Messenger.sendError("Can't use this kit as this team!", sender);
-                    }
-
-                } else {
-                    Messenger.sendError("You can't use your current kit on this map!", sender);
-                }
+                return true;
             }
+
+            if (!map.equalsIgnoreCase(MapController.getCurrentMap().name)) {
+                Messenger.sendError("You can't use your current kit on this map!", sender);
+                return true;
+            }
+
+            Player player = (Player) sender;
+            if (team.equalsIgnoreCase(MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
+                Messenger.sendError("Can't use this kit as this team!", sender);
+                return true;
+            }
+
+
+            boolean hasKit = LoadData.hasKit(((Player) sender).getUniqueId(), name);
+            if (!hasKit) {
+                Messenger.sendError("You don't own this kit!", sender);
+                return true;
+            }
+
+            super.addPlayer(player.getUniqueId());
             return true;
         }
         return false;
-    }
-
-    public String getTeamName() {
-        return team;
     }
 }
