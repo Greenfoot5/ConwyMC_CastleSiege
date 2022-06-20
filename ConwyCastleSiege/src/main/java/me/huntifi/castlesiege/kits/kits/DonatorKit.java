@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public class DonatorKit extends Kit {
+public abstract class DonatorKit extends Kit {
 
     //coinprice
     protected double coinPrice;
