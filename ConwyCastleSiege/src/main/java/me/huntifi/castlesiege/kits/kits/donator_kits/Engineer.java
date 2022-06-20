@@ -57,7 +57,7 @@ public class Engineer extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Engineer() {
-        super("Engineer", 145, 6, 7500);
+        super("Engineer", 145, 9, 7500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

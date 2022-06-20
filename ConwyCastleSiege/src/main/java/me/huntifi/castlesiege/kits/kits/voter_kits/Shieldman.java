@@ -23,7 +23,7 @@ public class Shieldman extends VoterKit {
      * Set the equipment and attributes of this kit
      */
     public Shieldman() {
-        super("Shieldman", 190, 8);
+        super("Shieldman", 190, 11);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

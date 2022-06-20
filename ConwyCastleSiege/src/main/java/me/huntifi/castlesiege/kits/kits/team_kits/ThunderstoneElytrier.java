@@ -10,10 +10,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -27,14 +24,20 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
 public class ThunderstoneElytrier extends TeamKit implements Listener {
 
+    private final static int POTION_COOLDOWN = 360;
+    private Timestamp currentCooldownTime;
+
+    public ThrownPotion potion;
+
     public ThunderstoneElytrier() {
-        super("Elytrier", 130, 5, "Thunderstone", "Thunderstone Guard", 5000);
+        super("Elytrier", 130, 8, "Thunderstone", "Thunderstone Guard", 5000);
         super.canCap = false;
         super.canSeeHealth = true;
         // Equipment Stuff
@@ -98,8 +101,18 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_FALLING, 999999, 0));
     }
 
-    public ThrownPotion potion;
-
+    /**
+     * Reset the player's items and reapply their potion effects
+     * @param uuid The unique id of the player for whom to perform the refill
+     */
+    @Override
+    public void refillItems(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        assert player != null;
+        int cooldown = player.getCooldown(Material.RED_DYE);
+        super.refillItems(uuid);
+        player.setCooldown(Material.RED_DYE, cooldown);
+    }
 
     /**
      * Activate the elytrier ability of throwing a bomb
@@ -205,7 +218,8 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                         potion.setItem(itemStack);
                         potion.setShooter(p);
 
-                        p.setCooldown(Material.RED_DYE, 180);
+                        p.setCooldown(Material.RED_DYE, POTION_COOLDOWN);
+                        currentCooldownTime = new Timestamp(System.currentTimeMillis() + POTION_COOLDOWN * 50);
                     } else if (!p.isGliding()){
                         Messenger.sendActionError(ChatColor.BOLD + "You can't drop a heal whilst not gliding!", p);
                     } else {
@@ -217,7 +231,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
     }
 
     @EventHandler
-    public void onThrowedPotion(PotionSplashEvent e) {
+    public void onThrownPotion(PotionSplashEvent e) {
 
         if (e.getPotion().getShooter() instanceof Player) {
 

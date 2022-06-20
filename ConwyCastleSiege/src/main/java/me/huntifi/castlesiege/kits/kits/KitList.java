@@ -12,19 +12,19 @@ public class KitList {
 
     public static void registerExistingKits() {
 
-        //Free
+        // Free
         kitNames.add("Sworsman");
         kitNames.add("Archer");
         kitNames.add("Spearman");
 
-        //voter
+        // Voter
         kitNames.add("Skirmisher");
         kitNames.add("Shieldman");
         kitNames.add("Fire Archer");
         kitNames.add("Scout");
         kitNames.add("Ladderman");
 
-        //Donator
+        // Donator
         kitNames.add("Berserker");
         kitNames.add("Vanguard");
         kitNames.add("Executioner");
@@ -40,7 +40,7 @@ public class KitList {
         kitNames.add("Crossbowman");
         kitNames.add("Warhound");
 
-        //Map-Team Specific
+        // Team Specific
         kitNames.add("Moria Orc");
         kitNames.add("Fallen");
         kitNames.add("Elytrier");
@@ -51,5 +51,4 @@ public class KitList {
         kitNames.add("Abyssal");
 
     }
-
 }

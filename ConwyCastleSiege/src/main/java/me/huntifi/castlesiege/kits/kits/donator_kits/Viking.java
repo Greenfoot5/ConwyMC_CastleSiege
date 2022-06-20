@@ -30,7 +30,7 @@ public class Viking extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Viking() {
-        super("Viking", 195, 7, 6000);
+        super("Viking", 195, 10, 6000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

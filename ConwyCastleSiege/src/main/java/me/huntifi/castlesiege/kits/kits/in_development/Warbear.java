@@ -31,7 +31,7 @@ public class Warbear extends Kit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Warbear() {
-        super("Warbear", 200, 6);
+        super("Warbear", 200, 9);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;

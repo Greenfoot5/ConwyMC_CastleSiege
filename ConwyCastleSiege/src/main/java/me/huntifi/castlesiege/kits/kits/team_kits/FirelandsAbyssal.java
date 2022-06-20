@@ -47,7 +47,7 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
     private Player shooter;
 
     public FirelandsAbyssal() {
-        super("Abyssal", 200, 3, "Firelands", "Burning Legion", 5000);
+        super("Abyssal", 200, 9, "Firelands", "Burning Legion", 5000);
         super.canCap = true;
         super.canClimb = false;
         super.canSeeHealth = true;

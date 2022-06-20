@@ -29,7 +29,7 @@ public class Executioner extends DonatorKit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Executioner() {
-		super("Executioner", 150, 7, 6000);
+		super("Executioner", 150, 10, 6000);
 		super.canSeeHealth = true;
 
 		// Equipment Stuff

@@ -33,7 +33,7 @@ public class Cavalry extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Cavalry() {
-        super("Cavalry", 170, 7, 7500);
+        super("Cavalry", 170, 9, 7500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

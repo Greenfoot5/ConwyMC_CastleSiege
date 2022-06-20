@@ -30,7 +30,7 @@ public class Crossbowman extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Crossbowman() {
-        super("Crossbowman", 165, 6.5, 7500);
+        super("Crossbowman", 165, 9.5, 7500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

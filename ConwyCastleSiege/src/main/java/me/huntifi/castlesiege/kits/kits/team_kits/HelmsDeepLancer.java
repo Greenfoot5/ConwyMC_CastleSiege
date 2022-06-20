@@ -37,7 +37,7 @@ import java.util.UUID;
 public class HelmsDeepLancer extends TeamKit implements Listener {
 
     public HelmsDeepLancer() {
-        super("Lancer", 170, 5, "Helm's Deep", "Rohan", 5000);
+        super("Lancer", 170, 8, "Helm's Deep", "Rohan", 5000);
 
     // Equipment Stuff
     EquipmentSet es = new EquipmentSet();
