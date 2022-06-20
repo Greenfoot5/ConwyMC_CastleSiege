@@ -31,10 +31,10 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Elytrier extends TeamKit implements Listener {
+public class ThunderstoneElytrier extends TeamKit implements Listener {
 
-    public Elytrier() {
-        super("", 130, 5, "Thunderstone", "Thunderstone Guard", 5000);
+    public ThunderstoneElytrier() {
+        super("Elytrier", 130, 5, "Thunderstone", "Thunderstone Guard", 5000);
         super.canCap = false;
         super.canSeeHealth = true;
         // Equipment Stuff
