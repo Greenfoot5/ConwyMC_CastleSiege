@@ -40,7 +40,7 @@ public class Door implements Listener {
      * Opens the door
      */
     protected void open() throws WorldEditException {
-        SchematicSpawner.spawnSchematic(centre, schematicNames.getSecond(), centre.getWorld().getName());
+        SchematicSpawner.spawnSchematic(centre, schematicNames.getSecond(), Objects.requireNonNull(centre.getWorld()).getName());
         Objects.requireNonNull(centre.getWorld()).playSound(centre, sounds.getSecond(), 3, 1);
     }
 
@@ -48,7 +48,7 @@ public class Door implements Listener {
      * Closes the door
      */
     protected void close() throws WorldEditException {
-        SchematicSpawner.spawnSchematic(centre, schematicNames.getFirst(), centre.getWorld().getName());
+        SchematicSpawner.spawnSchematic(centre, schematicNames.getFirst(), Objects.requireNonNull(centre.getWorld()).getName());
         Objects.requireNonNull(centre.getWorld()).playSound(centre, sounds.getFirst(), 3, 1);
     }
 }

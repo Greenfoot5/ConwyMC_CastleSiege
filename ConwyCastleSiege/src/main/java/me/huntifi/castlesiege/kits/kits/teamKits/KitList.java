@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.kits.kits.teamKits;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /*
 A list of the kits that exist
@@ -9,7 +8,7 @@ A list of the kits that exist
 public class KitList {
 
     //Kit name tracking
-    public static ArrayList<String> kitNames = new ArrayList<String>();
+    public static ArrayList<String> kitNames = new ArrayList<>();
 
     public static void registerExistingKits() {
 

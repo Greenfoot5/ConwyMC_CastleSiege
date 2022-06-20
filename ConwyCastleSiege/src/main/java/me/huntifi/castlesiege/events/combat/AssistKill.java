@@ -9,10 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Tracks damage dealt to grant assists
@@ -90,7 +87,7 @@ public class AssistKill implements Listener {
         }
 
         damageMap.remove(uuid);
-        return damagers.entrySet().stream().max((x, y) -> x.getValue() > y.getValue() ? 1 : -1).get().getKey();
+        return damagers.entrySet().stream().max(Map.Entry.comparingByValue()).get().getKey();
     }
 
     /**

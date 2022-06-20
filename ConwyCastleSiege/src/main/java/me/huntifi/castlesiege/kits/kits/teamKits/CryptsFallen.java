@@ -10,11 +10,8 @@ import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,7 +23,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collections;
 import java.util.Objects;
-import java.util.Random;
 
 public class CryptsFallen extends MapKit implements Listener {
     /**

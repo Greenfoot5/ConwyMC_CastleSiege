@@ -3,8 +3,7 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.maps.NameTag;
-import me.libraryaddict.disguise.DisguiseConfig;
+import me.huntifi.castlesiege.kits.kits.donatorKits.Warhound;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.ChatColor;
@@ -79,15 +78,7 @@ public class Warbear extends Kit implements Listener {
     protected void disguise(Player p) {
         MobDisguise mobDisguise = new MobDisguise(DisguiseType.POLAR_BEAR);
 
-        mobDisguise.getWatcher().setCustomName(NameTag.color(p) + p.getName());
-        mobDisguise.setCustomDisguiseName(true);
-        mobDisguise.setHearSelfDisguise(true);
-        mobDisguise.setSelfDisguiseVisible(false);
-        mobDisguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
-
-        mobDisguise.setEntity(p);
-        mobDisguise.startDisguise();
-        NameTag.give(p);
+        Warhound.disguiser(p, mobDisguise);
     }
 
     /**

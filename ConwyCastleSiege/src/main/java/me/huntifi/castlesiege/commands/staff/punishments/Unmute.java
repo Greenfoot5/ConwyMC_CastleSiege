@@ -13,7 +13,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 /**
  * Unmutes a player

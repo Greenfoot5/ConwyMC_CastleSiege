@@ -179,7 +179,7 @@ public class Medic extends DonatorKit implements Listener {
             return;
         }
 
-        if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK && cake != null &&
                 cake.getType().equals(Material.CAKE)) {
             Player q = getPlacer(cake);
 

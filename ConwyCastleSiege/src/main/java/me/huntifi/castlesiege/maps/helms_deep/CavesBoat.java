@@ -44,19 +44,6 @@ public class CavesBoat implements Listener, Runnable {
 	}
 
 	/**
-	 * Removes a boat from the list if it's destroyed
-	 * @param event Called when a vehicle is hit
-	 */
-	@EventHandler (priority = EventPriority.HIGH)
-	public void onBoatDestroyBoat(VehicleDamageEvent event) {
-
-		if (event.getVehicle() instanceof Boat) {
-
-
-		}
-	}
-
-	/**
 	 * Spawns a boat.
 	 * Does not check if there are any boats already
 	 */

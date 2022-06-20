@@ -88,6 +88,10 @@ public class Warhound extends DonatorKit implements Listener {
         wolfWatcher.setCollarColor(getCollarColor(p));
         wolfWatcher.setTamed(true);
 
+        disguiser(p, mobDisguise);
+    }
+
+    public static void disguiser(Player p, MobDisguise mobDisguise) {
         mobDisguise.getWatcher().setCustomName(NameTag.color(p) + p.getName());
         mobDisguise.setCustomDisguiseName(true);
         mobDisguise.setHearSelfDisguise(true);

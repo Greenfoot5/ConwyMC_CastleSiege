@@ -2,15 +2,18 @@ package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.Bounty;
-import me.huntifi.castlesiege.commands.staff.RankPoints;
 import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.*;
-import java.sql.Date;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Store a player's data when they leave the game
@@ -132,7 +135,7 @@ public class StoreData {
                 try {
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                             "INSERT INTO player_unlocks VALUES (?, ?, ?, ?, ?, ?)");
-                    ps.setString(1, Bukkit.getPlayer(uuid).getName());
+                    ps.setString(1, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName());
                     ps.setString(2, uuid.toString());
                     ps.setString(3, kitName);
                     ps.setTimestamp(4, new Timestamp(System.currentTimeMillis() + duration));

@@ -15,19 +15,19 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -156,6 +156,10 @@ public class HelmsDeepLancer extends MapKit implements Listener {
 
         horse.getInventory().setSaddle(new ItemStack(Material.SADDLE)); // Gives horse saddle
         horse.getInventory().setArmor(new ItemStack(Material.GOLDEN_HORSE_ARMOR)); // Gives horse armor
+        addHorseEffects(p, horse);
+    }
+
+    public static void addHorseEffects(Player p, Horse horse) {
         horse.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 999999, 0)));
         horse.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 999999, 1)));
         horse.addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 999999, 0)));

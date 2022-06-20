@@ -2,13 +2,10 @@ package me.huntifi.castlesiege.commands.chat;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
-import me.huntifi.castlesiege.events.chat.Messenger;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

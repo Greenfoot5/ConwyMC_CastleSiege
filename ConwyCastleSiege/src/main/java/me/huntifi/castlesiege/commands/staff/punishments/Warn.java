@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.commands.staff.punishments;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.Punishments;
 import org.bukkit.Bukkit;

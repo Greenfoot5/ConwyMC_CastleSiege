@@ -74,6 +74,7 @@ public class ItemCreator {
 
     private static ItemStack setDamage(ItemStack item, double damage) {
         ItemMeta meta = item.getItemMeta();
+        assert meta != null;
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
                 new AttributeModifier(UUID.randomUUID(), "SetHandDamage", damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,

@@ -98,6 +98,7 @@ public class EquipmentSet {
 
     private ItemStack clearDefence(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
+        assert meta != null;
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("RemoveArmour", 0.0, AttributeModifier.Operation.ADD_SCALAR));
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier("RemoveToughness", 0.0, AttributeModifier.Operation.ADD_SCALAR));
         item.setItemMeta(meta);

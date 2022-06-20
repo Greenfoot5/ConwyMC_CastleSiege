@@ -1,14 +1,5 @@
 package me.huntifi.castlesiege.tablist;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-
-import me.huntifi.castlesiege.Main;
-
 public class Tablist {
 	
 	/*private List<ChatComponentText> headers = new ArrayList<>();

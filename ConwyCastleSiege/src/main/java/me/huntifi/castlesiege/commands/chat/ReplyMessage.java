@@ -2,7 +2,6 @@
 package me.huntifi.castlesiege.commands.chat;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

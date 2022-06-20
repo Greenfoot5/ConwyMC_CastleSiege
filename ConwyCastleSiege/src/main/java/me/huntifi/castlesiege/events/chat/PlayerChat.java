@@ -49,8 +49,6 @@ public class PlayerChat implements Listener {
 		// Set message colour to white or gray and send as regular message
 		ChatColor color = p.hasPermission("castlesiege.chatmod") ? ChatColor.WHITE : ChatColor.GRAY;
 
-		String colorC = p.hasPermission("castlesiege.chatmod") ? "&f" : "&7";
-
 		//Allow to tag players in chat
 		for (Player tagged : Bukkit.getOnlinePlayers()) {
 			if (message.contains("@" + tagged.getName())) {

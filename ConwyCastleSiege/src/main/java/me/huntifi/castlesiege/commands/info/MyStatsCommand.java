@@ -19,8 +19,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Shows the player's stats

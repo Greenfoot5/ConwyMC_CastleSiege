@@ -146,7 +146,7 @@ public class Ranger extends DonatorKit implements Listener {
         if (e.getEntity() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
             Player p = (Player) e.getEntity();
-            String b = e.getBow().getItemMeta().getDisplayName();
+            String b = Objects.requireNonNull(Objects.requireNonNull(e.getBow()).getItemMeta()).getDisplayName();
 
             if (Objects.equals(b, ChatColor.GREEN + "Volley Bow")) {
                 Vector v = e.getProjectile().getVelocity();

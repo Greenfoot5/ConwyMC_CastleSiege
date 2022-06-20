@@ -22,7 +22,7 @@ public class Tips extends BukkitRunnable {
             "Use /maps to see the current rotation",
             "Hit by something that seems invisible? Check your surroundings for Crossbowmen!",
             "Don't forget, all donator kits are unlocked for testing sessions!",
-            "Engineers are a useful class that can speed up catapult reloads, repair gates, place traps and use ballistae, make sure you've got one on your team!",
+            "Engineers are a useful class that can speed up catapult reloads, repair gates, place traps and use ballista, make sure you've got one on your team!",
             "Low on health? Find a medic or some cake!",
             "Found a suspicious player? Make a report on the discord server or tell a staff member",
             "Low on arrows or ladders? Resupply with an enderchest!",

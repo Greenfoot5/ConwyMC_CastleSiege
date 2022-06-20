@@ -33,7 +33,6 @@ public class CaptureHandler extends Handler {
 
     /**
      * Creates a new Capture Handler
-     * @param session
      */
     public CaptureHandler(Session session) {
         super(session);

@@ -6,25 +6,22 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.teamKits.HelmsDeepLancer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -104,7 +101,7 @@ public class Cavalry extends DonatorKit implements Listener {
             if (cooldown == 0) {
                 p.setCooldown(Material.WHEAT, 600);
 
-                if (p.isInsideVehicle()) {
+                if (p.isInsideVehicle() && p.getVehicle() != null) {
                     p.getVehicle().remove();
                 }
                 spawnHorse(p);
@@ -134,12 +131,6 @@ public class Cavalry extends DonatorKit implements Listener {
 
         horse.getInventory().setSaddle(new ItemStack(Material.SADDLE)); // Gives horse saddle
         horse.getInventory().setArmor(new ItemStack(Material.IRON_HORSE_ARMOR)); // Gives horse armor
-        horse.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 999999, 0)));
-        horse.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 999999, 1)));
-        horse.addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 999999, 0)));
-        Location loc = p.getLocation();
-        horse.teleport(loc);
-
-        horse.addPassenger(p);
+        HelmsDeepLancer.addHorseEffects(p, horse);
     }
 }

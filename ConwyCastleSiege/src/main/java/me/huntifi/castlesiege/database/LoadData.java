@@ -4,7 +4,6 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 
-import java.net.InetAddress;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -237,10 +236,7 @@ public class LoadData {
         Tuple<PreparedStatement, ResultSet> prUUID = getActiveKit(uuid, kitName);
         Tuple<String, Timestamp> uuidKit = checkKit(prUUID.getSecond());
         prUUID.getFirst().close();
-        if (uuidKit != null) {
-            return uuidKit;
-        }
-        return null;
+        return uuidKit;
     }
 
     /**

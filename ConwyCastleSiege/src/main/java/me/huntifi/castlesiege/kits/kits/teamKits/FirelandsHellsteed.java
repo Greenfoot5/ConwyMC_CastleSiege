@@ -183,7 +183,7 @@ public class FirelandsHellsteed extends MapKit implements Listener {
                 return;
             }
 
-            if (clicked.getUniqueId() == null || Kit.equippedKits.get(clicked.getUniqueId()).name == null) {
+            if (Kit.equippedKits.get(clicked.getUniqueId()).name == null) {
                 return;
             }
             if (Objects.equals(Kit.equippedKits.get(clicked.getUniqueId()).name, name)
