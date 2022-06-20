@@ -61,7 +61,7 @@ public abstract class TeamKit extends DonatorKit {
             }
 
             Player player = (Player) sender;
-            if (team.equalsIgnoreCase(MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
+            if (!team.equalsIgnoreCase(MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
                 ((Player)sender).performCommand("swordsman");
                 Messenger.sendError("Can't use this kit on this team!", sender);
                 return true;
