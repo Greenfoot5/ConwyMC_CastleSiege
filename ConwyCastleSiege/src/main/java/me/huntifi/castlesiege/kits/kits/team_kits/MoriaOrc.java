@@ -4,7 +4,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.MapKit;
+import me.huntifi.castlesiege.kits.kits.TeamKit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -23,7 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.Collections;
 import java.util.Objects;
 
-public class MoriaOrc extends MapKit implements Listener {
+public class MoriaOrc extends TeamKit implements Listener {
 
 
     public MoriaOrc() {

@@ -8,7 +8,7 @@ import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.MapKit;
+import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseConfig;
@@ -40,7 +40,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class FirelandsAbyssal extends MapKit implements Listener {
+public class FirelandsAbyssal extends TeamKit implements Listener {
 
     private FallingBlock magma;
     private Fireball ball;

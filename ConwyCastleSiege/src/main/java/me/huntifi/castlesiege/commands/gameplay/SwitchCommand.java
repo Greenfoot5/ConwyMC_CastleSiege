@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.MapKit;
+import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
@@ -132,7 +132,7 @@ public class SwitchCommand implements CommandExecutor {
 
 		// Remove any team specific kits
 		Kit kit = Kit.equippedKits.get(p.getUniqueId());
-		if (kit instanceof MapKit && !Objects.equals(((MapKit) kit).getTeamName(), team.name)) {
+		if (kit instanceof TeamKit && !Objects.equals(((TeamKit) kit).getTeamName(), team.name)) {
 			Kit.equippedKits.remove(p.getUniqueId());
 			Kit.equippedKits.put(p.getUniqueId(), new Swordsman());
 			ActiveData.getData(p.getUniqueId()).setKit("swordsman");

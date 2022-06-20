@@ -9,7 +9,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class MapKit extends DonatorKit {
+public abstract class TeamKit extends DonatorKit {
 
     //map for the map specific kits and the team
     protected String map;
@@ -25,7 +25,7 @@ public abstract class MapKit extends DonatorKit {
      * @param playableTeam The team the kit can be played on
      * @param coins the amount of coins this kit costs
      */
-    public MapKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins) {
+    public TeamKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins) {
         super(name, baseHealth, regenAmount, coins);
         team = playableTeam;
         map = playableMap;

@@ -4,7 +4,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.MapKit;
+import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseConfig;
@@ -24,7 +24,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.Collections;
 import java.util.Objects;
 
-public class CryptsFallen extends MapKit implements Listener {
+public class CryptsFallen extends TeamKit implements Listener {
     /**
      * Create a kit with basic settings
      *

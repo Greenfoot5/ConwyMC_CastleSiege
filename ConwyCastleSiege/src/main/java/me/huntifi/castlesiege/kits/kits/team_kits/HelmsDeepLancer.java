@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.MapKit;
+import me.huntifi.castlesiege.kits.kits.TeamKit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class HelmsDeepLancer extends MapKit implements Listener {
+public class HelmsDeepLancer extends TeamKit implements Listener {
 
     public HelmsDeepLancer() {
         super("Lancer", 170, 5, "Helm's Deep", "Rohan", 5000);

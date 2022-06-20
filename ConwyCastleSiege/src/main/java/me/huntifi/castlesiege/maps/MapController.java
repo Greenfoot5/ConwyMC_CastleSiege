@@ -11,7 +11,7 @@ import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.MapKit;
+import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
@@ -270,7 +270,7 @@ public class MapController {
 					joinATeam(player.getUniqueId());
 					//If the player is using a map specific kit it shall be removed
 					// and they will be given swordsman instead.
-					checkMapKit(player);
+					checkTeamKit(player);
 				}
 			}
 		} else {
@@ -293,7 +293,7 @@ public class MapController {
 					if (maps.get(mapIndex).getTeam(player.getUniqueId()) == null) {
 						joinATeam(player.getUniqueId());
 					}
-					checkMapKit(player);
+					checkTeamKit(player);
 				}
 			}
 		}
@@ -317,9 +317,9 @@ public class MapController {
 		timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond());
 	}
 
-	private static void checkMapKit(Player player) {
+	private static void checkTeamKit(Player player) {
 		Kit kit = Kit.equippedKits.get(player.getUniqueId());
-		if (kit instanceof MapKit) {
+		if (kit instanceof TeamKit) {
 			Kit.equippedKits.remove(player.getUniqueId());
 			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
 			ActiveData.getData(player.getUniqueId()).setKit("swordsman");

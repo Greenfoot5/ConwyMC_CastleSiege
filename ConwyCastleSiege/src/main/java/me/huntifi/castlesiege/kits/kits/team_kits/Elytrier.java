@@ -8,7 +8,7 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.MapKit;
+import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Elytrier extends MapKit implements Listener {
+public class Elytrier extends TeamKit implements Listener {
 
     public Elytrier() {
         super("", 130, 5, "Thunderstone", "Thunderstone Guard", 5000);
