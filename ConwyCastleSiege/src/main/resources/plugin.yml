@@ -302,11 +302,11 @@ commands:
     permission-message: You are not permitted to use this command!
 
   # Donations
-  UnlockedKit:
+  Unlockkit:
     description: Disables/Enables non-forceful switching
-    usage: /Unlockedkit [Player Name] [add/remove] [Kit Name] [Time]
+    usage: /Unlockkit [Player Name] [add/remove] [Kit Name] [Time]
     permission: castlesiege.developer
-    permission-message: You are not permitted to use this command!
+    permission-message: You should donate or pay coins instead!
   # Kits
   Kit:
     description: Open the GUI for selecting kits
