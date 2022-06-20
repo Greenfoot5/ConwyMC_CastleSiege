@@ -41,7 +41,7 @@ import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.kits.gui.*;
 import me.huntifi.castlesiege.kits.items.Enderchest;
-import me.huntifi.castlesiege.kits.kits.*;
+import me.huntifi.castlesiege.kits.kits.KitList;
 import me.huntifi.castlesiege.kits.kits.donator_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
@@ -240,7 +240,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("StaffChat")).setExecutor(new StaffChat());
                 Objects.requireNonNull(getCommand("Spectate")).setExecutor(new SpectateCommand());
                 Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());
-                Objects.requireNonNull(getCommand("Unlockedkit")).setExecutor(new UnlockedKitCommand());
+                Objects.requireNonNull(getCommand("Unlockkit")).setExecutor(new UnlockedKitCommand());
                 Objects.requireNonNull(getCommand("ForceSwitch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new SwitchCommand());
 
