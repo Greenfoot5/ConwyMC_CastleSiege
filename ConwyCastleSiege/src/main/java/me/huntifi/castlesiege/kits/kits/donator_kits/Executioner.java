@@ -8,9 +8,11 @@ import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.*;
+import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -111,6 +113,26 @@ public class Executioner extends DonatorKit implements Listener {
 
 					DeathEvent.setKiller(whoWasHit, whoHit);
 					whoWasHit.setHealth(0);
+				}
+			}
+		} else if (e.getEntity() instanceof Player) {
+			Player whoHit = (Player) e.getDamager();
+			Attributable whoWasHit = (Attributable) e.getEntity();
+			Damageable damageable = (Damageable) e.getEntity();
+
+			// Executioner hits with axe
+			if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name) &&
+					whoHit.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE) {
+				AttributeInstance healthAttribute = whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+				assert healthAttribute != null;
+
+				// Execute
+				if (damageable.getHealth() < healthAttribute.getValue() * 0.40) {
+					e.setCancelled(true);
+
+					Location loc = damageable.getLocation();
+					damageable.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
+					damageable.setHealth(0);
 				}
 			}
 		}

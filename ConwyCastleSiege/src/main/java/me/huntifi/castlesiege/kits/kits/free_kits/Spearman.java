@@ -12,12 +12,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -31,6 +33,9 @@ import java.util.UUID;
  * The spearman kit
  */
 public class Spearman extends Kit implements Listener {
+
+	// Damage multiplier when hitting horses
+	private static final double HORSE_MULTIPLIER = 1.5;
 
 	/**
 	 * Set the equipment and attributes of this kit
@@ -151,6 +156,15 @@ public class Spearman extends Kit implements Listener {
 			while (l.getBlock().getType() == Material.LADDER) {
 				l.getBlock().setType(Material.AIR);
 				l.setY(l.getBlockY() - 1);
+			}
+		}
+	}
+
+	@EventHandler
+	public void onDamage(EntityDamageByEntityEvent e) {
+		if (e.getDamager() instanceof Player && e.getEntity() instanceof Horse) {
+			if (Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
+				e.setDamage(e.getDamage() * HORSE_MULTIPLIER);
 			}
 		}
 	}
