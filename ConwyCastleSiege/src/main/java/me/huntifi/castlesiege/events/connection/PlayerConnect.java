@@ -7,7 +7,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.*;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.Swordsman;
+import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
