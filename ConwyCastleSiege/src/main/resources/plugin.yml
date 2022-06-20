@@ -304,7 +304,7 @@ commands:
   # Donations
   Unlockkit:
     description: Disables/Enables non-forceful switching
-    usage: /Unlockkit [Player Name] [add/remove] [Kit Name] [Time]
+    usage: /Unlockkit [Player Name] [add/remove] [Kit Name] [Time] [IsDonated:true/false]
     permission: castlesiege.developer
     permission-message: You should donate or pay coins instead!
   # Kits

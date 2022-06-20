@@ -29,7 +29,7 @@ public class UnlockedKitCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if (args.length < 3) {
+        if (args.length < 5) {
             return false;
         }
         new BukkitRunnable() {
@@ -38,7 +38,6 @@ public class UnlockedKitCommand implements CommandExecutor {
                 UUID uuid = Bukkit.getOfflinePlayer(args[0]).getUniqueId();
                 String option = args[1];
                 String kit = args[2];
-                boolean isDonation = false;
 
                 try {
 
@@ -52,11 +51,22 @@ public class UnlockedKitCommand implements CommandExecutor {
                                     return;
                                 }
 
+
                                 if (KitList.kitNames.contains(kit)) {
 
-                                    StoreData.addUnlockedKit(uuid, args[2], duration, false);
-                                    Messenger.sendInfo("Succesfully added " + args[2] + " to "
-                                            + Bukkit.getPlayer(uuid).getName() + " for " + duration, sender);
+                                    if (args[4].equalsIgnoreCase("true")) {
+                                        StoreData.addUnlockedKit(uuid, args[2], duration, true);
+
+                                        Messenger.sendInfo("Succesfully added " + args[2] + " to "
+                                                + Bukkit.getPlayer(uuid).getName() + " for " + duration, sender);
+                                    } else if (args[4].equalsIgnoreCase("false")) {
+                                        StoreData.addUnlockedKit(uuid, args[2], duration, false);
+
+                                        Messenger.sendInfo("Succesfully added " + args[2] + " to "
+                                                + Bukkit.getPlayer(uuid).getName() + " for " + duration, sender);
+                                    } else {
+                                        Messenger.sendError("Requires is donated true or false.", sender);
+                                    }
 
                                 } else {
                                     Messenger.sendError("An invalid kit was provided.", sender);
