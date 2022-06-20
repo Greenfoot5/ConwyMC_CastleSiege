@@ -11,6 +11,8 @@ import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.DisguiseConfig;
+import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
@@ -110,7 +112,7 @@ public abstract class Kit implements CommandExecutor {
         refillItems(uuid);
 
         // Change disguise
-        disguise(player);
+        setDisguise(player);
 
         // Change player health display
         displayHealth(player);
@@ -191,12 +193,33 @@ public abstract class Kit implements CommandExecutor {
     }
 
     /**
-     * Remove a player's disguise and reapply their nametag color
-     * @param p The player to (un)disguise
+     * Sets a disguise
      */
-    protected void disguise(Player p) {
-        if (DisguiseAPI.isDisguised(p)) {
-            DisguiseAPI.undisguiseToAll(p);
+    protected void setDisguise(Player p) {
+        disguise(p, null);
+    }
+
+    /**
+     * Disguises a player
+     * @param p The player to (un)disguise
+     * @param disguise The disguise to disguise the player as
+     */
+    protected void disguise(Player p, MobDisguise disguise) {
+        if (disguise == null) {
+            if (DisguiseAPI.isDisguised(p)) {
+                DisguiseAPI.undisguiseToAll(p);
+                NameTag.give(p);
+            }
+        }
+        else {
+            disguise.getWatcher().setCustomName(NameTag.color(p) + p.getName());
+            disguise.setCustomDisguiseName(true);
+            disguise.setHearSelfDisguise(true);
+            disguise.setSelfDisguiseVisible(false);
+            disguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
+
+            disguise.setEntity(p);
+            disguise.startDisguise();
             NameTag.give(p);
         }
     }

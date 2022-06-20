@@ -81,26 +81,14 @@ public class Warhound extends DonatorKit implements Listener {
      * @param p The player to (un)disguise
      */
     @Override
-    protected void disguise(Player p) {
+    protected void setDisguise(Player p) {
         MobDisguise mobDisguise = new MobDisguise(DisguiseType.WOLF);
         WolfWatcher wolfWatcher = (WolfWatcher) mobDisguise.getWatcher();
 
         wolfWatcher.setCollarColor(getCollarColor(p));
         wolfWatcher.setTamed(true);
 
-        disguiser(p, mobDisguise);
-    }
-
-    public static void disguiser(Player p, MobDisguise mobDisguise) {
-        mobDisguise.getWatcher().setCustomName(NameTag.color(p) + p.getName());
-        mobDisguise.setCustomDisguiseName(true);
-        mobDisguise.setHearSelfDisguise(true);
-        mobDisguise.setSelfDisguiseVisible(false);
-        mobDisguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
-
-        mobDisguise.setEntity(p);
-        mobDisguise.startDisguise();
-        NameTag.give(p);
+        disguise(p, mobDisguise);
     }
 
     /**

@@ -246,12 +246,10 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                                 UpdateStats.addSupports(damager.getUniqueId(), 2);
 
                             }
-
                         }
                     }
                 }
             }
         }
     }
-
 }

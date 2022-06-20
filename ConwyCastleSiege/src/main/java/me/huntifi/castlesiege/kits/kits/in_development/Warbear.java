@@ -4,7 +4,6 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.donator_kits.Warhound;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.ChatColor;
@@ -76,10 +75,10 @@ public class Warbear extends Kit implements Listener {
      * @param p The player to (un)disguise
      */
     @Override
-    protected void disguise(Player p) {
+    protected void setDisguise(Player p) {
         MobDisguise mobDisguise = new MobDisguise(DisguiseType.POLAR_BEAR);
 
-        Warhound.disguiser(p, mobDisguise);
+        disguise(p, mobDisguise);
     }
 
     /**
