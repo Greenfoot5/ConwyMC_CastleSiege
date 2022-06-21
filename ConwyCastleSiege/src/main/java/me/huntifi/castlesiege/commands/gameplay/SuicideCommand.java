@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -30,14 +31,19 @@ public class SuicideCommand implements CommandExecutor {
 			sender.sendMessage("Console cannot die!");
 			return true;
 		}else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
-			sender.sendMessage("Spectators cannot die!");
+			Messenger.sendError("Spectators cannot die!", sender);
 			return true;
 		}
 
+		assert sender instanceof Player;
 		Player p = (Player) sender;
 		p.setHealth(0);
-		p.sendMessage("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)");
-		UpdateStats.addDeaths(p.getUniqueId(), 1); // Note: 1 death added on player respawn
+		if (MapController.isOngoing()) {
+			Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", p);
+			UpdateStats.addDeaths(p.getUniqueId(), 1); // Note: 1 death added on player respawn
+		} else {
+			Messenger.sendInfo("You have committed suicide.", p);
+		}
 		return true;
 	}
 }

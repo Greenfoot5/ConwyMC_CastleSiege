@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.events.combat;
 
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +16,9 @@ public class ArrowRemoval implements Listener {
 	 */
 	@EventHandler
 	public void onHit(final ProjectileHitEvent e) {
+		if (!MapController.isOngoing()) {
+			return;
+		}
 
 		if (e.getEntity() instanceof Arrow) {
 			Arrow arrow = (Arrow) e.getEntity();

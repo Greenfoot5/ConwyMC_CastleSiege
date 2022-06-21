@@ -34,10 +34,11 @@ public class KitCommand implements CommandExecutor {
             sender.sendMessage("Console cannot select kits!");
             return true;
         } else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
-            sender.sendMessage("Spectators cannot select kits!");
+            Messenger.sendError("Spectators cannot select kits!", sender);
             return true;
         }
 
+        assert sender instanceof Player;
         Player p = (Player) sender;
         if (args.length == 0) {
             // No arguments passed -> open kit selector GUI

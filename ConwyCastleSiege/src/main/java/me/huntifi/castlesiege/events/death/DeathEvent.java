@@ -78,7 +78,9 @@ public class DeathEvent implements Listener {
         event.setDeathMessage(null);
         respawn(event.getEntity());
         stopCapping(event.getEntity());
-        updateStats(event);
+        if (MapController.isOngoing()) {
+            updateStats(event);
+        }
     }
 
     /**

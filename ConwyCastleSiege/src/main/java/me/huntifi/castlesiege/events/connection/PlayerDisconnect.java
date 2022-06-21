@@ -41,9 +41,9 @@ public class PlayerDisconnect implements Listener {
             e.setQuitMessage(ChatColor.YELLOW + ActiveData.getData(uuid).getLeaveMessage());
         }
 
-        if (InCombat.isPlayerInCombat(uuid)) {
+        if (InCombat.isPlayerInCombat(uuid) && MapController.isOngoing()) {
             UpdateStats.addDeaths(uuid, 2);
-        } else if (!InCombat.isPlayerInLobby(uuid)) {
+        } else if (!InCombat.isPlayerInLobby(uuid) && MapController.isOngoing()) {
             UpdateStats.addDeaths(uuid, 1);
         }
         InCombat.playerDied(uuid);

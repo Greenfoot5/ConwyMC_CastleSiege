@@ -21,6 +21,10 @@ public class TeamCombat implements Listener {
 	 */
 	@EventHandler (priority = EventPriority.LOWEST)
 	public void onHurt(EntityDamageByEntityEvent e) {
+		if (!MapController.isOngoing()) {
+			return;
+		}
+
 		// A player was hurt
 		if (e.getEntity() instanceof Player) {
 			Player p = (Player) e.getEntity();

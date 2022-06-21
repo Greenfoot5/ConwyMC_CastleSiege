@@ -17,15 +17,12 @@ import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
-import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 import static org.bukkit.Bukkit.*;
@@ -42,8 +39,8 @@ public class MapController {
 	public static int mapCount = 3;
 
 	// Delays
-	public static int preGameDelay = 0;
-	public static int preMapDelay = 0;
+	public static int preGameTime = 0;
+	public static int lobbyLockedTime = 0;
 	public static int explorationTime = 0;
 
 	public static boolean isMatch = false;
@@ -103,7 +100,7 @@ public class MapController {
 	 * @param mapName the name of the map to set the current map to
 	 */
 	public static void setMap(String mapName) {
-		timer.hasGameEnded = true;
+		timer.state = TimerState.ENDED;
 		String oldMap = maps.get(mapIndex).name;
 		for (int i = 0; i < maps.size(); i++) {
 			if (Objects.equals(maps.get(i).name, mapName)) {
@@ -124,7 +121,7 @@ public class MapController {
 	 * (called by the timer or if all flags are captured)
 	 */
 	public static void endMap() {
-		timer.hasGameEnded = true;
+		timer.state = TimerState.ENDED;
 
 		// Calculate the winner based on the game mode
 		String winners = null;
@@ -233,16 +230,6 @@ public class MapController {
 		// Clear the scoreboard
 		Scoreboard.clearScoreboard();
 
-		// Register the flag regions
-		for (Flag flag : maps.get(mapIndex).flags) {
-			if (flag.region != null) {
-				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName))))).addRegion(flag.region);
-
-				if (flag.getFlagColour() == null) { return; }
-				flag.createHologram(flag.holoLoc, flag.getFlagColour());
-			}
-		}
-
 		// Register doors
 		for (Door door : maps.get(mapIndex).doors) {
 			Main.plugin.getServer().getPluginManager().registerEvents(door, Main.plugin);
@@ -251,11 +238,6 @@ public class MapController {
 		// Register gates
 		for (Catapult catapult : maps.get(mapIndex).catapults) {
 			Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
-		}
-
-		// Register gates
-		for (Gate gate : maps.get(mapIndex).gates) {
-			Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
 		}
 
 		// Register the woolmap clicks
@@ -314,7 +296,74 @@ public class MapController {
 		world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, maps.get(mapIndex).daylightCycle);
 
 		// Start the timer!
-		timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond());
+		if (mapIndex == 0) {
+			// Pregame
+			if (preGameTime > 0)
+				timer = new Timer(preGameTime / 60, preGameTime % 60, TimerState.PREGAME);
+			else if (preGameTime < 0) {
+				timer = new Timer(-1, -1, TimerState.PREGAME);
+			}
+		} else {
+			if (explorationTime > 0)
+				timer = new Timer(explorationTime / 60, explorationTime % 60, TimerState.EXPLORATION);
+			else if (explorationTime < 0)
+				timer = new Timer(-1, -1, TimerState.EXPLORATION);
+			else if (lobbyLockedTime > 0)
+				timer = new Timer(lobbyLockedTime / 60, lobbyLockedTime % 60, TimerState.LOBBY_LOCKED);
+			else if (lobbyLockedTime < 0)
+				timer = new Timer(-1, -1, TimerState.PREGAME);
+			else
+				timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond(), TimerState.ONGOING);
+		}
+	}
+
+	public static void beginExploration() {
+		if (explorationTime > 1) {
+			timer.restartTimer(explorationTime / 60, explorationTime % 60);
+		} else if (explorationTime == 0) {
+			timer.startTimer();
+		} else {
+			timer.seconds = explorationTime;
+		}
+	}
+
+	public static void beginLobbyLock() {
+		if (explorationTime > 1) {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (!isSpectator(player.getUniqueId())) {
+					player.setHealth(0);
+				}
+			}
+		}
+
+		if (lobbyLockedTime > 1) {
+			timer.restartTimer(lobbyLockedTime / 60, lobbyLockedTime % 60);
+		} else if (lobbyLockedTime == 0) {
+			timer.startTimer();
+		} else {
+			timer.seconds = lobbyLockedTime;
+		}
+	}
+
+	public static void beginMap() {
+		// Register the flag regions
+		for (Flag flag : maps.get(mapIndex).flags) {
+			if (flag.region != null) {
+				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName))))).addRegion(flag.region);
+
+				if (flag.getFlagColour() == null) {
+					return;
+				}
+				flag.createHologram(flag.holoLoc, flag.getFlagColour());
+			}
+		}
+
+		// Register gates
+		for (Gate gate : maps.get(mapIndex).gates) {
+			Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
+		}
+
+		timer.restartTimer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond());
 	}
 
 	private static void checkTeamKit(Player player) {
@@ -382,7 +431,7 @@ public class MapController {
 	 * @return If all the flags belong to the same team
 	 */
 	public static Boolean hasMapEnded() {
-		if (timer.hasGameEnded) {
+		if (timer.state == TimerState.ENDED) {
 			return true;
 		}
 
@@ -444,16 +493,7 @@ public class MapController {
 		return SpectateCommand.spectators.contains(uuid);
 	}
 
-	private static void copyFileStructure(File source, File target){
-		if (target == null) {
-			getLogger().severe("No world to load for " + source.getName() + ". Could not reset the map!");
-			return;
-		}
-		try {
-			FileUtils.copyDirectory(source, target);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+	public static boolean isOngoing() {
+		return timer.state == TimerState.ONGOING;
 	}
-
 }

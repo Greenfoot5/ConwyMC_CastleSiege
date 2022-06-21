@@ -55,7 +55,7 @@ public class Leaderboard implements CommandExecutor {
                 category = "supports";
                 break;
             default:
-                sender.sendMessage(ChatColor.DARK_RED + "Something went wrong! Please contact an administrator.");
+                Messenger.sendError(ChatColor.DARK_RED + "Something went wrong! Please contact an administrator.", sender);
                 return true;
         }
 

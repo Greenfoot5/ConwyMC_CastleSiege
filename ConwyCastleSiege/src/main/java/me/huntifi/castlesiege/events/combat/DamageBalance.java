@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.events.combat;
 
-import org.bukkit.entity.Fireball;
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,6 +20,11 @@ public class DamageBalance implements Listener {
     public void onDamage(EntityDamageEvent e) {
         if (e.isCancelled() || !(e.getEntity() instanceof Player)) {
             return;
+        }
+
+        // Removes all damage if the map isn't ongoing
+        if (!MapController.isOngoing()) {
+            e.setCancelled(true);
         }
 
         switch (e.getCause()) {

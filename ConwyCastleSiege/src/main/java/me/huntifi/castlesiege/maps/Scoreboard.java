@@ -49,6 +49,35 @@ public class Scoreboard implements Runnable {
 		o.getScore(name).setScore(score);
 	}
 
+	public static String getTimeText() {
+		String name;
+		switch (MapController.timer.state) {
+			case PREGAME:
+				name = "Pre-Game: ";
+				break;
+			case EXPLORATION:
+				name = "Explore: ";
+				break;
+			case LOBBY_LOCKED:
+				name = "Pre-Map: ";
+				break;
+			case ONGOING:
+				name = "Time: ";
+				break;
+			case ENDED:
+				return "Time: " + ChatColor.RESET + "ENDED";
+			default:
+				return "Time: " + ChatColor.RESET + "N/A";
+		}
+
+		if (MapController.timer.seconds < 0)
+			return name + ChatColor.RESET + "--:--";
+		else if (MapController.timer.seconds < 10)
+			return name + ChatColor.RESET + MapController.timer.minutes + ":0" + MapController.timer.seconds;
+		else
+			return name + ChatColor.RESET + MapController.timer.minutes + ":" + MapController.timer.seconds;
+	}
+
 	@Override
 	public void run() {
 		for (Player online : Bukkit.getOnlinePlayers()) {
@@ -78,8 +107,8 @@ public class Scoreboard implements Runnable {
 			replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + "Map: " + ChatColor.RESET + ChatColor.GREEN + MapController.getCurrentMap().name);
 
 			// Setup timer display
-			replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + "Time: " + ChatColor.RESET + MapController.timer.minutes + ":" + MapController.timer.seconds);
-			if (MapController.timer.seconds < 10) { replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + "Time: " + ChatColor.RESET + MapController.timer.minutes + ":0" + MapController.timer.seconds); }
+			replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText());
+			if (MapController.timer.seconds < 10) { replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText()); }
 			replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
 
 			for (int i = 0; i < MapController.getCurrentMap().flags.length; i++) {

@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.events.security;
 
 import com.destroystokyo.paper.event.block.TNTPrimeEvent;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
@@ -39,7 +40,7 @@ public class MapProtection implements Listener {
 
 		// Allow placing ladders and cobwebs outside the lobby
 		if ((e.getBlock().getType() != Material.LADDER && e.getBlock().getType() != Material.COBWEB)
-				|| InCombat.isPlayerInLobby(p.getUniqueId())) {
+				|| InCombat.isPlayerInLobby(p.getUniqueId()) || !MapController.isOngoing()) {
 			e.setCancelled(true);
 		}
 	 }
@@ -58,7 +59,7 @@ public class MapProtection implements Listener {
 
 		// Allow breaking ladders and cobwebs outside the lobby
 		if ((e.getBlock().getType() != Material.LADDER && e.getBlock().getType() != Material.COBWEB)
-				|| InCombat.isPlayerInLobby(p.getUniqueId())) {
+				|| InCombat.isPlayerInLobby(p.getUniqueId()) || !MapController.isOngoing()) {
 			e.setCancelled(true);
 		} else {
 			e.getBlock().setType(Material.AIR);

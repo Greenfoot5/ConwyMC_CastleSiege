@@ -8,11 +8,19 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class Timer {
 
+	public TimerState state;
 	public Integer minutes;
 	public Integer seconds;
-	public boolean hasGameEnded = false;
 
-	public Timer(int startMinutes, int startSeconds) {
+	public Timer(int startMinutes, int startSeconds, TimerState startState) {
+		minutes = startMinutes;
+		seconds = startSeconds;
+		state = startState;
+		if (seconds > 0)
+			startTimer();
+	}
+
+	public void restartTimer(int startMinutes, int startSeconds) {
 		minutes = startMinutes;
 		seconds = startSeconds;
 		startTimer();
@@ -23,7 +31,7 @@ public class Timer {
 
 			@Override
 			public void run() {
-				if (hasGameEnded) {
+				if (state == TimerState.ENDED) {
 					this.cancel();
 				}
 				else if (seconds == 0) {
@@ -32,14 +40,31 @@ public class Timer {
 				} else if ((minutes == 0 && seconds <= 1) || minutes < 0) {
 					minutes = 0;
 					seconds = 0;
-					hasGameEnded = true;
-					MapController.endMap();
-					this.cancel();
+					nextState();
+					if (state == TimerState.ENDED) {
+						MapController.endMap();
+						this.cancel();
+					}
 				}
 				else {
 					seconds--;
 				}
 			}
 		}.runTaskTimerAsynchronously(Main.plugin, 20, 20);
+	}
+
+	private void nextState() {
+		state = TimerState.values()[1 + state.ordinal()];
+		switch (state) {
+			case EXPLORATION:
+				MapController.beginExploration();
+				break;
+			case LOBBY_LOCKED:
+				MapController.beginLobbyLock();
+				break;
+			case ONGOING:
+				MapController.beginMap();
+				break;
+		}
 	}
 }
