@@ -13,14 +13,14 @@ public class KitList {
     public static void registerExistingKits() {
 
         // Free
-        kitNames.add("Sworsman");
+        kitNames.add("Swordsman");
         kitNames.add("Archer");
         kitNames.add("Spearman");
 
         // Voter
         kitNames.add("Skirmisher");
         kitNames.add("Shieldman");
-        kitNames.add("Fire Archer");
+        kitNames.add("FireArcher");
         kitNames.add("Scout");
         kitNames.add("Ladderman");
 
@@ -41,13 +41,13 @@ public class KitList {
         kitNames.add("Warhound");
 
         // Team Specific
-        kitNames.add("Moria Orc");
+        kitNames.add("MoriaOrc");
         kitNames.add("Fallen");
         kitNames.add("Elytrier");
         kitNames.add("Hellsteed");
         kitNames.add("Lancer");
-        kitNames.add("Ranged Cavalry");
-        kitNames.add("Uruk Berserker");
+        kitNames.add("RangedCavalry");
+        kitNames.add("UrukBerserker");
         kitNames.add("Abyssal");
 
     }
