@@ -32,8 +32,8 @@
     <orderEntry type="library" name="Maven: com.github.sainttx.Holograms:holograms-api:0f5b027" level="project" />
     <orderEntry type="library" name="Maven: com.comphenix.protocol:ProtocolLib:4.7.0" level="project" />
     <orderEntry type="library" name="Maven: net.bytebuddy:byte-buddy:1.11.0" level="project" />
-    <orderEntry type="library" name="Maven: com.sk89q.worldedit:worldedit-core:7.2.9" level="project" />
-    <orderEntry type="library" name="Maven: com.sk89q.worldedit.worldedit-libs:core:7.2.9" level="project" />
+    <orderEntry type="library" name="Maven: com.sk89q.worldedit:worldedit-core:7.2.10" level="project" />
+    <orderEntry type="library" name="Maven: com.sk89q.worldedit.worldedit-libs:core:7.2.10" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:antlr4:4.9.1" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:antlr-runtime:3.5.2" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:ST4:4.3" level="project" />
@@ -42,11 +42,11 @@
     <orderEntry type="library" name="Maven: com.ibm.icu:icu4j:61.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:3.0.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.mozilla:rhino-runtime:1.7.13" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.logging.log4j:log4j-api:2.15.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.logging.log4j:log4j-api:2.17.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: it.unimi.dsi:fastutil:8.5.6" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:antlr4-runtime:4.9.1" level="project" />
-    <orderEntry type="library" name="Maven: com.sk89q.worldedit:worldedit-bukkit:7.2.9" level="project" />
-    <orderEntry type="library" name="Maven: com.sk89q.worldedit.worldedit-libs:bukkit:7.2.9" level="project" />
+    <orderEntry type="library" name="Maven: com.sk89q.worldedit:worldedit-bukkit:7.2.10" level="project" />
+    <orderEntry type="library" name="Maven: com.sk89q.worldedit.worldedit-libs:bukkit:7.2.10" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: io.papermc:paperlib:1.0.7" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.bstats:bstats-bukkit:2.2.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.bstats:bstats-base:2.2.1" level="project" />

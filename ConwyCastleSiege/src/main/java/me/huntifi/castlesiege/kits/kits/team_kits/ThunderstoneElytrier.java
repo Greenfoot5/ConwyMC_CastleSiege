@@ -184,10 +184,10 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                     } else {
                         Messenger.sendActionError(ChatColor.BOLD + "You can't launch yourself forward yet!", p);
                     }
+                    e.setCancelled(true);
                 }
             }
         }
-        e.setCancelled(true);
     }
 
 
