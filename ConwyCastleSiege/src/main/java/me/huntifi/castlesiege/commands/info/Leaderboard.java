@@ -45,6 +45,15 @@ public class Leaderboard implements CommandExecutor {
             case "TopKills":
                 category = "kills";
                 break;
+            case "TopAssists":
+                category = "assists";
+                break;
+            case "TopHeals":
+                category = "heals";
+                break;
+            case "TopSupports":
+                category = "supports";
+                break;
             default:
                 sender.sendMessage(ChatColor.DARK_RED + "Something went wrong! Please contact an administrator.");
                 return true;
@@ -75,7 +84,7 @@ public class Leaderboard implements CommandExecutor {
             @Override
             public void run() {
                 try {
-                    int offset = requested < 6 ? 0 : Math.min(requested - 5, 90);
+                    int offset = requested < 7 ? 0 : Math.min(requested - 5, 90);
 
                     Tuple<PreparedStatement, ResultSet> top = LoadData.getTop(category, offset);
 
@@ -86,6 +95,7 @@ public class Leaderboard implements CommandExecutor {
                             ChatColor.GREEN + "K" + ChatColor.AQUA + "ills " +
                             ChatColor.RED + "D" + ChatColor.AQUA + "eaths " +
                             ChatColor.YELLOW + "K" + ChatColor.AQUA + "DR " +
+                            ChatColor.DARK_GREEN + "A" + ChatColor.AQUA + "ssists " +
                             ChatColor.GRAY + "C" + ChatColor.AQUA + "aptures ");
 
                     // Send entries
@@ -103,7 +113,8 @@ public class Leaderboard implements CommandExecutor {
                                 ChatColor.RED + num.format(top.getSecond().getDouble("deaths")) + " " +
                                 ChatColor.YELLOW + dec.format(top.getSecond().getDouble("kills") /
                                     top.getSecond().getDouble("deaths")) + " " +
-                                ChatColor.GRAY + num.format(top.getSecond().getDouble("captures")));
+                                ChatColor.DARK_GREEN + num.format(top.getSecond().getDouble("assists")) + " "
+                                + ChatColor.GRAY + num.format(top.getSecond().getDouble("captures")));
                     }
                     top.getFirst().close();
 
