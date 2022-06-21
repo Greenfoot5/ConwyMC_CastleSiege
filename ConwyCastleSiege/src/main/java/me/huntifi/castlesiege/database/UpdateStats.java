@@ -96,7 +96,7 @@ public class UpdateStats {
 
                     // Announce every 10th level
                     if (level % 10 == 0) {
-                        Bukkit.broadcastMessage(ChatColor.GOLD + p.getName() + " has reached level " + level + "!");
+                        Bukkit.broadcastMessage(ChatColor.GOLD + "[+] " + ChatColor.DARK_GREEN + p.getName() + " has reached level " + level + "!");
                     }
                 }
             }

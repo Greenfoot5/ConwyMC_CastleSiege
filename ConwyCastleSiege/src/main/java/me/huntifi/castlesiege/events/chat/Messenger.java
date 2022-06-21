@@ -74,7 +74,7 @@ public class Messenger {
      * @param sender Who to send the message to
      */
     public static void sendLore(String message, CommandSender sender) {
-        sender.sendMessage(ChatColor.GOLD + "[l] " + ChatColor.BLUE + message);
+        sender.sendMessage(ChatColor.GOLD + "[l] " + ChatColor.GREEN + message);
     }
 
     /**
@@ -82,15 +82,15 @@ public class Messenger {
      * @param message The message to send
      */
     public static void broadcastLore(String message) {
-        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[l] " + ChatColor.BLUE + message);
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[l] " + ChatColor.GREEN + message);
     }
 
     public static void sendInfo(String message, @NotNull CommandSender sender) {
-        sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.GREEN + message);
+        sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message);
     }
 
     public static void broadcastInfo(String message) {
-        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[i] " + ChatColor.GREEN + message);
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message);
     }
 
     public static void sendBounty(String message, @NotNull CommandSender sender) {
