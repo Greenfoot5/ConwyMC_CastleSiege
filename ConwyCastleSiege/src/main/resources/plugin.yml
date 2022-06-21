@@ -179,6 +179,15 @@ commands:
   TopKills:
     description: Shows the kills leaderboard
     usage: /topkills <position>
+  TopSupports:
+    description: Shows the supports leaderboard
+    usage: /topsupports <position>
+  TopHeals:
+    description: Shows the heals leaderboard
+    usage: /topheals <position>
+  TopDonators:
+    description: Shows the donator leaderboard
+    usage: /topdonators <position>
   Bounties:
     description: Shows the bounties leaderboard
     usage: /bounties <position>
