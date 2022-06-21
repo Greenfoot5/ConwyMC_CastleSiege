@@ -113,8 +113,8 @@ public class Leaderboard implements CommandExecutor {
                                 ChatColor.RED + num.format(top.getSecond().getDouble("deaths")) + " " +
                                 ChatColor.YELLOW + dec.format(top.getSecond().getDouble("kills") /
                                     top.getSecond().getDouble("deaths")) + " " +
-                                ChatColor.DARK_GREEN + num.format(top.getSecond().getDouble("assists") + " ") +
-                                ChatColor.GRAY + num.format(top.getSecond().getDouble("captures")));
+                                ChatColor.DARK_GREEN + num.format(top.getSecond().getDouble("assists")) + " "
+                                + ChatColor.GRAY + num.format(top.getSecond().getDouble("captures")));
                     }
                     top.getFirst().close();
 
