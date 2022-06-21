@@ -245,6 +245,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new SwitchCommand());
 
                 // Kits
+                Objects.requireNonNull(getCommand("Random")).setExecutor(new RandomKitCommand());
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
@@ -252,7 +253,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("CryptsFallen")).setExecutor(new CryptsFallen());
                 Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
                 Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
-                Objects.requireNonNull(getCommand("Elytrier")).setExecutor(new ThunderstoneElytrier());
+                Objects.requireNonNull(getCommand("ThunderstoneElytrier")).setExecutor(new ThunderstoneElytrier());
                 Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
                 Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
                 Objects.requireNonNull(getCommand("FirelandsAbyssal")).setExecutor(new FirelandsAbyssal());

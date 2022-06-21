@@ -68,7 +68,7 @@ public abstract class TeamKit extends DonatorKit {
             }
 
 
-            boolean hasKit = LoadData.hasKit(((Player) sender).getUniqueId(), name);
+            boolean hasKit = LoadData.hasKit(((Player) sender).getUniqueId(), name.replace(" ", ""));
             if (!hasKit) {
                 Messenger.sendError("You don't own this kit!", sender);
                 return true;
