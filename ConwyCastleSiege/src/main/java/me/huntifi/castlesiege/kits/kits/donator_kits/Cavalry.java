@@ -18,7 +18,6 @@ import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -32,7 +31,6 @@ import java.util.UUID;
 public class Cavalry extends DonatorKit implements Listener {
 
     public final static int HORSE_COOLDOWN = 600;
-    private Horse horse;
 
     /**
      * Set the equipment and attributes of this kit

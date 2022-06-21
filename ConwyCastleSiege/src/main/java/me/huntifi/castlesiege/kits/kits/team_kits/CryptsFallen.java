@@ -25,7 +25,6 @@ import java.util.Objects;
 public class CryptsFallen extends TeamKit implements Listener {
     /**
      * Create a kit with basic settings
-     *
      */
     public CryptsFallen() {
         super("Fallen", 160, 23, "Royal Crypts", "Tomb Guardians", 1500);
