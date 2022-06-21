@@ -10,8 +10,6 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
-import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -86,9 +84,7 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
         super.deathMessage[0] = "You were crushed to death by ";
         super.killMessage[0] = "You crushed ";
         super.killMessage[1] = " to death ";
-
     }
-
 
     /**
      * Disguise the player as an Abyssal
