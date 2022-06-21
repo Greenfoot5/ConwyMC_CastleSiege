@@ -204,8 +204,7 @@ public class LoadData {
 
         try {
             PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                    "SELECT unlocked_kits FROM player_unlocks WHERE uuid = ? AND unlocked_until > ?"
-                            + " ORDER BY unlocked_until");
+                    "SELECT unlocked_kits FROM player_unlocks WHERE uuid = ? AND unlocked_until > ?");
             ps.setString(1, uuid.toString());
             ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
 
@@ -217,6 +216,8 @@ public class LoadData {
                     unlockedKits.add(kit);
                 }
             }
+
+            ps.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

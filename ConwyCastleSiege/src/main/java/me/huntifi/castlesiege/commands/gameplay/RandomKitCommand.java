@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.command.Command;
@@ -7,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -36,12 +38,17 @@ public class RandomKitCommand implements CommandExecutor {
             return true;
         }
 
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            ArrayList<String> unlockedKits = LoadData.getAllUnlockedKits(p.getUniqueId());
-            Random random = new Random();
-            ((Player) sender).performCommand(unlockedKits.get(random.nextInt(unlockedKits.size())));
-        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    ArrayList<String> unlockedKits = LoadData.getAllUnlockedKits(p.getUniqueId());
+                    Random random = new Random();
+                    ((Player) sender).performCommand(unlockedKits.get(random.nextInt(unlockedKits.size())));
+                }
+            }
+        }.runTaskAsynchronously(Main.plugin);
 
         return true;
     }
