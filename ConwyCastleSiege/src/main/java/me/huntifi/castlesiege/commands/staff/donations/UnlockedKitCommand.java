@@ -36,63 +36,53 @@ public class UnlockedKitCommand implements CommandExecutor {
             @Override
             public void run() {
                 UUID uuid = Bukkit.getOfflinePlayer(args[0]).getUniqueId();
-                String option = args[1];
-                String kit = args[2];
 
                 try {
 
                     switch (args[1].toLowerCase()) {
                         case "add":
-                            if (uuid != null) {
 
-                                long duration = PunishmentTime.getDuration(args[3]);
-                                if (duration == 0) {
-                                    PunishmentTime.wrongFormat(sender);
-                                    return;
-                                }
+                            long duration = PunishmentTime.getDuration(args[3]);
+                            if (duration == 0) {
+                                PunishmentTime.wrongFormat(sender);
+                                return;
+                            }
 
 
-                                if (KitList.kitNames.contains(kit)) {
+                            if (KitList.getAllKits().contains(args[2])) {
 
-                                    if (args[4].equalsIgnoreCase("true")) {
-                                        StoreData.addUnlockedKit(uuid, args[2], duration, true);
+                                if (args[4].equalsIgnoreCase("true")) {
+                                    StoreData.addUnlockedKit(uuid, args[2], duration, true);
 
-                                        Messenger.sendInfo("Succesfully added " + args[2] + " to "
-                                                + Bukkit.getPlayer(uuid).getName() + " for " + duration, sender);
-                                    } else if (args[4].equalsIgnoreCase("false")) {
-                                        StoreData.addUnlockedKit(uuid, args[2], duration, false);
+                                    Messenger.sendInfo("Successfully added " + args[2] + " to "
+                                            + Bukkit.getPlayer(uuid).getName() + " for " + duration, sender);
+                                } else if (args[4].equalsIgnoreCase("false")) {
+                                    StoreData.addUnlockedKit(uuid, args[2], duration, false);
 
-                                        Messenger.sendInfo("Succesfully added " + args[2] + " to "
-                                                + Bukkit.getPlayer(uuid).getName() + " for " + duration, sender);
-                                    } else {
-                                        Messenger.sendError("Requires is donated true or false.", sender);
-                                    }
-
+                                    Messenger.sendInfo("Successfully added " + args[2] + " to "
+                                            + Bukkit.getPlayer(uuid).getName() + " for " + duration, sender);
                                 } else {
-                                    Messenger.sendError("An invalid kit was provided.", sender);
+                                    Messenger.sendError("Requires is donated true or false.", sender);
                                 }
 
                             } else {
-                                Messenger.sendError("Targetted player is null", sender);
+                                Messenger.sendError("An invalid kit was provided.", sender);
                             }
+
                             break;
                         case "remove":
-                            if (uuid != null) {
 
-                                if (KitList.kitNames.contains(kit)) {
+                            if (KitList.getAllKits().contains(args[2])) {
 
-                                    StoreData.endUnlockedKit(uuid, args[2]);
+                                StoreData.endUnlockedKit(uuid, args[2]);
 
-                                    Messenger.sendInfo("Succesfully removed " + args[2] + " from "
-                                            + Bukkit.getPlayer(uuid).getName(), sender);
-
-                                } else {
-                                    Messenger.sendError("An invalid kit was provided.", sender);
-                                }
+                                Messenger.sendInfo("Successfully removed " + args[2] + " from "
+                                        + Bukkit.getPlayer(uuid).getName(), sender);
 
                             } else {
-                                Messenger.sendError("Targetted player is null", sender);
+                                Messenger.sendError("An invalid kit was provided.", sender);
                             }
+
                             break;
                         default:
                             sender.sendMessage(ChatColor.DARK_RED + "The operation " + ChatColor.RED + args[1]

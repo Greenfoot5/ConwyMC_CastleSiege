@@ -26,12 +26,21 @@ selector:
         - "These kits depend on the team you are in."
       location: 16
       command: "kit team"
+    random:
+      name: "§eRandom Kit"
+      material: "COOKIE"
+      lore:
+        - "Randomly selects a kit to play."
+        - "Only selects kits you can use."
+        - "Will not select team kits."
+      location: 41
+      command: "random"
     shop:
       name: "§eShop"
       material: "SUNFLOWER"
       lore:
         - "Unlock kits here!"
-      location: 40
+      location: 39
       command: "buy"
 free:
   name: "§2Free Kits"

@@ -3,52 +3,79 @@ package me.huntifi.castlesiege.kits.kits;
 import java.util.ArrayList;
 
 /*
-A list of the kits that exist
+ * A list of the kits that exist
  */
 public class KitList {
 
     //Kit name tracking
-    public static ArrayList<String> kitNames = new ArrayList<>();
+    private final static ArrayList<String> freeKits = new ArrayList<>();
+    private final static ArrayList<String> voterKits = new ArrayList<>();
+    private final static ArrayList<String> donatorKits = new ArrayList<>();
+    private final static ArrayList<String> teamKits = new ArrayList<>();
+
 
     public static void registerExistingKits() {
 
         // Free
-        kitNames.add("Swordsman");
-        kitNames.add("Archer");
-        kitNames.add("Spearman");
+        freeKits.add("Swordsman");
+        freeKits.add("Archer");
+        freeKits.add("Spearman");
 
         // Voter
-        kitNames.add("Skirmisher");
-        kitNames.add("Shieldman");
-        kitNames.add("FireArcher");
-        kitNames.add("Scout");
-        kitNames.add("Ladderman");
+        voterKits.add("Skirmisher");
+        voterKits.add("Shieldman");
+        voterKits.add("FireArcher");
+        voterKits.add("Scout");
+        voterKits.add("Ladderman");
 
         // Donator
-        kitNames.add("Berserker");
-        kitNames.add("Vanguard");
-        kitNames.add("Executioner");
-        kitNames.add("Maceman");
+        donatorKits.add("Berserker");
+        donatorKits.add("Vanguard");
+        donatorKits.add("Executioner");
+        donatorKits.add("Maceman");
 
-        kitNames.add("Viking");
-        kitNames.add("Medic");
-        kitNames.add("Ranger");
-        kitNames.add("Cavalry");
+        donatorKits.add("Viking");
+        donatorKits.add("Medic");
+        donatorKits.add("Ranger");
+        donatorKits.add("Cavalry");
 
-        kitNames.add("Halberdier");
-        kitNames.add("Engineer");
-        kitNames.add("Crossbowman");
-        kitNames.add("Warhound");
+        donatorKits.add("Halberdier");
+        donatorKits.add("Engineer");
+        donatorKits.add("Crossbowman");
+        donatorKits.add("Warhound");
 
         // Team Specific
-        kitNames.add("MoriaOrc");
-        kitNames.add("Fallen");
-        kitNames.add("Elytrier");
-        kitNames.add("Hellsteed");
-        kitNames.add("Lancer");
-        kitNames.add("RangedCavalry");
-        kitNames.add("UrukBerserker");
-        kitNames.add("Abyssal");
+        teamKits.add("MoriaOrc");
+        teamKits.add("Fallen");
+        teamKits.add("Elytrier");
+        teamKits.add("Hellsteed");
+        teamKits.add("Lancer");
+        teamKits.add("RangedCavalry");
+        teamKits.add("UrukBerserker");
+        teamKits.add("Abyssal");
+    }
 
+    public static ArrayList<String> getAllKits() {
+        ArrayList<String> kits = new ArrayList<>(freeKits);
+        kits.addAll(voterKits);
+        kits.addAll(donatorKits);
+        kits.addAll(teamKits);
+        return kits;
+    }
+
+    public static ArrayList<String> getFreeKits() {
+        return freeKits;
+    }
+
+    public static ArrayList<String> getVoterKits() {
+        return voterKits;
+    }
+
+    public static ArrayList<String> getDonatorKits() {
+        return donatorKits;
+    }
+
+    public static ArrayList<String> getTeamKits() {
+        return teamKits;
     }
 }

@@ -308,6 +308,9 @@ commands:
     permission: castlesiege.developer
     permission-message: You should donate or pay coins instead!
   # Kits
+  Random:
+    description: Selects a random kit from those you own
+    usage: /random
   Kit:
     description: Open the GUI for selecting kits
     usage: /kit <category>
@@ -329,9 +332,9 @@ commands:
   Engineer:
     description: Selects the engineer kit
     usage: /engineer
-  Elytrier:
+  ThunderstoneElytrier:
     description: Selects the Elytrier kit for Thunderstone Guard
-    usage: /elytrier
+    usage: /thunderstoneelytrier
   Executioner:
     description: Selects the executioner kit
     usage: /executioner

@@ -3,11 +3,13 @@ package me.huntifi.castlesiege.database;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.kits.kits.KitList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -191,18 +193,35 @@ public class LoadData {
     /**
      * Get a player's unlocked kits data from the database
      * @param uuid The unique ID of the player whose data to get
-     * @param kitName The type of kit to get from the database
      * @return A tuple of the prepared statement (to close later) and the query's result
-     * @throws SQLException If something goes wrong executing the query
      */
-    public static Tuple<PreparedStatement, ResultSet> getAllUnlockedKits(UUID uuid, String kitName) throws SQLException {
-        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT unlocked_kits, unlocked_until FROM player_unlocks WHERE uuid = ? AND unlocked_kits = ?");
-        ps.setString(1, uuid.toString());
-        ps.setString(2, kitName);
+    public static ArrayList<String> getAllUnlockedKits(UUID uuid) {
+        ArrayList<String> unlockedKits = new ArrayList<>(KitList.getFreeKits());
 
-        ResultSet rs = ps.executeQuery();
-        return new Tuple<>(ps, rs);
+        if (ActiveData.getData(uuid).hasVote("kits")) {
+            unlockedKits.addAll(KitList.getVoterKits());
+        }
+
+        try {
+            PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                    "SELECT unlocked_kits FROM player_unlocks WHERE uuid = ? AND unlocked_until > ?"
+                            + " ORDER BY unlocked_until");
+            ps.setString(1, uuid.toString());
+            ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String kit = rs.getString("unlocked_kits");
+                if (KitList.getDonatorKits().contains(kit)) {
+                    unlockedKits.add(kit);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return unlockedKits;
     }
 
 
