@@ -110,7 +110,7 @@ public class UpdateStats {
      */
     public static double levelScore(int lvl) {
         if (lvl > 0) {
-            return 8 * lvl * lvl - 8 * (lvl - 1) + levelScore(lvl -1);
+            return 6 * lvl * lvl - 6 * (lvl - 1) + levelScore(lvl -1);
         }
 
         return 0;

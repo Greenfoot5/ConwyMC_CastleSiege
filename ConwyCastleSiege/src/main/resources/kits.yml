@@ -41,7 +41,7 @@ selector:
       lore:
         - "Unlock kits here!"
       location: 39
-      command: "buy"
+      command: "kit shop"
 free:
   name: "§2Free Kits"
   key: "free"
@@ -573,3 +573,17 @@ shop:
         - "§cReturn to the previous interface."
       location: 49
       command: "kit selector"
+    coinshop:
+      name: "§2§lCoin Shop"
+      material: "GOLD_INGOT"
+      lore:
+        - "§aOpen the coinshop!"
+      location: 21
+      command: "coinshop"
+    premiumshop:
+      name: "§2§lPremium Shop"
+      material: "EMERALD"
+      lore:
+        - "§aGet the link to the web shop!"
+      location: 23
+      command: "webshop"

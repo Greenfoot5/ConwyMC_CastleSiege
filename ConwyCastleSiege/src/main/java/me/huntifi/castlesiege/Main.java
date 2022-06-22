@@ -40,6 +40,7 @@ import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.kits.gui.*;
+import me.huntifi.castlesiege.kits.gui.coinshop.CoinshopGui;
 import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.kits.KitList;
 import me.huntifi.castlesiege.kits.kits.donator_kits.*;
@@ -209,6 +210,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
                 Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
+                Objects.requireNonNull(getCommand("webshop")).setExecutor(new WebshopCommand());
                 Objects.requireNonNull(getCommand("whois")).setExecutor(new WhoisCommand());
 
                 // Leaderboards
@@ -216,6 +218,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopCaptures")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopDeaths")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopKills")).setExecutor(new Leaderboard());
+                Objects.requireNonNull(getCommand("TopAssists")).setExecutor(new Leaderboard());
 
                 // Staff - Punishments
                 Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());
@@ -246,6 +249,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Kits
                 Objects.requireNonNull(getCommand("Random")).setExecutor(new RandomKitCommand());
+                Objects.requireNonNull(getCommand("coinshop")).setExecutor(new CoinshopGui());
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());

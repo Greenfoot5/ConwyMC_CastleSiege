@@ -170,6 +170,9 @@ commands:
       - toplist
       - topscore
       - leaderboard
+  TopAssists:
+    description: Shows the assists leaderboard
+    usage: /topassists <position>
   TopCaptures:
     description: Shows the captures leaderboard
     usage: /topcaptures <position>
@@ -312,10 +315,18 @@ commands:
 
   # Donations
   Unlockkit:
-    description: Disables/Enables non-forceful switching
+    description: Unlocks a kit for a player.
     usage: /Unlockkit [Player Name] [add/remove] [Kit Name] [Time] [IsDonated:true/false]
     permission: castlesiege.developer
     permission-message: You should donate or pay coins instead!
+  Webshop:
+    description: Sends the link of the webshop to the commandsender.
+    usage: /Webshop
+  Coinshop:
+    description: Open the coinshop for the player.
+    usage: /Coinshop
+
+
   # Kits
   Random:
     description: Selects a random kit from those you own

@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.gui;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.kits.gui.coinshop.CoinshopGui;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
