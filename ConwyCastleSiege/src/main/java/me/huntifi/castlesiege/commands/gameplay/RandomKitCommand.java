@@ -38,17 +38,27 @@ public class RandomKitCommand implements CommandExecutor {
             return true;
         }
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
                 if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    ArrayList<String> unlockedKits = LoadData.getAllUnlockedKits(p.getUniqueId());
                     Random random = new Random();
+                    Player p = (Player) sender;
+
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+
+                            ArrayList<String> unlockedKits = LoadData.getAllUnlockedKits(p.getUniqueId());
+
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+
                     ((Player) sender).performCommand(unlockedKits.get(random.nextInt(unlockedKits.size())));
+
+                                }
+                            }.runTask(Main.plugin);
+                        }
+                    }.runTaskAsynchronously(Main.plugin);
                 }
-            }
-        }.runTaskAsynchronously(Main.plugin);
 
         return true;
     }
