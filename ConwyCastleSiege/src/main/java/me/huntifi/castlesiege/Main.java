@@ -599,7 +599,7 @@ public class Main extends JavaPlugin implements Listener {
         // Delays
         Route route = Route.from("delays");
         MapController.preGameTime = gameConfig.getInt(route.add("game"), MapController.preGameTime);
-        MapController.lobbyLockedTime = gameConfig.getInt(route.add("map"), MapController.lobbyLockedTime);
+        MapController.lobbyLockedTime = gameConfig.getInt(route.add("lobby"), MapController.lobbyLockedTime);
         MapController.explorationTime = gameConfig.getInt(route.add("exploration"), MapController.explorationTime);
 
         // Match Details

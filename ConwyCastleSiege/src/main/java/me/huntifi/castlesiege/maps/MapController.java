@@ -298,23 +298,24 @@ public class MapController {
 		// Start the timer!
 		if (mapIndex == 0) {
 			// Pregame
-			if (preGameTime > 0)
+			if (preGameTime > 0) {
 				timer = new Timer(preGameTime / 60, preGameTime % 60, TimerState.PREGAME);
-			else if (preGameTime < 0) {
+				return;
+			} else if (preGameTime < 0) {
 				timer = new Timer(-1, -1, TimerState.PREGAME);
+				return;
 			}
-		} else {
-			if (explorationTime > 0)
-				timer = new Timer(explorationTime / 60, explorationTime % 60, TimerState.EXPLORATION);
-			else if (explorationTime < 0)
-				timer = new Timer(-1, -1, TimerState.EXPLORATION);
-			else if (lobbyLockedTime > 0)
-				timer = new Timer(lobbyLockedTime / 60, lobbyLockedTime % 60, TimerState.LOBBY_LOCKED);
-			else if (lobbyLockedTime < 0)
-				timer = new Timer(-1, -1, TimerState.PREGAME);
-			else
-				timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond(), TimerState.ONGOING);
 		}
+		if (explorationTime > 0)
+			timer = new Timer(explorationTime / 60, explorationTime % 60, TimerState.EXPLORATION);
+		else if (explorationTime < 0)
+			timer = new Timer(-1, -1, TimerState.EXPLORATION);
+		else if (lobbyLockedTime > 0)
+			timer = new Timer(lobbyLockedTime / 60, lobbyLockedTime % 60, TimerState.LOBBY_LOCKED);
+		else if (lobbyLockedTime < 0)
+			timer = new Timer(-1, -1, TimerState.PREGAME);
+		else
+			timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond(), TimerState.ONGOING);
 	}
 
 	public static void beginExploration() {
