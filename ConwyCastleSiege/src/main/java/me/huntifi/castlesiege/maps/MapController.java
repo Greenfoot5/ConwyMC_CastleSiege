@@ -315,6 +315,7 @@ public class MapController {
 		else if (lobbyLockedTime < 0)
 			timer = new Timer(-1, -1, TimerState.PREGAME);
 		else
+			beginMap();
 			timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond(), TimerState.ONGOING);
 	}
 
