@@ -2,6 +2,8 @@ package me.huntifi.castlesiege.commands.staff.donations;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
+import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.KitList;
@@ -13,7 +15,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 public class UnlockedKitCommand implements CommandExecutor {
@@ -29,66 +36,110 @@ public class UnlockedKitCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if (args.length < 5) {
-            return false;
+        if (args.length < 3) {
+            Messenger.sendError("Use: /unlockkit <Name> <add/remove> <Kit name> <Time> <true/false>", sender);
         }
         new BukkitRunnable() {
             @Override
             public void run() {
-                UUID uuid = Bukkit.getOfflinePlayer(args[0]).getUniqueId();
-
+                Timestamp timestamp;
                 try {
+
+                    UUID uuid = LoadData.getUUID(args[0]);
 
                     switch (args[1].toLowerCase()) {
                         case "add":
+                            if (args.length < 5) {
+                                Messenger.sendError("Use: /unlockkit <Name> <add/remove> <Kit name> <Time> <true/false>", sender);
+                            }
+
+                            if (uuid == null) {
+                                Messenger.sendError("This player is not found!", sender);
+                                return;
+                            }
 
                             long duration = PunishmentTime.getDuration(args[3]);
+
+                            Tuple<PreparedStatement, ResultSet> rs = LoadData.getActiveKit(uuid, args[2]);
+                            timestamp = LoadData.getKitTimestamp(rs.getSecond());
+
+                            //Should the player enter 0 time, return error message
                             if (duration == 0) {
                                 PunishmentTime.wrongFormat(sender);
                                 return;
                             }
 
+                            //If there is a timestamp already add the duration to it.
+                            if (timestamp != null) {
+                                //Timestamp exists
+                                if (timestamp.getTime() > getCurrentTime()) {
+                                    //Timestamp is younger/longer than current time so add duration on top of it.
+                                    duration = (timestamp.getTime() + duration);
+                                    Bukkit.getConsoleSender().sendMessage("Yeah uhm the duration for this is: " + duration);
+                                } else {
+                                    //Timestamp is older/shorter than current time so change the duration.
+                                    duration = (System.currentTimeMillis() + duration);
+                                    Bukkit.getConsoleSender().sendMessage("Yeah uhm the duration for this is: " + duration);
+                                }
+                            } else {
+                                //Timestamp is null, so create a new timestamp.
+                                duration = (System.currentTimeMillis() + duration);
+                                Bukkit.getConsoleSender().sendMessage("Yeah uhm the duration for this is: " + duration);
+                            }
 
-                            if (KitList.getAllKits().contains(args[2])) {
+                            //This is the kit, the kit should be in the kits list in order for it to be an existing one.
+                            if (!KitList.getAllKits().contains(args[2])) {
+                                Messenger.sendError("An invalid kit was provided.", sender);
+                                return;
+                            }
 
+                                //If true then this means the player donated, usually only the console will do this.
                                 if (args[4].equalsIgnoreCase("true")) {
+
                                     StoreData.addUnlockedKit(uuid, args[2], duration, true);
 
                                     Messenger.sendInfo("Successfully added " + args[2] + " to "
-                                            + Bukkit.getPlayer(uuid).getName() + " for " + duration, sender);
+                                            + Bukkit.getOfflinePlayer(uuid).getName() + " for " + duration, sender);
+
+                                    //If false then this means the player got it without donating.
                                 } else if (args[4].equalsIgnoreCase("false")) {
+
                                     StoreData.addUnlockedKit(uuid, args[2], duration, false);
 
                                     Messenger.sendInfo("Successfully added " + args[2] + " to "
-                                            + Bukkit.getPlayer(uuid).getName() + " for " + duration, sender);
-                                } else {
-                                    Messenger.sendError("Requires is donated true or false.", sender);
-                                }
+                                            + Bukkit.getOfflinePlayer(uuid).getName() + " for " + duration, sender);
 
-                            } else {
-                                Messenger.sendError("An invalid kit was provided.", sender);
-                            }
+                                    //If an illegal argument will be given, it will be set to false by default.
+                                } else {
+                                    StoreData.addUnlockedKit(uuid, args[2], duration, false);
+
+                                    Messenger.sendInfo("Successfully added " + args[2] + " to "
+                                            + Bukkit.getOfflinePlayer(uuid).getName() + " for " + duration, sender);
+
+                                }
 
                             break;
                         case "remove":
 
-                            if (KitList.getAllKits().contains(args[2])) {
+                            //This is the kit, the kit should be in the kits list in order for it to be an existing one.
+                            if (!KitList.getAllKits().contains(args[2])) {
+                                Messenger.sendError("An invalid kit was provided.", sender);
+                                return;
+                            }
 
                                 StoreData.endUnlockedKit(uuid, args[2]);
 
                                 Messenger.sendInfo("Successfully removed " + args[2] + " from "
-                                        + Bukkit.getPlayer(uuid).getName(), sender);
+                                        + Bukkit.getOfflinePlayer(uuid).getName(), sender);
 
-                            } else {
-                                Messenger.sendError("An invalid kit was provided.", sender);
-                            }
+
 
                             break;
                         default:
                             sender.sendMessage(ChatColor.DARK_RED + "The operation " + ChatColor.RED + args[1]
                                     + ChatColor.DARK_RED + " is not supported!");
                             sender.sendMessage(ChatColor.DARK_RED + "Please use one of the following: "
-                                    + ChatColor.RED + "set, add, remove");
+                                    + ChatColor.RED + "add, remove");
                             break;
                     }
 
@@ -103,5 +154,15 @@ public class UnlockedKitCommand implements CommandExecutor {
         }.runTaskAsynchronously(Main.plugin);
 
         return true;
+    }
+
+
+    public long getCurrentTime() {
+        //Getting the current date
+        Date date = new Date();
+        //This method returns the time in millis
+        long timeMilli = date.getTime();
+
+        return timeMilli;
     }
 }
