@@ -365,7 +365,9 @@ public class MapController {
 			Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
 		}
 
-		timer.restartTimer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond());
+		if (timer != null) {
+			timer.restartTimer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond());
+		}
 	}
 
 	private static void checkTeamKit(Player player) {

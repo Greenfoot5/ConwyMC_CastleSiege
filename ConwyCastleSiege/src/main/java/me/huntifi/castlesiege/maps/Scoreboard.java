@@ -51,6 +51,10 @@ public class Scoreboard implements Runnable {
 
 	public static String getTimeText() {
 		String name;
+
+		if (MapController.timer == null)
+			return "Time: " + ChatColor.RESET + "N/A";
+		
 		switch (MapController.timer.state) {
 			case PREGAME:
 				name = "Pre-Game: ";
