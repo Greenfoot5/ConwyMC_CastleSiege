@@ -135,10 +135,11 @@ public class StoreData {
                 try {
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                             "INSERT INTO player_unlocks VALUES (?, ?, ?, ?, ?, ?)");
-                    ps.setString(1, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName());
-                    ps.setString(2, uuid.toString());
+                    String playerName = Bukkit.getOfflinePlayer(uuid).getName();
+                    ps.setString(1, Bukkit.getOfflinePlayer(uuid).getName());
+                    ps.setString(2, LoadData.getUUID(playerName).toString());
                     ps.setString(3, kitName);
-                    ps.setTimestamp(4, new Timestamp(System.currentTimeMillis() + duration));
+                    ps.setTimestamp(4, new Timestamp(duration));
                     ps.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
                     ps.setBoolean(6, isDonation);
                     ps.executeUpdate();

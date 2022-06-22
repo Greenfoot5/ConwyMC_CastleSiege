@@ -233,7 +233,7 @@ public class LoadData {
      * @return A tuple of the prepared statement (to close later) and the query's result
      * @throws SQLException If something goes wrong executing the query
      */
-    private static Tuple<PreparedStatement, ResultSet> getActiveKit(UUID uuid, String kitName) throws SQLException {
+    public static Tuple<PreparedStatement, ResultSet> getActiveKit(UUID uuid, String kitName) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "SELECT unlocked_kits, unlocked_until FROM player_unlocks WHERE uuid = ? AND unlocked_kits = ? AND unlocked_until > ?"
                         + " ORDER BY unlocked_until DESC LIMIT 1");
@@ -248,7 +248,7 @@ public class LoadData {
     /**
      * Check if the query result contains an active kit
      * @param rs The result of a query
-     * @return The reason and end of an active ban, null if no active ban was found
+     * @return The timestamp of the kit, null if no active kit was found
      * @throws SQLException If something goes wrong getting data from the query
      */
     public static Timestamp getKitTimestamp(ResultSet rs) throws SQLException {
