@@ -109,8 +109,21 @@ public class UpdateStats {
      * @return The score required to reach the level
      */
     public static double levelScore(int lvl) {
-        if (lvl > 0) {
-            return 6 * lvl * lvl - 6 * (lvl - 1) + levelScore(lvl -1);
+
+        if (lvl >= 65) {
+            return 1.5 * lvl * lvl - 1.5 * (lvl - 1) + levelScore(lvl -1);
+        } else if (lvl >= 60) {
+            return 2 * lvl * lvl - 3 * (lvl - 1) + levelScore(lvl -1);
+        } else if (lvl >= 48) {
+            return 3 * lvl * lvl - 4 * (lvl - 1) + levelScore(lvl -1);
+        } else if (lvl >= 36) {
+            return 4 * lvl * lvl - 5 * (lvl - 1) + levelScore(lvl -1);
+        } else if (lvl >= 24) {
+            return 5 * lvl * lvl - 6 * (lvl - 1) + levelScore(lvl -1);
+        } else if (lvl >= 12) {
+            return 6 * lvl * lvl - 7 * (lvl - 1) + levelScore(lvl -1);
+        } else if (lvl > 0) {
+            return 8 * lvl * lvl - 8 * (lvl - 1) + levelScore(lvl -1);
         }
 
         return 0;
