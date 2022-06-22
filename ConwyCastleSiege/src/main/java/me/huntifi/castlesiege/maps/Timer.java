@@ -16,7 +16,7 @@ public class Timer {
 		minutes = startMinutes;
 		seconds = startSeconds;
 		state = startState;
-		if (seconds > 0)
+		if (seconds > 0 || minutes > 0)
 			startTimer();
 	}
 
