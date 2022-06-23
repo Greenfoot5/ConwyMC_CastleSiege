@@ -325,6 +325,9 @@ commands:
   Coinshop:
     description: Open the coinshop for the player.
     usage: /Coinshop
+  buykit:
+    description: Buy a kit with coins
+    usage: /buykit <Player> <donator/premium or team/map> <kit>
 
 
   # Kits

@@ -4,6 +4,8 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -64,48 +66,50 @@ public class CoinshopGui implements Listener, CommandExecutor {
         String c = shopCommand.get(e.getSlot());
         if (c != null) {
             p.closeInventory();
-            p.performCommand(c);
+            p.performCommand("buykit " + p.getName() + " donator " + c);
+        } else {
+            Messenger.sendError("Invalid command!", p);
         }
     }
 
     //Add all the shop items
-    public static void registerShop() {
+    public static void registerShop(Player p) {
 
-        addItem(ChatColor.GOLD + "Berserker", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW,
-            ChatColor.GREEN + "Duration: 30 days"), 0, "");
+        addItem(ChatColor.GOLD + "Berserker", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPremiumPrice("Berserker"),
+            ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 0, "Berserker");
 
-        addItem(ChatColor.GOLD + "Vanguard", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW,
-            ChatColor.GREEN + "Duration: 30 days"), 1, "");
+        addItem(ChatColor.GOLD + "Vanguard", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPremiumPrice("Vanguard"),
+            ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 1, "Vanguard");
 
-        addItem(ChatColor.GOLD + "Executioner", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW,
-                ChatColor.GREEN + "Duration: 30 days"), 2, "");
+        addItem(ChatColor.GOLD + "Executioner", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPremiumPrice("Executioner"),
+                ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 2, "Executioner");
 
-        addItem(ChatColor.GOLD + "Maceman", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW,
-                ChatColor.GREEN + "Duration: 30 days"), 3, "");
+        addItem(ChatColor.GOLD + "Maceman", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPremiumPrice("Maceman"),
+                ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 3, "Maceman");
 
-        addItem(ChatColor.GOLD + "Viking", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW,
-                ChatColor.GREEN + "Duration: 30 days"), 4, "");
+        addItem(ChatColor.GOLD + "Viking", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPremiumPrice("Viking"),
+                ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 4, "Viking");
 
-        addItem(ChatColor.GOLD + "Medic", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW,
-                ChatColor.GREEN + "Duration: 30 days"), 5, "");
+        addItem(ChatColor.GOLD + "Medic", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPremiumPrice("Medic"),
+                ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 5, "Medic");
 
-        addItem(ChatColor.GOLD + "Ranger", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW,
-                ChatColor.GREEN + "Duration: 30 days"), 6, "");
+        addItem(ChatColor.GOLD + "Ranger", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPremiumPrice("Ranger"),
+                ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 6, "Ranger");
 
-        addItem(ChatColor.GOLD + "Cavalry", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW,
-                ChatColor.GREEN + "Duration: 30 days"), 7, "");
+        addItem(ChatColor.GOLD + "Cavalry", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPremiumPrice("Cavalry"),
+                ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 7, "Cavalry");
 
-        addItem(ChatColor.GOLD + "Halberdier", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW,
-                ChatColor.GREEN + "Duration: 30 days"), 8, "");
+        addItem(ChatColor.GOLD + "Halberdier", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPremiumPrice("Halberdier"),
+                ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 8, "Halberdier");
 
-        addItem(ChatColor.GOLD + "Engineer", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW,
-                ChatColor.GREEN + "Duration: 30 days"), 9, "");
+        addItem(ChatColor.GOLD + "Engineer", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPremiumPrice("Engineer"),
+                ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 9, "Engineer");
 
-        addItem(ChatColor.GOLD + "Crossbowman", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW,
-                ChatColor.GREEN + "Duration: 30 days"), 10, "");
+        addItem(ChatColor.GOLD + "Crossbowman", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPremiumPrice("Crossbowman"),
+                ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 10, "Crossbowman");
 
-        addItem(ChatColor.GOLD + "Warhound", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW,
-                ChatColor.GREEN + "Duration: 30 days"), 11, "");
+        addItem(ChatColor.GOLD + "Warhound", Material.CHEST, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPremiumPrice("Warhound"),
+                ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 11, "Warhound");
 
 
     }
@@ -127,7 +131,7 @@ public class CoinshopGui implements Listener, CommandExecutor {
         }
 
         p.openInventory(CoinshopGui("Coin Shop"));
-        CoinshopGui.registerShop();
+        CoinshopGui.registerShop(p);
     }
 
         return true;

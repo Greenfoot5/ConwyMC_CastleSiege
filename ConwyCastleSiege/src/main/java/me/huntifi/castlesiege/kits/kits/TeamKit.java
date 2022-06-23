@@ -79,4 +79,8 @@ public abstract class TeamKit extends DonatorKit {
         }
         return false;
     }
+
+    public double getPrice() {
+        return price;
+    }
 }

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class DonatorKit extends Kit {
 
-    protected double price;
+    protected static double price;
 
 
     public DonatorKit(String name, int baseHealth, double regenAmount, double coins) {
@@ -49,5 +49,60 @@ public abstract class DonatorKit extends Kit {
             return true;
         }
         return false;
+    }
+
+
+    public static double getPremiumPrice(String kitname) {
+    double coinprice = 0.0;
+        switch (kitname) {
+
+            case "Cavalry":
+            case "Engineer":
+            case "Warhound":
+            case "Crossbowman":
+            case "Halberdier":
+                coinprice = 7500;
+                break;
+            case "Medic":
+            case "Executioner":
+            case "Berserker":
+            case "Ranger":
+                coinprice = 5000;
+                break;
+            case "Viking":
+            case "Maceman":
+            case "Vanguard":
+                coinprice = 6000;
+                break;
+            default:
+                coinprice = 5500;
+                break;
+        }
+        return coinprice;
+    }
+
+    public static double getTeamkitPrice(String kitname) {
+        double coinprice = 0.0;
+        switch (kitname) {
+
+            case "Elytrier":
+            case "Abyssal":
+            case "Lancer":
+                coinprice = 5000;
+                break;
+            case "MoriaOrc":
+            case "Hellsteed":
+            case "UrukBerserker":
+            case "Ranged_Cavalry":
+                coinprice = 2500;
+                break;
+            case "Fallen":
+                coinprice = 1000;
+                break;
+            default:
+                coinprice = 2000;
+                break;
+        }
+        return coinprice;
     }
 }

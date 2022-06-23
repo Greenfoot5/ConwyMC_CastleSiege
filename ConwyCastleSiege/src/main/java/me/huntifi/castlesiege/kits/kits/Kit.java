@@ -37,6 +37,7 @@ import java.util.*;
  * The abstract kit
  */
 public abstract class Kit implements CommandExecutor {
+
     public String name;
     public int baseHealth;
     public int kbResistance = 0;
