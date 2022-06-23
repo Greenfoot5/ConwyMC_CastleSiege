@@ -37,7 +37,7 @@ public class CoinbuyCommand implements CommandExecutor {
         }
 
         //This is the kit, the kit should be in the kits list in order for it to be an existing one.
-        if (!KitList.getAllKits().contains(args[2])) {
+        if (!KitList.getDonatorKits().contains(args[2]) && !KitList.getTeamKits().contains(args[2])) {
             Messenger.sendError("An invalid kit was provided.", sender);
             return true;
         }
