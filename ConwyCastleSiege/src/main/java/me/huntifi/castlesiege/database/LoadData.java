@@ -189,6 +189,21 @@ public class LoadData {
         return new Tuple<>(ps, rs);
     }
 
+    /**
+     * Get 10 donators from the database
+     * @param offset The amount of donators to skip
+     * @return A tuple of the prepared statement (to close later) and the query's result
+     * @throws SQLException If something goes wrong executing the query
+     */
+    public static Tuple<PreparedStatement, ResultSet> getDonators(int offset) throws SQLException {
+        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "SELECT * FROM vw_donator LIMIT 10 OFFSET ?");
+        ps.setInt(1, offset);
+
+        ResultSet rs = ps.executeQuery();
+        return new Tuple<>(ps, rs);
+    }
+
 
     /**
      * Get a player's unlocked kits data from the database

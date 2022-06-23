@@ -151,16 +151,8 @@ public class RankPoints implements CommandExecutor {
 
             while (top.getSecond().next() && i <= 10) {
                 if (top.getSecond().getString("uuid").equalsIgnoreCase(uuid.toString())) {
-                    if (i == 1) {
-                        top.getFirst().close();
-                        return  "high_king";
-                    } else if (i <= 3) {
-                        top.getFirst().close();
-                        return  "king";
-                    } else {
-                        top.getFirst().close();
-                        return  "viceroy";
-                    }
+                    top.getFirst().close();
+                    return getTopRank(i);
                 }
                 i++;
             }
@@ -175,9 +167,26 @@ public class RankPoints implements CommandExecutor {
     }
 
     /**
+     * Get the donator rank that corresponds to the position
+     * @param position The position on the donator leaderboard
+     * @return The corresponding non-pretty donator rank
+     */
+    public static String getTopRank(int position) {
+        if (position == 1) {
+            return "high_king";
+        } else if (position <= 3) {
+            return "king";
+        } else if (position <= 10) {
+            return "viceroy";
+        } else {
+            return "";
+        }
+    }
+
+    /**
      * Get the donator rank that corresponds to the rank points
      * @param rp The amount of rank points
-     * @return The corresponding donator rank
+     * @return The corresponding non-pretty donator rank
      */
     public static String getRank(double rp) {
         if (rp > 80) {
