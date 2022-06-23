@@ -554,7 +554,7 @@ thunderstoneGuard:
         - "§5MAP: Thunderstone"
         - "§5TEAM: §6Thunderstone Guard"
       location: 22
-      command: "Elytrier"
+      command: "thunderstoneelytrier"
     back:
       name: "§4§lGo Back"
       material: "BARRIER"
