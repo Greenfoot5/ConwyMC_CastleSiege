@@ -18,7 +18,7 @@ public class StartCommand implements CommandExecutor {
             return true;
         }
 
-
+        MapController.timer.startTimer();
         return true;
     }
 }
