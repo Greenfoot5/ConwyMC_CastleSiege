@@ -52,17 +52,23 @@ public abstract class DonatorKit extends Kit {
                         Messenger.sendError("You don't own this kit!", sender);
                         return;
                     }
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            addPlayer(player.getUniqueId());
-                        }
-                    }.runTask(Main.plugin);
+
+                    add(player);
+
                 }
             }.runTaskAsynchronously(Main.plugin);
             return true;
         }
         return false;
+    }
+
+    public void add(Player p) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                addPlayer(p.getUniqueId());
+            }
+        }.runTask(Main.plugin);
     }
 
 
