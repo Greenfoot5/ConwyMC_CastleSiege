@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.kits.kits;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
@@ -7,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class TeamKit extends DonatorKit {
@@ -66,13 +68,18 @@ public abstract class TeamKit extends DonatorKit {
                 Messenger.sendError("Can't use this kit on this team!", sender);
                 return true;
             }
+            new BukkitRunnable() {
+                @Override
+                public void run() {
 
+                    boolean hasKit = LoadData.hasKit(((Player) sender).getUniqueId(), name.replace(" ", ""));
 
-            boolean hasKit = LoadData.hasKit(((Player) sender).getUniqueId(), name.replace(" ", ""));
-            if (!hasKit) {
-                Messenger.sendError("You don't own this kit!", sender);
-                return true;
-            }
+                    if (!hasKit) {
+                        Messenger.sendError("You don't own this kit!", sender);
+                        return;
+                    }
+                }
+            }.runTaskAsynchronously(Main.plugin);
 
             super.addPlayer(player.getUniqueId());
             return true;
