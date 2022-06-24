@@ -312,6 +312,11 @@ commands:
     usage: /toggleswitching [true/false]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
+  Start:
+    description: Ends the current timer phase
+    usage: /start
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
 
   # Donations
   Unlockkit:

@@ -63,18 +63,18 @@ public class Scoreboard implements Runnable {
 				name = "Explore: ";
 				break;
 			case LOBBY_LOCKED:
-				name = "Pre-Map: ";
+				name = "Lobby: ";
 				break;
 			case ONGOING:
-				name = "Time: ";
+				name = "Play: ";
 				break;
 			case ENDED:
-				return "Time: " + ChatColor.RESET + "ENDED";
+				return "MAP ENDED";
 			default:
 				return "Time: " + ChatColor.RESET + "N/A";
 		}
 
-		if (MapController.timer.seconds < 0)
+		if (MapController.timer.seconds < 0 || MapController.timer.minutes < 0)
 			return name + ChatColor.RESET + "--:--";
 		else if (MapController.timer.seconds < 10)
 			return name + ChatColor.RESET + MapController.timer.minutes + ":0" + MapController.timer.seconds;

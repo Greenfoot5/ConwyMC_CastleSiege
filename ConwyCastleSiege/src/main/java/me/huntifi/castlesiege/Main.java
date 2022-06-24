@@ -218,10 +218,11 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Leaderboards
                 Objects.requireNonNull(getCommand("Top")).setExecutor(new Leaderboard());
+                Objects.requireNonNull(getCommand("TopAssists")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopCaptures")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopDeaths")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopKills")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopAssists")).setExecutor(new Leaderboard());
+                Objects.requireNonNull(getCommand("TopDonators")).setExecutor(new Donators());
 
                 // Staff - Punishments
                 Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());
@@ -249,6 +250,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Unlockkit")).setExecutor(new UnlockedKitCommand());
                 Objects.requireNonNull(getCommand("ForceSwitch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new SwitchCommand());
+                Objects.requireNonNull(getCommand("Start")).setExecutor(new StartCommand());
 
                 // Kits
                 Objects.requireNonNull(getCommand("Random")).setExecutor(new RandomKitCommand());
@@ -305,18 +307,6 @@ public class Main extends JavaPlugin implements Listener {
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MapBorder(), 0, 80);
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
                 //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
-
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MainGateReadyRam(), 200, 60);
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MainGateRamAnimation(), 200, MainGateRam.rammingSpeed);
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MainGateRam(), 200, 40);
-
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new GreatHallGateReadyRam(), 200, 60);
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new GreatHallRamAnimation(), 200, GreatHallGateRam.rammingSpeed);
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new GreatHallGateRam(), 200, 40);
-
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneGateReadyRam(), 200, 60);
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneRamAnimation(), 200, ThunderstoneRam.rammingSpeed);
-                //Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ThunderstoneRam(), 200, 40);
 
                 getLogger().info("Plugin has been enabled!");
 
