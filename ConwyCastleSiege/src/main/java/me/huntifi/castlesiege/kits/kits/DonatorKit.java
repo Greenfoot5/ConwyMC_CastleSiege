@@ -124,7 +124,7 @@ public abstract class DonatorKit extends Kit {
         return coinPrice;
     }
 
-    protected static boolean isFriday() {
+    public static boolean isFriday() {
         System.out.println(System.currentTimeMillis());
         System.out.println((((System.currentTimeMillis() / 1000) - 86400) % 604800) / 86400);
         return ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 1;

@@ -5,7 +5,9 @@ import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.*;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
@@ -88,6 +90,11 @@ public class PlayerConnect implements Listener {
             p.sendMessage(ChatColor.DARK_PURPLE + "There are currently " + Bukkit.getOnlinePlayers().size() + " player(s) online.");
             p.sendMessage(ChatColor.DARK_PURPLE + "The max amount of players is 100.");
         }
+
+        if (DonatorKit.isFriday()) {
+            Messenger.broadcastInfo("It's Friday! All donator and team kits are " + ChatColor.BOLD + "FREE!");
+        }
+
         ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
         Bukkit.dispatchCommand(console, "ocm toggle " + p.getName() + " off");
     }

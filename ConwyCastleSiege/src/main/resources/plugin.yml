@@ -331,6 +331,8 @@ commands:
   Webshop:
     description: Sends the link of the webshop to the commandsender.
     usage: /Webshop
+    aliases:
+      - donate
   Coinshop:
     description: Open the coinshop for the player.
     usage: /Coinshop

@@ -38,7 +38,10 @@ public class Tips extends BukkitRunnable {
             "Rams no longer require 4 people, instead the damage inflicted to the gate is increased with each player on the ram.",
             "Got lag? Get optifine!",
             "Donators can set an unique leave and join message with /joinmsg and /leavemsg!",
-            "Donators can switch whenever they want, no matter the amount of players!"
+            "Donators can switch whenever they want, no matter the amount of players!",
+            "Looking for a change in pace? Try /random!",
+            "Want to try a kit before buying? Play on Fridays or check out the 7 day free trial in the store: https://conwymc.tebex.io/",
+            "Want to help keep the server running? Donate! https://conwymc.tebex.io/ There's some awesome benefits!"
     };
 
     // Sends a random tip to all players
