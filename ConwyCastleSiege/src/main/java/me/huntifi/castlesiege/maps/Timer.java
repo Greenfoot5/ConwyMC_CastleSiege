@@ -26,7 +26,6 @@ public class Timer {
 		startTimer();
 	}
 	public void startTimer() {
-
 		new BukkitRunnable() {
 
 			@Override
@@ -43,8 +42,8 @@ public class Timer {
 					nextState();
 					if (state == TimerState.ENDED) {
 						MapController.endMap();
-						this.cancel();
 					}
+					this.cancel();
 				}
 				else {
 					seconds--;

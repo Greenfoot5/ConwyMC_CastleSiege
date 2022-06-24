@@ -307,17 +307,18 @@ public class MapController {
 				return;
 			}
 		}
-		if (explorationTime > 0)
+		if (explorationTime > 0) {
 			timer = new Timer(explorationTime / 60, explorationTime % 60, TimerState.EXPLORATION);
-		else if (explorationTime < 0)
+		} else if (explorationTime < 0) {
 			timer = new Timer(-1, -1, TimerState.EXPLORATION);
-		else if (lobbyLockedTime > 0)
+		} else if (lobbyLockedTime > 0) {
 			timer = new Timer(lobbyLockedTime / 60, lobbyLockedTime % 60, TimerState.LOBBY_LOCKED);
-		else if (lobbyLockedTime < 0)
+		} else if (lobbyLockedTime < 0) {
 			timer = new Timer(-1, -1, TimerState.PREGAME);
-		else
+		} else {
 			beginMap();
 			timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond(), TimerState.ONGOING);
+		}
 	}
 
 	public static void beginExploration() {
@@ -349,22 +350,30 @@ public class MapController {
 	}
 
 	public static void beginMap() {
-		// Register the flag regions
-		for (Flag flag : maps.get(mapIndex).flags) {
-			if (flag.region != null) {
-				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName))))).addRegion(flag.region);
 
-				if (flag.getFlagColour() == null) {
-					return;
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				// Register the flag regions
+				for (
+						Flag flag : maps.get(mapIndex).flags) {
+					if (flag.region != null) {
+						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName))))).addRegion(flag.region);
+
+						if (flag.getFlagColour() == null) {
+							return;
+						}
+						flag.createHologram(flag.holoLoc, flag.getFlagColour());
+					}
 				}
-				flag.createHologram(flag.holoLoc, flag.getFlagColour());
-			}
-		}
 
-		// Register gates
-		for (Gate gate : maps.get(mapIndex).gates) {
-			Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
-		}
+				// Register gates
+				for (
+						Gate gate : maps.get(mapIndex).gates) {
+					Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
+				}
+			}
+		}.runTask(Main.plugin);
 
 		if (timer != null) {
 			timer.restartTimer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond());

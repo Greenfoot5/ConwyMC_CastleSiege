@@ -112,14 +112,14 @@ public class SwitchCommand implements CommandExecutor {
 		Team team = MapController.getCurrentMap().getTeam(p.getUniqueId());
 
 		//Check what type of switch it is (on battlefield or not?)
-		if (deaths > 0 || MapController.isOngoing()) {
+		if (deaths > 0 && MapController.isOngoing()) {
 			//Set player health to 0 and teleport them to their new lobby
 			p.setHealth(0);
 			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name +
 					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)", p);
 			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
 
-		} else if (deaths == 0){
+		} else if (deaths == 0 || (deaths > 0 || !MapController.isOngoing())){
 			//Teleport to new lobby with full health
 			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
 			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name, p);
