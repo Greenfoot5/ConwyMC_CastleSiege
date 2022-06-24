@@ -18,6 +18,7 @@ import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -457,10 +458,18 @@ public class MapController {
 	 */
 	public static void joinATeam(UUID uuid) {
 		Player player = Bukkit.getPlayer(uuid);
-		Team team = maps.get(mapIndex).smallestTeam();
-
-		team.addPlayer(uuid);
 		assert player != null;
+
+		// If the game is a match, players join in spectator mode
+		if (isMatch) {
+			SpectateCommand.spectators.add(uuid);
+			player.setGameMode(GameMode.SPECTATOR);
+			player.teleport(MapController.getCurrentMap().flags[0].spawnPoint);
+			NameTag.give(player);
+		}
+
+		Team team = maps.get(mapIndex).smallestTeam();
+		team.addPlayer(uuid);
 		if (team.lobby.spawnPoint.getWorld() == null) {
 			team.lobby.spawnPoint.setWorld(Bukkit.getWorld(getCurrentMap().worldName));
 		}
