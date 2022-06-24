@@ -62,6 +62,7 @@ public class UnlockedKitCommand implements CommandExecutor {
 
                             Tuple<PreparedStatement, ResultSet> rs = LoadData.getActiveKit(uuid, args[2]);
                             timestamp = LoadData.getKitTimestamp(rs.getSecond());
+                            rs.getFirst().close();
 
                             //Should the player enter 0 time, return error message
                             if (duration == 0) {
