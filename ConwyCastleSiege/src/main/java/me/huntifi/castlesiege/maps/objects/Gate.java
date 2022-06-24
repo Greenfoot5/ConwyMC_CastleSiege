@@ -4,6 +4,7 @@ import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.util.Direction;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
@@ -109,9 +110,7 @@ public class Gate implements Listener {
     }
 
     private void gateBreached(World world) {
-        for (Player all : Bukkit.getOnlinePlayers()) {
-            all.sendMessage(ChatColor.RED + getName() + " has been breached!");
-        }
+        Messenger.broadcastWarning(getName() + " has been breached!");
 
         try {
             SchematicSpawner.spawnSchematic(schematicLocation.toLocation(
