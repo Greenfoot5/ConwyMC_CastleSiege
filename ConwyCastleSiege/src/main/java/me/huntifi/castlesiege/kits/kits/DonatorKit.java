@@ -48,13 +48,11 @@ public abstract class DonatorKit extends Kit {
 
                     boolean hasKit = LoadData.hasKit(((Player) sender).getUniqueId(), name.replace(" ", ""));
 
-                    if (!hasKit) {
+                    if (!hasKit || Kit.isFriday()) {
                         Messenger.sendError("You don't own this kit!", sender);
                         return;
                     }
-
                     add(player);
-
                 }
             }.runTaskAsynchronously(Main.plugin);
             return true;
@@ -73,7 +71,7 @@ public abstract class DonatorKit extends Kit {
 
 
     public static double getPremiumPrice(String kitname) {
-    double coinprice = 0.0;
+    double coinPrice;
         switch (kitname) {
 
             case "Cavalry":
@@ -81,48 +79,48 @@ public abstract class DonatorKit extends Kit {
             case "Warhound":
             case "Crossbowman":
             case "Halberdier":
-                coinprice = 7500;
+                coinPrice = 7500;
                 break;
             case "Medic":
             case "Executioner":
             case "Berserker":
             case "Ranger":
-                coinprice = 5000;
+                coinPrice = 5000;
                 break;
             case "Viking":
             case "Maceman":
             case "Vanguard":
-                coinprice = 6000;
+                coinPrice = 6000;
                 break;
             default:
-                coinprice = 5500;
+                coinPrice = 5500;
                 break;
         }
-        return coinprice;
+        return coinPrice;
     }
 
     public static double getTeamkitPrice(String kitname) {
-        double coinprice = 0.0;
+        double coinPrice;
         switch (kitname) {
 
             case "Elytrier":
             case "Abyssal":
             case "Lancer":
-                coinprice = 5000;
+                coinPrice = 5000;
                 break;
             case "MoriaOrc":
             case "Hellsteed":
             case "UrukBerserker":
             case "Ranged_Cavalry":
-                coinprice = 2500;
+                coinPrice = 2500;
                 break;
             case "Fallen":
-                coinprice = 1000;
+                coinPrice = 1000;
                 break;
             default:
-                coinprice = 2000;
+                coinPrice = 2000;
                 break;
         }
-        return coinprice;
+        return coinPrice;
     }
 }
