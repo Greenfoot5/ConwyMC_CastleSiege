@@ -290,9 +290,4 @@ public abstract class Kit implements CommandExecutor {
         }
         return false;
     }
-
-    protected static boolean isFriday() {
-        System.out.println((System.currentTimeMillis() + 86400) % 604800);
-        return (System.currentTimeMillis() + 86400) % 604800 < 1;
-    }
 }

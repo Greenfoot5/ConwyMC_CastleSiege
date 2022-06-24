@@ -48,7 +48,7 @@ public abstract class DonatorKit extends Kit {
 
                     boolean hasKit = LoadData.hasKit(((Player) sender).getUniqueId(), name.replace(" ", ""));
 
-                    if (!hasKit || Kit.isFriday()) {
+                    if (!hasKit && !isFriday()) {
                         Messenger.sendError("You don't own this kit!", sender);
                         return;
                     }
@@ -122,5 +122,11 @@ public abstract class DonatorKit extends Kit {
                 break;
         }
         return coinPrice;
+    }
+
+    protected static boolean isFriday() {
+        System.out.println(System.currentTimeMillis());
+        System.out.println((((System.currentTimeMillis() / 1000) - 86400) % 604800) / 86400);
+        return ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 1;
     }
 }
