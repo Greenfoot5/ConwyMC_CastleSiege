@@ -78,10 +78,9 @@ public abstract class TeamKit extends DonatorKit {
                         Messenger.sendError("You don't own this kit!", sender);
                         return;
                     }
+                    addPlayer(player.getUniqueId());
                 }
             }.runTaskAsynchronously(Main.plugin);
-
-            super.addPlayer(player.getUniqueId());
             return true;
         }
         return false;
