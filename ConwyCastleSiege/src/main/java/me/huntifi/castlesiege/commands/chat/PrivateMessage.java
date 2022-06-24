@@ -1,11 +1,8 @@
 package me.huntifi.castlesiege.commands.chat;
 
-import java.util.HashMap;
-import java.util.Objects;
-
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,6 +10,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Sends a private message to a player
@@ -70,8 +70,8 @@ public class PrivateMessage implements CommandExecutor {
 		}
 
 		// Get team colors
-		Enum<ChatColor> sColor = getTeamColor(s);
-		Enum<ChatColor> rColor = getTeamColor(r);
+		String sColor = getTeamColor(s);
+		String rColor = getTeamColor(r);
 
 		// Send messages
 		s.sendMessage(String.format("%sTo %s%s%s: %s%s",
@@ -88,12 +88,12 @@ public class PrivateMessage implements CommandExecutor {
 	 * @param s The command sender to get the team color for
 	 * @return The team color of a player or white
 	 */
-	private Enum<ChatColor> getTeamColor(CommandSender s) {
+	private String getTeamColor(CommandSender s) {
 		if (s instanceof Player) {
 			Player p = (Player) s;
-			return MapController.getCurrentMap().getTeam(p.getUniqueId()).primaryChatColor;
+			return NameTag.color(p);
 		}
-		return ChatColor.WHITE;
+		return ChatColor.WHITE.toString();
 	}
 
 	/**
