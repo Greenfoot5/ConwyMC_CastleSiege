@@ -27,6 +27,10 @@ permissions:
       castlesiege.chatmod: true
   castlesiege.chatmod:
     description: Gives access to all CastleSiege Chatmod commands
+    children:
+      castlesiege.builder: true
+  castlesiege.builder:
+    description: Gives access to all CastleSiege builder commands
 
   # Donator
   castlesiege.high_king:

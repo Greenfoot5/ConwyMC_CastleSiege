@@ -32,7 +32,7 @@ public class NameTag {
 
         // Get the player's wanted rank
         String rank;
-        if (p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)) {
+        if (p.hasPermission("castlesiege.builder") && !ToggleRankCommand.showDonator.contains(p)) {
             rank = convertRank(data.getStaffRank());
         } else {
             rank = convertRank(data.getRank());
@@ -70,10 +70,12 @@ public class NameTag {
     public static String convertRank(String rank) {
         switch (rank) {
             // Staff Ranks
+            case "builder":
+                return "§b§lBuilder";
             case "chatmod":
-                return "§9ChatMod ";
+                return "§9§lChatMod ";
             case "chatmod+":
-                return "§9ChatMod§a+ ";
+                return "§9§lChatMod§a§l+ ";
             case "moderator":
                 return "§a§lMod ";
             case "developer":
