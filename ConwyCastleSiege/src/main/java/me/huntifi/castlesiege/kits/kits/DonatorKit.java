@@ -99,60 +99,6 @@ public abstract class DonatorKit extends Kit {
         return kits;
     }
 
-    public static double getPremiumPrice(String kitname) {
-    double coinPrice;
-        switch (kitname) {
-
-            case "Cavalry":
-            case "Engineer":
-            case "Warhound":
-            case "Crossbowman":
-            case "Halberdier":
-                coinPrice = 7500;
-                break;
-            case "Medic":
-            case "Executioner":
-            case "Berserker":
-            case "Ranger":
-                coinPrice = 5000;
-                break;
-            case "Viking":
-            case "Maceman":
-            case "Vanguard":
-                coinPrice = 6000;
-                break;
-            default:
-                coinPrice = 5500;
-                break;
-        }
-        return coinPrice;
-    }
-
-    public static double getTeamkitPrice(String kitname) {
-        double coinPrice;
-        switch (kitname) {
-
-            case "Elytrier":
-            case "Abyssal":
-            case "Lancer":
-                coinPrice = 5000;
-                break;
-            case "MoriaOrc":
-            case "Hellsteed":
-            case "UrukBerserker":
-            case "Ranged_Cavalry":
-                coinPrice = 2500;
-                break;
-            case "Fallen":
-                coinPrice = 1000;
-                break;
-            default:
-                coinPrice = 2000;
-                break;
-        }
-        return coinPrice;
-    }
-
     public static boolean isFriday() {
         System.out.println(System.currentTimeMillis());
         System.out.println((((System.currentTimeMillis() / 1000) - 86400) % 604800) / 86400);

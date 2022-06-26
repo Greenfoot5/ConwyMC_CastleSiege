@@ -28,7 +28,7 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
 
 
     public HelmsDeepBerserker() {
-        super("Uruk Berserker", 120, 6, "Helm's Deep", "Uruk-hai", 2000);
+        super("Uruk Berserker", 120, 6, "Helm's Deep", "Uruk-hai", 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
