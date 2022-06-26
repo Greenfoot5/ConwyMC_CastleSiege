@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.kits.kits.free_kits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.FreeKit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -14,7 +14,7 @@ import java.util.Collections;
 /**
  * The archer kit
  */
-public class Archer extends Kit {
+public class Archer extends FreeKit {
 
 	/**
 	 * Set the equipment and attributes of this kit

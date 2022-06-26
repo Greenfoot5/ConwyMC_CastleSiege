@@ -11,14 +11,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class DonatorKit extends Kit {
 
-    protected static double price;
+    // Coin price to unlock this kit
+    private final double price;
 
+    // Kit Tracking
+    private static final Collection<String> kits = new ArrayList<>();
 
     public DonatorKit(String name, int baseHealth, double regenAmount, double coins) {
         super(name, baseHealth, regenAmount);
         price = coins;
+
+        kits.add(name.replaceAll(" ", ""));
     }
 
     /**
@@ -60,6 +70,10 @@ public abstract class DonatorKit extends Kit {
         return false;
     }
 
+    /**
+     * Set the player's kit synchronously after asynchronous database operation
+     * @param p The player
+     */
     public void add(Player p) {
         new BukkitRunnable() {
             @Override
@@ -69,6 +83,21 @@ public abstract class DonatorKit extends Kit {
         }.runTask(Main.plugin);
     }
 
+    /**
+     * Get this kit's price
+     * @return The price to unlock this kit
+     */
+    public double getPrice() {
+        return price;
+    }
+
+    /**
+     * Get all donator kit names
+     * @return All donator kit names without spaces
+     */
+    public static Collection<String> getKits() {
+        return kits;
+    }
 
     public static double getPremiumPrice(String kitname) {
     double coinPrice;

@@ -62,6 +62,9 @@ public abstract class Kit implements CommandExecutor {
     public List<UUID> players;
     public static Map<UUID, Kit> equippedKits = new HashMap<>();
 
+    // Kit Tracking
+    private static final Map<String, Kit> kits = new HashMap<>();
+
     /**
      * Create a kit with basic settings
      * @param name This kit's name
@@ -71,7 +74,9 @@ public abstract class Kit implements CommandExecutor {
         this.name = name;
         this.baseHealth = baseHealth;
         this.regenAmount = regenAmount;
+
         players = new ArrayList<>();
+        kits.put(name.replaceAll(" ", ""), this);
 
         canCap = true;
         canClimb = true;
@@ -263,6 +268,23 @@ public abstract class Kit implements CommandExecutor {
 
     public double getRegen() {
         return regenAmount;
+    }
+
+    /**
+     * Get a kit by its name
+     * @param kitName The kit's name without spaces
+     * @return The corresponding kit object, null if none was found
+     */
+    public static Kit getKit(String kitName) {
+        return kits.get(kitName);
+    }
+
+    /**
+     * Get all kit names
+     * @return All kit names without spaces
+     */
+    public static Collection<String> getKits() {
+        return kits.keySet();
     }
 
     /**

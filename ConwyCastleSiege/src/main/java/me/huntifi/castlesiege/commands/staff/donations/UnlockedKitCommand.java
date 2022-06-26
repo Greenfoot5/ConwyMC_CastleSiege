@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.kits.kits.KitList;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -19,7 +19,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -89,7 +88,7 @@ public class UnlockedKitCommand implements CommandExecutor {
                             }
 
                             //This is the kit, the kit should be in the kits list in order for it to be an existing one.
-                            if (!KitList.getAllKits().contains(args[2])) {
+                            if (!Kit.getKits().contains(args[2])) {
                                 Messenger.sendError("An invalid kit was provided.", sender);
                                 return;
                             }
@@ -123,7 +122,7 @@ public class UnlockedKitCommand implements CommandExecutor {
                         case "remove":
 
                             //This is the kit, the kit should be in the kits list in order for it to be an existing one.
-                            if (!KitList.getAllKits().contains(args[2])) {
+                            if (!Kit.getKits().contains(args[2])) {
                                 Messenger.sendError("An invalid kit was provided.", sender);
                                 return;
                             }

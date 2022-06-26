@@ -9,7 +9,14 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public abstract class VoterKit extends Kit {
+
+    // Kit Tracking
+    private static final Collection<String> kits = new ArrayList<>();
+
     /**
      * Create a kit with basic settings
      *
@@ -18,6 +25,7 @@ public abstract class VoterKit extends Kit {
      */
     public VoterKit(String name, int baseHealth, double regenAmount) {
         super(name, baseHealth, regenAmount);
+        kits.add(name.replaceAll(" ", ""));
     }
 
     /**
@@ -60,5 +68,13 @@ public abstract class VoterKit extends Kit {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Get all free kit names
+     * @return All free kit names without spaces
+     */
+    public static Collection<String> getKits() {
+        return kits;
     }
 }

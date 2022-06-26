@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.kits.gui.coinshop;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
-import me.huntifi.castlesiege.kits.kits.KitList;
+import me.huntifi.castlesiege.kits.kits.TeamKit;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -37,7 +37,7 @@ public class CoinbuyCommand implements CommandExecutor {
         }
 
         //This is the kit, the kit should be in the kits list in order for it to be an existing one.
-        if (!KitList.getDonatorKits().contains(args[2]) && !KitList.getTeamKits().contains(args[2])) {
+        if (!DonatorKit.getKits().contains(args[2])) {
             Messenger.sendError("An invalid kit was provided.", sender);
             return true;
         }

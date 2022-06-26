@@ -11,11 +11,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class TeamKit extends DonatorKit {
 
     //map for the map specific kits and the team
     protected String map;
     protected String team;
+
+    // Kit Tracking
+    private static final Collection<String> kits = new ArrayList<>();
 
     /**
      * Create a kit with basic settings
@@ -31,6 +39,8 @@ public abstract class TeamKit extends DonatorKit {
         super(name, baseHealth, regenAmount, coins);
         team = playableTeam;
         map = playableMap;
+
+        kits.add(name.replaceAll(" ", ""));
     }
 
     public String getTeamName() {
@@ -95,7 +105,11 @@ public abstract class TeamKit extends DonatorKit {
         }.runTask(Main.plugin);
     }
 
-    public double getPrice() {
-        return price;
+    /**
+     * Get all team kit names
+     * @return All team kit names without spaces
+     */
+    public static Collection<String> getKits() {
+        return kits;
     }
 }

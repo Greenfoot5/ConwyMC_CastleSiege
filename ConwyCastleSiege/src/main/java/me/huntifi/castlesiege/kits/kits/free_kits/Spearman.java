@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -32,7 +33,7 @@ import java.util.UUID;
 /**
  * The spearman kit
  */
-public class Spearman extends Kit implements Listener {
+public class Spearman extends FreeKit implements Listener {
 
 	// Damage multiplier when hitting horses
 	private static final double HORSE_MULTIPLIER = 1.5;

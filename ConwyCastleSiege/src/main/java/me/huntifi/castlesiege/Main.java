@@ -43,7 +43,6 @@ import me.huntifi.castlesiege.kits.gui.*;
 import me.huntifi.castlesiege.kits.gui.coinshop.CoinbuyCommand;
 import me.huntifi.castlesiege.kits.gui.coinshop.CoinshopGui;
 import me.huntifi.castlesiege.kits.items.Enderchest;
-import me.huntifi.castlesiege.kits.kits.KitList;
 import me.huntifi.castlesiege.kits.kits.donator_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
@@ -312,9 +311,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Begin the map loop
                 MapController.startLoop();
-
-                //Register kit names
-                KitList.registerExistingKits();
 
 //		new BukkitRunnable() {
 //

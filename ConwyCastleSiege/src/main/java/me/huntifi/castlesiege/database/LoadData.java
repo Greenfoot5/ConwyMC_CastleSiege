@@ -3,7 +3,9 @@ package me.huntifi.castlesiege.database;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.kits.kits.KitList;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.FreeKit;
+import me.huntifi.castlesiege.kits.kits.VoterKit;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -211,10 +213,10 @@ public class LoadData {
      * @return A tuple of the prepared statement (to close later) and the query's result
      */
     public static ArrayList<String> getAllUnlockedKits(UUID uuid) {
-        ArrayList<String> unlockedKits = new ArrayList<>(KitList.getFreeKits());
+        ArrayList<String> unlockedKits = new ArrayList<>(FreeKit.getKits());
 
         if (ActiveData.getData(uuid).hasVote("kits")) {
-            unlockedKits.addAll(KitList.getVoterKits());
+            unlockedKits.addAll(VoterKit.getKits());
         }
 
         try {
@@ -227,7 +229,7 @@ public class LoadData {
 
             while (rs.next()) {
                 String kit = rs.getString("unlocked_kits");
-                if (KitList.getDonatorKits().contains(kit)) {
+                if (DonatorKit.getKits().contains(kit)) {
                     unlockedKits.add(kit);
                 }
             }
