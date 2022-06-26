@@ -280,6 +280,11 @@ commands:
     usage: /setcoinmultiplier <multiplier>
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
+  SetKit:
+    description: Sets the kit for a player
+    usage: /kit <player> <kit>
+    permission: castlesiege.developer
+    permission-message: You are not permitted to use this command!
   SetMap:
     description: Skips to the specified map in the rotation
     usage: /setmap <map name>

@@ -37,6 +37,7 @@ public class UnlockedKitCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (args.length < 3) {
             Messenger.sendError("Use: /unlockkit <Name> <add/remove> <Kit name> <Time> <true/false>", sender);
+            return true;
         }
         new BukkitRunnable() {
             @Override
