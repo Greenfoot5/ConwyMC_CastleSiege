@@ -115,7 +115,7 @@ public class Executioner extends DonatorKit implements Listener {
 					whoWasHit.setHealth(0);
 				}
 			}
-		} else if (e.getDamager() instanceof Player) {
+		} else if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player) {
 			Player whoHit = (Player) e.getDamager();
 			Attributable whoWasHit = (Attributable) e.getEntity();
 			Damageable damageable = (Damageable) e.getEntity();
