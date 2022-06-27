@@ -22,29 +22,62 @@ public class SetKitCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if (args.length < 2) {
-            Messenger.sendError("Use: /setkit <player> <kit>", sender);
-            return true;
+        if (args.length == 1) {
+            // Only a player was specified -> set random kit
+            setRandom(sender, args[0]);
+        } else if (args.length == 2) {
+            // Both a player and kit were specified -> set specified kit
+            setSpecific(sender, args[0], args[1]);
+        } else {
+            // An invalid amount of parameters was provided
+            Messenger.sendError("Use: /setkit <player> [kit]", sender);
         }
 
-        // Assign the command parameters to variables
-        Player player = Bukkit.getPlayer(args[0]);
-        Kit kit = Kit.getKit(args[1]);
+        return true;
+    }
+
+    /**
+     * Set a specific kit for a player
+     * @param sender Source of the command
+     * @param playerName Name of the player
+     * @param kitName Name of the kit
+     */
+    private void setSpecific(CommandSender sender, String playerName, String kitName) {
+        // Get the objects corresponding to the parameters
+        Player player = Bukkit.getPlayer(playerName);
+        Kit kit = Kit.getKit(kitName);
 
         // Ensure the parameters were valid
         if (player == null) {
-            Messenger.sendError("Could not find player " + args[0], sender);
-            return true;
+            Messenger.sendError("Could not find player " + playerName, sender);
+            return;
         } else if (kit == null) {
-            Messenger.sendError("Could not find kit " + args[1], sender);
-            return true;
+            Messenger.sendError("Could not find kit " + kitName, sender);
+            return;
         }
 
         // Set the player's kit
         Messenger.sendInfo(String.format("You set %s's kit to %s", player.getName(), kit.name), sender);
         Messenger.sendInfo("Your kit was set by " + sender.getName(), player);
         kit.addPlayer(player.getUniqueId());
+    }
 
-        return true;
+    /**
+     * Set a random kit for a player
+     * @param sender Source of the command
+     * @param playerName Name of the player
+     */
+    private void setRandom(CommandSender sender, String playerName) {
+        // Get the player object
+        Player player = Bukkit.getPlayer(playerName);
+        if (player == null) {
+            Messenger.sendError("Could not find player " + playerName, sender);
+            return;
+        }
+
+        // Set the player's kit
+        Messenger.sendInfo(String.format("You set %s's kit to a random kit", player.getName()), sender);
+        Messenger.sendInfo("Your kit was set by " + sender.getName(), player);
+        player.performCommand("random");
     }
 }
