@@ -368,6 +368,9 @@ commands:
   Crossbowman:
     description: Selects the crossbowman kit
     usage: /crossbowman
+  ConwyRoyalKnight:
+    description: Selects the Conwy royal knight kit for the English
+    usage: /Conwyroyalknight
   Engineer:
     description: Selects the engineer kit
     usage: /engineer
