@@ -67,8 +67,6 @@ public class CoinshopGui implements Listener, CommandExecutor {
         if (c != null) {
             p.closeInventory();
             p.performCommand("buykit " + p.getName() + " donator " + c);
-        } else {
-            Messenger.sendError("Invalid command!", p);
         }
     }
 
