@@ -138,6 +138,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new AssistKill(), plugin);
                 getServer().getPluginManager().registerEvents(new FallDamage(), plugin);
                 getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
+                getServer().getPluginManager().registerEvents(new HurtAnimation(), plugin);
                 getServer().getPluginManager().registerEvents(new InCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new LobbyCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new TeamCombat(), plugin);

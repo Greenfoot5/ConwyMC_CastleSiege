@@ -2,18 +2,27 @@ package me.huntifi.castlesiege.events.combat;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.*;
+import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.maps.MapController;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.lang.reflect.InvocationTargetException;
 
 /**
  * Allows the hurt animation to trigger without dealing damage
  */
-public class HurtAnimation {
+public class HurtAnimation implements Listener {
 
     /**
      * Trigger the hurt animation for a player
+     *
      * @param player The player
      */
     public static void trigger(Player player) {
@@ -28,4 +37,50 @@ public class HurtAnimation {
             e.printStackTrace();
         }
     }
+
+
+    @EventHandler
+    public void doDamageParticle(EntityDamageByEntityEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+
+        // Both are players
+        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
+            Player whoWasHit = (Player) e.getEntity();
+            Player whoHit = (Player) e.getDamager();
+
+            if (MapController.getCurrentMap().getTeam(whoWasHit.getUniqueId()) ==
+                    MapController.getCurrentMap().getTeam(whoHit.getUniqueId())) {
+                return;
+            }
+
+            whoWasHit.getWorld().spawnParticle(Particle.BLOCK_DUST,
+                    whoWasHit.getLocation().add(0, 0.75, 0),
+                    150, 0.1, 0.5, 0.1, Material.REDSTONE_WIRE.createBlockData());
+            removeParticle();
+
+        }
+    }
+
+    public void removeParticle() {
+        ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+        onRemoveParticle(manager);
+    }
+
+
+    public void onRemoveParticle(ProtocolManager manager) {
+    manager.addPacketListener(new PacketAdapter(Main.plugin, ListenerPriority.HIGH, new PacketType[] { PacketType.Play.Server.WORLD_PARTICLES}) {
+    @Override
+    public void onPacketSending(PacketEvent event) {
+        PacketContainer packet = event.getPacket();
+        if (event.getPacketType() != PacketType.Play.Server.WORLD_PARTICLES)
+            return;
+
+        if (packet.getNewParticles().read(0).getParticle() == Particle.DAMAGE_INDICATOR)
+            event.setCancelled(true);
+
+       }
+     });
+   }
 }

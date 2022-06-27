@@ -37,7 +37,9 @@ public class SuicideCommand implements CommandExecutor {
 
 		assert sender instanceof Player;
 		Player p = (Player) sender;
-		p.setHealth(0);
+		if (p.getHealth() != 0) {
+			p.setHealth(0);
+		}
 		if (MapController.isOngoing()) {
 			Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", p);
 			UpdateStats.addDeaths(p.getUniqueId(), 1); // Note: 1 death added on player respawn
