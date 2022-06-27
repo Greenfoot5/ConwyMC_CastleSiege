@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.connection.PlayerConnect;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
@@ -65,6 +66,7 @@ public class DeathEvent implements Listener {
         Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
         player.setWalkSpeed(0.2f);
         InCombat.playerDied(player.getUniqueId());
+        PlayerConnect.sendTitlebarMessages(player);
     }
 
     /**
