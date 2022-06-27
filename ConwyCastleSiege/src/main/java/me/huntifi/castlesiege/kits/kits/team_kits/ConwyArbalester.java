@@ -1,10 +1,11 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.team_kits;
+
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.TeamKit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -21,16 +22,11 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.Collections;
 import java.util.Objects;
 
-/**
- * The crossbowman kit
- */
-public class Crossbowman extends DonatorKit implements Listener {
+public class ConwyArbalester extends TeamKit implements Listener {
 
-    /**
-     * Set the equipment and attributes of this kit
-     */
-    public Crossbowman() {
-        super("Crossbowman", 165, 9.5, 7500);
+    public ConwyArbalester() {
+        super("Arbalester", 160, 9.5, "Conwy", "The English", 5000);
+
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -38,11 +34,12 @@ public class Crossbowman extends DonatorKit implements Listener {
 
         // Crossbow
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.CROSSBOW),
-                ChatColor.GREEN + "Crossbow", null, null, 1);
+                ChatColor.GREEN + "Crossbow", null, null
+                , 3);
         es.votedWeapon = new Tuple<>(ItemCreator.weapon(new ItemStack(Material.CROSSBOW),
                 ChatColor.GREEN + "Crossbow",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 3), 0);
+                Collections.singletonList(new Tuple<>(Enchantment.ARROW_KNOCKBACK, 2)), 5), 0);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
@@ -51,31 +48,31 @@ public class Crossbowman extends DonatorKit implements Listener {
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Leather Leggings", null, null,
-                Color.fromRGB(255, 255, 51));
+                Color.fromRGB(174, 26, 26));
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots", null, null,
-                Color.fromRGB(255, 255, 51));
+                Color.fromRGB(174, 23, 51));
         // Voted boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
-                Color.fromRGB(255, 255, 51));
+                Color.fromRGB(174, 26, 26));
 
         // Ladders
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
 
         // Arrows
-        es.hotbar[7] = new ItemStack(Material.ARROW, 32);
+        es.hotbar[7] = new ItemStack(Material.ARROW, 24);
 
         super.equipment = es;
 
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 1));
-        super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 1));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 1));
 
         // Death Messages
         super.projectileDeathMessage[0] = "Your skull was pierced by ";
@@ -83,6 +80,7 @@ public class Crossbowman extends DonatorKit implements Listener {
         super.projectileKillMessage[0] = "You pierced ";
         super.projectileKillMessage[1] = "'s skull";
     }
+
 
     /**
      * Activate the crossbowman ability, shooting an arrow in the direction the player is looking at high speed
@@ -96,11 +94,17 @@ public class Crossbowman extends DonatorKit implements Listener {
 
         Player p = (Player) e.getEntity();
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-            e.setCancelled(true);
-            p.setCooldown(Material.CROSSBOW, 55);
 
-            Arrow a = p.launchProjectile(Arrow.class, p.getLocation().getDirection());
-            a.setVelocity(a.getVelocity().normalize().multiply(35));
+            if (!(e.getProjectile() instanceof Arrow)) {
+                return;
+            }
+
+            p.setCooldown(Material.CROSSBOW, 110);
+            Arrow a = (Arrow) e.getProjectile();
+            ((Arrow) e.getProjectile()).setPierceLevel(2);
+            a.setKnockbackStrength(3);
+            a.setVelocity(p.getLocation().getDirection().normalize().multiply(42));
         }
     }
+
 }

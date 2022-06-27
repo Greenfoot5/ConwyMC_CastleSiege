@@ -144,7 +144,11 @@ public class CoinshopGui implements Listener, CommandExecutor {
 
         addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Royal Knight", Material.PAPER, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("RoyalKnight")).getPrice(),
                 ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Conwy",
-                ChatColor.GREEN + "Team: " + ChatColor.DARK_RED + "The English", ChatColor.YELLOW + "Click here to buy!"), 20, "team Hellsteed");
+                ChatColor.GREEN + "Team: " + ChatColor.DARK_RED + "The English", ChatColor.YELLOW + "Click here to buy!"), 20, "team RoyalKnight");
+
+        addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Arbalester", Material.PAPER, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("Arbalester")).getPrice(),
+                ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Conwy",
+                ChatColor.GREEN + "Team: " + ChatColor.DARK_RED + "The English", ChatColor.YELLOW + "Click here to buy!"), 21, "team Arbalester");
     }
 
     @Override

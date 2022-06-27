@@ -324,7 +324,7 @@ premium:
         - "§2[Melee Damage]:§a 1"
         - "§2[Ranged Damage]:§a 35"
         - "§2[Regen]:§a 4.5"
-        - "§2[Effects]:§a Slowness 2"
+        - "§2[Effects]:§a Slowness 2, Haste 2"
         - "§2[Ability]:§a Shoots arrows in a straight line."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
@@ -552,7 +552,24 @@ english:
         - "§4------------------------------"
         - "§5MAP: Conwy"
         - "§5TEAM: §4The English"
-      location: 22
+      location: 21
+      command: "ConwyRoyalKnight"
+    arbalester:
+      name: "§a§lCLASS:§r§a Arbalester"
+      material: "CROSSBOW"
+      lore:
+        - "§4------------------------------"
+        - "§2[Desc]:§a A ranged unit with an arbalest!"
+        - "§2[Health]:§a 160"
+        - "§2[Melee Damage]:§a 5"
+        - "§2[Regen]:§a 5"
+        - "§2[Effects]:§a Slowness 2, Mining fatigue"
+        - "§2[Ability]:§a Slower Xbow with stronger arrows."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§4------------------------------"
+        - "§5MAP: Conwy"
+        - "§5TEAM: §4The English"
+      location: 23
       command: "ConwyRoyalKnight"
     back:
       name: "§4§lGo Back"

@@ -371,6 +371,9 @@ commands:
   ConwyRoyalKnight:
     description: Selects the Conwy royal knight kit for the English
     usage: /Conwyroyalknight
+  ConwyArbalester:
+    description: Selects the Conwy arbalester kit for the English
+    usage: /Conwyarbalester
   Engineer:
     description: Selects the engineer kit
     usage: /engineer
