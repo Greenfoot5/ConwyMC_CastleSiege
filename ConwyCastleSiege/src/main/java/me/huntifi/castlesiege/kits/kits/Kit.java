@@ -76,7 +76,7 @@ public abstract class Kit implements CommandExecutor {
         this.regenAmount = regenAmount;
 
         players = new ArrayList<>();
-        kits.put(name.replaceAll(" ", ""), this);
+        kits.put(name, this);
 
         canCap = true;
         canClimb = true;

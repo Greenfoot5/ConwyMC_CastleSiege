@@ -27,7 +27,7 @@ public class MoriaOrc extends TeamKit implements Listener {
 
 
     public MoriaOrc() {
-        super("Moria Orc", 130, 7, "Moria", "The Orcs", 2500);
+        super("MoriaOrc", 130, 7, "Moria", "The Orcs", 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

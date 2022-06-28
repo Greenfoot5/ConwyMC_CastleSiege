@@ -51,7 +51,7 @@ public class FireArcher extends VoterKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public FireArcher() {
-        super("Fire Archer", 140, 9);
+        super("FireArcher", 140, 9);
 
         // Equipment stuff
         EquipmentSet es = new EquipmentSet();

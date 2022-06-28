@@ -25,7 +25,7 @@ public abstract class VoterKit extends Kit {
      */
     public VoterKit(String name, int baseHealth, double regenAmount) {
         super(name, baseHealth, regenAmount);
-        kits.add(name.replaceAll(" ", ""));
+        kits.add(name);
     }
 
     /**
