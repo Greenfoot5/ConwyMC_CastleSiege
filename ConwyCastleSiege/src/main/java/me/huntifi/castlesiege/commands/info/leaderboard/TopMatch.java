@@ -103,6 +103,7 @@ public class TopMatch implements CommandExecutor {
         // Sort if a valid category was supplied
         if (!sortStats(sender, stats, category))
             return;
+        Collections.reverse(stats);
 
         // Create the message header
         StringBuilder message = new StringBuilder();
