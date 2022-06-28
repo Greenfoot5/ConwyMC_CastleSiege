@@ -76,7 +76,7 @@ public abstract class Kit implements CommandExecutor {
         this.regenAmount = regenAmount;
 
         players = new ArrayList<>();
-        kits.put(name.replaceAll(" ", ""), this);
+        kits.put(getSpacelessName(), this);
 
         canCap = true;
         canClimb = true;
@@ -184,7 +184,7 @@ public abstract class Kit implements CommandExecutor {
         Player player = Bukkit.getPlayer(uuid);
         setItems(uuid);
         equippedKits.put(uuid, this);
-        ActiveData.getData(uuid).setKit(this.name);
+        ActiveData.getData(uuid).setKit(getSpacelessName());
         assert player != null;
         Messenger.sendInfo("Selected Kit: " + this.name, player);
 
@@ -285,6 +285,14 @@ public abstract class Kit implements CommandExecutor {
      */
     public static Collection<String> getKits() {
         return kits.keySet();
+    }
+
+    /**
+     * Get this kit's name without spaces
+     * @return The kit name without spaces
+     */
+    public String getSpacelessName() {
+        return name.replaceAll(" ", "");
     }
 
     /**

@@ -40,7 +40,7 @@ public abstract class TeamKit extends DonatorKit {
         team = playableTeam;
         map = playableMap;
 
-        kits.add(name.replaceAll(" ", ""));
+        kits.add(getSpacelessName());
     }
 
     public String getMapName() {
