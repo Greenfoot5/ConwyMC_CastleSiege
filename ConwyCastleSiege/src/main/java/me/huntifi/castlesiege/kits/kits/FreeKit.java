@@ -16,7 +16,7 @@ public class FreeKit extends Kit {
      */
     public FreeKit(String name, int baseHealth, double regenAmount) {
         super(name, baseHealth, regenAmount);
-        kits.add(name);
+        kits.add(name.replaceAll(" ", ""));
     }
 
     /**

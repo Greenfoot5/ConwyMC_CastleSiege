@@ -28,7 +28,7 @@ public abstract class DonatorKit extends Kit {
         super(name, baseHealth, regenAmount);
         price = coins;
 
-        kits.add(name);
+        kits.add(name.replaceAll(" ", ""));
     }
 
     /**

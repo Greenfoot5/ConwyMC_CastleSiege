@@ -31,7 +31,7 @@ import java.util.UUID;
 public class ConwyRoyalKnight extends TeamKit implements Listener {
 
     public ConwyRoyalKnight() {
-        super("RoyalKnight", 200, 5, "Conwy", "The English", 5000);
+        super("Royal Knight", 200, 5, "Conwy", "The English", 5000);
 
 
         // Equipment Stuff
