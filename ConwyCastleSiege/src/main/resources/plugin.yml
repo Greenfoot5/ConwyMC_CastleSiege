@@ -195,6 +195,14 @@ commands:
   TopDonators:
     description: Shows the donator leaderboard
     usage: /topdonators <position>
+  TopMatch:
+    description: Shows the leaderboard for the current game
+    usage: /topmatch <category> <position>
+    aliases:
+      - topgame
+  TopTeam:
+    description: Shows the leaderboard for your current team
+    usage: /topteam <category> <position>
   Bounties:
     description: Shows the bounties leaderboard
     usage: /bounties <position>

@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.info.MVPCommand;
+import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.SpectateCommand;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;

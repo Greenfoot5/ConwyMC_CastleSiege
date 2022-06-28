@@ -59,7 +59,7 @@ public class CoinshopGui implements Listener, CommandExecutor {
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
-        if (!Objects.equals(e.getClickedInventory(), gui)) {
+        if (gui == null || !Objects.equals(e.getClickedInventory(), gui)) {
             return;
         }
 

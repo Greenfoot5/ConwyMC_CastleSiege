@@ -14,6 +14,7 @@ import me.huntifi.castlesiege.commands.chat.*;
 import me.huntifi.castlesiege.commands.donator.*;
 import me.huntifi.castlesiege.commands.gameplay.*;
 import me.huntifi.castlesiege.commands.info.*;
+import me.huntifi.castlesiege.commands.info.leaderboard.*;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
 import me.huntifi.castlesiege.commands.staff.*;
 import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
@@ -226,6 +227,8 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopDeaths")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopKills")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopDonators")).setExecutor(new Donators());
+                Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatch());
+                Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatch());
 
                 // Staff - Punishments
                 Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());

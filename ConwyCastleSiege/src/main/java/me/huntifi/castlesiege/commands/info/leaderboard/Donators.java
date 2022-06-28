@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.commands.info;
+package me.huntifi.castlesiege.commands.info.leaderboard;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.RankPoints;

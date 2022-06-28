@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.commands.info;
+package me.huntifi.castlesiege.commands.info.leaderboard;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -84,7 +84,7 @@ public class Leaderboard implements CommandExecutor {
             @Override
             public void run() {
                 try {
-                    int offset = requested < 7 ? 0 : Math.min(requested - 5, 90);
+                    int offset = requested < 6 ? 0 : Math.min(requested - 5, 90);
 
                     Tuple<PreparedStatement, ResultSet> top = LoadData.getTop(category, offset);
 
