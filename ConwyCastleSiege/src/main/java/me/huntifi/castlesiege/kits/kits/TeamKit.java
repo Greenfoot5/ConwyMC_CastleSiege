@@ -43,6 +43,10 @@ public abstract class TeamKit extends DonatorKit {
         kits.add(name.replaceAll(" ", ""));
     }
 
+    public String getMapName() {
+        return map;
+    }
+
     public String getTeamName() {
         return team;
     }

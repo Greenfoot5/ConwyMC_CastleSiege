@@ -2,6 +2,9 @@ package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.LoadData;
+import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Selects a random kit for the user
@@ -40,18 +44,31 @@ public class RandomKitCommand implements CommandExecutor {
 
         if (sender instanceof Player) {
             Random random = new Random();
-            Player p = (Player) sender;
+            UUID uuid = ((Player) sender).getUniqueId();
 
             new BukkitRunnable() {
                 @Override
                 public void run() {
+                    String map = MapController.getCurrentMap().name;
+                    String team = MapController.getCurrentMap().getTeam(uuid).name;
 
-                    ArrayList<String> unlockedKits = LoadData.getAllUnlockedKits(p.getUniqueId());
+                    ArrayList<String> unlockedKits = LoadData.getAllUnlockedKits(uuid);
+                    ArrayList<Kit> kits = new ArrayList<>();
+
+                    unlockedKits.forEach((kitName) -> {
+                        Kit kit = Kit.getKit(kitName);
+                        if (kit == null || (kit instanceof TeamKit
+                                && !(map.equalsIgnoreCase(((TeamKit) kit).getMapName())
+                                && team.equalsIgnoreCase(((TeamKit) kit).getTeamName())))) {
+                            return;
+                        }
+                        kits.add(kit);
+                    });
 
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            p.performCommand(unlockedKits.get(random.nextInt(unlockedKits.size())));
+                            kits.get(random.nextInt(kits.size())).addPlayer(uuid);
                         }
                     }.runTask(Main.plugin);
                 }
