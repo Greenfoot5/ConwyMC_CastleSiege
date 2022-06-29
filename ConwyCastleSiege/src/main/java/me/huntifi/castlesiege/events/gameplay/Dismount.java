@@ -28,7 +28,7 @@ public class Dismount implements Listener {
     @EventHandler
     public void onDismount(EntityDismountEvent e) {
         removeHorse(e.getDismounted());
-        if (e.getEntity() instanceof Player) {
+        if (e.getEntity() instanceof Player && e.getDismounted() instanceof Horse) {
             Player p = (Player) e.getEntity();
             if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, "Cavalry")) {
                 p.setCooldown(Material.WHEAT, Cavalry.HORSE_COOLDOWN);

@@ -96,13 +96,12 @@ public class Cavalry extends DonatorKit implements Listener {
         }
 
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-                e.getItem() != null && e.getItem().getType() == Material.WHEAT) {
-            int cooldown = p.getCooldown(Material.WHEAT);
-            if (cooldown == 0) {
+                e.getItem() != null && e.getItem().getType() == Material.WHEAT &&
+                p.getCooldown(Material.WHEAT) == 0) {
 
-                if (p.isInsideVehicle()) {
-                    Messenger.sendActionError("Leave your current vehicle to spawn a horse!", p);
-                }
+            if (p.isInsideVehicle()) {
+                Messenger.sendActionError("Leave your current vehicle to spawn a horse!", p);
+            } else {
                 spawnHorse(p);
             }
         }
