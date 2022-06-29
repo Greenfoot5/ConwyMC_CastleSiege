@@ -269,7 +269,7 @@ public class Medic extends DonatorKit implements Listener {
             }.runTaskLater(Main.plugin, 39);
 
             // Heal
-            r.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 6));
+            r.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 7));
             p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
             r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                      NameTag.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));
