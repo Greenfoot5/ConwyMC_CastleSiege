@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.team_kits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -10,14 +11,9 @@ import me.huntifi.castlesiege.kits.kits.TeamKit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -39,20 +35,20 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
     public HelmsDeepLancer() {
         super("Lancer", 170, 8, "Helm's Deep", "Rohan", 5000);
 
-    // Equipment Stuff
-    EquipmentSet es = new EquipmentSet();
+        // Equipment Stuff
+        EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;
 
-    // Weapon
-    es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-    ChatColor.GREEN + "Sword", null, null, 25.5);
-    // Voted Weapon
-    es.votedWeapon = new Tuple<>(
-            ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-    ChatColor.GREEN + "Sword",
-            Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-            Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 27.5),
-            0);
+        // Weapon
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                ChatColor.GREEN + "Sword", null, null, 25.5);
+        // Voted Weapon
+        es.votedWeapon = new Tuple<>(
+                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                        ChatColor.GREEN + "Sword",
+                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 27.5),
+                0);
 
         // Weapon
         es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.STICK, 3),
@@ -67,106 +63,43 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32.5),
                 1);
 
-    // Chestplate
-    es.chest = ItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
-    ChatColor.GREEN + "Bronze Chestplate", null, null);
+        // Chestplate
+        es.chest = ItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
+                ChatColor.GREEN + "Bronze Chestplate", null, null);
 
-    // Leggings
-    es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-    ChatColor.GREEN + "Chainmail Leggings", null, null);
+        // Leggings
+        es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+                ChatColor.GREEN + "Chainmail Leggings", null, null);
 
-    // Boots
-    es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-    ChatColor.GREEN + "Iron Boots", null, null);
-    // Voted Boots
-    es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-    ChatColor.GREEN + "Iron Boots",
-            Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
-            Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
+        // Boots
+        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+                ChatColor.GREEN + "Iron Boots", null, null);
+        // Voted Boots
+        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+                ChatColor.GREEN + "Iron Boots",
+                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
-    // Ladders
-    es.hotbar[2] = new ItemStack(Material.LADDER, 4);
-    es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
+        // Ladders
+        es.hotbar[2] = new ItemStack(Material.LADDER, 4);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
-    // Horse
-    es.hotbar[3] = ItemCreator.item(new ItemStack(Material.WHEAT),
-    ChatColor.GREEN + "Spawn Horse", null, null);
+        // Horse
+        es.hotbar[3] = ItemCreator.item(new ItemStack(Material.WHEAT),
+                ChatColor.GREEN + "Spawn Horse", null, null);
+        HorseHandler.add(name, 600, 125, 1, 0.2425, 0.8,
+                Material.GOLDEN_HORSE_ARMOR, Arrays.asList(
+                        new PotionEffect(PotionEffectType.JUMP, 999999, 1),
+                        new PotionEffect(PotionEffectType.REGENERATION, 999999, 0),
+                        new PotionEffect(PotionEffectType.SPEED, 999999, 0)
+                )
+        );
 
         super.equipment = es;
-
-        super.canClimb = true;
 
         // Death Messages
         super.projectileDeathMessage[0] = "You were impaled by ";
         super.projectileKillMessage[0] = "You impaled ";
-
-    }
-
-    /**
-     * Activate the cavalry ability, spawning and embarking a horse
-     * @param e The event called when clicking with wheat in hand
-     */
-    @EventHandler
-    public void onRide(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
-            return;
-        }
-
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-                e.getItem() != null && e.getItem().getType() == Material.WHEAT) {
-            int cooldown = p.getCooldown(Material.WHEAT);
-            if (cooldown == 0) {
-                p.setCooldown(Material.WHEAT, 600);
-
-                if (p.isInsideVehicle()) {
-                    Objects.requireNonNull(p.getVehicle()).remove();
-                }
-                spawnHorse(p);
-            }
-        }
-    }
-
-    /**
-     * Spawn a horse, apply attributes, and embark
-     * @param p The player for whom to spawn a horse
-     */
-    public void spawnHorse(Player p) {
-        Horse horse = (Horse) p.getWorld().spawnEntity(p.getLocation(), EntityType.HORSE);
-
-        horse.setTamed(true);
-        horse.setOwner(p);
-        horse.setAdult();
-        AttributeInstance hAttribute = horse.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        assert hAttribute != null;
-        hAttribute.setBaseValue(125.0);
-        horse.setHealth(125.0);
-        AttributeInstance kbAttribute = horse.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);
-        assert kbAttribute != null;
-        kbAttribute.setBaseValue(1);
-        AttributeInstance speedAttribute = horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
-        assert speedAttribute != null;
-        speedAttribute.setBaseValue(0.2425);
-        AttributeInstance jumpAttribute = horse.getAttribute(Attribute.HORSE_JUMP_STRENGTH);
-        assert jumpAttribute != null;
-        jumpAttribute.setBaseValue(0.8);
-
-        horse.getInventory().setSaddle(new ItemStack(Material.SADDLE)); // Gives horse saddle
-        horse.getInventory().setArmor(new ItemStack(Material.GOLDEN_HORSE_ARMOR)); // Gives horse armor
-        addHorseEffects(p, horse);
-    }
-
-    public static void addHorseEffects(Player p, Horse horse) {
-        horse.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 999999, 0)));
-        horse.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 999999, 1)));
-        horse.addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 999999, 0)));
-        Location loc = p.getLocation();
-        horse.teleport(loc);
-
-        horse.addPassenger(p);
     }
 
     /**
@@ -187,7 +120,7 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
 
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (stick.getType().equals(Material.STICK)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         p.setCooldown(Material.STICK, 200);
                         stick.setAmount(stick.getAmount() - 1);
@@ -208,12 +141,12 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
      * Set the thrown spear's damage
      * @param e The event called when an arrow hits a player
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void changeSpearDamage(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow) {
             Arrow arrow = (Arrow) e.getEntity();
 
-            if(arrow.getShooter() instanceof Player){
+            if (arrow.getShooter() instanceof Player) {
                 Player damages = (Player) arrow.getShooter();
 
                 if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {

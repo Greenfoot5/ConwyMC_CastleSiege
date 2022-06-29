@@ -25,7 +25,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
-import me.huntifi.castlesiege.events.gameplay.Dismount;
+import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.gameplay.Movement;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
@@ -151,7 +151,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Gameplay
                 //getServer().getPluginManager().registerEvents(new ArcaneTower(), plugin);
-                getServer().getPluginManager().registerEvents(new Dismount(), plugin);
+                getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new Explosion(), plugin);
                 getServer().getPluginManager().registerEvents(new Movement(), plugin);
 
@@ -162,11 +162,9 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Kits
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
-                getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new CoinshopGui(), plugin);
                 getServer().getPluginManager().registerEvents(new CryptsFallen(), plugin);
-                getServer().getPluginManager().registerEvents(new ConwyRoyalKnight(), plugin);
                 getServer().getPluginManager().registerEvents(new ConwyArbalester(), plugin);
                 getServer().getPluginManager().registerEvents(new Engineer(), plugin);
                 getServer().getPluginManager().registerEvents(new ThunderstoneElytrier(), plugin);
