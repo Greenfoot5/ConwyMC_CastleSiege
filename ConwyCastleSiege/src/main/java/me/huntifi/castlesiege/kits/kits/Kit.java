@@ -20,7 +20,6 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
@@ -305,19 +304,28 @@ public abstract class Kit implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (sender instanceof ConsoleCommandSender) {
-            Messenger.sendError("Console cannot select kits!", sender);
-            return true;
-
-        } else if (sender instanceof Player) {
-            if (MapController.isSpectator(((Player) sender).getUniqueId())) {
-                Messenger.sendError("Spectators cannot select kits!", sender);
-                return true;
-            }
-
+        if (canSelect(sender))
             addPlayer(((Player) sender).getUniqueId());
-            return true;
+        return true;
+    }
+
+    /**
+     * Check if the player can select this kit
+     * @param sender Source of the command
+     * @return Whether the player can select this kit
+     */
+    protected boolean canSelect(CommandSender sender) {
+        if (!(sender instanceof Player)) {
+            Messenger.sendError("Console cannot select kits!", sender);
+            return false;
         }
-        return false;
+
+        UUID uuid = ((Player) sender).getUniqueId();
+        if (MapController.isSpectator(uuid)) {
+            Messenger.sendError("Spectators cannot select kits!", sender);
+            return false;
+        }
+
+        return true;
     }
 }

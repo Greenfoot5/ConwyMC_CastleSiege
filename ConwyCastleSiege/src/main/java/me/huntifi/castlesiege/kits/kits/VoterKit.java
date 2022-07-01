@@ -1,16 +1,13 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.UUID;
 
 public abstract class VoterKit extends Kit {
 
@@ -30,45 +27,26 @@ public abstract class VoterKit extends Kit {
     }
 
     /**
-     * Register the player as using this kit and set their items
-     * @param commandSender Source of the command
-     * @param command Command which was executed
-     * @param s Alias of the command which was used
-     * @param strings Passed command arguments
-     * @return true
+     * Check if the player can select this kit
+     * @param sender Source of the command
+     * @return Whether the player can select this kit
      */
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (commandSender instanceof ConsoleCommandSender) {
-            commandSender.sendMessage("Console cannot select kits!");
-            return true;
+    protected boolean canSelect(CommandSender sender) {
+        if (!super.canSelect(sender))
+            return false;
 
-        } else if (commandSender instanceof Player) {
-            if (MapController.isSpectator(((Player) commandSender).getUniqueId())) {
-                commandSender.sendMessage("Spectators cannot select kits!");
-                return true;
-            }
-
-            Player player = (Player) commandSender;
-            // If they already have the kit equipped, but haven't voted
-            if (!ActiveData.getData(player.getUniqueId()).hasVote("kits")) {
-                if (Kit.equippedKits.get(player.getUniqueId()) == null) {
-                    player.performCommand("swordsman");
-                    player.sendMessage(ChatColor.DARK_RED + "You need to vote to use " + ChatColor.RED + name
-                            + ChatColor.DARK_RED + " again!");
-
-                // If they are trying to equip the kit, but haven't voted
-                } else {
-                    player.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "You need to vote to use this kit!");
-                }
-                return true;
-            }
-
-
-            super.addPlayer(player.getUniqueId());
-            return true;
+        UUID uuid = ((Player) sender).getUniqueId();
+        if (!ActiveData.getData(uuid).hasVote("kits")) {
+            if (Kit.equippedKits.get(uuid) == null) {
+                Kit.getKit("Swordsman").addPlayer(uuid);
+                Messenger.sendError(String.format("You need to vote to use %s again!", name), sender);
+            } else
+                Messenger.sendError(String.format("You need to vote to use %s!", name), sender);
+            return false;
         }
-        return false;
+
+        return true;
     }
 
     /**

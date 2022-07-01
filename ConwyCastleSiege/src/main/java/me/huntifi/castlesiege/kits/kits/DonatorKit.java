@@ -1,16 +1,9 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -31,32 +24,25 @@ public abstract class DonatorKit extends Kit {
     }
 
     /**
-     *
+     * Check if the player can select this kit
      * @param sender Source of the command
-     * @param command Command which was executed
-     * @param s Alias of the command which was used
-     * @param strings Passed command arguments
+     * @return Whether the player can select this kit
      */
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (!(sender instanceof Player)) {
-            Messenger.sendError("Console cannot select kits!", sender);
-            return true;
-        }
+    protected boolean canSelect(CommandSender sender) {
+        if (!super.canSelect(sender))
+            return false;
 
         UUID uuid = ((Player) sender).getUniqueId();
-        if (MapController.isSpectator(uuid)) {
-            Messenger.sendError("Spectators cannot select kits!", sender);
-            return true;
-        }
-
         boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
         if (!hasKit && !isFriday()) {
-            Messenger.sendError("You don't own this kit!", sender);
-            if (Kit.equippedKits.get(uuid) == null)
+            if (Kit.equippedKits.get(uuid) == null) {
                 Kit.getKit("Swordsman").addPlayer(uuid);
-        } else
-            addPlayer(uuid);
+                Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
+            } else
+                Messenger.sendError(String.format("You don't own %s!", name), sender);
+            return false;
+        }
 
         return true;
     }
