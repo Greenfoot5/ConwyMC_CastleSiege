@@ -41,7 +41,7 @@ public class Berserker extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Berserker() {
-        super("Berserker", 100, 9, 5000);
+        super("Berserker", 100, 9, 7500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
