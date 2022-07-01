@@ -63,7 +63,6 @@ public class Skirmisher extends VoterKit {
         super.equipment = es;
 
         // Perm Potion Effects
-        super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 1));
     }
