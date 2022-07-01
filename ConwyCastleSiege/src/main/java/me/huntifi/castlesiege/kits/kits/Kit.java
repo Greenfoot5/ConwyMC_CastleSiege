@@ -244,7 +244,7 @@ public abstract class Kit implements CommandExecutor {
         if (canSeeHealth && healthDisplay == null) {
             scoreboard.registerNewObjective("healthDisplay", Criterias.HEALTH,
                     ChatColor.DARK_RED + "❤").setDisplaySlot(DisplaySlot.BELOW_NAME);
-        } else if (healthDisplay != null){
+        } else if (!canSeeHealth && healthDisplay != null){
             healthDisplay.unregister();
         }
     }
