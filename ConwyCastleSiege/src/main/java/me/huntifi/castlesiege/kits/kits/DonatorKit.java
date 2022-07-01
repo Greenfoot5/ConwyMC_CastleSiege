@@ -26,7 +26,8 @@ public abstract class DonatorKit extends Kit {
         super(name, baseHealth, regenAmount);
         price = coins;
 
-        kits.add(getSpacelessName());
+        if (!kits.contains(getSpacelessName()))
+            kits.add(getSpacelessName());
     }
 
     /**

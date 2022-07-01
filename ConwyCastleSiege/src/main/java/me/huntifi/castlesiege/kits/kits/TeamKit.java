@@ -38,7 +38,8 @@ public abstract class TeamKit extends DonatorKit {
         team = playableTeam;
         map = playableMap;
 
-        kits.add(getSpacelessName());
+        if (!kits.contains(getSpacelessName()))
+            kits.add(getSpacelessName());
     }
 
     public String getMapName() {

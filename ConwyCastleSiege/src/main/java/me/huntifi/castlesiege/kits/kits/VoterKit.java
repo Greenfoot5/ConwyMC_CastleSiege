@@ -25,7 +25,8 @@ public abstract class VoterKit extends Kit {
      */
     public VoterKit(String name, int baseHealth, double regenAmount) {
         super(name, baseHealth, regenAmount);
-        kits.add(getSpacelessName());
+        if (!kits.contains(getSpacelessName()))
+            kits.add(getSpacelessName());
     }
 
     /**
