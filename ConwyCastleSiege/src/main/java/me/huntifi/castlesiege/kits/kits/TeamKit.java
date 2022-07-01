@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
@@ -11,10 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public abstract class TeamKit extends DonatorKit {
 
@@ -60,53 +58,41 @@ public abstract class TeamKit extends DonatorKit {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (sender instanceof ConsoleCommandSender) {
+        if (!(sender instanceof Player)) {
             Messenger.sendError("Console cannot select kits!", sender);
             return true;
 
-        } else if (sender instanceof Player) {
-            if (MapController.isSpectator(((Player) sender).getUniqueId())) {
-                Messenger.sendError("Spectators cannot select kits!", sender);
-                return true;
-            }
+        }
 
-            if (!map.equalsIgnoreCase(MapController.getCurrentMap().name)) {
-                ((Player)sender).performCommand("swordsman");
-                Messenger.sendError("You can't use this kit on this map!", sender);
-                return true;
-            }
-
-            Player player = (Player) sender;
-            if (!team.equalsIgnoreCase(MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
-                ((Player)sender).performCommand("swordsman");
-                Messenger.sendError("Can't use this kit on this team!", sender);
-                return true;
-            }
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-
-                    boolean hasKit = LoadData.hasKit(((Player) sender).getUniqueId(), name.replace(" ", ""));
-
-                    if (!hasKit && !isFriday()) {
-                        Messenger.sendError("You don't own this kit!", sender);
-                        return;
-                    }
-                    add(player);
-                }
-            }.runTaskAsynchronously(Main.plugin);
+        UUID uuid = ((Player) sender).getUniqueId();
+        if (MapController.isSpectator(uuid)) {
+            Messenger.sendError("Spectators cannot select kits!", sender);
             return true;
         }
-        return false;
-    }
 
-    public void add(Player p) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                addPlayer(p.getUniqueId());
-            }
-        }.runTask(Main.plugin);
+        if (!map.equalsIgnoreCase(MapController.getCurrentMap().name)) {
+            Messenger.sendError("You can't use this kit on this map!", sender);
+            if (Kit.equippedKits.get(uuid) == null)
+                Kit.getKit("Swordsman").addPlayer(uuid);
+            return true;
+        }
+
+        if (!team.equalsIgnoreCase(MapController.getCurrentMap().getTeam(uuid).name)) {
+            Messenger.sendError("Can't use this kit on this team!", sender);
+            if (Kit.equippedKits.get(uuid) == null)
+                Kit.getKit("Swordsman").addPlayer(uuid);
+            return true;
+        }
+
+        boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
+        if (!hasKit && !isFriday()) {
+            Messenger.sendError("You don't own this kit!", sender);
+            if (Kit.equippedKits.get(uuid) == null)
+                Kit.getKit("Swordsman").addPlayer(uuid);
+        } else
+            addPlayer(uuid);
+
+        return true;
     }
 
     /**

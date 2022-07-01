@@ -7,10 +7,7 @@ import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -27,6 +24,9 @@ public class LoadData {
      */
     public static PlayerData load(UUID uuid) {
         try {
+            // Unlock kits data
+            ArrayList<String> unlockedKits = getUnlockedKits(uuid);
+
             // Mute data
             Tuple<PreparedStatement, ResultSet> prMute = Punishments.getActive(uuid, "mute");
 
@@ -43,7 +43,7 @@ public class LoadData {
             HashMap<String, Long> votes = getVotes(uuid);
 
             // Collect data and release resources
-            PlayerData data = new PlayerData(prMute.getSecond(), prStats.getSecond(), prRank.getSecond(), votes);
+            PlayerData data = new PlayerData(unlockedKits, prMute.getSecond(), prStats.getSecond(), prRank.getSecond(), votes);
             prMute.getFirst().close();
             prStats.getFirst().close();
             prRank.getFirst().close();
@@ -54,6 +54,34 @@ public class LoadData {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Get all currently unlocked premium and team kits from the database
+     * @param uuid The unique id of the player whose data to get
+     * @return A list of all currently unlocked kits
+     */
+    private static ArrayList<String> getUnlockedKits(UUID uuid) {
+        ArrayList<String> unlockedKits = new ArrayList<>();
+
+        try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "SELECT unlocked_kits FROM player_unlocks WHERE uuid = ? AND unlocked_until > ?")) {
+            ps.setString(1, uuid.toString());
+            ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String kit = rs.getString("unlocked_kits");
+                if (DonatorKit.getKits().contains(kit)) {
+                    unlockedKits.add(kit);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return unlockedKits;
     }
 
     /**
@@ -206,43 +234,6 @@ public class LoadData {
         return new Tuple<>(ps, rs);
     }
 
-
-    /**
-     * Get a player's unlocked kits data from the database
-     * @param uuid The unique ID of the player whose data to get
-     * @return A tuple of the prepared statement (to close later) and the query's result
-     */
-    public static ArrayList<String> getAllUnlockedKits(UUID uuid) {
-        ArrayList<String> unlockedKits = new ArrayList<>(FreeKit.getKits());
-
-        if (ActiveData.getData(uuid).hasVote("kits")) {
-            unlockedKits.addAll(VoterKit.getKits());
-        }
-
-        try {
-            PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                    "SELECT unlocked_kits FROM player_unlocks WHERE uuid = ? AND unlocked_until > ?");
-            ps.setString(1, uuid.toString());
-            ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                String kit = rs.getString("unlocked_kits");
-                if (DonatorKit.getKits().contains(kit)) {
-                    unlockedKits.add(kit);
-                }
-            }
-
-            ps.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return unlockedKits;
-    }
-
-
     /**
      * Get a players kit from the database
      * @param uuid The unique ID of the player whose data to get
@@ -273,20 +264,5 @@ public class LoadData {
             return rs.getTimestamp("unlocked_until");
         }
         return new Timestamp(0);
-    }
-
-    /**
-     * Returns if the uuid currently has a kit unlocked
-     */
-    public static boolean hasKit(UUID uuid, String kitName) {
-        Timestamp timestamp;
-        try {
-            Tuple<PreparedStatement, ResultSet> activeKit = getActiveKit(uuid, kitName);
-            timestamp = getKitTimestamp(activeKit.getSecond());
-            activeKit.getFirst().close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return timestamp.after(new Timestamp(System.currentTimeMillis()));
     }
 }
