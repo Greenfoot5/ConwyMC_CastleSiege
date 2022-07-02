@@ -75,7 +75,7 @@ public class NameTag {
             case "chatmod":
                 return "§9§lChatMod ";
             case "chatmod+":
-                return "§9§lChatMod§a§l+ ";
+                return "§9§lChatMod§a§l+ §r";
             case "moderator":
                 return "§a§lMod ";
             case "developer":
