@@ -42,7 +42,7 @@ public class Spearman extends FreeKit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Spearman() {
-		super("Spearman", 170, 10);
+		super("Spearman", 160, 10.5);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
@@ -51,14 +51,14 @@ public class Spearman extends FreeKit implements Listener {
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 3),
 				ChatColor.GREEN + "Spear",
-				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, 40);
+				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, 36);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				ItemCreator.weapon(new ItemStack(Material.STICK, 3),
 						ChatColor.GREEN + "Spear",
 						Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
 								ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 42),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 38),
 				0);
 
 		// Chestplate
@@ -138,7 +138,7 @@ public class Spearman extends FreeKit implements Listener {
 				Player damages = (Player) arrow.getShooter();
 
 				if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-					arrow.setDamage(33);
+					arrow.setDamage(36);
 				}
 			}
 		}

@@ -69,13 +69,13 @@ public class Berserker extends DonatorKit implements Listener {
         // Berserk Weapon
         berserkSword = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Berserker Sword", null,
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 87.5);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 77.5);
         // Voted Berserk Weapon
         berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Berserker Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
-                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 89.5);
+                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 79.5);
 
         super.equipment = es;
 
@@ -118,7 +118,7 @@ public class Berserker extends DonatorKit implements Listener {
                             p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 320, 0)));
                         }
                     }
-                }.runTaskLater(Main.plugin, 80);
+                }.runTaskLater(Main.plugin, 20);
                 p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 400, 1)));
                 p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 0)));
                 // Sword
