@@ -1,8 +1,13 @@
 package me.huntifi.castlesiege.data_types;
 
+import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.kits.kits.FreeKit;
+import me.huntifi.castlesiege.kits.kits.VoterKit;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -10,6 +15,8 @@ import java.util.UUID;
  * Represents a player's data
  */
 public class PlayerData {
+
+    private ArrayList<String> unlockedKits;
 
     private Tuple<String, Timestamp> mute;
 
@@ -42,7 +49,9 @@ public class PlayerData {
      * @param rankData The data retrieved from player_rank
      * @throws SQLException If the columns don't match up
      */
-    public PlayerData(ResultSet mute, ResultSet statsData, ResultSet rankData, HashMap<String, Long> votes) throws SQLException {
+    public PlayerData(ArrayList<String> unlockedKits, ResultSet mute, ResultSet statsData,
+                      ResultSet rankData, HashMap<String, Long> votes) throws SQLException {
+        this.unlockedKits = unlockedKits;
         this.mute = mute.next() ? new Tuple<>(mute.getString("reason"), mute.getTimestamp("end")) : null;
 
         this.score = statsData.getDouble("score");
@@ -460,6 +469,49 @@ public class PlayerData {
         }
         this.coins -= amount;
         return true;
+    }
+
+    /**
+     * Check if the player currently has access to a kit
+     * @param kitName The name of a premium or team kit without spaces
+     * @return Whether the player has access to the kit
+     */
+    public boolean hasKit(String kitName) {
+        return unlockedKits.contains(kitName);
+    }
+
+    /**
+     * Get all the kits that the player currently has access to
+     * @return The names without spaces for all kits the player currently has access to
+     */
+    public ArrayList<String> getUnlockedKits() {
+        ArrayList<String> unlockedKits = new ArrayList<>(FreeKit.getKits());
+
+        if (hasVote("kits")) {
+            unlockedKits.addAll(VoterKit.getKits());
+        }
+
+        unlockedKits.addAll(this.unlockedKits);
+
+        return unlockedKits;
+    }
+
+    /**
+     * Add a kit to the player's unlocked kits
+     * @param kitName The name without spaces of the kit to add
+     */
+    public void addKit(String kitName) {
+        if (!unlockedKits.contains(kitName))
+            unlockedKits.add(kitName);
+    }
+
+    /**
+     * Remove a kit from the player's unlocked kits
+     * @param kitName The name without spaces of the kit to remove
+     */
+    public void removeKit(String kitName) {
+        while (unlockedKits.contains(kitName))
+            unlockedKits.remove(kitName);
     }
 
     /**

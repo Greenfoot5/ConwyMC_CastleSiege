@@ -23,6 +23,14 @@ public class MVPStats {
     }
 
     /**
+     * Get all MVP stats
+     * @return All player data for the current game
+     */
+    public static HashMap<UUID, PlayerData> getStats() {
+        return stats;
+    }
+
+    /**
      * Get the MVP stats of a player
      * @param uuid The unique ID of the player
      * @return The player's MVP player data

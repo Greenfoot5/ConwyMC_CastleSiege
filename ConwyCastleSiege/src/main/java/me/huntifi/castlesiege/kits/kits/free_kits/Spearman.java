@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -32,7 +33,7 @@ import java.util.UUID;
 /**
  * The spearman kit
  */
-public class Spearman extends Kit implements Listener {
+public class Spearman extends FreeKit implements Listener {
 
 	// Damage multiplier when hitting horses
 	private static final double HORSE_MULTIPLIER = 1.5;
@@ -48,12 +49,12 @@ public class Spearman extends Kit implements Listener {
 		super.heldItemSlot = 0;
 
 		// Weapon
-		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 5),
+		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 3),
 				ChatColor.GREEN + "Spear",
 				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, 40);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				ItemCreator.weapon(new ItemStack(Material.STICK, 5),
+				ItemCreator.weapon(new ItemStack(Material.STICK, 3),
 						ChatColor.GREEN + "Spear",
 						Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
 								ChatColor.AQUA + "- voted: +2 damage"),
@@ -137,7 +138,7 @@ public class Spearman extends Kit implements Listener {
 				Player damages = (Player) arrow.getShooter();
 
 				if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-					arrow.setDamage(36);
+					arrow.setDamage(33);
 				}
 			}
 		}

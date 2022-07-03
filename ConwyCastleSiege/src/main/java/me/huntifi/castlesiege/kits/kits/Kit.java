@@ -20,7 +20,6 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
@@ -62,6 +61,9 @@ public abstract class Kit implements CommandExecutor {
     public List<UUID> players;
     public static Map<UUID, Kit> equippedKits = new HashMap<>();
 
+    // Kit Tracking
+    private static final Map<String, Kit> kits = new HashMap<>();
+
     /**
      * Create a kit with basic settings
      * @param name This kit's name
@@ -71,7 +73,9 @@ public abstract class Kit implements CommandExecutor {
         this.name = name;
         this.baseHealth = baseHealth;
         this.regenAmount = regenAmount;
+
         players = new ArrayList<>();
+        kits.put(getSpacelessName(), this);
 
         canCap = true;
         canClimb = true;
@@ -179,7 +183,7 @@ public abstract class Kit implements CommandExecutor {
         Player player = Bukkit.getPlayer(uuid);
         setItems(uuid);
         equippedKits.put(uuid, this);
-        ActiveData.getData(uuid).setKit(this.name);
+        ActiveData.getData(uuid).setKit(getSpacelessName());
         assert player != null;
         Messenger.sendInfo("Selected Kit: " + this.name, player);
 
@@ -240,7 +244,7 @@ public abstract class Kit implements CommandExecutor {
         if (canSeeHealth && healthDisplay == null) {
             scoreboard.registerNewObjective("healthDisplay", Criterias.HEALTH,
                     ChatColor.DARK_RED + "❤").setDisplaySlot(DisplaySlot.BELOW_NAME);
-        } else if (healthDisplay != null){
+        } else if (!canSeeHealth && healthDisplay != null){
             healthDisplay.unregister();
         }
     }
@@ -266,6 +270,31 @@ public abstract class Kit implements CommandExecutor {
     }
 
     /**
+     * Get a kit by its name
+     * @param kitName The kit's name without spaces
+     * @return The corresponding kit object, null if none was found
+     */
+    public static Kit getKit(String kitName) {
+        return kits.get(kitName);
+    }
+
+    /**
+     * Get all kit names
+     * @return All kit names without spaces
+     */
+    public static Collection<String> getKits() {
+        return kits.keySet();
+    }
+
+    /**
+     * Get this kit's name without spaces
+     * @return The kit name without spaces
+     */
+    public String getSpacelessName() {
+        return name.replaceAll(" ", "");
+    }
+
+    /**
      * Register the player as using this kit and set their items
      * @param sender Source of the command
      * @param command Command which was executed
@@ -275,19 +304,28 @@ public abstract class Kit implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (sender instanceof ConsoleCommandSender) {
-            Messenger.sendError("Console cannot select kits!", sender);
-            return true;
-
-        } else if (sender instanceof Player) {
-            if (MapController.isSpectator(((Player) sender).getUniqueId())) {
-                Messenger.sendError("Spectators cannot select kits!", sender);
-                return true;
-            }
-
+        if (canSelect(sender))
             addPlayer(((Player) sender).getUniqueId());
-            return true;
+        return true;
+    }
+
+    /**
+     * Check if the player can select this kit
+     * @param sender Source of the command
+     * @return Whether the player can select this kit
+     */
+    protected boolean canSelect(CommandSender sender) {
+        if (!(sender instanceof Player)) {
+            Messenger.sendError("Console cannot select kits!", sender);
+            return false;
         }
-        return false;
+
+        UUID uuid = ((Player) sender).getUniqueId();
+        if (MapController.isSpectator(uuid)) {
+            Messenger.sendError("Spectators cannot select kits!", sender);
+            return false;
+        }
+
+        return true;
     }
 }

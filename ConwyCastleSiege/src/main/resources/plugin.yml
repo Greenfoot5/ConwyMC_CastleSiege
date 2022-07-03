@@ -195,6 +195,14 @@ commands:
   TopDonators:
     description: Shows the donator leaderboard
     usage: /topdonators <position>
+  TopMatch:
+    description: Shows the leaderboard for the current game
+    usage: /topmatch <category> <position>
+    aliases:
+      - topgame
+  TopTeam:
+    description: Shows the leaderboard for your current team
+    usage: /topteam <category> <position>
   Bounties:
     description: Shows the bounties leaderboard
     usage: /bounties <position>
@@ -280,6 +288,11 @@ commands:
     usage: /setcoinmultiplier <multiplier>
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
+  SetKit:
+    description: Sets the kit for a player
+    usage: /kit <player> [kit]
+    permission: castlesiege.developer
+    permission-message: You are not permitted to use this command!
   SetMap:
     description: Skips to the specified map in the rotation
     usage: /setmap <map name>
@@ -363,6 +376,12 @@ commands:
   Crossbowman:
     description: Selects the crossbowman kit
     usage: /crossbowman
+  ConwyRoyalKnight:
+    description: Selects the Conwy royal knight kit for the English
+    usage: /Conwyroyalknight
+  ConwyArbalester:
+    description: Selects the Conwy arbalester kit for the English
+    usage: /Conwyarbalester
   Engineer:
     description: Selects the engineer kit
     usage: /engineer

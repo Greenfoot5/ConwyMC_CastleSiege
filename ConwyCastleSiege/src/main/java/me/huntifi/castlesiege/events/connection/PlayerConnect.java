@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.events.connection;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.RankPoints;
 import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
 import me.huntifi.castlesiege.data_types.PlayerData;
@@ -19,6 +20,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.net.InetAddress;
 import java.sql.PreparedStatement;
@@ -95,6 +97,7 @@ public class PlayerConnect implements Listener {
             Messenger.broadcastInfo("It's Friday! All donator and team kits are " + ChatColor.BOLD + "FREE!");
         }
 
+        sendTitlebarMessages(p);
         ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
         Bukkit.dispatchCommand(console, "ocm toggle " + p.getName() + " off");
     }
@@ -177,5 +180,30 @@ public class PlayerConnect implements Listener {
                 data.setRank(rank);
             }
         }
+    }
+
+    /**
+     * send a title bar to the player after 5 seconds, then another time after 30 seconds.
+     * But only if they are in the spawnroom stil.
+     */
+    public static void sendTitlebarMessages(Player p) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+                    p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
+                }
+            }
+        }.runTaskLater(Main.plugin, 100);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+                    p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
+                }
+            }
+        }.runTaskLater(Main.plugin, 600);
+
     }
 }

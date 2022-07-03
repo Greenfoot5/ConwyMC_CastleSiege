@@ -14,8 +14,10 @@ import me.huntifi.castlesiege.commands.chat.*;
 import me.huntifi.castlesiege.commands.donator.*;
 import me.huntifi.castlesiege.commands.gameplay.*;
 import me.huntifi.castlesiege.commands.info.*;
+import me.huntifi.castlesiege.commands.info.leaderboard.*;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
 import me.huntifi.castlesiege.commands.staff.*;
+import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
 import me.huntifi.castlesiege.data_types.Frame;
@@ -23,7 +25,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
-import me.huntifi.castlesiege.events.gameplay.Dismount;
+import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.gameplay.Movement;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
@@ -43,7 +45,6 @@ import me.huntifi.castlesiege.kits.gui.*;
 import me.huntifi.castlesiege.kits.gui.coinshop.CoinbuyCommand;
 import me.huntifi.castlesiege.kits.gui.coinshop.CoinshopGui;
 import me.huntifi.castlesiege.kits.items.Enderchest;
-import me.huntifi.castlesiege.kits.kits.KitList;
 import me.huntifi.castlesiege.kits.kits.donator_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
@@ -138,6 +139,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new AssistKill(), plugin);
                 getServer().getPluginManager().registerEvents(new FallDamage(), plugin);
                 getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
+                getServer().getPluginManager().registerEvents(new HurtAnimation(), plugin);
                 getServer().getPluginManager().registerEvents(new InCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new LobbyCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new TeamCombat(), plugin);
@@ -149,7 +151,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Gameplay
                 //getServer().getPluginManager().registerEvents(new ArcaneTower(), plugin);
-                getServer().getPluginManager().registerEvents(new Dismount(), plugin);
+                getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new Explosion(), plugin);
                 getServer().getPluginManager().registerEvents(new Movement(), plugin);
 
@@ -160,10 +162,10 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Kits
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
-                getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new CoinshopGui(), plugin);
                 getServer().getPluginManager().registerEvents(new CryptsFallen(), plugin);
+                getServer().getPluginManager().registerEvents(new ConwyArbalester(), plugin);
                 getServer().getPluginManager().registerEvents(new Engineer(), plugin);
                 getServer().getPluginManager().registerEvents(new ThunderstoneElytrier(), plugin);
                 getServer().getPluginManager().registerEvents(new Executioner(), plugin);
@@ -223,6 +225,8 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopDeaths")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopKills")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopDonators")).setExecutor(new Donators());
+                Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatch());
+                Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatch());
 
                 // Staff - Punishments
                 Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());
@@ -242,6 +246,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
                 Objects.requireNonNull(getCommand("RankPoints")).setExecutor(new RankPoints());
+                Objects.requireNonNull(getCommand("SetKit")).setExecutor(new SetKitCommand());
                 Objects.requireNonNull(getCommand("SetMap")).setExecutor(new SetMapCommand());
                 Objects.requireNonNull(getCommand("SetTimer")).setExecutor(new SetTimerCommand());
                 Objects.requireNonNull(getCommand("StaffChat")).setExecutor(new StaffChat());
@@ -259,6 +264,8 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
+                Objects.requireNonNull(getCommand("ConwyArbalester")).setExecutor(new ConwyArbalester());
+                Objects.requireNonNull(getCommand("ConwyRoyalKnight")).setExecutor(new ConwyRoyalKnight());
                 Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
                 Objects.requireNonNull(getCommand("CryptsFallen")).setExecutor(new CryptsFallen());
                 Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
@@ -312,9 +319,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Begin the map loop
                 MapController.startLoop();
-
-                //Register kit names
-                KitList.registerExistingKits();
 
 //		new BukkitRunnable() {
 //

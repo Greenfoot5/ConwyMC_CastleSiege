@@ -1,132 +1,69 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.database.LoadData;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
+
+import java.util.*;
 
 public abstract class DonatorKit extends Kit {
 
-    protected static double price;
+    // Coin price to unlock this kit
+    private final double price;
 
+    // Kit Tracking
+    private static final Collection<String> kits = new ArrayList<>();
 
     public DonatorKit(String name, int baseHealth, double regenAmount, double coins) {
         super(name, baseHealth, regenAmount);
         price = coins;
+
+        if (!kits.contains(getSpacelessName()))
+            kits.add(getSpacelessName());
     }
 
     /**
-     *
+     * Check if the player can select this kit
      * @param sender Source of the command
-     * @param command Command which was executed
-     * @param s Alias of the command which was used
-     * @param strings Passed command arguments
+     * @return Whether the player can select this kit
      */
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (sender instanceof ConsoleCommandSender) {
-            Messenger.sendError("Console cannot select kits!", sender);
-            return true;
+    protected boolean canSelect(CommandSender sender) {
+        if (!super.canSelect(sender))
+            return false;
 
-        } else if (sender instanceof Player) {
-            if (MapController.isSpectator(((Player) sender).getUniqueId())) {
-                Messenger.sendError("Spectators cannot select kits!", sender);
-                return true;
-            }
-
-            Player player = (Player) sender;
-
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-
-                    boolean hasKit = LoadData.hasKit(((Player) sender).getUniqueId(), name.replace(" ", ""));
-
-                    if (!hasKit && !isFriday()) {
-                        Messenger.sendError("You don't own this kit!", sender);
-                        return;
-                    }
-                    add(player);
-                }
-            }.runTaskAsynchronously(Main.plugin);
-            return true;
+        UUID uuid = ((Player) sender).getUniqueId();
+        boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
+        if (!hasKit && !isFriday()) {
+            if (Kit.equippedKits.get(uuid) == null) {
+                Kit.getKit("Swordsman").addPlayer(uuid);
+                Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
+            } else
+                Messenger.sendError(String.format("You don't own %s!", name), sender);
+            return false;
         }
-        return false;
+
+        return true;
     }
 
-    public void add(Player p) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                addPlayer(p.getUniqueId());
-            }
-        }.runTask(Main.plugin);
+    /**
+     * Get this kit's price
+     * @return The price to unlock this kit
+     */
+    public double getPrice() {
+        return price;
     }
 
-
-    public static double getPremiumPrice(String kitname) {
-    double coinPrice;
-        switch (kitname) {
-
-            case "Cavalry":
-            case "Engineer":
-            case "Warhound":
-            case "Crossbowman":
-            case "Halberdier":
-                coinPrice = 7500;
-                break;
-            case "Medic":
-            case "Executioner":
-            case "Berserker":
-            case "Ranger":
-                coinPrice = 5000;
-                break;
-            case "Viking":
-            case "Maceman":
-            case "Vanguard":
-                coinPrice = 6000;
-                break;
-            default:
-                coinPrice = 5500;
-                break;
-        }
-        return coinPrice;
-    }
-
-    public static double getTeamkitPrice(String kitname) {
-        double coinPrice;
-        switch (kitname) {
-
-            case "Elytrier":
-            case "Abyssal":
-            case "Lancer":
-                coinPrice = 5000;
-                break;
-            case "MoriaOrc":
-            case "Hellsteed":
-            case "UrukBerserker":
-            case "Ranged_Cavalry":
-                coinPrice = 2500;
-                break;
-            case "Fallen":
-                coinPrice = 1000;
-                break;
-            default:
-                coinPrice = 2000;
-                break;
-        }
-        return coinPrice;
+    /**
+     * Get all donator kit names
+     * @return All donator kit names without spaces
+     */
+    public static Collection<String> getKits() {
+        return kits;
     }
 
     public static boolean isFriday() {
-        System.out.println(System.currentTimeMillis());
-        System.out.println((((System.currentTimeMillis() / 1000) - 86400) % 604800) / 86400);
         return ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 1;
     }
 }

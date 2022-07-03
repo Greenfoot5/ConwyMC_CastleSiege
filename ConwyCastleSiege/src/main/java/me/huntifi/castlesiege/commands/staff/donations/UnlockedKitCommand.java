@@ -3,10 +3,11 @@ package me.huntifi.castlesiege.commands.staff.donations;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.kits.kits.KitList;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -19,7 +20,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -38,6 +38,7 @@ public class UnlockedKitCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (args.length < 3) {
             Messenger.sendError("Use: /unlockkit <Name> <add/remove> <Kit name> <Time> <true/false>", sender);
+            return true;
         }
         new BukkitRunnable() {
             @Override
@@ -73,97 +74,84 @@ public class UnlockedKitCommand implements CommandExecutor {
                             //If there is a timestamp already add the duration to it.
                             if (timestamp != null) {
                                 //Timestamp exists
-                                if (timestamp.getTime() > getCurrentTime()) {
+                                if (timestamp.getTime() > System.currentTimeMillis()) {
                                     //Timestamp is younger/longer than current time so add duration on top of it.
                                     duration = (timestamp.getTime() + duration);
-                                    Bukkit.getConsoleSender().sendMessage("Yeah uhm the duration for this is: " + duration);
                                 } else {
                                     //Timestamp is older/shorter than current time so change the duration.
                                     duration = (System.currentTimeMillis() + duration);
-                                    Bukkit.getConsoleSender().sendMessage("Yeah uhm the duration for this is: " + duration);
                                 }
                             } else {
                                 //Timestamp is null, so create a new timestamp.
                                 duration = (System.currentTimeMillis() + duration);
-                                Bukkit.getConsoleSender().sendMessage("Yeah uhm the duration for this is: " + duration);
                             }
 
                             //This is the kit, the kit should be in the kits list in order for it to be an existing one.
-                            if (!KitList.getAllKits().contains(args[2])) {
+                            if (!Kit.getKits().contains(args[2])) {
                                 Messenger.sendError("An invalid kit was provided.", sender);
                                 return;
                             }
 
-                                //If true then this means the player donated, usually only the console will do this.
-                                if (args[4].equalsIgnoreCase("true")) {
+                            //If true then this means the player donated, usually only the console will do this.
+                            if (args[4].equalsIgnoreCase("true")) {
 
-                                    StoreData.addUnlockedKit(uuid, args[2], duration, true);
+                                StoreData.addUnlockedKit(uuid, args[2], duration, true);
+                                ActiveData.getData(uuid).addKit(args[2]);
 
-                                    Messenger.sendInfo("Successfully added " + args[2] + " to "
-                                            + Bukkit.getOfflinePlayer(uuid).getName() + " for " + duration, sender);
+                                Messenger.sendInfo("Successfully added " + args[2] + " to "
+                                        + Bukkit.getOfflinePlayer(uuid).getName() + " for " + duration, sender);
 
-                                    //If false then this means the player got it without donating.
-                                } else if (args[4].equalsIgnoreCase("false")) {
+                                //If false then this means the player got it without donating.
+                            } else if (args[4].equalsIgnoreCase("false")) {
 
-                                    StoreData.addUnlockedKit(uuid, args[2], duration, false);
+                                StoreData.addUnlockedKit(uuid, args[2], duration, false);
+                                ActiveData.getData(uuid).addKit(args[2]);
 
-                                    Messenger.sendInfo("Successfully added " + args[2] + " to "
-                                            + Bukkit.getOfflinePlayer(uuid).getName() + " for " + duration, sender);
+                                Messenger.sendInfo("Successfully added " + args[2] + " to "
+                                        + Bukkit.getOfflinePlayer(uuid).getName() + " for " + duration, sender);
 
-                                    //If an illegal argument will be given, it will be set to false by default.
-                                } else {
-                                    StoreData.addUnlockedKit(uuid, args[2], duration, false);
+                                //If an illegal argument will be given, it will be set to false by default.
+                            } else {
+                                StoreData.addUnlockedKit(uuid, args[2], duration, false);
+                                ActiveData.getData(uuid).addKit(args[2]);
 
-                                    Messenger.sendInfo("Successfully added " + args[2] + " to "
-                                            + Bukkit.getOfflinePlayer(uuid).getName() + " for " + duration, sender);
+                                Messenger.sendInfo("Successfully added " + args[2] + " to "
+                                        + Bukkit.getOfflinePlayer(uuid).getName() + " for " + duration, sender);
 
-                                }
+                            }
 
                             break;
                         case "remove":
 
                             //This is the kit, the kit should be in the kits list in order for it to be an existing one.
-                            if (!KitList.getAllKits().contains(args[2])) {
+                            if (!Kit.getKits().contains(args[2])) {
                                 Messenger.sendError("An invalid kit was provided.", sender);
                                 return;
                             }
 
-                                StoreData.endUnlockedKit(uuid, args[2]);
+                            StoreData.endUnlockedKit(uuid, args[2]);
+                            ActiveData.getData(uuid).removeKit(args[2]);
 
-                                Messenger.sendInfo("Successfully removed " + args[2] + " from "
-                                        + Bukkit.getOfflinePlayer(uuid).getName(), sender);
-
+                            Messenger.sendInfo("Successfully removed " + args[2] + " from "
+                                    + Bukkit.getOfflinePlayer(uuid).getName(), sender);
 
 
                             break;
                         default:
-                            sender.sendMessage(ChatColor.DARK_RED + "The operation " + ChatColor.RED + args[1]
-                                    + ChatColor.DARK_RED + " is not supported!");
-                            sender.sendMessage(ChatColor.DARK_RED + "Please use one of the following: "
-                                    + ChatColor.RED + "add, remove");
+                            Messenger.sendError(String.format("The operation %s is not supported\n " +
+                                    "Please use one of the following: add, remove", args[1]), sender);
                             break;
                     }
 
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(ChatColor.DARK_RED + "The argument " + ChatColor.RED + args[3]
-                            + ChatColor.DARK_RED + " is not a number!");
+                    Messenger.sendError(String.format("The argument %s is not a number!", args[3]), sender);
                 } catch (SQLException e) {
-                    sender.sendMessage(ChatColor.DARK_RED + "An error occurred while trying to perform your command!");
+                    Messenger.sendError("An error occurred while trying to perform your command!", sender);
                     e.printStackTrace();
                 }
             }
         }.runTaskAsynchronously(Main.plugin);
 
         return true;
-    }
-
-
-    public long getCurrentTime() {
-        //Getting the current date
-        Date date = new Date();
-        //This method returns the time in millis
-        long timeMilli = date.getTime();
-
-        return timeMilli;
     }
 }

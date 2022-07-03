@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.info.MVPCommand;
+import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.SpectateCommand;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
@@ -282,10 +282,9 @@ public class MapController {
 		}
 
 		// Teleport Spectators
-		int i = 0;
-		while (i < SpectateCommand.spectators.size()) {
-			Player player = Bukkit.getPlayer(SpectateCommand.spectators.get(i));
-			if (player != null) {
+		for (UUID spectator : SpectateCommand.spectators) {
+			Player player = Bukkit.getPlayer(spectator);
+			if (player != null && player.isOnline()) {
 				player.teleport(getCurrentMap().flags[0].spawnPoint);
 			}
 		}
@@ -475,6 +474,7 @@ public class MapController {
 			player.setGameMode(GameMode.SPECTATOR);
 			player.teleport(MapController.getCurrentMap().flags[0].spawnPoint);
 			NameTag.give(player);
+			return;
 		}
 
 		Team team = maps.get(mapIndex).smallestTeam();

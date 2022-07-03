@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.kits.gui.coinshop;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
-import me.huntifi.castlesiege.kits.kits.KitList;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,67 +23,70 @@ public class CoinbuyCommand implements CommandExecutor {
 
         if (!(sender instanceof Player)) {
             Messenger.sendError("Not a console command.", sender);
+            return true;
         }
 
+        // Assign the command parameters to variables
         Player p = (Player) sender;
         Player target = Bukkit.getPlayer(args[0]);
-        String kitname = args[2];
         String type = args[1];
-        double coinPrice;
+        String kitName = args[2];
 
+        // Player must be online
         if (target == null) {
             Messenger.sendError("Target not found!", sender);
             return true;
         }
 
-        //This is the kit, the kit should be in the kits list in order for it to be an existing one.
-        if (!KitList.getDonatorKits().contains(args[2]) && !KitList.getTeamKits().contains(args[2])) {
+        // Only donator/premium and map/team types are allowed
+        String time;
+        String timeMessage;
+        switch (type.toLowerCase()) {
+            case "donator":
+            case "premium":
+                time = "30d";
+                timeMessage = "for 30 days";
+                break;
+            case "map":
+            case "team":
+                time = "10y";
+                timeMessage = "permanently";
+                break;
+            default:
+                Messenger.sendError("Type must be donator/premium or map/team!", sender);
+                return true;
+        }
+
+        // Only donator kits can be unlocked
+        if (!DonatorKit.getKits().contains(kitName)) {
             Messenger.sendError("An invalid kit was provided.", sender);
             return true;
         }
 
-        if (type.equalsIgnoreCase("donator") || type.equalsIgnoreCase("premium")) {
-            coinPrice = DonatorKit.getPremiumPrice(args[2]);
-            if (coinPrice == 0.0) {
-                Messenger.sendError("The coinprice is 0, report this!", sender);
-                return true;
-            }
+        // Get the kit's price
+        Kit kit = Kit.getKit(kitName);
+        double coinPrice = ((DonatorKit) kit).getPrice();
+        if (coinPrice <= 0) {
+            Messenger.sendError("The coinprice is " + coinPrice + ", report this!", sender);
+            return true;
+        }
 
-            if (!ActiveData.getData(p.getUniqueId()).takeCoins(coinPrice)) {
-                Messenger.sendError("You don't have enough coins to buy this kit!", sender);
-                return true;
-            }
+        // Charge the player for buying the kit
+        if (!ActiveData.getData(p.getUniqueId()).takeCoins(coinPrice)) {
+            Messenger.sendError("You don't have enough coins to buy this kit!", sender);
+            return true;
+        }
 
-            ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-            String command = "Unlockkit " + target.getName() + " add " + kitname + " 30d " + "false";
-            Bukkit.dispatchCommand(console, command);
-            if (p == target) {
-                Messenger.sendInfo("You have bought " + kitname + " for 30 days!", p);
-            } else {
-                Messenger.sendInfo(p.getName() + " has bought you " + kitname + " for 30 days!", target);
-            }
+        // Give the kit to the player
+        ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+        String command = String.format("UnlockKit %s add %s %s false", target.getName(), kitName, time);
+        Bukkit.dispatchCommand(console, command);
 
-        } else if (type.equalsIgnoreCase("map") || type.equalsIgnoreCase("team")) {
-            coinPrice = DonatorKit.getTeamkitPrice(args[2]);
-            if (coinPrice == 0.0) {
-                Messenger.sendError("The coinprice is 0, report this!", sender);
-                return true;
-            }
-
-            if (!ActiveData.getData(p.getUniqueId()).takeCoins(coinPrice)) {
-                Messenger.sendError("You don't have enough coins to buy this kit!", sender);
-                return true;
-            }
-
-            ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-            String command = "Unlockkit " + target.getName() + " add " + kitname + " 10y " + "false";
-            Bukkit.dispatchCommand(console, command);
-            if (p == target) {
-                Messenger.sendInfo("You have bought " + kitname + " for ever!", p);
-            } else {
-                Messenger.sendInfo(p.getName() + " has bought you " + kitname + " for ever!", target);
-            }
-
+        // Inform the player about their unlocked kit
+        if (p == target) {
+            Messenger.sendInfo(String.format("You have bought %s %s!", kitName, timeMessage), p);
+        } else {
+            Messenger.sendInfo(String.format("%s has bought you %s %s!", p.getName(), kitName, timeMessage), p);
         }
 
         return true;

@@ -50,7 +50,7 @@ public class Medic extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Medic() {
-        super("Medic", 110, 11, 6000);
+        super("Medic", 110, 11, 5000);
         super.canSeeHealth = true;
 
         // Equipment Stuff
@@ -266,10 +266,11 @@ public class Medic extends DonatorKit implements Listener {
                 public void run() {
                     cooldown.remove(r);
                 }
-            }.runTaskLater(Main.plugin, 100);
+            }.runTaskLater(Main.plugin, 39);
 
             // Heal
-            r.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
+            r.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 7));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
             r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                      NameTag.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
