@@ -115,7 +115,7 @@ public class Berserker extends DonatorKit implements Listener {
                     public void run() {
                         if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
                                 p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) != null) {
-                            p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 320, 0)));
+                            p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 380, 0)));
                         }
                     }
                 }.runTaskLater(Main.plugin, 20);
