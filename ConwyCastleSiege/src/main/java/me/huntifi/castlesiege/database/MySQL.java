@@ -8,11 +8,19 @@ import me.huntifi.castlesiege.Main;
 
 public class MySQL {
 
-	private final String host = "mysql.apexhosting.gdn";
-	private final String port = "3306";
-	private final String database = "apexMC1238982";
-	private final String username = "apexMC1238982";
-	private final String password = "hyv6t&3IkydZ2nFD%Y$^p7dc";
+	private final String host;
+	private final int port;
+	private final String database;
+	private final String username;
+	private final String password;
+
+	public MySQL(String host, int port, String database, String username, String password) {
+		this.host = host;
+		this.port = port;
+		this.database = database;
+		this.username = username;
+		this.password = password;
+	}
 
 	private Connection connection;
 
@@ -24,7 +32,7 @@ public class MySQL {
 
 		if (!isConnected()) {
 
-			connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true", username, password);
+			connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s?autoReconnect=true", host, port, database), username, password);
 			Main.instance.getLogger().info("Successfully connected to the ConwyMC MySQL Database!");
 
 		}

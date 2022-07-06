@@ -408,7 +408,20 @@ public class Main extends JavaPlugin implements Listener {
      * Connects to the SQL database
      */
     private void sqlConnect() {
-        SQL = new MySQL();
+        try {
+            YamlDocument dbConfig = YamlDocument.create(new File(getDataFolder(), "database.yml"),
+                    getClass().getResourceAsStream("database.yml"));
+
+            String host = dbConfig.getString("host");
+            int port = dbConfig.getInt("port");
+            String database = dbConfig.getString("database");
+            String username = dbConfig.getString("username");
+            String password = dbConfig.getString("password");
+
+            SQL = new MySQL(host, port, database, username, password);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             SQL.connect();
