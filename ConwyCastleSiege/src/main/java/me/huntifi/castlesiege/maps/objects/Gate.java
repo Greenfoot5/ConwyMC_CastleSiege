@@ -157,7 +157,7 @@ public class Gate implements Listener {
 
                             health -= damage;
 
-                            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> UpdateStats.addSupports(player.getUniqueId(), 0.5));
+                            UpdateStats.addSupports(player.getUniqueId(), 1);
 
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                                     TextComponent.fromLegacyText(ChatColor.GRAY + "" + ChatColor.BOLD + "Gate Health: " + health));

@@ -126,7 +126,7 @@ public class WallEvent implements Listener {
 						// Inform the player and grant stats
 						p.spigot().sendMessage(ChatMessageType.ACTION_BAR,TextComponent.fromLegacyText(ChatColor.DARK_AQUA
 								+ "You placed the explosive down. (" + tnt_counter + "/" + TNT_LOCATIONS.length + ")"));
-						UpdateStats.addSupports(p.getUniqueId(), 12);
+						UpdateStats.addSupports(p.getUniqueId(), 30);
 
 						// Spawn either the torch or tnt next
 						if (tnt_counter == 3) {
@@ -155,7 +155,7 @@ public class WallEvent implements Listener {
 
 						// Create our explosion
 						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).createExplosion(TNT_LOCATIONS[0], 15, false, false, p);
-						UpdateStats.addSupports(p.getUniqueId(), 30);
+						UpdateStats.addSupports(p.getUniqueId(), 60);
 
 						// Play various sound effects to make it sound like a massive explosion
 						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[0], Sound.ENTITY_GENERIC_EXPLODE , 10000, 2 );
