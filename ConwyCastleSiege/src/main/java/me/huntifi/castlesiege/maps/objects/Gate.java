@@ -110,7 +110,9 @@ public class Gate implements Listener {
     }
 
     private void gateBreached(World world) {
-        Messenger.broadcastWarning(getName() + " has been breached!");
+        if (!getName().isEmpty()) {
+            Messenger.broadcastWarning(getName() + " has been breached!");
+        }
 
         try {
             SchematicSpawner.spawnSchematic(schematicLocation.toLocation(
