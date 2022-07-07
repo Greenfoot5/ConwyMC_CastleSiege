@@ -141,12 +141,18 @@ public class DeathEvent implements Listener {
 
         // Assist
         UUID assist = AssistKill.get(target.getUniqueId());
-        if (assist != null && Objects.requireNonNull(killer).getUniqueId() != assist) {
+        if (assist != null && killer != null && killer.getUniqueId() != assist) {
+            // There are separate players for the kill and the assist
             UpdateStats.addAssist(assist);
             assistMessage(assist, target);
             Bounty.grantRewards(target, killer, Bukkit.getPlayer(assist));
         } else if (killer != null) {
+            // There is no player for the assist, or it is the same as the killer
             Bounty.grantRewards(target, killer);
+        } else if (assist != null) {
+            // There is only a player for the assist, the death is not player related
+            UpdateStats.addAssist(assist);
+            assistMessage(assist, target);
         }
     }
 
