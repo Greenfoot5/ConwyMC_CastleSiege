@@ -252,6 +252,8 @@ public class Explosion implements Listener {
             case ACACIA_TRAPDOOR:
             case ACACIA_WALL_SIGN:
             case ACACIA_WOOD:
+            case STRIPPED_ACACIA_LOG:
+            case STRIPPED_ACACIA_WOOD:
 
             case BIRCH_BUTTON:
             case BIRCH_DOOR:
@@ -266,6 +268,8 @@ public class Explosion implements Listener {
             case BIRCH_TRAPDOOR:
             case BIRCH_WALL_SIGN:
             case BIRCH_WOOD:
+            case STRIPPED_BIRCH_LOG:
+            case STRIPPED_BIRCH_WOOD:
 
             case DARK_OAK_BUTTON:
             case DARK_OAK_DOOR:
@@ -280,6 +284,8 @@ public class Explosion implements Listener {
             case DARK_OAK_TRAPDOOR:
             case DARK_OAK_WALL_SIGN:
             case DARK_OAK_WOOD:
+            case STRIPPED_DARK_OAK_LOG:
+            case STRIPPED_DARK_OAK_WOOD:
 
             case JUNGLE_BUTTON:
             case JUNGLE_DOOR:
@@ -294,6 +300,8 @@ public class Explosion implements Listener {
             case JUNGLE_TRAPDOOR:
             case JUNGLE_WALL_SIGN:
             case JUNGLE_WOOD:
+            case STRIPPED_JUNGLE_LOG:
+            case STRIPPED_JUNGLE_WOOD:
 
             case OAK_BUTTON:
             case OAK_DOOR:
@@ -308,6 +316,8 @@ public class Explosion implements Listener {
             case OAK_TRAPDOOR:
             case OAK_WALL_SIGN:
             case OAK_WOOD:
+            case STRIPPED_OAK_LOG:
+            case STRIPPED_OAK_WOOD:
 
             case SPRUCE_BUTTON:
             case SPRUCE_DOOR:
@@ -322,6 +332,8 @@ public class Explosion implements Listener {
             case SPRUCE_TRAPDOOR:
             case SPRUCE_WALL_SIGN:
             case SPRUCE_WOOD:
+            case STRIPPED_SPRUCE_LOG:
+            case STRIPPED_SPRUCE_WOOD:
                 wood.put(block.getLocation(), block.getState());
                 break;
         }
