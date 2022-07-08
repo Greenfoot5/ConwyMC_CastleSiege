@@ -310,7 +310,7 @@ public class Flag {
                         } else {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies have fully captured the flag!"));
                         }
-                        playCapSound(player);
+                        playCapSound(player, true);
                     }
                 }
             }
@@ -351,7 +351,7 @@ public class Flag {
                 } else {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies are capturing the flag!"));
                 }
-                playCapSound(player);
+                playCapSound(player, false);
             }
         }
     }
@@ -433,10 +433,11 @@ public class Flag {
      * Plays the capturing ping sound to a player
      * @param player The player to play the sound to
      */
-    private void playCapSound(Player player) {
+    private void playCapSound(Player player, boolean fullyCapped) {
         Location location = player.getLocation();
 
-        Sound effect = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
+        // Play level up sound if it's fully capped, or play an xp orb pickup
+        Sound effect = fullyCapped ? Sound.ENTITY_PLAYER_LEVELUP : Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 
         float volume = 1f; //1 = 100%
         float pitch = 0.5f; //Float between 0.5 and 2.0
