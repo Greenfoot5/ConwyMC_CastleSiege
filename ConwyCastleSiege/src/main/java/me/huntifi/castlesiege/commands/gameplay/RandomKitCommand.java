@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
@@ -46,7 +47,8 @@ public class RandomKitCommand implements CommandExecutor {
         String map = MapController.getCurrentMap().name;
         String team = MapController.getCurrentMap().getTeam(uuid).name;
 
-        ArrayList<String> unlockedKits = ActiveData.getData(uuid).getUnlockedKits();
+        // Get unlocked kits, or all if it's Friday
+        ArrayList<String> unlockedKits = DonatorKit.isFriday() ? (ArrayList<String>) DonatorKit.getKits() : ActiveData.getData(uuid).getUnlockedKits();
         ArrayList<Kit> kits = new ArrayList<>();
 
         unlockedKits.forEach((kitName) -> {
