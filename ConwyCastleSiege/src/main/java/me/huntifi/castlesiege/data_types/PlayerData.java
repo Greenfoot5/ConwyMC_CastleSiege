@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.data_types;
 
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 
@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 /**
  * Represents a player's data
@@ -40,6 +39,8 @@ public class PlayerData {
     private String leaveMessage;
     private HashMap<String, Long> votes;
     private double coins;
+
+    private HashMap<String, String> settings;
 
     private static double coinMultiplier = 1;
 
@@ -73,6 +74,8 @@ public class PlayerData {
         this.rankPoints = rankData.getDouble("rank_points");
         this.joinMessage = rankData.getString("join_message");
         this.leaveMessage = rankData.getString("leave_message");
+
+        this.settings = new HashMap<>();
 
         this.votes = votes;
     }
@@ -512,6 +515,14 @@ public class PlayerData {
     public void removeKit(String kitName) {
         while (unlockedKits.contains(kitName))
             unlockedKits.remove(kitName);
+    }
+
+    public String getSetting(String setting) {
+        return settings.get(setting) == null ? SettingsCommand.defaultSettings.get(setting)[0] : settings.get(setting);
+    }
+
+    public void setSetting(String setting, String value) {
+        settings.put(setting, value);
     }
 
     /**

@@ -212,6 +212,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("Bounty")).setExecutor(new Bounty());
                 Objects.requireNonNull(getCommand("Bounties")).setExecutor(new Bounty());
+                Objects.requireNonNull(getCommand("Settings")).setExecutor(new SettingsCommand());
 
                 // Info
                 Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
