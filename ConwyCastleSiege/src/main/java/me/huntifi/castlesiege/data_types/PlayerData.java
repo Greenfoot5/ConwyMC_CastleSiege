@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.data_types;
 
 import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
+import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Represents a player's data
@@ -51,7 +53,7 @@ public class PlayerData {
      * @throws SQLException If the columns don't match up
      */
     public PlayerData(ArrayList<String> unlockedKits, ResultSet mute, ResultSet statsData,
-                      ResultSet rankData, HashMap<String, Long> votes) throws SQLException {
+                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings) throws SQLException {
         this.unlockedKits = unlockedKits;
         this.mute = mute.next() ? new Tuple<>(mute.getString("reason"), mute.getTimestamp("end")) : null;
 
@@ -75,7 +77,7 @@ public class PlayerData {
         this.joinMessage = rankData.getString("join_message");
         this.leaveMessage = rankData.getString("leave_message");
 
-        this.settings = new HashMap<>();
+        this.settings = settings;
 
         this.votes = votes;
     }
@@ -521,7 +523,12 @@ public class PlayerData {
         return settings.get(setting) == null ? SettingsCommand.defaultSettings.get(setting)[0] : settings.get(setting);
     }
 
-    public void setSetting(String setting, String value) {
+    public void setSetting(UUID uuid, String setting, String value) {
+        if (settings.get(setting) == null) {
+            StoreData.addSetting(uuid, setting, value);
+        } else {
+            StoreData.updateSetting(uuid, setting, value);
+        }
         settings.put(setting, value);
     }
 

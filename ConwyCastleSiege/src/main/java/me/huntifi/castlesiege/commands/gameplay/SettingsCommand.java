@@ -55,10 +55,10 @@ public class SettingsCommand implements CommandExecutor {
 
         String value = args[1];
         if (Arrays.asList(defaultSettings.get(setting)).contains(value)) {
-            ActiveData.getData(p.getUniqueId()).setSetting(setting, value);
+            ActiveData.getData(p.getUniqueId()).setSetting(p.getUniqueId(), setting, value);
             Messenger.sendInfo("Setting Updated", sender);
         } else if (value.equals("reset")) {
-            ActiveData.getData(p.getUniqueId()).setSetting(setting, defaultSettings.get(setting)[0]);
+            ActiveData.getData(p.getUniqueId()).setSetting(p.getUniqueId(), setting, defaultSettings.get(setting)[0]);
             Messenger.sendInfo(setting + " reset to " + defaultSettings.get(setting)[0], sender);
         } else {
             Messenger.sendError("Invalid Value. Possible values: " + Arrays.toString(defaultSettings.get(setting)), sender);
