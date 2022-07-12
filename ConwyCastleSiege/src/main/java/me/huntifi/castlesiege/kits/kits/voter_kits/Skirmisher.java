@@ -30,13 +30,13 @@ public class Skirmisher extends VoterKit {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword", null, null, 37);
+                ChatColor.GREEN + "Iron Sword", null, null, 35);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Iron Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 39),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37),
                 0);
 
         // Chestplate

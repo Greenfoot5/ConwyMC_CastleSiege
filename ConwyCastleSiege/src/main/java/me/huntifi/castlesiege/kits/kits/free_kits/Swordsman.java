@@ -28,13 +28,13 @@ public class Swordsman extends FreeKit {
 
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-				ChatColor.GREEN + "Iron Sword", null, null, 36);
+				ChatColor.GREEN + "Iron Sword", null, null, 33);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
 						ChatColor.GREEN + "Iron Sword",
 						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 38),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 35),
 				0);
 
 		// Chestplate

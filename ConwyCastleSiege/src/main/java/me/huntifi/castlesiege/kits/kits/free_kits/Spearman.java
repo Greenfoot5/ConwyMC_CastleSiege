@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.kits.kits.free_kits;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -24,6 +25,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -51,14 +53,14 @@ public class Spearman extends FreeKit implements Listener {
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 3),
 				ChatColor.GREEN + "Spear",
-				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, 36);
+				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, 35);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				ItemCreator.weapon(new ItemStack(Material.STICK, 3),
 						ChatColor.GREEN + "Spear",
 						Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
 								ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 38),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37),
 				0);
 
 		// Chestplate
@@ -110,12 +112,18 @@ public class Spearman extends FreeKit implements Listener {
 			if (stick.getType().equals(Material.STICK)) {
 				if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 					if (cooldown == 0) {
-						p.setCooldown(Material.STICK, 160);
-						stick.setAmount(stick.getAmount() - 1);
 						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-								ChatColor.AQUA + "You threw your spear!"));
-						p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.0));
-
+								ChatColor.AQUA + "Preparing to throw your spear!"));
+						new BukkitRunnable() {
+							@Override
+							public void run() {
+								p.setCooldown(Material.STICK, 160);
+								stick.setAmount(stick.getAmount() - 1);
+								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+										ChatColor.AQUA + "You threw your spear!"));
+								p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.0));
+							}
+						}.runTaskLater(Main.plugin, 22);
 					} else {
 						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
 								ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your spear yet."));

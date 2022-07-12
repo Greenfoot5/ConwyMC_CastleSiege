@@ -163,6 +163,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Kits
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
+                getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new CoinshopGui(), plugin);
                 getServer().getPluginManager().registerEvents(new CryptsFallen(), plugin);
                 getServer().getPluginManager().registerEvents(new ConwyArbalester(), plugin);
