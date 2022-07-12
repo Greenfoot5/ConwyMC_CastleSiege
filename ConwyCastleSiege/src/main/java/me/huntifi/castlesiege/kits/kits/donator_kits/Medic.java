@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.donator_kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -255,8 +256,10 @@ public class Medic extends DonatorKit implements Listener {
                 q instanceof Player &&                                                          // On player
                 MapController.getCurrentMap().getTeam(uuid)                                     // Same team
                 == MapController.getCurrentMap().getTeam(q.getUniqueId()) &&                    // Same team
-                ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth &&  // Below max hp
-                !cooldown.contains((Player) q)) {                                               // Not on cooldown
+                ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth) {  // Below max hp
+                if (!cooldown.contains((Player) q)) {                                               // Not on cooldown
+                    Messenger.sendError("You can't heal that player yet!", p);
+                }
 
             // Apply cooldown
             Player r = (Player) q;

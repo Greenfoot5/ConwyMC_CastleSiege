@@ -10,11 +10,18 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import me.huntifi.castlesiege.commands.chat.*;
-import me.huntifi.castlesiege.commands.donator.*;
+import me.huntifi.castlesiege.commands.chat.GlobalChat;
+import me.huntifi.castlesiege.commands.chat.PrivateMessage;
+import me.huntifi.castlesiege.commands.chat.ReplyMessage;
+import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.commands.donator.JoinMessage;
+import me.huntifi.castlesiege.commands.donator.LeaveMessage;
 import me.huntifi.castlesiege.commands.gameplay.*;
 import me.huntifi.castlesiege.commands.info.*;
-import me.huntifi.castlesiege.commands.info.leaderboard.*;
+import me.huntifi.castlesiege.commands.info.leaderboard.Donators;
+import me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard;
+import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
+import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
 import me.huntifi.castlesiege.commands.staff.*;
 import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
@@ -25,15 +32,15 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
-import me.huntifi.castlesiege.events.gameplay.HorseHandler;
-import me.huntifi.castlesiege.events.gameplay.Explosion;
-import me.huntifi.castlesiege.events.gameplay.Movement;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.*;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
 import me.huntifi.castlesiege.events.connection.PlayerDisconnect;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.death.VoidLocation;
+import me.huntifi.castlesiege.events.gameplay.Explosion;
+import me.huntifi.castlesiege.events.gameplay.HorseHandler;
+import me.huntifi.castlesiege.events.gameplay.Movement;
 import me.huntifi.castlesiege.events.security.InteractContainer;
 import me.huntifi.castlesiege.events.security.InventoryProtection;
 import me.huntifi.castlesiege.events.security.MapProtection;
@@ -41,7 +48,8 @@ import me.huntifi.castlesiege.events.timed.ApplyRegeneration;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
-import me.huntifi.castlesiege.kits.gui.*;
+import me.huntifi.castlesiege.kits.gui.KitGui;
+import me.huntifi.castlesiege.kits.gui.KitGuiController;
 import me.huntifi.castlesiege.kits.gui.coinshop.CoinbuyCommand;
 import me.huntifi.castlesiege.kits.gui.coinshop.CoinshopGui;
 import me.huntifi.castlesiege.kits.items.Enderchest;
@@ -205,6 +213,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("Bounty")).setExecutor(new Bounty());
                 Objects.requireNonNull(getCommand("Bounties")).setExecutor(new Bounty());
+                Objects.requireNonNull(getCommand("Settings")).setExecutor(new SettingsCommand());
 
                 // Info
                 Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
@@ -257,6 +266,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("ForceSwitch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("Start")).setExecutor(new StartCommand());
+                Objects.requireNonNull(getCommand("SetTag")).setExecutor(new NameTag());
 
                 // Kits
                 Objects.requireNonNull(getCommand("Random")).setExecutor(new RandomKitCommand());
@@ -399,7 +409,20 @@ public class Main extends JavaPlugin implements Listener {
      * Connects to the SQL database
      */
     private void sqlConnect() {
-        SQL = new MySQL();
+        try {
+            YamlDocument dbConfig = YamlDocument.create(new File(getDataFolder(), "database.yml"),
+                    getClass().getResourceAsStream("database.yml"));
+
+            String host = dbConfig.getString("host");
+            int port = dbConfig.getInt("port");
+            String database = dbConfig.getString("database");
+            String username = dbConfig.getString("username");
+            String password = dbConfig.getString("password");
+
+            SQL = new MySQL(host, port, database, username, password);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             SQL.connect();
@@ -482,6 +505,8 @@ public class Main extends JavaPlugin implements Listener {
         };
         StandardSerializer.getDefault().register(Vector.class, vectorAdapter);
 
+        getLogger().info("Loaded Vector Adapter");
+
         // Setup the frame adapter
         TypeAdapter<Frame> frameAdapter = new TypeAdapter<Frame>() {
 
@@ -517,15 +542,22 @@ public class Main extends JavaPlugin implements Listener {
         };
         StandardSerializer.getDefault().register(Frame.class, frameAdapter);
 
+        getLogger().info("Loaded Frame Apapter");
+
         flagsConfigs = loadYMLs("flags");
+        getLogger().info("Loaded flags");
 
         doorsConfigs = loadYMLs("doors");
+        getLogger().info("Loaded doors");
 
         gatesConfigs = loadYMLs("gates");
+        getLogger().info("Loaded gates");
 
         catapultsConfigs = loadYMLs("catapults");
+        getLogger().info("Loaded catapults");
 
         mapConfigs = loadYMLs("maps");
+        getLogger().info("Loaded maps");
 
         // Load config.yml with BoostedYAML
         try {
@@ -535,6 +567,8 @@ public class Main extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
+        getLogger().info("Loaded config.yml");
+
         // Load kits.yml with BoostedYAML
         try {
             kitsConfig = YamlDocument.create(new File(getDataFolder(), "kits.yml"),
@@ -542,22 +576,30 @@ public class Main extends JavaPlugin implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        getLogger().info("Loaded kits.yml");
     }
 
     private YamlDocument[] loadYMLs(String folderName) {
         // Add all config ymls from the doors folder
         File directoryPath = new File(String.valueOf(getDataFolder()), folderName);
+        System.out.println("Directory path");
         // List of all files and directories
         String[] contents = directoryPath.list();
+        System.out.println("contents");
         assert contents != null;
         List<YamlDocument> configs = new ArrayList<>();
         for (String content : contents) {
             if (content.endsWith(".yml")) {
+                System.out.println("New YML: " + content);
+                System.out.println(directoryPath.getPath());
                 // Load the yml with BoostedYAML
                 try {
                     configs.add(YamlDocument.create(new File(directoryPath.getPath(), content),
                             getClass().getResourceAsStream(content)));
+                    System.out.println("Added config");
                 } catch (IOException e) {
+                    System.out.println("IOException!");
                     e.printStackTrace();
                 }
             }
@@ -865,7 +907,7 @@ public class Main extends JavaPlugin implements Listener {
         for (int i = 0; i < gatePaths.length; i++) {
             // Create the gate
             Route gateRoute = mapRoute.add(gatePaths[i]);
-            Gate gate = new Gate(gateConfig.getString(gateRoute.add("display_name")));
+            Gate gate = new Gate(gateConfig.getString(gateRoute.add("display_name"), ""));
             gate.setFlagName(gateConfig.getString(gateRoute.add("flag_name")), map.name);
             gate.setHealth(gateConfig.getInt(gateRoute.add("start_health")));
 

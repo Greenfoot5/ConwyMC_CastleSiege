@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.kits.kits;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class FreeKit extends Kit {
+public abstract class FreeKit extends Kit {
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();

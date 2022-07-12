@@ -109,13 +109,13 @@ commands:
   # Donator
   JoinMessage:
     description: Sets your custom join message
-    usage: /joinmsg <set | reset> <message>
+    usage: /joinmsg <set | reset> [message]
     aliases: joinmsg
     permission: castlesiege.esquire
     permission-message: Only donators are permitted to use this command!
   LeaveMessage:
     description: Sets your custom leave message
-    usage: /leavemsg <set | reset> <message>
+    usage: /leavemsg <set | reset> [message]
     aliases: leavemsg
     permission: castlesiege.esquire
     permission-message: Only donators are permitted to use this command!
@@ -132,6 +132,9 @@ commands:
   Bounty:
     description: Add a bounty to a player
     usage: /bounty <player> [amount]
+  Settings:
+    description: Check or update your settings
+    usage: /settings [setting] [value]
 
   # Info
   CoinMultiplier:
@@ -169,43 +172,43 @@ commands:
   # Leaderboards
   Top:
     description: Shows the score leaderboard
-    usage: /top <position>
+    usage: /top [position]
     aliases:
       - toplist
       - topscore
       - leaderboard
   TopAssists:
     description: Shows the assists leaderboard
-    usage: /topassists <position>
+    usage: /topassists [position]
   TopCaptures:
     description: Shows the captures leaderboard
-    usage: /topcaptures <position>
+    usage: /topcaptures [position]
   TopDeaths:
     description: Shows the deaths leaderboard
-    usage: /topdeaths <position>
+    usage: /topdeaths [position]
   TopKills:
     description: Shows the kills leaderboard
-    usage: /topkills <position>
+    usage: /topkills [position]
   TopSupports:
     description: Shows the supports leaderboard
-    usage: /topsupports <position>
+    usage: /topsupports [position]
   TopHeals:
     description: Shows the heals leaderboard
-    usage: /topheals <position>
+    usage: /topheals [position]
   TopDonators:
     description: Shows the donator leaderboard
-    usage: /topdonators <position>
+    usage: /topdonators [position]
   TopMatch:
     description: Shows the leaderboard for the current game
-    usage: /topmatch <category> <position>
+    usage: /topmatch [category] [position]
     aliases:
       - topgame
   TopTeam:
     description: Shows the leaderboard for your current team
-    usage: /topteam <category> <position>
+    usage: /topteam [category] [position]
   Bounties:
     description: Shows the bounties leaderboard
-    usage: /bounties <position>
+    usage: /bounties [position]
     aliases:
       - topbounty
 
@@ -300,7 +303,7 @@ commands:
     permission-message: You are not permitted to use this command!
   SetTimer:
     description: Sets the time left on the map to the specified time
-    usage: /settimer <mins> <seconds>
+    usage: /settimer <mins> [seconds]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
   StaffChat:
@@ -334,6 +337,10 @@ commands:
     usage: /start
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
+  SetTag:
+    description: Set a nametag prefix
+    usage: /settag <tag>
+    permission: castlesiege.developer
 
   # Donations
   Unlockkit:
@@ -378,10 +385,10 @@ commands:
     usage: /crossbowman
   ConwyRoyalKnight:
     description: Selects the Conwy royal knight kit for the English
-    usage: /Conwyroyalknight
+    usage: /conwyroyalknight
   ConwyArbalester:
     description: Selects the Conwy arbalester kit for the English
-    usage: /Conwyarbalester
+    usage: /conwyarbalester
   Engineer:
     description: Selects the engineer kit
     usage: /engineer

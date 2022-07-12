@@ -4,10 +4,11 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
-import me.huntifi.castlesiege.kits.kits.FreeKit;
-import me.huntifi.castlesiege.kits.kits.VoterKit;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -42,8 +43,11 @@ public class LoadData {
             createEntry(uuid, "VotingPlugin_Users");
             HashMap<String, Long> votes = getVotes(uuid);
 
+            // Settings data
+            HashMap<String, String> settings = getSettings(uuid);
+
             // Collect data and release resources
-            PlayerData data = new PlayerData(unlockedKits, prMute.getSecond(), prStats.getSecond(), prRank.getSecond(), votes);
+            PlayerData data = new PlayerData(unlockedKits, prMute.getSecond(), prStats.getSecond(), prRank.getSecond(), votes, settings);
             prMute.getFirst().close();
             prStats.getFirst().close();
             prRank.getFirst().close();
@@ -264,5 +268,24 @@ public class LoadData {
             return rs.getTimestamp("unlocked_until");
         }
         return new Timestamp(0);
+    }
+
+    public static HashMap<String, String> getSettings(UUID uuid) {
+        HashMap<String, String> loadedSettings = new HashMap<>();
+
+        try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "SELECT setting, value FROM player_settings WHERE uuid = ?")) {
+            ps.setString(1, uuid.toString());
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                loadedSettings.put(rs.getString("setting"), rs.getString("value"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return loadedSettings;
     }
 }

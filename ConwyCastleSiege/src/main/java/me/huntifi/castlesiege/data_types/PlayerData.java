@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.data_types;
 
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
+import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 
@@ -41,6 +42,8 @@ public class PlayerData {
     private HashMap<String, Long> votes;
     private double coins;
 
+    private HashMap<String, String> settings;
+
     private static double coinMultiplier = 1;
 
     /**
@@ -50,7 +53,7 @@ public class PlayerData {
      * @throws SQLException If the columns don't match up
      */
     public PlayerData(ArrayList<String> unlockedKits, ResultSet mute, ResultSet statsData,
-                      ResultSet rankData, HashMap<String, Long> votes) throws SQLException {
+                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings) throws SQLException {
         this.unlockedKits = unlockedKits;
         this.mute = mute.next() ? new Tuple<>(mute.getString("reason"), mute.getTimestamp("end")) : null;
 
@@ -73,6 +76,8 @@ public class PlayerData {
         this.rankPoints = rankData.getDouble("rank_points");
         this.joinMessage = rankData.getString("join_message");
         this.leaveMessage = rankData.getString("leave_message");
+
+        this.settings = settings;
 
         this.votes = votes;
     }
@@ -512,6 +517,19 @@ public class PlayerData {
     public void removeKit(String kitName) {
         while (unlockedKits.contains(kitName))
             unlockedKits.remove(kitName);
+    }
+
+    public String getSetting(String setting) {
+        return settings.get(setting) == null ? SettingsCommand.defaultSettings.get(setting)[0] : settings.get(setting);
+    }
+
+    public void setSetting(UUID uuid, String setting, String value) {
+        if (settings.get(setting) == null) {
+            StoreData.addSetting(uuid, setting, value);
+        } else {
+            StoreData.updateSetting(uuid, setting, value);
+        }
+        settings.put(setting, value);
     }
 
     /**

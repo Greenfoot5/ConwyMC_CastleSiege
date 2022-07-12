@@ -110,7 +110,9 @@ public class Gate implements Listener {
     }
 
     private void gateBreached(World world) {
-        Messenger.broadcastWarning(getName() + " has been breached!");
+        if (!getName().isEmpty()) {
+            Messenger.broadcastWarning(getName() + " has been breached!");
+        }
 
         try {
             SchematicSpawner.spawnSchematic(schematicLocation.toLocation(
@@ -157,7 +159,7 @@ public class Gate implements Listener {
 
                             health -= damage;
 
-                            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> UpdateStats.addSupports(player.getUniqueId(), 0.5));
+                            UpdateStats.addSupports(player.getUniqueId(), 1);
 
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                                     TextComponent.fromLegacyText(ChatColor.GRAY + "" + ChatColor.BOLD + "Gate Health: " + health));

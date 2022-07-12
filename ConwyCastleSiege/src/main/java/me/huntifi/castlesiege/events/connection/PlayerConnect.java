@@ -14,6 +14,7 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -73,6 +74,7 @@ public class PlayerConnect implements Listener {
             ActiveData.getData(uuid).setKit("swordsman");
         }
         p.setExp(0);
+        p.setLevel(ActiveData.getData(p.getUniqueId()).getLevel());
 
         // Update the names stored in the database
         StoreData.updateName(uuid, "player_stats");
@@ -95,6 +97,12 @@ public class PlayerConnect implements Listener {
 
         if (DonatorKit.isFriday()) {
             Messenger.broadcastInfo("It's Friday! All donator and team kits are " + ChatColor.BOLD + "FREE!");
+        }
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (ActiveData.getData(player.getUniqueId()).getSetting("joinPing").equals("true")) {
+                player.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 0.1f);
+            }
         }
 
         sendTitlebarMessages(p);

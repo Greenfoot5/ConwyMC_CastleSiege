@@ -21,7 +21,6 @@ public class Tips extends BukkitRunnable {
             "Stuck somewhere, or have no way out? Use /sui",
             "Use /maps to see the current rotation",
             "Hit by something that seems invisible? Check your surroundings for Crossbowmen!",
-            "Don't forget, all donator kits are unlocked for testing sessions!",
             "Engineers are a useful class that can speed up catapult reloads, repair gates, place traps and use ballista, make sure you've got one on your team!",
             "Low on health? Find a medic or some cake!",
             "Found a suspicious player? Make a report on the discord server or tell a staff member",
@@ -31,7 +30,6 @@ public class Tips extends BukkitRunnable {
             "Low on ladders? You can get two more by voting!",
             "Cheating or the use of hacks is strictly forbidden on this server, when seen using these you will be banned instantly.",
             "Need a refresher on the rules? Check out /rules!",
-            "Cheating or the use of hacks is strictly forbidden on this server, when seen using these you will be banned instantly.",
             "If you're having a hard time getting to a flag, there's often more than one way to get there...",
             "Have you found all the secrets yet?",
             "Being shot at by archers? Try to find some cover!",
@@ -40,8 +38,8 @@ public class Tips extends BukkitRunnable {
             "Donators can set an unique leave and join message with /joinmsg and /leavemsg!",
             "Donators can switch whenever they want, no matter the amount of players!",
             "Looking for a change in pace? Try /random!",
-            "Want to try a kit before buying? Play on Fridays or check out the 7 day free trial in the store: https://conwymc.tebex.io/",
-            "Want to help keep the server running? Donate! https://conwymc.tebex.io/ There's some awesome benefits!"
+            "Want to try a kit before buying? Play on Fridays or check out the 7 day free trial in the store - /webshop",
+            "Want to help keep the server running? Donate via /webshop! There's some awesome benefits!"
     };
 
     // Sends a random tip to all players
