@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -53,13 +54,13 @@ public class Scout extends VoterKit {
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 1)),
+                Arrays.asList(new Tuple<>(Enchantment.DEPTH_STRIDER, 1), new Tuple<>(Enchantment.PROTECTION_FALL, 4)),
                 Color.fromRGB(64, 87, 1));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
-                Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3)),
+                Arrays.asList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3), new Tuple<>(Enchantment.PROTECTION_FALL, 4)),
                 Color.fromRGB(64, 87, 1));
 
         // Ladders

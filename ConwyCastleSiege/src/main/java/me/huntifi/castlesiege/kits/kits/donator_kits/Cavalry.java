@@ -56,7 +56,7 @@ public class Cavalry extends DonatorKit implements Listener {
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Sabre",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 35),
+                        Collections.singletonList(new Tuple<>(Enchantment.SWEEPING_EDGE, 0)), 35),
                 0);
 
         // Chestplate
