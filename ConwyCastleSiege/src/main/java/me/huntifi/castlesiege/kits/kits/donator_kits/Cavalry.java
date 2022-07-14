@@ -108,7 +108,6 @@ public class Cavalry extends DonatorKit implements Listener {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         ItemStack stomp = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.ANVIL);
 
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
 
@@ -151,8 +150,10 @@ public class Cavalry extends DonatorKit implements Listener {
 
                                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY, 1, (float) 0.8);
 
+                                    p.setCooldown(Material.ANVIL, 360);
+
                                     if ((all.getHealth() - 50 > 0)) {
-                                        all.damage(50);
+                                        all.damage(60);
                                         all.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
                                         all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));
                                         all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
@@ -168,8 +169,6 @@ public class Cavalry extends DonatorKit implements Listener {
                             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                     ChatColor.DARK_RED + "No enemy players are close enough for you to perform this ability!"));
                         }
-
-                        p.setCooldown(Material.ANVIL, 360);
                     }
                 }
             }
