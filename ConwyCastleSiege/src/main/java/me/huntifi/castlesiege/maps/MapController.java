@@ -397,7 +397,7 @@ public class MapController {
 		InCombat.clearCombat();
 		MVPStats.reset();
 
-		for (Flag flag : getCurrentMap().flags) {
+		for (Flag flag : getMap(worldName).flags) {
 			flag.clear();
 		}
 
