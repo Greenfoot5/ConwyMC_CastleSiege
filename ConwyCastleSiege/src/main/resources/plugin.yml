@@ -186,6 +186,9 @@ commands:
   TopDeaths:
     description: Shows the deaths leaderboard
     usage: /topdeaths [position]
+  TopKDR:
+    description: Shows the kdr leaderboard
+    usage: /topkdr [position]
   TopKills:
     description: Shows the kills leaderboard
     usage: /topkills [position]

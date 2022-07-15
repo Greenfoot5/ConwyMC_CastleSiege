@@ -233,7 +233,10 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopAssists")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopCaptures")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopDeaths")).setExecutor(new Leaderboard());
+                Objects.requireNonNull(getCommand("TopHeals")).setExecutor(new Leaderboard());
+                Objects.requireNonNull(getCommand("TopKDR")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopKills")).setExecutor(new Leaderboard());
+                Objects.requireNonNull(getCommand("TopSupports")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopDonators")).setExecutor(new Donators());
                 Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatch());
                 Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatch());
