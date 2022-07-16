@@ -55,7 +55,7 @@ public class PlayerConnect implements Listener {
 
         // Set the join message
         if (!data.getJoinMessage().isEmpty()) {
-            Bukkit.broadcastMessage(ChatColor.YELLOW + data.getJoinMessage());
+            e.setJoinMessage(ChatColor.YELLOW + data.getJoinMessage());
         }
 
         // Assign the player's staff and donator permissions
