@@ -51,12 +51,12 @@ public class Spearman extends FreeKit implements Listener {
 		super.heldItemSlot = 0;
 
 		// Weapon
-		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 3),
+		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 4),
 				ChatColor.GREEN + "Spear",
 				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, 35);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				ItemCreator.weapon(new ItemStack(Material.STICK, 3),
+				ItemCreator.weapon(new ItemStack(Material.STICK, 4),
 						ChatColor.GREEN + "Spear",
 						Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
 								ChatColor.AQUA + "- voted: +2 damage"),
@@ -114,11 +114,11 @@ public class Spearman extends FreeKit implements Listener {
 					if (cooldown == 0) {
 						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
 								ChatColor.AQUA + "Preparing to throw your spear!"));
+						stick.setAmount(stick.getAmount() - 1);
+						p.setCooldown(Material.STICK, 160);
 						new BukkitRunnable() {
 							@Override
 							public void run() {
-								p.setCooldown(Material.STICK, 160);
-								stick.setAmount(stick.getAmount() - 1);
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
 										ChatColor.AQUA + "You threw your spear!"));
 								p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.0));
