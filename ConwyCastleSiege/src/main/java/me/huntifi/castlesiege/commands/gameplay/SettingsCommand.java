@@ -19,7 +19,8 @@ public class SettingsCommand implements CommandExecutor {
         put("language", new String[]{"EnglishUK", "Pirate"});
         put("joinPing", new String[]{"false", "true"});
         put("statsBoard", new String[]{"false", "true"});
-        put("toggleJoinMessages", new String[]{"false", "true"});
+        put("customJoinLeaveMessages", new String[]{"true", "false"});
+        put("joinLeaveMessages", new String[]{"true", "false"});
     }};
 
     @Override
@@ -35,7 +36,8 @@ public class SettingsCommand implements CommandExecutor {
                             ChatColor.GOLD + "deathMessages (true/false) - " + ChatColor.BLUE + "View all death messages, not just your own\n" +
                             ChatColor.GOLD + "joinPing (true/false) - " + ChatColor.BLUE + "Get a ping sound when another player joins the server\n" +
                             ChatColor.GOLD + "statsBoard (true/false) - " + ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names\n" +
-                            ChatColor.GOLD + "toggleJoinMessages (true/false) - " + ChatColor.BLUE + "Toggle donator join messages off/on" ,
+                            ChatColor.GOLD + "joinLeaveMessages (true/false) - " + ChatColor.BLUE + "Toggle join messages off/on\n" +
+                            ChatColor.GOLD + "customJoinLeaveMessages (true/false) - " + ChatColor.BLUE + "Toggle donator join messages off/on" ,
                     sender);
             return true;
         }
@@ -46,7 +48,8 @@ public class SettingsCommand implements CommandExecutor {
                             ChatColor.GOLD + "deathMessages (true/false) - " + ChatColor.BLUE + "View all death messages, not just your own\n" +
                             ChatColor.GOLD + "joinPing (true/false) - " + ChatColor.BLUE + "Get a ping sound when another player joins the server\n" +
                             ChatColor.GOLD + "statsBoard (true/false) - " + ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names\n" +
-                            ChatColor.GOLD + "toggleJoinMessages (true/false) - " + ChatColor.BLUE + "Toggle donator join messages off/on " ,
+                            ChatColor.GOLD + "JoinLeaveMessages (true/false) - " + ChatColor.BLUE + "Toggle join messages off/on\n" +
+                            ChatColor.GOLD + "customJoinLeaveMessages (true/false) - " + ChatColor.BLUE + "Toggle donator join messages off/on " ,
                     sender);
             return true;
         }

@@ -28,6 +28,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -52,9 +53,24 @@ public class PlayerConnect implements Listener {
             return;
         }
 
-        // Set the join message
-        if (!data.getJoinMessage().isEmpty()) {
-            e.setJoinMessage(ChatColor.YELLOW + data.getJoinMessage());
+        e.setJoinMessage(null);
+
+        for (Player all : Bukkit.getOnlinePlayers()) {
+
+            // Set the join message
+            if (!data.getJoinMessage().isEmpty() &&
+                    Objects.equals(ActiveData.getData(all.getUniqueId()).getSetting("customJoinLeaveMessages"), "true")
+                    && Objects.equals(ActiveData.getData(all.getUniqueId()).getSetting("JoinLeaveMessages"), "true")) {
+                all.sendMessage(ChatColor.GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.GRAY + "] " +
+                        ChatColor.YELLOW + data.getJoinMessage());
+            }
+
+            //let everyone know this player joined
+            if (data.getJoinMessage().isEmpty()
+                    && Objects.equals(ActiveData.getData(all.getUniqueId()).getSetting("JoinLeaveMessages"), "true")) {
+                all.sendMessage(ChatColor.GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.GRAY + "] " +
+                        ChatColor.YELLOW + p.getName() + " has joined the game");
+            }
         }
 
         // Assign the player's staff and donator permissions
