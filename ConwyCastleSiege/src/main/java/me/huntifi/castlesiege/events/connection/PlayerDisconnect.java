@@ -10,7 +10,6 @@ import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Flag;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,7 +18,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -38,24 +36,9 @@ public class PlayerDisconnect implements Listener {
             return;
         }
 
-        e.setQuitMessage(null);
-
-        for (Player all : Bukkit.getOnlinePlayers()) {
-
-            // Set the join message
-            if (!ActiveData.getData(uuid).getLeaveMessage().isEmpty() &&
-                    Objects.equals(ActiveData.getData(all.getUniqueId()).getSetting("customJoinLeaveMessages"), "true")
-                    && Objects.equals(ActiveData.getData(all.getUniqueId()).getSetting("JoinLeaveMessages"), "true")) {
-                all.sendMessage(ChatColor.GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.GRAY + "] " +
-                        ChatColor.YELLOW + ActiveData.getData(uuid).getLeaveMessage());
-            }
-
-            //let everyone know this player joined
-            if (ActiveData.getData(uuid).getLeaveMessage().isEmpty()
-                    && Objects.equals(ActiveData.getData(all.getUniqueId()).getSetting("JoinLeaveMessages"), "true")) {
-                all.sendMessage(ChatColor.GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.GRAY + "] " +
-                        ChatColor.YELLOW + e.getPlayer().getName() + " has left the game");
-            }
+        // Set the leave message
+        if (!ActiveData.getData(uuid).getLeaveMessage().isEmpty()) {
+            e.setQuitMessage(ChatColor.YELLOW + ActiveData.getData(uuid).getLeaveMessage());
         }
 
         if (InCombat.isPlayerInCombat(uuid) && MapController.isOngoing()) {

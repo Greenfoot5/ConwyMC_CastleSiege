@@ -53,24 +53,9 @@ public class PlayerConnect implements Listener {
             return;
         }
 
-        e.setJoinMessage(null);
-
-        for (Player all : Bukkit.getOnlinePlayers()) {
-
-            // Set the join message
-            if (!data.getJoinMessage().isEmpty() &&
-                    Objects.equals(ActiveData.getData(all.getUniqueId()).getSetting("customJoinLeaveMessages"), "true")
-                    && Objects.equals(ActiveData.getData(all.getUniqueId()).getSetting("JoinLeaveMessages"), "true")) {
-                all.sendMessage(ChatColor.GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.GRAY + "] " +
-                        ChatColor.YELLOW + data.getJoinMessage());
-            }
-
-            //let everyone know this player joined
-            if (data.getJoinMessage().isEmpty()
-                    && Objects.equals(ActiveData.getData(all.getUniqueId()).getSetting("JoinLeaveMessages"), "true")) {
-                all.sendMessage(ChatColor.GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.GRAY + "] " +
-                        ChatColor.YELLOW + p.getName() + " has joined the game");
-            }
+        // Set the join message
+        if (!data.getJoinMessage().isEmpty()) {
+            Bukkit.broadcastMessage(ChatColor.YELLOW + data.getJoinMessage());
         }
 
         // Assign the player's staff and donator permissions
