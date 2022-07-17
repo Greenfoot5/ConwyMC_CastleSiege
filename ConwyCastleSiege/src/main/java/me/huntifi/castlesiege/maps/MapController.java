@@ -369,15 +369,13 @@ public class MapController {
 			@Override
 			public void run() {
 				// Register the flag regions
-				for (
-						Flag flag : maps.get(mapIndex).flags) {
+				for (Flag flag : maps.get(mapIndex).flags) {
 					if (flag.region != null) {
-						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName))))).addRegion(flag.region);
+						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName)))))
+								.addRegion(flag.region);
 
-						if (flag.getFlagColour() == null) {
-							return;
-						}
-						flag.createHologram(flag.holoLoc, flag.getFlagColour());
+						flag.createHologram();
 					}
 				}
 			}

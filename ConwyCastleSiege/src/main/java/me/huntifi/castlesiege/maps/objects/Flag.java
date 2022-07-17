@@ -538,26 +538,23 @@ public class Flag {
         return team.secondaryWool;
     }
 
-    /**
-     *
-     * @param spawn Location of the hologram, basically where it should spawn
-     */
-    public void createHologram(Location spawn, ChatColor teamColour) {
-        if (spawn.getWorld() == null) {
+    public void createHologram() {
+        if (holoLoc.getWorld() == null) {
             Bukkit.getConsoleSender().sendMessage("Holograms could not spawn in cause world was null!");
-            return; }
+            return;
+        }
         if (name == null) {
             Bukkit.getConsoleSender().sendMessage("Holograms could not spawn in cause flag name was null!");
             return;
         }
-        hologram = (ArmorStand) spawn.getWorld().spawnEntity(spawn, EntityType.ARMOR_STAND);
+        hologram = (ArmorStand) holoLoc.getWorld().spawnEntity(holoLoc, EntityType.ARMOR_STAND);
         hologram.setVisible(false);
         hologram.setGravity(false);
         hologram.setCollidable(false);
         hologram.setInvulnerable(true);
         hologram.setCustomNameVisible(true);
         hologram.setSmall(true);
-        hologram.setCustomName(ChatColor.BOLD +  "Flag: " + teamColour + name);
+        hologram.setCustomName(ChatColor.BOLD +  "Flag: " + getColor() + name);
     }
 
     public void updateHologram(ChatColor teamColour) {
@@ -569,10 +566,10 @@ public class Flag {
     }
 
     /**
-     * Get the flag's colour.
-     * @return The primary chat colour of the flag's owners, gray if neutral
+     * Get the flag's color.
+     * @return The primary chat color of the flag's owners, gray if neutral
      */
-    public ChatColor getFlagColour() {
+    public ChatColor getColor() {
         String currentOwners = getCurrentOwners();
         if (currentOwners == null)
             return ChatColor.GRAY;
