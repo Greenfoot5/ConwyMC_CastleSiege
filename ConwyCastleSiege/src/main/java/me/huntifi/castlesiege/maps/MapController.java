@@ -22,6 +22,7 @@ import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -382,34 +383,55 @@ public class MapController {
 	private static void checkTeamKit(Player player) {
 		Kit kit = Kit.equippedKits.get(player.getUniqueId());
 		if (kit instanceof TeamKit) {
-			Kit.equippedKits.remove(player.getUniqueId());
 			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
 			ActiveData.getData(player.getUniqueId()).setKit("swordsman");
-		} else {
-			Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 		}
+
+		Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 	}
 
 	/**
 	 * Does any unloading needed for the current map
 	 */
 	public static void unloadMap(String worldName) {
+		Map oldMap = getMap(worldName);
+		assert oldMap != null;
+
+		// Clear map stats
 		InCombat.clearCombat();
 		MVPStats.reset();
 
-		for (Flag flag : getMap(worldName).flags) {
+		// Clear capture zones
+		for (Flag flag : oldMap.flags) {
 			flag.clear();
 		}
 
-		for (Map map:maps) {
-			if (Objects.equals(map.worldName, worldName)) {
-				for (Team team:map.teams) {
-					if (keepTeams) {
-						teams.add(new ArrayList<>(team.getPlayers()));
-					} else {
-						team.clear();
-					}
-				}
+		// Unregister catapult listeners
+		for (Catapult catapult : oldMap.catapults) {
+			HandlerList.unregisterAll(catapult);
+		}
+
+		// Unregister door listeners
+		for (Door door : oldMap.doors) {
+			HandlerList.unregisterAll(door);
+		}
+
+		// Unregister gate listeners
+		for (Gate gate : oldMap.gates) {
+			HandlerList.unregisterAll(gate);
+		}
+
+		// Unregister woolmap listeners
+		for (Team team : oldMap.teams) {
+			HandlerList.unregisterAll(team.lobby.woolmap);
+		}
+
+		// Clear teams
+		for (Team team : oldMap.teams) {
+			if (keepTeams) {
+				teams.add(new ArrayList<>(team.getPlayers()));
+			} else {
+				team.clear();
 			}
 		}
 	}
