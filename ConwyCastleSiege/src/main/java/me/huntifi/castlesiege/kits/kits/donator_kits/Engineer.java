@@ -318,12 +318,15 @@ public class Engineer extends DonatorKit implements Listener {
 
             Player shooter = (Player) e.getEntity().getShooter();
             Team team = MapController.getCurrentMap().getTeam(shooter.getUniqueId());
+            int hitCount = 0;
             for (Entity hit : e.getEntity().getNearbyEntities(2.5, 2.5, 2.5)) {
                 if (hit instanceof Player && MapController.getCurrentMap().getTeam(hit.getUniqueId()) != team) {
                     ((Player) hit).damage(75, shooter);
+                    hitCount++;
                 }
             }
 
+            Messenger.sendActionInfo(String.format("You hit %d players", hitCount), shooter);
             e.getEntity().getWorld().playSound(e.getEntity().getLocation(), Sound.ENTITY_ENDER_DRAGON_HURT, 4, 1);
         }
     }

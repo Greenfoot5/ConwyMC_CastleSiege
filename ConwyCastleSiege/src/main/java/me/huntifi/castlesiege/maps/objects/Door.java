@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * Represents a door
  */
-public class Door implements Listener {
+public abstract class Door implements Listener {
     protected final String flagName;
     protected final Location centre;
     // Location, Closed/Open

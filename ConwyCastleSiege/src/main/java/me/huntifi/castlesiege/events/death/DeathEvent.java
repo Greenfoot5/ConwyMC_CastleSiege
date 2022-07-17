@@ -69,7 +69,6 @@ public class DeathEvent implements Listener {
             player.performCommand("random");
 
         player.setWalkSpeed(0.2f);
-        InCombat.playerDied(player.getUniqueId());
         PlayerConnect.sendTitlebarMessages(player);
     }
 
@@ -81,10 +80,11 @@ public class DeathEvent implements Listener {
      */
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
+        InCombat.playerDied(event.getEntity().getUniqueId());
         event.setDeathMessage(null);
         respawn(event.getEntity());
         stopCapping(event.getEntity());
-        if (MapController.isOngoing()) {
+        if (MapController.isOngoing() && !InCombat.isPlayerInLobby(event.getEntity().getUniqueId())) {
             updateStats(event);
         }
     }
