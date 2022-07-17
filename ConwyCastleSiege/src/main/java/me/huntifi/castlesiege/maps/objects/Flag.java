@@ -522,7 +522,7 @@ public class Flag {
      * Get the wool block to display behind the sign on the WoolMap
      * @return The Material to set
      */
-    public Material GetWoolMapBlock() {
+    public Material getWoolMapBlock() {
         // Flag is neutral
         if (getCurrentOwners() == null) {
             return Material.GRAY_WOOL;
