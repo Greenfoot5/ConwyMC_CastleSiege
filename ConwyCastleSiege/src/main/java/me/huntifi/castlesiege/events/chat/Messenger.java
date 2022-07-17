@@ -89,6 +89,11 @@ public class Messenger {
         sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message);
     }
 
+    public static void sendActionInfo(String message, @NotNull Player sender) {
+        sender.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                TextComponent.fromLegacyText(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message));
+    }
+
     public static void broadcastInfo(String message) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message);
     }
