@@ -36,7 +36,7 @@ public class FalkirkBots {
         if (MapController.currentMapIs("Falkirk")) {
 
             for (int i = 0; i <= amount; i++) {
-
+                NamePool.registerNamePool();
                 //Creates an npc with a name randomly chosen from the namepool
                 NPC newNPC = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, NamePool.getRandomName());
                 //Register the NPC as on this team.
