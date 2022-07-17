@@ -85,7 +85,7 @@ public class Berserker extends DonatorKit implements Listener {
         // Death Messages
         super.deathMessage[0] = "";
         super.deathMessage[1] = " went berserk on you!";
-        super.killMessage[0] = "You went berserk on ";
+        super.killMessage[0] = " went berserk on ";
     }
 
     /**

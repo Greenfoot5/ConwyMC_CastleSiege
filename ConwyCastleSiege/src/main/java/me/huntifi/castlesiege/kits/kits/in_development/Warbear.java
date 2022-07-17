@@ -66,7 +66,7 @@ public class Warbear extends Kit implements Listener {
 
         // Death Messages
         super.deathMessage[0] = "You were eaten alive by ";
-        super.killMessage[0] = "You ate ";
+        super.killMessage[0] = " ate ";
         super.killMessage[1] = " alive";
     }
 

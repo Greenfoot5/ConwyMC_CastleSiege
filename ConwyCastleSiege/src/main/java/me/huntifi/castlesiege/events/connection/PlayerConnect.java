@@ -102,7 +102,7 @@ public class PlayerConnect implements Listener {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (ActiveData.getData(player.getUniqueId()).getSetting("joinPing").equals("true")) {
-                player.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 0.1f);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 0.1f);
             }
         }
 

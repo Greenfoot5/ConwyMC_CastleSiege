@@ -78,7 +78,7 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
 
         // Death Messages
         super.deathMessage[0] = "You were trampled by ";
-        super.killMessage[0] = "You trampled ";
+        super.killMessage[0] = " trampled ";
         super.killMessage[1] = " to death";
 
     }

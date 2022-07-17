@@ -116,7 +116,7 @@ public class Ranger extends DonatorKit implements Listener {
 
         // Death Messages
         super.projectileDeathMessage[0] = "You were turned into a porcupine by ";
-        super.projectileKillMessage[0] = "You turned ";
+        super.projectileKillMessage[0] = " turned ";
         super.projectileKillMessage[1] = " into a porcupine";
     }
 

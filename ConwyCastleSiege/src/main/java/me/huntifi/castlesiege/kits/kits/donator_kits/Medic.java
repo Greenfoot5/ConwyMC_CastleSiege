@@ -108,7 +108,7 @@ public class Medic extends DonatorKit implements Listener {
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
 
-        super.killMessage[0] = "You dissected ";
+        super.killMessage[0] = " dissected ";
         super.deathMessage[0] = "You had your insides examined by ";
     }
 

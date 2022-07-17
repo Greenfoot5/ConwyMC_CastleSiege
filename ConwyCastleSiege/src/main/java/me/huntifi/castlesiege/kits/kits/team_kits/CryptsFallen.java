@@ -54,7 +54,7 @@ public class CryptsFallen extends TeamKit implements Listener {
 
         // Death Messages
         super.deathMessage[0] = "You were withered away by ";
-        super.killMessage[0] = "You withered ";
+        super.killMessage[0] = " withered ";
         super.killMessage[1] = " away";
     }
 
