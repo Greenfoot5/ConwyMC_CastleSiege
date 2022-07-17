@@ -237,14 +237,19 @@ public class MapController {
 		// Clear the scoreboard
 		Scoreboard.clearScoreboard();
 
+		// Register catapults
+		for (Catapult catapult : maps.get(mapIndex).catapults) {
+			Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
+		}
+
 		// Register doors
 		for (Door door : maps.get(mapIndex).doors) {
 			Main.plugin.getServer().getPluginManager().registerEvents(door, Main.plugin);
 		}
 
 		// Register gates
-		for (Catapult catapult : maps.get(mapIndex).catapults) {
-			Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
+		for (Gate gate : maps.get(mapIndex).gates) {
+			Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
 		}
 
 		// Register the woolmap clicks
@@ -374,12 +379,6 @@ public class MapController {
 						}
 						flag.createHologram(flag.holoLoc, flag.getFlagColour());
 					}
-				}
-
-				// Register gates
-				for (
-						Gate gate : maps.get(mapIndex).gates) {
-					Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
 				}
 			}
 		}.runTask(Main.plugin);
