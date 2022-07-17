@@ -540,7 +540,7 @@ public class MapController {
 		if (team.lobby.spawnPoint.getWorld() == null) {
 			team.lobby.spawnPoint.setWorld(Bukkit.getWorld(getCurrentMap().worldName));
 		}
-		npc.teleport(team.lobby.botSpawnPoint, PlayerTeleportEvent.TeleportCause.PLUGIN);
+		npc.teleport(FalkirkBots.spawn, PlayerTeleportEvent.TeleportCause.PLUGIN);
 		NameTag.giveBot(npc);
 	}
 
