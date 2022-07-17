@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.maps;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.SpectateCommand;
@@ -414,6 +415,15 @@ public class MapController {
 		// Unregister catapult listeners
 		for (Catapult catapult : oldMap.catapults) {
 			HandlerList.unregisterAll(catapult);
+		}
+
+		// Unregister flag regions
+		for (Flag flag : oldMap.flags) {
+			if (flag.region != null) {
+				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(worldName)))))
+						.removeRegion(flag.name.replace(' ', '_'));
+			}
 		}
 
 		// Unregister door listeners
