@@ -11,17 +11,10 @@ import net.citizensnpcs.api.trait.trait.MobType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.boss.BossBar;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.mcmonkey.sentinel.SentinelIntegration;
 import org.mcmonkey.sentinel.SentinelTrait;
 
@@ -35,12 +28,15 @@ public class SwordsmanBot extends SentinelIntegration {
 
         SentinelTrait sentinel = npc.getTrait(SentinelTrait.class);
         sentinel.setHealth(Kit.getKit("Swordsman").getBaseHealth());
-        sentinel.speed = 1.1;
-        sentinel.damage = 25;
-        sentinel.allowKnockback = true;
-        sentinel.fightback = true;
-        sentinel.respawnTime = 10;
-        sentinel.realistic = true;
+        int id = sentinel.getNPC().getId();
+        ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+        Bukkit.dispatchCommand(console, "npc select " + id);
+        Bukkit.dispatchCommand(console, "sentinel speed 1.1");
+        Bukkit.dispatchCommand(console, "sentinel damage 1.1");
+        Bukkit.dispatchCommand(console, "sentinel knockback 0.1");
+        Bukkit.dispatchCommand(console, "sentinel fightback true");
+        Bukkit.dispatchCommand(console, "sentinel respawnTime 10");
+        Bukkit.dispatchCommand(console, "sentinel realistic true");
 
         npc.getTrait(MobType.class).setType(EntityType.PLAYER);
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS, new ItemStack(Material.IRON_BOOTS, 1));

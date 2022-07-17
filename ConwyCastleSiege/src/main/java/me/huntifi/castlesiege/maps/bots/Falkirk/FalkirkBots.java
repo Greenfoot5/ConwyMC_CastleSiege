@@ -82,7 +82,7 @@ public class FalkirkBots implements Runnable {
      */
     public static void makeBotsSpawnable(){
 
-        createNewFalkirkBot();
+        createFalkirkBots();
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -119,13 +119,18 @@ public class FalkirkBots implements Runnable {
     @Override
     public void run() {
 
-        if (MapController.currentMapIs("Falkirk")) {
-            for (NPC bots: FalkirkNPCs) {
+            if (MapController.currentMapIs("Falkirk")) {
 
-                respawnBot(bots);
+                if (canSpawn = true) {
 
+                for (NPC bots : FalkirkNPCs) {
+
+                    respawnBot(bots);
+
+                }
             }
         }
+
     }
 
 
