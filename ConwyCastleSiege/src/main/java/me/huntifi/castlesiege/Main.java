@@ -911,7 +911,7 @@ public class Main extends JavaPlugin implements Listener {
             // Create the gate
             Route gateRoute = mapRoute.add(gatePaths[i]);
             Gate gate = new Gate(gateConfig.getString(gateRoute.add("display_name"), ""));
-            gate.setFlagName(gateConfig.getString(gateRoute.add("flag_name")), map.name);
+            gate.setFlagName(gateConfig.getString(gateRoute.add("flag_name"), ""), map.name);
             gate.setHealth(gateConfig.getInt(gateRoute.add("start_health")));
 
             gate.setHitBox(gateConfig.getAs(gateRoute.add("min"), Vector.class),
