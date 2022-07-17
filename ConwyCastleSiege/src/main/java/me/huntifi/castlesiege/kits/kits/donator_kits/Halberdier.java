@@ -76,7 +76,7 @@ public class Halberdier extends DonatorKit implements Listener {
 
         // Death Messages
         super.deathMessage[0] = "You were sliced in half by ";
-        super.killMessage[0] = "You sliced ";
+        super.killMessage[0] = " sliced ";
         super.killMessage[1] = " in half";
     }
 

@@ -71,7 +71,7 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
 
         // Death Messages
         super.deathMessage[0] = "You were cut in half by ";
-        super.killMessage[0] = "You cut deeply into ";
+        super.killMessage[0] = " cut deeply into ";
 
     }
 

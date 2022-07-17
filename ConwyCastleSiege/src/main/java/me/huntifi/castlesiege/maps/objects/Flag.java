@@ -456,7 +456,7 @@ public class Flag {
             MapController.endMap();
         }
 
-        MapController.getCurrentMap().UpdateWoolMaps(name);
+        MapController.getCurrentMap().updateWoolMaps(name);
 
         new BukkitRunnable() {
             @Override

@@ -71,7 +71,7 @@ public class Warhound extends DonatorKit implements Listener {
 
         // Death Messages
         super.deathMessage[0] = "You were bitten to death by ";
-        super.killMessage[0] = "You bit ";
+        super.killMessage[0] = " bit ";
         super.killMessage[1] = " to death";
     }
 

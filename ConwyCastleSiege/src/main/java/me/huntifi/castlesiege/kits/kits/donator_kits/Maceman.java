@@ -78,7 +78,7 @@ public class Maceman extends DonatorKit implements Listener {
         // Death Messages
         super.deathMessage[0] = "Your skull was cracked by ";
         super.deathMessage[1] = "'s mace";
-        super.killMessage[0] = "You cracked ";
+        super.killMessage[0] = " cracked ";
         super.killMessage[1] = "'s skull";
     }
 

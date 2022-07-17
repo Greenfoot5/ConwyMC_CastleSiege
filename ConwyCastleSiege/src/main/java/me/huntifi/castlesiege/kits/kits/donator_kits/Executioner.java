@@ -77,7 +77,7 @@ public class Executioner extends DonatorKit implements Listener {
 
 		// Death Messages
 		super.deathMessage[0] = "You were decapitated by ";
-		super.killMessage[0] = "You decapitated ";
+		super.killMessage[0] = " decapitated ";
 	}
 
 	/**

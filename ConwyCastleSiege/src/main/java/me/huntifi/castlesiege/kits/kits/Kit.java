@@ -87,9 +87,9 @@ public abstract class Kit implements CommandExecutor {
 
         // Messages
         deathMessage = new String[]{"You were killed by ", ""};
-        killMessage = new String[]{"You killed ", ""};
+        killMessage = new String[]{" killed ", ""};
         projectileDeathMessage = new String[]{"You were shot by ", ""};
-        projectileKillMessage = new String[]{"You shot ", ""};
+        projectileKillMessage = new String[]{" shot ", ""};
     }
 
     /**
