@@ -63,12 +63,6 @@ public class NameTag implements CommandExecutor {
 
         // Set the player's tags
         npc.setName(botColor(npc) + npc.getName());
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                NametagEdit.getApi().setPrefix(npc.getName(), botColor(npc));
-            }
-        }.runTask(Main.plugin);
 
     }
 

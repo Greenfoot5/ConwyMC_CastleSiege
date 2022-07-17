@@ -25,10 +25,10 @@ public class FalkirkBots {
     //The amount of bots that should be registered on this team
     public static int amount = 20;
 
-    static Location spawn = new Location(Bukkit.getWorld("Falkirk"), 100, 100, 100);
+    static Location spawn = new Location(Bukkit.getWorld("Falkirk"), 45.50, 6, 686);
 
     //The list with the bots from this team
-    public static ArrayList<NPC> FalkirkNPCs = new ArrayList<NPC>();
+    public static ArrayList<NPC> FalkirkNPCs = new ArrayList<>();
 
     //This creates the bots and assigns them to a team and spawn them in their spawnroom.
     public static void createFalkirkBots() {
@@ -59,6 +59,8 @@ public class FalkirkBots {
      * Removes every bot related to this map, this should be run on a map change or when a map ends.
      */
     public static void removeFalkirkBots() {
+
+        if (FalkirkNPCs.size() == 0) {return;}
 
         for (NPC bot: FalkirkNPCs) {
             bot.despawn();

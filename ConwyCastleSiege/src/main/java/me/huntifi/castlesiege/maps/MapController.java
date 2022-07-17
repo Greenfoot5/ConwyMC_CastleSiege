@@ -325,6 +325,8 @@ public class MapController {
 			timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond(), TimerState.ONGOING);
 		}
 
+		//removes bots
+		FalkirkBots.removeFalkirkBots();
 		FalkirkBots.createFalkirkBots();
 	}
 
@@ -385,8 +387,6 @@ public class MapController {
 		if (timer != null) {
 			timer.restartTimer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond());
 		}
-
-		FalkirkBots.createFalkirkBots();
 	}
 
 	private static void checkTeamKit(Player player) {
