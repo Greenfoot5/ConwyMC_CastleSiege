@@ -67,7 +67,7 @@ public class MapController {
 	}
 
 	public static Map getUnplayedMap(String mapName) {
-		for (int i = mapIndex; i < maps.size(); i++) {
+		for (int i = mapIndex + 1; i < maps.size(); i++) {
 			if (Objects.equals(maps.get(i).name, mapName)) {
 				return maps.get(i);
 			}
@@ -107,15 +107,12 @@ public class MapController {
 	 */
 	public static void setMap(String mapName) {
 		timer.state = TimerState.ENDED;
-		String oldMap = maps.get(mapIndex).name;
+		Map oldMap = maps.get(mapIndex);
 		for (int i = 0; i < maps.size(); i++) {
 			if (Objects.equals(maps.get(i).name, mapName)) {
 				getLogger().info("Loading map - " + mapName);
-
 				mapIndex = i;
-
-				if (!oldMap.equals(mapName))
-					unloadMap(oldMap);
+				unloadMap(oldMap);
 				loadMap();
 				return;
 			}
@@ -215,7 +212,7 @@ public class MapController {
 	 * Increments the map by one
 	 */
 	private static void nextMap() {
-		String oldMap = maps.get(mapIndex).name;
+		Map oldMap = maps.get(mapIndex);
 		if (finalMap()) {
 			getLogger().info("Completed map cycle! Restarting server...");
 			getServer().spigot().restart();
@@ -223,11 +220,8 @@ public class MapController {
 		else {
 			mapIndex++;
 			getLogger().info("Loading next map: " + maps.get(mapIndex).name);
-			if (!oldMap.equals(maps.get(mapIndex).name)) {
-				unloadMap(oldMap);
-			}
+			unloadMap(oldMap);
 			loadMap();
-
 		}
 	}
 
@@ -399,10 +393,7 @@ public class MapController {
 	/**
 	 * Does any unloading needed for the current map
 	 */
-	public static void unloadMap(String worldName) {
-		Map oldMap = getMap(worldName);
-		assert oldMap != null;
-
+	public static void unloadMap(Map oldMap) {
 		// Clear map stats
 		InCombat.clearCombat();
 		MVPStats.reset();
@@ -421,7 +412,7 @@ public class MapController {
 		for (Flag flag : oldMap.flags) {
 			if (flag.region != null) {
 				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
-								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(worldName)))))
+								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
 						.removeRegion(flag.name.replace(' ', '_'));
 			}
 		}
