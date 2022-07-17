@@ -539,14 +539,7 @@ public class Flag {
     }
 
     public void createHologram() {
-        if (holoLoc.getWorld() == null) {
-            Bukkit.getConsoleSender().sendMessage("Holograms could not spawn in cause world was null!");
-            return;
-        }
-        if (name == null) {
-            Bukkit.getConsoleSender().sendMessage("Holograms could not spawn in cause flag name was null!");
-            return;
-        }
+        assert holoLoc.getWorld() != null;
         hologram = (ArmorStand) holoLoc.getWorld().spawnEntity(holoLoc, EntityType.ARMOR_STAND);
         hologram.setVisible(false);
         hologram.setGravity(false);
@@ -558,9 +551,6 @@ public class Flag {
     }
 
     public void updateHologram(ChatColor teamColour) {
-        if (name == null) {
-            return;
-        }
         hologram.setCustomName(ChatColor.BOLD + "Flag: " + teamColour + name);
         hologram.setCustomNameVisible(true);
     }
