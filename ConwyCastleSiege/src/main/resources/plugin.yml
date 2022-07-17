@@ -3,7 +3,7 @@ main: me.huntifi.castlesiege.Main
 version: 1.2.2
 api-version: 1.13
 authors: [Huntifi, Greenfoot5, kasteelvuur]
-depends: [Votifier, WorldGuard, NametagEdit, Citizens, Sentinel]
+depends: [Votifier, WorldGuard, NametagEdit, Citizens]
 softdepend: [LibsDisguises, WorldEdit]
 load: STARTUP
 

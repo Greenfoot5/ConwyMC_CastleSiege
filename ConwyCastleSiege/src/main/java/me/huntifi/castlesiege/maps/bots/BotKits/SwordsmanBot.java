@@ -11,20 +11,30 @@ import net.citizensnpcs.api.trait.trait.MobType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.mcmonkey.sentinel.SentinelIntegration;
 import org.mcmonkey.sentinel.SentinelTrait;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
 
-public class SwordsmanBot extends SentinelIntegration {
+public class SwordsmanBot {
 
     public static void setSwordsman(NPC npc) {
 
-        npc.addTrait(SentinelTrait.class);
+        LivingEntity entity = (LivingEntity) npc;
+        AttributeInstance healthAttribute = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        assert healthAttribute != null;
+        healthAttribute.setBaseValue(Kit.getKit("Swordsman").getBaseHealth());
 
         SentinelTrait sentinel = npc.getTrait(SentinelTrait.class);
         sentinel.setHealth(Kit.getKit("Swordsman").getBaseHealth());
@@ -39,6 +49,7 @@ public class SwordsmanBot extends SentinelIntegration {
         Bukkit.dispatchCommand(console, "sentinel realistic true");
 
         npc.getTrait(MobType.class).setType(EntityType.PLAYER);
+
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS, new ItemStack(Material.IRON_BOOTS, 1));
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.CHESTPLATE, new ItemStack(Material.IRON_CHESTPLATE, 1));
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.LEGGINGS, new ItemStack(Material.IRON_LEGGINGS, 1));

@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.maps;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.SpectateCommand;
@@ -27,8 +28,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.mcmonkey.sentinel.SentinelIntegration;
-import org.mcmonkey.sentinel.SentinelTrait;
 
 import java.util.*;
 
@@ -37,7 +36,7 @@ import static org.bukkit.Bukkit.*;
 /**
  * Manages what map the game is currently on
  */
-public class MapController extends SentinelIntegration {
+public class MapController {
 
 	public static List<Map> maps = new ArrayList<>();
 	public static int mapIndex = 0;
@@ -244,11 +243,6 @@ public class MapController extends SentinelIntegration {
 			Main.plugin.getServer().getPluginManager().registerEvents(door, Main.plugin);
 		}
 
-		// Register gates
-		for (Catapult catapult : maps.get(mapIndex).catapults) {
-			Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
-		}
-
 		// Register the woolmap clicks
 		for (Team team : maps.get(mapIndex).teams) {
 			getServer().getPluginManager().registerEvents(team.lobby.woolmap, Main.plugin);
@@ -361,27 +355,28 @@ public class MapController extends SentinelIntegration {
 	}
 
 	public static void beginMap() {
-
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				// Register the flag regions
-				for (
-						Flag flag : maps.get(mapIndex).flags) {
-					if (flag.region != null) {
-						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName))))).addRegion(flag.region);
-
-						if (flag.getFlagColour() == null) {
-							return;
-						}
-						flag.createHologram(flag.holoLoc, flag.getFlagColour());
-					}
+				// Register catapults
+				for (Catapult catapult : maps.get(mapIndex).catapults) {
+					Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
 				}
 
 				// Register gates
-				for (
-						Gate gate : maps.get(mapIndex).gates) {
+				for (Gate gate : maps.get(mapIndex).gates) {
 					Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
+				}
+
+				// Register the flag regions
+				for (Flag flag : maps.get(mapIndex).flags) {
+					if (flag.region != null) {
+						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName)))))
+								.addRegion(flag.region);
+
+						flag.createHologram();
+					}
 				}
 			}
 		}.runTask(Main.plugin);
@@ -420,6 +415,15 @@ public class MapController extends SentinelIntegration {
 		// Unregister catapult listeners
 		for (Catapult catapult : oldMap.catapults) {
 			HandlerList.unregisterAll(catapult);
+		}
+
+		// Unregister flag regions
+		for (Flag flag : oldMap.flags) {
+			if (flag.region != null) {
+				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(worldName)))))
+						.removeRegion(flag.name.replace(' ', '_'));
+			}
 		}
 
 		// Unregister door listeners
@@ -536,7 +540,7 @@ public class MapController extends SentinelIntegration {
 		if (team.lobby.spawnPoint.getWorld() == null) {
 			team.lobby.spawnPoint.setWorld(Bukkit.getWorld(getCurrentMap().worldName));
 		}
-		npc.teleport(FalkirkBots.spawn, PlayerTeleportEvent.TeleportCause.PLUGIN);
+		npc.teleport(team.lobby.botSpawnPoint, PlayerTeleportEvent.TeleportCause.PLUGIN);
 		NameTag.giveBot(npc);
 	}
 

@@ -62,7 +62,6 @@ import me.huntifi.castlesiege.kits.kits.team_kits.*;
 import me.huntifi.castlesiege.kits.kits.voter_kits.*;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
-import me.huntifi.castlesiege.maps.bots.BotKits.SwordsmanBot;
 import me.huntifi.castlesiege.maps.bots.Falkirk.FalkirkBots;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
@@ -78,7 +77,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
-import org.mcmonkey.sentinel.SentinelPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -138,9 +136,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Tips
                 new Tips().runTaskTimer(plugin, Tips.TIME_BETWEEN_TIPS * 20L, Tips.TIME_BETWEEN_TIPS * 20L);
-
-                //Npcs
-                SentinelPlugin.instance.registerIntegration(new SwordsmanBot());
 
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
@@ -335,7 +330,7 @@ public class Main extends JavaPlugin implements Listener {
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MapBorder(), 0, 80);
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
-                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new FalkirkBots(), 0, 100);
+                Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new FalkirkBots(), 0, 100);
 
                 //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
 

@@ -136,7 +136,7 @@ public class Map {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            block.blockLocation.getBlock().setType(getFlag(flagName).GetWoolMapBlock());
+                            block.blockLocation.getBlock().setType(getFlag(flagName).getWoolMapBlock());
                         }
                     }.runTask(Main.plugin);
                 }
