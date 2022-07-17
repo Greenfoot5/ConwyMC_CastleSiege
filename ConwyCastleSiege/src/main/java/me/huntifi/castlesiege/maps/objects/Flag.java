@@ -569,34 +569,15 @@ public class Flag {
     }
 
     /**
-     *
-     * @return flag colour basically it's teams.
+     * Get the flag's colour.
+     * @return The primary chat colour of the flag's owners, gray if neutral
      */
     public ChatColor getFlagColour() {
-
-        if (name != null) {
-
-            Flag flag = MapController.getCurrentMap().getFlag(name);
-
-            if (flag.getCurrentOwners() != null) {
-
-                Team team = MapController.getCurrentMap().getTeam(getCurrentOwners());
-
-                if (Objects.equals(flag.getCurrentOwners(), team.name)) {
-
-                    return team.primaryChatColor;
-
-                } else {
-
-                    return ChatColor.GRAY;
-                }
-            } else {
-                return ChatColor.GRAY;
-            }
-        }
+        String currentOwners = getCurrentOwners();
+        if (currentOwners == null)
             return ChatColor.GRAY;
-        }
 
-
-
+        Team team = MapController.getCurrentMap().getTeam(currentOwners);
+        return team.primaryChatColor;
+    }
 }
