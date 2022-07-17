@@ -13,6 +13,7 @@ import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
+import me.huntifi.castlesiege.maps.bots.Falkirk.FalkirkBots;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
@@ -170,6 +171,8 @@ public class MapController {
 						player.teleport(team.lobby.spawnPoint);
 					}
 				}
+				//removes bots
+				FalkirkBots.removeFalkirkBots();
 				InCombat.clearCombat();
 			}
 		}.runTask(Main.plugin);
@@ -321,6 +324,8 @@ public class MapController {
 			beginMap();
 			timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond(), TimerState.ONGOING);
 		}
+
+		FalkirkBots.createFalkirkBots();
 	}
 
 	public static void beginExploration() {
@@ -380,6 +385,8 @@ public class MapController {
 		if (timer != null) {
 			timer.restartTimer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond());
 		}
+
+		FalkirkBots.createFalkirkBots();
 	}
 
 	private static void checkTeamKit(Player player) {
@@ -528,6 +535,7 @@ public class MapController {
 			team.lobby.spawnPoint.setWorld(Bukkit.getWorld(getCurrentMap().worldName));
 		}
 		npc.teleport(team.lobby.botSpawnPoint, PlayerTeleportEvent.TeleportCause.PLUGIN);
+		NameTag.giveBot(npc);
 	}
 
 	/**
