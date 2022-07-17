@@ -36,6 +36,7 @@ public class SwordsmanBot {
         int id = sentinel.getNPC().getId();
         ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
         Bukkit.dispatchCommand(console, "npc select " + id);
+        Bukkit.dispatchCommand(console, "trait sentinel");
         Bukkit.dispatchCommand(console, "sentinel speed 1.1");
         Bukkit.dispatchCommand(console, "sentinel damage 1.1");
         Bukkit.dispatchCommand(console, "sentinel knockback 0.1");

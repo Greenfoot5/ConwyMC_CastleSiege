@@ -330,7 +330,7 @@ public class Main extends JavaPlugin implements Listener {
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MapBorder(), 0, 80);
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
-                Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new FalkirkBots(), 0, 100);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new FalkirkBots(), 0, 100);
 
                 //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
 
