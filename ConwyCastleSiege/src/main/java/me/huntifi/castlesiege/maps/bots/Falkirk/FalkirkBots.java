@@ -2,20 +2,11 @@ package me.huntifi.castlesiege.maps.bots.Falkirk;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.Team;
-import me.huntifi.castlesiege.maps.bots.BotKits.SwordsmanBot;
 import me.huntifi.castlesiege.maps.bots.CreateBots;
-import me.huntifi.castlesiege.maps.bots.NamePool;
-import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.trait.trait.Equipment;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;

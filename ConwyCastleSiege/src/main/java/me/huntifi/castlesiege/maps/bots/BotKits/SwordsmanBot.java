@@ -7,26 +7,42 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.api.trait.trait.MobType;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.boss.BossBar;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.mcmonkey.sentinel.SentinelIntegration;
+import org.mcmonkey.sentinel.SentinelTrait;
 
 import java.util.Collections;
 
-public class SwordsmanBot {
+public class SwordsmanBot extends SentinelIntegration {
 
     public static void setSwordsman(NPC npc) {
 
-        LivingEntity entity = (LivingEntity) npc;
-        AttributeInstance healthAttribute = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        assert healthAttribute != null;
-        healthAttribute.setBaseValue(Kit.getKit("Swordsman").getBaseHealth());
+        npc.addTrait(SentinelTrait.class);
 
+        SentinelTrait sentinel = npc.getTrait(SentinelTrait.class);
+        sentinel.setHealth(Kit.getKit("Swordsman").getBaseHealth());
+        sentinel.speed = 1.1;
+        sentinel.damage = 25;
+        sentinel.allowKnockback = true;
+        sentinel.fightback = true;
+        sentinel.respawnTime = 10;
+        sentinel.realistic = true;
+
+        npc.getTrait(MobType.class).setType(EntityType.PLAYER);
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS, new ItemStack(Material.IRON_BOOTS, 1));
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.CHESTPLATE, new ItemStack(Material.IRON_CHESTPLATE, 1));
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.LEGGINGS, new ItemStack(Material.IRON_LEGGINGS, 1));

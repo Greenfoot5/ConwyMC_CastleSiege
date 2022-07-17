@@ -27,6 +27,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.mcmonkey.sentinel.SentinelIntegration;
+import org.mcmonkey.sentinel.SentinelTrait;
 
 import java.util.*;
 
@@ -35,7 +37,7 @@ import static org.bukkit.Bukkit.*;
 /**
  * Manages what map the game is currently on
  */
-public class MapController {
+public class MapController extends SentinelIntegration {
 
 	public static List<Map> maps = new ArrayList<>();
 	public static int mapIndex = 0;
@@ -534,7 +536,7 @@ public class MapController {
 		if (team.lobby.spawnPoint.getWorld() == null) {
 			team.lobby.spawnPoint.setWorld(Bukkit.getWorld(getCurrentMap().worldName));
 		}
-		npc.teleport(team.lobby.botSpawnPoint, PlayerTeleportEvent.TeleportCause.PLUGIN);
+		npc.teleport(FalkirkBots.spawn, PlayerTeleportEvent.TeleportCause.PLUGIN);
 		NameTag.giveBot(npc);
 	}
 
