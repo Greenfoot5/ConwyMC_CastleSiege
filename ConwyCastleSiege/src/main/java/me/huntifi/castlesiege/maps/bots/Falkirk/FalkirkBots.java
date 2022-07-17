@@ -63,7 +63,7 @@ public class FalkirkBots {
         if (FalkirkNPCs.size() == 0) {return;}
 
         for (NPC bot: FalkirkNPCs) {
-            bot.despawn();
+            bot.destroy();
         }
 
         FalkirkNPCs.clear();
