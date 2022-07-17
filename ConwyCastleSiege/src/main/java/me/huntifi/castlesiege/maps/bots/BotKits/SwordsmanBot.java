@@ -3,11 +3,17 @@ package me.huntifi.castlesiege.maps.bots.BotKits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
@@ -15,6 +21,11 @@ import java.util.Collections;
 public class SwordsmanBot {
 
     public static void setSwordsman(NPC npc) {
+
+        LivingEntity entity = (LivingEntity) npc;
+        AttributeInstance healthAttribute = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        assert healthAttribute != null;
+        healthAttribute.setBaseValue(Kit.getKit("Swordsman").getBaseHealth());
 
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS, new ItemStack(Material.IRON_BOOTS, 1));
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.CHESTPLATE, new ItemStack(Material.IRON_CHESTPLATE, 1));
@@ -25,6 +36,8 @@ public class SwordsmanBot {
                         ChatColor.GREEN + "Iron Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 35);
+
+       npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, votedWeapon);
     }
 
 

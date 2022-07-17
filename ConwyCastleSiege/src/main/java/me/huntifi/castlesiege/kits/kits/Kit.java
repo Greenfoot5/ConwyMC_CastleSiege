@@ -269,6 +269,10 @@ public abstract class Kit implements CommandExecutor {
         return regenAmount;
     }
 
+    public double getBaseHealth() {
+        return baseHealth;
+    }
+
     /**
      * Get a kit by its name
      * @param kitName The kit's name without spaces

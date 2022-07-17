@@ -332,7 +332,7 @@ public class MapController {
 
 		//removes bots
 		FalkirkBots.removeFalkirkBots();
-		FalkirkBots.createFalkirkBots();
+		FalkirkBots.makeBotsSpawnable();
 	}
 
 	public static void beginExploration() {
