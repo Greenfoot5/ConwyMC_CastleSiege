@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
@@ -51,6 +52,20 @@ public class Map {
     public Team getTeam(UUID uuid) {
         for (Team team : teams) {
             if (team.hasPlayer(uuid)) {
+                return team;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the team a bot is on
+     * @param npc The bot to search for
+     * @return The team (if any) that has the team, otherwise returns null
+     */
+    public Team getTeam(NPC npc) {
+        for (Team team : teams) {
+            if (team.hasBot(npc)) {
                 return team;
             }
         }

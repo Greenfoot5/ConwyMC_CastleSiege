@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.maps;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MVPStats;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,6 +20,8 @@ public class Team {
     // Basic Details
     public String name;
     private ArrayList<UUID> players;
+    private ArrayList<NPC> bots;
+
     public Lobby lobby;
 
     // Colours
@@ -34,6 +37,7 @@ public class Team {
     public Team(String name) {
         this.name = name;
         players = new ArrayList<>();
+        bots = new ArrayList<>();
     }
 
 
@@ -90,6 +94,14 @@ public class Team {
     }
 
     /**
+     * Removes a uuid from the team
+     * @param npc the npc to remove from the team
+     */
+    public void removeBot(NPC npc) {
+        bots.remove(npc);
+    }
+
+    /**
      * Gets a random player on the team
      * @return the uuid of a random player
      */
@@ -102,7 +114,7 @@ public class Team {
      * @return How many players are on the team
      */
     public int getTeamSize() {
-        return players.size();
+        return players.size() + bots.size();
     }
 
     /**
@@ -130,9 +142,59 @@ public class Team {
     }
 
     /**
+     * @return An ArrayList of all bots on the time
+     */
+    public ArrayList<NPC> getBots() {
+        return bots;
+    }
+
+    /**
      * Clears the team's members
      */
     public void clear() {
         players = new ArrayList<>();
+        bots = new ArrayList<>();
+    }
+
+
+    /**
+     * Checks if a npc is on the team or not
+     * @param npc the npc to check
+     * @return true if the player is on the team
+     */
+    public boolean hasBot(NPC npc) {
+
+        if (getTeamSize() < 1 || npc == null)
+            return false;
+
+        for (NPC teamMember: bots) {
+            if (teamMember == npc) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Adds a npc to a team without checking if they are on it.
+     * @param npc
+     */
+    public void forceAddBot(NPC npc) {
+        bots.add(npc);
+        assert npc != null;
+    }
+
+    /**
+     * Attempts to add a bot to the team.
+     * Will fail if the bot is already on the team
+     * @param npc the bot to add
+     */
+    public void addBot(NPC npc) {
+        if (hasBot(npc)) {
+            return;
+        }
+
+        // We've done the checks, but it's easier to keep the adding in one place
+        forceAddBot(npc);
     }
 }

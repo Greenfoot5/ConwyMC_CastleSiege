@@ -17,11 +17,13 @@ import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -490,6 +492,20 @@ public class MapController {
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~");
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	}
+
+	/**
+	 * Adds a bot to a team on the current map
+	 * @param npc the bot to add to a team
+	 */
+	public static void botJoinsATeam(NPC npc) {
+		assert npc != null;
+		Team team = maps.get(mapIndex).smallestTeam();
+		team.addBot(npc);
+		if (team.lobby.spawnPoint.getWorld() == null) {
+			team.lobby.spawnPoint.setWorld(Bukkit.getWorld(getCurrentMap().worldName));
+		}
+		npc.teleport(team.lobby.botSpawnPoint, PlayerTeleportEvent.TeleportCause.PLUGIN);
 	}
 
 	/**
