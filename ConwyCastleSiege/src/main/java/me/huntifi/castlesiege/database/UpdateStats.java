@@ -92,6 +92,7 @@ public class UpdateStats {
                     assert p != null;
                     p.sendMessage(ChatColor.GOLD + "[+] " + ChatColor.DARK_GREEN + "Congratulations, you leveled up to level: " + ChatColor.YELLOW + level);
                     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+                    p.setLevel(level);
                     NameTag.give(p);
 
                     // Announce every 10th level
