@@ -15,8 +15,8 @@ public class CreateBots {
 
     public static NPC createSwordsmanBot() {
 
+        //Choose a name for the bot
         NamePool.registerNamePool();
-
         //Creates an npc with a name randomly chosen from the namepool
         NPC newNPC = registry.createNPC(EntityType.PLAYER, NamePool.getRandomName());
         //The bots are assigned to the right team

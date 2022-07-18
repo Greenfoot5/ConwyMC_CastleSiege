@@ -125,6 +125,9 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
             Player p = (Player) e.getEntity();
             Player q = (Player) e.getDamager();
 
+            if (Kit.equippedKits.get(p.getUniqueId()) == null) { return; }
+            if (Kit.equippedKits.get(q.getUniqueId()) == null) { return; }
+
             // Hellsteed tries to stomp every closeby enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
                     MapController.getCurrentMap().getTeam(q.getUniqueId())

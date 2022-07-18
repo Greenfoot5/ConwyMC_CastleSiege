@@ -1,13 +1,13 @@
 package me.huntifi.castlesiege.maps.bots.BotKits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.MobType;
+import net.citizensnpcs.api.trait.trait.Owner;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,34 +18,26 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.mcmonkey.sentinel.SentinelIntegration;
 import org.mcmonkey.sentinel.SentinelTrait;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
 
-public class SwordsmanBot {
+public class SwordsmanBot extends SentinelIntegration {
 
     public static void setSwordsman(NPC npc) {
 
-        SentinelTrait sentinel = npc.getTrait(SentinelTrait.class);
-        sentinel.setHealth(Kit.getKit("Swordsman").getBaseHealth());
-        int id = sentinel.getNPC().getId();
-        ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-        Bukkit.dispatchCommand(console, "npc select " + id);
-        Bukkit.dispatchCommand(console, "trait sentinel");
-        Bukkit.dispatchCommand(console, "sentinel speed 1.1");
-        Bukkit.dispatchCommand(console, "sentinel damage 1.1");
-        Bukkit.dispatchCommand(console, "sentinel knockback 0.1");
-        Bukkit.dispatchCommand(console, "sentinel fightback true");
-        Bukkit.dispatchCommand(console, "sentinel respawnTime 10");
-        Bukkit.dispatchCommand(console, "sentinel realistic true");
+
+        SentinelTrait trait = new SentinelTrait();
+        npc.addTrait(trait);
+        trait.setHealth(120);
+        trait.realistic = true;
+        trait.speed = 1.1;
+        trait.damage = 25;
+        trait.attackRate = 3;
+        trait.fightback = true;
+        npc.addTrait(trait);
 
         npc.getTrait(MobType.class).setType(EntityType.PLAYER);
-
+        npc.getTrait(Owner.class).setOwner("Owner");
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS, new ItemStack(Material.IRON_BOOTS, 1));
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.CHESTPLATE, new ItemStack(Material.IRON_CHESTPLATE, 1));
         npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.LEGGINGS, new ItemStack(Material.IRON_LEGGINGS, 1));

@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -90,6 +91,9 @@ public class Halberdier extends DonatorKit implements Listener {
             Player cav = (Player) e.getEntity();
             Player halb = (Player) e.getDamager();
 
+            if (Kit.equippedKits.get(e.getEntity().getUniqueId()) == null) { return; }
+            if (Kit.equippedKits.get(e.getDamager().getUniqueId()) == null) { return; }
+
             if (Objects.equals(Kit.equippedKits.get(halb.getUniqueId()).name, name) &&
                     cav.isInsideVehicle() && cav.getVehicle() instanceof Horse) {
                 e.setDamage(e.getDamage() * 1.5);
@@ -103,9 +107,14 @@ public class Halberdier extends DonatorKit implements Listener {
      */
     @EventHandler (priority = EventPriority.HIGH)
     public void weakToArrows(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Arrow &&
-                Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
+        if (e.getEntity() instanceof Player && e.getDamager() instanceof Arrow) {
+
+            if (Kit.equippedKits.get(e.getEntity().getUniqueId()) == null) { return; }
+            if (Kit.equippedKits.get(e.getDamager().getUniqueId()) == null) { return; }
+
+           if (Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
             e.setDamage(e.getDamage() * 1.5);
+          }
         }
     }
 }

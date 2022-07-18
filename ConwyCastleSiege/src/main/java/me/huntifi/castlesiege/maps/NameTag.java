@@ -62,7 +62,7 @@ public class NameTag implements CommandExecutor {
         }
 
         // Set the player's tags
-        npc.setName(botColor(npc) + npc.getName());
+        npc.setName(botColor(npc) + npc.getName() + ChatColor.RESET);
 
     }
 

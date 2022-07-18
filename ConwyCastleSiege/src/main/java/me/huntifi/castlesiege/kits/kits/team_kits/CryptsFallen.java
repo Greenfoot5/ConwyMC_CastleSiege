@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -85,6 +86,9 @@ public class CryptsFallen extends TeamKit implements Listener {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player p = (Player) e.getEntity();
             Player q = (Player) e.getDamager();
+
+            if (Kit.equippedKits.get(p.getUniqueId()) == null) { return; }
+            if (Kit.equippedKits.get(q.getUniqueId()) == null) { return; }
 
             // tries withering an enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&

@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -85,11 +86,17 @@ public class Viking extends DonatorKit implements Listener {
             return;
         }
 
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player &&
-                Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
+        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
+
+            if (Kit.equippedKits.get(e.getEntity().getUniqueId()) == null) { return; }
+            if (Kit.equippedKits.get(e.getDamager().getUniqueId()) == null) { return; }
+
+                if (Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
+
             Player p = (Player) e.getEntity();
             int baseHealth = Kit.equippedKits.get(p.getUniqueId()).baseHealth;
             e.setDamage((baseHealth * PERCENTAGE_DAMAGE) + e.getDamage());
         }
+      }
     }
 }

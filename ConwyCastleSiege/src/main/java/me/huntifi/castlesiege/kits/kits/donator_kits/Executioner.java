@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
@@ -94,6 +95,9 @@ public class Executioner extends DonatorKit implements Listener {
 		if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
 			Player whoWasHit = (Player) e.getEntity();
 			Player whoHit = (Player) e.getDamager();
+
+			if (Kit.equippedKits.get(whoWasHit.getUniqueId()) == null) { return; }
+			if (Kit.equippedKits.get(whoHit.getUniqueId()) == null) { return; }
 
 			// Executioner hits with axe
 			if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name) &&

@@ -146,7 +146,6 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
      */
     @EventHandler
     public void chargeHit(EntityDamageByEntityEvent ed) {
-
         if (ed.getDamager() instanceof Player) {
             Player p = (Player) ed.getDamager();
             UUID uuid = p.getUniqueId();
@@ -160,6 +159,9 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
 
             if (ed.getEntity() instanceof Player) {
                 Player hit = (Player) ed.getEntity();
+
+                if (Kit.equippedKits.get(p.getUniqueId()) == null) { return; }
+                if (Kit.equippedKits.get(hit.getUniqueId()) == null) { return; }
 
                 if (!(Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                         MapController.getCurrentMap().getTeam(p.getUniqueId())

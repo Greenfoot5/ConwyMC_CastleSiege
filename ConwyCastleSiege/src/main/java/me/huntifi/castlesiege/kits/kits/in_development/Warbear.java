@@ -91,6 +91,9 @@ public class Warbear extends Kit implements Listener {
             return;
         }
 
+        if (Kit.equippedKits.get(e.getEntity().getUniqueId()) == null) { return; }
+        if (Kit.equippedKits.get(e.getDamager().getUniqueId()) == null) { return; }
+
         Player player = (Player) e.getDamager();
         if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name)) {
 

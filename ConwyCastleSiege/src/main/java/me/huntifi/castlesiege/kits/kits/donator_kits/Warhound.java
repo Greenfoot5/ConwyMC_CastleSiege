@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.maps.NameTag;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
+import net.citizensnpcs.api.npc.NPC;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -102,6 +103,9 @@ public class Warhound extends DonatorKit implements Listener {
         }
         Player p = (Player) e.getEntity();
         Player q = (Player) e.getDamager();
+
+        if (Kit.equippedKits.get(q.getUniqueId()) == null) { return; }
+        if (Kit.equippedKits.get(p.getUniqueId()) == null) { return; }
 
         // Warhound bit enemy player
         if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name)) {

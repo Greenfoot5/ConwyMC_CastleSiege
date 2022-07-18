@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
+import net.citizensnpcs.api.npc.NPC;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -88,6 +89,9 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player p = (Player) e.getEntity();
             Player q = (Player) e.getDamager();
+
+            if (Kit.equippedKits.get(p.getUniqueId()) == null) { return; }
+            if (Kit.equippedKits.get(q.getUniqueId()) == null) { return; }
 
             // Uruk Berserker tries to cleave every enemy player around them
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&

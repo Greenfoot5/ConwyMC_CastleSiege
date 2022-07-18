@@ -62,6 +62,8 @@ import me.huntifi.castlesiege.kits.kits.team_kits.*;
 import me.huntifi.castlesiege.kits.kits.voter_kits.*;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
+import me.huntifi.castlesiege.maps.bots.BotKits.SwordsmanBot;
+import me.huntifi.castlesiege.maps.bots.Deaths;
 import me.huntifi.castlesiege.maps.bots.Falkirk.FalkirkBots;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
@@ -77,6 +79,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.mcmonkey.sentinel.SentinelPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -140,6 +143,11 @@ public class Main extends JavaPlugin implements Listener {
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
+
+                //bots
+                SentinelPlugin.instance.registerIntegration(new SwordsmanBot());
+                SentinelPlugin.instance.registerIntegration(new Deaths());
+                getServer().getPluginManager().registerEvents(new Deaths(), plugin);
 
                 // Connection
                 getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);

@@ -244,6 +244,9 @@ public class Ranger extends DonatorKit implements Listener {
             Player p = (Player) ed.getDamager();
             Player hit = (Player) ed.getEntity();
 
+            if (Kit.equippedKits.get(p.getUniqueId()) == null) { return; }
+            if (Kit.equippedKits.get(hit.getUniqueId()) == null) { return; }
+
             if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
                 Location hitLoc = hit.getLocation();
                 Location damagerLoc = p.getLocation();

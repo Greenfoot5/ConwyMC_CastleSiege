@@ -95,22 +95,6 @@ public class DeathEvent implements Listener {
     }
 
     /**
-     * Disable death message
-     * Auto-respawn the player
-     * Apply stat changes
-     * @param event The event called when a player dies
-     */
-    @EventHandler
-    public void onBotDeath(EntityDeathEvent event) {
-        if (event.getEntity() instanceof NPC) {
-            NPC npc = (NPC) event.getEntity();
-            respawn(npc);
-            //stopCapping(event.getEntity());
-            InCombat.botDied(npc);
-        }
-    }
-
-    /**
      * Auto-respawn the player
      * @param p The player to respawn
      */
@@ -121,21 +105,6 @@ public class DeathEvent implements Listener {
                 p.spigot().respawn();
             }
         }.runTaskLater(Main.plugin, 10);
-    }
-
-    /**
-     * Auto-respawn the bot
-     * @param npc the bot to respawn
-     */
-    private void respawn(NPC npc) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (MapController.currentMapIs("Falkirk")) {
-                    npc.spawn(FalkirkBots.spawn);
-                }
-            }
-        }.runTaskLater(Main.plugin, 100);
     }
 
     /**
@@ -163,6 +132,8 @@ public class DeathEvent implements Listener {
         // Kill
         Player killer = killerMap.getOrDefault(target, target.getKiller());
         killerMap.remove(target);
+
+
         if (killer != null) {
             UpdateStats.addKill(killer.getUniqueId());
             AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
