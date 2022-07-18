@@ -31,6 +31,11 @@ public class SwordsmanBot {
 
     public static void setSwordsman(NPC npc) {
 
+        LivingEntity entity = (LivingEntity) npc;
+        AttributeInstance healthAttribute = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        assert healthAttribute != null;
+        healthAttribute.setBaseValue(Kit.getKit("Swordsman").getBaseHealth());
+
         SentinelTrait sentinel = npc.getTrait(SentinelTrait.class);
         sentinel.setHealth(Kit.getKit("Swordsman").getBaseHealth());
         int id = sentinel.getNPC().getId();
