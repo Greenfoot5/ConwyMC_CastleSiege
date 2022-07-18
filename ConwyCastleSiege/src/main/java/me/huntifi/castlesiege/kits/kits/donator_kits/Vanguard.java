@@ -8,7 +8,6 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
-import net.citizensnpcs.api.npc.NPC;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -164,15 +163,6 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
                 if (!(Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                         MapController.getCurrentMap().getTeam(p.getUniqueId())
                                 != MapController.getCurrentMap().getTeam(hit.getUniqueId()))) {
-                    return;
-                }
-            } else if (ed.getEntity() instanceof NPC) {
-
-                NPC npc = (NPC) ed.getEntity();
-
-                if (!(Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
-                        MapController.getCurrentMap().getTeam(p.getUniqueId())
-                                != MapController.getCurrentMap().getTeam(npc))) {
                     return;
                 }
             }

@@ -5,7 +5,6 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
-import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -56,16 +55,6 @@ public class NameTag implements CommandExecutor {
         
     }
 
-    public static void giveBot(NPC npc) {
-        if (npc == null) {
-            return;
-        }
-
-        // Set the player's tags
-        npc.setName(botColor(npc) + npc.getName());
-
-    }
-
     /**
      * Get the player's primary chat color
      * @param p The player
@@ -77,15 +66,6 @@ public class NameTag implements CommandExecutor {
         } else {
             return ChatColor.GRAY + ChatColor.ITALIC.toString();
         }
-    }
-
-    /**
-     * Get the bot's primary chat color
-     * @param npc the bot
-     * @return The player's chat color
-     */
-    public static String botColor(NPC npc) {
-        return MapController.getCurrentMap().getTeam(npc).primaryChatColor.toString();
     }
 
     /**

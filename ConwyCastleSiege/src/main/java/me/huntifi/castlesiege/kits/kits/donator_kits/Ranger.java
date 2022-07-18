@@ -10,7 +10,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import net.citizensnpcs.api.npc.NPC;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -33,7 +32,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.mcmonkey.sentinel.SentinelTrait;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -259,29 +257,6 @@ public class Ranger extends DonatorKit implements Listener {
                     DeathEvent.setKiller(hit, p);
                     hit.setHealth(0);
 
-                }
-            }
-        } else if (ed.getDamager() instanceof Player && ed.getEntity() instanceof NPC) {
-            Player p = (Player) ed.getDamager();
-            NPC hit = (NPC) ed.getEntity();
-
-            if (hit.hasTrait(SentinelTrait.class)) {
-
-                SentinelTrait sentinel = hit.getTrait(SentinelTrait.class);
-
-                if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-                    Location hitLoc = sentinel.getNPC().getStoredLocation();
-                    Location damagerLoc = p.getLocation();
-
-                    // Basically what happens here is you check whether the player
-                    // is not looking at you at all (so having their back aimed at you.)
-                    if (damagerLoc.getYaw() <= hitLoc.getYaw() + 30 && damagerLoc.getYaw() >= hitLoc.getYaw() - 30
-                            && canBackstab) {
-
-                        ed.setCancelled(true);
-                        sentinel.setHealth(0);
-
-                    }
                 }
             }
         }

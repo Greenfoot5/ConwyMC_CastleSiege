@@ -2,10 +2,7 @@ package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.trait.trait.Equipment;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -28,15 +25,5 @@ public class WoolHat {
 		woolMeta.setDisplayName(ChatColor.GREEN + "WoolHat");
 		wool.setItemMeta(woolMeta);
 		player.getInventory().setHelmet(wool);
-	}
-
-	/**
-	 * Sets a wool block with a bot's team's color as their hat
-	 * @param npc The bot for whom to set the wool hat
-	 */
-	public static void setHead(NPC npc) {
-		Team team = MapController.getCurrentMap().getTeam(npc);
-
-		npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.HELMET, new ItemStack(team.primaryWool, 1));
 	}
 }

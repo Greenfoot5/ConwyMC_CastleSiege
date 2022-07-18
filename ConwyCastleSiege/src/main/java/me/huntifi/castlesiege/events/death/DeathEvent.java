@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.events.death;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.Bounty;
-import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
@@ -13,16 +12,13 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
-import me.huntifi.castlesiege.maps.bots.Falkirk.FalkirkBots;
 import me.huntifi.castlesiege.maps.objects.Flag;
-import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -94,22 +90,6 @@ public class DeathEvent implements Listener {
     }
 
     /**
-     * Disable death message
-     * Auto-respawn the player
-     * Apply stat changes
-     * @param event The event called when a player dies
-     */
-    @EventHandler
-    public void onBotDeath(EntityDeathEvent event) {
-        if (event.getEntity() instanceof NPC) {
-            NPC npc = (NPC) event.getEntity();
-            respawn(npc);
-            //stopCapping(event.getEntity());
-            InCombat.botDied(npc);
-        }
-    }
-
-    /**
      * Auto-respawn the player
      * @param p The player to respawn
      */
@@ -120,21 +100,6 @@ public class DeathEvent implements Listener {
                 p.spigot().respawn();
             }
         }.runTaskLater(Main.plugin, 10);
-    }
-
-    /**
-     * Auto-respawn the bot
-     * @param npc the bot to respawn
-     */
-    private void respawn(NPC npc) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (MapController.currentMapIs("Falkirk")) {
-                    npc.spawn(FalkirkBots.spawn);
-                }
-            }
-        }.runTaskLater(Main.plugin, 100);
     }
 
     /**

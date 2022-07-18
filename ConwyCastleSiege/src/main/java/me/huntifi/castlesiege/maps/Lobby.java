@@ -8,6 +8,4 @@ import org.bukkit.Location;
 public class Lobby {
     public Location spawnPoint;
     public WoolMap woolmap;
-
-    public Location botSpawnPoint;
 }

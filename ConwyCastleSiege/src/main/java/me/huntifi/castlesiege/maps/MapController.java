@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.maps;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.managers.RegionManager;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.SpectateCommand;
@@ -14,18 +13,15 @@ import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.maps.bots.Falkirk.FalkirkBots;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
-import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -169,8 +165,6 @@ public class MapController {
 						player.teleport(team.lobby.spawnPoint);
 					}
 				}
-				//removes bots
-				FalkirkBots.removeFalkirkBots();
 				InCombat.clearCombat();
 			}
 		}.runTask(Main.plugin);
@@ -314,10 +308,6 @@ public class MapController {
 			beginMap();
 			timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond(), TimerState.ONGOING);
 		}
-
-		//removes bots
-		FalkirkBots.removeFalkirkBots();
-		FalkirkBots.makeBotsSpawnable();
 	}
 
 	public static void beginExploration() {
@@ -518,21 +508,6 @@ public class MapController {
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~");
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-	}
-
-	/**
-	 * Adds a bot to a team on the current map
-	 * @param npc the bot to add to a team
-	 */
-	public static void botJoinsATeam(NPC npc) {
-		assert npc != null;
-		Team team = maps.get(mapIndex).smallestTeam();
-		team.addBot(npc);
-		if (team.lobby.spawnPoint.getWorld() == null) {
-			team.lobby.spawnPoint.setWorld(Bukkit.getWorld(getCurrentMap().worldName));
-		}
-		npc.teleport(team.lobby.botSpawnPoint, PlayerTeleportEvent.TeleportCause.PLUGIN);
-		NameTag.giveBot(npc);
 	}
 
 	/**
