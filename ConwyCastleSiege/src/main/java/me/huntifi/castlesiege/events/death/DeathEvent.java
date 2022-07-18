@@ -84,6 +84,7 @@ public class DeathEvent implements Listener {
      */
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
+        if (event.getEntity() instanceof NPC) { return; }
         event.setDeathMessage(null);
         respawn(event.getEntity());
         stopCapping(event.getEntity());
