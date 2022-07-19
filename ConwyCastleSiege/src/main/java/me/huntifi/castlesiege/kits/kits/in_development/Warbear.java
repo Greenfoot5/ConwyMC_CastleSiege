@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.in_development;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
@@ -25,13 +26,13 @@ import java.util.Objects;
 /**
  * The warbear kit
  */
-public class Warbear extends Kit implements Listener {
+public class Warbear extends DonatorKit implements Listener {
 
     /**
      * Set the equipment and attributes of this kit
      */
     public Warbear() {
-        super("Warbear", 200, 9);
+        super("Warbear", 200, 9, 99999999);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;
@@ -136,7 +137,7 @@ public class Warbear extends Kit implements Listener {
                 && (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
                 && player.getInventory().getItemInMainHand().getType() == Material.RABBIT_FOOT
                 && player.getCooldown(Material.RABBIT_FOOT) == 0) {
-            player.setCooldown(Material.RABBIT_FOOT, 600);
+            player.setCooldown(Material.RABBIT_FOOT, 260);
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, 2));
         }
     }
