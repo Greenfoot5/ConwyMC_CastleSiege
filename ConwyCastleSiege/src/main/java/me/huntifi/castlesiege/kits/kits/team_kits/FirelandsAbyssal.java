@@ -82,8 +82,8 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
 
         // Death Messages
         super.deathMessage[0] = "You were crushed to death by ";
-        super.killMessage[0] = "You crushed ";
-        super.killMessage[1] = " to death ";
+        super.killMessage[0] = " crushed ";
+        super.killMessage[1] = " to death";
     }
 
     /**

@@ -26,18 +26,19 @@ public class InCombat implements Listener {
 	/**
 	 * When a player attacks another player, they have interacted
 	 */
-	@EventHandler
-	public void playerAttacksAnother(EntityDamageByEntityEvent ed) {
+	@EventHandler (ignoreCancelled = true)
+	public void battles(EntityDamageByEntityEvent ed) {
 		// Both are players
-		if (!(ed.getEntity() instanceof Player && ed.getDamager() instanceof Player) ||
-				ed.isCancelled()) { return; }
+		if (ed.getEntity() instanceof Player && ed.getDamager() instanceof Player) {
 
-		UUID whoWasHit = ed.getEntity().getUniqueId();
-		UUID whoHit = ed.getDamager().getUniqueId();
+			UUID whoWasHit = ed.getEntity().getUniqueId();
+			UUID whoHit = ed.getDamager().getUniqueId();
 
-		// Check they aren't on the same team
-		if (MapController.getCurrentMap().getTeam(whoHit) != MapController.getCurrentMap().getTeam(whoWasHit)) {
-			addPlayerToCombat(whoHit);
+			// Check they aren't on the same team
+			if (MapController.getCurrentMap().getTeam(whoHit) != MapController.getCurrentMap().getTeam(whoWasHit)) {
+				addPlayerToCombat(whoHit);
+			}
+
 		}
 	}
 

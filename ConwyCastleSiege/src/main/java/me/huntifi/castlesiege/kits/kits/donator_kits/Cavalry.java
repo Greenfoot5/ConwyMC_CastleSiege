@@ -1,24 +1,42 @@
 package me.huntifi.castlesiege.kits.kits.donator_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.NameTag;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * The cavalry kit
  */
-public class Cavalry extends DonatorKit {
+public class Cavalry extends DonatorKit implements Listener {
 
     /**
      * Set the equipment and attributes of this kit
@@ -32,13 +50,13 @@ public class Cavalry extends DonatorKit {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Sabre", null, null, 35);
+                ChatColor.GREEN + "Sabre", null, null, 33);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Sabre",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37),
+                        Collections.singletonList(new Tuple<>(Enchantment.SWEEPING_EDGE, 0)), 35),
                 0);
 
         // Chestplate
@@ -73,6 +91,87 @@ public class Cavalry extends DonatorKit {
                 )
         );
 
+        // stomp
+        es.hotbar[3] = ItemCreator.weapon(new ItemStack(Material.ANVIL),
+                ChatColor.GREEN + "Horse Kick", null, null, 0);
+
         super.equipment = es;
+    }
+
+
+    /**
+     * Activate the Cavalry stomp ability
+     * @param e The event called when hitting another player
+     */
+    @EventHandler
+    public void onStomp(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+        ItemStack stomp = p.getInventory().getItemInMainHand();
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+
+        //prevent from using it when not on a horse
+        if (p.getVehicle() == null) {
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                    TextComponent.fromLegacyText(ChatColor.DARK_RED + "You can't use this when not on your horse."));
+            return;
+        }
+            if (stomp.getType().equals(Material.ANVIL)) {
+                if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+
+                    if (p.getCooldown(Material.ANVIL) != 0) {
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                                ChatColor.DARK_RED + "Your horse's ability to stomp is still recharging!"));
+                        return;
+                    }
+
+                    for (Player all : Bukkit.getOnlinePlayers()) {
+
+                        //if the player is not in the same world ignore them.
+                        if (p.getWorld() != all.getWorld()) { return; }
+
+                        //the player executing the ability should have enemy players in range.
+                        if (p.getLocation().distance(all.getLocation()) <= 2.3 && all != p) {
+
+                            if (all.isBlocking()) {
+                                all.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                                        ChatColor.AQUA + "You blocked " + NameTag.color(p) + p.getName() + ChatColor.AQUA + "'s horse stomp"));
+                            } else {
+
+                                //Player's can't be on the same team for the ability to trigger.
+                                if (MapController.getCurrentMap().getTeam(all.getUniqueId())
+                                        != MapController.getCurrentMap().getTeam(p.getUniqueId())) {
+
+                                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY, 1, (float) 0.8);
+
+                                    p.setCooldown(Material.ANVIL, 360);
+
+                                    if ((all.getHealth() - 50 > 0)) {
+                                        all.damage(60);
+                                        all.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
+                                        all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));
+                                        all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
+                                    } else {
+                                        e.setCancelled(true);
+                                        DeathEvent.setKiller(all, p);
+                                        all.setHealth(0);
+                                    }
+                                }
+                            }
+
+                        } else {
+                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                                    ChatColor.DARK_RED + "No enemy players are close enough for you to perform this ability!"));
+                        }
+                    }
+                }
+            }
+        }
     }
 }

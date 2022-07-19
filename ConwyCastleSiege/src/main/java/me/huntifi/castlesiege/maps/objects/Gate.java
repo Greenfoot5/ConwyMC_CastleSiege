@@ -129,14 +129,14 @@ public class Gate implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-
-        Player player = event.getPlayer();
-        Flag flag = MapController.getCurrentMap().getFlag(flagName);
-        // Make sure the player is playing, and the flag is on the correct map
-        if (flag != null && Objects.equals(mapName, MapController.getCurrentMap().name)) {
+        // Make sure the player is playing, and the gate is on the correct map
+        if (Objects.equals(mapName, MapController.getCurrentMap().name)) {
 
             // Check the player is left-clicking and the gate isn't friendly
-            if(!Objects.equals(MapController.getCurrentMap().getTeam(player.getUniqueId()).name, flag.getCurrentOwners())
+            Player player = event.getPlayer();
+            Flag flag = MapController.getCurrentMap().getFlag(flagName);
+            if((flagName.isEmpty() || (flag != null
+                    && !Objects.equals(MapController.getCurrentMap().getTeam(player.getUniqueId()).name, flag.getCurrentOwners())))
                     && event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
                 Location soundLoc = Objects.requireNonNull(event.getClickedBlock()).getLocation();

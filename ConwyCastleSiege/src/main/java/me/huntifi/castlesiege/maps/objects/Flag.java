@@ -456,7 +456,7 @@ public class Flag {
             MapController.endMap();
         }
 
-        MapController.getCurrentMap().UpdateWoolMaps(name);
+        MapController.getCurrentMap().updateWoolMaps(name);
 
         new BukkitRunnable() {
             @Override
@@ -522,7 +522,7 @@ public class Flag {
      * Get the wool block to display behind the sign on the WoolMap
      * @return The Material to set
      */
-    public Material GetWoolMapBlock() {
+    public Material getWoolMapBlock() {
         // Flag is neutral
         if (getCurrentOwners() == null) {
             return Material.GRAY_WOOL;
@@ -538,65 +538,33 @@ public class Flag {
         return team.secondaryWool;
     }
 
-    /**
-     *
-     * @param spawn Location of the hologram, basically where it should spawn
-     */
-    public void createHologram(Location spawn, ChatColor teamColour) {
-        if (spawn.getWorld() == null) {
-            Bukkit.getConsoleSender().sendMessage("Holograms could not spawn in cause world was null!");
-            return; }
-        if (name == null) {
-            Bukkit.getConsoleSender().sendMessage("Holograms could not spawn in cause flag name was null!");
-            return;
-        }
-        hologram = (ArmorStand) spawn.getWorld().spawnEntity(spawn, EntityType.ARMOR_STAND);
+    public void createHologram() {
+        assert holoLoc.getWorld() != null;
+        hologram = (ArmorStand) holoLoc.getWorld().spawnEntity(holoLoc, EntityType.ARMOR_STAND);
         hologram.setVisible(false);
         hologram.setGravity(false);
         hologram.setCollidable(false);
         hologram.setInvulnerable(true);
         hologram.setCustomNameVisible(true);
         hologram.setSmall(true);
-        hologram.setCustomName(ChatColor.BOLD +  "Flag: " + teamColour + name);
+        hologram.setCustomName(ChatColor.BOLD +  "Flag: " + getColor() + name);
     }
 
     public void updateHologram(ChatColor teamColour) {
-        if (name == null) {
-            return;
-        }
         hologram.setCustomName(ChatColor.BOLD + "Flag: " + teamColour + name);
         hologram.setCustomNameVisible(true);
     }
 
     /**
-     *
-     * @return flag colour basically it's teams.
+     * Get the flag's color.
+     * @return The primary chat color of the flag's owners, gray if neutral
      */
-    public ChatColor getFlagColour() {
-
-        if (name != null) {
-
-            Flag flag = MapController.getCurrentMap().getFlag(name);
-
-            if (flag.getCurrentOwners() != null) {
-
-                Team team = MapController.getCurrentMap().getTeam(getCurrentOwners());
-
-                if (Objects.equals(flag.getCurrentOwners(), team.name)) {
-
-                    return team.primaryChatColor;
-
-                } else {
-
-                    return ChatColor.GRAY;
-                }
-            } else {
-                return ChatColor.GRAY;
-            }
-        }
+    public ChatColor getColor() {
+        String currentOwners = getCurrentOwners();
+        if (currentOwners == null)
             return ChatColor.GRAY;
-        }
 
-
-
+        Team team = MapController.getCurrentMap().getTeam(currentOwners);
+        return team.primaryChatColor;
+    }
 }

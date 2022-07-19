@@ -57,13 +57,13 @@ public class Ranger extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Dagger", null, null, 34);
+                ChatColor.GREEN + "Dagger", null, null, 26);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Dagger",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 36),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 28),
                 0);
 
         // Chestplate
@@ -116,7 +116,7 @@ public class Ranger extends DonatorKit implements Listener {
 
         // Death Messages
         super.projectileDeathMessage[0] = "You were turned into a porcupine by ";
-        super.projectileKillMessage[0] = "You turned ";
+        super.projectileKillMessage[0] = " turned ";
         super.projectileKillMessage[1] = " into a porcupine";
     }
 

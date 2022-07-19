@@ -19,6 +19,7 @@ public class Team {
     // Basic Details
     public String name;
     private ArrayList<UUID> players;
+
     public Lobby lobby;
 
     // Colours

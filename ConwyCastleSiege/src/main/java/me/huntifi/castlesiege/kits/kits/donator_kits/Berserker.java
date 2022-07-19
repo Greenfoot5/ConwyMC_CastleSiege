@@ -41,7 +41,7 @@ public class Berserker extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Berserker() {
-        super("Berserker", 100, 9, 7500);
+        super("Berserker", 100, 12, 7500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -49,13 +49,13 @@ public class Berserker extends DonatorKit implements Listener {
 
         // Weapon
         regularSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword", null, null, 37);
+                ChatColor.GREEN + "Iron Sword", null, null, 33);
         es.hotbar[0] = regularSword;
         // Voted Weapon
         regularSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 39);
+                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 35);
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
         // Ladders
@@ -69,13 +69,13 @@ public class Berserker extends DonatorKit implements Listener {
         // Berserk Weapon
         berserkSword = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Berserker Sword", null,
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 77.5);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 65.5);
         // Voted Berserk Weapon
         berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Berserker Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
-                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 79.5);
+                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 67.5);
 
         super.equipment = es;
 
@@ -85,7 +85,7 @@ public class Berserker extends DonatorKit implements Listener {
         // Death Messages
         super.deathMessage[0] = "";
         super.deathMessage[1] = " went berserk on you!";
-        super.killMessage[0] = "You went berserk on ";
+        super.killMessage[0] = " went berserk on ";
     }
 
     /**
@@ -115,7 +115,7 @@ public class Berserker extends DonatorKit implements Listener {
                     public void run() {
                         if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
                                 p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) != null) {
-                            p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 380, 0)));
+                            p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 380, 1)));
                         }
                     }
                 }.runTaskLater(Main.plugin, 20);

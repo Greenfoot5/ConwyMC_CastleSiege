@@ -171,6 +171,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Kits
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
+                getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new CoinshopGui(), plugin);
                 getServer().getPluginManager().registerEvents(new CryptsFallen(), plugin);
                 getServer().getPluginManager().registerEvents(new ConwyArbalester(), plugin);
@@ -232,7 +233,10 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopAssists")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopCaptures")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopDeaths")).setExecutor(new Leaderboard());
+                Objects.requireNonNull(getCommand("TopHeals")).setExecutor(new Leaderboard());
+                Objects.requireNonNull(getCommand("TopKDR")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopKills")).setExecutor(new Leaderboard());
+                Objects.requireNonNull(getCommand("TopSupports")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopDonators")).setExecutor(new Donators());
                 Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatch());
                 Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatch());
@@ -323,6 +327,7 @@ public class Main extends JavaPlugin implements Listener {
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MapBorder(), 0, 80);
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
+
                 //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
 
                 getLogger().info("Plugin has been enabled!");
@@ -907,7 +912,7 @@ public class Main extends JavaPlugin implements Listener {
             // Create the gate
             Route gateRoute = mapRoute.add(gatePaths[i]);
             Gate gate = new Gate(gateConfig.getString(gateRoute.add("display_name"), ""));
-            gate.setFlagName(gateConfig.getString(gateRoute.add("flag_name")), map.name);
+            gate.setFlagName(gateConfig.getString(gateRoute.add("flag_name"), ""), map.name);
             gate.setHealth(gateConfig.getInt(gateRoute.add("start_health")));
 
             gate.setHitBox(gateConfig.getAs(gateRoute.add("min"), Vector.class),

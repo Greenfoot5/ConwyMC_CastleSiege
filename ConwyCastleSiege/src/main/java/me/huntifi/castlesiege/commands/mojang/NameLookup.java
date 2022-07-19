@@ -1,10 +1,10 @@
 package me.huntifi.castlesiege.commands.mojang;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import javax.json.JsonObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,10 +28,10 @@ public class NameLookup {
     /**
      * <h1>NOTE: Avoid running this method <i>Synchronously</i> with the main thread!It blocks while attempting to get a response from Mojang servers!</h1>
      * @param player The UUID of the player to be looked up.
-     * @return Returns an array of {@link PreviousPLayerNameEntry.PreviousPlayerNameEntry} objects, or null if the response couldn't be interpreted.
+     * @return Returns an array of {@link PreviousPlayerNameEntry} objects, or null if the response couldn't be interpreted.
      * @throws IOException {@link #getPlayerPreviousNames(String)}
      */
-    public static PreviousPLayerNameEntry.PreviousPlayerNameEntry[] getPlayerPreviousNames(UUID player) throws IOException {
+    public static PreviousPlayerNameEntry[] getPlayerPreviousNames(UUID player) throws IOException {
         return getPlayerPreviousNames(player.toString());
     }
 
@@ -39,10 +39,10 @@ public class NameLookup {
      * <h1>NOTE: Avoid running this method <i>Synchronously</i> with the main thread! It blocks while attempting to get a response from Mojang servers!</h1>
      * Alternative method accepting an 'OfflinePlayer' (and therefore 'Player') objects as parameter.
      * @param player The OfflinePlayer object to obtain the UUID from.
-     * @return Returns an array of {@link PreviousPLayerNameEntry.PreviousPlayerNameEntry} objects, or null if the response couldn't be interpreted.
+     * @return Returns an array of {@link PreviousPlayerNameEntry} objects, or null if the response couldn't be interpreted.
      * @throws IOException {@link #getPlayerPreviousNames(UUID)}
      */
-    public static PreviousPLayerNameEntry.PreviousPlayerNameEntry[] getPlayerPreviousNames(OfflinePlayer player) throws IOException {
+    public static PreviousPlayerNameEntry[] getPlayerPreviousNames(OfflinePlayer player) throws IOException {
         return getPlayerPreviousNames(player.getUniqueId());
     }
 
@@ -50,14 +50,14 @@ public class NameLookup {
      * <h1>NOTE: Avoid running this method <i>Synchronously</i> with the main thread! It blocks while attempting to get a response from Mojang servers!</h1>
      * Alternative method accepting an {@link OfflinePlayer} (and therefore {@link Player}) objects as parameter.
      * @param uuid The UUID String to lookup
-     * @return Returns an array of {@link PreviousPLayerNameEntry.PreviousPlayerNameEntry} objects, or null if the response couldn't be interpreted.
+     * @return Returns an array of {@link PreviousPlayerNameEntry} objects, or null if the response couldn't be interpreted.
      * @throws IOException
      */
-    public static PreviousPLayerNameEntry.PreviousPlayerNameEntry[] getPlayerPreviousNames(String uuid) throws IOException {
+    public static PreviousPlayerNameEntry[] getPlayerPreviousNames(String uuid) throws IOException {
         if (uuid == null || uuid.isEmpty())
             return null;
         String response = getRawJsonResponse(new URL(String.format(LOOKUP_URL, uuid)));
-        PreviousPLayerNameEntry.PreviousPlayerNameEntry[] names = JSON_PARSER.fromJson(response, PreviousPLayerNameEntry.PreviousPlayerNameEntry[].class);
+        PreviousPlayerNameEntry[] names = JSON_PARSER.fromJson(response, PreviousPlayerNameEntry[].class);
         return names;
     }
 

@@ -80,7 +80,7 @@ public class Crossbowman extends DonatorKit implements Listener {
         // Death Messages
         super.projectileDeathMessage[0] = "Your skull was pierced by ";
         super.projectileDeathMessage[1] = "'s bolt";
-        super.projectileKillMessage[0] = "You pierced ";
+        super.projectileKillMessage[0] = " pierced ";
         super.projectileKillMessage[1] = "'s skull";
     }
 

@@ -1,6 +1,6 @@
 name: CastleSiege
 main: me.huntifi.castlesiege.Main
-version: 1.2.1
+version: 1.2.2
 api-version: 1.13
 authors: [Huntifi, Greenfoot5, kasteelvuur]
 depends: [Votifier, WorldGuard, NametagEdit]
@@ -186,6 +186,9 @@ commands:
   TopDeaths:
     description: Shows the deaths leaderboard
     usage: /topdeaths [position]
+  TopKDR:
+    description: Shows the kdr leaderboard
+    usage: /topkdr [position]
   TopKills:
     description: Shows the kills leaderboard
     usage: /topkills [position]

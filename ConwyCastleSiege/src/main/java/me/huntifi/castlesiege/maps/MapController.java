@@ -22,6 +22,7 @@ import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -62,7 +63,7 @@ public class MapController {
 	}
 
 	public static Map getUnplayedMap(String mapName) {
-		for (int i = mapIndex; i < maps.size(); i++) {
+		for (int i = mapIndex + 1; i < maps.size(); i++) {
 			if (Objects.equals(maps.get(i).name, mapName)) {
 				return maps.get(i);
 			}
@@ -102,15 +103,12 @@ public class MapController {
 	 */
 	public static void setMap(String mapName) {
 		timer.state = TimerState.ENDED;
-		String oldMap = maps.get(mapIndex).name;
+		Map oldMap = maps.get(mapIndex);
 		for (int i = 0; i < maps.size(); i++) {
 			if (Objects.equals(maps.get(i).name, mapName)) {
 				getLogger().info("Loading map - " + mapName);
-
 				mapIndex = i;
-
-				if (!oldMap.equals(mapName))
-					unloadMap(oldMap);
+				unloadMap(oldMap);
 				loadMap();
 				return;
 			}
@@ -208,7 +206,7 @@ public class MapController {
 	 * Increments the map by one
 	 */
 	private static void nextMap() {
-		String oldMap = maps.get(mapIndex).name;
+		Map oldMap = maps.get(mapIndex);
 		if (finalMap()) {
 			getLogger().info("Completed map cycle! Restarting server...");
 			getServer().spigot().restart();
@@ -216,11 +214,8 @@ public class MapController {
 		else {
 			mapIndex++;
 			getLogger().info("Loading next map: " + maps.get(mapIndex).name);
-			if (!oldMap.equals(maps.get(mapIndex).name)) {
-				unloadMap(oldMap);
-			}
+			unloadMap(oldMap);
 			loadMap();
-
 		}
 	}
 
@@ -234,11 +229,6 @@ public class MapController {
 		// Register doors
 		for (Door door : maps.get(mapIndex).doors) {
 			Main.plugin.getServer().getPluginManager().registerEvents(door, Main.plugin);
-		}
-
-		// Register gates
-		for (Catapult catapult : maps.get(mapIndex).catapults) {
-			Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
 		}
 
 		// Register the woolmap clicks
@@ -349,27 +339,28 @@ public class MapController {
 	}
 
 	public static void beginMap() {
-
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				// Register the flag regions
-				for (
-						Flag flag : maps.get(mapIndex).flags) {
-					if (flag.region != null) {
-						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName))))).addRegion(flag.region);
-
-						if (flag.getFlagColour() == null) {
-							return;
-						}
-						flag.createHologram(flag.holoLoc, flag.getFlagColour());
-					}
+				// Register catapults
+				for (Catapult catapult : maps.get(mapIndex).catapults) {
+					Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
 				}
 
 				// Register gates
-				for (
-						Gate gate : maps.get(mapIndex).gates) {
+				for (Gate gate : maps.get(mapIndex).gates) {
 					Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
+				}
+
+				// Register the flag regions
+				for (Flag flag : maps.get(mapIndex).flags) {
+					if (flag.region != null) {
+						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName)))))
+								.addRegion(flag.region);
+
+						flag.createHologram();
+					}
 				}
 			}
 		}.runTask(Main.plugin);
@@ -382,34 +373,61 @@ public class MapController {
 	private static void checkTeamKit(Player player) {
 		Kit kit = Kit.equippedKits.get(player.getUniqueId());
 		if (kit instanceof TeamKit) {
-			Kit.equippedKits.remove(player.getUniqueId());
 			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
 			ActiveData.getData(player.getUniqueId()).setKit("swordsman");
-		} else {
-			Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 		}
+
+		Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 	}
 
 	/**
 	 * Does any unloading needed for the current map
 	 */
-	public static void unloadMap(String worldName) {
+	public static void unloadMap(Map oldMap) {
+		// Clear map stats
 		InCombat.clearCombat();
 		MVPStats.reset();
 
-		for (Flag flag : getCurrentMap().flags) {
+		// Clear capture zones
+		for (Flag flag : oldMap.flags) {
 			flag.clear();
 		}
 
-		for (Map map:maps) {
-			if (Objects.equals(map.worldName, worldName)) {
-				for (Team team:map.teams) {
-					if (keepTeams) {
-						teams.add(new ArrayList<>(team.getPlayers()));
-					} else {
-						team.clear();
-					}
-				}
+		// Unregister catapult listeners
+		for (Catapult catapult : oldMap.catapults) {
+			HandlerList.unregisterAll(catapult);
+		}
+
+		// Unregister flag regions
+		for (Flag flag : oldMap.flags) {
+			if (flag.region != null) {
+				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
+						.removeRegion(flag.name.replace(' ', '_'));
+			}
+		}
+
+		// Unregister door listeners
+		for (Door door : oldMap.doors) {
+			HandlerList.unregisterAll(door);
+		}
+
+		// Unregister gate listeners
+		for (Gate gate : oldMap.gates) {
+			HandlerList.unregisterAll(gate);
+		}
+
+		// Unregister woolmap listeners
+		for (Team team : oldMap.teams) {
+			HandlerList.unregisterAll(team.lobby.woolmap);
+		}
+
+		// Clear teams
+		for (Team team : oldMap.teams) {
+			if (keepTeams) {
+				teams.add(new ArrayList<>(team.getPlayers()));
+			} else {
+				team.clear();
 			}
 		}
 	}

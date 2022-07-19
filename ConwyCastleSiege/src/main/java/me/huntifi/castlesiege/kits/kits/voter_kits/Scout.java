@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -31,13 +32,13 @@ public class Scout extends VoterKit {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Shortsword", null, null, 34);
+                ChatColor.GREEN + "Shortsword", null, null, 30);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Shortsword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 36),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
                 0);
 
         // Chestplate
@@ -53,13 +54,13 @@ public class Scout extends VoterKit {
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots", null,
-                Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 1)),
+                Arrays.asList(new Tuple<>(Enchantment.DEPTH_STRIDER, 1), new Tuple<>(Enchantment.PROTECTION_FALL, 4)),
                 Color.fromRGB(64, 87, 1));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
-                Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3)),
+                Arrays.asList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3), new Tuple<>(Enchantment.PROTECTION_FALL, 4)),
                 Color.fromRGB(64, 87, 1));
 
         // Ladders

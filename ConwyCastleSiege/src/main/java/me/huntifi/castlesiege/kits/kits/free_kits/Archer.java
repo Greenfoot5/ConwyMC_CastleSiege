@@ -28,12 +28,12 @@ public class Archer extends FreeKit {
 
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
-				ChatColor.GREEN + "Dagger", null, null, 33);
+				ChatColor.GREEN + "Dagger", null, null, 26);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
 						ChatColor.GREEN + "Dagger",
 						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 35),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 28),
 				0);
 
 		// Chestplate
@@ -63,7 +63,7 @@ public class Archer extends FreeKit {
 		// Bow
 		es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
 				ChatColor.GREEN + "Bow", null,
-				Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 14)));
+				Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 16)));
 
 		super.equipment = es;
 	}

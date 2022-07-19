@@ -99,7 +99,7 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
 
         // Death Messages
         super.projectileDeathMessage[0] = "You were impaled by ";
-        super.projectileKillMessage[0] = "You impaled ";
+        super.projectileKillMessage[0] = " impaled ";
     }
 
     /**

@@ -89,10 +89,6 @@ public class MoriaOrc extends TeamKit implements Listener {
         es.hotbar[3] = poisonArrow;
 
         super.equipment = es;
-
-        // Death Messages
-        super.projectileDeathMessage[0] = "You were shot to death by ";
-        super.projectileKillMessage[0] = "You shot ";
     }
 
     /**

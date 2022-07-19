@@ -28,6 +28,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -101,7 +102,7 @@ public class PlayerConnect implements Listener {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (ActiveData.getData(player.getUniqueId()).getSetting("joinPing").equals("true")) {
-                player.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 0.1f);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 0.1f);
             }
         }
 

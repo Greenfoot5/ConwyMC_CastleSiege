@@ -60,13 +60,13 @@ public class Medic extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
-                ChatColor.GREEN + "Scalpel", null, null, 25);
+                ChatColor.GREEN + "Scalpel", null, null, 26);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
                         ChatColor.GREEN + "Scalpel",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 27),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 28),
                 0);
 
         // Chestplate
@@ -108,7 +108,7 @@ public class Medic extends DonatorKit implements Listener {
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
 
-        super.killMessage[0] = "You dissected ";
+        super.killMessage[0] = " dissected ";
         super.deathMessage[0] = "You had your insides examined by ";
     }
 

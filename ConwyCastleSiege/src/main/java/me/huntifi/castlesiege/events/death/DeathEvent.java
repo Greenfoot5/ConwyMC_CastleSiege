@@ -69,7 +69,6 @@ public class DeathEvent implements Listener {
             player.performCommand("random");
 
         player.setWalkSpeed(0.2f);
-        InCombat.playerDied(player.getUniqueId());
         PlayerConnect.sendTitlebarMessages(player);
     }
 
@@ -84,9 +83,10 @@ public class DeathEvent implements Listener {
         event.setDeathMessage(null);
         respawn(event.getEntity());
         stopCapping(event.getEntity());
-        if (MapController.isOngoing()) {
+        if (MapController.isOngoing() && !InCombat.isPlayerInLobby(event.getEntity().getUniqueId())) {
             updateStats(event);
         }
+        InCombat.playerDied(event.getEntity().getUniqueId());
     }
 
     /**
@@ -167,12 +167,21 @@ public class DeathEvent implements Listener {
      * @param messages The messages sent to the killer and target
      */
     private void killDeathMessage(Player killer, Player target, Tuple<String[], String[]> messages) {
-        killer.sendMessage(messages.getFirst()[0] + NameTag.color(target) + target.getName()
+        killer.sendMessage("You" + messages.getFirst()[0] + NameTag.color(target) + target.getName()
                 + ChatColor.RESET + messages.getFirst()[1] + ChatColor.GRAY +
                 " (" + ActiveData.getData(killer.getUniqueId()).getKillStreak() + ")");
 
         target.sendMessage(messages.getSecond()[0] + NameTag.color(killer) + killer.getName()
                 + ChatColor.RESET + messages.getSecond()[1]);
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player == killer || player == target
+                    || ActiveData.getData(player.getUniqueId()).getSetting("deathMessages").equals("false"))
+                continue;
+            player.sendMessage(NameTag.color(killer) + killer.getName() + ChatColor.RESET
+                    + messages.getFirst()[0] + NameTag.color(target) + target.getName()
+                    + ChatColor.RESET + messages.getFirst()[1]);
+        }
     }
 
     /**

@@ -18,6 +18,7 @@ public class SettingsCommand implements CommandExecutor {
         put("deathMessages", new String[]{"false", "true"});
         put("language", new String[]{"EnglishUK", "Pirate"});
         put("joinPing", new String[]{"false", "true"});
+        put("statsBoard", new String[]{"false", "true"});
     }};
 
     @Override
@@ -31,7 +32,8 @@ public class SettingsCommand implements CommandExecutor {
             Messenger.sendInfo("Valid settings are: \n" +
                             ChatColor.GOLD + "randomDeath (true/false) - " + ChatColor.BLUE + "Each time you die, runs /random to give you a new random class\n" +
                             ChatColor.GOLD + "deathMessages (true/false) - " + ChatColor.BLUE + "View all death messages, not just your own\n" +
-                            ChatColor.GOLD + "joinPing (true/false) - " + ChatColor.BLUE + "Get a ping sound when another player joins the server",
+                            ChatColor.GOLD + "joinPing (true/false) - " + ChatColor.BLUE + "Get a ping sound when another player joins the server\n" +
+                            ChatColor.GOLD + "statsBoard (true/false) - " + ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names",
                     sender);
             return true;
         }
@@ -40,7 +42,8 @@ public class SettingsCommand implements CommandExecutor {
             Messenger.sendInfo("Valid settings are: \n" +
                             ChatColor.GOLD + "randomDeath (true/false) - " + ChatColor.BLUE + "Each time you die, runs /random to give you a new random class\n" +
                             ChatColor.GOLD + "deathMessages (true/false) - " + ChatColor.BLUE + "View all death messages, not just your own\n" +
-                            ChatColor.GOLD + "joinPing (true/false) - " + ChatColor.BLUE + "Get a ping sound when another player joins the server",
+                            ChatColor.GOLD + "joinPing (true/false) - " + ChatColor.BLUE + "Get a ping sound when another player joins the server\n" +
+                            ChatColor.GOLD + "statsBoard (true/false) - " + ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names ",
                     sender);
             return true;
         }

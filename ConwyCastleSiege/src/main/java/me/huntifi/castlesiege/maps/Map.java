@@ -114,14 +114,14 @@ public class Map {
      * Updates all WoolMaps of a flag to the correct wool
      * @param flagName The flag to update
      */
-    public void UpdateWoolMaps(String flagName) {
+    public void updateWoolMaps(String flagName) {
         for (Team team : teams) {
             for (WoolMapBlock block : team.lobby.woolmap.woolMapBlocks) {
                 if (Objects.equals(block.flagName, flagName)) {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            block.blockLocation.getBlock().setType(getFlag(flagName).GetWoolMapBlock());
+                            block.blockLocation.getBlock().setType(getFlag(flagName).getWoolMapBlock());
                         }
                     }.runTask(Main.plugin);
                 }
