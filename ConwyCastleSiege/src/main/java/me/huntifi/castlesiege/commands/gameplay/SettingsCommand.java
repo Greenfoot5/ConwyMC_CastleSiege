@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.maps.Scoreboard;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -59,6 +60,11 @@ public class SettingsCommand implements CommandExecutor {
         String value = args[1];
         if (Arrays.asList(defaultSettings.get(setting)).contains(value)) {
             ActiveData.getData(p.getUniqueId()).setSetting(p.getUniqueId(), setting, value);
+
+            if (args[0].equalsIgnoreCase("statsBoard")) {
+                Scoreboard.clearScoreboardFor(p);
+            }
+
             Messenger.sendInfo("Setting Updated", sender);
         } else if (value.equals("reset")) {
             ActiveData.getData(p.getUniqueId()).setSetting(p.getUniqueId(), setting, defaultSettings.get(setting)[0]);

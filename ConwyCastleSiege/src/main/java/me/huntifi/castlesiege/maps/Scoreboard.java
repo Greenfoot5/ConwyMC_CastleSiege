@@ -1,5 +1,8 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 /**
@@ -23,6 +27,15 @@ public class Scoreboard implements Runnable {
 				objective.unregister();
 			}
 		}
+	}
+
+	/**
+	 * Clears the scoreboard
+	 */
+	public static void clearScoreboardFor(Player p) {
+			for (Objective objective : p.getScoreboard().getObjectives()) {
+				objective.unregister();
+			}
 	}
 
 	public static String getEntryFromScore(Objective o, int score) {
@@ -90,42 +103,103 @@ public class Scoreboard implements Runnable {
 				online.setScoreboard(Bukkit.getServer().getScoreboardManager().getNewScoreboard());
 			}
 
-			// Gets the scoreboard displayed to the player
-			org.bukkit.scoreboard.Scoreboard score = online.getScoreboard();
+			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {
 
-			// Title/display name of the scoreboard
-			String displayName = ChatColor.RED + "" + ChatColor.BOLD + "Castle Siege";
+				// Gets the scoreboard displayed to the player
+				org.bukkit.scoreboard.Scoreboard score = online.getScoreboard();
 
-			// If there isn't an object by the name of the player on the scoreboard,
-			// Create a new one
-			Objective objective;
-			if (score.getObjective(online.getName()) == null) {
-				objective = score.registerNewObjective(online.getName(), "dummy", displayName);
-			} else {
-				objective = score.getObjective(online.getName());
+				// Title/display name of the scoreboard
+				String displayName = ChatColor.RED + "" + ChatColor.BOLD + "Castle Siege";
+
+				// If there isn't an object by the name of the player on the scoreboard,
+				// Create a new one
+				Objective objective;
+				if (score.getObjective(online.getName()) == null) {
+					objective = score.registerNewObjective(online.getName(), "dummy", displayName);
+				} else {
+					objective = score.getObjective(online.getName());
+				}
+
+				assert objective != null;
+				objective.setDisplayName(displayName);
+				replaceScore(objective, 15, ChatColor.DARK_GRAY + "");
+				replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + "Map: " + ChatColor.RESET + ChatColor.GREEN + MapController.getCurrentMap().name);
+
+				// Setup timer display
+				replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText());
+				if (MapController.timer.seconds < 10) {
+					replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText());
+				}
+				replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
+
+				for (int i = 0; i < MapController.getCurrentMap().flags.length; i++) {
+					Flag flag = MapController.getCurrentMap().flags[i];
+					Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
+					Scoreboard.replaceScore(objective, flag.scoreboard, owners == null ? ChatColor.GRAY + flag.name : owners.primaryChatColor + flag.name);
+				}
+
+				// Actually displays the scoreboard
+				if (objective.getDisplaySlot() != DisplaySlot.SIDEBAR) {
+					objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+				}
+				online.setScoreboard(score);
+
+
+			} else if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("true")) {
+
+				// Stats
+				DecimalFormat dec = new DecimalFormat("0.00");
+				DecimalFormat num = new DecimalFormat("0");
+
+				PlayerData overalData = ActiveData.getData(online.getUniqueId());
+				PlayerData data = MVPStats.getStats(online.getUniqueId());
+
+				// Gets the scoreboard displayed to the player
+				org.bukkit.scoreboard.Scoreboard score = online.getScoreboard();
+
+				// Title/display name of the scoreboard
+				String displayName = ChatColor.RED + "" + ChatColor.BOLD + "Castle Siege";
+
+				// If there isn't an object by the name of the player on the scoreboard,
+				// Create a new one
+				Objective objective;
+				if (score.getObjective(online.getName()) == null) {
+					objective = score.registerNewObjective(online.getName(), "dummy", displayName);
+				} else {
+					objective = score.getObjective(online.getName());
+				}
+
+				assert objective != null;
+				objective.setDisplayName(displayName);
+				replaceScore(objective, 15, ChatColor.DARK_GRAY + "");
+				replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + "Map: " + ChatColor.RESET + ChatColor.GREEN + MapController.getCurrentMap().name);
+
+				// Setup timer display
+				replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText());
+				if (MapController.timer.seconds < 10) {
+					replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText());
+				}
+				replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
+
+				replaceScore(objective, 11, ChatColor.GOLD + "Level: " + ChatColor.WHITE + num.format(overalData.getLevel()));
+				replaceScore(objective, 10, ChatColor.WHITE + "Score: " + ChatColor.WHITE + num.format(data.getScore()));
+				replaceScore(objective, 9, ChatColor.GREEN + "Kills: " + ChatColor.WHITE + num.format(data.getKills()));
+				replaceScore(objective, 8, ChatColor.RED + "Deaths: " + ChatColor.WHITE + num.format(data.getDeaths()));
+				replaceScore(objective, 7, ChatColor.YELLOW + "KDR: " + ChatColor.WHITE + dec.format(data.getKills() / data.getDeaths()));
+				replaceScore(objective, 6, ChatColor.DARK_GREEN + "Assists: " + ChatColor.WHITE + num.format(data.getAssists()));
+				replaceScore(objective, 5, ChatColor.GRAY + "Captures: " + ChatColor.WHITE + num.format(data.getCaptures()));
+				replaceScore(objective, 4, ChatColor.LIGHT_PURPLE + "Heals: " + ChatColor.WHITE + num.format(data.getHeals()));
+				replaceScore(objective, 3, ChatColor.DARK_PURPLE + "Supports: " + ChatColor.WHITE + num.format(data.getSupports()));
+				replaceScore(objective, 2, ChatColor.DARK_GRAY + "Killstreak: " + ChatColor.WHITE + num.format(data.getKillStreak()));
+
+				// Actually displays the scoreboard
+				if (objective.getDisplaySlot() != DisplaySlot.SIDEBAR) {
+					objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+				}
+
+				online.setScoreboard(score);
+
 			}
-
-			assert objective != null;
-			objective.setDisplayName(displayName);
-			replaceScore(objective, 15, ChatColor.DARK_GRAY + "");
-			replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + "Map: " + ChatColor.RESET + ChatColor.GREEN + MapController.getCurrentMap().name);
-
-			// Setup timer display
-			replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText());
-			if (MapController.timer.seconds < 10) { replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText()); }
-			replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
-
-			for (int i = 0; i < MapController.getCurrentMap().flags.length; i++) {
-				Flag flag = MapController.getCurrentMap().flags[i];
-				Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
-				Scoreboard.replaceScore(objective, flag.scoreboard, owners == null ? ChatColor.GRAY + flag.name : owners.primaryChatColor + flag.name);
-			}
-
-			// Actually displays the scoreboard
-			if (objective.getDisplaySlot() != DisplaySlot.SIDEBAR) {
-				objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-			}
-			online.setScoreboard(score);
 		}
 	}
 }
