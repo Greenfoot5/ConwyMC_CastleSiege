@@ -65,6 +65,9 @@ import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.maps.objects.*;
+import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
+import me.huntifi.castlesiege.secrets.SecretItems;
+import me.huntifi.castlesiege.secrets.SecretSigns;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
 import org.bukkit.event.HandlerList;
@@ -141,6 +144,12 @@ public class Main extends JavaPlugin implements Listener {
                 // Connection
                 getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerDisconnect(), plugin);
+
+                //Secrets
+                getServer().getPluginManager().registerEvents(new SecretDoor(), plugin);
+                getServer().getPluginManager().registerEvents(new SecretItems(), plugin);
+                getServer().getPluginManager().registerEvents(new SecretSigns(), plugin);
+
 
                 // Combat
                 getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
@@ -327,6 +336,8 @@ public class Main extends JavaPlugin implements Listener {
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MapBorder(), 0, 80);
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new SecretItems(), 0, 20);
+
 
                 //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
 
@@ -334,6 +345,9 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Begin the map loop
                 MapController.startLoop();
+
+                //This registers the secret items
+                SecretItems.registerSecretItems();
 
 //		new BukkitRunnable() {
 //

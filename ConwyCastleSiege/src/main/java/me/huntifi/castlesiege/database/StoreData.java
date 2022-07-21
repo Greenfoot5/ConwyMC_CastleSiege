@@ -152,6 +152,31 @@ public class StoreData {
     }
 
     /**
+     *
+     * @param uuid player's UUID
+     * @param secretName name of the secret to determine found
+     */
+    public static void addFoundSecret(UUID uuid, String secretName) throws SQLException {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                            "INSERT INTO player_secrets VALUES (?, ?, ?)");
+                    String playerName = Bukkit.getOfflinePlayer(uuid).getName();
+                    ps.setString(1, Bukkit.getOfflinePlayer(uuid).getName());
+                    ps.setString(2, LoadData.getUUID(playerName).toString());
+                    ps.setString(3, secretName);
+                    ps.executeUpdate();
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.runTaskAsynchronously(Main.plugin);
+    }
+
+    /**
      * End a player's punishment
      * @param uuid The UUID of the player
      * @param kitName The type of Kit to end

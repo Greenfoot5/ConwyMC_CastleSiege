@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.items;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.secrets.SecretItems;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -43,6 +44,7 @@ public class Enderchest implements Listener {
 			} else {
 				Kit kit = Kit.equippedKits.get(uuid);
 				kit.refillItems(uuid);
+				SecretItems.giveSecretOnEnderchest(p);
 				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
 						ChatColor.DARK_GREEN + "Equipment resupplied"));
 				applyCooldown(uuid);

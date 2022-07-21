@@ -115,14 +115,15 @@ public class Cavalry extends DonatorKit implements Listener {
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
-
-        //prevent from using it when not on a horse
-        if (p.getVehicle() == null) {
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                    TextComponent.fromLegacyText(ChatColor.DARK_RED + "You can't use this when not on your horse."));
-            return;
-        }
             if (stomp.getType().equals(Material.ANVIL)) {
+
+                //prevent from using it when not on a horse
+                if (p.getVehicle() == null) {
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                            TextComponent.fromLegacyText(ChatColor.DARK_RED + "You can't use this when not on your horse."));
+                    return;
+                }
+
                 if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
                     if (p.getCooldown(Material.ANVIL) != 0) {

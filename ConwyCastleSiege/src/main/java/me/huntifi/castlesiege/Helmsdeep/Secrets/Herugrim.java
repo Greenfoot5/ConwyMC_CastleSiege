@@ -22,7 +22,6 @@ import me.huntifi.castlesiege.maps.MapController;
 public class Herugrim implements Listener, Runnable {
 	
 	public static ArrayList<Player> containsHerugrim = new ArrayList<Player>();
-
 	static ItemStack Sword;
 	static ItemMeta SwordMeta;
 

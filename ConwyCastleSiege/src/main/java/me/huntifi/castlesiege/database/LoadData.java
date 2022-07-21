@@ -288,4 +288,30 @@ public class LoadData {
 
         return loadedSettings;
     }
+
+    /**
+     *
+     * @param uuid uuid of the player
+     * @return this returns an array representation of all the secrets this player has found so far.
+     * You may use the size of this arraylist as a representation of how many secrets this player has found, with on top of that
+     * the names of those secrets. If ever needed.
+     */
+    public static ArrayList<String> getFoundSecrets(UUID uuid) {
+        ArrayList<String> foundSecrets = new ArrayList<>();
+
+        try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "SELECT secret FROM player_secrets WHERE uuid = ?")) {
+            ps.setString(1, uuid.toString());
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                foundSecrets.add(rs.getString("secret"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return foundSecrets;
+    }
 }

@@ -17,6 +17,8 @@ import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.secrets.SecretItems;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
@@ -270,6 +272,10 @@ public class MapController {
 				}
 			}
 		}
+
+		//Spawn secret items if there are any
+		SecretItems.spawnSecretItems();
+		Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Spawning secret items if there are any.");
 
 		// Teleport Spectators
 		for (UUID spectator : SpectateCommand.spectators) {
