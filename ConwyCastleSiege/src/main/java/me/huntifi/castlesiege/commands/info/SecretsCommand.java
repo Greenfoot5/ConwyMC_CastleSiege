@@ -26,20 +26,15 @@ public class SecretsCommand implements CommandExecutor {
         }
         Player p = (Player) sender;
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-
                 String helms = getHelmsdeepSecrets(p);
                 String thunder = getThunderstoneSecrets(p);
+                String lake = getLakeboroughSecrets(p);
 
                         p.sendMessage(ChatColor.DARK_AQUA + " -----Secrets----- ");
                         p.sendMessage(ChatColor.DARK_AQUA + " Helm's Deep: " + helms);
                         p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
+                        p.sendMessage(ChatColor.DARK_AQUA + " Lakeborough: " + lake);
 
-
-            }
-        }.runTaskAsynchronously(Main.plugin);
 
         return true;
     }
@@ -96,5 +91,28 @@ public class SecretsCommand implements CommandExecutor {
                 }
 
         return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/3)";
+    }
+
+    public String getLakeboroughSecrets(Player p) {
+        UUID uuid = p.getUniqueId();
+
+        PlayerData data = ActiveData.getData(uuid);
+
+        int foundAmount = 0;
+
+        if (data.getFoundSecrets().contains("Lakeborough_Well")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Lakeborough_Mill")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Lakeborough_Underwater")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Lakeborough_Fireplace")) {
+            foundAmount = foundAmount + 1;
+        }
+
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/4)";
     }
 }

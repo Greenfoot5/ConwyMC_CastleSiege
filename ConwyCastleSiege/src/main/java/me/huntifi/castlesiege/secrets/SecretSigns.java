@@ -35,6 +35,10 @@ public class SecretSigns implements Listener {
     String thunderstone3 = "Thunderstone_Skyview";
     String thunderstone4 = "Thunderstone_Cookie";
     String thunderstone5 = "Thunderstone_Fall";
+    String lakeborough1 = "Lakeborough_Well";
+    String lakeborough2 = "Lakeborough_Mill";
+    String lakeborough4 = "Lakeborough_Underwater";
+    String lakeborough5 = "Lakeborough_Fireplace";
 
 
     @EventHandler
@@ -84,6 +88,22 @@ public class SecretSigns implements Listener {
                         registerFoundSecret(player, thunderstone5);
                     }
 
+                } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Lakeborough")) {
+                    Location wellSecret = new Location(Bukkit.getWorld("Lakeborough"), -1598, 17, -305);
+                    Location underwaterSecret = new Location(Bukkit.getWorld("Lakeborough"), -1616, 4, -270);
+                    Location millSecret = new Location(Bukkit.getWorld("Lakeborough"), -1584, 25, -310);
+                    //Location throneSecret = new Location(Bukkit.getWorld("Lakeborough"), -1589, 17, -413);
+                    Location fireplaceSecret = new Location(Bukkit.getWorld("Lakeborough"), -1557, 22, -378);
+
+                    if (e.getClickedBlock().getLocation().equals(wellSecret)) {
+                        registerFoundSecret(player, lakeborough1);
+                    } else if (e.getClickedBlock().getLocation().equals(millSecret)) {
+                        registerFoundSecret(player, lakeborough2);
+                    } else if (e.getClickedBlock().getLocation().equals(underwaterSecret)) {
+                        registerFoundSecret(player, lakeborough4);
+                    } else if (e.getClickedBlock().getLocation().equals(fireplaceSecret)) {
+                        registerFoundSecret(player, lakeborough5);
+                    }
                 }
             }
         }

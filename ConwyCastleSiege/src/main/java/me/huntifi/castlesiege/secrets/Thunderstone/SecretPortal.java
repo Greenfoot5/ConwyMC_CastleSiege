@@ -30,7 +30,7 @@ public class SecretPortal implements Listener {
                 Player p = event.getPlayer();
 
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have found a secret portal!"));
-                    p.playSound(p.getLocation(), Sound.BLOCK_PORTAL_AMBIENT, 2F, 3F);
+                    p.playSound(p.getLocation(), Sound.BLOCK_PORTAL_AMBIENT, 4F, 3F);
                     p.teleport(portalLoc);
 
             }

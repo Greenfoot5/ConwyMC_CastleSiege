@@ -39,7 +39,7 @@ public class SecretBlocks implements Listener {
 
                     Location hornSecret = new Location(Bukkit.getWorld("HelmsDeep"), 981, 141, 1040);
                     if (e.getClickedBlock().getLocation().equals(hornSecret)) {
-                        player.playSound(player.getLocation(), Sound.EVENT_RAID_HORN, 20F, 3F);
+                        player.playSound(player.getLocation(), Sound.EVENT_RAID_HORN, 20F, 1);
                         registerFoundSecret(player, helmsDeep1);
                     }
                 }
