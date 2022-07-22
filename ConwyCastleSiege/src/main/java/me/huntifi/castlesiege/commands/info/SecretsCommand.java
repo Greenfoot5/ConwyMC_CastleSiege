@@ -1,11 +1,11 @@
 package me.huntifi.castlesiege.commands.info;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.SQLException;
 import java.util.UUID;
 
 public class SecretsCommand implements CommandExecutor {
@@ -34,16 +33,10 @@ public class SecretsCommand implements CommandExecutor {
                 String helms = getHelmsdeepSecrets(p);
                 String thunder = getThunderstoneSecrets(p);
 
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-
                         p.sendMessage(ChatColor.DARK_AQUA + " -----Secrets----- ");
                         p.sendMessage(ChatColor.DARK_AQUA + " Helm's Deep: " + helms);
                         p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
 
-                    }
-                }.runTask(Main.plugin);
 
             }
         }.runTaskAsynchronously(Main.plugin);
@@ -59,24 +52,26 @@ public class SecretsCommand implements CommandExecutor {
     public String getThunderstoneSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
+        PlayerData data = ActiveData.getData(uuid);
+
         int foundAmount = 0;
 
-        if (LoadData.getFoundSecrets(uuid).contains("Thunderstone_Lantern")) {
+        if (data.getFoundSecrets().contains("Thunderstone_Lantern")) {
             foundAmount = foundAmount + 1;
          }
-        if (LoadData.getFoundSecrets(uuid).contains("Thunderstone_Island")) {
+        if (data.getFoundSecrets().contains("Thunderstone_Island")) {
             foundAmount = foundAmount + 1;
         }
-        if (LoadData.getFoundSecrets(uuid).contains("Thunderstone_Huntifi")) {
+        if (data.getFoundSecrets().contains("Thunderstone_Huntifi")) {
             foundAmount = foundAmount + 1;
         }
-        if (LoadData.getFoundSecrets(uuid).contains("Thunderstone_Skyview")) {
+        if (data.getFoundSecrets().contains("Thunderstone_Skyview")) {
             foundAmount = foundAmount + 1;
         }
-        if (LoadData.getFoundSecrets(uuid).contains("Thunderstone_Cookie")) {
+        if (data.getFoundSecrets().contains("Thunderstone_Cookie")) {
             foundAmount = foundAmount + 1;
         }
-        if (LoadData.getFoundSecrets(uuid).contains("Thunderstone_Fall")) {
+        if (data.getFoundSecrets().contains("Thunderstone_Fall")) {
             foundAmount = foundAmount + 1;
         }
 
@@ -86,15 +81,17 @@ public class SecretsCommand implements CommandExecutor {
     public String getHelmsdeepSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
+        PlayerData data = ActiveData.getData(uuid);
+
                 int foundAmount = 0;
 
-                if (LoadData.getFoundSecrets(uuid).contains("HD_HornSecret")) {
+                if (data.getFoundSecrets().contains("HD_HornSecret")) {
                     foundAmount = foundAmount + 1;
                 }
-                if (LoadData.getFoundSecrets(uuid).contains("HD_HillSecret")) {
+                if (data.getFoundSecrets().contains("HD_HillSecret")) {
                     foundAmount = foundAmount + 1;
                 }
-                if (LoadData.getFoundSecrets(uuid).contains("HD_Herugrim")) {
+                if (data.getFoundSecrets().contains("HD_Herugrim")) {
                     foundAmount = foundAmount + 1;
                 }
 

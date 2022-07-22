@@ -19,6 +19,8 @@ public class PlayerData {
 
     private ArrayList<String> unlockedKits;
 
+    private ArrayList<String> foundSecrets;
+
     private Tuple<String, Timestamp> mute;
 
     private double score;
@@ -52,9 +54,10 @@ public class PlayerData {
      * @param rankData The data retrieved from player_rank
      * @throws SQLException If the columns don't match up
      */
-    public PlayerData(ArrayList<String> unlockedKits, ResultSet mute, ResultSet statsData,
+    public PlayerData(ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
                       ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings) throws SQLException {
         this.unlockedKits = unlockedKits;
+        this.foundSecrets = foundSecrets;
         this.mute = mute.next() ? new Tuple<>(mute.getString("reason"), mute.getTimestamp("end")) : null;
 
         this.score = statsData.getDouble("score");
@@ -546,5 +549,41 @@ public class PlayerData {
      */
     public static void setCoinMultiplier(double multiplier) {
         coinMultiplier = multiplier;
+    }
+
+
+    /**
+     * Check if the player has found a specified secret
+     * @param secretName The name of a secret
+     * @return true if they found it, false if they haven't found it.
+     */
+    public boolean hasSecret(String secretName) {
+        return foundSecrets.contains(secretName);
+    }
+
+    /**
+     * Get all the kits that the player currently has access to
+     * @return The names without spaces for all kits the player currently has access to
+     */
+    public ArrayList<String> getFoundSecrets() {
+        return foundSecrets;
+    }
+
+    /**
+     * Add a secret to the player's found secrets
+     * @param secretName The name without spaces of the secret to add
+     */
+    public void addFoundSecret(String secretName) {
+        if (!foundSecrets.contains(secretName))
+            foundSecrets.add(secretName);
+    }
+
+    /**
+     * Remove a secret from the player's found secrets
+     * @param secretName The name of the secret without spaces, that will be removed.
+     */
+    public void removeFoundSecret(String secretName) {
+        while (foundSecrets.contains(secretName))
+            foundSecrets.remove(secretName);
     }
 }

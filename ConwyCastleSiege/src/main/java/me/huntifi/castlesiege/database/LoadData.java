@@ -28,6 +28,8 @@ public class LoadData {
             // Unlock kits data
             ArrayList<String> unlockedKits = getUnlockedKits(uuid);
 
+            ArrayList<String> foundSecrets = getFoundSecrets(uuid);
+
             // Mute data
             Tuple<PreparedStatement, ResultSet> prMute = Punishments.getActive(uuid, "mute");
 
@@ -47,7 +49,7 @@ public class LoadData {
             HashMap<String, String> settings = getSettings(uuid);
 
             // Collect data and release resources
-            PlayerData data = new PlayerData(unlockedKits, prMute.getSecond(), prStats.getSecond(), prRank.getSecond(), votes, settings);
+            PlayerData data = new PlayerData(unlockedKits, foundSecrets, prMute.getSecond(), prStats.getSecond(), prRank.getSecond(), votes, settings);
             prMute.getFirst().close();
             prStats.getFirst().close();
             prRank.getFirst().close();

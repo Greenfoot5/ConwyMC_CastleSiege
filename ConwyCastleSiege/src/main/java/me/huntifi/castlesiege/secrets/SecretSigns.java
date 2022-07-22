@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.secrets;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.StoreData;
@@ -90,30 +91,21 @@ public class SecretSigns implements Listener {
 
 
     public void registerFoundSecret(Player player, String secretName) {
-        UUID uuid = player.getUniqueId();
+                UUID uuid = player.getUniqueId();
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
+                PlayerData data = ActiveData.getData(uuid);
 
-                if (!LoadData.getFoundSecrets(uuid).contains(secretName)) {
+                if (!data.getFoundSecrets().contains(secretName)) {
 
                     Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + player.getName() + " has found secret: " + secretName);
                     player.sendMessage(ChatColor.GREEN + "You have found a secret! " + ChatColor.YELLOW + "(+50 coins)");
-                    ActiveData.getData(uuid).addCoins(50);
-                    try {
-                        StoreData.addFoundSecret(player.getUniqueId(), secretName);
-                        ActiveData.getData(uuid).addSecret();
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    data.addCoins(50);
+                    data.addFoundSecret(secretName);
+                    data.addSecret();
 
                 } else {
                     player.sendMessage(ChatColor.GREEN + "You have already found this secret!");
                 }
-            }
-        }.runTaskAsynchronously(Main.plugin);
-
-    }
+        }
 
 }
