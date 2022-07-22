@@ -162,6 +162,9 @@ commands:
   Rules:
     description: Shows the rules
     usage: /rules
+  Secrets:
+    description: Shows the secrets
+    usage: /secrets
   Teams:
     description: Shows the size and name of all teams on the current map
     usage: /teams

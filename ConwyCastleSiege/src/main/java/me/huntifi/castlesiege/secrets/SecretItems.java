@@ -1,21 +1,24 @@
 package me.huntifi.castlesiege.secrets;
 
+import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SecretItems implements Runnable, Listener {
 
@@ -29,6 +32,9 @@ public class SecretItems implements Runnable, Listener {
     public static void spawnSecretItems() {
         spawnSecretItem("HelmsDeep" , herugrim(),
                 new Location(Bukkit.getWorld("HelmsDeep"), 983.903, 58, 986.954));
+
+        spawnSecretItem("Thunderstone" , skycookie(),
+                new Location(Bukkit.getWorld("Thunderstone"), 233.50, 67, 78.50));
     }
 
     /**
@@ -121,6 +127,7 @@ public class SecretItems implements Runnable, Listener {
     public static void registerSecretItems() {
 
         secretItems.add(herugrim());
+        secretItems.add(skycookie());
 
     }
 
@@ -148,34 +155,74 @@ public class SecretItems implements Runnable, Listener {
     }
 
 
-
+    private static ItemStack setDamage(ItemStack item, double damage) {
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
+                new AttributeModifier(UUID.randomUUID(), "SetHandDamage", damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
+                new AttributeModifier(UUID.randomUUID(), "SetOffHandDamage", damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
+        item.setItemMeta(meta);
+        return item;
+    }
 
                                                 //Secret Items\\
     //-------------------------------------------------------------------------------------------------------\\
 
-     public static ItemStack herugrim() {
+     final public static ItemStack herugrim() {
 
-         ItemStack Sword = new ItemStack(Material.GOLDEN_SWORD);
+         ItemStack sword = new ItemStack(Material.GOLDEN_SWORD);
 
-         ItemMeta SwordMeta = Sword.getItemMeta();
+         ItemMeta swordMeta = sword.getItemMeta();
 
-         SwordMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+         swordMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+         swordMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+         swordMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
 
-         SwordMeta.setUnbreakable(true);
+         swordMeta.setUnbreakable(true);
 
-         SwordMeta.setDisplayName(ChatColor.DARK_PURPLE + "Herugrim");
+         swordMeta.setDisplayName(ChatColor.DARK_PURPLE + "Herugrim");
 
-         SwordMeta.addEnchant(Enchantment.DAMAGE_ALL, 33, true);
+         swordMeta.addEnchant(Enchantment.DAMAGE_ALL, 50, true);
 
-         SwordMeta.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+         swordMeta.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
 
          ArrayList<String> lore1 = new ArrayList<String>();
 
-         SwordMeta.setLore(lore1);
+         swordMeta.setLore(lore1);
 
-         Sword.setItemMeta(SwordMeta);
+         sword.setItemMeta(swordMeta);
 
-        return Sword;
+        return sword;
      }
+
+    final public static ItemStack skycookie() {
+
+        ItemStack cookie = new ItemStack(Material.COOKIE);
+
+        ItemMeta cookieMeta = cookie.getItemMeta();
+
+        cookieMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        cookieMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        cookieMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        cookieMeta.setUnbreakable(true);
+
+        cookieMeta.setDisplayName(ChatColor.GOLD + "Sky Cookie");
+
+        cookieMeta.addEnchant(Enchantment.DAMAGE_ALL, 40, true);
+
+        cookieMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+
+        ArrayList<String> lore1 = new ArrayList<String>();
+
+        cookieMeta.setLore(lore1);
+
+        cookie.setItemMeta(cookieMeta);
+
+        return cookie;
+    }
+
+
 
 }

@@ -66,8 +66,10 @@ import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.maps.objects.*;
 import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
+import me.huntifi.castlesiege.secrets.SecretBlocks;
 import me.huntifi.castlesiege.secrets.SecretItems;
 import me.huntifi.castlesiege.secrets.SecretSigns;
+import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
 import org.bukkit.event.HandlerList;
@@ -149,6 +151,8 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new SecretDoor(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretItems(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretSigns(), plugin);
+                getServer().getPluginManager().registerEvents(new SecretBlocks(), plugin);
+                getServer().getPluginManager().registerEvents(new SecretPortal(), plugin);
 
 
                 // Combat
@@ -233,6 +237,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("MyStats")).setExecutor(new MyStatsCommand());
                 Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
                 Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
+                Objects.requireNonNull(getCommand("Secrets")).setExecutor(new SecretsCommand());
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
                 Objects.requireNonNull(getCommand("webshop")).setExecutor(new WebshopCommand());
                 Objects.requireNonNull(getCommand("whois")).setExecutor(new WhoisCommand());

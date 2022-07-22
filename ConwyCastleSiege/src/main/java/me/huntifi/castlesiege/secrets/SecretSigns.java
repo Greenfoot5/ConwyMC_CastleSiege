@@ -28,10 +28,16 @@ public class SecretSigns implements Listener {
 
     String helmsDeep1 = "HD_HillSecret";
     String helmsDeep2 = "HD_Herugrim";
+    String skyhold1 = "Skyhold_Vault";
+    String thunderstone1 = "Thunderstone_Island";
+    String thunderstone2 = "Thunderstone_Huntifi";
+    String thunderstone3 = "Thunderstone_Skyview";
+    String thunderstone4 = "Thunderstone_Cookie";
+    String thunderstone5 = "Thunderstone_Fall";
 
 
     @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent e) throws SQLException {
+    public void onPlayerInteract(PlayerInteractEvent e) {
 
         Player player = e.getPlayer();
 
@@ -51,6 +57,32 @@ public class SecretSigns implements Listener {
                     } else if (e.getClickedBlock().getLocation().equals(herugrimSecret)) {
                         registerFoundSecret(player, helmsDeep2);
                     }
+                } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Skyhold")) {
+                    Location vaultSecret = new Location(Bukkit.getWorld("Skyhold"), 1660, 94, -118);
+
+                    if (e.getClickedBlock().getLocation().equals(vaultSecret)) {
+                        registerFoundSecret(player, skyhold1);
+                    }
+
+                } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Thunderstone")) {
+                    Location islandSecret = new Location(Bukkit.getWorld("Thunderstone"), 112, 16, 75);
+                    Location huntifiSecret = new Location(Bukkit.getWorld("Thunderstone"), 88, 80, 107);
+                    Location skyviewSecret = new Location(Bukkit.getWorld("Thunderstone"), 168, 170, 72);
+                    Location cookieSecret = new Location(Bukkit.getWorld("Thunderstone"), 233, 68, 78);
+                    Location fallSecret = new Location(Bukkit.getWorld("Thunderstone"), 189, 130, 75);
+
+                    if (e.getClickedBlock().getLocation().equals(islandSecret)) {
+                        registerFoundSecret(player, thunderstone1);
+                    } else if (e.getClickedBlock().getLocation().equals(huntifiSecret)) {
+                        registerFoundSecret(player, thunderstone2);
+                    } else if (e.getClickedBlock().getLocation().equals(skyviewSecret)) {
+                        registerFoundSecret(player, thunderstone3);
+                    } else if (e.getClickedBlock().getLocation().equals(cookieSecret)) {
+                        registerFoundSecret(player, thunderstone4);
+                    } else if (e.getClickedBlock().getLocation().equals(fallSecret)) {
+                        registerFoundSecret(player, thunderstone5);
+                    }
+
                 }
             }
         }
@@ -67,7 +99,8 @@ public class SecretSigns implements Listener {
                 if (!LoadData.getFoundSecrets(uuid).contains(secretName)) {
 
                     Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + player.getName() + " has found secret: " + secretName);
-                    player.sendMessage(ChatColor.GREEN + "You have found a secret!");
+                    player.sendMessage(ChatColor.GREEN + "You have found a secret! " + ChatColor.YELLOW + "(+50 coins)");
+                    ActiveData.getData(uuid).addCoins(50);
                     try {
                         StoreData.addFoundSecret(player.getUniqueId(), secretName);
                         ActiveData.getData(uuid).addSecret();
