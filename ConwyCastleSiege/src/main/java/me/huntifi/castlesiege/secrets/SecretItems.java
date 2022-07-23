@@ -45,6 +45,8 @@ public class SecretItems implements Runnable, Listener {
      */
     public static void spawnSecretItem(String worldname, ItemStack item, Location loc) {
 
+        secretItemHolder.clear();
+
         if (MapController.getCurrentMap().worldName.equalsIgnoreCase(worldname)) {
 
             Bukkit.getWorld(worldname).dropItem(loc.add(+0.5, +1, +0.5), item).setVelocity(new Vector(0, 0, 0));
