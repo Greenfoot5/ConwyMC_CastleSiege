@@ -107,8 +107,6 @@ public class PlayerConnect implements Listener {
         }
 
         sendTitlebarMessages(p);
-        ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-        Bukkit.dispatchCommand(console, "ocm toggle " + p.getName() + " off");
     }
 
     /**
