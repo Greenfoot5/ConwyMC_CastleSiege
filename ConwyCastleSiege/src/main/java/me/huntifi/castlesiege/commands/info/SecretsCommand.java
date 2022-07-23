@@ -30,12 +30,14 @@ public class SecretsCommand implements CommandExecutor {
                 String thunder = getThunderstoneSecrets(p);
                 String lake = getLakeboroughSecrets(p);
                 String elwynn = getElwynnSecrets(p);
+                String skyhold = getSkyholdSecrets(p);
 
                         p.sendMessage(ChatColor.DARK_AQUA + " -----Secrets----- ");
                         p.sendMessage(ChatColor.DARK_AQUA + " Helm's Deep: " + helms);
                         p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
                         p.sendMessage(ChatColor.DARK_AQUA + " Lakeborough: " + lake);
                         p.sendMessage(ChatColor.DARK_AQUA + " Elwynn: " + elwynn);
+                        p.sendMessage(ChatColor.DARK_AQUA + " Skyhold: " + skyhold);
 
 
         return true;
@@ -146,5 +148,31 @@ public class SecretsCommand implements CommandExecutor {
         }
 
         return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/6)";
+    }
+
+    public String getSkyholdSecrets(Player p) {
+        UUID uuid = p.getUniqueId();
+
+        PlayerData data = ActiveData.getData(uuid);
+
+        int foundAmount = 0;
+
+        if (data.getFoundSecrets().contains("Skyhold_Vault")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Skyhold_Ravens")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Skyhold_Top")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Skyhold_Inquisitor")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Skyhold_Attic")) {
+            foundAmount = foundAmount + 1;
+        }
+
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/5)";
     }
 }

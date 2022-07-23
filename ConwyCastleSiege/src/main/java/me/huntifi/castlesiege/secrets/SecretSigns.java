@@ -20,9 +20,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.SQLException;
 import java.util.UUID;
 
 public class SecretSigns implements Listener {
@@ -30,6 +28,10 @@ public class SecretSigns implements Listener {
     String helmsDeep1 = "HD_HillSecret";
     String helmsDeep2 = "HD_Herugrim";
     String skyhold1 = "Skyhold_Vault";
+    String skyhold2 = "Skyhold_Ravens";
+    String skyhold3 = "Skyhold_Top";
+    String skyhold4 = "Skyhold_Inquisitor";
+    String skyhold5 = "Skyhold_Attic";
     String thunderstone1 = "Thunderstone_Island";
     String thunderstone2 = "Thunderstone_Huntifi";
     String thunderstone3 = "Thunderstone_Skyview";
@@ -70,9 +72,21 @@ public class SecretSigns implements Listener {
                     }
                 } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Skyhold")) {
                     Location vaultSecret = new Location(Bukkit.getWorld("Skyhold"), 1660, 94, -118);
+                    Location ravensSecret = new Location(Bukkit.getWorld("Skyhold"), 1686, 124, -94);
+                    Location topSecret = new Location(Bukkit.getWorld("Skyhold"), 1661, 131, -67);
+                    Location inquisitorSecret = new Location(Bukkit.getWorld("Skyhold"), 1603, 179, -115);
+                    Location atticSecret = new Location(Bukkit.getWorld("Skyhold"), 1615, 102, -32);
 
                     if (e.getClickedBlock().getLocation().equals(vaultSecret)) {
                         registerFoundSecret(player, skyhold1);
+                    } else if (e.getClickedBlock().getLocation().equals(ravensSecret)) {
+                        registerFoundSecret(player, skyhold2);
+                    } else if (e.getClickedBlock().getLocation().equals(topSecret)) {
+                        registerFoundSecret(player, skyhold3);
+                    } else if (e.getClickedBlock().getLocation().equals(inquisitorSecret)) {
+                        registerFoundSecret(player, skyhold4);
+                    } else if (e.getClickedBlock().getLocation().equals(atticSecret)) {
+                        registerFoundSecret(player, skyhold5);
                     }
 
                 } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Thunderstone")) {

@@ -35,6 +35,12 @@ public class SecretItems implements Runnable, Listener {
 
         spawnSecretItem("Thunderstone" , skycookie(),
                 new Location(Bukkit.getWorld("Thunderstone"), 233.50, 67, 78.50));
+
+        spawnSecretItem("Skyhold" , skyholdKeyDoor(),
+                new Location(Bukkit.getWorld("Skyhold"), 1648, 117, -113));
+
+        spawnSecretItem("Skyhold" , skyholdKeyInquisitor(),
+                new Location(Bukkit.getWorld("Skyhold"), 1601, 156, -124));
     }
 
     /**
@@ -130,6 +136,8 @@ public class SecretItems implements Runnable, Listener {
 
         secretItems.add(herugrim());
         secretItems.add(skycookie());
+        secretItems.add(skyholdKeyDoor());
+        secretItems.add(skyholdKeyInquisitor());
 
     }
 
@@ -223,6 +231,56 @@ public class SecretItems implements Runnable, Listener {
         cookie.setItemMeta(cookieMeta);
 
         return cookie;
+    }
+
+    final public static ItemStack skyholdKeyInquisitor() {
+
+        ItemStack vaultKey = new ItemStack(Material.TRIPWIRE);
+
+        ItemMeta vaultKeyMeta = vaultKey.getItemMeta();
+
+        vaultKeyMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        vaultKeyMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        vaultKeyMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        vaultKeyMeta.setUnbreakable(true);
+
+        vaultKeyMeta.setDisplayName(ChatColor.GOLD + "Vault Key");
+
+        vaultKeyMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+
+        ArrayList<String> lore1 = new ArrayList<String>();
+
+        vaultKeyMeta.setLore(lore1);
+
+        vaultKey.setItemMeta(vaultKeyMeta);
+
+        return vaultKey;
+    }
+
+    final public static ItemStack skyholdKeyDoor() {
+
+        ItemStack vaultKey = new ItemStack(Material.TRIPWIRE);
+
+        ItemMeta vaultKeyMeta = vaultKey.getItemMeta();
+
+        vaultKeyMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        vaultKeyMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        vaultKeyMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        vaultKeyMeta.setUnbreakable(true);
+
+        vaultKeyMeta.setDisplayName(ChatColor.GOLD + "Door Key");
+
+        vaultKeyMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+
+        ArrayList<String> lore1 = new ArrayList<String>();
+
+        vaultKeyMeta.setLore(lore1);
+
+        vaultKey.setItemMeta(vaultKeyMeta);
+
+        return vaultKey;
     }
 
 
