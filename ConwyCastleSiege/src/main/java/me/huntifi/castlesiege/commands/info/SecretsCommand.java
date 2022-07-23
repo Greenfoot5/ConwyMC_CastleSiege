@@ -29,11 +29,13 @@ public class SecretsCommand implements CommandExecutor {
                 String helms = getHelmsdeepSecrets(p);
                 String thunder = getThunderstoneSecrets(p);
                 String lake = getLakeboroughSecrets(p);
+                String elwynn = getElwynnSecrets(p);
 
                         p.sendMessage(ChatColor.DARK_AQUA + " -----Secrets----- ");
                         p.sendMessage(ChatColor.DARK_AQUA + " Helm's Deep: " + helms);
                         p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
                         p.sendMessage(ChatColor.DARK_AQUA + " Lakeborough: " + lake);
+                        p.sendMessage(ChatColor.DARK_AQUA + " Elwynn: " + elwynn);
 
 
         return true;
@@ -114,5 +116,35 @@ public class SecretsCommand implements CommandExecutor {
         }
 
         return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/4)";
+    }
+
+
+    public String getElwynnSecrets(Player p) {
+        UUID uuid = p.getUniqueId();
+
+        PlayerData data = ActiveData.getData(uuid);
+
+        int foundAmount = 0;
+
+        if (data.getFoundSecrets().contains("Elwynn_Abbey")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Elwynn_Kobold")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Elwynn_Sewers")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Elwynn_Murloc")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Elwynn_Lake")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Elwynn_Inn")) {
+            foundAmount = foundAmount + 1;
+        }
+
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/6)";
     }
 }

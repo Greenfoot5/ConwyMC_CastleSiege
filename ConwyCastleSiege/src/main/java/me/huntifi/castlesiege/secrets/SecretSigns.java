@@ -39,6 +39,12 @@ public class SecretSigns implements Listener {
     String lakeborough2 = "Lakeborough_Mill";
     String lakeborough4 = "Lakeborough_Underwater";
     String lakeborough5 = "Lakeborough_Fireplace";
+    String elwynn1 = "Elwynn_Abbey";
+    String elwynn2 = "Elwynn_Kobold";
+    String elwynn3 = "Elwynn_Sewers";
+    String elwynn4 = "Elwynn_Murloc";
+    String elwynn5 = "Elwynn_Lake";
+    String elwynn6 = "Elwynn_Inn";
 
 
     @EventHandler
@@ -104,6 +110,27 @@ public class SecretSigns implements Listener {
                     } else if (e.getClickedBlock().getLocation().equals(fireplaceSecret)) {
                         registerFoundSecret(player, lakeborough5);
                     }
+                } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Elwynn")) {
+                    Location abbeySecret = new Location(Bukkit.getWorld("Elwynn"), 3, 102, -141);
+                    Location koboldSecret = new Location(Bukkit.getWorld("Elwynn"), -86, 92, -300);
+                    Location sewerSecret = new Location(Bukkit.getWorld("Elwynn"), -96, 72, -69);
+                    Location murlocSecret = new Location(Bukkit.getWorld("Elwynn"), 35, 68, 264);
+                    Location lakeSecret = new Location(Bukkit.getWorld("Elwynn"), 30, 82, 160);
+                    Location innSecret = new Location(Bukkit.getWorld("Elwynn"), -191, 75, 140);
+
+                    if (e.getClickedBlock().getLocation().equals(abbeySecret)) {
+                        registerFoundSecret(player, elwynn1);
+                    } else if (e.getClickedBlock().getLocation().equals(koboldSecret)) {
+                        registerFoundSecret(player, elwynn2);
+                    } else if (e.getClickedBlock().getLocation().equals(sewerSecret)) {
+                        registerFoundSecret(player, elwynn3);
+                    } else if (e.getClickedBlock().getLocation().equals(murlocSecret)) {
+                        registerFoundSecret(player, elwynn4);
+                    } else if (e.getClickedBlock().getLocation().equals(lakeSecret)) {
+                        registerFoundSecret(player, elwynn5);
+                    } else if (e.getClickedBlock().getLocation().equals(innSecret)) {
+                        registerFoundSecret(player, elwynn6);
+                    }
                 }
             }
         }
@@ -118,8 +145,8 @@ public class SecretSigns implements Listener {
                 if (!data.getFoundSecrets().contains(secretName)) {
 
                     Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + player.getName() + " has found secret: " + secretName);
-                    player.sendMessage(ChatColor.GREEN + "You have found a secret! " + ChatColor.YELLOW + "(+50 coins)");
-                    data.addCoins(50);
+                    player.sendMessage(ChatColor.GREEN + "You have found a secret! " + ChatColor.YELLOW + "(+200 coins)");
+                    data.addCoins(200);
                     data.addFoundSecret(secretName);
                     data.addSecret();
 
