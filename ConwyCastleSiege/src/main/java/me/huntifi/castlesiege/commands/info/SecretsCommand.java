@@ -125,7 +125,6 @@ public class SecretsCommand implements CommandExecutor {
         UUID uuid = p.getUniqueId();
 
         PlayerData data = ActiveData.getData(uuid);
-
         int foundAmount = 0;
 
         if (data.getFoundSecrets().contains("Elwynn_Abbey")) {
@@ -146,8 +145,23 @@ public class SecretsCommand implements CommandExecutor {
         if (data.getFoundSecrets().contains("Elwynn_Inn")) {
             foundAmount = foundAmount + 1;
         }
+        if (data.getFoundSecrets().contains("Elwynn_Tree")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Elwynn_Training")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Elwynn_Bridge")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Elwynn_River")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Elwynn_Hightree")) {
+            foundAmount = foundAmount + 1;
+        }
 
-        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/6)";
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/11)";
     }
 
     public String getSkyholdSecrets(Player p) {
@@ -172,7 +186,16 @@ public class SecretsCommand implements CommandExecutor {
         if (data.getFoundSecrets().contains("Skyhold_Attic")) {
             foundAmount = foundAmount + 1;
         }
+        if (data.getFoundSecrets().contains("Skyhold_Barn")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Skyhold_Statue")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Skyhold_Water")) {
+            foundAmount = foundAmount + 1;
+        }
 
-        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/5)";
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/8)";
     }
 }

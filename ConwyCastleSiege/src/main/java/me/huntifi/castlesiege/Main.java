@@ -69,6 +69,7 @@ import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
 import me.huntifi.castlesiege.secrets.SecretBlocks;
 import me.huntifi.castlesiege.secrets.SecretItems;
 import me.huntifi.castlesiege.secrets.SecretSigns;
+import me.huntifi.castlesiege.secrets.Skyhold.Doors;
 import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
@@ -153,6 +154,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new SecretSigns(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretBlocks(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretPortal(), plugin);
+                getServer().getPluginManager().registerEvents(new Doors(), plugin);
 
 
                 // Combat

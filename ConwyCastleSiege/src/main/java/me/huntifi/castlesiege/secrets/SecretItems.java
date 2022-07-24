@@ -37,7 +37,7 @@ public class SecretItems implements Runnable, Listener {
                 new Location(Bukkit.getWorld("Thunderstone"), 233.50, 67, 78.50));
 
         spawnSecretItem("Skyhold" , skyholdKeyDoor(),
-                new Location(Bukkit.getWorld("Skyhold"), 1648, 117, -113));
+                new Location(Bukkit.getWorld("Skyhold"), 1658, 98, -5));
 
         spawnSecretItem("Skyhold" , skyholdKeyInquisitor(),
                 new Location(Bukkit.getWorld("Skyhold"), 1601, 156, -124));
@@ -197,7 +197,7 @@ public class SecretItems implements Runnable, Listener {
 
          swordMeta.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
 
-         ArrayList<String> lore1 = new ArrayList<String>();
+         ArrayList<String> lore1 = new ArrayList<>();
 
          swordMeta.setLore(lore1);
 
@@ -224,7 +224,7 @@ public class SecretItems implements Runnable, Listener {
 
         cookieMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
 
-        ArrayList<String> lore1 = new ArrayList<String>();
+        ArrayList<String> lore1 = new ArrayList<>();
 
         cookieMeta.setLore(lore1);
 
@@ -235,7 +235,7 @@ public class SecretItems implements Runnable, Listener {
 
     final public static ItemStack skyholdKeyInquisitor() {
 
-        ItemStack vaultKey = new ItemStack(Material.TRIPWIRE);
+        ItemStack vaultKey = new ItemStack(Material.GOLDEN_HOE);
 
         ItemMeta vaultKeyMeta = vaultKey.getItemMeta();
 
@@ -249,7 +249,7 @@ public class SecretItems implements Runnable, Listener {
 
         vaultKeyMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
 
-        ArrayList<String> lore1 = new ArrayList<String>();
+        ArrayList<String> lore1 = new ArrayList<>();
 
         vaultKeyMeta.setLore(lore1);
 
@@ -260,7 +260,7 @@ public class SecretItems implements Runnable, Listener {
 
     final public static ItemStack skyholdKeyDoor() {
 
-        ItemStack vaultKey = new ItemStack(Material.TRIPWIRE);
+        ItemStack vaultKey = new ItemStack(Material.IRON_HOE);
 
         ItemMeta vaultKeyMeta = vaultKey.getItemMeta();
 
@@ -274,7 +274,7 @@ public class SecretItems implements Runnable, Listener {
 
         vaultKeyMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
 
-        ArrayList<String> lore1 = new ArrayList<String>();
+        ArrayList<String> lore1 = new ArrayList<>();
 
         vaultKeyMeta.setLore(lore1);
 

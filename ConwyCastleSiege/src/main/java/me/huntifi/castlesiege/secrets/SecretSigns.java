@@ -32,6 +32,9 @@ public class SecretSigns implements Listener {
     String skyhold3 = "Skyhold_Top";
     String skyhold4 = "Skyhold_Inquisitor";
     String skyhold5 = "Skyhold_Attic";
+    String skyhold6 = "Skyhold_Barn";
+    String skyhold7 = "Skyhold_Statue";
+    String skyhold8 = "Skyhold_Water";
     String thunderstone1 = "Thunderstone_Island";
     String thunderstone2 = "Thunderstone_Huntifi";
     String thunderstone3 = "Thunderstone_Skyview";
@@ -47,6 +50,11 @@ public class SecretSigns implements Listener {
     String elwynn4 = "Elwynn_Murloc";
     String elwynn5 = "Elwynn_Lake";
     String elwynn6 = "Elwynn_Inn";
+    String elwynn7 = "Elwynn_Tree";
+    String elwynn8 = "Elwynn_Training";
+    String elwynn9 = "Elwynn_Bridge";
+    String elwynn10 = "Elwynn_River";
+    String elwynn11 = "Elwynn_Hightree";
 
 
     @EventHandler
@@ -76,6 +84,9 @@ public class SecretSigns implements Listener {
                     Location topSecret = new Location(Bukkit.getWorld("Skyhold"), 1661, 131, -67);
                     Location inquisitorSecret = new Location(Bukkit.getWorld("Skyhold"), 1603, 179, -115);
                     Location atticSecret = new Location(Bukkit.getWorld("Skyhold"), 1615, 102, -32);
+                    Location barnSecret = new Location(Bukkit.getWorld("Skyhold"), 1729, 101, -59);
+                    Location statueSecret = new Location(Bukkit.getWorld("Skyhold"), 1574, 112, -88);
+                    Location waterSecret = new Location(Bukkit.getWorld("Skyhold"), 1594, 76, -162);
 
                     if (e.getClickedBlock().getLocation().equals(vaultSecret)) {
                         registerFoundSecret(player, skyhold1);
@@ -87,6 +98,12 @@ public class SecretSigns implements Listener {
                         registerFoundSecret(player, skyhold4);
                     } else if (e.getClickedBlock().getLocation().equals(atticSecret)) {
                         registerFoundSecret(player, skyhold5);
+                    } else if (e.getClickedBlock().getLocation().equals(barnSecret)) {
+                        registerFoundSecret(player, skyhold6);
+                    } else if (e.getClickedBlock().getLocation().equals(statueSecret)) {
+                        registerFoundSecret(player, skyhold7);
+                    } else if (e.getClickedBlock().getLocation().equals(waterSecret)) {
+                        registerFoundSecret(player, skyhold8);
                     }
 
                 } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Thunderstone")) {
@@ -131,6 +148,11 @@ public class SecretSigns implements Listener {
                     Location murlocSecret = new Location(Bukkit.getWorld("Elwynn"), 35, 68, 264);
                     Location lakeSecret = new Location(Bukkit.getWorld("Elwynn"), 30, 82, 160);
                     Location innSecret = new Location(Bukkit.getWorld("Elwynn"), -191, 75, 140);
+                    Location treeSecret = new Location(Bukkit.getWorld("Elwynn"), -94, 102, -79);
+                    Location trainingSecret = new Location(Bukkit.getWorld("Elwynn"), 19, 104, -98);
+                    Location bridgeSecret = new Location(Bukkit.getWorld("Elwynn"), 61, 74, -91);
+                    Location riverSecret = new Location(Bukkit.getWorld("Elwynn"), 139, 68, -247);
+                    Location hightreeSecret = new Location(Bukkit.getWorld("Elwynn"), -181, 97, 157);
 
                     if (e.getClickedBlock().getLocation().equals(abbeySecret)) {
                         registerFoundSecret(player, elwynn1);
@@ -144,6 +166,16 @@ public class SecretSigns implements Listener {
                         registerFoundSecret(player, elwynn5);
                     } else if (e.getClickedBlock().getLocation().equals(innSecret)) {
                         registerFoundSecret(player, elwynn6);
+                    } else if (e.getClickedBlock().getLocation().equals(treeSecret)) {
+                        registerFoundSecret(player, elwynn7);
+                    } else if (e.getClickedBlock().getLocation().equals(trainingSecret)) {
+                        registerFoundSecret(player, elwynn8);
+                    } else if (e.getClickedBlock().getLocation().equals(bridgeSecret)) {
+                        registerFoundSecret(player, elwynn9);
+                    } else if (e.getClickedBlock().getLocation().equals(riverSecret)) {
+                        registerFoundSecret(player, elwynn10);
+                    } else if (e.getClickedBlock().getLocation().equals(hightreeSecret)) {
+                        registerFoundSecret(player, elwynn11);
                     }
                 }
             }
