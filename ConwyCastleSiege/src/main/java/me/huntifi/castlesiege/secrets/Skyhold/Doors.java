@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,6 +32,7 @@ public class Doors implements Listener {
     Location statueSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1642, 93, -28);
 
     Location tombSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -28);
+    Location tombCloseSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -27);
 
     @EventHandler
     public void onClickDoor(PlayerInteractEvent event) {
@@ -119,8 +121,47 @@ public class Doors implements Listener {
                         public void run() {
                             Bukkit.getWorld("Skyhold").playSound(statueLockLoc, Sound.BLOCK_GRINDSTONE_USE, 5, 1);
 
+                            Block b1 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1643 ,95 ,-27));
+                            Block b2 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1643 ,94 ,-27));
+                            Block b3 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1643 ,93 ,-27));
+                            Block b12 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1643 ,95 ,-28));
+                            Block b22 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1643 ,94 ,-28));
+                            Block b32 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1643 ,93 ,-28));
+                            Block b123 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1643 ,95 ,-29));
+                            Block b223 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1643 ,94 ,-29));
+                            Block b323 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1643 ,93 ,-29));
+                            b1.setType(Material.AIR); b2.setType(Material.AIR); b3.setType(Material.AIR); b12.setType(Material.AIR); b22.setType(Material.AIR);
+                            b32.setType(Material.AIR); b123.setType(Material.AIR); b223.setType(Material.AIR); b323.setType(Material.AIR);
+
+                            Block b1a = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,95 ,-27));
+                            Block b2a = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,94 ,-27));
+                            Block b3a = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,93 ,-27));
+                            Block b12a = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,95 ,-28));
+                            Block b22a = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,94 ,-28));
+                            Block b32a = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,93 ,-28));
+                            Block b123a = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,95 ,-29));
+                            Block b223a = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,94 ,-29));
+                            Block b323a = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,93 ,-29));
+                            b1a.setType(Material.AIR); b2a.setType(Material.AIR); b3a.setType(Material.AIR); b12a.setType(Material.AIR); b22a.setType(Material.AIR);
+                            b32a.setType(Material.AIR); b123a.setType(Material.AIR); b223a.setType(Material.AIR); b323a.setType(Material.AIR);
+
+                            Block b1ab = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,96 ,-27));
+                            Block b2ab = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,97 ,-27));
+                            Block b3ab = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,98 ,-27));
+                            Block b12ab = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,96 ,-28));
+                            Block b22ab = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,97 ,-28));
+                            Block b32ab = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,98 ,-28));
+                            Block b123ab = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,96 ,-29));
+                            Block b223ab = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,97 ,-29));
+                            Block b323ab = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,98 ,-29));
+                            Block b324ab = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1644 ,99 ,-28));
+                            Block b325ab = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1643 ,96 ,-28));
+                            b1ab.setType(Material.AIR); b2ab.setType(Material.AIR); b3ab.setType(Material.AIR); b12ab.setType(Material.AIR); b22ab.setType(Material.AIR);
+                            b32ab.setType(Material.AIR); b123ab.setType(Material.AIR); b223ab.setType(Material.AIR); b323ab.setType(Material.AIR);
+                            b324ab.setType(Material.AIR); b325ab.setType(Material.AIR);
+
                             try {
-                                SchematicSpawner.spawnSchematic(statueSchematicLoc, "SkyholStatueSecret", "Skyhold");
+                                SchematicSpawner.spawnSchematic(statueSchematicLoc, "SkyholSecretStatue", "Skyhold");
                             } catch (WorldEditException e) {
                                 throw new RuntimeException(e);
                             }
@@ -156,6 +197,15 @@ public class Doors implements Listener {
                       public void run() {
                           Bukkit.getWorld("Skyhold").playSound(tombSchematicLoc, Sound.BLOCK_GRINDSTONE_USE, 5, 1);
 
+                          Block b1 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1657 ,81 ,-29));
+                          Block b2 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1657 ,80 ,-29));
+                          Block b3 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1658 ,81 ,-29));
+                          Block b4 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1658 ,80 ,-29));
+                          Block b5 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1659 ,81 ,-29));
+                          Block b6 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1659,80 ,-29));
+                          b1.setType(Material.AIR); b2.setType(Material.AIR); b3.setType(Material.AIR); b4.setType(Material.AIR);
+                          b5.setType(Material.AIR); b6.setType(Material.AIR);
+
                           try {
                               SchematicSpawner.spawnSchematic(tombSchematicLoc, "SkyholdTombSecret", "Skyhold");
                           } catch (WorldEditException e) {
@@ -166,7 +216,16 @@ public class Doors implements Listener {
 
                               @Override
                               public void run() {
-                                  Bukkit.getWorld("Skyhold").playSound(tombSchematicLoc, Sound.BLOCK_GRINDSTONE_USE, 5, 1);
+                                  Bukkit.getWorld("Skyhold").playSound(tombCloseSchematicLoc, Sound.BLOCK_GRINDSTONE_USE, 5, 1);
+
+                                  Block b1 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1657 ,81 ,-31));
+                                  Block b2 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1657 ,80 ,-31));
+                                  Block b3 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1658 ,81 ,-31));
+                                  Block b4 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1658 ,80 ,-31));
+                                  Block b5 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1659 ,81 ,-31));
+                                  Block b6 = Bukkit.getWorld("Skyhold").getBlockAt(new Location(Bukkit.getWorld("Skyhold"),1659,80 ,-31));
+                                  b1.setType(Material.AIR); b2.setType(Material.AIR); b3.setType(Material.AIR); b4.setType(Material.AIR);
+                                  b5.setType(Material.AIR); b6.setType(Material.AIR);
 
                                   try {
                                       SchematicSpawner.spawnSchematic(tombSchematicLoc, "SkyholdCloseTombSecret", "Skyhold");

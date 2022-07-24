@@ -67,7 +67,7 @@ public class SecretBlocks implements Listener {
         if (!data.getFoundSecrets().contains(secretName)) {
 
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + player.getName() + " has found secret: " + secretName);
-            player.sendMessage(ChatColor.GREEN + "You have found a secret! " + ChatColor.YELLOW + "(+200 coins)");
+            player.sendMessage(ChatColor.GREEN + "You have found a secret! " + ChatColor.YELLOW + "(+" + coins + " coins)");
             data.addCoins(coins);
             data.addFoundSecret(secretName);
             data.addSecret();
