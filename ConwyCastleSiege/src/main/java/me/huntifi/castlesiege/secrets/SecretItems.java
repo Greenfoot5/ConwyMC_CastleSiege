@@ -41,6 +41,9 @@ public class SecretItems implements Runnable, Listener {
 
         spawnSecretItem("Skyhold" , skyholdKeyInquisitor(),
                 new Location(Bukkit.getWorld("Skyhold"), 1601, 156, -124));
+
+        spawnSecretItem("Skyhold" , skyholdShield(),
+                new Location(Bukkit.getWorld("Skyhold"), 1617, 49, -51));
     }
 
     /**
@@ -138,6 +141,7 @@ public class SecretItems implements Runnable, Listener {
         secretItems.add(skycookie());
         secretItems.add(skyholdKeyDoor());
         secretItems.add(skyholdKeyInquisitor());
+        secretItems.add(skyholdShield());
 
     }
 
@@ -281,6 +285,33 @@ public class SecretItems implements Runnable, Listener {
         vaultKey.setItemMeta(vaultKeyMeta);
 
         return vaultKey;
+    }
+
+    final public static ItemStack skyholdShield() {
+
+        ItemStack shield = new ItemStack(Material.SHIELD);
+
+        ItemMeta shieldMeta = shield.getItemMeta();
+
+        shieldMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        shieldMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        shieldMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        shieldMeta.setUnbreakable(true);
+
+        shieldMeta.setDisplayName(ChatColor.GOLD + "Shield of Skyhold");
+
+        shieldMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+
+        shieldMeta.addEnchant(Enchantment.THORNS, 10, true);
+
+        ArrayList<String> lore1 = new ArrayList<>();
+
+        shieldMeta.setLore(lore1);
+
+        shield.setItemMeta(shieldMeta);
+
+        return shield;
     }
 
 

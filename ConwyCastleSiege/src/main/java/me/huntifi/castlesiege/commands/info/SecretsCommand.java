@@ -195,7 +195,13 @@ public class SecretsCommand implements CommandExecutor {
         if (data.getFoundSecrets().contains("Skyhold_Water")) {
             foundAmount = foundAmount + 1;
         }
+        if (data.getFoundSecrets().contains("Skyhold_Shield")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.getFoundSecrets().contains("Skyhold_Tomb")) {
+            foundAmount = foundAmount + 1;
+        }
 
-        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/8)";
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/10)";
     }
 }

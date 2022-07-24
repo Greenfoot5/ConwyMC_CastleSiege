@@ -40,7 +40,7 @@ public class SecretBlocks implements Listener {
                     Location hornSecret = new Location(Bukkit.getWorld("HelmsDeep"), 981, 141, 1040);
                     if (e.getClickedBlock().getLocation().equals(hornSecret)) {
                         player.playSound(player.getLocation(), Sound.EVENT_RAID_HORN, 5, 1);
-                        registerFoundSecret(player, helmsDeep1);
+                        registerFoundSecret(player, helmsDeep1, 75);
                     }
                 }
 
@@ -51,7 +51,7 @@ public class SecretBlocks implements Listener {
                     Location lanternSecret = new Location(Bukkit.getWorld("Thunderstone"), 187, 112, 138);
 
                     if (e.getClickedBlock().getLocation().equals(lanternSecret)) {
-                        registerFoundSecret(player, thunderstone1);
+                        registerFoundSecret(player, thunderstone1, 250);
                     }
                 }
             }
@@ -59,7 +59,7 @@ public class SecretBlocks implements Listener {
     }
 
 
-    public void registerFoundSecret(Player player, String secretName) {
+    public void registerFoundSecret(Player player, String secretName, int coins) {
         UUID uuid = player.getUniqueId();
 
         PlayerData data = ActiveData.getData(uuid);
@@ -68,7 +68,7 @@ public class SecretBlocks implements Listener {
 
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + player.getName() + " has found secret: " + secretName);
             player.sendMessage(ChatColor.GREEN + "You have found a secret! " + ChatColor.YELLOW + "(+200 coins)");
-            data.addCoins(200);
+            data.addCoins(coins);
             data.addFoundSecret(secretName);
             data.addSecret();
 

@@ -35,6 +35,8 @@ public class SecretSigns implements Listener {
     String skyhold6 = "Skyhold_Barn";
     String skyhold7 = "Skyhold_Statue";
     String skyhold8 = "Skyhold_Water";
+    String skyhold9 = "Skyhold_Tomb";
+    String skyhold10 = "Skyhold_Shield";
     String thunderstone1 = "Thunderstone_Island";
     String thunderstone2 = "Thunderstone_Huntifi";
     String thunderstone3 = "Thunderstone_Skyview";
@@ -74,9 +76,9 @@ public class SecretSigns implements Listener {
                     Location herugrimSecret = new Location(Bukkit.getWorld("HelmsDeep"), 980, 58, 986);
 
                     if (e.getClickedBlock().getLocation().equals(hillSecret)) {
-                       registerFoundSecret(player, helmsDeep1);
+                       registerFoundSecret(player, helmsDeep1, 100);
                     } else if (e.getClickedBlock().getLocation().equals(herugrimSecret)) {
-                        registerFoundSecret(player, helmsDeep2);
+                        registerFoundSecret(player, helmsDeep2, 200);
                     }
                 } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Skyhold")) {
                     Location vaultSecret = new Location(Bukkit.getWorld("Skyhold"), 1660, 94, -118);
@@ -87,23 +89,29 @@ public class SecretSigns implements Listener {
                     Location barnSecret = new Location(Bukkit.getWorld("Skyhold"), 1729, 101, -59);
                     Location statueSecret = new Location(Bukkit.getWorld("Skyhold"), 1574, 112, -88);
                     Location waterSecret = new Location(Bukkit.getWorld("Skyhold"), 1594, 76, -162);
+                    Location tombSecret = new Location(Bukkit.getWorld("Skyhold"), 1655, 81, -31);
+                    Location shieldSecret = new Location(Bukkit.getWorld("Skyhold"), 1620, 47, -51);
 
                     if (e.getClickedBlock().getLocation().equals(vaultSecret)) {
-                        registerFoundSecret(player, skyhold1);
+                        registerFoundSecret(player, skyhold1, 300);
                     } else if (e.getClickedBlock().getLocation().equals(ravensSecret)) {
-                        registerFoundSecret(player, skyhold2);
+                        registerFoundSecret(player, skyhold2, 100);
                     } else if (e.getClickedBlock().getLocation().equals(topSecret)) {
-                        registerFoundSecret(player, skyhold3);
+                        registerFoundSecret(player, skyhold3, 150);
                     } else if (e.getClickedBlock().getLocation().equals(inquisitorSecret)) {
-                        registerFoundSecret(player, skyhold4);
+                        registerFoundSecret(player, skyhold4, 150);
                     } else if (e.getClickedBlock().getLocation().equals(atticSecret)) {
-                        registerFoundSecret(player, skyhold5);
+                        registerFoundSecret(player, skyhold5, 100);
                     } else if (e.getClickedBlock().getLocation().equals(barnSecret)) {
-                        registerFoundSecret(player, skyhold6);
+                        registerFoundSecret(player, skyhold6, 250);
                     } else if (e.getClickedBlock().getLocation().equals(statueSecret)) {
-                        registerFoundSecret(player, skyhold7);
+                        registerFoundSecret(player, skyhold7, 250);
                     } else if (e.getClickedBlock().getLocation().equals(waterSecret)) {
-                        registerFoundSecret(player, skyhold8);
+                        registerFoundSecret(player, skyhold8, 250);
+                    } else if (e.getClickedBlock().getLocation().equals(tombSecret)) {
+                        registerFoundSecret(player, skyhold9, 200);
+                    } else if (e.getClickedBlock().getLocation().equals(shieldSecret)) {
+                        registerFoundSecret(player, skyhold10, 500);
                     }
 
                 } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Thunderstone")) {
@@ -114,15 +122,15 @@ public class SecretSigns implements Listener {
                     Location fallSecret = new Location(Bukkit.getWorld("Thunderstone"), 189, 130, 75);
 
                     if (e.getClickedBlock().getLocation().equals(islandSecret)) {
-                        registerFoundSecret(player, thunderstone1);
+                        registerFoundSecret(player, thunderstone1, 200);
                     } else if (e.getClickedBlock().getLocation().equals(huntifiSecret)) {
-                        registerFoundSecret(player, thunderstone2);
+                        registerFoundSecret(player, thunderstone2, 75);
                     } else if (e.getClickedBlock().getLocation().equals(skyviewSecret)) {
-                        registerFoundSecret(player, thunderstone3);
+                        registerFoundSecret(player, thunderstone3, 150);
                     } else if (e.getClickedBlock().getLocation().equals(cookieSecret)) {
-                        registerFoundSecret(player, thunderstone4);
+                        registerFoundSecret(player, thunderstone4, 100);
                     } else if (e.getClickedBlock().getLocation().equals(fallSecret)) {
-                        registerFoundSecret(player, thunderstone5);
+                        registerFoundSecret(player, thunderstone5, 100);
                     }
 
                 } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Lakeborough")) {
@@ -133,13 +141,13 @@ public class SecretSigns implements Listener {
                     Location fireplaceSecret = new Location(Bukkit.getWorld("Lakeborough"), -1557, 22, -378);
 
                     if (e.getClickedBlock().getLocation().equals(wellSecret)) {
-                        registerFoundSecret(player, lakeborough1);
+                        registerFoundSecret(player, lakeborough1, 75);
                     } else if (e.getClickedBlock().getLocation().equals(millSecret)) {
-                        registerFoundSecret(player, lakeborough2);
+                        registerFoundSecret(player, lakeborough2, 50);
                     } else if (e.getClickedBlock().getLocation().equals(underwaterSecret)) {
-                        registerFoundSecret(player, lakeborough4);
+                        registerFoundSecret(player, lakeborough4, 150);
                     } else if (e.getClickedBlock().getLocation().equals(fireplaceSecret)) {
-                        registerFoundSecret(player, lakeborough5);
+                        registerFoundSecret(player, lakeborough5, 100);
                     }
                 } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Elwynn")) {
                     Location abbeySecret = new Location(Bukkit.getWorld("Elwynn"), 3, 102, -141);
@@ -155,27 +163,27 @@ public class SecretSigns implements Listener {
                     Location hightreeSecret = new Location(Bukkit.getWorld("Elwynn"), -181, 97, 157);
 
                     if (e.getClickedBlock().getLocation().equals(abbeySecret)) {
-                        registerFoundSecret(player, elwynn1);
+                        registerFoundSecret(player, elwynn1, 100);
                     } else if (e.getClickedBlock().getLocation().equals(koboldSecret)) {
-                        registerFoundSecret(player, elwynn2);
+                        registerFoundSecret(player, elwynn2, 200);
                     } else if (e.getClickedBlock().getLocation().equals(sewerSecret)) {
-                        registerFoundSecret(player, elwynn3);
+                        registerFoundSecret(player, elwynn3, 250);
                     } else if (e.getClickedBlock().getLocation().equals(murlocSecret)) {
-                        registerFoundSecret(player, elwynn4);
+                        registerFoundSecret(player, elwynn4, 200);
                     } else if (e.getClickedBlock().getLocation().equals(lakeSecret)) {
-                        registerFoundSecret(player, elwynn5);
+                        registerFoundSecret(player, elwynn5, 200);
                     } else if (e.getClickedBlock().getLocation().equals(innSecret)) {
-                        registerFoundSecret(player, elwynn6);
+                        registerFoundSecret(player, elwynn6, 50);
                     } else if (e.getClickedBlock().getLocation().equals(treeSecret)) {
-                        registerFoundSecret(player, elwynn7);
+                        registerFoundSecret(player, elwynn7, 100);
                     } else if (e.getClickedBlock().getLocation().equals(trainingSecret)) {
-                        registerFoundSecret(player, elwynn8);
+                        registerFoundSecret(player, elwynn8, 75);
                     } else if (e.getClickedBlock().getLocation().equals(bridgeSecret)) {
-                        registerFoundSecret(player, elwynn9);
+                        registerFoundSecret(player, elwynn9, 50);
                     } else if (e.getClickedBlock().getLocation().equals(riverSecret)) {
-                        registerFoundSecret(player, elwynn10);
+                        registerFoundSecret(player, elwynn10, 100);
                     } else if (e.getClickedBlock().getLocation().equals(hightreeSecret)) {
-                        registerFoundSecret(player, elwynn11);
+                        registerFoundSecret(player, elwynn11, 75);
                     }
                 }
             }
@@ -183,7 +191,7 @@ public class SecretSigns implements Listener {
     }
 
 
-    public void registerFoundSecret(Player player, String secretName) {
+    public void registerFoundSecret(Player player, String secretName, int coins) {
                 UUID uuid = player.getUniqueId();
 
                 PlayerData data = ActiveData.getData(uuid);
@@ -192,7 +200,7 @@ public class SecretSigns implements Listener {
 
                     Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + player.getName() + " has found secret: " + secretName);
                     player.sendMessage(ChatColor.GREEN + "You have found a secret! " + ChatColor.YELLOW + "(+200 coins)");
-                    data.addCoins(200);
+                    data.addCoins(coins);
                     data.addFoundSecret(secretName);
                     data.addSecret();
 

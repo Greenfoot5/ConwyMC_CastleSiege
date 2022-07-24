@@ -27,6 +27,11 @@ public class Doors implements Listener {
     Location doorSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1709, 91, -90);
     Location vaultSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1660, 92, -111);
 
+    Location statueLockLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1643, 96, -28);
+    Location statueSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1642, 93, -28);
+
+    Location tombSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -28);
+
     @EventHandler
     public void onClickDoor(PlayerInteractEvent event) {
 
@@ -92,6 +97,91 @@ public class Doors implements Listener {
                     }.runTaskLater(Main.plugin, 30);
 
                 }
+            }
+        }
+    }
+
+
+    @EventHandler
+    public void onClickStatue(PlayerInteractEvent event) {
+
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
+
+            if (event.getClickedBlock().getType().equals(Material.TRIPWIRE_HOOK) && event.getClickedBlock().getLocation().equals(statueLockLoc)) {
+
+                    Player p = event.getPlayer();
+
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened a secret passage...!"));
+
+                    new BukkitRunnable() {
+
+                        @Override
+                        public void run() {
+                            Bukkit.getWorld("Skyhold").playSound(statueLockLoc, Sound.BLOCK_GRINDSTONE_USE, 5, 1);
+
+                            try {
+                                SchematicSpawner.spawnSchematic(statueSchematicLoc, "SkyholStatueSecret", "Skyhold");
+                            } catch (WorldEditException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                        }
+                    }.runTaskLater(Main.plugin, 30);
+            }
+        }
+    }
+
+    Location button1Loc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 82, -33);
+    Location button2Loc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1661, 81, -30);
+    Location button3Loc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -27);
+    Location primeButtonLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 82, -30);
+    String code = "";
+    @EventHandler
+    public void onClickTomb(PlayerInteractEvent event) {
+
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
+
+            if (event.getClickedBlock().getType().equals(Material.STONE_BUTTON) && event.getClickedBlock().getLocation().equals(button1Loc)) {
+                code = code + "3";
+            } else if (event.getClickedBlock().getType().equals(Material.STONE_BUTTON) && event.getClickedBlock().getLocation().equals(button2Loc)) {
+                code = code + "2";
+            } else if (event.getClickedBlock().getType().equals(Material.STONE_BUTTON) && event.getClickedBlock().getLocation().equals(button3Loc)) {
+                code = code + "1";
+            } else if (event.getClickedBlock().getType().equals(Material.POLISHED_BLACKSTONE_BUTTON) && event.getClickedBlock().getLocation().equals(primeButtonLoc)) {
+                code = code + "0";
+              if (code.equalsIgnoreCase("3210")) {
+                  new BukkitRunnable() {
+
+                      @Override
+                      public void run() {
+                          Bukkit.getWorld("Skyhold").playSound(tombSchematicLoc, Sound.BLOCK_GRINDSTONE_USE, 5, 1);
+
+                          try {
+                              SchematicSpawner.spawnSchematic(tombSchematicLoc, "SkyholdTombSecret", "Skyhold");
+                          } catch (WorldEditException e) {
+                              throw new RuntimeException(e);
+                          }
+
+                          new BukkitRunnable() {
+
+                              @Override
+                              public void run() {
+                                  Bukkit.getWorld("Skyhold").playSound(tombSchematicLoc, Sound.BLOCK_GRINDSTONE_USE, 5, 1);
+
+                                  try {
+                                      SchematicSpawner.spawnSchematic(tombSchematicLoc, "SkyholdCloseTombSecret", "Skyhold");
+                                  } catch (WorldEditException e) {
+                                      throw new RuntimeException(e);
+                                  }
+
+                              }
+                          }.runTaskLater(Main.plugin, 600);
+
+                      }
+                  }.runTaskLater(Main.plugin, 30);
+              } else {
+                  code = "";
+              }
             }
         }
     }
