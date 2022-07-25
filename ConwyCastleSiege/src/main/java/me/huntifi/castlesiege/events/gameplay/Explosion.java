@@ -80,11 +80,20 @@ public class Explosion implements Listener {
             case ANDESITE_STAIRS:
             case ANDESITE_WALL:
 
+            case BASALT:
+
+            case BLACKSTONE:
+            case BLACKSTONE_SLAB:
+            case BLACKSTONE_STAIRS:
+            case BLACKSTONE_WALL:
+
             case BRICKS:
             case BRICK_SLAB:
             case BRICK_STAIRS:
             case BRICK_WALL:
 
+            case CHISELED_NETHER_BRICKS:
+            case CHISELED_POLISHED_BLACKSTONE:
             case CHISELED_QUARTZ_BLOCK:
             case CHISELED_RED_SANDSTONE:
             case CHISELED_SANDSTONE:
@@ -98,6 +107,8 @@ public class Explosion implements Listener {
             case COBBLESTONE_STAIRS:
             case COBBLESTONE_WALL:
 
+            case CRACKED_NETHER_BRICKS:
+            case CRACKED_POLISHED_BLACKSTONE_BRICKS:
             case CRACKED_STONE_BRICKS:
 
             case CUT_RED_SANDSTONE:
@@ -127,6 +138,8 @@ public class Explosion implements Listener {
             case END_STONE_BRICK_WALL:
             case END_PORTAL_FRAME:
 
+            case GILDED_BLACKSTONE:
+
             case GOLD_BLOCK:
             case GOLD_ORE:
 
@@ -148,6 +161,8 @@ public class Explosion implements Listener {
 
             case LIGHT_WEIGHTED_PRESSURE_PLATE:
 
+            case LODESTONE:
+
             case MOSSY_COBBLESTONE:
             case MOSSY_COBBLESTONE_SLAB:
             case MOSSY_COBBLESTONE_STAIRS:
@@ -164,11 +179,25 @@ public class Explosion implements Listener {
             case NETHER_BRICK_SLAB:
             case NETHER_BRICK_STAIRS:
             case NETHER_BRICK_WALL:
+            case NETHER_GOLD_ORE:
             case NETHER_QUARTZ_ORE:
 
             case POLISHED_ANDESITE:
             case POLISHED_ANDESITE_SLAB:
             case POLISHED_ANDESITE_STAIRS:
+
+            case POLISHED_BASALT:
+
+            case POLISHED_BLACKSTONE:
+            case POLISHED_BLACKSTONE_BRICK_SLAB:
+            case POLISHED_BLACKSTONE_BRICK_STAIRS:
+            case POLISHED_BLACKSTONE_BRICK_WALL:
+            case POLISHED_BLACKSTONE_BRICKS:
+            case POLISHED_BLACKSTONE_BUTTON:
+            case POLISHED_BLACKSTONE_PRESSURE_PLATE:
+            case POLISHED_BLACKSTONE_SLAB:
+            case POLISHED_BLACKSTONE_STAIRS:
+            case POLISHED_BLACKSTONE_WALL:
 
             case POLISHED_DIORITE:
             case POLISHED_DIORITE_SLAB:
@@ -187,6 +216,7 @@ public class Explosion implements Listener {
             case PRISMARINE_BRICK_SLAB:
             case PRISMARINE_BRICK_STAIRS:
 
+            case QUARTZ_BRICKS:
             case QUARTZ_BLOCK:
             case QUARTZ_PILLAR:
             case QUARTZ_SLAB:
