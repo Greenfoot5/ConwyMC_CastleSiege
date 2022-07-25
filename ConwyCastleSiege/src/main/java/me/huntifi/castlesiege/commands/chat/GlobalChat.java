@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.commands.chat;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
+import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,7 +39,8 @@ public class GlobalChat implements CommandExecutor {
         } else {
             // A message was provided
             String name = sender instanceof Player ? ((Player) sender).getDisplayName() : sender.getName();
-            ChatColor color = sender.hasPermission("castlesiege.chatmod") ? ChatColor.WHITE : ChatColor.GRAY;
+            ChatColor color = sender.hasPermission("castlesiege.chatmod") && (!(sender instanceof Player)
+                    || !ToggleRankCommand.showDonator.contains(sender)) ? ChatColor.WHITE : ChatColor.GRAY;
             Main.plugin.getServer().broadcastMessage(name + ": " + color + message);
         }
 

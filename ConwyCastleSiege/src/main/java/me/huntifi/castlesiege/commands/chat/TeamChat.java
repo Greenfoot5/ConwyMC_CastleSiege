@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.chat;
 
 import me.huntifi.castlesiege.commands.staff.StaffChat;
+import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
@@ -36,10 +37,10 @@ public class TeamChat implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		if (sender instanceof ConsoleCommandSender) {
+		if (!(sender instanceof Player)) {
 			Messenger.sendError("Team chat cannot be used from console!", sender);
 			return true;
-		} else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
+		} else if (MapController.isSpectator(((Player) sender).getUniqueId())) {
 			Messenger.sendError("Spectators don't have a team!", sender);
 			return true;
 		}
@@ -66,7 +67,8 @@ public class TeamChat implements CommandExecutor {
 	 */
 	public static void sendMessage(Player p, String m) {
 		Team t = MapController.getCurrentMap().getTeam(p.getUniqueId());
-		ChatColor color = p.hasPermission("castlesiege.chatmod") ? ChatColor.WHITE : ChatColor.GRAY;
+		ChatColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
+				? ChatColor.WHITE : ChatColor.GRAY;
 		String s = p.getDisplayName() + ChatColor.DARK_AQUA + " TEAM: " + color + m;
 
 		// Send the message to all team members
