@@ -26,7 +26,7 @@ public class WoolMapBlock {
      * Attempts to spawn a player at a flag
      * @param uuid The uuid of the player
      */
-    public void SpawnPlayer(UUID uuid)
+    public void spawnPlayer(UUID uuid)
     {
         Player player = Bukkit.getPlayer(uuid);
         if (player == null)
@@ -51,9 +51,14 @@ public class WoolMapBlock {
                 Messenger.sendError("You can't join the battlefield without a kit/class!", player);
                 Messenger.sendError("Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!", player);
             } else {
+                // Remove mount
+                if (player.isInsideVehicle())
+                    Objects.requireNonNull(player.getVehicle()).remove();
+                // Set kit items
+                Kit.equippedKits.get(uuid).setItems(uuid);
+                // Spawn player
                 InCombat.playerSpawned(uuid);
                 player.teleport(flag.spawnPoint);
-                Kit.equippedKits.get(uuid).refillItems(uuid);
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                         TextComponent.fromLegacyText(flag.getSpawnMessage()));
             }
