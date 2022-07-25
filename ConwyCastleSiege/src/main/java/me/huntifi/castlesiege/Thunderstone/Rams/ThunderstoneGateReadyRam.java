@@ -6,7 +6,7 @@ import org.bukkit.Location;
 
 import com.sk89q.worldedit.WorldEditException;
 
-import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateDestroyEvent;
+//import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateDestroyEvent;
 import me.huntifi.castlesiege.maps.MapController;
 
 public class ThunderstoneGateReadyRam implements Runnable {
@@ -26,7 +26,7 @@ public class ThunderstoneGateReadyRam implements Runnable {
 
 			if (ThunderstoneRam.rammingPlayers.size() >= 1) {
 
-				if (ThunderstoneGateDestroyEvent.isBreached == false) {
+				if (true) {//ThunderstoneGateDestroyEvent.isBreached == false) {
 
 					if (!isRamReady) {
 
