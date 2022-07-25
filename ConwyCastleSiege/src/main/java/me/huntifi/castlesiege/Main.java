@@ -334,11 +334,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
                 boatEvent.spawnBoat();
 
-                // OLD EVENTS
-
-                //getServer().getPluginManager().registerEvents(new Herugrim(), plugin);
-
-
+                // Timed
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75);
@@ -347,9 +343,6 @@ public class Main extends JavaPlugin implements Listener {
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new SecretItems(), 0, 20);
 
-
-                //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
-
                 getLogger().info("Plugin has been enabled!");
 
                 // Begin the map loop
@@ -357,16 +350,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 //This registers the secret items
                 SecretItems.registerSecretItems();
-
-//		new BukkitRunnable() {
-//
-//			@Override
-//			public void run() {
-//
-//				Herugrim.spawnHerugrim();
-//
-//			}
-//		}.runTaskLater(plugin, 200);
             }
         }.runTaskLater(plugin, 1);
     }
