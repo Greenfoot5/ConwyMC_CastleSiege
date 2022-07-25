@@ -59,7 +59,13 @@ public class CoinbuyCommand implements CommandExecutor {
 
         // Only donator kits can be unlocked
         if (!DonatorKit.getKits().contains(kitName)) {
-            Messenger.sendError("An invalid kit was provided.", sender);
+            Messenger.sendError("An invalid kit was provided!", sender);
+            return true;
+        }
+
+        // Only unowned kits can be unlocked
+        if (ActiveData.getData(target.getUniqueId()).hasKit(kitName)) {
+            Messenger.sendError("This kit is already unlocked!", sender);
             return true;
         }
 
