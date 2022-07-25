@@ -256,16 +256,11 @@ public class Medic extends DonatorKit implements Listener {
                 q instanceof Player &&                                                          // On player
                 MapController.getCurrentMap().getTeam(uuid)                                     // Same team
                 == MapController.getCurrentMap().getTeam(q.getUniqueId()) &&                    // Same team
-                ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth) {  // Below max hp
-
-            // Check for the cooldown
-            Player r = (Player) q;
-            if (cooldown.contains(r)) {
-                Messenger.sendActionError("You can't heal that player yet!", p);
-                return;
-            }
+                ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth &&  // Below max hp
+                !cooldown.contains((Player) q)) {                                               // Not on cooldown
 
             // Apply cooldown
+            Player r = (Player) q;
             cooldown.add(r);
             new BukkitRunnable() {
                 @Override
