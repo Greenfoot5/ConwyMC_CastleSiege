@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Store a player's data when they leave the game
+ * Store a player's data
  */
 public class StoreData {
 
@@ -28,6 +28,15 @@ public class StoreData {
     public static void store(UUID uuid) throws SQLException {
         PlayerData data = ActiveData.getData(uuid);
 
+        storeStats(uuid, data);
+        storeRank(uuid, data);
+
+        for (String secret : data.getFoundSecrets()) {
+            addFoundSecret(uuid, secret);
+        }
+    }
+
+    private static void storeStats(UUID uuid, PlayerData data) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "UPDATE player_stats SET score = ?, kills = ?, deaths = ?, assists = ?, captures = ?, heals = ?, "
                         + "supports = ?, coins = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ? WHERE uuid = ?");
@@ -47,14 +56,31 @@ public class StoreData {
         ps.setString(14, uuid.toString());
         ps.executeUpdate();
         ps.close();
+    }
 
-        ps = Main.SQL.getConnection().prepareStatement(
+    private static void storeRank(UUID uuid, PlayerData data) throws SQLException {
+        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "UPDATE player_rank SET staff_rank = ?, rank_points = ?, join_message = ?, leave_message = ? WHERE uuid = ?");
         ps.setString(1, data.getStaffRank());
         ps.setDouble(2, data.getRankPoints());
         ps.setString(3, data.getJoinMessage());
         ps.setString(4, data.getLeaveMessage());
         ps.setString(5, uuid.toString());
+        ps.executeUpdate();
+        ps.close();
+    }
+
+    /**
+     * Store a player's found secrets
+     * @param uuid player's UUID
+     * @param secretName name of the secret to determine found
+     */
+    private static void addFoundSecret(UUID uuid, String secretName) throws SQLException {
+        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "INSERT IGNORE INTO player_secrets VALUES (?, ?, ?)");
+        ps.setString(1, Bukkit.getOfflinePlayer(uuid).getName());
+        ps.setString(2, uuid.toString());
+        ps.setString(3, secretName);
         ps.executeUpdate();
         ps.close();
     }
@@ -135,38 +161,12 @@ public class StoreData {
                 try {
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                             "INSERT INTO player_unlocks VALUES (?, ?, ?, ?, ?, ?)");
-                    String playerName = Bukkit.getOfflinePlayer(uuid).getName();
                     ps.setString(1, Bukkit.getOfflinePlayer(uuid).getName());
-                    ps.setString(2, LoadData.getUUID(playerName).toString());
+                    ps.setString(2, uuid.toString());
                     ps.setString(3, kitName);
                     ps.setTimestamp(4, new Timestamp(duration));
                     ps.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
                     ps.setBoolean(6, isDonation);
-                    ps.executeUpdate();
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.runTaskAsynchronously(Main.plugin);
-    }
-
-    /**
-     *
-     * @param uuid player's UUID
-     * @param secretName name of the secret to determine found
-     */
-    public static void addFoundSecret(UUID uuid, String secretName) throws SQLException {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                            "INSERT INTO player_secrets VALUES (?, ?, ?)");
-                    String playerName = Bukkit.getOfflinePlayer(uuid).getName();
-                    ps.setString(1, Bukkit.getOfflinePlayer(uuid).getName());
-                    ps.setString(2, LoadData.getUUID(playerName).toString());
-                    ps.setString(3, secretName);
                     ps.executeUpdate();
                     ps.close();
                 } catch (SQLException e) {
