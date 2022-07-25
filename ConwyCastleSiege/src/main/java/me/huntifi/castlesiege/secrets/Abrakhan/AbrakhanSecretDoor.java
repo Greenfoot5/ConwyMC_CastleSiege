@@ -32,7 +32,7 @@ public class AbrakhanSecretDoor implements Listener {
 
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
 
-            if(event.getClickedBlock().getType().equals(Material.REDSTONE_TORCH) && event.getClickedBlock().getLocation().equals(redtorchLoc)) {
+            if(event.getClickedBlock().getType().equals(Material.REDSTONE_WALL_TORCH) && event.getClickedBlock().getLocation().equals(redtorchLoc)) {
 
                 Player p = event.getPlayer();
 
@@ -55,7 +55,7 @@ public class AbrakhanSecretDoor implements Listener {
 
 
                 }
-            } else if (event.getClickedBlock().getType().equals(Material.TORCH) && event.getClickedBlock().getLocation().equals(torchLoc)) {
+            } else if (event.getClickedBlock().getType().equals(Material.WALL_TORCH) && event.getClickedBlock().getLocation().equals(torchLoc)) {
                 Player p = event.getPlayer();
                 if (!isTorchDoorOpen) {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened a secret door!"));
