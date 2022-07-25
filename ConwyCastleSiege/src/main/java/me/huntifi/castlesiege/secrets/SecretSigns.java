@@ -57,6 +57,10 @@ public class SecretSigns implements Listener {
     String elwynn9 = "Elwynn_Bridge";
     String elwynn10 = "Elwynn_River";
     String elwynn11 = "Elwynn_Hightree";
+    String abrakhan1 = "Abrakhan_Vault";
+    String abrakhan2 = "Abrakhan_Prison";
+    String abrakhan3 = "Abrakhan_Tunnel";
+    String abrakhan4 = "Abrakhan_Sewer";
 
 
     @EventHandler
@@ -184,6 +188,20 @@ public class SecretSigns implements Listener {
                         registerFoundSecret(player, elwynn10, 100);
                     } else if (e.getClickedBlock().getLocation().equals(hightreeSecret)) {
                         registerFoundSecret(player, elwynn11, 75);
+                    }
+                } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Abrakhan")) {
+                    Location prisonSecret = new Location(Bukkit.getWorld("Abrakhan"), 108, 38, -113);
+                    Location vaultSecret = new Location(Bukkit.getWorld("Abrakhan"), 78, 30, -103);
+                    Location tunnelSecret = new Location(Bukkit.getWorld("Abrakhan"), 56, 11, -93);
+                    Location sewerSecret = new Location(Bukkit.getWorld("Abrakhan"), 142, 5, -47);
+                    if (e.getClickedBlock().getLocation().equals(prisonSecret)) {
+                        registerFoundSecret(player, abrakhan2, 175);
+                    } else if (e.getClickedBlock().getLocation().equals(vaultSecret)) {
+                        registerFoundSecret(player, abrakhan1, 150);
+                    } else if (e.getClickedBlock().getLocation().equals(tunnelSecret)) {
+                        registerFoundSecret(player, abrakhan3, 100);
+                    } else if (e.getClickedBlock().getLocation().equals(sewerSecret)) {
+                        registerFoundSecret(player, abrakhan4, 100);
                     }
                 }
             }

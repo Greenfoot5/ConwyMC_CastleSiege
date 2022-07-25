@@ -31,13 +31,16 @@ public class SecretsCommand implements CommandExecutor {
                 String lake = getLakeboroughSecrets(p);
                 String elwynn = getElwynnSecrets(p);
                 String skyhold = getSkyholdSecrets(p);
+                String abraham = getAbrakhanSecrets(p);
 
                         p.sendMessage(ChatColor.DARK_AQUA + " -----Secrets----- ");
-                        p.sendMessage(ChatColor.DARK_AQUA + " Helm's Deep: " + helms);
-                        p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
-                        p.sendMessage(ChatColor.DARK_AQUA + " Lakeborough: " + lake);
+                        p.sendMessage(ChatColor.DARK_AQUA + " Abrakhan: " + abraham);
                         p.sendMessage(ChatColor.DARK_AQUA + " Elwynn: " + elwynn);
+                        p.sendMessage(ChatColor.DARK_AQUA + " Helm's Deep: " + helms);
+                        p.sendMessage(ChatColor.DARK_AQUA + " Lakeborough: " + lake);
                         p.sendMessage(ChatColor.DARK_AQUA + " Skyhold: " + skyhold);
+                        p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
+
 
 
         return true;
@@ -114,6 +117,29 @@ public class SecretsCommand implements CommandExecutor {
             foundAmount = foundAmount + 1;
         }
         if (data.hasSecret("Lakeborough_Fireplace")) {
+            foundAmount = foundAmount + 1;
+        }
+
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/4)";
+    }
+
+    public String getAbrakhanSecrets(Player p) {
+        UUID uuid = p.getUniqueId();
+
+        PlayerData data = ActiveData.getData(uuid);
+
+        int foundAmount = 0;
+
+        if (data.hasSecret("Abrakhan_Sewer")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Abrakhan_Vault")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Abrakhan_Tunnel")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Abrakhan_Prison")) {
             foundAmount = foundAmount + 1;
         }
 

@@ -65,6 +65,7 @@ import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.maps.objects.*;
+import me.huntifi.castlesiege.secrets.Abrakhan.AbrakhanSecretDoor;
 import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
 import me.huntifi.castlesiege.secrets.SecretBlocks;
 import me.huntifi.castlesiege.secrets.SecretItems;
@@ -155,6 +156,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new SecretBlocks(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretPortal(), plugin);
                 getServer().getPluginManager().registerEvents(new Doors(), plugin);
+                getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
 
 
                 // Combat
