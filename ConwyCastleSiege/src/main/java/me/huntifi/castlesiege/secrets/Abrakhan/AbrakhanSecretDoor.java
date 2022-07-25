@@ -49,7 +49,7 @@ public class AbrakhanSecretDoor implements Listener {
                         public void run() {
 
                             isRedDoorOpen = false;
-                            closeTorchDoor();
+                            closeRedstoneDoor();
                         }
                     }.runTaskLater(Main.plugin, 60);
 
@@ -60,7 +60,7 @@ public class AbrakhanSecretDoor implements Listener {
                 if (!isTorchDoorOpen) {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened a secret door!"));
                     isTorchDoorOpen = true;
-                    openRedstoneDoor();
+                    openTorchDoor();
 
                     new BukkitRunnable() {
 
