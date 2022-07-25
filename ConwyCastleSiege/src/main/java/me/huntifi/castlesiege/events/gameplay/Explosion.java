@@ -271,6 +271,22 @@ public class Explosion implements Listener {
             case STRIPPED_BIRCH_LOG:
             case STRIPPED_BIRCH_WOOD:
 
+            case CRIMSON_BUTTON:
+            case CRIMSON_DOOR:
+            case CRIMSON_FENCE:
+            case CRIMSON_FENCE_GATE:
+            case CRIMSON_HYPHAE:
+            case CRIMSON_PLANKS:
+            case CRIMSON_PRESSURE_PLATE:
+            case CRIMSON_SIGN:
+            case CRIMSON_SLAB:
+            case CRIMSON_STAIRS:
+            case CRIMSON_STEM:
+            case CRIMSON_TRAPDOOR:
+            case CRIMSON_WALL_SIGN:
+            case STRIPPED_CRIMSON_HYPHAE:
+            case STRIPPED_CRIMSON_STEM:
+
             case DARK_OAK_BUTTON:
             case DARK_OAK_DOOR:
             case DARK_OAK_FENCE:
@@ -334,6 +350,22 @@ public class Explosion implements Listener {
             case SPRUCE_WOOD:
             case STRIPPED_SPRUCE_LOG:
             case STRIPPED_SPRUCE_WOOD:
+
+            case WARPED_BUTTON:
+            case WARPED_DOOR:
+            case WARPED_FENCE:
+            case WARPED_FENCE_GATE:
+            case WARPED_HYPHAE:
+            case WARPED_PLANKS:
+            case WARPED_PRESSURE_PLATE:
+            case WARPED_SIGN:
+            case WARPED_SLAB:
+            case WARPED_STAIRS:
+            case WARPED_STEM:
+            case WARPED_TRAPDOOR:
+            case WARPED_WALL_SIGN:
+            case STRIPPED_WARPED_HYPHAE:
+            case STRIPPED_WARPED_STEM:
                 wood.put(block.getLocation(), block.getState());
                 break;
         }
