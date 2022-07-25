@@ -1,28 +1,26 @@
-package me.huntifi.castlesiege.Helmsdeep.rams;
+package me.huntifi.castlesiege.deprecated.Thunderstone.Rams;
 
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
-import me.huntifi.castlesiege.maps.MapController;
 //import me.huntifi.castlesiege.teams.PlayerTeam;
 
-public class GreatHallGateRam implements Runnable {
+public class ThunderstoneRam implements Runnable {
 
 	public static int rammingSpeed = 240;
 
 	public static ArrayList<Player> rammingPlayers = new ArrayList<Player>();
 
-	Location ramRadius = new Location(Bukkit.getServer().getWorld("HelmsDeep"), 975, 72, 1000);
+	Location ramRadius = new Location(Bukkit.getServer().getWorld("Thunderstone"), 152, 65, 67);
 
 	@Override
 	public void run() {
 
-		/*if(MapController.currentMapIs("HelmsDeep")) {
+		/*if(MapController.currentMapIs("Thunderstone")) {
 
-			for (Player rammer : PlayerTeam.Urukhai) {
+			for (Player rammer : PlayerTeam.Cloudcrawlers) {
 
 				Location rammerLoc = rammer.getLocation();
 
@@ -50,7 +48,7 @@ public class GreatHallGateRam implements Runnable {
 
 			if (rammingPlayers.size() != 0) {
 
-				for (Player rammers : PlayerTeam.Urukhai) {
+				for (Player rammers : PlayerTeam.Cloudcrawlers) {
 
 					if (rammers != null) {
 

@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.Thunderstone.Rams;
+package me.huntifi.castlesiege.deprecated.Thunderstone.Rams;
 
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
