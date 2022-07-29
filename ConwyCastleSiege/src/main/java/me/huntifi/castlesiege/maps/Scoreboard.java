@@ -19,23 +19,24 @@ import java.util.Objects;
 public class Scoreboard implements Runnable {
 
 	/**
-	 * Clears the scoreboard
+	 * Clears the scoreboard for all players
 	 */
 	public static void clearScoreboard() {
 		for (Player online : Bukkit.getOnlinePlayers()) {
-			for (Objective objective : online.getScoreboard().getObjectives()) {
+			Objective objective = online.getScoreboard().getObjective(DisplaySlot.SIDEBAR);
+			if (objective != null)
 				objective.unregister();
-			}
 		}
 	}
 
 	/**
-	 * Clears the scoreboard
+	 * Clears the scoreboard for one player
+	 * @param player The player to clear the scoreboard for
 	 */
-	public static void clearScoreboardFor(Player p) {
-			for (Objective objective : p.getScoreboard().getObjectives()) {
-				objective.unregister();
-			}
+	public static void clearScoreboard(Player player) {
+		Objective objective = player.getScoreboard().getObjective(DisplaySlot.SIDEBAR);
+		if (objective != null)
+			objective.unregister();
 	}
 
 	public static String getEntryFromScore(Objective o, int score) {

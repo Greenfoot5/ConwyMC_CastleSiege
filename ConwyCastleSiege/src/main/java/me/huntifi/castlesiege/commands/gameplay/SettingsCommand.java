@@ -62,7 +62,7 @@ public class SettingsCommand implements CommandExecutor {
             ActiveData.getData(p.getUniqueId()).setSetting(p.getUniqueId(), setting, value);
 
             if (args[0].equalsIgnoreCase("statsBoard")) {
-                Scoreboard.clearScoreboardFor(p);
+                Scoreboard.clearScoreboard(p);
             }
 
             Messenger.sendInfo("Setting Updated", sender);

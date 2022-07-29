@@ -246,6 +246,7 @@ public abstract class Kit implements CommandExecutor {
                     ChatColor.DARK_RED + "❤").setDisplaySlot(DisplaySlot.BELOW_NAME);
         } else if (!canSeeHealth && healthDisplay != null){
             healthDisplay.unregister();
+            scoreboard.clearSlot(DisplaySlot.BELOW_NAME);
         }
     }
 
