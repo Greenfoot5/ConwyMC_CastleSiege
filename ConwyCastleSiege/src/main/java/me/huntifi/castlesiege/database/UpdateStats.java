@@ -38,6 +38,10 @@ public class UpdateStats {
      * @param uuid The unique ID of the player
      */
     public static void addAssist(UUID uuid) {
+        // Return if the player is offline
+        if (ActiveData.getData(uuid) == null)
+            return;
+
         ActiveData.getData(uuid).addAssist();
         MVPStats.getStats(uuid).addAssist();
         level(uuid);
