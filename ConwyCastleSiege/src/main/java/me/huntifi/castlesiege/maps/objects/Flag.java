@@ -202,11 +202,8 @@ public class Flag {
         // If the game mode is Charge,
         if (MapController.getCurrentMap().gamemode.equals(Gamemode.Charge)) {
             // You can't recap a flag
-            if (!Objects.equals(startingTeam, currentOwners)) {
-                if (!Objects.equals(currentOwners, getLargestTeam()))
-                    if (animationIndex == maxCap)
-                        return;
-            }
+            if (!Objects.equals(startingTeam, currentOwners) && animationIndex == maxCap)
+                return;
 
             // You can't cap the next flag until the previous is capped
             Flag[] flags = MapController.getCurrentMap().flags;
@@ -230,7 +227,7 @@ public class Flag {
                         for (UUID uuid : players)
                         {
                             if (!Objects.equals(MapController.getCurrentMap().getTeam(uuid).name, currentOwners)) {
-                                Messenger.sendError("You must capture flags in order on this map, and the previous one doesn't belong to your team!",
+                                Messenger.sendActionError("You must capture flags in order on this map, and the previous one doesn't belong to your team!",
                                         Objects.requireNonNull(Bukkit.getPlayer(uuid)));
                             }
                         }
