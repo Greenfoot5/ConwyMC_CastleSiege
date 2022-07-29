@@ -464,8 +464,6 @@ commands:
   Warbear:
     description: Selects the warbear kit
     usage: /warbear
-    permission: castlesiege.developer
-    permission-message: ʕ•ᴥ•ʔ
   Warhound:
     description: Selects the warhound kit
     usage: /warhound
