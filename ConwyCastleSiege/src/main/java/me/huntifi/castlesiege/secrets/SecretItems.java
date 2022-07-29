@@ -2,15 +2,13 @@ package me.huntifi.castlesiege.secrets;
 
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,7 +16,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class SecretItems implements Runnable, Listener {
+public class SecretItems implements Listener {
 
     public static HashMap<Player, ArrayList<ItemStack>> secretItemHolder = new HashMap<>();
 
@@ -97,23 +95,19 @@ public class SecretItems implements Runnable, Listener {
     }
 
     /**
-     * Checks if you hold any of the secret items in your inventory
+     * Register the holder of a secret item on pickup
+     * @param event The event called when a player picks up an item
      */
-    @Override
-    public void run() {
+    @EventHandler
+    public void onPickup(EntityPickupItemEvent event) {
+        if (!(event.getEntity() instanceof Player))
+            return;
 
-            for (Player p : Bukkit.getOnlinePlayers()) {
-
-                for (ItemStack secret : secretItems) {
-
-                    if (p.getInventory().contains(secret)) {
-
-                        secretItemHolder.putIfAbsent(p, new ArrayList<>());
-                        secretItemHolder.get(p).add(secret);
-
-                    }
-                }
-            }
+        Player player = (Player) event.getEntity();
+        if (secretItems.contains(event.getItem().getItemStack())) {
+            secretItemHolder.putIfAbsent(player, new ArrayList<>());
+            secretItemHolder.get(player).add(event.getItem().getItemStack());
+        }
     }
 
     /**
