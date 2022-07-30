@@ -390,6 +390,7 @@ public class MapController {
 	 * Does any unloading needed for the current map
 	 */
 	public static void unloadMap(Map oldMap) {
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 		// Clear map stats
 		InCombat.clearCombat();
 		MVPStats.reset();
@@ -407,9 +408,10 @@ public class MapController {
 		// Unregister flag regions
 		for (Flag flag : oldMap.flags) {
 			if (flag.region != null) {
-				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+				Bukkit.getScheduler().runTask(Main.plugin, () ->
+						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
 								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
-						.removeRegion(flag.name.replace(' ', '_'));
+						.removeRegion(flag.name.replace(' ', '_')));
 			}
 		}
 
@@ -436,6 +438,7 @@ public class MapController {
 				team.clear();
 			}
 		}
+	 });
 	}
 
 	/**
@@ -522,15 +525,17 @@ public class MapController {
 	 * @param uuid the uuid to remove
 	 */
 	public static void leaveTeam(UUID uuid) {
-		Map map = MapController.getCurrentMap();
-		Team team = map.getTeam(uuid);
-		if (team != null) {
-			team.removePlayer(uuid);
-		} else {
-			if (isSpectator(uuid)) {
-				SpectateCommand.spectators.remove(uuid);
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+			Map map = MapController.getCurrentMap();
+			Team team = map.getTeam(uuid);
+			if (team != null) {
+				team.removePlayer(uuid);
+			} else {
+				if (isSpectator(uuid)) {
+					SpectateCommand.spectators.remove(uuid);
+				}
 			}
-		}
+		});
 	}
 
 	/**
