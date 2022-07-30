@@ -516,6 +516,7 @@ public class MapController {
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	}
 
+
 	/**
 	 * Removes a player from the team when they disconnect
 	 * @param uuid the uuid to remove

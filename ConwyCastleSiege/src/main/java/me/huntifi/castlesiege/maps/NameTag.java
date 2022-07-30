@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,10 +30,12 @@ public class NameTag implements CommandExecutor {
             return;
         }
 
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+
         // Only set name tag color if data has not been loaded yet
         PlayerData data = ActiveData.getData(p.getUniqueId());
         if (data == null) {
-            NametagEdit.getApi().setPrefix(p, color(p));
+            Bukkit.getScheduler().runTask(Main.plugin, () -> NametagEdit.getApi().setPrefix(p, color(p)));
             return;
         }
 
@@ -44,15 +47,14 @@ public class NameTag implements CommandExecutor {
             rank = convertRank(data.getRank());
         }
 
-        // Set the player's tags
-        p.setDisplayName("§e" + data.getLevel() + " " + rank + color(p) + p.getName());
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                NametagEdit.getApi().setPrefix(p, rank + color(p));
-            }
-        }.runTask(Main.plugin);
+        Bukkit.getScheduler().runTask(Main.plugin, () -> {
+            // Set the player's tags
+            p.setDisplayName("§e" + data.getLevel() + " " + rank + color(p) + p.getName());
+            NametagEdit.getApi().setPrefix(p, rank + color(p));
+        });
+
         
+     });
     }
 
     /**
