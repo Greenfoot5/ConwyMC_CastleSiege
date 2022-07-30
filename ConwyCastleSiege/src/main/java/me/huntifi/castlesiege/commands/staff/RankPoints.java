@@ -197,7 +197,7 @@ public class RankPoints implements CommandExecutor {
             return "baron";
         } else if (rp > 20) {
             return "noble";
-        } else if (rp > 0) {
+        } else if (rp >= 1) {
             return "esquire";
         } else {
             return "";
