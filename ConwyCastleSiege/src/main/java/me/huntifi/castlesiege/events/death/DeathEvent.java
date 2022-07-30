@@ -120,45 +120,47 @@ public class DeathEvent implements Listener {
      * @param e The event called when a player dies
      */
     private void updateStats(PlayerDeathEvent e) {
-        // Death
-        Player target = e.getEntity();
-        if (target.getUniqueId() != null) { return;}
-        UpdateStats.addDeaths(target.getUniqueId(), 1);
-
-        // Kill
-        Player killer = killerMap.getOrDefault(target, target.getKiller());
-        killerMap.remove(target);
-        if (killer != null) {
-            UpdateStats.addKill(killer.getUniqueId());
-            AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
-            // Check for bounty
-            Bounty.killstreak(killer);
-
-            // Kill and death messages
-            Kit kit = Kit.equippedKits.get(killer.getUniqueId());
-            if (target.getLastDamageCause() != null
-                    && target.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
-                killDeathMessage(killer, target, kit.getProjectileMessage());
-            } else {
-                killDeathMessage(killer, target, kit.getMeleeMessage());
+            // Death
+            Player target = e.getEntity();
+            if (target.getUniqueId() != null) {
+                return;
             }
-        }
+            UpdateStats.addDeaths(target.getUniqueId(), 1);
 
-        // Assist
-        UUID assist = AssistKill.get(target.getUniqueId());
-        if (assist != null && killer != null && killer.getUniqueId() != assist) {
-            // There are separate players for the kill and the assist
-            UpdateStats.addAssist(assist);
-            assistMessage(assist, target);
-            Bounty.grantRewards(target, killer, Bukkit.getPlayer(assist));
-        } else if (killer != null) {
-            // There is no player for the assist, or it is the same as the killer
-            Bounty.grantRewards(target, killer);
-        } else if (assist != null) {
-            // There is only a player for the assist, the death is not player related
-            UpdateStats.addAssist(assist);
-            assistMessage(assist, target);
-        }
+            // Kill
+            Player killer = killerMap.getOrDefault(target, target.getKiller());
+            killerMap.remove(target);
+            if (killer != null) {
+                UpdateStats.addKill(killer.getUniqueId());
+                AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
+                // Check for bounty
+                Bounty.killstreak(killer);
+
+                // Kill and death messages
+                Kit kit = Kit.equippedKits.get(killer.getUniqueId());
+                    if (target.getLastDamageCause() != null
+                            && target.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
+                        killDeathMessage(killer, target, kit.getProjectileMessage());
+                    } else {
+                        killDeathMessage(killer, target, kit.getMeleeMessage());
+                    }
+            }
+
+            // Assist
+            UUID assist = AssistKill.get(target.getUniqueId());
+            if (assist != null && killer != null && killer.getUniqueId() != assist) {
+                // There are separate players for the kill and the assist
+                UpdateStats.addAssist(assist);
+                assistMessage(assist, target);
+                Bounty.grantRewards(target, killer, Bukkit.getPlayer(assist));
+            } else if (killer != null) {
+                // There is no player for the assist, or it is the same as the killer
+                Bounty.grantRewards(target, killer);
+            } else if (assist != null) {
+                // There is only a player for the assist, the death is not player related
+                UpdateStats.addAssist(assist);
+                assistMessage(assist, target);
+            }
     }
 
     /**

@@ -1,6 +1,8 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -24,6 +26,7 @@ public class WoolMap implements Listener {
 	 */
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
+		Bukkit.getScheduler().runTask(Main.plugin, () -> {
 		// Prevent spawning by physical actions, e.g. stepping on a pressure plate
 		if (e.getAction() == Action.PHYSICAL)
 			return;
@@ -49,5 +52,6 @@ public class WoolMap implements Listener {
 				}
 			}
 		}
+	 });
 	}
 }

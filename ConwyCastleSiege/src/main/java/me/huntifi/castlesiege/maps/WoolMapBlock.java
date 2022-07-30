@@ -64,16 +64,12 @@ public class WoolMapBlock {
                             TextComponent.fromLegacyText(flag.getSpawnMessage()));
                 });
                 InCombat.playerSpawned(uuid);
-                // Remove mount
-                if (player.isInsideVehicle())
-                    Objects.requireNonNull(player.getVehicle()).remove();
-                // Set kit items
-                Kit.equippedKits.get(uuid).setItems(uuid);
-                // Spawn player
-                InCombat.playerSpawned(uuid);
-                player.teleport(flag.spawnPoint);
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                         TextComponent.fromLegacyText(flag.getSpawnMessage()));
+                // Remove mount
+                if (player.isInsideVehicle()) {
+                    Objects.requireNonNull(player.getVehicle()).remove();
+                }
             }
         }
       });
