@@ -122,6 +122,7 @@ public class DeathEvent implements Listener {
     private void updateStats(PlayerDeathEvent e) {
         // Death
         Player target = e.getEntity();
+        if (target.getUniqueId() != null) { return;}
         UpdateStats.addDeaths(target.getUniqueId(), 1);
 
         // Kill
