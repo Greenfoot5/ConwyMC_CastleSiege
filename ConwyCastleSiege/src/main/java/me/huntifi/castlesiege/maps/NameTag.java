@@ -81,7 +81,7 @@ public class NameTag implements CommandExecutor {
             case "chatmod":
                 return "§9§lChatMod ";
             case "chatmod+":
-                return "§9§lChatM§a+ ";
+                return "§1§lChatMod+ ";
             case "moderator":
                 return "§a§lMod ";
             case "developer":
