@@ -56,12 +56,16 @@ public class MapController {
 	 * Begins the map loop
 	 */
 	public static void startLoop() {
-		if (!isMatch) {
-			Collections.shuffle(maps);
-			if ( mapCount > 0 && mapCount < maps.size())
-				maps = maps.subList(0, mapCount);
-		}
-		loadMap();
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+			if (!isMatch) {
+				Collections.shuffle(maps);
+				if (mapCount > 0 && mapCount < maps.size())
+					maps = maps.subList(0, mapCount);
+			}
+			Bukkit.getScheduler().runTask(Main.plugin, () -> {
+				loadMap();
+			});
+		});
 	}
 
 	public static Map getUnplayedMap(String mapName) {
@@ -87,16 +91,18 @@ public class MapController {
 	 * @param mapNames A list of map names to play
 	 */
 	public static void setMaps(List<String> mapNames) {
-		List<Map> newMaps = new ArrayList<>();
-		for (String mapName : mapNames) {
-			Map map = getMap(mapName);
-			if (map != null) {
-				newMaps.add(map);
-			} else {
-				getLogger().severe("Could not load match mode. Could not find map: `" + mapName + "`");
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+			List<Map> newMaps = new ArrayList<>();
+			for (String mapName : mapNames) {
+				Map map = getMap(mapName);
+				if (map != null) {
+					newMaps.add(map);
+				} else {
+					getLogger().severe("Could not load match mode. Could not find map: `" + mapName + "`");
+				}
 			}
-		}
-		maps = newMaps;
+			maps = newMaps;
+		});
 	}
 
 	/**
