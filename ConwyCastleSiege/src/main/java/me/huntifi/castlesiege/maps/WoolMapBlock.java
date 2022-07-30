@@ -32,49 +32,40 @@ public class WoolMapBlock {
      *
      * @param uuid The uuid of the player
      */
-    public void SpawnPlayer(UUID uuid) {
+    public void spawnPlayer(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player == null) {
+            return;
+        }
 
-            Player player = Bukkit.getPlayer(uuid);
-            if (player == null) {
-                return;
-            }
-            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 
-                Team team = MapController.getCurrentMap().getTeam(uuid);
-                Flag flag = MapController.getCurrentMap().getFlag(flagName);
+        Team team = MapController.getCurrentMap().getTeam(uuid);
+        Flag flag = MapController.getCurrentMap().getFlag(flagName);
 
-                if (team != null && team.hasPlayer(uuid)) {
-                    if (!Objects.equals(flag.getCurrentOwners(), team.name)) {
-
-                        Messenger.sendActionError("Your team does not own this flag at the moment.", player);
-
-                    } else if (flag.underAttack()) {
-
-                        Messenger.sendActionError("You can't spawn here. This flag is under attack!", player);
-
-                    } else if (Kit.equippedKits.get(uuid) == null) {
-
-                        Messenger.sendError("You can't join the battlefield without a kit/class!", player);
-                        Messenger.sendError("Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!", player);
-
-                    } else {
-
-                            Bukkit.getScheduler().runTask(Main.plugin, () -> {
-                                // Remove mount
-                                if (player.isInsideVehicle())
-                                    Objects.requireNonNull(player.getVehicle()).remove();
-                                // Set kit items
-                                Kit.equippedKits.get(uuid).setItems(uuid);
-
-                                // Spawn player
-                                player.teleport(flag.spawnPoint);
-                                Kit.equippedKits.get(uuid).refillItems(uuid);
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                                        TextComponent.fromLegacyText(flag.getSpawnMessage()));
-                            });
-                            InCombat.playerSpawned(uuid);
-                        }
-                    }
+        if (team != null && team.hasPlayer(uuid)) {
+            if (!Objects.equals(flag.getCurrentOwners(), team.name)) {
+                Messenger.sendActionError("Your team does not own this flag at the moment.", player);
+            } else if (flag.underAttack()) {
+                Messenger.sendActionError("You can't spawn here. This flag is under attack!", player);
+            } else if (Kit.equippedKits.get(uuid) == null) {
+                Messenger.sendError("You can't join the battlefield without a kit/class!", player);
+                Messenger.sendError("Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!", player);
+            } else {
+                Bukkit.getScheduler().runTask(Main.plugin, () -> {
+                    // Remove mount
+                    if (player.isInsideVehicle())
+                        Objects.requireNonNull(player.getVehicle()).remove();
+                    // Set kit items
+                    Kit.equippedKits.get(uuid).setItems(uuid);
+                    // Spawn player
+                    player.teleport(flag.spawnPoint);
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                            TextComponent.fromLegacyText(flag.getSpawnMessage()));
                 });
+                InCombat.playerSpawned(uuid);
             }
         }
+      });
+    }
+}

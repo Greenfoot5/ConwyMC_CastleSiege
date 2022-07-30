@@ -37,7 +37,7 @@ public class WoolMap implements Listener {
 							Objects.requireNonNull(player.getVehicle()).remove();
 						}
 						// Spawn player with kit
-						block.SpawnPlayer(player.getUniqueId());
+						block.spawnPlayer(player.getUniqueId());
 						Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 					}
 				}
