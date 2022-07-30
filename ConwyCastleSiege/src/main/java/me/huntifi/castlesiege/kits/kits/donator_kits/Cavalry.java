@@ -132,40 +132,35 @@ public class Cavalry extends DonatorKit implements Listener {
                         return;
                     }
 
+                    boolean hasEnemyInRange = false;
                     for (Player all : Bukkit.getOnlinePlayers()) {
 
                         //if the player is not in the same world ignore them.
-                        if (p.getWorld() != all.getWorld()) { return; }
+                        if (p.getWorld() != all.getWorld())
+                            continue;
 
                         //the player executing the ability should have enemy players in range.
-                        if (p.getLocation().distance(all.getLocation()) <= 2.3 && all != p) {
+                        if (p.getLocation().distance(all.getLocation()) <= 2.3 &&
+                                MapController.getCurrentMap().getTeam(all.getUniqueId())
+                                != MapController.getCurrentMap().getTeam(p.getUniqueId())) {
 
+                            hasEnemyInRange = true;
+
+                            // The stomp can be blocked using a shield
                             if (all.isBlocking()) {
                                 all.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                         ChatColor.AQUA + "You blocked " + NameTag.color(p) + p.getName() + ChatColor.AQUA + "'s horse stomp"));
                             } else {
-
-                                //Player's can't be on the same team for the ability to trigger.
-                                if (MapController.getCurrentMap().getTeam(all.getUniqueId())
-                                        != MapController.getCurrentMap().getTeam(p.getUniqueId())) {
-
-                                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY, 1, (float) 0.8);
-
-                                    p.setCooldown(Material.ANVIL, 360);
-
-                                    if ((all.getHealth() - 50 > 0)) {
-                                        all.damage(60);
-                                        all.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
-                                        all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));
-                                        all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
-                                    } else {
-                                        e.setCancelled(true);
-                                        DeathEvent.setKiller(all, p);
-                                        all.setHealth(0);
-                                    }
-                                }
+                                all.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
+                                all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));
+                                all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
+                                all.damage(60, p);
                             }
+                        }
 
+                        if (hasEnemyInRange) {
+                            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY, 1, (float) 0.8);
+                            p.setCooldown(Material.ANVIL, 360);
                         } else {
                             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                     ChatColor.DARK_RED + "No enemy players are close enough for you to perform this ability!"));

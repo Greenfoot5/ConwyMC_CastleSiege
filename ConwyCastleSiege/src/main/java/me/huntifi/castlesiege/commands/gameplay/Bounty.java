@@ -154,7 +154,7 @@ public class Bounty implements CommandExecutor {
             Messenger.sendBounty("You killed " + bountied.getName() + " and claimed "
                     + ChatColor.GOLD + (bounty - assistAmount) + ChatColor.YELLOW + " coins!", killer);
             Messenger.sendBounty("You assisted in killing " + bountied.getName() + " and claimed "
-                    + ChatColor.GOLD + (assistAmount) + ChatColor.YELLOW + " coins!", killer);
+                    + ChatColor.GOLD + (assistAmount) + ChatColor.YELLOW + " coins!", assist);
         }
     }
 

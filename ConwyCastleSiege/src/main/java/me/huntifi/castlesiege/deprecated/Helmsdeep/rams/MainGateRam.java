@@ -1,11 +1,10 @@
-package me.huntifi.castlesiege.Helmsdeep.rams;
+package me.huntifi.castlesiege.deprecated.Helmsdeep.rams;
 
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import me.huntifi.castlesiege.maps.MapController;
 //import me.huntifi.castlesiege.teams.PlayerTeam;
 
 public class MainGateRam implements Runnable {

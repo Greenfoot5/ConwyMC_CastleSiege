@@ -1,4 +1,4 @@
-//package me.huntifi.castlesiege.Helmsdeep.rams;
+//package me.huntifi.castlesiege.deprecated.Helmsdeep.rams;
 //
 //import me.huntifi.castlesiege.structures.SchematicSpawner;
 //import org.bukkit.Bukkit;

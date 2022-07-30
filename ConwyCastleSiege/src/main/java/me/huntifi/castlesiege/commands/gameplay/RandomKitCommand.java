@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 import java.util.UUID;
 
@@ -48,7 +49,7 @@ public class RandomKitCommand implements CommandExecutor {
         String team = MapController.getCurrentMap().getTeam(uuid).name;
 
         // Get unlocked kits, or all if it's Friday
-        ArrayList<String> unlockedKits = DonatorKit.isFriday() ? (ArrayList<String>) Kit.getKits() : ActiveData.getData(uuid).getUnlockedKits();
+        Collection<String> unlockedKits = DonatorKit.isFriday() ? Kit.getKits() : ActiveData.getData(uuid).getUnlockedKits();
         ArrayList<Kit> kits = new ArrayList<>();
 
         unlockedKits.forEach((kitName) -> {

@@ -57,12 +57,13 @@ public class MapProtection implements Listener {
 			return;
 		}
 
-		// Allow breaking ladders and cobwebs outside the lobby
-		if ((e.getBlock().getType() != Material.LADDER && e.getBlock().getType() != Material.COBWEB)
+		// Allow breaking ladders, cobwebs, and fire outside the lobby
+		if ((e.getBlock().getType() != Material.LADDER && e.getBlock().getType() != Material.COBWEB
+				&& e.getBlock().getType() != Material.FIRE && e.getBlock().getType() != Material.SOUL_FIRE)
 				|| InCombat.isPlayerInLobby(p.getUniqueId()) || !MapController.isOngoing()) {
 			e.setCancelled(true);
 		} else {
-			e.getBlock().setType(Material.AIR);
+			e.setDropItems(false);
 		}
 	}
 
@@ -140,24 +141,6 @@ public class MapProtection implements Listener {
 		}
 
 		if (e.getVehicle() instanceof Minecart) {
-			e.setCancelled(true);
-		}
-	}
-
-	/**
-	 * Cancels event when player puts out fire
-	 * @param e The event called when a player left clicks fire
-	 */
-	@EventHandler
-	public void onInteractFire(PlayerInteractEvent e) {
-		// Allow putting out in creative mode
-		Player p = e.getPlayer();
-		if (p.getGameMode() == GameMode.CREATIVE) {
-			return;
-		}
-
-		if (e.getAction() == Action.LEFT_CLICK_BLOCK &&
-				Objects.requireNonNull(e.getClickedBlock()).getType() == Material.FIRE) {
 			e.setCancelled(true);
 		}
 	}

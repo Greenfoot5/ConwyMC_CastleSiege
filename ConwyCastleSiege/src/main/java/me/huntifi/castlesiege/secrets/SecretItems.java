@@ -1,18 +1,14 @@
 package me.huntifi.castlesiege.secrets;
 
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,9 +16,9 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class SecretItems implements Runnable, Listener {
+public class SecretItems implements Listener {
 
-    public static HashMap<Player, ItemStack> secretItemHolder = new HashMap<>();
+    public static HashMap<Player, ArrayList<ItemStack>> secretItemHolder = new HashMap<>();
 
     public static ArrayList<ItemStack> secretItems = new ArrayList<>();
 
@@ -30,11 +26,22 @@ public class SecretItems implements Runnable, Listener {
      * Called when a map starts and spawns all items that are supposed to spawn on that map.
      */
     public static void spawnSecretItems() {
+        secretItemHolder.clear();
+
         spawnSecretItem("HelmsDeep" , herugrim(),
                 new Location(Bukkit.getWorld("HelmsDeep"), 983.903, 58, 986.954));
 
         spawnSecretItem("Thunderstone" , skycookie(),
                 new Location(Bukkit.getWorld("Thunderstone"), 233.50, 67, 78.50));
+
+        spawnSecretItem("Skyhold" , skyholdKeyDoor(),
+                new Location(Bukkit.getWorld("Skyhold"), 1658, 98, -5));
+
+        spawnSecretItem("Skyhold" , skyholdKeyInquisitor(),
+                new Location(Bukkit.getWorld("Skyhold"), 1601, 156, -124));
+
+        spawnSecretItem("Skyhold" , skyholdShield(),
+                new Location(Bukkit.getWorld("Skyhold"), 1617, 49, -51));
     }
 
     /**
@@ -54,71 +61,53 @@ public class SecretItems implements Runnable, Listener {
         }
     }
 
-    @EventHandler
-    public static void dropSecretItem(PlayerDeathEvent e) {
-
-            Player p = e.getEntity();
-
-            if (secretItemHolder.containsKey(p)) {
-
-               for (Map.Entry entry : secretItemHolder.entrySet()) {
-
-                   if (entry.getKey().equals(p)) {
-
-                       p.getInventory().remove(secretItemHolder.get(p));
-
-                       p.getWorld().dropItem(p.getLocation().add(+0.5, +1, +0.5), secretItemHolder.get(p)).setVelocity(new Vector(0, 0, 0));
-
-                       secretItemHolder.remove(p);
-                   }
-               }
-            }
-       }
-
-
     /**
-     *
-     * @param e when a player quits it drops the secret item on the ground.
+     * When a player dies, they drop any secret items they hold on the ground.
+     * @param e The event called when a player quits the game
      */
-
     @EventHandler
-    public static void dropSecretItemOnQuit(PlayerQuitEvent e) {
-
-        Player p = e.getPlayer();
-
-        if (secretItemHolder.containsKey(p)) {
-
-            for (Map.Entry entry : secretItemHolder.entrySet()) {
-
-                if (entry.getKey().equals(p)) {
-
-                    p.getInventory().remove(secretItemHolder.get(p));
-
-                    p.getWorld().dropItem(p.getLocation().add(+0.5, +1, +0.5), secretItemHolder.get(p)).setVelocity(new Vector(0, 0, 0));
-
-                    secretItemHolder.remove(p);
-                }
-            }
-        }
+    public void onDeath(PlayerDeathEvent e) {
+        dropSecretItems(e.getEntity());
     }
 
     /**
-     * Checks if you hold any of the secret items in your inventory
+     * When a player quits, they drop any secret items they hold on the ground.
+     * @param e The event called when a player quits the game
      */
-    @Override
-    public void run() {
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e) {
+        dropSecretItems(e.getPlayer());
+    }
 
-            for (Player p : Bukkit.getOnlinePlayers()) {
+    /**
+     * Drop any secret items the player holds on the ground
+     * @param player The player for whom to drop the items
+     */
+    private void dropSecretItems(Player player) {
+        if (!secretItemHolder.containsKey(player))
+            return;
+        for (ItemStack item : secretItemHolder.get(player)) {
+            player.getInventory().remove(item);
+            player.getWorld().dropItem(player.getLocation().add(0, 1, 0), item).setVelocity(new Vector(0, 0, 0));
+        }
 
-                for (ItemStack secret : secretItems) {
+        secretItemHolder.remove(player);
+    }
 
-                    if (p.getInventory().contains(secret)) {
+    /**
+     * Register the holder of a secret item on pickup
+     * @param event The event called when a player picks up an item
+     */
+    @EventHandler
+    public void onPickup(EntityPickupItemEvent event) {
+        if (!(event.getEntity() instanceof Player))
+            return;
 
-                        secretItemHolder.put(p, secret);
-
-                    }
-                }
-            }
+        Player player = (Player) event.getEntity();
+        if (secretItems.contains(event.getItem().getItemStack())) {
+            secretItemHolder.putIfAbsent(player, new ArrayList<>());
+            secretItemHolder.get(player).add(event.getItem().getItemStack());
+        }
     }
 
     /**
@@ -128,42 +117,22 @@ public class SecretItems implements Runnable, Listener {
 
         secretItems.add(herugrim());
         secretItems.add(skycookie());
+        secretItems.add(skyholdKeyDoor());
+        secretItems.add(skyholdKeyInquisitor());
+        secretItems.add(skyholdShield());
 
     }
 
     /**
-     *
-     * @param p the player to check
-     * @return true if the player has a secret item, false when they don't.
+     * When a player clicks an enderchest, it shall be given back the secret items it had.
+     * This method should only be called from the enderchest class.
+     * @param player The player who clicked an enderchest
      */
-    public static boolean playerHasSecret(Player p) {
-        if (secretItemHolder.containsKey(p)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     *
-     * @param p when this player clicks an enderchest it shall be given back the secret item it had.
-     * This method is called in the enderchest class.
-     */
-    public static void giveSecretOnEnderchest(Player p) {
-        if (playerHasSecret(p)) {
-            p.getInventory().addItem(secretItemHolder.get(p));
-        }
-    }
-
-
-    private static ItemStack setDamage(ItemStack item, double damage) {
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
-                new AttributeModifier(UUID.randomUUID(), "SetHandDamage", damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
-                new AttributeModifier(UUID.randomUUID(), "SetOffHandDamage", damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
-        item.setItemMeta(meta);
-        return item;
+    public static void giveSecretOnEnderchest(Player player) {
+        if (!secretItemHolder.containsKey(player))
+            return;
+        for (ItemStack item : secretItemHolder.get(player))
+            player.getInventory().addItem(item);
     }
 
                                                 //Secret Items\\
@@ -187,7 +156,7 @@ public class SecretItems implements Runnable, Listener {
 
          swordMeta.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
 
-         ArrayList<String> lore1 = new ArrayList<String>();
+         ArrayList<String> lore1 = new ArrayList<>();
 
          swordMeta.setLore(lore1);
 
@@ -214,13 +183,90 @@ public class SecretItems implements Runnable, Listener {
 
         cookieMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
 
-        ArrayList<String> lore1 = new ArrayList<String>();
+        ArrayList<String> lore1 = new ArrayList<>();
 
         cookieMeta.setLore(lore1);
 
         cookie.setItemMeta(cookieMeta);
 
         return cookie;
+    }
+
+    final public static ItemStack skyholdKeyInquisitor() {
+
+        ItemStack vaultKey = new ItemStack(Material.GOLDEN_HOE);
+
+        ItemMeta vaultKeyMeta = vaultKey.getItemMeta();
+
+        vaultKeyMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        vaultKeyMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        vaultKeyMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        vaultKeyMeta.setUnbreakable(true);
+
+        vaultKeyMeta.setDisplayName(ChatColor.GOLD + "Vault Key");
+
+        vaultKeyMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+
+        ArrayList<String> lore1 = new ArrayList<>();
+
+        vaultKeyMeta.setLore(lore1);
+
+        vaultKey.setItemMeta(vaultKeyMeta);
+
+        return vaultKey;
+    }
+
+    final public static ItemStack skyholdKeyDoor() {
+
+        ItemStack vaultKey = new ItemStack(Material.IRON_HOE);
+
+        ItemMeta vaultKeyMeta = vaultKey.getItemMeta();
+
+        vaultKeyMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        vaultKeyMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        vaultKeyMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        vaultKeyMeta.setUnbreakable(true);
+
+        vaultKeyMeta.setDisplayName(ChatColor.GOLD + "Door Key");
+
+        vaultKeyMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+
+        ArrayList<String> lore1 = new ArrayList<>();
+
+        vaultKeyMeta.setLore(lore1);
+
+        vaultKey.setItemMeta(vaultKeyMeta);
+
+        return vaultKey;
+    }
+
+    final public static ItemStack skyholdShield() {
+
+        ItemStack shield = new ItemStack(Material.SHIELD);
+
+        ItemMeta shieldMeta = shield.getItemMeta();
+
+        shieldMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        shieldMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        shieldMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        shieldMeta.setUnbreakable(true);
+
+        shieldMeta.setDisplayName(ChatColor.GOLD + "Shield of Skyhold");
+
+        shieldMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+
+        shieldMeta.addEnchant(Enchantment.THORNS, 10, true);
+
+        ArrayList<String> lore1 = new ArrayList<>();
+
+        shieldMeta.setLore(lore1);
+
+        shield.setItemMeta(shieldMeta);
+
+        return shield;
     }
 
 

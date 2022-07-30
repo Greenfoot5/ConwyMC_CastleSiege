@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.events.chat;
 
 import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
+import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -47,7 +48,8 @@ public class PlayerChat implements Listener {
 
 
 		// Set message colour to white or gray and send as regular message
-		ChatColor color = p.hasPermission("castlesiege.chatmod") ? ChatColor.WHITE : ChatColor.GRAY;
+		ChatColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
+				? ChatColor.WHITE : ChatColor.GRAY;
 
 		//Allow to tag players in chat
 		for (Player tagged : Bukkit.getOnlinePlayers()) {

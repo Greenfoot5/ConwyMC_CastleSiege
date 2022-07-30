@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.Thunderstone.Rams;
+package me.huntifi.castlesiege.deprecated.Thunderstone.Rams;
 
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.WorldEditException;
 
-import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateDestroyEvent;
+//import me.huntifi.castlesiege.Thunderstone.Gate.ThunderstoneGateDestroyEvent;
 import me.huntifi.castlesiege.maps.MapController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -34,7 +34,7 @@ public class ThunderstoneRamAnimation implements Runnable {
 
 			if (ThunderstoneGateReadyRam.isRamReady) {
 
-				if (!ThunderstoneGateDestroyEvent.isBreached && ThunderstoneGateDestroyEvent.GateHealth > 0) {
+				if (true) {//!ThunderstoneGateDestroyEvent.isBreached && ThunderstoneGateDestroyEvent.GateHealth > 0) {
 
 					if (!hasRammed) {
 
@@ -52,11 +52,11 @@ public class ThunderstoneRamAnimation implements Runnable {
 
 						Bukkit.getWorld("Thunderstone").playSound(ram, Sound.ENTITY_ZOMBIE_ATTACK_WOODEN_DOOR , 2, 1 );
 						
-						if ((ThunderstoneGateDestroyEvent.GateHealth - 50) <= 0) { //check if gate dies after this and kill gate
+						if (true) {//(ThunderstoneGateDestroyEvent.GateHealth - 50) <= 0) { //check if gate dies after this and kill gate
 							
 							Location loc = new Location(plugin.getServer().getWorld("Thunderstone"), 156, 65, 67);  //sound location and schematic location, must be the same as in ThunderstoneGateDestroyEvent.
 
-							if (ThunderstoneGateDestroyEvent.isBreached == false) {
+							if (true) {//ThunderstoneGateDestroyEvent.isBreached == false) {
 
 								for (Player all : Bukkit.getOnlinePlayers()) {
 
@@ -80,18 +80,18 @@ public class ThunderstoneRamAnimation implements Runnable {
 
 								Bukkit.getWorld("Thunderstone").playSound(loc, Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR , 1, 1);
 
-								ThunderstoneGateDestroyEvent.isBreached = true;
+								//ThunderstoneGateDestroyEvent.isBreached = true;
 
 							}
 							
 						} else {
 							
-							ThunderstoneGateDestroyEvent.GateHealth = ThunderstoneGateDestroyEvent.GateHealth - 50;
+							//ThunderstoneGateDestroyEvent.GateHealth = ThunderstoneGateDestroyEvent.GateHealth - 50;
 							
 							for (Player p : ThunderstoneRam.rammingPlayers) {
 							
 							UpdateStats.addSupports(p.getUniqueId(), 8.5);
-							p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GRAY + "" + ChatColor.BOLD + "Gate Health: " + ThunderstoneGateDestroyEvent.GateHealth));
+							p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GRAY + "" + ChatColor.BOLD + "Gate Health: "));// + ThunderstoneGateDestroyEvent.GateHealth));
 							
 							}
 				

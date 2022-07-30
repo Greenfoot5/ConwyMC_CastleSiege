@@ -1,0 +1,123 @@
+package me.huntifi.castlesiege.secrets.Abrakhan;
+
+import me.huntifi.castlesiege.Main;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+
+public class AbrakhanSecretDoor implements Listener {
+
+    boolean isRedDoorOpen;
+
+    boolean isTorchDoorOpen;
+
+    Location doorLoc = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 123, 49, -113);
+    Location redtorchLoc = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 126, 50, -116);
+
+    Location torchLoc = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 116, 39, -121);
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event){
+
+
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
+
+            if(event.getClickedBlock().getType().equals(Material.REDSTONE_WALL_TORCH) && event.getClickedBlock().getLocation().equals(redtorchLoc)) {
+
+                Player p = event.getPlayer();
+
+
+                if (!isRedDoorOpen) {
+
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened a secret door!"));
+                    isRedDoorOpen = true;
+                    openRedstoneDoor();
+
+                    new BukkitRunnable() {
+
+                        @Override
+                        public void run() {
+
+                            isRedDoorOpen = false;
+                            closeRedstoneDoor();
+                        }
+                    }.runTaskLater(Main.plugin, 60);
+
+
+                }
+            } else if (event.getClickedBlock().getType().equals(Material.WALL_TORCH) && event.getClickedBlock().getLocation().equals(torchLoc)) {
+                Player p = event.getPlayer();
+                if (!isTorchDoorOpen) {
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened a secret door!"));
+                    isTorchDoorOpen = true;
+                    openTorchDoor();
+
+                    new BukkitRunnable() {
+
+                        @Override
+                        public void run() {
+
+                            isTorchDoorOpen = false;
+                            closeTorchDoor();
+                        }
+                    }.runTaskLater(Main.plugin, 60);
+
+
+                }
+            }
+        }
+    }
+
+
+    public void openRedstoneDoor() {
+
+        Bukkit.getWorld("Abrakhan").playSound(doorLoc, Sound.BLOCK_WOODEN_DOOR_OPEN , 1, 2);
+        Location Block1 = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 123, 49, -113);
+        Block1.getBlock().setType(Material.AIR);
+        Location Block2 = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 123, 48, -113);
+        Block2.getBlock().setType(Material.AIR);
+
+
+    }
+
+
+    public void closeRedstoneDoor() {
+
+        Bukkit.getWorld("Abrakhan").playSound(doorLoc, Sound.BLOCK_WOODEN_DOOR_OPEN , 1, 2);
+        Location Block1 = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 123, 49, -113);
+        Block1.getBlock().setType(Material.SANDSTONE);
+        Location Block2 = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 123, 48, -113);
+        Block2.getBlock().setType(Material.SANDSTONE);
+    }
+
+    public void openTorchDoor() {
+
+        Bukkit.getWorld("Abrakhan").playSound(doorLoc, Sound.BLOCK_WOODEN_DOOR_OPEN , 1, 2);
+        Location Block1 = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 116, 39, -124);
+        Block1.getBlock().setType(Material.AIR);
+        Location Block2 = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 116, 38, -124);
+        Block2.getBlock().setType(Material.AIR);
+
+
+    }
+
+
+    public void closeTorchDoor() {
+
+        Bukkit.getWorld("Abrakhan").playSound(doorLoc, Sound.BLOCK_WOODEN_DOOR_OPEN , 1, 2);
+        Location Block1 = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 116, 39, -124);
+        Block1.getBlock().setType(Material.SANDSTONE);
+        Location Block2 = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 116, 38, -124);
+        Block2.getBlock().setType(Material.SANDSTONE);
+    }
+}

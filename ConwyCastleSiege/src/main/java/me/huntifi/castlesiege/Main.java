@@ -65,10 +65,12 @@ import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.maps.objects.*;
+import me.huntifi.castlesiege.secrets.Abrakhan.AbrakhanSecretDoor;
 import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
 import me.huntifi.castlesiege.secrets.SecretBlocks;
 import me.huntifi.castlesiege.secrets.SecretItems;
 import me.huntifi.castlesiege.secrets.SecretSigns;
+import me.huntifi.castlesiege.secrets.Skyhold.Doors;
 import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
@@ -153,6 +155,8 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new SecretSigns(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretBlocks(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretPortal(), plugin);
+                getServer().getPluginManager().registerEvents(new Doors(), plugin);
+                getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
 
 
                 // Combat
@@ -330,21 +334,13 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
                 boatEvent.spawnBoat();
 
-                // OLD EVENTS
-
-                //getServer().getPluginManager().registerEvents(new Herugrim(), plugin);
-
-
+                // Timed
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new MapBorder(), 0, 80);
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
-                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new SecretItems(), 0, 20);
-
-
-                //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Herugrim(), 10, 10);
 
                 getLogger().info("Plugin has been enabled!");
 
@@ -353,16 +349,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 //This registers the secret items
                 SecretItems.registerSecretItems();
-
-//		new BukkitRunnable() {
-//
-//			@Override
-//			public void run() {
-//
-//				Herugrim.spawnHerugrim();
-//
-//			}
-//		}.runTaskLater(plugin, 200);
             }
         }.runTaskLater(plugin, 1);
     }

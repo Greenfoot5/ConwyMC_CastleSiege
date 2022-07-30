@@ -30,12 +30,17 @@ public class SecretsCommand implements CommandExecutor {
                 String thunder = getThunderstoneSecrets(p);
                 String lake = getLakeboroughSecrets(p);
                 String elwynn = getElwynnSecrets(p);
+                String skyhold = getSkyholdSecrets(p);
+                String abraham = getAbrakhanSecrets(p);
 
                         p.sendMessage(ChatColor.DARK_AQUA + " -----Secrets----- ");
-                        p.sendMessage(ChatColor.DARK_AQUA + " Helm's Deep: " + helms);
-                        p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
-                        p.sendMessage(ChatColor.DARK_AQUA + " Lakeborough: " + lake);
+                        p.sendMessage(ChatColor.DARK_AQUA + " Abrakhan: " + abraham);
                         p.sendMessage(ChatColor.DARK_AQUA + " Elwynn: " + elwynn);
+                        p.sendMessage(ChatColor.DARK_AQUA + " Helm's Deep: " + helms);
+                        p.sendMessage(ChatColor.DARK_AQUA + " Lakeborough: " + lake);
+                        p.sendMessage(ChatColor.DARK_AQUA + " Skyhold: " + skyhold);
+                        p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
+
 
 
         return true;
@@ -53,22 +58,22 @@ public class SecretsCommand implements CommandExecutor {
 
         int foundAmount = 0;
 
-        if (data.getFoundSecrets().contains("Thunderstone_Lantern")) {
+        if (data.hasSecret("Thunderstone_Lantern")) {
             foundAmount = foundAmount + 1;
          }
-        if (data.getFoundSecrets().contains("Thunderstone_Island")) {
+        if (data.hasSecret("Thunderstone_Island")) {
             foundAmount = foundAmount + 1;
         }
-        if (data.getFoundSecrets().contains("Thunderstone_Huntifi")) {
+        if (data.hasSecret("Thunderstone_Huntifi")) {
             foundAmount = foundAmount + 1;
         }
-        if (data.getFoundSecrets().contains("Thunderstone_Skyview")) {
+        if (data.hasSecret("Thunderstone_Skyview")) {
             foundAmount = foundAmount + 1;
         }
-        if (data.getFoundSecrets().contains("Thunderstone_Cookie")) {
+        if (data.hasSecret("Thunderstone_Cookie")) {
             foundAmount = foundAmount + 1;
         }
-        if (data.getFoundSecrets().contains("Thunderstone_Fall")) {
+        if (data.hasSecret("Thunderstone_Fall")) {
             foundAmount = foundAmount + 1;
         }
 
@@ -82,13 +87,13 @@ public class SecretsCommand implements CommandExecutor {
 
                 int foundAmount = 0;
 
-                if (data.getFoundSecrets().contains("HD_HornSecret")) {
+                if (data.hasSecret("HD_HornSecret")) {
                     foundAmount = foundAmount + 1;
                 }
-                if (data.getFoundSecrets().contains("HD_HillSecret")) {
+                if (data.hasSecret("HD_HillSecret")) {
                     foundAmount = foundAmount + 1;
                 }
-                if (data.getFoundSecrets().contains("HD_Herugrim")) {
+                if (data.hasSecret("HD_Herugrim")) {
                     foundAmount = foundAmount + 1;
                 }
 
@@ -102,16 +107,39 @@ public class SecretsCommand implements CommandExecutor {
 
         int foundAmount = 0;
 
-        if (data.getFoundSecrets().contains("Lakeborough_Well")) {
+        if (data.hasSecret("Lakeborough_Well")) {
             foundAmount = foundAmount + 1;
         }
-        if (data.getFoundSecrets().contains("Lakeborough_Mill")) {
+        if (data.hasSecret("Lakeborough_Mill")) {
             foundAmount = foundAmount + 1;
         }
-        if (data.getFoundSecrets().contains("Lakeborough_Underwater")) {
+        if (data.hasSecret("Lakeborough_Underwater")) {
             foundAmount = foundAmount + 1;
         }
-        if (data.getFoundSecrets().contains("Lakeborough_Fireplace")) {
+        if (data.hasSecret("Lakeborough_Fireplace")) {
+            foundAmount = foundAmount + 1;
+        }
+
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/4)";
+    }
+
+    public String getAbrakhanSecrets(Player p) {
+        UUID uuid = p.getUniqueId();
+
+        PlayerData data = ActiveData.getData(uuid);
+
+        int foundAmount = 0;
+
+        if (data.hasSecret("Abrakhan_Sewer")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Abrakhan_Vault")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Abrakhan_Tunnel")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Abrakhan_Prison")) {
             foundAmount = foundAmount + 1;
         }
 
@@ -123,28 +151,83 @@ public class SecretsCommand implements CommandExecutor {
         UUID uuid = p.getUniqueId();
 
         PlayerData data = ActiveData.getData(uuid);
+        int foundAmount = 0;
+
+        if (data.hasSecret("Elwynn_Abbey")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Elwynn_Kobold")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Elwynn_Sewers")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Elwynn_Murloc")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Elwynn_Lake")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Elwynn_Inn")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Elwynn_Tree")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Elwynn_Training")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Elwynn_Bridge")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Elwynn_River")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Elwynn_Hightree")) {
+            foundAmount = foundAmount + 1;
+        }
+
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/11)";
+    }
+
+    public String getSkyholdSecrets(Player p) {
+        UUID uuid = p.getUniqueId();
+
+        PlayerData data = ActiveData.getData(uuid);
 
         int foundAmount = 0;
 
-        if (data.getFoundSecrets().contains("Elwynn_Abbey")) {
+        if (data.hasSecret("Skyhold_Vault")) {
             foundAmount = foundAmount + 1;
         }
-        if (data.getFoundSecrets().contains("Elwynn_Kobold")) {
+        if (data.hasSecret("Skyhold_Ravens")) {
             foundAmount = foundAmount + 1;
         }
-        if (data.getFoundSecrets().contains("Elwynn_Sewers")) {
+        if (data.hasSecret("Skyhold_Top")) {
             foundAmount = foundAmount + 1;
         }
-        if (data.getFoundSecrets().contains("Elwynn_Murloc")) {
+        if (data.hasSecret("Skyhold_Inquisitor")) {
             foundAmount = foundAmount + 1;
         }
-        if (data.getFoundSecrets().contains("Elwynn_Lake")) {
+        if (data.hasSecret("Skyhold_Attic")) {
             foundAmount = foundAmount + 1;
         }
-        if (data.getFoundSecrets().contains("Elwynn_Inn")) {
+        if (data.hasSecret("Skyhold_Barn")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Skyhold_Statue")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Skyhold_Water")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Skyhold_Shield")) {
+            foundAmount = foundAmount + 1;
+        }
+        if (data.hasSecret("Skyhold_Tomb")) {
             foundAmount = foundAmount + 1;
         }
 
-        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/6)";
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/10)";
     }
 }

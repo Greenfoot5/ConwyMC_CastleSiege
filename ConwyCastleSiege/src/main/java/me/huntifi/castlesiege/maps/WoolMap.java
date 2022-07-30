@@ -6,6 +6,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Objects;
@@ -23,6 +24,9 @@ public class WoolMap implements Listener {
 	 */
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
+		// Prevent spawning by physical actions, e.g. stepping on a pressure plate
+		if (e.getAction() == Action.PHYSICAL)
+			return;
 
 		Player player = e.getPlayer();
 		Block target = player.getTargetBlockExact(50);
@@ -39,6 +43,8 @@ public class WoolMap implements Listener {
 						// Spawn player with kit
 						block.spawnPlayer(player.getUniqueId());
 						Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+						// Spawn player
+						block.spawnPlayer(player.getUniqueId());
 					}
 				}
 			}

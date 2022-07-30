@@ -105,7 +105,7 @@ public class Halberdier extends DonatorKit implements Listener {
     public void weakToArrows(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Arrow &&
                 Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
-            e.setDamage(e.getDamage() * 1.5);
+            e.setDamage(e.getDamage() * 2);
         }
     }
 }

@@ -50,7 +50,6 @@ public class PlayerDisconnect implements Listener {
 
         stopCapping(e.getPlayer());
 
-        storeSecrets(uuid);
         Kit.equippedKits.remove(uuid);
         storeData(uuid);
         MapController.leaveTeam(uuid);
@@ -80,25 +79,6 @@ public class PlayerDisconnect implements Listener {
                 try {
                     StoreData.store(uuid);
                     ActiveData.removePlayer(uuid);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.runTaskAsynchronously(Main.plugin);
-    }
-
-    /**
-     *
-     * @param uuid the player UUID to store the secrets for
-     */
-    private void storeSecrets(UUID uuid) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    for (String secret : ActiveData.getData(uuid).getFoundSecrets()) {
-                        StoreData.addFoundSecret(uuid, secret);
-                    }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
