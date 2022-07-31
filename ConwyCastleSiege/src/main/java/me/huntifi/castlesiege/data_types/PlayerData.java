@@ -215,6 +215,16 @@ public class PlayerData {
     }
 
     /**
+     * Increase the player's heals by 1
+     * Add 0.5 points and coins per heal
+     */
+    public void addHeals(double heals) {
+        this.heals += (1 * heals);
+        addScore(0.5 * heals);
+        addCoins(0.5 * heals);
+    }
+
+    /**
      * Get the player's current supports
      * @return The player's supports
      */

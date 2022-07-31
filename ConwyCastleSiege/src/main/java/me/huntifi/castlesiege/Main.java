@@ -186,6 +186,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new MapProtection(), plugin);
 
                 // Kits
+                getServer().getPluginManager().registerEvents(new Alchemist(), plugin);
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
@@ -290,6 +291,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("SetTag")).setExecutor(new NameTag());
 
                 // Kits
+                Objects.requireNonNull(getCommand("Alchemist")).setExecutor(new Alchemist());
                 Objects.requireNonNull(getCommand("Random")).setExecutor(new RandomKitCommand());
                 Objects.requireNonNull(getCommand("buykit")).setExecutor(new CoinbuyCommand());
                 Objects.requireNonNull(getCommand("coinshop")).setExecutor(new CoinshopGui());

@@ -72,7 +72,10 @@ public class CoinshopGui implements Listener, CommandExecutor {
     }
 
     //Add all the shop items
-    public static void registerShop(Player p) {
+    public static void registerShop() {
+
+        addItem(ChatColor.GOLD + "" + ChatColor.BOLD + "Alchemist", Material.CAULDRON, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((DonatorKit) Kit.getKit("Alchemist")).getPrice(),
+                ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 0, "donator Alchemist");
 
         addItem(ChatColor.GOLD + "" + ChatColor.BOLD + "Berserker", Material.POTION, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((DonatorKit) Kit.getKit("Berserker")).getPrice(),
             ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 0, "donator Berserker");
@@ -168,7 +171,7 @@ public class CoinshopGui implements Listener, CommandExecutor {
         }
 
         p.openInventory(CoinshopGui("Coin Shop"));
-        CoinshopGui.registerShop(p);
+        CoinshopGui.registerShop();
     }
 
         return true;
