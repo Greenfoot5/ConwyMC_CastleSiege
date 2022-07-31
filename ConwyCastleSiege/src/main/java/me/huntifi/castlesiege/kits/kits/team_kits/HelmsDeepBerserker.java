@@ -112,6 +112,11 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_BIG_FALL, 1, 1);
                         e.setDamage(e.getDamage() * 2);
 
+                        if (p.getVehicle() != null && p.getVehicle() instanceof Horse) {
+                            Horse horse = (Horse) p.getVehicle();
+                            horse.damage(e.getDamage() * 2);
+                        }
+
                         for (Player o : Bukkit.getOnlinePlayers()) {
                             if (MapController.getCurrentMap().getTeam(o.getUniqueId())
                                     != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
@@ -128,20 +133,6 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
                                         o.setHealth(0);
                                     }
                                 }
-                            }
-                        }
-                    }
-                }
-            } else {
-                Entity creature = e.getEntity();
-                if (creature instanceof Horse) {
-                    Horse horse = (Horse) creature;
-                    if (creature.getPassengers() != null) {
-                        if (creature.getPassengers().get(0) instanceof Player) {
-                            Player p = ((Player) creature.getPassengers().get(0)).getPlayer();
-                            if (MapController.getCurrentMap().getTeam(p.getUniqueId())
-                                    != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
-                                    horse.damage(e.getDamage() * 2.5);
                             }
                         }
                     }
