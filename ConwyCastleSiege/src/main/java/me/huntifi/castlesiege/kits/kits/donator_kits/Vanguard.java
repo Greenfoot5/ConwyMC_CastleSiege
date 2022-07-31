@@ -112,7 +112,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
                     if (cooldown == 0) {
-                        p.setCooldown(Material.DIAMOND_SWORD, 260);
+                        p.setCooldown(Material.DIAMOND_SWORD, 220);
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.AQUA + "You are charging forward"));
                         p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 70, 3)));

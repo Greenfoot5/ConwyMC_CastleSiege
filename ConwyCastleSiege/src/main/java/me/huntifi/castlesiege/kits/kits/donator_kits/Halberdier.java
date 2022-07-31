@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -40,13 +41,13 @@ public class Halberdier extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-                ChatColor.GREEN + "Halberd", null, null, 41);
+                ChatColor.GREEN + "Halberd", null, null, 48);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
                         ChatColor.GREEN + "Halberd",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 42),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 50),
                 0);
 
         // Chestplate
@@ -94,6 +95,44 @@ public class Halberdier extends DonatorKit implements Listener {
                     cav.isInsideVehicle() && cav.getVehicle() instanceof Horse) {
                 e.setDamage(e.getDamage() * 1.5);
             }
+        }
+    }
+
+    /**
+     * The cooldown event for halberdier.
+     * @param e The event called when dealing damage to another player
+     */
+    @EventHandler (priority = EventPriority.HIGHEST)
+    public void halbCooldown(EntityDamageByEntityEvent e) {
+        if (e.getDamager() instanceof Player) {
+            Player halb = (Player) e.getDamager();
+
+            if (Objects.equals(Kit.equippedKits.get(halb.getUniqueId()).name, name)) {
+
+            if (e.getEntity() instanceof Player) {
+                Player other = (Player) e.getEntity();
+
+                if (MapController.getCurrentMap().getTeam(halb.getUniqueId())
+                                != MapController.getCurrentMap().getTeam(other.getUniqueId()) &&
+                        halb.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE &&
+                        halb.getCooldown(Material.DIAMOND_AXE) == 0) {
+
+                        halb.setCooldown(Material.DIAMOND_AXE, 31);
+                        e.setCancelled(false);
+                } else if (halb.getCooldown(Material.DIAMOND_AXE) != 0) {
+                    e.setCancelled(true);
+                }
+
+            } else {
+                if (halb.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE &&
+                        halb.getCooldown(Material.DIAMOND_AXE) == 0) {
+                    halb.setCooldown(Material.DIAMOND_AXE, 22);
+                    e.setCancelled(false);
+                } else if (halb.getCooldown(Material.DIAMOND_AXE) != 0){
+                    e.setCancelled(true);
+                }
+             }
+           }
         }
     }
 

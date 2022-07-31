@@ -63,7 +63,7 @@ public class Archer extends FreeKit {
 		// Bow
 		es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
 				ChatColor.GREEN + "Bow", null,
-				Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 16)));
+				Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 17)));
 
 		super.equipment = es;
 	}

@@ -25,7 +25,7 @@ import java.util.Objects;
 public class ConwyArbalester extends TeamKit implements Listener {
 
     public ConwyArbalester() {
-        super("Arbalester", 160, 9.5, "Conwy", "The English", 5000);
+        super("Arbalester", 160, 3, "Conwy", "The English", 5000);
 
 
         // Equipment Stuff
@@ -72,7 +72,7 @@ public class ConwyArbalester extends TeamKit implements Listener {
 
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 1));
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 1));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 3));
 
         // Death Messages
         super.projectileDeathMessage[0] = "Your skull was pierced by ";
@@ -99,10 +99,10 @@ public class ConwyArbalester extends TeamKit implements Listener {
                 return;
             }
 
-            p.setCooldown(Material.CROSSBOW, 110);
+            p.setCooldown(Material.CROSSBOW, 160);
             Arrow a = (Arrow) e.getProjectile();
             ((Arrow) e.getProjectile()).setPierceLevel(2);
-            a.setKnockbackStrength(3);
+            a.setKnockbackStrength(2);
             a.setVelocity(p.getLocation().getDirection().normalize().multiply(42));
         }
     }

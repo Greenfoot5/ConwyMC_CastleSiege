@@ -27,7 +27,7 @@ public class CryptsFallen extends TeamKit implements Listener {
      * Create a kit with basic settings
      */
     public CryptsFallen() {
-        super("Fallen", 160, 23, "Royal Crypts", "Tomb Guardians", 1000);
+        super("Fallen", 220, 23, "Royal Crypts", "Tomb Guardians", 3500);
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;
@@ -38,19 +38,21 @@ public class CryptsFallen extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GRAY + "Fallen Sword", null, null, 25);
+                ChatColor.GRAY + "Fallen Sword", null, null, 27);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GRAY + "Fallen Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 27),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 29),
                 0);
 
         super.equipment = es;
 
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.WATER_BREATHING, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999, 0));
 
         // Death Messages
         super.deathMessage[0] = "You were withered away by ";

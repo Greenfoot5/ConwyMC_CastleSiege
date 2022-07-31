@@ -12,11 +12,15 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 
 import java.util.Arrays;
@@ -28,7 +32,7 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
 
 
     public HelmsDeepBerserker() {
-        super("Uruk Berserker", 120, 6, "Helm's Deep", "Uruk-hai", 2500);
+        super("Uruk Berserker", 145, 6, "Helm's Deep", "Uruk-hai", 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -65,6 +69,8 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
 
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
+
         super.equipment = es;
 
         super.canClimb = true;
@@ -85,38 +91,57 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
             return;
         }
 
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-            Player p = (Player) e.getEntity();
+        if (e.getDamager() instanceof Player) {
             Player q = (Player) e.getDamager();
+            if (e.getEntity() instanceof Player) {
+                Player p = (Player) e.getEntity();
 
-            // Uruk Berserker tries to cleave every enemy player around them
-            if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    MapController.getCurrentMap().getTeam(q.getUniqueId())
-                            != MapController.getCurrentMap().getTeam(p.getUniqueId()) &&
-                    q.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD &&
-                    q.getCooldown(Material.IRON_SWORD) == 0) {
-                q.setCooldown(Material.IRON_SWORD, 60);
+                // Uruk Berserker tries to cleave every enemy player around them
+                if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
+                        MapController.getCurrentMap().getTeam(q.getUniqueId())
+                                != MapController.getCurrentMap().getTeam(p.getUniqueId()) &&
+                        q.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD &&
+                        q.getCooldown(Material.IRON_SWORD) == 0) {
+                    q.setCooldown(Material.IRON_SWORD, 60);
 
-                // Enemy blocks stun
-                if (p.isBlocking()) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You blocked " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s cleave"));
-                } else {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_BIG_FALL , 1, 1 );
-                    e.setDamage(e.getDamage() * 1.5);
+                    // Enemy blocks stun
+                    if (p.isBlocking()) {
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                                ChatColor.AQUA + "You blocked " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s cleave"));
+                    } else {
+                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_BIG_FALL, 1, 1);
+                        e.setDamage(e.getDamage() * 2);
 
-                    for (Player o : Bukkit.getOnlinePlayers()) {
-                        if (p.getWorld() != o.getWorld() || o == p || o == q) {
-                            return;
+                        for (Player o : Bukkit.getOnlinePlayers()) {
+                            if (MapController.getCurrentMap().getTeam(o.getUniqueId())
+                                    != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
+                                if (p.getWorld() != o.getWorld() || o == p || o == q) {
+                                    return;
+                                }
+
+                                if (o.getLocation().distance(p.getLocation()) < 2.1) {
+                                    if ((o.getHealth() - (e.getDamage() * 1.5) > 0)) {
+                                        o.damage(e.getDamage() * 1.5);
+                                    } else {
+                                        e.setCancelled(true);
+                                        DeathEvent.setKiller(o, p);
+                                        o.setHealth(0);
+                                    }
+                                }
+                            }
                         }
-
-                        if (o.getLocation().distance(p.getLocation()) < 2.1) {
-                            if ((o.getHealth() - e.getDamage() > 0)) {
-                                o.damage(e.getDamage());
-                            } else {
-                                e.setCancelled(true);
-                                DeathEvent.setKiller(o, p);
-                                o.setHealth(0);
+                    }
+                }
+            } else {
+                Entity creature = e.getEntity();
+                if (creature instanceof Horse) {
+                    Horse horse = (Horse) creature;
+                    if (creature.getPassengers() != null) {
+                        if (creature.getPassengers().get(0) instanceof Player) {
+                            Player p = ((Player) creature.getPassengers().get(0)).getPlayer();
+                            if (MapController.getCurrentMap().getTeam(p.getUniqueId())
+                                    != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
+                                    horse.damage(e.getDamage() * 2.5);
                             }
                         }
                     }
