@@ -135,7 +135,6 @@ public class Alchemist extends DonatorKit implements Listener {
                                         if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
                                                 != MapController.getCurrentMap().getTeam(entity.getUniqueId()) && ((Player) entity).getPlayer() != damager) {
                                             AssistKill.addDamager(hit.getUniqueId(), damager.getUniqueId(), 60);
-                                            DeathEvent.setKiller((Player)entity, damager);
                                             ((Player) entity).addPotionEffect(effect);
                                         }
                                     }
