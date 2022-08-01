@@ -18,7 +18,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.Levelled;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -32,7 +31,6 @@ import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -46,7 +44,7 @@ public class Alchemist extends DonatorKit implements Listener {
     private final ItemStack standVoted;
 
     public Alchemist() {
-        super("Alchemist", 140, 9, 100);
+        super("Alchemist", 140, 9, 7500);
         super.canSeeHealth = true;
 
         // Equipment Stuff
