@@ -5,6 +5,7 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.session.SessionManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
@@ -136,7 +137,7 @@ public class Main extends JavaPlugin implements Listener {
                 // World Guard
                 SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
                 // second param allows for ordering of handlers - see the JavaDocs
-                sessionManager.registerHandler(CaptureHandler.FACTORY, null);
+                sessionManager.registerHandler(RegionHandler.FACTORY, null);
 
                 // Tips
                 new Tips().runTaskTimer(plugin, Tips.TIME_BETWEEN_TIPS * 20L, Tips.TIME_BETWEEN_TIPS * 20L);
@@ -754,30 +755,12 @@ public class Main extends JavaPlugin implements Listener {
             //Hologram Location
             flag.holoLoc = getLocation(flagRoute.add("hologram_location"), map.worldName, flagConfig);
 
-            // Set the capture area
+            // Set the capture area and animations
             Route captureRoute = flagRoute.add("capture_area");
             if (flagConfig.contains(captureRoute)
                     && flagConfig.getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
-                BlockVector3 min = BlockVector3.at(flagConfig.getInt(captureRoute.add("min").add("x")),
-                        flagConfig.getInt(captureRoute.add("min").add("y")),
-                        flagConfig.getInt(captureRoute.add("min").add("z")));
-                BlockVector3 max = BlockVector3.at(flagConfig.getInt(captureRoute.add("max").add("x")),
-                        flagConfig.getInt(captureRoute.add("max").add("y")),
-                        flagConfig.getInt(captureRoute.add("max").add("z")));
-                flag.region = new ProtectedCuboidRegion(flag.name.replace(' ', '_'), true, min, max);
+                flag.region = getRegion(flagConfig, captureRoute, flag.name.replace(' ', '_'));
 
-                flag.region.setFlag(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
-                flag.region.setFlag(Flags.BLOCK_PLACE, StateFlag.State.ALLOW);
-                flag.region.setFlag(Flags.DAMAGE_ANIMALS, StateFlag.State.ALLOW);
-                flag.region.setFlag(Flags.DESTROY_VEHICLE, StateFlag.State.ALLOW);
-                flag.region.setFlag(Flags.FALL_DAMAGE, StateFlag.State.ALLOW);
-                flag.region.setFlag(Flags.HEALTH_REGEN, StateFlag.State.ALLOW);
-                flag.region.setFlag(Flags.INTERACT, StateFlag.State.ALLOW);
-                flag.region.setFlag(Flags.PVP, StateFlag.State.ALLOW);
-                //Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(map.worldName))))).addRegion(region);
-            }
-
-            if (flagConfig.contains(captureRoute)) {
                 flag.animationAir = flagConfig.getBoolean(flagRoute.add("animation_air"));
                 Route animationRoute = flagRoute.add("animation");
                 String[] animationPaths = getPaths(flagConfig, animationRoute);
@@ -928,6 +911,30 @@ public class Main extends JavaPlugin implements Listener {
                     gateConfig.getAs(gateRoute.add("schematic").add("location"), Vector.class));
             gate.setBreachSoundLocation(gateConfig.getAs(gateRoute.add("breach_sound"), Vector.class));
 
+            // Create corresponding ram
+            Route ramRoute = gateRoute.add("ram");
+            if (gateConfig.contains(ramRoute)) {
+                // Ram region
+                Route regionRoute = ramRoute.add("region");
+                ProtectedRegion region = getRegion(gateConfig, regionRoute, gateConfig.getString(regionRoute.add("id")));
+
+                // Ram damage and progress
+                int damage = gateConfig.getInt(ramRoute.add("damage"));
+                int progressAmount = gateConfig.getInt(ramRoute.add("progress_amount"));
+
+                // Ram schematics
+                Route schematicRoute = ramRoute.add("schematic");
+                Vector location = gateConfig.getAs(schematicRoute.add("location"), Vector.class);
+                String schematicNameIdle = gateConfig.getString(schematicRoute.add("name_idle"));
+                String schematicNameActiveRest = gateConfig.getString(schematicRoute.add("name_active_rest"));
+                String schematicNameActiveHit = gateConfig.getString(schematicRoute.add("name_active_hit"));
+
+                // Currently only Main Gate on Helm's Deep; used to test with hardcoded ram
+                Ram ram = new Ram(gate, region, damage, progressAmount, location,
+                        schematicNameIdle, schematicNameActiveRest, schematicNameActiveHit);
+                gate.setRam(ram);
+            }
+
             map.gates[i] = gate;
         }
     }
@@ -954,6 +961,36 @@ public class Main extends JavaPlugin implements Listener {
             map.catapults[i] = catapult;
         }
 
+    }
+
+    private ProtectedRegion getRegion(YamlDocument config, Route route, String id) {
+        Route minRoute = route.add("min");
+        BlockVector3 min = BlockVector3.at(
+                config.getInt(minRoute.add("x")),
+                config.getInt(minRoute.add("y")),
+                config.getInt(minRoute.add("z")));
+
+        Route maxRoute = route.add("max");
+        BlockVector3 max = BlockVector3.at(
+                config.getInt(maxRoute.add("x")),
+                config.getInt(maxRoute.add("y")),
+                config.getInt(maxRoute.add("z")));
+
+        ProtectedRegion region = new ProtectedCuboidRegion(id, true, min, max);
+        setFlags(region);
+
+        return region;
+    }
+
+    private void setFlags(ProtectedRegion region) {
+        region.setFlag(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
+        region.setFlag(Flags.BLOCK_PLACE, StateFlag.State.ALLOW);
+        region.setFlag(Flags.DAMAGE_ANIMALS, StateFlag.State.ALLOW);
+        region.setFlag(Flags.DESTROY_VEHICLE, StateFlag.State.ALLOW);
+        region.setFlag(Flags.FALL_DAMAGE, StateFlag.State.ALLOW);
+        region.setFlag(Flags.HEALTH_REGEN, StateFlag.State.ALLOW);
+        region.setFlag(Flags.INTERACT, StateFlag.State.ALLOW);
+        region.setFlag(Flags.PVP, StateFlag.State.ALLOW);
     }
 
     private String[] getPaths(YamlDocument file, Route route) {

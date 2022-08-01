@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.Objects;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import me.huntifi.castlesiege.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
@@ -31,32 +32,32 @@ public class SchematicSpawner {
 	 * Spawns a schematic at a certain location
 	 * @param spawnLocation The location to spawn the schematic
 	 * @param schematicName The name of the schematic to spawn
-	 * @param worldName The name of the world to spawn the schematic in
 	 */
-	public static void spawnSchematic(Location spawnLocation, String schematicName, String worldName) throws WorldEditException {
+	public static void spawnSchematic(Location spawnLocation, String schematicName) {
+		Bukkit.getScheduler().runTask(Main.plugin, () -> {
+			Plugin worldEditPlugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
+			assert worldEditPlugin != null;
+			File schematic = new File(worldEditPlugin.getDataFolder() + File.separator + "/schematics/" + schematicName + ".schem");
+			ClipboardFormat format = ClipboardFormats.findByFile(schematic);
 
-		Plugin worldEditPlugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
-		assert worldEditPlugin != null;
-		File schematic = new File(worldEditPlugin.getDataFolder() + File.separator + "/schematics/" + schematicName + ".schem");
-		ClipboardFormat format = ClipboardFormats.findByFile(schematic);
-		
-		try {
-			assert format != null;
-			try (ClipboardReader reader = format.getReader(Files.newInputStream(schematic.toPath()))) {
-			    Clipboard clipboard = reader.read();
-			    com.sk89q.worldedit.world.World world = BukkitAdapter.adapt(Objects.requireNonNull(Bukkit.getWorld(worldName)));
+			try {
+				assert format != null;
+				try (ClipboardReader reader = format.getReader(Files.newInputStream(schematic.toPath()))) {
+					Clipboard clipboard = reader.read();
+					com.sk89q.worldedit.world.World world = BukkitAdapter.adapt(Objects.requireNonNull(spawnLocation.getWorld()));
 
-				try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
-					Operation operation = new ClipboardHolder(clipboard)
-							.createPaste(editSession)
-							.to(BlockVector3.at(spawnLocation.getBlockX(), spawnLocation.getBlockY(), spawnLocation.getZ()))
-							.ignoreAirBlocks(false)
-							.build();
-					Operations.complete(operation);
+					try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
+						Operation operation = new ClipboardHolder(clipboard)
+								.createPaste(editSession)
+								.to(BlockVector3.at(spawnLocation.getBlockX(), spawnLocation.getBlockY(), spawnLocation.getZ()))
+								.ignoreAirBlocks(false)
+								.build();
+						Operations.complete(operation);
+					}
 				}
+			} catch (IOException | WorldEditException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		});
 	}
 }

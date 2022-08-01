@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.maps.objects;
 
-import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.maps.MapController;
@@ -59,11 +58,7 @@ public class LeverDoor extends Door {
                         Objects.equals(Objects.requireNonNull(flag).getCurrentOwners(), MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
                     // If the gate is closed (lever powered)
                     if (((Powerable) event.getClickedBlock().getBlockData()).isPowered()) {
-                        try {
-                            open();
-                        } catch (WorldEditException e) {
-                            throw new RuntimeException(e);
-                        }
+                        open();
                         openCounts.getAndIncrement();
 
                         new BukkitRunnable() {
@@ -72,21 +67,13 @@ public class LeverDoor extends Door {
                                 Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
                                 if (openCounts.getAndDecrement() > 1 || leverData.isPowered())
                                     return;
-                                try {
-                                    close();
-                                } catch (WorldEditException e) {
-                                    throw new RuntimeException(e);
-                                }
+                                close();
                                 leverData.setPowered(true);
                                 event.getClickedBlock().setBlockData(leverData);
                             }
                         }.runTaskLater(Main.plugin, timer);
                     } else {
-                        try {
-                            close();
-                        } catch (WorldEditException e) {
-                            throw new RuntimeException(e);
-                        }
+                        close();
                     }
                 } else {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Your team does not control this! You need to capture " + flagName + " first!"));

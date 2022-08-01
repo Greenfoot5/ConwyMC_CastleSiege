@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.maps.objects;
 
-import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.maps.MapController;
@@ -57,21 +56,12 @@ public class PressurePlateDoor extends Door {
                         Objects.equals(Objects.requireNonNull(flag).getCurrentOwners(), MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
 					if (!open) {
                         open = true;
-
-                        try {
-                            open();
-                        } catch (WorldEditException e) {
-                            throw new RuntimeException(e);
-                        }
+                        open();
 
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                try {
-                                    close();
-                                } catch (WorldEditException e) {
-                                    throw new RuntimeException(e);
-                                }
+                                close();
                                 open = false;
                             }
                         }.runTaskLater(Main.plugin, timer);

@@ -17,6 +17,7 @@ import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.maps.objects.Ram;
 import me.huntifi.castlesiege.secrets.SecretItems;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -356,6 +357,12 @@ public class MapController {
 				// Register gates
 				for (Gate gate : maps.get(mapIndex).gates) {
 					Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
+					Ram ram = gate.getRam();
+					if (ram != null) {
+						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+										BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName)))))
+								.addRegion(ram.getRegion());
+					}
 				}
 
 				// Register the flag regions
@@ -421,6 +428,12 @@ public class MapController {
 		// Unregister gate listeners
 		for (Gate gate : oldMap.gates) {
 			HandlerList.unregisterAll(gate);
+			Ram ram = gate.getRam();
+			if (ram != null) {
+				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
+						.removeRegion(ram.getRegion().getId());
+			}
 		}
 
 		// Unregister woolmap listeners

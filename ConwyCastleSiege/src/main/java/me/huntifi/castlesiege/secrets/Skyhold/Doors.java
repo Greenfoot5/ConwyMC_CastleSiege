@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.secrets.Skyhold;
 
-import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.secrets.SecretItems;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
@@ -54,11 +53,7 @@ public class Doors implements Listener {
                         public void run() {
                             Bukkit.getWorld("Skyhold").playSound(soundDoorLoc, Sound.BLOCK_WOODEN_DOOR_OPEN, 5, 1);
 
-                            try {
-                                SchematicSpawner.spawnSchematic(doorSchematicLoc, "SkyholdSecretDoor", "Skyhold");
-                            } catch (WorldEditException e) {
-                                throw new RuntimeException(e);
-                            }
+                            SchematicSpawner.spawnSchematic(doorSchematicLoc, "SkyholdSecretDoor");
 
                         }
                     }.runTaskLater(Main.plugin, 10);
@@ -87,13 +82,9 @@ public class Doors implements Listener {
 
                         @Override
                         public void run() {
-                             Bukkit.getWorld("Skyhold").playSound(soundVaultLoc, Sound.BLOCK_IRON_DOOR_OPEN, 5, 1);
+                            Bukkit.getWorld("Skyhold").playSound(soundVaultLoc, Sound.BLOCK_IRON_DOOR_OPEN, 5, 1);
 
-                            try {
-                                SchematicSpawner.spawnSchematic(vaultSchematicLoc, "SkyholdVaultDoor", "Skyhold");
-                            } catch (WorldEditException e) {
-                                throw new RuntimeException(e);
-                            }
+                            SchematicSpawner.spawnSchematic(vaultSchematicLoc, "SkyholdVaultDoor");
 
                         }
                     }.runTaskLater(Main.plugin, 30);
@@ -160,11 +151,7 @@ public class Doors implements Listener {
                             b32ab.setType(Material.AIR); b123ab.setType(Material.AIR); b223ab.setType(Material.AIR); b323ab.setType(Material.AIR);
                             b324ab.setType(Material.AIR); b325ab.setType(Material.AIR);
 
-                            try {
-                                SchematicSpawner.spawnSchematic(statueSchematicLoc, "SkyholSecretStatue", "Skyhold");
-                            } catch (WorldEditException e) {
-                                throw new RuntimeException(e);
-                            }
+                            SchematicSpawner.spawnSchematic(statueSchematicLoc, "SkyholSecretStatue");
 
                         }
                     }.runTaskLater(Main.plugin, 30);
@@ -206,11 +193,7 @@ public class Doors implements Listener {
                           b1.setType(Material.AIR); b2.setType(Material.AIR); b3.setType(Material.AIR); b4.setType(Material.AIR);
                           b5.setType(Material.AIR); b6.setType(Material.AIR);
 
-                          try {
-                              SchematicSpawner.spawnSchematic(tombSchematicLoc, "SkyholdTombSecret", "Skyhold");
-                          } catch (WorldEditException e) {
-                              throw new RuntimeException(e);
-                          }
+                          SchematicSpawner.spawnSchematic(tombSchematicLoc, "SkyholdTombSecret");
 
                           new BukkitRunnable() {
 
@@ -227,11 +210,7 @@ public class Doors implements Listener {
                                   b1.setType(Material.AIR); b2.setType(Material.AIR); b3.setType(Material.AIR); b4.setType(Material.AIR);
                                   b5.setType(Material.AIR); b6.setType(Material.AIR);
 
-                                  try {
-                                      SchematicSpawner.spawnSchematic(tombSchematicLoc, "SkyholdCloseTombSecret", "Skyhold");
-                                  } catch (WorldEditException e) {
-                                      throw new RuntimeException(e);
-                                  }
+                                  SchematicSpawner.spawnSchematic(tombSchematicLoc, "SkyholdCloseTombSecret");
 
                               }
                           }.runTaskLater(Main.plugin, 600);

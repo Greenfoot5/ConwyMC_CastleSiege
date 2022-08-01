@@ -10,6 +10,8 @@ import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.maps.objects.Ram;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -49,6 +51,7 @@ public class PlayerDisconnect implements Listener {
         InCombat.playerDied(uuid);
 
         stopCapping(e.getPlayer());
+        stopRamming(e.getPlayer());
 
         Kit.equippedKits.remove(uuid);
         storeData(uuid);
@@ -64,6 +67,18 @@ public class PlayerDisconnect implements Listener {
     private void stopCapping(Player p) {
         for (Flag flag : MapController.getCurrentMap().flags) {
             flag.playerExit(p);
+        }
+    }
+
+    /**
+     * Remove the player from all rams
+     * @param p The player
+     */
+    private void stopRamming(Player p) {
+        for (Gate gate : MapController.getCurrentMap().gates) {
+            Ram ram = gate.getRam();
+            if (ram != null)
+                ram.playerExit(p);
         }
     }
 

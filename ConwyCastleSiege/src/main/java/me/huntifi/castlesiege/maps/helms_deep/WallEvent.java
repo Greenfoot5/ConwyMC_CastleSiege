@@ -1,7 +1,5 @@
 package me.huntifi.castlesiege.maps.helms_deep;
 
-
-import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.items.WoolHat;
@@ -141,11 +139,7 @@ public class WallEvent implements Listener {
 
 						// Paste the wall in the correct location
 						final Location wallLoc = new Location(Bukkit.getWorld("HelmsDeep"), 1040, 34, 1140);
-						try {
-							SchematicSpawner.spawnSchematic(wallLoc, "HelmsdeepWallBroken", "HelmsDeep");
-						} catch (WorldEditException e1) {
-							e1.printStackTrace();
-						}
+						SchematicSpawner.spawnSchematic(wallLoc, "HelmsdeepWallBroken");
 
 						// Kill any players within DEATH_RADIUS blocks
 						for (Player close : Bukkit.getOnlinePlayers()) {
