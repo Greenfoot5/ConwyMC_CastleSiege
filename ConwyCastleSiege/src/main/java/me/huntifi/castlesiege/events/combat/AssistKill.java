@@ -67,7 +67,8 @@ public class AssistKill implements Listener {
      * @param attacker The attacker
      */
     public static void removeDamager(UUID target, UUID attacker) {
-        damageMap.get(target).remove(attacker);
+        if (damageMap.containsKey(target))
+            damageMap.get(target).remove(attacker);
     }
 
     /**
