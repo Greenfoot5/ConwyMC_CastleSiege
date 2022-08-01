@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.donator_kits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -110,6 +111,7 @@ public class Alchemist extends DonatorKit implements Listener {
         if (e.getPotion().getShooter() instanceof Player) {
                 for (Entity entity : e.getAffectedEntities()) {
                     if (entity instanceof Player) {
+                        Player hit = ((Player) entity).getPlayer();
                         Player damager = (Player) e.getPotion().getShooter();
                         if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
                             e.setCancelled(true);
@@ -134,6 +136,7 @@ public class Alchemist extends DonatorKit implements Listener {
                                         //Enemies
                                         if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
                                                 != MapController.getCurrentMap().getTeam(entity.getUniqueId()) && ((Player) entity).getPlayer() != damager) {
+                                            AssistKill.addDamager(hit.getUniqueId(), damager.getUniqueId(), 60);
                                             DeathEvent.setKiller((Player)entity, damager);
                                             ((Player) entity).addPotionEffect(effect);
                                         }
@@ -369,7 +372,7 @@ public class Alchemist extends DonatorKit implements Listener {
 
     public ItemStack randomPotion() {
 
-        int types = rand.nextInt(35);
+        int types = rand.nextInt(36);
         int amount = rand.nextInt(2);
         int time = rand.nextInt(3601);
         int smallTime = rand.nextInt(221);
@@ -606,6 +609,14 @@ public class Alchemist extends DonatorKit implements Listener {
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW, mediumTime, 2), true);
                     potionMeta.setColor(Color.AQUA);
                     potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Halberdier Potion");
+                    itemStack.setItemMeta(potionMeta);
+                    break;
+                case 35:
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 220, 3), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 220, 1), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.JUMP, 220, 0), true);
+                    potionMeta.setColor(Color.AQUA);
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Vanguard Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 default:
