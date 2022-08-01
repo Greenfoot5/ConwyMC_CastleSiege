@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
@@ -39,9 +40,9 @@ import java.util.*;
 
 public class Alchemist extends DonatorKit implements Listener {
 
-    public static HashMap<Player, Block> cauldrons = new HashMap<>();
-    private final ItemStack cauldron;
-    private final ItemStack cauldronVoted;
+    public static HashMap<Player, Block> stands = new HashMap<>();
+    private final ItemStack stand;
+    private final ItemStack standVoted;
 
     public Alchemist() {
         super("Alchemist", 140, 9, 100);
@@ -52,24 +53,24 @@ public class Alchemist extends DonatorKit implements Listener {
         super.heldItemSlot = 0;
 
         // Firepit
-        cauldron = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
-                ChatColor.LIGHT_PURPLE + "cauldron", Arrays.asList("",
-                        ChatColor.AQUA + "Place the cauldron down, then",
+        stand = ItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
+                ChatColor.LIGHT_PURPLE + "Brewing Stand", Arrays.asList("",
+                        ChatColor.AQUA + "Place the brewing stand down, then",
                         ChatColor.AQUA + "right click it to get a potion.", "",
-                        ChatColor.AQUA + "(tip): This cauldron is a weapon, so you",
+                        ChatColor.AQUA + "(tip): This brewing stand is a weapon, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 26);
-        es.hotbar[0] = cauldron;
+                Collections.singletonList(new Tuple<>(Enchantment.LOYALTY, 1)), 26);
+        es.hotbar[0] = stand;
         // Voted Firepit
-        cauldronVoted = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
-                ChatColor.LIGHT_PURPLE + "cauldron", Arrays.asList("",
-                        ChatColor.AQUA + "Place the cauldron down, then",
+        standVoted = ItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
+                ChatColor.LIGHT_PURPLE + "Brewing Stand", Arrays.asList("",
+                        ChatColor.AQUA + "Place the brewing stand down, then",
                         ChatColor.AQUA + "right click it to get a potion.", "",
-                        ChatColor.AQUA + "(tip): This cauldron is a weapon, so you",
+                        ChatColor.AQUA + "(tip): This brewing stand is a weapon, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
-                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 28);
-        es.votedWeapon = new Tuple<>(cauldronVoted, 1);
+                        new Tuple<>(Enchantment.LOYALTY, 1)), 28);
+        es.votedWeapon = new Tuple<>(standVoted, 0);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
@@ -90,11 +91,8 @@ public class Alchemist extends DonatorKit implements Listener {
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
-        es.hotbar[2] = new ItemStack(Material.GLASS_BOTTLE, 5);
-
-        // Ladders
-        es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 3);
+        es.hotbar[1] = new ItemStack(Material.GLASS_BOTTLE, 5);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.GLASS_BOTTLE, 6), 1);
 
         super.equipment = es;
 
@@ -107,22 +105,19 @@ public class Alchemist extends DonatorKit implements Listener {
     }
 
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onThrownPotion(PotionSplashEvent e) {
         if (e.getPotion().getShooter() instanceof Player) {
                 for (Entity entity : e.getAffectedEntities()) {
                     if (entity instanceof Player) {
                         Player damager = (Player) e.getPotion().getShooter();
                         if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
-
-                            //Allies
-                            if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                                    == MapController.getCurrentMap().getTeam(entity.getUniqueId())) {
-
+                            e.setCancelled(true);
                                 Collection<PotionEffect> effects = e.getPotion().getEffects();
 
                                 for (PotionEffect effect : effects) {
                                     PotionEffectType potionType = effect.getType();
+
                                     if (potionType.equals(PotionEffectType.POISON)
                                             || potionType.equals(PotionEffectType.HARM)
                                             || potionType.equals(PotionEffectType.CONFUSION)
@@ -131,63 +126,56 @@ public class Alchemist extends DonatorKit implements Listener {
                                             || potionType.equals(PotionEffectType.SLOW_DIGGING)
                                             || potionType.equals(PotionEffectType.HUNGER)
                                             || potionType.equals(PotionEffectType.WEAKNESS)
+                                            || potionType.equals(PotionEffectType.GLOWING)
+                                            || potionType.equals(PotionEffectType.LEVITATION)
+                                            || potionType.equals(PotionEffectType.SLOW_FALLING)
                                             || potionType.equals(PotionEffectType.WITHER)) {
-                                        e.setCancelled(true);
+
+                                        //Enemies
+                                        if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
+                                                != MapController.getCurrentMap().getTeam(entity.getUniqueId()) && ((Player) entity).getPlayer() != damager) {
+                                            DeathEvent.setKiller((Player)entity, damager);
+                                            ((Player) entity).addPotionEffect(effect);
+                                        }
                                     }
 
                                     if (potionType.equals(PotionEffectType.HEAL)
                                             || potionType.equals(PotionEffectType.HEALTH_BOOST)
                                             || potionType.equals(PotionEffectType.REGENERATION)) {
                                         if (((Player) entity).getPlayer().getHealth() != baseHealth) {
-                                            if (((Player) entity).getPlayer() != damager) {
-                                                UpdateStats.addHeals(damager.getUniqueId(), 2);
+                                            //Allies
+                                            if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
+                                                    == MapController.getCurrentMap().getTeam(entity.getUniqueId())) {
+                                                ((Player) entity).addPotionEffect(effect);
+                                                if (((Player) entity).getPlayer() != damager) {
+                                                    UpdateStats.addHeals(damager.getUniqueId(), 2);
+                                                }
                                             }
                                         }
                                     } else if (potionType.equals(PotionEffectType.SPEED)
                                             || potionType.equals(PotionEffectType.JUMP)
                                             || potionType.equals(PotionEffectType.WATER_BREATHING)
-                                            || potionType.equals(PotionEffectType.LEVITATION)
-                                            || potionType.equals(PotionEffectType.SLOW_FALLING)
                                             || potionType.equals(PotionEffectType.FAST_DIGGING)
                                             || potionType.equals(PotionEffectType.DAMAGE_RESISTANCE)
+                                            || potionType.equals(PotionEffectType.DOLPHINS_GRACE)
+                                            || potionType.equals(PotionEffectType.LEVITATION)
+                                            || potionType.equals(PotionEffectType.SLOW_FALLING)
                                             || potionType.equals(PotionEffectType.INCREASE_DAMAGE)
                                             || potionType.equals(PotionEffectType.INVISIBILITY)
+                                            || potionType.equals(PotionEffectType.GLOWING)
                                             || potionType.equals(PotionEffectType.NIGHT_VISION)
                                             || potionType.equals(PotionEffectType.CONDUIT_POWER)
                                             || potionType.equals(PotionEffectType.FIRE_RESISTANCE)) {
-                                        if (((Player) entity).getPlayer() != damager) {
-                                            UpdateStats.addSupports(damager.getUniqueId(), 2);
+                                        //Allies
+                                        if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
+                                                == MapController.getCurrentMap().getTeam(entity.getUniqueId())) {
+                                            ((Player) entity).addPotionEffect(effect);
+                                            if (((Player) entity).getPlayer() != damager) {
+                                                UpdateStats.addSupports(damager.getUniqueId(), 2);
+                                            }
                                         }
                                     }
                                 }
-                            }
-
-                            //Enemies
-                            if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                                    != MapController.getCurrentMap().getTeam(entity.getUniqueId()) && ((Player) entity).getPlayer() != damager) {
-
-                                Collection<PotionEffect> effects = e.getPotion().getEffects();
-
-                                for (PotionEffect effect : effects) {
-                                    PotionEffectType potionType = effect.getType();
-                                            if (potionType.equals(PotionEffectType.HEAL)
-                                            || potionType.equals(PotionEffectType.HEALTH_BOOST)
-                                            || potionType.equals(PotionEffectType.REGENERATION)
-                                            || potionType.equals(PotionEffectType.SPEED)
-                                            || potionType.equals(PotionEffectType.JUMP)
-                                            || potionType.equals(PotionEffectType.WATER_BREATHING)
-                                            || potionType.equals(PotionEffectType.SATURATION)
-                                            || potionType.equals(PotionEffectType.FAST_DIGGING)
-                                            || potionType.equals(PotionEffectType.DAMAGE_RESISTANCE)
-                                            || potionType.equals(PotionEffectType.INCREASE_DAMAGE)
-                                            || potionType.equals(PotionEffectType.INVISIBILITY)
-                                            || potionType.equals(PotionEffectType.NIGHT_VISION)
-                                            || potionType.equals(PotionEffectType.CONDUIT_POWER)
-                                            || potionType.equals(PotionEffectType.FIRE_RESISTANCE)) {
-                                            e.setCancelled(true);
-                                    }
-                                }
-                            }
                         }
                     }
                 }
@@ -209,21 +197,16 @@ public class Alchemist extends DonatorKit implements Listener {
         }
 
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
-                e.getBlockPlaced().getType() == Material.CAULDRON) {
-
-            Block yourCauldron = e.getBlockPlaced();
-            Levelled cauldronData = (Levelled) yourCauldron.getBlockData();
-            cauldronData.setLevel(cauldronData.getMaximumLevel()); // Fill it up!
-            yourCauldron.setBlockData(cauldronData);
+                e.getBlockPlaced().getType() == Material.BREWING_STAND) {
 
             // Destroy old cauldron
-            destroyCauldron(p);
+            destroyStand(p);
 
             // Place new cauldron
             e.setCancelled(false);
-            cauldrons.put(p, e.getBlockPlaced());
+            stands.put(p, e.getBlockPlaced());
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                    TextComponent.fromLegacyText(ChatColor.AQUA + "You placed down your cauldron!"));
+                    TextComponent.fromLegacyText(ChatColor.AQUA + "You placed down your brewing stand!"));
         }
     }
 
@@ -239,24 +222,24 @@ public class Alchemist extends DonatorKit implements Listener {
         }
 
         if (e.getAction() == Action.LEFT_CLICK_BLOCK &&
-                e.getClickedBlock().getType() == Material.CAULDRON) {
+                e.getClickedBlock().getType() == Material.BREWING_STAND) {
             Player p = e.getPlayer();
             Player q = getPlacer(e.getClickedBlock());
 
             // Pick up own cauldron
             if (Objects.equals(p, q)) {
-                destroyCauldron(q);
+                destroyStand(q);
                 q.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacyText(ChatColor.AQUA + "You took back your Cauldron!"));
+                        TextComponent.fromLegacyText(ChatColor.AQUA + "You took back your brewing stand!"));
 
                 // Can only hold 1 cauldron at a time
                 PlayerInventory inv = p.getInventory();
-                if (inv.getItemInOffHand().getType() != Material.CAULDRON &&
-                        !inv.contains(Material.CAULDRON)) {
+                if (inv.getItemInOffHand().getType() != Material.BREWING_STAND &&
+                        !inv.contains(Material.BREWING_STAND)) {
                     if (!ActiveData.getData(p.getUniqueId()).hasVote("sword")) {
-                        p.getInventory().addItem(cauldron);
+                        p.getInventory().addItem(stand);
                     } else {
-                        p.getInventory().addItem(cauldronVoted);
+                        p.getInventory().addItem(standVoted);
                     }
                 }
 
@@ -264,10 +247,10 @@ public class Alchemist extends DonatorKit implements Listener {
             } else if (q != null &&
                     MapController.getCurrentMap().getTeam(p.getUniqueId())
                             != MapController.getCurrentMap().getTeam(q.getUniqueId())){
-                destroyCauldron(q);
+                destroyStand(q);
                 p.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER , 5, 1);
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacyText(ChatColor.RED + "You kicked over " + q.getName() + "'s cauldron!"));
+                        TextComponent.fromLegacyText(ChatColor.RED + "You destroyed " + q.getName() + "'s brewing stand!"));
             }
         }
     }
@@ -277,10 +260,10 @@ public class Alchemist extends DonatorKit implements Listener {
      * Destroy the player's firepit if present
      * @param p The player whose firepit to destroy
      */
-    private void destroyCauldron(Player p) {
-        if(cauldrons.containsKey(p)) {
-            cauldrons.get(p).setType(Material.AIR);
-            cauldrons.remove(p);
+    private void destroyStand(Player p) {
+        if(stands.containsKey(p)) {
+            stands.get(p).setType(Material.AIR);
+            stands.remove(p);
         }
     }
 
@@ -290,7 +273,7 @@ public class Alchemist extends DonatorKit implements Listener {
      * @return The placer of the firepit, null of not placed by a fire archer
      */
     private Player getPlacer(Block cauldron) {
-        return cauldrons.entrySet().stream()
+        return stands.entrySet().stream()
                 .filter(entry -> Objects.equals(entry.getValue(), cauldron))
                 .findFirst().map(Map.Entry::getKey)
                 .orElse(null);
@@ -335,7 +318,9 @@ public class Alchemist extends DonatorKit implements Listener {
             e.setCancelled(true);
           } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.CAULDRON) {
             e.setCancelled(true);
-          }
+          } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.BREWING_STAND) {
+            e.setCancelled(true);
+        }
         }
     }
 
@@ -357,7 +342,7 @@ public class Alchemist extends DonatorKit implements Listener {
         // Check if a fire archer tries to light an arrow, while off-cooldown
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                 e.getAction() == Action.RIGHT_CLICK_BLOCK &&
-                e.getClickedBlock().getType() == Material.CAULDRON &&
+                e.getClickedBlock().getType() == Material.BREWING_STAND &&
                 usedItem != null &&
                 usedItem.getType() == Material.GLASS_BOTTLE &&
                 p.getCooldown(Material.GLASS_BOTTLE) == 0) {
@@ -384,7 +369,7 @@ public class Alchemist extends DonatorKit implements Listener {
 
     public ItemStack randomPotion() {
 
-        int types = rand.nextInt(33);
+        int types = rand.nextInt(35);
         int amount = rand.nextInt(2);
         int time = rand.nextInt(3601);
         int smallTime = rand.nextInt(221);
@@ -413,7 +398,7 @@ public class Alchemist extends DonatorKit implements Listener {
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 2:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, time, amplifierRegen), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, smallTime, amplifierRegen), true);
                     potionMeta.setColor(Color.FUCHSIA);
                     potionMeta.setDisplayName(ChatColor.RED + "Regeneration Potion");
                     itemStack.setItemMeta(potionMeta);
@@ -437,7 +422,7 @@ public class Alchemist extends DonatorKit implements Listener {
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 6:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, smallTime, bigAmplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, smallTime, 5), true);
                     potionMeta.setColor(Color.fromRGB(119,211,255));
                     potionMeta.setDisplayName(ChatColor.BLUE + "Hyperspeed Potion");
                     itemStack.setItemMeta(potionMeta);
@@ -487,51 +472,51 @@ public class Alchemist extends DonatorKit implements Listener {
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 14:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 1, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 1, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(68,20,68));
                     potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Harming Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 15:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.CONFUSION, smallTime, bigAmplifier), true);
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.CONFUSION, smallTime, bigAmplifier), false);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, smallTime, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(151,202,149));
                     potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Poison Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 16:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, smallTime, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(7,9,30));
                     potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Blindness Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 17:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, mediumTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, mediumTime, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(57,250,218));
                     potionMeta.setDisplayName(ChatColor.BLUE + "Levitation Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 18:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW, mediumTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW, mediumTime, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(160,57,250));
                     potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Slowness Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 19:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, mediumTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, mediumTime, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(57,89,250));
                     potionMeta.setDisplayName(ChatColor.DARK_BLUE + "Slow Falling Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 20:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, mediumTime, bigAmplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, mediumTime, bigAmplifier), false);
                     potionMeta.setColor(Color.fromRGB(212,250,57));
                     potionMeta.setDisplayName(ChatColor.YELLOW + "Fatigue Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 21:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HUNGER, smallTime, bigAmplifier), true);
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HUNGER, smallTime, bigAmplifier), false);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, smallTime, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(220,191,45));
                     potionMeta.setDisplayName(ChatColor.DARK_GREEN + "Hungering Death Potion");
                     itemStack.setItemMeta(potionMeta);
@@ -543,47 +528,47 @@ public class Alchemist extends DonatorKit implements Listener {
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 23:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WEAKNESS, smallTime, bigAmplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WEAKNESS, smallTime, bigAmplifier), false);
                     potionMeta.setColor(Color.fromRGB(152,131,117));
                     potionMeta.setDisplayName(ChatColor.DARK_BLUE + "Weakness Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 24:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WITHER, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WITHER, smallTime, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(40,37,36));
                     potionMeta.setDisplayName(ChatColor.DARK_GRAY + "Death Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 25:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, smallTime, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(16,137,32));
                     potionMeta.setDisplayName(ChatColor.DARK_GREEN + "Poison Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 26:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 1, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 1, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(68,20,68));
                     potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Harming Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 27:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, mediumTime, amplifier), true);
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, mediumTime*2, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, mediumTime, amplifier), false);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, mediumTime*2, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(152,131,117));
                     potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Flying Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 28:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, smallTime, amplifier), true);
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WEAKNESS, smallTime, amplifier), true);
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, smallTime, amplifier), false);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WEAKNESS, smallTime, amplifier), false);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW, smallTime, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(212,250,57));
                     potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Maceman Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 29:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 1, amplifier), true);
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WITHER, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 1, amplifier), false);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WITHER, smallTime, amplifier), false);
                     potionMeta.setColor(Color.fromRGB(40,37,36));
                     potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Destruction Potion");
                     itemStack.setItemMeta(potionMeta);
@@ -605,6 +590,22 @@ public class Alchemist extends DonatorKit implements Listener {
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, mediumTime, 1), true);
                     potionMeta.setColor(Color.fromRGB(212,250,57));
                     potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Immortality Potion");
+                    itemStack.setItemMeta(potionMeta);
+                    break;
+                case 33:
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, mediumTime, 2), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, mediumTime, 2), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, mediumTime, 2), true);
+                    potionMeta.setColor(Color.RED);
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Berserker Potion");
+                    itemStack.setItemMeta(potionMeta);
+                    break;
+                case 34:
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, mediumTime, 0), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, mediumTime, 2), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW, mediumTime, 2), true);
+                    potionMeta.setColor(Color.AQUA);
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Halberdier Potion");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 default:

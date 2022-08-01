@@ -74,7 +74,7 @@ public class CoinshopGui implements Listener, CommandExecutor {
     //Add all the shop items
     public static void registerShop() {
 
-        addItem(ChatColor.GOLD + "" + ChatColor.BOLD + "Alchemist", Material.CAULDRON, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((DonatorKit) Kit.getKit("Alchemist")).getPrice(),
+        addItem(ChatColor.GOLD + "" + ChatColor.BOLD + "Alchemist", Material.BREWING_STAND, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((DonatorKit) Kit.getKit("Alchemist")).getPrice(),
                 ChatColor.GREEN + "Duration: 30 days", ChatColor.YELLOW + "Click here to buy!"), 0, "donator Alchemist");
 
         addItem(ChatColor.GOLD + "" + ChatColor.BOLD + "Berserker", Material.POTION, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((DonatorKit) Kit.getKit("Berserker")).getPrice(),
