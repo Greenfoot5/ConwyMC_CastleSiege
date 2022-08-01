@@ -25,6 +25,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -112,54 +113,79 @@ public class Alchemist extends DonatorKit implements Listener {
                 for (Entity entity : e.getAffectedEntities()) {
                     if (entity instanceof Player) {
                         Player damager = (Player) e.getPotion().getShooter();
-                        Player hit = (Player) entity;
-                        if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)
-                                && MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                                != MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
+                        if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
 
-                            for (PotionEffect effect : e.getPotion().getEffects()) {
-                                if (effect.getType() == PotionEffectType.POISON
-                                        || effect.getType() == PotionEffectType.HARM
-                                        || effect.getType() == PotionEffectType.CONFUSION
-                                        || effect.getType() == PotionEffectType.BLINDNESS
-                                        || effect.getType() == PotionEffectType.LEVITATION
-                                        || effect.getType() == PotionEffectType.SLOW
-                                        || effect.getType() == PotionEffectType.SLOW_FALLING
-                                        || effect.getType() == PotionEffectType.SLOW_DIGGING
-                                        || effect.getType() == PotionEffectType.HUNGER
-                                        || effect.getType() == PotionEffectType.GLOWING
-                                        || effect.getType() == PotionEffectType.WEAKNESS
-                                        || effect.getType() == PotionEffectType.WITHER) {
-                                    e.setCancelled(false);
-                                } else {
-                                    e.setCancelled(true);
+                            //Allies
+                            if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
+                                    == MapController.getCurrentMap().getTeam(entity.getUniqueId())) {
+
+                                Collection<PotionEffect> effects = e.getPotion().getEffects();
+
+                                for (PotionEffect effect : effects) {
+                                    PotionEffectType potionType = effect.getType();
+                                    if (potionType.equals(PotionEffectType.POISON)
+                                            || potionType.equals(PotionEffectType.HARM)
+                                            || potionType.equals(PotionEffectType.CONFUSION)
+                                            || potionType.equals(PotionEffectType.BLINDNESS)
+                                            || potionType.equals(PotionEffectType.SLOW)
+                                            || potionType.equals(PotionEffectType.SLOW_DIGGING)
+                                            || potionType.equals(PotionEffectType.HUNGER)
+                                            || potionType.equals(PotionEffectType.WEAKNESS)
+                                            || potionType.equals(PotionEffectType.WITHER)) {
+                                        e.setCancelled(true);
+                                    }
+
+                                    if (potionType.equals(PotionEffectType.HEAL)
+                                            || potionType.equals(PotionEffectType.HEALTH_BOOST)
+                                            || potionType.equals(PotionEffectType.REGENERATION)) {
+                                        if (((Player) entity).getPlayer().getHealth() != baseHealth) {
+                                            if (((Player) entity).getPlayer() != damager) {
+                                                UpdateStats.addHeals(damager.getUniqueId(), 2);
+                                            }
+                                        }
+                                    } else if (potionType.equals(PotionEffectType.SPEED)
+                                            || potionType.equals(PotionEffectType.JUMP)
+                                            || potionType.equals(PotionEffectType.WATER_BREATHING)
+                                            || potionType.equals(PotionEffectType.LEVITATION)
+                                            || potionType.equals(PotionEffectType.SLOW_FALLING)
+                                            || potionType.equals(PotionEffectType.FAST_DIGGING)
+                                            || potionType.equals(PotionEffectType.DAMAGE_RESISTANCE)
+                                            || potionType.equals(PotionEffectType.INCREASE_DAMAGE)
+                                            || potionType.equals(PotionEffectType.INVISIBILITY)
+                                            || potionType.equals(PotionEffectType.NIGHT_VISION)
+                                            || potionType.equals(PotionEffectType.CONDUIT_POWER)
+                                            || potionType.equals(PotionEffectType.FIRE_RESISTANCE)) {
+                                        if (((Player) entity).getPlayer() != damager) {
+                                            UpdateStats.addSupports(damager.getUniqueId(), 2);
+                                        }
+                                    }
                                 }
                             }
-                        } else if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)
-                                && MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                                == MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
 
-                            for (PotionEffect effect : e.getPotion().getEffects()) {
-                                if (effect.getType() == PotionEffectType.HEAL
-                                        || effect.getType() == PotionEffectType.HEALTH_BOOST
-                                        || effect.getType() == PotionEffectType.REGENERATION) {
-                                    e.setCancelled(false);
-                                    if (hit.getHealth() != baseHealth) {
-                                        UpdateStats.addHeals(damager.getUniqueId(), 2);
+                            //Enemies
+                            if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
+                                    != MapController.getCurrentMap().getTeam(entity.getUniqueId()) && ((Player) entity).getPlayer() != damager) {
+
+                                Collection<PotionEffect> effects = e.getPotion().getEffects();
+
+                                for (PotionEffect effect : effects) {
+                                    PotionEffectType potionType = effect.getType();
+                                            if (potionType.equals(PotionEffectType.HEAL)
+                                            || potionType.equals(PotionEffectType.HEALTH_BOOST)
+                                            || potionType.equals(PotionEffectType.REGENERATION)
+                                            || potionType.equals(PotionEffectType.SPEED)
+                                            || potionType.equals(PotionEffectType.JUMP)
+                                            || potionType.equals(PotionEffectType.WATER_BREATHING)
+                                            || potionType.equals(PotionEffectType.SATURATION)
+                                            || potionType.equals(PotionEffectType.FAST_DIGGING)
+                                            || potionType.equals(PotionEffectType.DAMAGE_RESISTANCE)
+                                            || potionType.equals(PotionEffectType.INCREASE_DAMAGE)
+                                            || potionType.equals(PotionEffectType.INVISIBILITY)
+                                            || potionType.equals(PotionEffectType.NIGHT_VISION)
+                                            || potionType.equals(PotionEffectType.CONDUIT_POWER)
+                                            || potionType.equals(PotionEffectType.FIRE_RESISTANCE)) {
+                                            e.setCancelled(true);
                                     }
-                                } else if (effect.getType() == PotionEffectType.SPEED
-                                        || effect.getType() == PotionEffectType.JUMP
-                                        || effect.getType() == PotionEffectType.WATER_BREATHING
-                                        || effect.getType() == PotionEffectType.SATURATION
-                                        || effect.getType() == PotionEffectType.FAST_DIGGING
-                                        || effect.getType() == PotionEffectType.DAMAGE_RESISTANCE
-                                        || effect.getType() == PotionEffectType.INCREASE_DAMAGE
-                                        || effect.getType() == PotionEffectType.INVISIBILITY
-                                        || effect.getType() == PotionEffectType.NIGHT_VISION
-                                        || effect.getType() == PotionEffectType.CONDUIT_POWER
-                                        || effect.getType() == PotionEffectType.FIRE_RESISTANCE) {
-                                    e.setCancelled(false);
-                                    UpdateStats.addSupports(damager.getUniqueId(), 2);
                                 }
                             }
                         }
@@ -270,6 +296,24 @@ public class Alchemist extends DonatorKit implements Listener {
                 .orElse(null);
     }
 
+    /**
+     * Disable death message
+     * Auto-respawn the player
+     * Apply stat changes
+     * @param event The event called when a player dies
+     */
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        if (event.getEntity().getKiller() == null) { return; }
+       if (Objects.equals(Kit.equippedKits.get(event.getEntity().getKiller().getUniqueId()).name, name)) {
+           // Prevent using in lobby
+           if (InCombat.isPlayerInLobby(event.getEntity().getKiller().getUniqueId())) {
+               return;
+           }
+           event.getEntity().getKiller().getInventory().addItem(randomPotion());
+        }
+    }
+
 
     /**
      * prevent bottles from being filled up with water
@@ -278,6 +322,7 @@ public class Alchemist extends DonatorKit implements Listener {
     @EventHandler
     public void onUseBottleOnWater(PlayerInteractEvent e) {
         Player p = e.getPlayer();
+        if (e.getItem() == null) { return; }
         ItemStack usedItem = e.getItem();
 
         // Prevent using in lobby
@@ -301,6 +346,7 @@ public class Alchemist extends DonatorKit implements Listener {
     @EventHandler
     public void onUseCauldron(PlayerInteractEvent e) {
         Player p = e.getPlayer();
+        if (e.getItem() == null) { return; }
         ItemStack usedItem = e.getItem();
 
         // Prevent using in lobby
@@ -316,11 +362,9 @@ public class Alchemist extends DonatorKit implements Listener {
                 usedItem.getType() == Material.GLASS_BOTTLE &&
                 p.getCooldown(Material.GLASS_BOTTLE) == 0) {
 
-            // Check if the player may light an arrow using this cauldron
+            // Check if the player may brew potions
             Player q = getPlacer(e.getClickedBlock());
-            if (q != null &&
-                    MapController.getCurrentMap().getTeam(p.getUniqueId())
-                            == MapController.getCurrentMap().getTeam(q.getUniqueId())) {
+            if (q != null && q == p) {
 
                 PlayerInventory inv = p.getInventory();
                     // Light an arrow
@@ -334,23 +378,23 @@ public class Alchemist extends DonatorKit implements Listener {
             }
         }
     }
-
        //------------------------------------------------Potions------------------------------------------------\\
 
     java.util.Random rand = new java.util.Random();
 
     public ItemStack randomPotion() {
 
-        int types = rand.nextInt(26);
+        int types = rand.nextInt(33);
         int amount = rand.nextInt(2);
-        int time = rand.nextInt(3600);
-        int smallTime = rand.nextInt(220);
-        int amplifier = rand.nextInt(3);
-        int amplifierRegen = rand.nextInt(10);
+        int time = rand.nextInt(3601);
+        int smallTime = rand.nextInt(221);
+        int mediumTime = rand.nextInt(441);
+        int amplifier = rand.nextInt(2);
+        int bigAmplifier = rand.nextInt(5);
+        int amplifierRegen = rand.nextInt(9);
 
 
         ItemStack itemStack = new ItemStack(Material.SPLASH_POTION);
-        ItemMeta itemmeta = itemStack.getItemMeta();
         PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
         assert potionMeta != null;
         for (int i = 0; i <= amount; i++) {
@@ -359,143 +403,213 @@ public class Alchemist extends DonatorKit implements Listener {
                 case 0:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 1, amplifierRegen), true);
                     potionMeta.setColor(Color.RED);
-                    itemmeta.setDisplayName(ChatColor.RED + "Healing Potion");
+                    potionMeta.setDisplayName(ChatColor.RED + "Healing Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 1:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 1, 8), true);
                     potionMeta.setColor(Color.RED);
-                    itemmeta.setDisplayName(ChatColor.RED + "Healing Potion");
+                    potionMeta.setDisplayName(ChatColor.RED + "Healing Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 2:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, time, amplifierRegen), true);
                     potionMeta.setColor(Color.FUCHSIA);
-                    itemmeta.setDisplayName(ChatColor.RED + "Regeneration Potion");
+                    potionMeta.setDisplayName(ChatColor.RED + "Regeneration Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 3:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, time, amplifierRegen), true);
                     potionMeta.setColor(Color.FUCHSIA);
-                    itemmeta.setDisplayName(ChatColor.RED + "Health Boost Potion");
+                    potionMeta.setDisplayName(ChatColor.RED + "Health Boost Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 4:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, time, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(119,211,255));
-                    itemmeta.setDisplayName(ChatColor.BLUE + "Speed Potion");
+                    potionMeta.setDisplayName(ChatColor.BLUE + "Speed Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 5:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, time, 0), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, mediumTime, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(119,126,225));
-                    itemmeta.setDisplayName(ChatColor.BLUE + "Water Breathing Potion");
+                    potionMeta.setDisplayName(ChatColor.BLUE + "Regeneration Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 6:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SATURATION, time, amplifier), true);
-                    potionMeta.setColor(Color.fromRGB(173,177,229));
-                    itemmeta.setDisplayName(ChatColor.BLUE + "Saturation Potion");
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, smallTime, bigAmplifier), true);
+                    potionMeta.setColor(Color.fromRGB(119,211,255));
+                    potionMeta.setDisplayName(ChatColor.BLUE + "Hyperspeed Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 7:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, time, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(229,227,173));
-                    itemmeta.setDisplayName(ChatColor.YELLOW + "Fast Digging Potion");
+                    potionMeta.setDisplayName(ChatColor.YELLOW + "Fast Digging Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 8:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, time, 0), true);
                     potionMeta.setColor(Color.fromRGB(216,174,118));
-                    itemmeta.setDisplayName(ChatColor.YELLOW + "Damage Resistance Potion");
+                    potionMeta.setDisplayName(ChatColor.YELLOW + "Damage Resistance Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 9:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, time, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(208,13,45));
-                    itemmeta.setDisplayName(ChatColor.DARK_RED + "Strength Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_RED + "Strength Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 10:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.INVISIBILITY, time, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.INVISIBILITY, time, 0), true);
                     potionMeta.setColor(Color.fromRGB(146,93,143));
-                    itemmeta.setDisplayName(ChatColor.WHITE + "Invisibility Potion");
+                    potionMeta.setDisplayName(ChatColor.WHITE + "Invisibility Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 11:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, time, 0), true);
                     potionMeta.setColor(Color.fromRGB(27,50,102));
-                    itemmeta.setDisplayName(ChatColor.DARK_BLUE + "Night Vision Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_BLUE + "Night Vision Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 12:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.CONDUIT_POWER, time, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.CONDUIT_POWER, time, 0), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.DOLPHINS_GRACE, time, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, time, 0), true);
                     potionMeta.setColor(Color.fromRGB(134,188,236));
-                    itemmeta.setDisplayName(ChatColor.DARK_AQUA + "Conduit Power Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_AQUA + "Ocean Power Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 13:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, time, 0), true);
                     potionMeta.setColor(Color.fromRGB(252,180,13));
-                    itemmeta.setDisplayName(ChatColor.GOLD + "Fire Resistance Potion");
+                    potionMeta.setDisplayName(ChatColor.GOLD + "Fire Resistance Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 14:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 1, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(68,20,68));
-                    itemmeta.setDisplayName(ChatColor.DARK_PURPLE + "Harming Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Harming Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 15:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.CONFUSION, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.CONFUSION, smallTime, bigAmplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, smallTime, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(151,202,149));
-                    itemmeta.setDisplayName(ChatColor.DARK_PURPLE + "Confusion Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Poison Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 16:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, smallTime, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(7,9,30));
-                    itemmeta.setDisplayName(ChatColor.DARK_PURPLE + "Blindness Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Blindness Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 17:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, mediumTime, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(57,250,218));
-                    itemmeta.setDisplayName(ChatColor.BLUE + "Levitation Potion");
+                    potionMeta.setDisplayName(ChatColor.BLUE + "Levitation Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 18:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW, mediumTime, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(160,57,250));
-                    itemmeta.setDisplayName(ChatColor.DARK_PURPLE + "Slowness Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Slowness Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 19:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, mediumTime, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(57,89,250));
-                    itemmeta.setDisplayName(ChatColor.DARK_BLUE + "Slow Falling Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_BLUE + "Slow Falling Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 20:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, mediumTime, bigAmplifier), true);
                     potionMeta.setColor(Color.fromRGB(212,250,57));
-                    itemmeta.setDisplayName(ChatColor.YELLOW + "Fatigue Potion");
+                    potionMeta.setDisplayName(ChatColor.YELLOW + "Fatigue Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 21:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HUNGER, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HUNGER, smallTime, bigAmplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, smallTime, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(220,191,45));
-                    itemmeta.setDisplayName(ChatColor.DARK_GREEN + "Hunger Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_GREEN + "Hungering Death Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 22:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.GLOWING, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.GLOWING, time, 0), true);
                     potionMeta.setColor(Color.fromRGB(252,249,173));
-                    itemmeta.setDisplayName(ChatColor.YELLOW + "Marking Potion");
+                    potionMeta.setDisplayName(ChatColor.YELLOW + "Marking Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 23:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WEAKNESS, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WEAKNESS, smallTime, bigAmplifier), true);
                     potionMeta.setColor(Color.fromRGB(152,131,117));
-                    itemmeta.setDisplayName(ChatColor.DARK_BLUE + "Weakness Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_BLUE + "Weakness Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 24:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WITHER, smallTime, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(40,37,36));
-                    itemmeta.setDisplayName(ChatColor.DARK_GRAY + "Death Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_GRAY + "Death Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 25:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, smallTime, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(16,137,32));
-                    itemmeta.setDisplayName(ChatColor.DARK_GREEN + "Poison Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_GREEN + "Poison Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 case 26:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 1, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(68,20,68));
-                    itemmeta.setDisplayName(ChatColor.DARK_PURPLE + "Harming Potion");
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Harming Potion");
+                    itemStack.setItemMeta(potionMeta);
+                    break;
+                case 27:
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, mediumTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, mediumTime*2, amplifier), true);
+                    potionMeta.setColor(Color.fromRGB(152,131,117));
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Flying Potion");
+                    itemStack.setItemMeta(potionMeta);
+                    break;
+                case 28:
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WEAKNESS, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW, smallTime, amplifier), true);
+                    potionMeta.setColor(Color.fromRGB(212,250,57));
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Maceman Potion");
+                    itemStack.setItemMeta(potionMeta);
+                    break;
+                case 29:
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 1, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WITHER, smallTime, amplifier), true);
+                    potionMeta.setColor(Color.fromRGB(40,37,36));
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Destruction Potion");
+                    itemStack.setItemMeta(potionMeta);
+                    break;
+                case 30:
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, smallTime, amplifier), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.JUMP, mediumTime, amplifier), true);
+                    potionMeta.setColor(Color.fromRGB(0,255,34));
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Bunny Potion");
+                    itemStack.setItemMeta(potionMeta);
+                    break;
+                case 31:
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.JUMP, time, amplifier), true);
+                    potionMeta.setColor(Color.fromRGB(0,255,34));
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Jumping Potion");
+                    itemStack.setItemMeta(potionMeta);
+                    break;
+                case 32:
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, mediumTime, 1), true);
+                    potionMeta.setColor(Color.fromRGB(212,250,57));
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Immortality Potion");
+                    itemStack.setItemMeta(potionMeta);
                     break;
                 default:
                     break;
             }
-            itemStack.setItemMeta(itemmeta);
-            itemStack.setItemMeta(potionMeta);
         }
         return itemStack;
     }

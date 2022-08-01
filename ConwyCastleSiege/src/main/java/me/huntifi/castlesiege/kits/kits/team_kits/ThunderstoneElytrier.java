@@ -253,8 +253,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
 
                             e.setCancelled(true);
 
-                        } else if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)
-                                && MapController.getCurrentMap().getTeam(damager.getUniqueId())
+                        } else if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
                                 == MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
 
                             if (hit.getHealth() != baseHealth) {

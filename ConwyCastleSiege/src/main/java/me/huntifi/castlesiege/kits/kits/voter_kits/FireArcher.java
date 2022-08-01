@@ -211,6 +211,7 @@ public class FireArcher extends VoterKit implements Listener {
     @EventHandler
     public void onUseFirepit(PlayerInteractEvent e) {
         Player p = e.getPlayer();
+        if (e.getItem() == null) { return; }
         ItemStack usedItem = e.getItem();
 
         // Prevent using in lobby
