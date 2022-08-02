@@ -8,6 +8,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.session.MoveType;
 import com.sk89q.worldguard.session.Session;
 import com.sk89q.worldguard.session.handler.Handler;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 
 import java.util.Set;
@@ -57,7 +58,7 @@ public class RegionHandler extends Handler {
 
             // Flag regions
             Flag flag = MapController.getCurrentMap().getFlag(region.getId().replace('_', ' '));
-            if (flag != null)
+            if (flag != null && Kit.equippedKits.get(player.getUniqueId()).canCap)
                 flag.playerEnter(BukkitAdapter.adapt(player));
 
             // Ram regions
