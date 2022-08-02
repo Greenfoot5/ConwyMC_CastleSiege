@@ -25,6 +25,7 @@ import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
 import me.huntifi.castlesiege.commands.staff.*;
+import me.huntifi.castlesiege.commands.staff.coins.SetCoinMultiplier;
 import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
