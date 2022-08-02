@@ -62,14 +62,14 @@ public class WoolMapBlock {
                     player.teleport(flag.spawnPoint);
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                             TextComponent.fromLegacyText(flag.getSpawnMessage()));
+                    // Remove mount
+                    if (player.isInsideVehicle()) {
+                        Objects.requireNonNull(player.getVehicle()).remove();
+                    }
+                    InCombat.playerSpawned(uuid);
                 });
-                InCombat.playerSpawned(uuid);
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                         TextComponent.fromLegacyText(flag.getSpawnMessage()));
-                // Remove mount
-                if (player.isInsideVehicle()) {
-                    Objects.requireNonNull(player.getVehicle()).remove();
-                }
             }
         }
       });

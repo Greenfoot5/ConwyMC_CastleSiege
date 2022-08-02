@@ -46,8 +46,6 @@ public class WoolMap implements Listener {
 						// Spawn player with kit
 						block.spawnPlayer(player.getUniqueId());
 						Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
-						// Spawn player
-						block.spawnPlayer(player.getUniqueId());
 					}
 				}
 			}

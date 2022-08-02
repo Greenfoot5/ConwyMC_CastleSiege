@@ -137,7 +137,7 @@ public class DeathEvent implements Listener {
     private void updateStats(PlayerDeathEvent e) {
             // Death
             Player target = e.getEntity();
-            if (target.getUniqueId() != null) {
+            if (target.getUniqueId() == null) {
                 return;
             }
             UpdateStats.addDeaths(target.getUniqueId(), 1);
@@ -187,7 +187,7 @@ public class DeathEvent implements Listener {
     private void killDeathMessage(Player killer, Player target, Tuple<String[], String[]> messages) {
         killer.sendMessage("You" + messages.getFirst()[0] + NameTag.color(target) + target.getName()
                 + ChatColor.RESET + messages.getFirst()[1] + ChatColor.GRAY +
-                " (" + ActiveData.getData(killer.getUniqueId()).getKillStreak() + ")");
+                " (" + (ActiveData.getData(killer.getUniqueId()).getKillStreak() + 1) + ")");
 
         target.sendMessage(messages.getSecond()[0] + NameTag.color(killer) + killer.getName()
                 + ChatColor.RESET + messages.getSecond()[1]);

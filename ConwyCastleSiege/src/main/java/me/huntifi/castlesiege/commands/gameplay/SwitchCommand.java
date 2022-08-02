@@ -162,8 +162,8 @@ public class SwitchCommand implements CommandExecutor {
 		}
 			Bukkit.getScheduler().runTask(Main.plugin, () -> {
 				p.teleport(team.lobby.spawnPoint);
+				InCombat.playerDied(p.getUniqueId());
 			});
-		InCombat.playerDied(p.getUniqueId());
 	 });
 	}
 

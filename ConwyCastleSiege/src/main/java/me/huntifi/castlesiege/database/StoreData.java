@@ -32,7 +32,13 @@ public class StoreData {
         storeRank(uuid, data);
 
         for (String secret : data.getFoundSecrets()) {
-            addFoundSecret(uuid, secret);
+            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                try {
+                    addFoundSecret(uuid, secret);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
     }
 
