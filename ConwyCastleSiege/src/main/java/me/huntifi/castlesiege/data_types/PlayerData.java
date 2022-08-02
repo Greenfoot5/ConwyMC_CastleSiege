@@ -470,6 +470,14 @@ public class PlayerData {
     }
 
     /**
+     * Set the player's coins
+     * @param coins The coins to set
+     */
+    public void setCoins(double coins) {
+        this.coins = coins;
+    }
+
+    /**
      * Add to the player's coins
      * @param coins The amount of coins to add
      */

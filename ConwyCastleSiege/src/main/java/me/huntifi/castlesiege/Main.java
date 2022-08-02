@@ -26,6 +26,7 @@ import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
 import me.huntifi.castlesiege.commands.staff.*;
 import me.huntifi.castlesiege.commands.staff.coins.SetCoinMultiplier;
+import me.huntifi.castlesiege.commands.staff.coins.SetCoins;
 import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
@@ -262,6 +263,10 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatch());
                 Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatch());
 
+                // Staff - Coins
+                Objects.requireNonNull(getCommand("SetCoins")).setExecutor(new SetCoins());
+                Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
+
                 // Staff - Punishments
                 Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());
                 Objects.requireNonNull(getCommand("Kick")).setExecutor(new Kick());
@@ -275,7 +280,6 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastMessage());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
-                Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
                 Objects.requireNonNull(getCommand("SetStaffRank")).setExecutor(new SetStaffRank());
                 Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
