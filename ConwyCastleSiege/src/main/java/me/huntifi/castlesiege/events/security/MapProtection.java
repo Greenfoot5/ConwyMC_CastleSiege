@@ -49,7 +49,7 @@ public class MapProtection implements Listener {
 	 * Cancels event when player destroys a block
 	 * @param e The event called when a player breaks a block
 	 */
-	@EventHandler (priority = EventPriority.LOW)
+	@EventHandler (ignoreCancelled = true, priority = EventPriority.LOW)
 	public void onBlockBreak(BlockBreakEvent e) {
 		// Allow breaking in creative mode
 		Player p = e.getPlayer();
@@ -57,13 +57,46 @@ public class MapProtection implements Listener {
 			return;
 		}
 
-		// Allow breaking ladders, cobwebs, and fire outside the lobby
-		if ((e.getBlock().getType() != Material.LADDER && e.getBlock().getType() != Material.COBWEB
-				&& e.getBlock().getType() != Material.FIRE && e.getBlock().getType() != Material.SOUL_FIRE)
-				|| InCombat.isPlayerInLobby(p.getUniqueId()) || !MapController.isOngoing()) {
+		// Disallow breaking anything outside an active game
+		if (InCombat.isPlayerInLobby(p.getUniqueId()) || !MapController.isOngoing()) {
 			e.setCancelled(true);
-		} else {
-			e.setDropItems(false);
+			return;
+		}
+
+		// Allow breaking ladders, cobwebs, and fire outside the lobby
+		switch (e.getBlock().getType()) {
+			case COBWEB:
+			case LADDER:
+			case VINE:
+
+			case BEETROOTS:
+			case CARROTS:
+			case POTATOES:
+			case WHEAT:
+
+			case KELP:
+			case KELP_PLANT:
+			case SWEET_BERRY_BUSH:
+
+			case FERN:
+			case GRASS:
+			case LARGE_FERN:
+			case TALL_GRASS:
+
+			case LILAC:
+			case PEONY:
+			case ROSE_BUSH:
+			case SUNFLOWER:
+
+			case CRIMSON_ROOTS:
+			case WARPED_ROOTS:
+
+			case FIRE:
+			case SOUL_FIRE:
+				e.setDropItems(false);
+				break;
+			default:
+				e.setCancelled(true);
 		}
 	}
 
