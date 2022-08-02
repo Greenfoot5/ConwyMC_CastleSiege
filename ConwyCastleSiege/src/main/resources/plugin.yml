@@ -219,6 +219,11 @@ commands:
       - topbounty
 
   # Staff - Coins
+  AddCoins:
+    description: Add to a player's coins
+    usage: /addcoins <player> <amount>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
   SetCoins:
     description: Sets a player's coins
     usage: /setcoins <player> <amount>
