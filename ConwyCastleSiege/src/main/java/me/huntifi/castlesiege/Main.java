@@ -28,6 +28,7 @@ import me.huntifi.castlesiege.commands.staff.*;
 import me.huntifi.castlesiege.commands.staff.coins.AddCoins;
 import me.huntifi.castlesiege.commands.staff.coins.SetCoinMultiplier;
 import me.huntifi.castlesiege.commands.staff.coins.SetCoins;
+import me.huntifi.castlesiege.commands.staff.coins.TakeCoins;
 import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
@@ -268,6 +269,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("AddCoins")).setExecutor(new AddCoins());
                 Objects.requireNonNull(getCommand("SetCoins")).setExecutor(new SetCoins());
                 Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
+                Objects.requireNonNull(getCommand("TakeCoins")).setExecutor(new TakeCoins());
 
                 // Staff - Punishments
                 Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());

@@ -234,6 +234,11 @@ commands:
     usage: /setcoinmultiplier <multiplier>
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
+  TakeCoins:
+    description: Take from a player's coins
+    usage: /takecoins <player> <amount>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
 
 
   # Staff - Punishments

@@ -485,16 +485,33 @@ public class PlayerData {
         this.coins += coins * coinMultiplier;
     }
 
+    /**
+     * Add to the player's coins without taking the multiplier into account
+     * @param coins The amount of coins to add
+     */
     public void addCoinsClean(double coins) {
         this.coins += coins;
     }
 
+    /**
+     * Take from the player's coins if they have enough
+     * @param amount The amount of coins to take
+     * @return Whether the player had enough coins to take
+     */
     public boolean takeCoins(double amount) {
         if (this.coins < amount) {
             return false;
         }
         this.coins -= amount;
         return true;
+    }
+
+    /**
+     * Take from the player's coins regardless of their current balance
+     * @param amount The amount of coins to take
+     */
+    public void takeCoinsForce(double amount) {
+        this.coins -= amount;
     }
 
     /**
