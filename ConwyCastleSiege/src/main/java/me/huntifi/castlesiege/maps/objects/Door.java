@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.maps.objects;
 
-import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Location;
@@ -39,16 +38,16 @@ public abstract class Door implements Listener {
     /**
      * Opens the door
      */
-    protected void open() throws WorldEditException {
-        SchematicSpawner.spawnSchematic(centre, schematicNames.getSecond(), Objects.requireNonNull(centre.getWorld()).getName());
+    protected void open() {
+        SchematicSpawner.spawnSchematic(centre, schematicNames.getSecond());
         Objects.requireNonNull(centre.getWorld()).playSound(centre, sounds.getSecond(), 3, 1);
     }
 
     /**
      * Closes the door
      */
-    protected void close() throws WorldEditException {
-        SchematicSpawner.spawnSchematic(centre, schematicNames.getFirst(), Objects.requireNonNull(centre.getWorld()).getName());
+    protected void close() {
+        SchematicSpawner.spawnSchematic(centre, schematicNames.getFirst());
         Objects.requireNonNull(centre.getWorld()).playSound(centre, sounds.getFirst(), 3, 1);
     }
 }

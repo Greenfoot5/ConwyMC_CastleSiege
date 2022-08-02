@@ -77,23 +77,23 @@ public class Engineer extends DonatorKit implements Listener {
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 ChatColor.GREEN + "Leather Chestplate", null, null,
-                Color.fromRGB(57, 75, 57));
+                Color.fromRGB(128, 129, 129));
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Leather Leggings", null, null,
-                Color.fromRGB(57, 75, 57));
+                Color.fromRGB(129, 129, 129));
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots", null, null,
-                Color.fromRGB(57, 75, 57));
+                Color.fromRGB(129, 129, 129));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
-                Color.fromRGB(57, 75, 57));
+                Color.fromRGB(129, 129, 129));
 
         // Ladders
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);

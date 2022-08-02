@@ -23,7 +23,8 @@ public class Hunger implements Runnable {
 				continue;
 			}
 
-			if (Objects.equals(kit.name, "Halberdier") || Objects.equals(kit.name, "Abyssal")) {
+			if (Objects.equals(kit.name, "Halberdier") || Objects.equals(kit.name, "Abyssal") ||
+					Objects.equals(kit.name, "Arbalester")) {
 				p.setFoodLevel(4);
 			} else {
 				p.setFoodLevel(p.getFoodLevel() + 1);

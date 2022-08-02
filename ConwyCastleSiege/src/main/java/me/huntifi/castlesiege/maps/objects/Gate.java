@@ -1,7 +1,5 @@
 package me.huntifi.castlesiege.maps.objects;
 
-import com.sk89q.worldedit.WorldEditException;
-import com.sk89q.worldedit.util.Direction;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -20,6 +18,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -43,8 +43,7 @@ public class Gate implements Listener {
     private final ArrayList<UUID> recentHitters = new ArrayList<>();
 
     // Ram data
-    private Direction direction = Direction.WEST;
-    private int ramIndex = 0;
+    private Ram ram;
 
     /**
      * Creates a new gate
@@ -109,78 +108,107 @@ public class Gate implements Listener {
         return false;
     }
 
-    private void gateBreached(World world) {
+    private void gateBreached() {
         if (!getName().isEmpty()) {
             Messenger.broadcastWarning(getName() + " has been breached!");
         }
 
-        try {
-            SchematicSpawner.spawnSchematic(schematicLocation.toLocation(
-                    Objects.requireNonNull(world)), schematicName, world.getName());
-        } catch (WorldEditException e) {
-            e.printStackTrace();
-        }
+        World world = Bukkit.getWorld(MapController.getCurrentMap().worldName);
+        if (world == null)
+            return;
 
-        Objects.requireNonNull(world).playSound(
-                breachSoundLocation.toLocation(world), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR , 5, 1 );
+        SchematicSpawner.spawnSchematic(schematicLocation.toLocation(world), schematicName);
+        world.playSound(breachSoundLocation.toLocation(world),
+                Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR , 5, 1 );
         isBreached = true;
+    }
 
+    public boolean isBreached() {
+        return isBreached;
+    }
+
+    public boolean canBreach(UUID uuid) {
+        Flag flag = MapController.getCurrentMap().getFlag(flagName);
+        return flagName.isEmpty() || (flag != null
+                && !Objects.equals(MapController.getCurrentMap().getTeam(uuid).name, flag.getCurrentOwners()));
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        // Make sure the player is playing, and the gate is on the correct map
-        if (Objects.equals(mapName, MapController.getCurrentMap().name)) {
+        // Make sure the gate is on the correct map and has not been breached yet
+        if (Objects.equals(mapName, MapController.getCurrentMap().name) && !isBreached) {
 
             // Check the player is left-clicking and the gate isn't friendly
             Player player = event.getPlayer();
-            Flag flag = MapController.getCurrentMap().getFlag(flagName);
-            if((flagName.isEmpty() || (flag != null
-                    && !Objects.equals(MapController.getCurrentMap().getTeam(player.getUniqueId()).name, flag.getCurrentOwners())))
-                    && event.getAction() == Action.LEFT_CLICK_BLOCK) {
-
-                Location soundLoc = Objects.requireNonNull(event.getClickedBlock()).getLocation();
-
+            if (canBreach(player.getUniqueId()) && event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                assert event.getClickedBlock() != null;
                 if (isGateBlock(event.getClickedBlock())) {
-                    if (!player.isSprinting() && !isBreached) {
+                    if (!player.isSprinting()) {
                         player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                                 TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "You need to sprint in order to bash the gate!"));
                         return;
                     }
 
-                    int damage = getDamage(player.getUniqueId());
+                    if (!recentHitters.contains(player.getUniqueId())) {
+                        recentHitters.add(player.getUniqueId());
 
-                    // Check there's at least 2hp left
-                    if (health > damage) {
+                        dealDamage(Collections.singletonList(player.getUniqueId()), getDamage(player.getUniqueId()));
+                        UpdateStats.addSupports(player.getUniqueId(), 1);
 
-                        if (!recentHitters.contains(player.getUniqueId())) {
-
-                            recentHitters.add(player.getUniqueId());
-
-                            health -= damage;
-
-                            UpdateStats.addSupports(player.getUniqueId(), 1);
-
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                                    TextComponent.fromLegacyText(ChatColor.GRAY + "" + ChatColor.BOLD + "Gate Health: " + health));
-
-                            Objects.requireNonNull(soundLoc.getWorld()).playSound(soundLoc, Sound.ENTITY_GENERIC_EXPLODE , 2, 1 );
-
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    recentHitters.remove(player.getUniqueId());
-                                }
-                            }.runTaskLater(Main.plugin, 20);
-                        }
-                    } else {
-                        if (!isBreached) {
-                            gateBreached(soundLoc.getWorld());
-                        }
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                recentHitters.remove(player.getUniqueId());
+                            }
+                        }.runTaskLater(Main.plugin, 20);
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Deal damage to this gate. Breach the gate when no health remains.
+     * @param players The UUIDs of the players attacking the gate
+     * @param damage The amount of damage to deal
+     */
+    public void dealDamage(Collection<UUID> players, int damage) {
+        if (health > damage) {
+            health -= damage;
+
+            // Show all involved players the amount of remaining health
+            for (UUID uuid : players) {
+                Player player = Bukkit.getPlayer(uuid);
+                if (player == null)
+                    continue;
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                        String.format("%s%sGate Health: %d", ChatColor.GRAY, ChatColor.BOLD, health)));
+            }
+
+            // Play an explosion sound for hitting the gate
+            World world = Bukkit.getWorld(MapController.getCurrentMap().worldName);
+            assert world != null;
+            world.playSound(breachSoundLocation.toLocation(world), Sound.ENTITY_GENERIC_EXPLODE, 2, 1 );
+
+        } else {
+            gateBreached();
+        }
+    }
+
+    /**
+     * Set this gate's ram.
+     * @param ram The ram object belonging to this gate
+     */
+    public void setRam(Ram ram) {
+        this.ram = ram;
+    }
+
+    /**
+     * Get this gate's ram.
+     * @return The ram object belonging to this gate, null if none exists
+     */
+    public Ram getRam() {
+        return this.ram;
     }
 
     private int getDamage(UUID uuid) {

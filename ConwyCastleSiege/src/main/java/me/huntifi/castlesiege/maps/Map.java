@@ -1,11 +1,13 @@
 package me.huntifi.castlesiege.maps;
 
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.maps.objects.Ram;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
@@ -107,6 +109,21 @@ public class Map {
                 return flag;
             }
         }
+        return null;
+    }
+
+    /**
+     * Gets a ram based on its region
+     * @param region The ram's region
+     * @return The ram, null if none was found
+     */
+    public Ram getRam(ProtectedRegion region) {
+        for (Gate gate : gates) {
+            Ram ram = gate.getRam();
+            if (ram != null && ram.getRegion().equals(region))
+                return ram;
+        }
+
         return null;
     }
 

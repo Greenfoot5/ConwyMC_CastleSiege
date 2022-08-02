@@ -374,6 +374,9 @@ commands:
   Kit:
     description: Open the GUI for selecting kits
     usage: /kit <category>
+  Alchemist:
+    description: Selects the alchemist kit
+    usage: /alchemist
   Archer:
     description: Selects the archer kit
     usage: /archer

@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.maps.objects;
 
-import com.sk89q.worldedit.WorldEditException;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -164,49 +163,39 @@ public class Catapult implements Listener {
      * Shoot the catapult and start the timer for it coming back down again
      */
     private void shoot() {
-        try {
-            // Animate the shot and play the shooting sound
-            SchematicSpawner.spawnSchematic(schematicLocation, schematicShot, world.getName());
-            world.playSound(sound, Sound.ENTITY_BLAZE_SHOOT, 5, 1);
+        // Animate the shot and play the shooting sound
+        SchematicSpawner.spawnSchematic(schematicLocation, schematicShot);
+        world.playSound(sound, Sound.ENTITY_BLAZE_SHOOT, 5, 1);
 
-            // Perform the shot
-            launchProjectile();
-            canShoot = false;
+        // Perform the shot
+        launchProjectile();
+        canShoot = false;
 
-            // Start the 20s timer for the catapult coming back down
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    tension();
-                }
-            }.runTaskLater(Main.plugin, 400);
-
-        } catch (WorldEditException e) {
-            e.printStackTrace();
-        }
+        // Start the 20s timer for the catapult coming back down
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                tension();
+            }
+        }.runTaskLater(Main.plugin, 400);
     }
 
     /**
      * Tension the catapult and start the timer for it being refilled
      */
     private void tension() {
-        try {
-            // Animate the tensioning and play the tensioning sound
-            SchematicSpawner.spawnSchematic(schematicLocation, schematicReloading, world.getName());
-            world.playSound(sound, Sound.BLOCK_DISPENSER_DISPENSE, 5, 1);
-            canRefill = true;
+        // Animate the tensioning and play the tensioning sound
+        SchematicSpawner.spawnSchematic(schematicLocation, schematicReloading);
+        world.playSound(sound, Sound.BLOCK_DISPENSER_DISPENSE, 5, 1);
+        canRefill = true;
 
-            // Start the 20s timer for the catapult being refilled automatically
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    refill();
-                }
-            }.runTaskLater(Main.plugin, 400);
-
-        } catch (WorldEditException e) {
-            e.printStackTrace();
-        }
+        // Start the 20s timer for the catapult being refilled automatically
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                refill();
+            }
+        }.runTaskLater(Main.plugin, 400);
     }
 
     /**

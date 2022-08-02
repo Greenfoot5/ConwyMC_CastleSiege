@@ -238,24 +238,22 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
     public void onThrownPotion(PotionSplashEvent e) {
 
         if (e.getPotion().getShooter() instanceof Player) {
-
+            Player damager = (Player) e.getPotion().getShooter();
+            if (potion == null) { return; }
             if (e.getPotion().getShooter() == potion.getShooter()) {
-
+                if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
                 for (Entity entity : e.getAffectedEntities()) {
 
                     if (entity instanceof Player) {
 
-                        Player damager = (Player) e.getPotion().getShooter();
                         Player hit = (Player) entity;
 
-                        if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)
-                                && MapController.getCurrentMap().getTeam(damager.getUniqueId())
+                        if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
                                 != MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
 
                             e.setCancelled(true);
 
-                        } else if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)
-                                && MapController.getCurrentMap().getTeam(damager.getUniqueId())
+                        } else if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
                                 == MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
 
                             if (hit.getHealth() != baseHealth) {
@@ -267,6 +265,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                         }
                     }
                 }
+            }
             }
         }
     }

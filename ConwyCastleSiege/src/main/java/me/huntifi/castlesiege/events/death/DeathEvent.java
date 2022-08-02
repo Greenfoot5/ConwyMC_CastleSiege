@@ -13,6 +13,8 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.maps.objects.Ram;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -83,6 +85,7 @@ public class DeathEvent implements Listener {
         event.setDeathMessage(null);
         respawn(event.getEntity());
         stopCapping(event.getEntity());
+        stopRamming(event.getEntity());
         if (MapController.isOngoing() && !InCombat.isPlayerInLobby(event.getEntity().getUniqueId())) {
             updateStats(event);
         }
@@ -109,6 +112,18 @@ public class DeathEvent implements Listener {
     private void stopCapping(Player p) {
         for (Flag flag : MapController.getCurrentMap().flags) {
             flag.playerExit(p);
+        }
+    }
+
+    /**
+     * Remove the player from all rams
+     * @param p The player
+     */
+    private void stopRamming(Player p) {
+        for (Gate gate : MapController.getCurrentMap().gates) {
+            Ram ram = gate.getRam();
+            if (ram != null)
+                ram.playerExit(p);
         }
     }
 

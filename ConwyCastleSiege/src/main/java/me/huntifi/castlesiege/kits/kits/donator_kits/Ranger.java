@@ -165,7 +165,7 @@ public class Ranger extends DonatorKit implements Listener {
     private void volleyAbility(Player p, Vector v) {
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                 ChatColor.GREEN + "You shot your volley bow!"));
-        p.setCooldown(Material.BOW, 100);
+        p.setCooldown(Material.BOW, 60);
 
         // Shoot the extra arrows
         if (removeArrow(p)) {
