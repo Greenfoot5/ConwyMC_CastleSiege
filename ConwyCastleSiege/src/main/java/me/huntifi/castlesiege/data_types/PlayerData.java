@@ -1,9 +1,11 @@
 package me.huntifi.castlesiege.data_types;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
+import org.bukkit.Bukkit;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -114,11 +116,13 @@ public class PlayerData {
      * @param end The end of the mute
      */
     public void setMute(String reason, Timestamp end) {
-        if (reason == null || end == null) {
-            mute = null;
-        } else {
-            mute = new Tuple<>(reason, end);
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            if (reason == null || end == null) {
+                mute = null;
+            } else {
+                mute = new Tuple<>(reason, end);
+            }
+        });
     }
 
     /**
@@ -134,7 +138,9 @@ public class PlayerData {
      * @param score The score to add
      */
     private void addScore(double score) {
-        this.score += score;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            this.score += score;
+        });
     }
 
     /**
@@ -151,10 +157,12 @@ public class PlayerData {
      * Update the current kill streak
      */
     public void addKill() {
-        kills += 1;
-        addScore(2);
-        addCoins(2);
-        addKillStreak();
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            kills += 1;
+            addScore(2);
+            addCoins(2);
+            addKillStreak();
+        });
     }
 
     /**
@@ -172,9 +180,11 @@ public class PlayerData {
      * @param deaths The deaths to add
      */
     public void addDeaths(double deaths) {
-        this.deaths += deaths;
-        addScore(-deaths);
-        killStreak = 0;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            this.deaths += deaths;
+            addScore(-deaths);
+            killStreak = 0;
+        });
     }
 
     /**
@@ -191,9 +201,11 @@ public class PlayerData {
      * @param captures The captures to add
      */
     public void addCaptures(double captures) {
-        this.captures += captures;
-        addScore(captures);
-        addCoins(captures);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            this.captures += captures;
+            addScore(captures);
+            addCoins(captures);
+        });
     }
 
     /**
@@ -209,9 +221,11 @@ public class PlayerData {
      * Add 0.5 points and coins per heal
      */
     public void addHeal() {
-        this.heals += 1;
-        addScore(0.5);
-        addCoins(0.5);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            this.heals += 1;
+            addScore(0.5);
+            addCoins(0.5);
+        });
     }
 
     /**
@@ -219,9 +233,11 @@ public class PlayerData {
      * Add 0.5 points and coins per heal
      */
     public void addHeals(double heals) {
-        this.heals += (1 * heals);
-        addScore(0.5 * heals);
-        addCoins(0.5 * heals);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            this.heals += (1 * heals);
+            addScore(0.5 * heals);
+            addCoins(0.5 * heals);
+        });
     }
 
     /**
@@ -238,9 +254,11 @@ public class PlayerData {
      * @param supports The supports to add
      */
     public void addSupports(double supports) {
-        this.supports += supports;
-        addScore(supports / 6);
-        addCoins(supports / 6);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            this.supports += supports;
+            addScore(supports / 6);
+            addCoins(supports / 6);
+        });
     }
 
     /**
@@ -256,9 +274,11 @@ public class PlayerData {
      * Add 1 point and coin per assist
      */
     public void addAssist() {
-        assists += 1;
-        addScore(1);
-        addCoins(1);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            assists += 1;
+            addScore(1);
+            addCoins(1);
+        });
     }
 
     /**
@@ -274,10 +294,12 @@ public class PlayerData {
      * Update max kill streak when surpassed
      */
     private void addKillStreak() {
-        killStreak += 1;
-        if (maxKillStreak < killStreak) {
-            maxKillStreak = killStreak;
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            killStreak += 1;
+            if (maxKillStreak < killStreak) {
+                maxKillStreak = killStreak;
+            }
+        });
     }
 
     /**
@@ -300,7 +322,9 @@ public class PlayerData {
      * Increase the player's MVP count by 1
      */
     public void addMVP() {
-        this.mvps += 1;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            this.mvps += 1;
+        });
     }
 
     /**
@@ -315,7 +339,9 @@ public class PlayerData {
      * Increase the player's secret count by 1
      */
     public void addSecret() {
-        secrets += 1;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            secrets += 1;
+        });
     }
 
     /**
@@ -346,7 +372,9 @@ public class PlayerData {
      * Increase the player's level by 1
      */
     public void addLevel() {
-        level += 1;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            level += 1;
+        });
     }
 
     /**
@@ -362,7 +390,9 @@ public class PlayerData {
      * @param rankPoints The rank points to add
      */
     public void setRankPoints(double rankPoints) {
-        this.rankPoints = rankPoints;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            this.rankPoints = rankPoints;
+        });
     }
 
     /**
@@ -410,7 +440,9 @@ public class PlayerData {
      * @param joinMessage The custom join message
      */
     public void setJoinMessage(String joinMessage) {
-        this.joinMessage = joinMessage;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            this.joinMessage = joinMessage;
+        });
     }
 
     /**
@@ -418,6 +450,7 @@ public class PlayerData {
      * @return The player's custom leave message
      */
     public String getLeaveMessage() {
+
         return leaveMessage;
     }
 
@@ -426,7 +459,9 @@ public class PlayerData {
      * @param leaveMessage The custom leave message
      */
     public void setLeaveMessage(String leaveMessage) {
-        this.leaveMessage = leaveMessage;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            this.leaveMessage = leaveMessage;
+        });
     }
 
     /**
@@ -458,7 +493,9 @@ public class PlayerData {
      * @param vote The vote to set
      */
     public void setVote(String vote) {
-        votes.put(vote, System.currentTimeMillis());
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            votes.put(vote, System.currentTimeMillis());
+        });
     }
 
     /**
@@ -482,7 +519,9 @@ public class PlayerData {
      * @param coins The amount of coins to add
      */
     public void addCoins(double coins) {
-        this.coins += coins * coinMultiplier;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            this.coins += coins * coinMultiplier;
+        });
     }
 
     /**
@@ -490,7 +529,9 @@ public class PlayerData {
      * @param coins The amount of coins to add
      */
     public void addCoinsClean(double coins) {
-        this.coins += coins;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            this.coins += coins;
+        });
     }
 
     /**
@@ -544,8 +585,10 @@ public class PlayerData {
      * @param kitName The name without spaces of the kit to add
      */
     public void addKit(String kitName) {
-        if (!unlockedKits.contains(kitName))
-            unlockedKits.add(kitName);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            if (!unlockedKits.contains(kitName))
+                unlockedKits.add(kitName);
+        });
     }
 
     /**
@@ -562,12 +605,14 @@ public class PlayerData {
     }
 
     public void setSetting(UUID uuid, String setting, String value) {
-        if (settings.get(setting) == null) {
-            StoreData.addSetting(uuid, setting, value);
-        } else {
-            StoreData.updateSetting(uuid, setting, value);
-        }
-        settings.put(setting, value);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            if (settings.get(setting) == null) {
+                StoreData.addSetting(uuid, setting, value);
+            } else {
+                StoreData.updateSetting(uuid, setting, value);
+            }
+            settings.put(setting, value);
+        });
     }
 
     /**
@@ -583,7 +628,9 @@ public class PlayerData {
      * @param multiplier The multiplier to set
      */
     public static void setCoinMultiplier(double multiplier) {
-        coinMultiplier = multiplier;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            coinMultiplier = multiplier;
+        });
     }
 
 
@@ -609,8 +656,10 @@ public class PlayerData {
      * @param secretName The name without spaces of the secret to add
      */
     public void addFoundSecret(String secretName) {
-        if (!foundSecrets.contains(secretName))
-            foundSecrets.add(secretName);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            if (!foundSecrets.contains(secretName))
+                foundSecrets.add(secretName);
+        });
     }
 
     /**

@@ -61,11 +61,13 @@ public class Permissions {
      * @param permission The permission to set
      */
     public static void setDonatorPermission(UUID uuid, String permission) {
-        Collection<String> donatorPerms = Arrays.asList("high_king", "king", "viceroy", "duke",
-                "count", "baron", "noble", "esquire", "");
-        if (donatorPerms.contains(permission)) {
-            setPermission(uuid, ActiveData.getData(uuid).getRank(), permission);
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            Collection<String> donatorPerms = Arrays.asList("high_king", "king", "viceroy", "duke",
+                    "count", "baron", "noble", "esquire", "");
+            if (donatorPerms.contains(permission)) {
+                setPermission(uuid, ActiveData.getData(uuid).getRank(), permission);
+            }
+        });
     }
 
     /**

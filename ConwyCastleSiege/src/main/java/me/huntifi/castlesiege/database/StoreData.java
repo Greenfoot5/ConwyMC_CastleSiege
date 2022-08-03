@@ -32,7 +32,7 @@ public class StoreData {
         storeRank(uuid, data);
 
         for (String secret : data.getFoundSecrets()) {
-            addFoundSecret(uuid, secret);
+                    addFoundSecret(uuid, secret);
         }
     }
 

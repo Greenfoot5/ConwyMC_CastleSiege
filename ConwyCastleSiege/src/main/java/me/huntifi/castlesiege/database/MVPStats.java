@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.database;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -19,7 +20,7 @@ public class MVPStats {
      * @param uuid The unique ID of the player
      */
     public static void addPlayer(UUID uuid) {
-        stats.putIfAbsent(uuid, new PlayerData());
+            stats.putIfAbsent(uuid, new PlayerData());
     }
 
     /**
@@ -44,9 +45,13 @@ public class MVPStats {
      * Should only be used at the end of a game
      */
     public static void reset() {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
         stats.clear();
         for (Player p : Bukkit.getOnlinePlayers()) {
-            addPlayer(p.getUniqueId());
-        }
+            Bukkit.getScheduler().runTask(Main.plugin, () -> {
+                addPlayer(p.getUniqueId());
+            });
+         }
+       });
     }
 }

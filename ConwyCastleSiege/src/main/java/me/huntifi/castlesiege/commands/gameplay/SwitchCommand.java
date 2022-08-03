@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -73,10 +74,16 @@ public class SwitchCommand implements CommandExecutor {
 			// Spawn the player in their new lobby
 			if (InCombat.isPlayerInLobby(p.getUniqueId())) {
 				spawnPlayer(p, 0);
+				Team team = MapController.getCurrentMap().getTeam(p.getUniqueId());
+				p.teleport(team.lobby.spawnPoint);
 			} else if (p.hasPermission("castlesiege.baron")) {
 				spawnPlayer(p, 1);
+				Team team = MapController.getCurrentMap().getTeam(p.getUniqueId());
+				p.teleport(team.lobby.spawnPoint);
 			} else {
 				spawnPlayer(p, 2);
+				Team team = MapController.getCurrentMap().getTeam(p.getUniqueId());
+				p.teleport(team.lobby.spawnPoint);
 			}
 			return true;
 		}
@@ -96,8 +103,12 @@ public class SwitchCommand implements CommandExecutor {
 
 		if (!InCombat.isPlayerInLobby(p.getUniqueId())) {
 			spawnPlayer(p, 2);
+			Team team = MapController.getCurrentMap().getTeam(p.getUniqueId());
+			p.teleport(team.lobby.spawnPoint);
 		} else {
 			spawnPlayer(p, 0);
+			Team team = MapController.getCurrentMap().getTeam(p.getUniqueId());
+			p.teleport(team.lobby.spawnPoint);
 		}
 
 	return true;
@@ -109,24 +120,32 @@ public class SwitchCommand implements CommandExecutor {
 	 * @param deaths The amount of deaths the player should receive
 	 */
 	private void spawnPlayer(Player p, int deaths) {
+
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 		Team team = MapController.getCurrentMap().getTeam(p.getUniqueId());
 
 		//Check what type of switch it is (on battlefield or not?)
 		if (deaths > 0 && MapController.isOngoing()) {
-			//Set player health to 0 and teleport them to their new lobby
-			p.setHealth(0);
+			Bukkit.getScheduler().runTask(Main.plugin, () -> {
+						//Set player health to 0 and teleport them to their new lobby
+						p.setHealth(0);
+			});
 			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name +
 					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)", p);
 			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
 
 		} else if (deaths == 0 || (deaths > 0 || !MapController.isOngoing())){
-			//Teleport to new lobby with full health
-			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+			Bukkit.getScheduler().runTask(Main.plugin, () -> {
+						//Teleport to new lobby with full health
+				p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+			});
 			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name, p);
 
 		} else {
-			//Teleport to new lobby with full health
-			p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+			Bukkit.getScheduler().runTask(Main.plugin, () -> {
+				//Teleport to new lobby with full health
+				p.setHealth(Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+			});
 			Messenger.sendInfo("You were forcefully switched to " + team.primaryChatColor + team.name, p);
 		}
 
@@ -137,11 +156,15 @@ public class SwitchCommand implements CommandExecutor {
 			Kit.equippedKits.put(p.getUniqueId(), new Swordsman());
 			ActiveData.getData(p.getUniqueId()).setKit("swordsman");
 		} else {
-			Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
+			Bukkit.getScheduler().runTask(Main.plugin, () -> {
+				Kit.equippedKits.get(p.getUniqueId()).setItems(p.getUniqueId());
+			});
 		}
-
-		p.teleport(team.lobby.spawnPoint);
-		InCombat.playerDied(p.getUniqueId());
+			Bukkit.getScheduler().runTask(Main.plugin, () -> {
+				p.teleport(team.lobby.spawnPoint);
+				InCombat.playerDied(p.getUniqueId());
+			});
+	 });
 	}
 
 	private void switchToNextTeam(Map map, Player p) {

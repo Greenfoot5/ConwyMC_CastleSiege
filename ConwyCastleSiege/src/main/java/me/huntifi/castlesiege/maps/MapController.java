@@ -57,12 +57,16 @@ public class MapController {
 	 * Begins the map loop
 	 */
 	public static void startLoop() {
-		if (!isMatch) {
-			Collections.shuffle(maps);
-			if ( mapCount > 0 && mapCount < maps.size())
-				maps = maps.subList(0, mapCount);
-		}
-		loadMap();
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+			if (!isMatch) {
+				Collections.shuffle(maps);
+				if (mapCount > 0 && mapCount < maps.size())
+					maps = maps.subList(0, mapCount);
+			}
+			Bukkit.getScheduler().runTask(Main.plugin, () -> {
+				loadMap();
+			});
+		});
 	}
 
 	public static Map getUnplayedMap(String mapName) {
@@ -88,16 +92,18 @@ public class MapController {
 	 * @param mapNames A list of map names to play
 	 */
 	public static void setMaps(List<String> mapNames) {
-		List<Map> newMaps = new ArrayList<>();
-		for (String mapName : mapNames) {
-			Map map = getMap(mapName);
-			if (map != null) {
-				newMaps.add(map);
-			} else {
-				getLogger().severe("Could not load match mode. Could not find map: `" + mapName + "`");
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+			List<Map> newMaps = new ArrayList<>();
+			for (String mapName : mapNames) {
+				Map map = getMap(mapName);
+				if (map != null) {
+					newMaps.add(map);
+				} else {
+					getLogger().severe("Could not load match mode. Could not find map: `" + mapName + "`");
+				}
 			}
-		}
-		maps = newMaps;
+			maps = newMaps;
+		});
 	}
 
 	/**
@@ -397,6 +403,7 @@ public class MapController {
 	 * Does any unloading needed for the current map
 	 */
 	public static void unloadMap(Map oldMap) {
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 		// Clear map stats
 		InCombat.clearCombat();
 		MVPStats.reset();
@@ -414,9 +421,10 @@ public class MapController {
 		// Unregister flag regions
 		for (Flag flag : oldMap.flags) {
 			if (flag.region != null) {
-				Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+				Bukkit.getScheduler().runTask(Main.plugin, () ->
+						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
 								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
-						.removeRegion(flag.name.replace(' ', '_'));
+						.removeRegion(flag.name.replace(' ', '_')));
 			}
 		}
 
@@ -449,6 +457,7 @@ public class MapController {
 				team.clear();
 			}
 		}
+	 });
 	}
 
 	/**
@@ -529,20 +538,21 @@ public class MapController {
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	}
 
+
 	/**
 	 * Removes a player from the team when they disconnect
 	 * @param uuid the uuid to remove
 	 */
 	public static void leaveTeam(UUID uuid) {
-		Map map = MapController.getCurrentMap();
-		Team team = map.getTeam(uuid);
-		if (team != null) {
-			team.removePlayer(uuid);
-		} else {
-			if (isSpectator(uuid)) {
-				SpectateCommand.spectators.remove(uuid);
+			Map map = MapController.getCurrentMap();
+			Team team = map.getTeam(uuid);
+			if (team != null) {
+				Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {team.removePlayer(uuid);});
+			} else {
+				if (isSpectator(uuid)) {
+					SpectateCommand.spectators.remove(uuid);
+				}
 			}
-		}
 	}
 
 	/**

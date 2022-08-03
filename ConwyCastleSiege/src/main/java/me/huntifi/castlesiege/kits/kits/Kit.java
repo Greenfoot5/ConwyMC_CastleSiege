@@ -97,30 +97,34 @@ public abstract class Kit implements CommandExecutor {
      * @param uuid The unique id of the player to whom this kit is given
      */
     public void setItems(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        if (player == null) { return; }
+        Bukkit.getScheduler().runTask(Main.plugin, () -> {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player == null) {
+                return;
+            }
 
-        // Health
-        AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        assert healthAttribute != null;
-        healthAttribute.setBaseValue(baseHealth);
-        player.setHealthScaled(true);
-        player.setHealth(baseHealth);
-        player.setFireTicks(0);
+            // Health
+            AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+            assert healthAttribute != null;
+            healthAttribute.setBaseValue(baseHealth);
+            player.setHealthScaled(true);
+            player.setHealth(baseHealth);
+            player.setFireTicks(0);
 
-        // Knockback resistance
-        AttributeInstance kbAttribute = player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);
-        assert kbAttribute != null;
-        kbAttribute.setBaseValue(kbResistance);
+            // Knockback resistance
+            AttributeInstance kbAttribute = player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);
+            assert kbAttribute != null;
+            kbAttribute.setBaseValue(kbResistance);
 
-        // Items
-        refillItems(uuid);
+            // Items
+            refillItems(uuid);
 
-        // Change disguise
-        setDisguise(player);
+            // Change disguise
+            setDisguise(player);
 
-        // Change player health display
-        displayHealth(player);
+            // Change player health display
+            displayHealth(player);
+        });
     }
 
     /**
@@ -128,18 +132,22 @@ public abstract class Kit implements CommandExecutor {
      * @param uuid The unique id of the player for whom to perform the refill
      */
     public void refillItems(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        if (player == null) { return; }
+        Bukkit.getScheduler().runTask(Main.plugin, () -> {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player == null) {
+                return;
+            }
 
-        // Equipment
-        equipment.setEquipment(uuid);
-        resetCooldown(uuid);
+            // Equipment
+            equipment.setEquipment(uuid);
+            resetCooldown(uuid);
 
-        // Wool hat
-        WoolHat.setHead(player);
+            // Wool hat
+            WoolHat.setHead(player);
 
-        // Potion effects
-        applyPotionEffects(uuid);
+            // Potion effects
+            applyPotionEffects(uuid);
+        });
     }
 
     /**
@@ -179,26 +187,32 @@ public abstract class Kit implements CommandExecutor {
      * @param uuid The unique id of the player to register
      */
     public void addPlayer(UUID uuid) {
-        players.add(uuid);
         Player player = Bukkit.getPlayer(uuid);
-        setItems(uuid);
-        equippedKits.put(uuid, this);
-        ActiveData.getData(uuid).setKit(getSpacelessName());
-        assert player != null;
-        Messenger.sendInfo("Selected Kit: " + this.name, player);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            players.add(uuid);
+            equippedKits.put(uuid, this);
+            setItems(uuid);
+            ActiveData.getData(uuid).setKit(getSpacelessName());
+            assert player != null;
+            Messenger.sendInfo("Selected Kit: " + this.name, player);
 
-        // Kills the player if they have spawned this life, otherwise heal them
-        if (!InCombat.isPlayerInLobby(uuid)) {
-            player.setHealth(0);
-            if (MapController.isOngoing()) {
-                Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
-                UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
+            // Kills the player if they have spawned this life, otherwise heal them
+            if (!InCombat.isPlayerInLobby(uuid)) {
+                Bukkit.getScheduler().runTask(Main.plugin, () -> {
+                    player.setHealth(0);
+                });
+                if (MapController.isOngoing()) {
+                    Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
+                    UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
+                } else {
+                    Messenger.sendInfo("You have committed suicide!", player);
+                }
             } else {
-                Messenger.sendInfo("You have committed suicide!", player);
+                Bukkit.getScheduler().runTask(Main.plugin, () -> {
+                    player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+                });
             }
-        } else {
-            player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
-        }
+        });
     }
 
     /**

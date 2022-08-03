@@ -29,6 +29,7 @@ public class UpdateStats {
      * @param deaths The amount of deaths to add
      */
     public static void addDeaths(UUID uuid, double deaths) {
+        if (uuid == null) { return; }
         ActiveData.getData(uuid).addDeaths(deaths);
         MVPStats.getStats(uuid).addDeaths(deaths);
     }

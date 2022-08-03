@@ -135,44 +135,47 @@ public class DeathEvent implements Listener {
      * @param e The event called when a player dies
      */
     private void updateStats(PlayerDeathEvent e) {
-        // Death
-        Player target = e.getEntity();
-        UpdateStats.addDeaths(target.getUniqueId(), 1);
-
-        // Kill
-        Player killer = killerMap.getOrDefault(target, target.getKiller());
-        killerMap.remove(target);
-        if (killer != null) {
-            UpdateStats.addKill(killer.getUniqueId());
-            AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
-            // Check for bounty
-            Bounty.killstreak(killer);
-
-            // Kill and death messages
-            Kit kit = Kit.equippedKits.get(killer.getUniqueId());
-            if (target.getLastDamageCause() != null
-                    && target.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
-                killDeathMessage(killer, target, kit.getProjectileMessage());
-            } else {
-                killDeathMessage(killer, target, kit.getMeleeMessage());
+            // Death
+            Player target = e.getEntity();
+            if (target.getUniqueId() == null) {
+                return;
             }
-        }
+            UpdateStats.addDeaths(target.getUniqueId(), 1);
 
-        // Assist
-        UUID assist = AssistKill.get(target.getUniqueId());
-        if (assist != null && killer != null && killer.getUniqueId() != assist) {
-            // There are separate players for the kill and the assist
-            UpdateStats.addAssist(assist);
-            assistMessage(assist, target);
-            Bounty.grantRewards(target, killer, Bukkit.getPlayer(assist));
-        } else if (killer != null) {
-            // There is no player for the assist, or it is the same as the killer
-            Bounty.grantRewards(target, killer);
-        } else if (assist != null) {
-            // There is only a player for the assist, the death is not player related
-            UpdateStats.addAssist(assist);
-            assistMessage(assist, target);
-        }
+            // Kill
+            Player killer = killerMap.getOrDefault(target, target.getKiller());
+            killerMap.remove(target);
+            if (killer != null) {
+                UpdateStats.addKill(killer.getUniqueId());
+                AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
+                // Check for bounty
+                Bounty.killstreak(killer);
+
+                // Kill and death messages
+                Kit kit = Kit.equippedKits.get(killer.getUniqueId());
+                    if (target.getLastDamageCause() != null
+                            && target.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
+                        killDeathMessage(killer, target, kit.getProjectileMessage());
+                    } else {
+                        killDeathMessage(killer, target, kit.getMeleeMessage());
+                    }
+            }
+
+            // Assist
+            UUID assist = AssistKill.get(target.getUniqueId());
+            if (assist != null && killer != null && killer.getUniqueId() != assist) {
+                // There are separate players for the kill and the assist
+                UpdateStats.addAssist(assist);
+                assistMessage(assist, target);
+                Bounty.grantRewards(target, killer, Bukkit.getPlayer(assist));
+            } else if (killer != null) {
+                // There is no player for the assist, or it is the same as the killer
+                Bounty.grantRewards(target, killer);
+            } else if (assist != null) {
+                // There is only a player for the assist, the death is not player related
+                UpdateStats.addAssist(assist);
+                assistMessage(assist, target);
+            }
     }
 
     /**
@@ -184,7 +187,7 @@ public class DeathEvent implements Listener {
     private void killDeathMessage(Player killer, Player target, Tuple<String[], String[]> messages) {
         killer.sendMessage("You" + messages.getFirst()[0] + NameTag.color(target) + target.getName()
                 + ChatColor.RESET + messages.getFirst()[1] + ChatColor.GRAY +
-                " (" + ActiveData.getData(killer.getUniqueId()).getKillStreak() + ")");
+                " (" + (ActiveData.getData(killer.getUniqueId()).getKillStreak() + 1) + ")");
 
         target.sendMessage(messages.getSecond()[0] + NameTag.color(killer) + killer.getName()
                 + ChatColor.RESET + messages.getSecond()[1]);
