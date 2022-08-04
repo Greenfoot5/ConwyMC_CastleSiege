@@ -116,13 +116,10 @@ public class PlayerData {
      * @param end The end of the mute
      */
     public void setMute(String reason, Timestamp end) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            if (reason == null || end == null) {
-                mute = null;
-            } else {
-                mute = new Tuple<>(reason, end);
-            }
-        });
+        if (reason == null || end == null)
+            mute = null;
+        else
+            mute = new Tuple<>(reason, end);
     }
 
     /**
