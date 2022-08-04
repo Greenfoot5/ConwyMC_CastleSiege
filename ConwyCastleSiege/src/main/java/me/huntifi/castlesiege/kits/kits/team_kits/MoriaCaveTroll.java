@@ -2,7 +2,9 @@ package me.huntifi.castlesiege.kits.kits.team_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -13,6 +15,7 @@ import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import net.citizensnpcs.api.npc.NPC;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -25,20 +28,26 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.spigotmc.event.entity.EntityDismountEvent;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
 public class MoriaCaveTroll extends TeamKit implements Listener {
 
+    public ArrayList<Player> grabbed = new ArrayList<>();
+
     public MoriaCaveTroll() {
         super("Moria Cave Troll", 350, 16, "Moria", "The Orcs", 7500);
         super.canClimb = false;
+        super.kbResistance = 1;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -65,6 +74,8 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
 
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 2));
         super.potionEffects.add(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 1));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SATURATION, 999999, 0));
 
 
         // Death Messages
@@ -72,6 +83,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
         super.killMessage[0] = " crushed ";
         super.killMessage[1] = " to death";
 
+        super.equipment = es;
     }
 
     /**
@@ -86,40 +98,18 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
         disguise(p, mobDisguise);
     }
 
-    @EventHandler
-    public void onPlayerGrab(PlayerInteractEntityEvent event) {
-
-        if (event.getRightClicked() instanceof Player && (!(event.getRightClicked() instanceof NPC))) {
-            Player p = event.getPlayer();
-            Player clicked = (Player) event.getRightClicked();
-
-            if (InCombat.isPlayerInLobby(p.getUniqueId())) {
-                return;
-            }
-
-            if (Kit.equippedKits.get(clicked.getUniqueId()).name == null) {
-                return;
-            }
-            if (Objects.equals(Kit.equippedKits.get(clicked.getUniqueId()).name, name)
-                    && MapController.getCurrentMap().getTeam(clicked.getUniqueId())
-                    != MapController.getCurrentMap().getTeam(p.getUniqueId())) {
-
-                grab(p , clicked);
-            }
-        }
-    }
-
 
     /**
      * Activate the troll ability of throwing a player
      * @param e The event called when right-clicking with a stick
      */
     @EventHandler
-    public void throwPlayer(PlayerInteractEvent e) {
+    public void throwGrabPlayer(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         ItemStack stick = p.getInventory().getItemInMainHand();
         int cooldown = p.getCooldown(Material.DEAD_BUBBLE_CORAL_FAN);
+        int cooldown2 = p.getCooldown(Material.DEAD_BRAIN_CORAL_FAN);
 
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
@@ -130,15 +120,35 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
             if (stick.getType().equals(Material.DEAD_BUBBLE_CORAL_FAN)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
-                        if (p.getPassengers().get(0) == null) { return; }
-                        if (!(p.getPassengers().get(0) instanceof Player)) { return;}
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "You threw the enemy!"));
-                        throwPlayer(p, (Player) p.getPassengers().get(0));
+                        if (grabbed.size() == 0) { return; }
+                        for (Player passengers : grabbed) {
+                            throwPlayer(p, passengers);
+                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                                    ChatColor.AQUA + "You threw the enemy!"));
+                        }
 
                     } else {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw a player yet."));
+                    }
+                }
+            } else if (stick.getType().equals(Material.DEAD_BRAIN_CORAL_FAN)) {
+                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    if (cooldown2 == 0) {
+                        if (p.getPassengers().size() > 0) { return;}
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                                ChatColor.AQUA + "You grabbed the enemy!"));
+                        for (Player all : Bukkit.getOnlinePlayers()) {
+                            if (MapController.getCurrentMap().getTeam(p.getUniqueId())
+                                    != MapController.getCurrentMap().getTeam(all.getUniqueId())) {
+                            if (all.getLocation().distance(p.getLocation()) <= 3.5) {
+                                grab(p, all);
+                            }
+                          }
+                        }
+                    } else {
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't grab a player yet."));
                     }
                 }
             }
@@ -154,7 +164,8 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
         if (troll.getCooldown(Material.DEAD_BRAIN_CORAL_FAN) == 0) {
             troll.setCooldown(Material.DEAD_BRAIN_CORAL_FAN, 200);
             troll.addPassenger(player);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
+            if (!grabbed.contains(player)) { grabbed.add(player); }
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 0));
             player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 150, 3));
         }
     }
@@ -167,6 +178,14 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
     private void throwPlayer(Player troll, Player player) {
         troll.setCooldown(Material.DEAD_BUBBLE_CORAL_FAN, 120);
         troll.removePassenger(player);
-        player.setVelocity(troll.getLocation().getDirection().setY(troll.getLocation().getY() + 2).multiply(1.50));
+        AssistKill.addDamager(player.getUniqueId(),troll.getUniqueId(), 100);
+        player.setVelocity(troll.getLocation().getDirection().multiply(1.8));
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                grabbed.remove(player);
+            }
+        }.runTaskLaterAsynchronously(Main.plugin, 20);
     }
 }

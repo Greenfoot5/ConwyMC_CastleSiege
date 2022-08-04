@@ -29,7 +29,7 @@ import java.util.Random;
 public class MoriaBonecrusher extends TeamKit implements Listener {
 
     public MoriaBonecrusher() {
-        super("Moria Bonecrusher", 160, 8, "Moria","The orcs", 4000);
+        super("Moria Bonecrusher", 140, 8, "Moria","The orcs", 4000);
 
 
         // Equipment Stuff
@@ -38,13 +38,13 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.BONE),
-                ChatColor.GREEN + "Crushing Bone", null, null, 19);
+                ChatColor.GREEN + "Crushing Bone", null, null, 24);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.BONE),
                         ChatColor.GREEN + "Crushing Bone",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 21),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 26),
                 0);
 
         // Chestplate
@@ -77,6 +77,8 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
         super.deathMessage[0] = "You were crushed to death by ";
         super.killMessage[0] = " crushed ";
         super.killMessage[1] = " to death";
+
+        super.equipment = es;
     }
 
     /**
@@ -117,8 +119,8 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
                             ChatColor.AQUA + "You have crushed & stunned " + NameTag.color(p) + p.getName()));
                     p.sendMessage(ChatColor.DARK_RED + "You have been crush-stunned by " + NameTag.color(q) + q.getName() + ChatColor.DARK_RED + "!");
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BONE_BLOCK_BREAK , 1, 1 );
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 80, 3)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 80, 5)));
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 5)));
                 }
             }
         }

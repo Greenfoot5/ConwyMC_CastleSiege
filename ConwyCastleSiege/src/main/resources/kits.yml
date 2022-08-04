@@ -543,7 +543,7 @@ orc:
         - "§6------------------------------"
         - "§5MAP: Moria"
         - "§5TEAM: §2The Orcs"
-      location: 18
+      location: 20
       command: "Moriaorc"
     Bonecrusher:
       name: "§a§lCLASS:§r§a Bonecrusher"
@@ -552,7 +552,7 @@ orc:
         - "§6------------------------------"
         - "§2[Desc]:§a A fast melee unit that makes enemies weak"
         - "§2[Health]:§a 160"
-        - "§2[Melee Damage]:§a 19.0"
+        - "§2[Melee Damage]:§a 24.0"
         - "§2[Regen]:§a 8"
         - "§2[Effects]:§a Speed II"
         - "§2[Ability]:§a Gives weakness and Fatigue on hit."
@@ -560,7 +560,7 @@ orc:
         - "§6------------------------------"
         - "§5MAP: Moria"
         - "§5TEAM: §2The Orcs"
-      location: 20
+      location: 22
       command: "MoriaBonecrusher"
     Cavetroll:
       name: "§a§lCLASS:§r§a Cave Troll"
@@ -577,7 +577,7 @@ orc:
         - "§6------------------------------"
         - "§5MAP: Moria"
         - "§5TEAM: §2The Orcs"
-      location: 22
+      location: 24
       command: "MoriaCavetroll"
     back:
       name: "§4§lGo Back"
@@ -605,7 +605,7 @@ dwarves:
         - "§6------------------------------"
         - "§5MAP: Moria"
         - "§5TEAM: §6The Dwarves"
-      location: 18
+      location: 20
       command: "Moriaaxethrower"
     Guardian:
       name: "§a§lCLASS:§r§a Guardian"
@@ -614,7 +614,7 @@ dwarves:
         - "§6------------------------------"
         - "§2[Desc]:§a A tank that makes good use of his shield."
         - "§2[Health]:§a 210"
-        - "§2[Melee Damage]:§a 27"
+        - "§2[Melee Damage]:§a 31"
         - "§2[Regen]:§a 8"
         - "§2[Effects]:§a Resistance I, Fatigue"
         - "§2[Ability]:§a Gets buffs when shot whilst shielding."
@@ -622,7 +622,7 @@ dwarves:
         - "§6------------------------------"
         - "§5MAP: Moria"
         - "§5TEAM: §6The Dwarves"
-      location: 20
+      location: 22
       command: "Moriaguardian"
     Windlancer:
       name: "§a§lCLASS:§r§a Windlancer"
@@ -639,7 +639,7 @@ dwarves:
         - "§6------------------------------"
         - "§5MAP: Moria"
         - "§5TEAM: §6The Dwarves"
-      location: 22
+      location: 24
       command: "Moriawindlancer"
     back:
       name: "§4§lGo Back"

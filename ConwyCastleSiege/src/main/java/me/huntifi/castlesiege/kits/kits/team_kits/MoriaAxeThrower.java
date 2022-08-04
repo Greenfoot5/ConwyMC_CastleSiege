@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.maps.MapController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -27,7 +28,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -44,19 +44,19 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_AXE, 5),
-                ChatColor.GREEN + "Throwable Axe", null, null, 25);
+                ChatColor.GREEN + "Throwable Axe", null, null, 30);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_AXE, 6),
                         ChatColor.GREEN + "Throwable Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 27),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 ChatColor.GREEN + "Leather Chestplate", null, null,
-                Color.fromRGB(21, 51, 10));
+                Color.fromRGB(218, 51, 10));
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.NETHERITE_LEGGINGS),
@@ -82,6 +82,7 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
         super.killMessage[0] = " axed ";
         super.killMessage[1] = " to death";
 
+        super.equipment = es;
     }
 
     /**
@@ -125,7 +126,7 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
      * @param e The event called when an arrow hits a player
      */
     @EventHandler (priority = EventPriority.LOW)
-    public void changeSpearDamage(ProjectileHitEvent e) {
+    public void changeAxeDamage(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Snowball) {
             Snowball ball = (Snowball) e.getEntity();
 
@@ -135,15 +136,19 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
                 if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
                     if (e.getHitEntity() instanceof Player) {
                         Player p = (Player) e.getHitEntity();
+                        if (MapController.getCurrentMap().getTeam(ball.getUniqueId())
+                                == MapController.getCurrentMap().getTeam(p.getUniqueId())) {
+                            return;
+                        }
                         if (p.getHealth() - 25 > 0) {
-                            p.damage(25);
+                            p.damage(45);
                         } else {
                             DeathEvent.setKiller(p, damages);
                             p.setHealth(0);
                         }
                     } else if (e.getHitEntity() instanceof Horse) {
                         Horse horse = (Horse) e.getHitEntity();
-                        horse.damage(40);
+                        horse.damage(50);
                     }
                 }
             }

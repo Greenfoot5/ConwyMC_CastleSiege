@@ -40,11 +40,11 @@ public class MoriaWindlancer extends TeamKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 15),
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 20),
                 ChatColor.GREEN + "Small Hand-Windlass Spear", null, null, 19);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.STICK, 18),
+                ItemCreator.weapon(new ItemStack(Material.STICK, 20),
                         ChatColor.GREEN + "Small Hand-Windlass Spear",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 21),
@@ -56,7 +56,7 @@ public class MoriaWindlancer extends TeamKit implements Listener {
                 Color.fromRGB(218, 211, 183));
 
         // Leggings
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Leather Leggings", null, null,
                 Color.fromRGB(218, 183, 183));
 
@@ -79,7 +79,7 @@ public class MoriaWindlancer extends TeamKit implements Listener {
         super.deathMessage[0] = "You were impaled by ";
         super.killMessage[0] = "You impaled ";
 
-        
+        super.equipment = es;
     }
 
     /**
@@ -104,24 +104,14 @@ public class MoriaWindlancer extends TeamKit implements Listener {
                     if (cooldown == 0) {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.AQUA + "You threw your spears!"));
-
-                        p.launchProjectile(Snowball.class).setVelocity(p.getLocation().getDirection().multiply(2.0));
-                        stick.setAmount(stick.getAmount() - 1);
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                p.launchProjectile(Snowball.class).setVelocity(p.getLocation().getDirection().multiply(2.2));
+                                p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.2));
                                 stick.setAmount(stick.getAmount() - 1);
-                                new BukkitRunnable() {
-                                    @Override
-                                    public void run() {
-                                        p.launchProjectile(Snowball.class).setVelocity(p.getLocation().getDirection().multiply(2.2));
-                                        stick.setAmount(stick.getAmount() - 1);
-                                        p.setCooldown(Material.STICK, 120);
-                                    }
-                                }.runTaskLater(Main.plugin, 12);
+                                p.setCooldown(Material.STICK, 120);
                             }
-                        }.runTaskLater(Main.plugin, 12);
+                        }.runTaskLater(Main.plugin, 10);
 
                     } else {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
@@ -145,7 +135,7 @@ public class MoriaWindlancer extends TeamKit implements Listener {
                 Player damages = (Player) arrow.getShooter();
 
                 if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                    arrow.setDamage(20);
+                    arrow.setDamage(18);
                 }
             }
         }

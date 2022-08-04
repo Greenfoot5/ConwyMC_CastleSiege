@@ -32,13 +32,13 @@ public class MoriaGuardian extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Sword", null, null, 27);
+                ChatColor.GREEN + "Sword", null, null, 31);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 29),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 33),
                 0);
 
         // Shield
@@ -75,6 +75,8 @@ public class MoriaGuardian extends TeamKit implements Listener {
         super.deathMessage[0] = "You were beaten to death by ";
         super.killMessage[0] = " beat ";
         super.killMessage[1] = " to death";
+
+        super.equipment = es;
     }
 
     /**
@@ -86,10 +88,9 @@ public class MoriaGuardian extends TeamKit implements Listener {
     public void onArrowHit(ProjectileHitEvent e) {
         if (e.getHitEntity() instanceof Player && e.getEntity().getShooter() instanceof Player) {
             Player hit = (Player) e.getHitEntity();
-            if (Objects.equals(Kit.equippedKits.get(hit.getUniqueId()).name, name) && hit.isBlocking()) {
+            if (Objects.equals(Kit.equippedKits.get(hit.getUniqueId()).name, name)) {
                 hit.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 0));
-            } else {
-                hit.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
+                hit.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30, 1));
             }
         }
     }
