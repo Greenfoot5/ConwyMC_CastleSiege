@@ -198,9 +198,7 @@ public abstract class Kit implements CommandExecutor {
 
             // Kills the player if they have spawned this life, otherwise heal them
             if (!InCombat.isPlayerInLobby(uuid)) {
-                Bukkit.getScheduler().runTask(Main.plugin, () -> {
-                    player.setHealth(0);
-                });
+                Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
                 if (MapController.isOngoing()) {
                     Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
                     UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
@@ -208,9 +206,9 @@ public abstract class Kit implements CommandExecutor {
                     Messenger.sendInfo("You have committed suicide!", player);
                 }
             } else {
-                Bukkit.getScheduler().runTask(Main.plugin, () -> {
-                    player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
-                });
+                Bukkit.getScheduler().runTask(Main.plugin, () ->
+                    player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue())
+                );
             }
         });
     }
