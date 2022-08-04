@@ -125,33 +125,53 @@ public class CoinshopGui implements Listener, CommandExecutor {
                 ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Moria",
                 ChatColor.GREEN + "Team: " + ChatColor.DARK_GREEN + "The Orcs", ChatColor.YELLOW + "Click here to buy!"), 15, "team MoriaOrc");
 
+        addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Axe Thrower", Material.STONE_AXE, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("DwarvenAxeThrower")).getPrice(),
+                ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Moria",
+                ChatColor.GREEN + "Team: " + ChatColor.GOLD + "The Dwarves", ChatColor.YELLOW + "Click here to buy!"), 16, "team DwarvenAxeThrower");
+
+        addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Guardian", Material.SHIELD, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("DwarvenGuardian")).getPrice(),
+                ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Moria",
+                ChatColor.GREEN + "Team: " + ChatColor.GOLD + "The Dwarves", ChatColor.YELLOW + "Click here to buy!"), 17, "team DwarvenGuardian");
+
+        addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Cave Troll", Material.IRON_INGOT, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("MoriaCaveTroll")).getPrice(),
+                ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Moria",
+                ChatColor.GREEN + "Team: " + ChatColor.DARK_GREEN + "The Orcs", ChatColor.YELLOW + "Click here to buy!"), 16, "team MoriaCaveTroll");
+
+        addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Bonecrusher", Material.IRON_INGOT, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("MoriaBonecrusher")).getPrice(),
+                ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Moria",
+                ChatColor.GREEN + "Team: " + ChatColor.DARK_GREEN + "The Orcs", ChatColor.YELLOW + "Click here to buy!"), 17, "team MoriaBonecrusher");
+
+        addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Windlancer", Material.IRON_INGOT, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("DwarvenWindlancer")).getPrice(),
+                ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Moria",
+                ChatColor.GREEN + "Team: " + ChatColor.GOLD + "The Dwarves", ChatColor.YELLOW + "Click here to buy!"), 17, "team DwarvenWindlancer");
+
         addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Uruk Berserker", Material.BEETROOT_SOUP, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("UrukBerserker")).getPrice(),
                 ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Helm's Deep",
-                ChatColor.GREEN + "Team: " + ChatColor.DARK_GRAY + "The Uruk-hai", ChatColor.YELLOW + "Click here to buy!"), 16, "team UrukBerserker");
+                ChatColor.GREEN + "Team: " + ChatColor.DARK_GRAY + "The Uruk-hai", ChatColor.YELLOW + "Click here to buy!"), 18, "team UrukBerserker");
 
         addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Lancer", Material.STICK, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("Lancer")).getPrice(),
                 ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Helm's Deep",
-                ChatColor.GREEN + "Team: " + ChatColor.DARK_GREEN + "Rohan", ChatColor.YELLOW + "Click here to buy!"), 17, "team Lancer");
+                ChatColor.GREEN + "Team: " + ChatColor.DARK_GREEN + "Rohan", ChatColor.YELLOW + "Click here to buy!"), 19, "team Lancer");
 
         addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Ranged Cavalry", Material.BOW, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("RangedCavalry")).getPrice(),
                 ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Helm's Deep",
-                ChatColor.GREEN + "Team: " + ChatColor.DARK_GREEN + "Rohan", ChatColor.YELLOW + "Click here to buy!"), 18, "team RangedCavalry");
+                ChatColor.GREEN + "Team: " + ChatColor.DARK_GREEN + "Rohan", ChatColor.YELLOW + "Click here to buy!"), 20, "team RangedCavalry");
 
         addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Abyssal", Material.GREEN_DYE, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("Abyssal")).getPrice(),
                 ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Firelands",
-                ChatColor.GREEN + "Team: " + ChatColor.GREEN + "The Burning Legion", ChatColor.YELLOW + "Click here to buy!"), 19, "team Abyssal");
+                ChatColor.GREEN + "Team: " + ChatColor.GREEN + "The Burning Legion", ChatColor.YELLOW + "Click here to buy!"), 21, "team Abyssal");
 
         addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Hellsteed", Material.MAGMA_BLOCK, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("Hellsteed")).getPrice(),
                 ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Firelands",
-                ChatColor.GREEN + "Team: " + ChatColor.DARK_PURPLE + "Hellfire Guards", ChatColor.YELLOW + "Click here to buy!"), 20, "team Hellsteed");
+                ChatColor.GREEN + "Team: " + ChatColor.DARK_PURPLE + "Hellfire Guards", ChatColor.YELLOW + "Click here to buy!"), 22, "team Hellsteed");
 
         addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Royal Knight", Material.DIAMOND_HORSE_ARMOR, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("RoyalKnight")).getPrice(),
                 ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Conwy",
-                ChatColor.GREEN + "Team: " + ChatColor.DARK_RED + "The English", ChatColor.YELLOW + "Click here to buy!"), 21, "team RoyalKnight");
+                ChatColor.GREEN + "Team: " + ChatColor.DARK_RED + "The English", ChatColor.YELLOW + "Click here to buy!"), 23, "team RoyalKnight");
 
         addItem(ChatColor.BLUE + "" + ChatColor.BOLD + "Arbalester", Material.CROSSBOW, Arrays.asList(ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((TeamKit) Kit.getKit("Arbalester")).getPrice(),
                 ChatColor.GREEN + "Duration: permanent", ChatColor.GREEN + "Map: " + ChatColor.BOLD + "Conwy",
-                ChatColor.GREEN + "Team: " + ChatColor.DARK_RED + "The English", ChatColor.YELLOW + "Click here to buy!"), 22, "team Arbalester");
+                ChatColor.GREEN + "Team: " + ChatColor.DARK_RED + "The English", ChatColor.YELLOW + "Click here to buy!"), 24, "team Arbalester");
     }
 
     @Override

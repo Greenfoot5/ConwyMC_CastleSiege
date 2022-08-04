@@ -538,13 +538,109 @@ orc:
         - "§2[Desc]:§a An archer with poisonous arrows"
         - "§2[Health]:§a 130"
         - "§2[Melee Damage]:§a 19.0"
-        - "§2[Regen]:§a 4"
+        - "§2[Regen]:§a 7"
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+        - "§5MAP: Moria"
+        - "§5TEAM: §2The Orcs"
+      location: 18
+      command: "Moriaorc"
+    Bonecrusher:
+      name: "§a§lCLASS:§r§a Bonecrusher"
+      material: "BONE"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A fast melee unit that makes enemies weak"
+        - "§2[Health]:§a 160"
+        - "§2[Melee Damage]:§a 19.0"
+        - "§2[Regen]:§a 8"
+        - "§2[Effects]:§a Speed II"
+        - "§2[Ability]:§a Gives weakness and Fatigue on hit."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+        - "§5MAP: Moria"
+        - "§5TEAM: §2The Orcs"
+      location: 20
+      command: "MoriaBonecrusher"
+    Cavetroll:
+      name: "§a§lCLASS:§r§a Cave Troll"
+      material: "IRON_INGOT"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A tank that can throw enemies"
+        - "§2[Health]:§a 350"
+        - "§2[Melee Damage]:§a 20.0"
+        - "§2[Regen]:§a 16"
+        - "§2[Effects]:§a Fatigue, Night Vision"
+        - "§2[Ability]:§a Can pick up and throw enemies."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
         - "§5MAP: Moria"
         - "§5TEAM: §2The Orcs"
       location: 22
-      command: "Moriaorc"
+      command: "MoriaCavetroll"
+    back:
+      name: "§4§lGo Back"
+      material: "BARRIER"
+      lore:
+        - "§cReturn to the previous interface."
+      location: 49
+      command: "kit selector"
+dwarves:
+  name: "§6Dwarven Kits"
+  key: "the dwarves"
+  items:
+    moria_orc:
+      name: "§a§lCLASS:§r§a Axe Thrower"
+      material: "STONE_AXE"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a An ranged/melee unit that can throw axes"
+        - "§2[Health]:§a 145"
+        - "§2[Melee Damage]:§a 25.0"
+        - "§2[Regen]:§a 10"
+        - "§2[Effects]:§a Haste"
+        - "§2[Ability]:§a Can throw axes really fast"
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+        - "§5MAP: Moria"
+        - "§5TEAM: §6The Dwarves"
+      location: 18
+      command: "Moriaaxethrower"
+    Guardian:
+      name: "§a§lCLASS:§r§a Guardian"
+      material: "SHIELD"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A tank that makes good use of his shield."
+        - "§2[Health]:§a 210"
+        - "§2[Melee Damage]:§a 27"
+        - "§2[Regen]:§a 8"
+        - "§2[Effects]:§a Resistance I, Fatigue"
+        - "§2[Ability]:§a Gets buffs when shot whilst shielding."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+        - "§5MAP: Moria"
+        - "§5TEAM: §6The Dwarves"
+      location: 20
+      command: "Moriaguardian"
+    Windlancer:
+      name: "§a§lCLASS:§r§a Windlancer"
+      material: "STICK"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a A ranged unit that throws 3 spears."
+        - "§2[Health]:§a 140"
+        - "§2[Melee Damage]:§a 19.0"
+        - "§2[Regen]:§a 9"
+        - "§2[Effects]:§a Speed I"
+        - "§2[Ability]:§a Throws multiple spears at once."
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+        - "§5MAP: Moria"
+        - "§5TEAM: §6The Dwarves"
+      location: 22
+      command: "Moriawindlancer"
     back:
       name: "§4§lGo Back"
       material: "BARRIER"

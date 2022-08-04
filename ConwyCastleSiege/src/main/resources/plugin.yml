@@ -454,6 +454,21 @@ commands:
   Medic:
     description: Selects the medic kit
     usage: /medic
+  Moriabonecrusher:
+    description: Selects the Bonecrusher kit for Moria
+    usage: /moriabonecrusher
+  MoriaWindlancer:
+    description: Selects the Windlancer kit for Moria
+    usage: /moriawindlancer
+  Moriaguardian:
+    description: Selects the Guardian kit for Moria
+    usage: /moriaguardian
+  Moriacavetroll:
+    description: Selects the Cave Troll kit for Moria
+    usage: /moriacavetroll
+  Moriaaxethrower:
+    description: Selects the Axe Thrower kit for Moria
+    usage: /moriaaxethrower
   Moriaorc:
     description: Selects the Moria Orc kit for Moria
     usage: /moriaorc
