@@ -211,6 +211,11 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Ladderman(), plugin);
                 getServer().getPluginManager().registerEvents(new Maceman(), plugin);
                 getServer().getPluginManager().registerEvents(new Medic(), plugin);
+                getServer().getPluginManager().registerEvents(new MoriaWindlancer(), plugin);
+                getServer().getPluginManager().registerEvents(new MoriaAxeThrower(), plugin);
+                getServer().getPluginManager().registerEvents(new MoriaBonecrusher(), plugin);
+                getServer().getPluginManager().registerEvents(new MoriaCaveTroll(), plugin);
+                getServer().getPluginManager().registerEvents(new MoriaGuardian(), plugin);
                 getServer().getPluginManager().registerEvents(new MoriaOrc(), plugin);
                 getServer().getPluginManager().registerEvents(new Ranger(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
@@ -326,6 +331,11 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Ladderman")).setExecutor(new Ladderman());
                 Objects.requireNonNull(getCommand("Maceman")).setExecutor(new Maceman());
                 Objects.requireNonNull(getCommand("Medic")).setExecutor(new Medic());
+                Objects.requireNonNull(getCommand("MoriaWindlancer")).setExecutor(new MoriaWindlancer());
+                Objects.requireNonNull(getCommand("MoriaGuardian")).setExecutor(new MoriaGuardian());
+                Objects.requireNonNull(getCommand("MoriaCaveTroll")).setExecutor(new MoriaCaveTroll());
+                Objects.requireNonNull(getCommand("MoriaBonecrusher")).setExecutor(new MoriaBonecrusher());
+                Objects.requireNonNull(getCommand("MoriaAxeThrower")).setExecutor(new MoriaAxeThrower());
                 Objects.requireNonNull(getCommand("Moriaorc")).setExecutor(new MoriaOrc());
                 Objects.requireNonNull(getCommand("Ranger")).setExecutor(new Ranger());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
