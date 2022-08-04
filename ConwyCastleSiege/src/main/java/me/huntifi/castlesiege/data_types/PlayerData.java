@@ -138,9 +138,7 @@ public class PlayerData {
      * @param score The score to add
      */
     private void addScore(double score) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.score += score;
-        });
+        this.score += score;
     }
 
     /**
