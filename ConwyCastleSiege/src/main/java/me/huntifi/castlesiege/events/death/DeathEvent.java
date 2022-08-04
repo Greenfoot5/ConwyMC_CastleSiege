@@ -83,13 +83,15 @@ public class DeathEvent implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
-        respawn(event.getEntity());
-        stopCapping(event.getEntity());
-        stopRamming(event.getEntity());
-        if (MapController.isOngoing() && !InCombat.isPlayerInLobby(event.getEntity().getUniqueId())) {
-            updateStats(event);
-        }
-        InCombat.playerDied(event.getEntity().getUniqueId());
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            respawn(event.getEntity());
+            stopCapping(event.getEntity());
+            stopRamming(event.getEntity());
+            if (MapController.isOngoing() && !InCombat.isPlayerInLobby(event.getEntity().getUniqueId())) {
+                updateStats(event);
+            }
+            InCombat.playerDied(event.getEntity().getUniqueId());
+        });
     }
 
     /**
@@ -137,9 +139,6 @@ public class DeathEvent implements Listener {
     private void updateStats(PlayerDeathEvent e) {
             // Death
             Player target = e.getEntity();
-            if (target.getUniqueId() == null) {
-                return;
-            }
             UpdateStats.addDeaths(target.getUniqueId(), 1);
 
             // Kill
