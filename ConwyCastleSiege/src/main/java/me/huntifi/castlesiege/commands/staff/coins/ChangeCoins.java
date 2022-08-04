@@ -40,7 +40,7 @@ public abstract class ChangeCoins implements CommandExecutor {
      * @param sender Source of the command
      * @param args Passed command arguments
      */
-    protected void changeCoins(CommandSender sender, String[] args) {
+    private void changeCoins(CommandSender sender, String[] args) {
         if (hasIncorrectArgs(sender, args))
             return;
 
@@ -64,7 +64,7 @@ public abstract class ChangeCoins implements CommandExecutor {
      * @param args Passed command arguments
      * @return Whether valid arguments were provided
      */
-    protected boolean hasIncorrectArgs(CommandSender sender, String[] args) {
+    private boolean hasIncorrectArgs(CommandSender sender, String[] args) {
         // Command format is not followed
         if (args.length != 2) {
             Messenger.sendError(getCommandUsage(), sender);
@@ -95,7 +95,7 @@ public abstract class ChangeCoins implements CommandExecutor {
      * @param playerName The name of the player
      * @return The player's UUID if found, null otherwise
      */
-    protected UUID getUUID(String playerName) {
+    private UUID getUUID(String playerName) {
         // Player is online
         Player player = Bukkit.getPlayer(playerName);
         if (player != null)
@@ -114,7 +114,7 @@ public abstract class ChangeCoins implements CommandExecutor {
      * @param uuid The UUID of the player
      * @param amount The coins to set
      */
-    protected void updateDatabase(UUID uuid, double amount) {
+    private void updateDatabase(UUID uuid, double amount) {
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(getQuery())) {
             ps.setDouble(1, amount);
             ps.setString(2, uuid.toString());
