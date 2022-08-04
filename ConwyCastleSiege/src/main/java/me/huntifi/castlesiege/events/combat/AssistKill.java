@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,19 +24,21 @@ public class AssistKill implements Listener {
      * Track the attacker and amount of damage when a player takes damages
      * @param e The event called when a player is hit by an entity
      */
-    @EventHandler (priority = EventPriority.MONITOR)
+    @EventHandler (ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.isCancelled() || !(e.getEntity() instanceof Player)) {
-            return;
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            if (!(e.getEntity() instanceof Player)) {
+                return;
+            }
 
-        // Differentiate between arrow shot by player and melee hit from player
-        if (e.getDamager() instanceof Arrow && ((Arrow) e.getDamager()).getShooter() instanceof Player) {
-            UUID attacker = ((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId();
-            addDamager(e.getEntity().getUniqueId(), attacker, e.getFinalDamage());
-        } else if (e.getDamager() instanceof Player) {
-            addDamager(e.getEntity().getUniqueId(), e.getDamager().getUniqueId(), e.getFinalDamage());
-        }
+            // Differentiate between arrow shot by player and melee hit from player
+            if (e.getDamager() instanceof Arrow && ((Arrow) e.getDamager()).getShooter() instanceof Player) {
+                UUID attacker = ((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId();
+                addDamager(e.getEntity().getUniqueId(), attacker, e.getFinalDamage());
+            } else if (e.getDamager() instanceof Player) {
+                addDamager(e.getEntity().getUniqueId(), e.getDamager().getUniqueId(), e.getFinalDamage());
+            }
+        });
     }
 
     /**
