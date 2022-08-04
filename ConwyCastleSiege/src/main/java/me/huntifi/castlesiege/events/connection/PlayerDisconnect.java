@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.Permissions;
 import me.huntifi.castlesiege.database.StoreData;
@@ -12,6 +13,7 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,30 +36,36 @@ public class PlayerDisconnect implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         UUID uuid = e.getPlayer().getUniqueId();
-        if (ActiveData.getData(uuid) == null) {
+        PlayerData data = ActiveData.getData(uuid);
+        if (data == null) {
             return;
         }
 
         // Set the leave message
-        if (!ActiveData.getData(uuid).getLeaveMessage().isEmpty()) {
-            e.setQuitMessage(ChatColor.YELLOW + ActiveData.getData(uuid).getLeaveMessage());
+        if (!data.getLeaveMessage().isEmpty()) {
+            e.setQuitMessage(ChatColor.YELLOW + data.getLeaveMessage());
         }
 
-        if (InCombat.isPlayerInCombat(uuid) && MapController.isOngoing()) {
-            UpdateStats.addDeaths(uuid, 2);
-        } else if (!InCombat.isPlayerInLobby(uuid) && MapController.isOngoing()) {
-            UpdateStats.addDeaths(uuid, 1);
-        }
-        InCombat.playerDied(uuid);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            // Award deaths for logging out on the battlefield
+            if (InCombat.isPlayerInCombat(uuid) && MapController.isOngoing()) {
+                UpdateStats.addDeaths(uuid, 2);
+            } else if (!InCombat.isPlayerInLobby(uuid) && MapController.isOngoing()) {
+                UpdateStats.addDeaths(uuid, 1);
+            }
+            InCombat.playerDied(uuid);
 
-        stopCapping(e.getPlayer());
-        stopRamming(e.getPlayer());
+            // Remove player from gameplay elements
+            stopCapping(e.getPlayer());
+            stopRamming(e.getPlayer());
 
-        Kit.equippedKits.remove(uuid);
-        storeData(uuid);
-        MapController.leaveTeam(uuid);
-        Permissions.removePlayer(uuid);
-        BarCooldown.remove(uuid);
+            Kit.equippedKits.remove(uuid);
+            storeData(uuid);
+            MapController.leaveTeam(uuid);
+            Permissions.removePlayer(uuid);
+            BarCooldown.remove(uuid);
+        });
+
     }
 
     /**
@@ -88,16 +96,11 @@ public class PlayerDisconnect implements Listener {
      * @param uuid The unique ID of the player
      */
     private void storeData(UUID uuid) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    StoreData.store(uuid);
-                    ActiveData.removePlayer(uuid);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.runTaskAsynchronously(Main.plugin);
+        try {
+            StoreData.store(uuid);
+            ActiveData.removePlayer(uuid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

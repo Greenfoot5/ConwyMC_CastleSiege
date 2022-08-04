@@ -34,9 +34,6 @@ public class Permissions {
      * @param uuid The unique ID of the player
      */
     public static void removePlayer(UUID uuid) {
-        Player p = Bukkit.getPlayer(uuid);
-        assert p != null;
-        p.removeAttachment(perms.get(uuid));
         perms.remove(uuid);
     }
 

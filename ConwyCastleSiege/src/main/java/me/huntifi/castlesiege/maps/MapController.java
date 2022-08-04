@@ -544,15 +544,11 @@ public class MapController {
 	 * @param uuid the uuid to remove
 	 */
 	public static void leaveTeam(UUID uuid) {
-			Map map = MapController.getCurrentMap();
-			Team team = map.getTeam(uuid);
-			if (team != null) {
-				Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {team.removePlayer(uuid);});
-			} else {
-				if (isSpectator(uuid)) {
-					SpectateCommand.spectators.remove(uuid);
-				}
-			}
+		Team team = MapController.getCurrentMap().getTeam(uuid);
+		if (team != null)
+			team.removePlayer(uuid);
+		else if (isSpectator(uuid))
+			SpectateCommand.spectators.remove(uuid);
 	}
 
 	/**

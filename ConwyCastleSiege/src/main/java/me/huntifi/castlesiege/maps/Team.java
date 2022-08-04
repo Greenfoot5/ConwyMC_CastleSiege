@@ -44,16 +44,7 @@ public class Team {
      * @return true if the player is on the team
      */
     public boolean hasPlayer(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        if (getTeamSize() < 1 || player == null)
-            return false;
-
-        for (UUID teamMember: players) {
-            if (teamMember == uuid) {
-                return true;
-            }
-        }
-        return false;
+        return players.contains(uuid);
     }
 
     /**
