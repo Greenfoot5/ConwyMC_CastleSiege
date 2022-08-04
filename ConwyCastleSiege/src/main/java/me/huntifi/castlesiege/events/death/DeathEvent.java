@@ -147,8 +147,6 @@ public class DeathEvent implements Listener {
             if (killer != null) {
                 UpdateStats.addKill(killer.getUniqueId());
                 AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
-                // Check for bounty
-                Bounty.killstreak(killer);
 
                 // Kill and death messages
                 Kit kit = Kit.equippedKits.get(killer.getUniqueId());
@@ -158,6 +156,9 @@ public class DeathEvent implements Listener {
                     } else {
                         killDeathMessage(killer, target, kit.getMeleeMessage());
                     }
+
+                // Check for bounty
+                Bounty.killstreak(killer);
             }
 
             // Assist
@@ -186,7 +187,7 @@ public class DeathEvent implements Listener {
     private void killDeathMessage(Player killer, Player target, Tuple<String[], String[]> messages) {
         killer.sendMessage("You" + messages.getFirst()[0] + NameTag.color(target) + target.getName()
                 + ChatColor.RESET + messages.getFirst()[1] + ChatColor.GRAY +
-                " (" + (ActiveData.getData(killer.getUniqueId()).getKillStreak() + 1) + ")");
+                " (" + (ActiveData.getData(killer.getUniqueId()).getKillStreak()) + ")");
 
         target.sendMessage(messages.getSecond()[0] + NameTag.color(killer) + killer.getName()
                 + ChatColor.RESET + messages.getSecond()[1]);

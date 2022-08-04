@@ -155,12 +155,10 @@ public class PlayerData {
      * Update the current kill streak
      */
     public void addKill() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            kills += 1;
-            addScore(2);
-            addCoins(2);
-            addKillStreak();
-        });
+        kills += 1;
+        addScore(2);
+        addCoins(2);
+        addKillStreak();
     }
 
     /**
@@ -292,12 +290,9 @@ public class PlayerData {
      * Update max kill streak when surpassed
      */
     private void addKillStreak() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            killStreak += 1;
-            if (maxKillStreak < killStreak) {
-                maxKillStreak = killStreak;
-            }
-        });
+        killStreak += 1;
+        if (maxKillStreak < killStreak)
+            maxKillStreak = killStreak;
     }
 
     /**

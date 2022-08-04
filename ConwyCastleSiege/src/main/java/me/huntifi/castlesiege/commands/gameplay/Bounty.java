@@ -160,7 +160,7 @@ public class Bounty implements CommandExecutor {
 
     public static void killstreak(Player killer) {
         int amount = 0;
-        switch (ActiveData.getData(killer.getUniqueId()).getKillStreak() + 1) {
+        switch (ActiveData.getData(killer.getUniqueId()).getKillStreak()) {
             case 5:
                 amount = 10;
                 break;
