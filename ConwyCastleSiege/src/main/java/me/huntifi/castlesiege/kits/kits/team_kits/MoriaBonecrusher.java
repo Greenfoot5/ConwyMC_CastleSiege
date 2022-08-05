@@ -119,7 +119,7 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
                             ChatColor.AQUA + "You have crushed & stunned " + NameTag.color(p) + p.getName()));
                     p.sendMessage(ChatColor.DARK_RED + "You have been crush-stunned by " + NameTag.color(q) + q.getName() + ChatColor.DARK_RED + "!");
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BONE_BLOCK_BREAK , 1, 1 );
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 80, 5)));
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 80, 4)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 5)));
                 }
             }

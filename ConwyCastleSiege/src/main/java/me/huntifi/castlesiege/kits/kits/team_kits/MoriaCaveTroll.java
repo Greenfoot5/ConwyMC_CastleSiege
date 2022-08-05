@@ -55,13 +55,13 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SHOVEL),
-                ChatColor.GREEN + "Troll Fist", null, null, 20);
+                ChatColor.GREEN + "Troll Fist", null, null, 30);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.WOODEN_SHOVEL),
                         ChatColor.GREEN + "Troll Fist",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 22),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
                 0);
 
         // Ability
@@ -74,8 +74,6 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
 
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 2));
         super.potionEffects.add(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999, 0));
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 1));
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SATURATION, 999999, 0));
 
 
         // Death Messages
@@ -162,7 +160,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
      */
     private void grab(Player troll, Player player) {
         if (troll.getCooldown(Material.DEAD_BRAIN_CORAL_FAN) == 0) {
-            troll.setCooldown(Material.DEAD_BRAIN_CORAL_FAN, 200);
+            troll.setCooldown(Material.DEAD_BRAIN_CORAL_FAN, 480);
             troll.addPassenger(player);
             if (!grabbed.contains(player)) { grabbed.add(player); }
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 0));

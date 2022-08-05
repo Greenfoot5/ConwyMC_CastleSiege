@@ -110,7 +110,7 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
                         p.setCooldown(Material.STONE_AXE, 15);
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                         ChatColor.AQUA + "You threw your Axe!"));
-                        p.launchProjectile(Snowball.class).setVelocity(p.getLocation().getDirection().multiply(1.8));
+                        p.launchProjectile(Snowball.class).setVelocity(p.getLocation().getDirection().multiply(2.5));
 
                     } else {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
