@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits.team_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -140,8 +141,9 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
                                 == MapController.getCurrentMap().getTeam(p.getUniqueId())) {
                             return;
                         }
-                        if (p.getHealth() - 25 > 0) {
+                        if (p.getHealth() - 45 > 0) {
                             p.damage(45);
+                            AssistKill.addDamager(p.getUniqueId(),damages.getUniqueId(), 45);
                         } else {
                             DeathEvent.setKiller(p, damages);
                             p.setHealth(0);

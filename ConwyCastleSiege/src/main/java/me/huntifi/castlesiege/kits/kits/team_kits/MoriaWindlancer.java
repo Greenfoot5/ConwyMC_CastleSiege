@@ -23,6 +23,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -103,19 +104,12 @@ public class MoriaWindlancer extends TeamKit implements Listener {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "You threw your spears!"));
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.2));
-                                stick.setAmount(stick.getAmount() - 1);
-                                p.setCooldown(Material.STICK, 120);
-                            }
-                        }.runTaskLater(Main.plugin, 10);
+                                ChatColor.AQUA + "You threw your spear-burst!"));
+                        shootSpearBurst(p);
 
                     } else {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your spears yet."));
+                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't use spear-burst yet."));
                     }
                 }
             }
@@ -135,9 +129,60 @@ public class MoriaWindlancer extends TeamKit implements Listener {
                 Player damages = (Player) arrow.getShooter();
 
                 if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                    arrow.setDamage(18);
+                    arrow.setDamage(15);
                 }
             }
         }
+    }
+
+
+    public void shootSpearBurst(Player p) {
+        p.setCooldown(Material.STICK, 60);
+        burstSpear(p,  9);
+        burstSpear(p,  18);
+        burstSpear(p,  27);
+        burstSpear(p, 36);
+    }
+
+    /**
+     * Shoot a single arrow from the spear burst ability
+     * @param p The Windlancer shooting their spear burst
+     * @param d The delay with which to shoot the arrow
+     */
+    private void burstSpear(Player p, int d) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                // Shoot if the player has an arrow
+                if (removeSpear(p)) {
+                    p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.6));
+                }
+            }
+        }.runTaskLater(Main.plugin, d);
+    }
+
+
+    /**
+     * Remove an arrow from the player's inventory
+     * @param p The player from whom to remove an arrow
+     * @return true if the player has an arrow to remove, false otherwise
+     */
+    private boolean removeSpear(Player p) {
+        PlayerInventory inv = p.getInventory();
+
+        // Try offhand first
+        if (inv.getItemInOffHand().getType() == Material.STICK) {
+            ItemStack o = inv.getItemInOffHand();
+            o.setAmount(o.getAmount() - 1);
+            return true;
+            // Try inventory
+        } else if (inv.getItemInMainHand().getType() == Material.STICK) {
+            ItemStack stick = p.getInventory().getItemInMainHand();
+            stick.setAmount(stick.getAmount() - 1);
+            return true;
+        }
+
+        // No arrow found
+        return false;
     }
 }

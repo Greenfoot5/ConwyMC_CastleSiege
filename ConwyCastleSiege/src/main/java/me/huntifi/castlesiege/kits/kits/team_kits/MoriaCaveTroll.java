@@ -180,6 +180,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
         troll.removePassenger(player);
         AssistKill.addDamager(player.getUniqueId(),troll.getUniqueId(), 100);
         player.setVelocity(troll.getLocation().getDirection().multiply(1.8));
+        DeathEvent.setKiller(player, troll);
 
         new BukkitRunnable() {
             @Override
