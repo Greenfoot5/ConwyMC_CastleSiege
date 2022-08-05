@@ -316,8 +316,13 @@ commands:
     permission-message: You are not permitted to use this command!
   SetKit:
     description: Sets the kit for a player
-    usage: /kit <player> [kit]
+    usage: /setkit <player> [kit]
     permission: castlesiege.developer
+    permission-message: You are not permitted to use this command!
+  SetKitLimit:
+    description: Sets the player limit per team for a kit
+    usage: /setkitlimit <kit> <limit>
+    permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
   SetMap:
     description: Skips to the specified map in the rotation
