@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.maps.Team;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -31,6 +32,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The abstract kit
@@ -60,6 +62,7 @@ public abstract class Kit implements CommandExecutor {
     // Player Tracking
     public List<UUID> players;
     public static Map<UUID, Kit> equippedKits = new HashMap<>();
+    private int limit = -1;
 
     // Kit Tracking
     private static final Map<String, Kit> kits = new HashMap<>();
@@ -187,13 +190,13 @@ public abstract class Kit implements CommandExecutor {
      * @param uuid The unique id of the player to register
      */
     public void addPlayer(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            Player player = Bukkit.getPlayer(uuid);
+            assert player != null;
             players.add(uuid);
             equippedKits.put(uuid, this);
             setItems(uuid);
             ActiveData.getData(uuid).setKit(getSpacelessName());
-            assert player != null;
             Messenger.sendInfo("Selected Kit: " + this.name, player);
 
             // Kills the player if they have spawned this life, otherwise heal them
@@ -339,6 +342,36 @@ public abstract class Kit implements CommandExecutor {
             return false;
         }
 
+        if (limit >= 0 && violatesLimit(MapController.getCurrentMap().getTeam(uuid))) {
+            Messenger.sendError("Could not select " + this.name + " as its limit has been reached!", sender);
+            // TODO: Set kit to something that is allowed
+            return false;
+        }
+
         return true;
+    }
+
+    /**
+     * Set a limit to the amount of players that can use this kit at the same time.
+     * Setting a negative limit disables the limit.
+     * @param limit The limit to set
+     */
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    /**
+     * Check whether choosing this kit violates the limit
+     * @param team The team the player is in
+     * @return Whether the limit would be violated
+     */
+    private boolean violatesLimit(Team team) {
+        AtomicInteger count = new AtomicInteger();
+        Kit.equippedKits.forEach((uuid, kit) -> {
+            if (Objects.equals(kit, this) && Objects.equals(MapController.getCurrentMap().getTeam(uuid), team))
+                count.getAndIncrement();
+        });
+
+        return limit <= count.get();
     }
 }
