@@ -301,7 +301,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());
                 Objects.requireNonNull(getCommand("Unlockkit")).setExecutor(new UnlockedKitCommand());
                 Objects.requireNonNull(getCommand("ForceSwitch")).setExecutor(new SwitchCommand());
-                Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new SwitchCommand());
+                Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new ToggleSwitching());
                 Objects.requireNonNull(getCommand("Start")).setExecutor(new StartCommand());
                 Objects.requireNonNull(getCommand("SetTag")).setExecutor(new NameTag());
 

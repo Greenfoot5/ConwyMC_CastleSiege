@@ -58,6 +58,7 @@ public class DeathEvent implements Listener {
 
         if (team == null && MapController.isSpectator(player.getUniqueId())) {
             event.setRespawnLocation(MapController.getCurrentMap().flags[0].spawnPoint);
+            return;
         }
         assert team != null && team.lobby.spawnPoint != null;
         if (team.lobby.spawnPoint.getWorld() == null) {
@@ -99,12 +100,7 @@ public class DeathEvent implements Listener {
      * @param p The player to respawn
      */
     private void respawn(Player p) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                p.spigot().respawn();
-            }
-        }.runTaskLater(Main.plugin, 10);
+        Bukkit.getScheduler().runTaskLater(Main.plugin, () -> p.spigot().respawn(), 10);
     }
 
     /**
