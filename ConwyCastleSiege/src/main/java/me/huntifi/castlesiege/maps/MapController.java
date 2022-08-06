@@ -514,15 +514,6 @@ public class MapController {
 		Player player = Bukkit.getPlayer(uuid);
 		assert player != null;
 
-		// If the game is a match, players join in spectator mode
-		if (isMatch) {
-			SpectateCommand.spectators.add(uuid);
-			player.setGameMode(GameMode.SPECTATOR);
-			player.teleport(MapController.getCurrentMap().flags[0].spawnPoint);
-			NameTag.give(player);
-			return;
-		}
-
 		Team team = maps.get(mapIndex).smallestTeam();
 		team.addPlayer(uuid);
 		if (team.lobby.spawnPoint.getWorld() == null) {

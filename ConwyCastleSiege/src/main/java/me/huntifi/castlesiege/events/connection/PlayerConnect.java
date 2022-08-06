@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.RankPoints;
+import me.huntifi.castlesiege.commands.staff.SpectateCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -12,8 +13,10 @@ import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -63,17 +66,25 @@ public class PlayerConnect implements Listener {
         Permissions.setStaffPermission(uuid, data.getStaffRank());
         Permissions.setDonatorPermission(uuid, data.getRank());
 
-        // Assign the player to a team
-        MapController.joinATeam(e.getPlayer().getUniqueId());
-
-        // Assign stored kit
+        // Assign the player to a team or spectator
         InCombat.playerDied(uuid);
-        p.performCommand(data.getKit());
-        if (Kit.equippedKits.get(uuid) == null) {
-            Kit.equippedKits.remove(uuid);
-            Kit.equippedKits.put(uuid, new Swordsman());
-            ActiveData.getData(uuid).setKit("swordsman");
+        if (MapController.isMatch) {
+            SpectateCommand.spectators.add(uuid);
+            p.setGameMode(GameMode.SPECTATOR);
+            p.teleport(MapController.getCurrentMap().flags[0].spawnPoint);
+            NameTag.give(p);
+        } else {
+            MapController.joinATeam(p.getUniqueId());
+
+            // Assign stored kit
+            p.performCommand(data.getKit());
+            if (Kit.equippedKits.get(uuid) == null) {
+                Kit.equippedKits.put(uuid, new Swordsman());
+                ActiveData.getData(uuid).setKit("swordsman");
+            }
         }
+
+        // Reset player xp and level
         p.setExp(0);
         p.setLevel(ActiveData.getData(p.getUniqueId()).getLevel());
 

@@ -1,6 +1,9 @@
 package me.huntifi.castlesiege.commands.staff;
 
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
@@ -29,8 +32,6 @@ public class SpectateCommand implements CommandExecutor {
             player = Bukkit.getPlayer(args[0]);
         }
 
-        // Get the target player
-
         if (player == null) {
             sender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Could not find player: " + ChatColor.RED + args[0]);
             return true;
@@ -47,6 +48,15 @@ public class SpectateCommand implements CommandExecutor {
             MapController.joinATeam(player.getUniqueId());
             player.setGameMode(GameMode.SURVIVAL);
             InCombat.playerDied(player.getUniqueId());
+
+            // Assign stored kit
+            if (Kit.equippedKits.get(player.getUniqueId()) == null) {
+                player.performCommand(ActiveData.getData(player.getUniqueId()).getKit());
+                if (Kit.equippedKits.get(player.getUniqueId()) == null) {
+                    Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
+                    ActiveData.getData(player.getUniqueId()).setKit("swordsman");
+                }
+            }
         } else {
             Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
             team.removePlayer(player.getUniqueId());
