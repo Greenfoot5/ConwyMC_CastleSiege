@@ -32,20 +32,15 @@ public class Timer {
 			public void run() {
 				if (state == TimerState.ENDED) {
 					this.cancel();
-				}
-				else if (seconds == 0) {
+				} else if (minutes == 0 && seconds == 0) {
+					this.cancel();
+					nextState();
+					if (state == TimerState.ENDED)
+						MapController.endMap();
+				} else if (seconds == 0) {
 					minutes--;
 					seconds = 59;
-				} else if ((minutes == 0 && seconds <= 1) || minutes < 0) {
-					minutes = 0;
-					seconds = 0;
-					nextState();
-					if (state == TimerState.ENDED) {
-						MapController.endMap();
-					}
-					this.cancel();
-				}
-				else {
+				} else {
 					seconds--;
 				}
 			}

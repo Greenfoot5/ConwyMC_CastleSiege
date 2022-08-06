@@ -334,10 +334,10 @@ public class MapController {
 	}
 
 	public static void beginLobbyLock() {
-		if (explorationTime > 1) {
+		if (explorationTime != 0) {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				if (!isSpectator(player.getUniqueId())) {
-					player.setHealth(0);
+					Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
 				}
 			}
 		}
