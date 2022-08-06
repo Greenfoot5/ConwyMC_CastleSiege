@@ -344,7 +344,9 @@ public abstract class Kit implements CommandExecutor {
 
         if (limit >= 0 && violatesLimit(MapController.getCurrentMap().getTeam(uuid))) {
             Messenger.sendError("Could not select " + this.name + " as its limit has been reached!", sender);
-            // TODO: Set kit to something that is allowed
+            // TODO: Set kit to something that is allowed if none is selected yet
+            if (Kit.equippedKits.get(uuid) == null)
+                Kit.getKit("Swordsman").addPlayer(uuid);
             return false;
         }
 

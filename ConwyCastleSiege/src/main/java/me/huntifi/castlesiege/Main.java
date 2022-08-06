@@ -58,6 +58,7 @@ import me.huntifi.castlesiege.kits.gui.KitGuiController;
 import me.huntifi.castlesiege.kits.gui.coinshop.CoinbuyCommand;
 import me.huntifi.castlesiege.kits.gui.coinshop.CoinshopGui;
 import me.huntifi.castlesiege.kits.items.Enderchest;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.donator_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
@@ -348,6 +349,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
                 Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
+                applyKitLimits();
 
                 // Map Specific
                 // Helms Deep Only
@@ -690,6 +692,26 @@ public class Main extends JavaPlugin implements Listener {
                 if (gameConfig.getBoolean(route.add("shuffle_maps"), false)) {
                     Collections.shuffle(MapController.maps);
                 }
+            }
+        }
+    }
+
+    /**
+     * Apply the kit limits per team as set in config.yml
+     * Not included in loadConfig() because the kits must be registered first
+     */
+    private void applyKitLimits() {
+        Route route = Route.from("kit_limits");
+        if (gameConfig.getBoolean(route.add("enabled"))) {
+            for (String path : getPaths(gameConfig, route)) {
+                if (path.equals("enabled"))
+                    continue;
+
+                Kit kit = Kit.getKit(path);
+                if (kit == null)
+                    System.out.println("Could not find the kit: " + path);
+                else
+                    kit.setLimit(gameConfig.getInt(route.add(path)));
             }
         }
     }
