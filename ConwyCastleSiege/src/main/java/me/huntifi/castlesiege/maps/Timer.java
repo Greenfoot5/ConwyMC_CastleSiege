@@ -25,6 +25,7 @@ public class Timer {
 		seconds = startSeconds;
 		startTimer();
 	}
+	
 	public void startTimer() {
 		new BukkitRunnable() {
 
@@ -35,8 +36,6 @@ public class Timer {
 				} else if (minutes == 0 && seconds == 0) {
 					this.cancel();
 					nextState();
-					if (state == TimerState.ENDED)
-						MapController.endMap();
 				} else if (seconds == 0) {
 					minutes--;
 					seconds = 59;
@@ -58,6 +57,9 @@ public class Timer {
 				break;
 			case ONGOING:
 				MapController.beginMap();
+				break;
+			case ENDED:
+				MapController.endMap();
 				break;
 		}
 	}

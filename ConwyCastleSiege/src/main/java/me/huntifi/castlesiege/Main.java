@@ -33,6 +33,7 @@ import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
 import me.huntifi.castlesiege.data_types.Frame;
+import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MySQL;
@@ -674,6 +675,9 @@ public class Main extends JavaPlugin implements Listener {
     private void loadConfig() {
         // Map Count
         MapController.mapCount = gameConfig.getInt(Route.from("map_count"), MapController.mapCount);
+
+        // Coin multiplier
+        PlayerData.setCoinMultiplier(gameConfig.getDouble(Route.from("coin_multiplier"), 1.0));
 
         // Delays
         Route route = Route.from("delays");
