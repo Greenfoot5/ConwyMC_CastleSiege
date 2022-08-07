@@ -246,36 +246,24 @@ public class MapController {
 		}
 
 		// Move all players to the new map and team
-		if (!keepTeams || teams.size() > 0 && maps.get(mapIndex).teams.length > teams.size()) {
+		if (!keepTeams || maps.get(mapIndex).teams.length < teams.size()) {
 			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
-				if (!SpectateCommand.spectators.contains(player.getUniqueId())) {
+				if (!SpectateCommand.spectators.contains(player.getUniqueId()))
 					joinATeam(player.getUniqueId());
-					//If the player is using a map specific kit it shall be removed
-					// and they will be given swordsman instead.
-					checkTeamKit(player);
-				}
 			}
 		} else {
 			Collections.shuffle(teams);
 			for (int i = 0; i < teams.size(); i++) {
-				for (UUID uuid : teams.get(i)) {
-					// Check the player exists
-					Player player = Bukkit.getPlayer(uuid);
-					if (player != null) {
-						if (maps.get(mapIndex).teams.length < i - 1)
-							maps.get(mapIndex).teams[i].addPlayer(uuid);
-						else
-							joinATeam(uuid);
-					}
-				}
+				for (UUID uuid : teams.get(i))
+					joinTeam(uuid, getCurrentMap().teams[i]);
 			}
+			teams.clear();
+
 			// Make sure all online players are on a team
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				if (!SpectateCommand.spectators.contains(player.getUniqueId())) {
-					if (maps.get(mapIndex).getTeam(player.getUniqueId()) == null) {
+					if (maps.get(mapIndex).getTeam(player.getUniqueId()) == null)
 						joinATeam(player.getUniqueId());
-					}
-					checkTeamKit(player);
 				}
 			}
 		}
@@ -391,6 +379,9 @@ public class MapController {
 
 	private static void checkTeamKit(Player player) {
 		Kit kit = Kit.equippedKits.get(player.getUniqueId());
+		if (kit == null)
+			return;
+
 		if (kit instanceof TeamKit) {
 			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
 			ActiveData.getData(player.getUniqueId()).setKit("swordsman");
@@ -403,6 +394,12 @@ public class MapController {
 	 * Does any unloading needed for the current map
 	 */
 	public static void unloadMap(Map oldMap) {
+		// Make sure teams are stored before the next map is loaded
+		if (keepTeams) {
+			for (Team team : oldMap.teams)
+				teams.add(new ArrayList<>(team.getPlayers()));
+		}
+
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 		// Clear map stats
 		InCombat.clearCombat();
@@ -444,18 +441,10 @@ public class MapController {
 			}
 		}
 
-		// Unregister woolmap listeners
+		// Unregister woolmap listeners and clear teams
 		for (Team team : oldMap.teams) {
 			HandlerList.unregisterAll(team.lobby.woolmap);
-		}
-
-		// Clear teams
-		for (Team team : oldMap.teams) {
-			if (keepTeams) {
-				teams.add(new ArrayList<>(team.getPlayers()));
-			} else {
-				team.clear();
-			}
+			team.clear();
 		}
 	 });
 	}
@@ -511,14 +500,21 @@ public class MapController {
 	 * @param uuid the player to add to a team
 	 */
 	public static void joinATeam(UUID uuid) {
+		joinTeam(uuid, getCurrentMap().smallestTeam());
+	}
+
+	/**
+	 * Adds a player to a specific team.
+	 * @param uuid The player's unique ID
+	 * @param team The team
+	 */
+	private static void joinTeam(UUID uuid, Team team) {
 		Player player = Bukkit.getPlayer(uuid);
 		assert player != null;
 
-		Team team = maps.get(mapIndex).smallestTeam();
 		team.addPlayer(uuid);
-		if (team.lobby.spawnPoint.getWorld() == null) {
+		if (team.lobby.spawnPoint.getWorld() == null)
 			team.lobby.spawnPoint.setWorld(Bukkit.getWorld(getCurrentMap().worldName));
-		}
 
 		player.teleport(team.lobby.spawnPoint);
 		NameTag.give(player);
@@ -527,6 +523,8 @@ public class MapController {
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~");
 		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+		checkTeamKit(player);
 	}
 
 
