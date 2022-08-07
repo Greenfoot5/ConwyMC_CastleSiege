@@ -1,11 +1,13 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,20 +35,22 @@ public class RandomKitCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> randomKit(sender));
+        return true;
+    }
+
+    private void randomKit(CommandSender sender) {
         if (!(sender instanceof Player)) {
             Messenger.sendError("Console cannot select kits!", sender);
-            return true;
+            return;
         }
 
-        UUID uuid = ((Player) sender).getUniqueId();
+        Player player = (Player) sender;
+        UUID uuid = player.getUniqueId();
         if (MapController.isSpectator(uuid)) {
             Messenger.sendError("Spectators cannot select kits!", sender);
-            return true;
+            return;
         }
-
-        Random random = new Random();
-        String map = MapController.getCurrentMap().name;
-        String team = MapController.getCurrentMap().getTeam(uuid).name;
 
         // Get unlocked kits, or all if it's Friday
         Collection<String> unlockedKits = DonatorKit.isFriday() ? Kit.getKits() : ActiveData.getData(uuid).getUnlockedKits();
@@ -54,15 +58,12 @@ public class RandomKitCommand implements CommandExecutor {
 
         unlockedKits.forEach((kitName) -> {
             Kit kit = Kit.getKit(kitName);
-            if (kit == null || (kit instanceof TeamKit
-                    && !(map.equalsIgnoreCase(((TeamKit) kit).getMapName())
-                    && team.equalsIgnoreCase(((TeamKit) kit).getTeamName())))) {
+            if (kit == null || !kit.canSelect(player, false)) {
                 return;
             }
             kits.add(kit);
         });
 
-        kits.get(random.nextInt(kits.size())).addPlayer(uuid);
-        return true;
+        kits.get(new Random().nextInt(kits.size())).addPlayer(uuid);
     }
 }

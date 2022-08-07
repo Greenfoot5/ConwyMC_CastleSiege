@@ -320,30 +320,36 @@ public abstract class Kit implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (canSelect(sender))
-            addPlayer(((Player) sender).getUniqueId());
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            if (canSelect(sender, true))
+                addPlayer(((Player) sender).getUniqueId());
+        });
         return true;
     }
 
     /**
      * Check if the player can select this kit
      * @param sender Source of the command
+     * @param verbose Whether error messages should be sent
      * @return Whether the player can select this kit
      */
-    protected boolean canSelect(CommandSender sender) {
+    public boolean canSelect(CommandSender sender, boolean verbose) {
         if (!(sender instanceof Player)) {
-            Messenger.sendError("Console cannot select kits!", sender);
+            if (verbose)
+                Messenger.sendError("Console cannot select kits!", sender);
             return false;
         }
 
         UUID uuid = ((Player) sender).getUniqueId();
         if (MapController.isSpectator(uuid)) {
-            Messenger.sendError("Spectators cannot select kits!", sender);
+            if (verbose)
+                Messenger.sendError("Spectators cannot select kits!", sender);
             return false;
         }
 
         if (limit >= 0 && violatesLimit(MapController.getCurrentMap().getTeam(uuid))) {
-            Messenger.sendError("Could not select " + this.name + " as its limit has been reached!", sender);
+            if (verbose)
+                Messenger.sendError("Could not select " + this.name + " as its limit has been reached!", sender);
             // TODO: Set kit to something that is allowed if none is selected yet
             if (Kit.equippedKits.get(uuid) == null)
                 Kit.getKit("Swordsman").addPlayer(uuid);

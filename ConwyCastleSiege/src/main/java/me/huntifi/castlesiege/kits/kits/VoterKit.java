@@ -29,19 +29,21 @@ public abstract class VoterKit extends Kit {
     /**
      * Check if the player can select this kit
      * @param sender Source of the command
+     * @param verbose Whether error messages should be sent
      * @return Whether the player can select this kit
      */
     @Override
-    protected boolean canSelect(CommandSender sender) {
-        if (!super.canSelect(sender))
+    public boolean canSelect(CommandSender sender, boolean verbose) {
+        if (!super.canSelect(sender, verbose))
             return false;
 
         UUID uuid = ((Player) sender).getUniqueId();
         if (!ActiveData.getData(uuid).hasVote("kits")) {
             if (Kit.equippedKits.get(uuid) == null) {
                 Kit.getKit("Swordsman").addPlayer(uuid);
-                Messenger.sendError(String.format("You need to vote to use %s again!", name), sender);
-            } else
+                if (verbose)
+                    Messenger.sendError(String.format("You need to vote to use %s again!", name), sender);
+            } else if (verbose)
                 Messenger.sendError(String.format("You need to vote to use %s!", name), sender);
             return false;
         }

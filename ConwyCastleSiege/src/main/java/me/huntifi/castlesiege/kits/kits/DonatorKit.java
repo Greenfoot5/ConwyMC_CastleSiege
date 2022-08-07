@@ -26,11 +26,12 @@ public abstract class DonatorKit extends Kit {
     /**
      * Check if the player can select this kit
      * @param sender Source of the command
+     * @param verbose Whether error messages should be sent
      * @return Whether the player can select this kit
      */
     @Override
-    protected boolean canSelect(CommandSender sender) {
-        if (!super.canSelect(sender))
+    public boolean canSelect(CommandSender sender, boolean verbose) {
+        if (!super.canSelect(sender, verbose))
             return false;
 
         UUID uuid = ((Player) sender).getUniqueId();
@@ -38,8 +39,9 @@ public abstract class DonatorKit extends Kit {
         if (!hasKit && !isFriday()) {
             if (Kit.equippedKits.get(uuid) == null) {
                 Kit.getKit("Swordsman").addPlayer(uuid);
-                Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
-            } else
+                if (verbose)
+                    Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
+            } else if (verbose)
                 Messenger.sendError(String.format("You don't own %s!", name), sender);
             return false;
         }
