@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -18,6 +19,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -121,29 +123,40 @@ public class Berserker extends DonatorKit implements Listener {
                 }.runTaskLater(Main.plugin, 20);
                 p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 400, 1)));
                 p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 0)));
+
                 // Sword
-                if (!ActiveData.getData(p.getUniqueId()).hasVote("sword")) {
-                    p.getInventory().setItem(0, berserkSword);
-                } else {
-                    p.getInventory().setItem(0, berserkSwordVoted);
-                }
+                changeSword(p, regularSword.getType(), berserkSword, berserkSwordVoted);
 
                 // Revert sword
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-                                p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) == null) {
-                            if (!ActiveData.getData(p.getUniqueId()).hasVote("sword")) {
-                                p.getInventory().setItem(0, regularSword);
-                            } else {
-                                p.getInventory().setItem(0, regularSwordVoted);
-                            }
-                        }
-                    }
-                }.runTaskLater(Main.plugin, 401);
+                Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
+                    if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
+                            p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) == null)
+                        changeSword(p, berserkSword.getType(), regularSword, regularSwordVoted);
+                }, 401);
             }
         }
+    }
+
+    /**
+     * Change the player's berserker sword.
+     * @param player The player
+     * @param oldMaterial The material of the sword to remove
+     * @param sword The sword to set if not voted
+     * @param swordVoted The sword to set if voted
+     */
+    private void changeSword(Player player, Material oldMaterial, ItemStack sword, ItemStack swordVoted) {
+        PlayerInventory inventory = player.getInventory();
+
+        // Remove old sword
+        inventory.remove(oldMaterial);
+        if (inventory.getItemInOffHand().getType() == oldMaterial)
+            inventory.setItemInOffHand(null);
+
+        // Give new sword
+        if (ActiveData.getData(player.getUniqueId()).hasVote("sword"))
+            inventory.addItem(swordVoted);
+        else
+            inventory.addItem(sword);
     }
 
     /**
