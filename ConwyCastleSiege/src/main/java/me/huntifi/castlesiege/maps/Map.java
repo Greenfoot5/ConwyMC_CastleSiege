@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.maps;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.MapBorder;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Door;
@@ -22,11 +23,7 @@ public class Map {
     public int startTime;
     public boolean daylightCycle;
 
-    //map border
-    public double northZ;
-    public double southZ;
-    public double westX;
-    public double eastX;
+    private MapBorder mapBorder;
 
     public Team[] teams;
     public Flag[] flags;
@@ -146,13 +143,22 @@ public class Map {
         }
     }
 
-
-    public void setMapBorder(double east, double south, double north, double west) {
-        northZ = north;
-        southZ = south;
-        westX = west;
-        eastX = east;
+    /**
+     * Set this map's border.
+     * @param north The north side of the border
+     * @param east The east side of the border
+     * @param south The south side of the border
+     * @param west The west side of the border
+     */
+    public void setMapBorder(double north, double east, double south, double west) {
+        mapBorder = new MapBorder(north, east, south, west);
     }
 
-
+    /**
+     * Get this map's border.
+     * @return This map's border
+     */
+    public MapBorder getMapBorder() {
+        return mapBorder;
+    }
 }

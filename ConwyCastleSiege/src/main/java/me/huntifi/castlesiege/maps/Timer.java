@@ -33,7 +33,7 @@ public class Timer {
 			public void run() {
 				if (state == TimerState.ENDED) {
 					this.cancel();
-				} else if (minutes == 0 && seconds == 0 || minutes < 0) {
+				} else if (minutes <= 0 && seconds <= 0) {
 					this.cancel();
 					nextState();
 				} else if (seconds == 0) {
