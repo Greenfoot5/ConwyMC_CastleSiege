@@ -86,7 +86,8 @@ public class Viking extends DonatorKit implements Listener {
         }
 
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player &&
-                Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
+                Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name) && 
+                ((Player) e.getDamager()).getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
             Player p = (Player) e.getEntity();
             int baseHealth = Kit.equippedKits.get(p.getUniqueId()).baseHealth;
             e.setDamage((baseHealth * PERCENTAGE_DAMAGE) + e.getDamage());
