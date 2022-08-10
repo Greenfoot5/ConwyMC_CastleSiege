@@ -192,11 +192,9 @@ public class PlayerData {
      * @param captures The captures to add
      */
     public void addCaptures(double captures) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.captures += captures;
-            addScore(captures);
-            addCoins(captures);
-        });
+        this.captures += captures;
+        addScore(captures);
+        addCoins(captures);
     }
 
     /**
