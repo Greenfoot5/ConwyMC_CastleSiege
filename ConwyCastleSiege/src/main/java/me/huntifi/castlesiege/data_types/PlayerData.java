@@ -173,11 +173,9 @@ public class PlayerData {
      * @param deaths The deaths to add
      */
     public void addDeaths(double deaths) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.deaths += deaths;
-            addScore(-deaths);
-            killStreak = 0;
-        });
+        this.deaths += deaths;
+        addScore(-deaths);
+        killStreak = 0;
     }
 
     /**
