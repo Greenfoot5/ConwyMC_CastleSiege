@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.kits.kits.donator_kits;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
@@ -12,10 +13,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -105,81 +103,77 @@ public class Alchemist extends DonatorKit implements Listener {
 
     @EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onThrownPotion(PotionSplashEvent e) {
+        // Is the potion thrown by an alchemist?
         if (e.getPotion().getShooter() instanceof Player) {
-            for (Entity entity : e.getAffectedEntities()) {
-                if (entity instanceof Player) {
-                    Player hit = ((Player) entity).getPlayer();
-                    Player damager = (Player) e.getPotion().getShooter();
-                    if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
-                        e.setCancelled(true);
-                        Collection<PotionEffect> effects = e.getPotion().getEffects();
+            Player damager = (Player) e.getPotion().getShooter();
+            if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
+                e.setCancelled(true);
 
+                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                    Collection<PotionEffect> effects = e.getPotion().getEffects();
+                    for (Entity entity : e.getAffectedEntities()) {
+                        if (!(entity instanceof Player))
+                            continue;
+
+                        Player hit = ((Player) entity).getPlayer();
+                        assert hit != null;
                         for (PotionEffect effect : effects) {
                             PotionEffectType potionType = effect.getType();
 
-                            // Effects for enemies
-                            if (potionType.equals(PotionEffectType.POISON)
-                                    || potionType.equals(PotionEffectType.HARM)
-                                    || potionType.equals(PotionEffectType.CONFUSION)
-                                    || potionType.equals(PotionEffectType.BLINDNESS)
-                                    || potionType.equals(PotionEffectType.SLOW)
-                                    || potionType.equals(PotionEffectType.SLOW_DIGGING)
-                                    || potionType.equals(PotionEffectType.HUNGER)
-                                    || potionType.equals(PotionEffectType.WEAKNESS)
-                                    || potionType.equals(PotionEffectType.GLOWING)
-                                    || potionType.equals(PotionEffectType.LEVITATION)
-                                    || potionType.equals(PotionEffectType.SLOW_FALLING)
-                                    || potionType.equals(PotionEffectType.WITHER)) {
-
-                                //Enemies
-                                if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                                        != MapController.getCurrentMap().getTeam(entity.getUniqueId()) && ((Player) entity).getPlayer() != damager) {
+                            // Enemies
+                            if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
+                                    != MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
+                                // Effects for enemies
+                                if (potionType.equals(PotionEffectType.POISON)
+                                        || potionType.equals(PotionEffectType.HARM)
+                                        || potionType.equals(PotionEffectType.CONFUSION)
+                                        || potionType.equals(PotionEffectType.BLINDNESS)
+                                        || potionType.equals(PotionEffectType.SLOW)
+                                        || potionType.equals(PotionEffectType.SLOW_DIGGING)
+                                        || potionType.equals(PotionEffectType.HUNGER)
+                                        || potionType.equals(PotionEffectType.WEAKNESS)
+                                        || potionType.equals(PotionEffectType.GLOWING)
+                                        || potionType.equals(PotionEffectType.LEVITATION)
+                                        || potionType.equals(PotionEffectType.SLOW_FALLING)
+                                        || potionType.equals(PotionEffectType.WITHER)) {
                                     AssistKill.addDamager(hit.getUniqueId(), damager.getUniqueId(), 60);
-                                    ((Player) entity).addPotionEffect(effect);
+                                    Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
                                 }
                             }
 
-                            // Healing Potions
-                            if (potionType.equals(PotionEffectType.HEAL)
-                                    || potionType.equals(PotionEffectType.HEALTH_BOOST)
-                                    || potionType.equals(PotionEffectType.REGENERATION)) {
-                                if (((Player) entity).getPlayer().getHealth() != baseHealth) {
-                                    //Allies
-                                    if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                                            == MapController.getCurrentMap().getTeam(entity.getUniqueId())) {
-                                        ((Player) entity).addPotionEffect(effect);
-                                        if (((Player) entity).getPlayer() != damager) {
-                                            UpdateStats.addHeals(damager.getUniqueId(), 2);
-                                        }
-                                    }
-                                }
-                            // Friendly Potions
-                            } else if (potionType.equals(PotionEffectType.SPEED)
-                                    || potionType.equals(PotionEffectType.JUMP)
-                                    || potionType.equals(PotionEffectType.WATER_BREATHING)
-                                    || potionType.equals(PotionEffectType.FAST_DIGGING)
-                                    || potionType.equals(PotionEffectType.DAMAGE_RESISTANCE)
-                                    || potionType.equals(PotionEffectType.DOLPHINS_GRACE)
-                                    || potionType.equals(PotionEffectType.LEVITATION)
-                                    || potionType.equals(PotionEffectType.SLOW_FALLING)
-                                    || potionType.equals(PotionEffectType.INCREASE_DAMAGE)
-                                    || potionType.equals(PotionEffectType.INVISIBILITY)
-                                    || potionType.equals(PotionEffectType.GLOWING)
-                                    || potionType.equals(PotionEffectType.NIGHT_VISION)
-                                    || potionType.equals(PotionEffectType.CONDUIT_POWER)
-                                    || potionType.equals(PotionEffectType.FIRE_RESISTANCE)) {
-                                //Allies
-                                if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                                        == MapController.getCurrentMap().getTeam(entity.getUniqueId())) {
-                                    ((Player) entity).addPotionEffect(effect);
-                                    if (((Player) entity).getPlayer() != damager) {
+                            // Allies
+                            else {
+                                // Healing Potions
+                                if (hit.getHealth() != baseHealth
+                                        && (potionType.equals(PotionEffectType.HEAL)
+                                        || potionType.equals(PotionEffectType.HEALTH_BOOST)
+                                        || potionType.equals(PotionEffectType.REGENERATION))) {
+                                    Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
+                                    if (hit.getPlayer() != damager)
+                                        UpdateStats.addHeals(damager.getUniqueId(), 2);
+                                // Friendly Potions
+                                } else if (potionType.equals(PotionEffectType.SPEED)
+                                        || potionType.equals(PotionEffectType.JUMP)
+                                        || potionType.equals(PotionEffectType.WATER_BREATHING)
+                                        || potionType.equals(PotionEffectType.FAST_DIGGING)
+                                        || potionType.equals(PotionEffectType.DAMAGE_RESISTANCE)
+                                        || potionType.equals(PotionEffectType.DOLPHINS_GRACE)
+                                        || potionType.equals(PotionEffectType.LEVITATION)
+                                        || potionType.equals(PotionEffectType.SLOW_FALLING)
+                                        || potionType.equals(PotionEffectType.INCREASE_DAMAGE)
+                                        || potionType.equals(PotionEffectType.INVISIBILITY)
+                                        || potionType.equals(PotionEffectType.GLOWING)
+                                        || potionType.equals(PotionEffectType.NIGHT_VISION)
+                                        || potionType.equals(PotionEffectType.CONDUIT_POWER)
+                                        || potionType.equals(PotionEffectType.FIRE_RESISTANCE)) {
+                                    Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
+                                    if (hit.getPlayer() != damager)
                                         UpdateStats.addSupports(damager.getUniqueId(), 2);
-                                    }
                                 }
                             }
                         }
                     }
-                }
+                });
             }
          }
     }
