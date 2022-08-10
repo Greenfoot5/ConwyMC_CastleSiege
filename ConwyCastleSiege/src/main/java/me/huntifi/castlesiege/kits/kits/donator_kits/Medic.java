@@ -13,6 +13,7 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -240,44 +241,50 @@ public class Medic extends DonatorKit implements Listener {
      */
     @EventHandler
     public void onHeal(PlayerInteractEntityEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        PlayerInventory i = p.getInventory();
-        Entity q = e.getRightClicked();
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            Player p = e.getPlayer();
+            UUID uuid = p.getUniqueId();
 
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
-            return;
-        }
+            // Prevent using in lobby
+            if (InCombat.isPlayerInLobby(uuid)) {
+                return;
+            }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&                            // Player is medic
-                (i.getItemInMainHand().getType() == Material.PAPER ||                           // Uses bandage
-                        i.getItemInOffHand().getType() == Material.PAPER) &&                    // Uses bandage
-                q instanceof Player &&                                                          // On player
-                MapController.getCurrentMap().getTeam(uuid)                                     // Same team
-                == MapController.getCurrentMap().getTeam(q.getUniqueId()) &&                    // Same team
-                ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth &&  // Below max hp
-                !cooldown.contains((Player) q)) {                                               // Not on cooldown
+            PlayerInventory i = p.getInventory();
+            Entity q = e.getRightClicked();
+            if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&                            // Player is medic
+                    (i.getItemInMainHand().getType() == Material.PAPER ||                           // Uses bandage
+                            i.getItemInOffHand().getType() == Material.PAPER) &&                    // Uses bandage
+                    q instanceof Player &&                                                          // On player
+                    MapController.getCurrentMap().getTeam(uuid)                                     // Same team
+                            == MapController.getCurrentMap().getTeam(q.getUniqueId()) &&            // Same team
+                    ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth &&  // Below max hp
+                    !cooldown.contains((Player) q)) {                                               // Not on cooldown
 
-            // Apply cooldown
-            Player r = (Player) q;
-            cooldown.add(r);
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    cooldown.remove(r);
-                }
-            }.runTaskLater(Main.plugin, 39);
+                // Apply cooldown
+                Player r = (Player) q;
+                cooldown.add(r);
+                Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(r), 39);
 
-            // Heal
-            r.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 7));
-            p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
-            r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                     NameTag.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.AQUA + "You are healing " + NameTag.color(r) + r.getName()));
-            UpdateStats.addHeals(p.getUniqueId(), 1);
-        }
+                // Heal
+                addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 7));
+                addPotionEffect(p, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
+                r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                        NameTag.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                        ChatColor.AQUA + "You are healing " + NameTag.color(r) + r.getName()));
+                UpdateStats.addHeals(uuid, 1);
+            }
+        });
+    }
+
+    /**
+     * Add a potion effect to a player.
+     * @param player The player
+     * @param potion The potion effect
+     */
+    private void addPotionEffect(Player player, PotionEffect potion) {
+        Bukkit.getScheduler().runTask(Main.plugin, () -> player.addPotionEffect(potion));
     }
 
     /**
