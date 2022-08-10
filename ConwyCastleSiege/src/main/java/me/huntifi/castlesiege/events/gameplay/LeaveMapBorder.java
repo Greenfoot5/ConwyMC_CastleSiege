@@ -22,7 +22,7 @@ import java.util.UUID;
 public class LeaveMapBorder implements Listener {
 
     // The amount of blocks between the warning message and being killed
-    private static final double margin = 30;
+    private static final double MARGIN = 20;
 
     // The players that are on cooldown before being shown the warning again
     private final ArrayList<UUID> onCooldown = new ArrayList<>();
@@ -64,12 +64,12 @@ public class LeaveMapBorder implements Listener {
      */
     private void checkLocation(Player player, boolean positiveDirection, double playerLoc, double borderLoc) {
         if (positiveDirection) {
-            if (playerLoc > borderLoc + margin)
+            if (playerLoc > borderLoc + MARGIN)
                 killPlayer(player);
             else if (playerLoc > borderLoc)
                 sendWarning(player);
         } else {
-            if (playerLoc < borderLoc - margin)
+            if (playerLoc < borderLoc - MARGIN)
                 killPlayer(player);
             else if (playerLoc < borderLoc)
                 sendWarning(player);
