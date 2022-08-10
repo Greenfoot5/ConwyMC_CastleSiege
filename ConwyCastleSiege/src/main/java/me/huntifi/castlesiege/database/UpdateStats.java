@@ -62,18 +62,9 @@ public class UpdateStats {
     }
 
     /**
-     * Add 1 heal to the player's data
+     * Add heals to the player's data
      * @param uuid The unique ID of the player
-     */
-    public static void addHeal(UUID uuid) {
-        ActiveData.getData(uuid).addHeal();
-        MVPStats.getStats(uuid).addHeal();
-        level(uuid);
-    }
-
-    /**
-     * Add multiple heals to the player's data
-     * @param uuid The unique ID of the player
+     * @param heals The amount of heal to add
      */
     public static void addHeals(UUID uuid, double heals) {
         ActiveData.getData(uuid).addHeals(heals);

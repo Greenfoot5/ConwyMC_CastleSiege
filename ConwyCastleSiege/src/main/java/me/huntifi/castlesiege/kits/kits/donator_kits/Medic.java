@@ -215,7 +215,7 @@ public class Medic extends DonatorKit implements Listener {
                             NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s cake is healing you!"));
                     q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             ChatColor.AQUA + "Your cake is healing " + NameTag.color(p) + p.getName()));
-                    UpdateStats.addHeal(q.getUniqueId());
+                    UpdateStats.addHeals(q.getUniqueId(), 1);
                 } else {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             ChatColor.AQUA + "The cake is healing you!"));
@@ -276,7 +276,7 @@ public class Medic extends DonatorKit implements Listener {
                      NameTag.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                     ChatColor.AQUA + "You are healing " + NameTag.color(r) + r.getName()));
-            UpdateStats.addHeal(p.getUniqueId());
+            UpdateStats.addHeals(p.getUniqueId(), 1);
         }
     }
 

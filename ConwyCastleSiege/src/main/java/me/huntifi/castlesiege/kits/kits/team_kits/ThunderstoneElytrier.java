@@ -258,7 +258,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
 
                             if (hit.getHealth() != baseHealth) {
 
-                                UpdateStats.addHeal(damager.getUniqueId());
+                                UpdateStats.addHeals(damager.getUniqueId(), 1);
                                 UpdateStats.addSupports(damager.getUniqueId(), 2);
 
                             }
