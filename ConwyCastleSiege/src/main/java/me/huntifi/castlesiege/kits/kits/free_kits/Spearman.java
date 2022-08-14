@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.free_kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
@@ -116,6 +117,8 @@ public class Spearman extends FreeKit implements Listener {
 								ChatColor.AQUA + "Preparing to throw your spear!"));
 						stick.setAmount(stick.getAmount() - 1);
 						p.setCooldown(Material.STICK, 160);
+						int throwDelay = 22;
+						BarCooldown.add(uuid, throwDelay);
 						new BukkitRunnable() {
 							@Override
 							public void run() {
@@ -123,7 +126,7 @@ public class Spearman extends FreeKit implements Listener {
 										ChatColor.AQUA + "You threw your spear!"));
 								p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.0));
 							}
-						}.runTaskLater(Main.plugin, 22);
+						}.runTaskLater(Main.plugin, throwDelay);
 					} else {
 						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
 								ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your spear yet."));
