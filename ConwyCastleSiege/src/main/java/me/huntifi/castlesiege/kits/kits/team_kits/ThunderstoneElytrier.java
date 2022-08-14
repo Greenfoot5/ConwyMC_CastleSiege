@@ -236,37 +236,27 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
 
     @EventHandler
     public void onThrownPotion(PotionSplashEvent e) {
+        if (!(e.getPotion().getShooter() instanceof Player))
+            return;
 
-        if (e.getPotion().getShooter() instanceof Player) {
-            Player damager = (Player) e.getPotion().getShooter();
-            if (potion == null) { return; }
-            if (e.getPotion().getShooter() == potion.getShooter()) {
-                if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
+        Player damager = (Player) e.getPotion().getShooter();
+        if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
+            e.setCancelled(true);
+            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 for (Entity entity : e.getAffectedEntities()) {
-
                     if (entity instanceof Player) {
-
                         Player hit = (Player) entity;
-
                         if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                                != MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
-
-                            e.setCancelled(true);
-
-                        } else if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                                == MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
-
-                            if (hit.getHealth() != baseHealth) {
-
+                                == MapController.getCurrentMap().getTeam(hit.getUniqueId())
+                                && damager != hit) {
+                            if (hit.getHealth() != Kit.equippedKits.get(hit.getUniqueId()).baseHealth)
                                 UpdateStats.addHeals(damager.getUniqueId(), 1);
-                                UpdateStats.addSupports(damager.getUniqueId(), 2);
-
-                            }
+                            UpdateStats.addSupports(damager.getUniqueId(), 2);
+                            Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffects(e.getPotion().getEffects()));
                         }
                     }
                 }
-            }
-            }
+            });
         }
     }
 }
