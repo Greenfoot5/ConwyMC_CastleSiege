@@ -211,11 +211,9 @@ public class PlayerData {
      * @param heals The amount of heals to add
      */
     public void addHeals(double heals) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.heals += (1 * heals);
-            addScore(0.5 * heals);
-            addCoins(0.5 * heals);
-        });
+        this.heals += (heals);
+        addScore(0.5 * heals);
+        addCoins(0.5 * heals);
     }
 
     /**
