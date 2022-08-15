@@ -152,6 +152,10 @@ public class Berserker extends DonatorKit implements Listener {
         if (inventory.getItemInOffHand().getType() == oldMaterial)
             inventory.setItemInOffHand(null);
 
+        // Don't give a new sword when the player already has one
+        if (inventory.contains(sword.getType()) || inventory.getItemInOffHand().getType() == sword.getType())
+            return;
+
         // Give new sword
         if (ActiveData.getData(player.getUniqueId()).hasVote("sword"))
             inventory.addItem(swordVoted);
