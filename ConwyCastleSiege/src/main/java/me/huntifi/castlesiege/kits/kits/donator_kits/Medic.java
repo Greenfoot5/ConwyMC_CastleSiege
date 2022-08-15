@@ -36,7 +36,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -168,71 +167,78 @@ public class Medic extends DonatorKit implements Listener {
     }
 
     /**
-     * Take a bite from a cake and gain a short period of regeneration
-     * @param e The event called when right-clicking on a cake
+     * Take a bite from a cake and gain a short period of regeneration.
+     * @param event The event called when right-clicking a cake
      */
     @EventHandler (priority = EventPriority.HIGHEST)
-    public void onEatCake(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        Block cake = e.getClickedBlock();
-
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+    public void onEatCake(PlayerInteractEvent event) {
+        // Check if the player attempts to eat a cake
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || !event.getClickedBlock().getType().equals(Material.CAKE))
             return;
-        }
 
-        if (e.getAction() == Action.RIGHT_CLICK_BLOCK && cake != null &&
-                cake.getType().equals(Material.CAKE)) {
-            Player q = getPlacer(cake);
-
-            // Enemy cake
-            if (q != null && MapController.getCurrentMap().getTeam(p.getUniqueId())
-                    != MapController.getCurrentMap().getTeam(q.getUniqueId())) {
-                e.setCancelled(true);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        ChatColor.RED + "This is an enemy cake, destroy it!"));
+        event.setCancelled(true);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            // Prevent eating cake in lobby
+            Player eater = event.getPlayer();
+            if (InCombat.isPlayerInLobby(eater.getUniqueId()))
                 return;
-            }
 
-            // Able to eat this cake
-            if (p.getHealth() < Kit.equippedKits.get(p.getUniqueId()).baseHealth &&
-                    !cooldown.contains(p)) {
-                // Apply cooldown
-                cooldown.add(p);
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        cooldown.remove(p);
-                    }
-                }.runTaskLater(Main.plugin, 40);
+            // Get the player who placed the cake
+            Block cake = event.getClickedBlock();
+            Player placer = getPlacer(cake);
 
-                // Eat cake
-                p.setFoodLevel(17);
-                p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
-
+            if (canEatCake(eater, placer)) {
                 // Send messages and award heal
-                if (q != null && !Objects.equals(p, q)) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s cake is healing you!"));
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "Your cake is healing " + NameTag.color(p) + p.getName()));
-                    UpdateStats.addHeals(q.getUniqueId(), 1);
+                if (placer != null && !Objects.equals(eater, placer)) {
+                    eater.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                            NameTag.color(placer) + placer.getName() + ChatColor.AQUA + "'s cake is healing you!"));
+                    placer.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                            ChatColor.AQUA + "Your cake is healing " + NameTag.color(eater) + eater.getName()));
+                    UpdateStats.addHeals(placer.getUniqueId(), 1);
                 } else {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                    eater.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             ChatColor.AQUA + "The cake is healing you!"));
                 }
 
-                // Remove cake from cakes list
-                Cake cakeData = (Cake) cake.getBlockData();
-                if (cakeData.getBites() == 6 && q != null) {
-                    cakes.remove(q);
-                }
-
-            // Unable to eat the cake right now
-            } else {
-                e.setCancelled(true);
+                // Eat cake
+                Bukkit.getScheduler().runTask(Main.plugin, () -> {
+                    eater.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
+                    Cake cakeData = (Cake) cake.getBlockData();
+                    if (cakeData.getBites() == cakeData.getMaximumBites()) {
+                        cake.breakNaturally();
+                        cakes.remove(placer);
+                    } else {
+                        cakeData.setBites(cakeData.getBites() + 1);
+                        cake.setBlockData(cakeData);
+                    }
+                });
             }
+        });
+    }
+
+    /**
+     * Check if the player can eat from the cake.
+     * @param eater The player who attempts to eat the cake
+     * @param placer The player who placed the cake
+     * @return Whether the player can eat the cake
+     */
+    private synchronized boolean canEatCake(Player eater, Player placer) {
+        // The cake was placed by an enemy
+        if (placer != null && MapController.getCurrentMap().getTeam(eater.getUniqueId())
+                != MapController.getCurrentMap().getTeam(placer.getUniqueId())) {
+            Messenger.sendActionError("This is an enemy cake, destroy it!", eater);
+            return false;
         }
+
+        // The eater has full health or is on cooldown
+        if (eater.getHealth() == Kit.equippedKits.get(eater.getUniqueId()).baseHealth
+                || cooldown.contains(eater))
+            return false;
+
+        // Apply cooldown
+        cooldown.add(eater);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(eater), 39);
+        return true;
     }
 
     /**
