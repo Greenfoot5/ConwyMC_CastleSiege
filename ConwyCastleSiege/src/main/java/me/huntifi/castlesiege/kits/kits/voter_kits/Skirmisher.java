@@ -22,7 +22,7 @@ public class Skirmisher extends VoterKit {
      * Set the equipment and attributes of this kit
      */
     public Skirmisher() {
-        super("Skirmisher", 185, 10);
+        super("Skirmisher", 180, 10);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -30,13 +30,13 @@ public class Skirmisher extends VoterKit {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword", null, null, 35);
+                ChatColor.GREEN + "Iron Sword", null, null, 34);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Iron Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 36),
                 0);
 
         // Chestplate

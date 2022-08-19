@@ -184,12 +184,6 @@ public class CoinshopGui implements Listener, CommandExecutor {
     if (commandSender instanceof Player) {
         Player p = (Player) commandSender;
 
-        // Prevent using in lobby
-        if (!InCombat.isPlayerInLobby(p.getUniqueId())) {
-            Messenger.sendError("Are you sure it is safe to do this command here? Try it in the spawnrooms!", commandSender);
-            return true;
-        }
-
         p.openInventory(CoinshopGui("Coin Shop"));
         CoinshopGui.registerShop();
     }

@@ -110,9 +110,13 @@ public abstract class Kit implements CommandExecutor {
             AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
             assert healthAttribute != null;
             healthAttribute.setBaseValue(baseHealth);
-            player.setHealthScaled(true);
             player.setHealth(baseHealth);
             player.setFireTicks(0);
+            if (baseHealth > 200) {
+                player.setHealthScale(baseHealth / 10.0);
+            } else {
+                player.setHealthScaled(true);
+            }
 
             // Knockback resistance
             AttributeInstance kbAttribute = player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);

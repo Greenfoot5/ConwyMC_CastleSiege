@@ -117,7 +117,7 @@ public class Spearman extends FreeKit implements Listener {
 								ChatColor.AQUA + "Preparing to throw your spear!"));
 						stick.setAmount(stick.getAmount() - 1);
 						p.setCooldown(Material.STICK, 160);
-						int throwDelay = 22;
+						int throwDelay = 11;
 						BarCooldown.add(uuid, throwDelay);
 						new BukkitRunnable() {
 							@Override

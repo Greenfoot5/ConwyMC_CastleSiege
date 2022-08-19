@@ -31,7 +31,7 @@ public class Tips extends BukkitRunnable {
             "Cheating or the use of hacks is strictly forbidden on this server, when seen using these you will be banned instantly.",
             "Need a refresher on the rules? Check out /rules!",
             "If you're having a hard time getting to a flag, there's often more than one way to get there...",
-            "Have you found all the secrets yet?",
+            "Have you found all the secrets yet? Use /secrets to check your progress! Don't forget to right-click to collect them!",
             "Being shot at by archers? Try to find some cover!",
             "Rams no longer require 4 people, instead the damage inflicted to the gate is increased with each player on the ram.",
             "Got lag? Get optifine!",

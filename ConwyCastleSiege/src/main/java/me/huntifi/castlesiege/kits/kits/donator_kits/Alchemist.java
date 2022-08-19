@@ -41,7 +41,7 @@ public class Alchemist extends DonatorKit implements Listener {
     private final ItemStack standVoted;
 
     public Alchemist() {
-        super("Alchemist", 140, 9, 7500);
+        super("Alchemist", 150, 9, 7500);
         super.canSeeHealth = true;
 
         // Equipment Stuff
@@ -367,9 +367,9 @@ public class Alchemist extends DonatorKit implements Listener {
 
         int types = rand.nextInt(36);
         int amount = rand.nextInt(2);
-        int time = rand.nextInt(3601);
-        int smallTime = rand.nextInt(221);
-        int mediumTime = rand.nextInt(441);
+        int time = rand.nextInt(3501) + 100;
+        int smallTime = rand.nextInt(121) + 100;
+        int mediumTime = rand.nextInt(341) + 100;
         int amplifier = rand.nextInt(2);
         int bigAmplifier = rand.nextInt(5);
         int amplifierRegen = rand.nextInt(9);

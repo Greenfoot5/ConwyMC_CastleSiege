@@ -4,6 +4,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Bukkit;
@@ -75,6 +76,10 @@ public class Ram {
     public void playerEnter(Player player) {
         if (gate.isBreached())
             return;
+        // Players who can't cap shouldn't be able to pick up a ram
+        if (!Kit.equippedKits.get(player.getUniqueId()).canCap) {
+            return;
+        }
 
         players.add(player.getUniqueId());
         startRamming();

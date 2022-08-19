@@ -51,8 +51,8 @@ public class Halberdier extends DonatorKit implements Listener {
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.DIAMOND_CHESTPLATE),
-                ChatColor.GREEN + "Reinforced Iron Chestplate", null,
+        es.chest = ItemCreator.item(new ItemStack(Material.NETHERITE_CHESTPLATE),
+                ChatColor.GREEN + "Indestructible Chestplate", null,
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_ENVIRONMENTAL, 2)));
 
         // Leggings
@@ -117,7 +117,7 @@ public class Halberdier extends DonatorKit implements Listener {
                         halb.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE &&
                         halb.getCooldown(Material.DIAMOND_AXE) == 0) {
 
-                        halb.setCooldown(Material.DIAMOND_AXE, 31);
+                        halb.setCooldown(Material.DIAMOND_AXE, 20);
                         e.setCancelled(false);
                 } else if (halb.getCooldown(Material.DIAMOND_AXE) != 0) {
                     e.setCancelled(true);
@@ -126,7 +126,7 @@ public class Halberdier extends DonatorKit implements Listener {
             } else {
                 if (halb.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE &&
                         halb.getCooldown(Material.DIAMOND_AXE) == 0) {
-                    halb.setCooldown(Material.DIAMOND_AXE, 22);
+                    halb.setCooldown(Material.DIAMOND_AXE, 10);
                     e.setCancelled(false);
                 } else if (halb.getCooldown(Material.DIAMOND_AXE) != 0){
                     e.setCancelled(true);

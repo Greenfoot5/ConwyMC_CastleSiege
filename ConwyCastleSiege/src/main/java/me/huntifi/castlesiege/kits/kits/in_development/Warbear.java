@@ -42,19 +42,19 @@ public class Warbear extends DonatorKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
-                ChatColor.RED + "Fangs", null, null, 30);
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
+                ChatColor.RED + "Claws", null, null, 30);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
-                        ChatColor.RED + "Fangs",
+                ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
+                        ChatColor.RED + "Claws",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
                 0);
 
         // Claws
-        es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
-                ChatColor.RED + "Claws", null, null, 12);
+        es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
+                ChatColor.RED + "Fangs", null, null, 12);
 
         // Paw
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.RABBIT_FOOT),
@@ -112,8 +112,9 @@ public class Warbear extends DonatorKit implements Listener {
      * @param player The bitten player
      */
     private void bite(Player bear, Player player) {
-        bear.setCooldown(Material.GHAST_TEAR, 100);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80, 0));
+        bear.setCooldown(Material.GHAST_TEAR, 280);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 160, 0));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 1));
     }
 
     /**
@@ -122,9 +123,16 @@ public class Warbear extends DonatorKit implements Listener {
      * @param player The scratched player
      */
     private void scratch(Player bear, Player player) {
-        bear.setCooldown(Material.DEAD_HORN_CORAL_FAN, 40);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 1));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 80, 2));
+        bear.setCooldown(Material.DEAD_HORN_CORAL_FAN, 20);
+        int amp = 0;
+        int duration = 40;
+        if (player.hasPotionEffect(PotionEffectType.WITHER)) {
+            amp = player.getPotionEffect(PotionEffectType.WITHER).getAmplifier() + 1;
+            if (amp >= 2) {
+                duration = 30;
+            }
+        }
+        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, duration, amp));
     }
 
     /**
@@ -138,7 +146,7 @@ public class Warbear extends DonatorKit implements Listener {
                 && player.getInventory().getItemInMainHand().getType() == Material.RABBIT_FOOT
                 && player.getCooldown(Material.RABBIT_FOOT) == 0) {
             player.setCooldown(Material.RABBIT_FOOT, 260);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, 2));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, 3));
         }
     }
 }

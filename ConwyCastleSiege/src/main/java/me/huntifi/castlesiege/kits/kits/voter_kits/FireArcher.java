@@ -94,7 +94,7 @@ public class FireArcher extends VoterKit implements Listener {
                         ChatColor.AQUA + "right click it with an arrow.", "",
                         ChatColor.AQUA + "(tip): This firepit is very hard, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 26);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 2)), 26);
         es.hotbar[1] = firepit;
         // Voted Firepit
         firepitVoted = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
@@ -105,7 +105,7 @@ public class FireArcher extends VoterKit implements Listener {
                         ChatColor.AQUA + "(tip): This firepit is very hard, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
-                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 28);
+                        new Tuple<>(Enchantment.KNOCKBACK, 2)), 28);
         es.votedWeapon = new Tuple<>(firepitVoted, 1);
 
         // Arrows
@@ -237,7 +237,7 @@ public class FireArcher extends VoterKit implements Listener {
                 PlayerInventory inv = p.getInventory();
                 ItemStack offHand = inv.getItemInOffHand();
                 int fireOffHand = offHand.getType() == Material.TIPPED_ARROW ? offHand.getAmount() : 0;
-                if (!inv.contains(Material.TIPPED_ARROW, 7 - fireOffHand)) {
+                if (!inv.contains(Material.TIPPED_ARROW, 9 - fireOffHand)) {
                     // Light an arrow
                     p.setCooldown(Material.ARROW, 30);
                     usedItem.setAmount(usedItem.getAmount() - 1);

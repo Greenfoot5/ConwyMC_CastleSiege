@@ -40,6 +40,10 @@ public class DamageBalance implements Listener {
             case MELTING:
             case POISON:
                 e.setDamage(e.getDamage() * 8);
+                if (((Player) e.getEntity()).getHealth() <= e.getDamage())
+                {
+                    e.setDamage(((Player) e.getEntity()).getHealth() - 1);
+                }
                 break;
             case SUFFOCATION:
             case THORNS:
@@ -50,7 +54,7 @@ public class DamageBalance implements Listener {
             case FIRE:
             case FIRE_TICK:
             case LAVA:
-                e.setDamage(e.getDamage() * 7.1);
+                e.setDamage(e.getDamage() * 7.5);
                 break;
         }
     }

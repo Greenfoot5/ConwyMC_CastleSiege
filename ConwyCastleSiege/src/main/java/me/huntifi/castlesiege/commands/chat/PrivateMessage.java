@@ -75,9 +75,9 @@ public class PrivateMessage implements CommandExecutor {
 
 		// Send messages
 		s.sendMessage(String.format("%sTo %s%s%s: %s%s",
-				ChatColor.GOLD, rColor, r.getName(), ChatColor.GOLD, ChatColor.GRAY, m));
+				ChatColor.GOLD, rColor, r.getName(), ChatColor.GOLD, ChatColor.DARK_AQUA, m));
 		r.sendMessage(String.format("%sFrom %s%s%s: %s%s",
-				ChatColor.GOLD, sColor, s.getName(), ChatColor.GOLD, ChatColor.GRAY, m));
+				ChatColor.GOLD, sColor, s.getName(), ChatColor.GOLD, ChatColor.DARK_AQUA, m));
 
 		// Set last message sender
 		lastSender.put(r, s);
