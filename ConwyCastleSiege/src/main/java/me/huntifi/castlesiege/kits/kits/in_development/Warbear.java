@@ -123,7 +123,7 @@ public class Warbear extends DonatorKit implements Listener {
      * @param player The scratched player
      */
     private void scratch(Player bear, Player player) {
-        bear.setCooldown(Material.DEAD_HORN_CORAL_FAN, 20);
+        bear.setCooldown(Material.DEAD_HORN_CORAL_FAN, 10);
         int amp = 0;
         int duration = 40;
         if (player.hasPotionEffect(PotionEffectType.WITHER)) {
