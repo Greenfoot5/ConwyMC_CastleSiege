@@ -115,7 +115,7 @@ public abstract class Kit implements CommandExecutor {
             if (baseHealth > 200) {
                 player.setHealthScale(baseHealth / 10.0);
             } else {
-                player.setHealthScaled(true);
+                player.setHealthScale(20.0);
             }
 
             // Knockback resistance
