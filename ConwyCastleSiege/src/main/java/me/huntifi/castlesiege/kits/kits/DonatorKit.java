@@ -37,12 +37,12 @@ public abstract class DonatorKit extends Kit {
         UUID uuid = ((Player) sender).getUniqueId();
         boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
         if (!hasKit && !isFriday()) {
-            if (Kit.equippedKits.get(uuid) == null) {
-                Kit.getKit("Swordsman").addPlayer(uuid);
-                if (verbose)
+            if (verbose) {
+                if (Kit.equippedKits.get(uuid) == null)
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
-            } else if (verbose)
-                Messenger.sendError(String.format("You don't own %s!", name), sender);
+                else
+                    Messenger.sendError(String.format("You don't own %s!", name), sender);
+            }
             return false;
         }
 

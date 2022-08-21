@@ -77,11 +77,11 @@ public class PlayerConnect implements Listener {
             MapController.joinATeam(p.getUniqueId());
 
             // Assign stored kit
-            p.performCommand(data.getKit());
-            if (Kit.equippedKits.get(uuid) == null) {
-                Kit.equippedKits.put(uuid, new Swordsman());
-                ActiveData.getData(uuid).setKit("swordsman");
-            }
+            Kit kit = Kit.getKit(data.getKit());
+            if (kit != null && kit.canSelect(p, true))
+                kit.addPlayer(uuid);
+            else
+                Kit.getKit("Swordsman").addPlayer(uuid);
         }
 
         // Reset player xp and level

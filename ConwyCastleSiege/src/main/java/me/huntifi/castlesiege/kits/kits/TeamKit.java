@@ -58,16 +58,12 @@ public abstract class TeamKit extends DonatorKit {
         if (!map.equalsIgnoreCase(MapController.getCurrentMap().name)) {
             if (verbose)
                 Messenger.sendError(String.format("You can't use %s on this map!", name), sender);
-            if (Kit.equippedKits.get(uuid) == null)
-                Kit.getKit("Swordsman").addPlayer(uuid);
             return false;
         }
 
         if (!team.equalsIgnoreCase(MapController.getCurrentMap().getTeam(uuid).name)) {
             if (verbose)
                 Messenger.sendError(String.format("You can't use %s on this team!", name), sender);
-            if (Kit.equippedKits.get(uuid) == null)
-                Kit.getKit("Swordsman").addPlayer(uuid);
             return false;
         }
 

@@ -39,12 +39,12 @@ public abstract class VoterKit extends Kit {
 
         UUID uuid = ((Player) sender).getUniqueId();
         if (!ActiveData.getData(uuid).hasVote("kits")) {
-            if (Kit.equippedKits.get(uuid) == null) {
-                Kit.getKit("Swordsman").addPlayer(uuid);
-                if (verbose)
+            if (verbose) {
+                if (Kit.equippedKits.get(uuid) == null)
                     Messenger.sendError(String.format("You need to vote to use %s again!", name), sender);
-            } else if (verbose)
-                Messenger.sendError(String.format("You need to vote to use %s!", name), sender);
+                else
+                    Messenger.sendError(String.format("You need to vote to use %s!", name), sender);
+            }
             return false;
         }
 
