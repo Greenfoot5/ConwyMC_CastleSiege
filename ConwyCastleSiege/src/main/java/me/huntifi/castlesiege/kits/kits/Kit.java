@@ -139,22 +139,19 @@ public abstract class Kit implements CommandExecutor {
      * @param uuid The unique id of the player for whom to perform the refill
      */
     public void refillItems(UUID uuid) {
-        Bukkit.getScheduler().runTask(Main.plugin, () -> {
-            Player player = Bukkit.getPlayer(uuid);
-            if (player == null) {
-                return;
-            }
+        Player player = Bukkit.getPlayer(uuid);
+        if (player == null)
+            return;
 
-            // Equipment
-            equipment.setEquipment(uuid);
-            resetCooldown(uuid);
+        // Equipment
+        equipment.setEquipment(uuid);
+        resetCooldown(uuid);
 
-            // Wool hat
-            WoolHat.setHead(player);
+        // Wool hat
+        WoolHat.setHead(player);
 
-            // Potion effects
-            applyPotionEffects(uuid);
-        });
+        // Potion effects
+        applyPotionEffects(uuid);
     }
 
     /**

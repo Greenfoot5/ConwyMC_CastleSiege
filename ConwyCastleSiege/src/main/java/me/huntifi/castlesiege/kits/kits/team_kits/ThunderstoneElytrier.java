@@ -101,25 +101,6 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
     }
 
     /**
-     * Reset the player's items and reapply their potion effects
-     * @param uuid The unique id of the player for whom to perform the refill
-     */
-    @Override
-    public void refillItems(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        if (player == null) { return; }
-
-        // Equipment
-        equipment.setEquipment(uuid);
-
-        // Wool hat
-        WoolHat.setHead(player);
-
-        // Potion effects
-        applyPotionEffects(uuid);
-    }
-
-    /**
      * Activate the elytrier ability of throwing a bomb
      * @param e The event called when right-clicking with snow ball
      */
