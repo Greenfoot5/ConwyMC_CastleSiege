@@ -100,8 +100,6 @@ public class Bounty implements CommandExecutor {
                 // Send Entries
                 int pos = requested < 6 ? 0 : Math.min(requested - 5, bounties.size());
                 DecimalFormat num = new DecimalFormat("0");
-                System.out.println(pos);
-                System.out.println(bounties.size());
                 while (pos < bounties.size()) {
                     ChatColor color = pos == requested ? ChatColor.AQUA : ChatColor.DARK_AQUA;
                     Tuple<UUID, Integer> bounty = bounties.get(pos);
