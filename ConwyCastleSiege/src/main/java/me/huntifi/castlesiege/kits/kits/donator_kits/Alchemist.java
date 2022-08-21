@@ -26,6 +26,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -251,6 +252,24 @@ public class Alchemist extends DonatorKit implements Listener {
         }
     }
 
+
+    /**
+     * Destroy a player's brewing stand when they die
+     * @param e The event called when a player dies
+     */
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e) {
+        destroyStand(e.getEntity());
+    }
+
+    /**
+     * Destroy a player's brewing stand when they leave the game
+     * @param e The event called when a player leaves the game
+     */
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e) {
+        destroyStand(e.getPlayer());
+    }
 
     /**
      * Destroy the player's brewing stand if present
