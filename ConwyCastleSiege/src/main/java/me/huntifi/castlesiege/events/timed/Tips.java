@@ -25,6 +25,7 @@ public class Tips extends BukkitRunnable {
             "Low on health? Find a medic or some cake!",
             "Found a suspicious player? Make a report on the discord server or tell a staff member",
             "Low on arrows or ladders? Resupply with an enderchest!",
+            "Enderchests clear all temporary effects, both good and bad!",
             "Landing on a hay bale stops you taking falling damage",
             "Found a bug or exploit? Report it on the discord server.",
             "Low on ladders? You can get two more by voting!",
