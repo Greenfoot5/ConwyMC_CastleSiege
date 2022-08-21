@@ -79,7 +79,7 @@ public class NameTag implements CommandExecutor {
         switch (rank) {
             // Staff Ranks
             case "builder":
-                return "§b§lBuilder";
+                return "§b§lBuilder ";
             case "chatmod":
                 return "§9§lChatMod ";
             case "chatmod+":

@@ -43,7 +43,7 @@ public class Permissions {
      * @param permission The permission to set
      */
     public static boolean setStaffPermission(UUID uuid, String permission) {
-        Collection<String> staffPerms = Arrays.asList("admin", "developer", "moderator", "chatmod+", "chatmod", "");
+        Collection<String> staffPerms = Arrays.asList("admin", "developer", "moderator", "chatmod+", "chatmod", "builder", "");
         if (staffPerms.contains(permission.toLowerCase())) {
             setPermission(uuid, ActiveData.getData(uuid).getStaffRank(), permission.toLowerCase());
             return true;
