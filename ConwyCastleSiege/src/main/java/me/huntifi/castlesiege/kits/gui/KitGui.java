@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.kits.gui;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.kits.gui.coinshop.CoinshopGui;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,12 +22,17 @@ public class KitGui implements Listener {
     private final Inventory gui;
     private final HashMap<Integer, String> command = new HashMap<>();
 
+    private final boolean shouldClose;
+
     /**
-     * Create an inventory
+     * Create an inventory.
      * @param name The name of the inventory
+     * @param size The size of the inventory
+     * @param shouldClose Whether the inventory should close after clicking an item
      */
-    public KitGui(String name) {
-        gui = Main.plugin.getServer().createInventory(null, 54, name);
+    public KitGui(String name, int size, boolean shouldClose) {
+        gui = Main.plugin.getServer().createInventory(null, size, name);
+        this.shouldClose = shouldClose;
     }
 
     /**
@@ -37,6 +41,7 @@ public class KitGui implements Listener {
      * @param material The material of the item
      * @param lore The lore of the item
      * @param location The location of the item
+     * @param command The command to execute when clicking the item
      */
     public void addItem(String name, Material material, List<String> lore, int location, String command) {
         gui.setItem(location, ItemCreator.item(new ItemStack(material), name, lore, null));
@@ -65,7 +70,8 @@ public class KitGui implements Listener {
         // Perform the command that belongs to the clicked item slot
         String c = command.get(e.getSlot());
         if (c != null) {
-            p.closeInventory();
+            if (shouldClose)
+                p.closeInventory();
             p.performCommand(c);
         }
     }

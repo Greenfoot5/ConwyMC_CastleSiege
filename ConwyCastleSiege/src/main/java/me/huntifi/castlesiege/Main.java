@@ -152,6 +152,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
+                getServer().getPluginManager().registerEvents(new SettingsCommand(), plugin);
 
                 // Connection
                 getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);
@@ -651,7 +652,7 @@ public class Main extends JavaPlugin implements Listener {
         String[] guiPaths = getPaths(kitsConfig, null);
         for (String guiPath : guiPaths) {
             Route guiRoute = Route.from(guiPath);
-            KitGui gui = new KitGui(kitsConfig.getString(guiRoute.add("name")));
+            KitGui gui = new KitGui(kitsConfig.getString(guiRoute.add("name")), 54, true);
             getServer().getPluginManager().registerEvents(gui, plugin);
 
             String[] itemPaths = getPaths(kitsConfig, guiRoute.add("items"));
