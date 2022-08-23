@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -252,6 +253,14 @@ public class Alchemist extends DonatorKit implements Listener {
         }
     }
 
+    /**
+     * Destroy a player's brewing stand when they click an enderchest.
+     * @param event The event called when an off-cooldown player interacts with an enderchest
+     */
+    @EventHandler
+    public void onClickEnderchest(EnderchestEvent event) {
+        destroyStand(event.getPlayer());
+    }
 
     /**
      * Destroy a player's brewing stand when they die

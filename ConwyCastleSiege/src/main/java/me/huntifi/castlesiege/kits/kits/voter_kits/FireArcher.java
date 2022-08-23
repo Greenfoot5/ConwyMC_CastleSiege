@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits.voter_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -302,6 +303,15 @@ public class FireArcher extends VoterKit implements Listener {
                 e.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK) {
             e.setDamage(10);
         }
+    }
+
+    /**
+     * Destroy a player's firepit when they click an enderchest.
+     * @param event The event called when an off-cooldown player interacts with an enderchest
+     */
+    @EventHandler
+    public void onClickEnderchest(EnderchestEvent event) {
+        destroyFirepit(event.getPlayer());
     }
 
     /**
