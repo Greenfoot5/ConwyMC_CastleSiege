@@ -26,6 +26,7 @@ public class Permissions {
         assert p != null;
 
         PermissionAttachment attachment = p.addAttachment(Main.plugin);
+        attachment.setPermission("conwymc.disable", true);
         perms.put(uuid, attachment);
     }
 

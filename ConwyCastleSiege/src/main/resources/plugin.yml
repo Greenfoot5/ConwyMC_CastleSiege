@@ -21,6 +21,7 @@ permissions:
     description: Gives access to all CastleSiege Moderator commands
     children:
       castlesiege.chatmod+: true
+      minecraft.command.gamemode: true
   castlesiege.chatmod+:
     description: Gives access to all CastleSiege Chatmod+ commands
     children:
@@ -68,18 +69,6 @@ permissions:
 
 commands:
   # TODO - These command have yet to be reimplemented
-  Gmc:
-    description: Change your game mode to creative.
-    usage: /Gmc
-  Gmsp:
-    description: Change your game mode to spectator.
-    usage: /Gmsp
-  Gms:
-    description: Change your game mode to survival.
-    usage: /Gms
-  Gma:
-    description: Change your game mode to adventure.
-    usage: /Gma
   Vanish:
     description: Vanish into the void!
     usage: /Vanish
