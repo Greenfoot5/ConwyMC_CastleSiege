@@ -57,7 +57,7 @@ import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.gui.GuiController;
-import me.huntifi.castlesiege.kits.gui.coinshop.CoinbuyCommand;
+import me.huntifi.castlesiege.commands.gameplay.BuyKitCommand;
 import me.huntifi.castlesiege.kits.gui.coinshop.CoinshopGui;
 import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -314,7 +314,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Kits
                 Objects.requireNonNull(getCommand("Alchemist")).setExecutor(new Alchemist());
                 Objects.requireNonNull(getCommand("Random")).setExecutor(new RandomKitCommand());
-                Objects.requireNonNull(getCommand("buykit")).setExecutor(new CoinbuyCommand());
+                Objects.requireNonNull(getCommand("buykit")).setExecutor(new BuyKitCommand());
                 Objects.requireNonNull(getCommand("coinshop")).setExecutor(new CoinshopGui());
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());

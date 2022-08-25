@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.gui.coinshop;
+package me.huntifi.castlesiege.commands.gameplay;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -14,7 +14,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CoinbuyCommand implements CommandExecutor {
+public class BuyKitCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
