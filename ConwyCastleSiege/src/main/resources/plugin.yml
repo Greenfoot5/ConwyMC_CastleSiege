@@ -362,7 +362,7 @@ commands:
   # Donations
   Unlockkit:
     description: Unlocks a kit for a player.
-    usage: /Unlockkit [Player Name] [add/remove] [Kit Name] [Time] [IsDonated:true/false]
+    usage: /Unlockkit <Player Name> <add/remove> <Kit Name> <Time> <IsDonated:true/false>
     permission: castlesiege.developer
     permission-message: You should donate or pay coins instead!
   Webshop:
@@ -375,7 +375,7 @@ commands:
     usage: /Coinshop
   buykit:
     description: Buy a kit with coins
-    usage: /buykit <Player> <donator/premium or team/map> <kit>
+    usage: /buykit <kit> [player]
 
 
   # Kits
