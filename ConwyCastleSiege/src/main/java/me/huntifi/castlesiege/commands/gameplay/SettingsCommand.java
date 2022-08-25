@@ -4,7 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.kits.gui.KitGui;
+import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.maps.Scoreboard;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -30,7 +30,7 @@ public class SettingsCommand implements CommandExecutor, Listener {
         put("statsBoard", new String[]{"false", "true"});
     }};
 
-    private static final HashMap<HumanEntity, KitGui> guis = new HashMap<>();
+    private static final HashMap<HumanEntity, Gui> guis = new HashMap<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -43,7 +43,7 @@ public class SettingsCommand implements CommandExecutor, Listener {
 
         if (args.length < 1) {
             // Register and open a settings GUI for the player
-            KitGui gui = new KitGui(ChatColor.GOLD + "Settings", 9, false);
+            Gui gui = new Gui(ChatColor.GOLD + "Settings", 9);
             guis.put(player, gui);
 
             for (String setting : defaultSettings.keySet())
@@ -102,7 +102,7 @@ public class SettingsCommand implements CommandExecutor, Listener {
      * @param setting The setting which the item represents
      */
     private void setGuiItem(Player player, String setting) {
-        KitGui gui = guis.get(player);
+        Gui gui = guis.get(player);
 
         String currentValue = ActiveData.getData(player.getUniqueId()).getSetting(setting);
         String itemName = String.format("%s%s: %s", ChatColor.GOLD, setting, currentValue);
@@ -115,22 +115,22 @@ public class SettingsCommand implements CommandExecutor, Listener {
             case "randomDeath":
                 gui.addItem(itemName, Material.COOKIE, Collections.singletonList(
                         ChatColor.BLUE + "Each time you die, runs /random to give you a new random class"),
-                        0, command);
+                        0, command, false);
                 break;
             case "deathMessages":
                 gui.addItem(itemName, Material.OAK_SIGN, Collections.singletonList(
                         ChatColor.BLUE + "View all death messages, not just your own"),
-                        1, command);
+                        1, command, false);
                 break;
             case "joinPing":
                 gui.addItem(itemName, Material.NOTE_BLOCK, Collections.singletonList(
                                 ChatColor.BLUE + "Get a ping sound when another player joins the server"),
-                        2, command);
+                        2, command, false);
                 break;
             case "statsBoard":
                 gui.addItem(itemName, Material.DIAMOND, Collections.singletonList(
                                 ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names"),
-                        3, command);
+                        3, command, false);
                 break;
         }
     }

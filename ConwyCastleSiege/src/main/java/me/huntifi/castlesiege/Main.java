@@ -55,8 +55,8 @@ import me.huntifi.castlesiege.events.timed.ApplyRegeneration;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
-import me.huntifi.castlesiege.kits.gui.KitGui;
-import me.huntifi.castlesiege.kits.gui.KitGuiController;
+import me.huntifi.castlesiege.gui.Gui;
+import me.huntifi.castlesiege.gui.GuiController;
 import me.huntifi.castlesiege.kits.gui.coinshop.CoinbuyCommand;
 import me.huntifi.castlesiege.kits.gui.coinshop.CoinshopGui;
 import me.huntifi.castlesiege.kits.items.Enderchest;
@@ -652,7 +652,7 @@ public class Main extends JavaPlugin implements Listener {
         String[] guiPaths = getPaths(kitsConfig, null);
         for (String guiPath : guiPaths) {
             Route guiRoute = Route.from(guiPath);
-            KitGui gui = new KitGui(kitsConfig.getString(guiRoute.add("name")), 54, true);
+            Gui gui = new Gui(kitsConfig.getString(guiRoute.add("name")), 54);
             getServer().getPluginManager().registerEvents(gui, plugin);
 
             String[] itemPaths = getPaths(kitsConfig, guiRoute.add("items"));
@@ -663,10 +663,10 @@ public class Main extends JavaPlugin implements Listener {
                 List<String> lore = kitsConfig.getStringList(itemRoute.add("lore"));
                 int location = kitsConfig.getInt(itemRoute.add("location"));
                 String command = kitsConfig.getString(itemRoute.add("command"));
-                gui.addItem(itemName, material, lore, location, command);
+                gui.addItem(itemName, material, lore, location, command, true);
             }
 
-            KitGuiController.add(kitsConfig.getString(guiRoute.add("key")), gui);
+            GuiController.add(kitsConfig.getString(guiRoute.add("key")), gui);
         }
     }
 
