@@ -43,7 +43,7 @@ public class SettingsCommand implements CommandExecutor, Listener {
 
         if (args.length < 1) {
             // Register and open a settings GUI for the player
-            Gui gui = new Gui(ChatColor.GOLD + "Settings", 9);
+            Gui gui = new Gui(ChatColor.GOLD + "Settings", 1);
             guis.put(player, gui);
 
             for (String setting : defaultSettings.keySet())

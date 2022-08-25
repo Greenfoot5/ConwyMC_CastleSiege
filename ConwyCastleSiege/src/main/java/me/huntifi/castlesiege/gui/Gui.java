@@ -15,17 +15,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A GUI made with a minecraft inventory
+ */
 public class Gui implements Listener {
 
     protected final Inventory inventory;
     protected final HashMap<Integer, GuiItem> locationToItem = new HashMap<>();
 
-    public Gui(String name, int size) {
-        inventory = Main.plugin.getServer().createInventory(null, size, name);
+    /**
+     * Create an inventory.
+     * @param name The name of the inventory
+     * @param rows The amount of rows of the inventory
+     */
+    public Gui(String name, int rows) {
+        inventory = Main.plugin.getServer().createInventory(null, 9 * rows, name);
     }
 
     /**
-     * Add an item to the inventory
+     * Add an item to the inventory.
      * @param name The name of the item
      * @param material The material of the item
      * @param lore The lore of the item

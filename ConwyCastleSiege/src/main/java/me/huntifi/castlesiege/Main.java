@@ -652,7 +652,7 @@ public class Main extends JavaPlugin implements Listener {
         String[] guiPaths = getPaths(kitsConfig, null);
         for (String guiPath : guiPaths) {
             Route guiRoute = Route.from(guiPath);
-            Gui gui = new Gui(kitsConfig.getString(guiRoute.add("name")), 54);
+            Gui gui = new Gui(kitsConfig.getString(guiRoute.add("name")), 6);
             getServer().getPluginManager().registerEvents(gui, plugin);
 
             String[] itemPaths = getPaths(kitsConfig, guiRoute.add("items"));
