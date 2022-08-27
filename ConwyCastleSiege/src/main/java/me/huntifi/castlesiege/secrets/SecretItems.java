@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.secrets;
 
+import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
@@ -124,11 +125,12 @@ public class SecretItems implements Listener {
     }
 
     /**
-     * When a player clicks an enderchest, it shall be given back the secret items it had.
-     * This method should only be called from the enderchest class.
-     * @param player The player who clicked an enderchest
+     * When a player clicks an enderchest, they shall be given back the secret items they had.
+     * @param event The event called when an off-cooldown player interacts with an enderchest
      */
-    public static void giveSecretOnEnderchest(Player player) {
+    @EventHandler
+    public void onClickEnderchest(EnderchestEvent event) {
+        Player player = event.getPlayer();
         if (!secretItemHolder.containsKey(player))
             return;
         for (ItemStack item : secretItemHolder.get(player))

@@ -55,10 +55,9 @@ import me.huntifi.castlesiege.events.timed.ApplyRegeneration;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
-import me.huntifi.castlesiege.kits.gui.KitGui;
-import me.huntifi.castlesiege.kits.gui.KitGuiController;
-import me.huntifi.castlesiege.kits.gui.coinshop.CoinbuyCommand;
-import me.huntifi.castlesiege.kits.gui.coinshop.CoinshopGui;
+import me.huntifi.castlesiege.gui.Gui;
+import me.huntifi.castlesiege.gui.GuiController;
+import me.huntifi.castlesiege.commands.gameplay.BuyKitCommand;
 import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.donator_kits.*;
@@ -152,6 +151,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
+                getServer().getPluginManager().registerEvents(new SettingsCommand(), plugin);
 
                 // Connection
                 getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);
@@ -199,7 +199,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
-                getServer().getPluginManager().registerEvents(new CoinshopGui(), plugin);
                 getServer().getPluginManager().registerEvents(new CryptsFallen(), plugin);
                 getServer().getPluginManager().registerEvents(new ConwyArbalester(), plugin);
                 getServer().getPluginManager().registerEvents(new Engineer(), plugin);
@@ -241,11 +240,13 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("JoinMessage")).setExecutor(new JoinMessage());
 
                 // Gameplay
+                Objects.requireNonNull(getCommand("Bounties")).setExecutor(new Bounty());
+                Objects.requireNonNull(getCommand("Bounty")).setExecutor(new Bounty());
+                Objects.requireNonNull(getCommand("BuyKit")).setExecutor(new BuyKitCommand());
+                Objects.requireNonNull(getCommand("CoinShop")).setExecutor(new CoinShopCommand());
+                Objects.requireNonNull(getCommand("Settings")).setExecutor(new SettingsCommand());
                 Objects.requireNonNull(getCommand("Suicide")).setExecutor(new SuicideCommand());
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
-                Objects.requireNonNull(getCommand("Bounty")).setExecutor(new Bounty());
-                Objects.requireNonNull(getCommand("Bounties")).setExecutor(new Bounty());
-                Objects.requireNonNull(getCommand("Settings")).setExecutor(new SettingsCommand());
 
                 // Info
                 Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
@@ -311,11 +312,9 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("SetTag")).setExecutor(new NameTag());
 
                 // Kits
-                Objects.requireNonNull(getCommand("Alchemist")).setExecutor(new Alchemist());
-                Objects.requireNonNull(getCommand("Random")).setExecutor(new RandomKitCommand());
-                Objects.requireNonNull(getCommand("buykit")).setExecutor(new CoinbuyCommand());
-                Objects.requireNonNull(getCommand("coinshop")).setExecutor(new CoinshopGui());
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
+                Objects.requireNonNull(getCommand("Random")).setExecutor(new RandomKitCommand());
+                Objects.requireNonNull(getCommand("Alchemist")).setExecutor(new Alchemist());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
                 Objects.requireNonNull(getCommand("ConwyArbalester")).setExecutor(new ConwyArbalester());
@@ -353,6 +352,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
                 applyKitLimits();
+                registerCoinShop();
 
                 // Map Specific
                 // Helms Deep Only
@@ -651,7 +651,7 @@ public class Main extends JavaPlugin implements Listener {
         String[] guiPaths = getPaths(kitsConfig, null);
         for (String guiPath : guiPaths) {
             Route guiRoute = Route.from(guiPath);
-            KitGui gui = new KitGui(kitsConfig.getString(guiRoute.add("name")));
+            Gui gui = new Gui(kitsConfig.getString(guiRoute.add("name")), 6);
             getServer().getPluginManager().registerEvents(gui, plugin);
 
             String[] itemPaths = getPaths(kitsConfig, guiRoute.add("items"));
@@ -662,10 +662,10 @@ public class Main extends JavaPlugin implements Listener {
                 List<String> lore = kitsConfig.getStringList(itemRoute.add("lore"));
                 int location = kitsConfig.getInt(itemRoute.add("location"));
                 String command = kitsConfig.getString(itemRoute.add("command"));
-                gui.addItem(itemName, material, lore, location, command);
+                gui.addItem(itemName, material, lore, location, command, true);
             }
 
-            KitGuiController.add(kitsConfig.getString(guiRoute.add("key")), gui);
+            GuiController.add(kitsConfig.getString(guiRoute.add("key")), gui);
         }
     }
 
@@ -719,6 +719,47 @@ public class Main extends JavaPlugin implements Listener {
                     kit.setLimit(gameConfig.getInt(route.add(path)));
             }
         }
+    }
+
+    /**
+     * Register the coin shop as set in [TODO: yml to be created]
+     * Not included in [TODO: loading GUIs from yml] because the kits must be registered first
+     */
+    private void registerCoinShop() {
+        Gui gui = new Gui(ChatColor.DARK_GREEN + "Coin Shop", 6);
+        getServer().getPluginManager().registerEvents(gui, plugin);
+
+        gui.addCoinShopItem("Alchemist", Material.BREWING_STAND, 0);
+        gui.addCoinShopItem("Berserker", Material.POTION, 1);
+        gui.addCoinShopItem("Vanguard", Material.DIAMOND_SWORD, 2);
+        gui.addCoinShopItem("Executioner", Material.DIAMOND_AXE, 3);
+        gui.addCoinShopItem("Maceman", Material.DIAMOND_SHOVEL, 4);
+        gui.addCoinShopItem("Viking", Material.IRON_CHESTPLATE, 5);
+        gui.addCoinShopItem("Medic", Material.CAKE, 6);
+        gui.addCoinShopItem("Ranger", Material.BOW, 7);
+        gui.addCoinShopItem("Cavalry", Material.IRON_HORSE_ARMOR, 8);
+        gui.addCoinShopItem("Halberdier", Material.NETHERITE_CHESTPLATE, 9);
+        gui.addCoinShopItem("Engineer", Material.COBWEB, 10);
+        gui.addCoinShopItem("Crossbowman", Material.CROSSBOW, 11);
+        gui.addCoinShopItem("Warhound", Material.GHAST_TEAR, 12);
+        gui.addCoinShopItem("Elytrier", Material.ELYTRA, 13);
+        gui.addCoinShopItem("Fallen", Material.WITHER_SKELETON_SKULL, 14);
+        gui.addCoinShopItem("MoriaOrc", Material.BOW, 15);
+        gui.addCoinShopItem("DwarvenAxeThrower", Material.STONE_AXE, 16);
+        gui.addCoinShopItem("DwarvenGuardian", Material.SHIELD, 17);
+        gui.addCoinShopItem("MoriaCaveTroll", Material.IRON_INGOT, 18);
+        gui.addCoinShopItem("MoriaBonecrusher", Material.BONE, 19);
+        gui.addCoinShopItem("DwarvenWindlancer", Material.STICK, 20);
+        gui.addCoinShopItem("UrukBerserker", Material.BEETROOT_SOUP, 21);
+        gui.addCoinShopItem("Lancer", Material.STICK, 22);
+        gui.addCoinShopItem("RangedCavalry", Material.BOW, 23);
+        gui.addCoinShopItem("Abyssal", Material.GREEN_DYE, 24);
+        gui.addCoinShopItem("Hellsteed", Material.MAGMA_BLOCK, 25);
+        gui.addCoinShopItem("RoyalKnight", Material.DIAMOND_HORSE_ARMOR, 26);
+        gui.addCoinShopItem("Arbalester", Material.CROSSBOW, 27);
+        gui.addItem("§4§lGo Back", Material.BARRIER, Collections.singletonList("§cReturn to the previous interface."), 49, "kit shop", true);
+
+        GuiController.add("coin shop", gui);
     }
 
     private void loadMaps() {

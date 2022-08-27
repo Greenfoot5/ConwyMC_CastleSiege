@@ -21,6 +21,7 @@ permissions:
     description: Gives access to all CastleSiege Moderator commands
     children:
       castlesiege.chatmod+: true
+      minecraft.command.gamemode: true
   castlesiege.chatmod+:
     description: Gives access to all CastleSiege Chatmod+ commands
     children:
@@ -68,18 +69,6 @@ permissions:
 
 commands:
   # TODO - These command have yet to be reimplemented
-  Gmc:
-    description: Change your game mode to creative.
-    usage: /Gmc
-  Gmsp:
-    description: Change your game mode to spectator.
-    usage: /Gmsp
-  Gms:
-    description: Change your game mode to survival.
-    usage: /Gms
-  Gma:
-    description: Change your game mode to adventure.
-    usage: /Gma
   Vanish:
     description: Vanish into the void!
     usage: /Vanish
@@ -373,7 +362,7 @@ commands:
   # Donations
   Unlockkit:
     description: Unlocks a kit for a player.
-    usage: /Unlockkit [Player Name] [add/remove] [Kit Name] [Time] [IsDonated:true/false]
+    usage: /Unlockkit <Player Name> <add/remove> <Kit Name> <Time> <IsDonated:true/false>
     permission: castlesiege.developer
     permission-message: You should donate or pay coins instead!
   Webshop:
@@ -386,7 +375,7 @@ commands:
     usage: /Coinshop
   buykit:
     description: Buy a kit with coins
-    usage: /buykit <Player> <donator/premium or team/map> <kit>
+    usage: /buykit <kit> [player]
 
 
   # Kits

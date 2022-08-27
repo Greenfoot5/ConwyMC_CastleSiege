@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -26,6 +27,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -251,6 +253,32 @@ public class Alchemist extends DonatorKit implements Listener {
         }
     }
 
+    /**
+     * Destroy a player's brewing stand when they click an enderchest.
+     * @param event The event called when an off-cooldown player interacts with an enderchest
+     */
+    @EventHandler
+    public void onClickEnderchest(EnderchestEvent event) {
+        destroyStand(event.getPlayer());
+    }
+
+    /**
+     * Destroy a player's brewing stand when they die
+     * @param e The event called when a player dies
+     */
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e) {
+        destroyStand(e.getEntity());
+    }
+
+    /**
+     * Destroy a player's brewing stand when they leave the game
+     * @param e The event called when a player leaves the game
+     */
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e) {
+        destroyStand(e.getPlayer());
+    }
 
     /**
      * Destroy the player's brewing stand if present

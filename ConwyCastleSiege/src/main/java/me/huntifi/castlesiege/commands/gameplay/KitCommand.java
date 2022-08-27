@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.kits.gui.KitGui;
-import me.huntifi.castlesiege.kits.gui.KitGuiController;
+import me.huntifi.castlesiege.gui.Gui;
+import me.huntifi.castlesiege.gui.GuiController;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -42,11 +42,11 @@ public class KitCommand implements CommandExecutor {
         Player p = (Player) sender;
         if (args.length == 0) {
             // No arguments passed -> open kit selector GUI
-            KitGuiController.get("selector").open(p);
+            GuiController.get("selector").open(p);
         } else {
             // Arguments passed -> open specified GUI
             String category = String.join(" ", args);
-            KitGui gui = get(p.getUniqueId(), category.toLowerCase());
+            Gui gui = get(p.getUniqueId(), category.toLowerCase());
             if (gui == null) {
                 Messenger.sendError("Unknown category: " + ChatColor.RED + args[0], p);
             } else {
@@ -62,11 +62,11 @@ public class KitCommand implements CommandExecutor {
      * @param category The category that should be opened
      * @return The specified GUI, or the player's team GUI if the category is "team"
      */
-    private KitGui get(UUID uuid, String category) {
+    private Gui get(UUID uuid, String category) {
         if (category.equals("team")) {
             String team = MapController.getCurrentMap().getTeam(uuid).name;
-            return KitGuiController.get(team.toLowerCase());
+            return GuiController.get(team.toLowerCase());
         }
-        return KitGuiController.get(category);
+        return GuiController.get(category);
     }
 }

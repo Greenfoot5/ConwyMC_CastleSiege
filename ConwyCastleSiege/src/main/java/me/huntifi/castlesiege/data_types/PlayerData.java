@@ -578,13 +578,13 @@ public class PlayerData {
     }
 
     public void setSetting(UUID uuid, String setting, String value) {
+        settings.put(setting, value);
+
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            if (settings.get(setting) == null) {
+            if (settings.get(setting) == null)
                 StoreData.addSetting(uuid, setting, value);
-            } else {
+            else
                 StoreData.updateSetting(uuid, setting, value);
-            }
-            settings.put(setting, value);
         });
     }
 

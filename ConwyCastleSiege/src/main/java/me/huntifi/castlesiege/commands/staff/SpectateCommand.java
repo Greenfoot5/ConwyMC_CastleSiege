@@ -50,13 +50,12 @@ public class SpectateCommand implements CommandExecutor {
             InCombat.playerDied(player.getUniqueId());
 
             // Assign stored kit
-            if (Kit.equippedKits.get(player.getUniqueId()) == null) {
-                player.performCommand(ActiveData.getData(player.getUniqueId()).getKit());
-                if (Kit.equippedKits.get(player.getUniqueId()) == null) {
-                    Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
-                    ActiveData.getData(player.getUniqueId()).setKit("swordsman");
-                }
-            }
+            Kit kit = Kit.getKit(ActiveData.getData(player.getUniqueId()).getKit());
+            if (kit != null && kit.canSelect(player, true))
+                kit.addPlayer(player.getUniqueId());
+            else
+                Kit.getKit("Swordsman").addPlayer(player.getUniqueId());
+
         } else {
             Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
             team.removePlayer(player.getUniqueId());
