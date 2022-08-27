@@ -442,7 +442,7 @@ public class Alchemist extends DonatorKit implements Listener {
                 case 5:
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, time, amplifier), true);
                     potionMeta.setColor(Color.fromRGB(119,211,255));
-                    potionMeta.setDisplayName(ChatColor.BLUE + "Speed I");
+                    potionMeta.setDisplayName(ChatColor.BLUE + "Swiftness I");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 6:
