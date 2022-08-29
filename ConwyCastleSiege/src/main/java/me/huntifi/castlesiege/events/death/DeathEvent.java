@@ -67,9 +67,10 @@ public class DeathEvent implements Listener {
 
         event.setRespawnLocation(team.lobby.spawnPoint);
 
-        Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
         if (Objects.equals(ActiveData.getData(player.getUniqueId()).getSetting("randomDeath"), "true"))
             player.performCommand("random");
+        else
+            Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 
         player.setWalkSpeed(0.2f);
         PlayerConnect.sendTitlebarMessages(player);
