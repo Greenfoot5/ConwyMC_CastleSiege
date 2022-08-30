@@ -69,6 +69,8 @@ public class Team {
         players.add(uuid);
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
+        if (lobby.spawnPoint.getWorld() == null)
+            lobby.spawnPoint.setWorld(Bukkit.getWorld(MapController.getCurrentMap().worldName));
         player.setBedSpawnLocation(lobby.spawnPoint, true);
         NameTag.give(player);
     }

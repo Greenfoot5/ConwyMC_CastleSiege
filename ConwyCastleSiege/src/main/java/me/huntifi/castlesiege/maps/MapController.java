@@ -513,8 +513,6 @@ public class MapController {
 		assert player != null;
 
 		team.addPlayer(uuid);
-		if (team.lobby.spawnPoint.getWorld() == null)
-			team.lobby.spawnPoint.setWorld(Bukkit.getWorld(getCurrentMap().worldName));
 
 		player.teleport(team.lobby.spawnPoint);
 		NameTag.give(player);
