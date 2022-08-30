@@ -52,20 +52,11 @@ public class DeathEvent implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
-        Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
 
-        player.eject();
-
-        if (team == null && MapController.isSpectator(player.getUniqueId())) {
+        if (MapController.isSpectator(player.getUniqueId())) {
             event.setRespawnLocation(MapController.getCurrentMap().flags[0].spawnPoint);
             return;
         }
-        assert team != null && team.lobby.spawnPoint != null;
-        if (team.lobby.spawnPoint.getWorld() == null) {
-            team.lobby.spawnPoint.setWorld(Bukkit.getWorld(MapController.getCurrentMap().worldName));
-        }
-
-        event.setRespawnLocation(team.lobby.spawnPoint);
 
         if (Objects.equals(ActiveData.getData(player.getUniqueId()).getSetting("randomDeath"), "true"))
             player.performCommand("random");
@@ -85,6 +76,7 @@ public class DeathEvent implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
+        event.getEntity().eject();
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             respawn(event.getEntity());
             stopCapping(event.getEntity());
