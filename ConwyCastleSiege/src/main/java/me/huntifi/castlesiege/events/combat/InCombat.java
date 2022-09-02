@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,10 +36,8 @@ public class InCombat implements Listener {
 			UUID whoHit = ed.getDamager().getUniqueId();
 
 			// Check they aren't on the same team
-			if (MapController.getCurrentMap().getTeam(whoHit) != MapController.getCurrentMap().getTeam(whoWasHit)) {
+			if (TeamController.getTeam(whoHit) != TeamController.getTeam(whoWasHit))
 				addPlayerToCombat(whoHit);
-			}
-
 		}
 	}
 

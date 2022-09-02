@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -49,7 +50,7 @@ public class TopMatch implements CommandExecutor {
                     Messenger.sendError("You are not in a team!", sender);
                     return;
                 }
-                Team team = isTeam ? MapController.getCurrentMap().getTeam(((Player) sender).getUniqueId()) : null;
+                Team team = isTeam ? TeamController.getTeam(((Player) sender).getUniqueId()) : null;
 
                 // Assign the command parameters to variables
                 String category = args.length >= 1 ? args[0] : "score";
@@ -82,7 +83,7 @@ public class TopMatch implements CommandExecutor {
 
         MVPStats.getStats().forEach(((uuid, playerData) -> {
             // Filter out players from other teams when required
-            if (isTeam && !Objects.equals(team, MapController.getCurrentMap().getTeam(uuid))) {
+            if (isTeam && !Objects.equals(team, TeamController.getTeam(uuid))) {
                 return;
             }
             stats.add(new Tuple<>(uuid, playerData));

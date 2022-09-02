@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -153,8 +154,8 @@ public class Medic extends DonatorKit implements Listener {
             String cakeType;
             if (q != null) {
                 destroyCake(q);
-                cakeType = MapController.getCurrentMap().getTeam(p.getUniqueId())
-                        == MapController.getCurrentMap().getTeam(q.getUniqueId()) ? " friendly" : "n enemy";
+                cakeType = TeamController.getTeam(p.getUniqueId())
+                        == TeamController.getTeam(q.getUniqueId()) ? " friendly" : "n enemy";
                 q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                         ChatColor.RED + "Your cake was destroyed by " + NameTag.color(p) + p.getName()));
             } else {
@@ -224,8 +225,8 @@ public class Medic extends DonatorKit implements Listener {
      */
     private synchronized boolean canEatCake(Player eater, Player placer) {
         // The cake was placed by an enemy
-        if (placer != null && MapController.getCurrentMap().getTeam(eater.getUniqueId())
-                != MapController.getCurrentMap().getTeam(placer.getUniqueId())) {
+        if (placer != null && TeamController.getTeam(eater.getUniqueId())
+                != TeamController.getTeam(placer.getUniqueId())) {
             Messenger.sendActionError("This is an enemy cake, destroy it!", eater);
             return false;
         }
@@ -262,8 +263,7 @@ public class Medic extends DonatorKit implements Listener {
                     (i.getItemInMainHand().getType() == Material.PAPER ||                           // Uses bandage
                             i.getItemInOffHand().getType() == Material.PAPER) &&                    // Uses bandage
                     q instanceof Player &&                                                          // On player
-                    MapController.getCurrentMap().getTeam(uuid)                                     // Same team
-                            == MapController.getCurrentMap().getTeam(q.getUniqueId()) &&            // Same team
+                    TeamController.getTeam(uuid) == TeamController.getTeam(q.getUniqueId()) &&      // Same team
                     ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth &&  // Below max hp
                     !cooldown.contains((Player) q)) {                                               // Not on cooldown
 

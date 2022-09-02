@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.ChatColor;
@@ -90,8 +91,8 @@ public class CryptsFallen extends TeamKit implements Listener {
 
             // tries withering an enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    MapController.getCurrentMap().getTeam(q.getUniqueId())
-                            != MapController.getCurrentMap().getTeam(p.getUniqueId()) &&
+                    TeamController.getTeam(q.getUniqueId())
+                            != TeamController.getTeam(p.getUniqueId()) &&
                     q.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD &&
                     q.getCooldown(Material.IRON_SWORD) == 0) {
                 q.setCooldown(Material.IRON_SWORD, 50);

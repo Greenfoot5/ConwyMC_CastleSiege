@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Horse;
@@ -70,16 +71,16 @@ public class TeamCombat implements Listener {
 	private void sameTeam(EntityDamageByEntityEvent e, Player p) {
 		// Hurt by teammate
 		if (e.getDamager() instanceof Player &&
-				MapController.getCurrentMap().getTeam(p.getUniqueId()) ==
-						MapController.getCurrentMap().getTeam(e.getDamager().getUniqueId())) {
+				TeamController.getTeam(p.getUniqueId()) ==
+						TeamController.getTeam(e.getDamager().getUniqueId())) {
 			e.setCancelled(true);
 		}
 
 		// Hurt by arrow from teammate
 		if (e.getDamager() instanceof Arrow &&
 				((Arrow) e.getDamager()).getShooter() instanceof Player &&
-				MapController.getCurrentMap().getTeam(p.getUniqueId()) ==
-						MapController.getCurrentMap().getTeam(
+				TeamController.getTeam(p.getUniqueId()) ==
+						TeamController.getTeam(
 								((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId())) {
 			e.setCancelled(true);
 		}

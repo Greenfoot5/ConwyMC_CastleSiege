@@ -64,7 +64,7 @@ public class NameTag implements CommandExecutor {
      */
     public static String color(Player p) {
         if (!MapController.isSpectator(p.getUniqueId())) {
-            return MapController.getCurrentMap().getTeam(p.getUniqueId()).primaryChatColor.toString();
+            return TeamController.getTeam(p.getUniqueId()).primaryChatColor.toString();
         } else {
             return ChatColor.GRAY + ChatColor.ITALIC.toString();
         }

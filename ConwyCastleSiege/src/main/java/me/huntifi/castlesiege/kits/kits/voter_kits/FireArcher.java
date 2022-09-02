@@ -9,6 +9,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -195,8 +196,7 @@ public class FireArcher extends VoterKit implements Listener {
 
             // Destroy enemy firepit
             } else if (q != null &&
-                    MapController.getCurrentMap().getTeam(p.getUniqueId())
-                    != MapController.getCurrentMap().getTeam(q.getUniqueId())){
+                    TeamController.getTeam(p.getUniqueId()) != TeamController.getTeam(q.getUniqueId())){
                 destroyFirepit(q);
                 p.playSound(e.getClickedBlock().getLocation(), Sound.ENTITY_ZOMBIE_INFECT , 5, 1);
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
@@ -231,8 +231,7 @@ public class FireArcher extends VoterKit implements Listener {
             // Check if the player may light an arrow using this cauldron
             Player q = getPlacer(e.getClickedBlock());
             if (q != null &&
-                    MapController.getCurrentMap().getTeam(p.getUniqueId())
-                    == MapController.getCurrentMap().getTeam(q.getUniqueId())) {
+                    TeamController.getTeam(p.getUniqueId()) == TeamController.getTeam(q.getUniqueId())) {
 
                 // Check if the player may light any more arrows
                 PlayerInventory inv = p.getInventory();

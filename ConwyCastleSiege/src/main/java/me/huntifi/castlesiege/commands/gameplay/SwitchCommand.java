@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -118,7 +119,7 @@ public class SwitchCommand implements CommandExecutor {
 		}
 
 		// Get the next team in the loop with fewer players
-		Team oldTeam = MapController.getCurrentMap().getTeam(p.getUniqueId());
+		Team oldTeam = TeamController.getTeam(p.getUniqueId());
 		Team smallestTeam = MapController.getCurrentMap().smallestTeam();
 		if (oldTeam.getTeamSize() <= smallestTeam.getTeamSize()) {
 			Messenger.sendError("Can't switch right now teams would be imbalanced. Donators avoid this restriction!", p);
@@ -142,7 +143,7 @@ public class SwitchCommand implements CommandExecutor {
 	 * @param deaths The amount of deaths the player should receive
 	 */
 	private void spawnPlayer(Player p, int deaths) {
-		Team team = MapController.getCurrentMap().getTeam(p.getUniqueId());
+		Team team = TeamController.getTeam(p.getUniqueId());
 
 		if (deaths > 0 && MapController.isOngoing()) {
 			// Regular switch on the battlefield during a game
@@ -204,7 +205,7 @@ public class SwitchCommand implements CommandExecutor {
 		// The player has specified a team, and we should swap to that if it's a valid team
 		Team team = map.getTeam(String.join(" ", args));
 		if (team != null) {
-			map.getTeam(p.getUniqueId()).removePlayer(p.getUniqueId());
+			TeamController.getTeam(p.getUniqueId()).removePlayer(p.getUniqueId());
 			team.addPlayer(p.getUniqueId());
 			return false;
 		}

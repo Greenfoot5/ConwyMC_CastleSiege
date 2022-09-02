@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -61,7 +62,7 @@ public abstract class TeamKit extends DonatorKit {
             return false;
         }
 
-        if (!team.equalsIgnoreCase(MapController.getCurrentMap().getTeam(uuid).name)) {
+        if (!team.equalsIgnoreCase(TeamController.getTeam(uuid).name)) {
             if (verbose)
                 Messenger.sendError(String.format("You can't use %s on this team!", name), sender);
             return false;

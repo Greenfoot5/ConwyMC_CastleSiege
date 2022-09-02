@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -57,7 +58,7 @@ public class SpectateCommand implements CommandExecutor {
                 Kit.getKit("Swordsman").addPlayer(player.getUniqueId());
 
         } else {
-            Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
+            Team team = TeamController.getTeam(player.getUniqueId());
             team.removePlayer(player.getUniqueId());
             spectators.add(player.getUniqueId());
             player.setGameMode(GameMode.SPECTATOR);

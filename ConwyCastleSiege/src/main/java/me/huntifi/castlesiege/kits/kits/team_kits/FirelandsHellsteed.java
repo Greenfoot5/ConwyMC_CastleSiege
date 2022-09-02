@@ -9,6 +9,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
@@ -127,8 +128,8 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
 
             // Hellsteed tries to stomp every closeby enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    MapController.getCurrentMap().getTeam(q.getUniqueId())
-                            != MapController.getCurrentMap().getTeam(p.getUniqueId()) &&
+                    TeamController.getTeam(q.getUniqueId())
+                            != TeamController.getTeam(p.getUniqueId()) &&
                     q.getInventory().getItemInMainHand().getType() == Material.ANVIL &&
                     q.getCooldown(Material.ANVIL) == 0) {
                 q.setCooldown(Material.ANVIL, 400);
@@ -181,8 +182,8 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
                 return;
             }
             if (Objects.equals(Kit.equippedKits.get(clicked.getUniqueId()).name, name)
-                    && MapController.getCurrentMap().getTeam(clicked.getUniqueId())
-                    == MapController.getCurrentMap().getTeam(p.getUniqueId())) {
+                    && TeamController.getTeam(clicked.getUniqueId())
+                    == TeamController.getTeam(p.getUniqueId())) {
 
                 clicked.addPassenger(p);
             }

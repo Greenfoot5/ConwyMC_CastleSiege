@@ -6,6 +6,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.*;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -39,21 +40,15 @@ public class HurtAnimation implements Listener {
     }
 
 
-    @EventHandler
+    @EventHandler (ignoreCancelled = true)
     public void doDamageParticle(EntityDamageByEntityEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-
         // Both are players
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player whoWasHit = (Player) e.getEntity();
             Player whoHit = (Player) e.getDamager();
 
-            if (MapController.getCurrentMap().getTeam(whoWasHit.getUniqueId()) ==
-                    MapController.getCurrentMap().getTeam(whoHit.getUniqueId())) {
+            if (TeamController.getTeam(whoWasHit.getUniqueId()) == TeamController.getTeam(whoHit.getUniqueId()))
                 return;
-            }
 
             whoWasHit.getWorld().spawnParticle(Particle.BLOCK_DUST,
                     whoWasHit.getLocation().add(0, 0.75, 0),

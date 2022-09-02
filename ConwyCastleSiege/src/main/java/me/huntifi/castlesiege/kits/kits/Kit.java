@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -348,7 +349,7 @@ public abstract class Kit implements CommandExecutor {
             return false;
         }
 
-        if (limit >= 0 && violatesLimit(MapController.getCurrentMap().getTeam(uuid))) {
+        if (limit >= 0 && violatesLimit(TeamController.getTeam(uuid))) {
             if (verbose)
                 Messenger.sendError("Could not select " + this.name + " as its limit has been reached!", sender);
             return false;
@@ -374,7 +375,7 @@ public abstract class Kit implements CommandExecutor {
     private boolean violatesLimit(Team team) {
         AtomicInteger count = new AtomicInteger();
         Kit.equippedKits.forEach((uuid, kit) -> {
-            if (Objects.equals(kit, this) && Objects.equals(MapController.getCurrentMap().getTeam(uuid), team))
+            if (Objects.equals(kit, this) && Objects.equals(TeamController.getTeam(uuid), team))
                 count.getAndIncrement();
         });
 

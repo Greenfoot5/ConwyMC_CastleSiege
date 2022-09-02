@@ -9,6 +9,7 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -226,7 +227,7 @@ public class Flag {
                     if (!Objects.equals(previousFlag.getCurrentOwners(), getLargestTeam())) {
                         for (UUID uuid : players)
                         {
-                            if (!Objects.equals(MapController.getCurrentMap().getTeam(uuid).name, currentOwners)) {
+                            if (!Objects.equals(TeamController.getTeam(uuid).name, currentOwners)) {
                                 Messenger.sendActionError("You must capture flags in order on this map, and the previous one doesn't belong to your team!",
                                         Objects.requireNonNull(Bukkit.getPlayer(uuid)));
                             }
@@ -302,7 +303,7 @@ public class Flag {
                     // Check they're a player
                     if (player != null) {
                         // Make sure they're on the capping team
-                        if (MapController.getCurrentMap().getTeam(uuid).name.equals(currentOwners)) {
+                        if (TeamController.getTeam(uuid).name.equals(currentOwners)) {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: " + name));
                         } else {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies have fully captured the flag!"));
@@ -342,7 +343,7 @@ public class Flag {
             // Check they're a player
             if (player != null) {
                 // Make sure they're on the capping team
-                if (MapController.getCurrentMap().getTeam(uuid).name.equals(currentOwners) == areOwnersCapping) {
+                if (TeamController.getTeam(uuid).name.equals(currentOwners) == areOwnersCapping) {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+" + count + " flag-capping point(s)" + ChatColor.AQUA + " Flag: " + name));
                     UpdateStats.addCaptures(player.getUniqueId(), count);
                 } else {
@@ -387,7 +388,7 @@ public class Flag {
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
-                String team = MapController.getCurrentMap().getTeam(uuid).name;
+                String team = TeamController.getTeam(uuid).name;
                 if (team.equals(currentOwners)) {
                     counts.setFirst(counts.getFirst() + 1);
                 } else {
@@ -411,7 +412,7 @@ public class Flag {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
                 // Add the player to the team counts
-                String team = MapController.getCurrentMap().getTeam(uuid).name;
+                String team = TeamController.getTeam(uuid).name;
                 teamCounts.merge(team, 1, Integer::sum);
 
                 // Get the largest team

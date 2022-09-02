@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -112,8 +113,8 @@ public class Halberdier extends DonatorKit implements Listener {
             if (e.getEntity() instanceof Player) {
                 Player other = (Player) e.getEntity();
 
-                if (MapController.getCurrentMap().getTeam(halb.getUniqueId())
-                                != MapController.getCurrentMap().getTeam(other.getUniqueId()) &&
+                if (TeamController.getTeam(halb.getUniqueId())
+                                != TeamController.getTeam(other.getUniqueId()) &&
                         halb.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE &&
                         halb.getCooldown(Material.DIAMOND_AXE) == 0) {
 

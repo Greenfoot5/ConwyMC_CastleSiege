@@ -6,8 +6,8 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
@@ -154,7 +154,7 @@ public class Warhound extends DonatorKit implements Listener {
      * @return The dye color corresponding to the team's primary wool color, null if primary wool is no wool
      */
     private DyeColor getCollarColor(Player p) {
-        switch (MapController.getCurrentMap().getTeam(p.getUniqueId()).primaryWool) {
+        switch (TeamController.getTeam(p.getUniqueId()).primaryWool) {
             case BLACK_WOOL:
                 return DyeColor.BLACK;
             case BLUE_WOOL:

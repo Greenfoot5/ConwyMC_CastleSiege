@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -170,8 +171,8 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
                         return; }
                     Player hit = (Player) e.getEntity();
                     if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)
-                            && MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                            != MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
+                            && TeamController.getTeam(damager.getUniqueId())
+                            != TeamController.getTeam(hit.getUniqueId())) {
                         if ((hit.getHealth() - e.getDamage() > 0)) {
                             e.setCancelled(true);
                             hit.damage(100);
@@ -184,8 +185,8 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
                         }
                     }
                     if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)
-                    && MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                            == MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
+                    && TeamController.getTeam(damager.getUniqueId())
+                            == TeamController.getTeam(hit.getUniqueId())) {
                         e.setCancelled(true);
                         e.setDamage(0);
                     }

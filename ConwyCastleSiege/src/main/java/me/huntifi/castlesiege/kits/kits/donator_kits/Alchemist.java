@@ -12,6 +12,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -123,8 +124,8 @@ public class Alchemist extends DonatorKit implements Listener {
                             PotionEffectType potionType = effect.getType();
 
                             // Enemies
-                            if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                                    != MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
+                            if (TeamController.getTeam(damager.getUniqueId())
+                                    != TeamController.getTeam(hit.getUniqueId())) {
                                 // Effects for enemies
                                 if (potionType.equals(PotionEffectType.POISON)
                                         || potionType.equals(PotionEffectType.HARM)
@@ -243,8 +244,8 @@ public class Alchemist extends DonatorKit implements Listener {
 
                 // Destroy enemy brewing stand
             } else if (q != null &&
-                    MapController.getCurrentMap().getTeam(p.getUniqueId())
-                            != MapController.getCurrentMap().getTeam(q.getUniqueId())){
+                    TeamController.getTeam(p.getUniqueId())
+                            != TeamController.getTeam(q.getUniqueId())){
                 destroyStand(q);
                 p.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER , 5, 1);
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR,

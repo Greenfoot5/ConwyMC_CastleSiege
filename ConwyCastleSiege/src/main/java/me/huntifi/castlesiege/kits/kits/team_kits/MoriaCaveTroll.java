@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import net.citizensnpcs.api.npc.NPC;
@@ -137,8 +138,8 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.AQUA + "You grabbed the enemy!"));
                         for (Player all : Bukkit.getOnlinePlayers()) {
-                            if (MapController.getCurrentMap().getTeam(p.getUniqueId())
-                                    != MapController.getCurrentMap().getTeam(all.getUniqueId())) {
+                            if (TeamController.getTeam(p.getUniqueId())
+                                    != TeamController.getTeam(all.getUniqueId())) {
                             if (all.getLocation().distance(p.getLocation()) <= 3.5) {
                                 grab(p, all);
                             }

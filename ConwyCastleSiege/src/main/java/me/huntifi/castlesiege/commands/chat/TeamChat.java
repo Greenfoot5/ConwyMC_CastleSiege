@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -66,7 +67,7 @@ public class TeamChat implements CommandExecutor {
 	 * @param m The message to send
 	 */
 	public static void sendMessage(Player p, String m) {
-		Team t = MapController.getCurrentMap().getTeam(p.getUniqueId());
+		Team t = TeamController.getTeam(p.getUniqueId());
 		ChatColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
 				? ChatColor.WHITE : ChatColor.GRAY;
 		String s = p.getDisplayName() + ChatColor.DARK_AQUA + " TEAM: " + color + m;

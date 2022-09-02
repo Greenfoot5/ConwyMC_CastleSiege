@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -141,8 +142,8 @@ public class Cavalry extends DonatorKit implements Listener {
 
                         //the player executing the ability should have enemy players in range.
                         if (p.getLocation().distance(all.getLocation()) <= 2.3 &&
-                                MapController.getCurrentMap().getTeam(all.getUniqueId())
-                                != MapController.getCurrentMap().getTeam(p.getUniqueId())) {
+                                TeamController.getTeam(all.getUniqueId())
+                                != TeamController.getTeam(p.getUniqueId())) {
 
                             hasEnemyInRange = true;
 

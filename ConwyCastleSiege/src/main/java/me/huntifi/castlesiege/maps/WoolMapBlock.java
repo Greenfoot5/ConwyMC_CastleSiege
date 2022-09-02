@@ -40,7 +40,7 @@ public class WoolMapBlock {
 
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 
-        Team team = MapController.getCurrentMap().getTeam(uuid);
+        Team team = TeamController.getTeam(uuid);
         Flag flag = MapController.getCurrentMap().getFlag(flagName);
 
         if (team != null && team.hasPlayer(uuid)) {

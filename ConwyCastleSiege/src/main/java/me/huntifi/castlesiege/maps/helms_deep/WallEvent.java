@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -51,7 +52,7 @@ public class WallEvent implements Listener {
 			// Check the player has right-clicked a block while standing within 5 blocks of the spawner
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.getLocation().distance(PICKUP_LOCATION) <= 5) {
 				// If the player clicks on some TNT
-				if(!Objects.equals(MapController.getCurrentMap().getTeam(player.getUniqueId()).name,
+				if(!Objects.equals(TeamController.getTeam(player.getUniqueId()).name,
 						MapController.getCurrentMap().teams[0].name)) {
 					// Check the player isn't on the defending team
 					if (Objects.requireNonNull(e.getClickedBlock()).getType() == Material.TNT && tnt_counter < TNT_LOCATIONS.length) {

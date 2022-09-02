@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -130,7 +131,7 @@ public class Gate implements Listener {
     public boolean canBreach(UUID uuid) {
         Flag flag = MapController.getCurrentMap().getFlag(flagName);
         return flagName.isEmpty() || (flag != null
-                && !Objects.equals(MapController.getCurrentMap().getTeam(uuid).name, flag.getCurrentOwners()));
+                && !Objects.equals(TeamController.getTeam(uuid).name, flag.getCurrentOwners()));
     }
 
     @EventHandler
@@ -212,7 +213,7 @@ public class Gate implements Listener {
     }
 
     private int getDamage(UUID uuid) {
-        int teamSize = MapController.getCurrentMap().getTeam(uuid).getTeamSize();
+        int teamSize = TeamController.getTeam(uuid).getTeamSize();
         if (teamSize <= 3) {
             return 8;
         } else if (teamSize <= 6) {

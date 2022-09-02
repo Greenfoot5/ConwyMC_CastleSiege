@@ -7,10 +7,9 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
@@ -227,8 +226,8 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                 for (Entity entity : e.getAffectedEntities()) {
                     if (entity instanceof Player) {
                         Player hit = (Player) entity;
-                        if (MapController.getCurrentMap().getTeam(damager.getUniqueId())
-                                == MapController.getCurrentMap().getTeam(hit.getUniqueId())
+                        if (TeamController.getTeam(damager.getUniqueId())
+                                == TeamController.getTeam(hit.getUniqueId())
                                 && damager != hit) {
                             if (hit.getHealth() != Kit.equippedKits.get(hit.getUniqueId()).baseHealth)
                                 UpdateStats.addHeals(damager.getUniqueId(), 1);

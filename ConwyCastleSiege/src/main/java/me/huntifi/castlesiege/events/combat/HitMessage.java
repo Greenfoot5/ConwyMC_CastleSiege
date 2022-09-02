@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -33,9 +34,7 @@ public class HitMessage implements Listener {
 			if (e.getHitEntity() instanceof Player) {
 				Player hit = (Player) e.getHitEntity();
 
-				if (MapController.getCurrentMap().getTeam(p.getUniqueId()) !=
-						MapController.getCurrentMap().getTeam(hit.getUniqueId())) {
-
+				if (TeamController.getTeam(p.getUniqueId()) != TeamController.getTeam(hit.getUniqueId())) {
 					// Notify the player
 					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
 							ChatColor.DARK_AQUA + "Hit (" + hit.getName() + ")"));
@@ -74,8 +73,7 @@ public class HitMessage implements Listener {
 		}
 
 		Player rider = (Player) e.getPassengers().get(0);
-		return MapController.getCurrentMap().getTeam(uuid) ==
-				MapController.getCurrentMap().getTeam(rider.getUniqueId());
+		return TeamController.getTeam(uuid) == TeamController.getTeam(rider.getUniqueId());
 	}
 
 	/**

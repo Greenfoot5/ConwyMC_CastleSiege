@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -137,8 +138,7 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
                 if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
                     if (e.getHitEntity() instanceof Player) {
                         Player p = (Player) e.getHitEntity();
-                        if (MapController.getCurrentMap().getTeam(ball.getUniqueId())
-                                == MapController.getCurrentMap().getTeam(p.getUniqueId())) {
+                        if (TeamController.getTeam(ball.getUniqueId()) == TeamController.getTeam(p.getUniqueId())) {
                             return;
                         }
                         if (p.getHealth() - 45 > 0) {

@@ -17,6 +17,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -164,8 +165,8 @@ public class Engineer extends DonatorKit implements Listener {
             // Check if the trap should trigger
             Player p = e.getPlayer();
             Player t = getTrapper(trap);
-            if (t != null && MapController.getCurrentMap().getTeam(p.getUniqueId())
-                    != MapController.getCurrentMap().getTeam(t.getUniqueId())) {
+            if (t != null && TeamController.getTeam(p.getUniqueId())
+                    != TeamController.getTeam(t.getUniqueId())) {
 
                 // Trigger the trap
                 e.setCancelled(true);
@@ -202,8 +203,8 @@ public class Engineer extends DonatorKit implements Listener {
             Horse h = (Horse) e.getEntity();
             Player p = (Player) h.getPassengers().get(0);
             Player t = getTrapper(trap);
-            if (t != null && MapController.getCurrentMap().getTeam(p.getUniqueId())
-                    != MapController.getCurrentMap().getTeam(t.getUniqueId())) {
+            if (t != null && TeamController.getTeam(p.getUniqueId())
+                    != TeamController.getTeam(t.getUniqueId())) {
 
                 // Trigger the trap
                 e.setCancelled(true);
@@ -317,10 +318,10 @@ public class Engineer extends DonatorKit implements Listener {
                 && ballista.containsKey((Player) e.getEntity().getShooter())) {
 
             Player shooter = (Player) e.getEntity().getShooter();
-            Team team = MapController.getCurrentMap().getTeam(shooter.getUniqueId());
+            Team team = TeamController.getTeam(shooter.getUniqueId());
             int hitCount = 0;
             for (Entity hit : e.getEntity().getNearbyEntities(2.5, 2.5, 2.5)) {
-                if (hit instanceof Player && MapController.getCurrentMap().getTeam(hit.getUniqueId()) != team) {
+                if (hit instanceof Player && TeamController.getTeam(hit.getUniqueId()) != team) {
                     ((Player) hit).damage(75, shooter);
                     hitCount++;
                 }

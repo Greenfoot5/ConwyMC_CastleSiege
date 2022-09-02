@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +18,7 @@ public class WoolHat {
 	 * @param player The player for whom to set the wool hat
 	 */
 	public static void setHead(Player player) {
-		Team team = MapController.getCurrentMap().getTeam(player.getUniqueId());
+		Team team = TeamController.getTeam(player.getUniqueId());
 
 		ItemStack wool = new ItemStack(team.primaryWool);
 		ItemMeta woolMeta = wool.getItemMeta();

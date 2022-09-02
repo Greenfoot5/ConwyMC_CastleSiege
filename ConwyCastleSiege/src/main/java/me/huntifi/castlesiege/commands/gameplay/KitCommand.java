@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.gui.GuiController;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -64,7 +65,7 @@ public class KitCommand implements CommandExecutor {
      */
     private Gui get(UUID uuid, String category) {
         if (category.equals("team")) {
-            String team = MapController.getCurrentMap().getTeam(uuid).name;
+            String team = TeamController.getTeam(uuid).name;
             return GuiController.get(team.toLowerCase());
         }
         return GuiController.get(category);

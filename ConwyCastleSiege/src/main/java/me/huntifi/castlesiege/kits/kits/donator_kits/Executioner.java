@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
@@ -108,7 +109,7 @@ public class Executioner extends DonatorKit implements Listener {
 
 					Location loc = whoWasHit.getEyeLocation();
 					whoWasHit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
-					Material wool = MapController.getCurrentMap().getTeam(whoWasHit.getUniqueId()).primaryWool;
+					Material wool = TeamController.getTeam(whoWasHit.getUniqueId()).primaryWool;
 					whoWasHit.getWorld().dropItem(loc, new ItemStack(wool)).setPickupDelay(32767);
 
 					DeathEvent.setKiller(whoWasHit, whoHit);

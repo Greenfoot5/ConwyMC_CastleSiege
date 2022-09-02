@@ -43,20 +43,6 @@ public class Map {
     }
 
     /**
-     * Get the team a player is on
-     * @param uuid The uuid to search for
-     * @return The team (if any) that has the team, otherwise returns null
-     */
-    public Team getTeam(UUID uuid) {
-        for (Team team : teams) {
-            if (team.hasPlayer(uuid)) {
-                return team;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Get the team from a team name
      * @param teamName The string name of the team
      * @return The team, or null if none is found

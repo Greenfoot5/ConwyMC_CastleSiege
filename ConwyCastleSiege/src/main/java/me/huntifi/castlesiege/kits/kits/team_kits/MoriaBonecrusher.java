@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -97,8 +98,8 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
 
             // Maceman tries to use stun an enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    MapController.getCurrentMap().getTeam(q.getUniqueId())
-                            != MapController.getCurrentMap().getTeam(p.getUniqueId()) &&
+                    TeamController.getTeam(q.getUniqueId())
+                            != TeamController.getTeam(p.getUniqueId()) &&
                     q.getInventory().getItemInMainHand().getType() == Material.BONE &&
                     q.getCooldown(Material.BONE) == 0) {
                 q.setCooldown(Material.BONE, 160);

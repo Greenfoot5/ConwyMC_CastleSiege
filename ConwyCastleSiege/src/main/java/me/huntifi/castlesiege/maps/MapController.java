@@ -169,7 +169,7 @@ public class MapController {
 			@Override
 			public void run() {
 				for (Player player : Bukkit.getOnlinePlayers()) {
-					Team team = getCurrentMap().getTeam(player.getUniqueId());
+					Team team = TeamController.getTeam(player.getUniqueId());
 					if (team != null) {
 						player.teleport(team.lobby.spawnPoint);
 					}
@@ -258,14 +258,6 @@ public class MapController {
 					joinTeam(uuid, getCurrentMap().teams[i]);
 			}
 			teams.clear();
-
-			// Make sure all online players are on a team
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (!SpectateCommand.spectators.contains(player.getUniqueId())) {
-					if (maps.get(mapIndex).getTeam(player.getUniqueId()) == null)
-						joinATeam(player.getUniqueId());
-				}
-			}
 		}
 
 		//Spawn secret items if there are any
@@ -531,7 +523,7 @@ public class MapController {
 	 * @param uuid the uuid to remove
 	 */
 	public static void leaveTeam(UUID uuid) {
-		Team team = MapController.getCurrentMap().getTeam(uuid);
+		Team team = TeamController.getTeam(uuid);
 		if (team != null)
 			team.removePlayer(uuid);
 		else if (isSpectator(uuid))

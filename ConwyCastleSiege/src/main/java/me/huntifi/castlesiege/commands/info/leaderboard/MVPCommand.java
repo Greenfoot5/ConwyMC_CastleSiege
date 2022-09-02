@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -51,7 +52,7 @@ public class MVPCommand implements CommandExecutor {
                     // Print the MVP of the player's team and their own stats
                     Player p = (Player) sender;
                     UUID uuid = p.getUniqueId();
-                    Team t = MapController.getCurrentMap().getTeam(uuid);
+                    Team t = TeamController.getTeam(uuid);
                     for (String message : getMVPMessage(t)) { // Print MVP of sender's team
                         sender.sendMessage(message);
                     }
@@ -76,7 +77,7 @@ public class MVPCommand implements CommandExecutor {
      */
     private Collection<String> getPlayerMessage(UUID uuid) {
         PlayerData data = MVPStats.getStats(uuid);
-        Team team = MapController.getCurrentMap().getTeam(uuid);
+        Team team = TeamController.getTeam(uuid);
         return getMessage(uuid, data, team, false);
     }
 

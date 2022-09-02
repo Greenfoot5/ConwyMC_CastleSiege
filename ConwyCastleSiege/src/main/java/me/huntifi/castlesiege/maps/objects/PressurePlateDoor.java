@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.maps.objects;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -53,7 +54,7 @@ public class PressurePlateDoor extends Door {
 
                 Flag flag = MapController.getCurrentMap().getFlag(flagName);
 				if (Objects.equals(flagName, MapController.getCurrentMap().name) ||
-                        Objects.equals(Objects.requireNonNull(flag).getCurrentOwners(), MapController.getCurrentMap().getTeam(player.getUniqueId()).name)) {
+                        Objects.equals(Objects.requireNonNull(flag).getCurrentOwners(), TeamController.getTeam(player.getUniqueId()).name)) {
 					if (!open) {
                         open = true;
                         open();
