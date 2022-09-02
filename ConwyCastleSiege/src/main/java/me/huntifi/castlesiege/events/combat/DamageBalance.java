@@ -8,23 +8,23 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 /**
- * Modifies the fall damage taken by players
+ * Modifies the damage taken by players
  */
 public class DamageBalance implements Listener {
 
     /**
      * Increases damage for non-customised sources as player health is increased
-     * @param e The event called when a player takes falling damage
+     * @param e The event called when a player takes damage
      */
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
-        if (e.isCancelled() || !(e.getEntity() instanceof Player)) {
+        if (!(e.getEntity() instanceof Player))
             return;
-        }
 
         // Removes all damage if the map isn't ongoing
         if (!MapController.isOngoing()) {
             e.setCancelled(true);
+            return;
         }
 
         switch (e.getCause()) {

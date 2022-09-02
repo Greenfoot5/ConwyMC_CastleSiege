@@ -30,25 +30,19 @@ public class InCombat implements Listener {
 	@EventHandler (ignoreCancelled = true)
 	public void battles(EntityDamageByEntityEvent ed) {
 		// Both are players
-		if (ed.getEntity() instanceof Player && ed.getDamager() instanceof Player) {
-
-			UUID whoWasHit = ed.getEntity().getUniqueId();
-			UUID whoHit = ed.getDamager().getUniqueId();
-
-			// Check they aren't on the same team
-			if (TeamController.getTeam(whoHit) != TeamController.getTeam(whoWasHit))
-				addPlayerToCombat(whoHit);
-		}
+		if (ed.getEntity() instanceof Player && ed.getDamager() instanceof Player)
+			addPlayerToCombat(ed.getDamager().getUniqueId());
 	}
 
 	/**
 	 * When a player takes any damage, they are placed in combat
 	 */
-	@EventHandler
+	@EventHandler (ignoreCancelled = true)
 	public void playerTakesDamage(EntityDamageEvent event) {
-		if (!(event.getEntity() instanceof Player) || event.isCancelled()) { return; }
-		UUID uuid = event.getEntity().getUniqueId();
+		if (!(event.getEntity() instanceof Player))
+			return;
 
+		UUID uuid = event.getEntity().getUniqueId();
 		addPlayerToCombat(uuid);
 	}
 

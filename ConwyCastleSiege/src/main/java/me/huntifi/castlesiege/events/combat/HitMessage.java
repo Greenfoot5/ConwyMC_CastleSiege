@@ -1,19 +1,15 @@
 package me.huntifi.castlesiege.events.combat;
 
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.Main;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Location;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
-
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Displays the hit message and sound when a player hits a player or animal with an arrow
@@ -23,72 +19,34 @@ public class HitMessage implements Listener {
 	/**
 	 * Notifies the shooter when they hit a player or animal
 	 */
-	@EventHandler
+	@EventHandler (ignoreCancelled = true)
 	public void onHit(ProjectileHitEvent e) {
-		// Check it was a player that fired an arrow
-		if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player) {
-			Arrow arrow = (Arrow) e.getEntity();
-			Player p = (Player) arrow.getShooter();
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+			// Check it was a player that fired an arrow
+			if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player) {
+				Arrow arrow = (Arrow) e.getEntity();
+				Player player = (Player) arrow.getShooter();
 
-			// If the player hit another player
-			if (e.getHitEntity() instanceof Player) {
-				Player hit = (Player) e.getHitEntity();
-
-				if (TeamController.getTeam(p.getUniqueId()) != TeamController.getTeam(hit.getUniqueId())) {
-					// Notify the player
-					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-							ChatColor.DARK_AQUA + "Hit (" + hit.getName() + ")"));
-					playSound(p);
-
-					// The shooter has interacted with the game
-					InCombat.addPlayerToCombat(p.getUniqueId());
-				}
-
-			// They hit an animal
-			} else if (e.getHitEntity() instanceof Animals || e.getHitEntity() instanceof Bat) {
-				if (sameTeamPassenger(p.getUniqueId(), e.getHitEntity())) {
-					return;
-				}
-
-				// Notify the player
-				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-						ChatColor.DARK_AQUA + "Hit (" + Objects.requireNonNull(e.getHitEntity()).getType() + ")"));
-				playSound(p);
-
-				// The shooter has interacted with the game
-				InCombat.addPlayerToCombat(p.getUniqueId());
+				// The player hit another player or an animal
+				if (e.getHitEntity() instanceof Player)
+					notifyHit(player, e.getHitEntity().getName());
+				else if (e.getHitEntity() instanceof Animals || e.getHitEntity() instanceof Bat)
+					notifyHit(player, e.getHitEntity().getType().toString());
 			}
-		}
+		});
 	}
 
 	/**
-	 * Checks if an entity was hit that is being ridden by a teammate
-	 * @param uuid The unique ID of the shooter
-	 * @param e The entity that was shot
-	 * @return Whether the entity is being ridden by a teammate
+	 * Notify the player about hitting an entity and add them to combat
+	 * @param player The player that shot the arrow
+	 * @param hitName The name to display for the hit entity
 	 */
-	private boolean sameTeamPassenger(UUID uuid, Entity e) {
-		if (e.getPassengers().isEmpty() || !(e.getPassengers().get(0) instanceof Player)) {
-			return false;
-		}
+	private void notifyHit(Player player, String hitName) {
+		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+				ChatColor.DARK_AQUA + "Hit (" + hitName + ")"));
+		player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 0.5f);
 
-		Player rider = (Player) e.getPassengers().get(0);
-		return TeamController.getTeam(uuid) == TeamController.getTeam(rider.getUniqueId());
-	}
-
-	/**
-	 * Players the hit sound to the player
-	 * @param player the player to play the sound to
-	 */
-	private void playSound(Player player) {
-
-		Location location = player.getLocation();
-
-		Sound effect = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
-
-		float volume = 1f; //1 = 100%
-		float pitch = 0.5f; //Float between 0.5 and 2.0
-
-		player.playSound(location, effect, volume, pitch);
+		// The shooter has interacted with the game
+		InCombat.addPlayerToCombat(player.getUniqueId());
 	}
 }

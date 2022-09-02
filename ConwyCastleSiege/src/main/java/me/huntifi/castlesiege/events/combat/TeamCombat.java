@@ -20,7 +20,7 @@ public class TeamCombat implements Listener {
 	 * Player has attempted to attack a player
 	 * Cancels event if they are on the same team
 	 */
-	@EventHandler (priority = EventPriority.LOWEST)
+	@EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onHurt(EntityDamageByEntityEvent e) {
 		if (!MapController.isOngoing()) {
 			return;
@@ -38,7 +38,7 @@ public class TeamCombat implements Listener {
 	 * Player has attempted to attack a horse
 	 * Cancels event if they are on the same team
 	 */
-	@EventHandler (priority = EventPriority.LOWEST)
+	@EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onHurtHorse(EntityDamageByEntityEvent e) {
 		// A horse with owner was hurt
 		if (e.getEntity() instanceof Horse &&
@@ -53,7 +53,7 @@ public class TeamCombat implements Listener {
 	 * Player has attempted to attack a boat
 	 * Checks if there is a player in it on their team
 	 */
-	@EventHandler (priority = EventPriority.LOWEST)
+	@EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onHurtBoat(EntityDamageByEntityEvent e) {
 		// A boat with player was hurt
 		if (e.getEntity() instanceof Boat &&
@@ -71,17 +71,15 @@ public class TeamCombat implements Listener {
 	private void sameTeam(EntityDamageByEntityEvent e, Player p) {
 		// Hurt by teammate
 		if (e.getDamager() instanceof Player &&
-				TeamController.getTeam(p.getUniqueId()) ==
-						TeamController.getTeam(e.getDamager().getUniqueId())) {
+				TeamController.getTeam(p.getUniqueId()) == TeamController.getTeam(e.getDamager().getUniqueId())) {
 			e.setCancelled(true);
 		}
 
 		// Hurt by arrow from teammate
-		if (e.getDamager() instanceof Arrow &&
+		else if (e.getDamager() instanceof Arrow &&
 				((Arrow) e.getDamager()).getShooter() instanceof Player &&
-				TeamController.getTeam(p.getUniqueId()) ==
-						TeamController.getTeam(
-								((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId())) {
+				TeamController.getTeam(p.getUniqueId()) == TeamController.getTeam(
+						((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId())) {
 			e.setCancelled(true);
 		}
 	}
