@@ -60,7 +60,7 @@ public class BuyKitCommand implements CommandExecutor {
             // Get the kit's price
             double coinPrice = ((DonatorKit) kit).getPrice();
             if (coinPrice <= 0) {
-                Messenger.sendError("The coinprice is " + coinPrice + ", report this!", sender);
+                Messenger.sendError("The coinPrice is " + coinPrice + ", report this!", sender);
                 return;
             }
 
@@ -74,11 +74,11 @@ public class BuyKitCommand implements CommandExecutor {
             String time;
             String timeMessage;
             if (kit instanceof TeamKit) {
-                time = "30d";
-                timeMessage = "for 30 days";
-            } else {
                 time = "10y";
                 timeMessage = "permanently";
+            } else {
+                time = "30d";
+                timeMessage = "for 30 days";
             }
 
             // Give the kit to the player
