@@ -67,6 +67,7 @@ public class Team {
      */
     public void forceAddPlayer(UUID uuid) {
         players.add(uuid);
+        TeamController.joinTeam(uuid, this);
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
         if (lobby.spawnPoint.getWorld() == null)
@@ -81,6 +82,7 @@ public class Team {
      */
     public void removePlayer(UUID uuid) {
         players.remove(uuid);
+        TeamController.leaveTeam(uuid);
     }
 
     /**
