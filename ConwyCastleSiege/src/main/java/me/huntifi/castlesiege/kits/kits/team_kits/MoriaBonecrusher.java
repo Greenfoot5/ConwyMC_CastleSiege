@@ -86,20 +86,14 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
      * Activate the Bonecrusher ability
      * @param e The event called when hitting another player
      */
-    @EventHandler
+    @EventHandler (ignoreCancelled = true)
     public void onCrush(EntityDamageByEntityEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player p = (Player) e.getEntity();
             Player q = (Player) e.getDamager();
 
-            // Maceman tries to use stun an enemy
+            // Bonecrusher tries to use stun an enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    TeamController.getTeam(q.getUniqueId())
-                            != TeamController.getTeam(p.getUniqueId()) &&
                     q.getInventory().getItemInMainHand().getType() == Material.BONE &&
                     q.getCooldown(Material.BONE) == 0) {
                 q.setCooldown(Material.BONE, 160);

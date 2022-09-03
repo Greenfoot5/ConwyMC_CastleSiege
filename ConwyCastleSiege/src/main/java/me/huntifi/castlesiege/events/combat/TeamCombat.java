@@ -2,10 +2,10 @@ package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -17,51 +17,36 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 public class TeamCombat implements Listener {
 
 	/**
-	 * Player has attempted to attack a player
-	 * Cancels event if they are on the same team
+	 * Player has attempted to attack a player, horse, or boat.
+	 * Cancels event if the corresponding players are on the same team.
+	 * @param event The event called when a player attacks another entity
 	 */
 	@EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void onHurt(EntityDamageByEntityEvent e) {
+	public void onHurt(EntityDamageByEntityEvent event) {
 		if (!MapController.isOngoing()) {
+			event.setCancelled(true);
 			return;
 		}
 
 		// A player was hurt
-		if (e.getEntity() instanceof Player) {
-			Player p = (Player) e.getEntity();
-
-			sameTeam(e, p);
+		if (event.getEntity() instanceof Player) {
+			Player player = (Player) event.getEntity();
+			sameTeam(event, player);
 		}
-	}
 
-	/**
-	 * Player has attempted to attack a horse
-	 * Cancels event if they are on the same team
-	 */
-	@EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void onHurtHorse(EntityDamageByEntityEvent e) {
 		// A horse with owner was hurt
-		if (e.getEntity() instanceof Horse &&
-				((Horse) e.getEntity()).getOwner() != null) {
-			Player p = (Player) ((Horse) e.getEntity()).getOwner();
-
-			sameTeam(e, p);
+		else if (event.getEntity() instanceof Horse &&
+				((Horse) event.getEntity()).getOwner() instanceof Player) {
+			Player player = (Player) ((Horse) event.getEntity()).getOwner();
+			sameTeam(event, player);
 		}
-	}
 
-	/**
-	 * Player has attempted to attack a boat
-	 * Checks if there is a player in it on their team
-	 */
-	@EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void onHurtBoat(EntityDamageByEntityEvent e) {
 		// A boat with player was hurt
-		if (e.getEntity() instanceof Boat &&
-				!e.getEntity().getPassengers().isEmpty() &&
-				e.getEntity().getPassengers().get(0) instanceof Player) {
-			Player p = (Player) e.getEntity().getPassengers().get(0);
-
-			sameTeam(e, p);
+		else if (event.getEntity() instanceof Boat &&
+				!event.getEntity().getPassengers().isEmpty() &&
+				event.getEntity().getPassengers().get(0) instanceof Player) {
+			Player player = (Player) event.getEntity().getPassengers().get(0);
+			sameTeam(event, player);
 		}
 	}
 
@@ -75,11 +60,11 @@ public class TeamCombat implements Listener {
 			e.setCancelled(true);
 		}
 
-		// Hurt by arrow from teammate
-		else if (e.getDamager() instanceof Arrow &&
-				((Arrow) e.getDamager()).getShooter() instanceof Player &&
+		// Hurt by projectile from teammate
+		else if (e.getDamager() instanceof Projectile &&
+				((Projectile) e.getDamager()).getShooter() instanceof Player &&
 				TeamController.getTeam(p.getUniqueId()) == TeamController.getTeam(
-						((Player) ((Arrow) e.getDamager()).getShooter()).getUniqueId())) {
+						((Player) ((Projectile) e.getDamager()).getShooter()).getUniqueId())) {
 			e.setCancelled(true);
 		}
 	}

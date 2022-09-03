@@ -79,27 +79,20 @@ public class CryptsFallen extends TeamKit implements Listener {
      * Activate the Fallen wither ability
      * @param e The event called when hitting another player
      */
-    @EventHandler
+    @EventHandler (ignoreCancelled = true)
     public void onWither(EntityDamageByEntityEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player p = (Player) e.getEntity();
             Player q = (Player) e.getDamager();
 
             // tries withering an enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    TeamController.getTeam(q.getUniqueId())
-                            != TeamController.getTeam(p.getUniqueId()) &&
                     q.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD &&
                     q.getCooldown(Material.IRON_SWORD) == 0) {
                 q.setCooldown(Material.IRON_SWORD, 50);
 
-                if (!p.isBlocking()) {
+                if (!p.isBlocking())
                     p.addPotionEffect((new PotionEffect(PotionEffectType.WITHER, 120, 1)));
-                }
             }
         }
     }

@@ -116,20 +116,14 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
      * Activate the Hellsteed stomp ability
      * @param e The event called when hitting another player
      */
-    @EventHandler
+    @EventHandler (ignoreCancelled = true)
     public void onStomp(EntityDamageByEntityEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player p = (Player) e.getEntity();
             Player q = (Player) e.getDamager();
 
             // Hellsteed tries to stomp every closeby enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    TeamController.getTeam(q.getUniqueId())
-                            != TeamController.getTeam(p.getUniqueId()) &&
                     q.getInventory().getItemInMainHand().getType() == Material.ANVIL &&
                     q.getCooldown(Material.ANVIL) == 0) {
                 q.setCooldown(Material.ANVIL, 400);
@@ -149,17 +143,11 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
                         if (all == p) { return; }
                         if (all == q) { return; }
                         if (all.getLocation().distance(p.getLocation()) < 2.1) {
-                            if ((all.getHealth() - e.getDamage() > 0)) {
-                                all.damage(e.getDamage());
-                                //Players that weren't the one directly hit are affected less
-                                all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 1)));
-                                all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 40, 1)));
-                                all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 40, 3)));
-                            } else {
-                                e.setCancelled(true);
-                                DeathEvent.setKiller(all, p);
-                                all.setHealth(0);
-                            }
+                            all.damage(e.getDamage(), p);
+                            // Players that weren't the one directly hit are affected less
+                            all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 1)));
+                            all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 40, 1)));
+                            all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 40, 3)));
                         }
                     }
                 }

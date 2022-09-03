@@ -103,37 +103,19 @@ public class Halberdier extends DonatorKit implements Listener {
      * The cooldown event for halberdier.
      * @param e The event called when dealing damage to another player
      */
-    @EventHandler (priority = EventPriority.HIGHEST)
+    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void halbCooldown(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player) {
+        if (e.getDamager() instanceof Player &&
+                Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
             Player halb = (Player) e.getDamager();
 
-            if (Objects.equals(Kit.equippedKits.get(halb.getUniqueId()).name, name)) {
-
-            if (e.getEntity() instanceof Player) {
-                Player other = (Player) e.getEntity();
-
-                if (TeamController.getTeam(halb.getUniqueId())
-                                != TeamController.getTeam(other.getUniqueId()) &&
-                        halb.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE &&
-                        halb.getCooldown(Material.DIAMOND_AXE) == 0) {
-
-                        halb.setCooldown(Material.DIAMOND_AXE, 20);
-                        e.setCancelled(false);
-                } else if (halb.getCooldown(Material.DIAMOND_AXE) != 0) {
+            if (halb.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE) {
+                if (halb.getCooldown(Material.DIAMOND_AXE) == 0) {
+                    halb.setCooldown(Material.DIAMOND_AXE, e.getEntity() instanceof Player ? 20 : 10);
+                } else {
                     e.setCancelled(true);
                 }
-
-            } else {
-                if (halb.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE &&
-                        halb.getCooldown(Material.DIAMOND_AXE) == 0) {
-                    halb.setCooldown(Material.DIAMOND_AXE, 10);
-                    e.setCancelled(false);
-                } else if (halb.getCooldown(Material.DIAMOND_AXE) != 0){
-                    e.setCancelled(true);
-                }
-             }
-           }
+            }
         }
     }
 

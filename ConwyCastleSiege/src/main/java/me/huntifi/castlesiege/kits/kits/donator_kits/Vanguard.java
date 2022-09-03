@@ -7,8 +7,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -23,19 +21,15 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * The Vanguard kit
  */
 public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
 
-    private boolean vanguards = false;
+    private static final ArrayList<UUID> vanguards = new ArrayList<>();
 
     /**
      * Set the equipment and attributes of this kit
@@ -98,7 +92,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
      * @param e event triggered by right clicking diamond sword.
      */
     @EventHandler
-    public void Charge(PlayerInteractEvent e) {
+    public void charge(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         int cooldown = p.getCooldown(Material.DIAMOND_SWORD);
@@ -123,15 +117,8 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
                         p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 70, 5)));
 
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST , 1, 1 );
-                        vanguards = true;
-
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                    vanguards = false;
-                            }
-                        }.runTaskLater(Main.plugin, 100);
-
+                        vanguards.add(uuid);
+                        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> vanguards.remove(uuid), 100);
                     } else {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't charge forward yet."));
@@ -144,41 +131,27 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
     /**
      * @param ed remove the potion effects on hit.
      */
-    @EventHandler
+    @EventHandler (ignoreCancelled = true)
     public void chargeHit(EntityDamageByEntityEvent ed) {
-
         if (ed.getDamager() instanceof Player) {
-            Player p = (Player) ed.getDamager();
-            UUID uuid = p.getUniqueId();
+            Player player = (Player) ed.getDamager();
+            UUID uuid = player.getUniqueId();
 
             // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(uuid)) {
+            if (InCombat.isPlayerInLobby(uuid))
                 return;
-            }
 
-            Location loc = p.getLocation();
-
-            if (ed.getEntity() instanceof Player) {
-                Player hit = (Player) ed.getEntity();
-
-                if (!(Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
-                        TeamController.getTeam(p.getUniqueId())
-                                != TeamController.getTeam(hit.getUniqueId()))) {
-                    return;
-                }
-            }
-
-            if (vanguards) {
-                for (PotionEffect effect : p.getActivePotionEffects()) {
+            if (vanguards.contains(uuid)) {
+                for (PotionEffect effect : player.getActivePotionEffects()) {
                     if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 3)
                             || (effect.getType().getName().equals(PotionEffectType.JUMP.getName()) && effect.getAmplifier() == 1)
                             || (effect.getType().getName().equals(PotionEffectType.INCREASE_DAMAGE.getName()) && effect.getAmplifier() == 3)) {
-                        p.removePotionEffect(effect.getType());
+                        player.removePotionEffect(effect.getType());
                     }
                 }
-                p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
-                p.getWorld().playSound(loc, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
-                vanguards = false;
+                player.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 9999999, 0)));
+                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
+                vanguards.remove(uuid);
             }
         }
     }

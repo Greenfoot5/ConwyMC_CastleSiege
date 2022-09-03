@@ -85,12 +85,8 @@ public class Executioner extends DonatorKit implements Listener {
 	 * Decapitate an enemy if their hp is below 37%
 	 * @param e The event called when hitting another player
 	 */
-	@EventHandler
+	@EventHandler (ignoreCancelled = true)
 	public void onExecute(EntityDamageByEntityEvent e) {
-		if (e.isCancelled()) {
-			return;
-		}
-
 		// Both are players
 		if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
 			Player whoWasHit = (Player) e.getEntity();

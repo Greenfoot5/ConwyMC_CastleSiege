@@ -106,15 +106,15 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
     public void throwGrabPlayer(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
-        ItemStack stick = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.DEAD_BUBBLE_CORAL_FAN);
-        int cooldown2 = p.getCooldown(Material.DEAD_BRAIN_CORAL_FAN);
 
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
 
+        ItemStack stick = p.getInventory().getItemInMainHand();
+        int cooldown = p.getCooldown(Material.DEAD_BUBBLE_CORAL_FAN);
+        int cooldown2 = p.getCooldown(Material.DEAD_BRAIN_CORAL_FAN);
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (stick.getType().equals(Material.DEAD_BUBBLE_CORAL_FAN)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -139,11 +139,10 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
                                 ChatColor.AQUA + "You grabbed the enemy!"));
                         for (Player all : Bukkit.getOnlinePlayers()) {
                             if (TeamController.getTeam(p.getUniqueId())
-                                    != TeamController.getTeam(all.getUniqueId())) {
-                            if (all.getLocation().distance(p.getLocation()) <= 3.5) {
+                                    != TeamController.getTeam(all.getUniqueId())
+                                    && all.getLocation().distance(p.getLocation()) <= 3.5) {
                                 grab(p, all);
                             }
-                          }
                         }
                     } else {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(

@@ -87,20 +87,14 @@ public class Maceman extends DonatorKit implements Listener {
      * Activate the maceman stun ability
      * @param e The event called when hitting another player
      */
-    @EventHandler
+    @EventHandler (ignoreCancelled = true)
     public void onStun(EntityDamageByEntityEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player p = (Player) e.getEntity();
             Player q = (Player) e.getDamager();
 
             // Maceman tries to use stun an enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    TeamController.getTeam(q.getUniqueId())
-                            != TeamController.getTeam(p.getUniqueId()) &&
                     q.getInventory().getItemInMainHand().getType() == Material.DIAMOND_SHOVEL &&
                     q.getCooldown(Material.DIAMOND_SHOVEL) == 0) {
                 q.setCooldown(Material.DIAMOND_SHOVEL, 200);

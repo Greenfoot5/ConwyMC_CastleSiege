@@ -84,58 +84,41 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
 
     /**
      * Activate the Uruk Berserker cleave ability
-     * @param e The event called when hitting another player
+     * @param event The event called when hitting another player
      */
-    @EventHandler
-    public void onCleave(EntityDamageByEntityEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
+    @EventHandler (ignoreCancelled = true)
+    public void onCleave(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
+            Player damager = (Player) event.getDamager();
+            Player hit = (Player) event.getEntity();
 
-        if (e.getDamager() instanceof Player) {
-            Player q = (Player) e.getDamager();
-            if (e.getEntity() instanceof Player) {
-                Player p = (Player) e.getEntity();
+            // Uruk Berserker tries to cleave every enemy player around them
+            if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name) &&
+                    damager.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD &&
+                    damager.getCooldown(Material.IRON_SWORD) == 0) {
+                damager.setCooldown(Material.IRON_SWORD, 60);
 
-                // Uruk Berserker tries to cleave every enemy player around them
-                if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                        TeamController.getTeam(q.getUniqueId())
-                                != TeamController.getTeam(p.getUniqueId()) &&
-                        q.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD &&
-                        q.getCooldown(Material.IRON_SWORD) == 0) {
-                    q.setCooldown(Material.IRON_SWORD, 60);
+                // Enemy blocks cleave
+                if (hit.isBlocking()) {
+                    hit.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                            ChatColor.AQUA + "You blocked " + NameTag.color(damager) + damager.getName() + ChatColor.AQUA + "'s cleave"));
+                } else {
+                    hit.getWorld().playSound(hit.getLocation(), Sound.ENTITY_PLAYER_BIG_FALL, 1, 1);
+                    event.setDamage(event.getDamage() * 2);
 
-                    // Enemy blocks stun
-                    if (p.isBlocking()) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "You blocked " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s cleave"));
-                    } else {
-                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_BIG_FALL, 1, 1);
-                        e.setDamage(e.getDamage() * 2);
+                    if (hit.getVehicle() != null && hit.getVehicle() instanceof Horse) {
+                        Horse horse = (Horse) hit.getVehicle();
+                        horse.damage(event.getDamage() * 2, damager);
+                    }
 
-                        if (p.getVehicle() != null && p.getVehicle() instanceof Horse) {
-                            Horse horse = (Horse) p.getVehicle();
-                            horse.damage(e.getDamage() * 2);
-                        }
+                    for (Player online : Bukkit.getOnlinePlayers()) {
+                        if (hit.getWorld() != online.getWorld() || online == hit || online == damager)
+                            continue;
 
-                        for (Player o : Bukkit.getOnlinePlayers()) {
-                            if (TeamController.getTeam(o.getUniqueId())
-                                    != TeamController.getTeam(q.getUniqueId())) {
-                                if (p.getWorld() != o.getWorld() || o == p || o == q) {
-                                    return;
-                                }
-
-                                if (o.getLocation().distance(p.getLocation()) < 2.1) {
-                                    if ((o.getHealth() - (e.getDamage() * 1.5) > 0)) {
-                                        o.damage(e.getDamage() * 1.5);
-                                    } else {
-                                        e.setCancelled(true);
-                                        DeathEvent.setKiller(o, p);
-                                        o.setHealth(0);
-                                    }
-                                }
-                            }
-                        }
+                        if (online.getLocation().distance(damager.getLocation()) < 2.1
+                                && TeamController.getTeam(online.getUniqueId())
+                                        != TeamController.getTeam(damager.getUniqueId()))
+                            online.damage(event.getDamage(), damager);
                     }
                 }
             }

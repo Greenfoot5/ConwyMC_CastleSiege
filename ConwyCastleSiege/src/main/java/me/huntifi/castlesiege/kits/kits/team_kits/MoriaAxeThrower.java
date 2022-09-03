@@ -95,19 +95,19 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
     public void throwSpear(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
-        ItemStack stick = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.STONE_AXE);
 
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
 
+        ItemStack axe = p.getInventory().getItemInMainHand();
+        int cooldown = p.getCooldown(Material.STONE_AXE);
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (stick.getType().equals(Material.STONE_AXE)) {
+            if (axe.getType().equals(Material.STONE_AXE)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
-                        stick.setAmount(stick.getAmount() - 1);
+                        axe.setAmount(axe.getAmount() - 1);
                         p.setCooldown(Material.STONE_AXE, 15);
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                         ChatColor.AQUA + "You threw your Axe!"));
@@ -124,33 +124,24 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
 
 
     /**
-     * Set the thrown spear's damage
+     * Set the thrown axe's damage
      * @param e The event called when an arrow hits a player
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler (priority = EventPriority.LOW, ignoreCancelled = true)
     public void changeAxeDamage(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Snowball) {
             Snowball ball = (Snowball) e.getEntity();
 
-            if(ball.getShooter() instanceof Player){
-                Player damages = (Player) ball.getShooter();
+            if (ball.getShooter() instanceof Player){
+                Player damager = (Player) ball.getShooter();
 
-                if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
+                if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
                     if (e.getHitEntity() instanceof Player) {
-                        Player p = (Player) e.getHitEntity();
-                        if (TeamController.getTeam(ball.getUniqueId()) == TeamController.getTeam(p.getUniqueId())) {
-                            return;
-                        }
-                        if (p.getHealth() - 45 > 0) {
-                            p.damage(45);
-                            AssistKill.addDamager(p.getUniqueId(),damages.getUniqueId(), 45);
-                        } else {
-                            DeathEvent.setKiller(p, damages);
-                            p.setHealth(0);
-                        }
+                        Player hit = (Player) e.getHitEntity();
+                        hit.damage(45, damager);
                     } else if (e.getHitEntity() instanceof Horse) {
                         Horse horse = (Horse) e.getHitEntity();
-                        horse.damage(50);
+                        horse.damage(50, damager);
                     }
                 }
             }
