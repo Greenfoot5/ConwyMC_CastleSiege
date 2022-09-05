@@ -247,7 +247,7 @@ public class FireArcher extends VoterKit implements Listener {
                             TextComponent.fromLegacyText(ChatColor.AQUA + "You light an arrow."));
                 } else {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatColor.RED + "You can't hold more than 7 lit arrows at a time."));
+                            TextComponent.fromLegacyText(ChatColor.RED + "You can't hold more than 9 lit arrows at a time."));
                 }
             }
         }
