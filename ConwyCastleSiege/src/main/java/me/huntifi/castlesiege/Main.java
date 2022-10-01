@@ -29,6 +29,7 @@ import me.huntifi.castlesiege.commands.staff.coins.AddCoins;
 import me.huntifi.castlesiege.commands.staff.coins.SetCoinMultiplier;
 import me.huntifi.castlesiege.commands.staff.coins.SetCoins;
 import me.huntifi.castlesiege.commands.staff.coins.TakeCoins;
+import me.huntifi.castlesiege.commands.staff.curses.CurseCommand;
 import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.*;

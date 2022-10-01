@@ -280,7 +280,7 @@ commands:
     permission-message: You are not permitted to use this command!
   Curse:
     description: Manages the active curses
-    usage: /curse
+    usage: /curse [curse]
     permission: castlesiege.developer
     permission-message: You are not permitted to use this command!
   Fly:
