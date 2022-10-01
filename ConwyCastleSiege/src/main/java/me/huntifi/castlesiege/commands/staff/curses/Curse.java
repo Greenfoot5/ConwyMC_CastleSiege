@@ -15,12 +15,34 @@ public enum Curse {
     /** The name of the curse */
     private final String name;
 
+    /** The description of the curse */
+    private String description;
+
     /**
      * Create a curse with a name.
      * @param name The name of the curse
      */
     Curse(String name) {
         this.name = name;
+        this.description = "";
+    }
+
+    /**
+     * Create a curse with a name and a description.
+     * @param name The name of the curse
+     * @param description The description of the curse
+     */
+    Curse(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    /**
+     * Set the description of this curse.
+     * @param description The description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -63,5 +85,13 @@ public enum Curse {
      */
     public String getName() {
         return this.name;
+    }
+
+    /**
+     * Get the description of this curse.
+     * @return The description of this curse
+     */
+    public String getDescription() {
+        return this.description;
     }
 }

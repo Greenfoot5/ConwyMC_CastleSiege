@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.staff.curses;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.gui.Gui;
 import org.bukkit.ChatColor;
@@ -9,6 +10,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.text.DecimalFormat;
 
 public class CurseCommand implements CommandExecutor {
 
@@ -54,7 +57,9 @@ public class CurseCommand implements CommandExecutor {
         // Activate the curse
         switch (curse) {
             case GREED:
-                // TODO: Change the coin multiplier
+                double multiplier = Math.round(Math.random() * 20) / 10.0;
+                PlayerData.setCoinMultiplier(multiplier);
+                curse.setDescription("The coin multiplier is now " + new DecimalFormat("0.0").format(multiplier));
                 break;
             case DICE:
                 // TODO: Swap teams for some players
@@ -76,6 +81,7 @@ public class CurseCommand implements CommandExecutor {
                 break;
         }
 
-        // TODO: Announce the activated curse and its effect
+        // Announce the activated curse and its effect
+        Messenger.broadcastCurse(curse);
     }
 }

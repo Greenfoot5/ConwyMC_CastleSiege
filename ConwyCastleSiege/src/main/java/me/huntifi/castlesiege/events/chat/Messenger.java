@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.chat;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.staff.curses.Curse;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -127,5 +128,15 @@ public class Messenger {
                 + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " was killed by "
                 + killer + ChatColor.YELLOW + " and they claimed the "
                 + ChatColor.GOLD + amount + ChatColor.YELLOW + " coin bounty!");
+    }
+
+    /**
+     * Broadcasts an activated curse to everyone
+     * @param curse The activated curse
+     */
+    public static void broadcastCurse(Curse curse) {
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[C] "
+                + ChatColor.DARK_RED + curse.getName() + ChatColor.RED + " has been activated! "
+                + curse.getDescription());
     }
 }
