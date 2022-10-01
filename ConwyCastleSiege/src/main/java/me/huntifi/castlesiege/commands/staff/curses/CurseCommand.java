@@ -35,10 +35,47 @@ public class CurseCommand implements CommandExecutor {
                 gui.open((Player) sender);
             }
         } else {
-            // TODO: Allow (de)activating curses
-            // TODO: Update the curse command usage accordingly
+            String name = String.join(" ", args);
+            Curse curse = Curse.get(name);
+            if (curse == null)
+                Messenger.sendError("The curse \"" + name + "\" does not exist!", sender);
+            else
+                activateCurse(curse);
         }
 
         return true;
+    }
+
+    /**
+     * Activate a curse.
+     * @param curse The curse to activate
+     */
+    private void activateCurse(Curse curse) {
+        // Activate the curse
+        switch (curse) {
+            case GREED:
+                // TODO: Change the coin multiplier
+                break;
+            case DICE:
+                // TODO: Swap teams for some players
+                break;
+            case BINDING:
+                // TODO: Prevent players from changing kits
+                break;
+            case POSSESSION:
+                // TODO: Assign a random kit to players
+                break;
+            case VANISHING:
+                // TODO: Prevent players from picking kits they have died with
+                break;
+            case TEAMWORK:
+                // TODO: Prevent players from switching teams
+                break;
+            case TELEPORTATION:
+                // TODO: Swap some player positions
+                break;
+        }
+
+        // TODO: Announce the activated curse and its effect
     }
 }
