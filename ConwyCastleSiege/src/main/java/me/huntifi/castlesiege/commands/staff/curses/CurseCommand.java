@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.gui.Gui;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class CurseCommand implements CommandExecutor {
 
@@ -54,12 +56,29 @@ public class CurseCommand implements CommandExecutor {
      * @param curse The curse to activate
      */
     private void activateCurse(Curse curse) {
+        activateCurse(curse, ThreadLocalRandom.current().nextLong(5, 31) * 1200);
+    }
+
+    /**
+     * Activate a curse.
+     * @param curse The curse to activate
+     * @param duration The curse's duration in ticks
+     */
+    private void activateCurse(Curse curse, long duration) {
+        String description = "";
+
         // Activate the curse
         switch (curse) {
             case GREED:
-                double multiplier = Math.round(Math.random() * 20) / 10.0;
+                double multiplier = ThreadLocalRandom.current().nextInt(7, 16) / 10.0;
                 PlayerData.setCoinMultiplier(multiplier);
-                curse.setDescription("The coin multiplier is now " + new DecimalFormat("0.0").format(multiplier));
+                description = "The coin multiplier is now " + new DecimalFormat("0.0").format(multiplier);
+                Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
+                    if (PlayerData.getCoinMultiplier() == multiplier) {
+                        PlayerData.setCoinMultiplier(1);
+                        Messenger.broadcastCurseExpired(curse, "The coin multiplier is now 1.0");
+                    }
+                }, duration);
                 break;
             case DICE:
                 // TODO: Swap teams for some players
@@ -82,6 +101,10 @@ public class CurseCommand implements CommandExecutor {
         }
 
         // Announce the activated curse and its effect
-        Messenger.broadcastCurse(curse);
+        if (description.isEmpty()) {
+            Messenger.broadcastCurseActivated(curse);
+        } else {
+            Messenger.broadcastCurseActivated(curse, description);
+        }
     }
 }

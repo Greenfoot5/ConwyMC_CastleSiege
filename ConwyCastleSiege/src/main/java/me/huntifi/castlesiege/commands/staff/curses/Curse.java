@@ -16,7 +16,7 @@ public enum Curse {
     private final String name;
 
     /** The description of the curse */
-    private String description;
+    private final String description;
 
     /**
      * Create a curse with a name.
@@ -34,14 +34,6 @@ public enum Curse {
      */
     Curse(String name, String description) {
         this.name = name;
-        this.description = description;
-    }
-
-    /**
-     * Set the description of this curse.
-     * @param description The description to set
-     */
-    public void setDescription(String description) {
         this.description = description;
     }
 
