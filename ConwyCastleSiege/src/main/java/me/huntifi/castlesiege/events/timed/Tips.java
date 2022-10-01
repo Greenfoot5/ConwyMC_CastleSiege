@@ -39,7 +39,7 @@ public class Tips extends BukkitRunnable {
             "Donators can set an unique leave and join message with /joinmsg and /leavemsg!",
             "Donators can switch whenever they want, no matter the amount of players!",
             "Looking for a change in pace? Try /random!",
-            "Want to try a kit before buying? Play on Fridays for free, or check out the 7-day selection in the store: /webshop",
+            "Want to try a kit before buying? Play on Fridays for free!",
             "Want to help keep the server running? Donate via /webshop! There's some awesome benefits!"
     };
 
