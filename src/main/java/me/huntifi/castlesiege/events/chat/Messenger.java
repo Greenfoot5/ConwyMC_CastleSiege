@@ -182,12 +182,26 @@ public class Messenger {
     }
 
     /**
-     * Broadcasts an expired curseEnum to everyone.
-     * @param curseEnum The expired curseEnum
+     * Broadcasts an activated curse to everyone
+     * @param curse The activated curse
+     * @param description An optional description of the activated curse
      */
-    public static void broadcastCurseExpired(CurseEnum curseEnum) {
+    public static void broadcastCurseActivated(Curse curse, String... description) {
+        String activateDescription = description.length > 0 ? description[0] : curse.getDescription();
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[☠] "
-                + ChatColor.DARK_RED + curseEnum.getName() + ChatColor.RED + " has expired! "
-                + curseEnum.getExpireDescription());
+                + ChatColor.DARK_RED + curse.getName() + ChatColor.RED + " has been activated! "
+                + activateDescription);
+    }
+
+    /**
+     * Broadcasts an expired curse to everyone
+     * @param curse The expired curse
+     * @param description An optional description of the expired curse
+     */
+    public static void broadcastCurseExpired(Curse curse, String... description) {
+        String expireDescription = description.length > 0 ? description[0] : "";
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[☠] "
+                + ChatColor.DARK_RED + curse.getName() + ChatColor.RED + " has expired! "
+                + expireDescription);
     }
 }
