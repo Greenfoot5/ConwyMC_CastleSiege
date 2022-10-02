@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.staff.curses.Curse;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
@@ -49,6 +50,11 @@ public class RandomKitCommand implements CommandExecutor {
         UUID uuid = player.getUniqueId();
         if (MapController.isSpectator(uuid)) {
             Messenger.sendError("Spectators cannot select kits!", sender);
+            return;
+        }
+
+        if (Curse.BINDING.isActive()) {
+            Messenger.sendError(Curse.BINDING.getName() + " prevents you from changing kits!", sender);
             return;
         }
 

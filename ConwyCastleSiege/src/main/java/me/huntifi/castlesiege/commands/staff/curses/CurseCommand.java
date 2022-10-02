@@ -44,6 +44,8 @@ public class CurseCommand implements CommandExecutor {
             Curse curse = Curse.get(name);
             if (curse == null)
                 Messenger.sendError("The curse \"" + name + "\" does not exist!", sender);
+            else if (curse.isActive())
+                Messenger.sendError(curse.getName() + " is already active!", sender);
             else
                 activateCurse(curse);
         }
@@ -65,26 +67,15 @@ public class CurseCommand implements CommandExecutor {
      * @param duration The curse's duration in ticks
      */
     private void activateCurse(Curse curse, long duration) {
-        String description = "";
-
-        // Activate the curse
         switch (curse) {
             case GREED:
                 double multiplier = ThreadLocalRandom.current().nextInt(7, 16) / 10.0;
                 PlayerData.setCoinMultiplier(multiplier);
-                description = "The coin multiplier is now " + new DecimalFormat("0.0").format(multiplier);
-                Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                    if (PlayerData.getCoinMultiplier() == multiplier) {
-                        PlayerData.setCoinMultiplier(1);
-                        Messenger.broadcastCurseExpired(curse, "The coin multiplier is now 1.0");
-                    }
-                }, duration);
+                Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> PlayerData.setCoinMultiplier(1), duration);
+                curse.activate(duration, new DecimalFormat("0.0").format(multiplier));
                 break;
             case DICE:
                 // TODO: Swap teams for some players
-                break;
-            case BINDING:
-                // TODO: Prevent players from changing kits
                 break;
             case POSSESSION:
                 // TODO: Assign a random kit to players
@@ -98,13 +89,9 @@ public class CurseCommand implements CommandExecutor {
             case TELEPORTATION:
                 // TODO: Swap some player positions
                 break;
-        }
-
-        // Announce the activated curse and its effect
-        if (description.isEmpty()) {
-            Messenger.broadcastCurseActivated(curse);
-        } else {
-            Messenger.broadcastCurseActivated(curse, description);
+            default:
+                // The curse's effect is handled by it being active and the broadcast has no arguments
+                curse.activate(duration);
         }
     }
 }

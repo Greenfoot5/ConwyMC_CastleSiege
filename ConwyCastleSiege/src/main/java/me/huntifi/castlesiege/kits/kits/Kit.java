@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.staff.curses.Curse;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
@@ -346,6 +347,12 @@ public abstract class Kit implements CommandExecutor {
         if (MapController.isSpectator(uuid)) {
             if (verbose)
                 Messenger.sendError("Spectators cannot select kits!", sender);
+            return false;
+        }
+
+        if (equippedKits.get(((Player) sender).getUniqueId()) != null && Curse.BINDING.isActive()) {
+            if (verbose)
+                Messenger.sendError(Curse.BINDING.getName() + " prevents you from changing kits!", sender);
             return false;
         }
 
