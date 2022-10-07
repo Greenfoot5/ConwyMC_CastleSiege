@@ -15,12 +15,16 @@ import java.util.Collections;
  * The swordsman kit
  */
 public class Swordsman extends FreeKit {
+	private static final int health = 200;
+	private static final double regenAmount = 10.5;
+	private static final double meleeDamage = 33;
+	private static final int ladderCount = 4;
 
 	/**
 	 * Set the equipment and attributes of this kit
 	 */
 	public Swordsman() {
-		super("Swordsman", 200, 10.5);
+		super("Swordsman", health, regenAmount);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
@@ -28,13 +32,13 @@ public class Swordsman extends FreeKit {
 
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-				ChatColor.GREEN + "Iron Sword", null, null, 33);
+				ChatColor.GREEN + "Iron Sword", null, null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
 						ChatColor.GREEN + "Iron Sword",
 						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 35),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
 
 		// Chestplate
@@ -55,8 +59,8 @@ public class Swordsman extends FreeKit {
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders
-		es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-		es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
+		es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+		es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
 		super.equipment = es;
 	}

@@ -15,12 +15,18 @@ import java.util.Collections;
  * The archer kit
  */
 public class Archer extends FreeKit {
+	private static final int health = 130;
+	private static final double regen = 10.5;
+	private static final double meleeDamage = 26;
+	private static final int ladderCount = 4;
+	private static final int arrowCount = 35;
+	private static final int bowPowerLevel = 17;
 
 	/**
 	 * Set the equipment and attributes of this kit
 	 */
 	public Archer() {
-		super("Archer", 130, 10.5);
+		super("Archer", health, regen);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
@@ -28,12 +34,12 @@ public class Archer extends FreeKit {
 
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
-				ChatColor.GREEN + "Dagger", null, null, 26);
+				ChatColor.GREEN + "Dagger", null, null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
 						ChatColor.GREEN + "Dagger",
 						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 28),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
 
 		// Chestplate
@@ -54,16 +60,16 @@ public class Archer extends FreeKit {
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders
-		es.hotbar[2] = new ItemStack(Material.LADDER, 4);
-		es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
+		es.hotbar[2] = new ItemStack(Material.LADDER, ladderCount);
+		es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 2);
 
 		// Arrows
-		es.hotbar[7] = new ItemStack(Material.ARROW, 35);
+		es.hotbar[7] = new ItemStack(Material.ARROW, arrowCount);
 
 		// Bow
 		es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
 				ChatColor.GREEN + "Bow", null,
-				Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 17)));
+				Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, bowPowerLevel)));
 
 		super.equipment = es;
 	}

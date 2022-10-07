@@ -37,6 +37,17 @@ import java.util.UUID;
  * The spearman kit
  */
 public class Spearman extends FreeKit implements Listener {
+	private static final int health = 160;
+	private static final double regen = 10.5;
+	private static final int spearCount = 4;
+	private static final double meleeDamage = 35;
+	private static final int ladderCount = 4;
+
+	// Spear Throw
+	private static final int throwCooldown = 160;
+	private static final double throwVelocity = 2.0;
+	private static final int throwDelay = 11;
+	private static final double throwDamage = 36;
 
 	// Damage multiplier when hitting horses
 	private static final double HORSE_MULTIPLIER = 1.5;
@@ -45,23 +56,23 @@ public class Spearman extends FreeKit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Spearman() {
-		super("Spearman", 160, 10.5);
+		super("Spearman", health, regen);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
 		super.heldItemSlot = 0;
 
 		// Weapon
-		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 4),
+		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, spearCount),
 				ChatColor.GREEN + "Spear",
-				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, 35);
+				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				ItemCreator.weapon(new ItemStack(Material.STICK, 4),
 						ChatColor.GREEN + "Spear",
 						Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
 								ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
 
 		// Chestplate
@@ -82,8 +93,8 @@ public class Spearman extends FreeKit implements Listener {
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders
-		es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-		es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
+		es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+		es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
 		super.equipment = es;
 
@@ -116,15 +127,14 @@ public class Spearman extends FreeKit implements Listener {
 						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
 								ChatColor.AQUA + "Preparing to throw your spear!"));
 						stick.setAmount(stick.getAmount() - 1);
-						p.setCooldown(Material.STICK, 160);
-						int throwDelay = 11;
+						p.setCooldown(Material.STICK, throwCooldown);
 						BarCooldown.add(uuid, throwDelay);
 						new BukkitRunnable() {
 							@Override
 							public void run() {
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
 										ChatColor.AQUA + "You threw your spear!"));
-								p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.0));
+								p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(throwVelocity));
 							}
 						}.runTaskLater(Main.plugin, throwDelay);
 					} else {
@@ -149,7 +159,7 @@ public class Spearman extends FreeKit implements Listener {
 				Player damages = (Player) arrow.getShooter();
 
 				if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-					arrow.setDamage(36);
+					arrow.setDamage(throwDamage);
 				}
 			}
 		}
