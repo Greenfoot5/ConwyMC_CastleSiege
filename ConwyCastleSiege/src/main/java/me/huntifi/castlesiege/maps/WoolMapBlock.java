@@ -57,7 +57,7 @@ public class WoolMapBlock {
                     if (player.isInsideVehicle())
                         Objects.requireNonNull(player.getVehicle()).remove();
                     // Set kit items
-                    Kit.equippedKits.get(uuid).setItems(uuid);
+                    Kit.equippedKits.get(uuid).setItems(uuid, true);
                     // Spawn player
                     player.teleport(flag.spawnPoint);
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR,

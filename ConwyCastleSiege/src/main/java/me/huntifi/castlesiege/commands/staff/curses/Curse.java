@@ -11,7 +11,7 @@ public enum Curse {
     GREED ("Curse of Greed", "The coin multiplier is now %s", "The coin multiplier is now 1.0"),
     DICE ("Curse of the Dice", "", ""),
     BINDING ("Curse of Binding", "You can no longer switch kits", "You can now switch kits again"),
-    POSSESSION ("Curse of Possession", "", ""),
+    POSSESSION ("Curse of Possession", "The kits have picked you", "Locked kits lost their grasp on you"),
     VANISHING ("Curse of Vanishing", "", ""),
     TEAMWORK ("Curse of Teamwork", "", ""),
     TELEPORTATION ("Curse of Teleportation", "", "");

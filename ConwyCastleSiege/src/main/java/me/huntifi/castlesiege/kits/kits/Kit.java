@@ -62,7 +62,6 @@ public abstract class Kit implements CommandExecutor {
     protected String[] projectileKillMessage;
 
     // Player Tracking
-    public List<UUID> players;
     public static Map<UUID, Kit> equippedKits = new HashMap<>();
     private int limit = -1;
 
@@ -79,7 +78,6 @@ public abstract class Kit implements CommandExecutor {
         this.baseHealth = baseHealth;
         this.regenAmount = regenAmount;
 
-        players = new ArrayList<>();
         kits.put(getSpacelessName(), this);
 
         canCap = true;
@@ -101,38 +99,42 @@ public abstract class Kit implements CommandExecutor {
      * Give the items and attributes of this kit to a player
      * @param uuid The unique id of the player to whom this kit is given
      */
-    public void setItems(UUID uuid) {
+    public void setItems(UUID uuid, boolean force) {
         Bukkit.getScheduler().runTask(Main.plugin, () -> {
             Player player = Bukkit.getPlayer(uuid);
-            if (player == null) {
+            if (player == null)
                 return;
-            }
 
-            // Health
-            AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-            assert healthAttribute != null;
-            healthAttribute.setBaseValue(baseHealth);
-            player.setHealth(baseHealth);
-            player.setFireTicks(0);
-            if (baseHealth > 200) {
-                player.setHealthScale(baseHealth / 10.0);
+            if (force || canSelect(player, false)) {
+                // Health
+                AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                assert healthAttribute != null;
+                healthAttribute.setBaseValue(baseHealth);
+                player.setHealth(baseHealth);
+                player.setFireTicks(0);
+                if (baseHealth > 200) {
+                    player.setHealthScale(baseHealth / 10.0);
+                } else {
+                    player.setHealthScale(20.0);
+                }
+
+                // Knockback resistance
+                AttributeInstance kbAttribute = player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);
+                assert kbAttribute != null;
+                kbAttribute.setBaseValue(kbResistance);
+
+                // Items
+                refillItems(uuid);
+
+                // Change disguise
+                setDisguise(player);
+
+                // Change player health display
+                displayHealth(player);
             } else {
-                player.setHealthScale(20.0);
+                // The player should not receive the items from this kit
+                player.performCommand("random");
             }
-
-            // Knockback resistance
-            AttributeInstance kbAttribute = player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE);
-            assert kbAttribute != null;
-            kbAttribute.setBaseValue(kbResistance);
-
-            // Items
-            refillItems(uuid);
-
-            // Change disguise
-            setDisguise(player);
-
-            // Change player health display
-            displayHealth(player);
         });
     }
 
@@ -192,29 +194,30 @@ public abstract class Kit implements CommandExecutor {
      * Register the player as using this kit and set their items
      * @param uuid The unique id of the player to register
      */
-    public void addPlayer(UUID uuid) {
+    public void addPlayer(UUID uuid, boolean shouldRespawn) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             Player player = Bukkit.getPlayer(uuid);
             assert player != null;
-            players.add(uuid);
             equippedKits.put(uuid, this);
-            setItems(uuid);
+            setItems(uuid, true);
             ActiveData.getData(uuid).setKit(getSpacelessName());
             Messenger.sendInfo("Selected Kit: " + this.name, player);
 
             // Kills the player if they have spawned this life, otherwise heal them
-            if (!InCombat.isPlayerInLobby(uuid)) {
-                Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
-                if (MapController.isOngoing()) {
-                    Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
-                    UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
+            if (shouldRespawn) {
+                if (!InCombat.isPlayerInLobby(uuid)) {
+                    Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
+                    if (MapController.isOngoing()) {
+                        Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
+                        UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
+                    } else {
+                        Messenger.sendInfo("You have committed suicide!", player);
+                    }
                 } else {
-                    Messenger.sendInfo("You have committed suicide!", player);
+                    Bukkit.getScheduler().runTask(Main.plugin, () ->
+                            player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue())
+                    );
                 }
-            } else {
-                Bukkit.getScheduler().runTask(Main.plugin, () ->
-                    player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue())
-                );
             }
         });
     }
@@ -325,7 +328,7 @@ public abstract class Kit implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             if (canSelect(sender, true))
-                addPlayer(((Player) sender).getUniqueId());
+                addPlayer(((Player) sender).getUniqueId(), true);
         });
         return true;
     }

@@ -379,7 +379,7 @@ public class MapController {
 			ActiveData.getData(player.getUniqueId()).setKit("swordsman");
 		}
 
-		Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+		Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), true);
 	}
 
 	/**

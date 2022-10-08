@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.events.death;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.Bounty;
+import me.huntifi.castlesiege.commands.staff.curses.Curse;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
@@ -61,7 +62,7 @@ public class DeathEvent implements Listener {
         if (Objects.equals(ActiveData.getData(player.getUniqueId()).getSetting("randomDeath"), "true"))
             player.performCommand("random");
         else
-            Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+            Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), Curse.POSSESSION.isActive());
 
         player.setWalkSpeed(0.2f);
         PlayerConnect.sendTitlebarMessages(player);

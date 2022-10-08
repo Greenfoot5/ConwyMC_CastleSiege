@@ -1,9 +1,12 @@
 package me.huntifi.castlesiege.commands.staff.curses;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.staff.SpectateCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.gui.Gui;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
+import java.util.Collection;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CurseCommand implements CommandExecutor {
@@ -32,23 +37,25 @@ public class CurseCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (args.length == 0) {
-            // Attempt to open the curses GUI
-            if (!(sender instanceof Player)) {
-                Messenger.sendError("Only players can open the curses GUI!", sender);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            if (args.length == 0) {
+                // Attempt to open the curses GUI
+                if (!(sender instanceof Player)) {
+                    Messenger.sendError("Only players can open the curses GUI!", sender);
+                } else {
+                    gui.open((Player) sender);
+                }
             } else {
-                gui.open((Player) sender);
+                String name = String.join(" ", args);
+                Curse curse = Curse.get(name);
+                if (curse == null)
+                    Messenger.sendError("The curse \"" + name + "\" does not exist!", sender);
+                else if (curse.isActive())
+                    Messenger.sendError(curse.getName() + " is already active!", sender);
+                else
+                    activateCurse(curse);
             }
-        } else {
-            String name = String.join(" ", args);
-            Curse curse = Curse.get(name);
-            if (curse == null)
-                Messenger.sendError("The curse \"" + name + "\" does not exist!", sender);
-            else if (curse.isActive())
-                Messenger.sendError(curse.getName() + " is already active!", sender);
-            else
-                activateCurse(curse);
-        }
+        });
 
         return true;
     }
@@ -78,7 +85,14 @@ public class CurseCommand implements CommandExecutor {
                 // TODO: Swap teams for some players
                 break;
             case POSSESSION:
-                // TODO: Assign a random kit to players
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    UUID uuid = player.getUniqueId();
+                    if (SpectateCommand.spectators.contains(uuid))
+                        continue;
+
+                    randomKit().addPlayer(uuid, InCombat.isPlayerInLobby(uuid));
+                }
+                curse.activate(duration / 5);
                 break;
             case VANISHING:
                 // TODO: Prevent players from picking kits they have died with
@@ -93,5 +107,16 @@ public class CurseCommand implements CommandExecutor {
                 // The curse's effect is handled by it being active and the broadcast has no arguments
                 curse.activate(duration);
         }
+    }
+
+    /**
+     * Get a random kit.
+     * @return A random kit
+     */
+    private Kit randomKit() {
+        Collection<String> kits = Kit.getKits();
+        int num = ThreadLocalRandom.current().nextInt(0, kits.size());
+        for (String kit: kits) if (--num < 0) return Kit.getKit(kit);
+        throw new AssertionError();
     }
 }
