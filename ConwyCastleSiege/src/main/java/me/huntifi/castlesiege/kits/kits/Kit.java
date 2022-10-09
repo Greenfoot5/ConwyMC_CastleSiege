@@ -105,7 +105,7 @@ public abstract class Kit implements CommandExecutor {
             if (player == null)
                 return;
 
-            if (force || canSelect(player, false)) {
+            if (force || canSelect(player, false, false)) {
                 // Health
                 AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
                 assert healthAttribute != null;
@@ -327,7 +327,7 @@ public abstract class Kit implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            if (canSelect(sender, true))
+            if (canSelect(sender, true, true))
                 addPlayer(((Player) sender).getUniqueId(), true);
         });
         return true;
@@ -336,10 +336,11 @@ public abstract class Kit implements CommandExecutor {
     /**
      * Check if the player can select this kit
      * @param sender Source of the command
+     * @param applyLimit Whether to apply the kit limit in the check
      * @param verbose Whether error messages should be sent
      * @return Whether the player can select this kit
      */
-    public boolean canSelect(CommandSender sender, boolean verbose) {
+    public boolean canSelect(CommandSender sender, boolean applyLimit, boolean verbose) {
         if (!(sender instanceof Player)) {
             if (verbose)
                 Messenger.sendError("Console cannot select kits!", sender);
@@ -359,7 +360,7 @@ public abstract class Kit implements CommandExecutor {
             return false;
         }
 
-        if (limit >= 0 && violatesLimit(TeamController.getTeam(uuid))) {
+        if (applyLimit && limit >= 0 && violatesLimit(TeamController.getTeam(uuid))) {
             if (verbose)
                 Messenger.sendError("Could not select " + this.name + " as its limit has been reached!", sender);
             return false;

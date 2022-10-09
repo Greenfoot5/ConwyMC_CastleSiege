@@ -64,7 +64,7 @@ public class RandomKitCommand implements CommandExecutor {
 
         unlockedKits.forEach((kitName) -> {
             Kit kit = Kit.getKit(kitName);
-            if (kit == null || !kit.canSelect(player, false)) {
+            if (kit == null || !kit.canSelect(player, true, false)) {
                 return;
             }
             kits.add(kit);
