@@ -8,7 +8,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -25,7 +24,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -44,6 +42,19 @@ import java.util.*;
  */
 public class FireArcher extends VoterKit implements Listener {
 
+    private static final int health = 140;
+    private static final double regen = 9;
+    private static final double meleeDamage = 26;
+    private static final int knockbackLevel = 2;
+    private static final int ladderCount = 4;
+    private static final int arrowCount = 48;
+    private static final int bowPowerLevel = 9;
+    private static final double arrowDamage = 10;
+
+    private static final int fireArrowCreationCooldown = 30;
+    private static final int fireArrowHoldLimit = 9;
+
+
     public static HashMap<Player, Block> cauldrons = new HashMap<>();
     private final ItemStack fireArrow;
     private final ItemStack firepit;
@@ -53,7 +64,7 @@ public class FireArcher extends VoterKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public FireArcher() {
-        super("Fire Archer", 140, 9);
+        super("Fire Archer", health, regen);
 
         // Equipment stuff
         EquipmentSet es = new EquipmentSet();
@@ -81,13 +92,13 @@ public class FireArcher extends VoterKit implements Listener {
                 Color.fromRGB(204, 0, 0));
 
         // Ladders
-        es.hotbar[2] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
+        es.hotbar[2] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 2);
 
         // Bow
         es.hotbar[0] = ItemCreator.item(new ItemStack(Material.BOW),
                 ChatColor.GREEN + "Bow", null,
-                Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, 9)));
+                Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, bowPowerLevel)));
 
         // Firepit
         firepit = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
@@ -96,7 +107,7 @@ public class FireArcher extends VoterKit implements Listener {
                         ChatColor.AQUA + "right click it with an arrow.", "",
                         ChatColor.AQUA + "(tip): This firepit is very hard, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 2)), 26);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, knockbackLevel)), meleeDamage);
         es.hotbar[1] = firepit;
         // Voted Firepit
         firepitVoted = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
@@ -107,11 +118,11 @@ public class FireArcher extends VoterKit implements Listener {
                         ChatColor.AQUA + "(tip): This firepit is very hard, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
-                        new Tuple<>(Enchantment.KNOCKBACK, 2)), 28);
+                        new Tuple<>(Enchantment.KNOCKBACK, knockbackLevel)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(firepitVoted, 1);
 
         // Arrows
-        es.hotbar[7] = new ItemStack(Material.ARROW, 48);
+        es.hotbar[7] = new ItemStack(Material.ARROW, arrowCount);
 
         // Fire Arrows
         fireArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
@@ -239,7 +250,7 @@ public class FireArcher extends VoterKit implements Listener {
                 int fireOffHand = offHand.getType() == Material.TIPPED_ARROW ? offHand.getAmount() : 0;
                 if (!inv.contains(Material.TIPPED_ARROW, 9 - fireOffHand)) {
                     // Light an arrow
-                    p.setCooldown(Material.ARROW, 30);
+                    p.setCooldown(Material.ARROW, fireArrowCreationCooldown);
                     usedItem.setAmount(usedItem.getAmount() - 1);
                     inv.addItem(fireArrow);
                     p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 0.5f);
@@ -247,7 +258,8 @@ public class FireArcher extends VoterKit implements Listener {
                             TextComponent.fromLegacyText(ChatColor.AQUA + "You light an arrow."));
                 } else {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatColor.RED + "You can't hold more than 9 lit arrows at a time."));
+                            TextComponent.fromLegacyText(ChatColor.RED + "You can't hold more than " + fireArrowHoldLimit
+                                    + " lit arrows at a time."));
                 }
             }
         }
@@ -288,19 +300,7 @@ public class FireArcher extends VoterKit implements Listener {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            ((Arrow) e.getEntity()).setDamage(10);
-        }
-    }
-
-    /**
-     * Set the damage taken when on fire
-     * @param e The event called when taking fire damage
-     */
-    @EventHandler (priority = EventPriority.LOW)
-    public void onFireDamage(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player &&
-                e.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK) {
-            e.setDamage(10);
+            ((Arrow) e.getEntity()).setDamage(arrowDamage);
         }
     }
 
