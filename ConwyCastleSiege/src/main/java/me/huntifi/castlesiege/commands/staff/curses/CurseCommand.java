@@ -9,6 +9,7 @@ import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,6 +32,9 @@ public class CurseCommand implements CommandExecutor {
     public CurseCommand() {
         gui = new Gui(ChatColor.DARK_RED + "Curses", 1);
         // TODO: Add curses
+        gui.addItem(Curse.GREED.getName(), Material.SUNFLOWER, null, 0, "curse greed", true);
+        gui.addItem(Curse.BINDING.getName(), Material.BARRIER, null, 2, "curse binding", true);
+        gui.addItem(Curse.POSSESSION.getName(), Material.LEAD, null, 3, "curse possession", true);
 
         Main.plugin.getServer().getPluginManager().registerEvents(gui, Main.plugin);
     }
@@ -43,7 +47,7 @@ public class CurseCommand implements CommandExecutor {
                 if (!(sender instanceof Player)) {
                     Messenger.sendError("Only players can open the curses GUI!", sender);
                 } else {
-                    gui.open((Player) sender);
+                    Bukkit.getScheduler().runTask(Main.plugin, () -> gui.open((Player) sender));
                 }
             } else {
                 String name = String.join(" ", args);
