@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -32,9 +33,15 @@ public class CurseCommand implements CommandExecutor {
     public CurseCommand() {
         gui = new Gui(ChatColor.DARK_RED + "Curses", 1);
         // TODO: Add curses
-        gui.addItem(Curse.GREED.getName(), Material.SUNFLOWER, null, 0, "curse greed", true);
-        gui.addItem(Curse.BINDING.getName(), Material.BARRIER, null, 2, "curse binding", true);
-        gui.addItem(Curse.POSSESSION.getName(), Material.LEAD, null, 3, "curse possession", true);
+        gui.addItem(ChatColor.DARK_RED + Curse.GREED.getName(), Material.SUNFLOWER, Collections.singletonList(
+                ChatColor.DARK_PURPLE + "Set the coin multiplier to a random number in the range [0.7-1.5]"
+        ), 0, "curse greed", true);
+        gui.addItem(ChatColor.DARK_RED + Curse.BINDING.getName(), Material.BARRIER, Collections.singletonList(
+                ChatColor.DARK_PURPLE + "Prevent players from changing kits"
+        ), 2, "curse binding", true);
+        gui.addItem(ChatColor.DARK_RED + Curse.POSSESSION.getName(), Material.LEAD, Collections.singletonList(
+                ChatColor.DARK_PURPLE + "Force a random kit onto all players"
+        ), 3, "curse possession", true);
 
         Main.plugin.getServer().getPluginManager().registerEvents(gui, Main.plugin);
     }
