@@ -50,14 +50,16 @@ public class CurseCommand implements CommandExecutor {
                     Bukkit.getScheduler().runTask(Main.plugin, () -> gui.open((Player) sender));
                 }
             } else {
-                String name = String.join(" ", args);
-                Curse curse = Curse.get(name);
-                if (curse == null)
-                    Messenger.sendError("The curse \"" + name + "\" does not exist!", sender);
-                else if (curse.isActive())
-                    Messenger.sendError(curse.getName() + " is already active!", sender);
-                else
-                    activateCurse(curse);
+                // Attempt to activate the curse
+                try {
+                    Curse curse = Curse.valueOf(args[0].toUpperCase());
+                    if (curse.isActive())
+                        Messenger.sendError(curse.getName() + " is already active!", sender);
+                    else
+                        activateCurse(curse);
+                } catch (IllegalArgumentException exception) {
+                    Messenger.sendError("The curse \"" + args[0] + "\" does not exist!", sender);
+                }
             }
         });
 

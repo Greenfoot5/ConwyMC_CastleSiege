@@ -41,40 +41,6 @@ public enum Curse {
     }
 
     /**
-     * Get a curse by its name.
-     * @param curse The name of the curse
-     * @return The curse corresponding to the given name, null if none was found.
-     */
-    public static Curse get(String curse) {
-        switch (curse.toLowerCase()) {
-            case "greed":
-            case "curse of greed":
-                return GREED;
-            case "dice":
-            case "curse of dice":
-            case "curse of the dice":
-                return DICE;
-            case "binding":
-            case "curse of binding":
-                return BINDING;
-            case "possession":
-            case "curse of possession":
-                return POSSESSION;
-            case "vanishing":
-            case "curse of vanishing":
-                return VANISHING;
-            case "teamwork":
-            case "curse of teamwork":
-                return TEAMWORK;
-            case "teleportation":
-            case "curse of teleportation":
-                return TELEPORTATION;
-            default:
-                return null;
-        }
-    }
-
-    /**
      * Get the name of this curse.
      * @return The name of this curse
      */
