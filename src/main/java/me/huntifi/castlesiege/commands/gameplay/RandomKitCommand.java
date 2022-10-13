@@ -62,6 +62,11 @@ public class RandomKitCommand implements CommandExecutor {
             return;
         }
 
+        if (Curse.POSSESSION.isActive()) {
+            Messenger.sendError(Curse.POSSESSION.getName() + " prevents you from changing kits!", sender);
+            return;
+        }
+
         // Get unlocked kits, or all if it's Friday
         Collection<String> unlockedKits = CoinKit.isFree() ? Kit.getKits() : ActiveData.getData(uuid).getUnlockedKits();
         ArrayList<Kit> kits = new ArrayList<>();

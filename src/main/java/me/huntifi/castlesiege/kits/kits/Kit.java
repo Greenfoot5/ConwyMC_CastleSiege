@@ -392,6 +392,12 @@ public abstract class Kit implements CommandExecutor {
             return false;
         }
 
+        if (equippedKits.get(((Player) sender).getUniqueId()) != null && Curse.POSSESSION.isActive()) {
+            if (verbose)
+                Messenger.sendError(Curse.POSSESSION.getName() + " prevents you from changing kits!", sender);
+            return false;
+        }
+
         if (applyLimit && limit >= 0 && violatesLimit(TeamController.getTeam(uuid))) {
             if (verbose)
                 Messenger.sendError("Could not select " + this.name + " as its limit has been reached!", sender);
