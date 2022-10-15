@@ -5,7 +5,6 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -58,7 +57,7 @@ public class RandomKitCommand implements CommandExecutor {
 
         unlockedKits.forEach((kitName) -> {
             Kit kit = Kit.getKit(kitName);
-            if (kit == null || !kit.canSelect(player, false)) {
+            if (kit == null || !kit.canSelect(player, false, true)) {
                 return;
             }
             kits.add(kit);
