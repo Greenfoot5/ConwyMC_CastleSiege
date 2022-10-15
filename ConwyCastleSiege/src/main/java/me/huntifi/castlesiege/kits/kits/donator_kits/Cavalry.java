@@ -43,7 +43,7 @@ public class Cavalry extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Cavalry() {
-        super("Cavalry", 170, 9, 7500);
+        super("Cavalry", 270, 9, 7500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -51,13 +51,13 @@ public class Cavalry extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Sabre", null, null, 33);
+                ChatColor.GREEN + "Sabre", null, null, 43);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Sabre",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.SWEEPING_EDGE, 0)), 35),
+                        Collections.singletonList(new Tuple<>(Enchantment.SWEEPING_EDGE, 0)), 45),
                 0);
 
         // Chestplate
@@ -155,7 +155,7 @@ public class Cavalry extends DonatorKit implements Listener {
                                 all.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
                                 all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));
                                 all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
-                                all.damage(60, p);
+                                all.damage(70, p);
                             }
                         }
 

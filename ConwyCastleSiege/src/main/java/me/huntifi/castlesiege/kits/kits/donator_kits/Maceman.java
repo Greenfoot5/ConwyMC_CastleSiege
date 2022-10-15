@@ -35,7 +35,7 @@ public class Maceman extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Maceman() {
-        super("Maceman", 180, 12, 6000);
+        super("Maceman", 280, 12, 6000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -43,13 +43,13 @@ public class Maceman extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
-                ChatColor.GREEN + "Mace", null, null, 27);
+                ChatColor.GREEN + "Mace", null, null, 37);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
                         ChatColor.GREEN + "Mace",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 29),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 39),
                 0);
 
         // Chestplate

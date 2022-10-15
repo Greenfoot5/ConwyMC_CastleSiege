@@ -41,7 +41,7 @@ public class Warhound extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Warhound() {
-        super("Warhound", 80, 10, 7500);
+        super("Warhound", 170, 10, 7500);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;
@@ -52,13 +52,13 @@ public class Warhound extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
-                ChatColor.RED + "Fangs", null, null, 20);
+                ChatColor.RED + "Fangs", null, null, 28);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
                         ChatColor.RED + "Fangs",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 22),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 30),
                 0);
 
         super.equipment = es;

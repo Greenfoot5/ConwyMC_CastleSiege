@@ -32,7 +32,7 @@ public class Warbear extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Warbear() {
-        super("Warbear", 300, 9, 99999999);
+        super("Warbear", 400, 9, 99999999);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;
@@ -44,13 +44,13 @@ public class Warbear extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
-                ChatColor.RED + "Claws", null, null, 20);
+                ChatColor.RED + "Claws", null, null, 30);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
                         ChatColor.RED + "Claws",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 22),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
                 0);
 
         // Claws

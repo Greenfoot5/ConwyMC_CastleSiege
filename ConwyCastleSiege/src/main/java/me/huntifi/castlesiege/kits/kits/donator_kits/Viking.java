@@ -30,7 +30,7 @@ public class Viking extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Viking() {
-        super("Viking", 170, 10, 6000);
+        super("Viking", 260, 10, 6000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -38,13 +38,13 @@ public class Viking extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                ChatColor.GREEN + "Giant Battle Axe", null, null, 18);
+                ChatColor.GREEN + "Giant Battle Axe", null, null, 23);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                         ChatColor.GREEN + "Giant Battle Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 20),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 25),
                 0);
 
         // Chestplate

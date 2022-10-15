@@ -27,7 +27,7 @@ public class MoriaOrc extends TeamKit implements Listener {
 
 
     public MoriaOrc() {
-        super("Moria Orc", 130, 7, "Moria", "The Orcs", 2500);
+        super("Moria Orc", 230, 7, "Moria", "The Orcs", 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -35,13 +35,13 @@ public class MoriaOrc extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Dagger", null, null, 19);
+                ChatColor.GREEN + "Dagger", null, null, 29);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Dagger",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 21),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31),
                 0);
 
         // Chestplate

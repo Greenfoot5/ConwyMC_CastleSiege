@@ -44,7 +44,7 @@ public class Alchemist extends DonatorKit implements Listener {
     private final ItemStack standVoted;
 
     public Alchemist() {
-        super("Alchemist", 150, 9, 7500);
+        super("Alchemist", 250, 9, 7500);
         super.canSeeHealth = true;
 
         // Equipment Stuff
@@ -58,7 +58,7 @@ public class Alchemist extends DonatorKit implements Listener {
                         ChatColor.AQUA + "right click it to get a potion.", "",
                         ChatColor.AQUA + "(tip): This brewing stand is a weapon, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
-                Collections.singletonList(new Tuple<>(Enchantment.LOYALTY, 1)), 26);
+                Collections.singletonList(new Tuple<>(Enchantment.LOYALTY, 1)), 36);
         es.hotbar[0] = stand;
         // Voted Brewing Stand
         standVoted = ItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
@@ -68,7 +68,7 @@ public class Alchemist extends DonatorKit implements Listener {
                         ChatColor.AQUA + "(tip): This brewing stand is a weapon, so you",
                         ChatColor.AQUA + "can beat your enemies to death with it."),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
-                        new Tuple<>(Enchantment.LOYALTY, 1)), 28);
+                        new Tuple<>(Enchantment.LOYALTY, 1)), 38);
         es.votedWeapon = new Tuple<>(standVoted, 0);
 
         // Chestplate
@@ -394,7 +394,7 @@ public class Alchemist extends DonatorKit implements Listener {
 
     public ItemStack randomPotion() {
 
-        int types = rand.nextInt(36);
+        int types = rand.nextInt(37);
         int amount = rand.nextInt(2);
         int time = rand.nextInt(3501) + 100;
         int smallTime = rand.nextInt(121) + 100;
@@ -402,6 +402,7 @@ public class Alchemist extends DonatorKit implements Listener {
         int amplifier = rand.nextInt(2);
         int bigAmplifier = rand.nextInt(5);
         int amplifierRegen = rand.nextInt(9);
+        int harmingAmplifier = rand.nextInt(3);
 
 
         ItemStack itemStack = new ItemStack(Material.SPLASH_POTION);
@@ -639,6 +640,13 @@ public class Alchemist extends DonatorKit implements Listener {
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.JUMP, 220, 0), true);
                     potionMeta.setColor(Color.AQUA);
                     potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Vanguard I");
+                    itemStack.setItemMeta(potionMeta);
+                    break;
+                case 36:
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 2, bigAmplifier), false);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.WITHER, mediumTime, amplifier), false);
+                    potionMeta.setColor(Color.fromRGB(40,37,36));
+                    potionMeta.setDisplayName(ChatColor.DARK_PURPLE + "Wolf Bite II");
                     itemStack.setItemMeta(potionMeta);
                     break;
                 default:

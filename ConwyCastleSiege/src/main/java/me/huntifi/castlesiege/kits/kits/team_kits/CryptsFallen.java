@@ -28,7 +28,7 @@ public class CryptsFallen extends TeamKit implements Listener {
      * Create a kit with basic settings
      */
     public CryptsFallen() {
-        super("Fallen", 220, 23, "Royal Crypts", "Tomb Guardians", 3500);
+        super("Fallen", 320, 23, "Royal Crypts", "Tomb Guardians", 3500);
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;
@@ -39,13 +39,13 @@ public class CryptsFallen extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GRAY + "Fallen Sword", null, null, 27);
+                ChatColor.GRAY + "Fallen Sword", null, null, 37);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GRAY + "Fallen Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 29),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 39),
                 0);
 
         super.equipment = es;
@@ -92,7 +92,7 @@ public class CryptsFallen extends TeamKit implements Listener {
                 q.setCooldown(Material.IRON_SWORD, 50);
 
                 if (!p.isBlocking())
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.WITHER, 120, 1)));
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.WITHER, 180, 1)));
             }
         }
     }

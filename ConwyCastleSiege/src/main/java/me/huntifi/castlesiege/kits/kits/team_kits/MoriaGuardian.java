@@ -24,7 +24,7 @@ import java.util.Objects;
 public class MoriaGuardian extends TeamKit implements Listener {
 
     public MoriaGuardian() {
-        super("Dwarven Guardian", 210, 8, "Moria", "The Dwarves", 5000);
+        super("Dwarven Guardian", 310, 8, "Moria", "The Dwarves", 5000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -32,13 +32,13 @@ public class MoriaGuardian extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Sword", null, null, 31);
+                ChatColor.GREEN + "Sword", null, null, 41);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 33),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 43),
                 0);
 
         // Shield
