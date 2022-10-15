@@ -64,7 +64,9 @@ public class DeathEvent implements Listener {
             Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 
         player.setWalkSpeed(0.2f);
-        PlayerConnect.sendTitlebarMessages(player);
+        if (ActiveData.getData(player.getUniqueId()).getSetting("disableWM_Message").equals("false")) {
+            PlayerConnect.sendTitlebarMessages(player);
+        }
     }
 
     /**

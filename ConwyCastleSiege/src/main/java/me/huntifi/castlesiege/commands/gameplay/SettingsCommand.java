@@ -28,6 +28,7 @@ public class SettingsCommand implements CommandExecutor, Listener {
         // TODO: put("language", new String[]{"EnglishUK", "Pirate"});
         put("joinPing", new String[]{"false", "true"});
         put("statsBoard", new String[]{"false", "true"});
+        put("disableWM_Message", new String[]{"false", "true"});
     }};
 
     private static final HashMap<HumanEntity, Gui> guis = new HashMap<>();
@@ -61,6 +62,7 @@ public class SettingsCommand implements CommandExecutor, Listener {
                             ChatColor.GOLD + "randomDeath (true/false) - " + ChatColor.BLUE + "Each time you die, runs /random to give you a new random class\n" +
                             ChatColor.GOLD + "deathMessages (true/false) - " + ChatColor.BLUE + "View all death messages, not just your own\n" +
                             ChatColor.GOLD + "joinPing (true/false) - " + ChatColor.BLUE + "Get a ping sound when another player joins the server\n" +
+                            ChatColor.GOLD + "disableWM_Message (true/false) - " + ChatColor.BLUE + "Disable the Title Bar message related to the Wool-map\n" +
                             ChatColor.GOLD + "statsBoard (true/false) - " + ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names ",
                     sender);
             return true;
@@ -130,6 +132,10 @@ public class SettingsCommand implements CommandExecutor, Listener {
             case "statsBoard":
                 gui.addItem(itemName, Material.DIAMOND, Collections.singletonList(
                                 ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names"),
+                        3, command, false);
+            case "disableWM_Message":
+                gui.addItem(itemName, Material.DIAMOND, Collections.singletonList(
+                                ChatColor.BLUE + "Disable the Title bar message related to the Wool-map"),
                         3, command, false);
                 break;
         }
