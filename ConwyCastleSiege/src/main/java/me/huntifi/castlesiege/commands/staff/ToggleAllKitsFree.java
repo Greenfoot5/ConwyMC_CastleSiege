@@ -44,7 +44,6 @@ public class ToggleAllKitsFree implements CommandExecutor {
         else
             MapController.allKitsFree = !MapController.allKitsFree;
 
-        if (MapController.allKitsFree)
-            Messenger.broadcastInfo("All donator & team kits are " + (MapController.allKitsFree ? "now temporarily free!" : "no longer free."));
+        Messenger.broadcastInfo("All donator & team kits are " + (MapController.allKitsFree ? "now temporarily free!" : "no longer free."));
     }
 }
