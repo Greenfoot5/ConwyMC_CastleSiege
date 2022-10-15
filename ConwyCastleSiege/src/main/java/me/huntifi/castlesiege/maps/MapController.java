@@ -13,15 +13,10 @@ import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.maps.objects.Catapult;
-import me.huntifi.castlesiege.maps.objects.Door;
-import me.huntifi.castlesiege.maps.objects.Flag;
-import me.huntifi.castlesiege.maps.objects.Gate;
-import me.huntifi.castlesiege.maps.objects.Ram;
+import me.huntifi.castlesiege.maps.objects.*;
 import me.huntifi.castlesiege.secrets.SecretItems;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -52,6 +47,7 @@ public class MapController {
 	public static boolean keepTeams = false;
 	private static final ArrayList<ArrayList<UUID>> teams = new ArrayList<>();
 	public static boolean disableSwitching = false;
+	public static boolean forcedRandom = false;
 
 	/**
 	 * Begins the map loop
@@ -63,9 +59,7 @@ public class MapController {
 				if (mapCount > 0 && mapCount < maps.size())
 					maps = maps.subList(0, mapCount);
 			}
-			Bukkit.getScheduler().runTask(Main.plugin, () -> {
-				loadMap();
-			});
+			Bukkit.getScheduler().runTask(Main.plugin, MapController::loadMap);
 		});
 	}
 
@@ -439,15 +433,6 @@ public class MapController {
 			team.clear();
 		}
 	 });
-	}
-
-	/**
-	 * Checks if the current map is the one specified
-	 * @param mapName The name of the map
-	 * @return If mapName is the same as the current map
-	 */
-	public static Boolean currentMapIs(String mapName) {
-		return maps.get(mapIndex).name.equalsIgnoreCase(mapName);
 	}
 
 	/**

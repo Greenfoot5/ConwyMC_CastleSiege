@@ -58,7 +58,8 @@ public class DeathEvent implements Listener {
             return;
         }
 
-        if (Objects.equals(ActiveData.getData(player.getUniqueId()).getSetting("randomDeath"), "true"))
+        if (Objects.equals(ActiveData.getData(player.getUniqueId()).getSetting("randomDeath"), "true") ||
+        MapController.forcedRandom)
             player.performCommand("random");
         else
             Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
