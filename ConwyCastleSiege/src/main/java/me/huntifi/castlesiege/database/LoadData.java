@@ -53,7 +53,7 @@ public class LoadData {
             HashMap<String, String> settings = getSettings(uuid);
 
             // Collect data and release resources
-            PlayerData data = new PlayerData(unlockedKits, foundSecrets, prMute.getSecond(), prStats.getSecond(), prRank.getSecond(), votes, settings);
+            PlayerData data = new PlayerData(unlockedAchievements, unlockedKits, foundSecrets, prMute.getSecond(), prStats.getSecond(), prRank.getSecond(), votes, settings);
             prMute.getFirst().close();
             prStats.getFirst().close();
             prRank.getFirst().close();
