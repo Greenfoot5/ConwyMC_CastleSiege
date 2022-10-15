@@ -334,6 +334,13 @@ commands:
     usage: /togglerank
     permission: castlesiege.chatmod
     permission-message: You are not permitted to use this command!
+  ToggleFree:
+    description: Disables/Enables non-forceful switching
+    usage: /togglefree [true/false]
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+    aliases:
+    - togglenolimits
   Spectate:
     description: Makes you, or another player, a spectator.
     usage: /spectate [player]

@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -36,7 +37,8 @@ public abstract class DonatorKit extends Kit {
 
         UUID uuid = ((Player) sender).getUniqueId();
         boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
-        if (!hasKit && !isFriday()) {
+        boolean allKitsFree = MapController.allKitsFree;
+        if (!hasKit && !isFriday() && !allKitsFree) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null)
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);

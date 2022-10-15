@@ -47,6 +47,7 @@ public class MapController {
 	public static boolean keepTeams = false;
 	private static final ArrayList<ArrayList<UUID>> teams = new ArrayList<>();
 	public static boolean disableSwitching = false;
+	public static boolean allKitsFree = false;
 	public static boolean forcedRandom = false;
 
 	/**
@@ -266,7 +267,7 @@ public class MapController {
 			}
 		}
 
-		// Setup the time
+		// Set up the time
 		World world = Bukkit.getWorld(maps.get(mapIndex).worldName);
 		assert world != null;
 		world.setTime(maps.get(mapIndex).startTime);
