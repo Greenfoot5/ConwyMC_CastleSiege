@@ -48,6 +48,7 @@ public class MapController {
 	private static final ArrayList<ArrayList<UUID>> teams = new ArrayList<>();
 	public static boolean disableSwitching = false;
 	public static boolean allKitsFree = false;
+	public static boolean forcedRandom = false;
 
 	/**
 	 * Begins the map loop

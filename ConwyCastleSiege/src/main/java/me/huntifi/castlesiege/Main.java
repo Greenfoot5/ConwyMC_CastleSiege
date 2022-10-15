@@ -311,6 +311,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Start")).setExecutor(new StartCommand());
                 Objects.requireNonNull(getCommand("SetTag")).setExecutor(new NameTag());
                 Objects.requireNonNull(getCommand("ToggleFree")).setExecutor(new ToggleAllKitsFree());
+                Objects.requireNonNull(getCommand("ToggleForcedRandom")).setExecutor(new ToggleForcedRandom());
 
                 // Kits
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
@@ -683,6 +684,9 @@ public class Main extends JavaPlugin implements Listener {
 
         // All Kits are FREE
         MapController.allKitsFree = gameConfig.getBoolean(Route.from("free_kits"), MapController.allKitsFree);
+
+        // Forced Random
+        MapController.forcedRandom = gameConfig.getBoolean(Route.from("forced_random"), MapController.forcedRandom);
 
         // Delays
         Route route = Route.from("delays");
