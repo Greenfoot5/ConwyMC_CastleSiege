@@ -134,9 +134,9 @@ public class SettingsCommand implements CommandExecutor, Listener {
                                 ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names"),
                         3, command, false);
             case "disableWM_Message":
-                gui.addItem(itemName, Material.DIAMOND, Collections.singletonList(
+                gui.addItem(itemName, Material.PAPER, Collections.singletonList(
                                 ChatColor.BLUE + "Disable the Title bar message related to the Wool-map"),
-                        3, command, false);
+                        4, command, false);
                 break;
         }
     }

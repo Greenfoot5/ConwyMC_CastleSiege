@@ -17,14 +17,18 @@ import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
@@ -33,6 +37,8 @@ import java.util.UUID;
  * Manages what happens when a player dies
  */
 public class DeathEvent implements Listener {
+
+    public static ArrayList<Player> cantSpawn = new ArrayList<>();
 
     private static final HashMap<Player, Player> killerMap = new HashMap<>();
 
@@ -67,6 +73,7 @@ public class DeathEvent implements Listener {
         if (ActiveData.getData(player.getUniqueId()).getSetting("disableWM_Message").equals("false")) {
             PlayerConnect.sendTitlebarMessages(player);
         }
+        Bukkit.getScheduler().runTaskLater(Main.plugin, () -> respawnAnimation(player), 10);
     }
 
     /**
@@ -77,6 +84,7 @@ public class DeathEvent implements Listener {
      */
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
+        cantSpawn.add(event.getEntity());
         event.setDeathMessage(null);
         event.getEntity().eject();
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
@@ -90,12 +98,50 @@ public class DeathEvent implements Listener {
         });
     }
 
-    /**
-     * Auto-respawn the player
-     * @param p The player to respawn
-     */
     private void respawn(Player p) {
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> p.spigot().respawn(), 10);
+    }
+
+
+    /**
+     * No longer auto-respawns the player instead it puts them in a static spectator mode and it counts down
+     * @param p The player to respawn
+     */
+    private void respawnAnimation(Player p) {
+         respawnCounter(p);
+    }
+
+    /**
+     * counts down to 0 then respawns the player
+     * @param p the player to display the counter to
+     */
+    private void respawnCounter(Player p) {
+        if (!p.isOnline()) {return;}
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                p.sendTitle("", ChatColor.DARK_GREEN + "Able to spawn in " + ChatColor.GREEN + 3, 20, 20, 20);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        p.sendTitle("", ChatColor.DARK_GREEN + "Able to spawn in " + ChatColor.GREEN + 2, 20, 20, 20);
+
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                p.sendTitle("", ChatColor.DARK_GREEN + "Able to spawn in " + ChatColor.GREEN + 1, 20, 20, 20);
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        cantSpawn.remove(p);
+                                    }
+                                }.runTaskLater(Main.plugin, 20);
+                            }
+                        }.runTaskLater(Main.plugin, 20);
+                    }
+                }.runTaskLater(Main.plugin, 20);
+               }
+            }.runTaskLater(Main.plugin, 20);
     }
 
     /**
@@ -203,4 +249,16 @@ public class DeathEvent implements Listener {
             assist.sendMessage("You assisted in killing " + NameTag.color(target) + target.getName());
         }
     }
+
+    /**
+     *
+     * @param e removes players that can't respawn from the list when they leave.
+     */
+    @EventHandler
+    public void onLeave (PlayerQuitEvent e) {
+        if (cantSpawn.contains(e.getPlayer())) {
+            cantSpawn.remove(e.getPlayer());
+        }
+    }
+
 }
