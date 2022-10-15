@@ -336,7 +336,7 @@ commands:
     permission-message: You are not permitted to use this command!
   ToggleFree:
     description: Disables/Enables non-forceful switching
-    usage: /togglesfree [true/false]
+    usage: /togglefree [true/false]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
     aliases:
