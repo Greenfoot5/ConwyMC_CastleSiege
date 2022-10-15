@@ -32,10 +32,11 @@ public class Warbear extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Warbear() {
-        super("Warbear", 200, 9, 99999999);
+        super("Warbear", 300, 9, 99999999);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;
+        super.kbResistance = 1;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -43,13 +44,13 @@ public class Warbear extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
-                ChatColor.RED + "Claws", null, null, 30);
+                ChatColor.RED + "Claws", null, null, 20);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
                         ChatColor.RED + "Claws",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 22),
                 0);
 
         // Claws
@@ -63,7 +64,8 @@ public class Warbear extends DonatorKit implements Listener {
         super.equipment = es;
 
         // Perm Potion Effect
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 1));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 1));
 
         // Death Messages
         super.deathMessage[0] = "You were eaten alive by ";

@@ -48,7 +48,7 @@ public class FireArcher extends VoterKit implements Listener {
     private static final int knockbackLevel = 2;
     private static final int ladderCount = 4;
     private static final int arrowCount = 48;
-    private static final int bowPowerLevel = 9;
+    private static final int bowPowerLevel = 10;
     private static final double arrowDamage = 10;
 
     private static final int fireArrowCreationCooldown = 30;
