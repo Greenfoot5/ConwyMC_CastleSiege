@@ -680,6 +680,9 @@ public class Main extends JavaPlugin implements Listener {
         // Coin multiplier
         PlayerData.setCoinMultiplier(gameConfig.getDouble(Route.from("coin_multiplier"), 1.0));
 
+        // Forced Random
+        MapController.forcedRandom = gameConfig.getBoolean(Route.from("forced_random"), MapController.forcedRandom);
+
         // Delays
         Route route = Route.from("delays");
         MapController.preGameTime = gameConfig.getInt(route.add("game"), MapController.preGameTime);
