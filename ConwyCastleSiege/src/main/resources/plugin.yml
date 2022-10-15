@@ -358,6 +358,13 @@ commands:
     description: Set a nametag prefix
     usage: /settag <tag>
     permission: castlesiege.developer
+  ToggleForcedRandom:
+    description: Disables/Enables forced randomDeath setting
+    usage: /toggleforcedrandom [true/false]
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+    aliases:
+      - togglerandom
 
   # Donations
   Unlockkit:
