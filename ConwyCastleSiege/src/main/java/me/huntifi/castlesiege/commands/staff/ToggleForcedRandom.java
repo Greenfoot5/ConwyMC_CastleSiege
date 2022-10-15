@@ -44,6 +44,6 @@ public class ToggleForcedRandom implements CommandExecutor {
         else
             MapController.forcedRandom = !MapController.forcedRandom;
 
-        Messenger.broadcastInfo("/random on death is now " + (MapController.forcedRandom ? "disabled" : "enabled") + " for all players.");
+        Messenger.broadcastInfo("/random on death is now " + (MapController.forcedRandom ? "enabled" : "disabled") + " for all players.");
     }
 }

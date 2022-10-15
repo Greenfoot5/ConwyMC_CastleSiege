@@ -323,7 +323,7 @@ public abstract class Kit implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            if (canSelect(sender, true))
+            if (canSelect(sender, true, false))
                 addPlayer(((Player) sender).getUniqueId());
         });
         return true;
@@ -333,9 +333,10 @@ public abstract class Kit implements CommandExecutor {
      * Check if the player can select this kit
      * @param sender Source of the command
      * @param verbose Whether error messages should be sent
+     * @param isRandom Whether the check is done by the random command
      * @return Whether the player can select this kit
      */
-    public boolean canSelect(CommandSender sender, boolean verbose) {
+    public boolean canSelect(CommandSender sender, boolean verbose, boolean isRandom) {
         if (!(sender instanceof Player)) {
             if (verbose)
                 Messenger.sendError("Console cannot select kits!", sender);
@@ -352,6 +353,12 @@ public abstract class Kit implements CommandExecutor {
         if (limit >= 0 && violatesLimit(TeamController.getTeam(uuid))) {
             if (verbose)
                 Messenger.sendError("Could not select " + this.name + " as its limit has been reached!", sender);
+            return false;
+        }
+
+        if (MapController.forcedRandom && !isRandom) {
+            if (verbose)
+                Messenger.sendError("Could not select " + this.name + " as forced random is enabled!", sender);
             return false;
         }
 

@@ -78,7 +78,7 @@ public class PlayerConnect implements Listener {
 
             // Assign stored kit
             Kit kit = Kit.getKit(data.getKit());
-            if (kit != null && kit.canSelect(p, true))
+            if (kit != null && kit.canSelect(p, true, false))
                 kit.addPlayer(uuid);
             else
                 Kit.getKit("Swordsman").addPlayer(uuid);

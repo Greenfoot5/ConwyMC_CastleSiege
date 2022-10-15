@@ -30,11 +30,12 @@ public abstract class VoterKit extends Kit {
      * Check if the player can select this kit
      * @param sender Source of the command
      * @param verbose Whether error messages should be sent
+     * @param isRandom Whether the kit is selected by /random
      * @return Whether the player can select this kit
      */
     @Override
-    public boolean canSelect(CommandSender sender, boolean verbose) {
-        if (!super.canSelect(sender, verbose))
+    public boolean canSelect(CommandSender sender, boolean verbose, boolean isRandom) {
+        if (!super.canSelect(sender, verbose, isRandom))
             return false;
 
         UUID uuid = ((Player) sender).getUniqueId();
