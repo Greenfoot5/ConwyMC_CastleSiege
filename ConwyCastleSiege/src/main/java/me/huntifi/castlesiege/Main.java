@@ -310,6 +310,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new ToggleSwitching());
                 Objects.requireNonNull(getCommand("Start")).setExecutor(new StartCommand());
                 Objects.requireNonNull(getCommand("SetTag")).setExecutor(new NameTag());
+                Objects.requireNonNull(getCommand("ToggleFree")).setExecutor(new ToggleAllKitsFree());
 
                 // Kits
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
@@ -679,6 +680,9 @@ public class Main extends JavaPlugin implements Listener {
 
         // Coin multiplier
         PlayerData.setCoinMultiplier(gameConfig.getDouble(Route.from("coin_multiplier"), 1.0));
+
+        // All Kits are FREE
+        MapController.allKitsFree = gameConfig.getBoolean(Route.from("free_kits"), MapController.allKitsFree);
 
         // Delays
         Route route = Route.from("delays");
