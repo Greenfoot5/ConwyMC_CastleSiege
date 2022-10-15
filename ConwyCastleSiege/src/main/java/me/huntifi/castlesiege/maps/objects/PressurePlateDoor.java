@@ -41,7 +41,8 @@ public class PressurePlateDoor extends Door {
     @EventHandler
     public void onPressure(PlayerInteractEvent event) {
         if (event.getAction() != Action.PHYSICAL || event.getClickedBlock() == null
-                || event.getClickedBlock().getType() != Material.STONE_PRESSURE_PLATE) {
+                || (event.getClickedBlock().getType() != Material.STONE_PRESSURE_PLATE
+                && event.getClickedBlock().getType() != Material.POLISHED_BLACKSTONE_PRESSURE_PLATE)) {
             return;
         }
 
