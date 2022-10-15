@@ -337,7 +337,7 @@ commands:
   ToggleFree:
     description: Disables/Enables non-forceful switching
     usage: /togglesfree [true/false]
-    permission: castlesiege.developer
+    permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
     aliases:
     - togglenolimits
