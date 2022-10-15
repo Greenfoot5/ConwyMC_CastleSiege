@@ -77,8 +77,8 @@ public class BuyKitCommand implements CommandExecutor {
                 time = "10y";
                 timeMessage = "permanently";
             } else {
-                time = "30d";
-                timeMessage = "for 30 days";
+                time = "10y";
+                timeMessage = "permanently";
             }
 
             // Give the kit to the player

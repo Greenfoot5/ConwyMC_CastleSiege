@@ -35,7 +35,7 @@ public class Maceman extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Maceman() {
-        super("Maceman", 280, 12, 6000);
+        super("Maceman", 280, 12, 8500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
