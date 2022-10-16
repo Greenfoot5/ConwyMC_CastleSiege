@@ -25,7 +25,7 @@ import java.util.Objects;
 public class ConwyArbalester extends TeamKit implements Listener {
 
     public ConwyArbalester() {
-        super("Arbalester", 160, 3, "Conwy", "The English", 5000);
+        super("Arbalester", 260, 3, "Conwy", "The English", 5000);
 
 
         // Equipment Stuff
@@ -103,7 +103,7 @@ public class ConwyArbalester extends TeamKit implements Listener {
             Arrow a = (Arrow) e.getProjectile();
             ((Arrow) e.getProjectile()).setPierceLevel(2);
             a.setKnockbackStrength(2);
-            a.setVelocity(p.getLocation().getDirection().normalize().multiply(42));
+            a.setVelocity(p.getLocation().getDirection().normalize().multiply(45));
         }
     }
 

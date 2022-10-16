@@ -1,8 +1,11 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -30,6 +33,10 @@ public class WoolMap implements Listener {
 		// Prevent spawning by physical actions, e.g. stepping on a pressure plate
 		if (e.getAction() == Action.PHYSICAL)
 			return;
+		if (DeathEvent.cantSpawn.contains(e.getPlayer())) {
+			Messenger.sendError("You can't spawn in yet!", e.getPlayer());
+			return;
+		}
 
 		Player player = e.getPlayer();
 		Block target = player.getTargetBlockExact(50);

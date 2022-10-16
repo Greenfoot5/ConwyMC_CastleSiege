@@ -9,6 +9,10 @@ load: STARTUP
 
 permissions:
   # Staff
+  castlesiege.owner:
+    description: Gives access to all CastleSiege Owner commands
+    children:
+      castlesiege.admin: true
   castlesiege.admin:
     description: Gives access to all CastleSiege Admin commands
     children:
@@ -334,6 +338,13 @@ commands:
     usage: /togglerank
     permission: castlesiege.chatmod
     permission-message: You are not permitted to use this command!
+  ToggleFree:
+    description: Disables/Enables non-forceful switching
+    usage: /togglefree [true/false]
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+    aliases:
+    - togglenolimits
   Spectate:
     description: Makes you, or another player, a spectator.
     usage: /spectate [player]
@@ -352,12 +363,19 @@ commands:
   Start:
     description: Ends the current timer phase
     usage: /start
-    permission: castlesiege.moderator
+    permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
   SetTag:
     description: Set a nametag prefix
     usage: /settag <tag>
     permission: castlesiege.developer
+  ToggleForcedRandom:
+    description: Disables/Enables forced randomDeath setting
+    usage: /toggleforcedrandom [true/false]
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+    aliases:
+      - togglerandom
 
   # Donations
   Unlockkit:

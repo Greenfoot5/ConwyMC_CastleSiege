@@ -60,14 +60,14 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
                 ChatColor.RED + "Fist",
                 Collections.singletonList(ChatColor.AQUA + "Right-click to start spawning a magma projectile"),
-                null, 20.5);
+                null, 30.5);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
                         ChatColor.RED + "Fist",
                         Arrays.asList(ChatColor.AQUA + "Right-click to start spawning a magma projectile!",
                                 ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 22.5),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32.5),
                 0);
 
         // Weapon
@@ -175,7 +175,7 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
                             != TeamController.getTeam(hit.getUniqueId())) {
                         if ((hit.getHealth() - e.getDamage() > 0)) {
                             e.setCancelled(true);
-                            hit.damage(100);
+                            hit.damage(150);
                             return;
                         } else {
                             e.setCancelled(true);

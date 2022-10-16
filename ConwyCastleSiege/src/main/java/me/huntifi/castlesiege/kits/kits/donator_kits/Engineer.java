@@ -58,7 +58,7 @@ public class Engineer extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Engineer() {
-        super("Engineer", 145, 9, 7500);
+        super("Engineer", 245, 9, 10000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -66,13 +66,13 @@ public class Engineer extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Shortsword", null, null, 28);
+                ChatColor.GREEN + "Shortsword", null, null, 38);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Shortsword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 30),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 40),
                 0);
 
         // Chestplate
@@ -176,7 +176,7 @@ public class Engineer extends DonatorKit implements Listener {
                 t.sendMessage(NameTag.color(p) + p.getName() + ChatColor.GREEN + " stepped on your trap.");
 
                 // Deal damage
-                double damage = Math.min(p.getHealth(), 40);
+                double damage = Math.min(p.getHealth(), 60);
                 if (damage == p.getHealth()) {
                     DeathEvent.setKiller(p, t);
                 }

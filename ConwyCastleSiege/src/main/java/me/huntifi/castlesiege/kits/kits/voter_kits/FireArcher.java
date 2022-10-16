@@ -42,14 +42,14 @@ import java.util.*;
  */
 public class FireArcher extends VoterKit implements Listener {
 
-    private static final int health = 140;
+    private static final int health = 240;
     private static final double regen = 9;
-    private static final double meleeDamage = 26;
+    private static final double meleeDamage = 36;
     private static final int knockbackLevel = 2;
     private static final int ladderCount = 4;
     private static final int arrowCount = 48;
-    private static final int bowPowerLevel = 9;
-    private static final double arrowDamage = 10;
+    private static final int bowPowerLevel = 12;
+    private static final double arrowDamage = 15;
 
     private static final int fireArrowCreationCooldown = 30;
     private static final int fireArrowHoldLimit = 9;

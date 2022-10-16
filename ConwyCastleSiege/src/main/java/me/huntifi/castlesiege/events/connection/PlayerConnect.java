@@ -78,7 +78,7 @@ public class PlayerConnect implements Listener {
 
             // Assign stored kit
             Kit kit = Kit.getKit(data.getKit());
-            if (kit != null && kit.canSelect(p, true))
+            if (kit != null && kit.canSelect(p, true, false))
                 kit.addPlayer(uuid);
             else
                 Kit.getKit("Swordsman").addPlayer(uuid);
@@ -116,8 +116,9 @@ public class PlayerConnect implements Listener {
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 0.1f);
             }
         }
-
-        sendTitlebarMessages(p);
+        if (ActiveData.getData(p.getUniqueId()).getSetting("woolmapTitleMessage").equals("true")) {
+            sendTitlebarMessages(p);
+        }
     }
 
     /**

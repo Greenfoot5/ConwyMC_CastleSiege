@@ -34,7 +34,7 @@ import java.util.UUID;
 
 public class MoriaWindlancer extends TeamKit implements Listener {
     public MoriaWindlancer() {
-        super("Dwarven Windlancer", 140, 9 , "Moria", "The Dwarves", 5000);
+        super("Dwarven Windlancer", 240, 9 , "Moria", "The Dwarves", 5000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -42,13 +42,13 @@ public class MoriaWindlancer extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 20),
-                ChatColor.GREEN + "Small Hand-Windlass Spear", null, null, 19);
+                ChatColor.GREEN + "Small Hand-Windlass Spear", null, null, 29);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STICK, 20),
                         ChatColor.GREEN + "Small Hand-Windlass Spear",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 21),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31),
                 0);
 
         // Chestplate

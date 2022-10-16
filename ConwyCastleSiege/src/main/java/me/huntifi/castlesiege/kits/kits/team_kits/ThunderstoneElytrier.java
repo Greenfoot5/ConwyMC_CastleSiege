@@ -35,7 +35,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
     public ThrownPotion potion;
 
     public ThunderstoneElytrier() {
-        super("Elytrier", 110, 7, "Thunderstone", "Thunderstone Guard", 5000);
+        super("Elytrier", 210, 7, "Thunderstone", "Thunderstone Guard", 5000);
         super.canCap = false;
         super.canSeeHealth = true;
         // Equipment Stuff
@@ -44,13 +44,13 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Sword", null, null, 20);
+                ChatColor.GREEN + "Sword", null, null, 30);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 22),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
                 0);
 
         // Chestplate

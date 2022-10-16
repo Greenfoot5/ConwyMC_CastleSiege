@@ -3,7 +3,6 @@ package me.huntifi.castlesiege.commands.staff;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
@@ -52,7 +51,7 @@ public class SpectateCommand implements CommandExecutor {
 
             // Assign stored kit
             Kit kit = Kit.getKit(ActiveData.getData(player.getUniqueId()).getKit());
-            if (kit != null && kit.canSelect(player, true))
+            if (kit != null && kit.canSelect(player, true, false))
                 kit.addPlayer(player.getUniqueId());
             else
                 Kit.getKit("Swordsman").addPlayer(player.getUniqueId());

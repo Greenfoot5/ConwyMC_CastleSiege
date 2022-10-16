@@ -33,7 +33,7 @@ public class Halberdier extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Halberdier() {
-        super("Halberdier", 384, 23, 7500);
+        super("Halberdier", 484, 23, 8500);
         super.kbResistance = 2;
 
         // Equipment Stuff
@@ -42,13 +42,13 @@ public class Halberdier extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-                ChatColor.GREEN + "Halberd", null, null, 48);
+                ChatColor.GREEN + "Halberd", null, null, 58);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
                         ChatColor.GREEN + "Halberd",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 50),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 60),
                 0);
 
         // Chestplate

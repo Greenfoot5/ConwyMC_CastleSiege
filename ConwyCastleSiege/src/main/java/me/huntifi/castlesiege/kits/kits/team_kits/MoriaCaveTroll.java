@@ -46,7 +46,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
     public ArrayList<Player> grabbed = new ArrayList<>();
 
     public MoriaCaveTroll() {
-        super("Moria Cave Troll", 350, 16, "Moria", "The Orcs", 7500);
+        super("Moria Cave Troll", 450, 16, "Moria", "The Orcs", 7500);
         super.canClimb = false;
         super.kbResistance = 1;
 
@@ -56,13 +56,13 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SHOVEL),
-                ChatColor.GREEN + "Troll Fist", null, null, 30);
+                ChatColor.GREEN + "Troll Fist", null, null, 40);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.WOODEN_SHOVEL),
                         ChatColor.GREEN + "Troll Fist",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 42),
                 0);
 
         // Ability
