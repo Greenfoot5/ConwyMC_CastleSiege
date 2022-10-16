@@ -51,6 +51,10 @@ public class PlayerChat implements Listener {
 		ChatColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
 				? ChatColor.WHITE : ChatColor.GRAY;
 
+		if (p.hasPermission("castlesiege.owner") && !ToggleRankCommand.showDonator.contains(p)) {
+			color = ChatColor.GREEN;
+		}
+
 		//Allow to tag players in chat
 		for (Player tagged : Bukkit.getOnlinePlayers()) {
 			if (message.contains("@" + tagged.getName())) {

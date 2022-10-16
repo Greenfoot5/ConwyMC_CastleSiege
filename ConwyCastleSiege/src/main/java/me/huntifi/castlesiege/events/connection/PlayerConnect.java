@@ -66,6 +66,8 @@ public class PlayerConnect implements Listener {
         Permissions.setStaffPermission(uuid, data.getStaffRank());
         Permissions.setDonatorPermission(uuid, data.getRank());
 
+        p.setGameMode(GameMode.SURVIVAL);
+
         // Assign the player to a team or spectator
         InCombat.playerDied(uuid);
         if (MapController.isMatch) {

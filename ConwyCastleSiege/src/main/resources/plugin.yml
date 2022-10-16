@@ -9,6 +9,10 @@ load: STARTUP
 
 permissions:
   # Staff
+  castlesiege.owner:
+    description: Gives access to all CastleSiege Owner commands
+    children:
+      castlesiege.admin: true
   castlesiege.admin:
     description: Gives access to all CastleSiege Admin commands
     children:
