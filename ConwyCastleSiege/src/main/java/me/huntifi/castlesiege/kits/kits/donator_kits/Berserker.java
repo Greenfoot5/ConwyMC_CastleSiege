@@ -71,13 +71,13 @@ public class Berserker extends DonatorKit implements Listener {
         // Berserk Weapon
         berserkSword = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Berserker Sword", null,
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 75.5);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 85.5);
         // Voted Berserk Weapon
         berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Berserker Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
-                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 77.5);
+                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 87.5);
 
         super.equipment = es;
 

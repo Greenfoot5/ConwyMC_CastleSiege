@@ -73,13 +73,8 @@ public class BuyKitCommand implements CommandExecutor {
             // Get the time to unlock the kit for
             String time;
             String timeMessage;
-            if (kit instanceof TeamKit) {
-                time = "10y";
-                timeMessage = "permanently";
-            } else {
-                time = "10y";
-                timeMessage = "permanently";
-            }
+            time = "10y";
+            timeMessage = "permanently";
 
             // Give the kit to the player
             ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
