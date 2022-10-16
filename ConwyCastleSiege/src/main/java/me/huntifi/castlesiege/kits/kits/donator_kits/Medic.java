@@ -52,7 +52,7 @@ public class Medic extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Medic() {
-        super("Medic", 110, 11, 5000);
+        super("Medic", 210, 11, 7500);
         super.canSeeHealth = true;
 
         // Equipment Stuff
@@ -61,13 +61,13 @@ public class Medic extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
-                ChatColor.GREEN + "Scalpel", null, null, 26);
+                ChatColor.GREEN + "Scalpel", null, null, 36);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
                         ChatColor.GREEN + "Scalpel",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 28),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 38),
                 0);
 
         // Chestplate

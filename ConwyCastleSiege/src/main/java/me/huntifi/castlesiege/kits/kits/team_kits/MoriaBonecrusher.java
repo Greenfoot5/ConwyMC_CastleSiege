@@ -30,7 +30,7 @@ import java.util.Random;
 public class MoriaBonecrusher extends TeamKit implements Listener {
 
     public MoriaBonecrusher() {
-        super("Moria Bonecrusher", 140, 8, "Moria","The Orcs", 4000);
+        super("Moria Bonecrusher", 240, 8, "Moria","The Orcs", 4000);
 
 
         // Equipment Stuff
@@ -39,13 +39,13 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.BONE),
-                ChatColor.GREEN + "Crushing Bone", null, null, 24);
+                ChatColor.GREEN + "Crushing Bone", null, null, 34);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.BONE),
                         ChatColor.GREEN + "Crushing Bone",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 26),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 36),
                 0);
 
         // Chestplate

@@ -24,7 +24,7 @@ import java.util.*;
 public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
     
     public HelmsDeepRangedCavalry() {
-        super("Ranged Cavalry", 130, 9, "Helm's Deep", "Rohan", 2500);
+        super("Ranged Cavalry", 230, 9, "Helm's Deep", "Rohan", 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -32,13 +32,13 @@ public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Longsword", null, null, 19.5);
+                ChatColor.GREEN + "Longsword", null, null, 29.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Longsword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 21.5),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31.5),
                 0);
 
         // Regular Bow

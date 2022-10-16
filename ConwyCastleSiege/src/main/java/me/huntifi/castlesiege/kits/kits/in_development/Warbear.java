@@ -32,10 +32,11 @@ public class Warbear extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Warbear() {
-        super("Warbear", 200, 9, 99999999);
+        super("Warbear", 400, 9, 99999999);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;
+        super.kbResistance = 1;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -63,7 +64,8 @@ public class Warbear extends DonatorKit implements Listener {
         super.equipment = es;
 
         // Perm Potion Effect
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 1));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 1));
 
         // Death Messages
         super.deathMessage[0] = "You were eaten alive by ";
@@ -113,8 +115,8 @@ public class Warbear extends DonatorKit implements Listener {
      */
     private void bite(Player bear, Player player) {
         bear.setCooldown(Material.GHAST_TEAR, 280);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 160, 0));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 1));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 180, 0));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80, 2));
     }
 
     /**
@@ -145,8 +147,8 @@ public class Warbear extends DonatorKit implements Listener {
                 && (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
                 && player.getInventory().getItemInMainHand().getType() == Material.RABBIT_FOOT
                 && player.getCooldown(Material.RABBIT_FOOT) == 0) {
-            player.setCooldown(Material.RABBIT_FOOT, 260);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, 3));
+            player.setCooldown(Material.RABBIT_FOOT, 500);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 180, 4));
         }
     }
 }

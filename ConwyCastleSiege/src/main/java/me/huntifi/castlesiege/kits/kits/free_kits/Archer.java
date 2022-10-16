@@ -15,12 +15,12 @@ import java.util.Collections;
  * The archer kit
  */
 public class Archer extends FreeKit {
-	private static final int health = 130;
+	private static final int health = 230;
 	private static final double regen = 10.5;
-	private static final double meleeDamage = 26;
+	private static final double meleeDamage = 36;
 	private static final int ladderCount = 4;
 	private static final int arrowCount = 35;
-	private static final int bowPowerLevel = 17;
+	private static final int bowPowerLevel = 25;
 
 	/**
 	 * Set the equipment and attributes of this kit

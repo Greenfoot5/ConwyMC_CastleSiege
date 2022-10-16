@@ -31,7 +31,7 @@ public class Ladderman extends VoterKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Ladderman() {
-        super("Ladderman", 185, 10);
+        super("Ladderman", 285, 10);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -39,13 +39,13 @@ public class Ladderman extends VoterKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                ChatColor.GREEN + "Short Axe", null, null, 35);
+                ChatColor.GREEN + "Short Axe", null, null, 45);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                         ChatColor.GREEN + "Short Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 47),
                 0);
 
         // Chestplate

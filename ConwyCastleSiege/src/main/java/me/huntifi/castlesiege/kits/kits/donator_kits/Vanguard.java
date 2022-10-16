@@ -35,7 +35,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
      * Set the equipment and attributes of this kit
      */
     public Vanguard() {
-        super("Vanguard", 195, 11, 6000);
+        super("Vanguard", 260, 11, 8500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -45,14 +45,14 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Reinforced Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "Right-click to activate charge ability."),
-                null, 37);
+                null, 47);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                         ChatColor.GREEN + "Reinforced Iron Sword",
                         Arrays.asList(ChatColor.AQUA + "Right-click to activate charge ability.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 39),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 49),
                 0);
 
         // Chestplate
@@ -83,7 +83,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
 
         //passive effects
         super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 0));
-        super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 1));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 0));
     }
 
 

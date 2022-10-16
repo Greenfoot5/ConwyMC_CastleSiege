@@ -19,7 +19,7 @@ import java.util.Collections;
 public class ConwyRoyalKnight extends TeamKit {
 
     public ConwyRoyalKnight() {
-        super("Royal Knight", 200, 5, "Conwy", "The English", 5000);
+        super("Royal Knight", 300, 5, "Conwy", "The English", 5000);
 
 
         // Equipment Stuff
@@ -28,13 +28,13 @@ public class ConwyRoyalKnight extends TeamKit {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Sword", null, null, 25.5);
+                ChatColor.GREEN + "Sword", null, null, 35.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 27.5),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37.5),
                 0);
 
         // Shield

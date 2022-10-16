@@ -7,7 +7,11 @@ import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,13 +28,13 @@ import java.util.Objects;
  */
 public class Viking extends DonatorKit implements Listener {
 
-    private static final double PERCENTAGE_DAMAGE = 0.15;
+    private static final double PERCENTAGE_DAMAGE = 0.17;
 
     /**
      * Set the equipment and attributes of this kit
      */
     public Viking() {
-        super("Viking", 195, 10, 6000);
+        super("Viking", 260, 10, 10000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -38,13 +42,13 @@ public class Viking extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                ChatColor.GREEN + "Giant Battle Axe", null, null, 18);
+                ChatColor.GREEN + "Giant Battle Axe", null, null, 16);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                         ChatColor.GREEN + "Giant Battle Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 20),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 18),
                 0);
 
         // Chestplate
@@ -85,12 +89,24 @@ public class Viking extends DonatorKit implements Listener {
             return;
         }
 
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player &&
-                Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name) && 
-                ((Player) e.getDamager()).getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
-            Player p = (Player) e.getEntity();
-            int baseHealth = Kit.equippedKits.get(p.getUniqueId()).baseHealth;
-            e.setDamage((baseHealth * PERCENTAGE_DAMAGE) + e.getDamage());
+        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
+            if (Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name) &&
+                    ((Player) e.getDamager()).getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
+                Player p = (Player) e.getEntity();
+                int baseHealth = Kit.equippedKits.get(p.getUniqueId()).baseHealth;
+                e.setDamage((baseHealth * PERCENTAGE_DAMAGE) + e.getDamage());
+            }
+        } else if (e.getEntity() instanceof LivingEntity && (!(e.getEntity() instanceof Player)) && e.getDamager() instanceof Player){
+            if (Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name) &&
+                    ((Player) e.getDamager()).getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
+                LivingEntity mob = (LivingEntity) e.getEntity();
+
+                AttributeInstance maxHealth = mob.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                assert maxHealth != null;
+                if (!(maxHealth.getValue() >= 500)) {
+                 e.setDamage((maxHealth.getValue() * PERCENTAGE_DAMAGE) + e.getDamage());
+              }
+            }
         }
     }
 }

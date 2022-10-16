@@ -40,7 +40,7 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
      *
      * **/
     public FirelandsHellsteed() {
-        super("Hellsteed", 200, 10, "Firelands", "Hellfire Guards", 2500);
+        super("Hellsteed", 300, 10, "Firelands", "Hellfire Guards", 2500);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;
@@ -52,13 +52,13 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GRAY_DYE),
-                ChatColor.RED + "Horseshoe", null, null, 10);
+                ChatColor.RED + "Horseshoe", null, null, 20);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.GRAY_DYE),
                         ChatColor.RED + "Horseshoe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 12),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 22),
                 0);
 
         // stomp

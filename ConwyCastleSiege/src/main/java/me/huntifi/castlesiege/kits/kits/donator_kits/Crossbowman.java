@@ -30,7 +30,7 @@ public class Crossbowman extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Crossbowman() {
-        super("Crossbowman", 150, 8.5, 7500);
+        super("Crossbowman", 250, 8.5, 10000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -100,7 +100,7 @@ public class Crossbowman extends DonatorKit implements Listener {
             p.setCooldown(Material.CROSSBOW, 55);
 
             Arrow a = p.launchProjectile(Arrow.class, p.getLocation().getDirection());
-            a.setVelocity(a.getVelocity().normalize().multiply(35));
+            a.setVelocity(a.getVelocity().normalize().multiply(37));
         }
     }
 }

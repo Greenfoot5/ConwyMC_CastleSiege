@@ -38,7 +38,7 @@ import java.util.UUID;
 public class MoriaAxeThrower extends TeamKit implements Listener {
 
     public MoriaAxeThrower() {
-        super("Dwarven Axe Thrower", 145, 10, "Moria", "The Dwarves", 5000);
+        super("Dwarven Axe Thrower", 245, 10, "Moria", "The Dwarves", 5000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -46,13 +46,13 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_AXE, 5),
-                ChatColor.GREEN + "Throwable Axe", null, null, 30);
+                ChatColor.GREEN + "Throwable Axe", null, null, 40);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_AXE, 6),
                         ChatColor.GREEN + "Throwable Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 42),
                 0);
 
         // Chestplate
@@ -138,10 +138,10 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
                 if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
                     if (e.getHitEntity() instanceof Player) {
                         Player hit = (Player) e.getHitEntity();
-                        hit.damage(45, damager);
+                        hit.damage(60, damager);
                     } else if (e.getHitEntity() instanceof Horse) {
                         Horse horse = (Horse) e.getHitEntity();
-                        horse.damage(50, damager);
+                        horse.damage(70, damager);
                     }
                 }
             }

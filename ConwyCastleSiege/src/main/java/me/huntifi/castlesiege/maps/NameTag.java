@@ -90,6 +90,8 @@ public class NameTag implements CommandExecutor {
                 return "§2§lDev ";
             case "admin":
                 return "§c§lAdmin ";
+            case "owner":
+                return "§6§lOwner ";
             // Donator Ranks
             case "esquire":
                 return "§3Esquire ";

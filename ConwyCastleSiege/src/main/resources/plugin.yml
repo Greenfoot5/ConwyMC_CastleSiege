@@ -9,6 +9,10 @@ load: STARTUP
 
 permissions:
   # Staff
+  castlesiege.owner:
+    description: Gives access to all CastleSiege Owner commands
+    children:
+      castlesiege.admin: true
   castlesiege.admin:
     description: Gives access to all CastleSiege Admin commands
     children:
@@ -359,7 +363,7 @@ commands:
   Start:
     description: Ends the current timer phase
     usage: /start
-    permission: castlesiege.moderator
+    permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
   SetTag:
     description: Set a nametag prefix

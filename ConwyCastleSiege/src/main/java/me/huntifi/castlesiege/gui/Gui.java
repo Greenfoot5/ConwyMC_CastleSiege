@@ -64,7 +64,7 @@ public class Gui implements Listener {
 
         String itemName = (kit instanceof TeamKit ? ChatColor.BLUE : ChatColor.GOLD) + "" + ChatColor.BOLD + kit.name;
         String price = ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((DonatorKit) kit).getPrice();
-        String duration = ChatColor.GREEN + "Duration: " + (kit instanceof TeamKit ? "permanent" : "30 days");
+        String duration = ChatColor.GREEN + "Duration: permanent";
 
         ArrayList<String> lore = new ArrayList<>();
         lore.add(price);

@@ -23,7 +23,7 @@ public class Shieldman extends VoterKit {
      * Set the equipment and attributes of this kit
      */
     public Shieldman() {
-        super("Shieldman", 240, 14);
+        super("Shieldman", 340, 14);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -31,13 +31,13 @@ public class Shieldman extends VoterKit {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Longsword", null, null, 31);
+                ChatColor.GREEN + "Longsword", null, null, 41);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Longsword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 33),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 43),
                 0);
 
         // Shield

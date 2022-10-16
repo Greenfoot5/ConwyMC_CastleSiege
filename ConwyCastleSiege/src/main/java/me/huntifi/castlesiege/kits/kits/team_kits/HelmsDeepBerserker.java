@@ -33,7 +33,7 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
 
 
     public HelmsDeepBerserker() {
-        super("Uruk Berserker", 145, 6, "Helm's Deep", "Uruk-hai", 2500);
+        super("Uruk Berserker", 245, 6, "Helm's Deep", "Uruk-hai", 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -42,14 +42,14 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Cleaver", Collections.singletonList(ChatColor.AQUA + "Deals AOE damage but has a cooldown."),
-                null, 35.0);
+                null, 45.0);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Cleaver",
                         Arrays.asList(ChatColor.AQUA + "Deals AOE damage but has a cooldown.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37.0),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 47.0),
                 0);
 
         // Leggings
