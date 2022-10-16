@@ -356,7 +356,7 @@ commands:
   Start:
     description: Ends the current timer phase
     usage: /start
-    permission: castlesiege.moderator
+    permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
   SetTag:
     description: Set a nametag prefix

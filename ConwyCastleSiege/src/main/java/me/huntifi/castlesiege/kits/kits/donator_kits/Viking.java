@@ -7,7 +7,11 @@ import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -85,12 +89,24 @@ public class Viking extends DonatorKit implements Listener {
             return;
         }
 
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player &&
-                Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name) && 
-                ((Player) e.getDamager()).getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
-            Player p = (Player) e.getEntity();
-            int baseHealth = Kit.equippedKits.get(p.getUniqueId()).baseHealth;
-            e.setDamage((baseHealth * PERCENTAGE_DAMAGE) + e.getDamage());
+        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
+            if (Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name) &&
+                    ((Player) e.getDamager()).getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
+                Player p = (Player) e.getEntity();
+                int baseHealth = Kit.equippedKits.get(p.getUniqueId()).baseHealth;
+                e.setDamage((baseHealth * PERCENTAGE_DAMAGE) + e.getDamage());
+            }
+        } else if (e.getEntity() instanceof LivingEntity && (!(e.getEntity() instanceof Player)) && e.getDamager() instanceof Player){
+            if (Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name) &&
+                    ((Player) e.getDamager()).getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
+                LivingEntity mob = (LivingEntity) e.getEntity();
+
+                AttributeInstance maxHealth = mob.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                assert maxHealth != null;
+                if (!(maxHealth.getValue() >= 500)) {
+                 e.setDamage((maxHealth.getValue() * PERCENTAGE_DAMAGE) + e.getDamage());
+              }
+            }
         }
     }
 }
