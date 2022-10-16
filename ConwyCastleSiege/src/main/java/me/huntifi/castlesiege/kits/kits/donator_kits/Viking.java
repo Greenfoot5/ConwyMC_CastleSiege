@@ -24,7 +24,7 @@ import java.util.Objects;
  */
 public class Viking extends DonatorKit implements Listener {
 
-    private static final double PERCENTAGE_DAMAGE = 0.15;
+    private static final double PERCENTAGE_DAMAGE = 0.17;
 
     /**
      * Set the equipment and attributes of this kit
@@ -38,13 +38,13 @@ public class Viking extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                ChatColor.GREEN + "Giant Battle Axe", null, null, 23);
+                ChatColor.GREEN + "Giant Battle Axe", null, null, 16);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                         ChatColor.GREEN + "Giant Battle Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 25),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 18),
                 0);
 
         // Chestplate
