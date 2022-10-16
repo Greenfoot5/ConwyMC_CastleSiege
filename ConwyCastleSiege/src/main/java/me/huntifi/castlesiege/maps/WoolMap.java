@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
@@ -33,7 +34,7 @@ public class WoolMap implements Listener {
 		if (e.getAction() == Action.PHYSICAL)
 			return;
 		if (DeathEvent.cantSpawn.contains(e.getPlayer())) {
-			e.getPlayer().sendMessage(ChatColor.DARK_RED + "You can not spawn yet!");
+			Messenger.sendError("You can't spawn in yet!", e.getPlayer());
 			return;
 		}
 

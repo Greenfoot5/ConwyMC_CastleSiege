@@ -120,26 +120,26 @@ public class DeathEvent implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.GREEN + 3, 15, 20, 15);
+                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 3, 15, 20, 15);
                }
             }.runTaskLater(Main.plugin, 20);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.GREEN + 2, 15, 20, 15);
+                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 2, 15, 20, 15);
 
             }
         }.runTaskLater(Main.plugin, 40);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.GREEN + 1, 15, 20, 15);
+                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 1, 15, 20, 15);
             }
         }.runTaskLater(Main.plugin, 60);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You can now spawn!" + ChatColor.GREEN + 1, 15, 20, 15);
+                p.sendTitle("", ChatColor.DARK_GREEN + "You can now spawn!", 15, 20, 15);
                 cantSpawn.remove(p);
             }
         }.runTaskLater(Main.plugin, 80);
