@@ -116,7 +116,7 @@ public class Warbear extends DonatorKit implements Listener {
     private void bite(Player bear, Player player) {
         bear.setCooldown(Material.GHAST_TEAR, 280);
         player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 160, 0));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 1));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 160, 2));
     }
 
     /**
@@ -148,7 +148,7 @@ public class Warbear extends DonatorKit implements Listener {
                 && player.getInventory().getItemInMainHand().getType() == Material.RABBIT_FOOT
                 && player.getCooldown(Material.RABBIT_FOOT) == 0) {
             player.setCooldown(Material.RABBIT_FOOT, 260);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, 3));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 180, 4));
         }
     }
 }
