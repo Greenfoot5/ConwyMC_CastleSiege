@@ -70,7 +70,7 @@ public class DeathEvent implements Listener {
             Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 
         player.setWalkSpeed(0.2f);
-        if (ActiveData.getData(player.getUniqueId()).getSetting("disableWM_Message").equals("false")) {
+        if (ActiveData.getData(player.getUniqueId()).getSetting("woolmapTitleMessage").equals("false")) {
             PlayerConnect.sendTitlebarMessages(player);
         }
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> respawnAnimation(player), 10);

@@ -116,7 +116,7 @@ public class PlayerConnect implements Listener {
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 0.1f);
             }
         }
-        if (ActiveData.getData(p.getUniqueId()).getSetting("disableWM_Message").equals("false")) {
+        if (ActiveData.getData(p.getUniqueId()).getSetting("woolmapTitleMessage").equals("false")) {
             sendTitlebarMessages(p);
         }
     }
