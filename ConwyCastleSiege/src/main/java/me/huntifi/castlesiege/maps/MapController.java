@@ -360,6 +360,17 @@ public class MapController {
 						flag.createHologram();
 					}
 				}
+
+				for (ArrayList<UUID> t : teams) {
+					for (UUID uuid : t) {
+						Player player = getPlayer(uuid);
+						if (player == null) continue;
+						Team team = TeamController.getTeam(uuid);
+						player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+						player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~");
+						player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+					}
+				}
 			}
 		}.runTask(Main.plugin);
 
@@ -499,9 +510,6 @@ public class MapController {
 		NameTag.give(player);
 
 		player.sendMessage("You joined" + team.primaryChatColor + " " + team.name);
-		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~");
-		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 		checkTeamKit(player);
 	}
