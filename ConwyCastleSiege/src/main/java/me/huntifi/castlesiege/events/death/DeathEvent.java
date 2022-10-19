@@ -105,7 +105,7 @@ public class DeathEvent implements Listener {
 
 
     /**
-     * No longer auto-respawns the player instead it puts them in a static spectator mode and it counts down
+     * No longer auto-respawns the player instead it puts them in a static spectator mode, and it counts down
      * @param p The player to respawn
      */
     private void respawnAnimation(Player p) {
@@ -121,26 +121,26 @@ public class DeathEvent implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 3, 15, 20, 15);
+                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 3, 0, 20, 15);
                }
             }.runTaskLater(Main.plugin, 20);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 2, 15, 20, 15);
+                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 2, 0, 20, 15);
 
             }
         }.runTaskLater(Main.plugin, 40);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 1, 15, 20, 15);
+                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 1, 0, 20, 15);
             }
         }.runTaskLater(Main.plugin, 60);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You can now spawn!", 15, 20, 15);
+                p.sendTitle("", ChatColor.DARK_GREEN + "You can now spawn!", 0, 20, 15);
                 cantSpawn.remove(p);
             }
         }.runTaskLater(Main.plugin, 80);
