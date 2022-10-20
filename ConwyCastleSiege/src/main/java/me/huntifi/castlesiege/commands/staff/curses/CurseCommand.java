@@ -42,6 +42,9 @@ public class CurseCommand implements CommandExecutor {
         gui.addItem(ChatColor.DARK_RED + Curse.POSSESSION.getName(), Material.LEAD, Collections.singletonList(
                 ChatColor.DARK_PURPLE + "Force a random kit onto all players"
         ), 3, "curse possession", true);
+        gui.addItem(ChatColor.DARK_RED + Curse.TEAMWORK.getName(), Material.CAMPFIRE, Collections.singletonList(
+                ChatColor.DARK_PURPLE + "Prevent players from switching teams"
+        ), 5, "curse teamwork", true);
 
         Main.plugin.getServer().getPluginManager().registerEvents(gui, Main.plugin);
     }
@@ -109,9 +112,6 @@ public class CurseCommand implements CommandExecutor {
                 break;
             case VANISHING:
                 // TODO: Prevent players from picking kits they have died with
-                break;
-            case TEAMWORK:
-                // TODO: Prevent players from switching teams
                 break;
             case TELEPORTATION:
                 // TODO: Swap some player positions

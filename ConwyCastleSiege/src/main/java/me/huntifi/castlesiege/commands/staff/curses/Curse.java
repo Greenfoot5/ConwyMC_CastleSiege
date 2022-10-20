@@ -13,7 +13,7 @@ public enum Curse {
     BINDING ("Curse of Binding", "You can no longer switch kits", "You can now switch kits again"),
     POSSESSION ("Curse of Possession", "The kits have picked you", "The kits lost their grasp on you"),
     VANISHING ("Curse of Vanishing", "", ""),
-    TEAMWORK ("Curse of Teamwork", "", ""),
+    TEAMWORK ("Curse of Teamwork", "You can no longer switch teams", "You can now switch teams again"),
     TELEPORTATION ("Curse of Teleportation", "", "");
 
     /** The name of the curse */

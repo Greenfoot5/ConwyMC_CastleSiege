@@ -5,6 +5,7 @@ import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.SpectateCommand;
+import me.huntifi.castlesiege.commands.staff.curses.Curse;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.combat.AssistKill;
@@ -246,7 +247,7 @@ public class MapController {
 		}
 
 		// Move all players to the new map and team
-		if (!keepTeams || maps.get(mapIndex).teams.length < teams.size()) {
+		if (!(keepTeams || Curse.TEAMWORK.isActive()) || maps.get(mapIndex).teams.length < teams.size()) {
 			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
 				if (!SpectateCommand.spectators.contains(player.getUniqueId()))
 					joinATeam(player.getUniqueId());

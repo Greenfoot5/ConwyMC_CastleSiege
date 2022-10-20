@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.staff.curses.Curse;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -86,6 +87,9 @@ public class SwitchCommand implements CommandExecutor {
 	private void switchTeam(CommandSender sender, String[] args) {
 		if (MapController.disableSwitching) {
 			Messenger.sendError("Switching teams is currently disabled!", sender);
+			return;
+		} else if (Curse.TEAMWORK.isActive()) {
+			Messenger.sendError(Curse.TEAMWORK.getName() + " prevents you from switching teams!", sender);
 			return;
 		} else if (!(sender instanceof Player)) {
 			Messenger.sendError("Console cannot join a team!", sender);
