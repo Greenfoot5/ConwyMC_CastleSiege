@@ -18,6 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -75,7 +76,6 @@ public class DeathEvent implements Listener {
     }
 
     /**
-     * Disable death message
      * Auto-respawn the player
      * Apply stat changes
      * @param event The event called when a player dies
@@ -83,7 +83,6 @@ public class DeathEvent implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         cantSpawn.add(event.getEntity());
-        event.setDeathMessage(null);
         event.getEntity().eject();
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             respawn(event.getEntity());
@@ -94,6 +93,16 @@ public class DeathEvent implements Listener {
             }
             InCombat.playerDied(event.getEntity().getUniqueId());
         });
+    }
+
+    /**
+     * Disable death message.
+     * Placed in separate function to allow performing after mythic mobs.
+     * @param event The event called when a player dies
+     */
+    @EventHandler (priority = EventPriority.MONITOR)
+    public void disableDeathMessage(PlayerDeathEvent event) {
+        event.setDeathMessage(null);
     }
 
     private void respawn(Player p) {
