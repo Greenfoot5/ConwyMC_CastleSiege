@@ -46,6 +46,8 @@ public class PlayerData {
     private HashMap<String, Long> votes;
     private double coins;
 
+    private double battlepoints;
+
     private HashMap<String, String> settings;
 
     private ArrayList<String> ownedAchievements;
@@ -78,6 +80,7 @@ public class PlayerData {
         this.mvps = statsData.getInt("mvps");
         this.secrets = statsData.getInt("secrets");
         this.killStreak = 0;
+        this.battlepoints = 0;
         this.maxKillStreak = statsData.getInt("kill_streak");
         this.kit = statsData.getString("kit");
 
@@ -104,6 +107,7 @@ public class PlayerData {
         this.assists = 0;
         this.killStreak = 0;
         this.coins = 0;
+        this.battlepoints = 0;
     }
 
     /**
@@ -124,6 +128,30 @@ public class PlayerData {
             mute = null;
         else
             mute = new Tuple<>(reason, end);
+    }
+
+    /**
+     * Get the player's current score
+     * @return The player's score
+     */
+    public double getBattlepoints() {
+        return battlepoints;
+    }
+
+    /**
+     * Add to the player's score
+     * @param bp The battlepoints to add
+     */
+    private void addBattlepoints(double bp) {
+        this.battlepoints += bp;
+    }
+
+    /**
+     * Add to the player's score
+     * @param bp The battlepoints to add
+     */
+    private void removeBattlepoints(double bp) {
+        this.battlepoints -= bp;
     }
 
     /**
