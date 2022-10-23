@@ -55,13 +55,12 @@ public abstract class DonatorKit extends Kit {
             }
             return false;
         } else if (!hasBP) {
-            Player p = Bukkit.getPlayer(uuid);
-            Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", p);
-            Messenger.sendError("Perform /battlepoints or /bp to see your battlepoints.", p);
-            if (p.getOpenInventory() != null) {
-                p.closeInventory();
+            if (verbose) {
+                Player p = Bukkit.getPlayer(uuid);
+                Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", p);
+                Messenger.sendError("Perform /battlepoints or /bp to see your battlepoints.", p);
+                return false;
             }
-            return false;
         }
 
         return true;
@@ -73,7 +72,7 @@ public abstract class DonatorKit extends Kit {
      * @param battlep the amount of battlepoints needed to play this kit
      * @return true or false in case they don't have sufficient bp
      */
-    public boolean hasEnoughBP(UUID uuid, double battlep) {
+    public static boolean hasEnoughBP(UUID uuid, double battlep) {
         PlayerData data = ActiveData.getData(uuid);
         if (data.getBattlepoints() >= battlep) {
             data.addBattlepoints(-battlep);
