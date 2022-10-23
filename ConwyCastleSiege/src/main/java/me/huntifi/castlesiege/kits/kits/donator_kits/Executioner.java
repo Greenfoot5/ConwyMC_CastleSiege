@@ -124,7 +124,7 @@ public class Executioner extends DonatorKit implements Listener {
 				assert healthAttribute != null;
 
 				// Execute
-				if (damageable.getHealth() < healthAttribute.getValue() * 0.40) {
+				if (damageable.getHealth() < healthAttribute.getValue() * 0.33) {
 					e.setCancelled(true);
 
 					Location loc = damageable.getLocation();
