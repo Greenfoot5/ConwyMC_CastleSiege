@@ -30,7 +30,7 @@ public class HitMessage implements Listener {
 
 				// The player hit another player or an animal
 				if (e.getHitEntity() instanceof Player) {
-					if (TeamController.getTeam(player.getUniqueId()) == TeamController.getTeam(e.getHitEntity().getUniqueId())) {
+					if (TeamController.getTeam(player.getUniqueId()) != TeamController.getTeam(e.getHitEntity().getUniqueId())) {
 						notifyHit(player, e.getHitEntity().getName());
 					}
 				} else if (e.getHitEntity() instanceof Animals || e.getHitEntity() instanceof Bat)
