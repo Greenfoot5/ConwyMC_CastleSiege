@@ -155,6 +155,13 @@ public class PlayerData {
     }
 
     /**
+     * Set the player's current battlepoints
+     */
+    public void setBattlepoints(double bp) {
+        battlepoints = bp;
+    }
+
+    /**
      * Get the player's current score
      * @return The player's score
      */
