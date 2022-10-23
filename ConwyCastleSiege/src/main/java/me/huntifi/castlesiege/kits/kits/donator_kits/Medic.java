@@ -203,7 +203,7 @@ public class Medic extends DonatorKit implements Listener {
 
                 // Eat cake
                 Bukkit.getScheduler().runTask(Main.plugin, () -> {
-                    eater.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
+                    eater.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 11));
                     Cake cakeData = (Cake) cake.getBlockData();
                     if (cakeData.getBites() == cakeData.getMaximumBites()) {
                         cake.breakNaturally();
@@ -273,7 +273,7 @@ public class Medic extends DonatorKit implements Listener {
                 Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(r), 39);
 
                 // Heal
-                addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 7));
+                addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
                 addPotionEffect(p, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
                 r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                         NameTag.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));
