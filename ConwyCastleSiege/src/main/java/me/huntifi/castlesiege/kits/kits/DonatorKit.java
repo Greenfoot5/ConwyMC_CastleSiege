@@ -54,7 +54,7 @@ public abstract class DonatorKit extends Kit {
                 }
             }
             return false;
-        } else if (!hasBP) {
+        } else if (!hasBP && hasKit) {
             if (verbose) {
                 Player p = Bukkit.getPlayer(uuid);
                 Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", p);
@@ -74,9 +74,9 @@ public abstract class DonatorKit extends Kit {
      */
     public static boolean hasEnoughBP(UUID uuid, double battlep) {
         PlayerData data = ActiveData.getData(uuid);
-        if (data.getBattlepoints() >= battlep) {
-            data.addBattlepoints(-battlep);
-            return true;
+            if (data.getBattlepoints() >= battlep) {
+                data.addBattlepoints(-battlep);
+                return true;
         }
         return false;
     }
