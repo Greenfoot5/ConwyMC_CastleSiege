@@ -130,6 +130,13 @@ commands:
     usage: /settings [setting] [value]
 
   # Info
+  Battlepoints:
+    description: Shows the player's battlepoints
+    usage: /battlepoints
+    aliases:
+      - bp
+      - battlep
+      - bpoints
   CoinMultiplier:
     description: Shows the active coin multiplier
     usage: /coinmultiplier
@@ -300,7 +307,7 @@ commands:
   NextMap:
     description: Skips the current map and goes directly to the next one
     usage: /nextmap
-    permission: castlesiege.moderator
+    permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
   RankPoints:
     description: Manages a player's rank points
