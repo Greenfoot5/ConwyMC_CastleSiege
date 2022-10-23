@@ -127,7 +127,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                         @Override
                         public void run() {
 
-                            item.getWorld().createExplosion(item.getLocation(), 2F, false, false, p);
+                            item.getWorld().createExplosion(item.getLocation(), 2.25F, false, false, p);
 
                         }
                     }.runTaskLater(Main.plugin, 90);

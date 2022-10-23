@@ -49,12 +49,12 @@ public class DamageBalance implements Listener {
             case THORNS:
             case WITHER:
             case ENTITY_EXPLOSION:
-                e.setDamage(e.getDamage() * 7);
+                e.setDamage(e.getDamage() * 11);
                 break;
             case FIRE:
             case FIRE_TICK:
             case LAVA:
-                e.setDamage(e.getDamage() * 7.5);
+                e.setDamage(e.getDamage() * 9.5);
                 break;
         }
     }
