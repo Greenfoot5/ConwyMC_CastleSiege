@@ -52,7 +52,7 @@ free:
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a The standard ranged kit."
-        - "§2[Health]:§a 230"
+        - "§2[Health]:§a 215"
         - "§2[Melee Damage]:§a 36"
         - "§2[Ranged Damage]:§a 45+"
         - "§2[Regen]:§a 10.5"
