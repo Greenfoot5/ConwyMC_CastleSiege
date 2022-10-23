@@ -142,7 +142,7 @@ public class PlayerData {
      * Add to the player's score
      * @param bp The battlepoints to add
      */
-    private void addBattlepoints(double bp) {
+    public void addBattlepoints(double bp) {
         this.battlepoints += bp;
     }
 
@@ -150,7 +150,7 @@ public class PlayerData {
      * Add to the player's score
      * @param bp The battlepoints to add
      */
-    private void removeBattlepoints(double bp) {
+    public void removeBattlepoints(double bp) {
         this.battlepoints -= bp;
     }
 
@@ -187,6 +187,7 @@ public class PlayerData {
         kills += 1;
         addScore(2);
         addCoins(2);
+        addBattlepoints(1);
         addKillStreak();
     }
 
@@ -207,6 +208,7 @@ public class PlayerData {
     public void addDeaths(double deaths) {
         this.deaths += deaths;
         addScore(-deaths);
+        addBattlepoints(1);
         killStreak = 0;
     }
 
