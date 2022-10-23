@@ -188,6 +188,7 @@ premium:
         - "§2[Ability]:§a Speed 2, huge damage boost, Nausea 2"
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
       location: 10
       command: "berserker"
     vanguard:
@@ -203,6 +204,7 @@ premium:
         - "§2[Ability]:§a Charge at high speed and deal more damage on impact."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
       location: 12
       command: "vanguard"
     executioner:
@@ -217,6 +219,7 @@ premium:
         - "§2[Ability]:§a Insta-kills enemies that are below 40% hp."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &98"
       location: 14
       command: "executioner"
     maceman:
@@ -232,6 +235,7 @@ premium:
         - "§2[Ability]:§a causing you to stun them."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &98"
       location: 16
       command: "maceman"
     viking:
@@ -247,6 +251,7 @@ premium:
         - "§2[Ability]:§a Deals % of max health"
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
       location: 28
       command: "viking"
     halberdier:
@@ -262,6 +267,7 @@ premium:
         - "§2[Ability]:§a Deals 50% more damage to mounted units."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
       location: 37
       command: "halberdier"
     medic:
@@ -278,6 +284,7 @@ premium:
         - "§2[Ability]:§a Can place cakes on the ground to heal allies."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &95"
       location: 30
       command: "medic"
     engineer:
@@ -294,6 +301,7 @@ premium:
         - "§2[Ability]:§a structures, refill catapults, and operate ballistae."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
       location: 39
       command: "engineer"
     ranger:
@@ -312,6 +320,7 @@ premium:
         - "§2[Ability]:§a Can insta-kill enemies by backstabbing them."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
       location: 32
       command: "ranger"
     crossbowman:
@@ -328,6 +337,7 @@ premium:
         - "§2[Ability]:§a Shoots arrows in a straight line."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
       location: 41
       command: "crossbowman"
     cavalry:
@@ -343,6 +353,7 @@ premium:
         - "§2[Ability]:§a Kick ability does AOE damage."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
       location: 34
       command: "cavalry"
     warhound:
@@ -358,6 +369,7 @@ premium:
         - "§2[Ability]:§a immobilise enemies and wither."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
       location: 43
       command: "warhound"
     alchemist:
@@ -374,6 +386,7 @@ premium:
         - "§2[Ability]:§a and can brew random damage/support potions."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &98"
       location: 22
       command: "alchemist"
     back:
@@ -400,6 +413,7 @@ rohan:
         - "§2[Ability]:§a Spears can be thrown by right-clicking."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
         - "§5MAP: Helm's Deep"
         - "§5TEAM: §2Rohan"
       location: 21
@@ -416,6 +430,7 @@ rohan:
         - "§2[Ability]:§a Right click the wheat to mount your horse."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
         - "§5MAP: Helm's Deep"
         - "§5TEAM: §2Rohan"
       location: 23
@@ -444,6 +459,7 @@ uruk-hai:
         - "§2[Ability]:§a to all enemies in a 2 block radius."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &98"
         - "§5MAP: Helm's Deep"
         - "§5TEAM: §8Uruk-Hai"
       location: 22
@@ -472,6 +488,7 @@ burning_legion:
         - "§2[Ability]:§a a magma projectile that fires over time."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &98"
         - "§5MAP: Firelands"
         - "§5TEAM: §aBurning Legion"
       location: 22
@@ -494,6 +511,7 @@ hellfire_guards:
         - "§2[Ability]:§a Carry around teammates."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &95"
         - "§5MAP: Firelands"
         - "§5TEAM: §5Hellfire Guards"
       location: 22
@@ -515,6 +533,7 @@ tomb_guardians:
         - "§2[Ability]:§a You deal wither damage on cooldown."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &95"
         - "§5MAP: Royal Crypts"
         - "§5TEAM: §fTomb Guardians"
       location: 22
@@ -541,6 +560,7 @@ orc:
         - "§2[Regen]:§a 7"
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &95"
         - "§5MAP: Moria"
         - "§5TEAM: §2The Orcs"
       location: 20
@@ -558,6 +578,7 @@ orc:
         - "§2[Ability]:§a Gives weakness and Fatigue on hit."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
         - "§5MAP: Moria"
         - "§5TEAM: §2The Orcs"
       location: 22
@@ -575,6 +596,7 @@ orc:
         - "§2[Ability]:§a Can pick up and throw enemies."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
         - "§5MAP: Moria"
         - "§5TEAM: §2The Orcs"
       location: 24
@@ -603,6 +625,7 @@ dwarves:
         - "§2[Ability]:§a Can throw axes really fast"
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &98"
         - "§5MAP: Moria"
         - "§5TEAM: §6The Dwarves"
       location: 20
@@ -620,6 +643,7 @@ dwarves:
         - "§2[Ability]:§a Gets buffs when shot whilst shielding."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &910"
         - "§5MAP: Moria"
         - "§5TEAM: §6The Dwarves"
       location: 22
@@ -637,6 +661,7 @@ dwarves:
         - "§2[Ability]:§a Throws multiple spears at once."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
+        - "&3Battlepoints: &98"
         - "§5MAP: Moria"
         - "§5TEAM: §6The Dwarves"
       location: 24
@@ -664,6 +689,7 @@ english:
         - "§2[Ability]:§a Can spawn a royal steed!"
         - "§2[Status]:§a Unlocked with coins."
         - "§4------------------------------"
+        - "&3Battlepoints: &910"
         - "§5MAP: Conwy"
         - "§5TEAM: §4The English"
       location: 21
@@ -681,6 +707,7 @@ english:
         - "§2[Ability]:§a Slower Xbow with stronger arrows."
         - "§2[Status]:§a Unlocked with coins."
         - "§4------------------------------"
+        - "&3Battlepoints: &910"
         - "§5MAP: Conwy"
         - "§5TEAM: §4The English"
       location: 23

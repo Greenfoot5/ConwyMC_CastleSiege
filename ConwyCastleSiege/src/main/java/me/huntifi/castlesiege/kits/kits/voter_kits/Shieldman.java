@@ -70,7 +70,7 @@ public class Shieldman extends VoterKit {
 
         // Perm Potion Effects
         //super.potionEffects.add(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 999999, 0));
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 0));
+        //super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 0));
     }
 }

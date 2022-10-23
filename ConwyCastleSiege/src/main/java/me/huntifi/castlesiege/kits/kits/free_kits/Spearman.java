@@ -40,7 +40,7 @@ public class Spearman extends FreeKit implements Listener {
 	private static final int health = 260;
 	private static final double regen = 10.5;
 	private static final int spearCount = 4;
-	private static final double meleeDamage = 45;
+	private static final double meleeDamage = 40;
 	private static final int ladderCount = 4;
 
 	// Spear Throw

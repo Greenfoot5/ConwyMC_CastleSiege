@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
@@ -62,6 +63,10 @@ public class DeathEvent implements Listener {
         if (MapController.isSpectator(player.getUniqueId())) {
             event.setRespawnLocation(MapController.getCurrentMap().flags[0].spawnPoint);
             return;
+        }
+
+        if (Kit.equippedKits.get(player.getUniqueId()) instanceof DonatorKit) {
+            player.performCommand("swordsman");
         }
 
         if (Objects.equals(ActiveData.getData(player.getUniqueId()).getSetting("randomDeath"), "true") ||
