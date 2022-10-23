@@ -613,7 +613,7 @@ dwarves:
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A tank that makes good use of his shield."
-        - "§2[Health]:§a 310"
+        - "§2[Health]:§a 410"
         - "§2[Melee Damage]:§a 41"
         - "§2[Regen]:§a 8"
         - "§2[Effects]:§a Resistance I, Fatigue"
