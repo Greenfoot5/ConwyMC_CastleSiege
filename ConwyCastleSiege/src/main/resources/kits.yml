@@ -180,13 +180,13 @@ premium:
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a An armorless warrior with high dps and speed."
-        - "§2[Health]:§a 200"
+        - "§2[Health]:§a 180"
         - "§2[Melee Damage]:§a 43"
-        - "§2[Regen]:§a 12"
+        - "§2[Regen]:§a 16"
         - "§2[Effects]:§a Speed 1"
         - "§2[Ability]:§a Go berserk by drinking a potion, giving"
         - "§2[Ability]:§a Speed 2, huge damage boost, Nausea 2"
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 10
       command: "berserker"
@@ -201,7 +201,7 @@ premium:
         - "§2[Regen]:§a 11"
         - "§2[Effects]:§a Jump Boost 1, Haste 2"
         - "§2[Ability]:§a Charge at high speed and deal more damage on impact."
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 12
       command: "vanguard"
@@ -215,7 +215,7 @@ premium:
         - "§2[Melee Damage]:§a 44"
         - "§2[Regen]:§a 9"
         - "§2[Ability]:§a Insta-kills enemies that are below 40% hp."
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 14
       command: "executioner"
@@ -230,7 +230,7 @@ premium:
         - "§2[Regen]:§a 12"
         - "§2[Ability]:§a Hits enemies with extra force,"
         - "§2[Ability]:§a causing you to stun them."
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 16
       command: "maceman"
@@ -245,7 +245,7 @@ premium:
         - "§2[Regen]:§a 10"
         - "§2[Effects]:§a Slowness 1, Mining Fatigue 1"
         - "§2[Ability]:§a Deals % of max health"
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 28
       command: "viking"
@@ -260,7 +260,7 @@ premium:
         - "§2[Regen]:§a 23"
         - "§2[Effects]:§a Slowness 3, Mining Fatigue 2, Resistance 1"
         - "§2[Ability]:§a Deals 50% more damage to mounted units."
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 37
       command: "halberdier"
@@ -276,7 +276,7 @@ premium:
         - "§2[Effects]:§a Speed 1"
         - "§2[Ability]:§a Heals allies on right-click with bandages."
         - "§2[Ability]:§a Can place cakes on the ground to heal allies."
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 30
       command: "medic"
@@ -292,7 +292,7 @@ premium:
         - "§2[Effects]:§a Jump Boost 1, haste 1"
         - "§2[Ability]:§a Can place traps and cobwebs, repair walls and wooden"
         - "§2[Ability]:§a structures, refill catapults, and operate ballistae."
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 39
       command: "engineer"
@@ -310,7 +310,7 @@ premium:
         - "§2[Ability]:§a Can shoot 3 arrows at once with the volley bow."
         - "§2[Ability]:§a Can shoot 3 consecutive arrows with the burst bow."
         - "§2[Ability]:§a Can insta-kill enemies by backstabbing them."
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 32
       command: "ranger"
@@ -326,7 +326,7 @@ premium:
         - "§2[Regen]:§a 8.5"
         - "§2[Effects]:§a Slowness 2"
         - "§2[Ability]:§a Shoots arrows in a straight line."
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 41
       command: "crossbowman"
@@ -341,7 +341,7 @@ premium:
         - "§2[Regen]:§a 9"
         - "§2[Ability]:§a Right click the wheat to mount your horse."
         - "§2[Ability]:§a Kick ability does AOE damage."
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 34
       command: "cavalry"
@@ -356,7 +356,7 @@ premium:
         - "§2[Regen]:§a 10"
         - "§2[Effects]:§a Speed 4, Jump Boost 1, Resistance 1, Night Vision 1"
         - "§2[Ability]:§a immobilise enemies and wither."
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 43
       command: "warhound"
@@ -372,7 +372,7 @@ premium:
         - "§2[Effects]:§a Speed I"
         - "§2[Ability]:§a Has a brewing stand that can be placed,"
         - "§2[Ability]:§a and can brew random damage/support potions."
-        - "§2[Status]:§a Unlocked with coins/money."
+        - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
       location: 22
       command: "alchemist"
