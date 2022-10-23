@@ -28,7 +28,7 @@ public class CryptsFallen extends TeamKit implements Listener {
      * Create a kit with basic settings
      */
     public CryptsFallen() {
-        super("Fallen", 320, 23, "Royal Crypts", "Tomb Guardians", 3500);
+        super("Fallen", 320, 23, "Royal Crypts", "Tomb Guardians", 3500, 5);
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;

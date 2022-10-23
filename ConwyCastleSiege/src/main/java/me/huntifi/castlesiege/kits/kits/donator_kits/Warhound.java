@@ -41,7 +41,7 @@ public class Warhound extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Warhound() {
-        super("Warhound", 155, 10, 10000);
+        super("Warhound", 155, 10, 10000, 8);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;

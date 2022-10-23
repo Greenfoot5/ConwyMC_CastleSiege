@@ -24,7 +24,7 @@ import java.util.*;
 public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
     
     public HelmsDeepRangedCavalry() {
-        super("Ranged Cavalry", 230, 9, "Helm's Deep", "Rohan", 2500);
+        super("Ranged Cavalry", 230, 9, "Helm's Deep", "Rohan", 2500, 10);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

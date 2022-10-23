@@ -40,7 +40,7 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
      *
      * **/
     public FirelandsHellsteed() {
-        super("Hellsteed", 300, 10, "Firelands", "Hellfire Guards", 2500);
+        super("Hellsteed", 300, 10, "Firelands", "Hellfire Guards", 2500, 5);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;

@@ -19,7 +19,7 @@ import java.util.Collections;
 public class ConwyRoyalKnight extends TeamKit {
 
     public ConwyRoyalKnight() {
-        super("Royal Knight", 400, 5, "Conwy", "The English", 5000);
+        super("Royal Knight", 400, 5, "Conwy", "The English", 5000, 10);
 
 
         // Equipment Stuff
