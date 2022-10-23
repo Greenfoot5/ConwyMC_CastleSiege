@@ -301,7 +301,7 @@ public class Engineer extends DonatorKit implements Listener {
             p.getWorld().playSound(ballista.getFirst(), Sound.ENTITY_ENDER_DRAGON_FLAP, 1, 3);
             Arrow a = p.getWorld().spawnArrow(ballista.getFirst(), p.getLocation().getDirection(), 4, 0);
             a.setShooter(p);
-            a.setDamage(20);
+            a.setDamage(30);
 
             // Set cooldown
             ballistaCooldown(p);
@@ -322,7 +322,7 @@ public class Engineer extends DonatorKit implements Listener {
             int hitCount = 0;
             for (Entity hit : e.getEntity().getNearbyEntities(2.5, 2.5, 2.5)) {
                 if (hit instanceof Player && TeamController.getTeam(hit.getUniqueId()) != team) {
-                    ((Player) hit).damage(75, shooter);
+                    ((Player) hit).damage(125, shooter);
                     hitCount++;
                 }
             }
