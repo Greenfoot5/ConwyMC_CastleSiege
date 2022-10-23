@@ -64,7 +64,6 @@ public class DeathEvent implements Listener {
             event.setRespawnLocation(MapController.getCurrentMap().flags[0].spawnPoint);
             return;
         }
-
         if (Kit.equippedKits.get(player.getUniqueId()) instanceof DonatorKit) {
             player.performCommand("swordsman");
         }

@@ -207,6 +207,14 @@ public abstract class Kit implements CommandExecutor {
                 if (MapController.isOngoing()) {
                     Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
                     UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
+                    if (Kit.equippedKits.get(player.getUniqueId()) instanceof DonatorKit) {
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                ActiveData.getData(uuid).setKit(getSpacelessName());
+                            }
+                        }.runTaskLater(Main.plugin, 20);
+                    }
                 } else {
                     Messenger.sendInfo("You have committed suicide!", player);
                 }

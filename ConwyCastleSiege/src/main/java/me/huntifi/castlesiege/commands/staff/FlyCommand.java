@@ -36,7 +36,7 @@ public class FlyCommand implements CommandExecutor {
 		Player p = (Player) sender;
 		p.setAllowFlight(!p.getAllowFlight());
 		p.setFlying(p.getAllowFlight());
-		p.setFlySpeed(1);
+		p.setFlySpeed(0.2f);
 
 		if (p.getAllowFlight()) {
 			p.sendMessage(ChatColor.DARK_GREEN + " Flying has been enabled for you, enjoy your flight!");
