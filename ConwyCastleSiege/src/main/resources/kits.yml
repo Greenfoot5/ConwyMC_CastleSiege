@@ -259,15 +259,15 @@ premium:
       material: "DIAMOND_CHESTPLATE"
       lore:
         - "§6------------------------------"
-        - "§2[Desc]:§a A tank kit that deals extra damage to mounted units."
-        - "§2[Health]:§a 520"
+        - "§2[Desc]:§a the ultimate tank kit!"
+        - "§2[Health]:§a 720"
         - "§2[Melee Damage]:§a 58"
         - "§2[Regen]:§a 23"
         - "§2[Effects]:§a Slowness 3, Mining Fatigue 2, Resistance 1"
         - "§2[Ability]:§a Deals 50% more damage to mounted units."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
-        - "§3Battlepoints: §910"
+        - "§3Battlepoints: §915"
       location: 37
       command: "halberdier"
     medic:
