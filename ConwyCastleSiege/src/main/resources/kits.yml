@@ -11,10 +11,10 @@ selector:
       location: 10
       command: "kit free"
     premium:
-      name: "§ePremium Kits"
+      name: "§eElite Kits"
       material: "GOLD_BLOCK"
       lore:
-        - "Play as one of the premium kits!"
+        - "Play as one of the elite kits!"
         - "These kits can be unlocked in the shop."
       location: 13
       command: "kit premium"
@@ -181,7 +181,7 @@ premium:
         - "§6------------------------------"
         - "§2[Desc]:§a An armorless warrior with high dps and speed."
         - "§2[Health]:§a 170"
-        - "§2[Melee Damage]:§a 43"
+        - "§2[Melee Damage]:§a 53"
         - "§2[Regen]:§a 16"
         - "§2[Effects]:§a Speed 1"
         - "§2[Ability]:§a Go berserk by drinking a potion, giving"
