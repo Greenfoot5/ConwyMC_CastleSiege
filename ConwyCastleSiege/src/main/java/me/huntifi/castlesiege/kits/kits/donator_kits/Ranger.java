@@ -49,7 +49,7 @@ public class Ranger extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Ranger() {
-        super("Ranger", 215, 8.5, 7500, 10);
+        super("Ranger", 260, 8.5, 10000, 10);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -158,7 +158,7 @@ public class Ranger extends DonatorKit implements Listener {
     }
 
     /**
-     * Activate the volley ability, shooting 3 arrows at once
+     * Activate the volley ability, shooting 5 arrows at once
      * @param p The ranger shooting their volley bow
      * @param v The vector of the original arrow
      */
@@ -172,7 +172,13 @@ public class Ranger extends DonatorKit implements Listener {
             p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
         }
         if (removeArrow(p)) {
+            p.launchProjectile(Arrow.class, v.rotateAroundY(0.78));
+        }
+        if (removeArrow(p)) {
             p.launchProjectile(Arrow.class, v.rotateAroundY(-0.314));
+        }
+        if (removeArrow(p)) {
+            p.launchProjectile(Arrow.class, v.rotateAroundY(-0.157));
         }
     }
 
@@ -248,7 +254,7 @@ public class Ranger extends DonatorKit implements Listener {
 
                 // Basically what happens here is you check whether the player
                 // is not looking at you at all (so having their back aimed at you.)
-                if (damagerLoc.getYaw() <= hitLoc.getYaw() + 30 && damagerLoc.getYaw() >= hitLoc.getYaw() - 30
+                if (damagerLoc.getYaw() <= hitLoc.getYaw() + 38 && damagerLoc.getYaw() >= hitLoc.getYaw() - 38
                         && canBackstab) {
 
                     ed.setCancelled(true);
