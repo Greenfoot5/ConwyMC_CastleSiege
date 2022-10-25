@@ -84,11 +84,11 @@ public class Cavalry extends DonatorKit implements Listener {
         // Horse
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.WHEAT),
                 ChatColor.GREEN + "Spawn Horse", null, null);
-        HorseHandler.add(name, 600, 150, 1, 0.2425, 0.8,
+        HorseHandler.add(name, 600, 400, 1, 0.2425, 0.8,
                 Material.IRON_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
                         new PotionEffect(PotionEffectType.REGENERATION, 999999, 0),
-                        new PotionEffect(PotionEffectType.SPEED, 999999, 0)
+                        new PotionEffect(PotionEffectType.SPEED, 999999, 1)
                 )
         );
 
