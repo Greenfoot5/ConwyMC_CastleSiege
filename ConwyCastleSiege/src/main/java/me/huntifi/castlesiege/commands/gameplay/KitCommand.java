@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.gui.GuiController;
 import me.huntifi.castlesiege.maps.MapController;
@@ -36,6 +37,9 @@ public class KitCommand implements CommandExecutor {
             return true;
         } else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
             Messenger.sendError("Spectators cannot select kits!", sender);
+            return true;
+        } else if (sender instanceof Player && !InCombat.isPlayerInLobby(((Player) sender).getUniqueId())) {
+            Messenger.sendError("You cannot select kits whilst in combat!", sender);
             return true;
         }
 

@@ -1,8 +1,10 @@
 package me.huntifi.castlesiege.kits.kits;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -16,6 +18,9 @@ public abstract class DonatorKit extends Kit {
     private final double price;
 
     private final double bp_price;
+
+    // Kit tracking if they bought it with battlepoints
+    private static final Collection<UUID> using = new ArrayList<>();
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
@@ -40,11 +45,15 @@ public abstract class DonatorKit extends Kit {
     public boolean canSelect(CommandSender sender, boolean verbose, boolean isRandom) {
         if (!super.canSelect(sender, verbose, isRandom))
             return false;
+        if (sender instanceof Player && !InCombat.isPlayerInLobby(((Player) sender).getUniqueId())) {
+            Messenger.sendError("You cannot select donator kits whilst on the battlefield!", sender);
+            return true;
+        }
 
         UUID uuid = ((Player) sender).getUniqueId();
         boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
         boolean allKitsFree = MapController.allKitsFree;
-        boolean hasBP = hasEnoughBP(uuid, bp_price);
+        boolean hasBP = hasEnoughBP(uuid, bp_price, getSpacelessName());
         if (!hasKit && !isFriday() && !allKitsFree) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null) {
@@ -54,7 +63,7 @@ public abstract class DonatorKit extends Kit {
                 }
             }
             return false;
-        } else if (!hasBP && hasKit) {
+        } else if (!hasBP) {
             if (verbose) {
                 Player p = Bukkit.getPlayer(uuid);
                 Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", p);
@@ -72,13 +81,37 @@ public abstract class DonatorKit extends Kit {
      * @param battlep the amount of battlepoints needed to play this kit
      * @return true or false in case they don't have sufficient bp
      */
-    public static boolean hasEnoughBP(UUID uuid, double battlep) {
+    public static boolean hasEnoughBP(UUID uuid, double battlep, String kit) {
+        boolean hasKit = ActiveData.getData(uuid).hasKit(kit);
         PlayerData data = ActiveData.getData(uuid);
+        //Check for random donator kit, you must have the battlepoints for it.
+        if (kit.equalsIgnoreCase("spaceless")) {
             if (data.getBattlepoints() >= battlep) {
+                using.add(uuid);
+                data.addBattlepoints(-battlep);
+                return true;
+            }
+        }
+            if (data.getBattlepoints() >= battlep && hasKit) {
+                using.add(uuid);
                 data.addBattlepoints(-battlep);
                 return true;
         }
         return false;
+    }
+
+    public static void resetDonor(UUID uuid, String kit) {
+        Bukkit.getScheduler().runTask(Main.plugin, () -> {
+            if (Kit.equippedKits.get(uuid) instanceof DonatorKit && using.contains(uuid)) {
+                Player player = Bukkit.getPlayer(uuid);
+                assert player != null;
+                equippedKits.put(uuid, Kit.getKit(kit));
+                ActiveData.getData(uuid).setKit(kit);
+                using.remove(uuid);
+                Kit kitu = Kit.equippedKits.get(uuid);
+                kitu.refillItems(uuid);
+            }
+        });
     }
 
     /**

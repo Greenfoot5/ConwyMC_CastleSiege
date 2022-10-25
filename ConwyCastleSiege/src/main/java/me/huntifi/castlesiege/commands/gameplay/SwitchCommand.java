@@ -81,6 +81,7 @@ public class SwitchCommand implements CommandExecutor {
 
 		// Spawn the player in their new lobby
 		spawnPlayer(p, -1);
+		ActiveData.getData(p.getUniqueId()).addBattlepoints(-1); // Note: this makes sure not to give them battlepoints for dying
 	}
 	
 	private void switchTeam(CommandSender sender, String[] args) {
@@ -108,13 +109,15 @@ public class SwitchCommand implements CommandExecutor {
 			}
 
 			// Spawn the player in their new lobby
-			if (InCombat.isPlayerInLobby(p.getUniqueId()))
+			if (InCombat.isPlayerInLobby(p.getUniqueId())) {
 				spawnPlayer(p, 0);
-			else if (p.hasPermission("castlesiege.baron"))
+		    } else if (p.hasPermission("castlesiege.baron")) {
 				spawnPlayer(p, 1);
-			else
+				ActiveData.getData(p.getUniqueId()).addBattlepoints(-1); // Note: this makes sure not to give them battlepoints for dying
+			} else {
 				spawnPlayer(p, 2);
-
+				ActiveData.getData(p.getUniqueId()).addBattlepoints(-2); // Note: this makes sure not to give them battlepoints for dying
+			}
 			return;
 		}
 
@@ -132,6 +135,7 @@ public class SwitchCommand implements CommandExecutor {
 
 		if (!InCombat.isPlayerInLobby(p.getUniqueId())) {
 			spawnPlayer(p, 2);
+			ActiveData.getData(p.getUniqueId()).addBattlepoints(-2); // Note: this makes sure not to give them battlepoints for dying
 		} else {
 			spawnPlayer(p, 0);
 		}
