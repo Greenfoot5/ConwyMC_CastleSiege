@@ -83,6 +83,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
 
         //passive effects
         super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 0));
     }
 
@@ -110,7 +111,8 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
                         p.setCooldown(Material.DIAMOND_SWORD, 320);
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.AQUA + "You are charging forward"));
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 160, 5)));
+                        p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 20, 5)));
+                        p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 160, 3)));
                         p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 160, 1)));
 
                         //Diminishing strength effect
@@ -143,7 +145,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
 
             if (vanguards.contains(uuid)) {
                 for (PotionEffect effect : player.getActivePotionEffects()) {
-                    if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 5)
+                    if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 3)
                             || (effect.getType().getName().equals(PotionEffectType.JUMP.getName()) && effect.getAmplifier() == 1)
                             || (effect.getType().getName().equals(PotionEffectType.INCREASE_DAMAGE.getName()) && effect.getAmplifier() == 5)) {
                         player.removePotionEffect(effect.getType());
