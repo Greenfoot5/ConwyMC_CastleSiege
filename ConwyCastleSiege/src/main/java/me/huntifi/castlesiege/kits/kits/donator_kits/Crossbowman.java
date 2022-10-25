@@ -69,7 +69,7 @@ public class Crossbowman extends DonatorKit implements Listener {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
 
         // Arrows
-        es.hotbar[7] = new ItemStack(Material.ARROW, 32);
+        es.hotbar[7] = new ItemStack(Material.ARROW, 48);
 
         super.equipment = es;
 
