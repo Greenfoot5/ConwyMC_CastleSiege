@@ -35,6 +35,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -52,7 +53,7 @@ public class Medic extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Medic() {
-        super("Medic", 210, 11, 7500, 5);
+        super("Medic", 245, 15, 7500, 5);
         super.canSeeHealth = true;
 
         // Equipment Stuff
@@ -100,9 +101,12 @@ public class Medic extends DonatorKit implements Listener {
                 Arrays.asList(ChatColor.AQUA + "Place the cake down, then",
                         ChatColor.AQUA + "teammates can heal from it."), null);
 
+        // Self Potion
+        es.hotbar[3] = healthPotion();
+
         // Ladders
-        es.hotbar[3] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 3);
+        es.hotbar[4] = new ItemStack(Material.LADDER, 4);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 4);
 
         super.equipment = es;
 
@@ -111,6 +115,19 @@ public class Medic extends DonatorKit implements Listener {
 
         super.killMessage[0] = " dissected ";
         super.deathMessage[0] = "You had your insides examined by ";
+    }
+
+    public ItemStack healthPotion() {
+        ItemStack itemStack = new ItemStack(Material.POTION);
+        PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
+        assert potionMeta != null;
+
+        potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 1, 6), true);
+        potionMeta.setColor(Color.RED);
+        potionMeta.setDisplayName(ChatColor.RED + "Instant Healing I");
+        itemStack.setItemMeta(potionMeta);
+
+        return itemStack;
     }
 
     /**
