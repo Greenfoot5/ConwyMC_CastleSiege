@@ -386,7 +386,7 @@ premium:
         - "§2[Ability]:§a and can brew random damage/support potions."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
-        - "§3Battlepoints: §98"
+        - "§3Battlepoints: §910"
       location: 22
       command: "alchemist"
     back:
