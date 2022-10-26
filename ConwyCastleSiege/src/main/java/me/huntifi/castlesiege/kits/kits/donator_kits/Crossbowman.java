@@ -74,7 +74,6 @@ public class Crossbowman extends DonatorKit implements Listener {
         super.equipment = es;
 
         // Perm Potion Effect
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 1));
         super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 1));
 
         // Death Messages
@@ -96,11 +95,16 @@ public class Crossbowman extends DonatorKit implements Listener {
 
         Player p = (Player) e.getEntity();
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-            e.setCancelled(true);
-            p.setCooldown(Material.CROSSBOW, 55);
 
-            Arrow a = p.launchProjectile(Arrow.class, p.getLocation().getDirection());
-            a.setVelocity(a.getVelocity().normalize().multiply(37));
+            if (!(e.getProjectile() instanceof Arrow)) {
+                return;
+            }
+
+            p.setCooldown(Material.CROSSBOW, 55);
+            Arrow a = (Arrow) e.getProjectile();
+            ((Arrow) e.getProjectile()).setPierceLevel(1);
+            a.setKnockbackStrength(1);
+            a.setVelocity(p.getLocation().getDirection().normalize().multiply(40));
         }
     }
 }
