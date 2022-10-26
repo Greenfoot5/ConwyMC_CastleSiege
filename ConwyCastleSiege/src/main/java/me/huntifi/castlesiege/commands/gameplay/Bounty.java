@@ -163,23 +163,23 @@ public class Bounty implements CommandExecutor {
         switch (ActiveData.getData(killer.getUniqueId()).getKillStreak()) {
             case 5:
                 amount = 10;
-                bp_gain = 1;
+                bp_gain = 3;
                 break;
             case 10:
                 amount = 20;
-                bp_gain = 2;
+                bp_gain = 5;
                 break;
             case 15:
                 amount = 30;
-                bp_gain = 3;
+                bp_gain = 10;
                 break;
             case 20:
                 amount = 40;
-                bp_gain = 4;
+                bp_gain = 15;
                 break;
             case 35:
                 amount = 70;
-                bp_gain = 5;
+                bp_gain = 20;
                 break;
         }
         if (amount > 0) {

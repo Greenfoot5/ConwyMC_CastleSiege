@@ -215,7 +215,7 @@ public class PlayerData {
     public void addDeaths(double deaths) {
         this.deaths += deaths;
         addScore(-deaths);
-        addBattlepoints(1);
+        addBattlepoints(0.5);
         killStreak = 0;
     }
 
@@ -293,6 +293,7 @@ public class PlayerData {
     public void addAssist() {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             assists += 1;
+            addBattlepoints(0.5);
             addScore(1);
             addCoins(1);
         });
