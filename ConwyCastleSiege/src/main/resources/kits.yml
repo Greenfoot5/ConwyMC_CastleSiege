@@ -213,10 +213,10 @@ premium:
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A kit with the ability to execute enemies."
-        - "§2[Health]:§a 255"
+        - "§2[Health]:§a 300"
         - "§2[Melee Damage]:§a 44"
         - "§2[Regen]:§a 9"
-        - "§2[Ability]:§a Insta-kills enemies that are below 40% hp."
+        - "§2[Ability]:§a Insta-kills enemies that are below 33.3% hp."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
         - "§3Battlepoints: §98"
@@ -228,7 +228,7 @@ premium:
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A kit with the ability to stun enemies."
-        - "§2[Health]:§a 280"
+        - "§2[Health]:§a 360"
         - "§2[Melee Damage]:§a 37"
         - "§2[Regen]:§a 12"
         - "§2[Ability]:§a Hits enemies with extra force,"
