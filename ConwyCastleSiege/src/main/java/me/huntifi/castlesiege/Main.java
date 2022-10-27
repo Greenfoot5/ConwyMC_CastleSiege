@@ -64,6 +64,7 @@ import me.huntifi.castlesiege.kits.kits.donator_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
+import me.huntifi.castlesiege.kits.kits.in_development.Rogue;
 import me.huntifi.castlesiege.kits.kits.in_development.Warbear;
 import me.huntifi.castlesiege.kits.kits.team_kits.*;
 import me.huntifi.castlesiege.kits.kits.voter_kits.*;
@@ -345,6 +346,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("MoriaAxeThrower")).setExecutor(new MoriaAxeThrower());
                 Objects.requireNonNull(getCommand("Moriaorc")).setExecutor(new MoriaOrc());
                 Objects.requireNonNull(getCommand("Ranger")).setExecutor(new Ranger());
+                Objects.requireNonNull(getCommand("Rogue")).setExecutor(new Rogue());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
                 Objects.requireNonNull(getCommand("Shieldman")).setExecutor(new Shieldman());
                 Objects.requireNonNull(getCommand("Skirmisher")).setExecutor(new Skirmisher());

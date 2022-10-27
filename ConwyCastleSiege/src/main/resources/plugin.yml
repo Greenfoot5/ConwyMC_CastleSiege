@@ -494,6 +494,9 @@ commands:
   Ranger:
     description: Selects the ranger kit
     usage: /ranger
+  Rogue:
+    description: Selects the rogue kit
+    usage: /rogue
   Scout:
     description: Selects the scout kit
     usage: /scout
