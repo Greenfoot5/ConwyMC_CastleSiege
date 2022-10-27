@@ -259,6 +259,7 @@ public abstract class Kit implements CommandExecutor {
         }
     }
 
+
     /**
      * Sets the player's ability to see people's health
      * @param p The player

@@ -221,6 +221,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new MoriaCaveTroll(), plugin);
                 getServer().getPluginManager().registerEvents(new MoriaGuardian(), plugin);
                 getServer().getPluginManager().registerEvents(new MoriaOrc(), plugin);
+                getServer().getPluginManager().registerEvents(new Rogue(), plugin);
                 getServer().getPluginManager().registerEvents(new Ranger(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
                 getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
