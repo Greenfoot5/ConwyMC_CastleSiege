@@ -211,7 +211,7 @@ public class Crossbowman extends DonatorKit implements Listener {
 
     public void onClickGreenDye(Player p) {
         // mode swich button
-        int cooldown = p.getCooldown(Material.GREEN_DYE);
+        int cooldown = p.getCooldown(Material.LIME_DYE);
         if (cooldown == 0 && isInSnipingMode(p.getUniqueId())) {
             p.setCooldown(Material.LIME_DYE, 200);
             p.setCooldown(Material.YELLOW_DYE, 200);
