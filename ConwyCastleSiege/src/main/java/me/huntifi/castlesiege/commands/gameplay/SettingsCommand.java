@@ -29,6 +29,7 @@ public class SettingsCommand implements CommandExecutor, Listener {
         put("joinPing", new String[]{"false", "true"});
         put("statsBoard", new String[]{"false", "true"});
         put("woolmapTitleMessage", new String[]{"true", "false"});
+        put("showBattlepoints", new String[]{"false", "true"});
     }};
 
     private static final HashMap<HumanEntity, Gui> guis = new HashMap<>();
@@ -63,6 +64,7 @@ public class SettingsCommand implements CommandExecutor, Listener {
                             ChatColor.GOLD + "deathMessages (true/false) - " + ChatColor.BLUE + "View all death messages, not just your own\n" +
                             ChatColor.GOLD + "joinPing (true/false) - " + ChatColor.BLUE + "Get a ping sound when another player joins the server\n" +
                             ChatColor.GOLD + "woolmapTitleMessage (true/false) - " + ChatColor.BLUE + "Disable the Title Bar message related to the Wool-map\n" +
+                            ChatColor.GOLD + "showBattlepoints (true/false) - " + ChatColor.BLUE + "Shows your battlepoints in the flags scoreboard.\n" +
                             ChatColor.GOLD + "statsBoard (true/false) - " + ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names ",
                     sender);
             return true;
@@ -80,8 +82,9 @@ public class SettingsCommand implements CommandExecutor, Listener {
         if (Arrays.asList(defaultSettings.get(setting)).contains(value)) {
             data.setSetting(uuid, setting, value);
 
-            if (args[0].equalsIgnoreCase("statsBoard"))
+            if (args[0].equalsIgnoreCase("statsBoard") || args[0].equalsIgnoreCase("showBattlepoints"))
                 Scoreboard.clearScoreboard(player);
+
 
             if (guis.containsKey(player))
                 setGuiItem(player, setting);
@@ -138,6 +141,11 @@ public class SettingsCommand implements CommandExecutor, Listener {
                 gui.addItem(itemName, Material.PAPER, Collections.singletonList(
                                 ChatColor.BLUE + "Disable the Title bar message related to the Wool-map"),
                         4, command, true);
+                break;
+            case "showBattlepoints":
+                gui.addItem(itemName, Material.BLUE_GLAZED_TERRACOTTA, Collections.singletonList(
+                                ChatColor.BLUE + "Shows your battlepoints in the flags scoreboard"),
+                        5, command, false);
                 break;
         }
     }

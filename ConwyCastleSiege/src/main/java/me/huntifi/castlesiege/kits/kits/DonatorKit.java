@@ -47,7 +47,7 @@ public abstract class DonatorKit extends Kit {
             return false;
         if (sender instanceof Player && !InCombat.isPlayerInLobby(((Player) sender).getUniqueId())) {
             Messenger.sendError("You cannot select donator kits whilst on the battlefield!", sender);
-            return true;
+            return false;
         }
 
         UUID uuid = ((Player) sender).getUniqueId();

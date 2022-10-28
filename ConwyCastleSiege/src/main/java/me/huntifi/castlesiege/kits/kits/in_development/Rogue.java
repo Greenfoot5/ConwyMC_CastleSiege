@@ -66,15 +66,13 @@ public class Rogue extends DonatorKit implements Listener {
 
     private final ItemStack netheriteSwordVoted;
 
-    private final ItemStack poisonSword;
-
     private final ItemStack poisonSwordVoted;
 
     private boolean canGouge = false;
     private BukkitRunnable br = null;
 
     public Rogue() {
-        super("Rogue", 240, 5, 10000, 1);
+        super("Rogue", 240, 5, 10000, 10);
         super.canSeeHealth = true;
 
         // Equipment Stuff
@@ -93,15 +91,10 @@ public class Rogue extends DonatorKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 34);
         es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
 
-        poisonSword = ItemCreator.weapon(new ItemStack(Material.GOLDEN_SWORD),
-                ChatColor.DARK_GRAY + "Poison Dagger", null, null, 32);
-        // Weapon
-        es.hotbar[0] = netheriteSword;
-
         // Voted weapon
         poisonSwordVoted = ItemCreator.weapon(new ItemStack(Material.GOLDEN_SWORD),
                 ChatColor.DARK_GRAY + "Poison Dagger",
-                Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                Collections.singletonList(ChatColor.GREEN + "- Special: +2 damage"),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 34);
         es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
 
@@ -128,7 +121,7 @@ public class Rogue extends DonatorKit implements Listener {
         shadowstep = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 ChatColor.DARK_GRAY + "Shadowstep",
                 Arrays.asList(ChatColor.AQUA + "", ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to activate.",
-                        ChatColor.AQUA + "", "You move through the shadows, invisible to everyone.",
+                        ChatColor.AQUA + "", ChatColor.AQUA + "You move through the shadows, invisible to everyone.",
                         ChatColor.AQUA + "Whilst you shadowstep you can not attack targets.",
                         ChatColor.AQUA + "This ability lasts 6 seconds and has a cool-down of 13 seconds."),
                 null);
@@ -137,7 +130,7 @@ public class Rogue extends DonatorKit implements Listener {
         shadowleap = ItemCreator.item(new ItemStack(Material.DRIED_KELP),
                 ChatColor.DARK_GRAY + "Shadowleap",
                 Arrays.asList(ChatColor.AQUA + "", ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to activate.",
-                        ChatColor.AQUA + "", "You move through the shadows, invisible to everyone.",
+                        ChatColor.AQUA + "", ChatColor.AQUA + "You move through the shadows, invisible to everyone.",
                         ChatColor.AQUA + "Whilst you shadowleap you can not attack targets.",
                         ChatColor.AQUA + "You get jump boost 5 so you can easily jump on top of roofs and towers.",
                         ChatColor.AQUA + "This ability can be used as an extension to shadowstep,",
@@ -148,7 +141,7 @@ public class Rogue extends DonatorKit implements Listener {
         trackArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW, 5),
                 ChatColor.YELLOW + "Track Arrow",
                 Arrays.asList(ChatColor.AQUA + "", ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to throw!",
-                        ChatColor.AQUA + "", "Hitting enemy targets with this gives them",
+                        ChatColor.AQUA + "", ChatColor.AQUA + "Hitting enemy targets with this gives them",
                         ChatColor.AQUA + "glowing for a minute and stuns them briefly.",
                         ChatColor.AQUA + "Allowing you enough time to strike or escape.",
                         ChatColor.AQUA + "hitting enemies with this ability also awards you ",
@@ -167,9 +160,9 @@ public class Rogue extends DonatorKit implements Listener {
         comboPoint = ItemCreator.item(new ItemStack(Material.GLOWSTONE_DUST),
                 ChatColor.LIGHT_PURPLE + "Combo Point",
                 Arrays.asList(ChatColor.AQUA + "", ChatColor.YELLOW + "" + ChatColor.BOLD + "Ability Power Currency",
-                        ChatColor.AQUA + "", "This currency can be used to perform a stronger gouge.",
-                        ChatColor.AQUA + "You can get combo points by killing and",
-                        ChatColor.AQUA + "hitting enemies with track arrows."),
+                        ChatColor.AQUA + "", ChatColor.AQUA + "This currency can be used to perform a stronger gouge.",
+                        ChatColor.AQUA + "You can get combo points by killing with gouge",
+                        ChatColor.AQUA + "and hitting enemies with track arrows."),
                 null);
 
         // Chestplate
@@ -243,7 +236,7 @@ public class Rogue extends DonatorKit implements Listener {
                     return;
                 }
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.RED + "You poisoned your weapons!"));
+                            ChatColor.DARK_GREEN + "You poisoned your weapons!"));
                     applyPoison(p);
             }
         }
@@ -309,10 +302,6 @@ public class Rogue extends DonatorKit implements Listener {
             disguise(p, mobDisguise);
             isShadow.add(p);
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 0));
-
-            if (InCombat.isPlayerInCombat(p.getUniqueId())) {
-                duration = 30;
-            }
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -325,7 +314,7 @@ public class Rogue extends DonatorKit implements Listener {
 
                             if (!InCombat.isPlayerInCombat(p.getUniqueId())) {
                                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                        ChatColor.GOLD + "You are no longer invisible! (Strike now!)"));
+                                        ChatColor.GOLD +""+ ChatColor.BOLD + "You are no longer invisible! (Strike now!)"));
                             }
                             for (PotionEffect effect : p.getActivePotionEffects()) {
                                 if ((effect.getType().getName().equals(PotionEffectType.INVISIBILITY.getName()) && effect.getAmplifier() == 0)
@@ -367,12 +356,13 @@ public class Rogue extends DonatorKit implements Listener {
         if (p.getCooldown(poisonPotion().getType()) == 0 && !hasPoisonedWeapons.contains(p)) {
             hasPoisonedWeapons.add(p);
             p.setCooldown(poisonPotion().getType(), 1000);
+            p.getInventory().setItem(0, poisonSwordVoted);
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
                         hasPoisonedWeapons.remove(p);
-                        changeSword(p, poisonSword.getType(), netheriteSword, netheriteSwordVoted);
+                        changeSword(p, poisonSwordVoted.getType(), netheriteSword, netheriteSwordVoted);
                     }
                 }
             }.runTaskLater(Main.plugin, 201);
@@ -381,7 +371,7 @@ public class Rogue extends DonatorKit implements Listener {
     }
 
     /**
-     * Change the player's poison agger.
+     * Change the player's poison dagger.
      * @param player The player
      * @param oldMaterial The material of the sword to remove
      * @param sword The sword to set if not voted
@@ -403,7 +393,7 @@ public class Rogue extends DonatorKit implements Listener {
         if (ActiveData.getData(player.getUniqueId()).hasVote("sword"))
             inventory.addItem(swordVoted);
         else
-            inventory.addItem(sword);
+            inventory.setItem(0, sword);
     }
 
     public void dealPoisonDamage(Player target, Player damager) {
@@ -431,10 +421,11 @@ public class Rogue extends DonatorKit implements Listener {
             return;
         } else if (e.getEntity() instanceof Horse && e.getDamager() instanceof Player) {
             Player player = (Player) e.getDamager();
+            Horse horse = (Horse) e.getEntity();
             if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name)) {
                 Material item = player.getInventory().getItemInMainHand().getType();
-                if (item == Material.NETHERITE_SWORD) {
-                    dealPoisonDamageToHorse((Horse) e.getEntity(), player);
+                if (item == Material.GOLDEN_SWORD) {
+                    dealPoisonDamageToHorse(horse, player);
                 }
             }
         }
@@ -444,7 +435,7 @@ public class Rogue extends DonatorKit implements Listener {
 
             // Rogue attacked an enemy player
             Material item = player.getInventory().getItemInMainHand().getType();
-            if (item == Material.NETHERITE_SWORD) {
+            if (item == Material.GOLDEN_SWORD) {
                 dealPoisonDamage((Player) e.getEntity(), player);
             }
         }
@@ -601,7 +592,7 @@ public class Rogue extends DonatorKit implements Listener {
                 // Basically what happens here is you check whether the player
                 // is not looking at you at all (so having their back aimed at you.)
                 if (damagerLoc.getYaw() <= hitLoc.getYaw() + 60 && damagerLoc.getYaw() >= hitLoc.getYaw() - 60
-                        && canGouge) {
+                        && canGouge && !isShadow.contains(p)) {
 
                     if (p.getInventory().getItemInMainHand().getType() != Material.NETHERITE_INGOT) {
                         return;
