@@ -170,12 +170,12 @@ public class Crossbowman extends DonatorKit implements Listener {
     }
 
     /**
-     * Destroy a player's brewing stand when they click an enderchest.
+     * Crossbow is put into mobility mode when they click an enderchest.
      * @param event The event called when an off-cooldown player interacts with an enderchest
      */
     @EventHandler
     public void onClickEnderchest(EnderchestEvent event) {
-        snipers.put(event.getPlayer().getUniqueId(), false);
+            snipers.put(event.getPlayer().getUniqueId(), false);
     }
 
     /**
