@@ -2,7 +2,9 @@ package me.huntifi.castlesiege.kits.kits.in_development;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -16,6 +18,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -29,6 +32,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
@@ -54,6 +58,9 @@ public class Rogue extends DonatorKit implements Listener {
 
     private final ItemStack comboPoint;
 
+    private boolean canBackstab = false;
+    private BukkitRunnable br = null;
+
     public Rogue() {
         super("Rogue", 240, 15, 10000, 1);
         super.canSeeHealth = true;
@@ -64,13 +71,13 @@ public class Rogue extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
-                ChatColor.DARK_GRAY + "Dagger", null, null, 22);
+                ChatColor.DARK_GRAY + "Dagger", null, null, 32);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
                         ChatColor.DARK_GRAY + "Dagger",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 24),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 34),
                 0);
 
         // Gouge
@@ -205,13 +212,58 @@ public class Rogue extends DonatorKit implements Listener {
         }
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (p.getInventory().getItemInMainHand().equals(poisonPotion())) {
+                Material item = p.getInventory().getItemInMainHand().getType();
+                if (item.equals(poisonPotion())) {
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                            ChatColor.RED + "You poisoned your weapons!"));
                     applyPoison(p);
                 }
-                else if (p.getInventory().getItemInMainHand().equals(shadowstep.getType())) {
+            }
+        }
+    }
+
+    /**
+     *
+     * @param e event triggered by right clicking mode switch button.
+     */
+    @EventHandler
+    public void onShadowstep(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                Material item = p.getInventory().getItemInMainHand().getType();
+                if (item.equals(shadowstep.getType())) {
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                            ChatColor.RED + "You triggered the Shadowstep ability!"));
                     shadowstepAbility(p);
                 }
-                else if (p.getInventory().getItemInMainHand().equals(shadowleap.getType())) {
+            }
+        }
+    }
+
+    /**
+     *
+     * @param e event triggered by right clicking mode switch button.
+     */
+    @EventHandler
+    public void onShadowleap(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                Material item = p.getInventory().getItemInMainHand().getType();
+                if (item.equals(shadowleap.getType())) {
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                            ChatColor.RED + "You triggered the Shadowleap ability!"));
                     shadowleapAbility(p);
                 }
             }
@@ -222,10 +274,10 @@ public class Rogue extends DonatorKit implements Listener {
      * Disguise the player as a vex and make them invisible to prevent footsteps for a set amount of time.
      * @param p The player to (un)disguise
      */
-    protected void shadowstepAbility(Player p) {
+    public void shadowstepAbility(Player p) {
         if (p.getCooldown(shadowstep.getType()) == 0) {
             p.setCooldown(shadowstep.getType(), 260);
-            MobDisguise mobDisguise = new MobDisguise(DisguiseType.VEX);
+            MobDisguise mobDisguise = new MobDisguise(DisguiseType.BAT);
             disguise(p, mobDisguise);
             isShadow.add(p);
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 0));
@@ -239,15 +291,14 @@ public class Rogue extends DonatorKit implements Listener {
                             NameTag.give(p);
                         }
                         for (PotionEffect effect : p.getActivePotionEffects()) {
-                            if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 2)
-                                    || (effect.getType().getName().equals(PotionEffectType.INVISIBILITY.getName()) && effect.getAmplifier() == 0)
+                            if ((effect.getType().getName().equals(PotionEffectType.INVISIBILITY.getName()) && effect.getAmplifier() == 0)
                                     || (effect.getType().getName().equals(PotionEffectType.JUMP.getName()) && effect.getAmplifier() == 4)) {
                                 p.removePotionEffect(effect.getType());
                             }
                         }
                     }
                 }
-            }.runTaskLater(Main.plugin, 120);
+            }.runTaskLater(Main.plugin, 100);
         } else {
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                     ChatColor.RED + "This ability is still under cool-down."));
@@ -258,11 +309,11 @@ public class Rogue extends DonatorKit implements Listener {
      * Disguise the player as a vex and make them invisible to prevent footsteps for a set amount of time. + jump boost
      * @param p The player to (un)disguise
      */
-    protected void shadowleapAbility(Player p) {
+    public void shadowleapAbility(Player p) {
         if (p.getCooldown(shadowleap.getType()) == 0 && isShadow.contains(p)) {
             p.setCooldown(shadowleap.getType(), 400);
             p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, 4));
-            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 999999, 2));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2));
         } else if (!isShadow.contains(p)) {
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                     ChatColor.RED + "You can only use this ability when shadowstepping!"));
@@ -273,7 +324,7 @@ public class Rogue extends DonatorKit implements Listener {
     }
 
     public void applyPoison(Player p) {
-        if (p.getCooldown(poisonPotion().getType()) == 0) {
+        if (p.getCooldown(poisonPotion().getType()) == 0 && !hasPoisonedWeapons.contains(p)) {
             hasPoisonedWeapons.add(p);
             p.setCooldown(poisonPotion().getType(), 1200);
             new BukkitRunnable() {
@@ -376,13 +427,125 @@ public class Rogue extends DonatorKit implements Listener {
             //The damage on Players is 10, whilst on other entities it is 25. Hitting players also awards comboPoints.
             if(arrow.getShooter() instanceof Player && e.getHitEntity() instanceof Player){
                 Player damages = (Player) arrow.getShooter();
-                arrow.addCustomEffect(new PotionEffect(PotionEffectType.GLOWING, 1200, 0), true);
                 if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                    arrow.setDamage(1);
-                    ((Player) arrow.getShooter()).getInventory().addItem(comboPoint);
+                    arrow.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 0), true);
+                    arrow.addCustomEffect(new PotionEffect(PotionEffectType.GLOWING, 1200, 0), true);
+                    if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
+                        arrow.setDamage(1);
+                        ((Player) arrow.getShooter()).getInventory().addItem(comboPoint);
+                    }
                 }
             } else if(arrow.getShooter() instanceof Player && !(e.getHitEntity() instanceof Player)){
                 arrow.setDamage(25);
+            }
+        }
+    }
+
+    public int gougedDamage(Player damager, Player target) {
+        if (damager.getInventory().getItem(7) == null) {
+            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 50);
+            return 50;
+        } else if (damager.getInventory().getItem(7).getAmount() == 1) {
+            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 75);
+            damager.getInventory().getItem(7).setAmount(damager.getInventory().getItem(6).getAmount() - 1);
+            return 75;
+        } else if (damager.getInventory().getItem(7).getAmount() == 2) {
+            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 100);
+            damager.getInventory().getItem(7).setAmount(damager.getInventory().getItem(6).getAmount() - 2);
+            return 100;
+        } else if (damager.getInventory().getItem(7).getAmount() == 3) {
+            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 125);
+            damager.getInventory().getItem(7).setAmount(damager.getInventory().getItem(6).getAmount() - 3);
+            return 125;
+        } else if (damager.getInventory().getItem(7).getAmount() == 4) {
+            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 150);
+            damager.getInventory().getItem(7).setAmount(damager.getInventory().getItem(6).getAmount() - 4);
+            return 150;
+        } else if (damager.getInventory().getItem(7).getAmount() >= 5) {
+            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 250);
+            damager.getInventory().getItem(7).setAmount(damager.getInventory().getItem(6).getAmount() - 5);
+            return 250;
+        }
+        return 50;
+    }
+
+
+    /**
+     * Instantly kills players when hit in the back by a sneaking ranger
+     * @param ed The event called when a player attacks another player
+     */
+    @EventHandler (ignoreCancelled = true)
+    public void gougeDamage(EntityDamageByEntityEvent ed) {
+        if (ed.getDamager() instanceof Player && ed.getEntity() instanceof Player) {
+            Player p = (Player) ed.getDamager();
+            Player hit = (Player) ed.getEntity();
+            if (p.getCooldown(gouge.getType()) == 0) {
+                p.setCooldown(gouge.getType(), 40);
+
+            if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
+                Location hitLoc = hit.getLocation();
+                Location damagerLoc = p.getLocation();
+
+                // Basically what happens here is you check whether the player
+                // is not looking at you at all (so having their back aimed at you.)
+                if (damagerLoc.getYaw() <= hitLoc.getYaw() + 60 && damagerLoc.getYaw() >= hitLoc.getYaw() - 60
+                        && canBackstab) {
+
+                    ed.setCancelled(true);
+                    hit.sendMessage(ChatColor.RED + "You were gouged by " + p.getName());
+                    hit.sendMessage(ChatColor.RED + "You gouged " + hit.getName());
+                    if ((hit.getHealth() - gougedDamage(p, hit) > 0)) {
+                        hit.damage(gougedDamage(p, hit));
+                        hit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 4));
+                        hit.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0));
+                        hit.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 0));
+                    } else {
+                        hit.setHealth(0);
+                        DeathEvent.setKiller(hit, p);
+                    }
+
+
+                }
+             }
+            }
+        }
+    }
+
+
+    /**
+     * The event called when a player starts and stops sneaking
+     * @param e exp bar shows as full indicating the rogue is ready to gouge
+     */
+    @EventHandler
+    public void gougeDetection(PlayerToggleSneakEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            if (br != null) {
+                br.cancel();
+                br = null;
+            }
+
+            // p.isSneaking() gives the sneaking status before the SneakEvent is processed
+            if (p.isSneaking()) {
+                canBackstab = false;
+                BarCooldown.remove(uuid);
+            } else {
+                br = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        canBackstab = true;
+                        br = null;
+                    }
+                };
+                br.runTaskLater(Main.plugin, 30);
+                BarCooldown.add(uuid, 30);
             }
         }
     }
