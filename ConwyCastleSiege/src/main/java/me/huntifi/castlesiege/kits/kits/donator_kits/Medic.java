@@ -277,8 +277,7 @@ public class Medic extends DonatorKit implements Listener {
             PlayerInventory i = p.getInventory();
             Entity q = e.getRightClicked();
             if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&                            // Player is medic
-                    (i.getItemInMainHand().getType() == Material.PAPER ||                           // Uses bandage
-                            i.getItemInOffHand().getType() == Material.PAPER) &&                    // Uses bandage
+                    (i.getItemInMainHand().getType() == Material.PAPER) &&                    // Uses bandage
                     q instanceof Player &&                                                          // On player
                     TeamController.getTeam(uuid) == TeamController.getTeam(q.getUniqueId()) &&      // Same team
                     ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth &&  // Below max hp

@@ -26,6 +26,7 @@ public class Tips extends BukkitRunnable {
             "Elite kits need to be unlocked with coins first before you can spend your battlepoints on them. ",
             "Rogue's can mark their enemies by hitting them with track arrows. ",
             "Crossbowmen can now toggle between Mobility & Sniper modes. ",
+            "/Settings opens a menu that allows you to change multiple settings ",
             "Rangers can backstab enemies, so watch your back! ",
             "Battlepoints can be earned from kills, assists, killstreaks and deaths! ",
             "Fully capturing a flag will award you 1 battlepoint! ",

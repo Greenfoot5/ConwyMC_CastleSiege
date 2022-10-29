@@ -387,8 +387,27 @@ premium:
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
         - "§3Battlepoints: §910"
-      location: 22
+      location: 24
       command: "alchemist"
+    rogue:
+      name: "§a§lCLASS:§r§a Rogue"
+      material: "NETHERITE_BOOTS"
+      lore:
+        - "§6------------------------------"
+        - "§2[Desc]:§a An assassination kit with poison abilities."
+        - "§2[Health]:§a 240"
+        - "§2[Melee Damage]:§a 32"
+        - "§2[Regen]:§a 5"
+        - "§2[Effects]:§a Speed II, Night Vision, Jump Boost"
+        - "§2[Ability]:§a Gouge"
+        - "§2[Ability]:§a Shadowstep and shadowleap"
+        - "§2[Ability]:§a can throw track arrows"
+        - "§2[Ability]:§a Can apply poison to its weapon"
+        - "§2[Status]:§a Unlocked with coins."
+        - "§6------------------------------"
+        - "§3Battlepoints: §910"
+      location: 20
+      command: "rogue"
     back:
       name: "§4§lGo Back"
       material: "BARRIER"

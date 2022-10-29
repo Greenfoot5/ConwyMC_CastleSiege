@@ -116,7 +116,9 @@ public class PlayerConnect implements Listener {
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 0.1f);
             }
         }
+        if (ActiveData.getData(p.getUniqueId()).getSetting("woolmapTitleMessage").equals("true")) {
             sendTitlebarMessages(p);
+        }
     }
 
     /**
@@ -208,9 +210,7 @@ public class PlayerConnect implements Listener {
             @Override
             public void run() {
                 if (InCombat.isPlayerInLobby(p.getUniqueId())) {
-                    if (ActiveData.getData(p.getUniqueId()).getSetting("woolmapTitleMessage").equals("true")) {
                         p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
-                    }
                 }
             }
         }.runTaskLater(Main.plugin, 100);
@@ -219,9 +219,7 @@ public class PlayerConnect implements Listener {
             @Override
             public void run() {
                 if (InCombat.isPlayerInLobby(p.getUniqueId())) {
-                    if (ActiveData.getData(p.getUniqueId()).getSetting("woolmapTitleMessage").equals("true")) {
                         p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
-                    }
                 }
             }
         }.runTaskLater(Main.plugin, 600);
