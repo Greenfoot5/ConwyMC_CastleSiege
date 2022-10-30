@@ -48,7 +48,7 @@ public class WallEvent implements Listener {
 		Player player = e.getPlayer();
 
 		// Check we're on HelmsDeep
-		if(MapController.getCurrentMap().worldName.equals("HelmsDeep")) {
+		if(MapController.getCurrentMap().worldName.equals("HelmsDeep") && MapController.isOngoing()) {
 			// Check the player has right-clicked a block while standing within 5 blocks of the spawner
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.getLocation().distance(PICKUP_LOCATION) <= 5) {
 				// If the player clicks on some TNT
