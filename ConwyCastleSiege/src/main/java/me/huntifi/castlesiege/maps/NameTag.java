@@ -88,6 +88,8 @@ public class NameTag implements CommandExecutor {
                 return "§a§lMod ";
             case "developer":
                 return "§2§lDev ";
+            case "communitymanager":
+                return "5§lComm Man ";
             case "admin":
                 return "§c§lAdmin ";
             case "owner":
