@@ -753,18 +753,18 @@ public class Main extends JavaPlugin implements Listener {
         gui.addCoinShopItem("Elytrier", Material.ELYTRA, 26);
         gui.addCoinShopItem("Fallen", Material.WITHER_SKELETON_SKULL, 27);
         gui.addCoinShopItem("MoriaOrc", Material.BOW, 28);
-        gui.addCoinShopItem("DwarvenAxeThrower", Material.STONE_AXE, 28);
-        gui.addCoinShopItem("DwarvenGuardian", Material.SHIELD, 29);
-        gui.addCoinShopItem("MoriaCaveTroll", Material.IRON_INGOT, 30);
-        gui.addCoinShopItem("MoriaBonecrusher", Material.BONE, 31);
-        gui.addCoinShopItem("DwarvenWindlancer", Material.STICK, 32);
-        gui.addCoinShopItem("UrukBerserker", Material.BEETROOT_SOUP, 33);
-        gui.addCoinShopItem("Lancer", Material.STICK, 34);
-        gui.addCoinShopItem("RangedCavalry", Material.BOW, 35);
+        gui.addCoinShopItem("DwarvenAxeThrower", Material.STONE_AXE, 29);
+        gui.addCoinShopItem("DwarvenGuardian", Material.SHIELD, 30);
+        gui.addCoinShopItem("MoriaCaveTroll", Material.IRON_INGOT, 31);
+        gui.addCoinShopItem("MoriaBonecrusher", Material.BONE, 32);
+        gui.addCoinShopItem("DwarvenWindlancer", Material.STICK, 33);
+        gui.addCoinShopItem("UrukBerserker", Material.BEETROOT_SOUP, 34);
+        gui.addCoinShopItem("Lancer", Material.STICK, 35);
+        gui.addCoinShopItem("RangedCavalry", Material.BOW, 36);
         //gui.addCoinShopItem("Abyssal", Material.GREEN_DYE, 36);
         //gui.addCoinShopItem("Hellsteed", Material.MAGMA_BLOCK, 37);
-        gui.addCoinShopItem("RoyalKnight", Material.DIAMOND_HORSE_ARMOR, 38);
-        gui.addCoinShopItem("Arbalester", Material.CROSSBOW, 39);
+        gui.addCoinShopItem("RoyalKnight", Material.DIAMOND_HORSE_ARMOR, 37);
+        gui.addCoinShopItem("Arbalester", Material.CROSSBOW, 38);
         gui.addItem("§4§lGo Back", Material.BARRIER, Collections.singletonList("§cReturn to the previous interface."), 49, "kit shop", true);
 
         GuiController.add("coin shop", gui);
