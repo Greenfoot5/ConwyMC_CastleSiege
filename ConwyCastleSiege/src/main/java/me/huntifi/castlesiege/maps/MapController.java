@@ -227,8 +227,9 @@ public class MapController {
 	 * Loads the current map
 	 */
 	public static void loadMap() {
-		// Clear the scoreboard
+		// Clear the scoreboard & reset stats
 		Scoreboard.clearScoreboard();
+		MVPStats.reset();
 
 		// Register doors
 		for (Door door : maps.get(mapIndex).doors) {
@@ -284,14 +285,17 @@ public class MapController {
 				return;
 			}
 		}
+		// Explore Time
 		if (explorationTime > 0) {
 			timer = new Timer(explorationTime / 60, explorationTime % 60, TimerState.EXPLORATION);
 		} else if (explorationTime < 0) {
 			timer = new Timer(-1, -1, TimerState.EXPLORATION);
+		// Lobby time
 		} else if (lobbyLockedTime > 0) {
 			timer = new Timer(lobbyLockedTime / 60, lobbyLockedTime % 60, TimerState.LOBBY_LOCKED);
 		} else if (lobbyLockedTime < 0) {
 			timer = new Timer(-1, -1, TimerState.PREGAME);
+		// No timer
 		} else {
 			beginMap();
 			timer = new Timer(getCurrentMap().duration.getFirst(), getCurrentMap().duration.getSecond(), TimerState.ONGOING);
@@ -356,6 +360,17 @@ public class MapController {
 						flag.createHologram();
 					}
 				}
+
+				for (ArrayList<UUID> t : teams) {
+					for (UUID uuid : t) {
+						Player player = getPlayer(uuid);
+						if (player == null) continue;
+						Team team = TeamController.getTeam(uuid);
+						player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+						player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~");
+						player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+					}
+				}
 			}
 		}.runTask(Main.plugin);
 
@@ -390,7 +405,6 @@ public class MapController {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 		// Clear map stats
 		InCombat.clearCombat();
-		MVPStats.reset();
 
 		// Clear capture zones
 		for (Flag flag : oldMap.flags) {
@@ -496,9 +510,6 @@ public class MapController {
 		NameTag.give(player);
 
 		player.sendMessage("You joined" + team.primaryChatColor + " " + team.name);
-		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~");
-		player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 		checkTeamKit(player);
 	}
