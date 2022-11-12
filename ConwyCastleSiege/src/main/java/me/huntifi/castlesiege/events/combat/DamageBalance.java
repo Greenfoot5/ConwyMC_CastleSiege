@@ -16,7 +16,7 @@ public class DamageBalance implements Listener {
      * Increases damage for non-customised sources as player health is increased
      * @param e The event called when a player takes damage
      */
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof Player))
             return;

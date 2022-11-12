@@ -11,16 +11,14 @@ import me.huntifi.castlesiege.events.connection.PlayerConnect;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
-import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -78,7 +76,6 @@ public class DeathEvent implements Listener {
     }
 
     /**
-     * Disable death message
      * Auto-respawn the player
      * Apply stat changes
      * @param event The event called when a player dies
@@ -86,7 +83,6 @@ public class DeathEvent implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         cantSpawn.add(event.getEntity());
-        event.setDeathMessage(null);
         event.getEntity().eject();
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             respawn(event.getEntity());
@@ -99,13 +95,23 @@ public class DeathEvent implements Listener {
         });
     }
 
+    /**
+     * Disable death message.
+     * Placed in separate function to allow performing after mythic mobs.
+     * @param event The event called when a player dies
+     */
+    @EventHandler (priority = EventPriority.MONITOR)
+    public void disableDeathMessage(PlayerDeathEvent event) {
+        event.setDeathMessage(null);
+    }
+
     private void respawn(Player p) {
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> p.spigot().respawn(), 10);
     }
 
 
     /**
-     * No longer auto-respawns the player instead it puts them in a static spectator mode and it counts down
+     * No longer auto-respawns the player instead it puts them in a static spectator mode, and it counts down
      * @param p The player to respawn
      */
     private void respawnAnimation(Player p) {
@@ -121,26 +127,26 @@ public class DeathEvent implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 3, 15, 20, 15);
+                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 3, 0, 20, 15);
                }
             }.runTaskLater(Main.plugin, 20);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 2, 15, 20, 15);
+                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 2, 0, 20, 15);
 
             }
         }.runTaskLater(Main.plugin, 40);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 1, 15, 20, 15);
+                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 1, 0, 20, 15);
             }
         }.runTaskLater(Main.plugin, 60);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You can now spawn!", 15, 20, 15);
+                p.sendTitle("", ChatColor.DARK_GREEN + "You can now spawn!", 0, 20, 15);
                 cantSpawn.remove(p);
             }
         }.runTaskLater(Main.plugin, 80);
@@ -176,44 +182,44 @@ public class DeathEvent implements Listener {
      * @param e The event called when a player dies
      */
     private void updateStats(PlayerDeathEvent e) {
-            // Death
-            Player target = e.getEntity();
-            UpdateStats.addDeaths(target.getUniqueId(), 1);
+        // Death
+        Player target = e.getEntity();
+        UpdateStats.addDeaths(target.getUniqueId(), 1);
 
-            // Kill
-            Player killer = killerMap.getOrDefault(target, target.getKiller());
-            killerMap.remove(target);
-            if (killer != null) {
-                UpdateStats.addKill(killer.getUniqueId());
-                AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
+        // Kill
+        Player killer = killerMap.getOrDefault(target, target.getKiller());
+        killerMap.remove(target);
+        if (killer != null) {
+            UpdateStats.addKill(killer.getUniqueId());
+            AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
 
-                // Kill and death messages
-                Kit kit = Kit.equippedKits.get(killer.getUniqueId());
-                    if (target.getLastDamageCause() != null
-                            && target.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.PROJECTILE)
-                        killDeathMessage(killer, target, kit.getProjectileMessage());
-                    else
-                        killDeathMessage(killer, target, kit.getMeleeMessage());
+            // Kill and death messages
+            Kit kit = Kit.equippedKits.get(killer.getUniqueId());
+                if (target.getLastDamageCause() != null
+                        && target.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.PROJECTILE)
+                    killDeathMessage(killer, target, kit.getProjectileMessage());
+                else
+                    killDeathMessage(killer, target, kit.getMeleeMessage());
 
-                // Check for bounty
-                Bounty.killstreak(killer);
-            }
+            // Check for bounty
+            Bounty.killstreak(killer);
+        }
 
-            // Assist
-            UUID assist = AssistKill.get(target.getUniqueId());
-            if (assist != null && killer != null && killer.getUniqueId() != assist) {
-                // There are separate players for the kill and the assist
-                UpdateStats.addAssist(assist);
-                assistMessage(assist, target);
-                Bounty.grantRewards(target, killer, Bukkit.getPlayer(assist));
-            } else if (killer != null) {
-                // There is no player for the assist, or it is the same as the killer
-                Bounty.grantRewards(target, killer);
-            } else if (assist != null) {
-                // There is only a player for the assist, the death is not player related
-                UpdateStats.addAssist(assist);
-                assistMessage(assist, target);
-            }
+        // Assist
+        UUID assist = AssistKill.get(target.getUniqueId());
+        if (assist != null && killer != null && killer.getUniqueId() != assist) {
+            // There are separate players for the kill and the assist
+            UpdateStats.addAssist(assist);
+            assistMessage(assist, target);
+            Bounty.grantRewards(target, killer, Bukkit.getPlayer(assist));
+        } else if (killer != null) {
+            // There is no player for the assist, or it is the same as the killer
+            Bounty.grantRewards(target, killer);
+        } else if (assist != null) {
+            // There is only a player for the assist, the death is not player related
+            UpdateStats.addAssist(assist);
+            assistMessage(assist, target);
+        }
     }
 
     /**
@@ -258,9 +264,7 @@ public class DeathEvent implements Listener {
      */
     @EventHandler
     public void onLeave (PlayerQuitEvent e) {
-        if (cantSpawn.contains(e.getPlayer())) {
-            cantSpawn.remove(e.getPlayer());
-        }
+        cantSpawn.remove(e.getPlayer());
     }
 
 }
