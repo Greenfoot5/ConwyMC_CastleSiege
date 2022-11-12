@@ -16,6 +16,10 @@ permissions:
   castlesiege.admin:
     description: Gives access to all CastleSiege Admin commands
     children:
+      castlesiege.communitymanager: true
+  castlesiege.communitymanager:
+    description: Gives access to all the CastleSiege CommunityManager commands
+    children:
       castlesiege.developer: true
   castlesiege.developer:
     description: Gives access to all CastleSiege Developer commands
