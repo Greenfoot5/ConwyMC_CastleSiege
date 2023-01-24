@@ -11,14 +11,12 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,7 +29,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -91,6 +88,11 @@ public class PlayerConnect implements Listener {
         // Update the names stored in the database
         StoreData.updateName(uuid, "player_stats");
         StoreData.updateName(uuid, "player_rank");
+
+        // Add player's bp
+        if (!MapController.isMatch) {
+            data.addBattlepoints(10);
+        }
 
         //Welcomes new players!
         if (!p.hasPlayedBefore()) {
