@@ -42,7 +42,8 @@ public class WoolMap implements Listener {
 				for (WoolMapBlock block : woolMapBlocks) {
 					if (Objects.equals(Objects.requireNonNull(block.blockLocation.getWorld()).getName(), MapController.getCurrentMap().worldName)) {
 						if (target.getLocation().distance(block.signLocation) == 0
-								&& (MapController.isOngoing() || MapController.timer.state == TimerState.EXPLORATION)) {
+								&& (MapController.isOngoing() || MapController.timer.state == TimerState.EXPLORATION)
+						&& !DeathEvent.onCooldown.contains(player)) {
 							// Remove mount
 							if (player.isInsideVehicle()) {
 								Objects.requireNonNull(player.getVehicle()).remove();
@@ -66,7 +67,7 @@ public class WoolMap implements Listener {
 							kit.setItems(player.getUniqueId());
 
 						}
-						else if (DeathEvent.cantSpawn.contains(e.getPlayer()) && target.getLocation().distance(block.signLocation) == 0)
+						else if (target.getLocation().distance(block.signLocation) == 0)
 						{
 							Messenger.sendError("You can't spawn in yet!", e.getPlayer());
 							return;
