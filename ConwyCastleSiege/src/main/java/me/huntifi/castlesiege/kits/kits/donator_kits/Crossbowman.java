@@ -10,7 +10,6 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -38,18 +37,14 @@ public class Crossbowman extends DonatorKit implements Listener {
 
     public static HashMap<UUID, Boolean> snipers = new HashMap<>();
 
-    //Mobility Mode
-    private ItemStack modeSwitch1;
-    //Sniper Mode
-    private ItemStack modeSwitch2;
+    private final ItemStack mobilitySwitchInactive;
+    private final ItemStack sniperSwitchInactive;
 
-    //Mobility Mode has been picked
-    private ItemStack modeSwitchChosen1;
-    //Sniper Mode has been picked
-    private ItemStack modeSwitchChosen2;
+    private final ItemStack mobilitySwitchActive;
+    private final ItemStack sniperSwitchActive;
 
     public Crossbowman() {
-        super("Crossbowman", 250, 8.5, 10000, 10);
+        super("Crossbowman", 250, 8.5, 10000, 12);
         super.kbResistance = 1;
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -88,7 +83,7 @@ public class Crossbowman extends DonatorKit implements Listener {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
 
         // mode swich button
-        modeSwitchChosen1 = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
+        mobilitySwitchInactive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
                 ChatColor.GREEN + "Mobility Mode", Arrays.asList("",
                         ChatColor.AQUA + "Mobility mode:",
                         ChatColor.AQUA + "In this mode crossbowman is faster, ",
@@ -97,7 +92,7 @@ public class Crossbowman extends DonatorKit implements Listener {
                         ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to enable Mobility Mode."),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 0);
 
-        modeSwitch2 = ItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
+        sniperSwitchInactive = ItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
                 ChatColor.YELLOW + "Sniper Mode", Arrays.asList("",
                         ChatColor.AQUA + "Sniper mode:",
                         ChatColor.AQUA + "In this mode crossbowman is slower, ",
@@ -107,7 +102,7 @@ public class Crossbowman extends DonatorKit implements Listener {
                 null, 0);
 
         // mode swich button
-        modeSwitch1 = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
+        mobilitySwitchActive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
                 ChatColor.GREEN + "Mobility Mode", Arrays.asList("",
                         ChatColor.AQUA + "Mobility mode:",
                         ChatColor.AQUA + "In this mode crossbowman is faster, ",
@@ -116,7 +111,7 @@ public class Crossbowman extends DonatorKit implements Listener {
                         ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to enable Mobility Mode."),
                 null, 0);
 
-        modeSwitchChosen2 = ItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
+        sniperSwitchActive = ItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
                 ChatColor.YELLOW + "Sniper Mode", Arrays.asList("",
                         ChatColor.AQUA + "Sniper mode:",
                         ChatColor.AQUA + "In this mode crossbowman is slower, ",
@@ -125,8 +120,8 @@ public class Crossbowman extends DonatorKit implements Listener {
                         ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to enable Sniper Mode."),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 0);
 
-        es.hotbar[6] = modeSwitchChosen1;
-        es.hotbar[7] = modeSwitch2;
+        es.hotbar[6] = mobilitySwitchActive;
+        es.hotbar[7] = sniperSwitchInactive;
 
         // Arrows
         es.hotbar[5] = new ItemStack(Material.ARROW, 48);
@@ -186,11 +181,7 @@ public class Crossbowman extends DonatorKit implements Listener {
     public boolean isInSnipingMode(UUID uuid) {
         if (snipers.get(uuid) == null) {
             return false;
-        } else if (snipers.get(uuid) == true) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return snipers.get(uuid);
     }
 
     /**
@@ -210,13 +201,13 @@ public class Crossbowman extends DonatorKit implements Listener {
 
 
     public void onClickGreenDye(Player p) {
-        // mode swich button
+        // mode switch button
         int cooldown = p.getCooldown(Material.LIME_DYE);
         if (cooldown == 0 && isInSnipingMode(p.getUniqueId())) {
             p.setCooldown(Material.LIME_DYE, 200);
             p.setCooldown(Material.YELLOW_DYE, 200);
-            p.getInventory().setItem(7, modeSwitch2);
-            p.getInventory().setItem(6, modeSwitchChosen1);
+            p.getInventory().setItem(6, mobilitySwitchActive);
+            p.getInventory().setItem(7, sniperSwitchInactive);
             // Potion effects when Mobility Mode
             for (PotionEffect effect : p.getActivePotionEffects()) {
                 if ((effect.getType().getName().equals(PotionEffectType.SLOW.getName()) && effect.getAmplifier() == 2)) {
@@ -234,8 +225,8 @@ public class Crossbowman extends DonatorKit implements Listener {
         if (cooldown == 0 && !isInSnipingMode(p.getUniqueId())) {
             p.setCooldown(Material.LIME_DYE, 200);
             p.setCooldown(Material.YELLOW_DYE, 200);
-            p.getInventory().setItem(6, modeSwitch1);
-            p.getInventory().setItem(7, modeSwitchChosen2);
+            p.getInventory().setItem(6, mobilitySwitchInactive);
+            p.getInventory().setItem(7, sniperSwitchActive);
             // Potion effects when Sniper Mode
             for (PotionEffect effect : p.getActivePotionEffects()) {
                 if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 0)) {
@@ -251,7 +242,7 @@ public class Crossbowman extends DonatorKit implements Listener {
 
     /**
      *
-     * @param e event triggered by right clicking mode switch button.
+     * @param e event triggered by right-clicking mode switch button.
      */
     @EventHandler
     public void onModeSwitch(PlayerInteractEvent e) {
