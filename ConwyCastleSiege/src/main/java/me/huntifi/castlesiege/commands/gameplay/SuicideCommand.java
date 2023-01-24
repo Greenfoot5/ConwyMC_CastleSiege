@@ -12,7 +12,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,7 +39,7 @@ public class SuicideCommand implements CommandExecutor {
 
 				if (MapController.isOngoing() && !InCombat.isPlayerInLobby(p.getUniqueId())) {
 					Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", p);
-					UpdateStats.addDeaths(p.getUniqueId(), 1);
+					UpdateStats.addDeaths(p.getUniqueId(), 1, true);
 					PlayerData data = ActiveData.getData(p.getUniqueId());
 					data.addBattlepoints(-2);
 				} else

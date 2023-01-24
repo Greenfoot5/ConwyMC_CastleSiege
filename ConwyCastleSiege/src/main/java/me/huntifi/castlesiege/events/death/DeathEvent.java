@@ -10,7 +10,6 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.objects.Flag;
@@ -188,7 +187,7 @@ public class DeathEvent implements Listener {
     private void updateStats(PlayerDeathEvent e) {
         // Death
         Player target = e.getEntity();
-        UpdateStats.addDeaths(target.getUniqueId(), 1);
+        UpdateStats.addDeaths(target.getUniqueId(), 1, false);
 
         // Kill
         Player killer = killerMap.getOrDefault(target, target.getKiller());

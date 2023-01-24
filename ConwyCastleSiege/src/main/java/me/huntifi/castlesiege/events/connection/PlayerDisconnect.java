@@ -19,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.SQLException;
 import java.util.UUID;
@@ -49,9 +48,9 @@ public class PlayerDisconnect implements Listener {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             // Award deaths for logging out on the battlefield
             if (InCombat.isPlayerInCombat(uuid) && MapController.isOngoing()) {
-                UpdateStats.addDeaths(uuid, 2);
+                UpdateStats.addDeaths(uuid, 2, true);
             } else if (!InCombat.isPlayerInLobby(uuid) && MapController.isOngoing()) {
-                UpdateStats.addDeaths(uuid, 1);
+                UpdateStats.addDeaths(uuid, 1, true);
             }
             InCombat.playerDied(uuid);
 

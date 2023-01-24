@@ -206,7 +206,7 @@ public abstract class Kit implements CommandExecutor {
                 Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
                 if (MapController.isOngoing()) {
                     Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
-                    UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
+                    UpdateStats.addDeaths(player.getUniqueId(), 1, true); // Note: 1 death added on player respawn
                     ActiveData.getData(uuid).addBattlepoints(-2); // Note: this makes sure not to give them battlepoints for dying
                     if (Kit.equippedKits.get(player.getUniqueId()) instanceof DonatorKit) {
                         new BukkitRunnable() {
