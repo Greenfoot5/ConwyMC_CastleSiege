@@ -25,6 +25,10 @@ import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
 import me.huntifi.castlesiege.commands.staff.*;
+import me.huntifi.castlesiege.commands.staff.battlepoints.AddBattlepoints;
+import me.huntifi.castlesiege.commands.staff.battlepoints.SetBattlepointMultiplier;
+import me.huntifi.castlesiege.commands.staff.battlepoints.SetBattlepoints;
+import me.huntifi.castlesiege.commands.staff.battlepoints.TakeBattlepoints;
 import me.huntifi.castlesiege.commands.staff.coins.AddCoins;
 import me.huntifi.castlesiege.commands.staff.coins.SetCoinMultiplier;
 import me.huntifi.castlesiege.commands.staff.coins.SetCoins;
@@ -278,11 +282,15 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatch());
                 Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatch());
 
-                // Staff - Coins
+                // Staff - Coins & Battlepoints
                 Objects.requireNonNull(getCommand("AddCoins")).setExecutor(new AddCoins());
                 Objects.requireNonNull(getCommand("SetCoins")).setExecutor(new SetCoins());
                 Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
                 Objects.requireNonNull(getCommand("TakeCoins")).setExecutor(new TakeCoins());
+                Objects.requireNonNull(getCommand("AddBattlepoints")).setExecutor(new AddBattlepoints());
+                Objects.requireNonNull(getCommand("SetBattlepoints")).setExecutor(new SetBattlepoints());
+                Objects.requireNonNull(getCommand("SetBattlepointsMultiplier")).setExecutor(new SetBattlepointMultiplier());
+                Objects.requireNonNull(getCommand("TakeBattlepoints")).setExecutor(new TakeBattlepoints());
 
                 // Staff - Punishments
                 Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());

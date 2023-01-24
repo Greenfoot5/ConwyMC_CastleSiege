@@ -53,6 +53,7 @@ public class PlayerData {
     //private ArrayList<String> ownedAchievements;
 
     private static double coinMultiplier = 1;
+    private static double battlepointMultiplier = 1;
 
     /**
      * Initialize the player's data for active data
@@ -131,7 +132,7 @@ public class PlayerData {
     }
 
     /**
-     * Get the player's current score
+     * Get the player's current battlepoints
      * @return The player's score
      */
     public double getBattlepoints() {
@@ -139,15 +140,24 @@ public class PlayerData {
     }
 
     /**
-     * Add to the player's score
+     * Add to the player's battlepoints
      * @param bp The battlepoints to add
      */
     public void addBattlepoints(double bp) {
+        this.battlepoints += bp * getBattlepointMultiplier();
+    }
+
+
+    /**
+     * Add to the player's battlepoints without worrying about the multiplier
+     * @param bp The battlepoints to add
+     */
+    public void addBattlepointsClean(double bp) {
         this.battlepoints += bp;
     }
 
     /**
-     * Add to the player's score
+     * Add to the player's battlepoints
      * @param bp The battlepoints to add
      */
     public boolean takeBattlepoints(double bp) {
@@ -628,6 +638,22 @@ public class PlayerData {
      */
     public static void setCoinMultiplier(double multiplier) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> coinMultiplier = multiplier);
+    }
+
+    /**
+     * Get the active battlepoint multiplier
+     * @return The active multiplier
+     */
+    public static double getBattlepointMultiplier() {
+        return battlepointMultiplier;
+    }
+
+    /**
+     * Sets the battlepoint multiplier
+     * @param multiplier The multiplier to set
+     */
+    public static void setBattlepointMultiplier(double multiplier) {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> battlepointMultiplier = multiplier);
     }
 
 
