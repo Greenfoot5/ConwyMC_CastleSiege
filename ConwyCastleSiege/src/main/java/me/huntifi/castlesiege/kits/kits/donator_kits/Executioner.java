@@ -6,7 +6,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
@@ -34,7 +33,7 @@ public class Executioner extends DonatorKit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Executioner() {
-		super("Executioner", 300, 18, 10000, 8);
+		super("Executioner", 280, 18, 10000, 8);
 		super.canSeeHealth = true;
 
 		// Equipment Stuff
