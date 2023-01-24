@@ -46,8 +46,8 @@ public class Spearman extends FreeKit implements Listener {
 	// Spear Throw
 	private static final int throwCooldown = 160;
 	private static final double throwVelocity = 2.0;
-	private static final int throwDelay = 11;
-	private static final double throwDamage = 46;
+	private static final int throwDelay = 6;
+	private static final double throwDamage = 60;
 
 	// Damage multiplier when hitting horses
 	private static final double HORSE_MULTIPLIER = 1.5;
