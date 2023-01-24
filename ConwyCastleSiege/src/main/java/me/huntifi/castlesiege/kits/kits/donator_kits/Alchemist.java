@@ -43,7 +43,7 @@ public class Alchemist extends DonatorKit implements Listener {
     private final ItemStack standVoted;
 
     public Alchemist() {
-        super("Alchemist", 240, 15, 10000, 10);
+        super("Alchemist", 230, 2, 10000, 10);
         super.canSeeHealth = true;
 
         // Equipment Stuff
