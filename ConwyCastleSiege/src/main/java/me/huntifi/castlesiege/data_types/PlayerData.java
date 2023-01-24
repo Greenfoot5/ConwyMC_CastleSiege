@@ -50,7 +50,7 @@ public class PlayerData {
 
     private HashMap<String, String> settings;
 
-    private ArrayList<String> ownedAchievements;
+    //private ArrayList<String> ownedAchievements;
 
     private static double coinMultiplier = 1;
 
@@ -63,7 +63,7 @@ public class PlayerData {
     public PlayerData(ArrayList<String> achievements, ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
                       ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings) throws SQLException {
 
-        this.ownedAchievements = achievements;
+        //this.ownedAchievements = achievements;
         this.unlockedKits = unlockedKits;
         this.foundSecrets = foundSecrets;
         this.mute = mute.next() ? new Tuple<>(mute.getString("reason"), mute.getTimestamp("end")) : null;
@@ -150,7 +150,7 @@ public class PlayerData {
      * Add to the player's score
      * @param bp The battlepoints to add
      */
-    public void removeBattlepoints(double bp) {
+    public void takeBattlepoints(double bp) {
         this.battlepoints -= bp;
     }
 
@@ -194,7 +194,7 @@ public class PlayerData {
         kills += 1;
         addScore(2);
         addCoins(2);
-        addBattlepoints(1);
+        addBattlepoints(0.25);
         addKillStreak();
     }
 
@@ -215,7 +215,7 @@ public class PlayerData {
     public void addDeaths(double deaths) {
         this.deaths += deaths;
         addScore(-deaths);
-        addBattlepoints(0.5);
+        addBattlepoints(1);
         killStreak = 0;
     }
 
@@ -337,9 +337,7 @@ public class PlayerData {
      * Increase the player's MVP count by 1
      */
     public void addMVP() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.mvps += 1;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.mvps += 1);
     }
 
     /**
@@ -354,9 +352,7 @@ public class PlayerData {
      * Increase the player's secret count by 1
      */
     public void addSecret() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            secrets += 1;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> secrets += 1);
     }
 
     /**
@@ -387,9 +383,7 @@ public class PlayerData {
      * Increase the player's level by 1
      */
     public void addLevel() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            level += 1;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> level += 1);
     }
 
     /**
@@ -405,9 +399,7 @@ public class PlayerData {
      * @param rankPoints The rank points to add
      */
     public void setRankPoints(double rankPoints) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.rankPoints = rankPoints;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.rankPoints = rankPoints);
     }
 
     /**
@@ -455,9 +447,7 @@ public class PlayerData {
      * @param joinMessage The custom join message
      */
     public void setJoinMessage(String joinMessage) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.joinMessage = joinMessage;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.joinMessage = joinMessage);
     }
 
     /**
@@ -474,9 +464,7 @@ public class PlayerData {
      * @param leaveMessage The custom leave message
      */
     public void setLeaveMessage(String leaveMessage) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.leaveMessage = leaveMessage;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.leaveMessage = leaveMessage);
     }
 
     /**
@@ -508,9 +496,7 @@ public class PlayerData {
      * @param vote The vote to set
      */
     public void setVote(String vote) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            votes.put(vote, System.currentTimeMillis());
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> votes.put(vote, System.currentTimeMillis()));
     }
 
     /**
@@ -534,9 +520,7 @@ public class PlayerData {
      * @param coins The amount of coins to add
      */
     public void addCoins(double coins) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.coins += coins * coinMultiplier;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.coins += coins * coinMultiplier);
     }
 
     /**
@@ -544,9 +528,7 @@ public class PlayerData {
      * @param coins The amount of coins to add
      */
     public void addCoinsClean(double coins) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.coins += coins;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.coins += coins);
     }
 
     /**
@@ -643,9 +625,7 @@ public class PlayerData {
      * @param multiplier The multiplier to set
      */
     public static void setCoinMultiplier(double multiplier) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            coinMultiplier = multiplier;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> coinMultiplier = multiplier);
     }
 
 
@@ -675,14 +655,5 @@ public class PlayerData {
             if (!foundSecrets.contains(secretName))
                 foundSecrets.add(secretName);
         });
-    }
-
-    /**
-     * Remove a secret from the player's found secrets
-     * @param secretName The name of the secret without spaces, that will be removed.
-     */
-    public void removeFoundSecret(String secretName) {
-        while (foundSecrets.contains(secretName))
-            foundSecrets.remove(secretName);
     }
 }
