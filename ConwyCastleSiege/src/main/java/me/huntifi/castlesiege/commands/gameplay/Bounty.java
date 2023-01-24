@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -158,37 +157,28 @@ public class Bounty implements CommandExecutor {
     }
 
     public static void killstreak(Player killer) {
-        int bp_gain = 1;
         int amount = 0;
         switch (ActiveData.getData(killer.getUniqueId()).getKillStreak()) {
             case 5:
                 amount = 10;
-                bp_gain = 3;
                 break;
             case 10:
                 amount = 20;
-                bp_gain = 5;
                 break;
             case 15:
                 amount = 30;
-                bp_gain = 10;
                 break;
             case 20:
                 amount = 40;
-                bp_gain = 15;
                 break;
             case 35:
                 amount = 70;
-                bp_gain = 20;
                 break;
         }
         if (amount > 0) {
-            PlayerData data = ActiveData.getData(killer.getUniqueId());
-            data.addBattlepoints(bp_gain);
             int total = getAndAddBounty(killer.getUniqueId(), amount);
             Messenger.broadcastKillstreakBounty(NameTag.color(killer) + killer.getName(),
                     ActiveData.getData(killer.getUniqueId()).getKillStreak(), total);
-            Messenger.sendInfo(ChatColor.DARK_AQUA + "You got " + bp_gain + " Battlepoints as a reward for your killstreak!", killer);
         }
     }
 
