@@ -17,10 +17,10 @@ import java.util.Collections;
 public class Archer extends FreeKit {
 	private static final int health = 215;
 	private static final double regen = 10.5;
-	private static final double meleeDamage = 36;
+	private static final double meleeDamage = 34;
 	private static final int ladderCount = 4;
 	private static final int arrowCount = 35;
-	private static final int bowPowerLevel = 30;
+	private static final int bowPowerLevel = 32;
 
 	/**
 	 * Set the equipment and attributes of this kit
