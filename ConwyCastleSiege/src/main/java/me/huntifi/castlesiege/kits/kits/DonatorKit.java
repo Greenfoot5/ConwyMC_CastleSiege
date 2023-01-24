@@ -53,7 +53,7 @@ public abstract class DonatorKit extends Kit {
         UUID uuid = ((Player) sender).getUniqueId();
         boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
         boolean allKitsFree = MapController.allKitsFree;
-        boolean hasBP = hasEnoughBP(uuid, bp_price, getSpacelessName());
+        boolean hasBP = hasEnoughBP(uuid);
         if (!hasKit && !isFriday() && !allKitsFree) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null) {
@@ -63,7 +63,7 @@ public abstract class DonatorKit extends Kit {
                 }
             }
             return false;
-        } else if (!hasBP) {
+        } else if (!hasBP && !isFriday()) {
             if (verbose) {
                 Player p = Bukkit.getPlayer(uuid);
                 Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", p);
@@ -78,23 +78,13 @@ public abstract class DonatorKit extends Kit {
     /**
      *
      * @param uuid The player's uuid of which battlepoints should be checked in order to play a kit
-     * @param battlep the amount of battlepoints needed to play this kit
      * @return true or false in case they don't have sufficient bp
      */
-    public static boolean hasEnoughBP(UUID uuid, double battlep, String kit) {
-        boolean hasKit = ActiveData.getData(uuid).hasKit(kit);
+    public boolean hasEnoughBP(UUID uuid) {
+        boolean hasKit = ActiveData.getData(uuid).hasKit(name);
         PlayerData data = ActiveData.getData(uuid);
-        //Check for random donator kit, you must have the battlepoints for it.
-        if (kit.equalsIgnoreCase("spaceless")) {
-            if (data.getBattlepoints() >= battlep) {
+        if (data.getBattlepoints() >= bp_price && hasKit) {
                 using.add(uuid);
-                data.addBattlepoints(-battlep);
-                return true;
-            }
-        }
-            if (data.getBattlepoints() >= battlep && hasKit) {
-                using.add(uuid);
-                data.addBattlepoints(-battlep);
                 return true;
         }
         return false;

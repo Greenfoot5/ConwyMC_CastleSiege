@@ -1,8 +1,10 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.death.DeathEvent;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -47,7 +49,14 @@ public class WoolMap implements Listener {
 							}
 							// Spawn player with kit
 							block.spawnPlayer(player.getUniqueId());
-							Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+							Kit kit = Kit.equippedKits.get(player.getUniqueId());
+							kit.setItems(player.getUniqueId());
+							// If the kit is a donator kit, take the cost
+							if (kit instanceof DonatorKit)
+							{
+								DonatorKit donatorKit = (DonatorKit) kit;
+								ActiveData.getData(player.getUniqueId()).takeBattlepoints(donatorKit.getBattlepointPrice());
+							}
 						}
 						else if (DeathEvent.cantSpawn.contains(e.getPlayer()) && target.getLocation().distance(block.signLocation) == 0)
 						{

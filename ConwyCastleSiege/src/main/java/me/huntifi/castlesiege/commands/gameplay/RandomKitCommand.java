@@ -61,9 +61,9 @@ public class RandomKitCommand implements CommandExecutor {
                 return;
             }
             if (kit instanceof DonatorKit) {
-              DonatorKit dkit = (DonatorKit) kit;
-              if (!DonatorKit.hasEnoughBP(uuid, dkit.getBattlepointPrice(), "spaceless")) {
-                  return;
+                DonatorKit dkit = (DonatorKit) kit;
+                if (!dkit.hasEnoughBP(uuid) && !DonatorKit.isFriday()) {
+                    return;
                 }
             }
             kits.add(kit);
