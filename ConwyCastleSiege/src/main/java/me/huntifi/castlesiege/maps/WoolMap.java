@@ -47,16 +47,24 @@ public class WoolMap implements Listener {
 							if (player.isInsideVehicle()) {
 								Objects.requireNonNull(player.getVehicle()).remove();
 							}
-							// Spawn player with kit
-							block.spawnPlayer(player.getUniqueId());
+
+							// Check if player has enough battlepoints
 							Kit kit = Kit.equippedKits.get(player.getUniqueId());
-							kit.setItems(player.getUniqueId());
 							// If the kit is a donator kit, take the cost
 							if (kit instanceof DonatorKit)
 							{
 								DonatorKit donatorKit = (DonatorKit) kit;
-								ActiveData.getData(player.getUniqueId()).takeBattlepoints(donatorKit.getBattlepointPrice());
+								boolean hasBp = ActiveData.getData(player.getUniqueId()).takeBattlepoints(donatorKit.getBattlepointPrice());
+								if (!hasBp) {
+									Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", player);
+									Messenger.sendError("Perform /battlepoints or /bp to see your battlepoints.", player);
+									return;
+								}
 							}
+							// Spawn player with kit
+							block.spawnPlayer(player.getUniqueId());
+							kit.setItems(player.getUniqueId());
+
 						}
 						else if (DeathEvent.cantSpawn.contains(e.getPlayer()) && target.getLocation().distance(block.signLocation) == 0)
 						{

@@ -150,8 +150,11 @@ public class PlayerData {
      * Add to the player's score
      * @param bp The battlepoints to add
      */
-    public void takeBattlepoints(double bp) {
+    public boolean takeBattlepoints(double bp) {
+        if (this.battlepoints < bp)
+            return false;
         this.battlepoints -= bp;
+        return true;
     }
 
     /**
