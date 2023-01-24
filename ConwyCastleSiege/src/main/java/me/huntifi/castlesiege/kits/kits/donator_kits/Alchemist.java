@@ -11,7 +11,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -145,35 +144,32 @@ public class Alchemist extends DonatorKit implements Listener {
                                 }
                             }
 
-                            // Allies
-                            else {
-                                // Healing Potions
-                                if (hit.getHealth() != baseHealth
-                                        && (potionType.equals(PotionEffectType.HEAL)
-                                        || potionType.equals(PotionEffectType.HEALTH_BOOST)
-                                        || potionType.equals(PotionEffectType.REGENERATION))) {
-                                    Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
-                                    if (hit.getPlayer() != damager)
-                                        UpdateStats.addHeals(damager.getUniqueId(), 2);
-                                // Friendly Potions
-                                } else if (potionType.equals(PotionEffectType.SPEED)
-                                        || potionType.equals(PotionEffectType.JUMP)
-                                        || potionType.equals(PotionEffectType.WATER_BREATHING)
-                                        || potionType.equals(PotionEffectType.FAST_DIGGING)
-                                        || potionType.equals(PotionEffectType.DAMAGE_RESISTANCE)
-                                        || potionType.equals(PotionEffectType.DOLPHINS_GRACE)
-                                        || potionType.equals(PotionEffectType.LEVITATION)
-                                        || potionType.equals(PotionEffectType.SLOW_FALLING)
-                                        || potionType.equals(PotionEffectType.INCREASE_DAMAGE)
-                                        || potionType.equals(PotionEffectType.INVISIBILITY)
-                                        || potionType.equals(PotionEffectType.GLOWING)
-                                        || potionType.equals(PotionEffectType.NIGHT_VISION)
-                                        || potionType.equals(PotionEffectType.CONDUIT_POWER)
-                                        || potionType.equals(PotionEffectType.FIRE_RESISTANCE)) {
-                                    Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
-                                    if (hit.getPlayer() != damager)
-                                        UpdateStats.addSupports(damager.getUniqueId(), 3);
-                                }
+                            // Healing Potions
+                            if (hit.getHealth() != baseHealth
+                                    && (potionType.equals(PotionEffectType.HEAL)
+                                    || potionType.equals(PotionEffectType.HEALTH_BOOST)
+                                    || potionType.equals(PotionEffectType.REGENERATION))) {
+                                Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
+                                if (hit.getPlayer() != damager)
+                                    UpdateStats.addHeals(damager.getUniqueId(), 2);
+                            // Friendly Potions
+                            } else if (potionType.equals(PotionEffectType.SPEED)
+                                    || potionType.equals(PotionEffectType.JUMP)
+                                    || potionType.equals(PotionEffectType.WATER_BREATHING)
+                                    || potionType.equals(PotionEffectType.FAST_DIGGING)
+                                    || potionType.equals(PotionEffectType.DAMAGE_RESISTANCE)
+                                    || potionType.equals(PotionEffectType.DOLPHINS_GRACE)
+                                    || potionType.equals(PotionEffectType.LEVITATION)
+                                    || potionType.equals(PotionEffectType.SLOW_FALLING)
+                                    || potionType.equals(PotionEffectType.INCREASE_DAMAGE)
+                                    || potionType.equals(PotionEffectType.INVISIBILITY)
+                                    || potionType.equals(PotionEffectType.GLOWING)
+                                    || potionType.equals(PotionEffectType.NIGHT_VISION)
+                                    || potionType.equals(PotionEffectType.CONDUIT_POWER)
+                                    || potionType.equals(PotionEffectType.FIRE_RESISTANCE)) {
+                                Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
+                                if (hit.getPlayer() != damager)
+                                    UpdateStats.addSupports(damager.getUniqueId(), 3);
                             }
                         }
                     }
