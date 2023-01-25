@@ -251,6 +251,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Info
                 Objects.requireNonNull(getCommand("Battlepoints")).setExecutor(new BattlepointsCommand());
+                Objects.requireNonNull(getCommand("BattlepointMultiplier")).setExecutor(new BattlepointMultiplier());
                 Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
                 Objects.requireNonNull(getCommand("Coins")).setExecutor(new CoinsCommand());
                 Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
@@ -284,7 +285,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TakeCoins")).setExecutor(new TakeCoins());
                 Objects.requireNonNull(getCommand("AddBattlepoints")).setExecutor(new AddBattlepoints());
                 Objects.requireNonNull(getCommand("SetBattlepoints")).setExecutor(new SetBattlepoints());
-                Objects.requireNonNull(getCommand("SetBattlepointsMultiplier")).setExecutor(new SetBattlepointMultiplier());
+                Objects.requireNonNull(getCommand("SetBattlepointMultiplier")).setExecutor(new SetBattlepointMultiplier());
                 Objects.requireNonNull(getCommand("TakeBattlepoints")).setExecutor(new TakeBattlepoints());
 
                 // Staff - Punishments
