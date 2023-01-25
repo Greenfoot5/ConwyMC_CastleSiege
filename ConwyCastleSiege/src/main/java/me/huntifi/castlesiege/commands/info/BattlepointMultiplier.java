@@ -26,7 +26,7 @@ public class BattlepointMultiplier implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         Messenger.sendInfo("Battlepoint Multiplier: " + ChatColor.DARK_AQUA
-                + new DecimalFormat("0.0").format(PlayerData.getBattlepointMultiplier()), sender);
+                + new DecimalFormat("0.00").format(PlayerData.getBattlepointMultiplier()), sender);
         return true;
     }
 }

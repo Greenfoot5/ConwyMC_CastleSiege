@@ -45,10 +45,6 @@ public abstract class DonatorKit extends Kit {
     public boolean canSelect(CommandSender sender, boolean verbose, boolean isRandom) {
         if (!super.canSelect(sender, verbose, isRandom))
             return false;
-        if (sender instanceof Player && !InCombat.isPlayerInLobby(((Player) sender).getUniqueId())) {
-            Messenger.sendError("You cannot select donator kits whilst on the battlefield!", sender);
-            return false;
-        }
 
         UUID uuid = ((Player) sender).getUniqueId();
         boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
@@ -88,20 +84,6 @@ public abstract class DonatorKit extends Kit {
                 return true;
         }
         return false;
-    }
-
-    public static void resetDonor(UUID uuid, String kit) {
-        Bukkit.getScheduler().runTask(Main.plugin, () -> {
-            if (Kit.equippedKits.get(uuid) instanceof DonatorKit && using.contains(uuid)) {
-                Player player = Bukkit.getPlayer(uuid);
-                assert player != null;
-                equippedKits.put(uuid, Kit.getKit(kit));
-                ActiveData.getData(uuid).setKit(kit);
-                using.remove(uuid);
-                Kit kitu = Kit.equippedKits.get(uuid);
-                kitu.refillItems(uuid);
-            }
-        });
     }
 
     /**

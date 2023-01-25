@@ -24,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 import static org.bukkit.Bukkit.*;
@@ -197,8 +198,9 @@ public class MapController {
 			for (UUID uuid : team.getPlayers()) {
 				Player player = Bukkit.getPlayer(uuid);
 				if (player != null) {
-					Messenger.sendInfo("You earned " + MVPStats.getStats(uuid).getCoins() + " coins from this game. " +
-							"You now have " + ActiveData.getData(uuid).getCoins() + " coins in total", player);
+					Messenger.sendInfo("You earned " + MVPStats.getStats(uuid).getCoins() + " coins from this game. "
+							+ "You now have " + new DecimalFormat("0.0").format(ActiveData.getData(uuid).getCoins())
+							+ " coins in total", player);
 				}
 			}
 		}

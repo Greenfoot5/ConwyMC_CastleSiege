@@ -92,7 +92,7 @@ public class PlayerConnect implements Listener {
         StoreData.updateName(uuid, "player_rank");
 
         // Add player's bp
-        if (!MapController.isMatch && p.getLastPlayed() > restartTime) {
+        if (!MapController.isMatch && p.getLastPlayed() < restartTime) {
             data.addBattlepoints(PlayerData.bpCasualGameStartAmount);
         }
 
@@ -141,7 +141,7 @@ public class PlayerConnect implements Listener {
             return;
         }
 
-        // The player is allowed to join, so we can start loading their data
+        // The player is allowed to join, so we can start loading their data if we haven't already
         loadData(e.getUniqueId());
     }
 

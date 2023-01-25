@@ -10,7 +10,6 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
@@ -64,8 +63,6 @@ public class DeathEvent implements Listener {
             event.setRespawnLocation(MapController.getCurrentMap().flags[0].spawnPoint);
             return;
         }
-
-        DonatorKit.resetDonor(player.getUniqueId(), "Swordsman");
 
         if (Objects.equals(ActiveData.getData(player.getUniqueId()).getSetting("randomDeath"), "true") ||
         MapController.forcedRandom)
@@ -180,7 +177,6 @@ public class DeathEvent implements Listener {
     private void updateStats(PlayerDeathEvent e) {
         // Death
         Player target = e.getEntity();
-        UpdateStats.addDeaths(target.getUniqueId(), 1, false);
 
         // Kill
         Player killer = killerMap.getOrDefault(target, target.getKiller());
@@ -216,6 +212,13 @@ public class DeathEvent implements Listener {
             UpdateStats.addAssist(assist);
             assistMessage(assist, target);
         }
+
+        if (killer != null || assist != null) {
+            UpdateStats.addDeaths(target.getUniqueId(), 1, false);
+            Messenger.sendInfo("You gained "
+                    + PlayerData.bpDeathAmount * PlayerData.getBattlepointMultiplier()
+                    + " BattlePoint(s) for a death...", target);
+        }
     }
 
     /**
@@ -241,10 +244,6 @@ public class DeathEvent implements Listener {
                     + ChatColor.RESET + messages.getFirst()[1]);
         }
 
-
-        Messenger.sendInfo("You gained "
-                + PlayerData.bpDeathAmount * PlayerData.getBattlepointMultiplier()
-                + " BattlePoint(s) for a death...", target);
         Messenger.sendInfo("You gained "
                 + PlayerData.bpKillAmount * PlayerData.getBattlepointMultiplier()
                 + " BattlePoint(s) for a kill!", killer);
