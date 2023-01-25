@@ -117,6 +117,7 @@ public class Main extends JavaPlugin implements Listener {
 
         plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
         instance = this;
+        PlayerConnect.restartTime = System.currentTimeMillis();
 
         getLogger().info("Resetting all maps...");
         resetWorlds();

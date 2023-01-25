@@ -42,9 +42,9 @@ public class Flag {
     private final int progressAmount;
     private int progress;
     // Progresses needed per animationIndex
-    private final static int progressMultiplier = 100;
+    private final static int progressMultiplier = 150;
     // Multiplier for multiple people
-    public final static double capMultiplier = 1.5;
+    public final static double capMultiplier = 2.1;
 
     // Capturing data
     private final AtomicInteger isRunning;
@@ -285,6 +285,18 @@ public class Flag {
 
             notifyPlayers(true);
 
+            for (UUID uuid : players) {
+                Player player = Bukkit.getPlayer(uuid);
+                if (player != null && TeamController.getTeam(uuid).name.equals(currentOwners)) {
+                    //You get +1 battlepoint for fully capturing a flag
+                    PlayerData data = ActiveData.getData(uuid);
+                    data.addBattlepoints(PlayerData.bpTakeFlagControlAmount);
+                    Messenger.sendInfo("You gained "
+                            + PlayerData.bpTakeFlagControlAmount * PlayerData.getBattlepointMultiplier()
+                            + " BattlePoints for taking control of a flag!", player);
+                }
+            }
+
             animate(true, currentOwners);
 
         // Players have increased the capture
@@ -309,7 +321,10 @@ public class Flag {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: " + name));
                             //You get +1 battlepoint for fully capturing a flag
                             PlayerData data = ActiveData.getData(uuid);
-                            data.addBattlepoints(1);
+                            data.addBattlepoints(PlayerData.bpFlagFullCapAmount);
+                            Messenger.sendInfo("You gained " +
+                                    PlayerData.bpFlagFullCapAmount * PlayerData.getBattlepointMultiplier()
+                                    + " BattlePoints for fully capturing a flag!", player);
                         } else {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies have fully captured the flag!"));
                         }

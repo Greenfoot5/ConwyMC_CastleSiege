@@ -36,6 +36,8 @@ import java.util.UUID;
  */
 public class PlayerConnect implements Listener {
 
+    public static long restartTime;
+
     /**
      * Assign the player's data and join a team
      * @param e The event called when a player join the game
@@ -90,8 +92,8 @@ public class PlayerConnect implements Listener {
         StoreData.updateName(uuid, "player_rank");
 
         // Add player's bp
-        if (!MapController.isMatch) {
-            data.addBattlepoints(10);
+        if (!MapController.isMatch && p.getLastPlayed() > restartTime) {
+            data.addBattlepoints(PlayerData.bpCasualGameStartAmount);
         }
 
         //Welcomes new players!
@@ -110,7 +112,7 @@ public class PlayerConnect implements Listener {
         }
 
         if (DonatorKit.isFriday()) {
-            Messenger.broadcastInfo("It's Friday! All donator and team kits are " + ChatColor.BOLD + "FREE!");
+            Messenger.broadcastInfo("It's Friday! All donator and team kits are " + ChatColor.BOLD + "UNLOCKED!");
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {

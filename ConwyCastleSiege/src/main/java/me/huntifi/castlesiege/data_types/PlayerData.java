@@ -19,6 +19,14 @@ import java.util.UUID;
  */
 public class PlayerData {
 
+    // BattlePoints amounts
+    public final static double bpKillAmount = 0.25;
+    public final static double bpAssistAmount = 0.5;
+    public final static double bpFlagFullCapAmount = 1;
+    public final static double bpTakeFlagControlAmount = 1;
+    public final static double bpDeathAmount = 1;
+    public final static double bpCasualGameStartAmount = 10;
+
     private ArrayList<String> unlockedKits;
 
     private ArrayList<String> foundSecrets;
@@ -207,7 +215,7 @@ public class PlayerData {
         kills += 1;
         addScore(2);
         addCoins(2);
-        addBattlepoints(0.25);
+        addBattlepoints(bpKillAmount);
         addKillStreak();
     }
 
@@ -305,7 +313,7 @@ public class PlayerData {
     public void addAssist() {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             assists += 1;
-            addBattlepoints(0.5);
+            addBattlepoints(bpAssistAmount);
             addScore(1);
             addCoins(1);
         });
