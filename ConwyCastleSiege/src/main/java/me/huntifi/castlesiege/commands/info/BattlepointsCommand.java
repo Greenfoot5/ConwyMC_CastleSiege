@@ -12,8 +12,6 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DecimalFormat;
-
 public class BattlepointsCommand implements CommandExecutor {
 
     /**
@@ -37,6 +35,7 @@ public class BattlepointsCommand implements CommandExecutor {
             Player p = (Player) sender;
             PlayerData data = ActiveData.getData(p.getUniqueId());
             Messenger.sendInfo(ChatColor.DARK_AQUA + "Your Battlepoints (BP): " + ChatColor.BLUE + data.getBattlepoints(), sender);
+            Messenger.sendInfo("Battlepoints can be used to use purchased kits during a game", p);
         } else {
             t = Bukkit.getPlayer(args[0]); //get target player specified in arg
             if (t == null) { //if target does not exist/is not online

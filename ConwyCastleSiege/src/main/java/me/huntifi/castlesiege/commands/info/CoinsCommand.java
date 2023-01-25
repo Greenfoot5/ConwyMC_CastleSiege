@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.info;
 
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,6 +33,7 @@ public class CoinsCommand implements CommandExecutor {
             Player p = (Player) sender;
             double coins = ActiveData.getData(p.getUniqueId()).getCoins();
             p.sendMessage(ChatColor.GOLD + "Coins: " + ChatColor.YELLOW + new DecimalFormat("0").format(coins));
+            Messenger.sendInfo("You can use coins to purchase kits from the /coinshop or adding a /bounty to someone", p);
         }
 
         return true;
