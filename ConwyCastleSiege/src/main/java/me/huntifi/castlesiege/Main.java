@@ -25,14 +25,8 @@ import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
 import me.huntifi.castlesiege.commands.staff.*;
-import me.huntifi.castlesiege.commands.staff.battlepoints.AddBattlepoints;
-import me.huntifi.castlesiege.commands.staff.battlepoints.SetBattlepointMultiplier;
-import me.huntifi.castlesiege.commands.staff.battlepoints.SetBattlepoints;
-import me.huntifi.castlesiege.commands.staff.battlepoints.TakeBattlepoints;
-import me.huntifi.castlesiege.commands.staff.coins.AddCoins;
-import me.huntifi.castlesiege.commands.staff.coins.SetCoinMultiplier;
-import me.huntifi.castlesiege.commands.staff.coins.SetCoins;
-import me.huntifi.castlesiege.commands.staff.coins.TakeCoins;
+import me.huntifi.castlesiege.commands.staff.currencies.*;
+import me.huntifi.castlesiege.commands.staff.currencies.SetBattlepoints;
 import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
@@ -282,7 +276,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatch());
                 Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatch());
 
-                // Staff - Coins & Battlepoints
+                // Staff - Currencies
                 Objects.requireNonNull(getCommand("AddCoins")).setExecutor(new AddCoins());
                 Objects.requireNonNull(getCommand("SetCoins")).setExecutor(new SetCoins());
                 Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());

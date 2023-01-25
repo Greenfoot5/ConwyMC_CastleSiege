@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.commands.staff.battlepoints;
+package me.huntifi.castlesiege.commands.staff.currencies;
 
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 /**
  * Takes from a player's coins
  */
-public class TakeBattlepoints extends ChangeBattlepoints {
+public class TakeBattlepoints extends ChangeCurrency {
 
     @Override
     protected String getCommandUsage() {
@@ -15,7 +15,7 @@ public class TakeBattlepoints extends ChangeBattlepoints {
     }
 
     @Override
-    protected void changeBattlepointsOnline(PlayerData data, double amount) {
+    protected void changeCurrencyOnline(PlayerData data, double amount) {
         data.takeBattlepoints(amount);
     }
 

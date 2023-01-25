@@ -1,9 +1,8 @@
-package me.huntifi.castlesiege.commands.staff.coins;
+package me.huntifi.castlesiege.commands.staff.currencies;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -12,14 +11,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.UUID;
 
 /**
  * Changes a player's coins
  */
-public abstract class ChangeCoins implements CommandExecutor {
+public abstract class ChangeCurrency implements CommandExecutor {
 
     /**
      * Change a player's coins asynchronously.
@@ -31,16 +28,16 @@ public abstract class ChangeCoins implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> changeCoins(sender, args));
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> changeCurrency(sender, args));
         return true;
     }
 
     /**
-     * Change a player's coins.
+     * Change a player's battlepoints.
      * @param sender Source of the command
      * @param args Passed command arguments
      */
-    private void changeCoins(CommandSender sender, String[] args) {
+    protected void changeCurrency(CommandSender sender, String[] args) {
         if (hasIncorrectArgs(sender, args))
             return;
 
@@ -51,9 +48,9 @@ public abstract class ChangeCoins implements CommandExecutor {
         assert uuid != null;
         PlayerData data = ActiveData.getData(uuid);
         if (data != null)
-            changeCoinsOnline(data, amount);
+            changeCurrencyOnline(data, amount);
         else
-            updateDatabase(uuid, amount);
+            Messenger.sendError("Could not finder that player!", sender);
 
         sendConfirmMessage(sender, playerName, amount);
     }
@@ -64,7 +61,7 @@ public abstract class ChangeCoins implements CommandExecutor {
      * @param args Passed command arguments
      * @return Whether valid arguments were provided
      */
-    private boolean hasIncorrectArgs(CommandSender sender, String[] args) {
+    protected boolean hasIncorrectArgs(CommandSender sender, String[] args) {
         // Command format is not followed
         if (args.length != 2) {
             Messenger.sendError(getCommandUsage(), sender);
@@ -95,33 +92,12 @@ public abstract class ChangeCoins implements CommandExecutor {
      * @param playerName The name of the player
      * @return The player's UUID if found, null otherwise
      */
-    private UUID getUUID(String playerName) {
+    protected UUID getUUID(String playerName) {
         // Player is online
         Player player = Bukkit.getPlayer(playerName);
         if (player != null)
             return player.getUniqueId();
-
-        // Player is offline or doesn't exit in our database
-        try {
-            return LoadData.getUUID(playerName);
-        } catch (SQLException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Update the player's coins in the database.
-     * @param uuid The UUID of the player
-     * @param amount The coins to set
-     */
-    private void updateDatabase(UUID uuid, double amount) {
-        try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(getQuery())) {
-            ps.setDouble(1, amount);
-            ps.setString(2, uuid.toString());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        return null;
     }
 
     /**
@@ -131,17 +107,11 @@ public abstract class ChangeCoins implements CommandExecutor {
     protected abstract String getCommandUsage();
 
     /**
-     * Get the query used to update the player's coins in the database.
-     * @return The SQL query
-     */
-    protected abstract String getQuery();
-
-    /**
      * Change the player's coins for an online player.
      * @param data The actively stored data of the online player
      * @param amount The amount of coins used in the change
      */
-    protected abstract void changeCoinsOnline(PlayerData data, double amount);
+    protected abstract void changeCurrencyOnline(PlayerData data, double amount);
 
     /**
      * Send a confirmation message to the source of the command.
