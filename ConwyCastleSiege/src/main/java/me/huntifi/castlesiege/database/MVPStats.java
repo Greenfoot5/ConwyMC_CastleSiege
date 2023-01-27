@@ -20,7 +20,7 @@ public class MVPStats {
      * @param uuid The unique ID of the player
      */
     public static void addPlayer(UUID uuid) {
-            stats.putIfAbsent(uuid, new PlayerData());
+        stats.putIfAbsent(uuid, new PlayerData());
     }
 
     /**

@@ -70,7 +70,7 @@ public class PlayerData {
      * @throws SQLException If the columns don't match up
      */
     public PlayerData(ArrayList<String> achievements, ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
-                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings) throws SQLException {
+                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, boolean isMatch) throws SQLException {
 
         //this.ownedAchievements = achievements;
         this.unlockedKits = unlockedKits;
@@ -89,7 +89,7 @@ public class PlayerData {
         this.mvps = statsData.getInt("mvps");
         this.secrets = statsData.getInt("secrets");
         this.killStreak = 0;
-        this.battlepoints = 0;
+        this.battlepoints = isMatch ? 0 : bpCasualGameStartAmount;
         this.maxKillStreak = statsData.getInt("kill_streak");
         this.kit = statsData.getString("kit");
 

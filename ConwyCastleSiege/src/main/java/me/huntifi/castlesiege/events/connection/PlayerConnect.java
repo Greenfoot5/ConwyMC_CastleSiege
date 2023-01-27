@@ -36,8 +36,6 @@ import java.util.UUID;
  */
 public class PlayerConnect implements Listener {
 
-    public static long restartTime;
-
     /**
      * Assign the player's data and join a team
      * @param e The event called when a player join the game
@@ -90,11 +88,6 @@ public class PlayerConnect implements Listener {
         // Update the names stored in the database
         StoreData.updateName(uuid, "player_stats");
         StoreData.updateName(uuid, "player_rank");
-
-        // Add player's bp
-        if (!MapController.isMatch && p.getLastPlayed() < restartTime) {
-            data.addBattlepoints(PlayerData.bpCasualGameStartAmount);
-        }
 
         //Welcomes new players!
         if (!p.hasPlayedBefore()) {
@@ -188,7 +181,7 @@ public class PlayerConnect implements Listener {
      */
     private void loadData(UUID uuid) {
         // Load the player's data
-        PlayerData data = LoadData.load(uuid);
+        PlayerData data = ActiveData.hasPlayer(uuid) ? ActiveData.getData(uuid) : LoadData.load(uuid);
         assert data != null;
 
         // Actively store data

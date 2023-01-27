@@ -64,7 +64,6 @@ public class PlayerDisconnect implements Listener {
             Permissions.removePlayer(uuid);
             BarCooldown.remove(uuid);
         });
-
     }
 
     /**
@@ -97,7 +96,6 @@ public class PlayerDisconnect implements Listener {
     private void storeData(UUID uuid) {
         try {
             StoreData.store(uuid);
-            ActiveData.removePlayer(uuid);
         } catch (SQLException e) {
             e.printStackTrace();
         }
