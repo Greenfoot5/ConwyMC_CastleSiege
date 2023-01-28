@@ -40,6 +40,9 @@ public abstract class ChangePermanentCurrency extends ChangeCurrency {
             updateDatabase(uuid, amount);
 
         sendConfirmMessage(sender, playerName, amount);
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null)
+            sendTargetMessage(player, amount);
     }
 
     /**

@@ -51,6 +51,9 @@ public abstract class ChangeCurrency implements CommandExecutor {
         changeCurrencyOnline(data, amount);
 
         sendConfirmMessage(sender, playerName, amount);
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null)
+            sendTargetMessage(player, amount);
     }
 
     /**
@@ -118,4 +121,11 @@ public abstract class ChangeCurrency implements CommandExecutor {
      * @param amount The amount used in the currency change
      */
     protected abstract void sendConfirmMessage(CommandSender sender, String playerName, double amount);
+
+    /**
+     * Send a message to the target of the command to inform them of the change.
+     * @param target The player whose currency is affected
+     * @param amount The amount used in the currency change
+     */
+    protected abstract void sendTargetMessage(Player target, double amount);
 }
