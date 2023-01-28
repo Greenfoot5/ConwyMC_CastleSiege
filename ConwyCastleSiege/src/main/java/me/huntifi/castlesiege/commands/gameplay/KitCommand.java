@@ -70,7 +70,7 @@ public class KitCommand implements CommandExecutor {
     private Gui get(UUID uuid, String category) {
         if (category.equals("team")) {
             String team = TeamController.getTeam(uuid).name;
-            return GuiController.get(team.toLowerCase());
+            return GuiController.getOrDefault(team.toLowerCase(), "defaultTeam");
         }
         return GuiController.get(category);
     }

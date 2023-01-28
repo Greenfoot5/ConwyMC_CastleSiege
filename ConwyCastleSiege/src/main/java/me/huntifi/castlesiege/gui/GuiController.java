@@ -25,4 +25,15 @@ public class GuiController {
     public static Gui get(String key) {
         return keyToGui.get(key);
     }
+
+    /**
+     * Get a GUI from the map of GUIs if it exists.
+     * Return the GUI corresponding to the default key otherwise.
+     * @param key The key with which the GUI is stored
+     * @param defaultKey The key of with which the default GUI
+     * @return The requested GUI or the default GUI
+     */
+    public static Gui getOrDefault(String key, String defaultKey) {
+        return keyToGui.getOrDefault(key, keyToGui.get(defaultKey));
+    }
 }
