@@ -165,7 +165,7 @@ public class PlayerData {
     }
 
     /**
-     * Add to the player's battlepoints
+     * Take from the player's battlepoints
      * @param bp The battlepoints to add
      */
     public boolean takeBattlepoints(double bp) {
@@ -173,6 +173,14 @@ public class PlayerData {
             return false;
         this.battlepoints -= bp;
         return true;
+    }
+
+    /**
+     * Take from the player's battlepoints regardless of their current balance
+     * @param bp The amount of battlepoints to take
+     */
+    public void takeBattlepointsForce(double bp) {
+        this.battlepoints -= bp;
     }
 
     /**
@@ -663,7 +671,6 @@ public class PlayerData {
     public static void setBattlepointMultiplier(double multiplier) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> battlepointMultiplier = multiplier);
     }
-
 
     /**
      * Check if the player has found a specified secret

@@ -3,48 +3,35 @@ package me.huntifi.castlesiege.commands.staff.currencies;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.LoadData;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.UUID;
 
 /**
- * Changes a player's coins
+ * Changes a player's permanent currency
  */
 public abstract class ChangePermanentCurrency extends ChangeCurrency {
 
     /**
-     * Change a player's coins asynchronously.
-     * @param sender Source of the command
-     * @param cmd Command which was executed
-     * @param label Alias of the command which was used
-     * @param args Passed command arguments
-     * @return True
-     */
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> changeCurrency(sender, args));
-        return true;
-    }
-
-    /**
-     * Change a player's coins.
+     * Change a player's permanent currency.
      * @param sender Source of the command
      * @param args Passed command arguments
      */
     @Override
     protected void changeCurrency(CommandSender sender, String[] args) {
-        if (super.hasIncorrectArgs(sender, args))
+        if (hasIncorrectArgs(sender, args))
             return;
 
         String playerName = args[0];
         double amount = Double.parseDouble(args[1]);
 
-        UUID uuid = super.getUUID(playerName);
+        UUID uuid = getUUID(playerName);
         assert uuid != null;
         PlayerData data = ActiveData.getData(uuid);
         if (data != null)
@@ -53,6 +40,26 @@ public abstract class ChangePermanentCurrency extends ChangeCurrency {
             updateDatabase(uuid, amount);
 
         sendConfirmMessage(sender, playerName, amount);
+    }
+
+    /**
+     * Get the player's UUID directly from the online players or from the database.
+     * @param playerName The name of the player
+     * @return The player's UUID if found, null otherwise
+     */
+    @Override
+    protected UUID getUUID(String playerName) {
+        // Player is online
+        UUID uuid = super.getUUID(playerName);
+        if (uuid != null)
+            return uuid;
+
+        // Player is offline or doesn't exist in our database
+        try {
+            return LoadData.getUUID(playerName);
+        } catch (SQLException e) {
+            return null;
+        }
     }
 
     /**

@@ -56,7 +56,7 @@ public class WoolMap implements Listener {
 							{
 								DonatorKit donatorKit = (DonatorKit) kit;
 								boolean hasBp = ActiveData.getData(player.getUniqueId()).takeBattlepoints(donatorKit.getBattlepointPrice());
-								if (!hasBp) {
+								if (!hasBp && !DonatorKit.isFriday()) {
 									Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", player);
 									Messenger.sendError("Perform /battlepoints or /bp to see your battlepoints.", player);
 									return;

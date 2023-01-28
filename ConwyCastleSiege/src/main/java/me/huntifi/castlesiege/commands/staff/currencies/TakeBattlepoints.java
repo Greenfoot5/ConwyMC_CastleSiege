@@ -16,7 +16,7 @@ public class TakeBattlepoints extends ChangeCurrency {
 
     @Override
     protected void changeCurrencyOnline(PlayerData data, double amount) {
-        data.takeBattlepoints(amount);
+        data.takeBattlepointsForce(amount);
     }
 
     @Override

@@ -22,7 +22,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.net.InetAddress;
 import java.sql.PreparedStatement;
@@ -203,23 +202,17 @@ public class PlayerConnect implements Listener {
      * But only if they are in the spawnroom stil.
      */
     public static void sendTitlebarMessages(Player p) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (InCombat.isPlayerInLobby(p.getUniqueId())) {
-                        p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
-                }
+        Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
+            if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+                p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
             }
-        }.runTaskLater(Main.plugin, 100);
+        }, 100);
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (InCombat.isPlayerInLobby(p.getUniqueId())) {
-                        p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
-                }
+        Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
+            if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+                p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
             }
-        }.runTaskLater(Main.plugin, 600);
+        }, 600);
 
     }
 }

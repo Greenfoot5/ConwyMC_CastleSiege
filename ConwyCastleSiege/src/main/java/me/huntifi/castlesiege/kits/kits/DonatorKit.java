@@ -1,10 +1,8 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -18,9 +16,6 @@ public abstract class DonatorKit extends Kit {
     private final double price;
 
     private final double bp_price;
-
-    // Kit tracking if they bought it with battlepoints
-    private static final Collection<UUID> using = new ArrayList<>();
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
@@ -79,11 +74,7 @@ public abstract class DonatorKit extends Kit {
     public boolean hasEnoughBP(UUID uuid) {
         boolean hasKit = ActiveData.getData(uuid).hasKit(name);
         PlayerData data = ActiveData.getData(uuid);
-        if (data.getBattlepoints() >= bp_price && hasKit) {
-                using.add(uuid);
-                return true;
-        }
-        return false;
+        return data.getBattlepoints() >= bp_price && hasKit;
     }
 
     /**

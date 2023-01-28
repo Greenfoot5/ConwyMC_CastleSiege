@@ -758,21 +758,21 @@ public class Main extends JavaPlugin implements Listener {
         gui.addCoinShopItem("Engineer", Material.COBWEB, 11);
         gui.addCoinShopItem("Crossbowman", Material.CROSSBOW, 12);
         gui.addCoinShopItem("Warhound", Material.GHAST_TEAR, 13);
-        gui.addCoinShopItem("Elytrier", Material.ELYTRA, 23);
-        gui.addCoinShopItem("Fallen", Material.WITHER_SKELETON_SKULL, 24);
-        gui.addCoinShopItem("MoriaOrc", Material.BOW, 25);
-        gui.addCoinShopItem("DwarvenAxeThrower", Material.STONE_AXE, 26);
-        gui.addCoinShopItem("DwarvenGuardian", Material.SHIELD, 27);
-        gui.addCoinShopItem("MoriaCaveTroll", Material.IRON_INGOT, 28);
-        gui.addCoinShopItem("MoriaBonecrusher", Material.BONE, 29);
-        gui.addCoinShopItem("DwarvenWindlancer", Material.STICK, 30);
-        gui.addCoinShopItem("UrukBerserker", Material.BEETROOT_SOUP, 31);
-        gui.addCoinShopItem("Lancer", Material.STICK, 32);
-        gui.addCoinShopItem("RangedCavalry", Material.BOW, 33);
-        gui.addCoinShopItem("Abyssal", Material.GREEN_DYE, 34);
-        gui.addCoinShopItem("Hellsteed", Material.MAGMA_BLOCK, 35);
-        gui.addCoinShopItem("RoyalKnight", Material.DIAMOND_HORSE_ARMOR, 36);
-        gui.addCoinShopItem("Arbalester", Material.CROSSBOW, 37);
+        gui.addCoinShopItem("Elytrier", Material.ELYTRA, 27);
+        gui.addCoinShopItem("Fallen", Material.WITHER_SKELETON_SKULL, 28);
+        gui.addCoinShopItem("MoriaOrc", Material.BOW, 29);
+        gui.addCoinShopItem("DwarvenAxeThrower", Material.STONE_AXE, 30);
+        gui.addCoinShopItem("DwarvenGuardian", Material.SHIELD, 31);
+        gui.addCoinShopItem("MoriaCaveTroll", Material.IRON_INGOT, 32);
+        gui.addCoinShopItem("MoriaBonecrusher", Material.BONE, 33);
+        gui.addCoinShopItem("DwarvenWindlancer", Material.STICK, 34);
+        gui.addCoinShopItem("UrukBerserker", Material.BEETROOT_SOUP, 35);
+        gui.addCoinShopItem("Lancer", Material.STICK, 36);
+        gui.addCoinShopItem("RangedCavalry", Material.BOW, 37);
+        gui.addCoinShopItem("Abyssal", Material.GREEN_DYE, 38);
+        gui.addCoinShopItem("Hellsteed", Material.MAGMA_BLOCK, 39);
+        gui.addCoinShopItem("RoyalKnight", Material.DIAMOND_HORSE_ARMOR, 40);
+        gui.addCoinShopItem("Arbalester", Material.CROSSBOW, 41);
 
         gui.addItem("§4§lGo Back", Material.BARRIER, Collections.singletonList("§cReturn to the previous interface."), 49, "kit shop", true);
 

@@ -30,10 +30,10 @@ public class CoinsCommand implements CommandExecutor {
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage("Console doesn't have any coins!");
         } else {
-            Player p = (Player) sender;
-            double coins = ActiveData.getData(p.getUniqueId()).getCoins();
-            p.sendMessage(ChatColor.GOLD + "Coins: " + ChatColor.YELLOW + new DecimalFormat("0").format(coins));
-            Messenger.sendInfo("You can use coins to purchase kits from the /coinshop or adding a /bounty to someone", p);
+            Player player = (Player) sender;
+            double coins = ActiveData.getData(player.getUniqueId()).getCoins();
+            Messenger.sendInfo(ChatColor.GOLD + "Coins: " + ChatColor.YELLOW + new DecimalFormat("0").format(coins), sender);
+            Messenger.sendInfo("You can use coins to purchase kits from the /coinshop or adding a /bounty to someone", sender);
         }
 
         return true;

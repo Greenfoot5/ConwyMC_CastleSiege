@@ -85,7 +85,6 @@ public class SettingsCommand implements CommandExecutor, Listener {
             if (args[0].equalsIgnoreCase("statsBoard") || args[0].equalsIgnoreCase("showBattlepoints"))
                 Scoreboard.clearScoreboard(player);
 
-
             if (guis.containsKey(player))
                 setGuiItem(player, setting);
             else

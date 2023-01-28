@@ -32,21 +32,20 @@ public class BattlepointsCommand implements CommandExecutor {
             return true;
         }
 
-        Player t;
         if (args.length == 0) { // No player was specified
-            Player p = (Player) sender;
-            PlayerData data = ActiveData.getData(p.getUniqueId());
+            Player player = (Player) sender;
+            PlayerData data = ActiveData.getData(player.getUniqueId());
             Messenger.sendInfo("Your Battlepoints (BP): " + ChatColor.DARK_AQUA + new DecimalFormat("0.00").format(data.getBattlepoints()), sender);
-            Messenger.sendInfo("Battlepoints can be used to use purchased kits during a game", p);
+            Messenger.sendInfo("Battlepoints can be used to use purchased kits during a game", player);
         } else {
-            t = Bukkit.getPlayer(args[0]); //get target player specified in arg
-            if (t == null) { //if target does not exist/is not online
+            Player player = Bukkit.getPlayer(args[0]); //get target player specified in arg
+            if (player == null) { //if target does not exist/is not online
                 Messenger.sendError("Could not find player: " + ChatColor.RED + args[0], sender);
                 return true;
             }
 
-            PlayerData data = ActiveData.getData(t.getUniqueId());
-            Messenger.sendInfo(ChatColor.DARK_AQUA + t.getName() + "'s Battlepoints (BP): " + ChatColor.BLUE + data.getBattlepoints(), sender);
+            PlayerData data = ActiveData.getData(player.getUniqueId());
+            Messenger.sendInfo(player.getName() + "'s Battlepoints (BP): " + ChatColor.DARK_AQUA + new DecimalFormat("0.00").format(data.getBattlepoints()), sender);
         }
         return true;
     }

@@ -14,12 +14,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 /**
- * Changes a player's coins
+ * Changes a player's currency
  */
 public abstract class ChangeCurrency implements CommandExecutor {
 
     /**
-     * Change a player's coins asynchronously.
+     * Change a player's currency asynchronously.
      * @param sender Source of the command
      * @param cmd Command which was executed
      * @param label Alias of the command which was used
@@ -33,7 +33,7 @@ public abstract class ChangeCurrency implements CommandExecutor {
     }
 
     /**
-     * Change a player's battlepoints.
+     * Change a player's currency.
      * @param sender Source of the command
      * @param args Passed command arguments
      */
@@ -47,10 +47,8 @@ public abstract class ChangeCurrency implements CommandExecutor {
         UUID uuid = getUUID(playerName);
         assert uuid != null;
         PlayerData data = ActiveData.getData(uuid);
-        if (data != null)
-            changeCurrencyOnline(data, amount);
-        else
-            Messenger.sendError("Could not finder that player!", sender);
+        assert data != null;
+        changeCurrencyOnline(data, amount);
 
         sendConfirmMessage(sender, playerName, amount);
     }
@@ -59,7 +57,7 @@ public abstract class ChangeCurrency implements CommandExecutor {
      * Check if correct arguments were provided for this command.
      * @param sender Source of the command
      * @param args Passed command arguments
-     * @return Whether valid arguments were provided
+     * @return Whether invalid arguments were provided
      */
     protected boolean hasIncorrectArgs(CommandSender sender, String[] args) {
         // Command format is not followed
@@ -88,7 +86,7 @@ public abstract class ChangeCurrency implements CommandExecutor {
     }
 
     /**
-     * Get the player's UUID directly from the online players or from the database.
+     * Get the player's UUID directly from the online players.
      * @param playerName The name of the player
      * @return The player's UUID if found, null otherwise
      */
@@ -107,17 +105,17 @@ public abstract class ChangeCurrency implements CommandExecutor {
     protected abstract String getCommandUsage();
 
     /**
-     * Change the player's coins for an online player.
+     * Change the currency for an online player.
      * @param data The actively stored data of the online player
-     * @param amount The amount of coins used in the change
+     * @param amount The amount used in the currency change
      */
     protected abstract void changeCurrencyOnline(PlayerData data, double amount);
 
     /**
      * Send a confirmation message to the source of the command.
      * @param sender Source of the command
-     * @param playerName The name of the player whose coins were changed
-     * @param amount The amount of coins used in the change
+     * @param playerName The name of the player whose currency was changed
+     * @param amount The amount used in the currency change
      */
     protected abstract void sendConfirmMessage(CommandSender sender, String playerName, double amount);
 }

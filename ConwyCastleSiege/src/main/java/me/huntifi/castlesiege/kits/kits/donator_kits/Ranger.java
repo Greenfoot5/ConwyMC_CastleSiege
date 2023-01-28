@@ -172,7 +172,7 @@ public class Ranger extends DonatorKit implements Listener {
             p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
         }
         if (removeArrow(p)) {
-            p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
+            p.launchProjectile(Arrow.class, v.rotateAroundY(0.471));
         }
         if (removeArrow(p)) {
             p.launchProjectile(Arrow.class, v.rotateAroundY(-0.471));
