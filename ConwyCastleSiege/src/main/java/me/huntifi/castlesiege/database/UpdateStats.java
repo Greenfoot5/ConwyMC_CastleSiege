@@ -35,6 +35,7 @@ public class UpdateStats {
         ActiveData.getData(uuid).addDeaths(deaths);
         MVPStats.getStats(uuid).addDeaths(deaths);
         ActiveData.getData(uuid).addBattlepoints(punishPlayer ? 0 : PlayerData.bpDeathAmount);
+        MVPStats.getStats(uuid).addBattlepoints(punishPlayer ? 0 : PlayerData.bpDeathAmount);
     }
 
     /**
