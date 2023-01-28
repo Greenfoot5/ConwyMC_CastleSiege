@@ -122,10 +122,11 @@ public class Alchemist extends DonatorKit implements Listener {
                         assert hit != null;
                         for (PotionEffect effect : effects) {
                             PotionEffectType potionType = effect.getType();
+                            boolean isEnemy = TeamController.getTeam(damager.getUniqueId())
+                                    != TeamController.getTeam(hit.getUniqueId());
 
                             // Enemies
-                            if (TeamController.getTeam(damager.getUniqueId())
-                                    != TeamController.getTeam(hit.getUniqueId())) {
+                            if (isEnemy) {
                                 // Effects for enemies
                                 if (potionType.equals(PotionEffectType.POISON)
                                         || potionType.equals(PotionEffectType.HARM)
@@ -150,7 +151,7 @@ public class Alchemist extends DonatorKit implements Listener {
                                     || potionType.equals(PotionEffectType.HEALTH_BOOST)
                                     || potionType.equals(PotionEffectType.REGENERATION))) {
                                 Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
-                                if (hit.getPlayer() != damager)
+                                if (hit.getPlayer() != damager && !isEnemy)
                                     UpdateStats.addHeals(damager.getUniqueId(), 2);
                             // Friendly Potions
                             } else if (potionType.equals(PotionEffectType.SPEED)
@@ -168,7 +169,7 @@ public class Alchemist extends DonatorKit implements Listener {
                                     || potionType.equals(PotionEffectType.CONDUIT_POWER)
                                     || potionType.equals(PotionEffectType.FIRE_RESISTANCE)) {
                                 Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
-                                if (hit.getPlayer() != damager)
+                                if (hit.getPlayer() != damager && !isEnemy)
                                     UpdateStats.addSupports(damager.getUniqueId(), 3);
                             }
                         }
