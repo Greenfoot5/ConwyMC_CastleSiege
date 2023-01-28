@@ -94,12 +94,12 @@ public class Ranger extends DonatorKit implements Listener {
         // Volley Bow
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.BOW),
                 ChatColor.GREEN + "Volley Bow",
-                Collections.singletonList(ChatColor.AQUA + "Shoot 3 arrows at once"), null);
+                Collections.singletonList(ChatColor.AQUA + "Shoot 5 arrows at once"), null);
 
         // Burst Bow
         es.hotbar[3] = ItemCreator.item(new ItemStack(Material.BOW),
                 ChatColor.GREEN + "Burst Bow",
-                Collections.singletonList(ChatColor.AQUA + "Shoot 3 consecutive arrows"), null);
+                Collections.singletonList(ChatColor.AQUA + "Shoot 4 consecutive arrows"), null);
 
         // Ladders
         es.hotbar[4] = new ItemStack(Material.LADDER, 4);
@@ -172,7 +172,7 @@ public class Ranger extends DonatorKit implements Listener {
             p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
         }
         if (removeArrow(p)) {
-            p.launchProjectile(Arrow.class, v.rotateAroundY(0.471));
+            p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
         }
         if (removeArrow(p)) {
             p.launchProjectile(Arrow.class, v.rotateAroundY(-0.471));
