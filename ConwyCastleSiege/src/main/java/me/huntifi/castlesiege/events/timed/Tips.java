@@ -33,7 +33,7 @@ public class Tips extends BukkitRunnable {
             "Engineers can repair broken stone and wood structures! ",
             "Want to apply for staff? Go to discord ---> #join-us ",
             "Does a kit look too strong? Request & discuss a nerf on our discord server! ",
-            "Is the server empty or are you al by yourself? Tag the @fighter tag on our discord server! ",
+            "Is the server empty or are you all by yourself? Tag the @fighter tag on our discord server! ",
             "You have a chance to dodge maceman' stuns by shifting. ",
             "Use /maps to see the current rotation",
             "Hit by something that seems invisible? Check your surroundings for Crossbowmen!",
