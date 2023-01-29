@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.info.leaderboard;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.staff.SpectateCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MVPStats;
@@ -51,6 +52,12 @@ public class MVPCommand implements CommandExecutor {
                 } else if (!(sender instanceof ConsoleCommandSender)) {
                     // Print the MVP of the player's team and their own stats
                     Player p = (Player) sender;
+
+                    if (SpectateCommand.spectators.contains(p.getUniqueId())) {
+                        Messenger.sendError("You aren't on a team!", sender);
+                        return;
+                    }
+
                     UUID uuid = p.getUniqueId();
                     Team t = TeamController.getTeam(uuid);
                     for (String message : getMVPMessage(t)) { // Print MVP of sender's team
