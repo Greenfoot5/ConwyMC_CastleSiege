@@ -188,7 +188,7 @@ premium:
         - "§2[Ability]:§a Speed 2, huge damage boost, Nausea 2"
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
-        - "§3Battlepoints: §910"
+        - "§3Battlepoints: §97"
       location: 10
       command: "berserker"
     vanguard:
@@ -235,7 +235,7 @@ premium:
         - "§2[Ability]:§a causing you to stun them."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
-        - "§3Battlepoints: §98"
+        - "§3Battlepoints: §99"
       location: 16
       command: "maceman"
     viking:
@@ -337,7 +337,7 @@ premium:
         - "§2[Ability]:§a Shoots arrows in a straight line."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
-        - "§3Battlepoints: §910"
+        - "§3Battlepoints: §912"
       location: 41
       command: "crossbowman"
     cavalry:
