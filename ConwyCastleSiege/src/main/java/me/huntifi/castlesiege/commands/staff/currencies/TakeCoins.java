@@ -32,6 +32,6 @@ public class TakeCoins extends ChangePermanentCurrency {
 
     @Override
     protected void sendTargetMessage(Player target, double amount) {
-        Messenger.sendInfo(String.format("%.0f coins have been taken from you", amount), target);
+        Messenger.sendInfo(String.format("%.0f coins have been taken from you by staff", amount), target);
     }
 }

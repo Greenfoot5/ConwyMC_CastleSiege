@@ -32,6 +32,6 @@ public class SetCoins extends ChangePermanentCurrency {
 
     @Override
     protected void sendTargetMessage(Player target, double amount) {
-        Messenger.sendInfo(String.format("Your coins have been set to %.0f", amount), target);
+        Messenger.sendInfo(String.format("Your coins have been set to %.0f by staff", amount), target);
     }
 }

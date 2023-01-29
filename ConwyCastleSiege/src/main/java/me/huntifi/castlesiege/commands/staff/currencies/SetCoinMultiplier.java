@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.staff.currencies;
 
 import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,7 +33,7 @@ public class SetCoinMultiplier implements CommandExecutor {
                 throw new NumberFormatException();
             }
             PlayerData.setCoinMultiplier(multiplier);
-            sender.sendMessage(ChatColor.GREEN + "The coin multiplier has been set to: " + ChatColor.YELLOW + args[0]);
+            Messenger.broadcastInfo("The coin multiplier has been set to: " + ChatColor.YELLOW + args[0]);
         } catch (NumberFormatException e) {
             sender.sendMessage(ChatColor.DARK_RED + "The argument " + ChatColor.RED + args[0]
                     + ChatColor.DARK_RED + " is not a positive number!");

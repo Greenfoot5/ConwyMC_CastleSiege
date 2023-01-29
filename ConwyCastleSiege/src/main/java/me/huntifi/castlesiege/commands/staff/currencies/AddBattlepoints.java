@@ -27,6 +27,6 @@ public class AddBattlepoints extends ChangeCurrency {
 
     @Override
     protected void sendTargetMessage(Player target, double amount) {
-        Messenger.sendInfo(String.format("You have been given %.0f battlepoints", amount), target);
+        Messenger.sendInfo(String.format("You have been given %.0f battlepoints by staff", amount), target);
     }
 }
