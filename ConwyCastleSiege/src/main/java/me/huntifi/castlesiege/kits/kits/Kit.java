@@ -206,7 +206,7 @@ public abstract class Kit implements CommandExecutor {
                 Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
                 if (MapController.isOngoing()) {
                     Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
-                    UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
+                    UpdateStats.addDeaths(player.getUniqueId(), 1, true); // Note: 1 death added on player respawn
                 } else {
                     Messenger.sendInfo("You have committed suicide!", player);
                 }
@@ -249,6 +249,7 @@ public abstract class Kit implements CommandExecutor {
             NameTag.give(p);
         }
     }
+
 
     /**
      * Sets the player's ability to see people's health

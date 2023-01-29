@@ -119,15 +119,29 @@ public class Scoreboard implements Runnable {
 				objective = score.getObjective(online.getName());
 			}
 
-			assert objective != null;
-			objective.setDisplayName(displayName);
-			replaceScore(objective, 15, "");
-			replaceScore(objective, 14, String.format("%s%sMap:%s %s",
-					ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
+			if (ActiveData.getData(online.getUniqueId()).getSetting("showBattlepoints").equals("true")) {
+				assert objective != null;
+				objective.setDisplayName(displayName);
+				replaceScore(objective, 15, String.format("%s%sMap:%s %s",
+						ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
+				DecimalFormat dec = new DecimalFormat("0.00");
+				PlayerData data = ActiveData.getData(online.getUniqueId());
+				// Setup timer display
+				replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText());
+				replaceScore(objective, 13, ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Battlepoints: " + ChatColor.AQUA + dec.format(data.getBattlepoints()));
+				replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
 
-			// Setup timer display
-			replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText());
-			replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
+			} else if (ActiveData.getData(online.getUniqueId()).getSetting("showBattlepoints").equals("false")){
+				assert objective != null;
+				objective.setDisplayName(displayName);
+				replaceScore(objective, 15, "");
+				replaceScore(objective, 15, String.format("%s%sMap:%s %s",
+						ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
+
+				// Setup timer display
+				replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText());
+				replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
+			}
 
 			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {
 				// Display the flag scoreboard
@@ -143,15 +157,16 @@ public class Scoreboard implements Runnable {
 				DecimalFormat num = new DecimalFormat("0");
 				PlayerData data = MVPStats.getStats(online.getUniqueId());
 
-				replaceScore(objective, 11, ChatColor.WHITE + "Score: " + ChatColor.WHITE + num.format(data.getScore()));
-				replaceScore(objective, 10, ChatColor.GREEN + "Kills: " + ChatColor.WHITE + num.format(data.getKills()));
-				replaceScore(objective, 9, ChatColor.RED + "Deaths: " + ChatColor.WHITE + num.format(data.getDeaths()));
-				replaceScore(objective, 8, ChatColor.YELLOW + "KDR: " + ChatColor.WHITE + dec.format(data.getKills() / data.getDeaths()));
-				replaceScore(objective, 7, ChatColor.DARK_GREEN + "Assists: " + ChatColor.WHITE + num.format(data.getAssists()));
-				replaceScore(objective, 6, ChatColor.GRAY + "Captures: " + ChatColor.WHITE + num.format(data.getCaptures()));
-				replaceScore(objective, 5, ChatColor.LIGHT_PURPLE + "Heals: " + ChatColor.WHITE + num.format(data.getHeals()));
-				replaceScore(objective, 4, ChatColor.DARK_PURPLE + "Supports: " + ChatColor.WHITE + num.format(data.getSupports()));
-				replaceScore(objective, 3, ChatColor.DARK_GRAY + "Killstreak: " + ChatColor.WHITE + num.format(data.getKillStreak()));
+				replaceScore(objective, 11, ChatColor.DARK_AQUA + "Battlepoints: " + ChatColor.WHITE + num.format(data.getBattlepoints()));
+				replaceScore(objective, 10, ChatColor.WHITE + "Score: " + ChatColor.WHITE + num.format(data.getScore()));
+				replaceScore(objective, 9, ChatColor.GREEN + "Kills: " + ChatColor.WHITE + num.format(data.getKills()));
+				replaceScore(objective, 8, ChatColor.RED + "Deaths: " + ChatColor.WHITE + num.format(data.getDeaths()));
+				replaceScore(objective, 7, ChatColor.YELLOW + "KDR: " + ChatColor.WHITE + dec.format(data.getKills() / data.getDeaths()));
+				replaceScore(objective, 6, ChatColor.DARK_GREEN + "Assists: " + ChatColor.WHITE + num.format(data.getAssists()));
+				replaceScore(objective, 5, ChatColor.GRAY + "Captures: " + ChatColor.WHITE + num.format(data.getCaptures()));
+				replaceScore(objective, 4, ChatColor.LIGHT_PURPLE + "Heals: " + ChatColor.WHITE + num.format(data.getHeals()));
+				replaceScore(objective, 3, ChatColor.DARK_PURPLE + "Supports: " + ChatColor.WHITE + num.format(data.getSupports()));
+				replaceScore(objective, 2, ChatColor.DARK_GRAY + "Killstreak: " + ChatColor.WHITE + num.format(data.getKillStreak()));
 			}
 
 			// Actually displays the scoreboard

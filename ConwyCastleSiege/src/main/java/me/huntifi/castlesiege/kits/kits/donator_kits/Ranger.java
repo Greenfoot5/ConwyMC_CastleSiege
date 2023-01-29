@@ -49,7 +49,7 @@ public class Ranger extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Ranger() {
-        super("Ranger", 240, 8.5, 7500);
+        super("Ranger", 260, 8.5, 10000, 10);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -94,12 +94,12 @@ public class Ranger extends DonatorKit implements Listener {
         // Volley Bow
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.BOW),
                 ChatColor.GREEN + "Volley Bow",
-                Collections.singletonList(ChatColor.AQUA + "Shoot 3 arrows at once"), null);
+                Collections.singletonList(ChatColor.AQUA + "Shoot 5 arrows at once"), null);
 
         // Burst Bow
         es.hotbar[3] = ItemCreator.item(new ItemStack(Material.BOW),
                 ChatColor.GREEN + "Burst Bow",
-                Collections.singletonList(ChatColor.AQUA + "Shoot 3 consecutive arrows"), null);
+                Collections.singletonList(ChatColor.AQUA + "Shoot 4 consecutive arrows"), null);
 
         // Ladders
         es.hotbar[4] = new ItemStack(Material.LADDER, 4);
@@ -158,7 +158,7 @@ public class Ranger extends DonatorKit implements Listener {
     }
 
     /**
-     * Activate the volley ability, shooting 3 arrows at once
+     * Activate the volley ability, shooting 5 arrows at once
      * @param p The ranger shooting their volley bow
      * @param v The vector of the original arrow
      */
@@ -172,7 +172,13 @@ public class Ranger extends DonatorKit implements Listener {
             p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
         }
         if (removeArrow(p)) {
-            p.launchProjectile(Arrow.class, v.rotateAroundY(-0.314));
+            p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
+        }
+        if (removeArrow(p)) {
+            p.launchProjectile(Arrow.class, v.rotateAroundY(-0.471));
+        }
+        if (removeArrow(p)) {
+            p.launchProjectile(Arrow.class, v.rotateAroundY(-0.157));
         }
     }
 
@@ -185,8 +191,9 @@ public class Ranger extends DonatorKit implements Listener {
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                 ChatColor.GREEN + "You shot your burst bow!"));
         p.setCooldown(Material.BOW, 100);
-        burstArrow(p, force, 10);
-        burstArrow(p, force, 20);
+        burstArrow(p, force, 11);
+        burstArrow(p, force, 21);
+        burstArrow(p, force, 31);
     }
 
     /**
@@ -248,7 +255,7 @@ public class Ranger extends DonatorKit implements Listener {
 
                 // Basically what happens here is you check whether the player
                 // is not looking at you at all (so having their back aimed at you.)
-                if (damagerLoc.getYaw() <= hitLoc.getYaw() + 30 && damagerLoc.getYaw() >= hitLoc.getYaw() - 30
+                if (damagerLoc.getYaw() <= hitLoc.getYaw() + 45 && damagerLoc.getYaw() >= hitLoc.getYaw() - 45
                         && canBackstab) {
 
                     ed.setCancelled(true);

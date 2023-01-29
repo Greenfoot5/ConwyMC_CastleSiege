@@ -11,27 +11,23 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.net.InetAddress;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -108,7 +104,7 @@ public class PlayerConnect implements Listener {
         }
 
         if (DonatorKit.isFriday()) {
-            Messenger.broadcastInfo("It's Friday! All donator and team kits are " + ChatColor.BOLD + "FREE!");
+            Messenger.broadcastInfo("It's Friday! All donator and team kits are " + ChatColor.BOLD + "UNLOCKED!");
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -137,7 +133,7 @@ public class PlayerConnect implements Listener {
             return;
         }
 
-        // The player is allowed to join, so we can start loading their data
+        // The player is allowed to join, so we can start loading their data if we haven't already
         loadData(e.getUniqueId());
     }
 
@@ -184,7 +180,7 @@ public class PlayerConnect implements Listener {
      */
     private void loadData(UUID uuid) {
         // Load the player's data
-        PlayerData data = LoadData.load(uuid);
+        PlayerData data = ActiveData.hasPlayer(uuid) ? ActiveData.getData(uuid) : LoadData.load(uuid);
         assert data != null;
 
         // Actively store data
@@ -206,23 +202,17 @@ public class PlayerConnect implements Listener {
      * But only if they are in the spawnroom stil.
      */
     public static void sendTitlebarMessages(Player p) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (InCombat.isPlayerInLobby(p.getUniqueId())) {
-                    p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
-                }
+        Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
+            if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+                p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
             }
-        }.runTaskLater(Main.plugin, 100);
+        }, 100);
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (InCombat.isPlayerInLobby(p.getUniqueId())) {
-                    p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
-                }
+        Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
+            if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+                p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
             }
-        }.runTaskLater(Main.plugin, 600);
+        }, 600);
 
     }
 }

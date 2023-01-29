@@ -23,11 +23,12 @@ public class ActiveData {
     }
 
     /**
-     * Remove a player from the active storage
+     * Check whether the active storage contains data of a player
      * @param uuid The unique ID of the player
+     * @return Whether there is data stored for the player
      */
-    public static void removePlayer(UUID uuid) {
-        playerData.remove(uuid);
+    public static boolean hasPlayer(UUID uuid) {
+        return playerData.containsKey(uuid);
     }
 
     /**

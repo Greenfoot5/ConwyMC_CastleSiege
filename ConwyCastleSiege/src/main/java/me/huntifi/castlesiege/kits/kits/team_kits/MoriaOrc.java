@@ -27,7 +27,7 @@ public class MoriaOrc extends TeamKit implements Listener {
 
 
     public MoriaOrc() {
-        super("Moria Orc", 230, 7, "Moria", "The Orcs", 2500);
+        super("Moria Orc", 230, 7, "Moria", "The Orcs", 2500, 5);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -83,7 +83,7 @@ public class MoriaOrc extends TeamKit implements Listener {
         assert potionMeta != null;
         potionMeta.setColor(Color.GREEN);
         poisonArrow.setItemMeta(potionMeta);
-        potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, 120, 0), true);
+        potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, 180, 0), true);
         poisonArrow.setItemMeta(potionMeta);
 
         es.hotbar[3] = poisonArrow;

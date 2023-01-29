@@ -134,6 +134,23 @@ commands:
     usage: /settings [setting] [value]
 
   # Info
+  Battlepoints:
+    description: Shows the player's battlepoints
+    usage: /battlepoints
+    aliases:
+      - bp
+      - battlep
+      - bpoints
+  BattlepointMultiplier:
+    description: Shows the active coin multiplier
+    usage: /battlepointmultiplier
+    aliases:
+      - bpmultiplier
+      - bpmult
+      - battlepmult
+      - battlepmultiplier
+      - bpointsmult
+      - bpointsmultiplier
   CoinMultiplier:
     description: Shows the active coin multiplier
     usage: /coinmultiplier
@@ -215,7 +232,7 @@ commands:
     aliases:
       - topbounty
 
-  # Staff - Coins
+  # Staff - Currencies
   AddCoins:
     description: Add to a player's coins
     usage: /addcoins <player> <amount>
@@ -236,6 +253,46 @@ commands:
     usage: /takecoins <player> <amount>
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
+  # Staff - Currencies
+  AddBattlepoints:
+    description: Add to a player's battlepoints
+    usage: /addbattlepoints <player> <amount>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+    aliases:
+      - addbp
+      - addbattlep
+      - addbpoints
+  SetBattlepoints:
+    description: Sets a player's battlepoints
+    usage: /setbattlepoints <player> <amount>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+    aliases:
+      - setbp
+      - setbattlep
+      - setbpoints
+  SetBattlepointMultiplier:
+    description: Sets the active battlepoint multiplier
+    usage: /setbattlepointmultiplier <multiplier>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+    aliases:
+      - setbpmultiplier
+      - setbpmult
+      - setbattlepmult
+      - setbattlepmultiplier
+      - setbpointsmult
+      - setbpointsmultiplier
+  TakeBattlepoints:
+    description: Take from a player's battlepoints
+    usage: /takebattlepoints <player> <amount>
+    permission: castlesiege.moderator
+    permission-message: You are not permitted to use this command!
+    aliases:
+      - takebp
+      - takebattlep
+      - takebpoints
 
 
   # Staff - Punishments
@@ -304,7 +361,7 @@ commands:
   NextMap:
     description: Skips the current map and goes directly to the next one
     usage: /nextmap
-    permission: castlesiege.moderator
+    permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
   RankPoints:
     description: Manages a player's rank points
@@ -491,6 +548,9 @@ commands:
   Ranger:
     description: Selects the ranger kit
     usage: /ranger
+  Rogue:
+    description: Selects the rogue kit
+    usage: /rogue
   Scout:
     description: Selects the scout kit
     usage: /scout

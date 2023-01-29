@@ -19,6 +19,14 @@ import java.util.UUID;
  */
 public class PlayerData {
 
+    // BattlePoints amounts
+    public final static double bpKillAmount = 0.25;
+    public final static double bpAssistAmount = 0.5;
+    public final static double bpFlagFullCapAmount = 1;
+    public final static double bpTakeFlagControlAmount = 1;
+    public final static double bpDeathAmount = 1;
+    public final static double bpCasualGameStartAmount = 10;
+
     private ArrayList<String> unlockedKits;
 
     private ArrayList<String> foundSecrets;
@@ -46,11 +54,14 @@ public class PlayerData {
     private HashMap<String, Long> votes;
     private double coins;
 
+    private double battlepoints;
+
     private HashMap<String, String> settings;
 
-    private ArrayList<String> ownedAchievements;
+    //private ArrayList<String> ownedAchievements;
 
     private static double coinMultiplier = 1;
+    private static double battlepointMultiplier = 1;
 
     /**
      * Initialize the player's data for active data
@@ -59,9 +70,9 @@ public class PlayerData {
      * @throws SQLException If the columns don't match up
      */
     public PlayerData(ArrayList<String> achievements, ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
-                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings) throws SQLException {
+                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, boolean isMatch) throws SQLException {
 
-        this.ownedAchievements = achievements;
+        //this.ownedAchievements = achievements;
         this.unlockedKits = unlockedKits;
         this.foundSecrets = foundSecrets;
         this.mute = mute.next() ? new Tuple<>(mute.getString("reason"), mute.getTimestamp("end")) : null;
@@ -78,6 +89,7 @@ public class PlayerData {
         this.mvps = statsData.getInt("mvps");
         this.secrets = statsData.getInt("secrets");
         this.killStreak = 0;
+        this.battlepoints = isMatch ? 0 : bpCasualGameStartAmount;
         this.maxKillStreak = statsData.getInt("kill_streak");
         this.kit = statsData.getString("kit");
 
@@ -104,6 +116,7 @@ public class PlayerData {
         this.assists = 0;
         this.killStreak = 0;
         this.coins = 0;
+        this.battlepoints = 0;
     }
 
     /**
@@ -124,6 +137,57 @@ public class PlayerData {
             mute = null;
         else
             mute = new Tuple<>(reason, end);
+    }
+
+    /**
+     * Get the player's current battlepoints
+     * @return The player's score
+     */
+    public double getBattlepoints() {
+        return battlepoints;
+    }
+
+    /**
+     * Add to the player's battlepoints
+     * @param bp The battlepoints to add
+     */
+    public void addBattlepoints(double bp) {
+        this.battlepoints += bp * getBattlepointMultiplier();
+    }
+
+
+    /**
+     * Add to the player's battlepoints without worrying about the multiplier
+     * @param bp The battlepoints to add
+     */
+    public void addBattlepointsClean(double bp) {
+        this.battlepoints += bp;
+    }
+
+    /**
+     * Take from the player's battlepoints
+     * @param bp The battlepoints to add
+     */
+    public boolean takeBattlepoints(double bp) {
+        if (this.battlepoints < bp)
+            return false;
+        this.battlepoints -= bp;
+        return true;
+    }
+
+    /**
+     * Take from the player's battlepoints regardless of their current balance
+     * @param bp The amount of battlepoints to take
+     */
+    public void takeBattlepointsForce(double bp) {
+        this.battlepoints -= bp;
+    }
+
+    /**
+     * Set the player's current battlepoints
+     */
+    public void setBattlepoints(double bp) {
+        battlepoints = bp;
     }
 
     /**
@@ -159,6 +223,7 @@ public class PlayerData {
         kills += 1;
         addScore(2);
         addCoins(2);
+        addBattlepoints(bpKillAmount);
         addKillStreak();
     }
 
@@ -256,6 +321,7 @@ public class PlayerData {
     public void addAssist() {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             assists += 1;
+            addBattlepoints(bpAssistAmount);
             addScore(1);
             addCoins(1);
         });
@@ -299,9 +365,7 @@ public class PlayerData {
      * Increase the player's MVP count by 1
      */
     public void addMVP() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.mvps += 1;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.mvps += 1);
     }
 
     /**
@@ -316,9 +380,7 @@ public class PlayerData {
      * Increase the player's secret count by 1
      */
     public void addSecret() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            secrets += 1;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> secrets += 1);
     }
 
     /**
@@ -349,9 +411,7 @@ public class PlayerData {
      * Increase the player's level by 1
      */
     public void addLevel() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            level += 1;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> level += 1);
     }
 
     /**
@@ -367,9 +427,7 @@ public class PlayerData {
      * @param rankPoints The rank points to add
      */
     public void setRankPoints(double rankPoints) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.rankPoints = rankPoints;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.rankPoints = rankPoints);
     }
 
     /**
@@ -417,9 +475,7 @@ public class PlayerData {
      * @param joinMessage The custom join message
      */
     public void setJoinMessage(String joinMessage) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.joinMessage = joinMessage;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.joinMessage = joinMessage);
     }
 
     /**
@@ -436,9 +492,7 @@ public class PlayerData {
      * @param leaveMessage The custom leave message
      */
     public void setLeaveMessage(String leaveMessage) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.leaveMessage = leaveMessage;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.leaveMessage = leaveMessage);
     }
 
     /**
@@ -470,9 +524,7 @@ public class PlayerData {
      * @param vote The vote to set
      */
     public void setVote(String vote) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            votes.put(vote, System.currentTimeMillis());
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> votes.put(vote, System.currentTimeMillis()));
     }
 
     /**
@@ -496,9 +548,7 @@ public class PlayerData {
      * @param coins The amount of coins to add
      */
     public void addCoins(double coins) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.coins += coins * coinMultiplier;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.coins += coins * coinMultiplier);
     }
 
     /**
@@ -506,9 +556,7 @@ public class PlayerData {
      * @param coins The amount of coins to add
      */
     public void addCoinsClean(double coins) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.coins += coins;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.coins += coins);
     }
 
     /**
@@ -605,11 +653,24 @@ public class PlayerData {
      * @param multiplier The multiplier to set
      */
     public static void setCoinMultiplier(double multiplier) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            coinMultiplier = multiplier;
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> coinMultiplier = multiplier);
     }
 
+    /**
+     * Get the active battlepoint multiplier
+     * @return The active multiplier
+     */
+    public static double getBattlepointMultiplier() {
+        return battlepointMultiplier;
+    }
+
+    /**
+     * Sets the battlepoint multiplier
+     * @param multiplier The multiplier to set
+     */
+    public static void setBattlepointMultiplier(double multiplier) {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> battlepointMultiplier = multiplier);
+    }
 
     /**
      * Check if the player has found a specified secret
@@ -637,14 +698,5 @@ public class PlayerData {
             if (!foundSecrets.contains(secretName))
                 foundSecrets.add(secretName);
         });
-    }
-
-    /**
-     * Remove a secret from the player's found secrets
-     * @param secretName The name of the secret without spaces, that will be removed.
-     */
-    public void removeFoundSecret(String secretName) {
-        while (foundSecrets.contains(secretName))
-            foundSecrets.remove(secretName);
     }
 }

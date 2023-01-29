@@ -2,9 +2,11 @@ package me.huntifi.castlesiege.events.death;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.Bounty;
+import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
@@ -36,7 +38,7 @@ import java.util.UUID;
  */
 public class DeathEvent implements Listener {
 
-    public static ArrayList<Player> cantSpawn = new ArrayList<>();
+    public static ArrayList<Player> onCooldown = new ArrayList<>();
 
     private static final HashMap<Player, Player> killerMap = new HashMap<>();
 
@@ -69,7 +71,7 @@ public class DeathEvent implements Listener {
             Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
 
         player.setWalkSpeed(0.2f);
-        Bukkit.getScheduler().runTaskLater(Main.plugin, () -> respawnAnimation(player), 10);
+        Bukkit.getScheduler().runTaskLater(Main.plugin, () -> respawnCounter(player), 10);
         if (ActiveData.getData(player.getUniqueId()).getSetting("woolmapTitleMessage").equals("true")) {
             PlayerConnect.sendTitlebarMessages(player);
         }
@@ -82,7 +84,7 @@ public class DeathEvent implements Listener {
      */
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        cantSpawn.add(event.getEntity());
+        onCooldown.add(event.getEntity());
         event.getEntity().eject();
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             respawn(event.getEntity());
@@ -107,15 +109,6 @@ public class DeathEvent implements Listener {
 
     private void respawn(Player p) {
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> p.spigot().respawn(), 10);
-    }
-
-
-    /**
-     * No longer auto-respawns the player instead it puts them in a static spectator mode, and it counts down
-     * @param p The player to respawn
-     */
-    private void respawnAnimation(Player p) {
-         respawnCounter(p);
     }
 
     /**
@@ -147,7 +140,7 @@ public class DeathEvent implements Listener {
             @Override
             public void run() {
                 p.sendTitle("", ChatColor.DARK_GREEN + "You can now spawn!", 0, 20, 15);
-                cantSpawn.remove(p);
+                onCooldown.remove(p);
             }
         }.runTaskLater(Main.plugin, 80);
     }
@@ -184,7 +177,6 @@ public class DeathEvent implements Listener {
     private void updateStats(PlayerDeathEvent e) {
         // Death
         Player target = e.getEntity();
-        UpdateStats.addDeaths(target.getUniqueId(), 1);
 
         // Kill
         Player killer = killerMap.getOrDefault(target, target.getKiller());
@@ -220,6 +212,13 @@ public class DeathEvent implements Listener {
             UpdateStats.addAssist(assist);
             assistMessage(assist, target);
         }
+
+        if (killer != null || assist != null) {
+            UpdateStats.addDeaths(target.getUniqueId(), 1, false);
+            Messenger.sendInfo("You gained "
+                    + PlayerData.bpDeathAmount * PlayerData.getBattlepointMultiplier()
+                    + " BattlePoint(s) for a death...", target);
+        }
     }
 
     /**
@@ -244,6 +243,10 @@ public class DeathEvent implements Listener {
                     + messages.getFirst()[0] + NameTag.color(target) + target.getName()
                     + ChatColor.RESET + messages.getFirst()[1]);
         }
+
+        Messenger.sendInfo("You gained "
+                + PlayerData.bpKillAmount * PlayerData.getBattlepointMultiplier()
+                + " BattlePoint(s) for a kill!", killer);
     }
 
     /**
@@ -255,6 +258,9 @@ public class DeathEvent implements Listener {
         Player assist = Bukkit.getPlayer(uuid);
         if (assist != null) {
             assist.sendMessage("You assisted in killing " + NameTag.color(target) + target.getName());
+            Messenger.sendInfo("You gained "
+                    + PlayerData.bpAssistAmount * PlayerData.getBattlepointMultiplier()
+                    + " for assisting in a kill", assist);
         }
     }
 
@@ -264,7 +270,7 @@ public class DeathEvent implements Listener {
      */
     @EventHandler
     public void onLeave (PlayerQuitEvent e) {
-        cantSpawn.remove(e.getPlayer());
+        onCooldown.remove(e.getPlayer());
     }
 
 }

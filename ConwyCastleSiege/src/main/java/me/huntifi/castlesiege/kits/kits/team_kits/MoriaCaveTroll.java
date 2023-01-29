@@ -46,7 +46,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
     public ArrayList<Player> grabbed = new ArrayList<>();
 
     public MoriaCaveTroll() {
-        super("Moria Cave Troll", 450, 16, "Moria", "The Orcs", 7500);
+        super("Moria Cave Troll", 450, 16, "Moria", "The Orcs", 7500, 10);
         super.canClimb = false;
         super.kbResistance = 1;
 
@@ -75,6 +75,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
 
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 2));
         super.potionEffects.add(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 999999, 0));
 
 
         // Death Messages
@@ -140,7 +141,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
                         for (Player all : Bukkit.getOnlinePlayers()) {
                             if (TeamController.getTeam(p.getUniqueId())
                                     != TeamController.getTeam(all.getUniqueId())
-                                    && all.getLocation().distance(p.getLocation()) <= 3.5) {
+                                    && all.getLocation().distance(p.getLocation()) <= 4.25) {
                                 grab(p, all);
                             }
                         }
@@ -160,10 +161,10 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
      */
     private void grab(Player troll, Player player) {
         if (troll.getCooldown(Material.DEAD_BRAIN_CORAL_FAN) == 0) {
-            troll.setCooldown(Material.DEAD_BRAIN_CORAL_FAN, 480);
+            troll.setCooldown(Material.DEAD_BRAIN_CORAL_FAN, 240);
             troll.addPassenger(player);
             if (!grabbed.contains(player)) { grabbed.add(player); }
-            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 0));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0));
             player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 150, 3));
         }
     }
@@ -177,7 +178,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
         troll.setCooldown(Material.DEAD_BUBBLE_CORAL_FAN, 120);
         troll.removePassenger(player);
         AssistKill.addDamager(player.getUniqueId(),troll.getUniqueId(), 100);
-        player.setVelocity(troll.getLocation().getDirection().multiply(1.8));
+        player.setVelocity(troll.getLocation().getDirection().multiply(1.3));
         DeathEvent.setKiller(player, troll);
 
         new BukkitRunnable() {

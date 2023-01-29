@@ -28,12 +28,14 @@ public class UpdateStats {
      * @param uuid The unique ID of the player
      * @param deaths The amount of deaths to add
      */
-    public static void addDeaths(UUID uuid, double deaths) {
+    public static void addDeaths(UUID uuid, double deaths, boolean punishPlayer) {
         if (uuid == null || ActiveData.getData(uuid) == null)
             return;
 
         ActiveData.getData(uuid).addDeaths(deaths);
         MVPStats.getStats(uuid).addDeaths(deaths);
+        ActiveData.getData(uuid).addBattlepoints(punishPlayer ? 0 : PlayerData.bpDeathAmount);
+        MVPStats.getStats(uuid).addBattlepoints(punishPlayer ? 0 : PlayerData.bpDeathAmount);
     }
 
     /**

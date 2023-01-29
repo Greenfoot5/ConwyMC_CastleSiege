@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.maps.MapController;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,13 +54,13 @@ public class LoadData {
             HashMap<String, String> settings = getSettings(uuid);
 
             // Collect data and release resources
-            PlayerData data = new PlayerData(unlockedAchievements, unlockedKits, foundSecrets, prMute.getSecond(), prStats.getSecond(), prRank.getSecond(), votes, settings);
+            PlayerData data = new PlayerData(unlockedAchievements, unlockedKits, foundSecrets, prMute.getSecond(),
+                    prStats.getSecond(), prRank.getSecond(), votes, settings, MapController.isMatch);
             prMute.getFirst().close();
             prStats.getFirst().close();
             prRank.getFirst().close();
 
             return data;
-
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

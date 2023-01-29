@@ -35,7 +35,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
     public ThrownPotion potion;
 
     public ThunderstoneElytrier() {
-        super("Elytrier", 210, 7, "Thunderstone", "Thunderstone Guard", 5000);
+        super("Elytrier", 210, 7, "Thunderstone", "Thunderstone Guard", 5000, 3);
         super.canCap = false;
         super.canSeeHealth = true;
         // Equipment Stuff
@@ -127,7 +127,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                         @Override
                         public void run() {
 
-                            item.getWorld().createExplosion(item.getLocation(), 2F, false, false, p);
+                            item.getWorld().createExplosion(item.getLocation(), 2.25F, false, false, p);
 
                         }
                     }.runTaskLater(Main.plugin, 90);

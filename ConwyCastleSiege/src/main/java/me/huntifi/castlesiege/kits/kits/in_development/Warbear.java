@@ -32,7 +32,7 @@ public class Warbear extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Warbear() {
-        super("Warbear", 400, 9, 99999999);
+        super("Warbear", 400, 9, 99999999, 1);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;

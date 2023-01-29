@@ -6,7 +6,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
@@ -19,6 +18,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -32,7 +33,7 @@ public class Executioner extends DonatorKit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Executioner() {
-		super("Executioner", 255, 9, 8500);
+		super("Executioner", 280, 18, 10000, 8);
 		super.canSeeHealth = true;
 
 		// Equipment Stuff
@@ -41,13 +42,13 @@ public class Executioner extends DonatorKit implements Listener {
                 
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-				ChatColor.GREEN + "Diamond Axe", null, null, 44);
+				ChatColor.GREEN + "Diamond Axe", null, null, 54);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
 						ChatColor.GREEN + "Diamond Axe",
 						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 46),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 56),
 				0);
                 
 		// Chestplate
@@ -75,6 +76,8 @@ public class Executioner extends DonatorKit implements Listener {
                 
 		super.equipment = es;
 
+		// Perm Potion Effect
+		super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
 
 		// Death Messages
 		super.deathMessage[0] = "You were decapitated by ";
@@ -100,7 +103,7 @@ public class Executioner extends DonatorKit implements Listener {
 				assert healthAttribute != null;
 
 				// Execute
-				if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.40) {
+				if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.3333) {
 					e.setCancelled(true);
 
 					Location loc = whoWasHit.getEyeLocation();
@@ -124,7 +127,7 @@ public class Executioner extends DonatorKit implements Listener {
 				assert healthAttribute != null;
 
 				// Execute
-				if (damageable.getHealth() < healthAttribute.getValue() * 0.40) {
+				if (damageable.getHealth() < healthAttribute.getValue() * 0.3333) {
 					e.setCancelled(true);
 
 					Location loc = damageable.getLocation();

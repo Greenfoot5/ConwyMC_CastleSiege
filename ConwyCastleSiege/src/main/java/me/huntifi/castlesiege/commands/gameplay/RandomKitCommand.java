@@ -60,6 +60,12 @@ public class RandomKitCommand implements CommandExecutor {
             if (kit == null || !kit.canSelect(player, false, true)) {
                 return;
             }
+            if (kit instanceof DonatorKit) {
+                DonatorKit dkit = (DonatorKit) kit;
+                if (!dkit.hasEnoughBP(uuid) && !DonatorKit.isFriday()) {
+                    return;
+                }
+            }
             kits.add(kit);
         });
 

@@ -43,7 +43,7 @@ public class Cavalry extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Cavalry() {
-        super("Cavalry", 270, 9, 10000);
+        super("Cavalry", 270, 9, 10000, 10);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -84,11 +84,11 @@ public class Cavalry extends DonatorKit implements Listener {
         // Horse
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.WHEAT),
                 ChatColor.GREEN + "Spawn Horse", null, null);
-        HorseHandler.add(name, 600, 150, 1, 0.2425, 0.8,
+        HorseHandler.add(name, 600, 400, 1, 0.2425, 0.8,
                 Material.IRON_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
                         new PotionEffect(PotionEffectType.REGENERATION, 999999, 0),
-                        new PotionEffect(PotionEffectType.SPEED, 999999, 0)
+                        new PotionEffect(PotionEffectType.SPEED, 999999, 1)
                 )
         );
 
@@ -161,7 +161,7 @@ public class Cavalry extends DonatorKit implements Listener {
 
                         if (hasEnemyInRange) {
                             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY, 1, (float) 0.8);
-                            p.setCooldown(Material.ANVIL, 360);
+                            p.setCooldown(Material.ANVIL, 240);
                         } else {
                             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                     ChatColor.DARK_RED + "No enemy players are close enough for you to perform this ability!"));

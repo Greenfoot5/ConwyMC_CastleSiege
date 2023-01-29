@@ -35,6 +35,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -52,7 +53,7 @@ public class Medic extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Medic() {
-        super("Medic", 210, 11, 7500);
+        super("Medic", 245, 15, 7500, 5);
         super.canSeeHealth = true;
 
         // Equipment Stuff
@@ -100,9 +101,12 @@ public class Medic extends DonatorKit implements Listener {
                 Arrays.asList(ChatColor.AQUA + "Place the cake down, then",
                         ChatColor.AQUA + "teammates can heal from it."), null);
 
+        // Self Potion
+        es.hotbar[3] = healthPotion();
+
         // Ladders
-        es.hotbar[3] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 3);
+        es.hotbar[4] = new ItemStack(Material.LADDER, 4);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 4);
 
         super.equipment = es;
 
@@ -111,6 +115,19 @@ public class Medic extends DonatorKit implements Listener {
 
         super.killMessage[0] = " dissected ";
         super.deathMessage[0] = "You had your insides examined by ";
+    }
+
+    public ItemStack healthPotion() {
+        ItemStack itemStack = new ItemStack(Material.POTION);
+        PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
+        assert potionMeta != null;
+
+        potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 1, 6), true);
+        potionMeta.setColor(Color.RED);
+        potionMeta.setDisplayName(ChatColor.RED + "Instant Healing I");
+        itemStack.setItemMeta(potionMeta);
+
+        return itemStack;
     }
 
     /**
@@ -203,7 +220,7 @@ public class Medic extends DonatorKit implements Listener {
 
                 // Eat cake
                 Bukkit.getScheduler().runTask(Main.plugin, () -> {
-                    eater.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
+                    eater.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 11));
                     Cake cakeData = (Cake) cake.getBlockData();
                     if (cakeData.getBites() == cakeData.getMaximumBites()) {
                         cake.breakNaturally();
@@ -260,8 +277,7 @@ public class Medic extends DonatorKit implements Listener {
             PlayerInventory i = p.getInventory();
             Entity q = e.getRightClicked();
             if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&                            // Player is medic
-                    (i.getItemInMainHand().getType() == Material.PAPER ||                           // Uses bandage
-                            i.getItemInOffHand().getType() == Material.PAPER) &&                    // Uses bandage
+                    (i.getItemInMainHand().getType() == Material.PAPER) &&                    // Uses bandage
                     q instanceof Player &&                                                          // On player
                     TeamController.getTeam(uuid) == TeamController.getTeam(q.getUniqueId()) &&      // Same team
                     ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth &&  // Below max hp
@@ -273,7 +289,7 @@ public class Medic extends DonatorKit implements Listener {
                 Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(r), 39);
 
                 // Heal
-                addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 7));
+                addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
                 addPotionEffect(p, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
                 r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                         NameTag.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));

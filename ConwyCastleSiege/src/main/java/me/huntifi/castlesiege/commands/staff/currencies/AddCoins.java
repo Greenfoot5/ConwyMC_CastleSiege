@@ -1,13 +1,14 @@
-package me.huntifi.castlesiege.commands.staff.coins;
+package me.huntifi.castlesiege.commands.staff.currencies;
 
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 /**
  * Adds to a player's coins
  */
-public class AddCoins extends ChangeCoins {
+public class AddCoins extends ChangePermanentCurrency {
 
     @Override
     protected String getCommandUsage() {
@@ -20,12 +21,17 @@ public class AddCoins extends ChangeCoins {
     }
 
     @Override
-    protected void changeCoinsOnline(PlayerData data, double amount) {
+    protected void changeCurrencyOnline(PlayerData data, double amount) {
         data.addCoinsClean(amount);
     }
 
     @Override
     protected void sendConfirmMessage(CommandSender sender, String playerName, double amount) {
         Messenger.sendInfo(String.format("%.0f coins have been given to %s", amount, playerName), sender);
+    }
+
+    @Override
+    protected void sendTargetMessage(Player target, double amount) {
+        Messenger.sendInfo(String.format("You have been given %.0f coins by staff", amount), target);
     }
 }

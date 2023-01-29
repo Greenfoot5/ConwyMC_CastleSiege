@@ -35,7 +35,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
      * Set the equipment and attributes of this kit
      */
     public Vanguard() {
-        super("Vanguard", 260, 11, 8500);
+        super("Vanguard", 260, 11, 10000, 10);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -45,14 +45,14 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Reinforced Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "Right-click to activate charge ability."),
-                null, 47);
+                null, 57);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                         ChatColor.GREEN + "Reinforced Iron Sword",
                         Arrays.asList(ChatColor.AQUA + "Right-click to activate charge ability.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 49),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 59),
                 0);
 
         // Chestplate
@@ -83,6 +83,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
 
         //passive effects
         super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 0));
     }
 
@@ -107,18 +108,18 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
                     if (cooldown == 0) {
-                        p.setCooldown(Material.DIAMOND_SWORD, 220);
+                        p.setCooldown(Material.DIAMOND_SWORD, 320);
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.AQUA + "You are charging forward"));
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 70, 3)));
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 70, 1)));
+                        p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 160, 4)));
+                        p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 160, 1)));
 
                         //Diminishing strength effect
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 70, 5)));
+                        p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 5)));
 
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST , 1, 1 );
                         vanguards.add(uuid);
-                        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> vanguards.remove(uuid), 100);
+                        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> vanguards.remove(uuid), 165);
                     } else {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't charge forward yet."));
@@ -143,9 +144,9 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
 
             if (vanguards.contains(uuid)) {
                 for (PotionEffect effect : player.getActivePotionEffects()) {
-                    if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 3)
+                    if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 4)
                             || (effect.getType().getName().equals(PotionEffectType.JUMP.getName()) && effect.getAmplifier() == 1)
-                            || (effect.getType().getName().equals(PotionEffectType.INCREASE_DAMAGE.getName()) && effect.getAmplifier() == 3)) {
+                            || (effect.getType().getName().equals(PotionEffectType.INCREASE_DAMAGE.getName()) && effect.getAmplifier() == 5)) {
                         player.removePotionEffect(effect.getType());
                     }
                 }

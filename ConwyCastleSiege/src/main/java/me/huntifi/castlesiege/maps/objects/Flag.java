@@ -3,7 +3,10 @@ package me.huntifi.castlesiege.maps.objects;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Frame;
+import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Gamemode;
@@ -40,9 +43,9 @@ public class Flag {
     private final int progressAmount;
     private int progress;
     // Progresses needed per animationIndex
-    private final static int progressMultiplier = 100;
+    private final static int progressMultiplier = 130;
     // Multiplier for multiple people
-    public final static double capMultiplier = 1.5;
+    public final static double capMultiplier = 2.1;
 
     // Capturing data
     private final AtomicInteger isRunning;
@@ -283,6 +286,17 @@ public class Flag {
 
             notifyPlayers(true);
 
+            for (UUID uuid : players) {
+                Player player = Bukkit.getPlayer(uuid);
+                if (player != null && TeamController.getTeam(uuid).name.equals(currentOwners)) {
+                    //You get +1 battlepoint for taking control of a flag
+                    addBattlepoints(uuid, PlayerData.bpTakeFlagControlAmount);
+                    Messenger.sendInfo("You gained "
+                            + PlayerData.bpTakeFlagControlAmount * PlayerData.getBattlepointMultiplier()
+                            + " BattlePoints for taking control of a flag!", player);
+                }
+            }
+
             animate(true, currentOwners);
 
         // Players have increased the capture
@@ -305,6 +319,11 @@ public class Flag {
                         // Make sure they're on the capping team
                         if (TeamController.getTeam(uuid).name.equals(currentOwners)) {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: " + name));
+                            //You get +1 battlepoint for fully capturing a flag
+                            addBattlepoints(uuid, PlayerData.bpFlagFullCapAmount);
+                            Messenger.sendInfo("You gained " +
+                                    PlayerData.bpFlagFullCapAmount * PlayerData.getBattlepointMultiplier()
+                                    + " BattlePoints for fully capturing a flag!", player);
                         } else {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies have fully captured the flag!"));
                         }
@@ -322,6 +341,16 @@ public class Flag {
 
             animate(false, currentOwners);
         }
+    }
+
+    /**
+     * Add battlepoints to a player's data
+     * @param uuid The unique ID of the player
+     * @param battlepoints The amount of battlepoints to add
+     */
+    private void addBattlepoints(UUID uuid, double battlepoints) {
+        ActiveData.getData(uuid).addBattlepoints(battlepoints);
+        MVPStats.getStats(uuid).addBattlepoints(battlepoints);
     }
 
     /**

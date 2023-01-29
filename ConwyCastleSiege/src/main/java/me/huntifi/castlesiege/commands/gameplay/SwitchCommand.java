@@ -108,13 +108,13 @@ public class SwitchCommand implements CommandExecutor {
 			}
 
 			// Spawn the player in their new lobby
-			if (InCombat.isPlayerInLobby(p.getUniqueId()))
+			if (InCombat.isPlayerInLobby(p.getUniqueId())) {
 				spawnPlayer(p, 0);
-			else if (p.hasPermission("castlesiege.baron"))
+		    } else if (p.hasPermission("castlesiege.baron")) {
 				spawnPlayer(p, 1);
-			else
+			} else {
 				spawnPlayer(p, 2);
-
+			}
 			return;
 		}
 
@@ -149,7 +149,7 @@ public class SwitchCommand implements CommandExecutor {
 			// Regular switch on the battlefield during a game
 			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name +
 					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)", p);
-			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
+			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1, true);
 
 		} else if (deaths == 0 || !MapController.isOngoing()){
 			// Regular switch outside the battlefield or not during a game

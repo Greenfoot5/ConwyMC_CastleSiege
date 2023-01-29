@@ -154,7 +154,7 @@ public class SecretItems implements Listener {
 
          swordMeta.setDisplayName(ChatColor.DARK_PURPLE + "Herugrim");
 
-         swordMeta.addEnchant(Enchantment.DAMAGE_ALL, 50, true);
+         swordMeta.addEnchant(Enchantment.DAMAGE_ALL, 10, true);
 
          swordMeta.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
 

@@ -19,6 +19,22 @@ public class Tips extends BukkitRunnable {
     private static final String[] tips = new String[] {
             "Don't forget to vote to gain access to special boosts and classes!",
             "Stuck somewhere, or have no way out? Use /sui",
+            "Want to help the server? Record or stream the play sessions and upload them!",
+            "Want to help the server? Help us advertise!",
+            "Use /settings to have options to change certain mechanics.",
+            "Premium kits are now called Elite kits, and are much stronger than before!",
+            "Elite kits need to be unlocked with coins first before you can spend your battlepoints on them. ",
+            "Rogue's can mark their enemies by hitting them with track arrows. ",
+            "Crossbowmen can now toggle between Mobility & Sniper modes. ",
+            "/Settings opens a menu that allows you to change multiple settings ",
+            "Rangers can backstab enemies, so watch your back! ",
+            "Battlepoints can be earned from kills, assists, killstreaks and deaths! ",
+            "Fully capturing a flag will award you 1 battlepoint! ",
+            "Engineers can repair broken stone and wood structures! ",
+            "Want to apply for staff? Go to discord ---> #join-us ",
+            "Does a kit look too strong? Request & discuss a nerf on our discord server! ",
+            "Is the server empty or are you al by yourself? Tag the @fighter tag on our discord server! ",
+            "You have a chance to dodge maceman' stuns by shifting. ",
             "Use /maps to see the current rotation",
             "Hit by something that seems invisible? Check your surroundings for Crossbowmen!",
             "Engineers are a useful class that can speed up catapult reloads, repair gates, place traps and use ballista, make sure you've got one on your team!",
@@ -37,10 +53,9 @@ public class Tips extends BukkitRunnable {
             "Rams no longer require 4 people, instead the damage inflicted to the gate is increased with each player on the ram.",
             "Got lag? Get optifine!",
             "Donators can set an unique leave and join message with /joinmsg and /leavemsg!",
-            "Donators can switch whenever they want, no matter the amount of players!",
+            "Donators can switch teams whenever they want, no matter the amount of players!",
             "Looking for a change in pace? Try /random!",
-            "Want to try a kit before buying? Play on Fridays for free!",
-            "Want to help keep the server running? Donate via /webshop! There's some awesome benefits!"
+            "Want to try a kit before buying? Play on Fridays for free!"
     };
 
     // Sends a random tip to all players

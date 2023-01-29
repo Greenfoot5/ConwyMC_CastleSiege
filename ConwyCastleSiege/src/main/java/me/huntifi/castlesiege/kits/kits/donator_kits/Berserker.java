@@ -43,7 +43,7 @@ public class Berserker extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Berserker() {
-        super("Berserker", 200, 12, 10000);
+        super("Berserker", 170, 16, 10000, 7);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -51,13 +51,13 @@ public class Berserker extends DonatorKit implements Listener {
 
         // Weapon
         regularSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword", null, null, 43);
+                ChatColor.GREEN + "Iron Sword", null, null, 53);
         es.hotbar[0] = regularSword;
         // Voted Weapon
         regularSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 45);
+                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 55);
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
         // Ladders
@@ -71,13 +71,13 @@ public class Berserker extends DonatorKit implements Listener {
         // Berserk Weapon
         berserkSword = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Berserker Sword", null,
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 85.5);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 105.5);
         // Voted Berserk Weapon
         berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Berserker Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
-                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 87.5);
+                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 107.5);
 
         super.equipment = es;
 

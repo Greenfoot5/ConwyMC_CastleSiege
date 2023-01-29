@@ -25,10 +25,8 @@ import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
 import me.huntifi.castlesiege.commands.staff.*;
-import me.huntifi.castlesiege.commands.staff.coins.AddCoins;
-import me.huntifi.castlesiege.commands.staff.coins.SetCoinMultiplier;
-import me.huntifi.castlesiege.commands.staff.coins.SetCoins;
-import me.huntifi.castlesiege.commands.staff.coins.TakeCoins;
+import me.huntifi.castlesiege.commands.staff.currencies.*;
+import me.huntifi.castlesiege.commands.staff.currencies.SetBattlepoints;
 import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
@@ -64,6 +62,7 @@ import me.huntifi.castlesiege.kits.kits.donator_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
+import me.huntifi.castlesiege.kits.kits.donator_kits.Rogue;
 import me.huntifi.castlesiege.kits.kits.in_development.Warbear;
 import me.huntifi.castlesiege.kits.kits.team_kits.*;
 import me.huntifi.castlesiege.kits.kits.voter_kits.*;
@@ -220,6 +219,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new MoriaCaveTroll(), plugin);
                 getServer().getPluginManager().registerEvents(new MoriaGuardian(), plugin);
                 getServer().getPluginManager().registerEvents(new MoriaOrc(), plugin);
+                getServer().getPluginManager().registerEvents(new Rogue(), plugin);
                 getServer().getPluginManager().registerEvents(new Ranger(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
                 getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
@@ -249,6 +249,8 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
 
                 // Info
+                Objects.requireNonNull(getCommand("Battlepoints")).setExecutor(new BattlepointsCommand());
+                Objects.requireNonNull(getCommand("BattlepointMultiplier")).setExecutor(new BattlepointMultiplier());
                 Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
                 Objects.requireNonNull(getCommand("Coins")).setExecutor(new CoinsCommand());
                 Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
@@ -275,11 +277,15 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatch());
                 Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatch());
 
-                // Staff - Coins
+                // Staff - Currencies
                 Objects.requireNonNull(getCommand("AddCoins")).setExecutor(new AddCoins());
                 Objects.requireNonNull(getCommand("SetCoins")).setExecutor(new SetCoins());
                 Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
                 Objects.requireNonNull(getCommand("TakeCoins")).setExecutor(new TakeCoins());
+                Objects.requireNonNull(getCommand("AddBattlepoints")).setExecutor(new AddBattlepoints());
+                Objects.requireNonNull(getCommand("SetBattlepoints")).setExecutor(new SetBattlepoints());
+                Objects.requireNonNull(getCommand("SetBattlepointMultiplier")).setExecutor(new SetBattlepointMultiplier());
+                Objects.requireNonNull(getCommand("TakeBattlepoints")).setExecutor(new TakeBattlepoints());
 
                 // Staff - Punishments
                 Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());
@@ -344,6 +350,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("MoriaAxeThrower")).setExecutor(new MoriaAxeThrower());
                 Objects.requireNonNull(getCommand("Moriaorc")).setExecutor(new MoriaOrc());
                 Objects.requireNonNull(getCommand("Ranger")).setExecutor(new Ranger());
+                Objects.requireNonNull(getCommand("Rogue")).setExecutor(new Rogue());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
                 Objects.requireNonNull(getCommand("Shieldman")).setExecutor(new Shieldman());
                 Objects.requireNonNull(getCommand("Skirmisher")).setExecutor(new Skirmisher());
@@ -745,26 +752,28 @@ public class Main extends JavaPlugin implements Listener {
         gui.addCoinShopItem("Viking", Material.IRON_CHESTPLATE, 5);
         gui.addCoinShopItem("Medic", Material.CAKE, 6);
         gui.addCoinShopItem("Ranger", Material.BOW, 7);
-        gui.addCoinShopItem("Cavalry", Material.IRON_HORSE_ARMOR, 8);
-        gui.addCoinShopItem("Halberdier", Material.NETHERITE_CHESTPLATE, 9);
-        gui.addCoinShopItem("Engineer", Material.COBWEB, 10);
-        gui.addCoinShopItem("Crossbowman", Material.CROSSBOW, 11);
-        gui.addCoinShopItem("Warhound", Material.GHAST_TEAR, 12);
-        gui.addCoinShopItem("Elytrier", Material.ELYTRA, 26);
-        gui.addCoinShopItem("Fallen", Material.WITHER_SKELETON_SKULL, 27);
-        gui.addCoinShopItem("MoriaOrc", Material.BOW, 28);
-        gui.addCoinShopItem("DwarvenAxeThrower", Material.STONE_AXE, 29);
-        gui.addCoinShopItem("DwarvenGuardian", Material.SHIELD, 30);
-        gui.addCoinShopItem("MoriaCaveTroll", Material.IRON_INGOT, 31);
-        gui.addCoinShopItem("MoriaBonecrusher", Material.BONE, 32);
-        gui.addCoinShopItem("DwarvenWindlancer", Material.STICK, 33);
-        gui.addCoinShopItem("UrukBerserker", Material.BEETROOT_SOUP, 34);
-        gui.addCoinShopItem("Lancer", Material.STICK, 35);
-        gui.addCoinShopItem("RangedCavalry", Material.BOW, 36);
-        //gui.addCoinShopItem("Abyssal", Material.GREEN_DYE, 36);
-        //gui.addCoinShopItem("Hellsteed", Material.MAGMA_BLOCK, 37);
-        gui.addCoinShopItem("RoyalKnight", Material.DIAMOND_HORSE_ARMOR, 37);
-        gui.addCoinShopItem("Arbalester", Material.CROSSBOW, 38);
+        gui.addCoinShopItem("Rogue", Material.NETHERITE_BOOTS, 8);
+        gui.addCoinShopItem("Cavalry", Material.IRON_HORSE_ARMOR, 9);
+        gui.addCoinShopItem("Halberdier", Material.NETHERITE_CHESTPLATE, 10);
+        gui.addCoinShopItem("Engineer", Material.COBWEB, 11);
+        gui.addCoinShopItem("Crossbowman", Material.CROSSBOW, 12);
+        gui.addCoinShopItem("Warhound", Material.GHAST_TEAR, 13);
+        gui.addCoinShopItem("Elytrier", Material.ELYTRA, 27);
+        gui.addCoinShopItem("Fallen", Material.WITHER_SKELETON_SKULL, 28);
+        gui.addCoinShopItem("MoriaOrc", Material.BOW, 29);
+        gui.addCoinShopItem("DwarvenAxeThrower", Material.STONE_AXE, 30);
+        gui.addCoinShopItem("DwarvenGuardian", Material.SHIELD, 31);
+        gui.addCoinShopItem("MoriaCaveTroll", Material.IRON_INGOT, 32);
+        gui.addCoinShopItem("MoriaBonecrusher", Material.BONE, 33);
+        gui.addCoinShopItem("DwarvenWindlancer", Material.STICK, 34);
+        gui.addCoinShopItem("UrukBerserker", Material.BEETROOT_SOUP, 35);
+        gui.addCoinShopItem("Lancer", Material.STICK, 36);
+        gui.addCoinShopItem("RangedCavalry", Material.BOW, 37);
+        gui.addCoinShopItem("Abyssal", Material.GREEN_DYE, 38);
+        gui.addCoinShopItem("Hellsteed", Material.MAGMA_BLOCK, 39);
+        gui.addCoinShopItem("RoyalKnight", Material.DIAMOND_HORSE_ARMOR, 40);
+        gui.addCoinShopItem("Arbalester", Material.CROSSBOW, 41);
+
         gui.addItem("§4§lGo Back", Material.BARRIER, Collections.singletonList("§cReturn to the previous interface."), 49, "kit shop", true);
 
         GuiController.add("coin shop", gui);
