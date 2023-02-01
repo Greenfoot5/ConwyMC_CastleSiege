@@ -5,8 +5,6 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Gamemode;
@@ -38,6 +36,7 @@ public class Flag {
     public ProtectedRegion region;
 
     // Game Data
+    private boolean active;
     private String currentOwners;
     private final int maxCap;
     private final int progressAmount;
@@ -70,12 +69,14 @@ public class Flag {
     /**
      * Creates a new flag
      * @param name the name of the flag
+     * @param secret whether the flag is a secret flag
      * @param startingTeam the team that controls the flag at the beginning of the game
      * @param maxCapValue the maximum animation amount
      * @param progressAmount How much progress is made by a single person
      */
-    public Flag(String name, String startingTeam, int maxCapValue, int progressAmount) {
+    public Flag(String name, boolean secret, String startingTeam, int maxCapValue, int progressAmount) {
         this.name = name;
+        this.active = !secret;
         this.currentOwners = startingTeam;
         this.startingTeam = startingTeam;
         this.maxCap = maxCapValue;
@@ -89,12 +90,14 @@ public class Flag {
     /**
      * Creates a new flag with a different start_amount
      * @param name the name of the flag
+     * @param secret whether the flag is a secret flag
      * @param startingTeam the team that controls the flag at the beginning of the game
      * @param maxCapValue the maximum animation amount
      * @param progressAmount How much progress is made by a single person
      */
-    public Flag(String name, String startingTeam, int maxCapValue, int progressAmount, int startAmount) {
+    public Flag(String name, boolean secret, String startingTeam, int maxCapValue, int progressAmount, int startAmount) {
         this.name = name;
+        this.active = !secret;
         this.currentOwners = startingTeam;
         this.startingTeam = startingTeam;
         this.maxCap = maxCapValue;
@@ -128,6 +131,7 @@ public class Flag {
      */
     public void playerEnter(Player player) {
         players.add(player.getUniqueId());
+        activate();
         capturing();
     }
 
@@ -290,7 +294,7 @@ public class Flag {
                 Player player = Bukkit.getPlayer(uuid);
                 if (player != null && TeamController.getTeam(uuid).name.equals(currentOwners)) {
                     //You get +1 battlepoint for taking control of a flag
-                    addBattlepoints(uuid, PlayerData.bpTakeFlagControlAmount);
+                    UpdateStats.addBattlepoints(uuid, PlayerData.bpTakeFlagControlAmount);
                     Messenger.sendInfo("You gained "
                             + PlayerData.bpTakeFlagControlAmount * PlayerData.getBattlepointMultiplier()
                             + " BattlePoints for taking control of a flag!", player);
@@ -320,7 +324,7 @@ public class Flag {
                         if (TeamController.getTeam(uuid).name.equals(currentOwners)) {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: " + name));
                             //You get +1 battlepoint for fully capturing a flag
-                            addBattlepoints(uuid, PlayerData.bpFlagFullCapAmount);
+                            UpdateStats.addBattlepoints(uuid, PlayerData.bpFlagFullCapAmount);
                             Messenger.sendInfo("You gained " +
                                     PlayerData.bpFlagFullCapAmount * PlayerData.getBattlepointMultiplier()
                                     + " BattlePoints for fully capturing a flag!", player);
@@ -341,16 +345,6 @@ public class Flag {
 
             animate(false, currentOwners);
         }
-    }
-
-    /**
-     * Add battlepoints to a player's data
-     * @param uuid The unique ID of the player
-     * @param battlepoints The amount of battlepoints to add
-     */
-    private void addBattlepoints(UUID uuid, double battlepoints) {
-        ActiveData.getData(uuid).addBattlepoints(battlepoints);
-        MVPStats.getStats(uuid).addBattlepoints(battlepoints);
     }
 
     /**
@@ -543,6 +537,24 @@ public class Flag {
                 }
             }
         }.runTask(Main.plugin);
+    }
+
+    /**
+     * Activate this flag
+     */
+    public void activate() {
+        if (!active) {
+            active = true;
+            createHologram();
+        }
+    }
+
+    /**
+     * Whether this flag is active
+     * @return Whether the flag is active
+     */
+    public boolean isActive() {
+        return this.active;
     }
 
     /**

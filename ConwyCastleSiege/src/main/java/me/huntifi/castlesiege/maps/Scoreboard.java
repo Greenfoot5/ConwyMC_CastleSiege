@@ -146,9 +146,11 @@ public class Scoreboard implements Runnable {
 			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {
 				// Display the flag scoreboard
 				for (Flag flag : MapController.getCurrentMap().flags) {
-					Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
-					Scoreboard.replaceScore(objective, flag.scoreboard,
-							(owners == null ? ChatColor.GRAY : owners.primaryChatColor) + flag.name);
+					if (flag.isActive()) {
+						Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
+						Scoreboard.replaceScore(objective, flag.scoreboard,
+								(owners == null ? ChatColor.GRAY : owners.primaryChatColor) + flag.name);
+					}
 				}
 
 			} else if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("true")) {

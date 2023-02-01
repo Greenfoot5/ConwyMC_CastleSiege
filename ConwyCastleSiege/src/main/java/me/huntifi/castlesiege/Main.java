@@ -848,12 +848,14 @@ public class Main extends JavaPlugin implements Listener {
             Flag flag;
             if (flagConfig.contains(flagRoute.add("start_amount"))) {
                 flag = new Flag(name,
+                        flagConfig.getBoolean(flagRoute.add("secret"), false),
                         flagConfig.getString(flagRoute.add("start_owners")),
                         flagConfig.getInt(flagRoute.add("max_cap")),
                         flagConfig.getInt(flagRoute.add("progress_amount")),
                         flagConfig.getInt(flagRoute.add("start_amount")));
             } else {
                 flag = new Flag(name,
+                        flagConfig.getBoolean(flagRoute.add("secret"), false),
                         flagConfig.getString(flagRoute.add("start_owners")),
                         flagConfig.getInt(flagRoute.add("max_cap")),
                         flagConfig.getInt(flagRoute.add("progress_amount")));
