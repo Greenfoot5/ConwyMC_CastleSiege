@@ -73,27 +73,7 @@ public class Flag {
      * @param startingTeam the team that controls the flag at the beginning of the game
      * @param maxCapValue the maximum animation amount
      * @param progressAmount How much progress is made by a single person
-     */
-    public Flag(String name, boolean secret, String startingTeam, int maxCapValue, int progressAmount) {
-        this.name = name;
-        this.active = !secret;
-        this.currentOwners = startingTeam;
-        this.startingTeam = startingTeam;
-        this.maxCap = maxCapValue;
-        animationIndex = maxCapValue;
-        this.progressAmount = progressAmount;
-        this.players = new ArrayList<>();
-        progress = progressMultiplier * maxCapValue;
-        isRunning = new AtomicInteger(0);
-    }
-
-    /**
-     * Creates a new flag with a different start_amount
-     * @param name the name of the flag
-     * @param secret whether the flag is a secret flag
-     * @param startingTeam the team that controls the flag at the beginning of the game
-     * @param maxCapValue the maximum animation amount
-     * @param progressAmount How much progress is made by a single person
+     * @param startAmount the starting animation amount
      */
     public Flag(String name, boolean secret, String startingTeam, int maxCapValue, int progressAmount, int startAmount) {
         this.name = name;

@@ -844,22 +844,14 @@ public class Main extends JavaPlugin implements Listener {
         for (int i = 0; i < flagPaths.length; i++) {
             // Create the flag
             Route flagRoute = mapRoute.add(flagPaths[i]);
-            String name = flagConfig.getString(flagRoute.add("name"));
-            Flag flag;
-            if (flagConfig.contains(flagRoute.add("start_amount"))) {
-                flag = new Flag(name,
-                        flagConfig.getBoolean(flagRoute.add("secret"), false),
-                        flagConfig.getString(flagRoute.add("start_owners")),
-                        flagConfig.getInt(flagRoute.add("max_cap")),
-                        flagConfig.getInt(flagRoute.add("progress_amount")),
-                        flagConfig.getInt(flagRoute.add("start_amount")));
-            } else {
-                flag = new Flag(name,
-                        flagConfig.getBoolean(flagRoute.add("secret"), false),
-                        flagConfig.getString(flagRoute.add("start_owners")),
-                        flagConfig.getInt(flagRoute.add("max_cap")),
-                        flagConfig.getInt(flagRoute.add("progress_amount")));
-            }
+            Flag flag = new Flag(
+                    flagConfig.getString(flagRoute.add("name")),
+                    flagConfig.getBoolean(flagRoute.add("secret"), false),
+                    flagConfig.getString(flagRoute.add("start_owners")),
+                    flagConfig.getInt(flagRoute.add("max_cap")),
+                    flagConfig.getInt(flagRoute.add("progress_amount")),
+                    flagConfig.getInt(flagRoute.add("start_amount"), flagConfig.getInt(flagRoute.add("max_cap")))
+            );
 
             // Set the spawn point
             flag.spawnPoint = getLocation(flagRoute.add("spawn_point"), map.worldName, flagConfig);
