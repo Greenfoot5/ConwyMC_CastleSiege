@@ -844,13 +844,14 @@ public class Main extends JavaPlugin implements Listener {
         for (int i = 0; i < flagPaths.length; i++) {
             // Create the flag
             Route flagRoute = mapRoute.add(flagPaths[i]);
+            int maxCap = flagConfig.getInt(flagRoute.add("max_cap"));
             Flag flag = new Flag(
                     flagConfig.getString(flagRoute.add("name")),
                     flagConfig.getBoolean(flagRoute.add("secret"), false),
                     flagConfig.getString(flagRoute.add("start_owners")),
-                    flagConfig.getInt(flagRoute.add("max_cap")),
+                    maxCap,
                     flagConfig.getInt(flagRoute.add("progress_amount")),
-                    flagConfig.getInt(flagRoute.add("start_amount"), flagConfig.getInt(flagRoute.add("max_cap")))
+                    flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
             );
 
             // Set the spawn point
