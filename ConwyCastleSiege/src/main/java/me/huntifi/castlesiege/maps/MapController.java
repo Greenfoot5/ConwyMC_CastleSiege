@@ -138,7 +138,7 @@ public class MapController {
 			case Charge:
 				// Check if the defenders have won
 				for (Flag flag : getCurrentMap().flags) {
-					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].name)) {
+					if (flag.isActive() && Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].name)) {
 						winners = getCurrentMap().teams[0].name;
 					}
 				}
@@ -150,7 +150,9 @@ public class MapController {
 				// Get a count of who owns which flag
 				java.util.Map<String, Integer> flagCounts = new HashMap<>();
 				for (Flag flag : getCurrentMap().flags) {
-					flagCounts.merge(flag.getCurrentOwners(), 1, Integer::sum);
+					if (flag.isActive()) {
+						flagCounts.merge(flag.getCurrentOwners(), 1, Integer::sum);
+					}
 				}
 				// Get the team with the largest
 				winners = (String) flagCounts.keySet().toArray()[0];
@@ -370,7 +372,8 @@ public class MapController {
 								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName)))))
 								.addRegion(flag.region);
 
-						flag.createHologram();
+						if (flag.isActive())
+							flag.createHologram();
 					}
 				}
 
