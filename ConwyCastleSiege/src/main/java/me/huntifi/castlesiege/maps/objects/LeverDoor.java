@@ -13,6 +13,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -30,12 +31,13 @@ public class LeverDoor extends Door {
      * @param centre  The centre of the door (point for checking distance and playing the sound from)
      * @param schematics  The names of the two schematics
      * @param sounds  The sounds to play when closing/opening the door
-     * @param levelPosition The position of the lever
+     * @param timer How long the door stays open before automatically closing in ticks
+     * @param leverPosition The position of the lever
      */
     public LeverDoor(String flagName, Location centre, Tuple<String, String> schematics, Tuple<Sound, Sound> sounds,
-                     int timer, Location levelPosition) {
+                     int timer, Location leverPosition) {
         super(flagName, centre, schematics, sounds, timer);
-        this.leverPosition = levelPosition;
+        this.leverPosition = leverPosition;
     }
 
     /**
@@ -44,7 +46,8 @@ public class LeverDoor extends Door {
      */
     @EventHandler
     public void onSwitch(PlayerInteractEvent event) {
-        if (event.getClickedBlock() == null || event.getClickedBlock().getType() != Material.LEVER) {
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getClickedBlock() == null
+                || event.getClickedBlock().getType() != Material.LEVER) {
             return;
         }
 

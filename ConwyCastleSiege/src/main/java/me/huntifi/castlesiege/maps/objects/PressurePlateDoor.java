@@ -28,7 +28,7 @@ public class PressurePlateDoor extends Door {
      * @param centre   The centre of the door (point for checking distance and playing the sound from)
      * @param schematics   The names of the two schematics
      * @param sounds   The sounds to play when the door is closed/opened
-     * @param timer   How long the door stays open before automatically closing
+     * @param timer   How long the door stays open before automatically closing in ticks
      */
     public PressurePlateDoor(String flagName, Location centre, Tuple<String, String> schematics, Tuple<Sound, Sound> sounds, int timer) {
         super(flagName, centre, schematics, sounds, timer);
