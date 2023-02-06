@@ -967,6 +967,7 @@ public class Main extends JavaPlugin implements Listener {
                     doorConfig.getString(openSchematicRoute, null));
             // Split up the variations for lever and pressure plate doors
             Tuple<Sound, Sound> sounds;
+            int timer;
             Door door;
             switch (doorConfig.getString(doorRoute.add("trigger"), "plate").toLowerCase()) {
                 case "switch":
@@ -974,8 +975,22 @@ public class Main extends JavaPlugin implements Listener {
                     sounds = new Tuple<>(Sound.valueOf(doorConfig.getString(doorRoute.add("closed_sound"), "ENTITY_ZOMBIE_ATTACK_IRON_DOOR")),
                             Sound.valueOf(doorConfig.getString(doorRoute.add("open_sound"), "ENTITY_ZOMBIE_ATTACK_IRON_DOOR")));
                     Location leverPos = getLocation(doorRoute.add("lever_position"), map.worldName, doorConfig);
-                    int timer = (int) (doorConfig.getFloat(doorRoute.add("timer"), 10f) * 20);
+                    timer = (int) (doorConfig.getFloat(doorRoute.add("timer"), 10f) * 20);
                     door = new LeverDoor(flagName, centre, schematicNames, sounds, timer, leverPos);
+                    break;
+                case "button":
+                    sounds = new Tuple<>(Sound.valueOf(doorConfig.getString(doorRoute.add("closed_sound"), "BLOCK_WOODEN_DOOR_OPEN")),
+                            Sound.valueOf(doorConfig.getString(doorRoute.add("open_sound"), "BLOCK_WOODEN_DOOR_OPEN")));
+                    timer = (int) (doorConfig.getFloat(doorRoute.add("timer"), 2f) * 20);
+                    String[] buttonPaths = getPaths(doorConfig, doorRoute.add("buttons"));
+                    Tuple<Location, Integer>[] buttonPositionsAndDelays = new Tuple[buttonPaths.length];
+                    for (int j = 0; j < buttonPaths.length; j++) {
+                        Route buttonRoute = doorRoute.add("buttons").add(buttonPaths[j]);
+                        Location position = getLocation(buttonRoute.add("position"), map.worldName, doorConfig);
+                        int delay = doorConfig.getInt(buttonRoute.add("delay"), 0) * 20;
+                        buttonPositionsAndDelays[j] = new Tuple<>(position, delay);
+                    }
+                    door = new ButtonDoor(flagName, centre, schematicNames, sounds, timer, buttonPositionsAndDelays);
                     break;
                 case "pressureplate":
                 case "pressure plate":
