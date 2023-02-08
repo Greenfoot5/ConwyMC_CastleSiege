@@ -10,6 +10,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,15 +19,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class LeverDoor extends Door {
     private final Location leverPosition;
-    private final AtomicInteger openCounts = new AtomicInteger(0);
 
     /**
-     * Creates a new door
-     *
+     * Creates a new lever door
      * @param flagName The flag or map name the door is assigned to
      * @param centre  The centre of the door (point for checking distance and playing the sound from)
      * @param schematics  The names of the two schematics
@@ -46,10 +44,8 @@ public class LeverDoor extends Door {
      */
     @EventHandler
     public void onSwitch(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getClickedBlock() == null
-                || event.getClickedBlock().getType() != Material.LEVER) {
+        if (isIncorrectAction(event.getAction()) || isIncorrectBlockType(event.getClickedBlock()))
             return;
-        }
 
         // Make sure the player is playing, and the flag is on the correct map
         if (Objects.equals(Objects.requireNonNull(centre.getWorld()).getName(), MapController.getCurrentMap().worldName)) {
@@ -57,32 +53,33 @@ public class LeverDoor extends Door {
             Player player = event.getPlayer();
             if (event.getClickedBlock().getLocation().distanceSquared(leverPosition) < 1) {
 
-                Flag flag = MapController.getCurrentMap().getFlag(flagName);
-                if (Objects.equals(flagName, MapController.getCurrentMap().name) ||
-                        Objects.equals(Objects.requireNonNull(flag).getCurrentOwners(), TeamController.getTeam(player.getUniqueId()).name)) {
-                    // If the gate is closed (lever powered)
-                    if (((Powerable) event.getClickedBlock().getBlockData()).isPowered()) {
-                        open();
-                        openCounts.getAndIncrement();
+                if (isEnemyControlled(player))
+                    return;
 
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                Powerable leverData = (Powerable) event.getClickedBlock().getBlockData();
-                                if (openCounts.getAndDecrement() > 1 || leverData.isPowered())
-                                    return;
-                                close();
-                                leverData.setPowered(true);
-                                event.getClickedBlock().setBlockData(leverData);
-                            }
-                        }.runTaskLater(Main.plugin, timer);
-                    } else {
-                        close();
-                    }
-                } else {
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Your team does not control this! You need to capture " + flagName + " first!"));
-                }
+                // If the gate is closed (lever powered)
+                if (((Powerable) event.getClickedBlock().getBlockData()).isPowered())
+                    activate();
+                else
+                    close();
             }
         }
+    }
+
+    @Override
+    protected void close() {
+        super.close();
+        Powerable leverData = (Powerable) leverPosition.getBlock().getBlockData();
+        leverData.setPowered(true);
+        leverPosition.getBlock().setBlockData(leverData);
+    }
+
+    @Override
+    protected boolean isIncorrectAction(Action action) {
+        return action != Action.RIGHT_CLICK_BLOCK;
+    }
+
+    @Override
+    protected boolean isIncorrectBlockType(Block block) {
+        return block == null || block.getType() != Material.LEVER;
     }
 }
