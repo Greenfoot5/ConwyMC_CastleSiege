@@ -55,14 +55,15 @@ public abstract class Door implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (isCorrectInteraction(event) && isControlled(event)) {
-            activate();
+            activate(event);
         }
     }
 
     /**
      * Handles the door opening mechanism being activated.
+     * @param event Called when a player interacts with an object or air
      */
-    protected void activate() {
+    protected void activate(PlayerInteractEvent event) {
         // Open the door if it is currently closed
         if (openCounts.getAndIncrement() == 0)
             open();

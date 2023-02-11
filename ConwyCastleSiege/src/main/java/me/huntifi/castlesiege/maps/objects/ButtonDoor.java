@@ -1,6 +1,8 @@
 package me.huntifi.castlesiege.maps.objects;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -41,6 +43,12 @@ public class ButtonDoor extends Door {
         Block button = event.getClickedBlock();
         assert button != null;
         return !((Powerable) button.getBlockData()).isPowered() && getButtonDelay(button) != null;
+    }
+
+    @Override
+    protected void activate(PlayerInteractEvent event) {
+        int delay = Objects.requireNonNull(getButtonDelay(event.getClickedBlock()));
+        Bukkit.getScheduler().runTaskLater(Main.plugin, () -> super.activate(event), delay);
     }
 
     /**
