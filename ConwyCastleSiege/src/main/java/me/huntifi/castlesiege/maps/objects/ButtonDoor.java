@@ -1,17 +1,10 @@
 package me.huntifi.castlesiege.maps.objects;
 
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Powerable;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -32,6 +25,7 @@ public class ButtonDoor extends Door {
      * @param schematics The blocks that make up the door
      * @param sounds The sounds to play when the door is closed/opened
      * @param timer How long the door stays open before automatically closing in ticks
+     * @param buttonPositionsAndDelays The positions and delays until opening the door
      */
     public ButtonDoor(String flagName, Location centre, Tuple<String, String> schematics, Tuple<Sound, Sound> sounds,
                       int timer, Tuple<Location, Integer>[] buttonPositionsAndDelays) {
@@ -39,28 +33,14 @@ public class ButtonDoor extends Door {
         this.buttonPositionsAndDelays = buttonPositionsAndDelays;
     }
 
-    /**
-     * Handle the opening and then closing of the door when a player presses one of the corresponding buttons.
-     * @param event The event called when a player presses a button
-     */
-    @EventHandler
-    public void onPress(PlayerInteractEvent event) {
-        if (isIncorrectAction(event.getAction()) || isIncorrectBlockType(event.getClickedBlock()))
-            return;
+    @Override
+    protected boolean isCorrectInteraction(PlayerInteractEvent event) {
+        if (!super.isCorrectInteraction(event))
+            return false;
 
         Block button = event.getClickedBlock();
         assert button != null;
-        Integer buttonDelay = getButtonDelay(button);
-        if (buttonDelay == null)
-            return;
-
-        if (((Powerable) button.getBlockData()).isPowered())
-            return;
-
-        if (isEnemyControlled(event.getPlayer()))
-            return;
-
-        activate();
+        return !((Powerable) button.getBlockData()).isPowered() && getButtonDelay(button) != null;
     }
 
     /**
@@ -83,14 +63,14 @@ public class ButtonDoor extends Door {
     }
 
     @Override
-    protected boolean isIncorrectAction(Action action) {
-        return action != Action.RIGHT_CLICK_BLOCK;
+    protected boolean isCorrectAction(Action action) {
+        return action == Action.RIGHT_CLICK_BLOCK;
     }
 
     @Override
-    protected boolean isIncorrectBlockType(Block block) {
+    protected boolean isCorrectBlockType(Block block) {
         if (block == null)
-            return true;
+            return false;
 
         switch (block.getType()) {
             case ACACIA_BUTTON:
@@ -103,9 +83,9 @@ public class ButtonDoor extends Door {
             case SPRUCE_BUTTON:
             case STONE_BUTTON:
             case WARPED_BUTTON:
-                return false;
-            default:
                 return true;
+            default:
+                return false;
         }
     }
 }

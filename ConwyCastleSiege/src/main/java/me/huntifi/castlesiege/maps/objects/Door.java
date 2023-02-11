@@ -11,8 +11,10 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,6 +49,17 @@ public abstract class Door implements Listener {
     }
 
     /**
+     * Handles the opening and then closing of the door
+     * @param event Called when a player interacts with an object or air
+     */
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if (isCorrectInteraction(event) && isControlled(event)) {
+            activate();
+        }
+    }
+
+    /**
      * Handles the door opening mechanism being activated.
      */
     protected void activate() {
@@ -78,25 +91,36 @@ public abstract class Door implements Listener {
     }
 
     /**
-     * Checks whether the flag to which the door belongs is under enemy control.
-     * @param player The player that tries to open the door
-     * @return Whether the door is under enemy control
+     * Checks whether a correct interaction is performed to open the door
+     * @param event Called when a player interacts with an object or air
+     * @return Whether a correct interaction is performed to open the door
      */
-    protected boolean isEnemyControlled(Player player) {
+    protected boolean isCorrectInteraction(PlayerInteractEvent event) {
+        return isCorrectAction(event.getAction()) && isCorrectBlockType(event.getClickedBlock());
+    }
+
+    /**
+     * Checks whether the flag to which the door belongs is under control of the player's team.
+     * @param event Called when a player interacts with an object or air
+     * @return Whether the door is controlled by the player's team
+     */
+    private boolean isControlled(PlayerInteractEvent event) {
         // The door does not belong to a flag
         if (Objects.equals(flagName, MapController.getCurrentMap().name))
-            return false;
+            return true;
 
         // The door belongs to a flag
         Flag flag = MapController.getCurrentMap().getFlag(flagName);
+        Player player = event.getPlayer();
         if (!Objects.equals(flag.getCurrentOwners(), TeamController.getTeam(player.getUniqueId()).name)) {
             Messenger.sendActionError(
                     "Your team does not control this door. You need to capture " + flagName + " first!",
                     player
             );
-            return true;
+            event.setCancelled(true);
+            return false;
         }
-        return false;
+        return true;
     }
 
     /**
@@ -104,12 +128,12 @@ public abstract class Door implements Listener {
      * @param action The action
      * @return Whether an incorrect action was performed
      */
-    protected abstract boolean isIncorrectAction(Action action);
+    protected abstract boolean isCorrectAction(Action action);
 
     /**
      * Checks whether a correct block type was interacted with to open the door.
      * @param block The block
      * @return Whether an incorrect block type was interacted with
      */
-    protected abstract boolean isIncorrectBlockType(Block block);
+    protected abstract boolean isCorrectBlockType(Block block);
 }
