@@ -70,7 +70,7 @@ public abstract class Door implements Listener {
 
         // Close the door after the open time if no other activation is keeping it open
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
-            if (openCounts.decrementAndGet() == 0)
+            if (openCounts.get() > 0 && openCounts.decrementAndGet() == 0)
                 close();
         }, timer);
     }

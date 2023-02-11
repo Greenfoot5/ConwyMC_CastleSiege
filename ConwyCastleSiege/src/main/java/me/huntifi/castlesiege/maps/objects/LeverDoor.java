@@ -41,11 +41,12 @@ public class LeverDoor extends Door {
 
     @Override
     protected void activate(PlayerInteractEvent event) {
-        // If the lever is powered, then the gate is currently closed
-        if (((Powerable) leverPosition.getBlock().getBlockData()).isPowered())
+        if (openCounts.get() == 0) {
             super.activate(event);
-        else
+        } else {
+            openCounts.set(0);
             close();
+        }
     }
 
     @Override
