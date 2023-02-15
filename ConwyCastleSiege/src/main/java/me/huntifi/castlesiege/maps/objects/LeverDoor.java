@@ -12,6 +12,17 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.Objects;
 
 public class LeverDoor extends Door {
+
+    /** The default closed sound */
+    public static final String defaultClosedSound = "ENTITY_ZOMBIE_ATTACK_IRON_DOOR";
+
+    /** The default open sound */
+    public static final String defaultOpenSound = "ENTITY_ZOMBIE_ATTACK_IRON_DOOR";
+
+    /** The default timer in seconds */
+    public static final int defaultTimer = 10;
+
+    /** The location of the lever */
     private final Location leverPosition;
 
     /**

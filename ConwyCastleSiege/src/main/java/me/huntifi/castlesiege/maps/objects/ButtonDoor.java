@@ -17,8 +17,20 @@ import java.util.Objects;
  */
 public class ButtonDoor extends Door {
 
+    /** The default closed sound */
+    public static final String defaultClosedSound = "BLOCK_WOODEN_DOOR_OPEN";
+
+    /** The default open sound */
+    public static final String defaultOpenSound = "BLOCK_WOODEN_DOOR_OPEN";
+
+    /** The default timer in seconds */
+    public static final int defaultTimer = 2;
+
+    /** The default delay in seconds */
+    public static final int defaultDelay = 0;
+
     /** Maps the button locations to their opening delay */
-    private final Tuple<Location, Integer>[] buttonPositionsAndDelays;
+    private final Tuple<Location, Integer>[] buttonData;
 
     /**
      * Creates a new button door
@@ -27,12 +39,12 @@ public class ButtonDoor extends Door {
      * @param schematics The blocks that make up the door
      * @param sounds The sounds to play when the door is closed/opened
      * @param timer How long the door stays open before automatically closing in ticks
-     * @param buttonPositionsAndDelays The positions and delays until opening the door
+     * @param buttonData The positions and delays until opening the door
      */
     public ButtonDoor(String flagName, Location centre, Tuple<String, String> schematics, Tuple<Sound, Sound> sounds,
-                      int timer, Tuple<Location, Integer>[] buttonPositionsAndDelays) {
+                      int timer, Tuple<Location, Integer>[] buttonData) {
         super(flagName, centre, schematics, sounds, timer);
-        this.buttonPositionsAndDelays = buttonPositionsAndDelays;
+        this.buttonData = buttonData;
     }
 
     @Override
@@ -58,11 +70,11 @@ public class ButtonDoor extends Door {
      * @return The button delay or null if not applicable
      */
     private Integer getButtonDelay(Block button) {
-        if (buttonPositionsAndDelays.length == 0 ||
-                !Objects.equals(buttonPositionsAndDelays[0].getFirst().getWorld(), button.getWorld()))
+        if (buttonData.length == 0 ||
+                !Objects.equals(buttonData[0].getFirst().getWorld(), button.getWorld()))
             return null;
 
-        for (Tuple<Location, Integer> buttonPositionAndDelay : buttonPositionsAndDelays) {
+        for (Tuple<Location, Integer> buttonPositionAndDelay : buttonData) {
             if (buttonPositionAndDelay.getFirst().distance(button.getLocation()) == 0)
                 return buttonPositionAndDelay.getSecond();
         }

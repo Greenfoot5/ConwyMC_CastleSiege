@@ -11,6 +11,18 @@ import java.util.Objects;
 
 public class PressurePlateDoor extends Door {
 
+    /** The default closed sound */
+    public static final String defaultClosedSound = "BLOCK_WOODEN_DOOR_OPEN";
+
+    /** The default open sound */
+    public static final String defaultOpenSound = "BLOCK_WOODEN_DOOR_OPEN";
+
+    /** The default timer in seconds */
+    public static final int defaultTimer = 2;
+
+    /** The maximum distance a player is allowed to be from the centre of the door to open it */
+    private static final int maxDistance = 4;
+
     /**
      * Creates a new pressure plate door
      * @param flagName The flag or map name the door is assigned to
@@ -29,7 +41,7 @@ public class PressurePlateDoor extends Door {
             return false;
 
         return Objects.equals(event.getPlayer().getWorld(), centre.getWorld())
-                && event.getPlayer().getLocation().distance(centre) <= 4;
+                && event.getPlayer().getLocation().distance(centre) <= maxDistance;
     }
 
     @Override
