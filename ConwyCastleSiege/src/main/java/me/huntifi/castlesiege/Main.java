@@ -967,32 +967,45 @@ public class Main extends JavaPlugin implements Listener {
                     doorConfig.getString(openSchematicRoute, null));
             // Split up the variations for lever and pressure plate doors
             Tuple<Sound, Sound> sounds;
+            int timer;
             Door door;
             switch (doorConfig.getString(doorRoute.add("trigger"), "plate").toLowerCase()) {
                 case "switch":
                 case "lever":
-                    sounds = new Tuple<>(Sound.valueOf(doorConfig.getString(doorRoute.add("closed_sound"), "ENTITY_ZOMBIE_ATTACK_IRON_DOOR")),
-                            Sound.valueOf(doorConfig.getString(doorRoute.add("open_sound"), "ENTITY_ZOMBIE_ATTACK_IRON_DOOR")));
+                    sounds = new Tuple<>(Sound.valueOf(doorConfig.getString(doorRoute.add("closed_sound"), LeverDoor.defaultClosedSound)),
+                            Sound.valueOf(doorConfig.getString(doorRoute.add("open_sound"), LeverDoor.defaultOpenSound)));
                     Location leverPos = getLocation(doorRoute.add("lever_position"), map.worldName, doorConfig);
-                    int timer = (int) (doorConfig.getFloat(doorRoute.add("timer"), 10f) * 20);
+                    timer = doorConfig.getInt(doorRoute.add("timer"), LeverDoor.defaultTimer) * 20;
                     door = new LeverDoor(flagName, centre, schematicNames, sounds, timer, leverPos);
+                    break;
+                case "button":
+                    sounds = new Tuple<>(Sound.valueOf(doorConfig.getString(doorRoute.add("closed_sound"), ButtonDoor.defaultClosedSound)),
+                            Sound.valueOf(doorConfig.getString(doorRoute.add("open_sound"), ButtonDoor.defaultOpenSound)));
+                    timer = doorConfig.getInt(doorRoute.add("timer"), ButtonDoor.defaultTimer) * 20;
+                    String[] buttonPaths = getPaths(doorConfig, doorRoute.add("buttons"));
+                    Tuple<Location, Integer>[] buttonData = new Tuple[buttonPaths.length];
+                    for (int j = 0; j < buttonPaths.length; j++) {
+                        Route buttonRoute = doorRoute.add("buttons").add(buttonPaths[j]);
+                        Location position = getLocation(buttonRoute.add("position"), map.worldName, doorConfig);
+                        int delay = doorConfig.getInt(buttonRoute.add("delay"), ButtonDoor.defaultDelay) * 20;
+                        buttonData[j] = new Tuple<>(position, delay);
+                    }
+                    door = new ButtonDoor(flagName, centre, schematicNames, sounds, timer, buttonData);
                     break;
                 case "pressureplate":
                 case "pressure plate":
                 case "plate":
                 case "pressure":
                 default:
-                    sounds = new Tuple<>(Sound.valueOf(doorConfig.getString(doorRoute.add("closed_sound"), "BLOCK_WOODEN_DOOR_OPEN")),
-                            Sound.valueOf(doorConfig.getString(doorRoute.add("open_sound"), "BLOCK_WOODEN_DOOR_OPEN")));
-                    timer = (int) (doorConfig.getFloat(doorRoute.add("timer"), 2f) * 20);
+                    sounds = new Tuple<>(Sound.valueOf(doorConfig.getString(doorRoute.add("closed_sound"), PressurePlateDoor.defaultClosedSound)),
+                            Sound.valueOf(doorConfig.getString(doorRoute.add("open_sound"), PressurePlateDoor.defaultOpenSound)));
+                    timer = doorConfig.getInt(doorRoute.add("timer"), PressurePlateDoor.defaultTimer) * 20;
                     door = new PressurePlateDoor(flagName, centre, schematicNames, sounds, timer);
                     break;
             }
             map.doors[i] = door;
         }
     }
-
-
 
     private void loadGates(Route mapRoute, Map map) {
         YamlDocument gateConfig = getGatesConfig(mapRoute);
