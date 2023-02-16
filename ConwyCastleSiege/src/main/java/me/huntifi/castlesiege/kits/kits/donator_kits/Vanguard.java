@@ -82,7 +82,6 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
         super.equipment = es;
 
         //passive effects
-        super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 0));
     }
