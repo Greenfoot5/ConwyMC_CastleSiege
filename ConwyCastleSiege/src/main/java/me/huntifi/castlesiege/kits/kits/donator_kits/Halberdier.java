@@ -5,8 +5,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -34,7 +32,7 @@ public class Halberdier extends DonatorKit implements Listener {
      */
     public Halberdier() {
         super("Halberdier", 720, 23, 10000, 15);
-        super.kbResistance = 2;
+        super.kbResistance = 1;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

@@ -5,7 +5,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +23,7 @@ public class Shieldman extends VoterKit {
      */
     public Shieldman() {
         super("Shieldman", 340, 14);
+        super.kbResistance = 0.5;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

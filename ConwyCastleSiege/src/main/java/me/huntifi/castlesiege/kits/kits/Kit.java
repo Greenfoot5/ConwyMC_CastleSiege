@@ -42,7 +42,7 @@ public abstract class Kit implements CommandExecutor {
 
     public String name;
     public int baseHealth;
-    public int kbResistance = 0;
+    public double kbResistance = 0;
     protected double regenAmount;
 
     public boolean canCap;

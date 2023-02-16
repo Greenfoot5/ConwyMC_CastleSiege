@@ -2,12 +2,10 @@ package me.huntifi.castlesiege.kits.kits.team_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.DisguiseConfig;
@@ -37,14 +35,13 @@ import java.util.UUID;
 public class FirelandsHellsteed extends TeamKit implements Listener {
     /**
      * Create a kit with basic settings
-     *
      * **/
     public FirelandsHellsteed() {
         super("Hellsteed", 300, 10, "Firelands", "Hellfire Guards", 2500, 5);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;
-        super.kbResistance = 1;
+        super.kbResistance = 0.5;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
