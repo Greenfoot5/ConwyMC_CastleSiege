@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -99,10 +98,6 @@ public class Berserker extends DonatorKit implements Listener {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
 
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
-            return;
-        }
 
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (e.getItem() != null && e.getItem().getType() == Material.POTION) {
@@ -111,6 +106,13 @@ public class Berserker extends DonatorKit implements Listener {
                 } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
                     p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
                 }
+
+                // Prevent using in lobby
+                if (InCombat.isPlayerInLobby(uuid)) {
+                    e.setCancelled(true);
+                    return;
+                }
+
                 // Potion effects
                 new BukkitRunnable() {
                     @Override
@@ -161,18 +163,5 @@ public class Berserker extends DonatorKit implements Listener {
             inventory.addItem(swordVoted);
         else
             inventory.addItem(sword);
-    }
-
-    /**
-     * Prevents actually drinking the potion in the lobby
-     * @param e The event called when a player drinks a potion
-     */
-    @EventHandler
-    public void onDrinkPotion(PlayerItemConsumeEvent e) {
-        if (e.getItem().getType() == Material.POTION &&
-                Objects.equals(Kit.equippedKits.get(e.getPlayer().getUniqueId()).name, name) &&
-                InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
-            e.setCancelled(true);
-        }
     }
 }
