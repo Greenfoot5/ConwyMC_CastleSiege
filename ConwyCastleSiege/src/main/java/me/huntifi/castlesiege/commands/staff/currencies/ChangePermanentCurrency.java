@@ -30,6 +30,9 @@ public abstract class ChangePermanentCurrency extends ChangeCurrency {
 
         String playerName = args[0];
         double amount = Double.parseDouble(args[1]);
+        boolean verbose = true;
+        if (args.length == 3)
+            verbose = Boolean.parseBoolean(args[2]);
 
         UUID uuid = getUUID(playerName);
         assert uuid != null;
@@ -41,7 +44,7 @@ public abstract class ChangePermanentCurrency extends ChangeCurrency {
 
         sendConfirmMessage(sender, playerName, amount);
         Player player = Bukkit.getPlayer(uuid);
-        if (player != null)
+        if (player != null && verbose)
             sendTargetMessage(player, amount);
     }
 

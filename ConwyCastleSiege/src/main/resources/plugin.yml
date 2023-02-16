@@ -235,12 +235,12 @@ commands:
   # Staff - Currencies
   AddCoins:
     description: Add to a player's coins
-    usage: /addcoins <player> <amount>
+    usage: /addcoins <player> <amount> [verbose]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
   SetCoins:
     description: Sets a player's coins
-    usage: /setcoins <player> <amount>
+    usage: /setcoins <player> <amount> [verbose]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
   SetCoinMultiplier:
@@ -250,13 +250,12 @@ commands:
     permission-message: You are not permitted to use this command!
   TakeCoins:
     description: Take from a player's coins
-    usage: /takecoins <player> <amount>
+    usage: /takecoins <player> <amount> [verbose]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
-  # Staff - Currencies
   AddBattlepoints:
     description: Add to a player's battlepoints
-    usage: /addbattlepoints <player> <amount>
+    usage: /addbattlepoints <player> <amount> [verbose]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
     aliases:
@@ -265,7 +264,7 @@ commands:
       - addbpoints
   SetBattlepoints:
     description: Sets a player's battlepoints
-    usage: /setbattlepoints <player> <amount>
+    usage: /setbattlepoints <player> <amount> [verbose]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
     aliases:
@@ -286,7 +285,7 @@ commands:
       - setbpointsmultiplier
   TakeBattlepoints:
     description: Take from a player's battlepoints
-    usage: /takebattlepoints <player> <amount>
+    usage: /takebattlepoints <player> <amount> [verbose]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
     aliases:
