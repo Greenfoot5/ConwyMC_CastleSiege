@@ -3,13 +3,11 @@ package me.huntifi.castlesiege.kits.kits.donator_kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
@@ -26,13 +24,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -124,7 +122,7 @@ public class Medic extends DonatorKit implements Listener {
 
         potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 1, 6), true);
         potionMeta.setColor(Color.RED);
-        potionMeta.setDisplayName(ChatColor.RED + "Instant Healing I");
+        potionMeta.setDisplayName(ChatColor.RED + "Instant Healing IIV");
         itemStack.setItemMeta(potionMeta);
 
         return itemStack;
@@ -132,22 +130,30 @@ public class Medic extends DonatorKit implements Listener {
 
     /**
      * Place a cake
-     * @param e The event called when placing a cake
+     * @param event The event called when placing a cake
      */
     @EventHandler (priority = EventPriority.HIGHEST)
-    public void onPlace(BlockPlaceEvent e) {
-        Player p = e.getPlayer();
+    public void onPlace(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+        if (InCombat.isPlayerInLobby(player.getUniqueId())) {
+            event.setCancelled(true);
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
-                e.getBlockPlaced().getType() == Material.CAKE) {
-            e.setCancelled(false);
-            destroyCake(p);
-            cakes.put(p, e.getBlockPlaced());
+        // Check you aren't placing on a cake
+        if (event.canBuild() && event.getBlockAgainst() instanceof Cake)
+        {
+            event.setCancelled(true);
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) &&
+                event.getBlockPlaced().getType() == Material.CAKE) {
+            event.setCancelled(false);
+            destroyCake(player);
+            cakes.put(player, event.getBlockPlaced());
         }
     }
 
@@ -185,97 +191,22 @@ public class Medic extends DonatorKit implements Listener {
     }
 
     /**
-     * Take a bite from a cake and gain a short period of regeneration.
-     * @param event The event called when right-clicking a cake
-     */
-    @EventHandler (priority = EventPriority.HIGHEST)
-    public void onEatCake(PlayerInteractEvent event) {
-        // Check if the player attempts to eat a cake
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || !event.getClickedBlock().getType().equals(Material.CAKE))
-            return;
-
-        event.setCancelled(true);
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            // Prevent eating cake in lobby
-            Player eater = event.getPlayer();
-            if (InCombat.isPlayerInLobby(eater.getUniqueId()))
-                return;
-
-            // Get the player who placed the cake
-            Block cake = event.getClickedBlock();
-            Player placer = getPlacer(cake);
-
-            if (canEatCake(eater, placer)) {
-                // Send messages and award heal
-                if (placer != null && !Objects.equals(eater, placer)) {
-                    eater.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NameTag.color(placer) + placer.getName() + ChatColor.AQUA + "'s cake is healing you!"));
-                    placer.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "Your cake is healing " + NameTag.color(eater) + eater.getName()));
-                    UpdateStats.addHeals(placer.getUniqueId(), 1);
-                } else {
-                    eater.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "The cake is healing you!"));
-                }
-
-                // Eat cake
-                Bukkit.getScheduler().runTask(Main.plugin, () -> {
-                    eater.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 11));
-                    Cake cakeData = (Cake) cake.getBlockData();
-                    if (cakeData.getBites() == cakeData.getMaximumBites()) {
-                        cake.breakNaturally();
-                        cakes.remove(placer);
-                    } else {
-                        cakeData.setBites(cakeData.getBites() + 1);
-                        cake.setBlockData(cakeData);
-                    }
-                });
-            }
-        });
-    }
-
-    /**
-     * Check if the player can eat from the cake.
-     * @param eater The player who attempts to eat the cake
-     * @param placer The player who placed the cake
-     * @return Whether the player can eat the cake
-     */
-    private synchronized boolean canEatCake(Player eater, Player placer) {
-        // The cake was placed by an enemy
-        if (placer != null && TeamController.getTeam(eater.getUniqueId())
-                != TeamController.getTeam(placer.getUniqueId())) {
-            Messenger.sendActionError("This is an enemy cake, destroy it!", eater);
-            return false;
-        }
-
-        // The eater has full health or is on cooldown
-        if (eater.getHealth() == Kit.equippedKits.get(eater.getUniqueId()).baseHealth
-                || cooldown.contains(eater))
-            return false;
-
-        // Apply cooldown
-        cooldown.add(eater);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(eater), 39);
-        return true;
-    }
-
-    /**
      * Activate the medic ability of healing a teammate
-     * @param e The event called when clicking on a teammate with paper
+     * @param event The event called when clicking on a teammate with paper
      */
     @EventHandler
-    public void onHeal(PlayerInteractEntityEvent e) {
+    public void onHeal(PlayerInteractEntityEvent event) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            Player p = e.getPlayer();
-            UUID uuid = p.getUniqueId();
+            Player player = event.getPlayer();
+            UUID uuid = player.getUniqueId();
 
             // Prevent using in lobby
             if (InCombat.isPlayerInLobby(uuid)) {
                 return;
             }
 
-            PlayerInventory i = p.getInventory();
-            Entity q = e.getRightClicked();
+            PlayerInventory i = player.getInventory();
+            Entity q = event.getRightClicked();
             if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&                            // Player is medic
                     (i.getItemInMainHand().getType() == Material.PAPER) &&                    // Uses bandage
                     q instanceof Player &&                                                          // On player
@@ -290,10 +221,10 @@ public class Medic extends DonatorKit implements Listener {
 
                 // Heal
                 addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
-                addPotionEffect(p, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
+                addPotionEffect(player, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
                 r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        NameTag.color(p) + p.getName() + ChatColor.AQUA + " is healing you"));
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                        NameTag.color(player) + player.getName() + ChatColor.AQUA + " is healing you"));
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                         ChatColor.AQUA + "You are healing " + NameTag.color(r) + r.getName()));
                 UpdateStats.addHeals(uuid, 1);
             }
@@ -332,9 +263,8 @@ public class Medic extends DonatorKit implements Listener {
      * @param p The player whose cake to destroy
      */
     private void destroyCake(Player p) {
-        if (cakes.containsKey(p)) {
+        if (cakes.remove(p) != null) {
             cakes.get(p).setType(Material.AIR);
-            cakes.remove(p);
         }
     }
 
@@ -343,10 +273,41 @@ public class Medic extends DonatorKit implements Listener {
      * @param cake The cake whose placer to find
      * @return The placer of the cake, null if the placer is not a medic
      */
-    private Player getPlacer(Block cake) {
+    public static Player getPlacer(Block cake) {
         return cakes.entrySet().stream()
                 .filter(entry -> Objects.equals(entry.getValue(), cake))
                 .findFirst().map(Map.Entry::getKey)
                 .orElse(null);
+    }
+
+    /**
+     * Activate the medic potion
+     * @param e The event called when clicking with the potion in hand
+     */
+    @EventHandler
+    public void berserkerPotion(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            if (e.getItem() != null && e.getItem().getType() == Material.POTION) {
+                if (e.getHand() == EquipmentSlot.HAND) {
+                    p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
+                } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+                    p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
+                }
+
+                // Prevent using in lobby
+                if (InCombat.isPlayerInLobby(uuid)) {
+                    e.setCancelled(true);
+                    return;
+                }
+
+                // Potion effects
+                p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 6));
+
+            }
+        }
     }
 }
