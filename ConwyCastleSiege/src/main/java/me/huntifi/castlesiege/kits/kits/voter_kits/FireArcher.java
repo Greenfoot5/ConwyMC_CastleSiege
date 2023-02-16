@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.voter_kits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.EnderchestEvent;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -47,7 +48,7 @@ public class FireArcher extends VoterKit implements Listener {
     private static final double meleeDamage = 36;
     private static final int knockbackLevel = 2;
     private static final int ladderCount = 4;
-    private static final int arrowCount = 48;
+    private static final int arrowCount = 39;
     private static final int bowPowerLevel = 12;
     private static final double arrowDamage = 15;
 
@@ -123,6 +124,7 @@ public class FireArcher extends VoterKit implements Listener {
 
         // Arrows
         es.hotbar[7] = new ItemStack(Material.ARROW, arrowCount);
+        es.hotbar[3] = new ItemStack(Material.TIPPED_ARROW, fireArrowHoldLimit);
 
         // Fire Arrows
         fireArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
@@ -248,18 +250,15 @@ public class FireArcher extends VoterKit implements Listener {
                 PlayerInventory inv = p.getInventory();
                 ItemStack offHand = inv.getItemInOffHand();
                 int fireOffHand = offHand.getType() == Material.TIPPED_ARROW ? offHand.getAmount() : 0;
-                if (!inv.contains(Material.TIPPED_ARROW, 9 - fireOffHand)) {
+                if (!inv.contains(Material.TIPPED_ARROW, fireArrowHoldLimit - fireOffHand)) {
                     // Light an arrow
                     p.setCooldown(Material.ARROW, fireArrowCreationCooldown);
                     usedItem.setAmount(usedItem.getAmount() - 1);
                     inv.addItem(fireArrow);
                     p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 0.5f);
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatColor.AQUA + "You light an arrow."));
+                    Messenger.sendActionInfo("You light an arrow.", p);
                 } else {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatColor.RED + "You can't hold more than " + fireArrowHoldLimit
-                                    + " lit arrows at a time."));
+                    Messenger.sendActionError("You can't hold more than " + fireArrowHoldLimit + " lit arrows at a time.", p);
                 }
             }
         }
