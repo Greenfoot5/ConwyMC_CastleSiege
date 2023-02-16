@@ -260,7 +260,7 @@ public class DeathEvent implements Listener {
             assist.sendMessage("You assisted in killing " + NameTag.color(target) + target.getName());
             Messenger.sendInfo("You gained "
                     + PlayerData.bpAssistAmount * PlayerData.getBattlepointMultiplier()
-                    + " for assisting in a kill", assist);
+                    + "BattlePoint(s) for assisting in a kill", assist);
         }
     }
 
