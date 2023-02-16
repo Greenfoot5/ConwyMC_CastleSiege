@@ -9,10 +9,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TimerState;
 import me.huntifi.castlesiege.maps.WoolMapBlock;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -68,7 +65,7 @@ public class SecretSigns implements Listener {
 
         Player player = e.getPlayer();
 
-        if (e.getClickedBlock() == null) { return; }
+        if (e.getClickedBlock() == null || player.getGameMode() == GameMode.SPECTATOR) { return; }
 
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 

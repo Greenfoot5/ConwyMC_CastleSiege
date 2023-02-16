@@ -29,7 +29,7 @@ public class SecretBlocks implements Listener {
 
         Player player = e.getPlayer();
 
-        if (e.getClickedBlock() == null) { return; }
+        if (e.getClickedBlock() == null || player.getGameMode() == GameMode.SPECTATOR) { return; }
 
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
