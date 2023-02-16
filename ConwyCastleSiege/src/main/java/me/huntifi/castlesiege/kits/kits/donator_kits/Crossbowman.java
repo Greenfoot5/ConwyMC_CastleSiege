@@ -158,7 +158,7 @@ public class Crossbowman extends DonatorKit implements Listener {
 
             p.setCooldown(Material.CROSSBOW, 70);
             Arrow a = (Arrow) e.getProjectile();
-            ((Arrow) e.getProjectile()).setPierceLevel(1);
+            //((Arrow) e.getProjectile()).setPierceLevel(1);
             a.setKnockbackStrength(1);
             a.setVelocity(p.getLocation().getDirection().normalize().multiply(40));
         }

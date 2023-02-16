@@ -101,7 +101,7 @@ public class ConwyArbalester extends TeamKit implements Listener {
 
             p.setCooldown(Material.CROSSBOW, 160);
             Arrow a = (Arrow) e.getProjectile();
-            ((Arrow) e.getProjectile()).setPierceLevel(2);
+            ((Arrow) e.getProjectile()).setPierceLevel(1);
             a.setKnockbackStrength(2);
             a.setVelocity(p.getLocation().getDirection().normalize().multiply(45));
         }
