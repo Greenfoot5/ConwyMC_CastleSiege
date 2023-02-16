@@ -42,9 +42,9 @@ public class Flag {
     private final int progressAmount;
     private int progress;
     // Progresses needed per animationIndex
-    private final static int progressMultiplier = 130;
+    private final static int progressMultiplier = 100;
     // Multiplier for multiple people
-    public final static double capMultiplier = 2.1;
+    public final static double capMultiplier = 2;
 
     // Capturing data
     private final AtomicInteger isRunning;
