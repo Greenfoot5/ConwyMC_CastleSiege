@@ -74,8 +74,6 @@ public class UpdateStats {
         level(uuid);
     }
 
-
-
     /**
      * Add supports to the player's data
      * @param uuid The unique ID of the player
@@ -85,6 +83,16 @@ public class UpdateStats {
         ActiveData.getData(uuid).addSupports(supports);
         MVPStats.getStats(uuid).addSupports(supports);
         level(uuid);
+    }
+
+    /**
+     * Add battlepoints to the player's data
+     * @param uuid The unique ID of the player
+     * @param battlepoints The amount of battlepoints to add
+     */
+    public static void addBattlepoints(UUID uuid, double battlepoints) {
+        ActiveData.getData(uuid).addBattlepoints(battlepoints);
+        MVPStats.getStats(uuid).addBattlepoints(battlepoints);
     }
 
     /**

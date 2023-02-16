@@ -1,77 +1,75 @@
 package me.huntifi.castlesiege.maps.objects;
 
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
+import org.bukkit.block.Block;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 
 public class PressurePlateDoor extends Door {
-    protected boolean open = false;
+
+    /** The default closed sound */
+    public static final String defaultClosedSound = "BLOCK_WOODEN_DOOR_OPEN";
+
+    /** The default open sound */
+    public static final String defaultOpenSound = "BLOCK_WOODEN_DOOR_OPEN";
+
+    /** The default timer in seconds */
+    public static final int defaultTimer = 2;
+
+    /** The maximum distance a player is allowed to be from the centre of the door to open it */
+    private static final int maxDistance = 4;
 
     /**
-     * Creates a new door
-     *
+     * Creates a new pressure plate door
      * @param flagName The flag or map name the door is assigned to
-     * @param centre   The centre of the door (point for checking distance and playing the sound from)
-     * @param schematics   The names of the two schematics
-     * @param sounds   The sounds to play when the door is closed/opened
-     * @param timer   How long the door stays open before automatically closing
+     * @param centre The centre of the door (point for checking distance and playing the sound from)
+     * @param schematics The names of the two schematics
+     * @param sounds The sounds to play when the door is closed/opened
+     * @param timer How long the door stays open before automatically closing in ticks
      */
     public PressurePlateDoor(String flagName, Location centre, Tuple<String, String> schematics, Tuple<Sound, Sound> sounds, int timer) {
         super(flagName, centre, schematics, sounds, timer);
     }
 
-    /**
-     * Handles the opening and then closing of the door when a player steps on the pressure plates
-     * @param event Called when a player moves
-     */
-    @EventHandler
-    public void onPressure(PlayerInteractEvent event) {
-        if (event.getAction() != Action.PHYSICAL || event.getClickedBlock() == null
-                || (event.getClickedBlock().getType() != Material.STONE_PRESSURE_PLATE
-                && event.getClickedBlock().getType() != Material.POLISHED_BLACKSTONE_PRESSURE_PLATE)) {
-            return;
-        }
+    @Override
+    protected boolean isCorrectInteraction(PlayerInteractEvent event) {
+        if (!super.isCorrectInteraction(event))
+            return false;
 
-        // Make sure the player is playing, and the flag is on the correct map
-        if (Objects.equals(Objects.requireNonNull(centre.getWorld()).getName(), MapController.getCurrentMap().worldName)) {
+        return Objects.equals(event.getPlayer().getWorld(), centre.getWorld())
+                && event.getPlayer().getLocation().distance(centre) <= maxDistance;
+    }
 
-            Player player = event.getPlayer();
-            double distance = player.getLocation().distance(centre);
-            if (distance <= 4) {
+    @Override
+    protected boolean isCorrectAction(Action action) {
+        return action == Action.PHYSICAL;
+    }
 
-                Flag flag = MapController.getCurrentMap().getFlag(flagName);
-				if (Objects.equals(flagName, MapController.getCurrentMap().name) ||
-                        Objects.equals(Objects.requireNonNull(flag).getCurrentOwners(), TeamController.getTeam(player.getUniqueId()).name)) {
-					if (!open) {
-                        open = true;
-                        open();
+    @Override
+    protected boolean isCorrectBlockType(Block block) {
+        if (block == null)
+            return false;
 
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                close();
-                                open = false;
-                            }
-                        }.runTaskLater(Main.plugin, timer);
-                    }
-				} else {
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Your team does not control this door. You need to capture " + flagName + " first!"));
-				}
-            }
+        switch (block.getType()) {
+            case ACACIA_PRESSURE_PLATE:
+            case BIRCH_PRESSURE_PLATE:
+            case CRIMSON_PRESSURE_PLATE:
+            case DARK_OAK_PRESSURE_PLATE:
+            case HEAVY_WEIGHTED_PRESSURE_PLATE:
+            case JUNGLE_PRESSURE_PLATE:
+            case LIGHT_WEIGHTED_PRESSURE_PLATE:
+            case OAK_PRESSURE_PLATE:
+            case POLISHED_BLACKSTONE_PRESSURE_PLATE:
+            case SPRUCE_PRESSURE_PLATE:
+            case STONE_PRESSURE_PLATE:
+            case WARPED_PRESSURE_PLATE:
+                return true;
+            default:
+                return false;
         }
     }
 }
