@@ -52,7 +52,7 @@ public class WoolMapBlock {
                 Messenger.sendError("Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!", player);
             // Make sure a player can afford the kit, and it's not Friday
             } else if (kit instanceof DonatorKit
-            && ActiveData.getData(player.getUniqueId()).takeBattlepoints(((DonatorKit) kit).getBattlepointPrice())
+            && !ActiveData.getData(player.getUniqueId()).takeBattlepoints(((DonatorKit) kit).getBattlepointPrice())
             && !DonatorKit.isFriday()) {
                 Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", player);
                 Messenger.sendError("Perform /battlepoints or /bp to see your battlepoints.", player);
