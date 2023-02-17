@@ -89,12 +89,12 @@ public abstract class ChangeCurrency implements CommandExecutor {
         }
 
         // verbose is not a boolean
-        String verbose = args[2];
-        try {
-            Boolean.parseBoolean(verbose);
-        } catch (NumberFormatException e) {
-            Messenger.sendError(verbose + " is not a boolean!", sender);
-            return true;
+        if (args.length == 3) {
+            String verbose = args[2];
+            if (!verbose.equalsIgnoreCase("true") && !verbose.equalsIgnoreCase("false")) {
+                Messenger.sendError(verbose + " is not a boolean!", sender);
+                return true;
+            }
         }
 
         return false;
