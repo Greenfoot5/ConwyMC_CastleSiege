@@ -122,10 +122,6 @@ public class FireArcher extends VoterKit implements Listener {
                         new Tuple<>(Enchantment.KNOCKBACK, knockbackLevel)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(firepitVoted, 1);
 
-        // Arrows
-        es.hotbar[7] = new ItemStack(Material.ARROW, arrowCount);
-        es.hotbar[3] = new ItemStack(Material.TIPPED_ARROW, fireArrowHoldLimit);
-
         // Fire Arrows
         fireArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
                 ChatColor.GOLD + "Fire Arrow", null, null);
@@ -133,6 +129,12 @@ public class FireArcher extends VoterKit implements Listener {
         assert potionMeta != null;
         potionMeta.setColor(Color.ORANGE);
         fireArrow.setItemMeta(potionMeta);
+
+        // Arrows
+        es.hotbar[7] = new ItemStack(Material.ARROW, arrowCount);
+        ItemStack initialFireArrows = fireArrow.clone();
+        initialFireArrows.setAmount(fireArrowHoldLimit);
+        es.hotbar[3] = initialFireArrows;
 
         super.equipment = es;
 
