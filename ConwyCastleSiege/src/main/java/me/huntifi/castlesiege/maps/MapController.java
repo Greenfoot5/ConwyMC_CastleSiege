@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
@@ -171,6 +172,17 @@ public class MapController {
 					Team team = TeamController.getTeam(player.getUniqueId());
 					if (team != null) {
 						player.teleport(team.lobby.spawnPoint);
+					}
+
+					// Refund the player's bp if they didn't die
+					UUID uuid = player.getUniqueId();
+					if (!InCombat.isPlayerInLobby(uuid))
+					{
+						Kit kit = Kit.equippedKits.get(uuid);
+						if (kit instanceof DonatorKit) {
+							DonatorKit dKit = (DonatorKit) kit;
+							ActiveData.getData(player.getUniqueId()).addBattlepointsClean(dKit.getBattlepointPrice());
+						}
 					}
 				}
 				InCombat.clearCombat();
