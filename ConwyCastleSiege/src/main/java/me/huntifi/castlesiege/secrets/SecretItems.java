@@ -29,19 +29,19 @@ public class SecretItems implements Listener {
     public static void spawnSecretItems() {
         secretItemHolder.clear();
 
-        spawnSecretItem("HelmsDeep" , herugrim(),
+        spawnSecretItem("HelmsDeep_save" , herugrim(),
                 new Location(Bukkit.getWorld("HelmsDeep"), 983.903, 58, 986.954));
 
-        spawnSecretItem("Thunderstone" , skycookie(),
+        spawnSecretItem("Thunderstone_save" , skycookie(),
                 new Location(Bukkit.getWorld("Thunderstone"), 233.50, 67, 78.50));
 
-        spawnSecretItem("Skyhold" , skyholdKeyDoor(),
+        spawnSecretItem("Skyhold_save" , skyholdKeyDoor(),
                 new Location(Bukkit.getWorld("Skyhold"), 1658, 98, -5));
 
-        spawnSecretItem("Skyhold" , skyholdKeyInquisitor(),
+        spawnSecretItem("Skyhold_save" , skyholdKeyInquisitor(),
                 new Location(Bukkit.getWorld("Skyhold"), 1601, 156, -124));
 
-        spawnSecretItem("Skyhold" , skyholdShield(),
+        spawnSecretItem("Skyhold_save" , skyholdShield(),
                 new Location(Bukkit.getWorld("Skyhold"), 1617, 49, -51));
     }
 
