@@ -93,7 +93,7 @@ public class Messenger {
 
     public static void sendInfo(String message, @NotNull Player sender, int maximumLevel) {
         PlayerData data = ActiveData.getData(sender.getUniqueId());
-        if (data.getLevel() <= maximumLevel) {
+        if (data.getLevel() <= maximumLevel || data.getSetting("infoAlways").equals("true")) {
             sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message);
         }
     }

@@ -200,7 +200,7 @@ public class MapController {
 			for (UUID uuid : team.getPlayers()) {
 				Player player = Bukkit.getPlayer(uuid);
 				if (player != null) {
-					Messenger.sendInfo("You earned " + new DecimalFormat("0.0").format(MVPStats.getStats(uuid).getCoins()) + " coins from this game. "
+					Messenger.sendInfo("You earned " + new DecimalFormat("0").format(MVPStats.getStats(uuid).getCoins()) + " coins from this game. "
 							+ "You now have " + new DecimalFormat("0").format(ActiveData.getData(uuid).getCoins())
 							+ " coins in total", player);
 				}

@@ -217,7 +217,7 @@ public class DeathEvent implements Listener {
             UpdateStats.addDeaths(target.getUniqueId(), 1, false);
             Messenger.sendInfo("You gained "
                     + PlayerData.bpDeathAmount * PlayerData.getBattlepointMultiplier()
-                    + " BattlePoint(s) for a death...", target);
+                    + " BattlePoint(s) for a death...", target, 15);
         }
     }
 
@@ -246,7 +246,7 @@ public class DeathEvent implements Listener {
 
         Messenger.sendInfo("You gained "
                 + PlayerData.bpKillAmount * PlayerData.getBattlepointMultiplier()
-                + " BattlePoint(s) for a kill!", killer);
+                + " BattlePoint(s) for a kill!", killer, 15);
     }
 
     /**
@@ -260,7 +260,7 @@ public class DeathEvent implements Listener {
             assist.sendMessage("You assisted in killing " + NameTag.color(target) + target.getName());
             Messenger.sendInfo("You gained "
                     + PlayerData.bpAssistAmount * PlayerData.getBattlepointMultiplier()
-                    + "BattlePoint(s) for assisting in a kill", assist);
+                    + "BattlePoint(s) for assisting in a kill", assist,15);
         }
     }
 

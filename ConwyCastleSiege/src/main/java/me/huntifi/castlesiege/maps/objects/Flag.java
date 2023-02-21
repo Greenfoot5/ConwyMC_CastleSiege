@@ -277,7 +277,7 @@ public class Flag {
                     UpdateStats.addBattlepoints(uuid, PlayerData.bpTakeFlagControlAmount);
                     Messenger.sendInfo("You gained "
                             + PlayerData.bpTakeFlagControlAmount * PlayerData.getBattlepointMultiplier()
-                            + " BattlePoint(s) for taking control of a flag!", player);
+                            + " BattlePoint(s) for taking control of a flag!", player, 15);
                 }
             }
 
@@ -307,7 +307,7 @@ public class Flag {
                             UpdateStats.addBattlepoints(uuid, PlayerData.bpFlagFullCapAmount);
                             Messenger.sendInfo("You gained " +
                                     PlayerData.bpFlagFullCapAmount * PlayerData.getBattlepointMultiplier()
-                                    + " BattlePoint(s) for fully capturing a flag!", player);
+                                    + " BattlePoint(s) for fully capturing a flag!", player, 15);
                         } else {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies have fully captured the flag!"));
                         }
