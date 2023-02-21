@@ -29,36 +29,32 @@ public class SecretItems implements Listener {
     public static void spawnSecretItems() {
         secretItemHolder.clear();
 
-        spawnSecretItem("HelmsDeep_save" , herugrim(),
-                new Location(Bukkit.getWorld("HelmsDeep_save"), 983.903, 58, 986.954));
+        spawnSecretItem("HelmsDeep" , herugrim(),
+                new Location(Bukkit.getWorld("HelmsDeep"), 983.903, 58, 986.954));
 
-        spawnSecretItem("Thunderstone_save" , skycookie(),
-                new Location(Bukkit.getWorld("Thunderstone_save"), 233.50, 67, 78.50));
+        spawnSecretItem("Thunderstone" , skycookie(),
+                new Location(Bukkit.getWorld("Thunderstone"), 233.50, 67, 78.50));
 
-        spawnSecretItem("Skyhold_save" , skyholdKeyDoor(),
-                new Location(Bukkit.getWorld("Skyhold_save"), 1658, 98, -5));
+        spawnSecretItem("Skyhold" , skyholdKeyDoor(),
+                new Location(Bukkit.getWorld("Skyhold"), 1658, 98, -5));
 
-        spawnSecretItem("Skyhold_save" , skyholdKeyInquisitor(),
-                new Location(Bukkit.getWorld("Skyhold_save"), 1601, 156, -124));
+        spawnSecretItem("Skyhold" , skyholdKeyInquisitor(),
+                new Location(Bukkit.getWorld("Skyhold"), 1601, 156, -124));
 
-        spawnSecretItem("Skyhold_save" , skyholdShield(),
-                new Location(Bukkit.getWorld("Skyhold_save"), 1617, 49, -51));
+        spawnSecretItem("Skyhold" , skyholdShield(),
+                new Location(Bukkit.getWorld("Skyhold"), 1617, 49, -51));
     }
 
     /**
      * This method is called in another method that's called when a map starts
-     * @param worldname map name
+     * @param mapName map name
      * @param item the item to spawn
      * @param loc location to spawn the item at
      */
-    public static void spawnSecretItem(String worldname, ItemStack item, Location loc) {
+    public static void spawnSecretItem(String mapName, ItemStack item, Location loc) {
 
-        if (MapController.getCurrentMap().worldName.equalsIgnoreCase(worldname)) {
-
-            Bukkit.getWorld(worldname).dropItem(loc.add(+0.5, +1, +0.5), item).setVelocity(new Vector(0, 0, 0));
-
-        } else {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "map name for secret item: " + item.getType() + " is incorrect");
+        if (MapController.getCurrentMap().name.equalsIgnoreCase(mapName)) {
+            Bukkit.getWorld(mapName).dropItem(loc.add(+0.5, +1, +0.5), item).setVelocity(new Vector(0, 0, 0));
         }
     }
 
