@@ -1,6 +1,8 @@
 package me.huntifi.castlesiege.events.chat;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.database.ActiveData;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -87,6 +89,13 @@ public class Messenger {
 
     public static void sendInfo(String message, @NotNull CommandSender sender) {
         sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message);
+    }
+
+    public static void sendInfo(String message, @NotNull Player sender, int maximumLevel) {
+        PlayerData data = ActiveData.getData(sender.getUniqueId());
+        if (data.getLevel() <= maximumLevel) {
+            sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message);
+        }
     }
 
     public static void sendActionInfo(String message, @NotNull Player sender) {
