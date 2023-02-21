@@ -96,8 +96,9 @@ public class EatCake implements Listener {
 
         // The eater has full health or is on cooldown
         if (eater.getHealth() == Kit.equippedKits.get(eater.getUniqueId()).baseHealth
-                || Medic.cooldown.contains(eater))
+                || Medic.cooldown.contains(eater)) {
             return false;
+        }
 
         // Apply cooldown
         Medic.cooldown.add(eater);

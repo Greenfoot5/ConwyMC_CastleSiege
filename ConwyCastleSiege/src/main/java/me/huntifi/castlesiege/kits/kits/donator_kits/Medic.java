@@ -263,8 +263,9 @@ public class Medic extends DonatorKit implements Listener {
      * @param p The player whose cake to destroy
      */
     private void destroyCake(Player p) {
-        if (cakes.remove(p) != null) {
-            cakes.get(p).setType(Material.AIR);
+        Block cake = cakes.remove(p);
+        if (cake != null) {
+            cake.setType(Material.AIR);
         }
     }
 
@@ -285,7 +286,7 @@ public class Medic extends DonatorKit implements Listener {
      * @param e The event called when clicking with the potion in hand
      */
     @EventHandler
-    public void berserkerPotion(PlayerInteractEvent e) {
+    public void drinkPotion(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
 
