@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.Booster;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
@@ -53,9 +54,12 @@ public class LoadData {
             // Settings data
             HashMap<String, String> settings = getSettings(uuid);
 
+            // Boosters
+            ArrayList<Booster> boosters = getBoosters(uuid);
+
             // Collect data and release resources
             PlayerData data = new PlayerData(unlockedAchievements, unlockedKits, foundSecrets, prMute.getSecond(),
-                    prStats.getSecond(), prRank.getSecond(), votes, settings, MapController.isMatch);
+                    prStats.getSecond(), prRank.getSecond(), votes, settings, MapController.isMatch, boosters);
             prMute.getFirst().close();
             prStats.getFirst().close();
             prRank.getFirst().close();
@@ -345,5 +349,29 @@ public class LoadData {
         }
 
         return unlockedAchievements;
+    }
+
+    private static ArrayList<Booster> getBoosters(UUID uuid) {
+        ArrayList<Booster> boosters = new ArrayList<>();
+
+        try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "SELECT booster_id, booster_type, duration FROM player_boosters WHERE uuid = ?")) {
+            ps.setString(1, uuid.toString());
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Booster booster = new Booster(
+                        rs.getInt("booster_id"),
+                        rs.getString("booster_type"),
+                        rs.getInt("duration")
+                );
+                boosters.add(booster);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return boosters;
     }
 }

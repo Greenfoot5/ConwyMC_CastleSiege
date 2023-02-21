@@ -57,6 +57,7 @@ public class PlayerData {
     private double battlepoints;
 
     private HashMap<String, String> settings;
+    private ArrayList<Booster> boosters;
 
     //private ArrayList<String> ownedAchievements;
 
@@ -70,7 +71,7 @@ public class PlayerData {
      * @throws SQLException If the columns don't match up
      */
     public PlayerData(ArrayList<String> achievements, ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
-                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, boolean isMatch) throws SQLException {
+                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, boolean isMatch, ArrayList<Booster> boosters) throws SQLException {
 
         //this.ownedAchievements = achievements;
         this.unlockedKits = unlockedKits;
@@ -99,6 +100,7 @@ public class PlayerData {
         this.leaveMessage = rankData.getString("leave_message");
 
         this.settings = settings;
+        this.boosters = boosters;
 
         this.votes = votes;
     }
