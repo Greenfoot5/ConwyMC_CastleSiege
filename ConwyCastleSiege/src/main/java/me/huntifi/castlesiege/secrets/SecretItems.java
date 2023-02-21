@@ -140,7 +140,7 @@ public class SecretItems implements Listener {
                                                 //Secret Items\\
     //-------------------------------------------------------------------------------------------------------\\
 
-     final public static ItemStack herugrim() {
+     public static ItemStack herugrim() {
 
          ItemStack sword = new ItemStack(Material.GOLDEN_SWORD);
 
@@ -167,7 +167,7 @@ public class SecretItems implements Listener {
         return sword;
      }
 
-    final public static ItemStack skycookie() {
+    public static ItemStack skycookie() {
 
         ItemStack cookie = new ItemStack(Material.COOKIE);
 
@@ -194,7 +194,7 @@ public class SecretItems implements Listener {
         return cookie;
     }
 
-    final public static ItemStack skyholdKeyInquisitor() {
+    public static ItemStack skyholdKeyInquisitor() {
 
         ItemStack vaultKey = new ItemStack(Material.GOLDEN_HOE);
 
@@ -219,7 +219,7 @@ public class SecretItems implements Listener {
         return vaultKey;
     }
 
-    final public static ItemStack skyholdKeyDoor() {
+    public static ItemStack skyholdKeyDoor() {
 
         ItemStack vaultKey = new ItemStack(Material.IRON_HOE);
 
@@ -244,7 +244,7 @@ public class SecretItems implements Listener {
         return vaultKey;
     }
 
-    final public static ItemStack skyholdShield() {
+    public static ItemStack skyholdShield() {
 
         ItemStack shield = new ItemStack(Material.SHIELD);
 
@@ -270,7 +270,4 @@ public class SecretItems implements Listener {
 
         return shield;
     }
-
-
-
 }
