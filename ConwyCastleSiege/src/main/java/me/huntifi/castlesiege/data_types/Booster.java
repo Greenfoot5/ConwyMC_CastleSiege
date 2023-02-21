@@ -7,11 +7,13 @@ public class Booster {
     public UUID uuid;
     public BoosterType type;
     public int duration;
+    public double amount;
 
-    public Booster(int id, String type, int duration) {
+    public Booster(int id, String type, int duration, double amount) {
         this.id = id;
         this.type = BoosterType.valueOf(type);
         this.duration = duration;
+        this.amount = amount;
     }
 
     public enum BoosterType{

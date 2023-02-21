@@ -3,9 +3,11 @@ package me.huntifi.castlesiege.data_types;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
 import me.huntifi.castlesiege.database.StoreData;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -702,5 +704,37 @@ public class PlayerData {
             if (!foundSecrets.contains(secretName))
                 foundSecrets.add(secretName);
         });
+    }
+
+    public void useBooster(Booster booster) {
+        Player player = Bukkit.getPlayer(booster.uuid);
+        assert player != null;
+        switch (booster.type) {
+            case COIN:
+                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                    PlayerData.coinMultiplier += booster.amount;
+                    // TODO - Add duration
+                    Messenger.broadcastInfo(player.getName() + " has activated a " + booster.amount + "x coin booster! " +
+                            "The total coin multiplier is now " + coinMultiplier + ".");
+                });
+                Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
+                    PlayerData.coinMultiplier -= booster.amount;
+                    Messenger.broadcastWarning(player.getName() + "'s " + booster.amount + "x coin booster has expired! " +
+                            "The total coin multiplier is now " + coinMultiplier + ".");
+                }, booster.duration * 20L);
+            case BATTLEPOINT:
+                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                    PlayerData.battlepointMultiplier += booster.amount;
+                    Messenger.broadcastInfo(player.getName() + " has activated a " + booster.amount + "x battlepoint booster! " +
+                            "The total battlepoint multiplier is now " + battlepointMultiplier + ".");
+                });
+                Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
+                    PlayerData.coinMultiplier -= booster.amount;
+                    Messenger.broadcastWarning(player.getName() + "'s " + booster.amount + "x battlepoint booster has expired! " +
+                            "The total battlepoint multiplier is now " + battlepointMultiplier + ".");
+                }, booster.duration * 20L);
+        }
+
+        boosters.remove(booster);
     }
 }
