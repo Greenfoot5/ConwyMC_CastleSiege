@@ -25,6 +25,7 @@ import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
 import me.huntifi.castlesiege.commands.staff.*;
+import me.huntifi.castlesiege.commands.staff.boosters.GrantBooster;
 import me.huntifi.castlesiege.commands.staff.currencies.*;
 import me.huntifi.castlesiege.commands.staff.currencies.SetBattlepoints;
 import me.huntifi.castlesiege.commands.staff.donations.RankPoints;
@@ -290,6 +291,9 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("SetBattlepoints")).setExecutor(new SetBattlepoints());
                 Objects.requireNonNull(getCommand("SetBattlepointMultiplier")).setExecutor(new SetBattlepointMultiplier());
                 Objects.requireNonNull(getCommand("TakeBattlepoints")).setExecutor(new TakeBattlepoints());
+
+                // Staff - Boosters
+                Objects.requireNonNull(getCommand("GrantBooster")).setExecutor(new GrantBooster());
 
                 // Staff - Punishments
                 Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());

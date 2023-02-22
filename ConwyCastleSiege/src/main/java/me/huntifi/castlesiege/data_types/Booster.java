@@ -1,23 +1,18 @@
 package me.huntifi.castlesiege.data_types;
 
-import java.util.UUID;
-
-public class Booster {
+public abstract class Booster {
     public final int id;
-    public UUID uuid;
-    public BoosterType type;
     public int duration;
-    public double amount;
 
-    public Booster(int id, String type, int duration, double amount) {
-        this.id = id;
-        this.type = BoosterType.valueOf(type);
+    public static int newId;
+
+    public Booster(int duration) {
+        this.id = newId;
+        newId++;
         this.duration = duration;
-        this.amount = amount;
     }
 
-    public enum BoosterType{
-        COIN,
-        BATTLEPOINT
-    }
+    public abstract String getBoostType();
+
+    public abstract String getValue();
 }

@@ -706,34 +706,43 @@ public class PlayerData {
         });
     }
 
-    public void useBooster(Booster booster) {
-        Player player = Bukkit.getPlayer(booster.uuid);
+    public void addBooster(Booster booster) {
+
+    }
+
+    public void useBooster(UUID uuid, Booster booster) {
+        Player player = Bukkit.getPlayer(uuid);
         assert player != null;
-        switch (booster.type) {
-            case COIN:
-                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                    PlayerData.coinMultiplier += booster.amount;
-                    // TODO - Add duration
-                    Messenger.broadcastInfo(player.getName() + " has activated a " + booster.amount + "x coin booster! " +
-                            "The total coin multiplier is now " + coinMultiplier + ".");
-                });
-                Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                    PlayerData.coinMultiplier -= booster.amount;
-                    Messenger.broadcastWarning(player.getName() + "'s " + booster.amount + "x coin booster has expired! " +
-                            "The total coin multiplier is now " + coinMultiplier + ".");
-                }, booster.duration * 20L);
-            case BATTLEPOINT:
-                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                    PlayerData.battlepointMultiplier += booster.amount;
-                    Messenger.broadcastInfo(player.getName() + " has activated a " + booster.amount + "x battlepoint booster! " +
-                            "The total battlepoint multiplier is now " + battlepointMultiplier + ".");
-                });
-                Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                    PlayerData.coinMultiplier -= booster.amount;
-                    Messenger.broadcastWarning(player.getName() + "'s " + booster.amount + "x battlepoint booster has expired! " +
-                            "The total battlepoint multiplier is now " + battlepointMultiplier + ".");
-                }, booster.duration * 20L);
-        }
+
+        // Coin Booster
+        if (booster.getClass().equals(CoinBooster.class)) {
+            CoinBooster coinBooster = (CoinBooster) booster;
+            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                PlayerData.coinMultiplier += coinBooster.multiplier;
+                // TODO - Add duration
+                Messenger.broadcastInfo(player.getName() + " has activated a " + coinBooster.multiplier + "x coin booster! " +
+                        "The total coin multiplier is now " + coinMultiplier + ".");
+            });
+            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
+                PlayerData.coinMultiplier -= coinBooster.multiplier;
+                Messenger.broadcastWarning(player.getName() + "'s " + coinBooster.multiplier + "x coin booster has expired! " +
+                        "The total coin multiplier is now " + coinMultiplier + ".");
+            }, booster.duration * 20L);
+
+        // Battlepoint Booster
+        } else if (booster.getClass().equals(BattlepointBooster.class)) {
+            BattlepointBooster bpBooster = (BattlepointBooster) booster;
+            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                PlayerData.battlepointMultiplier += bpBooster.multiplier;
+                Messenger.broadcastInfo(player.getName() + " has activated a " + bpBooster.multiplier + "x battlepoint booster! " +
+                        "The total battlepoint multiplier is now " + battlepointMultiplier + ".");
+            });
+            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
+                PlayerData.coinMultiplier -= bpBooster.multiplier;
+                Messenger.broadcastWarning(player.getName() + "'s " + bpBooster.multiplier + "x battlepoint booster has expired! " +
+                        "The total battlepoint multiplier is now " + battlepointMultiplier + ".");
+            }, booster.duration * 20L);
+        } // TODO - Kit Booster
 
         boosters.remove(booster);
     }
