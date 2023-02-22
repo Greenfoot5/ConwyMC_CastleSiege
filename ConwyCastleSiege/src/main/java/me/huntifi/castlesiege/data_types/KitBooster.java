@@ -6,7 +6,6 @@ public class KitBooster extends Booster{
 
     public KitBooster(int duration, String kitName) {
         super(duration);
-        // TODO - Check if kit name is valid
         this.kitName = kitName;
     }
 

@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.data_types;
 
 public abstract class Booster {
-    public final int id;
+    public int id;
     public int duration;
 
     public static int newId;

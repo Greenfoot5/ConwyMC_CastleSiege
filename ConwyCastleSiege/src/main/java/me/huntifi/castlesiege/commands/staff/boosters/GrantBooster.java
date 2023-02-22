@@ -1,13 +1,11 @@
 package me.huntifi.castlesiege.commands.staff.boosters;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.BattlepointBooster;
-import me.huntifi.castlesiege.data_types.Booster;
-import me.huntifi.castlesiege.data_types.CoinBooster;
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.*;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,7 +31,7 @@ public class GrantBooster implements CommandExecutor {
             return;
         }
 
-        UUID uuid = getUUID(args[1]);
+        UUID uuid = getUUID(args[0]);
         assert uuid != null;
         PlayerData data = ActiveData.getData(uuid);
         if (data != null) {
@@ -54,7 +52,7 @@ public class GrantBooster implements CommandExecutor {
             Messenger.sendError("Not enough args! Correct usage is: /grantbooster <player> <type> <duration> [type-specific args]", sender);
             return null;
         }
-        String type = args[0];
+        String type = args[1];
         int duration;
         try {
             duration = Integer.parseInt(args[2]);
@@ -65,9 +63,15 @@ public class GrantBooster implements CommandExecutor {
         switch (type.toUpperCase()) {
             case "COIN":
             case "COINS":
+            case "C":
+                if (args.length != 4) {
+                    Messenger.sendError("Incorrect args! Correct usage is: /grantbooster <player> coin <duration> <multiplier>", sender);
+                    return null;
+                }
+
                 double multiplier;
                 try {
-                    multiplier = Integer.parseInt(args[3]);
+                    multiplier = Double.parseDouble(args[3]);
                 } catch (NumberFormatException ex) {
                     Messenger.sendError("Multiplier not a valid number! It should be a double!", sender);
                     return null;
@@ -76,7 +80,21 @@ public class GrantBooster implements CommandExecutor {
             case "BATTLEPOINT":
             case "BP":
                 return new BattlepointBooster(duration);
-            // TODO - Added Kit booster
+            case "KIT":
+            case "K":
+                if (args.length != 4) {
+                    Messenger.sendError("Incorrect args! Correct usage is: /grantbooster <player> kit <duration> <kit_name>", sender);
+                    return null;
+                }
+
+                String kitName = args[3];
+                if (Kit.getKit(kitName) == null
+                        && !kitName.equalsIgnoreCase("WILD")
+                        && !kitName.equalsIgnoreCase("RANDOM")) {
+                    Messenger.sendError("Invalid kit name, nor \"wild\" nor \"random\"!", sender);
+                    return null;
+                }
+                return new KitBooster(duration, kitName);
             default:
                 Messenger.sendError("Invalid type!", sender);
                 return null;
@@ -134,11 +152,11 @@ public class GrantBooster implements CommandExecutor {
     }
 
     private String getQuery() {
-        return "INSERT INTO player_boosters (uuid, booster_type, duration, boost_amount)\n" +
+        return "INSERT INTO player_boosters (uuid, booster_type, duration, boost_value)\n" +
                 "VALUES (?, ?, ?, ?);";
     }
 
     private void sendConfirmMessage(CommandSender sender) {
-
+        Messenger.sendSuccess("Booster granted", sender);
     }
 }

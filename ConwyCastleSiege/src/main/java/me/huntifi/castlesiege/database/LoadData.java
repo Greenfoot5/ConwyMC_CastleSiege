@@ -1,10 +1,9 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Booster;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.data_types.*;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 
 import java.sql.PreparedStatement;
@@ -355,18 +354,47 @@ public class LoadData {
         ArrayList<Booster> boosters = new ArrayList<>();
 
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT booster_id, booster_type, duration FROM player_boosters WHERE uuid = ?")) {
+                "SELECT booster_id, booster_type, duration, boost_value FROM player_boosters WHERE uuid = ?")) {
             ps.setString(1, uuid.toString());
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Booster booster = new Booster(
-                        rs.getInt("booster_id"),
-                        rs.getString("booster_type"),
-                        rs.getInt("duration")
-                );
-                boosters.add(booster);
+                int boostId = rs.getInt("booster_id");
+                String type = rs.getString("booster_type");
+                int duration = rs.getInt("duration");
+                String other = rs.getString("boost_value");
+                Booster booster;
+                switch (type.toUpperCase()) {
+                    case "COIN":
+                    case "COINS":
+                    case "C":
+                        double multiplier;
+                        try {
+                            multiplier = Integer.parseInt(other);
+                            booster = new CoinBooster(duration, multiplier);
+                            booster.id = boostId;
+                            boosters.add(booster);
+                        } catch (NumberFormatException ignored) { }
+                        break;
+                    case "BATTLEPOINT":
+                    case "BP":
+                        booster = new BattlepointBooster(duration);
+                        booster.id = boostId;
+                        boosters.add(booster);
+                        break;
+                    case "KIT":
+                    case "K":
+                        if (Kit.getKit(other) == null
+                                && !other.equalsIgnoreCase("WILD")
+                                && !other.equalsIgnoreCase("RANDOM")) {
+                            break;
+                        }
+                        booster = new KitBooster(duration, other);
+                        booster.id = boostId;
+                        boosters.add(booster);
+                        break;
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
