@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.commands.staff;
+package me.huntifi.castlesiege.commands.staff.maps;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;

@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.staff.RankPoints;
-import me.huntifi.castlesiege.commands.staff.SpectateCommand;
+import me.huntifi.castlesiege.commands.staff.donations.RankPoints;
+import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;

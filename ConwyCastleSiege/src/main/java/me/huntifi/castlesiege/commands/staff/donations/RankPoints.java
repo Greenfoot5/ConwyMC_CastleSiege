@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.commands.staff;
+package me.huntifi.castlesiege.commands.staff.donations;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
@@ -43,8 +43,6 @@ public class RankPoints implements CommandExecutor {
         new BukkitRunnable() {
             @Override
             public void run() {
-                String player = args[0];
-                String option = args[1];
 
                 try {
                     // Get the player's stored rank points
