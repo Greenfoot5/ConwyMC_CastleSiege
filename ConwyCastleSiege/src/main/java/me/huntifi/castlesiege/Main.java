@@ -241,7 +241,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Gameplay
                 Objects.requireNonNull(getCommand("Bounties")).setExecutor(new BountyCommand());
-                Objects.requireNonNull(getCommand("BountyCommand")).setExecutor(new BountyCommand());
+                Objects.requireNonNull(getCommand("Bounty")).setExecutor(new BountyCommand());
                 Objects.requireNonNull(getCommand("BuyKit")).setExecutor(new BuyKitCommand());
                 Objects.requireNonNull(getCommand("CoinShop")).setExecutor(new CoinShopCommand());
                 Objects.requireNonNull(getCommand("Settings")).setExecutor(new SettingsCommand());
@@ -632,23 +632,18 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument[] loadYMLs(String folderName) {
         // Add all config ymls from the doors folder
         File directoryPath = new File(String.valueOf(getDataFolder()), folderName);
-        System.out.println("Directory path");
         // List of all files and directories
         String[] contents = directoryPath.list();
-        System.out.println("contents");
         assert contents != null;
         List<YamlDocument> configs = new ArrayList<>();
         for (String content : contents) {
             if (content.endsWith(".yml")) {
-                System.out.println("New YML: " + content);
-                System.out.println(directoryPath.getPath());
                 // Load the yml with BoostedYAML
                 try {
                     configs.add(YamlDocument.create(new File(directoryPath.getPath(), content),
                             getClass().getResourceAsStream(content)));
-                    System.out.println("Added config");
+                    getLogger().info("Loaded YML: " + directoryPath.getPath() + content);
                 } catch (IOException e) {
-                    System.out.println("IOException!");
                     e.printStackTrace();
                 }
             }
@@ -748,7 +743,7 @@ public class Main extends JavaPlugin implements Listener {
      * Not included in [TODO: loading GUIs from yml] because the kits must be registered first
      */
     private void registerCoinShop() {
-        Gui gui = new Gui(ChatColor.DARK_GREEN + "Coin Shop", 7);
+        Gui gui = new Gui(ChatColor.DARK_GREEN + "Coin Shop", 5);
         getServer().getPluginManager().registerEvents(gui, plugin);
 
         gui.addCoinShopItem("Alchemist", Kit.getMaterial("Alchemist"), 0);
@@ -768,9 +763,9 @@ public class Main extends JavaPlugin implements Listener {
 
         List<String> lore = new ArrayList<>();
         lore.add("/\\ Elite Kits /\\");
-        lore.add("");
+        lore.add(" ");
         lore.add("\\/ Team Kits \\/");
-        for (int i = 18; i < 26; i++) {
+        for (int i = 18; i < 27; i++) {
             gui.addItem("", Material.GRAY_STAINED_GLASS_PANE, lore, i, "", false);
         }
 
@@ -788,9 +783,9 @@ public class Main extends JavaPlugin implements Listener {
         gui.addCoinShopItem("Abyssal", Kit.getMaterial("Abyssal"), 38);
         gui.addCoinShopItem("Hellsteed", Kit.getMaterial("Hellsteed"), 39);
         gui.addCoinShopItem("RoyalKnight", Kit.getMaterial("RoyalKnight"), 40);
-        gui.addCoinShopItem("Arbalester", Kit.getMaterial("RoyalKnight"), 41);
+        gui.addCoinShopItem("Arbalester", Kit.getMaterial("Arbalester"), 41);
 
-        gui.addItem("§4§lGo Back", Material.BARRIER, Collections.singletonList("§cReturn to the previous interface."), 58, "kit shop", true);
+        //gui.addItem("§4§lGo Back", Material.BARRIER, Collections.singletonList("§cReturn to the previous interface."), 45, "kit shop", true);
 
         GuiController.add("coin shop", gui);
     }

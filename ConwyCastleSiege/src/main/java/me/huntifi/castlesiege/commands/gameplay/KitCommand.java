@@ -38,9 +38,6 @@ public class KitCommand implements CommandExecutor {
         } else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
             Messenger.sendError("Spectators cannot select kits!", sender);
             return true;
-        } else if (sender instanceof Player && !InCombat.isPlayerInLobby(((Player) sender).getUniqueId())) {
-            Messenger.sendError("You cannot select kits whilst in combat!", sender);
-            return true;
         }
 
         assert sender instanceof Player;
