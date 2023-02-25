@@ -49,7 +49,7 @@ public class Ranger extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Ranger() {
-        super("Ranger", 260, 8.5, 10000, 10);
+        super("Ranger", 260, 8.5, 10000, 10, Material.LIME_DYE);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

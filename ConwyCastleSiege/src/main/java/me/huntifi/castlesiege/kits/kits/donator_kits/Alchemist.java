@@ -43,7 +43,7 @@ public class Alchemist extends DonatorKit implements Listener {
     private final ItemStack standVoted;
 
     public Alchemist() {
-        super("Alchemist", 230, 2, 10000, 10);
+        super("Alchemist", 230, 2, 10000, 10, Material.BREWING_STAND);
         super.canSeeHealth = true;
 
         // Equipment Stuff
@@ -413,9 +413,9 @@ public class Alchemist extends DonatorKit implements Listener {
         int smallTime = rand.nextInt(121) + 100;
         int mediumTime = rand.nextInt(341) + 100;
         int amplifier = rand.nextInt(2);
-        int bigAmplifier = rand.nextInt(5);
+        //int bigAmplifier = rand.nextInt(5);
         int amplifierRegen = rand.nextInt(9);
-        int harmingAmplifier = rand.nextInt(3);
+        //int harmingAmplifier = rand.nextInt(3);
 
         ItemStack itemStack = new ItemStack(Material.SPLASH_POTION);
         PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
@@ -598,8 +598,8 @@ public class Alchemist extends DonatorKit implements Listener {
         int mediumTime = rand.nextInt(341) + 100;
         int amplifier = rand.nextInt(2);
         int bigAmplifier = rand.nextInt(5);
-        int amplifierRegen = rand.nextInt(9);
-        int harmingAmplifier = rand.nextInt(3);
+        //int amplifierRegen = rand.nextInt(9);
+        //int harmingAmplifier = rand.nextInt(3);
 
 
         ItemStack itemStack = new ItemStack(Material.SPLASH_POTION);

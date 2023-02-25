@@ -25,7 +25,8 @@ import java.util.Objects;
 public class ConwyArbalester extends TeamKit implements Listener {
 
     public ConwyArbalester() {
-        super("Arbalester", 260, 3, "Conwy", "The English", 5000, 10);
+        super("Arbalester", 260, 3, "Conwy", "The English",
+                5000, 10, Material.CROSSBOW);
 
 
         // Equipment Stuff

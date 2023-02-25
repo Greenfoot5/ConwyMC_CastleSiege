@@ -17,6 +17,7 @@ import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.command.Command;
@@ -68,12 +69,15 @@ public abstract class Kit implements CommandExecutor {
     // Kit Tracking
     private static final Map<String, Kit> kits = new HashMap<>();
 
+    // GUI
+    public final Material material;
+
     /**
      * Create a kit with basic settings
      * @param name This kit's name
      * @param baseHealth This kit's base health
      */
-    public Kit(String name, int baseHealth, double regenAmount) {
+    public Kit(String name, int baseHealth, double regenAmount, Material material) {
         this.name = name;
         this.baseHealth = baseHealth;
         this.regenAmount = regenAmount;
@@ -94,6 +98,8 @@ public abstract class Kit implements CommandExecutor {
         killMessage = new String[]{" killed ", ""};
         projectileDeathMessage = new String[]{"You were shot by ", ""};
         projectileKillMessage = new String[]{" shot ", ""};
+
+        this.material = material;
     }
 
     /**
@@ -388,5 +394,13 @@ public abstract class Kit implements CommandExecutor {
         });
 
         return limit <= count.get();
+    }
+
+    public static Material getMaterial(String kitName) {
+        Kit kit = getKit(kitName);
+        if (kit != null) {
+            return kit.material;
+        }
+        return null;
     }
 }

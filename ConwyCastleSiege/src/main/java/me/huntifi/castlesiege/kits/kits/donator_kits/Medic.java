@@ -51,7 +51,7 @@ public class Medic extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Medic() {
-        super("Medic", 245, 15, 7500, 5);
+        super("Medic", 245, 15, 7500, 5, Material.CAKE);
         super.canSeeHealth = true;
 
         // Equipment Stuff

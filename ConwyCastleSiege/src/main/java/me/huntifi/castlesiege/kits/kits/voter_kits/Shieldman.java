@@ -22,7 +22,7 @@ public class Shieldman extends VoterKit {
      * Set the equipment and attributes of this kit
      */
     public Shieldman() {
-        super("Shieldman", 340, 14);
+        super("Shieldman", 340, 14, Material.SHIELD);
         super.kbResistance = 0.5;
 
         // Equipment Stuff

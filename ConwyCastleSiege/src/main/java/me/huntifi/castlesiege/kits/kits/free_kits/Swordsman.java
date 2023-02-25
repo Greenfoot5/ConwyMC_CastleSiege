@@ -24,7 +24,7 @@ public class Swordsman extends FreeKit {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Swordsman() {
-		super("Swordsman", health, regenAmount);
+		super("Swordsman", health, regenAmount, Material.IRON_SWORD);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();

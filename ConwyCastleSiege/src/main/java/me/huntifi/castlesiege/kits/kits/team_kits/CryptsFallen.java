@@ -5,8 +5,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.ChatColor;
@@ -28,7 +26,8 @@ public class CryptsFallen extends TeamKit implements Listener {
      * Create a kit with basic settings
      */
     public CryptsFallen() {
-        super("Fallen", 320, 23, "Royal Crypts", "Tomb Guardians", 3500, 5);
+        super("Fallen", 320, 23, "Royal Crypts", "Tomb Guardians",
+                3500, 5, Material.WITHER_SKELETON_SKULL);
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;

@@ -35,7 +35,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
      * Set the equipment and attributes of this kit
      */
     public Vanguard() {
-        super("Vanguard", 260, 11, 10000, 10);
+        super("Vanguard", 260, 11, 10000, 10, Material.DIAMOND_SWORD);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

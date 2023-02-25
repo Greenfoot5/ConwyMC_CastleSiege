@@ -3,18 +3,17 @@ package me.huntifi.castlesiege.kits.kits.donator_kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.HurtAnimation;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
+import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -58,7 +57,7 @@ public class Engineer extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Engineer() {
-        super("Engineer", 260, 9, 10000, 10);
+        super("Engineer", 260, 9, 10000, 10, Material.COBWEB);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

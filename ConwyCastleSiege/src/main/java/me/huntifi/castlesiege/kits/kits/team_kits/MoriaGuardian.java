@@ -8,7 +8,6 @@ import me.huntifi.castlesiege.kits.kits.TeamKit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,7 +23,8 @@ import java.util.Objects;
 public class MoriaGuardian extends TeamKit implements Listener {
 
     public MoriaGuardian() {
-        super("Dwarven Guardian", 410, 15, "Moria", "The Dwarves", 5000, 10);
+        super("Dwarven Guardian", 410, 15, "Moria",
+                "The Dwarves", 5000, 10, Material.SHIELD);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

@@ -3,10 +3,13 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.UUID;
 
 public abstract class TeamKit extends DonatorKit {
 
@@ -27,8 +30,9 @@ public abstract class TeamKit extends DonatorKit {
      * @param playableTeam The team the kit can be played on
      * @param coins the amount of coins this kit costs
      */
-    public TeamKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins, double battlepoints) {
-        super(name, baseHealth, regenAmount, coins, battlepoints);
+    public TeamKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins, double battlepoints,
+                   Material material) {
+        super(name, baseHealth, regenAmount, coins, battlepoints, material);
         team = playableTeam;
         map = playableMap;
 

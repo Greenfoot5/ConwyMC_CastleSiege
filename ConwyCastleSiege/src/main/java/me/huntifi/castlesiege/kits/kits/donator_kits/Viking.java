@@ -10,7 +10,6 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,7 +33,7 @@ public class Viking extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Viking() {
-        super("Viking", 300, 10, 10000, 10);
+        super("Viking", 300, 10, 10000, 10, Material.IRON_CHESTPLATE);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

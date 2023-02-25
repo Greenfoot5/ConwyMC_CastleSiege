@@ -5,9 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
-import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -35,7 +33,7 @@ public class Maceman extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Maceman() {
-        super("Maceman", 360, 12, 8500, 9);
+        super("Maceman", 360, 12, 8500, 9, Material.DIAMOND_SHOVEL);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

@@ -48,7 +48,6 @@ free:
   items:
     archer:
       name: "§a§lCLASS:§r§a Archer"
-      material: "BOW"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a The standard ranged kit."
@@ -62,7 +61,6 @@ free:
       command: "archer"
     spearman:
       name: "§a§lCLASS:§r§a Spearman"
-      material: "STICK"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A kit that can throw spears."
@@ -77,7 +75,6 @@ free:
       command: "spearman"
     swordsman:
       name: "§a§lCLASS:§r§a Swordsman"
-      material: "IRON_SWORD"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a The standard melee kit."
@@ -90,7 +87,6 @@ free:
       command: "swordsman"
     fire_archer:
       name: "§a§lCLASS:§r§a Fire Archer"
-      material: "BLAZE_POWDER"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A slow archer that can put enemies on fire."
@@ -107,7 +103,6 @@ free:
       command: "firearcher"
     ladderman:
       name: "§a§lCLASS:§r§a Ladderman"
-      material: "LADDER"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A useful kit for climbing up walls."
@@ -121,7 +116,6 @@ free:
       command: "ladderman"
     shieldman:
       name: "§a§lCLASS:§r§a Shieldman"
-      material: "SHIELD"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A tanky melee kit with a shield."
@@ -135,7 +129,6 @@ free:
       command: "shieldman"
     scout:
       name: "§a§lCLASS:§r§a Scout"
-      material: "LEATHER_BOOTS"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A very fast melee kit."
@@ -150,7 +143,6 @@ free:
       command: "scout"
     skirmisher:
       name: "§a§lCLASS:§r§a Skirmisher"
-      material: "IRON_BOOTS"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A more mobile melee kit."
@@ -176,7 +168,6 @@ premium:
   items:
     berserker:
       name: "§a§lCLASS:§r§a Berserker"
-      material: "POTION"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a An armorless warrior with high dps and speed."
@@ -193,7 +184,6 @@ premium:
       command: "berserker"
     vanguard:
       name: "§a§lCLASS:§r§a Vanguard"
-      material: "DIAMOND_SWORD"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A warrior with the ability to charge."
@@ -209,7 +199,6 @@ premium:
       command: "vanguard"
     executioner:
       name: "§a§lCLASS:§r§a Executioner"
-      material: "DIAMOND_AXE"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A kit with the ability to execute enemies."
@@ -224,7 +213,6 @@ premium:
       command: "executioner"
     maceman:
       name: "§a§lCLASS:§r§a Maceman"
-      material: "DIAMOND_SHOVEL"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A kit with the ability to stun enemies."
@@ -240,7 +228,6 @@ premium:
       command: "maceman"
     viking:
       name: "§a§lCLASS:§r§a Viking"
-      material: "CHAINMAIL_CHESTPLATE"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A kit with the ability to ignore armor."
@@ -256,7 +243,6 @@ premium:
       command: "viking"
     halberdier:
       name: "§a§lCLASS:§r§a Halberdier"
-      material: "DIAMOND_CHESTPLATE"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a the ultimate tank kit!"
@@ -272,7 +258,6 @@ premium:
       command: "halberdier"
     medic:
       name: "§a§lCLASS:§r§a Medic"
-      material: "CAKE"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A support kit that heals allies."
@@ -289,7 +274,6 @@ premium:
       command: "medic"
     engineer:
       name: "§a§lCLASS:§r§a Engineer"
-      material: "COBWEB"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A support kit that specializes in using tools."
@@ -306,7 +290,6 @@ premium:
       command: "engineer"
     ranger:
       name: "§a§lCLASS:§r§a Ranger"
-      material: "LIME_DYE"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A support kit that specializes in using tools."
@@ -325,7 +308,6 @@ premium:
       command: "ranger"
     crossbowman:
       name: "§a§lCLASS:§r§a Crossbowman"
-      material: "CROSSBOW"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A ranged kit that functions like a sniper."
@@ -342,7 +324,6 @@ premium:
       command: "crossbowman"
     cavalry:
       name: "§a§lCLASS:§r§a Cavalry"
-      material: "IRON_HORSE_ARMOR"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A basic mounted kit."
@@ -358,7 +339,6 @@ premium:
       command: "cavalry"
     warhound:
       name: "§a§lCLASS:§r§a Warhound"
-      material: "GHAST_TEAR"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A special kit where you play as a wolf."
@@ -374,7 +354,6 @@ premium:
       command: "warhound"
     alchemist:
       name: "§a§lCLASS:§r§a Alchemist"
-      material: "BREWING_STAND"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A heal/support kit that uses potions!"
@@ -391,7 +370,6 @@ premium:
       command: "alchemist"
     rogue:
       name: "§a§lCLASS:§r§a Rogue"
-      material: "NETHERITE_BOOTS"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a An assassination kit with poison abilities."
@@ -421,7 +399,6 @@ rohan:
   items:
     lancer:
       name: "§a§lCLASS:§r§a Lancer"
-      material: "STICK"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a Cavalry that can use spears!"
@@ -439,7 +416,6 @@ rohan:
       command: "HelmsDeepLancer"
     ranged_cavalry:
       name: "§a§lCLASS:§r§a Ranged Cavalry"
-      material: "BOW"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a Cavalry that can use a bow and sword!"
@@ -467,7 +443,6 @@ uruk-hai:
   items:
     uruk_berserker:
       name: "§a§lCLASS:§r§a Uruk Berserker"
-      material: "REDSTONE"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a Melee unit that deals AOE damage!"
@@ -496,7 +471,6 @@ burning_legion:
   items:
     abbysal:
       name: "§a§lCLASS:§r§a Abyssal"
-      material: "MAGMA_BLOCK"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A supportive tank with explosive abilities."
@@ -518,7 +492,6 @@ hellfire_guards:
   items:
     hellsteed:
       name: "§a§lCLASS:§r§a Hellsteed"
-      material: "LEATHER_HORSE_ARMOR"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A support horse that can stomp"
@@ -541,7 +514,6 @@ tomb_guardians:
   items:
     hellsteed:
       name: "§a§lCLASS:§r§a Fallen"
-      material: "WITHER_SKELETON_SKULL"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a Basically a wither skeleton"
@@ -570,7 +542,6 @@ orc:
   items:
     moria_orc:
       name: "§a§lCLASS:§r§a Moria Orc"
-      material: "BOW"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a An archer with poisonous arrows"
@@ -586,7 +557,6 @@ orc:
       command: "Moriaorc"
     Bonecrusher:
       name: "§a§lCLASS:§r§a Bonecrusher"
-      material: "BONE"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A fast melee unit that makes enemies weak"
@@ -604,7 +574,6 @@ orc:
       command: "MoriaBonecrusher"
     Cavetroll:
       name: "§a§lCLASS:§r§a Cave Troll"
-      material: "IRON_INGOT"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A tank that can throw enemies"
@@ -633,7 +602,6 @@ dwarves:
   items:
     moria_orc:
       name: "§a§lCLASS:§r§a Axe Thrower"
-      material: "STONE_AXE"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a An ranged/melee unit that can throw axes"
@@ -651,7 +619,6 @@ dwarves:
       command: "Moriaaxethrower"
     Guardian:
       name: "§a§lCLASS:§r§a Guardian"
-      material: "SHIELD"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A tank that makes good use of his shield."
@@ -669,7 +636,6 @@ dwarves:
       command: "Moriaguardian"
     Windlancer:
       name: "§a§lCLASS:§r§a Windlancer"
-      material: "STICK"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A ranged unit that throws 3 spears."
@@ -698,7 +664,6 @@ english:
   items:
     royalknight:
       name: "§a§lCLASS:§r§a Royal Knight"
-      material: "DIAMOND_HORSE_ARMOR"
       lore:
         - "§4------------------------------"
         - "§2[Desc]:§a A royal knight on a tanky horse!"
@@ -715,7 +680,6 @@ english:
       command: "ConwyRoyalKnight"
     arbalester:
       name: "§a§lCLASS:§r§a Arbalester"
-      material: "CROSSBOW"
       lore:
         - "§4------------------------------"
         - "§2[Desc]:§a A ranged unit with an arbalest!"
@@ -744,7 +708,6 @@ thunderstoneGuard:
   items:
     elytrier:
       name: "§a§lCLASS:§r§a Elytrier"
-      material: "ELYTRA"
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a Flying unit with healing/explosive support"

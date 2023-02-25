@@ -31,7 +31,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
@@ -42,7 +41,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.awt.image.IndexColorModel;
 import java.util.*;
 
 public class Rogue extends DonatorKit implements Listener {
@@ -52,11 +50,8 @@ public class Rogue extends DonatorKit implements Listener {
     public static ArrayList<Player> isShadow = new ArrayList<>();
     private final ItemStack gouge;
 
-    private final ItemStack poison;
-
-    private final ItemStack shadowstep;
-
-    private final ItemStack shadowleap;
+    private final ItemStack shadowStep;
+    private final ItemStack shadowLeap;
 
     private final ItemStack trackArrow;
 
@@ -72,7 +67,7 @@ public class Rogue extends DonatorKit implements Listener {
     private BukkitRunnable br = null;
 
     public Rogue() {
-        super("Rogue", 240, 5, 10000, 10);
+        super("Rogue", 240, 5, 10000, 10, Material.NETHERITE_BOOTS);
         super.canSeeHealth = true;
 
         // Equipment Stuff
@@ -115,19 +110,19 @@ public class Rogue extends DonatorKit implements Listener {
                 null, 1);
         es.hotbar[1] = gouge;
 
-        poison = poisonPotion();
+        ItemStack poison = poisonPotion();
         es.hotbar[2] = poison;
 
-        shadowstep = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+        shadowStep = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 ChatColor.DARK_GRAY + "Shadowstep",
                 Arrays.asList(ChatColor.AQUA + "", ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to activate.",
                         ChatColor.AQUA + "", ChatColor.AQUA + "You move through the shadows, invisible to everyone.",
                         ChatColor.AQUA + "Whilst you shadowstep you can not attack targets.",
                         ChatColor.AQUA + "This ability lasts 6 seconds and has a cool-down of 13 seconds."),
                 null);
-        es.hotbar[3] = shadowstep;
+        es.hotbar[3] = shadowStep;
 
-        shadowleap = ItemCreator.item(new ItemStack(Material.DRIED_KELP),
+        shadowLeap = ItemCreator.item(new ItemStack(Material.DRIED_KELP),
                 ChatColor.DARK_GRAY + "Shadowleap",
                 Arrays.asList(ChatColor.AQUA + "", ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to activate.",
                         ChatColor.AQUA + "", ChatColor.AQUA + "You move through the shadows, invisible to everyone.",
@@ -136,7 +131,7 @@ public class Rogue extends DonatorKit implements Listener {
                         ChatColor.AQUA + "This ability can be used as an extension to shadowstep,",
                         ChatColor.AQUA + "lasts for 6 seconds and has a cool-down of 20 seconds."),
                 null);
-        es.hotbar[4] = shadowleap;
+        es.hotbar[4] = shadowLeap;
 
         trackArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW, 5),
                 ChatColor.YELLOW + "Track Arrow",
@@ -177,8 +172,8 @@ public class Rogue extends DonatorKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                ChatColor.DARK_GRAY + "Rogue Boots", Arrays.asList(ChatColor.AQUA + "- rogue: Feather Falling X"),
-                Arrays.asList(new Tuple<>(Enchantment.PROTECTION_FALL, 10)));
+                ChatColor.DARK_GRAY + "Rogue Boots", Collections.singletonList(ChatColor.AQUA + "- rogue: Feather Falling X"),
+                Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_FALL, 10)));
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 ChatColor.GREEN + "Leather Boots",
@@ -219,8 +214,8 @@ public class Rogue extends DonatorKit implements Listener {
     }
 
     /**
-     *
-     * @param e event triggered by right clicking mode switch button.
+     * Activate poisoned weapons
+     * @param e event triggered by right-clicking mode switch button.
      */
     @EventHandler
     public void onAbilityTrigger(PlayerInteractEvent e) {
@@ -243,8 +238,8 @@ public class Rogue extends DonatorKit implements Listener {
     }
 
     /**
-     *
-     * @param e event triggered by right clicking mode switch button.
+     * Activate ShadowStep
+     * @param e event triggered by right-clicking mode switch button.
      */
     @EventHandler
     public void onShadowstep(PlayerInteractEvent e) {
@@ -257,7 +252,7 @@ public class Rogue extends DonatorKit implements Listener {
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 Material item = p.getInventory().getItemInMainHand().getType();
-                if (item.equals(shadowstep.getType())) {
+                if (item.equals(shadowStep.getType())) {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             ChatColor.RED + "You triggered the Shadowstep ability!"));
                     shadowstepAbility(p);
@@ -267,8 +262,8 @@ public class Rogue extends DonatorKit implements Listener {
     }
 
     /**
-     *
-     * @param e event triggered by right clicking mode switch button.
+     * Activate Shadow Leap
+     * @param e event triggered by right-clicking mode switch button.
      */
     @EventHandler
     public void onShadowleap(PlayerInteractEvent e) {
@@ -281,7 +276,7 @@ public class Rogue extends DonatorKit implements Listener {
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 Material item = p.getInventory().getItemInMainHand().getType();
-                if (item.equals(shadowleap.getType())) {
+                if (item.equals(shadowLeap.getType())) {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             ChatColor.RED + "You triggered the Shadowleap ability!"));
                     shadowleapAbility(p);
@@ -296,8 +291,8 @@ public class Rogue extends DonatorKit implements Listener {
      */
     public void shadowstepAbility(Player p) {
         int duration = 100;
-        if (p.getCooldown(shadowstep.getType()) == 0) {
-            p.setCooldown(shadowstep.getType(), 260);
+        if (p.getCooldown(shadowStep.getType()) == 0) {
+            p.setCooldown(shadowStep.getType(), 260);
             MobDisguise mobDisguise = new MobDisguise(DisguiseType.BAT);
             disguise(p, mobDisguise);
             isShadow.add(p);
@@ -338,8 +333,8 @@ public class Rogue extends DonatorKit implements Listener {
      * @param p The player to (un)disguise
      */
     public void shadowleapAbility(Player p) {
-        if (p.getCooldown(shadowleap.getType()) == 0 && isShadow.contains(p)) {
-            p.setCooldown(shadowleap.getType(), 400);
+        if (p.getCooldown(shadowLeap.getType()) == 0 && isShadow.contains(p)) {
+            p.setCooldown(shadowLeap.getType(), 400);
             p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, 4));
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2));
         } else if (!isShadow.contains(p)) {
@@ -493,7 +488,7 @@ public class Rogue extends DonatorKit implements Listener {
                     arrow.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 0), true);
                     arrow.addCustomEffect(new PotionEffect(PotionEffectType.GLOWING, 1200, 0), true);
                     if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                        arrow.setDamage(1);
+                        arrow.setDamage(10);
                         ((Player) arrow.getShooter()).getInventory().addItem(comboPoint);
                     }
                 }
@@ -519,7 +514,6 @@ public class Rogue extends DonatorKit implements Listener {
             target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 0));
             target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 40, 0));
             AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 50);
-            damage = 50;
         } else if (amount == 1) {
             AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 75);
             target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 50, 4));
@@ -583,32 +577,32 @@ public class Rogue extends DonatorKit implements Listener {
             Player p = (Player) ed.getDamager();
             Player hit = (Player) ed.getEntity();
             if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-            if (p.getCooldown(gouge.getType()) == 0) {
-                p.setCooldown(gouge.getType(), 100);
+                if (p.getCooldown(gouge.getType()) == 0) {
+                    p.setCooldown(gouge.getType(), 100);
 
-                Location hitLoc = hit.getLocation();
-                Location damagerLoc = p.getLocation();
+                    Location hitLoc = hit.getLocation();
+                    Location damagerLoc = p.getLocation();
 
-                // Basically what happens here is you check whether the player
-                // is not looking at you at all (so having their back aimed at you.)
-                if (damagerLoc.getYaw() <= hitLoc.getYaw() + 60 && damagerLoc.getYaw() >= hitLoc.getYaw() - 60
-                        && canGouge && !isShadow.contains(p)) {
+                    // Basically what happens here is you check whether the player
+                    // is not looking at you at all (so having their back aimed at you.)
+                    if (damagerLoc.getYaw() <= hitLoc.getYaw() + 60 && damagerLoc.getYaw() >= hitLoc.getYaw() - 60
+                            && canGouge && !isShadow.contains(p)) {
 
-                    if (p.getInventory().getItemInMainHand().getType() != Material.NETHERITE_INGOT) {
-                        return;
-                    }
+                        if (p.getInventory().getItemInMainHand().getType() != Material.NETHERITE_INGOT) {
+                            return;
+                        }
 
-                    ed.setCancelled(true);
-                    hit.sendMessage(ChatColor.RED + "You were gouged by " + p.getName());
-                    p.sendMessage(ChatColor.RED + "You gouged " + hit.getName());
-                    if (p.getInventory().getItem(6) != null) {
-                        int amount = p.getInventory().getItem(6).getAmount();
-                        gougedDamage(p, hit, amount);
-                    } else {
-                        gougedDamage(p, hit, 0);
+                        ed.setCancelled(true);
+                        hit.sendMessage(ChatColor.RED + "You were gouged by " + p.getName());
+                        p.sendMessage(ChatColor.RED + "You gouged " + hit.getName());
+                        if (p.getInventory().getItem(6) != null) {
+                            int amount = p.getInventory().getItem(6).getAmount();
+                            gougedDamage(p, hit, amount);
+                        } else {
+                            gougedDamage(p, hit, 0);
+                        }
                     }
                 }
-             }
             }
         }
     }
