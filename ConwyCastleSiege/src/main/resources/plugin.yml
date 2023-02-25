@@ -132,6 +132,10 @@ commands:
   Settings:
     description: Check or update your settings
     usage: /settings [setting] [value]
+  Boosters:
+    description: Check your boosters or use one
+    usage: /booster [use] [id]
+    aliases: booster
 
   # Info
   Battlepoints:
@@ -462,7 +466,6 @@ commands:
   buykit:
     description: Buy a kit with coins
     usage: /buykit <kit> [player]
-
 
   # Kits
   Random:

@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -706,8 +707,12 @@ public class PlayerData {
         });
     }
 
-    public void addBooster(Booster booster) {
+    public List<Booster> getBoosters() {
+        return boosters;
+    }
 
+    public void addBooster(Booster booster) {
+        boosters.add(booster);
     }
 
     public void useBooster(UUID uuid, Booster booster) {

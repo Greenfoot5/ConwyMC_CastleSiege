@@ -17,7 +17,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A GUI made with a minecraft inventory
@@ -59,7 +62,7 @@ public class Gui implements Listener {
     public void addCoinShopItem(String kitName, Material material, int location) {
         Kit kit = Kit.getKit(kitName);
         if (!(kit instanceof DonatorKit))
-            throw new IllegalArgumentException(kitName + " is not a donator kit");
+            throw new IllegalArgumentException(kitName + " is not a donator kit, it's " + kit.getClass());
 
         String itemName = (kit instanceof TeamKit ? ChatColor.BLUE : ChatColor.GOLD) + "" + ChatColor.BOLD + kit.name;
         String price = ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((DonatorKit) kit).getPrice();

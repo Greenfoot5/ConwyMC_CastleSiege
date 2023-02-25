@@ -132,8 +132,6 @@ public class Main extends JavaPlugin implements Listener {
                 loadMaps();
                 getLogger().info("Loading game configuration...");
                 loadConfig();
-                getLogger().info("Loading kit GUI configuration...");
-                loadKits();
 
                 getLogger().info("Connecting to database...");
                 // SQL Stuff
@@ -228,6 +226,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
                 getServer().getPluginManager().registerEvents(new Warbear(), plugin);
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
+
 
                 // Chat
                 Objects.requireNonNull(getCommand("GlobalChat")).setExecutor(new GlobalChat());
@@ -364,6 +363,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
                 Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
+                loadKits();
                 applyKitLimits();
                 registerCoinShop();
 
@@ -666,13 +666,16 @@ public class Main extends JavaPlugin implements Listener {
             for (String itemPath : itemPaths) {
                 Route itemRoute = guiRoute.add("items").add(itemPath);
                 String itemName = kitsConfig.getString(itemRoute.add("name"));
-                Material material = Kit.getMaterial(itemName);
-                if (material == null) {
+                String command = kitsConfig.getString(itemRoute.add("command"));
+                Material material;
+                if (itemName.contains("CLASS")) {
+                    material = Kit.getMaterial(command);
+                    getLogger().info(command);
+                } else {
                     material = Material.getMaterial(kitsConfig.getString(itemRoute.add("material")));
                 }
                 List<String> lore = kitsConfig.getStringList(itemRoute.add("lore"));
                 int location = kitsConfig.getInt(itemRoute.add("location"));
-                String command = kitsConfig.getString(itemRoute.add("command"));
                 gui.addItem(itemName, material, lore, location, command, true);
             }
 
@@ -766,7 +769,7 @@ public class Main extends JavaPlugin implements Listener {
         lore.add(" ");
         lore.add("\\/ Team Kits \\/");
         for (int i = 18; i < 27; i++) {
-            gui.addItem("", Material.GRAY_STAINED_GLASS_PANE, lore, i, "", false);
+            gui.addItem(" ", Material.GRAY_STAINED_GLASS_PANE, lore, i, "", false);
         }
 
         gui.addCoinShopItem("Elytrier", Kit.getMaterial("Elytrier"), 27);
