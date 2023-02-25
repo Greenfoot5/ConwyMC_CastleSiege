@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.gui;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.GuiItem;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;

@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.data_types;
+package me.huntifi.castlesiege.gui;
 
 public class GuiItem {
 
