@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.data_types;
 
-public abstract class Booster {
+public abstract class Booster implements Comparable<Booster> {
     public int id;
     public int duration;
 
@@ -15,4 +15,8 @@ public abstract class Booster {
     public abstract String getBoostType();
 
     public abstract String getValue();
+
+    public int compareTo(Booster booster) {
+        return id - booster.id;
+    }
 }
