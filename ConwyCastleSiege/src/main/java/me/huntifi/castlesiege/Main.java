@@ -748,7 +748,7 @@ public class Main extends JavaPlugin implements Listener {
      * Not included in [TODO: loading GUIs from yml] because the kits must be registered first
      */
     private void registerCoinShop() {
-        Gui gui = new Gui(ChatColor.DARK_GREEN + "Coin Shop", 6);
+        Gui gui = new Gui(ChatColor.DARK_GREEN + "Coin Shop", 7);
         getServer().getPluginManager().registerEvents(gui, plugin);
 
         gui.addCoinShopItem("Alchemist", Kit.getMaterial("Alchemist"), 0);
@@ -766,23 +766,31 @@ public class Main extends JavaPlugin implements Listener {
         gui.addCoinShopItem("Viking", Kit.getMaterial("Viking"), 12);
         gui.addCoinShopItem("Warhound", Kit.getMaterial("Warhound"), 13);
 
-        gui.addCoinShopItem("Elytrier", Material.ELYTRA, 27);
-        gui.addCoinShopItem("Fallen", Material.WITHER_SKELETON_SKULL, 28);
-        gui.addCoinShopItem("MoriaOrc", Material.BOW, 29);
-        gui.addCoinShopItem("DwarvenAxeThrower", Material.STONE_AXE, 30);
-        gui.addCoinShopItem("DwarvenGuardian", Material.SHIELD, 31);
-        gui.addCoinShopItem("MoriaCaveTroll", Material.IRON_INGOT, 32);
-        gui.addCoinShopItem("MoriaBonecrusher", Material.BONE, 33);
-        gui.addCoinShopItem("DwarvenWindlancer", Material.STICK, 34);
-        gui.addCoinShopItem("UrukBerserker", Material.BEETROOT_SOUP, 35);
-        gui.addCoinShopItem("Lancer", Material.STICK, 36);
-        gui.addCoinShopItem("RangedCavalry", Material.BOW, 37);
-        gui.addCoinShopItem("Abyssal", Material.GREEN_DYE, 38);
-        gui.addCoinShopItem("Hellsteed", Material.MAGMA_BLOCK, 39);
-        gui.addCoinShopItem("RoyalKnight", Material.DIAMOND_HORSE_ARMOR, 40);
-        gui.addCoinShopItem("Arbalester", Material.CROSSBOW, 41);
+        List<String> lore = new ArrayList<>();
+        lore.add("/\\ Elite Kits /\\");
+        lore.add("");
+        lore.add("\\/ Team Kits \\/");
+        for (int i = 18; i < 26; i++) {
+            gui.addItem("", Material.GRAY_STAINED_GLASS_PANE, lore, i, "", false);
+        }
 
-        gui.addItem("§4§lGo Back", Material.BARRIER, Collections.singletonList("§cReturn to the previous interface."), 49, "kit shop", true);
+        gui.addCoinShopItem("Elytrier", Kit.getMaterial("Elytrier"), 27);
+        gui.addCoinShopItem("Fallen", Kit.getMaterial("Fallen"), 28);
+        gui.addCoinShopItem("MoriaOrc", Kit.getMaterial("MoriaOrc"), 29);
+        gui.addCoinShopItem("DwarvenAxeThrower", Kit.getMaterial("DwarvenAxeThrower"), 30);
+        gui.addCoinShopItem("DwarvenGuardian", Kit.getMaterial("DwarvenGuardian"), 31);
+        gui.addCoinShopItem("MoriaCaveTroll", Kit.getMaterial("MoriaCaveTroll"), 32);
+        gui.addCoinShopItem("MoriaBonecrusher", Kit.getMaterial("MoriaBonecrusher"), 33);
+        gui.addCoinShopItem("DwarvenWindlancer", Kit.getMaterial("DwarvenWindlancer"), 34);
+        gui.addCoinShopItem("UrukBerserker", Kit.getMaterial("UrukBerserker"), 35);
+        gui.addCoinShopItem("Lancer", Kit.getMaterial("Lancer"), 36);
+        gui.addCoinShopItem("RangedCavalry", Kit.getMaterial("RangedCavalry"), 37);
+        gui.addCoinShopItem("Abyssal", Kit.getMaterial("Abyssal"), 38);
+        gui.addCoinShopItem("Hellsteed", Kit.getMaterial("Hellsteed"), 39);
+        gui.addCoinShopItem("RoyalKnight", Kit.getMaterial("RoyalKnight"), 40);
+        gui.addCoinShopItem("Arbalester", Kit.getMaterial("RoyalKnight"), 41);
+
+        gui.addItem("§4§lGo Back", Material.BARRIER, Collections.singletonList("§cReturn to the previous interface."), 58, "kit shop", true);
 
         GuiController.add("coin shop", gui);
     }

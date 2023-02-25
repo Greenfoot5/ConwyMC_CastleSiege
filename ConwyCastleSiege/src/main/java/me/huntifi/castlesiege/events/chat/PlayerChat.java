@@ -13,10 +13,18 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.ArrayList;
+
 /**
  * Customises a player's chat message
  */
 public class PlayerChat implements Listener {
+
+	private static final ArrayList<String> owners = new ArrayList<>();
+
+	public PlayerChat() {
+		owners.add("Huntifi");
+	}
 
 	/**
 	 * Set message color to white for staff and gray otherwise
@@ -51,7 +59,8 @@ public class PlayerChat implements Listener {
 		ChatColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
 				? ChatColor.WHITE : ChatColor.GRAY;
 
-		if (p.hasPermission("castlesiege.owner") && !ToggleRankCommand.showDonator.contains(p)) {
+
+		if (owners.contains(p.getName()) && !ToggleRankCommand.showDonator.contains(p)) {
 			color = ChatColor.GREEN;
 		}
 
