@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.gameplay.Bounty;
+import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -113,7 +113,7 @@ public class StoreData {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Bounty.saveBounties();
+        BountyCommand.saveBounties();
     }
 
     /**

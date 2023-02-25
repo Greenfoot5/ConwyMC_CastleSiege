@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.events.death;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.gameplay.Bounty;
+import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
@@ -194,7 +194,7 @@ public class DeathEvent implements Listener {
                     killDeathMessage(killer, target, kit.getMeleeMessage());
 
             // Check for bounty
-            Bounty.killstreak(killer);
+            BountyCommand.killstreak(killer);
         }
 
         // Assist
@@ -203,10 +203,10 @@ public class DeathEvent implements Listener {
             // There are separate players for the kill and the assist
             UpdateStats.addAssist(assist);
             assistMessage(assist, target);
-            Bounty.grantRewards(target, killer, Bukkit.getPlayer(assist));
+            BountyCommand.grantRewards(target, killer, Bukkit.getPlayer(assist));
         } else if (killer != null) {
             // There is no player for the assist, or it is the same as the killer
-            Bounty.grantRewards(target, killer);
+            BountyCommand.grantRewards(target, killer);
         } else if (assist != null) {
             // There is only a player for the assist, the death is not player related
             UpdateStats.addAssist(assist);

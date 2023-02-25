@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Bounty implements CommandExecutor {
+public class BountyCommand implements CommandExecutor {
 
     private static final ArrayList<Tuple<UUID, Integer>> bounties = new ArrayList<>();
 
@@ -95,7 +95,7 @@ public class Bounty implements CommandExecutor {
                 bounties.sort((o1, o2) -> o2.getSecond() - o1.getSecond());
 
                 // Send header
-                sender.sendMessage(ChatColor.AQUA + "#. Player " + ChatColor.GOLD + "Bounty");
+                sender.sendMessage(ChatColor.AQUA + "#. Player " + ChatColor.GOLD + "BountyCommand");
 
                 // Send Entries
                 int pos = requested < 6 ? 0 : Math.min(requested - 5, bounties.size());
