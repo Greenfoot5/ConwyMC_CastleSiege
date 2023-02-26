@@ -351,7 +351,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("MoriaCaveTroll")).setExecutor(new MoriaCaveTroll());
                 Objects.requireNonNull(getCommand("MoriaBonecrusher")).setExecutor(new MoriaBonecrusher());
                 Objects.requireNonNull(getCommand("MoriaAxeThrower")).setExecutor(new MoriaAxeThrower());
-                Objects.requireNonNull(getCommand("Moriaorc")).setExecutor(new MoriaOrc());
+                Objects.requireNonNull(getCommand("MoriaOrc")).setExecutor(new MoriaOrc());
                 Objects.requireNonNull(getCommand("Ranger")).setExecutor(new Ranger());
                 Objects.requireNonNull(getCommand("Rogue")).setExecutor(new Rogue());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
@@ -668,9 +668,8 @@ public class Main extends JavaPlugin implements Listener {
                 String itemName = kitsConfig.getString(itemRoute.add("name"));
                 String command = kitsConfig.getString(itemRoute.add("command"));
                 Material material;
-                if (itemName.contains("CLASS")) {
-                    material = Kit.getMaterial(command);
-                    getLogger().info(command);
+                if (kitsConfig.contains(itemRoute.add("kit"))) {
+                    material = Kit.getMaterial(kitsConfig.getString(itemRoute.add("kit")));
                 } else {
                     material = Material.getMaterial(kitsConfig.getString(itemRoute.add("material")));
                 }
@@ -769,7 +768,7 @@ public class Main extends JavaPlugin implements Listener {
         lore.add(" ");
         lore.add("\\/ Team Kits \\/");
         for (int i = 18; i < 27; i++) {
-            gui.addItem(" ", Material.GRAY_STAINED_GLASS_PANE, lore, i, "", false);
+            gui.addItem("-", Material.GRAY_STAINED_GLASS_PANE, lore, i, "", false);
         }
 
         gui.addCoinShopItem("Elytrier", Kit.getMaterial("Elytrier"), 27);

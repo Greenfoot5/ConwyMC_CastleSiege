@@ -68,7 +68,6 @@ public abstract class Kit implements CommandExecutor {
 
     // Kit Tracking
     private static final Map<String, Kit> kits = new HashMap<>();
-    private static final Map<String, String> kitNameMapper = new HashMap<>();
 
     // GUI
     public final Material material;
@@ -85,7 +84,6 @@ public abstract class Kit implements CommandExecutor {
 
         players = new ArrayList<>();
         kits.put(getSpacelessName(), this);
-        kitNameMapper.put(getSpacelessName().toLowerCase(), getSpacelessName());
 
         canCap = true;
         canClimb = true;
@@ -302,7 +300,7 @@ public abstract class Kit implements CommandExecutor {
      * @return The corresponding kit object, null if none was found
      */
     public static Kit getKit(String kitName) {
-        return kits.get(kitNameMapper.get(kitName));
+        return kits.get(kitName);
     }
 
     /**
