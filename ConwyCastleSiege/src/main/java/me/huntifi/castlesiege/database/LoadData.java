@@ -351,7 +351,6 @@ public class LoadData {
     }
 
     private static ArrayList<Booster> getBoosters(UUID uuid) {
-        Main.instance.getLogger().info("Logging Boosters");
         ArrayList<Booster> boosters = new ArrayList<>();
 
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
@@ -365,7 +364,6 @@ public class LoadData {
                 String type = rs.getString("booster_type");
                 int duration = rs.getInt("duration");
                 String other = rs.getString("boost_value");
-                Booster.updateID(boostId);
                 Booster booster;
                 double multiplier;
                 switch (type.toUpperCase()) {

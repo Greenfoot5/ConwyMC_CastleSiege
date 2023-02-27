@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.data_types;
 
 import org.bukkit.Material;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,14 +29,17 @@ public class CoinBooster extends Booster {
         List<String> lore = new ArrayList<>();
         lore.add("§3Duration: §b" + getDurationAsString());
         lore.add(" ");
-        int percentage = multiplier > 0 ? (int)((multiplier - 1) * 100) : (int)((multiplier + 1) * 100);
-        lore.add("§6Increase all coins earnt by " + percentage + "%");
+        lore.add("§6Increase all coins earnt by " + multiplier * 100 + "%");
         lore.add("§6    for the booster's duration!");
         return lore;
     }
 
     @Override
     public String getName() {
-        return "§e" + new DecimalFormat("0.0").format(multiplier) + "x Coin Booster - ID " + id;
+        return "§e" + getPercentage() + "% Coin Booster - ID " + id;
+    }
+
+    public int getPercentage() {
+        return (int)(multiplier * 100);
     }
 }

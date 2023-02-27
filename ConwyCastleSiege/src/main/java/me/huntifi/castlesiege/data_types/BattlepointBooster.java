@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.data_types;
 
 import org.bukkit.Material;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,12 +40,15 @@ public class BattlepointBooster extends Booster {
             lore.add("§9Battlepoint multiplier cannot drop below 0");
             lore.add("§9    (but can be set below 0)");
         } else {
-            int percentage = multiplier > 0 ? (int)((multiplier - 1) * 100) : (int)((multiplier + 1) * 100);
             lore.add("§9Increase all battlepoints earnt by");
-            lore.add("§9    " + percentage + "% for the booster's duration!");
+            lore.add("§9    " + getPercentage() + "% for the booster's duration!");
             lore.add("§9Modifier cannot drop below 0");
         }
         return lore;
+    }
+
+    public int getPercentage() {
+        return (int)(multiplier * 100);
     }
 
     @Override
@@ -54,6 +56,6 @@ public class BattlepointBooster extends Booster {
         if (multiplier == 0.0) {
             return "§9Battlepoint Booster - ID " + id;
         }
-        return "§9" + new DecimalFormat("0.0").format(multiplier) + "x Battlepoint Booster - ID " + id;
+        return "§9" + getPercentage() + "% Battlepoint Booster - ID " + id;
     }
 }

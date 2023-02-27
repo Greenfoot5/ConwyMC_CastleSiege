@@ -153,6 +153,7 @@ public class GrantBooster implements CommandExecutor {
             ps.setString(2, booster.getBoostType());
             ps.setInt(3, booster.duration);
             ps.setString(4, booster.getValue());
+            ps.setInt(5, booster.id);
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -162,8 +163,8 @@ public class GrantBooster implements CommandExecutor {
     }
 
     private String getQuery() {
-        return "INSERT INTO player_boosters (uuid, booster_type, duration, boost_value)\n" +
-                "VALUES (?, ?, ?, ?);";
+        return "INSERT INTO player_boosters (uuid, booster_type, duration, boost_value, booster_id)\n" +
+                "VALUES (?, ?, ?, ?, ?);";
     }
 
     private void sendConfirmMessage(CommandSender sender) {

@@ -728,13 +728,13 @@ public class PlayerData {
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 coinMultiplier += coinBooster.multiplier;
                 // TODO - Add duration
-                Messenger.broadcastInfo(player.getName() + " has activated a " + coinBooster.multiplier + "x coin booster " +
+                Messenger.broadcastInfo(player.getName() + " has activated a " + coinBooster.getPercentage() + "% coin booster " +
                         "for " + booster.getDurationAsString() + "!");
                 Messenger.broadcastInfo("The total coin multiplier is now " + getCoinMultiplier() + ".");
             });
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
                 coinMultiplier -= coinBooster.multiplier;
-                Messenger.broadcastWarning(player.getName() + "'s " + coinBooster.multiplier + "x coin booster has expired!");
+                Messenger.broadcastWarning(player.getName() + "'s " + coinBooster.getPercentage() + "% coin booster has expired!");
                 Messenger.broadcastInfo("The total coin multiplier is now " + getCoinMultiplier() + ".");
             }, booster.duration * 20L);
 
@@ -743,13 +743,13 @@ public class PlayerData {
             BattlepointBooster bpBooster = (BattlepointBooster) booster;
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 battlepointMultiplier += bpBooster.multiplier;
-                Messenger.broadcastInfo(player.getName() + " has activated a " + bpBooster.multiplier + "x battlepoint booster " +
+                Messenger.broadcastInfo(player.getName() + " has activated a " + bpBooster.getPercentage() + "% battlepoint booster " +
                         "for " + booster.getDurationAsString() + "!");
                 Messenger.broadcastInfo("The total bp multiplier is now " + getBattlepointMultiplier() + ".");
             });
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
                 battlepointMultiplier -= bpBooster.multiplier;
-                Messenger.broadcastWarning(player.getName() + "'s " + bpBooster.multiplier + "x battlepoint booster has expired! " +
+                Messenger.broadcastWarning(player.getName() + "'s " + bpBooster.getPercentage() + "% battlepoint booster has expired! " +
                         "The total battlepoint multiplier is now " + getBattlepointMultiplier() + ".");
             }, booster.duration * 20L);
         } // TODO - Kit Booster
