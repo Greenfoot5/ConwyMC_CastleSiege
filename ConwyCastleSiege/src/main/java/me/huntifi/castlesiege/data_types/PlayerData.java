@@ -664,10 +664,13 @@ public class PlayerData {
     }
 
     /**
-     * Get the active battlepoint multiplier
+     * Get the active battlepoint multiplier or 0 if it's negative
      * @return The active multiplier
      */
     public static double getBattlepointMultiplier() {
+        if (battlepointMultiplier < 0) {
+            return 0;
+        }
         return battlepointMultiplier;
     }
 
@@ -723,29 +726,31 @@ public class PlayerData {
         if (booster.getClass().equals(CoinBooster.class)) {
             CoinBooster coinBooster = (CoinBooster) booster;
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                PlayerData.coinMultiplier += coinBooster.multiplier;
+                coinMultiplier += coinBooster.multiplier;
                 // TODO - Add duration
-                Messenger.broadcastInfo(player.getName() + " has activated a " + coinBooster.multiplier + "x coin booster! " +
-                        "The total coin multiplier is now " + coinMultiplier + ".");
+                Messenger.broadcastInfo(player.getName() + " has activated a " + coinBooster.multiplier + "x coin booster " +
+                        "for " + booster.getDurationAsString() + "!");
+                Messenger.broadcastInfo("The total coin multiplier is now " + getCoinMultiplier() + ".");
             });
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                PlayerData.coinMultiplier -= coinBooster.multiplier;
-                Messenger.broadcastWarning(player.getName() + "'s " + coinBooster.multiplier + "x coin booster has expired! " +
-                        "The total coin multiplier is now " + coinMultiplier + ".");
+                coinMultiplier -= coinBooster.multiplier;
+                Messenger.broadcastWarning(player.getName() + "'s " + coinBooster.multiplier + "x coin booster has expired!");
+                Messenger.broadcastInfo("The total coin multiplier is now " + getCoinMultiplier() + ".");
             }, booster.duration * 20L);
 
         // Battlepoint Booster
         } else if (booster.getClass().equals(BattlepointBooster.class)) {
             BattlepointBooster bpBooster = (BattlepointBooster) booster;
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                PlayerData.battlepointMultiplier += bpBooster.multiplier;
-                Messenger.broadcastInfo(player.getName() + " has activated a " + bpBooster.multiplier + "x battlepoint booster! " +
-                        "The total battlepoint multiplier is now " + battlepointMultiplier + ".");
+                battlepointMultiplier += bpBooster.multiplier;
+                Messenger.broadcastInfo(player.getName() + " has activated a " + bpBooster.multiplier + "x battlepoint booster " +
+                        "for " + booster.getDurationAsString() + "!");
+                Messenger.broadcastInfo("The total bp multiplier is now " + getBattlepointMultiplier() + ".");
             });
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                PlayerData.coinMultiplier -= bpBooster.multiplier;
+                battlepointMultiplier -= bpBooster.multiplier;
                 Messenger.broadcastWarning(player.getName() + "'s " + bpBooster.multiplier + "x battlepoint booster has expired! " +
-                        "The total battlepoint multiplier is now " + battlepointMultiplier + ".");
+                        "The total battlepoint multiplier is now " + getBattlepointMultiplier() + ".");
             }, booster.duration * 20L);
         } // TODO - Kit Booster
 

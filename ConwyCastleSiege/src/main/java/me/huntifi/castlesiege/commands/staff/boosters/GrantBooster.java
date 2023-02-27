@@ -60,6 +60,7 @@ public class GrantBooster implements CommandExecutor {
             Messenger.sendError("Duration not a valid number! It should be an amount of seconds", sender);
             return null;
         }
+        double multiplier;
         switch (type.toUpperCase()) {
             case "COIN":
             case "COINS":
@@ -69,7 +70,6 @@ public class GrantBooster implements CommandExecutor {
                     return null;
                 }
 
-                double multiplier;
                 try {
                     multiplier = Double.parseDouble(args[3]);
                 } catch (NumberFormatException ex) {
@@ -79,7 +79,17 @@ public class GrantBooster implements CommandExecutor {
                 return new CoinBooster(duration, multiplier);
             case "BATTLEPOINT":
             case "BP":
-                return new BattlepointBooster(duration);
+                if (args.length != 4) {
+                    return new BattlepointBooster(duration);
+                }
+
+                try {
+                    multiplier = Double.parseDouble(args[3]);
+                } catch (NumberFormatException ex) {
+                    Messenger.sendError("Multiplier not a valid number! It should be a double!", sender);
+                    return null;
+                }
+                return new BattlepointBooster(duration, multiplier);
             case "KIT":
             case "K":
                 if (args.length != 4) {

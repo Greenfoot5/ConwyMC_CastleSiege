@@ -351,6 +351,7 @@ public class LoadData {
     }
 
     private static ArrayList<Booster> getBoosters(UUID uuid) {
+        Main.instance.getLogger().info("Logging Boosters");
         ArrayList<Booster> boosters = new ArrayList<>();
 
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
@@ -364,25 +365,38 @@ public class LoadData {
                 String type = rs.getString("booster_type");
                 int duration = rs.getInt("duration");
                 String other = rs.getString("boost_value");
+                Booster.updateID(boostId);
                 Booster booster;
+                double multiplier;
                 switch (type.toUpperCase()) {
                     case "COIN":
                     case "COINS":
                     case "C":
-                        double multiplier;
                         try {
-                            multiplier = Integer.parseInt(other);
+                            multiplier = Double.parseDouble(other);
                             booster = new CoinBooster(duration, multiplier);
                             booster.id = boostId;
                             boosters.add(booster);
-                        } catch (NumberFormatException ignored) { }
+                        } catch (NumberFormatException ignored) {
+                            Main.instance.getLogger().warning("Booster id: " + boostId + " has a malformed double multiplier!");
+                        }
                         break;
                     case "BATTLEPOINT":
                     case "BP":
-                        booster = new BattlepointBooster(duration);
-                        booster.id = boostId;
-                        boosters.add(booster);
-                        break;
+                        if (other == null) {
+                            booster = new BattlepointBooster(duration);
+                            booster.id = boostId;
+                            boosters.add(booster);
+                            break;
+                        }
+                        try {
+                            multiplier = Double.parseDouble(other);
+                            booster = new BattlepointBooster(duration, multiplier);
+                            booster.id = boostId;
+                            boosters.add(booster);
+                        } catch (NumberFormatException ignored) {
+                            Main.instance.getLogger().warning("Booster id: " + boostId + " has a malformed double multiplier!");
+                        }
                     case "KIT":
                     case "K":
                         if (Kit.getKit(other) == null

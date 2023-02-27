@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Booster;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
@@ -12,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,39 +41,26 @@ public class BoosterCommand implements CommandExecutor {
 
     public Gui createGUI(List<Booster> boosters) {
         Gui gui = new Gui("Booster Selection", (boosters.size() / 9 + 1));
-        boosters.sort(null);
+        boosters.sort(Booster::compareTo);
         for (int i = 0; i < boosters.size(); i++) {
             Booster booster = boosters.get(i);
-            Main.instance.getLogger().info(booster.toString());
-            List<String> lore = new ArrayList<>();
-            gui.addItem(booster.toString(), booster.material, lore, i, "booster use " + booster.id, true);
+            gui.addItem(booster.getName(), booster.material, booster.getLore(), i, "/booster use " + booster.id, true);
         }
         return gui;
     }
 
     private void useBooster(@NotNull CommandSender sender, @NotNull String[] args) {
-//        Booster booster = createBooster(sender, args);
-//        if (booster == null) {
-//            return;
-//        }
-//
-//        UUID uuid = getUUID(args[0]);
-//        assert uuid != null;
-//        PlayerData data = ActiveData.getData(uuid);
-//        if (data != null) {
-//            if (!giveBooster(data, uuid, booster)) {
-//                Messenger.sendError("Failed to add booster to database. Try again?", sender);
-//                return;
-//            }
-//        } else if (!giveBooster(uuid, booster)) {
-//            Messenger.sendError("Failed to add booster to offline player. Try again?", sender);
-//            return;
-//        }
+        Player player = (Player) sender;
+        UUID uuid = player.getUniqueId();
+        PlayerData data = ActiveData.getData(uuid);
+        int id = Integer.parseInt(args[1]);
+        for (Booster booster : data.getBoosters()) {
+            if (booster.id == id) {
+                data.useBooster(uuid, booster);
 
-        sendConfirmMessage(sender);
-    }
-
-    private void sendConfirmMessage(CommandSender sender) {
-        Messenger.sendSuccess("Booster granted", sender);
+                return;
+            }
+        }
+        Messenger.sendError("You don't own a booster with that id!", sender);
     }
 }
