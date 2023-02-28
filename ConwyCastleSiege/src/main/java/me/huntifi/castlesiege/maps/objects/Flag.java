@@ -2,15 +2,14 @@ package me.huntifi.castlesiege.maps.objects;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Frame;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.data_types.*;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -482,38 +481,50 @@ public class Flag {
                 World world = spawnPoint.getWorld();
                 assert world != null;
 
-                // Set previous animation blocks to air
-                if (animationAir) {
-                    for (Vector vector : previousFrame.secondary_blocks) {
+                if (previousFrame instanceof LocationFrame) {
+                    LocationFrame previousLocationFrame = (LocationFrame) previousFrame;
+                    // Set previous animation blocks to air
+                    if (animationAir) {
+                        for (Vector vector : previousLocationFrame.secondary_blocks) {
+                            Location loc = vector.toLocation(world);
+                            Block block = loc.getBlock();
+                            block.setType(Material.AIR);
+                        }
+
+                        for (Vector vector : previousLocationFrame.primary_blocks) {
+                            Location loc = vector.toLocation(world);
+                            Block block = loc.getBlock();
+                            block.setType(Material.AIR);
+                        }
+                    }
+                }
+
+                if (nextFrame instanceof LocationFrame) {
+                    LocationFrame nextLocationFrame = (LocationFrame) nextFrame;
+                    // Set new blocks
+                    for (Vector vector : nextLocationFrame.secondary_blocks) {
+                        Location loc = vector.toLocation(world);
+                        Block block = loc.getBlock();
+                        block.setType(team.secondaryWool);
+                    }
+
+                    for (Vector vector : nextLocationFrame.primary_blocks) {
+                        Location loc = vector.toLocation(world);
+                        Block block = loc.getBlock();
+                        block.setType(team.primaryWool);
+                    }
+
+                    for (Vector vector : nextLocationFrame.air) {
                         Location loc = vector.toLocation(world);
                         Block block = loc.getBlock();
                         block.setType(Material.AIR);
                     }
-
-                    for (Vector vector : previousFrame.primary_blocks) {
-                        Location loc = vector.toLocation(world);
-                        Block block = loc.getBlock();
-                        block.setType(Material.AIR);
+                } else if (nextFrame instanceof SchematicFrame) {
+                    SchematicFrame nextSchematicFrame = (SchematicFrame) nextFrame;
+                    for (Tuple<String, Vector> schematic : nextSchematicFrame.schematics) {
+                        Location loc = schematic.getSecond().toLocation(world);
+                        SchematicSpawner.spawnSchematic(loc, schematic.getFirst());
                     }
-                }
-
-                // Set new blocks
-                for (Vector vector:nextFrame.secondary_blocks) {
-                    Location loc = vector.toLocation(world);
-                    Block block = loc.getBlock();
-                    block.setType(team.secondaryWool);
-                }
-
-                for (Vector vector:nextFrame.primary_blocks) {
-                    Location loc = vector.toLocation(world);
-                    Block block = loc.getBlock();
-                    block.setType(team.primaryWool);
-                }
-
-                for (Vector vector:nextFrame.air) {
-                    Location loc = vector.toLocation(world);
-                    Block block = loc.getBlock();
-                    block.setType(Material.AIR);
                 }
             }
         }.runTask(Main.plugin);

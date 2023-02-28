@@ -33,7 +33,7 @@ import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.maps.*;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
 import me.huntifi.castlesiege.data_types.Booster;
-import me.huntifi.castlesiege.data_types.Frame;
+import me.huntifi.castlesiege.data_types.LocationFrame;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.KeepAlive;
@@ -566,10 +566,10 @@ public class Main extends JavaPlugin implements Listener {
         getLogger().info("Loaded Vector Adapter");
 
         // Set up the frame adapter
-        TypeAdapter<Frame> frameAdapter = new TypeAdapter<Frame>() {
+        TypeAdapter<LocationFrame> frameAdapter = new TypeAdapter<LocationFrame>() {
 
             @NotNull
-            public java.util.Map<Object, Object> serialize(@NotNull Frame object) {
+            public java.util.Map<Object, Object> serialize(@NotNull LocationFrame object) {
                 java.util.Map<Object, Object> map = new HashMap<>();
                 map.put("primary_blocks", object.primary_blocks);
                 map.put("secondary_blocks", object.secondary_blocks);
@@ -578,29 +578,29 @@ public class Main extends JavaPlugin implements Listener {
             }
 
             @NotNull
-            public Frame deserialize(@NotNull java.util.Map<Object, Object> map) {
-                Frame frame = new Frame();
+            public LocationFrame deserialize(@NotNull java.util.Map<Object, Object> map) {
+                LocationFrame locationFrame = new LocationFrame();
                 if (map.get("primary_blocks") != null) {
                     for (Object v : (ArrayList) map.get("primary_blocks")) {
-                        frame.primary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                        locationFrame.primary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
                     }
                 }
                 if (map.get("secondary_blocks") != null) {
                     for (Object v : (ArrayList) map.get("secondary_blocks")) {
-                        frame.secondary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                        locationFrame.secondary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
                     }
                 }
                 if (map.get("air") != null) {
                     for (Object v : (ArrayList) map.get("air")) {
-                        frame.air.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                        locationFrame.air.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
                     }
                 }
-                return frame;
+                return locationFrame;
             }
         };
-        StandardSerializer.getDefault().register(Frame.class, frameAdapter);
+        StandardSerializer.getDefault().register(LocationFrame.class, frameAdapter);
 
-        getLogger().info("Loaded Frame Apapter");
+        getLogger().info("Loaded LocationFrame Apapter");
 
         flagsConfigs = loadYMLs("flags");
         getLogger().info("Loaded flags");
@@ -890,10 +890,10 @@ public class Main extends JavaPlugin implements Listener {
                 Route animationRoute = flagRoute.add("animation");
                 String[] animationPaths = getPaths(flagConfig, animationRoute);
 
-                flag.animation = new Frame[animationPaths.length];
+                flag.animation = new LocationFrame[animationPaths.length];
                 for (int j = 0; j < animationPaths.length; j++) {
-                    Frame frame = flagConfig.getAs(animationRoute.add(animationPaths[j]), Frame.class);
-                    flag.animation[j] = frame;
+                    LocationFrame locationFrame = flagConfig.getAs(animationRoute.add(animationPaths[j]), LocationFrame.class);
+                    flag.animation[j] = locationFrame;
                 }
             }
 
