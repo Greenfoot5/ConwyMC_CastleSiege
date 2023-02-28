@@ -592,7 +592,7 @@ public class PlayerData {
      * @return Whether the player has access to the kit
      */
     public boolean hasKit(String kitName) {
-        return unlockedKits.contains(kitName);
+        return unlockedKits.contains(kitName) || DonatorKit.boostedKits.contains(kitName);
     }
 
     /**

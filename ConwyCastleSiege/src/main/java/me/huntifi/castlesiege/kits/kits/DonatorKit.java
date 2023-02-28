@@ -47,7 +47,7 @@ public abstract class DonatorKit extends Kit {
             return false;
 
         UUID uuid = ((Player) sender).getUniqueId();
-        boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName()) || boostedKits.contains(getSpacelessName());
+        boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
         boolean allKitsFree = MapController.allKitsFree;
         boolean hasBP = hasEnoughBP(uuid);
         if (!hasKit && !isFriday() && !allKitsFree) {

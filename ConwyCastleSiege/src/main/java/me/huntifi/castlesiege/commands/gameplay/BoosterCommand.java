@@ -6,23 +6,30 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.TeamKit;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * A command to check your boosters, and/or use them
  */
-public class BoosterCommand implements CommandExecutor {
+public class BoosterCommand implements CommandExecutor, Listener {
+    private final static int inputWaitDuration = 10;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
@@ -69,10 +76,66 @@ public class BoosterCommand implements CommandExecutor {
         for (Booster booster : data.getBoosters()) {
             if (booster.id == id) {
 
-                // Kit boosters don't stack
                 if (booster instanceof KitBooster) {
-                    if (DonatorKit.boostedKits.contains(((KitBooster) booster).kitName)) {
+                    KitBooster kBooster = (KitBooster) booster;
+
+                    // Kit boosters don't stack
+                    if (DonatorKit.boostedKits.contains(kBooster.kitName)) {
                         Messenger.sendError("A kit booster of that type is already active!", sender);
+                        return;
+                    }
+
+                    // Allow the user to input a kit
+                    if (kBooster.kitName.equalsIgnoreCase("WILD")) {
+                        if (waitingForWildKit.containsKey(uuid)) {
+                            Messenger.sendError("You're already trying to input an elite kit!", sender);
+                            return;
+                        }
+
+                        Messenger.requestInput("Enter the elite kit (one word, capitalise names) to boost in chat: (" + inputWaitDuration + "s)", sender);
+                        waitingForWildKit.put(player.getUniqueId(), kBooster);
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                if (waitingForWildKit.remove(player.getUniqueId()) != null) {
+                                    Messenger.sendError("Ran out of time to input kit name.", sender);
+                                }
+                            }
+                        }.runTaskLater(Main.plugin, inputWaitDuration * 20);
+                        return;
+                    }
+
+                    // Select a random kit
+                    if (kBooster.kitName.equalsIgnoreCase("RANDOM")) {
+                        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                            ArrayList<String> dKits = (ArrayList<String>) DonatorKit.getKits();
+                            do {
+                                kBooster.kitName = dKits.get(new Random().nextInt(dKits.size()));
+                            } while (Kit.getKit(kBooster.kitName) instanceof TeamKit);
+                            data.useBooster(uuid, kBooster);
+                            removeBooster(kBooster.id, uuid);
+                            activateBooster(kBooster, uuid);
+                        });
+                        return;
+                    }
+                } else if (booster instanceof BattlepointBooster) {
+                    BattlepointBooster bpBooster = (BattlepointBooster) booster;
+                    if (bpBooster.multiplier == 0.0) {
+                        if (waitingForWildKit.containsKey(uuid) && waitingForBPMult.containsKey(uuid)) {
+                            Messenger.sendError("You're already trying to input an elite kit!", sender);
+                            return;
+                        }
+
+                        Messenger.requestInput("Enter the percentage modifier to boost by in chat - no need to include the %: (" + inputWaitDuration + "s)", sender);
+                        waitingForBPMult.put(player.getUniqueId(), bpBooster);
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                if (waitingForBPMult.remove(player.getUniqueId()) != null) {
+                                    Messenger.sendError("Ran out of time to input boost percentage modifier", sender);
+                                }
+                            }
+                        }.runTaskLater(Main.plugin, inputWaitDuration * 20);
                         return;
                     }
                 }
@@ -87,6 +150,54 @@ public class BoosterCommand implements CommandExecutor {
             }
         }
         Messenger.sendError("You don't own a booster with that id!", sender);
+    }
+
+    public static Map<UUID, KitBooster> waitingForWildKit = new HashMap<>();
+    public static Map<UUID, BattlepointBooster> waitingForBPMult = new HashMap<>();
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onChat(AsyncPlayerChatEvent e) {
+
+        Player player = e.getPlayer();
+        UUID uuid = player.getUniqueId();
+
+        while (e.getMessage().startsWith("§")) {
+            e.setMessage(e.getMessage().substring(2));
+        }
+
+
+        if (waitingForWildKit.containsKey(uuid)) {
+            e.setCancelled(true);
+            Kit kit = Kit.getKit(e.getMessage().trim());
+            if (kit instanceof DonatorKit) {
+                KitBooster booster = waitingForWildKit.get(uuid);
+                booster.kitName = e.getMessage();
+                PlayerData data = ActiveData.getData(uuid);
+                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                    data.useBooster(uuid, booster);
+                    removeBooster(booster.id, uuid);
+                    activateBooster(booster, uuid);
+                });
+            } else {
+                Messenger.sendError("Invalid kit name!", player);
+            }
+            waitingForWildKit.remove(uuid);
+        } else if (waitingForBPMult.containsKey(uuid)) {
+            e.setCancelled(true);
+            try {
+                double mult = Double.parseDouble(e.getMessage()) / 100.0;
+                BattlepointBooster booster = waitingForBPMult.get(uuid);
+                booster.multiplier = mult;
+                PlayerData data = ActiveData.getData(uuid);
+                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                    data.useBooster(uuid, booster);
+                    removeBooster(booster.id, uuid);
+                    activateBooster(booster, uuid);
+                });
+            } catch (NumberFormatException ignored) {
+                Messenger.sendError("That's not a valid percentage!", player);
+            }
+            waitingForBPMult.remove(uuid);
+        }
     }
 
     private static void removeBooster(int boostId, UUID uuid) {

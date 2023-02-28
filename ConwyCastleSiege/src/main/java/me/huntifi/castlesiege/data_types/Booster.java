@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.data_types;
 
-import me.huntifi.castlesiege.Main;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -82,7 +81,6 @@ public abstract class Booster implements Comparable<Booster> {
      * @param oldId The id of the booster to check against
      */
     public static void updateID(int oldId) {
-        Main.instance.getLogger().info(oldId + " >= " + newId + " = " + (oldId >= newId));
         if (oldId >= newId) {
             newId = oldId + 1;
         }

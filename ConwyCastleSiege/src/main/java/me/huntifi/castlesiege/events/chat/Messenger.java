@@ -147,4 +147,8 @@ public class Messenger {
                 + killer + ChatColor.YELLOW + " and they claimed the "
                 + ChatColor.GOLD + amount + ChatColor.YELLOW + " coin bounty!");
     }
+
+    public static void requestInput(String message, @NotNull CommandSender sender) {
+        sender.sendMessage(ChatColor.GOLD + "[_] " + ChatColor.LIGHT_PURPLE + message);
+    }
 }

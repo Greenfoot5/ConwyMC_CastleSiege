@@ -9,7 +9,7 @@ import java.util.List;
 
 public class KitBooster extends Booster {
 
-    public final String kitName;
+    public String kitName;
 
     public KitBooster(int duration, String kitName) {
         super(duration, getMaterial(kitName));
