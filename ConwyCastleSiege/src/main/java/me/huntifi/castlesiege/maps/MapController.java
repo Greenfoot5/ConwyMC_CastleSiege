@@ -7,7 +7,6 @@ import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
@@ -25,7 +24,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.text.DecimalFormat;
 import java.util.*;
 
 import static org.bukkit.Bukkit.*;
@@ -206,16 +204,6 @@ public class MapController {
 			// Broadcast MVP
 			for (String message : MVPCommand.getMVPMessage(team)) {
 				Bukkit.broadcastMessage(message);
-			}
-
-			// Tell players they earnt coins
-			for (UUID uuid : team.getPlayers()) {
-				Player player = Bukkit.getPlayer(uuid);
-				if (player != null) {
-					Messenger.sendInfo("You earned " + new DecimalFormat("0").format(MVPStats.getStats(uuid).getCoins()) + " coins from this game. "
-							+ "You now have " + new DecimalFormat("0").format(ActiveData.getData(uuid).getCoins())
-							+ " coins in total", player);
-				}
 			}
 		}
 		AssistKill.reset();
