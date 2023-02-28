@@ -388,6 +388,9 @@ public class Main extends JavaPlugin implements Listener {
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
 
+                // Boosters
+                activateBoosters();
+
                 getLogger().info("Plugin has been enabled!");
 
                 // Begin the map loop
@@ -1263,8 +1266,6 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     public void activateBoosters() {
-        ArrayList<Booster> boosters = new ArrayList<>();
-
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "SELECT booster_id, booster_type, duration, boost_value FROM active_boosters WHERE expire_time > ?")) {
             ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
@@ -1275,7 +1276,6 @@ public class Main extends JavaPlugin implements Listener {
                 String type = rs.getString("booster_type");
                 long remaining_duration = rs.getTimestamp("expire_time").getTime() - System.currentTimeMillis() / 1000;
                 String other = rs.getString("boost_value");
-                Booster booster;
                 Booster.updateID(boostId);
                 double multiplier;
                 int percentage;
