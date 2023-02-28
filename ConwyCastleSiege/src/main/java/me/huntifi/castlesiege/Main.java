@@ -186,8 +186,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Explosion(), plugin);
                 getServer().getPluginManager().registerEvents(new LeaveMapBorder(), plugin);
                 getServer().getPluginManager().registerEvents(new Movement(), plugin);
-                getServer().getPluginManager().registerEvents(new SettingsCommand(), plugin);
-                getServer().getPluginManager().registerEvents(new BoosterCommand(), plugin);
 
                 // Security
                 getServer().getPluginManager().registerEvents(new InteractContainer(), plugin);
@@ -661,7 +659,6 @@ public class Main extends JavaPlugin implements Listener {
         for (String guiPath : guiPaths) {
             Route guiRoute = Route.from(guiPath);
             Gui gui = new Gui(kitsConfig.getString(guiRoute.add("name")), 6);
-            getServer().getPluginManager().registerEvents(gui, plugin);
 
             String[] itemPaths = getPaths(kitsConfig, guiRoute.add("items"));
             for (String itemPath : itemPaths) {
@@ -747,7 +744,6 @@ public class Main extends JavaPlugin implements Listener {
      */
     private void registerCoinShop() {
         Gui gui = new Gui(ChatColor.DARK_GREEN + "Coin Shop", 5);
-        getServer().getPluginManager().registerEvents(gui, plugin);
 
         gui.addCoinShopItem("Alchemist", Kit.getMaterial("Alchemist"), 0);
         gui.addCoinShopItem("Berserker", Kit.getMaterial("Berserker"), 1);

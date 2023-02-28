@@ -9,24 +9,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class BoosterCommand implements CommandExecutor, Listener {
-
-    private static final HashMap<HumanEntity, Gui> guis = new HashMap<>();
+public class BoosterCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
@@ -48,13 +40,11 @@ public class BoosterCommand implements CommandExecutor, Listener {
         PlayerData data = ActiveData.getData(uuid);
 
         Gui gui = createGUI(data.getBoosters());
-        Main.plugin.getServer().getPluginManager().registerEvents(gui, Main.plugin);
-        guis.put(player, gui);
         gui.open(player);
     }
 
     public Gui createGUI(List<Booster> boosters) {
-        Gui gui = new Gui("Booster Selection", (boosters.size() / 9 + 1));
+        Gui gui = new Gui("Booster Selection", (boosters.size() / 9 + 1), true);
         boosters.sort(Booster::compareTo);
         for (int i = 0; i < boosters.size(); i++) {
             Booster booster = boosters.get(i);
@@ -120,18 +110,6 @@ public class BoosterCommand implements CommandExecutor, Listener {
             return "KIT";
         } else {
             return "NULL";
-        }
-    }
-
-    /**
-     * Unregister the player's settings GUI when they close it.
-     * @param event The event called when an inventory is closed.
-     */
-    @EventHandler
-    public void onCloseGui(InventoryCloseEvent event) {
-        if (guis.containsKey(event.getPlayer())) {
-            HandlerList.unregisterAll(guis.get(event.getPlayer()));
-            guis.remove(event.getPlayer());
         }
     }
 }

@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -13,15 +12,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class SettingsCommand implements CommandExecutor, Listener {
+public class SettingsCommand implements CommandExecutor {
     public static final HashMap<String, String[]> defaultSettings = new HashMap<String, String[]>(){{
         put("randomDeath", new String[]{"false", "true"});
         put("deathMessages", new String[]{"false", "true"});
@@ -46,13 +41,12 @@ public class SettingsCommand implements CommandExecutor, Listener {
 
         if (args.length < 1) {
             // Register and open a settings GUI for the player
-            Gui gui = new Gui(ChatColor.GOLD + "Settings", 1);
+            Gui gui = new Gui(ChatColor.GOLD + "Settings", 1, true);
             guis.put(player, gui);
 
             for (String setting : defaultSettings.keySet())
                 setGuiItem(player, setting);
 
-            Main.plugin.getServer().getPluginManager().registerEvents(gui, Main.plugin);
             gui.open(player);
             return true;
         }
@@ -152,18 +146,6 @@ public class SettingsCommand implements CommandExecutor, Listener {
                                 ChatColor.BLUE + "Always display level dependent info messages"),
                         6, command, false);
                 break;
-        }
-    }
-
-    /**
-     * Unregister the player's settings GUI when they close it.
-     * @param event The event called when an inventory is closed.
-     */
-    @EventHandler
-    public void onCloseGui(InventoryCloseEvent event) {
-        if (guis.containsKey(event.getPlayer())) {
-            HandlerList.unregisterAll(guis.get(event.getPlayer()));
-            guis.remove(event.getPlayer());
         }
     }
 }
