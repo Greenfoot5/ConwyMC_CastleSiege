@@ -56,7 +56,7 @@ public class FireArcher extends VoterKit implements Listener {
     private static final int fireArrowHoldLimit = 9;
 
 
-    public static HashMap<Player, Block> cauldrons = new HashMap<>();
+    public static final HashMap<Player, Block> cauldrons = new HashMap<>();
     private final ItemStack fireArrow;
     private final ItemStack firepit;
     private final ItemStack firepitVoted;

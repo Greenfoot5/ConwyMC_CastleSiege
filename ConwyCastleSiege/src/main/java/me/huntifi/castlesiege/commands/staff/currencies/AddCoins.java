@@ -12,7 +12,7 @@ public class AddCoins extends ChangePermanentCurrency {
 
     @Override
     protected String getCommandUsage() {
-        return "Use: /addcoins <player> <amount>";
+        return "Use: /addCoins <player> <amount>";
     }
 
     @Override

@@ -35,7 +35,7 @@ class HorseSpawner {
      * @param health The horse's max health
      * @param knockback The horse's knockback resistance
      * @param speed The horse's movement speed
-     * @param jump The horse's jump strenght
+     * @param jump The horse's jump strength
      * @param armor The horse's horse armor
      * @param effects The horse's potion effects
      */

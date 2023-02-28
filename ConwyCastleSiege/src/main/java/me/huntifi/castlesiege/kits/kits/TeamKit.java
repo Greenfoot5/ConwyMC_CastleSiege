@@ -14,8 +14,8 @@ import java.util.UUID;
 public abstract class TeamKit extends DonatorKit {
 
     //map for the map specific kits and the team
-    protected String map;
-    protected String team;
+    protected final String map;
+    protected final String team;
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();

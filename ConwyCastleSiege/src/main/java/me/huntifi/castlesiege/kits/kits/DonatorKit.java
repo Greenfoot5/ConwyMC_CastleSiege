@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 public abstract class DonatorKit extends Kit {
@@ -22,6 +23,7 @@ public abstract class DonatorKit extends Kit {
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
+    public static final List<String> boostedKits = new ArrayList<>();
 
     public DonatorKit(String name, int baseHealth, double regenAmount, double coins, double battlepoints, Material material) {
         super(name, baseHealth, regenAmount, material);
@@ -45,7 +47,7 @@ public abstract class DonatorKit extends Kit {
             return false;
 
         UUID uuid = ((Player) sender).getUniqueId();
-        boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
+        boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName()) || boostedKits.contains(getSpacelessName());
         boolean allKitsFree = MapController.allKitsFree;
         boolean hasBP = hasEnoughBP(uuid);
         if (!hasKit && !isFriday() && !allKitsFree) {

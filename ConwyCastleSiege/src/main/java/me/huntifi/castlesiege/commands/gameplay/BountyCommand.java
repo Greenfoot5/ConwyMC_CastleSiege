@@ -33,7 +33,8 @@ public class BountyCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (command.getName().equals("Bounties")) {
-            return bounties(sender, args);
+            bounties(sender, args);
+            return true;
         }
 
         if (args.length != 2 && args.length != 1) {
@@ -80,13 +81,13 @@ public class BountyCommand implements CommandExecutor {
         return true;
     }
 
-    private boolean bounties(@NotNull CommandSender sender, @NotNull String[] args) {
+    private void bounties(@NotNull CommandSender sender, @NotNull String[] args) {
         int requested;
         try {
             requested = args.length == 0 ? 0 : Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
             Messenger.sendError("Use /bounty to get the bounty for a player!", sender);
-            return true;
+            return;
         }
 
         new BukkitRunnable() {
@@ -110,7 +111,6 @@ public class BountyCommand implements CommandExecutor {
                 }
             }
         }.runTaskAsynchronously(Main.plugin);
-        return true;
     }
 
     public static void grantRewards(Player bountied, Player killer) {

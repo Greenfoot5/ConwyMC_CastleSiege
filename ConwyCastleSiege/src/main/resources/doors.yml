@@ -251,7 +251,7 @@ Abrakhan:
     # The material the block is (order matches with location)
     closed_materials:
       - "OAK_LOG"
-  guarden_gate:
+  garden_gate:
     trigger: "lever"
     centre:
       x: 119

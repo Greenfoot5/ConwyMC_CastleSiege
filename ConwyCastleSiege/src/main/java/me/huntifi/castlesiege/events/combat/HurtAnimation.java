@@ -3,10 +3,11 @@ package me.huntifi.castlesiege.events.combat;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.*;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -61,7 +62,7 @@ public class HurtAnimation implements Listener {
 
 
     public void onRemoveParticle(ProtocolManager manager) {
-    manager.addPacketListener(new PacketAdapter(Main.plugin, ListenerPriority.HIGH, new PacketType[] { PacketType.Play.Server.WORLD_PARTICLES}) {
+    manager.addPacketListener(new PacketAdapter(Main.plugin, ListenerPriority.HIGH, PacketType.Play.Server.WORLD_PARTICLES) {
     @Override
     public void onPacketSending(PacketEvent event) {
         PacketContainer packet = event.getPacket();

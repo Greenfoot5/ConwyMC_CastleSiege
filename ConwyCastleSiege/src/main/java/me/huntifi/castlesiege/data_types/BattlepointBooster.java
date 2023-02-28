@@ -5,14 +5,26 @@ import org.bukkit.Material;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Defines a battlepoint booster that modifies the battlepoint amount for a duration
+ */
 public class BattlepointBooster extends Booster {
 
     public Double multiplier = 0.0;
 
+    /**
+     * Defines a booster that allows a player to modify the multiplier
+     * @param duration The duration of the booster
+     */
     public BattlepointBooster(int duration) {
         super(duration, Material.LAPIS_LAZULI);
     }
 
+    /**
+     * Defines a booster with a preset multiplier
+     * @param duration The duration of the booster
+     * @param multiplier The multiplier of the booster
+     */
     public BattlepointBooster(int duration, double multiplier) {
         super(duration, Material.LAPIS_LAZULI);
         this.multiplier = multiplier;
@@ -47,6 +59,9 @@ public class BattlepointBooster extends Booster {
         return lore;
     }
 
+    /**
+     * @return The multiplier as a percentage
+     */
     public int getPercentage() {
         return (int)(multiplier * 100);
     }

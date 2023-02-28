@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CoinBooster extends Booster {
 
-    public Double multiplier;
+    public final Double multiplier;
 
     public CoinBooster(int duration, double multiplier) {
         super(duration, Material.SUNFLOWER);

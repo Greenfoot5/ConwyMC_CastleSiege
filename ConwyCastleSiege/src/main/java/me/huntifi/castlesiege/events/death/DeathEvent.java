@@ -38,7 +38,7 @@ import java.util.UUID;
  */
 public class DeathEvent implements Listener {
 
-    public static ArrayList<Player> onCooldown = new ArrayList<>();
+    public final static ArrayList<Player> onCooldown = new ArrayList<>();
 
     private static final HashMap<Player, Player> killerMap = new HashMap<>();
 

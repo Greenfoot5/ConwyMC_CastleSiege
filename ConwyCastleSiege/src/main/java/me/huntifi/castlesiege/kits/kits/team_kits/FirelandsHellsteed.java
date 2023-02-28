@@ -120,7 +120,7 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
             Player p = (Player) e.getEntity();
             Player q = (Player) e.getDamager();
 
-            // Hellsteed tries to stomp every closeby enemy
+            // Hellsteed tries to stomp every nearby enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
                     q.getInventory().getItemInMainHand().getType() == Material.ANVIL &&
                     q.getCooldown(Material.ANVIL) == 0) {

@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Stores all details and handles all flag actions.
  */
 public class Flag {
-    public String name;
+    public final String name;
 
     // Location Data
     public Location spawnPoint;
@@ -167,7 +167,7 @@ public class Flag {
                         captureFlag();
 
                     // No more players in the zone
-                    if (players.size() <= 0 || isRunning.get() > 1) {
+                    if (players.size() == 0 || isRunning.get() > 1) {
                         isRunning.decrementAndGet();
                         this.cancel();
                     }
@@ -437,7 +437,7 @@ public class Flag {
     private void playCapSound(Player player, boolean fullyCapped) {
         Location location = player.getLocation();
 
-        // Play level up sound if it's fully capped, or play an xp orb pickup
+        // Play level up sound if it's fully capped, or play a xp orb pickup
         Sound effect = fullyCapped ? Sound.ENTITY_PLAYER_LEVELUP : Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 
         float volume = 1f; //1 = 100%

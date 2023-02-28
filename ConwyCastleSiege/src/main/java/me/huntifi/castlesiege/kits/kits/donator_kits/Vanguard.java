@@ -89,7 +89,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
 
     /**
      *
-     * @param e event triggered by right clicking diamond sword.
+     * @param e event triggered by right-clicking diamond sword.
      */
     @EventHandler
     public void charge(PlayerInteractEvent e) {

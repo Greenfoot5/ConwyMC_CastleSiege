@@ -14,10 +14,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 
+/**
+ * A command to check your own battlepoints
+ */
 public class BattlepointsCommand implements CommandExecutor {
 
     /**
-     * Print the ping of the player
+     * Gets the battlepoints of the player
      *
      * @param sender Source of the command
      * @param cmd    Command which was executed

@@ -9,9 +9,9 @@ import java.util.List;
  * Represents a single frame of animation
  */
 public class Frame {
-    public List<Vector> primary_blocks;
-    public List<Vector> secondary_blocks;
-    public List<Vector> air;
+    public final List<Vector> primary_blocks;
+    public final List<Vector> secondary_blocks;
+    public final List<Vector> air;
 
     /**
      * Creates an empty frame

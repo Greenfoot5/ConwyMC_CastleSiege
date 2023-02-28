@@ -35,7 +35,7 @@ public class Crossbowman extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
 
-    public static HashMap<UUID, Boolean> snipers = new HashMap<>();
+    public static final HashMap<UUID, Boolean> snipers = new HashMap<>();
 
     private final ItemStack mobilitySwitchInactive;
     private final ItemStack sniperSwitchInactive;
@@ -82,7 +82,7 @@ public class Crossbowman extends DonatorKit implements Listener {
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
 
-        // mode swich button
+        // mode switch button
         mobilitySwitchInactive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
                 ChatColor.GREEN + "Mobility Mode", Arrays.asList("",
                         ChatColor.AQUA + "Mobility mode:",
@@ -101,7 +101,7 @@ public class Crossbowman extends DonatorKit implements Listener {
                         ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to enable Sniper Mode."),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 0);
 
-        // mode swich button
+        // mode switch button
         mobilitySwitchActive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
                 ChatColor.GREEN + "Mobility Mode", Arrays.asList("",
                         ChatColor.AQUA + "Mobility mode:",

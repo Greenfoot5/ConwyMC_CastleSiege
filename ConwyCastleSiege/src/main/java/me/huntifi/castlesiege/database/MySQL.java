@@ -1,10 +1,10 @@
 package me.huntifi.castlesiege.database;
 
+import me.huntifi.castlesiege.Main;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import me.huntifi.castlesiege.Main;
 
 public class MySQL {
 
@@ -28,7 +28,7 @@ public class MySQL {
 		return (connection != null);
 	}
 
-	public void connect() throws ClassNotFoundException, SQLException {
+	public void connect() throws SQLException {
 
 		if (!isConnected()) {
 

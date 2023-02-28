@@ -5,6 +5,9 @@ import org.bukkit.Material;
 
 import java.util.List;
 
+/**
+ * A basic abstract booster that has a duration onlu
+ */
 public abstract class Booster implements Comparable<Booster> {
     public int id;
     public int duration;
@@ -12,6 +15,11 @@ public abstract class Booster implements Comparable<Booster> {
 
     public static int newId;
 
+    /**
+     * Defines a basic booster
+     * @param duration The duration of the booster
+     * @param material The material used when displaying the booster
+     */
     public Booster(int duration, Material material) {
         id = newId;
         newId++;
@@ -19,14 +27,30 @@ public abstract class Booster implements Comparable<Booster> {
         this.material = material;
     }
 
+    /**
+     * @return The type of the booster as an all caps string
+     */
     public abstract String getBoostType();
 
+    /**
+     * Gets any optional values of the booster required by children
+     * @return A string of all optional parameters
+     */
     public abstract String getValue();
 
+    /**
+     * @return The display name of the booster
+     */
     public abstract String getName();
 
+    /**
+     * @return The lore used when displaying the booster in a gui
+     */
     public abstract List<String> getLore();
 
+    /**
+     * @return Get the duration in a nice day, hour, min, sec format
+     */
     public String getDurationAsString() {
         int days, hours, minutes, seconds, remainder;
         days = duration / 86400;
@@ -52,6 +76,11 @@ public abstract class Booster implements Comparable<Booster> {
         return id - booster.id;
     }
 
+    /**
+     * Used each time a booster is loaded from the database,
+     * Makes sure new boosters are created with the highest booster + 1
+     * @param oldId The id of the booster to check against
+     */
     public static void updateID(int oldId) {
         Main.instance.getLogger().info(oldId + " >= " + newId + " = " + (oldId >= newId));
         if (oldId >= newId) {

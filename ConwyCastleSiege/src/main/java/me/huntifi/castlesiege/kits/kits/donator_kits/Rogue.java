@@ -45,9 +45,9 @@ import java.util.*;
 
 public class Rogue extends DonatorKit implements Listener {
 
-    public static ArrayList<Player> hasPoisonedWeapons = new ArrayList<>();
+    public static final ArrayList<Player> hasPoisonedWeapons = new ArrayList<>();
 
-    public static ArrayList<Player> isShadow = new ArrayList<>();
+    public static final ArrayList<Player> isShadow = new ArrayList<>();
     private final ItemStack gouge;
 
     private final ItemStack shadowStep;

@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.data_types.*;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.gui.Gui;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,6 +19,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A command to check your boosters, and/or use them
+ */
 public class BoosterCommand implements CommandExecutor {
 
     @Override
@@ -43,7 +47,11 @@ public class BoosterCommand implements CommandExecutor {
         gui.open(player);
     }
 
-    public Gui createGUI(List<Booster> boosters) {
+    /**
+     * @param boosters The boosters to add to the gui
+     * @return The Gui with the boosters in
+     */
+    public static Gui createGUI(List<Booster> boosters) {
         Gui gui = new Gui("Booster Selection", (boosters.size() / 9 + 1), true);
         boosters.sort(Booster::compareTo);
         for (int i = 0; i < boosters.size(); i++) {
@@ -60,6 +68,16 @@ public class BoosterCommand implements CommandExecutor {
         int id = Integer.parseInt(args[1]);
         for (Booster booster : data.getBoosters()) {
             if (booster.id == id) {
+
+                // Kit boosters don't stack
+                if (booster instanceof KitBooster) {
+                    if (DonatorKit.boostedKits.contains(((KitBooster) booster).kitName)) {
+                        Messenger.sendError("A kit booster of that type is already active!", sender);
+                        return;
+                    }
+                }
+
+                // Activate the booster
                 Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                     data.useBooster(uuid, booster);
                     removeBooster(booster.id, uuid);

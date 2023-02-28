@@ -12,7 +12,7 @@ public class AddBattlepoints extends ChangeCurrency {
 
     @Override
     protected String getCommandUsage() {
-        return "Use: /addbattlepoints <player> <amount>";
+        return "Use: /addBattlepoints <player> <amount>";
     }
 
     @Override

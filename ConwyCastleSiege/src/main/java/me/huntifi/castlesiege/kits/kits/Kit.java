@@ -41,10 +41,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public abstract class Kit implements CommandExecutor {
 
-    public String name;
-    public int baseHealth;
+    public final String name;
+    public final int baseHealth;
     public double kbResistance = 0;
-    protected double regenAmount;
+    protected final double regenAmount;
 
     public boolean canCap;
     public boolean canClimb;
@@ -53,17 +53,17 @@ public abstract class Kit implements CommandExecutor {
     // Equipment
     protected EquipmentSet equipment;
     protected int heldItemSlot = 0;
-    protected ArrayList<PotionEffect> potionEffects;
+    protected final ArrayList<PotionEffect> potionEffects;
 
     // Messages
-    protected String[] deathMessage;
-    protected String[] killMessage;
-    protected String[] projectileDeathMessage;
-    protected String[] projectileKillMessage;
+    protected final String[] deathMessage;
+    protected final String[] killMessage;
+    protected final String[] projectileDeathMessage;
+    protected final String[] projectileKillMessage;
 
     // Player Tracking
-    public List<UUID> players;
-    public static Map<UUID, Kit> equippedKits = new HashMap<>();
+    public final List<UUID> players;
+    public static final Map<UUID, Kit> equippedKits = new HashMap<>();
     private int limit = -1;
 
     // Kit Tracking

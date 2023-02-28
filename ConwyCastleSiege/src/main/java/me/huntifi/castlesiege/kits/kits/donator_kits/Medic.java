@@ -44,8 +44,8 @@ import java.util.*;
  */
 public class Medic extends DonatorKit implements Listener {
 
-    public static HashMap<Player, Block> cakes = new HashMap<>();
-    public static ArrayList<Player> cooldown = new ArrayList<>();
+    public static final HashMap<Player, Block> cakes = new HashMap<>();
+    public static final ArrayList<Player> cooldown = new ArrayList<>();
 
     /**
      * Set the equipment and attributes of this kit

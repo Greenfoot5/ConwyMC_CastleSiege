@@ -2,7 +2,10 @@ package me.huntifi.castlesiege.secrets;
 
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,13 +18,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SecretItems implements Listener {
 
-    public static HashMap<Player, ArrayList<ItemStack>> secretItemHolder = new HashMap<>();
+    public static final HashMap<Player, ArrayList<ItemStack>> secretItemHolder = new HashMap<>();
 
-    public static ArrayList<ItemStack> secretItems = new ArrayList<>();
+    public static final ArrayList<ItemStack> secretItems = new ArrayList<>();
 
     /**
      * Called when a map starts and spawns all items that are supposed to spawn on that map.
@@ -108,7 +112,7 @@ public class SecretItems implements Listener {
     }
 
     /**
-     * Add every item to this so it registers in the arraylist, then it will keep track of who holds the item.
+     * Add every item to this, so it registers in the arraylist, then it will keep track of who holds the item.
      */
     public static void registerSecretItems() {
 

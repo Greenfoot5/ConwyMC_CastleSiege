@@ -169,7 +169,7 @@ public class StoreData {
      * @param duration the value to add to the current time
      * @param isDonation true = paid with money, false = paid with coins or else
      */
-    public static void addUnlockedKit(UUID uuid, String kitName, long duration, boolean isDonation) throws SQLException {
+    public static void addUnlockedKit(UUID uuid, String kitName, long duration, boolean isDonation) {
         new BukkitRunnable() {
             @Override
             public void run() {

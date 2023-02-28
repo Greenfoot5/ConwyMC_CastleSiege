@@ -23,6 +23,7 @@ public class LoadData {
     /**
      * Load a player's stats and rank data
      * @param uuid The unique ID of the player
+     * @return The PlayeaData of the uuid
      */
     public static PlayerData load(UUID uuid) {
         try {
@@ -365,6 +366,7 @@ public class LoadData {
                 int duration = rs.getInt("duration");
                 String other = rs.getString("boost_value");
                 Booster booster;
+                Booster.updateID(boostId);
                 double multiplier;
                 switch (type.toUpperCase()) {
                     case "COIN":

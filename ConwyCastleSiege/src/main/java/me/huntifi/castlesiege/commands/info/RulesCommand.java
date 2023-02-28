@@ -10,14 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * Shows the player the rules
  */
 public class RulesCommand implements CommandExecutor {
-	/**
-	 * Print the rules to the player
-	 * @param p Source of the command
-	 * @param cmd Command which was executed
-	 * @param label Alias of the command which was used
-	 * @param args Passed command arguments
-	 * @return true
-	 */
+
 	private final static String[] rulesList = {
 			"Hacks and Mods are not allowed, if you attempt to hack you will get banned without warning!",
 			"Xray is not allowed, that includes transparent blocks!",
@@ -39,12 +32,12 @@ public class RulesCommand implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender p, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("The list of rules everyone must follow!" + ChatColor.BOLD + " Don't break them.\n");
-		sb.append(ChatColor.WHITE + border+"\n"); //print out border
+		sb.append(ChatColor.WHITE + border + "\n"); //print out border
 		int i = 0;
 		ChatColor col; //alternates between grey and white
 		for (String s : rulesList) {
 			col = (i % 2 == 0) ? ChatColor.WHITE: ChatColor.GRAY;
-			sb.append(ChatColor.YELLOW + "" + (i+1) + col + ") " + s + "\n");
+			sb.append(ChatColor.YELLOW + "").append(i + 1).append(col).append(") ").append(s).append("\n");
 			i++;
 		}
 		sb.append(ChatColor.WHITE + border);

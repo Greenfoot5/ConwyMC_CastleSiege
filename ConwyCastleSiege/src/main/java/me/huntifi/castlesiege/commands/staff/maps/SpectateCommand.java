@@ -21,7 +21,7 @@ import java.util.UUID;
 
 public class SpectateCommand implements CommandExecutor {
 
-    public static ArrayList<UUID> spectators = new ArrayList<>();
+    public static final ArrayList<UUID> spectators = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

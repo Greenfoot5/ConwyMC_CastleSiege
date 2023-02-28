@@ -21,7 +21,7 @@ public class EquipmentSet {
     public ItemStack chest;
     public ItemStack legs;
     public ItemStack feet;
-    public ItemStack[] hotbar;
+    public final ItemStack[] hotbar;
     public ItemStack offhand;
     // What to grant and where for voting
     public Tuple<ItemStack, Integer> votedWeapon;

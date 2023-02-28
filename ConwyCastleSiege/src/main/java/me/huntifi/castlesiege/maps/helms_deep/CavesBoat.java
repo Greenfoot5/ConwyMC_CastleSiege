@@ -8,11 +8,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.vehicle.VehicleDamageEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ import java.util.Objects;
 public class CavesBoat implements Listener, Runnable {
 
 	public static final Location SPAWN_LOCATION = new Location(Bukkit.getServer().getWorld("Helmsdeep"), 922, 30, 956, 90, -3);
-	public static ArrayList<Integer> boats = new ArrayList<>();
+	public static final ArrayList<Integer> boats = new ArrayList<>();
 
 	/**
 	 * Adds a boat to the boat list if it isn't there already
@@ -89,7 +87,7 @@ public class CavesBoat implements Listener, Runnable {
 			}
 		}
 
-		if (boats.size() <= 0)
+		if (boats.size() == 0)
 			spawnNextBoat();
 	}
 

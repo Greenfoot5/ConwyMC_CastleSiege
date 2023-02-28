@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 import org.bukkit.Bukkit;
@@ -723,7 +724,7 @@ public class PlayerData {
         assert player != null;
 
         // Coin Booster
-        if (booster.getClass().equals(CoinBooster.class)) {
+        if (booster instanceof CoinBooster) {
             CoinBooster coinBooster = (CoinBooster) booster;
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 coinMultiplier += coinBooster.multiplier;
@@ -739,7 +740,7 @@ public class PlayerData {
             }, booster.duration * 20L);
 
         // Battlepoint Booster
-        } else if (booster.getClass().equals(BattlepointBooster.class)) {
+        } else if (booster instanceof BattlepointBooster) {
             BattlepointBooster bpBooster = (BattlepointBooster) booster;
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 battlepointMultiplier += bpBooster.multiplier;
@@ -749,10 +750,23 @@ public class PlayerData {
             });
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
                 battlepointMultiplier -= bpBooster.multiplier;
-                Messenger.broadcastWarning(player.getName() + "'s " + bpBooster.getPercentage() + "% battlepoint booster has expired! " +
-                        "The total battlepoint multiplier is now " + getBattlepointMultiplier() + ".");
+                Messenger.broadcastWarning(player.getName() + "'s " + bpBooster.getPercentage() + "% battlepoint booster has expired! ");
+                Messenger.broadcastInfo("The total battlepoint multiplier is now " + getBattlepointMultiplier() + ".");
             }, booster.duration * 20L);
-        } // TODO - Kit Booster
+
+        } else if (booster instanceof KitBooster) {
+            KitBooster kitBooster = (KitBooster) booster;
+            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                DonatorKit.boostedKits.add(kitBooster.kitName);
+                Messenger.broadcastInfo(player.getName() + " has activated a " + kitBooster.kitName + " kit booster " +
+                        "for " + booster.getDurationAsString() + "!");
+            });
+            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
+                DonatorKit.boostedKits.remove(kitBooster.kitName);
+                Messenger.broadcastWarning(player.getName() + "'s " + kitBooster.kitName + "% kit booster has expired! ");
+            }, booster.duration * 20L);
+        }
+        // TODO - Kit Booster
 
         boosters.remove(booster);
     }

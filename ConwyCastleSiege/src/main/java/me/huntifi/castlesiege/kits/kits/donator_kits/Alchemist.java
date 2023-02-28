@@ -36,12 +36,18 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
+/**
+ * Alchemist kit, a brewing support kit
+ */
 public class Alchemist extends DonatorKit implements Listener {
 
-    public static HashMap<Player, Block> stands = new HashMap<>();
+    public static final HashMap<Player, Block> stands = new HashMap<>();
     private final ItemStack stand;
     private final ItemStack standVoted;
 
+    /**
+     * Creates the basics for Alchemist
+     */
     public Alchemist() {
         super("Alchemist", 230, 2, 10000, 10, Material.BREWING_STAND);
         super.canSeeHealth = true;
@@ -104,6 +110,10 @@ public class Alchemist extends DonatorKit implements Listener {
     }
 
 
+    /**
+     * Only applies the correct potion effect to the correct players
+     * @param e Called when a player throws a potion
+     */
     @EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onThrownPotion(PotionSplashEvent e) {
         // Is the potion thrown by an alchemist?
@@ -403,8 +413,11 @@ public class Alchemist extends DonatorKit implements Listener {
     }
        //------------------------------------------------Potions------------------------------------------------\\
 
-    java.util.Random rand = new java.util.Random();
+    final java.util.Random rand = new java.util.Random();
 
+    /**
+     * @return The item stack for a positive potion
+     */
     public ItemStack randomPositivePotion() {
 
         int types = rand.nextInt(24);
@@ -589,6 +602,9 @@ public class Alchemist extends DonatorKit implements Listener {
         return itemStack;
     }
 
+    /**
+     * @return The ItemStack for a random negative potion
+     */
     public ItemStack randomNegativePotion() {
 
         int types = rand.nextInt(16);

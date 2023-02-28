@@ -474,7 +474,7 @@ public class Main extends JavaPlugin implements Listener {
 
         try {
             SQL.connect();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             getLogger().warning("<!> Database is not connected! <!>");
         }
 
@@ -527,7 +527,7 @@ public class Main extends JavaPlugin implements Listener {
      */
     private void createConfigs() {
 
-        // Setup the vector adapter
+        // Set up the vector adapter
         TypeAdapter<Vector> vectorAdapter = new TypeAdapter<Vector>() {
             @NotNull
             @Override
@@ -555,7 +555,7 @@ public class Main extends JavaPlugin implements Listener {
 
         getLogger().info("Loaded Vector Adapter");
 
-        // Setup the frame adapter
+        // Set up the frame adapter
         TypeAdapter<Frame> frameAdapter = new TypeAdapter<Frame>() {
 
             @NotNull

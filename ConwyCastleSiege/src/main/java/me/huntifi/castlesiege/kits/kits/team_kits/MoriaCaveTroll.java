@@ -35,7 +35,7 @@ import java.util.UUID;
 
 public class MoriaCaveTroll extends TeamKit implements Listener {
 
-    public ArrayList<Player> grabbed = new ArrayList<>();
+    public final ArrayList<Player> grabbed = new ArrayList<>();
 
     public MoriaCaveTroll() {
         super("Moria Cave Troll", 450, 16, "Moria",
