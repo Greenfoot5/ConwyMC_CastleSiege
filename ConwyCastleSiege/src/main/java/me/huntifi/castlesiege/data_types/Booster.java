@@ -51,6 +51,10 @@ public abstract class Booster implements Comparable<Booster> {
      * @return Get the duration in a nice day, hour, min, sec format
      */
     public String getDurationAsString() {
+        return durationToString(duration);
+    }
+
+    public static String durationToString(int duration) {
         int days, hours, minutes, seconds, remainder;
         days = duration / 86400;
         remainder = duration % 86400;

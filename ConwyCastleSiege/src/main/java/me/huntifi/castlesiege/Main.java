@@ -32,12 +32,14 @@ import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.maps.*;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
+import me.huntifi.castlesiege.data_types.Booster;
 import me.huntifi.castlesiege.data_types.Frame;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.*;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
@@ -58,6 +60,7 @@ import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.gui.GuiController;
 import me.huntifi.castlesiege.kits.items.Enderchest;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.donator_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
@@ -90,7 +93,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class Main extends JavaPlugin implements Listener {
@@ -1254,5 +1260,74 @@ public class Main extends JavaPlugin implements Listener {
         onDisable();
         onEnable();
         plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Plugin Reloaded!");
+    }
+
+    public void activateBoosters() {
+        ArrayList<Booster> boosters = new ArrayList<>();
+
+        try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                "SELECT booster_id, booster_type, duration, boost_value FROM active_boosters WHERE expire_time > ?")) {
+            ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int boostId = rs.getInt("booster_id");
+                String type = rs.getString("booster_type");
+                long remaining_duration = rs.getTimestamp("expire_time").getTime() - System.currentTimeMillis() / 1000;
+                String other = rs.getString("boost_value");
+                Booster booster;
+                Booster.updateID(boostId);
+                double multiplier;
+                int percentage;
+                switch (type.toUpperCase()) {
+                    case "COIN":
+                    case "COINS":
+                    case "C":
+                        multiplier = Double.parseDouble(other);
+                        percentage = (int)(multiplier * 100);
+                        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                            PlayerData.setCoinMultiplier(PlayerData.getCoinMultiplier() + multiplier);
+                            Messenger.broadcastInfo(" A " + percentage + "% coin booster " +
+                                    "for " + Booster.durationToString((int) remaining_duration) + " has been activated!");
+                            Messenger.broadcastInfo("The total coin multiplier is now " + PlayerData.getCoinMultiplier() + ".");
+                        });
+                        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
+                            PlayerData.setCoinMultiplier(PlayerData.getCoinMultiplier() - multiplier);
+                            Messenger.broadcastWarning("A " + percentage + "% coin booster has expired!");
+                            Messenger.broadcastInfo("The total coin multiplier is now " + PlayerData.getCoinMultiplier() + ".");
+                        }, remaining_duration * 20L);
+                        break;
+                    case "BATTLEPOINT":
+                    case "BP":
+                        multiplier = Double.parseDouble(other);
+                        percentage = (int)(multiplier * 100);
+                        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                            PlayerData.setBattlepointMultiplier(PlayerData.getBattlepointMultiplier() + multiplier);
+                            Messenger.broadcastInfo(" A " + percentage + "% battlepoint booster " +
+                                    "for " + Booster.durationToString((int) remaining_duration) + " has been activated!");
+                            Messenger.broadcastInfo("The total battlepoint multiplier is now " + PlayerData.getBattlepointMultiplier() + ".");
+                        });
+                        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
+                            PlayerData.setBattlepointMultiplier(PlayerData.getBattlepointMultiplier() - multiplier);
+                            Messenger.broadcastWarning("A " + percentage + "% battlepoint booster has expired!");
+                            Messenger.broadcastInfo("The total battlepoint multiplier is now " + PlayerData.getBattlepointMultiplier() + ".");
+                        }, remaining_duration * 20L);
+                        break;
+                    case "KIT":
+                    case "K":
+                        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                            DonatorKit.boostedKits.add(other);
+                            Messenger.broadcastInfo("A " + other + " kit booster " +
+                                    "for " + Booster.durationToString((int) remaining_duration) + "!");
+                        });
+                        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
+                            DonatorKit.boostedKits.remove(other);
+                            Messenger.broadcastWarning("A " + other + " kit booster has expired! ");
+                        }, remaining_duration * 20L);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

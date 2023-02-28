@@ -762,13 +762,12 @@ public class PlayerData {
             });
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
                 DonatorKit.boostedKits.remove(kitBooster.kitName);
-                Messenger.broadcastWarning(player.getName() + "'s " + kitBooster.kitName + "% kit booster has expired! ");
+                Messenger.broadcastWarning(player.getName() + "'s " + kitBooster.kitName + " kit booster has expired! ");
             }, booster.duration * 20L);
         } else {
             Main.instance.getLogger().warning("Failed to use booster " + booster.id);
             return;
         }
-        // TODO - Kit Booster
 
         boosters.remove(booster);
     }
