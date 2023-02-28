@@ -32,10 +32,7 @@ import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.maps.*;
 import me.huntifi.castlesiege.commands.staff.punishments.*;
-import me.huntifi.castlesiege.data_types.Booster;
-import me.huntifi.castlesiege.data_types.LocationFrame;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.data_types.*;
 import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
@@ -565,8 +562,8 @@ public class Main extends JavaPlugin implements Listener {
 
         getLogger().info("Loaded Vector Adapter");
 
-        // Set up the frame adapter
-        TypeAdapter<LocationFrame> frameAdapter = new TypeAdapter<LocationFrame>() {
+        // Set up the frame adapters
+        TypeAdapter<LocationFrame> locationFrameTypeAdapter = new TypeAdapter<LocationFrame>() {
 
             @NotNull
             public java.util.Map<Object, Object> serialize(@NotNull LocationFrame object) {
@@ -579,26 +576,52 @@ public class Main extends JavaPlugin implements Listener {
 
             @NotNull
             public LocationFrame deserialize(@NotNull java.util.Map<Object, Object> map) {
-                LocationFrame locationFrame = new LocationFrame();
+                LocationFrame frame = new LocationFrame();
                 if (map.get("primary_blocks") != null) {
                     for (Object v : (ArrayList) map.get("primary_blocks")) {
-                        locationFrame.primary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                        frame.primary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
                     }
                 }
                 if (map.get("secondary_blocks") != null) {
                     for (Object v : (ArrayList) map.get("secondary_blocks")) {
-                        locationFrame.secondary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                        frame.secondary_blocks.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
                     }
                 }
                 if (map.get("air") != null) {
                     for (Object v : (ArrayList) map.get("air")) {
-                        locationFrame.air.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
+                        frame.air.add(vectorAdapter.deserialize((LinkedHashMap<Object, Object>) v));
                     }
                 }
-                return locationFrame;
+                return frame;
             }
         };
-        StandardSerializer.getDefault().register(LocationFrame.class, frameAdapter);
+        StandardSerializer.getDefault().register(LocationFrame.class, locationFrameTypeAdapter);
+
+        TypeAdapter<SchematicFrame> schematicFrameTypeAdapter = new TypeAdapter<SchematicFrame>() {
+
+            @NotNull
+            public java.util.Map<Object, Object> serialize(@NotNull SchematicFrame object) {
+                return new HashMap<>();
+            }
+
+            @NotNull
+            public SchematicFrame deserialize(@NotNull java.util.Map<Object, Object> map) {
+                SchematicFrame frame = new SchematicFrame();
+                for (Object t : map.keySet()) {
+                    frame.schematics.add(loadTuple((LinkedHashMap<Object, Object>) t));
+                }
+                return frame;
+            }
+
+            private Tuple<String, Vector> loadTuple(java.util.Map<Object, Object> map) {
+                Vector vector = new Vector();
+                vector.setX((Integer) map.get("x"));
+                vector.setY((Integer) map.get("y"));
+                vector.setZ((Integer) map.get("z"));
+                return new Tuple<>((String) map.get("schematic"), vector);
+            }
+        };
+        StandardSerializer.getDefault().register(SchematicFrame.class, schematicFrameTypeAdapter);
 
         getLogger().info("Loaded LocationFrame Apapter");
 
@@ -890,9 +913,12 @@ public class Main extends JavaPlugin implements Listener {
                 Route animationRoute = flagRoute.add("animation");
                 String[] animationPaths = getPaths(flagConfig, animationRoute);
 
-                flag.animation = new LocationFrame[animationPaths.length];
+                flag.animation = new Frame[animationPaths.length];
                 for (int j = 0; j < animationPaths.length; j++) {
-                    LocationFrame locationFrame = flagConfig.getAs(animationRoute.add(animationPaths[j]), LocationFrame.class);
+                    Frame locationFrame = flagConfig.getAs(animationRoute.add(animationPaths[j]), LocationFrame.class);
+                    if (locationFrame == null) {
+                        locationFrame = flagConfig.getAs(animationRoute.add(animationPaths[j]), SchematicFrame.class);
+                    }
                     flag.animation[j] = locationFrame;
                 }
             }
