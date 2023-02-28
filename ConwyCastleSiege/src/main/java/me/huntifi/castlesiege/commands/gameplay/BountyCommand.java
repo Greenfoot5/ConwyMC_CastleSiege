@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -176,7 +177,7 @@ public class BountyCommand implements CommandExecutor {
                 break;
         }
         if (amount > 0) {
-            int total = getAndAddBounty(killer.getUniqueId(), amount);
+            int total = getAndAddBounty(killer.getUniqueId(), (int) (amount * PlayerData.getCoinMultiplier()));
             Messenger.broadcastKillstreakBounty(NameTag.color(killer) + killer.getName(),
                     ActiveData.getData(killer.getUniqueId()).getKillStreak(), total);
         }
