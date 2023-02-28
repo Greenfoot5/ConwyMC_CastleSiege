@@ -9,16 +9,24 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class BoosterCommand implements CommandExecutor {
+public class BoosterCommand implements CommandExecutor, Listener {
+
+    private static final HashMap<HumanEntity, Gui> guis = new HashMap<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
@@ -40,6 +48,8 @@ public class BoosterCommand implements CommandExecutor {
         PlayerData data = ActiveData.getData(uuid);
 
         Gui gui = createGUI(data.getBoosters());
+        Main.plugin.getServer().getPluginManager().registerEvents(gui, Main.plugin);
+        guis.put(player, gui);
         gui.open(player);
     }
 
@@ -48,7 +58,7 @@ public class BoosterCommand implements CommandExecutor {
         boosters.sort(Booster::compareTo);
         for (int i = 0; i < boosters.size(); i++) {
             Booster booster = boosters.get(i);
-            gui.addItem(booster.getName(), booster.material, booster.getLore(), i, "/booster use " + booster.id, true);
+            gui.addItem(booster.getName(), booster.material, booster.getLore(), i, "booster use " + booster.id, true);
         }
         return gui;
     }
@@ -110,6 +120,18 @@ public class BoosterCommand implements CommandExecutor {
             return "KIT";
         } else {
             return "NULL";
+        }
+    }
+
+    /**
+     * Unregister the player's settings GUI when they close it.
+     * @param event The event called when an inventory is closed.
+     */
+    @EventHandler
+    public void onCloseGui(InventoryCloseEvent event) {
+        if (guis.containsKey(event.getPlayer())) {
+            HandlerList.unregisterAll(guis.get(event.getPlayer()));
+            guis.remove(event.getPlayer());
         }
     }
 }

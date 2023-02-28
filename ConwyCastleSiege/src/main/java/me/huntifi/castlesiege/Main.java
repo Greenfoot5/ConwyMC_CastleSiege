@@ -148,7 +148,6 @@ public class Main extends JavaPlugin implements Listener {
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
-                getServer().getPluginManager().registerEvents(new SettingsCommand(), plugin);
 
                 // Connection
                 getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);
@@ -187,6 +186,8 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Explosion(), plugin);
                 getServer().getPluginManager().registerEvents(new LeaveMapBorder(), plugin);
                 getServer().getPluginManager().registerEvents(new Movement(), plugin);
+                getServer().getPluginManager().registerEvents(new SettingsCommand(), plugin);
+                getServer().getPluginManager().registerEvents(new BoosterCommand(), plugin);
 
                 // Security
                 getServer().getPluginManager().registerEvents(new InteractContainer(), plugin);
