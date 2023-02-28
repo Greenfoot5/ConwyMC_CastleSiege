@@ -728,7 +728,6 @@ public class PlayerData {
             CoinBooster coinBooster = (CoinBooster) booster;
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 coinMultiplier += coinBooster.multiplier;
-                // TODO - Add duration
                 Messenger.broadcastInfo(player.getName() + " has activated a " + coinBooster.getPercentage() + "% coin booster " +
                         "for " + booster.getDurationAsString() + "!");
                 Messenger.broadcastInfo("The total coin multiplier is now " + getCoinMultiplier() + ".");
@@ -765,6 +764,9 @@ public class PlayerData {
                 DonatorKit.boostedKits.remove(kitBooster.kitName);
                 Messenger.broadcastWarning(player.getName() + "'s " + kitBooster.kitName + "% kit booster has expired! ");
             }, booster.duration * 20L);
+        } else {
+            Main.instance.getLogger().warning("Failed to use booster " + booster.id);
+            return;
         }
         // TODO - Kit Booster
 
