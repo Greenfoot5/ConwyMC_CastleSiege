@@ -23,7 +23,7 @@ public class LoadData {
     /**
      * Load a player's stats and rank data
      * @param uuid The unique ID of the player
-     * @return The PlayeaData of the uuid
+     * @return The PlayerData of the uuid
      */
     public static PlayerData load(UUID uuid) {
         try {
