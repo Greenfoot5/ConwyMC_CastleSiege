@@ -10,7 +10,7 @@ public class EnterBed implements Listener {
         event.useBed();
     }
 
-    public void OnLeaveBed(PlayerBedLeaveEvent event) {
+    public void onLeaveBed(PlayerBedLeaveEvent event) {
         event.setSpawnLocation(false);
     }
 }
