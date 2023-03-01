@@ -22,24 +22,12 @@ public class BroadcastMessage implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        if (args.length == 0)
+            return false;
 
         String broadcastPrefix = "§2[§4ConwyMC§2] - §a";
 
-        StringBuilder message = new StringBuilder();
-
-        // Command needs a message
-        for (String arg : args) {
-            message.append(arg).append(" ");
-        }
-
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            if (p.hasPermission("castlesiege.moderator")) {
-                Bukkit.broadcastMessage(broadcastPrefix + ChatColor.translateAlternateColorCodes('&', message.toString()));
-            }
-        } else {
-            Bukkit.broadcastMessage(broadcastPrefix + ChatColor.translateAlternateColorCodes('&', message.toString()));
-        }
+        Bukkit.broadcastMessage(broadcastPrefix + ChatColor.translateAlternateColorCodes('&', String.join(" ", args)));
         return true;
     }
 }
