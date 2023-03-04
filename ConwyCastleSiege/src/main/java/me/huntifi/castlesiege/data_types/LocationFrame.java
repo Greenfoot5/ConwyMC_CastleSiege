@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a single frame of animation
+ * Represents a single frame of blockAnimation
  */
 public class LocationFrame extends Frame {
     public final List<Vector> primary_blocks;

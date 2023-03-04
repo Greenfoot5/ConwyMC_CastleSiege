@@ -135,7 +135,7 @@ public class Ram {
      */
     private void doRamTick(Tuple<ArrayList<UUID>, ArrayList<UUID>> contenders) {
         if (shouldHit(contenders.getFirst().size() - contenders.getSecond().size())) {
-            // Perform the ram animation
+            // Perform the ram blockAnimation
             spawnSchematic(schematicNameActiveHit);
             Bukkit.getScheduler().runTaskLater(Main.plugin, () -> spawnSchematic(schematicNameActiveRest), 7);
 

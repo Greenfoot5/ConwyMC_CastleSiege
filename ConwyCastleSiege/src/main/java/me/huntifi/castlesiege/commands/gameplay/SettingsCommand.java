@@ -14,7 +14,10 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class SettingsCommand implements CommandExecutor {
     public static final HashMap<String, String[]> defaultSettings = new HashMap<String, String[]>(){{
@@ -60,7 +63,8 @@ public class SettingsCommand implements CommandExecutor {
                             ChatColor.GOLD + "joinPing (true/false) - " + ChatColor.BLUE + "Get a ping sound when another player joins the server\n" +
                             ChatColor.GOLD + "woolmapTitleMessage (true/false) - " + ChatColor.BLUE + "Shows the title message related to the wool map\n" +
                             ChatColor.GOLD + "showBattlepoints (true/false) - " + ChatColor.BLUE + "Shows your battlepoints in the flags scoreboard\n" +
-                            ChatColor.GOLD + "statsBoard (true/false) - " + ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names",
+                            ChatColor.GOLD + "statsBoard (true/false) - " + ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names\n" +
+                            ChatColor.GOLD + "alwaysInfo (false/true) - " + ChatColor.BLUE + "Shows info messages after you've reached the level required to hide them",
                     sender);
             return true;
         }

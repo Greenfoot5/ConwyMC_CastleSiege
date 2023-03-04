@@ -597,34 +597,6 @@ public class Main extends JavaPlugin implements Listener {
         };
         StandardSerializer.getDefault().register(LocationFrame.class, locationFrameTypeAdapter);
 
-        TypeAdapter<SchematicFrame> schematicFrameTypeAdapter = new TypeAdapter<SchematicFrame>() {
-
-            @NotNull
-            public java.util.Map<Object, Object> serialize(@NotNull SchematicFrame object) {
-                return new HashMap<>();
-            }
-
-            @NotNull
-            public SchematicFrame deserialize(@NotNull java.util.Map<Object, Object> map) {
-                SchematicFrame frame = new SchematicFrame();
-                for (Object t : map.keySet()) {
-                    frame.schematics.add(loadTuple((LinkedHashMap<Object, Object>) t));
-                }
-                return frame;
-            }
-
-            private Tuple<String, Vector> loadTuple(java.util.Map<Object, Object> map) {
-                Vector vector = new Vector();
-                vector.setX((Integer) map.get("x"));
-                vector.setY((Integer) map.get("y"));
-                vector.setZ((Integer) map.get("z"));
-                return new Tuple<>((String) map.get("schematic"), vector);
-            }
-        };
-        StandardSerializer.getDefault().register(SchematicFrame.class, schematicFrameTypeAdapter);
-
-        getLogger().info("Loaded LocationFrame Apapter");
-
         flagsConfigs = loadYMLs("flags");
         getLogger().info("Loaded flags");
 
@@ -674,7 +646,7 @@ public class Main extends JavaPlugin implements Listener {
                 try {
                     configs.add(YamlDocument.create(new File(directoryPath.getPath(), content),
                             getClass().getResourceAsStream(content)));
-                    getLogger().info("Loaded YML: " + directoryPath.getPath() + content);
+                    getLogger().info("Loaded YML: " + directoryPath.getPath() + "/" +  content);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -909,17 +881,53 @@ public class Main extends JavaPlugin implements Listener {
                     && flagConfig.getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
                 flag.region = getRegion(flagConfig, captureRoute, flag.name.replace(' ', '_'));
 
-                flag.animationAir = flagConfig.getBoolean(flagRoute.add("animation_air"));
-                Route animationRoute = flagRoute.add("animation");
-                String[] animationPaths = getPaths(flagConfig, animationRoute);
+                // Use block animation
+                if (!flagConfig.getBoolean(flagRoute.add("use_schematics"), false)) {
+                    flag.animationAir = flagConfig.getBoolean(flagRoute.add("animation_air"));
+                    Route animationRoute = flagRoute.add("animation");
+                    String[] animationPaths = getPaths(flagConfig, animationRoute);
 
-                flag.animation = new Frame[animationPaths.length];
-                for (int j = 0; j < animationPaths.length; j++) {
-                    Frame locationFrame = flagConfig.getAs(animationRoute.add(animationPaths[j]), LocationFrame.class);
-                    if (locationFrame == null) {
-                        locationFrame = flagConfig.getAs(animationRoute.add(animationPaths[j]), SchematicFrame.class);
+                    flag.blockAnimation = new LocationFrame[animationPaths.length];
+                    for (int j = 0; j < animationPaths.length; j++) {
+                        LocationFrame locationFrame = flagConfig.getAs(animationRoute.add(animationPaths[j]), LocationFrame.class);
+                        flag.blockAnimation[j] = locationFrame;
                     }
-                    flag.animation[j] = locationFrame;
+                // Use schematic animation
+                } else {
+                    // inside animation:
+                    Route animationRoute = flagRoute.add("animation");
+                    flag.useSchematics = true;
+                    String[] teamFrames = getPaths(flagConfig, animationRoute);
+                    flag.schematicAnimation = new HashMap<>();
+
+                    for (int j = 0; j < flagPaths.length; j++) {
+                        // Inside a team's animation
+                        Route teamRoute = animationRoute.add(teamFrames[j]);
+                        Route framesRoute = teamRoute.add("frames");
+                        String[] framePaths = getPaths(flagConfig, framesRoute);
+                        SchematicFrame[] frames = new SchematicFrame[framePaths.length];
+
+                        for (int k = 0; k < framePaths.length; k++) {
+                            // Each frame
+                            Route frameRoute = framesRoute.add(framePaths[k]);
+                            String[] schemPaths = getPaths(flagConfig, frameRoute);
+                            SchematicFrame frame = new SchematicFrame();
+
+                            for (int l = 0; l < schemPaths.length; l++) {
+                                // Each schematic
+                                Route schemRoute = frameRoute.add(schemPaths[l]);
+                                Vector vector = new Vector();
+                                vector.setX(flagConfig.getInt(schemRoute.add("x")));
+                                vector.setY(flagConfig.getInt(schemRoute.add("y")));
+                                vector.setZ(flagConfig.getInt(schemRoute.add("z")));
+                                frame.schematics.add(new Tuple<>(flagConfig.getString(schemRoute.add("name")), vector));
+                            }
+
+                            frames[k] = frame;
+                        }
+
+                        flag.schematicAnimation.put(flagConfig.getString(teamRoute.add("team_name")), frames);
+                    }
                 }
             }
 
@@ -1157,6 +1165,12 @@ public class Main extends JavaPlugin implements Listener {
         region.setFlag(Flags.PVP, StateFlag.State.ALLOW);
     }
 
+    /**
+     * Gets a String array of all the paths available at a route
+     * @param file The YamlDocument to get the paths from
+     * @param route The route in the document to check
+     * @return a String array of all paths at the route
+     */
     private String[] getPaths(YamlDocument file, Route route) {
         Set<String> set;
         if (route != null) {
@@ -1293,7 +1307,7 @@ public class Main extends JavaPlugin implements Listener {
 
     public void activateBoosters() {
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT booster_id, booster_type, duration, boost_value FROM active_boosters WHERE expire_time > ?")) {
+                "SELECT booster_id, booster_type, expire_time, boost_value FROM active_boosters WHERE expire_time > ?")) {
             ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
             ResultSet rs = ps.executeQuery();
 

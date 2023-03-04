@@ -280,7 +280,8 @@ public class MapController {
 				minimumCount++;
 			}
 		}
-		if (minimumCount < teams.size() * 2) {
+		Main.instance.getLogger().info(String.valueOf(minimumCount));
+		if (minimumCount < getCurrentMap().teams.length * 2) {
 			return;
 		}
 

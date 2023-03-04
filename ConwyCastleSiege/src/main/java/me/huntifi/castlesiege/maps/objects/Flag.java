@@ -2,7 +2,10 @@ package me.huntifi.castlesiege.maps.objects;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.*;
+import me.huntifi.castlesiege.data_types.LocationFrame;
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.SchematicFrame;
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Gamemode;
@@ -50,8 +53,10 @@ public class Flag {
     public int animationIndex;
 
     // Animation
-    public Frame[] animation;
+    public LocationFrame[] blockAnimation;
     public boolean animationAir = false;
+    public HashMap<String, SchematicFrame[]> schematicAnimation;
+    public boolean useSchematics = false;
 
     // Scoreboard value
     public int scoreboard;
@@ -70,9 +75,9 @@ public class Flag {
      * @param name the name of the flag
      * @param secret whether the flag is a secret flag
      * @param startingTeam the team that controls the flag at the beginning of the game
-     * @param maxCapValue the maximum animation amount
+     * @param maxCapValue the maximum blockAnimation amount
      * @param progressAmount How much progress is made by a single person
-     * @param startAmount the starting animation amount
+     * @param startAmount the starting blockAnimation amount
      */
     public Flag(String name, boolean secret, String startingTeam, int maxCapValue, int progressAmount, int startAmount) {
         this.name = name;
@@ -245,7 +250,7 @@ public class Flag {
     }
 
     /**
-     * Called when players make enough capture progress to trigger an animation change
+     * Called when players make enough capture progress to trigger an blockAnimation change
      */
     private void captureFlag() {
         int capProgress = progress / progressMultiplier;
@@ -327,7 +332,7 @@ public class Flag {
     }
 
     /**
-     * Notifies all players that there has been an animation change
+     * Notifies all players that there has been an blockAnimation change
      * Also adds players to InCombat interacted
      * @param areOwnersCapping If the current flag owners are capturing
      */
@@ -446,8 +451,8 @@ public class Flag {
     }
 
     /**
-     * Moves the flag onto the next animation frame
-     * @param isCapUp If the animation index has increased
+     * Moves the flag onto the next blockAnimation frame
+     * @param isCapUp If the blockAnimation index has increased
      * @param teamName The name of the team that owns the flag
      */
     private synchronized void animate(boolean isCapUp, String teamName) {
@@ -458,32 +463,46 @@ public class Flag {
 
         MapController.getCurrentMap().updateWoolMaps(name);
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // Gets the next frame and previous
-                // to overwrite previous animation and set new one
-                Frame nextFrame = animation[animationIndex];
-                Frame previousFrame;
-                if (isCapUp) {
-                    previousFrame = animation[animationIndex - 1];
-                } else {
-                    previousFrame = animation[animationIndex + 1];
+        if (useSchematics) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    World world = spawnPoint.getWorld();
+                    assert world != null;
+                    SchematicFrame nextFrame = schematicAnimation.get(currentOwners)[animationIndex + 1];
+                    for (Tuple<String, Vector> schematic : nextFrame.schematics) {
+                        Location loc = schematic.getSecond().toLocation(world);
+                        Main.instance.getLogger().info(schematic.getFirst());
+                        SchematicSpawner.spawnSchematic(loc, schematic.getFirst());
+                    }
                 }
+            }.runTask(Main.plugin);
+        } else {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    // Gets the next frame and previous
+                    // to overwrite previous blockAnimation and set new one
+                    LocationFrame nextFrame = blockAnimation[animationIndex];
+                    LocationFrame previousFrame;
+                    if (isCapUp) {
+                        previousFrame = blockAnimation[animationIndex - 1];
+                    } else {
+                        previousFrame = blockAnimation[animationIndex + 1];
+                    }
 
-                // Get the team, or sets the neutralized materials
-                Team team = MapController.getCurrentMap().getTeam(teamName);
-                if (team == null) {
-                    team = new Team("null");
-                    team.primaryWool = Material.GRAY_WOOL;
-                    team.secondaryWool = Material.LIGHT_GRAY_WOOL;
-                }
-                World world = spawnPoint.getWorld();
-                assert world != null;
+                    // Get the team, or sets the neutralized materials
+                    Team team = MapController.getCurrentMap().getTeam(teamName);
+                    if (team == null) {
+                        team = new Team("null");
+                        team.primaryWool = Material.GRAY_WOOL;
+                        team.secondaryWool = Material.LIGHT_GRAY_WOOL;
+                    }
+                    World world = spawnPoint.getWorld();
+                    assert world != null;
 
-                if (previousFrame instanceof LocationFrame) {
-                    LocationFrame previousLocationFrame = (LocationFrame) previousFrame;
-                    // Set previous animation blocks to air
+                    LocationFrame previousLocationFrame = previousFrame;
+                    // Set previous blockAnimation blocks to air
                     if (animationAir) {
                         for (Vector vector : previousLocationFrame.secondary_blocks) {
                             Location loc = vector.toLocation(world);
@@ -497,10 +516,8 @@ public class Flag {
                             block.setType(Material.AIR);
                         }
                     }
-                }
 
-                if (nextFrame instanceof LocationFrame) {
-                    LocationFrame nextLocationFrame = (LocationFrame) nextFrame;
+                    LocationFrame nextLocationFrame = nextFrame;
                     // Set new blocks
                     for (Vector vector : nextLocationFrame.secondary_blocks) {
                         Location loc = vector.toLocation(world);
@@ -519,15 +536,9 @@ public class Flag {
                         Block block = loc.getBlock();
                         block.setType(Material.AIR);
                     }
-                } else if (nextFrame instanceof SchematicFrame) {
-                    SchematicFrame nextSchematicFrame = (SchematicFrame) nextFrame;
-                    for (Tuple<String, Vector> schematic : nextSchematicFrame.schematics) {
-                        Location loc = schematic.getSecond().toLocation(world);
-                        SchematicSpawner.spawnSchematic(loc, schematic.getFirst());
-                    }
                 }
-            }
-        }.runTask(Main.plugin);
+            }.runTask(Main.plugin);
+        }
     }
 
     /**

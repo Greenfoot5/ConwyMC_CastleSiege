@@ -18,12 +18,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * Allows the hurt animation to trigger without dealing damage
+ * Allows the hurt blockAnimation to trigger without dealing damage
  */
 public class HurtAnimation implements Listener {
 
     /**
-     * Trigger the hurt animation for a player
+     * Trigger the hurt blockAnimation for a player
      *
      * @param player The player
      */
