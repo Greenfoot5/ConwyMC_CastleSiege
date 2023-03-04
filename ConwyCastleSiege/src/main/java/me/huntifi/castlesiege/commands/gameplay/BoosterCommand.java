@@ -160,13 +160,12 @@ public class BoosterCommand implements CommandExecutor, Listener {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        while (e.getMessage().startsWith("§")) {
-            e.setMessage(e.getMessage().substring(2));
-        }
-
-
         if (waitingForWildKit.containsKey(uuid)) {
             e.setCancelled(true);
+            while (e.getMessage().startsWith("§")) {
+                e.setMessage(e.getMessage().substring(2));
+            }
+
             Kit kit = Kit.getKit(e.getMessage().trim());
             if (kit instanceof DonatorKit) {
                 KitBooster booster = waitingForWildKit.get(uuid);
@@ -183,6 +182,10 @@ public class BoosterCommand implements CommandExecutor, Listener {
             waitingForWildKit.remove(uuid);
         } else if (waitingForBPMult.containsKey(uuid)) {
             e.setCancelled(true);
+            while (e.getMessage().startsWith("§")) {
+                e.setMessage(e.getMessage().substring(2));
+            }
+
             try {
                 double mult = Double.parseDouble(e.getMessage()) / 100.0;
                 BattlepointBooster booster = waitingForBPMult.get(uuid);

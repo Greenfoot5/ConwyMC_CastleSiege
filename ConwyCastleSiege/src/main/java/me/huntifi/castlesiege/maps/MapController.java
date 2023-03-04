@@ -57,8 +57,6 @@ public class MapController {
 	private static final double KIT_BOOSTER_WILD_CHANCE = 0.15;
 
 
-
-
 	public static List<Map> maps = new ArrayList<>();
 	public static int mapIndex = 0;
 	public static Timer timer;
