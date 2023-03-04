@@ -636,13 +636,17 @@ public class PlayerData {
     }
 
     public void setSetting(UUID uuid, String setting, String value) {
+        if (settings.get(setting) == null) {
+            settings.put(setting, value);
+        }
+        else {
+            settings.put(setting, value);
+        }
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             if (settings.get(setting) == null) {
-                settings.put(setting, value);
                 StoreData.addSetting(uuid, setting, value);
             }
             else {
-                settings.put(setting, value);
                 StoreData.updateSetting(uuid, setting, value);
             }
         });
