@@ -146,8 +146,9 @@ public class GrantBooster implements CommandExecutor {
      * Update the player's currency in the database.
      * @param uuid The UUID of the player
      * @param booster The booster to set
+     * @return if the booster was added successfully
      */
-    private boolean updateDatabase(UUID uuid, Booster booster) {
+    public static boolean updateDatabase(UUID uuid, Booster booster) {
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(getQuery())) {
             ps.setString(1, uuid.toString());
             ps.setString(2, booster.getBoostType());
@@ -162,7 +163,7 @@ public class GrantBooster implements CommandExecutor {
         }
     }
 
-    private String getQuery() {
+    private static String getQuery() {
         return "INSERT INTO player_boosters (uuid, booster_type, duration, boost_value, booster_id)\n" +
                 "VALUES (?, ?, ?, ?, ?);";
     }
