@@ -631,22 +631,29 @@ public class PlayerData {
             unlockedKits.remove(kitName);
     }
 
+    /**
+     * Get the player's value of a setting
+     * @param setting The setting
+     * @return The player's value of a setting or default
+     */
     public String getSetting(String setting) {
         return settings.get(setting) == null ? SettingsCommand.defaultSettings.get(setting)[0] : settings.get(setting);
     }
 
+    /**
+     * Set the player's value of a setting
+     * @param uuid The player's unique ID
+     * @param setting The setting
+     * @param value The value
+     */
     public void setSetting(UUID uuid, String setting, String value) {
-        if (settings.get(setting) == null) {
-            settings.put(setting, value);
-        }
-        else {
-            settings.put(setting, value);
-        }
+        boolean isNewSetting = settings.get(setting) == null;
+        settings.put(setting, value);
+
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            if (settings.get(setting) == null) {
+            if (isNewSetting) {
                 StoreData.addSetting(uuid, setting, value);
-            }
-            else {
+            } else {
                 StoreData.updateSetting(uuid, setting, value);
             }
         });
