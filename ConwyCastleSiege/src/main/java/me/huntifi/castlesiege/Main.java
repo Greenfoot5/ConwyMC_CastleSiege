@@ -900,22 +900,22 @@ public class Main extends JavaPlugin implements Listener {
                     String[] teamFrames = getPaths(flagConfig, animationRoute);
                     flag.schematicAnimation = new HashMap<>();
 
-                    for (int j = 0; j < flagPaths.length; j++) {
+                    for (String teamFrame : teamFrames) {
                         // Inside a team's animation
-                        Route teamRoute = animationRoute.add(teamFrames[j]);
+                        Route teamRoute = animationRoute.add(teamFrame);
                         Route framesRoute = teamRoute.add("frames");
                         String[] framePaths = getPaths(flagConfig, framesRoute);
                         SchematicFrame[] frames = new SchematicFrame[framePaths.length];
 
-                        for (int k = 0; k < framePaths.length; k++) {
+                        for (int j = 0; j < framePaths.length; j++) {
                             // Each frame
-                            Route frameRoute = framesRoute.add(framePaths[k]);
+                            Route frameRoute = framesRoute.add(framePaths[j]);
                             String[] schemPaths = getPaths(flagConfig, frameRoute);
                             SchematicFrame frame = new SchematicFrame();
 
-                            for (int l = 0; l < schemPaths.length; l++) {
+                            for (String schemPath : schemPaths) {
                                 // Each schematic
-                                Route schemRoute = frameRoute.add(schemPaths[l]);
+                                Route schemRoute = frameRoute.add(schemPath);
                                 Vector vector = new Vector();
                                 vector.setX(flagConfig.getInt(schemRoute.add("x")));
                                 vector.setY(flagConfig.getInt(schemRoute.add("y")));
@@ -923,7 +923,7 @@ public class Main extends JavaPlugin implements Listener {
                                 frame.schematics.add(new Tuple<>(flagConfig.getString(schemRoute.add("name")), vector));
                             }
 
-                            frames[k] = frame;
+                            frames[j] = frame;
                         }
 
                         flag.schematicAnimation.put(flagConfig.getString(teamRoute.add("team_name")), frames);

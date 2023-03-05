@@ -469,7 +469,7 @@ public class Flag {
                 public void run() {
                     World world = spawnPoint.getWorld();
                     assert world != null;
-                    SchematicFrame nextFrame = schematicAnimation.get(currentOwners)[animationIndex + 1];
+                    SchematicFrame nextFrame = schematicAnimation.get(currentOwners)[animationIndex];
                     for (Tuple<String, Vector> schematic : nextFrame.schematics) {
                         Location loc = schematic.getSecond().toLocation(world);
                         Main.instance.getLogger().info(schematic.getFirst());
