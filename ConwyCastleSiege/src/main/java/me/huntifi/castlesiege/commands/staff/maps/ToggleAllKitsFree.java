@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.commands.staff;
+package me.huntifi.castlesiege.commands.staff.maps;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Changes whether players are allowed to switch teams
  */
-public class ToggleForcedRandom implements CommandExecutor {
+public class ToggleAllKitsFree implements CommandExecutor {
 
     /**
      * Toggle regular switching between teams
@@ -29,21 +29,21 @@ public class ToggleForcedRandom implements CommandExecutor {
     }
 
     /**
-     * Enable/disable randomDeath for all players if a correct amount of arguments is supplied
+     * Enable/disable all kits free if a correct amount of arguments is supplied
      * @param sender Source of the command
      * @param args Passed command arguments
      */
     private void toggle(CommandSender sender, String[] args) {
         if (args.length > 1) {
-            Messenger.sendError("Use: /toggleforcedrandom [true/false]", sender);
+            Messenger.sendError("Use: /togglenolimits [true/false]", sender);
             return;
         }
 
         if (args.length == 1)
-            MapController.forcedRandom = Boolean.parseBoolean(args[0]);
+            MapController.allKitsFree = Boolean.parseBoolean(args[0]);
         else
-            MapController.forcedRandom = !MapController.forcedRandom;
+            MapController.allKitsFree = !MapController.allKitsFree;
 
-        Messenger.broadcastInfo("/random on death is now " + (MapController.forcedRandom ? "enabled" : "disabled") + " for all players.");
+        Messenger.broadcastInfo("All donator & team kits are " + (MapController.allKitsFree ? "now temporarily free!" : "no longer free."));
     }
 }

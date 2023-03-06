@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.staff.RankPoints;
-import me.huntifi.castlesiege.commands.staff.SpectateCommand;
+import me.huntifi.castlesiege.commands.staff.donations.RankPoints;
+import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -199,7 +199,8 @@ public class PlayerConnect implements Listener {
 
     /**
      * send a title bar to the player after 5 seconds, then another time after 30 seconds.
-     * But only if they are in the spawnroom stil.
+     * But only if they are in the spawnroom still.
+     * @param p The player
      */
     public static void sendTitlebarMessages(Player p) {
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {

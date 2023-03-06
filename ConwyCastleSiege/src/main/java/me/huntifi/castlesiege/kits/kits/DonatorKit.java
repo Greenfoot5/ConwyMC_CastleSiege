@@ -5,10 +5,14 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 public abstract class DonatorKit extends Kit {
 
@@ -19,9 +23,10 @@ public abstract class DonatorKit extends Kit {
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
+    public static final List<String> boostedKits = new ArrayList<>();
 
-    public DonatorKit(String name, int baseHealth, double regenAmount, double coins, double battlepoints) {
-        super(name, baseHealth, regenAmount);
+    public DonatorKit(String name, int baseHealth, double regenAmount, double coins, double battlepoints, Material material) {
+        super(name, baseHealth, regenAmount, material);
         price = coins;
         bp_price = battlepoints;
 

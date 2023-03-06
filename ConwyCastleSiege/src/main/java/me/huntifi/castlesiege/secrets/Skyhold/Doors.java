@@ -20,18 +20,18 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Doors implements Listener {
 
-    Location soundDoorLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 184, 113, 133);
-    Location soundVaultLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 184, 113, 133);
-    Location vaultLockLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1660, 91, -111);
-    Location doorLockLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1709, 92, -89);
-    Location doorSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1709, 91, -90);
-    Location vaultSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1660, 92, -111);
+    final Location soundDoorLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 184, 113, 133);
+    final Location soundVaultLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 184, 113, 133);
+    final Location vaultLockLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1660, 91, -111);
+    final Location doorLockLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1709, 92, -89);
+    final Location doorSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1709, 91, -90);
+    final Location vaultSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1660, 92, -111);
 
-    Location statueLockLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1643, 96, -28);
-    Location statueSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1642, 93, -28);
+    final Location statueLockLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1643, 96, -28);
+    final Location statueSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1642, 93, -28);
 
-    Location tombSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -28);
-    Location tombCloseSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -27);
+    final Location tombSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -28);
+    final Location tombCloseSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -27);
 
     @EventHandler
     public void onClickDoor(PlayerInteractEvent event) {
@@ -159,10 +159,10 @@ public class Doors implements Listener {
         }
     }
 
-    Location button1Loc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 82, -33);
-    Location button2Loc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1661, 81, -30);
-    Location button3Loc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -27);
-    Location primeButtonLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 82, -30);
+    final Location button1Loc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 82, -33);
+    final Location button2Loc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1661, 81, -30);
+    final Location button3Loc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -27);
+    final Location primeButtonLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 82, -30);
     String code = "";
     @EventHandler
     public void onClickTomb(PlayerInteractEvent event) {

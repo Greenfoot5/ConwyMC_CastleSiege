@@ -1,23 +1,17 @@
 package me.huntifi.castlesiege.kits.kits.team_kits;
 
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -38,7 +32,8 @@ import java.util.UUID;
 public class MoriaAxeThrower extends TeamKit implements Listener {
 
     public MoriaAxeThrower() {
-        super("Dwarven Axe Thrower", 245, 10, "Moria", "The Dwarves", 5000, 8);
+        super("Dwarven Axe Thrower", 245, 10, "Moria",
+                "The Dwarves", 5000, 8, Material.STONE_AXE);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

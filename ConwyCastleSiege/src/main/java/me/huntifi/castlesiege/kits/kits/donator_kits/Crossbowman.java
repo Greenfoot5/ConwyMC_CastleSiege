@@ -35,7 +35,7 @@ public class Crossbowman extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
 
-    public static HashMap<UUID, Boolean> snipers = new HashMap<>();
+    public static final HashMap<UUID, Boolean> snipers = new HashMap<>();
 
     private final ItemStack mobilitySwitchInactive;
     private final ItemStack sniperSwitchInactive;
@@ -44,7 +44,7 @@ public class Crossbowman extends DonatorKit implements Listener {
     private final ItemStack sniperSwitchActive;
 
     public Crossbowman() {
-        super("Crossbowman", 250, 8.5, 10000, 12);
+        super("Crossbowman", 250, 8.5, 10000, 12, Material.CROSSBOW);
         super.kbResistance = 1;
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -82,7 +82,7 @@ public class Crossbowman extends DonatorKit implements Listener {
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
 
-        // mode swich button
+        // mode switch button
         mobilitySwitchInactive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
                 ChatColor.GREEN + "Mobility Mode", Arrays.asList("",
                         ChatColor.AQUA + "Mobility mode:",
@@ -90,7 +90,7 @@ public class Crossbowman extends DonatorKit implements Listener {
                         ChatColor.AQUA + "has no cooldown and shoots like a normal",
                         ChatColor.AQUA + "crossbow.", "",
                         ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to enable Mobility Mode."),
-                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 0);
+                null, 0);
 
         sniperSwitchInactive = ItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
                 ChatColor.YELLOW + "Sniper Mode", Arrays.asList("",
@@ -99,9 +99,9 @@ public class Crossbowman extends DonatorKit implements Listener {
                         ChatColor.AQUA + "has a cooldown and shoots like a sniper",
                         ChatColor.AQUA + "",
                         ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to enable Sniper Mode."),
-                null, 0);
+                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 0);
 
-        // mode swich button
+        // mode switch button
         mobilitySwitchActive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
                 ChatColor.GREEN + "Mobility Mode", Arrays.asList("",
                         ChatColor.AQUA + "Mobility mode:",
@@ -158,7 +158,7 @@ public class Crossbowman extends DonatorKit implements Listener {
 
             p.setCooldown(Material.CROSSBOW, 70);
             Arrow a = (Arrow) e.getProjectile();
-            ((Arrow) e.getProjectile()).setPierceLevel(1);
+            //((Arrow) e.getProjectile()).setPierceLevel(1);
             a.setKnockbackStrength(1);
             a.setVelocity(p.getLocation().getDirection().normalize().multiply(40));
         }

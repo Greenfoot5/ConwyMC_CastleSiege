@@ -9,7 +9,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import net.md_5.bungee.api.ChatMessageType;
@@ -46,11 +45,12 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
     private Player shooter;
 
     public FirelandsAbyssal() {
-        super("Abyssal", 300, 9, "Firelands", "Burning Legion", 5000, 8);
+        super("Abyssal", 300, 9, "Firelands",
+                "Burning Legion", 5000, 8, Material.MAGMA_BLOCK);
         super.canCap = true;
         super.canClimb = false;
         super.canSeeHealth = true;
-        super.kbResistance = 2;
+        super.kbResistance = 1;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

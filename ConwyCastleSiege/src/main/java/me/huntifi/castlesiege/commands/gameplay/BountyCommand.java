@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Bounty implements CommandExecutor {
+public class BountyCommand implements CommandExecutor {
 
     private static final ArrayList<Tuple<UUID, Integer>> bounties = new ArrayList<>();
 
@@ -33,7 +34,8 @@ public class Bounty implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (command.getName().equals("Bounties")) {
-            return bounties(sender, args);
+            bounties(sender, args);
+            return true;
         }
 
         if (args.length != 2 && args.length != 1) {
@@ -80,13 +82,13 @@ public class Bounty implements CommandExecutor {
         return true;
     }
 
-    private boolean bounties(@NotNull CommandSender sender, @NotNull String[] args) {
+    private void bounties(@NotNull CommandSender sender, @NotNull String[] args) {
         int requested;
         try {
             requested = args.length == 0 ? 0 : Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
             Messenger.sendError("Use /bounty to get the bounty for a player!", sender);
-            return true;
+            return;
         }
 
         new BukkitRunnable() {
@@ -95,7 +97,7 @@ public class Bounty implements CommandExecutor {
                 bounties.sort((o1, o2) -> o2.getSecond() - o1.getSecond());
 
                 // Send header
-                sender.sendMessage(ChatColor.AQUA + "#. Player " + ChatColor.GOLD + "Bounty");
+                sender.sendMessage(ChatColor.AQUA + "#. Player " + ChatColor.GOLD + "BountyCommand");
 
                 // Send Entries
                 int pos = requested < 6 ? 0 : Math.min(requested - 5, bounties.size());
@@ -110,7 +112,6 @@ public class Bounty implements CommandExecutor {
                 }
             }
         }.runTaskAsynchronously(Main.plugin);
-        return true;
     }
 
     public static void grantRewards(Player bountied, Player killer) {
@@ -176,7 +177,7 @@ public class Bounty implements CommandExecutor {
                 break;
         }
         if (amount > 0) {
-            int total = getAndAddBounty(killer.getUniqueId(), amount);
+            int total = getAndAddBounty(killer.getUniqueId(), (int) (amount * PlayerData.getCoinMultiplier()));
             Messenger.broadcastKillstreakBounty(NameTag.color(killer) + killer.getName(),
                     ActiveData.getData(killer.getUniqueId()).getKillStreak(), total);
         }

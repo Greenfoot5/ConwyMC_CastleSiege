@@ -2,11 +2,11 @@ package me.huntifi.castlesiege.maps.soldiers_peak;
 
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 
+@SuppressWarnings("MissingJavadoc")
 public class ArcaneTower implements Listener {
 
     @EventHandler
@@ -16,7 +16,7 @@ public class ArcaneTower implements Listener {
 
             if (e.getChunk().getWorld().equals(Bukkit.getWorld("SoldiersPeak"))) {
 
-                //player head room
+                // player headroom
                 Bukkit.getWorld("SoldiersPeak").setChunkForceLoaded(0,-3, true);
                 Bukkit.getWorld("SoldiersPeak").setChunkForceLoaded(-1,-3, true);
                 Bukkit.getWorld("SoldiersPeak").setChunkForceLoaded(-2,-3, true);
@@ -24,7 +24,7 @@ public class ArcaneTower implements Listener {
                 Bukkit.getWorld("SoldiersPeak").setChunkForceLoaded(-1,-4, true);
                 Bukkit.getWorld("SoldiersPeak").setChunkForceLoaded(0,-4, true);
 
-                //arcane tower
+                // arcane tower
                 Bukkit.getWorld("SoldiersPeak").setChunkForceLoaded(5,-4, true);
                 Bukkit.getWorld("SoldiersPeak").setChunkForceLoaded(5,-5, true);
                 Bukkit.getWorld("SoldiersPeak").setChunkForceLoaded(3,-4, true);

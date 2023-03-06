@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -13,15 +12,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.UUID;
 
-public class SettingsCommand implements CommandExecutor, Listener {
+public class SettingsCommand implements CommandExecutor {
     public static final HashMap<String, String[]> defaultSettings = new HashMap<String, String[]>(){{
         put("randomDeath", new String[]{"false", "true"});
         put("deathMessages", new String[]{"false", "true"});
@@ -29,7 +27,8 @@ public class SettingsCommand implements CommandExecutor, Listener {
         put("joinPing", new String[]{"false", "true"});
         put("statsBoard", new String[]{"false", "true"});
         put("woolmapTitleMessage", new String[]{"true", "false"});
-        put("showBattlepoints", new String[]{"false", "true"});
+        put("showBattlepoints", new String[]{"true", "false"});
+        put("alwaysInfo", new String[]{"false", "true"});
     }};
 
     private static final HashMap<HumanEntity, Gui> guis = new HashMap<>();
@@ -45,13 +44,12 @@ public class SettingsCommand implements CommandExecutor, Listener {
 
         if (args.length < 1) {
             // Register and open a settings GUI for the player
-            Gui gui = new Gui(ChatColor.GOLD + "Settings", 1);
+            Gui gui = new Gui(ChatColor.GOLD + "Settings", 1, true);
             guis.put(player, gui);
 
             for (String setting : defaultSettings.keySet())
                 setGuiItem(player, setting);
 
-            Main.plugin.getServer().getPluginManager().registerEvents(gui, Main.plugin);
             gui.open(player);
             return true;
         }
@@ -63,9 +61,10 @@ public class SettingsCommand implements CommandExecutor, Listener {
                             ChatColor.GOLD + "randomDeath (true/false) - " + ChatColor.BLUE + "Each time you die, runs /random to give you a new random class\n" +
                             ChatColor.GOLD + "deathMessages (true/false) - " + ChatColor.BLUE + "View all death messages, not just your own\n" +
                             ChatColor.GOLD + "joinPing (true/false) - " + ChatColor.BLUE + "Get a ping sound when another player joins the server\n" +
-                            ChatColor.GOLD + "woolmapTitleMessage (true/false) - " + ChatColor.BLUE + "Disable the Title Bar message related to the Wool-map\n" +
-                            ChatColor.GOLD + "showBattlepoints (true/false) - " + ChatColor.BLUE + "Shows your battlepoints in the flags scoreboard.\n" +
-                            ChatColor.GOLD + "statsBoard (true/false) - " + ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names ",
+                            ChatColor.GOLD + "woolmapTitleMessage (true/false) - " + ChatColor.BLUE + "Shows the title message related to the wool map\n" +
+                            ChatColor.GOLD + "showBattlepoints (true/false) - " + ChatColor.BLUE + "Shows your battlepoints in the flags scoreboard\n" +
+                            ChatColor.GOLD + "statsBoard (true/false) - " + ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names\n" +
+                            ChatColor.GOLD + "alwaysInfo (false/true) - " + ChatColor.BLUE + "Shows info messages after you've reached the level required to hide them",
                     sender);
             return true;
         }
@@ -139,25 +138,18 @@ public class SettingsCommand implements CommandExecutor, Listener {
             case "woolmapTitleMessage":
                 gui.addItem(itemName, Material.PAPER, Collections.singletonList(
                                 ChatColor.BLUE + "Disable the Title bar message related to the Wool-map"),
-                        4, command, true);
+                        4, command, false);
                 break;
             case "showBattlepoints":
                 gui.addItem(itemName, Material.BLUE_GLAZED_TERRACOTTA, Collections.singletonList(
                                 ChatColor.BLUE + "Shows your battlepoints in the flags scoreboard"),
                         5, command, false);
                 break;
-        }
-    }
-
-    /**
-     * Unregister the player's settings GUI when they close it.
-     * @param event The event called when an inventory is closed.
-     */
-    @EventHandler
-    public void onCloseGui(InventoryCloseEvent event) {
-        if (guis.containsKey(event.getPlayer())) {
-            HandlerList.unregisterAll(guis.get(event.getPlayer()));
-            guis.remove(event.getPlayer());
+            case "alwaysInfo":
+                gui.addItem(itemName, Material.BLUE_WOOL, Collections.singletonList(
+                                ChatColor.BLUE + "Always display level dependent info messages"),
+                        6, command, false);
+                break;
         }
     }
 }

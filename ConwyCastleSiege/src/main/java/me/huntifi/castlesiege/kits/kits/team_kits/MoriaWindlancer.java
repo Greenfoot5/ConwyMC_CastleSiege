@@ -15,7 +15,6 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -34,7 +33,8 @@ import java.util.UUID;
 
 public class MoriaWindlancer extends TeamKit implements Listener {
     public MoriaWindlancer() {
-        super("Dwarven Windlancer", 240, 9 , "Moria", "The Dwarves", 5000, 8);
+        super("Dwarven Windlancer", 240, 9 , "Moria",
+                "The Dwarves", 5000, 8, Material.STICK);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

@@ -3,15 +3,19 @@ package me.huntifi.castlesiege.data_types;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
 import me.huntifi.castlesiege.database.StoreData;
+import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -57,6 +61,7 @@ public class PlayerData {
     private double battlepoints;
 
     private HashMap<String, String> settings;
+    private ArrayList<Booster> boosters;
 
     //private ArrayList<String> ownedAchievements;
 
@@ -70,7 +75,7 @@ public class PlayerData {
      * @throws SQLException If the columns don't match up
      */
     public PlayerData(ArrayList<String> achievements, ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
-                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, boolean isMatch) throws SQLException {
+                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, boolean isMatch, ArrayList<Booster> boosters) throws SQLException {
 
         //this.ownedAchievements = achievements;
         this.unlockedKits = unlockedKits;
@@ -99,6 +104,7 @@ public class PlayerData {
         this.leaveMessage = rankData.getString("leave_message");
 
         this.settings = settings;
+        this.boosters = boosters;
 
         this.votes = votes;
     }
@@ -586,7 +592,7 @@ public class PlayerData {
      * @return Whether the player has access to the kit
      */
     public boolean hasKit(String kitName) {
-        return unlockedKits.contains(kitName);
+        return unlockedKits.contains(kitName) || DonatorKit.boostedKits.contains(kitName);
     }
 
     /**
@@ -625,18 +631,31 @@ public class PlayerData {
             unlockedKits.remove(kitName);
     }
 
+    /**
+     * Get the player's value of a setting
+     * @param setting The setting
+     * @return The player's value of a setting or default
+     */
     public String getSetting(String setting) {
         return settings.get(setting) == null ? SettingsCommand.defaultSettings.get(setting)[0] : settings.get(setting);
     }
 
+    /**
+     * Set the player's value of a setting
+     * @param uuid The player's unique ID
+     * @param setting The setting
+     * @param value The value
+     */
     public void setSetting(UUID uuid, String setting, String value) {
+        boolean isNewSetting = settings.get(setting) == null;
         settings.put(setting, value);
 
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            if (settings.get(setting) == null)
+            if (isNewSetting) {
                 StoreData.addSetting(uuid, setting, value);
-            else
+            } else {
                 StoreData.updateSetting(uuid, setting, value);
+            }
         });
     }
 
@@ -657,10 +676,13 @@ public class PlayerData {
     }
 
     /**
-     * Get the active battlepoint multiplier
+     * Get the active battlepoint multiplier or 0 if it's negative
      * @return The active multiplier
      */
     public static double getBattlepointMultiplier() {
+        if (battlepointMultiplier < 0) {
+            return 0;
+        }
         return battlepointMultiplier;
     }
 
@@ -698,5 +720,66 @@ public class PlayerData {
             if (!foundSecrets.contains(secretName))
                 foundSecrets.add(secretName);
         });
+    }
+
+    public List<Booster> getBoosters() {
+        return boosters;
+    }
+
+    public void addBooster(Booster booster) {
+        boosters.add(booster);
+    }
+
+    public void useBooster(UUID uuid, Booster booster) {
+        Player player = Bukkit.getPlayer(uuid);
+        assert player != null;
+
+        // Coin Booster
+        if (booster instanceof CoinBooster) {
+            CoinBooster coinBooster = (CoinBooster) booster;
+            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                coinMultiplier += coinBooster.multiplier;
+                Messenger.broadcastInfo(player.getName() + " has activated a " + coinBooster.getPercentage() + "% coin booster " +
+                        "for " + booster.getDurationAsString() + "!");
+                Messenger.broadcastInfo("The total coin multiplier is now " + getCoinMultiplier() + ".");
+            });
+            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
+                coinMultiplier -= coinBooster.multiplier;
+                Messenger.broadcastWarning(player.getName() + "'s " + coinBooster.getPercentage() + "% coin booster has expired!");
+                Messenger.broadcastInfo("The total coin multiplier is now " + getCoinMultiplier() + ".");
+            }, booster.duration * 20L);
+
+        // Battlepoint Booster
+        } else if (booster instanceof BattlepointBooster) {
+            BattlepointBooster bpBooster = (BattlepointBooster) booster;
+            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                battlepointMultiplier += bpBooster.multiplier;
+                Messenger.broadcastInfo(player.getName() + " has activated a " + bpBooster.getPercentage() + "% battlepoint booster " +
+                        "for " + booster.getDurationAsString() + "!");
+                Messenger.broadcastInfo("The total bp multiplier is now " + getBattlepointMultiplier() + ".");
+            });
+            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
+                battlepointMultiplier -= bpBooster.multiplier;
+                Messenger.broadcastWarning(player.getName() + "'s " + bpBooster.getPercentage() + "% battlepoint booster has expired! ");
+                Messenger.broadcastInfo("The total battlepoint multiplier is now " + getBattlepointMultiplier() + ".");
+            }, booster.duration * 20L);
+
+        } else if (booster instanceof KitBooster) {
+            KitBooster kitBooster = (KitBooster) booster;
+            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                DonatorKit.boostedKits.add(kitBooster.kitName);
+                Messenger.broadcastInfo(player.getName() + " has activated a " + kitBooster.kitName + " kit booster " +
+                        "for " + booster.getDurationAsString() + "!");
+            });
+            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
+                DonatorKit.boostedKits.remove(kitBooster.kitName);
+                Messenger.broadcastWarning(player.getName() + "'s " + kitBooster.kitName + " kit booster has expired! ");
+            }, booster.duration * 20L);
+        } else {
+            Main.instance.getLogger().warning("Failed to use booster " + booster.id);
+            return;
+        }
+
+        boosters.remove(booster);
     }
 }

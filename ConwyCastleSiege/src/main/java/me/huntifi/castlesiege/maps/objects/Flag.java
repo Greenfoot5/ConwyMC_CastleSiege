@@ -2,8 +2,9 @@ package me.huntifi.castlesiege.maps.objects;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Frame;
+import me.huntifi.castlesiege.data_types.LocationFrame;
 import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -11,6 +12,7 @@ import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -28,7 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Stores all details and handles all flag actions.
  */
 public class Flag {
-    public String name;
+    public final String name;
 
     // Location Data
     public Location spawnPoint;
@@ -42,17 +44,19 @@ public class Flag {
     private final int progressAmount;
     private int progress;
     // Progresses needed per animationIndex
-    private final static int progressMultiplier = 130;
+    private final static int progressMultiplier = 100;
     // Multiplier for multiple people
-    public final static double capMultiplier = 2.1;
+    public final static double capMultiplier = 2;
 
     // Capturing data
     private final AtomicInteger isRunning;
     public int animationIndex;
 
     // Animation
-    public Frame[] animation;
+    public LocationFrame[] blockAnimation;
     public boolean animationAir = false;
+    public HashMap<String, SchematicFrame[]> schematicAnimation;
+    public boolean useSchematics = false;
 
     // Scoreboard value
     public int scoreboard;
@@ -71,9 +75,9 @@ public class Flag {
      * @param name the name of the flag
      * @param secret whether the flag is a secret flag
      * @param startingTeam the team that controls the flag at the beginning of the game
-     * @param maxCapValue the maximum animation amount
+     * @param maxCapValue the maximum blockAnimation amount
      * @param progressAmount How much progress is made by a single person
-     * @param startAmount the starting animation amount
+     * @param startAmount the starting blockAnimation amount
      */
     public Flag(String name, boolean secret, String startingTeam, int maxCapValue, int progressAmount, int startAmount) {
         this.name = name;
@@ -167,7 +171,7 @@ public class Flag {
                         captureFlag();
 
                     // No more players in the zone
-                    if (players.size() <= 0 || isRunning.get() > 1) {
+                    if (players.size() == 0 || isRunning.get() > 1) {
                         isRunning.decrementAndGet();
                         this.cancel();
                     }
@@ -246,7 +250,7 @@ public class Flag {
     }
 
     /**
-     * Called when players make enough capture progress to trigger an animation change
+     * Called when players make enough capture progress to trigger an blockAnimation change
      */
     private void captureFlag() {
         int capProgress = progress / progressMultiplier;
@@ -277,7 +281,7 @@ public class Flag {
                     UpdateStats.addBattlepoints(uuid, PlayerData.bpTakeFlagControlAmount);
                     Messenger.sendInfo("You gained "
                             + PlayerData.bpTakeFlagControlAmount * PlayerData.getBattlepointMultiplier()
-                            + " BattlePoints for taking control of a flag!", player);
+                            + " BattlePoint(s) for taking control of a flag!", player, 15);
                 }
             }
 
@@ -307,7 +311,7 @@ public class Flag {
                             UpdateStats.addBattlepoints(uuid, PlayerData.bpFlagFullCapAmount);
                             Messenger.sendInfo("You gained " +
                                     PlayerData.bpFlagFullCapAmount * PlayerData.getBattlepointMultiplier()
-                                    + " BattlePoints for fully capturing a flag!", player);
+                                    + " BattlePoint(s) for fully capturing a flag!", player, 15);
                         } else {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies have fully captured the flag!"));
                         }
@@ -328,7 +332,7 @@ public class Flag {
     }
 
     /**
-     * Notifies all players that there has been an animation change
+     * Notifies all players that there has been an blockAnimation change
      * Also adds players to InCombat interacted
      * @param areOwnersCapping If the current flag owners are capturing
      */
@@ -437,7 +441,7 @@ public class Flag {
     private void playCapSound(Player player, boolean fullyCapped) {
         Location location = player.getLocation();
 
-        // Play level up sound if it's fully capped, or play an xp orb pickup
+        // Play level up sound if it's fully capped, or play a xp orb pickup
         Sound effect = fullyCapped ? Sound.ENTITY_PLAYER_LEVELUP : Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 
         float volume = 1f; //1 = 100%
@@ -447,8 +451,8 @@ public class Flag {
     }
 
     /**
-     * Moves the flag onto the next animation frame
-     * @param isCapUp If the animation index has increased
+     * Moves the flag onto the next blockAnimation frame
+     * @param isCapUp If the blockAnimation index has increased
      * @param teamName The name of the team that owns the flag
      */
     private synchronized void animate(boolean isCapUp, String teamName) {
@@ -459,64 +463,82 @@ public class Flag {
 
         MapController.getCurrentMap().updateWoolMaps(name);
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // Gets the next frame and previous
-                // to overwrite previous animation and set new one
-                Frame nextFrame = animation[animationIndex];
-                Frame previousFrame;
-                if (isCapUp) {
-                    previousFrame = animation[animationIndex - 1];
-                } else {
-                    previousFrame = animation[animationIndex + 1];
+        if (useSchematics) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    World world = spawnPoint.getWorld();
+                    assert world != null;
+                    SchematicFrame nextFrame = schematicAnimation.get(currentOwners)[animationIndex];
+                    for (Tuple<String, Vector> schematic : nextFrame.schematics) {
+                        Location loc = schematic.getSecond().toLocation(world);
+                        Main.instance.getLogger().info(schematic.getFirst());
+                        SchematicSpawner.spawnSchematic(loc, schematic.getFirst());
+                    }
                 }
+            }.runTask(Main.plugin);
+        } else {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    // Gets the next frame and previous
+                    // to overwrite previous blockAnimation and set new one
+                    LocationFrame nextFrame = blockAnimation[animationIndex];
+                    LocationFrame previousFrame;
+                    if (isCapUp) {
+                        previousFrame = blockAnimation[animationIndex - 1];
+                    } else {
+                        previousFrame = blockAnimation[animationIndex + 1];
+                    }
 
-                // Get the team, or sets the neutralized materials
-                Team team = MapController.getCurrentMap().getTeam(teamName);
-                if (team == null) {
-                    team = new Team("null");
-                    team.primaryWool = Material.GRAY_WOOL;
-                    team.secondaryWool = Material.LIGHT_GRAY_WOOL;
-                }
-                World world = spawnPoint.getWorld();
-                assert world != null;
+                    // Get the team, or sets the neutralized materials
+                    Team team = MapController.getCurrentMap().getTeam(teamName);
+                    if (team == null) {
+                        team = new Team("null");
+                        team.primaryWool = Material.GRAY_WOOL;
+                        team.secondaryWool = Material.LIGHT_GRAY_WOOL;
+                    }
+                    World world = spawnPoint.getWorld();
+                    assert world != null;
 
-                // Set previous animation blocks to air
-                if (animationAir) {
-                    for (Vector vector : previousFrame.secondary_blocks) {
+                    LocationFrame previousLocationFrame = previousFrame;
+                    // Set previous blockAnimation blocks to air
+                    if (animationAir) {
+                        for (Vector vector : previousLocationFrame.secondary_blocks) {
+                            Location loc = vector.toLocation(world);
+                            Block block = loc.getBlock();
+                            block.setType(Material.AIR);
+                        }
+
+                        for (Vector vector : previousLocationFrame.primary_blocks) {
+                            Location loc = vector.toLocation(world);
+                            Block block = loc.getBlock();
+                            block.setType(Material.AIR);
+                        }
+                    }
+
+                    LocationFrame nextLocationFrame = nextFrame;
+                    // Set new blocks
+                    for (Vector vector : nextLocationFrame.secondary_blocks) {
+                        Location loc = vector.toLocation(world);
+                        Block block = loc.getBlock();
+                        block.setType(team.secondaryWool);
+                    }
+
+                    for (Vector vector : nextLocationFrame.primary_blocks) {
+                        Location loc = vector.toLocation(world);
+                        Block block = loc.getBlock();
+                        block.setType(team.primaryWool);
+                    }
+
+                    for (Vector vector : nextLocationFrame.air) {
                         Location loc = vector.toLocation(world);
                         Block block = loc.getBlock();
                         block.setType(Material.AIR);
                     }
-
-                    for (Vector vector : previousFrame.primary_blocks) {
-                        Location loc = vector.toLocation(world);
-                        Block block = loc.getBlock();
-                        block.setType(Material.AIR);
-                    }
                 }
-
-                // Set new blocks
-                for (Vector vector:nextFrame.secondary_blocks) {
-                    Location loc = vector.toLocation(world);
-                    Block block = loc.getBlock();
-                    block.setType(team.secondaryWool);
-                }
-
-                for (Vector vector:nextFrame.primary_blocks) {
-                    Location loc = vector.toLocation(world);
-                    Block block = loc.getBlock();
-                    block.setType(team.primaryWool);
-                }
-
-                for (Vector vector:nextFrame.air) {
-                    Location loc = vector.toLocation(world);
-                    Block block = loc.getBlock();
-                    block.setType(Material.AIR);
-                }
-            }
-        }.runTask(Main.plugin);
+            }.runTask(Main.plugin);
+        }
     }
 
     /**

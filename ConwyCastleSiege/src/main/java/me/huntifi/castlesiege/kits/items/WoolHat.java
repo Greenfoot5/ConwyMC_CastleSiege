@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.kits.items;
 
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.ChatColor;

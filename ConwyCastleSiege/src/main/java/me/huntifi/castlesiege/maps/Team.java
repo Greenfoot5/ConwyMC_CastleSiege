@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 public class Team {
     // Basic Details
-    public String name;
+    public final String name;
     private ArrayList<UUID> players;
 
     public Lobby lobby;

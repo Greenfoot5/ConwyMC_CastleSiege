@@ -1,27 +1,21 @@
 package me.huntifi.castlesiege.secrets;
 
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.database.LoadData;
-import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.*;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.SQLException;
 import java.util.UUID;
 
 public class SecretBlocks implements Listener {
 
-    String helmsDeep1 = "HD_HornSecret";
-    String thunderstone1 = "Thunderstone_Lantern";
+    final String helmsDeep1 = "HD_HornSecret";
+    final String thunderstone1 = "Thunderstone_Lantern";
 
 
     @EventHandler
@@ -29,7 +23,7 @@ public class SecretBlocks implements Listener {
 
         Player player = e.getPlayer();
 
-        if (e.getClickedBlock() == null) { return; }
+        if (e.getClickedBlock() == null || player.getGameMode() == GameMode.SPECTATOR) { return; }
 
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 

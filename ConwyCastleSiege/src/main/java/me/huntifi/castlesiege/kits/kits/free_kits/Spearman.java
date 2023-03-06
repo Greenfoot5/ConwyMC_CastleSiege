@@ -38,15 +38,15 @@ import java.util.UUID;
  */
 public class Spearman extends FreeKit implements Listener {
 	private static final int health = 260;
-	private static final double regen = 10.5;
+	private static final double regen = 12;
 	private static final int spearCount = 4;
-	private static final double meleeDamage = 40;
+	private static final double meleeDamage = 45;
 	private static final int ladderCount = 4;
 
 	// Spear Throw
 	private static final int throwCooldown = 160;
 	private static final double throwVelocity = 2.0;
-	private static final int throwDelay = 6;
+	private static final int throwDelay = 5;
 	private static final double throwDamage = 60;
 
 	// Damage multiplier when hitting horses
@@ -56,7 +56,7 @@ public class Spearman extends FreeKit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Spearman() {
-		super("Spearman", health, regen);
+		super("Spearman", health, regen, Material.STICK);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();

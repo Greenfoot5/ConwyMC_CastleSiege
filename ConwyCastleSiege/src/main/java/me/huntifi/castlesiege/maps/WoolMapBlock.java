@@ -1,8 +1,10 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import net.md_5.bungee.api.ChatMessageType;
@@ -11,13 +13,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * Represents a single block on the wool map in a lobby
@@ -42,15 +40,22 @@ public class WoolMapBlock {
 
         Team team = TeamController.getTeam(uuid);
         Flag flag = MapController.getCurrentMap().getFlag(flagName);
+        Kit kit = Kit.equippedKits.get(uuid);
 
         if (team != null && team.hasPlayer(uuid)) {
             if (!Objects.equals(flag.getCurrentOwners(), team.name)) {
                 Messenger.sendActionError("Your team does not own this flag at the moment.", player);
             } else if (flag.underAttack()) {
                 Messenger.sendActionError("You can't spawn here. This flag is under attack!", player);
-            } else if (Kit.equippedKits.get(uuid) == null) {
+            } else if (kit == null) {
                 Messenger.sendError("You can't join the battlefield without a kit/class!", player);
                 Messenger.sendError("Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!", player);
+            // Make sure a player can afford the kit, and it's not Friday
+            } else if (kit instanceof DonatorKit
+            && !ActiveData.getData(player.getUniqueId()).takeBattlepoints(((DonatorKit) kit).getBattlepointPrice())
+            && !DonatorKit.isFriday()) {
+                Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", player);
+                Messenger.sendError("Perform /battlepoints or /bp to see your battlepoints.", player);
             } else {
                 Bukkit.getScheduler().runTask(Main.plugin, () -> {
                     // Remove mount

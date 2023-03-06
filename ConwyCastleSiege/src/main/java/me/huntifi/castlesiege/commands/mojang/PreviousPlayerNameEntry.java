@@ -32,7 +32,7 @@ public class PreviousPlayerNameEntry {
 
     /**
      * Check if this name is the name used to register the account (the initial/original name)
-     * @return a boolean, true if it is the the very first name of the player, otherwise false.
+     * @return a boolean, true if it is the very first name of the player, otherwise false.
      */
     public boolean isPlayersInitialName() {
         return getChangeTime() == 0;

@@ -19,11 +19,11 @@ public class SecretDoor implements Listener {
 
     boolean isOpen;
 
-    Location doorLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 61, 982);
+    final Location doorLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 61, 982);
 
-    Location chestLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 992, 62, 983);
+    final Location chestLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 992, 62, 983);
 
-    Location stonebuttonLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 63, 979);
+    final Location stonebuttonLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 63, 979);
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event){

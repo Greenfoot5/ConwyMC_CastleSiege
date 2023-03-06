@@ -132,6 +132,10 @@ commands:
   Settings:
     description: Check or update your settings
     usage: /settings [setting] [value]
+  Boosters:
+    description: Check your boosters or use one
+    usage: /booster [use] [id]
+    aliases: booster
 
   # Info
   Battlepoints:
@@ -235,12 +239,12 @@ commands:
   # Staff - Currencies
   AddCoins:
     description: Add to a player's coins
-    usage: /addcoins <player> <amount>
+    usage: /addcoins <player> <amount> [verbose]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
   SetCoins:
     description: Sets a player's coins
-    usage: /setcoins <player> <amount>
+    usage: /setcoins <player> <amount> [verbose]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
   SetCoinMultiplier:
@@ -250,14 +254,13 @@ commands:
     permission-message: You are not permitted to use this command!
   TakeCoins:
     description: Take from a player's coins
-    usage: /takecoins <player> <amount>
+    usage: /takecoins <player> <amount> [verbose]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
-  # Staff - Currencies
   AddBattlepoints:
     description: Add to a player's battlepoints
-    usage: /addbattlepoints <player> <amount>
-    permission: castlesiege.moderator
+    usage: /addbattlepoints <player> <amount> [verbose]
+    permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
     aliases:
       - addbp
@@ -265,8 +268,8 @@ commands:
       - addbpoints
   SetBattlepoints:
     description: Sets a player's battlepoints
-    usage: /setbattlepoints <player> <amount>
-    permission: castlesiege.moderator
+    usage: /setbattlepoints <player> <amount> [verbose]
+    permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
     aliases:
       - setbp
@@ -275,7 +278,7 @@ commands:
   SetBattlepointMultiplier:
     description: Sets the active battlepoint multiplier
     usage: /setbattlepointmultiplier <multiplier>
-    permission: castlesiege.moderator
+    permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
     aliases:
       - setbpmultiplier
@@ -286,14 +289,22 @@ commands:
       - setbpointsmultiplier
   TakeBattlepoints:
     description: Take from a player's battlepoints
-    usage: /takebattlepoints <player> <amount>
-    permission: castlesiege.moderator
+    usage: /takebattlepoints <player> <amount> [verbose]
+    permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
     aliases:
       - takebp
       - takebattlep
       - takebpoints
 
+  # Staff - Boosters
+  GrantBooster:
+    description: Grants a booster to a player
+    usage: /grantbooster <player> <type> <duration> [other_args]
+    permission: castlesiege.moderator
+    permission-message: You are now permitted to use this command!
+    aliases:
+      - grantboost
 
   # Staff - Punishments
   Ban:
@@ -376,7 +387,7 @@ commands:
   SetKitLimit:
     description: Sets the player limit per team for a kit
     usage: /setkitlimit <kit> <limit>
-    permission: castlesiege.moderator
+    permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
   SetMap:
     description: Skips to the specified map in the rotation
@@ -400,7 +411,7 @@ commands:
     permission: castlesiege.chatmod
     permission-message: You are not permitted to use this command!
   ToggleFree:
-    description: Disables/Enables non-forceful switching
+    description: Disables/Enables free kits
     usage: /togglefree [true/false]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
@@ -419,7 +430,7 @@ commands:
   ToggleSwitching:
     description: Disables/Enables non-forceful switching
     usage: /toggleswitching [true/false]
-    permission: castlesiege.moderator
+    permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
   Start:
     description: Ends the current timer phase
@@ -433,7 +444,7 @@ commands:
   ToggleForcedRandom:
     description: Disables/Enables forced randomDeath setting
     usage: /toggleforcedrandom [true/false]
-    permission: castlesiege.moderator
+    permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
     aliases:
       - togglerandom
@@ -455,7 +466,6 @@ commands:
   buykit:
     description: Buy a kit with coins
     usage: /buykit <kit> [player]
-
 
   # Kits
   Random:

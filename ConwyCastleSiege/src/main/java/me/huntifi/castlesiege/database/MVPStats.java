@@ -48,9 +48,7 @@ public class MVPStats {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
         stats.clear();
         for (Player p : Bukkit.getOnlinePlayers()) {
-            Bukkit.getScheduler().runTask(Main.plugin, () -> {
-                addPlayer(p.getUniqueId());
-            });
+            Bukkit.getScheduler().runTask(Main.plugin, () -> addPlayer(p.getUniqueId()));
          }
        });
     }

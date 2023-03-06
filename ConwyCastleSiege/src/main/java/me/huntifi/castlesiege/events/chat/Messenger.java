@@ -1,6 +1,8 @@
 package me.huntifi.castlesiege.events.chat;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.database.ActiveData;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -69,24 +71,41 @@ public class Messenger {
     }
 
     /**
-     * Sends a lore message to a user
+     * Sends a success message to a user
      * @param message The message to send
      * @param sender Who to send the message to
      */
-    public static void sendLore(String message, CommandSender sender) {
-        sender.sendMessage(ChatColor.GOLD + "[l] " + ChatColor.GREEN + message);
+    public static void sendSuccess(String message, CommandSender sender) {
+        sender.sendMessage(ChatColor.GOLD + "[+] " + ChatColor.GREEN + message);
     }
 
     /**
-     * Broadcasts a lore message to everyone
+     * Sends a success message to a user via action message
+     * @param message The message to send
+     * @param sender Who to send the message to
+     */
+    public static void sendActionSuccess(String message, @NotNull Player sender) {
+        sender.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                TextComponent.fromLegacyText(ChatColor.GOLD + "[+] " + ChatColor.GREEN + message));
+    }
+
+    /**
+     * Broadcasts a success message to everyone
      * @param message The message to send
      */
-    public static void broadcastLore(String message) {
-        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[l] " + ChatColor.GREEN + message);
+    public static void broadcastSuccess(String message) {
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[+] " + ChatColor.GREEN + message);
     }
 
     public static void sendInfo(String message, @NotNull CommandSender sender) {
         sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message);
+    }
+
+    public static void sendInfo(String message, @NotNull Player sender, int maximumLevel) {
+        PlayerData data = ActiveData.getData(sender.getUniqueId());
+        if (data.getLevel() <= maximumLevel || data.getSetting("alwaysInfo").equals("true")) {
+            sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message);
+        }
     }
 
     public static void sendActionInfo(String message, @NotNull Player sender) {
@@ -127,5 +146,9 @@ public class Messenger {
                 + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " was killed by "
                 + killer + ChatColor.YELLOW + " and they claimed the "
                 + ChatColor.GOLD + amount + ChatColor.YELLOW + " coin bounty!");
+    }
+
+    public static void requestInput(String message, @NotNull CommandSender sender) {
+        sender.sendMessage(ChatColor.GOLD + "[_] " + ChatColor.LIGHT_PURPLE + message);
     }
 }

@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.gameplay.Bounty;
+import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -113,7 +113,7 @@ public class StoreData {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Bounty.saveBounties();
+        BountyCommand.saveBounties();
     }
 
     /**
@@ -169,7 +169,7 @@ public class StoreData {
      * @param duration the value to add to the current time
      * @param isDonation true = paid with money, false = paid with coins or else
      */
-    public static void addUnlockedKit(UUID uuid, String kitName, long duration, boolean isDonation) throws SQLException {
+    public static void addUnlockedKit(UUID uuid, String kitName, long duration, boolean isDonation) {
         new BukkitRunnable() {
             @Override
             public void run() {

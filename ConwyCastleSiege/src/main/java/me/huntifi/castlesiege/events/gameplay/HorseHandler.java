@@ -3,10 +3,8 @@ package me.huntifi.castlesiege.events.gameplay;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.donator_kits.Cavalry;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,7 +17,9 @@ import org.bukkit.potion.PotionEffect;
 import org.jetbrains.annotations.Nullable;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Handles horse events
@@ -37,7 +37,7 @@ public class HorseHandler implements Listener {
      * @param health The horse's max health
      * @param knockback The horse's knockback resistance
      * @param speed The horse's movement speed
-     * @param jump The horse's jump strenght
+     * @param jump The horse's jump strength
      * @param armor The horse's horse armor
      * @param effects The horse's potion effects
      */

@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.commands.staff;
+package me.huntifi.castlesiege.commands.staff.maps;
 
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -21,7 +21,7 @@ import java.util.UUID;
 
 public class SpectateCommand implements CommandExecutor {
 
-    public static ArrayList<UUID> spectators = new ArrayList<>();
+    public static final ArrayList<UUID> spectators = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

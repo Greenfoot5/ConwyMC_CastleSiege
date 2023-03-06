@@ -3,7 +3,7 @@ selector:
   key: "selector"
   items:
     free:
-      name: "§eFree Kits"
+      name: "§eFree & Voter Kits"
       material: "IRON_BLOCK"
       lore:
         - "Play as one of the free kits!"
@@ -41,126 +41,161 @@ selector:
       lore:
         - "Unlock kits here!"
       location: 39
-      command: "kit shop"
+      command: "coinshop"
 free:
-  name: "§2Free Kits"
+  name: "§2Free & Voter Kits"
   key: "free"
   items:
     archer:
       name: "§a§lCLASS:§r§a Archer"
-      material: "BOW"
+      kit: "Archer"
       lore:
-        - "§6------------------------------"
-        - "§2[Desc]:§a The standard ranged kit."
-        - "§2[Health]:§a 215"
-        - "§2[Melee Damage]:§a 36"
-        - "§2[Ranged Damage]:§a 45+"
-        - "§2[Regen]:§a 10.5"
-        - "§2[Status]:§a Free to play!"
-        - "§6------------------------------"
+        - "§7Standard ranged kit"
+        - "§7has a sword and bow."
+        - ""
+        - "§a215 §7HP"
+        - "§a36 §7Melee DMG"
+        - "§a45+ §7Ranged DMG"
+        - "§a10.5/s §7Regen"
+        - "§a4 §7Ladders"
+        - "§a35 §7Arrows"
+        - "§7Free To Play!"
       location: 10
       command: "archer"
     spearman:
       name: "§a§lCLASS:§r§a Spearman"
-      material: "STICK"
+      kit: Spearman
       lore:
-        - "§6------------------------------"
-        - "§2[Desc]:§a A kit that can throw spears."
-        - "§2[Health]:§a 260"
-        - "§2[Melee Damage]:§a 45"
-        - "§2[Ranged Damage]:§a 46"
-        - "§2[Regen]:§a 10.5"
-        - "§2[Ability]:§a Spears can be thrown by right-clicking."
-        - "§2[Status]:§a Free to play!"
-        - "§6------------------------------"
+        - "§7Melee kit that can"
+        - "§7throw spears."
+        - ""
+        - "§a260 §7HP"
+        - "§a45 §7Melee DMG"
+        - "§a46 §7Ranged DMG"
+        - "§a10.5/s §7Regen"
+        - "§a4 §7Ladders"
+        - "§a4 §7Spears"
+        - ""
+        - "§6Ability: "
+        - "§7- Right click your spears"
+        - "§7to throw a spear."
+        - ""
+        - "§7Free To Play!"
       location: 13
       command: "spearman"
     swordsman:
       name: "§a§lCLASS:§r§a Swordsman"
-      material: "IRON_SWORD"
+      kit: Swordsman
       lore:
-        - "§6------------------------------"
-        - "§2[Desc]:§a The standard melee kit."
-        - "§2[Health]:§a 300"
-        - "§2[Melee Damage]:§a 43"
-        - "§2[Regen]:§a 10.5"
-        - "§2[Status]:§a Free to play!"
-        - "§6------------------------------"
+        - "§7Standard melee kit"
+        - "§7has a sword."
+        - ""
+        - "§a300 §7HP"
+        - "§a43 §7Melee DMG"
+        - "§a10.5/s §7Regen"
+        - "§a4 §7Ladders"
+        - "§7Free To Play!"
       location: 16
       command: "swordsman"
     fire_archer:
-      name: "§a§lCLASS:§r§a Fire Archer"
-      material: "BLAZE_POWDER"
+      name: "§9§lCLASS:§r§9 Fire Archer"
+      kit: FireArcher
       lore:
-        - "§6------------------------------"
-        - "§2[Desc]:§a A slow archer that can put enemies on fire."
-        - "§2[Health]:§a 240"
-        - "§2[Melee Damage]:§a 36"
-        - "§2[Ranged Damage]:§a 10+"
-        - "§2[Regen]:§a 9"
-        - "§2[Effects]:§a Slowness 1"
-        - "§2[Ability]:§a Can put down a firepit. By clicking the"
-        - "§2[Ability]:§a firepit with arrows, you create fire-arrows."
-        - "§2[Status]:§a Voter kit."
-        - "§6------------------------------"
+        - "§7Ranged kit with a firepit,"
+        - "§7can create fire arrows."
+        - ""
+        - "§a240 §7HP"
+        - "§a36 §7Melee DMG"
+        - "§a12+ §7Ranged DMG"
+        - "§a9/s §7Regen"
+        - "§a4 §7Ladders"
+        - "§a48 §7Arrows"
+        - "§5Effects:"
+        - "§7- Slowness I (with cauldron in "
+        - "§7inventory)"
+        - ""
+        - "§6Ability: "
+        - "§7- Place down the cauldron and"
+        - "§7right click it with arrows to"
+        - "§7create fire arrows. Left click"
+        - "§7to pick the cauldron back up."
+        - ""
+        - "§7Vote on PMC for this kit!"
       location: 28
       command: "firearcher"
     ladderman:
-      name: "§a§lCLASS:§r§a Ladderman"
-      material: "LADDER"
+      name: "§9§lCLASS:§r§9 Ladderman"
+      kit: Ladderman
       lore:
-        - "§6------------------------------"
-        - "§2[Desc]:§a A useful kit for climbing up walls."
-        - "§2[Health]:§a 285"
-        - "§2[Melee Damage]:§a 45"
-        - "§2[Regen]:§a 10"
-        - "§2[Effects]:§a Jump Boost 2"
-        - "§2[Status]:§a Voter kit."
-        - "§6------------------------------"
+        - "§7Melee kit with an axe"
+        - "§7and loads of ladders."
+        - ""
+        - "§a285 §7HP"
+        - "§a45 §7Melee DMG"
+        - "§a10/s §7Regen"
+        - "§a25 §7Ladders"
+        - "§5Effects:"
+        - "§7- Jump Boost II"
+        - ""
+        - "§2Passive: "
+        - "§7- Can break ladders and"
+        - "§7pick them up."
+        - ""
+        - "§7Vote on PMC for this kit!"
       location: 31
       command: "ladderman"
     shieldman:
-      name: "§a§lCLASS:§r§a Shieldman"
-      material: "SHIELD"
+      name: "§9§lCLASS:§r§9 Shieldman"
+      kit: Shieldman
       lore:
-        - "§6------------------------------"
-        - "§2[Desc]:§a A tanky melee kit with a shield."
-        - "§2[Health]:§a 340"
-        - "§2[Melee Damage]:§a 41"
-        - "§2[Regen]:§a 14"
-        - "§2[Effects]:§a Resistance 1, Slowness 1, Mining Fatigue 1"
-        - "§2[Status]:§a Voter kit."
-        - "§6------------------------------"
+        - "§7Basic tank, has"
+        - "§7a shield and sword."
+        - ""
+        - "§a340 §7HP"
+        - "§a41 §7Melee DMG"
+        - "§a14/s §7Regen"
+        - "§a4 §7Ladders"
+        - "§5Effects:"
+        - "§7- Mining Fatigue I"
+        - ""
+        - "§7Vote on PMC for this kit!"
       location: 34
       command: "shieldman"
     scout:
-      name: "§a§lCLASS:§r§a Scout"
-      material: "LEATHER_BOOTS"
+      name: "§9§lCLASS:§r§9 Scout"
+      kit: Scout
       lore:
-        - "§6------------------------------"
-        - "§2[Desc]:§a A very fast melee kit."
-        - "§2[Health]:§a 230"
-        - "§2[Melee Damage]:§a 40"
-        - "§2[Regen]:§a 9"
-        - "§2[Effects]:§a Speed 2, Jump Boost 1"
-        - "§2[Effects]:§a Haste 2"
-        - "§2[Status]:§a Voter kit."
-        - "§6------------------------------"
+        - "§7Fastest free melee kit,"
+        - "§7has speed II & Haste II."
+        - ""
+        - "§a230 §7HP"
+        - "§a40 §7Melee DMG"
+        - "§a9/s §7Regen"
+        - "§a6 §7Ladders"
+        - "§5Effects:"
+        - "§7- Jump Boost I"
+        - "§7- Speed II"
+        - "§7- Haste II"
+        - ""
+        - "§7Vote on PMC for this kit!"
       location: 37
       command: "scout"
     skirmisher:
-      name: "§a§lCLASS:§r§a Skirmisher"
-      material: "IRON_BOOTS"
+      name: "§9§lCLASS:§r§9 Skirmisher"
+      kit: Skirmisher
       lore:
-        - "§6------------------------------"
-        - "§2[Desc]:§a A more mobile melee kit."
-        - "§2[Health]:§a 280"
-        - "§2[Melee Damage]:§a 43"
-        - "§2[Regen]:§a 10"
-        - "§2[Effects]:§a Speed 1, Jump Boost 1"
-        - "§2[Effects]:§a Haste 2"
-        - "§2[Status]:§a Voter kit."
-        - "§6------------------------------"
+        - "§7Fast melee kit,"
+        - "§7with more ladders."
+        - ""
+        - "§a280 §7HP"
+        - "§a43 §7Melee DMG"
+        - "§a10/s §7Regen"
+        - "§a8 §7Ladders"
+        - "§5Effects:"
+        - "§7- Speed I"
+        - "§7- Haste II"
+        - ""
+        - "§7Vote on PMC for this kit!"
       location: 43
       command: "skirmisher"
     back:
@@ -176,7 +211,7 @@ premium:
   items:
     berserker:
       name: "§a§lCLASS:§r§a Berserker"
-      material: "POTION"
+      kit: Berserker
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a An armorless warrior with high dps and speed."
@@ -193,7 +228,7 @@ premium:
       command: "berserker"
     vanguard:
       name: "§a§lCLASS:§r§a Vanguard"
-      material: "DIAMOND_SWORD"
+      kit: Vanguard
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A warrior with the ability to charge."
@@ -209,7 +244,7 @@ premium:
       command: "vanguard"
     executioner:
       name: "§a§lCLASS:§r§a Executioner"
-      material: "DIAMOND_AXE"
+      kit: Executioner
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A kit with the ability to execute enemies."
@@ -224,7 +259,7 @@ premium:
       command: "executioner"
     maceman:
       name: "§a§lCLASS:§r§a Maceman"
-      material: "DIAMOND_SHOVEL"
+      kit: Maceman
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A kit with the ability to stun enemies."
@@ -240,7 +275,7 @@ premium:
       command: "maceman"
     viking:
       name: "§a§lCLASS:§r§a Viking"
-      material: "CHAINMAIL_CHESTPLATE"
+      kit: Viking
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A kit with the ability to ignore armor."
@@ -256,7 +291,7 @@ premium:
       command: "viking"
     halberdier:
       name: "§a§lCLASS:§r§a Halberdier"
-      material: "DIAMOND_CHESTPLATE"
+      kit: Halberdier
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a the ultimate tank kit!"
@@ -272,7 +307,7 @@ premium:
       command: "halberdier"
     medic:
       name: "§a§lCLASS:§r§a Medic"
-      material: "CAKE"
+      kit: Medic
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A support kit that heals allies."
@@ -289,7 +324,7 @@ premium:
       command: "medic"
     engineer:
       name: "§a§lCLASS:§r§a Engineer"
-      material: "COBWEB"
+      kit: Engineer
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A support kit that specializes in using tools."
@@ -306,7 +341,7 @@ premium:
       command: "engineer"
     ranger:
       name: "§a§lCLASS:§r§a Ranger"
-      material: "LIME_DYE"
+      kit: Ranger
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A support kit that specializes in using tools."
@@ -325,7 +360,7 @@ premium:
       command: "ranger"
     crossbowman:
       name: "§a§lCLASS:§r§a Crossbowman"
-      material: "CROSSBOW"
+      kit: Crossbowman
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A ranged kit that functions like a sniper."
@@ -342,7 +377,7 @@ premium:
       command: "crossbowman"
     cavalry:
       name: "§a§lCLASS:§r§a Cavalry"
-      material: "IRON_HORSE_ARMOR"
+      kit: Cavalry
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A basic mounted kit."
@@ -358,7 +393,7 @@ premium:
       command: "cavalry"
     warhound:
       name: "§a§lCLASS:§r§a Warhound"
-      material: "GHAST_TEAR"
+      kit: Warhound
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A special kit where you play as a wolf."
@@ -374,7 +409,7 @@ premium:
       command: "warhound"
     alchemist:
       name: "§a§lCLASS:§r§a Alchemist"
-      material: "BREWING_STAND"
+      kit: Alchemist
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A heal/support kit that uses potions!"
@@ -391,13 +426,13 @@ premium:
       command: "alchemist"
     rogue:
       name: "§a§lCLASS:§r§a Rogue"
-      material: "NETHERITE_BOOTS"
+      kit: Rogue
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a An assassination kit with poison abilities."
-        - "§2[Health]:§a 240"
-        - "§2[Melee Damage]:§a 32"
-        - "§2[Regen]:§a 5"
+        - "§2[Health]:§a 215"
+        - "§2[Melee Damage]:§a 36"
+        - "§2[Regen]:§a 9"
         - "§2[Effects]:§a Speed II, Night Vision, Jump Boost"
         - "§2[Ability]:§a Gouge"
         - "§2[Ability]:§a Shadowstep and shadowleap"
@@ -415,13 +450,24 @@ premium:
         - "§cReturn to the previous interface."
       location: 49
       command: "kit selector"
+team:
+  name: "§2Team Kits"
+  key: "defaultTeam"
+  items:
+    back:
+      name: "§4§lGo Back"
+      material: "BARRIER"
+      lore:
+        - "§cReturn to the previous interface."
+      location: 49
+      command: "kit selector"
 rohan:
   name: "§2Rohan Kits"
   key: "rohan"
   items:
     lancer:
       name: "§a§lCLASS:§r§a Lancer"
-      material: "STICK"
+      kit: Lancer
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a Cavalry that can use spears!"
@@ -439,7 +485,7 @@ rohan:
       command: "HelmsDeepLancer"
     ranged_cavalry:
       name: "§a§lCLASS:§r§a Ranged Cavalry"
-      material: "BOW"
+      kit: RangedCavalry
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a Cavalry that can use a bow and sword!"
@@ -467,7 +513,7 @@ uruk-hai:
   items:
     uruk_berserker:
       name: "§a§lCLASS:§r§a Uruk Berserker"
-      material: "REDSTONE"
+      kit: UrukBerserker
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a Melee unit that deals AOE damage!"
@@ -496,7 +542,7 @@ burning_legion:
   items:
     abbysal:
       name: "§a§lCLASS:§r§a Abyssal"
-      material: "MAGMA_BLOCK"
+      kit: Abyssal
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A supportive tank with explosive abilities."
@@ -518,7 +564,7 @@ hellfire_guards:
   items:
     hellsteed:
       name: "§a§lCLASS:§r§a Hellsteed"
-      material: "LEATHER_HORSE_ARMOR"
+      kit: Hellsteed
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A support horse that can stomp"
@@ -541,7 +587,7 @@ tomb_guardians:
   items:
     hellsteed:
       name: "§a§lCLASS:§r§a Fallen"
-      material: "WITHER_SKELETON_SKULL"
+      kit: Fallen
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a Basically a wither skeleton"
@@ -570,7 +616,7 @@ orc:
   items:
     moria_orc:
       name: "§a§lCLASS:§r§a Moria Orc"
-      material: "BOW"
+      kit: MoriaOrc
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a An archer with poisonous arrows"
@@ -586,7 +632,7 @@ orc:
       command: "Moriaorc"
     Bonecrusher:
       name: "§a§lCLASS:§r§a Bonecrusher"
-      material: "BONE"
+      kit: MoriaBonecrusher
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A fast melee unit that makes enemies weak"
@@ -604,7 +650,7 @@ orc:
       command: "MoriaBonecrusher"
     Cavetroll:
       name: "§a§lCLASS:§r§a Cave Troll"
-      material: "IRON_INGOT"
+      kit: MoriaCaveTroll
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A tank that can throw enemies"
@@ -633,7 +679,7 @@ dwarves:
   items:
     moria_orc:
       name: "§a§lCLASS:§r§a Axe Thrower"
-      material: "STONE_AXE"
+      kit: DwarvenAxeThrower
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a An ranged/melee unit that can throw axes"
@@ -651,7 +697,7 @@ dwarves:
       command: "Moriaaxethrower"
     Guardian:
       name: "§a§lCLASS:§r§a Guardian"
-      material: "SHIELD"
+      kit: DwarvenGuardian
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A tank that makes good use of his shield."
@@ -669,7 +715,7 @@ dwarves:
       command: "Moriaguardian"
     Windlancer:
       name: "§a§lCLASS:§r§a Windlancer"
-      material: "STICK"
+      kit: DwarvenWindlancer
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a A ranged unit that throws 3 spears."
@@ -698,7 +744,7 @@ english:
   items:
     royalknight:
       name: "§a§lCLASS:§r§a Royal Knight"
-      material: "DIAMOND_HORSE_ARMOR"
+      kit: RoyalKnight
       lore:
         - "§4------------------------------"
         - "§2[Desc]:§a A royal knight on a tanky horse!"
@@ -715,7 +761,7 @@ english:
       command: "ConwyRoyalKnight"
     arbalester:
       name: "§a§lCLASS:§r§a Arbalester"
-      material: "CROSSBOW"
+      kit: "Arbalester"
       lore:
         - "§4------------------------------"
         - "§2[Desc]:§a A ranged unit with an arbalest!"
@@ -730,7 +776,7 @@ english:
         - "§5MAP: Conwy"
         - "§5TEAM: §4The English"
       location: 23
-      command: "ConwyRoyalKnight"
+      command: "ConwyArbalester"
     back:
       name: "§4§lGo Back"
       material: "BARRIER"
@@ -744,7 +790,7 @@ thunderstoneGuard:
   items:
     elytrier:
       name: "§a§lCLASS:§r§a Elytrier"
-      material: "ELYTRA"
+      kit: Elytrier
       lore:
         - "§6------------------------------"
         - "§2[Desc]:§a Flying unit with healing/explosive support"
@@ -768,28 +814,3 @@ thunderstoneGuard:
         - "§cReturn to the previous interface."
       location: 49
       command: "kit selector"
-shop:
-  name: "§2Shop"
-  key: "shop"
-  items:
-    back:
-      name: "§4§lGo Back"
-      material: "BARRIER"
-      lore:
-        - "§cReturn to the previous interface."
-      location: 49
-      command: "kit selector"
-    coinshop:
-      name: "§2§lCoin Shop"
-      material: "GOLD_INGOT"
-      lore:
-        - "§aOpen the coinshop!"
-      location: 21
-      command: "coinshop"
-    premiumshop:
-      name: "§2§lPremium Shop"
-      material: "EMERALD"
-      lore:
-        - "§aGet the link to the web shop!"
-      location: 23
-      command: "webshop"

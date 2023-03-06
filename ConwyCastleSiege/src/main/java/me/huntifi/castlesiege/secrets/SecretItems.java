@@ -2,7 +2,10 @@ package me.huntifi.castlesiege.secrets;
 
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,13 +18,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SecretItems implements Listener {
 
-    public static HashMap<Player, ArrayList<ItemStack>> secretItemHolder = new HashMap<>();
+    public static final HashMap<Player, ArrayList<ItemStack>> secretItemHolder = new HashMap<>();
 
-    public static ArrayList<ItemStack> secretItems = new ArrayList<>();
+    public static final ArrayList<ItemStack> secretItems = new ArrayList<>();
 
     /**
      * Called when a map starts and spawns all items that are supposed to spawn on that map.
@@ -47,18 +51,14 @@ public class SecretItems implements Listener {
 
     /**
      * This method is called in another method that's called when a map starts
-     * @param worldname map name
+     * @param mapName map name
      * @param item the item to spawn
      * @param loc location to spawn the item at
      */
-    public static void spawnSecretItem(String worldname, ItemStack item, Location loc) {
+    public static void spawnSecretItem(String mapName, ItemStack item, Location loc) {
 
-        if (MapController.getCurrentMap().worldName.equalsIgnoreCase(worldname)) {
-
-            Bukkit.getWorld(worldname).dropItem(loc.add(+0.5, +1, +0.5), item).setVelocity(new Vector(0, 0, 0));
-
-        } else {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "map name for secret item: " + item.getType() + " is incorrect");
+        if (MapController.getCurrentMap().name.equalsIgnoreCase(mapName)) {
+            Bukkit.getWorld(mapName).dropItem(loc.add(+0.5, +1, +0.5), item).setVelocity(new Vector(0, 0, 0));
         }
     }
 
@@ -112,7 +112,7 @@ public class SecretItems implements Listener {
     }
 
     /**
-     * Add every item to this so it registers in the arraylist, then it will keep track of who holds the item.
+     * Add every item to this, so it registers in the arraylist, then it will keep track of who holds the item.
      */
     public static void registerSecretItems() {
 
@@ -140,7 +140,7 @@ public class SecretItems implements Listener {
                                                 //Secret Items\\
     //-------------------------------------------------------------------------------------------------------\\
 
-     final public static ItemStack herugrim() {
+     public static ItemStack herugrim() {
 
          ItemStack sword = new ItemStack(Material.GOLDEN_SWORD);
 
@@ -167,7 +167,7 @@ public class SecretItems implements Listener {
         return sword;
      }
 
-    final public static ItemStack skycookie() {
+    public static ItemStack skycookie() {
 
         ItemStack cookie = new ItemStack(Material.COOKIE);
 
@@ -194,7 +194,7 @@ public class SecretItems implements Listener {
         return cookie;
     }
 
-    final public static ItemStack skyholdKeyInquisitor() {
+    public static ItemStack skyholdKeyInquisitor() {
 
         ItemStack vaultKey = new ItemStack(Material.GOLDEN_HOE);
 
@@ -219,7 +219,7 @@ public class SecretItems implements Listener {
         return vaultKey;
     }
 
-    final public static ItemStack skyholdKeyDoor() {
+    public static ItemStack skyholdKeyDoor() {
 
         ItemStack vaultKey = new ItemStack(Material.IRON_HOE);
 
@@ -244,7 +244,7 @@ public class SecretItems implements Listener {
         return vaultKey;
     }
 
-    final public static ItemStack skyholdShield() {
+    public static ItemStack skyholdShield() {
 
         ItemStack shield = new ItemStack(Material.SHIELD);
 
@@ -270,7 +270,4 @@ public class SecretItems implements Listener {
 
         return shield;
     }
-
-
-
 }

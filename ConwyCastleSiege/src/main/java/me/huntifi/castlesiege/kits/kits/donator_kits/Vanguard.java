@@ -35,7 +35,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
      * Set the equipment and attributes of this kit
      */
     public Vanguard() {
-        super("Vanguard", 260, 11, 10000, 10);
+        super("Vanguard", 260, 11, 10000, 10, Material.DIAMOND_SWORD);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -82,7 +82,6 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
         super.equipment = es;
 
         //passive effects
-        super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 0));
     }
@@ -90,7 +89,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
 
     /**
      *
-     * @param e event triggered by right clicking diamond sword.
+     * @param e event triggered by right-clicking diamond sword.
      */
     @EventHandler
     public void charge(PlayerInteractEvent e) {

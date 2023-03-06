@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.gui;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.GuiItem;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -13,12 +12,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A GUI made with a minecraft inventory
@@ -28,13 +32,29 @@ public class Gui implements Listener {
     protected final Inventory inventory;
     protected final HashMap<Integer, GuiItem> locationToItem = new HashMap<>();
 
+    /** Whether this GUI should stop listening for events after being closed */
+    private final boolean shouldUnregister;
+
     /**
      * Create an inventory.
      * @param name The name of the inventory
      * @param rows The amount of rows of the inventory
      */
     public Gui(String name, int rows) {
+        this(name, rows, false);
+    }
+
+    /**
+     * Create an inventory.
+     * @param name The name of the inventory
+     * @param rows The amount of rows of the inventory
+     * @param shouldUnregister Whether this GUI should stop listening for events after being closed
+     */
+    public Gui(String name, int rows, boolean shouldUnregister) {
         inventory = Main.plugin.getServer().createInventory(null, 9 * rows, name);
+        this.shouldUnregister = shouldUnregister;
+
+        Main.plugin.getServer().getPluginManager().registerEvents(this, Main.plugin);
     }
 
     /**
@@ -60,7 +80,7 @@ public class Gui implements Listener {
     public void addCoinShopItem(String kitName, Material material, int location) {
         Kit kit = Kit.getKit(kitName);
         if (!(kit instanceof DonatorKit))
-            throw new IllegalArgumentException(kitName + " is not a donator kit");
+            throw new IllegalArgumentException(kitName + " is not a donator kit, it's " + kit.getClass());
 
         String itemName = (kit instanceof TeamKit ? ChatColor.BLUE : ChatColor.GOLD) + "" + ChatColor.BOLD + kit.name;
         String price = ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((DonatorKit) kit).getPrice();
@@ -106,5 +126,15 @@ public class Gui implements Listener {
                 player.performCommand(item.command);
             }
         }
+    }
+
+    /**
+     * Unregister this GUI when it is closed.
+     * @param event The event called when an inventory is closed.
+     */
+    @EventHandler
+    public void onCloseGui(InventoryCloseEvent event) {
+        if (Objects.equals(event.getInventory(), inventory) && shouldUnregister)
+            HandlerList.unregisterAll(this);
     }
 }

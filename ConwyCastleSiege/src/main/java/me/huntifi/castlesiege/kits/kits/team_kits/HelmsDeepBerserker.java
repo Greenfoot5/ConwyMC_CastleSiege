@@ -1,19 +1,16 @@
 package me.huntifi.castlesiege.kits.kits.team_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,7 +19,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,7 +29,8 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
 
 
     public HelmsDeepBerserker() {
-        super("Uruk Berserker", 245, 6, "Helm's Deep", "Uruk-hai", 2500, 8);
+        super("Uruk Berserker", 245, 6, "Helm's Deep", "Uruk-hai",
+                2500, 8, Material.REDSTONE);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

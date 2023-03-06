@@ -5,9 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
-import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -30,7 +28,8 @@ import java.util.Random;
 public class MoriaBonecrusher extends TeamKit implements Listener {
 
     public MoriaBonecrusher() {
-        super("Moria Bonecrusher", 240, 8, "Moria","The Orcs", 4000, 10);
+        super("Moria Bonecrusher", 240, 8, "Moria",
+                "The Orcs", 4000, 10, Material.BONE);
 
 
         // Equipment Stuff

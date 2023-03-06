@@ -15,24 +15,31 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * Handles the secret door on Abrakhan
+ */
 public class AbrakhanSecretDoor implements Listener {
 
     boolean isRedDoorOpen;
 
     boolean isTorchDoorOpen;
 
-    Location doorLoc = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 123, 49, -113);
-    Location redtorchLoc = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 126, 50, -116);
+    final Location doorLoc = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 123, 49, -113);
+    final Location redTorchLoc = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 126, 50, -116);
 
-    Location torchLoc = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 116, 39, -121);
+    final Location torchLoc = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 116, 39, -121);
 
+    /**
+     * Checks if the player interacted with a redstone torch
+     * @param event Called when a player interacts with anything
+     */
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
 
 
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
 
-            if(event.getClickedBlock().getType().equals(Material.REDSTONE_WALL_TORCH) && event.getClickedBlock().getLocation().equals(redtorchLoc)) {
+            if(event.getClickedBlock().getType().equals(Material.REDSTONE_WALL_TORCH) && event.getClickedBlock().getLocation().equals(redTorchLoc)) {
 
                 Player p = event.getPlayer();
 
@@ -79,6 +86,9 @@ public class AbrakhanSecretDoor implements Listener {
     }
 
 
+    /**
+     * Opens the redstone door
+     */
     public void openRedstoneDoor() {
 
         Bukkit.getWorld("Abrakhan").playSound(doorLoc, Sound.BLOCK_WOODEN_DOOR_OPEN , 1, 2);
@@ -91,6 +101,9 @@ public class AbrakhanSecretDoor implements Listener {
     }
 
 
+    /**
+     * Closes the redstone door
+     */
     public void closeRedstoneDoor() {
 
         Bukkit.getWorld("Abrakhan").playSound(doorLoc, Sound.BLOCK_WOODEN_DOOR_OPEN , 1, 2);
@@ -100,6 +113,9 @@ public class AbrakhanSecretDoor implements Listener {
         Block2.getBlock().setType(Material.SANDSTONE);
     }
 
+    /**
+     * Opens the coal torch door
+     */
     public void openTorchDoor() {
 
         Bukkit.getWorld("Abrakhan").playSound(doorLoc, Sound.BLOCK_WOODEN_DOOR_OPEN , 1, 2);
@@ -112,6 +128,9 @@ public class AbrakhanSecretDoor implements Listener {
     }
 
 
+    /**
+     * Closes the coal torch door
+     */
     public void closeTorchDoor() {
 
         Bukkit.getWorld("Abrakhan").playSound(doorLoc, Sound.BLOCK_WOODEN_DOOR_OPEN , 1, 2);

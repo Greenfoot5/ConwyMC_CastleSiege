@@ -9,11 +9,9 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import net.citizensnpcs.api.npc.NPC;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -21,20 +19,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,12 +35,13 @@ import java.util.UUID;
 
 public class MoriaCaveTroll extends TeamKit implements Listener {
 
-    public ArrayList<Player> grabbed = new ArrayList<>();
+    public final ArrayList<Player> grabbed = new ArrayList<>();
 
     public MoriaCaveTroll() {
-        super("Moria Cave Troll", 450, 16, "Moria", "The Orcs", 7500, 10);
+        super("Moria Cave Troll", 450, 16, "Moria",
+                "The Orcs", 7500, 10, Material.POPPY);
         super.canClimb = false;
-        super.kbResistance = 1;
+        super.kbResistance = 0.5;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

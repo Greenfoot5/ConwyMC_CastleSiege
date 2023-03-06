@@ -43,6 +43,9 @@ public abstract class ChangeCurrency implements CommandExecutor {
 
         String playerName = args[0];
         double amount = Double.parseDouble(args[1]);
+        boolean verbose = true;
+        if (args.length == 3)
+            verbose = Boolean.parseBoolean(args[2]);
 
         UUID uuid = getUUID(playerName);
         assert uuid != null;
@@ -52,7 +55,7 @@ public abstract class ChangeCurrency implements CommandExecutor {
 
         sendConfirmMessage(sender, playerName, amount);
         Player player = Bukkit.getPlayer(uuid);
-        if (player != null)
+        if (player != null && verbose)
             sendTargetMessage(player, amount);
     }
 
@@ -64,7 +67,7 @@ public abstract class ChangeCurrency implements CommandExecutor {
      */
     protected boolean hasIncorrectArgs(CommandSender sender, String[] args) {
         // Command format is not followed
-        if (args.length != 2) {
+        if (args.length != 2 && args.length != 3) {
             Messenger.sendError(getCommandUsage(), sender);
             return true;
         }
@@ -83,6 +86,15 @@ public abstract class ChangeCurrency implements CommandExecutor {
         } catch (NumberFormatException e) {
             Messenger.sendError(amount + " is not a number!", sender);
             return true;
+        }
+
+        // verbose is not a boolean
+        if (args.length == 3) {
+            String verbose = args[2];
+            if (!verbose.equalsIgnoreCase("true") && !verbose.equalsIgnoreCase("false")) {
+                Messenger.sendError(verbose + " is not a boolean!", sender);
+                return true;
+            }
         }
 
         return false;

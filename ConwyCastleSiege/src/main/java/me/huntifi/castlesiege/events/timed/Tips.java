@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class Tips extends BukkitRunnable {
     // time in seconds between sending out tips
-    public static int TIME_BETWEEN_TIPS = 180; //broadcast tip every 3 mins
+    public static final int TIME_BETWEEN_TIPS = 180; //broadcast tip every 3 mins
     private final Random random = new Random();
     private int oldIndex = -1; //used to prevent same tip 2x in a row
     // -1 to allow for any initial tip to be sent
