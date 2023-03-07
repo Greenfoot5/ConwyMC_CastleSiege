@@ -28,7 +28,7 @@ import java.util.Objects;
 public class EatCake implements Listener {
 
     public static final int CAKE_DURATION = 100;
-    public static final int REGEN_AMPLIFIER = 16;
+    public static final int REGEN_AMPLIFIER = 12;
 
     /**
      * Take a bite from a cake and gain a short period of regeneration.
