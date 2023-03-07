@@ -517,21 +517,20 @@ public class Flag {
                         }
                     }
 
-                    LocationFrame nextLocationFrame = nextFrame;
                     // Set new blocks
-                    for (Vector vector : nextLocationFrame.secondary_blocks) {
+                    for (Vector vector : nextFrame.secondary_blocks) {
                         Location loc = vector.toLocation(world);
                         Block block = loc.getBlock();
                         block.setType(team.secondaryWool);
                     }
 
-                    for (Vector vector : nextLocationFrame.primary_blocks) {
+                    for (Vector vector : nextFrame.primary_blocks) {
                         Location loc = vector.toLocation(world);
                         Block block = loc.getBlock();
                         block.setType(team.primaryWool);
                     }
 
-                    for (Vector vector : nextLocationFrame.air) {
+                    for (Vector vector : nextFrame.air) {
                         Location loc = vector.toLocation(world);
                         Block block = loc.getBlock();
                         block.setType(Material.AIR);

@@ -54,7 +54,6 @@ public class SchematicSpawner {
 						Operations.complete(operation);
 					}
 				}
-				System.out.println("Completed pasting at " + spawnLocation);
 			} catch (IOException | WorldEditException e) {
 				e.printStackTrace();
 			}

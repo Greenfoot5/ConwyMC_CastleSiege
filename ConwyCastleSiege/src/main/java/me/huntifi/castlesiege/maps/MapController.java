@@ -37,7 +37,7 @@ import static org.bukkit.Bukkit.*;
 public class MapController {
 
 	// Boosters - chances
-	private static final double BASE_BOOSTER_CHANCE = 0.05;
+	private static final double BASE_BOOSTER_CHANCE = 0.15;
 	private static final double COIN_BOOSTER_CHANCE = 0.35;
 	private static final double BATTLEPOINT_BOOSTER_CHANCE = 0.3;
 	//private static final double KIT_BOOSTER_CHANCE = 0.35; // Not actually used, set for reference
@@ -280,7 +280,6 @@ public class MapController {
 				minimumCount++;
 			}
 		}
-		Main.instance.getLogger().info(String.valueOf(minimumCount));
 		if (minimumCount < getCurrentMap().teams.length * 2) {
 			return;
 		}
