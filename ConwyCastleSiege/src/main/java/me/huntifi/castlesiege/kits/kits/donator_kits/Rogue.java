@@ -25,6 +25,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Horse;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -391,51 +392,34 @@ public class Rogue extends DonatorKit implements Listener {
             inventory.setItem(0, sword);
     }
 
-    public void dealPoisonDamage(Player target, Player damager) {
-        if (hasPoisonedWeapons.contains(damager) && Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
-            target.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 260, 0));
-        }
-    }
-
-    public void dealPoisonDamageToHorse(Horse target, Player damager) {
-        if (hasPoisonedWeapons.contains(damager) && Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
-            target.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 260, 0));
-        }
-    }
-
     /**
      * Cause poison damage to opponents and horses when the poison ability is activated.
      * @param e The event called when hitting another player
      */
     @EventHandler (ignoreCancelled = true)
     public void onAttack(EntityDamageByEntityEvent e) {
-        if ((e.getEntity() instanceof Player && e.getDamager() instanceof Player && isShadow.contains(e.getDamager()))) {
-            e.setCancelled(true);
-        }
-        if (!(e.getEntity() instanceof Player && e.getDamager() instanceof Player)) {
+        if (!(e.getDamager() instanceof Player))
             return;
-        } else if (e.getEntity() instanceof Horse && e.getDamager() instanceof Player) {
-            Player player = (Player) e.getDamager();
-            Horse horse = (Horse) e.getEntity();
-            if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name)) {
-                Material item = player.getInventory().getItemInMainHand().getType();
-                if (item == Material.GOLDEN_SWORD) {
-                    dealPoisonDamageToHorse(horse, player);
-                }
-            }
-        }
 
         Player player = (Player) e.getDamager();
-        if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name)) {
+        if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name))
+            return;
 
-            // Rogue attacked an enemy player
-            Material item = player.getInventory().getItemInMainHand().getType();
-            if (item == Material.GOLDEN_SWORD) {
-                dealPoisonDamage((Player) e.getEntity(), player);
-            }
+        // Prevent dealing damage while using the shadow ability
+        if (isShadow.contains(player)) {
+            e.setCancelled(true);
+            return;
         }
-    }
 
+        // Ensure the poison sword is used
+        Material item = player.getInventory().getItemInMainHand().getType();
+        if (item != Material.GOLDEN_SWORD || !hasPoisonedWeapons.contains(player))
+            return;
+
+        // Deal poison damage to players and horses
+        if (e.getEntity() instanceof Player || e.getEntity() instanceof Horse)
+            ((LivingEntity) e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.POISON, 260, 0));
+    }
 
     /**
      * Activate the spearman ability of throwing a spear
