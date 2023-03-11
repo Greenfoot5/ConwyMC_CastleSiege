@@ -179,7 +179,7 @@ public class MapController {
 				// Get a count of who owns which flag
 				java.util.Map<String, Integer> flagCounts = new HashMap<>();
 				for (Flag flag : getCurrentMap().flags) {
-					if (flag.isActive()) {
+					if (flag.isActive() && !flag.getCurrentOwners().equals("null")) {
 						flagCounts.merge(flag.getCurrentOwners(), 1, Integer::sum);
 					}
 				}
