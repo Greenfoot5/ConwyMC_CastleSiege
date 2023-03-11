@@ -103,7 +103,7 @@ public class Flag {
 
     public String getCurrentOwners() {
         if (animationIndex == 0) {
-            return null;
+            return "neutral";
         }
 
         return currentOwners;
@@ -263,9 +263,9 @@ public class Flag {
             // Notify current capping players
             notifyPlayers(false);
 
-            broadcastTeam(null);
+            broadcastTeam("neutral");
 
-            animate(false, null);
+            animate(false, "neutral");
 
         // Owners have capped enough to publicly take control
         } else if (capProgress == 1 && animationIndex == 0) {
@@ -366,7 +366,7 @@ public class Flag {
      * @param newTeam The new flag owners
      */
     private void broadcastTeam(String newTeam) {
-        if (newTeam != null)
+        if (!newTeam.equals("neutral"))
         {
             Team team = MapController.getCurrentMap().getTeam(newTeam);
             Bukkit.broadcastMessage(team.primaryChatColor + "~~~ " + newTeam + " has captured " + name + "! ~~~");
@@ -375,7 +375,7 @@ public class Flag {
             if (hologram == null) { return; }
             updateHologram(team.primaryChatColor);
         }
-        else if (currentOwners != null)
+        else
         {
             Bukkit.broadcastMessage(ChatColor.GRAY + "~~~ " + name + " has been neutralised! ~~~");
 
@@ -494,7 +494,7 @@ public class Flag {
                     // Get the team, or sets the neutralized materials
                     Team team = MapController.getCurrentMap().getTeam(teamName);
                     if (team == null) {
-                        team = new Team("null");
+                        team = new Team("neutral");
                         team.primaryWool = Material.GRAY_WOOL;
                         team.secondaryWool = Material.LIGHT_GRAY_WOOL;
                     }
@@ -564,7 +564,7 @@ public class Flag {
      */
     public Material getWoolMapBlock() {
         // Flag is neutral
-        if (getCurrentOwners() == null) {
+        if (getCurrentOwners().equals("neutral")) {
             return Material.GRAY_WOOL;
         }
 
@@ -601,7 +601,7 @@ public class Flag {
      */
     public ChatColor getColor() {
         String currentOwners = getCurrentOwners();
-        if (currentOwners == null)
+        if (currentOwners.equals("neutral"))
             return ChatColor.GRAY;
 
         Team team = MapController.getCurrentMap().getTeam(currentOwners);
