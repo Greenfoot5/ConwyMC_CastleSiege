@@ -102,7 +102,7 @@ public class Flag {
     }
 
     public String getCurrentOwners() {
-        if (animationIndex == 0) {
+        if (animationIndex == 0 || currentOwners == null) {
             return "neutral";
         }
 
@@ -263,7 +263,7 @@ public class Flag {
             // Notify current capping players
             notifyPlayers(false);
 
-            broadcastTeam("neutral");
+            //broadcastTeam("neutral");
 
             animate(false, "neutral");
 
@@ -472,7 +472,6 @@ public class Flag {
                     SchematicFrame nextFrame = schematicAnimation.get(currentOwners)[animationIndex];
                     for (Tuple<String, Vector> schematic : nextFrame.schematics) {
                         Location loc = schematic.getSecond().toLocation(world);
-                        Main.instance.getLogger().info(schematic.getFirst());
                         SchematicSpawner.spawnSchematic(loc, schematic.getFirst());
                     }
                 }
