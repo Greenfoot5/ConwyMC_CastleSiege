@@ -50,7 +50,7 @@ public abstract class DonatorKit extends Kit {
         boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
         boolean allKitsFree = MapController.allKitsFree;
         boolean hasBP = hasEnoughBP(uuid);
-        if (!hasKit && !isFriday() && !allKitsFree) {
+        if (!hasKit && !isFree() && !allKitsFree) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null) {
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
@@ -59,7 +59,7 @@ public abstract class DonatorKit extends Kit {
                 }
             }
             return false;
-        } else if (!hasBP && !isFriday()) {
+        } else if (!hasBP && !isFree()) {
             if (verbose) {
                 Player p = Bukkit.getPlayer(uuid);
                 Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", p);
@@ -106,7 +106,7 @@ public abstract class DonatorKit extends Kit {
         return kits;
     }
 
-    public static boolean isFriday() {
-        return ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 1;
+    public static boolean isFree() {
+        return ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 1 || MapController.allKitsFree;
     }
 }

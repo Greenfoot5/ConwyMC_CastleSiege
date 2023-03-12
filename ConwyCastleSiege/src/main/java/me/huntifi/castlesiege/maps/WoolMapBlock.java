@@ -53,7 +53,7 @@ public class WoolMapBlock {
             // Make sure a player can afford the kit, and it's not Friday
             } else if (kit instanceof DonatorKit
             && !ActiveData.getData(player.getUniqueId()).takeBattlepoints(((DonatorKit) kit).getBattlepointPrice())
-            && !DonatorKit.isFriday()) {
+            && !DonatorKit.isFree()) {
                 Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", player);
                 Messenger.sendError("Perform /battlepoints or /bp to see your battlepoints.", player);
             } else {

@@ -103,7 +103,7 @@ public class PlayerConnect implements Listener {
             p.sendMessage(ChatColor.DARK_PURPLE + "The max amount of players is 100.");
         }
 
-        if (DonatorKit.isFriday()) {
+        if (DonatorKit.isFree()) {
             Messenger.broadcastInfo("It's Friday! All donator and team kits are " + ChatColor.BOLD + "UNLOCKED!");
         }
 

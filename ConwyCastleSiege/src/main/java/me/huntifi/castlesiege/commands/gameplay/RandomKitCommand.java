@@ -52,7 +52,7 @@ public class RandomKitCommand implements CommandExecutor {
         }
 
         // Get unlocked kits, or all if it's Friday
-        Collection<String> unlockedKits = DonatorKit.isFriday() ? Kit.getKits() : ActiveData.getData(uuid).getUnlockedKits();
+        Collection<String> unlockedKits = DonatorKit.isFree() ? Kit.getKits() : ActiveData.getData(uuid).getUnlockedKits();
         ArrayList<Kit> kits = new ArrayList<>();
 
         unlockedKits.forEach((kitName) -> {
@@ -62,7 +62,7 @@ public class RandomKitCommand implements CommandExecutor {
             }
             if (kit instanceof DonatorKit) {
                 DonatorKit dKit = (DonatorKit) kit;
-                if (!dKit.hasEnoughBP(uuid) && !DonatorKit.isFriday()) {
+                if (!dKit.hasEnoughBP(uuid) && !DonatorKit.isFree()) {
                     return;
                 }
             }
