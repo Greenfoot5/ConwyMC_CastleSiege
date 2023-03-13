@@ -329,7 +329,7 @@ public class MapController {
 				GrantBooster.updateDatabase(uuid, booster);
 				Player player = Bukkit.getPlayer(uuid);
 				if (player != null) {
-					Messenger.sendSuccess("You gained a " + booster.getName() + " for being MVP!", player);
+					Messenger.broadcastSuccess(player.getDisplayName() + " gained a " + booster.getName() + " for being MVP!");
 				}
 			}
 		}
@@ -627,7 +627,7 @@ public class MapController {
 			return false;
 		}
 		for (Flag flag : getCurrentMap().flags) {
-			if (!startingTeam.equalsIgnoreCase(flag.getCurrentOwners())) {
+			if (!startingTeam.equalsIgnoreCase(flag.getCurrentOwners()) && flag.isActive()) {
 				return false;
 			}
 		}
