@@ -263,7 +263,9 @@ public class Flag {
             // Notify current capping players
             notifyPlayers(false);
 
-            //broadcastTeam("neutral");
+            if (!currentOwners.equals("neutral")) {
+                broadcastTeam("neutral");
+            }
 
             animate(false, "neutral");
 
