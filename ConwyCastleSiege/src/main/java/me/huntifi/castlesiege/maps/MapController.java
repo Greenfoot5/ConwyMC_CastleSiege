@@ -327,6 +327,7 @@ public class MapController {
 				}
 
 				GrantBooster.updateDatabase(uuid, booster);
+				data.addBooster(booster);
 				Player player = Bukkit.getPlayer(uuid);
 				if (player != null) {
 					Messenger.broadcastSuccess(player.getDisplayName() + " gained a " + booster.getName() + " for being MVP!");
