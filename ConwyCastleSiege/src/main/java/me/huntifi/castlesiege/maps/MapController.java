@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.boosters.GrantBooster;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
@@ -141,6 +142,7 @@ public class MapController {
 	public static void setMap(String mapName) {
 		timer.state = TimerState.ENDED;
 		Map oldMap = maps.get(mapIndex);
+		VoteSkipCommand.clearVotes();
 		for (int i = 0; i < maps.size(); i++) {
 			if (Objects.equals(maps.get(i).name, mapName)) {
 				getLogger().info("Loading map - " + mapName);
@@ -254,6 +256,7 @@ public class MapController {
 				}
 			}
 		}
+		VoteSkipCommand.clearVotes();
 		AssistKill.reset();
 		Explosion.reset();
 		awardMVPs();

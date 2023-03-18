@@ -136,6 +136,9 @@ commands:
     description: Check your boosters or use one
     usage: /booster [use] [id]
     aliases: booster
+  VoteSkip:
+    description: Vote to skip the current map
+    usage: /voteskip [cancel]
 
   # Info
   Battlepoints:
