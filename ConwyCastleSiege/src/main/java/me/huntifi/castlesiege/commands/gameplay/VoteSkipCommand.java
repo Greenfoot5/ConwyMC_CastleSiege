@@ -104,7 +104,7 @@ public class VoteSkipCommand implements CommandExecutor {
             votedPlayers.remove(uuid);
 
             int requiredVotes = getRequiredVotes();
-            if (votedPlayers.size() >= requiredVotes) {
+            if (requiredVotes > 0 && votedPlayers.size() >= requiredVotes) {
                 Messenger.broadcastInfo("Due to a shift in required votes, the current map is skipped!");
                 MapController.endMap();
             }
