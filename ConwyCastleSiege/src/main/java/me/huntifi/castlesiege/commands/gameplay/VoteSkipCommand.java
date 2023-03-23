@@ -71,6 +71,8 @@ public class VoteSkipCommand implements CommandExecutor {
                     player.getName(), ChatColor.YELLOW, votedPlayers.size(), requiredVotes));
             if (votedPlayers.size() >= requiredVotes)
                 MapController.endMap();
+            else
+                Messenger.sendInfo("Changed your mind? You can cancel your vote with /voteskip cancel", player);
         } else {
             Messenger.sendError("You have already voted! To cancel, use /voteskip cancel", player);
         }
