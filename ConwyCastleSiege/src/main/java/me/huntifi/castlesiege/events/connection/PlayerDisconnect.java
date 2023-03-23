@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.Permissions;
@@ -63,6 +64,7 @@ public class PlayerDisconnect implements Listener {
             MapController.leaveTeam(uuid);
             Permissions.removePlayer(uuid);
             BarCooldown.remove(uuid);
+            VoteSkipCommand.removePlayer(uuid);
         });
     }
 
