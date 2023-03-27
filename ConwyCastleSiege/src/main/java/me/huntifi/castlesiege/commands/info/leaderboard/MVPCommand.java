@@ -9,6 +9,7 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,8 +21,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.util.*;
-
-import static org.bukkit.Bukkit.getPlayer;
 
 /**
  * Shows the player the current MVP(s)
@@ -113,7 +112,7 @@ public class MVPCommand implements CommandExecutor {
         // Header
         if (mvp) {
             message.add(t.primaryChatColor + t.name + ChatColor.DARK_AQUA
-                    + " MVP: " + ChatColor.WHITE + Objects.requireNonNull(getPlayer(uuid)).getName());
+                    + " MVP: " + ChatColor.WHITE + Bukkit.getOfflinePlayer(uuid).getName());
         } else {
             message.add(t.primaryChatColor + t.name + ChatColor.DARK_AQUA + " You:");
         }
