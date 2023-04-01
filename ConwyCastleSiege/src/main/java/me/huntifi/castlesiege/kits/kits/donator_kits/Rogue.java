@@ -442,7 +442,7 @@ public class Rogue extends DonatorKit implements Listener {
                 if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         stick.setAmount(stick.getAmount() - 1);
-                        p.setCooldown(Material.TIPPED_ARROW, 20);
+                        p.setCooldown(Material.TIPPED_ARROW, 100);
                         p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(4.0));
                     } else if (isShadow.contains(p)) {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
