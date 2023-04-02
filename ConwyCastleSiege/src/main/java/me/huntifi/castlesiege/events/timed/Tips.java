@@ -59,7 +59,7 @@ public class Tips extends BukkitRunnable {
             "Did you know you can use /voteskip to vote to skip the current map?",
             "Bored of playing alone? Try pinging @Fighter on the Discord server (join with /discord)",
             "Want something more competitive? Join a Player Pool Match hosted on the Discord!",
-            "Check out the latest patch notes: https://conwymc.alchemix.dev/updates/castlesiege/latest"
+            "Check out the latest patch notes: https://conwymc.alchemix.dev/updates/castle-siege/latest"
     };
 
     // Sends a random tip to all players
