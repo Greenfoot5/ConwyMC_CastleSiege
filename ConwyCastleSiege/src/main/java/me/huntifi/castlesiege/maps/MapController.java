@@ -289,7 +289,10 @@ public class MapController {
 
 		Random random = new Random();
 		for (Team team : getCurrentMap().teams) {
-			UUID uuid = team.getMVP().getFirst();
+			Tuple<UUID, PlayerData> mvp = team.getMVP();
+			if (mvp == null)
+				continue; // Continue to the next team if this one doesn't have an MVP
+			UUID uuid = mvp.getFirst();
 			PlayerData data = ActiveData.getData(uuid);
 			data.addMVP();
 
