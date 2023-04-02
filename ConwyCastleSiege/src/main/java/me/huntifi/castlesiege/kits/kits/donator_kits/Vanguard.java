@@ -149,6 +149,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
                         player.removePotionEffect(effect.getType());
                     }
                 }
+                player.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 9999999, 0)));
                 player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
                 vanguards.remove(uuid);
             }
