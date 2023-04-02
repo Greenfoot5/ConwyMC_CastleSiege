@@ -46,9 +46,9 @@ import java.util.*;
 
 public class Rogue extends DonatorKit implements Listener {
 
-    public static final ArrayList<Player> hasPoisonedWeapons = new ArrayList<>();
+    public static final ArrayList<UUID> hasPoisonedWeapons = new ArrayList<>();
 
-    public static final ArrayList<Player> isShadow = new ArrayList<>();
+    public static final ArrayList<UUID> isShadow = new ArrayList<>();
     private final ItemStack gouge;
 
     private final ItemStack shadowStep;
@@ -296,13 +296,13 @@ public class Rogue extends DonatorKit implements Listener {
             p.setCooldown(shadowStep.getType(), 260);
             MobDisguise mobDisguise = new MobDisguise(DisguiseType.BAT);
             disguise(p, mobDisguise);
-            isShadow.add(p);
+            isShadow.add(p.getUniqueId());
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 0));
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-                            isShadow.remove(p);
+                            isShadow.remove(p.getUniqueId());
                             if (DisguiseAPI.isDisguised(p)) {
                                 DisguiseAPI.undisguiseToAll(p);
                                 NameTag.give(p);
@@ -334,11 +334,11 @@ public class Rogue extends DonatorKit implements Listener {
      * @param p The player to (un)disguise
      */
     public void shadowleapAbility(Player p) {
-        if (p.getCooldown(shadowLeap.getType()) == 0 && isShadow.contains(p)) {
+        if (p.getCooldown(shadowLeap.getType()) == 0 && isShadow.contains(p.getUniqueId())) {
             p.setCooldown(shadowLeap.getType(), 400);
             p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, 4));
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2));
-        } else if (!isShadow.contains(p)) {
+        } else if (!isShadow.contains(p.getUniqueId())) {
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                     ChatColor.RED + "You can only use this ability when shadowstepping!"));
         } else {
@@ -349,15 +349,15 @@ public class Rogue extends DonatorKit implements Listener {
 
     public void applyPoison(Player p) {
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-        if (p.getCooldown(poisonPotion().getType()) == 0 && !hasPoisonedWeapons.contains(p)) {
-            hasPoisonedWeapons.add(p);
+        if (p.getCooldown(poisonPotion().getType()) == 0 && !hasPoisonedWeapons.contains(p.getUniqueId())) {
+            hasPoisonedWeapons.add(p.getUniqueId());
             p.setCooldown(poisonPotion().getType(), 1000);
             p.getInventory().setItem(0, poisonSwordVoted);
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-                        hasPoisonedWeapons.remove(p);
+                        hasPoisonedWeapons.remove(p.getUniqueId());
                         changeSword(p, poisonSwordVoted.getType(), netheriteSword, netheriteSwordVoted);
                     }
                 }
@@ -406,14 +406,14 @@ public class Rogue extends DonatorKit implements Listener {
             return;
 
         // Prevent dealing damage while using the shadow ability
-        if (isShadow.contains(player)) {
+        if (isShadow.contains(player.getUniqueId())) {
             e.setCancelled(true);
             return;
         }
 
         // Ensure the poison sword is used
         Material item = player.getInventory().getItemInMainHand().getType();
-        if (item != Material.GOLDEN_SWORD || !hasPoisonedWeapons.contains(player))
+        if (item != Material.GOLDEN_SWORD || !hasPoisonedWeapons.contains(player.getUniqueId()))
             return;
 
         // Deal poison damage to players and horses
@@ -440,11 +440,11 @@ public class Rogue extends DonatorKit implements Listener {
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (stick.getType().equals(Material.TIPPED_ARROW)) {
                 if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0) {
+                    if (cooldown == 0 && isShadow.contains(p.getUniqueId())) {
                         stick.setAmount(stick.getAmount() - 1);
                         p.setCooldown(Material.TIPPED_ARROW, 100);
                         p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(4.0));
-                    } else if (isShadow.contains(p)) {
+                    } else if (isShadow.contains(p.getUniqueId())) {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your track arrow whilst shadowstepping!"));
                     } else {
@@ -570,7 +570,7 @@ public class Rogue extends DonatorKit implements Listener {
                     // Basically what happens here is you check whether the player
                     // is not looking at you at all (so having their back aimed at you.)
                     if (damagerLoc.getYaw() <= hitLoc.getYaw() + 60 && damagerLoc.getYaw() >= hitLoc.getYaw() - 60
-                            && canGouge && !isShadow.contains(p)) {
+                            && canGouge && !isShadow.contains(p.getUniqueId())) {
 
                         if (p.getInventory().getItemInMainHand().getType() != Material.NETHERITE_INGOT) {
                             return;
@@ -637,9 +637,8 @@ public class Rogue extends DonatorKit implements Listener {
     @EventHandler
     public void onClickEnderchest(EnderchestEvent event) {
         if (Objects.equals(Kit.equippedKits.get(event.getPlayer().getUniqueId()).name, name)) {
-            isShadow.remove(event.getPlayer());
-            hasPoisonedWeapons.remove(event.getPlayer());
-
+            isShadow.remove(event.getPlayer().getUniqueId());
+            hasPoisonedWeapons.remove(event.getPlayer().getUniqueId());
         }
     }
 }
