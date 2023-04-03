@@ -440,7 +440,7 @@ public class Rogue extends DonatorKit implements Listener {
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (stick.getType().equals(Material.TIPPED_ARROW)) {
                 if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0 && isShadow.contains(p.getUniqueId())) {
+                    if (cooldown == 0 && !isShadow.contains(p.getUniqueId())) {
                         stick.setAmount(stick.getAmount() - 1);
                         p.setCooldown(Material.TIPPED_ARROW, 100);
                         p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(4.0));
