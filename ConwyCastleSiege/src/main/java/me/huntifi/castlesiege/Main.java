@@ -201,6 +201,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
+                getServer().getPluginManager().registerEvents(new Chef(), plugin);
                 getServer().getPluginManager().registerEvents(new CryptsFallen(), plugin);
                 getServer().getPluginManager().registerEvents(new ConwyArbalester(), plugin);
                 getServer().getPluginManager().registerEvents(new Engineer(), plugin);
@@ -335,6 +336,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("ConwyArbalester")).setExecutor(new ConwyArbalester());
                 Objects.requireNonNull(getCommand("ConwyRoyalKnight")).setExecutor(new ConwyRoyalKnight());
                 Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
+                Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
                 Objects.requireNonNull(getCommand("CryptsFallen")).setExecutor(new CryptsFallen());
                 Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
                 Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
@@ -754,17 +756,18 @@ public class Main extends JavaPlugin implements Listener {
         gui.addCoinShopItem("Alchemist", Kit.getMaterial("Alchemist"), 0);
         gui.addCoinShopItem("Berserker", Kit.getMaterial("Berserker"), 1);
         gui.addCoinShopItem("Cavalry", Kit.getMaterial("Cavalry"), 2);
-        gui.addCoinShopItem("Crossbowman", Kit.getMaterial("Crossbowman"), 3);
-        gui.addCoinShopItem("Engineer", Kit.getMaterial("Engineer"), 4);
-        gui.addCoinShopItem("Executioner", Kit.getMaterial("Executioner"), 5);
-        gui.addCoinShopItem("Halberdier", Kit.getMaterial("Halberdier"), 6);
-        gui.addCoinShopItem("Maceman", Kit.getMaterial("Maceman"), 7);
-        gui.addCoinShopItem("Medic", Kit.getMaterial("Medic"), 8);
-        gui.addCoinShopItem("Ranger", Kit.getMaterial("Ranger"), 9);
-        gui.addCoinShopItem("Rogue", Kit.getMaterial("Rogue"), 10);
-        gui.addCoinShopItem("Vanguard", Kit.getMaterial("Vanguard"), 11);
-        gui.addCoinShopItem("Viking", Kit.getMaterial("Viking"), 12);
-        gui.addCoinShopItem("Warhound", Kit.getMaterial("Warhound"), 13);
+        gui.addCoinShopItem("Chef", Kit.getMaterial("Chef"), 3);
+        gui.addCoinShopItem("Crossbowman", Kit.getMaterial("Crossbowman"), 4);
+        gui.addCoinShopItem("Engineer", Kit.getMaterial("Engineer"), 5);
+        gui.addCoinShopItem("Executioner", Kit.getMaterial("Executioner"), 6);
+        gui.addCoinShopItem("Halberdier", Kit.getMaterial("Halberdier"), 7);
+        gui.addCoinShopItem("Maceman", Kit.getMaterial("Maceman"), 8);
+        gui.addCoinShopItem("Medic", Kit.getMaterial("Medic"), 9);
+        gui.addCoinShopItem("Ranger", Kit.getMaterial("Ranger"), 10);
+        gui.addCoinShopItem("Rogue", Kit.getMaterial("Rogue"), 11);
+        gui.addCoinShopItem("Vanguard", Kit.getMaterial("Vanguard"), 12);
+        gui.addCoinShopItem("Viking", Kit.getMaterial("Viking"), 13);
+        gui.addCoinShopItem("Warhound", Kit.getMaterial("Warhound"), 14);
 
         List<String> lore = new ArrayList<>();
         lore.add("/\\ Elite Kits /\\");

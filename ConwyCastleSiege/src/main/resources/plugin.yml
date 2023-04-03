@@ -489,6 +489,9 @@ commands:
   Cavalry:
     description: Selects the cavalry kit
     usage: /cavalry
+  Chef:
+    description: Selects the chef kit
+    usage: /chef
   CryptsFallen:
     description: Selects the Fallen kit for Royal Crypts as Tomb Guardians
     usage: /cryptsfallen

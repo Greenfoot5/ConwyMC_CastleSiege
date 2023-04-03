@@ -1,5 +1,11 @@
 package me.huntifi.castlesiege.kits.kits.donator_kits;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.world.World;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -8,6 +14,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -37,6 +44,11 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
+import static org.bukkit.Bukkit.getWorld;
+
+/**
+ * Creates the Chef kit
+ */
 public class Chef extends DonatorKit implements Listener {
 
     private final static int baseHealth = 260;
@@ -51,8 +63,9 @@ public class Chef extends DonatorKit implements Listener {
     private final static int knifeCooldown = 80;
     private static final double knifeVelocity = 3.0;
     private static final int knifeDamage = 25;
+    private static final int campfireCubeRadius = 4;
 
-    public static final HashMap<Player, Block> campfires = new HashMap<>();
+    public static final HashMap<Player, Tuple<Block, String>> campfires = new HashMap<>();
 
     public Chef() {
         super("Chef", baseHealth, regenAmount, coinCost, bpCost, material);
@@ -154,7 +167,19 @@ public class Chef extends DonatorKit implements Listener {
 
             // Place new campfire
             e.setCancelled(false);
-            campfires.put(p, e.getBlockPlaced());
+            BlockVector3 min = BlockVector3.at(
+                    e.getBlockPlaced().getX() + campfireCubeRadius,
+                    e.getBlockPlaced().getY() + campfireCubeRadius,
+                    e.getBlockPlaced().getZ() + campfireCubeRadius);
+            BlockVector3 max = BlockVector3.at(
+                    e.getBlockPlaced().getX() - campfireCubeRadius,
+                    e.getBlockPlaced().getY() - campfireCubeRadius,
+                    e.getBlockPlaced().getZ() - campfireCubeRadius);
+            ProtectedRegion region = new ProtectedCuboidRegion(p.getName()+"Campfire", true, min, max);
+            Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+                            BukkitAdapter.adapt(Objects.requireNonNull(getWorld(MapController.getCurrentMap().worldName)))))
+                    .addRegion(region);
+            campfires.put(p, new Tuple<>(e.getBlockPlaced(), region.getId()));
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                     TextComponent.fromLegacyText(ChatColor.AQUA + "You setup your Campfire!"));
             // TODO - Setup loop for healing
@@ -173,7 +198,7 @@ public class Chef extends DonatorKit implements Listener {
         }
 
         if (e.getAction() == Action.LEFT_CLICK_BLOCK &&
-                e.getClickedBlock().getType() == Material.CAMPFIRE) {
+                Objects.requireNonNull(e.getClickedBlock()).getType() == Material.CAMPFIRE) {
             Player p = e.getPlayer();
             Player q = getPlacer(e.getClickedBlock());
 
@@ -232,7 +257,10 @@ public class Chef extends DonatorKit implements Listener {
      */
     private void destroyCampfire(Player p) {
         if(campfires.containsKey(p)) {
-            campfires.get(p).setType(Material.AIR);
+            campfires.get(p).getFirst().setType(Material.AIR);
+            Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer()
+                            .get((World) getWorld(MapController.getCurrentMap().worldName)))
+                    .removeRegion(campfires.get(p).getSecond());
             campfires.remove(p);
         }
     }
@@ -244,7 +272,7 @@ public class Chef extends DonatorKit implements Listener {
      */
     private Player getPlacer(Block campfire) {
         return campfires.entrySet().stream()
-                .filter(entry -> Objects.equals(entry.getValue(), campfire))
+                .filter(entry -> Objects.equals(entry.getValue().getFirst(), campfire))
                 .findFirst().map(Map.Entry::getKey)
                 .orElse(null);
     }
@@ -300,11 +328,15 @@ public class Chef extends DonatorKit implements Listener {
         }
     }
 
+    /**
+     * Reduced projectile damage if the chef was holding the frying pan
+     * @param e The projectile that hit the chef
+     * @param hit The chef that was hit
+     */
     @EventHandler()
     public void panProjectileDefence(ProjectileHitEvent e, Entity hit) {
         if (e.getEntity() instanceof Arrow && hit instanceof Player) {
             Arrow arrow = (Arrow) e.getEntity();
-            Player p = (Player) hit;
 
             if (Objects.equals(Kit.equippedKits.get(hit.getUniqueId()).name, name)) {
                 if (((Player) hit).getInventory().getItemInMainHand() == fryingPan ||
