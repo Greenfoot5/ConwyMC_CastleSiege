@@ -1,11 +1,6 @@
 package me.huntifi.castlesiege.kits.kits.donator_kits;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldedit.world.World;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -14,14 +9,10 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
@@ -41,10 +32,9 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
-
-import static org.bukkit.Bukkit.getWorld;
 
 /**
  * Creates the Chef kit
@@ -59,13 +49,16 @@ public class Chef extends DonatorKit implements Listener {
     private static ItemStack campfire;
     private static ItemStack fryingPan;
     private static ItemStack fryingPanVoted;
-    private final static int knifeCount = 6;
+    private final static int knifeCount = 3;
     private final static int knifeCooldown = 80;
     private static final double knifeVelocity = 3.0;
     private static final int knifeDamage = 25;
-    private static final int campfireCubeRadius = 4;
+    private static final int campfireRadius = 4;
+    private static final int campfireRegen = 15;
+    private static final int campfireRegenTimer = 70;
 
-    public static final HashMap<Player, Tuple<Block, String>> campfires = new HashMap<>();
+    public static final HashMap<Player, Block> campfires = new HashMap<>();
+    public static final ArrayList<Location> activeLocations = new ArrayList<>();
 
     public Chef() {
         super("Chef", baseHealth, regenAmount, coinCost, bpCost, material);
@@ -78,7 +71,8 @@ public class Chef extends DonatorKit implements Listener {
         fryingPan = ItemCreator.weapon(new ItemStack(Material.IRON_SHOVEL),
                 ChatColor.DARK_GRAY + "Frying Pan", Arrays.asList(
                         ChatColor.AQUA + "Knock enemies away with the back of a pan",
-                        ChatColor.AQUA + "Also halves projectile damage while in the main hand"),
+                        ChatColor.AQUA + "Also halves bow damage while in the main hand",
+                        ChatColor.AQUA + "Crossbow damage is 75%"),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), 20);
         // Weapon
         es.hotbar[0] = fryingPan;
@@ -86,7 +80,8 @@ public class Chef extends DonatorKit implements Listener {
         fryingPanVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SHOVEL),
                 ChatColor.DARK_GRAY + "Frying Pan", Arrays.asList(
                         ChatColor.AQUA + "Knock enemies away with the back of a pan",
-                        ChatColor.AQUA + "Also halves projectile damage while in the main hand",
+                        ChatColor.AQUA + "Also halves bow damage while in the main hand",
+                        ChatColor.AQUA + "Crossbow damage is 75%",
                         ChatColor.AQUA + "- voted: +2 damage"),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), 22);
         es.votedWeapon = new Tuple<>(fryingPanVoted, 0);
@@ -167,22 +162,25 @@ public class Chef extends DonatorKit implements Listener {
 
             // Place new campfire
             e.setCancelled(false);
-            BlockVector3 min = BlockVector3.at(
-                    e.getBlockPlaced().getX() + campfireCubeRadius,
-                    e.getBlockPlaced().getY() + campfireCubeRadius,
-                    e.getBlockPlaced().getZ() + campfireCubeRadius);
-            BlockVector3 max = BlockVector3.at(
-                    e.getBlockPlaced().getX() - campfireCubeRadius,
-                    e.getBlockPlaced().getY() - campfireCubeRadius,
-                    e.getBlockPlaced().getZ() - campfireCubeRadius);
-            ProtectedRegion region = new ProtectedCuboidRegion(p.getName()+"Campfire", true, min, max);
-            Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
-                            BukkitAdapter.adapt(Objects.requireNonNull(getWorld(MapController.getCurrentMap().worldName)))))
-                    .addRegion(region);
-            campfires.put(p, new Tuple<>(e.getBlockPlaced(), region.getId()));
+            campfires.put(p, e.getBlockPlaced());
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                     TextComponent.fromLegacyText(ChatColor.AQUA + "You setup your Campfire!"));
-            // TODO - Setup loop for healing
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    Location loc = e.getBlockPlaced().getLocation();
+                    if (!activeLocations.contains(loc)) {
+                        this.cancel();
+                    }
+                    int squaredDistance = campfireRadius * campfireRadius;
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        if (loc.distanceSquared(player.getLocation()) <= squaredDistance) {
+                            player.setHealth(p.getHealth() + campfireRegen);
+                        }
+                    }
+                }
+            }.runTaskTimerAsynchronously(Main.plugin, campfireRegenTimer, campfireRegenTimer);
         }
     }
 
@@ -257,10 +255,7 @@ public class Chef extends DonatorKit implements Listener {
      */
     private void destroyCampfire(Player p) {
         if(campfires.containsKey(p)) {
-            campfires.get(p).getFirst().setType(Material.AIR);
-            Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer()
-                            .get((World) getWorld(MapController.getCurrentMap().worldName)))
-                    .removeRegion(campfires.get(p).getSecond());
+            campfires.get(p).setType(Material.AIR);
             campfires.remove(p);
         }
     }
@@ -272,7 +267,7 @@ public class Chef extends DonatorKit implements Listener {
      */
     private Player getPlacer(Block campfire) {
         return campfires.entrySet().stream()
-                .filter(entry -> Objects.equals(entry.getValue().getFirst(), campfire))
+                .filter(entry -> Objects.equals(entry.getValue(), campfire))
                 .findFirst().map(Map.Entry::getKey)
                 .orElse(null);
     }
@@ -341,7 +336,11 @@ public class Chef extends DonatorKit implements Listener {
             if (Objects.equals(Kit.equippedKits.get(hit.getUniqueId()).name, name)) {
                 if (((Player) hit).getInventory().getItemInMainHand() == fryingPan ||
                         ((Player) hit).getInventory().getItemInMainHand() == fryingPanVoted) {
-                    arrow.setDamage(arrow.getDamage() * 0.5);
+                    if (arrow.isShotFromCrossbow()) {
+                        arrow.setDamage(arrow.getDamage() * 0.75);
+                    } else {
+                        arrow.setDamage(arrow.getDamage() * 0.5);
+                    }
                 }
             }
         }
