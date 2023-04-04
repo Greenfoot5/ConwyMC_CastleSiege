@@ -25,6 +25,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -49,13 +50,23 @@ public class Chef extends DonatorKit implements Listener {
     private static ItemStack campfire;
     private static ItemStack fryingPan;
     private static ItemStack fryingPanVoted;
-    private final static int knifeCount = 3;
-    private final static int knifeCooldown = 80;
+    private static final int knifeCooldown = 80;
     private static final double knifeVelocity = 3.0;
     private static final int knifeDamage = 25;
+    private static final int knifeCount = 3;
     private static final int campfireRadius = 4;
     private static final int campfireRegen = 15;
     private static final int campfireRegenTimer = 70;
+    private static final int eggCooldown = 150;
+    private static final int eggCount = 10;
+
+    private static ItemStack steak;
+    private final PotionEffect steakEffect = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 1200, 1);
+    private static ItemStack goldenCarrot;
+    private final PotionEffect carrotEffect = new PotionEffect(PotionEffectType.NIGHT_VISION, 2400, 0);
+    private static ItemStack pie;
+    private final PotionEffect pieAbsorb = new PotionEffect(PotionEffectType.ABSORPTION, 2400, 29);
+    private final PotionEffect pieSlow = new PotionEffect(PotionEffectType.SLOW, 600, 0);
 
     public static final HashMap<Player, Block> campfires = new HashMap<>();
     public static final ArrayList<Location> activeLocations = new ArrayList<>();
@@ -108,6 +119,36 @@ public class Chef extends DonatorKit implements Listener {
                 Arrays.asList(ChatColor.AQUA + "Can be placed down on the ground",
                         ChatColor.AQUA + "When placed grants a slow regen effect to players nearby"),
                 null);
+
+        es.hotbar[2] = campfire;
+
+        ItemStack egg = ItemCreator.item(new ItemStack(Material.EGG, eggCount),
+                ChatColor.DARK_GRAY + "Mystery Egg", Arrays.asList(
+                        ChatColor.AQUA + "Right click to prepare food",
+                        ChatColor.AQUA + "Food grants a bonus to teammates",
+                        ChatColor.AQUA + "by right-clicking on them"),
+                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_BLOCKS, 0)));
+
+        es.hotbar[3] = egg;
+
+        steak = ItemCreator.item(new ItemStack(Material.COOKED_BEEF),
+                ChatColor.DARK_GRAY + "Strength Steak", Arrays.asList(
+                        ChatColor.AQUA + "Right click on a teammate to feed them",
+                        ChatColor.AQUA + "Grants strength to fed player"),
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)));
+
+        goldenCarrot = ItemCreator.item(new ItemStack(Material.GOLDEN_CARROT),
+                ChatColor.DARK_GRAY + "Golden Carrot", Arrays.asList(
+                        ChatColor.AQUA + "Right click a teammate to feed them",
+                        ChatColor.AQUA + "Grants night vision to the player"),
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)));
+
+        pie = ItemCreator.item(new ItemStack(Material.PUMPKIN_PIE),
+                ChatColor.DARK_GRAY + "Filling Pie", Arrays.asList(
+                        ChatColor.AQUA + "Right click a teammate to feed them",
+                        ChatColor.AQUA + "Grants absorption to the fed teammate",
+                        ChatColor.AQUA + "Grants slow to the fed teammate"),
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)));
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
@@ -298,7 +339,7 @@ public class Chef extends DonatorKit implements Listener {
                         Messenger.sendActionInfo("You threw your knife!", p);
                         p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(knifeVelocity));
                     } else {
-                        Messenger.sendActionError("You can't throw your spear yet (" + p.getCooldown(Material.TIPPED_ARROW) / 20 + "s)", p);
+                        Messenger.sendActionError("You can't throw your knife yet (" + p.getCooldown(Material.TIPPED_ARROW) / 20 + "s)", p);
                     }
                 }
             }
@@ -343,6 +384,89 @@ public class Chef extends DonatorKit implements Listener {
                         arrow.setDamage(arrow.getDamage() * 0.5);
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Activate the chef ability of throwing a knife
+     * @param e The event called when right-clicking with a tipped arrow
+     */
+    @EventHandler
+    public void prepFood(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+        ItemStack egg = p.getInventory().getItemInMainHand();
+        int cooldown = p.getCooldown(Material.EGG);
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            if (egg.getType().equals(Material.EGG)) {
+                if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    if (cooldown == 0) {
+                        egg.setAmount(egg.getAmount() - 1);
+                        p.setCooldown(Material.EGG, eggCooldown);
+                        Messenger.sendActionInfo("You made some food!", p);
+                        grantFood(p);
+                    } else {
+                        Messenger.sendActionError("You can't make any food yet (" + p.getCooldown(Material.EGG) / 20 + "s)", p);
+                    }
+                }
+            }
+        }
+    }
+
+    private static void grantFood(Player p) {
+        Random random = new Random();
+        int choice = random.nextInt(3);
+
+        switch (choice) {
+            case 0:
+                p.getInventory().addItem(steak);
+            case 1:
+                p.getInventory().addItem(goldenCarrot);
+            case 2:
+                p.getInventory().addItem(pie);
+        }
+    }
+
+    /**
+     * Activate the chef ability of throwing a knife
+     * @param e The event called when right-clicking with a tipped arrow
+     */
+    @EventHandler
+    public void useFood(PlayerInteractEntityEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+        ItemStack food = p.getInventory().getItemInMainHand();
+        Player fed = (Player) e.getRightClicked();
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            if (food.getType().equals(Material.COOKED_BEEF)) {
+                food.setAmount(food.getAmount() - 1);
+                Messenger.sendActionInfo("You gave " + fed.getName() + " a strength steak!", p);
+                Messenger.sendActionInfo("You were given a strength steak by Chef " + p.getName(), fed);
+                fed.addPotionEffect(steakEffect);
+            } else if (food.getType().equals(Material.GOLDEN_CARROT)) {
+                food.setAmount(food.getAmount() - 1);
+                Messenger.sendActionInfo("You gave " + fed.getName() + " a golden carrot!", p);
+                Messenger.sendActionInfo("You were given a golden carrot by Chef " + p.getName(), fed);
+                fed.addPotionEffect(carrotEffect);
+            } else if (food.getType().equals(Material.PUMPKIN_PIE)) {
+                food.setAmount(food.getAmount() - 1);
+                Messenger.sendActionInfo("You gave " + fed.getName() + " some filling pie!", p);
+                Messenger.sendActionInfo("You were given some filling pie by Chef " + p.getName(), fed);
+                fed.addPotionEffect(pieAbsorb);
+                fed.addPotionEffect(pieSlow);
             }
         }
     }
