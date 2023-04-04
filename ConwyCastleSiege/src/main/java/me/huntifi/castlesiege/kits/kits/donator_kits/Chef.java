@@ -256,6 +256,7 @@ public class Chef extends DonatorKit implements Listener {
     private void destroyCampfire(Player p) {
         if(campfires.containsKey(p)) {
             campfires.get(p).setType(Material.AIR);
+            activeLocations.remove(campfires.get(p).getLocation());
             campfires.remove(p);
         }
     }
