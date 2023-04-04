@@ -543,7 +543,7 @@ public class MapController {
 	}
 
 	/**
-	 * Does any unloading needed for the a map
+	 * Does any unloading needed for the map
 	 * @param oldMap The map to unload
 	 */
 	public static void unloadMap(Map oldMap) {
