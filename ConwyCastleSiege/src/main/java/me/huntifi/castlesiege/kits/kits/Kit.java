@@ -26,6 +26,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Criterias;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -402,5 +403,12 @@ public abstract class Kit implements CommandExecutor {
             return kit.material;
         }
         return null;
+    }
+
+    public static int getStrengthDamage(Player p) {
+        if (p.hasPotionEffect(PotionEffectType.INCREASE_DAMAGE)) {
+            return 3 * (Objects.requireNonNull(p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE)).getAmplifier() + 1);
+        }
+        return 0;
     }
 }
