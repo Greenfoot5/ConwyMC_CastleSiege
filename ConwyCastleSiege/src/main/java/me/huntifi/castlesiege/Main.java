@@ -66,6 +66,7 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.kits.kits.in_development.Warbear;
 import me.huntifi.castlesiege.kits.kits.team_kits.*;
 import me.huntifi.castlesiege.kits.kits.voter_kits.*;
+import me.huntifi.castlesiege.maps.Hommet.CollapseEvent;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
@@ -186,6 +187,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Gameplay
                 //getServer().getPluginManager().registerEvents(new ArcaneTower(), plugin);
+                getServer().getPluginManager().registerEvents(new CollapseEvent(), plugin);
                 getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new Explosion(), plugin);
                 getServer().getPluginManager().registerEvents(new LeaveMapBorder(), plugin);

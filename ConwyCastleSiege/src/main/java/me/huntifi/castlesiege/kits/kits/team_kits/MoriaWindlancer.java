@@ -33,8 +33,8 @@ import java.util.UUID;
 
 public class MoriaWindlancer extends TeamKit implements Listener {
     public MoriaWindlancer() {
-        super("Dwarven Windlancer", 240, 9 , "Moria",
-                "The Dwarves", 5000, 8, Material.STICK);
+        super("Dwarven Windlancer", 300, 9 , "Moria",
+                "The Dwarves", 5000, 0, Material.STICK);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

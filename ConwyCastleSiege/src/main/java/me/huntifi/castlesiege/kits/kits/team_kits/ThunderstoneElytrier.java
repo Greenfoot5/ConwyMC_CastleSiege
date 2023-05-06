@@ -35,8 +35,8 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
     public ThrownPotion potion;
 
     public ThunderstoneElytrier() {
-        super("Elytrier", 210, 7, "Thunderstone",
-                "Thunderstone Guard", 5000, 3, Material.ELYTRA);
+        super("Elytrier", 170, 7, "Thunderstone",
+                "Thunderstone Guard", 5000, 0, Material.ELYTRA);
         super.canCap = false;
         super.canSeeHealth = true;
         // Equipment Stuff

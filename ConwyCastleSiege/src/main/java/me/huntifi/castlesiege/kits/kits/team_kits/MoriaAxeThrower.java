@@ -32,8 +32,8 @@ import java.util.UUID;
 public class MoriaAxeThrower extends TeamKit implements Listener {
 
     public MoriaAxeThrower() {
-        super("Dwarven Axe Thrower", 245, 10, "Moria",
-                "The Dwarves", 5000, 8, Material.STONE_AXE);
+        super("Dwarven Axe Thrower", 300, 10, "Moria",
+                "The Dwarves", 5000, 0, Material.STONE_AXE);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

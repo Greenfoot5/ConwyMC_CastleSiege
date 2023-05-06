@@ -27,7 +27,7 @@ public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
     
     public HelmsDeepRangedCavalry() {
         super("Ranged Cavalry", 230, 9, "Helm's Deep",
-                "Rohan", 2500, 10, Material.BOW);
+                "Rohan", 2500, 0, Material.BOW);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
