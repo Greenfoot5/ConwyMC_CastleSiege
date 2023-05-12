@@ -78,7 +78,7 @@ public class MoriaWindlancer extends TeamKit implements Listener {
 
         // Death Messages
         super.deathMessage[0] = "You were impaled by ";
-        super.killMessage[0] = "You impaled ";
+        super.killMessage[0] = " impaled ";
 
         super.equipment = es;
     }
