@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.team_kits;
+package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;

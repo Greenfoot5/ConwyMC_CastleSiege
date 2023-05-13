@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.team_kits;
+package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -129,7 +129,7 @@ public class MoriaWindlancer extends TeamKit implements Listener {
                 Player damages = (Player) arrow.getShooter();
 
                 if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                    arrow.setDamage(15);
+                    arrow.setDamage(40);
                 }
             }
         }

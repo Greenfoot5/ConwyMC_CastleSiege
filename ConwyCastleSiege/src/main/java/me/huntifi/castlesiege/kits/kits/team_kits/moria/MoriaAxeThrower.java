@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.team_kits;
+package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -133,10 +133,10 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
                 if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
                     if (e.getHitEntity() instanceof Player) {
                         Player hit = (Player) e.getHitEntity();
-                        hit.damage(60, damager);
+                        hit.damage(65, damager);
                     } else if (e.getHitEntity() instanceof Horse) {
                         Horse horse = (Horse) e.getHitEntity();
-                        horse.damage(70, damager);
+                        horse.damage(90, damager);
                     }
                 }
             }

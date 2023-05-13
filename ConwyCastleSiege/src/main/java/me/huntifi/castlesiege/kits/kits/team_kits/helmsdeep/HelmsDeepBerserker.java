@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.team_kits;
+package me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -29,7 +29,7 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
 
 
     public HelmsDeepBerserker() {
-        super("Uruk Berserker", 290, 6, "Helm's Deep", "Uruk-hai",
+        super("Uruk Berserker", 220, 6, "Helm's Deep", "Uruk-hai",
                 2500, 0, Material.REDSTONE);
 
         // Equipment Stuff
@@ -39,14 +39,14 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Cleaver", Collections.singletonList(ChatColor.AQUA + "Deals AOE damage but has a cooldown."),
-                null, 45.0);
+                null, 50.0);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Cleaver",
                         Arrays.asList(ChatColor.AQUA + "Deals AOE damage but has a cooldown.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 47.0),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 52.0),
                 0);
 
         // Leggings
@@ -112,7 +112,7 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
                         if (hit.getWorld() != online.getWorld() || online == hit || online == damager)
                             continue;
 
-                        if (online.getLocation().distance(damager.getLocation()) < 2.1
+                        if (online.getLocation().distance(damager.getLocation()) < 2.6
                                 && TeamController.getTeam(online.getUniqueId())
                                         != TeamController.getTeam(damager.getUniqueId()))
                             online.damage(event.getDamage(), damager);

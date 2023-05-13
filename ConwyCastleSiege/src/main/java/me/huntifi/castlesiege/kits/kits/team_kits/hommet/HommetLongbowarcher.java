@@ -1,33 +1,32 @@
-package me.huntifi.castlesiege.kits.kits.team_kits;
+package me.huntifi.castlesiege.kits.kits.team_kits.hommet;
 
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
-public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
-    
-    public HelmsDeepRangedCavalry() {
-        super("Ranged Cavalry", 230, 9, "Helm's Deep",
-                "Rohan", 2500, 0, Material.BOW);
+public class HommetLongbowarcher extends TeamKit implements Listener {
+
+    public HommetLongbowarcher() {
+        super("Longbowman", 220, 10, "Hommet",
+                "Normans", 2500, 0, Material.BOW);
+
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -35,11 +34,11 @@ public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Longsword", null, null, 29.5);
+                ChatColor.GREEN + "Dagger", null, null, 29.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        ChatColor.GREEN + "Longsword",
+                        ChatColor.GREEN + "Dagger",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31.5),
                 0);
@@ -69,16 +68,6 @@ public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
         es.hotbar[2] = new ItemStack(Material.LADDER, 4);
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
-        // Horse
-        es.hotbar[3] = ItemCreator.item(new ItemStack(Material.WHEAT),
-                ChatColor.GREEN + "Spawn Horse", null, null);
-        HorseHandler.add(name, 800, 100, 1, 0.2025, 0.8,
-                Material.LEATHER_HORSE_ARMOR, Arrays.asList(
-                        new PotionEffect(PotionEffectType.JUMP, 999999, 1),
-                        new PotionEffect(PotionEffectType.REGENERATION, 999999, 0)
-                )
-        );
-
         // Arrows
         es.hotbar[4] = new ItemStack(Material.ARROW, 20);
 
@@ -86,15 +75,64 @@ public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
     }
 
     /**
-     * Set the arrow-damage of a ranged cavalry's arrows
+     * Set the arrow-damage of a Moria Orc's arrows
      * @param e The event called when a player is hit by an arrow
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            ((Arrow) e.getEntity()).setDamage(12);
+
+            Player p = (Player) e.getEntity().getShooter();
+            if (e.getHitEntity() == null) { return; }
+
+            Entity hit = e.getHitEntity();
+
+            Location shooterloc = hit.getLocation();
+            Location hitloc = hit.getLocation();
+
+            double distance = shooterloc.distance(hitloc);
+
+            if (distance <= 10) {
+                ((Arrow) e.getEntity()).setDamage(14);
+            }
+
+            if (distance <= 15) {
+                ((Arrow) e.getEntity()).setDamage(15);
+            }
+
+            if (distance <= 20) {
+                ((Arrow) e.getEntity()).setDamage(16);
+            }
+
+            if (distance <= 25) {
+                ((Arrow) e.getEntity()).setDamage(18);
+            }
+
+            if (distance <= 30) {
+                ((Arrow) e.getEntity()).setDamage(20);
+            }
+
+            if (distance <= 35) {
+                ((Arrow) e.getEntity()).setDamage(22);
+            }
+
+            if (distance <= 40) {
+                ((Arrow) e.getEntity()).setDamage(24);
+            }
+
+            if (distance <= 50) {
+                ((Arrow) e.getEntity()).setDamage(26);
+            }
+
+            if (distance <= 60) {
+                ((Arrow) e.getEntity()).setDamage(28);
+            }
+
+            if (distance <= 70) {
+                ((Arrow) e.getEntity()).setDamage(30);
+            }
         }
     }
 }

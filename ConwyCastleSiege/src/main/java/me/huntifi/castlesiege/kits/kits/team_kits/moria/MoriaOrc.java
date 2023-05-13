@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.team_kits;
+package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -101,7 +101,7 @@ public class MoriaOrc extends TeamKit implements Listener {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            ((Arrow) e.getEntity()).setDamage(11);
+            ((Arrow) e.getEntity()).setDamage(13);
         }
     }
 }

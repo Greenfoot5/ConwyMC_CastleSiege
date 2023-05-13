@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.team_kits;
+package me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -33,7 +33,7 @@ import java.util.UUID;
 public class HelmsDeepLancer extends TeamKit implements Listener {
 
     public HelmsDeepLancer() {
-        super("Lancer", 270, 0, "Helm's Deep", "Rohan", 5000, 10,
+        super("Lancer", 270, 9, "Helm's Deep", "Rohan", 5000, 0,
                 Material.STICK);
 
         // Equipment Stuff
@@ -152,9 +152,9 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
 
                 if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
                     if (damages.isInsideVehicle()) {
-                        arrow.setDamage(30);
+                        arrow.setDamage(80);
                     } else {
-                        arrow.setDamage(26);
+                        arrow.setDamage(50);
                     }
                 }
             }

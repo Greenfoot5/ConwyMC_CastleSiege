@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.team_kits;
+package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -38,24 +38,24 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
     public final ArrayList<Player> grabbed = new ArrayList<>();
 
     public MoriaCaveTroll() {
-        super("Moria Cave Troll", 600, 16, "Moria",
+        super("Moria Cave Troll", 800, 20, "Moria",
                 "The Orcs", 7500, 0, Material.POPPY);
         super.canClimb = false;
-        super.kbResistance = 0.5;
+        super.kbResistance = 0.8;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SHOVEL),
-                ChatColor.GREEN + "Troll Fist", null, null, 40);
+        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SHOVEL),
+                ChatColor.GREEN + "Troll Fist", null, null, 43);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.WOODEN_SHOVEL),
+                ItemCreator.weapon(new ItemStack(Material.STONE_SHOVEL),
                         ChatColor.GREEN + "Troll Fist",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 42),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 45),
                 0);
 
         // Ability

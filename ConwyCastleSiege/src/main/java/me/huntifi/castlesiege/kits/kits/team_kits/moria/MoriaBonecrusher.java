@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.team_kits;
+package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -38,13 +38,13 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.BONE),
-                ChatColor.GREEN + "Crushing Bone", null, null, 34);
+                ChatColor.GREEN + "Crushing Bone", null, null, 38);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.BONE),
                         ChatColor.GREEN + "Crushing Bone",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 36),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 40),
                 0);
 
         // Chestplate
@@ -113,8 +113,8 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
                             ChatColor.AQUA + "You have crushed & stunned " + NameTag.color(p) + p.getName()));
                     p.sendMessage(ChatColor.DARK_RED + "You have been crush-stunned by " + NameTag.color(q) + q.getName() + ChatColor.DARK_RED + "!");
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BONE_BLOCK_BREAK , 1, 1 );
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 80, 4)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 5)));
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 50, 6)));
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 5)));
                 }
             }
         }

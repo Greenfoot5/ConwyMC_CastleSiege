@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.team_kits;
+package me.huntifi.castlesiege.kits.kits.team_kits.firelands;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
