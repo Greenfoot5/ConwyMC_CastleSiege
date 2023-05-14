@@ -170,8 +170,18 @@ public class MapController {
 			case Charge:
 				// Check if the defenders have won
 				for (Flag flag : getCurrentMap().flags) {
-					if (flag.isActive() && Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].name)) {
-						winners = getCurrentMap().teams[0].name;
+					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].name)) {
+						if (flag.isActive()) {
+							winners = getCurrentMap().teams[0].name;
+						} else {
+							winners = getCurrentMap().teams[0].name;
+						}
+					} else {
+						if (flag.isActive()) {
+							winners = getCurrentMap().teams[1].name;
+						} else {
+							winners = getCurrentMap().teams[1].name;
+						}
 					}
 				}
 				break;
@@ -187,14 +197,17 @@ public class MapController {
 				}
 				// Get the team with the largest
 				String currentWinners = (String) flagCounts.keySet().toArray()[0];
+				winners = currentWinners;
 				for (String teamName : flagCounts.keySet()) {
 					if (flagCounts.get(teamName) > flagCounts.get(currentWinners)) {
 						winners = teamName;
 						currentWinners = teamName;
-					// If two teams are the largest, we set up for a draw
-					} else if (flagCounts.get(teamName).equals(flagCounts.get(currentWinners))) {
-						winners = null;
+						// If two teams are the largest, we set up for a draw
 					}
+
+					//else if (flagCounts.get(teamName).equals(flagCounts.get(currentWinners))) {
+						//winners = null;
+					//}
 				}
 				break;
 		}

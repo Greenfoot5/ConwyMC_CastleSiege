@@ -472,7 +472,7 @@ public class Rogue extends DonatorKit implements Listener {
                     arrow.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 0), true);
                     arrow.addCustomEffect(new PotionEffect(PotionEffectType.GLOWING, 1200, 0), true);
                     if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                        arrow.setDamage(10);
+                        arrow.setDamage(25);
                         ((Player) arrow.getShooter()).getInventory().addItem(comboPoint);
                     }
                 }
@@ -504,40 +504,40 @@ public class Rogue extends DonatorKit implements Listener {
             target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 0));
             target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 50, 0));
             damager.getInventory().getItem(6).setAmount(amount - 1);
-            healPlayer(damager, 20);
-            damage = 75;
+            healPlayer(damager, 100);
+            damage = 125;
         } else if (amount == 2) {
             AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 100);
             target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 4));
             target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
             target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 60, 0));
             damager.getInventory().getItem(6).setAmount(amount - 2);
-            healPlayer(damager, 40);
-            damage = 100;
+            healPlayer(damager, 125);
+            damage = 175;
         } else if (amount == 3) {
             AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 125);
             target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 70, 4));
             target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 50, 0));
             target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 70, 0));
             damager.getInventory().getItem(6).setAmount(amount - 3);
-            healPlayer(damager, 60);
-            damage = 125;
+            healPlayer(damager, 150);
+            damage = 215;
         } else if (amount == 4) {
             AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 175);
             target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80, 4));
             target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0));
             target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 80, 0));
             damager.getInventory().getItem(6).setAmount(amount - 4);
-            healPlayer(damager, 80);
-            damage = 175;
+            healPlayer(damager, 175);
+            damage = 250;
         } else if (amount >= 5) {
             target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 4));
             target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 70, 0));
             target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 0));
             AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 250);
             damager.getInventory().getItem(6).setAmount(amount - 5);
-            healPlayer(damager, 100);
-            damage = 250;
+            healPlayer(damager, 200);
+            damage = 300;
         }
 
         if ((target.getHealth() - damage > 0)) {
