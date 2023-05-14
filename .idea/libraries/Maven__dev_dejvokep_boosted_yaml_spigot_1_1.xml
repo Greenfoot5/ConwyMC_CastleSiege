@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: dev.dejvokep:boosted-yaml-spigot:1.1" type="java-imported" external-system-id="Maven">
+    <properties groupId="dev.dejvokep" artifactId="boosted-yaml-spigot" version="1.1" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/dev/dejvokep/boosted-yaml-spigot/1.1/boosted-yaml-spigot-1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/dev/dejvokep/boosted-yaml-spigot/1.1/boosted-yaml-spigot-1.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/dev/dejvokep/boosted-yaml-spigot/1.1/boosted-yaml-spigot-1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
