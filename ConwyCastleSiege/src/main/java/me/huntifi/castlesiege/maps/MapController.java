@@ -187,7 +187,6 @@ public class MapController {
 				}
 				// Get the team with the largest
 				String currentWinners = (String) flagCounts.keySet().toArray()[0];
-				winners = currentWinners;
 				for (String teamName : flagCounts.keySet()) {
 					if (flagCounts.get(teamName) > flagCounts.get(currentWinners)) {
 						winners = teamName;
