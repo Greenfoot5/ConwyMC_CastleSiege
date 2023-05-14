@@ -39,7 +39,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
 
     public MoriaCaveTroll() {
         super("Moria Cave Troll", 800, 20, "Moria",
-                "The Orcs", 7500, 0, Material.POPPY);
+                "The Orcs", 7500, Material.POPPY);
         super.canClimb = false;
         super.kbResistance = 0.8;
 

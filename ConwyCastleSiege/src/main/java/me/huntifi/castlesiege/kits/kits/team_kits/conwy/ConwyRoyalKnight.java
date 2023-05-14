@@ -20,7 +20,7 @@ public class ConwyRoyalKnight extends TeamKit {
 
     public ConwyRoyalKnight() {
         super("Royal Knight", 800, 5, "Conwy", "The English",
-                5000, 0, Material.DIAMOND_HORSE_ARMOR);
+                5000, Material.DIAMOND_HORSE_ARMOR);
 
 
         // Equipment Stuff

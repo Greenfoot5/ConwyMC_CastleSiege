@@ -30,9 +30,9 @@ public abstract class TeamKit extends DonatorKit {
      * @param playableTeam The team the kit can be played on
      * @param coins the amount of coins this kit costs
      */
-    public TeamKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins, double battlepoints,
-                   Material material) {
-        super(name, baseHealth, regenAmount, coins, battlepoints, material);
+    public TeamKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins
+                   ,Material material) {
+        super(name, baseHealth, regenAmount, coins, 0, material);
         team = playableTeam;
         map = playableMap;
 
@@ -83,4 +83,5 @@ public abstract class TeamKit extends DonatorKit {
     public static Collection<String> getKits() {
         return kits;
     }
+
 }

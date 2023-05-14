@@ -46,7 +46,7 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
 
     public FirelandsAbyssal() {
         super("Abyssal", 600, 9, "Firelands",
-                "Burning Legion", 5000, 0, Material.MAGMA_BLOCK);
+                "Burning Legion", 5000, Material.MAGMA_BLOCK);
         super.canCap = true;
         super.canClimb = false;
         super.canSeeHealth = true;
