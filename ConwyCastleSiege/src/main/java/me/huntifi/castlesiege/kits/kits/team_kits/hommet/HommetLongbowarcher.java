@@ -89,7 +89,7 @@ public class HommetLongbowarcher extends TeamKit implements Listener {
 
             Entity hit = e.getHitEntity();
 
-            Location shooterloc = hit.getLocation();
+            Location shooterloc = p.getLocation();
             Location hitloc = hit.getLocation();
 
             double distance = shooterloc.distance(hitloc);
@@ -118,18 +118,18 @@ public class HommetLongbowarcher extends TeamKit implements Listener {
             }
 
             if (distance <= 40 && distance >= 35) {
-                ((Arrow) e.getEntity()).setDamage(24);
-            }
-
-            if (distance <= 50 && distance >= 40) {
                 ((Arrow) e.getEntity()).setDamage(26);
             }
 
-            if (distance <= 60 && distance >= 50) {
-                ((Arrow) e.getEntity()).setDamage(28);
+            if (distance <= 50 && distance >= 40) {
+                ((Arrow) e.getEntity()).setDamage(30);
             }
 
-            if (distance <= 70 && distance >= 60) {
+            if (distance <= 60 && distance >= 50) {
+                ((Arrow) e.getEntity()).setDamage(34);
+            }
+
+            if (distance >= 70) {
                 ((Arrow) e.getEntity()).setDamage(40);
             }
         }
