@@ -116,6 +116,12 @@ commands:
     aliases: leavemsg
     permission: castlesiege.esquire
     permission-message: Only donators are permitted to use this command!
+  Firework:
+    description: Shoots a firework with your teams colour into the sky!
+    usage: /firework
+    aliases: fw
+    permission: castlesiege.esquire
+    permission-message: Only donators are permitted to use this command!
 
   # Gameplay
   Switch:
