@@ -63,6 +63,7 @@ import me.huntifi.castlesiege.kits.kits.donator_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
+import me.huntifi.castlesiege.kits.kits.in_development.Chef;
 import me.huntifi.castlesiege.kits.kits.in_development.Warbear;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyArbalester;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyLongbowman;

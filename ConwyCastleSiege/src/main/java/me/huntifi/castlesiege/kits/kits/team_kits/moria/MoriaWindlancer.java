@@ -129,7 +129,7 @@ public class MoriaWindlancer extends TeamKit implements Listener {
                 Player damages = (Player) arrow.getShooter();
 
                 if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                    arrow.setDamage(40);
+                    arrow.setDamage(20);
                 }
             }
         }
