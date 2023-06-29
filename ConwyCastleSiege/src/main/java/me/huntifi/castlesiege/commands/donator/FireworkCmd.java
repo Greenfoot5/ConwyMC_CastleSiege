@@ -32,10 +32,11 @@ public class FireworkCmd implements CommandExecutor {
         meta.setPower(4);
         FireworkEffect.Builder builder = FireworkEffect.builder();
         builder.withTrail().withFlicker().withFade(getColor(p), getColor2(p)).with(FireworkEffect.Type.BALL_LARGE);
+        builder.withColor(getColor(p), getColor2(p));
         meta.addEffect(builder.build());
         firework.setFireworkMeta(meta);
 
-        return false;
+        return true;
     }
 
     private Color getColor(Player p) {
