@@ -187,11 +187,11 @@ public class RankPoints implements CommandExecutor {
      * @return The corresponding non-pretty donator rank
      */
     public static String getRank(double rp) {
-        if (rp > 80) {
+        if (rp > 140) {
             return "duke";
-        } else if (rp > 60) {
+        } else if (rp > 100) {
             return "count";
-        } else if (rp > 40) {
+        } else if (rp > 60) {
             return "baron";
         } else if (rp > 20) {
             return "noble";
