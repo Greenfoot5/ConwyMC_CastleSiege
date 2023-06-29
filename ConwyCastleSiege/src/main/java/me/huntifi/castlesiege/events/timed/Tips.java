@@ -55,7 +55,11 @@ public class Tips extends BukkitRunnable {
             "Donators can set an unique leave and join message with /joinmsg and /leavemsg!",
             "Donators can switch teams whenever they want, no matter the amount of players!",
             "Looking for a change in pace? Try /random!",
-            "Want to try a kit before buying? Play on Fridays for free!"
+            "Want to try a kit before buying? Play on Fridays for free!",
+            "Did you know you can use /voteskip to vote to skip the current map?",
+            "Bored of playing alone? Try pinging @Fighter on the Discord server (join with /discord)",
+            "Want something more competitive? Join a Player Pool Match hosted on the Discord!",
+            "Check out the latest patch notes: https://conwymc.alchemix.dev/updates/castle-siege/latest"
     };
 
     // Sends a random tip to all players

@@ -64,8 +64,21 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.kits.kits.in_development.Warbear;
-import me.huntifi.castlesiege.kits.kits.team_kits.*;
+import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyArbalester;
+import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyLongbowman;
+import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyRoyalKnight;
+import me.huntifi.castlesiege.kits.kits.team_kits.firelands.FirelandsAbyssal;
+import me.huntifi.castlesiege.kits.kits.team_kits.firelands.FirelandsHellsteed;
+import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepBerserker;
+import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepLancer;
+import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepRangedCavalry;
+import me.huntifi.castlesiege.kits.kits.team_kits.hommet.HommetAxeman;
+import me.huntifi.castlesiege.kits.kits.team_kits.hommet.HommetLongbowarcher;
+import me.huntifi.castlesiege.kits.kits.team_kits.moria.*;
+import me.huntifi.castlesiege.kits.kits.team_kits.royalcrypts.CryptsFallen;
+import me.huntifi.castlesiege.kits.kits.team_kits.thunderstone.ThunderstoneElytrier;
 import me.huntifi.castlesiege.kits.kits.voter_kits.*;
+import me.huntifi.castlesiege.maps.Hommet.CollapseEvent;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
@@ -186,6 +199,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Gameplay
                 //getServer().getPluginManager().registerEvents(new ArcaneTower(), plugin);
+                getServer().getPluginManager().registerEvents(new CollapseEvent(), plugin);
                 getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new Explosion(), plugin);
                 getServer().getPluginManager().registerEvents(new LeaveMapBorder(), plugin);
@@ -201,14 +215,18 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
+                getServer().getPluginManager().registerEvents(new Chef(), plugin);
                 getServer().getPluginManager().registerEvents(new CryptsFallen(), plugin);
                 getServer().getPluginManager().registerEvents(new ConwyArbalester(), plugin);
+                getServer().getPluginManager().registerEvents(new ConwyLongbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Engineer(), plugin);
                 getServer().getPluginManager().registerEvents(new ThunderstoneElytrier(), plugin);
                 getServer().getPluginManager().registerEvents(new Executioner(), plugin);
                 getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
                 getServer().getPluginManager().registerEvents(new FirelandsAbyssal(), plugin);
                 getServer().getPluginManager().registerEvents(new FirelandsHellsteed(), plugin);
+                getServer().getPluginManager().registerEvents(new HommetAxeman(), plugin);
+                getServer().getPluginManager().registerEvents(new HommetLongbowarcher(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
                 getServer().getPluginManager().registerEvents(new HelmsDeepBerserker(), plugin);
                 getServer().getPluginManager().registerEvents(new HelmsDeepLancer(), plugin);
@@ -333,8 +351,10 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
                 Objects.requireNonNull(getCommand("ConwyArbalester")).setExecutor(new ConwyArbalester());
+                Objects.requireNonNull(getCommand("ConwyLongbowman")).setExecutor(new ConwyLongbowman());
                 Objects.requireNonNull(getCommand("ConwyRoyalKnight")).setExecutor(new ConwyRoyalKnight());
                 Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
+                Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
                 Objects.requireNonNull(getCommand("CryptsFallen")).setExecutor(new CryptsFallen());
                 Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
                 Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
@@ -347,6 +367,8 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("HelmsDeepBerserker")).setExecutor(new HelmsDeepBerserker());
                 Objects.requireNonNull(getCommand("HelmsDeepLancer")).setExecutor(new HelmsDeepLancer());
                 Objects.requireNonNull(getCommand("HelmsDeepRangedCavalry")).setExecutor(new HelmsDeepRangedCavalry());
+                Objects.requireNonNull(getCommand("HommetLongbowman")).setExecutor(new HommetLongbowarcher());
+                Objects.requireNonNull(getCommand("HommetAxeman")).setExecutor(new HommetAxeman());
                 Objects.requireNonNull(getCommand("Ladderman")).setExecutor(new Ladderman());
                 Objects.requireNonNull(getCommand("Maceman")).setExecutor(new Maceman());
                 Objects.requireNonNull(getCommand("Medic")).setExecutor(new Medic());
@@ -754,17 +776,18 @@ public class Main extends JavaPlugin implements Listener {
         gui.addCoinShopItem("Alchemist", Kit.getMaterial("Alchemist"), 0);
         gui.addCoinShopItem("Berserker", Kit.getMaterial("Berserker"), 1);
         gui.addCoinShopItem("Cavalry", Kit.getMaterial("Cavalry"), 2);
-        gui.addCoinShopItem("Crossbowman", Kit.getMaterial("Crossbowman"), 3);
-        gui.addCoinShopItem("Engineer", Kit.getMaterial("Engineer"), 4);
-        gui.addCoinShopItem("Executioner", Kit.getMaterial("Executioner"), 5);
-        gui.addCoinShopItem("Halberdier", Kit.getMaterial("Halberdier"), 6);
-        gui.addCoinShopItem("Maceman", Kit.getMaterial("Maceman"), 7);
-        gui.addCoinShopItem("Medic", Kit.getMaterial("Medic"), 8);
-        gui.addCoinShopItem("Ranger", Kit.getMaterial("Ranger"), 9);
-        gui.addCoinShopItem("Rogue", Kit.getMaterial("Rogue"), 10);
-        gui.addCoinShopItem("Vanguard", Kit.getMaterial("Vanguard"), 11);
-        gui.addCoinShopItem("Viking", Kit.getMaterial("Viking"), 12);
-        gui.addCoinShopItem("Warhound", Kit.getMaterial("Warhound"), 13);
+        gui.addCoinShopItem("Chef", Kit.getMaterial("Chef"), 3);
+        gui.addCoinShopItem("Crossbowman", Kit.getMaterial("Crossbowman"), 4);
+        gui.addCoinShopItem("Engineer", Kit.getMaterial("Engineer"), 5);
+        gui.addCoinShopItem("Executioner", Kit.getMaterial("Executioner"), 6);
+        gui.addCoinShopItem("Halberdier", Kit.getMaterial("Halberdier"), 7);
+        gui.addCoinShopItem("Maceman", Kit.getMaterial("Maceman"), 8);
+        gui.addCoinShopItem("Medic", Kit.getMaterial("Medic"), 9);
+        gui.addCoinShopItem("Ranger", Kit.getMaterial("Ranger"), 10);
+        gui.addCoinShopItem("Rogue", Kit.getMaterial("Rogue"), 11);
+        gui.addCoinShopItem("Vanguard", Kit.getMaterial("Vanguard"), 12);
+        gui.addCoinShopItem("Viking", Kit.getMaterial("Viking"), 13);
+        gui.addCoinShopItem("Warhound", Kit.getMaterial("Warhound"), 14);
 
         List<String> lore = new ArrayList<>();
         lore.add("/\\ Elite Kits /\\");
@@ -785,10 +808,11 @@ public class Main extends JavaPlugin implements Listener {
         gui.addCoinShopItem("UrukBerserker", Kit.getMaterial("UrukBerserker"), 35);
         gui.addCoinShopItem("Lancer", Kit.getMaterial("Lancer"), 36);
         gui.addCoinShopItem("RangedCavalry", Kit.getMaterial("RangedCavalry"), 37);
-        gui.addCoinShopItem("Abyssal", Kit.getMaterial("Abyssal"), 38);
-        gui.addCoinShopItem("Hellsteed", Kit.getMaterial("Hellsteed"), 39);
-        gui.addCoinShopItem("RoyalKnight", Kit.getMaterial("RoyalKnight"), 40);
-        gui.addCoinShopItem("Arbalester", Kit.getMaterial("Arbalester"), 41);
+        gui.addCoinShopItem("RoyalKnight", Kit.getMaterial("RoyalKnight"), 38);
+        gui.addCoinShopItem("Arbalester", Kit.getMaterial("Arbalester"), 39);
+        gui.addCoinShopItem("ConwyLongbowman", Kit.getMaterial("ConwyLongbowman"), 40);
+        gui.addCoinShopItem("Longbowman", Kit.getMaterial("Longbowman"), 41);
+        gui.addCoinShopItem("Axeman", Kit.getMaterial("Axeman"), 42);
 
         //gui.addItem("§4§lGo Back", Material.BARRIER, Collections.singletonList("§cReturn to the previous interface."), 45, "kit shop", true);
 

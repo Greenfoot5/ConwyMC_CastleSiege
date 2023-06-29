@@ -170,8 +170,18 @@ public class MapController {
 			case Charge:
 				// Check if the defenders have won
 				for (Flag flag : getCurrentMap().flags) {
-					if (flag.isActive() && Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].name)) {
-						winners = getCurrentMap().teams[0].name;
+					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].name)) {
+						if (flag.isActive()) {
+							winners = getCurrentMap().teams[0].name;
+						} else {
+							winners = getCurrentMap().teams[0].name;
+						}
+					} else {
+						if (flag.isActive()) {
+							winners = getCurrentMap().teams[1].name;
+						} else {
+							winners = getCurrentMap().teams[1].name;
+						}
 					}
 				}
 				break;
@@ -192,10 +202,12 @@ public class MapController {
 					if (flagCounts.get(teamName) > flagCounts.get(currentWinners)) {
 						winners = teamName;
 						currentWinners = teamName;
-					// If two teams are the largest, we set up for a draw
-					} else if (flagCounts.get(teamName).equals(flagCounts.get(currentWinners))) {
-						winners = null;
+						// If two teams are the largest, we set up for a draw
 					}
+
+					//else if (flagCounts.get(teamName).equals(flagCounts.get(currentWinners))) {
+						//winners = null;
+					//}
 				}
 				break;
 		}
@@ -546,7 +558,7 @@ public class MapController {
 	}
 
 	/**
-	 * Does any unloading needed for the a map
+	 * Does any unloading needed for the map
 	 * @param oldMap The map to unload
 	 */
 	public static void unloadMap(Map oldMap) {

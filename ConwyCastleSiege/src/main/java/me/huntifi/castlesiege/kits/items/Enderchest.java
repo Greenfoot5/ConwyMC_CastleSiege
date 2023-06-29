@@ -25,6 +25,8 @@ import java.util.UUID;
  */
 public class Enderchest implements Listener {
 
+	public static final int cooldownAmount = 400;
+
 	/** Tracks the players that are on cooldown. */
 	private static final ArrayList<UUID> cooldown = new ArrayList<>();
 
@@ -59,7 +61,7 @@ public class Enderchest implements Listener {
 			return false;
 
 		cooldown.add(uuid);
-		Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(uuid), 100);
+		Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(uuid), cooldownAmount);
 		return true;
 	}
 

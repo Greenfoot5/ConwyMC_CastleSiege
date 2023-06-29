@@ -27,7 +27,7 @@ import java.util.Objects;
 
 public class EatCake implements Listener {
 
-    public static final int CAKE_DURATION = 100;
+    public static final int CAKE_DURATION = 160;
     public static final int REGEN_AMPLIFIER = 12;
 
     /**

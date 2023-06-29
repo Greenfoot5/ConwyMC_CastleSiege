@@ -21,6 +21,7 @@ import java.util.UUID;
  */
 public class VoteSkipCommand implements CommandExecutor {
 
+    public static final double requiredVotePercentage = 0.6;
     private static final HashSet<UUID> votedPlayers = new HashSet<>();
 
     /**
@@ -124,6 +125,6 @@ public class VoteSkipCommand implements CommandExecutor {
             playerCount += team.getTeamSize();
         }
 
-        return (int) Math.ceil(playerCount * 0.6);
+        return (int) Math.ceil(playerCount * requiredVotePercentage);
     }
 }

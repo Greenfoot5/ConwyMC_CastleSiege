@@ -1,5 +1,11 @@
 package me.huntifi.castlesiege.tablist;
 
+import me.huntifi.castlesiege.Main;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+
 public class Tablist {
 	
 	/*private List<ChatComponentText> headers = new ArrayList<>();
@@ -73,6 +79,6 @@ public class Tablist {
 	private String format(String msg) {
 		
 		return ChatColor.translateAlternateColorCodes('&', msg);
-	}*/
+	} */
 
 }

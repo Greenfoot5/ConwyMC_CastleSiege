@@ -29,6 +29,13 @@ public class DamageBalance implements Listener {
 
         switch (e.getCause()) {
             // All damage types are listed, but can be changed later
+            case POISON:
+                e.setDamage(e.getDamage() * 8);
+                if (((Player) e.getEntity()).getHealth() <= e.getDamage())
+                {
+                    e.setDamage(((Player) e.getEntity()).getHealth() - 1);
+                }
+                break;
             case CONTACT:
             case DRAGON_BREATH:
             case DROWNING:
@@ -38,23 +45,16 @@ public class DamageBalance implements Listener {
             case LIGHTNING:
             case MAGIC:
             case MELTING:
-            case POISON:
-                e.setDamage(e.getDamage() * 8);
-                if (((Player) e.getEntity()).getHealth() <= e.getDamage())
-                {
-                    e.setDamage(((Player) e.getEntity()).getHealth() - 1);
-                }
-                break;
             case SUFFOCATION:
             case THORNS:
             case WITHER:
             case ENTITY_EXPLOSION:
-                e.setDamage(e.getDamage() * 11);
+                e.setDamage(e.getDamage() * 10);
                 break;
             case FIRE:
             case FIRE_TICK:
             case LAVA:
-                e.setDamage(e.getDamage() * 9.5);
+                e.setDamage(e.getDamage() * 11);
                 break;
         }
     }

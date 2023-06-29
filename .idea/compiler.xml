@@ -9,8 +9,5 @@
         <module name="CastleSiege" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="CastleSiege" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

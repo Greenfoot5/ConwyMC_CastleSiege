@@ -161,19 +161,19 @@ public class BountyCommand implements CommandExecutor {
         int amount = 0;
         switch (ActiveData.getData(killer.getUniqueId()).getKillStreak()) {
             case 5:
-                amount = 10;
-                break;
-            case 10:
                 amount = 20;
                 break;
-            case 15:
-                amount = 30;
-                break;
-            case 20:
+            case 10:
                 amount = 40;
                 break;
+            case 15:
+                amount = 60;
+                break;
+            case 20:
+                amount = 80;
+                break;
             case 35:
-                amount = 70;
+                amount = 140;
                 break;
         }
         if (amount > 0) {

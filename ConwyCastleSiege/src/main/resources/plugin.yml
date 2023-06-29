@@ -489,12 +489,18 @@ commands:
   Cavalry:
     description: Selects the cavalry kit
     usage: /cavalry
+  Chef:
+    description: Selects the chef kit
+    usage: /chef
   CryptsFallen:
     description: Selects the Fallen kit for Royal Crypts as Tomb Guardians
     usage: /cryptsfallen
   Crossbowman:
     description: Selects the crossbowman kit
     usage: /crossbowman
+  ConwyLongbowman:
+    description: Selects the Conwy longbowman kit for the Rebellion
+    usage: /ConwyLongbowman
   ConwyRoyalKnight:
     description: Selects the Conwy royal knight kit for the English
     usage: /conwyroyalknight
@@ -528,6 +534,12 @@ commands:
   HelmsdeepLancer:
     description: Selects the Lancer kit on Helm's Deep
     usage: /helmsdeeplancer
+  HommetLongbowman:
+    description: Selects the Longbowman kit on Hommet
+    usage: /HommetLongbowman
+  HommetAxeman:
+    description: Selects the Axeman kit on Hommet
+    usage: /HommetAxeman
   HelmsdeepRangedCavalry:
     description: Selects the Ranged Cavalry kit on Helm's Deep
     usage: /helmsdeeprangedcavalry
