@@ -39,36 +39,17 @@ public class FireworkCmd implements CommandExecutor {
     }
 
     private Color getColor(Player p) {
-        switch (TeamController.getTeam(p.getUniqueId()).primaryWool) {
-            case BLACK_WOOL:
-                return Color.BLACK;
-            case BLUE_WOOL:
-                return Color.BLUE;
-            case GRAY_WOOL:
-                return Color.GRAY;
-            case GREEN_WOOL:
-                return Color.GREEN;
-            case LIME_WOOL:
-                return Color.LIME;
-            case ORANGE_WOOL:
-                return Color.ORANGE;
-            case PURPLE_WOOL:
-                return Color.PURPLE;
-            case RED_WOOL:
-                return Color.RED;
-            case YELLOW_WOOL:
-                return Color.YELLOW;
-            default:
-                return Color.WHITE;
-        }
-    }
-
-    private Color getColor2(Player p) {
-        switch (TeamController.getTeam(p.getUniqueId()).secondaryChatColor) {
+        switch (TeamController.getTeam(p.getUniqueId()).primaryChatColor) {
             case BLACK:
+            case DARK_GRAY:
                 return Color.BLACK;
+            case DARK_AQUA:
+            case AQUA:
+                return Color.AQUA;
             case BLUE:
                 return Color.BLUE;
+            case DARK_BLUE:
+                return Color.NAVY;
             case GRAY:
                 return Color.GRAY;
             case DARK_GREEN:
@@ -81,6 +62,41 @@ public class FireworkCmd implements CommandExecutor {
                 return Color.PURPLE;
             case RED:
                 return Color.RED;
+            case DARK_RED:
+                return Color.MAROON;
+            case YELLOW:
+                return Color.YELLOW;
+            default:
+                return Color.WHITE;
+        }
+    }
+
+    private Color getColor2(Player p) {
+        switch (TeamController.getTeam(p.getUniqueId()).secondaryChatColor) {
+            case BLACK:
+            case DARK_GRAY:
+                return Color.BLACK;
+            case DARK_AQUA:
+            case AQUA:
+                return Color.AQUA;
+            case BLUE:
+                return Color.BLUE;
+            case DARK_BLUE:
+                return Color.NAVY;
+            case GRAY:
+                return Color.GRAY;
+            case DARK_GREEN:
+                return Color.GREEN;
+            case GREEN:
+                return Color.LIME;
+            case GOLD:
+                return Color.ORANGE;
+            case DARK_PURPLE:
+                return Color.PURPLE;
+            case RED:
+                return Color.RED;
+            case DARK_RED:
+                return Color.MAROON;
             case YELLOW:
                 return Color.YELLOW;
             default:
