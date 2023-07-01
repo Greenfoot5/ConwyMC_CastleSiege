@@ -17,6 +17,9 @@ public class Tips extends BukkitRunnable {
 
     // Quick and dirty, needs to be expanded to allow for conditions and be read from a yml
     private static final String[] tips = new String[] {
+            "Boosters affect everyone on the server!",
+            "Alchemists can give you many varieties of boosts and also heal you!",
+            "Donators can launch some neat fireworks using /firework or /fw",
             "Don't forget to vote to gain access to special boosts and classes!",
             "Stuck somewhere, or have no way out? Use /sui",
             "Want to help the server? Record or stream the play sessions and upload them!",
@@ -55,7 +58,7 @@ public class Tips extends BukkitRunnable {
             "Donators can set an unique leave and join message with /joinmsg and /leavemsg!",
             "Donators can switch teams whenever they want, no matter the amount of players!",
             "Looking for a change in pace? Try /random!",
-            "Want to try a kit before buying? Play on Fridays for free!",
+            "Want to try a kit before buying? Play on Fridays for free or buy a kit booster!",
             "Did you know you can use /voteskip to vote to skip the current map?",
             "Bored of playing alone? Try pinging @Fighter on the Discord server (join with /discord)",
             "Want something more competitive? Join a Player Pool Match hosted on the Discord!",
