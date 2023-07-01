@@ -108,7 +108,7 @@ public class Scoreboard implements Runnable {
 			org.bukkit.scoreboard.Scoreboard score = online.getScoreboard();
 
 			// Title/display name of the scoreboard
-			String displayName = ChatColor.RED + "" + ChatColor.BOLD + "Castle Siege";
+			String displayName = ChatColor.DARK_RED + "" + ChatColor.BOLD + "Mode: " + ChatColor.RED + "" + ChatColor.BOLD + MapController.getCurrentMap().gamemode;
 
 			// If there isn't an object by the name of the player on the scoreboard,
 			// Create a new one

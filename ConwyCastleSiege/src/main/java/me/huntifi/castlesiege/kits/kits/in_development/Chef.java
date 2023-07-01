@@ -440,6 +440,10 @@ public class Chef extends DonatorKit implements Listener {
      */
     @EventHandler
     public void useFood(PlayerInteractEntityEvent e) {
+        //Check if the hit entity is a player, otherwise do nothing.
+        if (!(e.getRightClicked() instanceof Player)) {
+            return;
+        }
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         ItemStack food = p.getInventory().getItemInMainHand();

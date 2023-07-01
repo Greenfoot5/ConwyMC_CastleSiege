@@ -2,6 +2,8 @@ package me.huntifi.castlesiege.kits.kits.donator_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
@@ -20,17 +22,22 @@ import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * The warhound kit
@@ -52,12 +59,27 @@ public class Warhound extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
-                ChatColor.RED + "Fangs", null, null, 28);
+                ChatColor.RED + "Fangs " + ChatColor.GRAY + "(Right Click)", Arrays.asList("",
+                        ChatColor.GRAY + "Warhound main ability",
+                        ChatColor.WHITE + "",
+                        ChatColor.WHITE + "Description:",
+                        ChatColor.RED + "Immobilise your enemies, making them",
+                        ChatColor.RED + "slow and also you for a short period of time and",
+                        ChatColor.RED + "you can also slow down horses.",
+                        ChatColor.RED + "Has a 12 second cooldown."), null, 20);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
-                        ChatColor.RED + "Fangs",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        ChatColor.RED + "Fangs" + ChatColor.GRAY + "(Right Click)",
+                        Arrays.asList("",
+                                ChatColor.GRAY + "Warhound main ability",
+                                ChatColor.WHITE + "",
+                                ChatColor.WHITE + "Description:",
+                                ChatColor.RED + "Immobilise your enemies, making them",
+                                ChatColor.RED + "slow and also you for a short period of time and",
+                                ChatColor.RED + "you can also slow down horses.",
+                                ChatColor.RED + "Has a 12 second cooldown.",
+                                ChatColor.AQUA + "+2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 30),
                 0);
 
@@ -91,22 +113,75 @@ public class Warhound extends DonatorKit implements Listener {
     }
 
     /**
-     * Cause withering damage to the bitten opponent and try to activate the stun ability
+     * Cause slowness to the bitten enemy
      * @param e The event called when hitting another player
      */
     @EventHandler
     public void onBite(EntityDamageByEntityEvent e) {
-        if (e.isCancelled() ||
-                !(e.getEntity() instanceof Player && e.getDamager() instanceof Player)) {
+        if (e.isCancelled() || e.getDamager() instanceof Player) {
             return;
         }
+
         Player p = (Player) e.getEntity();
         Player q = (Player) e.getDamager();
 
         // Warhound bit enemy player
+        if (e.getEntity() instanceof Player) {
         if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name)) {
-            p.addPotionEffect((new PotionEffect(PotionEffectType.WITHER, 5, 3)));
-            stun(p, q);
+            p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 20, 0)));
+         }
+        }
+
+        //Stuns the horse which the warhound hits.
+        if (e.getEntity() instanceof Horse) {
+            Horse h = (Horse) e.getEntity();
+            Player horseOwner = (Player) h.getOwner();
+            assert horseOwner != null;
+            if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
+                h.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 20, 1)));
+            }
+        }
+    }
+
+    /**
+     *
+     * @param e Warhound's new immobilise ability
+     */
+    @EventHandler
+    public void onImmobilise(PlayerInteractEntityEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+
+            //Stuns the horse which the warhound hits.
+            if (e.getRightClicked() instanceof Horse) {
+                Horse h = (Horse) e.getRightClicked();
+                Player horseOwner = (Player) h.getOwner();
+                assert horseOwner != null;
+                if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
+                    immobiliseHorse(h, p);
+                }
+            }
+
+            //Check if the hit entity is a player, otherwise do nothing.
+            if (!(e.getRightClicked() instanceof Player)) {
+                return;
+            }
+
+            //The player who is being right-clicked on by the Warhound.
+            Player q = (Player) e.getRightClicked();
+
+            // Prevent using in lobby
+            if (InCombat.isPlayerInLobby(uuid)) {
+                return;
+            }
+
+            //Check if the players are not on the same team, if true then perform the stun.
+            if (TeamController.getTeam(q.getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
+                immobilise(q, p);
+            }
+
         }
     }
 
@@ -115,7 +190,7 @@ public class Warhound extends DonatorKit implements Listener {
      * @param p The opponent
      * @param q The warhound
      */
-    private void stun(Player p, Player q) {
+    private void immobilise(Player p, Player q) {
         if (q.getInventory().getItemInMainHand().getType() == Material.GHAST_TEAR &&
                 q.getCooldown(Material.GHAST_TEAR) == 0) {
 
@@ -145,6 +220,32 @@ public class Warhound extends DonatorKit implements Listener {
                     p.setWalkSpeed(0.2f);
                 }
             }.runTaskLater(Main.plugin, 80);
+
+            UpdateStats.addSupports(p.getUniqueId(), 2);
+        }
+    }
+
+    /**
+     * Activate the warhound's stun ability, immobilizing the opponent and slowing the warhound
+     * @param h The opponent's horse
+     * @param q The warhound
+     */
+    private void immobiliseHorse(Horse h, Player q) {
+        if (q.getInventory().getItemInMainHand().getType() == Material.GHAST_TEAR &&
+                q.getCooldown(Material.GHAST_TEAR) == 0) {
+
+            // Activate stun
+            q.setCooldown(Material.GHAST_TEAR, 240);
+            q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                    ChatColor.AQUA + "You immobilised " + Objects.requireNonNull(h.getOwner()).getName() + ChatColor.AQUA + "'s horse."));
+            h.getWorld().playSound(h.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 1 );
+
+            // Apply potion effects
+            q.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 2)));
+            h.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 100, 3)));
+
+            UpdateStats.addSupports(q.getUniqueId(), 2);
+
         }
     }
 
