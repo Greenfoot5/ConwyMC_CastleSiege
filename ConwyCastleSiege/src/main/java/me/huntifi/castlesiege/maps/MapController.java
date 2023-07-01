@@ -25,7 +25,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;

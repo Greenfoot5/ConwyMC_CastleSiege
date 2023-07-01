@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MVPStats;
@@ -7,6 +8,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerBedEnterEvent;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,7 +19,7 @@ import java.util.UUID;
 /**
  * Represents a team on a map
  */
-public class Team {
+public class Team implements Listener {
     // Basic Details
     public final String name;
     private ArrayList<UUID> players;
@@ -28,6 +32,18 @@ public class Team {
     public ChatColor primaryChatColor;
     public ChatColor secondaryChatColor;
 
+    @EventHandler
+    public void onEnterBed(PlayerBedEnterEvent event) {
+        Player player = event.getPlayer();
+        if (event.getBedEnterResult().equals(PlayerBedEnterEvent.BedEnterResult.NOT_POSSIBLE_NOW)) {
+            event.useBed();
+            player.setBedSpawnLocation(lobby.spawnPoint, true);
+        } else {
+            event.useBed();
+            player.setBedSpawnLocation(lobby.spawnPoint, true);
+        }
+    }
+
     /**
      * Creates a new team
      * @param name The name of the team
@@ -35,6 +51,7 @@ public class Team {
     public Team(String name) {
         this.name = name;
         players = new ArrayList<>();
+        Bukkit.getPluginManager().registerEvents(this, Main.plugin);
     }
 
 
