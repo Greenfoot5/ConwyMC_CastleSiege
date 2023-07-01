@@ -1,10 +1,14 @@
 package me.huntifi.castlesiege.commands.donator;
 
+import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,29 +16,46 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class FireworkCmd implements CommandExecutor {
+
+    private ArrayList<Player> fireworkUsers = new ArrayList<>();
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage("Console cannot set their leave message!");
             return true;
         }
-
         Player p = (Player) sender;
 
-        Firework firework = Objects.requireNonNull(p.getLocation().getWorld()).spawn(p.getLocation(), Firework.class);
-        FireworkMeta meta = firework.getFireworkMeta();
+        if (fireworkUsers.contains(p)) {
+            sender.sendMessage(ChatColor.DARK_RED + "You have to wait until you can use this again. (6s cooldown)");
+            return true;
+        }
 
-        meta.setPower(4);
-        FireworkEffect.Builder builder = FireworkEffect.builder();
-        builder.withTrail().withFlicker().withFade(getColor(p), getColor2(p)).with(FireworkEffect.Type.BALL_LARGE);
-        builder.withColor(getColor(p), getColor2(p));
-        meta.addEffect(builder.build());
-        firework.setFireworkMeta(meta);
+
+        //Three rockets are shot from the player's location.
+        spawnFirework(p);
+        spawnFirework(p);
+        spawnFirework(p);
+        fireworkUsers.add(p);
+
+        //After 6 seconds removes the player from the firework users list. Then afterwards they can use the command again.
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                 fireworkUsers.remove(p);
+            }
+        }.runTaskLater(Main.plugin, 120);
 
         return true;
     }
@@ -103,6 +124,22 @@ public class FireworkCmd implements CommandExecutor {
             default:
                 return Color.WHITE;
         }
+    }
+
+    /**
+     *
+     * @param p the player to launch the rocket at.
+     */
+    public void spawnFirework(Player p) {
+        Firework firework = Objects.requireNonNull(p.getLocation().getWorld()).spawn(p.getLocation(), Firework.class);
+        FireworkMeta meta = firework.getFireworkMeta();
+
+        meta.setPower(4);
+        FireworkEffect.Builder builder = FireworkEffect.builder();
+        builder.withTrail().withFlicker().withFade(getColor(p), getColor2(p)).with(FireworkEffect.Type.BALL_LARGE);
+        builder.withColor(getColor(p), getColor2(p));
+        meta.addEffect(builder.build());
+        firework.setFireworkMeta(meta);
     }
 }
 
