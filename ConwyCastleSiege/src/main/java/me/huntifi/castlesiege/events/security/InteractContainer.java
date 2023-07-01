@@ -17,7 +17,7 @@ import java.util.Collection;
 public class InteractContainer implements Listener {
 
     // A collection of all blocks that cannot be interacted with
-    private static final Collection<Material> bannedBlocks = Arrays.asList(Material.ANVIL, Material.BELL, Material.CARTOGRAPHY_TABLE,
+    private static final Collection<Material> bannedBlocks = Arrays.asList(Material.ANVIL, Material.CARTOGRAPHY_TABLE,
             Material.CHIPPED_ANVIL, Material.CRAFTING_TABLE, Material.DAMAGED_ANVIL,
             Material.DAYLIGHT_DETECTOR, Material.ENCHANTING_TABLE, Material.ENDER_CHEST,
             Material.FLETCHING_TABLE, Material.FLOWER_POT, Material.GRINDSTONE,
