@@ -888,19 +888,19 @@ public class Main extends JavaPlugin implements Listener {
             Flag flag;
             switch (map.gamemode) {
                 case Charge:
-                    ChargeFlag chargeFlag = new ChargeFlag(
+                    flag = new ChargeFlag(
                             flagConfig.getString(flagRoute.add("name")),
                             flagConfig.getBoolean(flagRoute.add("secret"), false),
                             flagConfig.getString(flagRoute.add("start_owners")),
                             maxCap,
                             flagConfig.getInt(flagRoute.add("progress_amount")),
                             flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
+                    ).setChargeValues(
+                            getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig),
+                            getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig),
+                            flagConfig.getInt(flagRoute.add("add_secs"), 0),
+                            flagConfig.getInt(flagRoute.add("add_mins"), 0)
                     );
-                    chargeFlag.setAttackersSpawnPoint(getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig));
-                    chargeFlag.setDefendersSpawnPoint(getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig));
-                    chargeFlag.additionalSeconds = flagConfig.getInt(flagRoute.add("add_secs"), 0);
-                    chargeFlag.additionalMinutes = flagConfig.getInt(flagRoute.add("add_mins"), 0);
-                    flag = chargeFlag;
                     break;
                 default:
                     flag = new Flag(

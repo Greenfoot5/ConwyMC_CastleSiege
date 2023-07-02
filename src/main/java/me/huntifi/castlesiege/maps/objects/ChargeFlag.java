@@ -39,6 +39,14 @@ public class ChargeFlag extends Flag{
         this.startingTeam = startingTeam;
     }
 
+    public ChargeFlag setChargeValues(Location attackersSpawnPoint, Location defendersSpawnPoint, int additionalMinutes, int additionalSeconds) {
+        this.attackersSpawnPoint = attackersSpawnPoint;
+        this.defendersSpawnPoint = defendersSpawnPoint;
+        this.additionalMinutes = additionalMinutes;
+        this.additionalSeconds = additionalSeconds;
+        return this;
+    }
+
     /**
      * Sets the spawn point for the attackers
      * @param location The new spawn point
@@ -61,8 +69,7 @@ public class ChargeFlag extends Flag{
      * @return The spawn location for the team
      */
     public Location getSpawnPoint(String teamName) {
-        if (Objects.equals(teamName, startingTeam) && defendersSpawnPoint != null)
-        {
+        if (Objects.equals(teamName, startingTeam) && defendersSpawnPoint != null) {
             return defendersSpawnPoint;
         }
         if (!Objects.equals(teamName, startingTeam) && attackersSpawnPoint != null) {
