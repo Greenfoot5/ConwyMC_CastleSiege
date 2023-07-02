@@ -896,8 +896,8 @@ public class Main extends JavaPlugin implements Listener {
                             flagConfig.getInt(flagRoute.add("progress_amount")),
                             flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
                     );
-                    chargeFlag.setAttackersSpawnPoint(getLocation(flagRoute.add("attacker_spawn_point"), map.worldName, flagConfig));
-                    chargeFlag.setDefendersSpawnPoint(getLocation(flagRoute.add("defender_spawn_point"), map.worldName, flagConfig));
+                    chargeFlag.setAttackersSpawnPoint(getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig));
+                    chargeFlag.setDefendersSpawnPoint(getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig));
                     chargeFlag.additionalSeconds = flagConfig.getInt(flagRoute.add("add_secs"), 0);
                     chargeFlag.additionalMinutes = flagConfig.getInt(flagRoute.add("add_mins"), 0);
                     flag = chargeFlag;

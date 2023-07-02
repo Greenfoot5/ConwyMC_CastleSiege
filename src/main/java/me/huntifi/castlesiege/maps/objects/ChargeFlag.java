@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
 import java.util.Objects;
@@ -113,12 +114,11 @@ public class ChargeFlag extends Flag{
         }
         super.captureFlag();
         if (animationIndex == maxCap) {
-            Tuple<Integer, Integer> duration = MapController.getCurrentMap().duration;
-            MapController.getCurrentMap().duration = new Tuple<>(duration.getFirst() + additionalMinutes, duration.getSecond() + additionalSeconds);
-            Messenger.broadcastInfo(name + " has been fully captured and can no longer by retaken by " + startingTeam);
+            Messenger.broadcastInfo(MapController.getCurrentMap().getTeam(currentOwners).primaryChatColor + name + ChatColor.BLUE + " has been fully captured and can no longer be retaken by " + MapController.getCurrentMap().getTeam(startingTeam).primaryChatColor + startingTeam);
             if (additionalMinutes > 0 || additionalSeconds > 0) {
                 Messenger.broadcastInfo(additionalMinutes + " minutes and " + additionalSeconds + " seconds have been added to the clock!");
-
+                MapController.timer.seconds += additionalSeconds;
+                MapController.timer.minutes += additionalMinutes;
             }
         }
     }
