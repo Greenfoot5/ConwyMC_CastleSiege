@@ -159,7 +159,6 @@ public class Scoreboard implements Runnable {
 				DecimalFormat num = new DecimalFormat("0");
 				PlayerData data = MVPStats.getStats(online.getUniqueId());
 
-				replaceScore(objective, 11, ChatColor.DARK_AQUA + "Battlepoints: " + ChatColor.WHITE + num.format(data.getBattlepoints()));
 				replaceScore(objective, 10, ChatColor.WHITE + "Score: " + ChatColor.WHITE + num.format(data.getScore()));
 				replaceScore(objective, 9, ChatColor.GREEN + "Kills: " + ChatColor.WHITE + num.format(data.getKills()));
 				replaceScore(objective, 8, ChatColor.RED + "Deaths: " + ChatColor.WHITE + num.format(data.getDeaths()));
