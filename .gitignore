@@ -1,4 +1,6 @@
 [Tt]arget/
-ConwyCastleSiege/.idea/
-*/.idea/
-ConwyCastleSiege/bin/
+.idea/
+bin/
+.classpath
+.project
+.settings/
