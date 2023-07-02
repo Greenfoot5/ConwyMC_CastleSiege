@@ -64,7 +64,7 @@ public class SpectateCommand implements CommandExecutor {
             spectators.add(player.getUniqueId());
             player.setGameMode(GameMode.SPECTATOR);
             if (InCombat.isPlayerInLobby(player.getUniqueId())) {
-                player.teleport(MapController.getCurrentMap().flags[0].spawnPoint);
+                player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
             }
             NameTag.give(player);
         }

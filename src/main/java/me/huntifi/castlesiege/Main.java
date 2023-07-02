@@ -192,7 +192,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new TeamCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new DamageBalance(), plugin);
                 getServer().getPluginManager().registerEvents(new EatCake(), plugin);
-                getServer().getPluginManager().registerEvents(new EnterBed(), plugin);
 
                 // Death
                 getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
@@ -886,17 +885,37 @@ public class Main extends JavaPlugin implements Listener {
             // Create the flag
             Route flagRoute = mapRoute.add(flagPaths[i]);
             int maxCap = flagConfig.getInt(flagRoute.add("max_cap"));
-            Flag flag = new Flag(
-                    flagConfig.getString(flagRoute.add("name")),
-                    flagConfig.getBoolean(flagRoute.add("secret"), false),
-                    flagConfig.getString(flagRoute.add("start_owners")),
-                    maxCap,
-                    flagConfig.getInt(flagRoute.add("progress_amount")),
-                    flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
-            );
+            Flag flag;
+            switch (map.gamemode) {
+                case Charge:
+                    flag = new ChargeFlag(
+                            flagConfig.getString(flagRoute.add("name")),
+                            flagConfig.getBoolean(flagRoute.add("secret"), false),
+                            flagConfig.getString(flagRoute.add("start_owners")),
+                            maxCap,
+                            flagConfig.getInt(flagRoute.add("progress_amount")),
+                            flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
+                    ).setChargeValues(
+                            getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig),
+                            getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig),
+                            flagConfig.getInt(flagRoute.add("add_secs"), 0),
+                            flagConfig.getInt(flagRoute.add("add_mins"), 0)
+                    );
+                    break;
+                default:
+                    flag = new Flag(
+                            flagConfig.getString(flagRoute.add("name")),
+                            flagConfig.getBoolean(flagRoute.add("secret"), false),
+                            flagConfig.getString(flagRoute.add("start_owners")),
+                            maxCap,
+                            flagConfig.getInt(flagRoute.add("progress_amount")),
+                            flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
+                    );
+                    break;
+            }
 
             // Set the spawn point
-            flag.spawnPoint = getLocation(flagRoute.add("spawn_point"), map.worldName, flagConfig);
+            flag.setSpawnPoint(getLocation(flagRoute.add("spawn_point"), map.worldName, flagConfig));
 
             //Hologram Location
             flag.holoLoc = getLocation(flagRoute.add("hologram_location"), map.worldName, flagConfig);
@@ -1213,6 +1232,10 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private Location getLocation(Route locationPath, String worldName, YamlDocument config) {
+        if (!config.contains(locationPath)) {
+            return null;
+        }
+
         int x = config.getInt(locationPath.add("x"));
         int y = config.getInt(locationPath.add("y"));
         int z = config.getInt(locationPath.add("z"));
