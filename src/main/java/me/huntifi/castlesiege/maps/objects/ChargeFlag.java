@@ -115,6 +115,11 @@ public class ChargeFlag extends Flag{
         if (animationIndex == maxCap) {
             Tuple<Integer, Integer> duration = MapController.getCurrentMap().duration;
             MapController.getCurrentMap().duration = new Tuple<>(duration.getFirst() + additionalMinutes, duration.getSecond() + additionalSeconds);
+            Messenger.broadcastInfo(name + " has been fully captured and can no longer by retaken by " + startingTeam);
+            if (additionalMinutes > 0 || additionalSeconds > 0) {
+                Messenger.broadcastInfo(additionalMinutes + " minutes and " + additionalSeconds + " seconds have been added to the clock!");
+
+            }
         }
     }
 }
