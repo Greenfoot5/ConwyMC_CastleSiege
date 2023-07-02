@@ -6,11 +6,14 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MVPStats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -32,15 +35,14 @@ public class Team implements Listener {
     public ChatColor primaryChatColor;
     public ChatColor secondaryChatColor;
 
+    //Prevents players from spawning at their bed when they sleep in a bad.
     @EventHandler
     public void onEnterBed(PlayerBedEnterEvent event) {
         Player player = event.getPlayer();
-        if (event.getBedEnterResult().equals(PlayerBedEnterEvent.BedEnterResult.NOT_POSSIBLE_NOW)) {
-            event.useBed();
-            player.setBedSpawnLocation(lobby.spawnPoint, true);
-        } else {
-            event.useBed();
-            player.setBedSpawnLocation(lobby.spawnPoint, true);
+        event.useBed();
+        if (this.hasPlayer(event.getPlayer().getUniqueId())) {
+            player.addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 120, 6)));
+            player.setBedSpawnLocation(this.lobby.spawnPoint, true);
         }
     }
 
