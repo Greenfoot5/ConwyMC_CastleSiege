@@ -106,10 +106,10 @@ public class Engineer extends DonatorKit implements Listener {
         es.hotbar[3] = new ItemStack(Material.COBWEB, 16);
 
         // Wood
-        es.hotbar[4] = new ItemStack(Material.OAK_PLANKS, 16);
+        es.hotbar[4] = new ItemStack(Material.OAK_PLANKS, 20);
 
         // Stone
-        es.hotbar[5] = new ItemStack(Material.COBBLESTONE, 16);
+        es.hotbar[5] = new ItemStack(Material.COBBLESTONE, 20);
 
         super.equipment = es;
 

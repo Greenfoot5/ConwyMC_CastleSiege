@@ -42,13 +42,13 @@ public class Executioner extends DonatorKit implements Listener {
                 
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-				ChatColor.GREEN + "Diamond Axe", null, null, 54);
+				ChatColor.GREEN + "Diamond Axe", null, null, 48);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
 						ChatColor.GREEN + "Diamond Axe",
 						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 56),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 50),
 				0);
                 
 		// Chestplate

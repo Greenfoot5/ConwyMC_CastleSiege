@@ -59,7 +59,7 @@ public abstract class DonatorKit extends Kit {
                 }
             }
             return false;
-        } else if (!hasBP && !isFree()) {
+        } else if (!hasBP && !isFree() && !TeamKit.getKits().contains(name.replaceAll(" ", ""))) {
             if (verbose) {
                 Player p = Bukkit.getPlayer(uuid);
                 Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", p);

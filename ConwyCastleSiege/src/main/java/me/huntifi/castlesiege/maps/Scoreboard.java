@@ -128,7 +128,7 @@ public class Scoreboard implements Runnable {
 				PlayerData data = ActiveData.getData(online.getUniqueId());
 				// Setup timer display
 				replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText());
-				replaceScore(objective, 13, ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Battlepoints: " + ChatColor.AQUA + dec.format(data.getBattlepoints()));
+				replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + "Battlepoints: " + ChatColor.WHITE + dec.format(data.getBattlepoints()));
 				replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
 
 			} else if (ActiveData.getData(online.getUniqueId()).getSetting("showBattlepoints").equals("false")){
