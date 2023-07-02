@@ -64,7 +64,7 @@ public class WoolMapBlock {
                     // Set kit items
                     Kit.equippedKits.get(uuid).setItems(uuid);
                     // Spawn player
-                    player.teleport(flag.spawnPoint);
+                    player.teleport(flag.getSpawnPoint(team.name));
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                             TextComponent.fromLegacyText(flag.getSpawnMessage()));
                     // Remove mount
