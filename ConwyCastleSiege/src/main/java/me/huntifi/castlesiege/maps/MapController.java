@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.data_types.*;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
+import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -257,6 +258,11 @@ public class MapController {
 				for (String message : MVPCommand.getMVPMessage(team)) {
 					Bukkit.broadcastMessage(message);
 				}
+
+				if (team.name.equals(winners)) {
+					giveCoinReward(team);
+				}
+
 			}
 		// The map was a draw
 		} else {
@@ -283,6 +289,21 @@ public class MapController {
 			}
 		}.runTaskLater(Main.plugin, 150);
 
+	}
+
+	/**
+	 * Gives a 50 coins reward for winning the game, is also affected by coin boosters.
+	 */
+	public static void giveCoinReward(Team team) {
+
+		for (UUID uuid : team.getPlayers()) {
+			Player p = Bukkit.getPlayer(uuid);
+			if (Bukkit.getOnlinePlayers().size() >= 6) {
+				assert p != null;
+				ActiveData.getData(p.getUniqueId()).addCoins(50 * PlayerData.getCoinMultiplier());
+				p.sendMessage(ChatColor.GOLD + "(" + ChatColor.YELLOW + "+" + (50 * PlayerData.getCoinMultiplier()) + " coins for winning" + ChatColor.GOLD + ")");
+			}
+		}
 	}
 
 	/**
