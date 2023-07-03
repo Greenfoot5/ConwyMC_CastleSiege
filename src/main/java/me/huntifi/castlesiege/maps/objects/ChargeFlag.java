@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.maps.objects;
 
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
@@ -39,6 +38,13 @@ public class ChargeFlag extends Flag{
         this.startingTeam = startingTeam;
     }
 
+    /**
+     * @param attackersSpawnPoint the spawn point for the attackers
+     * @param defendersSpawnPoint the spawn point for the defenders
+     * @param additionalMinutes   additional Minutes to add when the flag is fully captured
+     * @param additionalSeconds   additional Seconds to add when the flag is fully captured
+     * @return A ChargeFlag with the values set
+     */
     public ChargeFlag setChargeValues(Location attackersSpawnPoint, Location defendersSpawnPoint, int additionalMinutes, int additionalSeconds) {
         this.attackersSpawnPoint = attackersSpawnPoint;
         this.defendersSpawnPoint = defendersSpawnPoint;
@@ -120,7 +126,7 @@ public class ChargeFlag extends Flag{
             }
         }
         super.captureFlag();
-        if (animationIndex == maxCap) {
+        if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam)) {
             Messenger.broadcastInfo(MapController.getCurrentMap().getTeam(currentOwners).primaryChatColor + name + ChatColor.BLUE + " has been fully captured and can no longer be retaken by " + MapController.getCurrentMap().getTeam(startingTeam).primaryChatColor + startingTeam);
             if (additionalMinutes > 0 || additionalSeconds > 0) {
                 Messenger.broadcastInfo(additionalMinutes + " minutes and " + additionalSeconds + " seconds have been added to the clock!");
