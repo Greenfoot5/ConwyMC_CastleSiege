@@ -900,8 +900,8 @@ public class Main extends JavaPlugin implements Listener {
                     ).setChargeValues(
                             getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig),
                             getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig),
-                            flagConfig.getInt(flagRoute.add("add_secs"), 0),
-                            flagConfig.getInt(flagRoute.add("add_mins"), 0)
+                            flagConfig.getInt(flagRoute.add("add_mins"), 0),
+                            flagConfig.getInt(flagRoute.add("add_secs"), 0)
                     );
                     break;
                 default:
