@@ -8,7 +8,6 @@ import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -23,7 +22,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -33,23 +35,23 @@ public class Flag {
     public final String name;
 
     // Location Data
-    public Location spawnPoint;
-    private final List<UUID> players;
+    protected Location spawnPoint;
+    protected final List<UUID> players;
     public ProtectedRegion region;
 
     // Game Data
-    private boolean active;
-    private String currentOwners;
-    private final int maxCap;
-    private final int progressAmount;
-    private int progress;
+    protected boolean active;
+    protected String currentOwners;
+    protected final int maxCap;
+    protected final int progressAmount;
+    protected int progress;
     // Progresses needed per animationIndex
-    private final static int progressMultiplier = 100;
+    protected final static int progressMultiplier = 100;
     // Multiplier for multiple people
     public final static double capMultiplier = 2;
 
     // Capturing data
-    private final AtomicInteger isRunning;
+    protected final AtomicInteger isRunning;
     public int animationIndex;
 
     // Animation
@@ -61,11 +63,8 @@ public class Flag {
     // Scoreboard value
     public int scoreboard;
 
-    // Charge Data
-    private final String startingTeam;
-
     //The entity to create the flag's nametag
-    private ArmorStand hologram;
+    protected ArmorStand hologram;
 
     //The location of the hologram
     public Location holoLoc;
@@ -83,7 +82,6 @@ public class Flag {
         this.name = name;
         this.active = !secret;
         this.currentOwners = startingTeam;
-        this.startingTeam = startingTeam;
         this.maxCap = maxCapValue;
         animationIndex = startAmount;
         this.progressAmount = progressAmount;
@@ -101,12 +99,40 @@ public class Flag {
         return team.secondaryChatColor + "Spawning at:" + team.primaryChatColor + " " + name;
     }
 
+    /**
+     * @return The current owners of the flag
+     */
     public String getCurrentOwners() {
         if (animationIndex == 0 || currentOwners == null) {
             return "neutral";
         }
 
         return currentOwners;
+    }
+
+    /**
+     * Gets the spawn point based on the team name
+     * @param teamName The team to get the spawn point for
+     * @return The Spawn Point Locations
+     */
+    public Location getSpawnPoint(String teamName) {
+        return spawnPoint;
+    }
+
+    /**
+     * Gets the basic spawn point for the flag
+     * @return The Spawn Point Locations
+     */
+    public Location getSpawnPoint() {
+        return spawnPoint;
+    }
+
+    /**
+     * Sets the spawn point for the flag
+     * @param location The new spawn point location
+     */
+    public void setSpawnPoint(Location location){
+        spawnPoint = location;
     }
 
     /**
@@ -151,7 +177,7 @@ public class Flag {
     /**
      * The capturing loop that runs when there's 1+ players inside the capture zone
      */
-    private synchronized void capturing() {
+    protected synchronized void capturing() {
         // Only one loop can run at a time
         if (isRunning.get() > 0) {
             return;
@@ -186,47 +212,9 @@ public class Flag {
     /**
      * Called when a player makes progress capturing a flag
      */
-    private synchronized void captureProgress() {
+    protected synchronized void captureProgress() {
         if (progress == 0) {
             currentOwners = getLargestTeam();
-        }
-
-        // If the game mode is Charge,
-        if (MapController.getCurrentMap().gamemode.equals(Gamemode.Charge)) {
-            // You can't recap a flag
-            if (!Objects.equals(startingTeam, currentOwners) && animationIndex == maxCap)
-                return;
-
-            // You can't cap the next flag until the previous is capped
-            Flag[] flags = MapController.getCurrentMap().flags;
-            for (int i = 0; i < flags.length; i++) {
-                // Get the index of this flag
-                if (Objects.equals(flags[i].name, name)) {
-                    // Get the previous flag
-                    Flag previousFlag;
-                    // If the largest team are the defenders
-                    if (Objects.equals(getLargestTeam(), MapController.getCurrentMap().teams[0].name)) {
-                        // The defenders can always cap the last flag
-                        if (i + 1 < flags.length)
-                            previousFlag = flags[i + 1];
-                        else {
-                            return;
-                        }
-                    } else {
-                        previousFlag = flags[i-1];
-                    }
-                    if (!Objects.equals(previousFlag.getCurrentOwners(), getLargestTeam())) {
-                        for (UUID uuid : players)
-                        {
-                            if (!Objects.equals(TeamController.getTeam(uuid).name, currentOwners)) {
-                                Messenger.sendActionError("You must capture flags in order on this map, and the previous one doesn't belong to your team!",
-                                        Objects.requireNonNull(Bukkit.getPlayer(uuid)));
-                            }
-                        }
-                        return;
-                    }
-                }
-            }
         }
 
         Tuple<Integer, Integer> counts = getPlayerCounts();
@@ -252,7 +240,7 @@ public class Flag {
     /**
      * Called when players make enough capture progress to trigger an blockAnimation change
      */
-    private void captureFlag() {
+    protected void captureFlag() {
         int capProgress = progress / progressMultiplier;
 
         // Flag has gone low enough to announce neutral, and animate neutral
@@ -338,7 +326,7 @@ public class Flag {
      * Also adds players to InCombat interacted
      * @param areOwnersCapping If the current flag owners are capturing
      */
-    private void notifyPlayers(boolean areOwnersCapping) {
+    protected void notifyPlayers(boolean areOwnersCapping) {
         // Get how many players are in the capture zone
         int count;
         if (areOwnersCapping) {
@@ -367,7 +355,7 @@ public class Flag {
      * Attempts to change the team holding the flag.
      * @param newTeam The new flag owners
      */
-    private void broadcastTeam(String newTeam) {
+    protected void broadcastTeam(String newTeam) {
         if (!newTeam.equals("neutral"))
         {
             Team team = MapController.getCurrentMap().getTeam(newTeam);
@@ -391,7 +379,7 @@ public class Flag {
      * Gets the counts of the players on the owners team, and opponents in the zone
      * @return A tuple of OwnerCount and OpponentCount
      */
-    private Tuple<Integer, Integer> getPlayerCounts() {
+    protected Tuple<Integer, Integer> getPlayerCounts() {
         Tuple<Integer, Integer> counts = new Tuple<>(0, 0);
 
         for (UUID uuid : players) {
@@ -413,7 +401,7 @@ public class Flag {
      * Gets the name of the team with the most players in the capture zone
      * @return A string of the largest team in the capture zone
      */
-    private String getLargestTeam() {
+    protected String getLargestTeam() {
         HashMap<String, Integer> teamCounts = new HashMap<>();
         String largestTeam = null;
 
@@ -440,7 +428,7 @@ public class Flag {
      * Plays the capturing ping sound to a player
      * @param player The player to play the sound to
      */
-    private void playCapSound(Player player, boolean fullyCapped) {
+    protected void playCapSound(Player player, boolean fullyCapped) {
         Location location = player.getLocation();
 
         // Play level up sound if it's fully capped, or play a xp orb pickup
@@ -457,7 +445,7 @@ public class Flag {
      * @param isCapUp If the blockAnimation index has increased
      * @param teamName The name of the team that owns the flag
      */
-    private synchronized void animate(boolean isCapUp, String teamName) {
+    protected synchronized void animate(boolean isCapUp, String teamName) {
 
         if (MapController.hasMapEnded()) {
             MapController.endMap();

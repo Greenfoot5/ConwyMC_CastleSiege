@@ -67,7 +67,7 @@ public class PlayerConnect implements Listener {
         if (MapController.isMatch) {
             SpectateCommand.spectators.add(uuid);
             p.setGameMode(GameMode.SPECTATOR);
-            p.teleport(MapController.getCurrentMap().flags[0].spawnPoint);
+            p.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
             NameTag.give(p);
         } else {
             MapController.joinATeam(p.getUniqueId());

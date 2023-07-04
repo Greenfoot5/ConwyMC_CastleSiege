@@ -60,7 +60,7 @@ public class DeathEvent implements Listener {
         Player player = event.getPlayer();
 
         if (MapController.isSpectator(player.getUniqueId())) {
-            event.setRespawnLocation(MapController.getCurrentMap().flags[0].spawnPoint);
+            event.setRespawnLocation(MapController.getCurrentMap().flags[0].getSpawnPoint());
             return;
         }
 

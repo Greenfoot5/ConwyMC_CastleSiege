@@ -127,8 +127,8 @@ public class Scoreboard implements Runnable {
 				DecimalFormat dec = new DecimalFormat("0.00");
 				PlayerData data = ActiveData.getData(online.getUniqueId());
 				// Setup timer display
-				replaceScore(objective, 14, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText());
-				replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + "Battlepoints: " + ChatColor.WHITE + dec.format(data.getBattlepoints()));
+				replaceScore(objective, 14, ChatColor.GOLD + String.valueOf(ChatColor.BOLD) + getTimeText());
+				replaceScore(objective, 13, ChatColor.GOLD + String.valueOf(ChatColor.BOLD) + "Battlepoints: " + ChatColor.WHITE + dec.format(data.getBattlepoints()));
 				replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
 
 			} else if (ActiveData.getData(online.getUniqueId()).getSetting("showBattlepoints").equals("false")){
@@ -139,7 +139,7 @@ public class Scoreboard implements Runnable {
 						ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
 
 				// Setup timer display
-				replaceScore(objective, 13, ChatColor.GOLD + "" + ChatColor.BOLD + getTimeText());
+				replaceScore(objective, 13, ChatColor.GOLD + String.valueOf(ChatColor.BOLD) + getTimeText());
 				replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
 			}
 
