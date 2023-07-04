@@ -438,7 +438,7 @@ public class MapController {
 		for (UUID spectator : SpectateCommand.spectators) {
 			Player player = Bukkit.getPlayer(spectator);
 			if (player != null && player.isOnline()) {
-				player.teleport(getCurrentMap().flags[0].spawnPoint);
+				player.teleport(getCurrentMap().flags[0].getSpawnPoint());
 			}
 		}
 
