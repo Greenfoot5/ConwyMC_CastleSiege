@@ -17,7 +17,9 @@ public class Tips extends BukkitRunnable {
 
     // Quick and dirty, needs to be expanded to allow for conditions and be read from a yml
     private static final String[] tips = new String[] {
-            "Boosters affect everyone on the server!",
+            "Wild boosters are pretty cool, you can choose what elite kit to boost!",
+            "Did you know kit boosters temporary unlock the boosted kit for everyone?",
+            "Boosters are a great way to increase the amount of coins or BP everyone earns!",
             "Alchemists can give you many varieties of boosts and also heal you!",
             "Donators can launch some neat fireworks using /firework or /fw",
             "Don't forget to vote to gain access to special boosts and classes!",
