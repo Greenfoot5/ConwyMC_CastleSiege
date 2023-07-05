@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.donator;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -41,7 +42,7 @@ public class FireworkCmd implements CommandExecutor {
         Player p = (Player) sender;
 
         if (fireworkUsers.contains(p)) {
-            sender.sendMessage(ChatColor.DARK_RED + "You have to wait until you can use this again. (6s cooldown)");
+            Messenger.sendError(ChatColor.DARK_RED + "You have to wait until you can use this again. (6s cooldown)", p);
             return true;
         }
 
