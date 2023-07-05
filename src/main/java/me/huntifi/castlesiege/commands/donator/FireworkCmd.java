@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ *  The firework command for donators
+ */
 public class FireworkCmd implements CommandExecutor {
 
     private ArrayList<Player> fireworkUsers = new ArrayList<>();
@@ -60,6 +63,11 @@ public class FireworkCmd implements CommandExecutor {
         return true;
     }
 
+    /**
+     *
+     * @param p checks this player's team to retrieve colours from it.
+     * @return The primary colour retrieved from the specified player's team.
+     */
     private Color getPrimaryColor(Player p) {
         switch (TeamController.getTeam(p.getUniqueId()).primaryChatColor) {
             case BLACK:
@@ -93,6 +101,11 @@ public class FireworkCmd implements CommandExecutor {
         }
     }
 
+    /**
+     *
+     * @param p checks this player's team to retrieve colours from it.
+     * @return The secondary colour retrieved from the specified player's team.
+     */
     private Color getSecondaryColor(Player p) {
         switch (TeamController.getTeam(p.getUniqueId()).secondaryChatColor) {
             case BLACK:
