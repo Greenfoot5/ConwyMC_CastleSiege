@@ -36,7 +36,7 @@ public class FireworkCmd implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage("Console cannot set their leave message!");
+            sender.sendMessage("Console cannot launch any fireworks");
             return true;
         }
         Player p = (Player) sender;
