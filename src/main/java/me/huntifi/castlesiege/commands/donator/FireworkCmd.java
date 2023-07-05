@@ -60,7 +60,7 @@ public class FireworkCmd implements CommandExecutor {
         return true;
     }
 
-    private Color getColor(Player p) {
+    private Color getPrimaryColor(Player p) {
         switch (TeamController.getTeam(p.getUniqueId()).primaryChatColor) {
             case BLACK:
             case DARK_GRAY:
@@ -93,7 +93,7 @@ public class FireworkCmd implements CommandExecutor {
         }
     }
 
-    private Color getColor2(Player p) {
+    private Color getSecondaryColor(Player p) {
         switch (TeamController.getTeam(p.getUniqueId()).secondaryChatColor) {
             case BLACK:
             case DARK_GRAY:
@@ -136,8 +136,8 @@ public class FireworkCmd implements CommandExecutor {
 
         meta.setPower(4);
         FireworkEffect.Builder builder = FireworkEffect.builder();
-        builder.withTrail().withFlicker().withFade(getColor(p), getColor2(p)).with(FireworkEffect.Type.BALL_LARGE);
-        builder.withColor(getColor(p), getColor2(p));
+        builder.withTrail().withFlicker().withFade(getPrimaryColor(p), getSecondaryColor(p)).with(FireworkEffect.Type.BALL_LARGE);
+        builder.withColor(getPrimaryColor(p), getSecondaryColor(p));
         meta.addEffect(builder.build());
         firework.setFireworkMeta(meta);
     }
