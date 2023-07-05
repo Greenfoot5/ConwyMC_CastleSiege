@@ -298,8 +298,10 @@ public class MapController {
 
 		for (UUID uuid : team.getPlayers()) {
 			Player p = Bukkit.getPlayer(uuid);
-			if (Bukkit.getOnlinePlayers().size() >= 6) {
-				assert p != null;
+			assert p != null;
+			double score = MVPStats.getStats(p.getUniqueId()).getScore();
+
+			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
 				ActiveData.getData(p.getUniqueId()).addCoins(50 * PlayerData.getCoinMultiplier());
 				p.sendMessage(ChatColor.GOLD + "(" + ChatColor.YELLOW + "+" + (50 * PlayerData.getCoinMultiplier()) + " coins for winning" + ChatColor.GOLD + ")");
 			}
