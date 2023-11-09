@@ -308,10 +308,6 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("SetCoins")).setExecutor(new SetCoins());
                 Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
                 Objects.requireNonNull(getCommand("TakeCoins")).setExecutor(new TakeCoins());
-                Objects.requireNonNull(getCommand("AddBattlepoints")).setExecutor(new AddBattlepoints());
-                Objects.requireNonNull(getCommand("SetBattlepoints")).setExecutor(new SetBattlepoints());
-                Objects.requireNonNull(getCommand("SetBattlepointMultiplier")).setExecutor(new SetBattlepointMultiplier());
-                Objects.requireNonNull(getCommand("TakeBattlepoints")).setExecutor(new TakeBattlepoints());
 
                 // Staff - Boosters
                 Objects.requireNonNull(getCommand("GrantBooster")).setExecutor(new GrantBooster());
@@ -1392,21 +1388,6 @@ public class Main extends JavaPlugin implements Listener {
                         }, remaining_duration * 20L);
                         break;
                     case "BATTLEPOINT":
-                    case "BP":
-                        multiplier = Double.parseDouble(other);
-                        percentage = (int)(multiplier * 100);
-                        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                            PlayerData.setBattlepointMultiplier(PlayerData.getBattlepointMultiplier() + multiplier);
-                            Messenger.broadcastInfo(" A " + percentage + "% battlepoint booster " +
-                                    "for " + Booster.durationToString((int) remaining_duration) + " has been activated!");
-                            Messenger.broadcastInfo("The total battlepoint multiplier is now " + PlayerData.getBattlepointMultiplier() + ".");
-                        });
-                        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                            PlayerData.setBattlepointMultiplier(PlayerData.getBattlepointMultiplier() - multiplier);
-                            Messenger.broadcastWarning("A " + percentage + "% battlepoint booster has expired!");
-                            Messenger.broadcastInfo("The total battlepoint multiplier is now " + PlayerData.getBattlepointMultiplier() + ".");
-                        }, remaining_duration * 20L);
-                        break;
                     case "KIT":
                     case "K":
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {

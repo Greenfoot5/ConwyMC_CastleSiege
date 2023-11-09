@@ -32,7 +32,7 @@ public abstract class TeamKit extends DonatorKit {
      */
     public TeamKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins
                    ,Material material) {
-        super(name, baseHealth, regenAmount, coins, 0, material);
+        super(name, baseHealth, regenAmount, coins, material);
         team = playableTeam;
         map = playableMap;
 

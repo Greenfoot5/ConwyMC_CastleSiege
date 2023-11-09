@@ -149,7 +149,7 @@ public class SwitchCommand implements CommandExecutor {
 			// Regular switch on the battlefield during a game
 			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name +
 					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)", p);
-			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1, true);
+			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
 
 		} else if (deaths == 0 || !MapController.isOngoing()){
 			// Regular switch outside the battlefield or not during a game

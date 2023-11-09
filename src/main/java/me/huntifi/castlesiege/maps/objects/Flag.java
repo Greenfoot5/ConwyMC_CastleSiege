@@ -261,22 +261,8 @@ public class Flag {
         } else if (capProgress == 1 && animationIndex == 0) {
             animationIndex += 1;
             broadcastTeam(currentOwners);
-
             notifyPlayers(true);
-
-            for (UUID uuid : players) {
-                Player player = Bukkit.getPlayer(uuid);
-                if (player != null && TeamController.getTeam(uuid).name.equals(currentOwners)) {
-                    //You get +1 battlepoint for taking control of a flag
-                    UpdateStats.addBattlepoints(uuid, PlayerData.bpTakeFlagControlAmount);
-                    Messenger.sendInfo("You gained "
-                            + PlayerData.bpTakeFlagControlAmount * PlayerData.getBattlepointMultiplier()
-                            + " BattlePoint(s) for taking control of a flag!", player, 15);
-                }
-            }
-
             animate(true, currentOwners);
-
         // Players have increased the capture
         } else if (capProgress > animationIndex) {
             if (animationIndex >= maxCap) {
@@ -297,11 +283,6 @@ public class Flag {
                         // Make sure they're on the capping team
                         if (TeamController.getTeam(uuid).name.equals(currentOwners)) {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: " + name));
-                            //You get +1 battlepoint for fully capturing a flag
-                            UpdateStats.addBattlepoints(uuid, PlayerData.bpFlagFullCapAmount);
-                            Messenger.sendInfo("You gained " +
-                                    PlayerData.bpFlagFullCapAmount * PlayerData.getBattlepointMultiplier()
-                                    + " BattlePoint(s) for fully capturing a flag!", player, 15);
                         } else {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies have fully captured the flag!"));
                         }

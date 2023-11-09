@@ -50,12 +50,6 @@ public class WoolMapBlock {
             } else if (kit == null) {
                 Messenger.sendError("You can't join the battlefield without a kit/class!", player);
                 Messenger.sendError("Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!", player);
-            // Make sure a player can afford the kit, and it's not Friday
-            } else if (kit instanceof DonatorKit
-            && !ActiveData.getData(player.getUniqueId()).takeBattlepoints(((DonatorKit) kit).getBattlepointPrice())
-            && !DonatorKit.isFree()) {
-                Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", player);
-                Messenger.sendError("Perform /battlepoints or /bp to see your battlepoints.", player);
             } else {
                 Bukkit.getScheduler().runTask(Main.plugin, () -> {
                     // Remove mount

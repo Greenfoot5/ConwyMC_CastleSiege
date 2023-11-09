@@ -28,14 +28,12 @@ public class UpdateStats {
      * @param uuid The unique ID of the player
      * @param deaths The amount of deaths to add
      */
-    public static void addDeaths(UUID uuid, double deaths, boolean punishPlayer) {
+    public static void addDeaths(UUID uuid, double deaths) {
         if (uuid == null || ActiveData.getData(uuid) == null)
             return;
 
         ActiveData.getData(uuid).addDeaths(deaths);
         MVPStats.getStats(uuid).addDeaths(deaths);
-        ActiveData.getData(uuid).addBattlepoints(punishPlayer ? 0 : PlayerData.bpDeathAmount);
-        MVPStats.getStats(uuid).addBattlepoints(punishPlayer ? 0 : PlayerData.bpDeathAmount);
     }
 
     /**
@@ -83,16 +81,6 @@ public class UpdateStats {
         ActiveData.getData(uuid).addSupports(supports);
         MVPStats.getStats(uuid).addSupports(supports);
         level(uuid);
-    }
-
-    /**
-     * Add battlepoints to the player's data
-     * @param uuid The unique ID of the player
-     * @param battlepoints The amount of battlepoints to add
-     */
-    public static void addBattlepoints(UUID uuid, double battlepoints) {
-        ActiveData.getData(uuid).addBattlepoints(battlepoints);
-        MVPStats.getStats(uuid).addBattlepoints(battlepoints);
     }
 
     /**

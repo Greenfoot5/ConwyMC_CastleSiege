@@ -49,9 +49,9 @@ public class PlayerDisconnect implements Listener {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             // Award deaths for logging out on the battlefield
             if (InCombat.isPlayerInCombat(uuid) && MapController.isOngoing()) {
-                UpdateStats.addDeaths(uuid, 2, true);
+                UpdateStats.addDeaths(uuid, 2);
             } else if (!InCombat.isPlayerInLobby(uuid) && MapController.isOngoing()) {
-                UpdateStats.addDeaths(uuid, 1, true);
+                UpdateStats.addDeaths(uuid, 1);
             }
             InCombat.playerDied(uuid);
 

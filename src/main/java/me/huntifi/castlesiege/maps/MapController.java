@@ -231,7 +231,6 @@ public class MapController {
 						Kit kit = Kit.equippedKits.get(uuid);
 						if (kit instanceof DonatorKit) {
 							DonatorKit dKit = (DonatorKit) kit;
-							ActiveData.getData(player.getUniqueId()).addBattlepointsClean(dKit.getBattlepointPrice());
 						}
 					}
 				}
@@ -342,15 +341,6 @@ public class MapController {
 					double mult = (random.nextGaussian() + COIN_BOOSTER_GAUSSIAN_ADD) / COIN_BOOSTER_GAUSSIAN_DIV;
 					mult = Math.abs(mult);
 					booster = new CoinBooster(duration, mult);
-				}
-				else if (boosterChoice + COIN_BOOSTER_CHANCE < BATTLEPOINT_BOOSTER_CHANCE) {
-					int duration = random.nextInt((BP_BOOSTER_MAX_TIME - BP_BOOSTER_MIN_TIME) + 1) + BP_BOOSTER_MIN_TIME;
-					double mult = (BP_BOOSTER_MAX_MULT - BP_BOOSTER_MIN_MULT) * random.nextDouble() + BP_BOOSTER_MIN_MULT;
-					if (random.nextDouble() < BP_BOOSTER_MULT_CHANCE) {
-						booster = new BattlepointBooster(duration);
-					} else {
-						booster = new BattlepointBooster(duration, mult);
-					}
 				}
 				else {
 					int duration = random.nextInt((KIT_BOOSTER_MAX_TIME - KIT_BOOSTER_MIN_TIME) + 1) + KIT_BOOSTER_MIN_TIME;

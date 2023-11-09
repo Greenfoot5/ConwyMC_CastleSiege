@@ -2,11 +2,9 @@ package me.huntifi.castlesiege.events.death;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
-import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
@@ -214,10 +212,7 @@ public class DeathEvent implements Listener {
         }
 
         if (killer != null || assist != null) {
-            UpdateStats.addDeaths(target.getUniqueId(), 1, false);
-            Messenger.sendInfo("You gained "
-                    + PlayerData.bpDeathAmount * PlayerData.getBattlepointMultiplier()
-                    + " BattlePoint(s) for a death...", target, 15);
+            UpdateStats.addDeaths(target.getUniqueId(), 1);
         }
     }
 
@@ -243,10 +238,6 @@ public class DeathEvent implements Listener {
                     + messages.getFirst()[0] + NameTag.color(target) + target.getName()
                     + ChatColor.RESET + messages.getFirst()[1]);
         }
-
-        Messenger.sendInfo("You gained "
-                + PlayerData.bpKillAmount * PlayerData.getBattlepointMultiplier()
-                + " BattlePoint(s) for a kill!", killer, 15);
     }
 
     /**
@@ -258,9 +249,6 @@ public class DeathEvent implements Listener {
         Player assist = Bukkit.getPlayer(uuid);
         if (assist != null) {
             assist.sendMessage("You assisted in killing " + NameTag.color(target) + target.getName());
-            Messenger.sendInfo("You gained "
-                    + PlayerData.bpAssistAmount * PlayerData.getBattlepointMultiplier()
-                    + "BattlePoint(s) for assisting in a kill", assist,15);
         }
     }
 

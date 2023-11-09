@@ -77,19 +77,6 @@ public class GrantBooster implements CommandExecutor {
                     return null;
                 }
                 return new CoinBooster(duration, multiplier);
-            case "BATTLEPOINT":
-            case "BP":
-                if (args.length != 4) {
-                    return new BattlepointBooster(duration);
-                }
-
-                try {
-                    multiplier = Double.parseDouble(args[3]);
-                } catch (NumberFormatException ex) {
-                    Messenger.sendError("Multiplier not a valid number! It should be a double!", sender);
-                    return null;
-                }
-                return new BattlepointBooster(duration, multiplier);
             case "KIT":
             case "K":
                 if (args.length != 4) {

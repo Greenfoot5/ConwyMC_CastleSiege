@@ -381,22 +381,6 @@ public class LoadData {
                             Main.instance.getLogger().warning("Booster id: " + boostId + " has a malformed double multiplier!");
                         }
                         break;
-                    case "BATTLEPOINT":
-                    case "BP":
-                        if (other == null) {
-                            booster = new BattlepointBooster(duration);
-                            booster.id = boostId;
-                            boosters.add(booster);
-                            break;
-                        }
-                        try {
-                            multiplier = Double.parseDouble(other);
-                            booster = new BattlepointBooster(duration, multiplier);
-                            booster.id = boostId;
-                            boosters.add(booster);
-                        } catch (NumberFormatException ignored) {
-                            Main.instance.getLogger().warning("Booster id: " + boostId + " has a malformed double multiplier!");
-                        }
                     case "KIT":
                     case "K":
                         if (Kit.getKit(other) == null
