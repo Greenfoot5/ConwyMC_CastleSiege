@@ -118,27 +118,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
                         });
                         return;
                     }
-                } else if (booster instanceof BattlepointBooster) {
-                    BattlepointBooster bpBooster = (BattlepointBooster) booster;
-                    if (bpBooster.multiplier == 0.0) {
-                        if (waitingForWildKit.containsKey(uuid) && waitingForBPMult.containsKey(uuid)) {
-                            Messenger.sendError("You're already trying to input an elite kit!", sender);
-                            return;
-                        }
-
-                        Messenger.requestInput("Enter the percentage modifier to boost by in chat - no need to include the %: (" + inputWaitDuration + "s)", sender);
-                        waitingForBPMult.put(player.getUniqueId(), bpBooster);
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                if (waitingForBPMult.remove(player.getUniqueId()) != null) {
-                                    Messenger.sendError("Ran out of time to input boost percentage modifier", sender);
-                                }
-                            }
-                        }.runTaskLater(Main.plugin, inputWaitDuration * 20);
-                        return;
-                    }
-                }
+                } 
 
                 // Activate the booster
                 Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
@@ -153,7 +133,6 @@ public class BoosterCommand implements CommandExecutor, Listener {
     }
 
     public static Map<UUID, KitBooster> waitingForWildKit = new HashMap<>();
-    public static Map<UUID, BattlepointBooster> waitingForBPMult = new HashMap<>();
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChat(AsyncPlayerChatEvent e) {
 
@@ -180,26 +159,6 @@ public class BoosterCommand implements CommandExecutor, Listener {
                 Messenger.sendError("Invalid kit name!", player);
             }
             waitingForWildKit.remove(uuid);
-        } else if (waitingForBPMult.containsKey(uuid)) {
-            e.setCancelled(true);
-            while (e.getMessage().startsWith("§")) {
-                e.setMessage(e.getMessage().substring(2));
-            }
-
-            try {
-                double mult = Double.parseDouble(e.getMessage()) / 100.0;
-                BattlepointBooster booster = waitingForBPMult.get(uuid);
-                booster.multiplier = mult;
-                PlayerData data = ActiveData.getData(uuid);
-                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                    data.useBooster(uuid, booster);
-                    removeBooster(booster.id, uuid);
-                    activateBooster(booster, uuid);
-                });
-            } catch (NumberFormatException ignored) {
-                Messenger.sendError("That's not a valid percentage!", player);
-            }
-            waitingForBPMult.remove(uuid);
         }
     }
 
@@ -236,9 +195,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
     private static String getBoosterType(Booster booster) {
         if (booster instanceof CoinBooster) {
             return "COIN";
-        } else if (booster instanceof BattlepointBooster) {
-            return "BP";
-        } else if (booster instanceof KitBooster) {
+        }  else if (booster instanceof KitBooster) {
             return "KIT";
         } else {
             return "NULL";

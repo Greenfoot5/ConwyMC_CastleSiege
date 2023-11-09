@@ -119,19 +119,6 @@ public class Scoreboard implements Runnable {
 				objective = score.getObjective(online.getName());
 			}
 
-			if (ActiveData.getData(online.getUniqueId()).getSetting("showBattlepoints").equals("true")) {
-				assert objective != null;
-				objective.setDisplayName(displayName);
-				replaceScore(objective, 15, String.format("%s%sMap:%s %s",
-						ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
-				DecimalFormat dec = new DecimalFormat("0.00");
-				PlayerData data = ActiveData.getData(online.getUniqueId());
-				// Setup timer display
-				replaceScore(objective, 14, ChatColor.GOLD + String.valueOf(ChatColor.BOLD) + getTimeText());
-				replaceScore(objective, 13, ChatColor.GOLD + String.valueOf(ChatColor.BOLD) + "Battlepoints: " + ChatColor.WHITE + dec.format(data.getBattlepoints()));
-				replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
-
-			} else if (ActiveData.getData(online.getUniqueId()).getSetting("showBattlepoints").equals("false")){
 				assert objective != null;
 				objective.setDisplayName(displayName);
 				replaceScore(objective, 15, "");
@@ -141,7 +128,7 @@ public class Scoreboard implements Runnable {
 				// Setup timer display
 				replaceScore(objective, 13, ChatColor.GOLD + String.valueOf(ChatColor.BOLD) + getTimeText());
 				replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
-			}
+
 
 			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {
 				// Display the flag scoreboard

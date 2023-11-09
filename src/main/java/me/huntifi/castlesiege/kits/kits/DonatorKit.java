@@ -19,16 +19,13 @@ public abstract class DonatorKit extends Kit {
     // Coin price to unlock this kit
     private final double price;
 
-    private final double bp_price;
-
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
     public static final List<String> boostedKits = new ArrayList<>();
 
-    public DonatorKit(String name, int baseHealth, double regenAmount, double coins, double battlepoints, Material material) {
+    public DonatorKit(String name, int baseHealth, double regenAmount, double coins, Material material) {
         super(name, baseHealth, regenAmount, material);
         price = coins;
-        bp_price = battlepoints;
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
@@ -49,7 +46,6 @@ public abstract class DonatorKit extends Kit {
         UUID uuid = ((Player) sender).getUniqueId();
         boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
         boolean allKitsFree = MapController.allKitsFree;
-        boolean hasBP = hasEnoughBP(uuid);
         if (!hasKit && !isFree() && !allKitsFree) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null) {
@@ -59,35 +55,9 @@ public abstract class DonatorKit extends Kit {
                 }
             }
             return false;
-        } else if (!hasBP && !isFree() && !TeamKit.getKits().contains(name.replaceAll(" ", ""))) {
-            if (verbose) {
-                Player p = Bukkit.getPlayer(uuid);
-                Messenger.sendError("You do not have sufficient battlepoints (BP) to play this!", p);
-                Messenger.sendError("Perform /battlepoints or /bp to see your battlepoints.", p);
-                return false;
-            }
         }
 
         return true;
-    }
-
-    /**
-     *
-     * @param uuid The player's uuid of which battlepoints should be checked in order to play a kit
-     * @return true or false in case they don't have sufficient bp
-     */
-    public boolean hasEnoughBP(UUID uuid) {
-        boolean hasKit = ActiveData.getData(uuid).hasKit(name);
-        PlayerData data = ActiveData.getData(uuid);
-        return data.getBattlepoints() >= bp_price && hasKit;
-    }
-
-    /**
-     * Get this kit's battlepoint price
-     * @return The price to use this kit once
-     */
-    public double getBattlepointPrice() {
-        return bp_price;
     }
 
     /**

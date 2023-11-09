@@ -23,14 +23,6 @@ import java.util.UUID;
  */
 public class PlayerData {
 
-    // BattlePoints amounts
-    public final static double bpKillAmount = 0.25;
-    public final static double bpAssistAmount = 0.5;
-    public final static double bpFlagFullCapAmount = 1;
-    public final static double bpTakeFlagControlAmount = 1;
-    public final static double bpDeathAmount = 1;
-    public final static double bpCasualGameStartAmount = 10;
-
     private ArrayList<String> unlockedKits;
 
     private ArrayList<String> foundSecrets;
@@ -58,15 +50,12 @@ public class PlayerData {
     private HashMap<String, Long> votes;
     private double coins;
 
-    private double battlepoints;
-
     private HashMap<String, String> settings;
     private ArrayList<Booster> boosters;
 
     //private ArrayList<String> ownedAchievements;
 
     private static double coinMultiplier = 1;
-    private static double battlepointMultiplier = 1;
 
     /**
      * Initialize the player's data for active data
@@ -94,7 +83,6 @@ public class PlayerData {
         this.mvps = statsData.getInt("mvps");
         this.secrets = statsData.getInt("secrets");
         this.killStreak = 0;
-        this.battlepoints = isMatch ? 0 : bpCasualGameStartAmount;
         this.maxKillStreak = statsData.getInt("kill_streak");
         this.kit = statsData.getString("kit");
 
@@ -122,7 +110,6 @@ public class PlayerData {
         this.assists = 0;
         this.killStreak = 0;
         this.coins = 0;
-        this.battlepoints = 0;
     }
 
     /**
@@ -143,57 +130,6 @@ public class PlayerData {
             mute = null;
         else
             mute = new Tuple<>(reason, end);
-    }
-
-    /**
-     * Get the player's current battlepoints
-     * @return The player's score
-     */
-    public double getBattlepoints() {
-        return battlepoints;
-    }
-
-    /**
-     * Add to the player's battlepoints
-     * @param bp The battlepoints to add
-     */
-    public void addBattlepoints(double bp) {
-        this.battlepoints += bp * getBattlepointMultiplier();
-    }
-
-
-    /**
-     * Add to the player's battlepoints without worrying about the multiplier
-     * @param bp The battlepoints to add
-     */
-    public void addBattlepointsClean(double bp) {
-        this.battlepoints += bp;
-    }
-
-    /**
-     * Take from the player's battlepoints
-     * @param bp The battlepoints to add
-     */
-    public boolean takeBattlepoints(double bp) {
-        if (this.battlepoints < bp)
-            return false;
-        this.battlepoints -= bp;
-        return true;
-    }
-
-    /**
-     * Take from the player's battlepoints regardless of their current balance
-     * @param bp The amount of battlepoints to take
-     */
-    public void takeBattlepointsForce(double bp) {
-        this.battlepoints -= bp;
-    }
-
-    /**
-     * Set the player's current battlepoints
-     */
-    public void setBattlepoints(double bp) {
-        battlepoints = bp;
     }
 
     /**
@@ -229,7 +165,6 @@ public class PlayerData {
         kills += 1;
         addScore(2);
         addCoins(2);
-        addBattlepoints(bpKillAmount);
         addKillStreak();
     }
 
@@ -327,7 +262,6 @@ public class PlayerData {
     public void addAssist() {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             assists += 1;
-            addBattlepoints(bpAssistAmount);
             addScore(1);
             addCoins(1);
         });
@@ -676,25 +610,6 @@ public class PlayerData {
     }
 
     /**
-     * Get the active battlepoint multiplier or 0 if it's negative
-     * @return The active multiplier
-     */
-    public static double getBattlepointMultiplier() {
-        if (battlepointMultiplier < 0) {
-            return 0;
-        }
-        return battlepointMultiplier;
-    }
-
-    /**
-     * Sets the battlepoint multiplier
-     * @param multiplier The multiplier to set
-     */
-    public static void setBattlepointMultiplier(double multiplier) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> battlepointMultiplier = multiplier);
-    }
-
-    /**
      * Check if the player has found a specified secret
      * @param secretName The name of a secret
      * @return true if they found it, false if they haven't found it.
@@ -749,21 +664,7 @@ public class PlayerData {
                 Messenger.broadcastInfo("The total coin multiplier is now " + getCoinMultiplier() + ".");
             }, booster.duration * 20L);
 
-        // Battlepoint Booster
-        } else if (booster instanceof BattlepointBooster) {
-            BattlepointBooster bpBooster = (BattlepointBooster) booster;
-            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                battlepointMultiplier += bpBooster.multiplier;
-                Messenger.broadcastInfo(player.getName() + " has activated a " + bpBooster.getPercentage() + "% battlepoint booster " +
-                        "for " + booster.getDurationAsString() + "!");
-                Messenger.broadcastInfo("The total bp multiplier is now " + getBattlepointMultiplier() + ".");
-            });
-            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                battlepointMultiplier -= bpBooster.multiplier;
-                Messenger.broadcastWarning(player.getName() + "'s " + bpBooster.getPercentage() + "% battlepoint booster has expired! ");
-                Messenger.broadcastInfo("The total battlepoint multiplier is now " + getBattlepointMultiplier() + ".");
-            }, booster.duration * 20L);
-
+        // Kit booster
         } else if (booster instanceof KitBooster) {
             KitBooster kitBooster = (KitBooster) booster;
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
