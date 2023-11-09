@@ -15,7 +15,7 @@ import java.util.Collections;
  * The archer kit
  */
 public class Archer extends FreeKit {
-	private static final int health = 215;
+	private static final int health = 210;
 	private static final double regen = 10.5;
 	private static final double meleeDamage = 34;
 	private static final int ladderCount = 4;

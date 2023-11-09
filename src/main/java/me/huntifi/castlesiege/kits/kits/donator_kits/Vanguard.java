@@ -35,7 +35,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
      * Set the equipment and attributes of this kit
      */
     public Vanguard() {
-        super("Vanguard", 260, 11, 10000, 10, Material.DIAMOND_SWORD);
+        super("Vanguard", 270, 10.5, 10000, 10, Material.DIAMOND_SWORD);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -107,14 +107,14 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
                     if (cooldown == 0) {
-                        p.setCooldown(Material.DIAMOND_SWORD, 320);
+                        p.setCooldown(Material.DIAMOND_SWORD, 300);
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.AQUA + "You are charging forward"));
                         p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 160, 4)));
                         p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 160, 1)));
 
                         //Diminishing strength effect
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 5)));
+                        p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 2)));
 
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST , 1, 1 );
                         vanguards.add(uuid);
@@ -145,7 +145,7 @@ public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
                 for (PotionEffect effect : player.getActivePotionEffects()) {
                     if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 4)
                             || (effect.getType().getName().equals(PotionEffectType.JUMP.getName()) && effect.getAmplifier() == 1)
-                            || (effect.getType().getName().equals(PotionEffectType.INCREASE_DAMAGE.getName()) && effect.getAmplifier() == 5)) {
+                            || (effect.getType().getName().equals(PotionEffectType.INCREASE_DAMAGE.getName()) && effect.getAmplifier() == 2)) {
                         player.removePotionEffect(effect.getType());
                     }
                 }

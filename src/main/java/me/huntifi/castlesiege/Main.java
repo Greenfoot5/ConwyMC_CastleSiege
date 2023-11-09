@@ -95,6 +95,10 @@ import me.huntifi.castlesiege.secrets.Skyhold.Doors;
 import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -420,6 +424,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 //This registers the secret items
                 SecretItems.registerSecretItems();
+
             }
         }.runTaskLater(plugin, 1);
     }

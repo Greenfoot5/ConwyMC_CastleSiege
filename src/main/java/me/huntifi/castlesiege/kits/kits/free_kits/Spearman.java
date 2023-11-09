@@ -37,8 +37,8 @@ import java.util.UUID;
  * The spearman kit
  */
 public class Spearman extends FreeKit implements Listener {
-	private static final int health = 260;
-	private static final double regen = 12;
+	private static final int health = 300;
+	private static final double regen = 10.5;
 	private static final int spearCount = 4;
 	private static final double meleeDamage = 35;
 	private static final int ladderCount = 4;

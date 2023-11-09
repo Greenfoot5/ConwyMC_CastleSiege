@@ -219,7 +219,7 @@ public class Warhound extends DonatorKit implements Listener {
                 }
             }.runTaskLater(Main.plugin, 80);
 
-            UpdateStats.addSupports(p.getUniqueId(), 2);
+            UpdateStats.addSupports(q.getUniqueId(), 2);
         }
     }
 

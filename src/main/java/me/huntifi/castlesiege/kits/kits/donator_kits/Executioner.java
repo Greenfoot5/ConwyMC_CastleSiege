@@ -33,7 +33,7 @@ public class Executioner extends DonatorKit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Executioner() {
-		super("Executioner", 280, 15, 10000, 8, Material.DIAMOND_AXE);
+		super("Executioner", 210, 15, 10000, 8, Material.DIAMOND_AXE);
 		super.canSeeHealth = true;
 
 		// Equipment Stuff
@@ -103,7 +103,7 @@ public class Executioner extends DonatorKit implements Listener {
 				assert healthAttribute != null;
 
 				// Execute
-				if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.3333) {
+				if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.3) {
 					e.setCancelled(true);
 
 					Location loc = whoWasHit.getEyeLocation();
@@ -127,7 +127,7 @@ public class Executioner extends DonatorKit implements Listener {
 				assert healthAttribute != null;
 
 				// Execute
-				if (damageable.getHealth() < healthAttribute.getValue() * 0.30) {
+				if (damageable.getHealth() < healthAttribute.getValue() * 0.3) {
 					e.setCancelled(true);
 
 					Location loc = damageable.getLocation();

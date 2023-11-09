@@ -17,6 +17,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,6 +37,7 @@ import java.util.UUID;
  * Handles what happens when someone logs in
  */
 public class PlayerConnect implements Listener {
+
 
     /**
      * Assign the player's data and join a team
