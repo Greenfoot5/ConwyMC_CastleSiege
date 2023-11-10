@@ -121,12 +121,11 @@ public class Warhound extends DonatorKit implements Listener {
         if (e.isCancelled() || e.getDamager() instanceof Player) {
             return;
         }
-
-        Player p = (Player) e.getEntity();
         Player q = (Player) e.getDamager();
 
         // Warhound bit enemy player
         if (e.getEntity() instanceof Player && Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name)) {
+            Player p = (Player) e.getEntity();
             p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 20, 0)));
          }
 
@@ -135,7 +134,7 @@ public class Warhound extends DonatorKit implements Listener {
             Horse h = (Horse) e.getEntity();
             Player horseOwner = (Player) h.getOwner();
             assert horseOwner != null;
-            if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
+            if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(h.getOwner().getUniqueId())) {
                 h.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 20, 1)));
             }
         }
