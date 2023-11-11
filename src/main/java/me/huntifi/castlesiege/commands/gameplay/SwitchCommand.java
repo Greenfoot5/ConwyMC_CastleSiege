@@ -38,7 +38,6 @@ public class SwitchCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 			// Force switch command was used
 			if (cmd.getName().equals("ForceSwitch"))
 				forceSwitch(sender, args);
@@ -46,7 +45,6 @@ public class SwitchCommand implements CommandExecutor {
 			// Regular switch command was used
 			if (cmd.getName().equals("Switch"))
 				switchTeam(sender, args);
-		});
 
 		return true;
 	}

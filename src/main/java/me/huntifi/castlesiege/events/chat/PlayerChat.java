@@ -134,15 +134,15 @@ public class PlayerChat implements Listener {
 				int everyoneLevel = everyoneData.getLevel();
 
 				if (playerLevel + 10 < everyoneLevel) {
-					everyoneMessage = ChatColor.DARK_RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
-				} else if (playerLevel + 5 < everyoneLevel && playerLevel + 10 >= everyoneLevel) {
-					everyoneMessage = ChatColor.RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
-				} else if (playerLevel >= everyoneLevel - 5 && playerLevel <= everyoneLevel + 5) {
-					everyoneMessage = ChatColor.YELLOW + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
-				} else if (playerLevel - 5 > everyoneLevel && playerLevel - 10 >= everyoneLevel) {
-					everyoneMessage = ChatColor.GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
-				} else if (playerLevel - 10 > everyoneLevel) {
 					everyoneMessage = ChatColor.DARK_GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+				} else if (playerLevel + 5 < everyoneLevel && playerLevel + 10 >= everyoneLevel) {
+					everyoneMessage = ChatColor.GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+				} else if (playerLevel - 5 <= everyoneLevel && playerLevel + 5 >= everyoneLevel) {
+					everyoneMessage = ChatColor.YELLOW + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+				} else if (playerLevel - 5 > everyoneLevel && playerLevel - 10 <= everyoneLevel) {
+					everyoneMessage = ChatColor.RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+				} else if (playerLevel - 10 > everyoneLevel) {
+					everyoneMessage = ChatColor.DARK_RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
 				}
 
 				everyone.sendMessage(everyoneMessage);
