@@ -1,9 +1,13 @@
 package me.huntifi.castlesiege.events.chat;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -71,8 +75,19 @@ public class PlayerChat implements Listener {
 			}
 		}
 
-		e.setMessage(color + message);
+		/**
+		 * Set the message so that the bot still receives input.
+		 * Also removed all recipients as that would send the message twice to everyone.
+		 *
+		 */
+		e.setMessage(message);
 		e.setFormat("%s: %s");
+		sendTotalMessage(p, color, message);
+		for (Player everyone : Bukkit.getOnlinePlayers()) {
+			e.getRecipients().remove(everyone);
+		}
+
+
 	}
 
 	private void playTagSound(Player player) {
@@ -84,6 +99,56 @@ public class PlayerChat implements Listener {
 		float pitch = 0.5f; //Float between 0.5 and 2.0
 
 		player.playSound(location, effect, volume, pitch);
+	}
+
+
+	/** This handles level colours for all players.
+	 * 	 * @param p the player to send the message from globally.
+	 * @param chatcolor the colour that the player's chat should be in.
+	 * @param message The message that comes after the name.
+	 */
+	public void sendTotalMessage(Player p, ChatColor chatcolor, String message) {
+
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+
+			PlayerData data = ActiveData.getData(p.getUniqueId());
+			if (data == null) {
+				return;
+			}
+			int playerLevel = data.getLevel();
+
+			// Get the player's wanted rank
+			String rank;
+			if (p.hasPermission("castlesiege.builder") && !ToggleRankCommand.showDonator.contains(p)) {
+				rank = NameTag.convertRank(data.getStaffRank());
+			} else {
+				rank = NameTag.convertRank(data.getRank());
+			}
+
+			for (Player everyone : Bukkit.getOnlinePlayers()) {
+				String everyoneMessage = "";
+				PlayerData everyoneData = ActiveData.getData(everyone.getUniqueId());
+				if (everyoneData == null) {
+					return;
+				}
+				int everyoneLevel = everyoneData.getLevel();
+
+				if (playerLevel + 10 < everyoneLevel) {
+					everyoneMessage = ChatColor.DARK_RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+				} else if (playerLevel + 5 < everyoneLevel && playerLevel + 10 >= everyoneLevel) {
+					everyoneMessage = ChatColor.RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+				} else if (playerLevel >= everyoneLevel - 5 && playerLevel <= everyoneLevel + 5) {
+					everyoneMessage = ChatColor.YELLOW + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+				} else if (playerLevel - 5 > everyoneLevel && playerLevel - 10 >= everyoneLevel) {
+					everyoneMessage = ChatColor.GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+				} else if (playerLevel - 10 > everyoneLevel) {
+					everyoneMessage = ChatColor.DARK_GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+				}
+
+				everyone.sendMessage(everyoneMessage);
+			}
+
+		});
 	}
 }
 
