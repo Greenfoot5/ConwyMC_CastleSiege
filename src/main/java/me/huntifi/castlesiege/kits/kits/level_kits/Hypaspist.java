@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits.level_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -9,13 +10,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -26,13 +29,15 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Hypaspist extends LevelKit implements Listener {
 
+    public static final HashMap<Player, Entity> tridents = new HashMap<>();
     private static final int health = 460;
     private static final double regen = 10.5;
-    private static final double meleeDamage = 34;
+    private static final double meleeDamage = 30;
     private static final int ladderCount = 4;
 
     public Hypaspist() {
@@ -123,7 +128,49 @@ public class Hypaspist extends LevelKit implements Listener {
         if (e.getEntity() instanceof Trident &&
                 e.getEntity().getShooter() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            ((Trident) e.getEntity()).setDamage(39);
+            ((Trident) e.getEntity()).setDamage(45);
+            tridents.put((Player) e.getEntity().getShooter(), e.getEntity());
+            if (e.getHitEntity() instanceof Player) {
+                Player p = (Player) e.getHitEntity();
+                p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
+                p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 60, 2)));
+            }
+        }
+    }
+
+    /**
+     * Hypaspist's trident on the ground if there is one. Is removed on enderchest click
+     * @param event The event called when an off-cooldown player interacts with an enderchest
+     */
+    @EventHandler
+    public void onClickEnderchest(EnderchestEvent event) {
+        if (tridents.containsKey(event.getPlayer())) {
+            tridents.get(event.getPlayer()).remove();
+            tridents.remove(event.getPlayer());
+        }
+    }
+
+    /**
+     *
+     * @param e if a player dies remove their trident and remove them from the list if they are contained in the list.
+     */
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent e) {
+        if (tridents.containsKey(e.getPlayer())) {
+            tridents.get(e.getPlayer()).remove();
+            tridents.remove(e.getPlayer());
+        }
+    }
+
+    /**
+     *
+     * @param e if a player quits remove their trident and remove them from the list if they are contained in the list.
+     */
+    @EventHandler
+    public void onDisconnect(PlayerQuitEvent e) {
+        if (tridents.containsKey(e.getPlayer())) {
+            tridents.get(e.getPlayer()).remove();
+            tridents.remove(e.getPlayer());
         }
     }
 }
