@@ -27,7 +27,7 @@ public class CryptsFallen extends TeamKit implements Listener {
      */
     public CryptsFallen() {
         super("Fallen", 360, 23, "Royal Crypts", "Tomb Guardians",
-                3500, Material.WITHER_SKELETON_SKULL);
+                3500, Material.WITHER_SKELETON_SKULL, "controller");
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;

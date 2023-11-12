@@ -68,7 +68,7 @@ public class Rogue extends DonatorKit implements Listener {
     private BukkitRunnable br = null;
 
     public Rogue() {
-        super("Rogue", 210, 8, Material.NETHERITE_BOOTS);
+        super("Rogue", 210, 8, Material.NETHERITE_BOOTS, "lurker");
         super.canSeeHealth = true;
 
         // Equipment Stuff

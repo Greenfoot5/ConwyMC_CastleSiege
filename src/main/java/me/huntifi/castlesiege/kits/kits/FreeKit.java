@@ -16,8 +16,8 @@ public abstract class FreeKit extends Kit {
      * @param name       This kit's name
      * @param baseHealth This kit's base health
      */
-    public FreeKit(String name, int baseHealth, double regenAmount, Material material) {
-        super(name, baseHealth, regenAmount, material);
+    public FreeKit(String name, int baseHealth, double regenAmount, Material material, String role) {
+        super(name, baseHealth, regenAmount, material, role);
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
     }

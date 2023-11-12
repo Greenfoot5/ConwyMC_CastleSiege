@@ -50,7 +50,7 @@ public class Alchemist extends DonatorKit implements Listener {
      * Creates the basics for Alchemist
      */
     public Alchemist() {
-        super("Alchemist", 210, 2, Material.BREWING_STAND);
+        super("Alchemist", 210, 2, Material.BREWING_STAND, "support");
         super.canSeeHealth = true;
 
         // Equipment Stuff

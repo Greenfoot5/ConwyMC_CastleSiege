@@ -33,7 +33,7 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
 
     public MoriaAxeThrower() {
         super("Dwarven Axe Thrower", 300, 10, "Moria",
-                "The Dwarves", 5000, Material.STONE_AXE);
+                "The Dwarves", 5000, Material.STONE_AXE, "damage");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

@@ -26,7 +26,7 @@ public class ConwyArbalester extends TeamKit implements Listener {
 
     public ConwyArbalester() {
         super("Arbalester", 260, 3, "Conwy", "The English",
-                5000, Material.CROSSBOW);
+                5000, Material.CROSSBOW, "ranged");
 
 
         // Equipment Stuff

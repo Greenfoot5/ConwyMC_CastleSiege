@@ -56,7 +56,7 @@ public class Spearman extends FreeKit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Spearman() {
-		super("Spearman", health, regen, Material.STICK);
+		super("Spearman", health, regen, Material.STICK, "damage");
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
