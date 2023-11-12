@@ -26,7 +26,7 @@ public class Archer extends FreeKit {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Archer() {
-		super("Archer", health, regen, Material.BOW);
+		super("Archer", health, regen, Material.BOW,"ranged");
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
