@@ -72,6 +72,30 @@ public class LoadData {
     }
 
     /**
+     * Should be called async.
+     * @return returns the amount of actual premium/elite kits this player has.
+     * Is used to determine the price of the next elite kit bought.
+     */
+    public static int returnPremiumKits(UUID uuid) {
+        int amount = 0;
+        for (String kits : getUnlockedKits(uuid)) {
+           if (DonatorKit.donatorKits.contains(kits)) {
+                amount++;
+           }
+        }
+        return amount;
+    }
+
+    /**
+     * @return returns the price of the next elite kit.
+     */
+    public static int returnPremiumKitPrice(UUID uuid) {
+        final int basicprice = 5000;
+        final int addon = 2500;
+        return basicprice + (addon * returnPremiumKits(uuid));
+    }
+
+    /**
      * Get all currently unlocked premium and team kits from the database
      * @param uuid The unique id of the player whose data to get
      * @return A list of all currently unlocked kits
@@ -250,7 +274,7 @@ public class LoadData {
     }
 
     /**
-     * Get a players kit from the database
+     * Get a player's kit from the database
      * @param uuid The unique ID of the player whose data to get
      * @param kitName The type of kit to get from the database
      * @return A tuple of the prepared statement (to close later) and the query's result

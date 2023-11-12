@@ -72,7 +72,7 @@ public class Chef extends DonatorKit implements Listener {
     public static final ArrayList<Location> activeLocations = new ArrayList<>();
 
     public Chef() {
-        super("Chef", baseHealth, regenAmount, coinCost, material);
+        super("Chef", baseHealth, regenAmount, material);
         super.canSeeHealth = true;
 
         // Equipment Stuff

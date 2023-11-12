@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,10 +20,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * A GUI made with a minecraft inventory
@@ -77,30 +75,32 @@ public class Gui implements Listener {
      * @param material The material of the item
      * @param location The location of the item
      */
-    public void addCoinShopItem(String kitName, Material material, int location) {
+    public void addCoinShopItem(String kitName, Material material, int location, UUID uuid) {
         Kit kit = Kit.getKit(kitName);
         if (!(kit instanceof DonatorKit))
             throw new IllegalArgumentException(kitName + " is not a donator kit, it's " + kit.getClass());
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            String itemName = (kit instanceof TeamKit ? ChatColor.BLUE : ChatColor.GOLD) + "" + ChatColor.BOLD + kit.name;
+            String price = ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPrice(uuid);
+            String duration = ChatColor.GREEN + "Duration: permanent";
 
-        String itemName = (kit instanceof TeamKit ? ChatColor.BLUE : ChatColor.GOLD) + "" + ChatColor.BOLD + kit.name;
-        String price = ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + ((DonatorKit) kit).getPrice();
-        String duration = ChatColor.GREEN + "Duration: permanent";
-
-        ArrayList<String> lore = new ArrayList<>();
-        lore.add(price);
-        lore.add(duration);
-        if (kit instanceof TeamKit) {
-            Map map = MapController.getMap(((TeamKit) kit).getMapName());
-            if (map != null) {
-                Team team = map.getTeam(((TeamKit) kit).getTeamName());
-                lore.add(ChatColor.GREEN + "Map: " + ChatColor.BOLD + map.name);
-                lore.add(ChatColor.GREEN + "Team: " + team.primaryChatColor + team.name);
-            } else
-                lore.add(ChatColor.GREEN + "Map: " + ChatColor.BOLD + "OUT OF ROTATION");
-        }
-        lore.add(ChatColor.YELLOW + "Click here to buy!");
-
-        addItem(itemName, material, lore, location, "buykit " + kitName, false);
+            ArrayList<String> lore = new ArrayList<>();
+            lore.add(price);
+            lore.add(duration);
+            if (kit instanceof TeamKit) {
+                Map map = MapController.getMap(((TeamKit) kit).getMapName());
+                if (map != null) {
+                    Team team = map.getTeam(((TeamKit) kit).getTeamName());
+                    lore.add(ChatColor.GREEN + "Map: " + ChatColor.BOLD + map.name);
+                    lore.add(ChatColor.GREEN + "Team: " + team.primaryChatColor + team.name);
+                } else
+                    lore.add(ChatColor.GREEN + "Map: " + ChatColor.BOLD + "OUT OF ROTATION");
+            }
+            lore.add(ChatColor.YELLOW + "Click here to buy!");
+                    Bukkit.getScheduler().runTask(Main.plugin, () -> {
+                        addItem(itemName, material, lore, location, "buykit " + kitName, false);
+                    });
+        });
     }
 
     /**

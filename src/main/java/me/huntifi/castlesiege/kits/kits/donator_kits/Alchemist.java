@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.donator_kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.combat.AssistKill;
@@ -49,7 +50,7 @@ public class Alchemist extends DonatorKit implements Listener {
      * Creates the basics for Alchemist
      */
     public Alchemist() {
-        super("Alchemist", 210, 2, 10000, Material.BREWING_STAND);
+        super("Alchemist", 210, 2, Material.BREWING_STAND);
         super.canSeeHealth = true;
 
         // Equipment Stuff

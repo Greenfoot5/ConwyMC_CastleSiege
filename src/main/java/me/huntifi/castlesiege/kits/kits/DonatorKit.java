@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
@@ -16,19 +17,18 @@ import java.util.UUID;
 
 public abstract class DonatorKit extends Kit {
 
-    // Coin price to unlock this kit
-    private final double price;
-
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
     public static final List<String> boostedKits = new ArrayList<>();
+    public static final List<String> donatorKits = new ArrayList<>();
 
-    public DonatorKit(String name, int baseHealth, double regenAmount, double coins, Material material) {
+    public DonatorKit(String name, int baseHealth, double regenAmount, Material material) {
         super(name, baseHealth, regenAmount, material);
-        price = coins;
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
+        if (!donatorKits.contains(getSpacelessName()))
+            donatorKits.add(getSpacelessName());
     }
 
     /**
@@ -64,8 +64,8 @@ public abstract class DonatorKit extends Kit {
      * Get this kit's price
      * @return The price to unlock this kit
      */
-    public double getPrice() {
-        return price;
+    public static double getPrice(UUID uuid) {
+        return LoadData.returnPremiumKitPrice(uuid);
     }
 
     /**

@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -57,7 +58,7 @@ public class BuyKitCommand implements CommandExecutor {
             }
 
             // Get the kit's price
-            double coinPrice = ((DonatorKit) kit).getPrice();
+            double coinPrice = DonatorKit.getPrice(buyer.getUniqueId());
             if (coinPrice <= 0) {
                 Messenger.sendError("The coinPrice is " + coinPrice + ", report this!", sender);
                 return;

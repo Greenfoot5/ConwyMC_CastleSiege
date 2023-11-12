@@ -44,7 +44,7 @@ public class Crossbowman extends DonatorKit implements Listener {
     private final ItemStack sniperSwitchActive;
 
     public Crossbowman() {
-        super("Crossbowman", 270, 9, 10000, Material.CROSSBOW);
+        super("Crossbowman", 270, 9, Material.CROSSBOW);
         super.kbResistance = 1;
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

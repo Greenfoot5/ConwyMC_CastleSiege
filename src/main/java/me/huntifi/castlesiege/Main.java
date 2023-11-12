@@ -392,7 +392,6 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
                 loadKits();
                 applyKitLimits();
-                registerCoinShop();
 
                 // Map Specific
                 // Helms Deep Only
@@ -766,59 +765,6 @@ public class Main extends JavaPlugin implements Listener {
                     kit.setLimit(gameConfig.getInt(route.add(path)));
             }
         }
-    }
-
-    /**
-     * Register the coin shop as set in [TODO: yml to be created]
-     * Not included in [TODO: loading GUIs from yml] because the kits must be registered first
-     */
-    private void registerCoinShop() {
-        Gui gui = new Gui(ChatColor.DARK_GREEN + "Coin Shop", 5);
-
-        gui.addCoinShopItem("Alchemist", Kit.getMaterial("Alchemist"), 0);
-        gui.addCoinShopItem("Berserker", Kit.getMaterial("Berserker"), 1);
-        gui.addCoinShopItem("Cavalry", Kit.getMaterial("Cavalry"), 2);
-        gui.addCoinShopItem("Chef", Kit.getMaterial("Chef"), 3);
-        gui.addCoinShopItem("Crossbowman", Kit.getMaterial("Crossbowman"), 4);
-        gui.addCoinShopItem("Engineer", Kit.getMaterial("Engineer"), 5);
-        gui.addCoinShopItem("Executioner", Kit.getMaterial("Executioner"), 6);
-        gui.addCoinShopItem("Halberdier", Kit.getMaterial("Halberdier"), 7);
-        gui.addCoinShopItem("Maceman", Kit.getMaterial("Maceman"), 8);
-        gui.addCoinShopItem("Medic", Kit.getMaterial("Medic"), 9);
-        gui.addCoinShopItem("Ranger", Kit.getMaterial("Ranger"), 10);
-        gui.addCoinShopItem("Rogue", Kit.getMaterial("Rogue"), 11);
-        gui.addCoinShopItem("Vanguard", Kit.getMaterial("Vanguard"), 12);
-        gui.addCoinShopItem("Viking", Kit.getMaterial("Viking"), 13);
-        gui.addCoinShopItem("Warhound", Kit.getMaterial("Warhound"), 14);
-
-        List<String> lore = new ArrayList<>();
-        lore.add("/\\ Elite Kits /\\");
-        lore.add(" ");
-        lore.add("\\/ Team Kits \\/");
-        for (int i = 18; i < 27; i++) {
-            gui.addItem("-", Material.GRAY_STAINED_GLASS_PANE, lore, i, "", false);
-        }
-
-        gui.addCoinShopItem("Elytrier", Kit.getMaterial("Elytrier"), 27);
-        gui.addCoinShopItem("Fallen", Kit.getMaterial("Fallen"), 28);
-        gui.addCoinShopItem("MoriaOrc", Kit.getMaterial("MoriaOrc"), 29);
-        gui.addCoinShopItem("DwarvenAxeThrower", Kit.getMaterial("DwarvenAxeThrower"), 30);
-        gui.addCoinShopItem("DwarvenGuardian", Kit.getMaterial("DwarvenGuardian"), 31);
-        gui.addCoinShopItem("MoriaCaveTroll", Kit.getMaterial("MoriaCaveTroll"), 32);
-        gui.addCoinShopItem("MoriaBonecrusher", Kit.getMaterial("MoriaBonecrusher"), 33);
-        gui.addCoinShopItem("DwarvenWindlancer", Kit.getMaterial("DwarvenWindlancer"), 34);
-        gui.addCoinShopItem("UrukBerserker", Kit.getMaterial("UrukBerserker"), 35);
-        gui.addCoinShopItem("Lancer", Kit.getMaterial("Lancer"), 36);
-        gui.addCoinShopItem("RangedCavalry", Kit.getMaterial("RangedCavalry"), 37);
-        gui.addCoinShopItem("RoyalKnight", Kit.getMaterial("RoyalKnight"), 38);
-        gui.addCoinShopItem("Arbalester", Kit.getMaterial("Arbalester"), 39);
-        gui.addCoinShopItem("ConwyLongbowman", Kit.getMaterial("ConwyLongbowman"), 40);
-        gui.addCoinShopItem("Longbowman", Kit.getMaterial("Longbowman"), 41);
-        gui.addCoinShopItem("Axeman", Kit.getMaterial("Axeman"), 42);
-
-        //gui.addItem("§4§lGo Back", Material.BARRIER, Collections.singletonList("§cReturn to the previous interface."), 45, "kit shop", true);
-
-        GuiController.add("coin shop", gui);
     }
 
     private void loadMaps() {
