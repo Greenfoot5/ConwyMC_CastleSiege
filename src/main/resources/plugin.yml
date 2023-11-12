@@ -435,6 +435,9 @@ commands:
   Berserker:
     description: Selects the berserker kit
     usage: /berserker
+  BattleMedic:
+    description: Selects the battle medic kit
+    usage: /battlemedic
   Cavalry:
     description: Selects the cavalry kit
     usage: /cavalry
