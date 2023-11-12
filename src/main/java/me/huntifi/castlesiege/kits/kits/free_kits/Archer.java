@@ -20,7 +20,7 @@ public class Archer extends FreeKit {
 	private static final double meleeDamage = 34;
 	private static final int ladderCount = 4;
 	private static final int arrowCount = 35;
-	private static final int bowPowerLevel = 32;
+	private static final int bowPowerLevel = 36;
 
 	/**
 	 * Set the equipment and attributes of this kit
