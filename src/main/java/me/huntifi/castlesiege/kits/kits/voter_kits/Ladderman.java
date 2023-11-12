@@ -31,7 +31,7 @@ public class Ladderman extends VoterKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Ladderman() {
-        super("Ladderman", 285, 10, Material.LADDER);
+        super("Ladderman", 270, 10, Material.LADDER, "Lurker");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -39,13 +39,13 @@ public class Ladderman extends VoterKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                ChatColor.GREEN + "Short Axe", null, null, 45);
+                ChatColor.GREEN + "Short Axe", null, null, 36);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                         ChatColor.GREEN + "Short Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 47),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 38),
                 0);
 
         // Chestplate
@@ -57,11 +57,11 @@ public class Ladderman extends VoterKit implements Listener {
                 ChatColor.GREEN + "Iron Leggings", null, null);
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots", null, null);
+        es.feet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
+                ChatColor.GREEN + "Leather Boots", null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
+        es.votedFeet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
+                ChatColor.GREEN + "Leather Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 

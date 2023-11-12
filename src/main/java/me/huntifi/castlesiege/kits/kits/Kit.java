@@ -47,6 +47,8 @@ public abstract class Kit implements CommandExecutor {
     public double kbResistance = 0;
     protected final double regenAmount;
 
+    //Level requirement for level kits.
+    protected int levelRequirement;
     public boolean canCap;
     public boolean canClimb;
     protected boolean canSeeHealth;
@@ -74,7 +76,7 @@ public abstract class Kit implements CommandExecutor {
     public final Material material;
 
     //What type of kit is this? Ranged, lurker, controller, damage, support or tank. (Team kits work differently)
-    public String role;
+    public String roleSelection;
 
     /**
      * Create a kit with basic settings
@@ -103,6 +105,8 @@ public abstract class Kit implements CommandExecutor {
         projectileDeathMessage = new String[]{"You were shot by ", ""};
         projectileKillMessage = new String[]{" shot ", ""};
 
+        levelRequirement = 0;
+        roleSelection = role;
         this.material = material;
     }
 

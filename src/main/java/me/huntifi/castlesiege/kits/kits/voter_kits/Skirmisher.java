@@ -22,7 +22,7 @@ public class Skirmisher extends VoterKit {
      * Set the equipment and attributes of this kit
      */
     public Skirmisher() {
-        super("Skirmisher", 280, 10, Material.IRON_BOOTS);
+        super("Skirmisher", 280, 10, Material.IRON_BOOTS, "damage");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

@@ -537,6 +537,9 @@ commands:
   Spearman:
     description: Selects the spearman kit
     usage: /spearman
+  Spearknight:
+    description: Selects the spearknight kit
+    usage: /spearknight
   Swordsman:
     description: Selects the swordsman kit
     usage: /swordsman

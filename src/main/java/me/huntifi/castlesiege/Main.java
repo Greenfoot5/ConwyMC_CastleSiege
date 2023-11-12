@@ -66,6 +66,7 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.kits.kits.in_development.Chef;
 import me.huntifi.castlesiege.kits.kits.in_development.Warbear;
+import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyArbalester;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyLongbowman;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyRoyalKnight;
@@ -248,6 +249,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new MoriaOrc(), plugin);
                 getServer().getPluginManager().registerEvents(new Rogue(), plugin);
                 getServer().getPluginManager().registerEvents(new Ranger(), plugin);
+                getServer().getPluginManager().registerEvents(new SpearKnight(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
                 getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
@@ -385,6 +387,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Shieldman")).setExecutor(new Shieldman());
                 Objects.requireNonNull(getCommand("Skirmisher")).setExecutor(new Skirmisher());
                 Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
+                Objects.requireNonNull(getCommand("Spearknight")).setExecutor(new SpearKnight());
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
                 Objects.requireNonNull(getCommand("Vanguard")).setExecutor(new Vanguard());
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
