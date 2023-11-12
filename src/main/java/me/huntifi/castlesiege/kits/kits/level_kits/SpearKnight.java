@@ -75,7 +75,7 @@ public class SpearKnight extends LevelKit implements Listener {
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
-                ChatColor.GREEN + "Chainmail Chestplate", null, null);
+                ChatColor.GREEN + "Iron Chestplate", null, null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta ameta = (ArmorMeta) chest;
         assert chest != null;
