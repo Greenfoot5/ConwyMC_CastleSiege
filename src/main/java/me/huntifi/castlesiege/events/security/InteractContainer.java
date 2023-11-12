@@ -2,9 +2,11 @@ package me.huntifi.castlesiege.events.security;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.InventoryHolder;
 
@@ -37,9 +39,23 @@ public class InteractContainer implements Listener {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             assert e.getClickedBlock() != null;
             if (e.getClickedBlock().getState() instanceof InventoryHolder ||
-                    bannedBlocks.contains(e.getClickedBlock().getType()))  {
+                    bannedBlocks.contains(e.getClickedBlock().getType()) || e.getClickedBlock().getState() instanceof Sign)  {
                 e.setCancelled(true);
             }
+        }
+    }
+
+    /**
+     * Cancels event when player interacts with a sign to change what is on it.
+     * @param e The event called when a player attempts to edit a sign.
+     */
+    @EventHandler
+    public void onInteract(SignChangeEvent e) {
+        // Allow interacting in creative mode
+        if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
+            return;
+        } else {
+            e.setCancelled(true);
         }
     }
 }
