@@ -11,6 +11,7 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
+import fr.skytasul.glowingentities.GlowingBlocks;
 import me.huntifi.castlesiege.commands.chat.GlobalChat;
 import me.huntifi.castlesiege.commands.chat.PrivateMessage;
 import me.huntifi.castlesiege.commands.chat.ReplyMessage;
@@ -129,6 +130,8 @@ public class Main extends JavaPlugin implements Listener {
 
     private YamlDocument gameConfig;
     private YamlDocument kitsConfig;
+
+    public static GlowingBlocks glowingblocks;
 
 
     @Override
@@ -424,6 +427,8 @@ public class Main extends JavaPlugin implements Listener {
                 //This registers the secret items
                 SecretItems.registerSecretItems();
 
+                glowingblocks = new GlowingBlocks(instance);
+
             }
         }.runTaskLater(plugin, 1);
     }
@@ -446,6 +451,7 @@ public class Main extends JavaPlugin implements Listener {
         worldCreator.createWorld();
         // Save data and disconnect the SQL
         StoreData.storeAll();
+        glowingblocks.disable();
         try {
             SQL.disconnect();
         } catch (NullPointerException ex) {
