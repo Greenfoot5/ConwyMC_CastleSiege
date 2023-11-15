@@ -100,7 +100,7 @@ public class GuiCreations {
         gui.addItem("§2§lCLASS:§r§2 Hypaspist", Material.GOLDEN_CHESTPLATE,
                 Hypaspist.loreStats(), 1, "hypaspist", true);
 
-        gui.addItem("§6§lCLASS:§r§6 Halberdier", Material.DIAMOND_CHESTPLATE,
+        gui.addItem("§6§lCLASS:§r§6 Halberdier", Material.NETHERITE_CHESTPLATE,
                 Collections.singletonList(""), 2, "halberdier", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
@@ -151,7 +151,7 @@ public class GuiCreations {
         gui.addItem("§9§lCLASS:§r§9 Ladderman", Material.LADDER,
                 Ladderman.loreStats(), 1, "ladderman", true);
 
-        gui.addItem("§9§lCLASS:§r§9 Rogue", Material.NETHERITE_BOOTS,
+        gui.addItem("§6§lCLASS:§r§6 Rogue", Material.NETHERITE_BOOTS,
                 Collections.singletonList(""), 2, "rogue", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
@@ -163,7 +163,7 @@ public class GuiCreations {
         Gui gui = new Gui("ranged", 2);
 
         gui.addItem("§a§lCLASS:§r§a Archer", Material.BOW,
-                Archer.loreStats(), 0, "skirmisher", true);
+                Archer.loreStats(), 0, "archer", true);
 
         gui.addItem("§9§lCLASS:§r§9 Fire Archer", Material.BLAZE_POWDER,
                 FireArcher.loreStats(), 1, "firearcher", true);
@@ -171,7 +171,7 @@ public class GuiCreations {
         gui.addItem("§6§lCLASS:§r§6 Ranger", Material.LIME_DYE,
                 Collections.singletonList(""), 2, "ranger", true);
 
-        gui.addItem("§6§lCLASS:§r§6 Crossbowman", Material.POTION,
+        gui.addItem("§6§lCLASS:§r§6 Crossbowman", Material.CROSSBOW,
                 Crossbowman.loreStats(), 3, "crossbowman", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,

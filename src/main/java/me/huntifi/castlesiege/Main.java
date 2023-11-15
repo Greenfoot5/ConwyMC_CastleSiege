@@ -187,7 +187,7 @@ public class Main extends JavaPlugin implements Listener {
 
 
                 // Combat
-                getServer().getPluginManager().registerEvents(new ArrowCollision(), plugin);
+                //getServer().getPluginManager().registerEvents(new ArrowCollision(), plugin);
                 getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
                 getServer().getPluginManager().registerEvents(new AssistKill(), plugin);
                 getServer().getPluginManager().registerEvents(new FallDamage(), plugin);
