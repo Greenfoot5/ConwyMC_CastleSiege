@@ -29,4 +29,5 @@ public abstract class FreeKit extends Kit {
     public static Collection<String> getKits() {
         return kits;
     }
+
 }

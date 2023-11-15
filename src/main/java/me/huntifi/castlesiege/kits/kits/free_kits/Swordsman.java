@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 /**
@@ -63,5 +64,18 @@ public class Swordsman extends FreeKit {
 		es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
 		super.equipment = es;
+	}
+
+	public static ArrayList<String> loreStats() {
+		ArrayList<String> kitLore = new ArrayList<>();
+		kitLore.add("§7Standard melee kit");
+		kitLore.add("§7has a sword.");
+		kitLore.add(" ");
+		kitLore.add("§a" + health + " §7HP");
+		kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+		kitLore.add("§a" + regenAmount + " §7Regen");
+		kitLore.add("§a" + ladderCount + " §7Ladders");
+		kitLore.add("§7Free To Play!");
+		return kitLore;
 	}
 }

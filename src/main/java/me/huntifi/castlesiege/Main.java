@@ -57,6 +57,7 @@ import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.gui.GuiController;
+import me.huntifi.castlesiege.gui.GuiCreations;
 import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -395,7 +396,8 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
                 Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
-                loadKits();
+                //loadKits();
+                GuiCreations.registerGUIs();
                 applyKitLimits();
 
                 // Map Specific
@@ -686,6 +688,7 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     /**
+     * This is old code and is kept just in case we would need it back later.
      * Create the inventories corresponding to the GUIs in kits.yml
      */
     private void loadKits() {
