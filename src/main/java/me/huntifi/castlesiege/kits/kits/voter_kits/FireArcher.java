@@ -354,4 +354,28 @@ public class FireArcher extends VoterKit implements Listener {
                 .findFirst().map(Map.Entry::getKey)
                 .orElse(null);
     }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7Ranged kit with a firepit,");
+        kitLore.add("§7can create fire arrows.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + "40+ §7Ranged DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§a" + arrowCount + " §7Arrows");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Slowness I (with cauldron in ");
+        kitLore.add("§7inventory)");
+        kitLore.add("§6Ability: ");
+        kitLore.add("§7- Place down the cauldron and");
+        kitLore.add("§7right click it with arrows to");
+        kitLore.add("§7create fire arrows. Left click");
+        kitLore.add("§7to pick the cauldron back up.");
+        kitLore.add("");
+        kitLore.add("§7Vote on PMC for this kit!");
+        return kitLore;
+    }
 }

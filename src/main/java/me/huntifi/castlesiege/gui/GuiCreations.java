@@ -1,6 +1,9 @@
 package me.huntifi.castlesiege.gui;
 
+import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
+import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
+import me.huntifi.castlesiege.kits.kits.voter_kits.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -50,8 +53,14 @@ public class GuiCreations {
     public static Gui damage() {
         Gui gui = new Gui("damage", 2);
 
-        gui.addItem(ChatColor.GREEN + "§a§lCLASS:§r§a Swordsman", Material.IRON_SWORD,
+        gui.addItem("§a§lCLASS:§r§a Swordsman", Material.IRON_SWORD,
                 Swordsman.loreStats(), 0, "swordsman", true);
+
+        gui.addItem("§a§lCLASS:§r§a Spearman", Material.STICK,
+                Spearman.loreStats(), 1, "spearman", true);
+
+        gui.addItem("§9§lCLASS:§r§9 Skirmisher", Material.IRON_BOOTS,
+                Skirmisher.loreStats(), 2, "skirmisher", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
@@ -60,6 +69,9 @@ public class GuiCreations {
 
     public static Gui tank() {
         Gui gui = new Gui("tank", 2);
+
+        gui.addItem("§9§lCLASS:§r§9 Shieldman", Material.SHIELD,
+                Shieldman.loreStats(), 0, "shieldman", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
@@ -85,6 +97,12 @@ public class GuiCreations {
     public static Gui lurker() {
         Gui gui = new Gui("lurker", 2);
 
+        gui.addItem("§9§lCLASS:§r§9 Scout", Material.LEATHER_BOOTS,
+                Scout.loreStats(), 0, "scout", true);
+
+        gui.addItem("§9§lCLASS:§r§9 Ladderman", Material.LADDER,
+                Ladderman.loreStats(), 1, "ladderman", true);
+
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
         return gui;
@@ -92,6 +110,12 @@ public class GuiCreations {
 
     public static Gui ranged() {
         Gui gui = new Gui("ranged", 2);
+
+        gui.addItem("§a§lCLASS:§r§a Archer", Material.BOW,
+                Archer.loreStats(), 0, "skirmisher", true);
+
+        gui.addItem("§9§lCLASS:§r§9 Fire Archer", Material.BLAZE_POWDER,
+                FireArcher.loreStats(), 1, "firearcher", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);

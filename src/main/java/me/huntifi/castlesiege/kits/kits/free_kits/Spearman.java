@@ -28,10 +28,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * The spearman kit
@@ -189,5 +186,25 @@ public class Spearman extends FreeKit implements Listener {
 				e.setDamage(e.getDamage() * HORSE_MULTIPLIER);
 			}
 		}
+	}
+
+	public static ArrayList<String> loreStats() {
+		ArrayList<String> kitLore = new ArrayList<>();
+		kitLore.add("§7Melee kit that can");
+		kitLore.add("§7throw spears.");
+		kitLore.add(" ");
+		kitLore.add("§a" + health + " §7HP");
+		kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+		kitLore.add("§a" + throwDamage + " §7Ranged DMG");
+		kitLore.add("§a" + regen + " §7Regen");
+		kitLore.add("§a" + ladderCount + " §7Ladders");
+		kitLore.add("§a" + spearCount + " §7Spears");
+		kitLore.add(" ");
+		kitLore.add("§6Ability: ");
+		kitLore.add("§7- Right click your spears");
+		kitLore.add("§7to throw a spear.");
+		kitLore.add(" ");
+		kitLore.add("§7Free To Play!");
+		return kitLore;
 	}
 }

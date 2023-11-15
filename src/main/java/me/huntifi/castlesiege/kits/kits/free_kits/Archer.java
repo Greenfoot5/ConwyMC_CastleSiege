@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 /**
@@ -72,5 +73,20 @@ public class Archer extends FreeKit {
 				Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, bowPowerLevel)));
 
 		super.equipment = es;
+	}
+
+	public static ArrayList<String> loreStats() {
+		ArrayList<String> kitLore = new ArrayList<>();
+		kitLore.add("§7Standard ranged kit");
+		kitLore.add("§7has a sword and bow.");
+		kitLore.add(" ");
+		kitLore.add("§a" + health + " §7HP");
+		kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+		kitLore.add("§a" + "45+ §7Ranged DMG");
+		kitLore.add("§a" + regen + " §7Regen");
+		kitLore.add("§a" + ladderCount + " §7Ladders");
+		kitLore.add("§a" + arrowCount + " §7Arrows");
+		kitLore.add("§7Free To Play!");
+		return kitLore;
 	}
 }

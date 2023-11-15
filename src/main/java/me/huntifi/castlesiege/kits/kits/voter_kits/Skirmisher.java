@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 /**
@@ -18,11 +19,16 @@ import java.util.Collections;
  */
 public class Skirmisher extends VoterKit {
 
+    private static final int health = 280;
+    private static final double regen = 10;
+    private static final double meleeDamage = 43;
+    private static final int ladderCount = 8;
+
     /**
      * Set the equipment and attributes of this kit
      */
     public Skirmisher() {
-        super("Skirmisher", 280, 10, Material.IRON_BOOTS, "damage");
+        super("Skirmisher", health, regen, Material.IRON_BOOTS, "damage");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -30,13 +36,13 @@ public class Skirmisher extends VoterKit {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword", null, null, 43);
+                ChatColor.GREEN + "Iron Sword", null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Iron Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 45),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
@@ -57,8 +63,8 @@ public class Skirmisher extends VoterKit {
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
-        es.hotbar[1] = new ItemStack(Material.LADDER, 8);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 10), 1);
+        es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         super.equipment = es;
 
@@ -66,4 +72,23 @@ public class Skirmisher extends VoterKit {
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 1));
     }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7Fast melee unit similar");
+        kitLore.add("§7to swordsman with more ladders.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Haste II");
+        kitLore.add("§7- Speed I");
+        kitLore.add("");
+        kitLore.add("§7Vote on PMC for this kit!");
+        return kitLore;
+    }
 }
+
+

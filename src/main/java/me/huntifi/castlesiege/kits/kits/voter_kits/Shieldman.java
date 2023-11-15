@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 /**
@@ -18,11 +19,16 @@ import java.util.Collections;
  */
 public class Shieldman extends VoterKit {
 
+    private static final int health = 400;
+    private static final double regen = 14;
+    private static final double meleeDamage = 36;
+    private static final int ladderCount = 25;
+
     /**
      * Set the equipment and attributes of this kit
      */
     public Shieldman() {
-        super("Shieldman", 340, 14, Material.SHIELD, "tank");
+        super("Shieldman", health, regen, Material.SHIELD, "tank");
         super.kbResistance = 0.5;
 
         // Equipment Stuff
@@ -31,13 +37,13 @@ public class Shieldman extends VoterKit {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Longsword", null, null, 41);
+                ChatColor.GREEN + "Longsword", null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Longsword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 43),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Shield
@@ -63,14 +69,30 @@ public class Shieldman extends VoterKit {
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
-        es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
+        es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         super.equipment = es;
 
         // Perm Potion Effects
-        //super.potionEffects.add(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 999999, 0));
-        //super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 0));
+    }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7Basic tank has a");
+        kitLore.add("§7sword and shield.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Mining Fatigue I");
+        kitLore.add("§7- Slowness I");
+        kitLore.add("");
+        kitLore.add("§7Vote on PMC for this kit!");
+        return kitLore;
     }
 }

@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -20,11 +21,16 @@ import java.util.Collections;
  */
 public class Scout extends VoterKit {
 
+    private static final int health = 230;
+    private static final double regenAmount = 9;
+    private static final double meleeDamage = 45;
+    private static final int ladderCount = 6;
+
     /**
      * Set the equipment and attributes of this kit
      */
     public Scout() {
-        super("Scout", 230, 9, Material.LEATHER_BOOTS, "lurker");
+        super("Scout", health, regenAmount, Material.LEATHER_BOOTS, "lurker");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -32,13 +38,13 @@ public class Scout extends VoterKit {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Shortsword", null, null, 45);
+                ChatColor.GREEN + "Shortsword", null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Shortsword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 47),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
@@ -64,8 +70,8 @@ public class Scout extends VoterKit {
                 Color.fromRGB(64, 87, 1));
 
         // Ladders
-        es.hotbar[1] = new ItemStack(Material.LADDER, 6);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 8), 1);
+        es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         super.equipment = es;
 
@@ -73,5 +79,22 @@ public class Scout extends VoterKit {
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 1));
         super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 1));
+    }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7Fastest free melee kit.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regenAmount + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Speed II");
+        kitLore.add("§7- Jump Boost I");
+        kitLore.add("§7- Haste II");
+        kitLore.add("");
+        kitLore.add("§7Vote on PMC for this kit!");
+        return kitLore;
     }
 }

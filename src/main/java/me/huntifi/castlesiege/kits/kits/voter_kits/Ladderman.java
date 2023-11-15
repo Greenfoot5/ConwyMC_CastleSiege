@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
@@ -27,11 +28,16 @@ import java.util.UUID;
  */
 public class Ladderman extends VoterKit implements Listener {
 
+    private static final int health = 270;
+    private static final double regenAmount = 10.5;
+    private static final double meleeDamage = 36;
+    private static final int ladderCount = 25;
+
     /**
      * Set the equipment and attributes of this kit
      */
     public Ladderman() {
-        super("Ladderman", 270, 10, Material.LADDER, "Lurker");
+        super("Ladderman", health, regenAmount, Material.LADDER, "Lurker");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -39,13 +45,13 @@ public class Ladderman extends VoterKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                ChatColor.GREEN + "Short Axe", null, null, 36);
+                ChatColor.GREEN + "Short Axe", null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                         ChatColor.GREEN + "Short Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 38),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
@@ -66,8 +72,8 @@ public class Ladderman extends VoterKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
-        es.hotbar[1] = new ItemStack(Material.LADDER, 25);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 27), 1);
+        es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         super.equipment = es;
 
@@ -93,5 +99,25 @@ public class Ladderman extends VoterKit implements Listener {
                 e.getBlock().getType() == Material.LADDER) {
             p.getInventory().addItem(new ItemStack(Material.LADDER));
         }
+    }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7Melee kit with an axe");
+        kitLore.add("§7and loads of ladders.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regenAmount + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Jump Boost II");
+        kitLore.add("");
+        kitLore.add("§2Passive: ");
+        kitLore.add("§7- Can break ladders and");
+        kitLore.add("§7pick them up.");
+        kitLore.add("");
+        kitLore.add("§7Vote on PMC for this kit!");
+        return kitLore;
     }
 }
