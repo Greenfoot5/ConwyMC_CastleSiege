@@ -1,23 +1,30 @@
 package me.huntifi.castlesiege.maps;
 
-import fr.skytasul.glowingentities.GlowingBlocks;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Shulker;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Team;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -68,41 +75,60 @@ public class WoolMap implements Listener {
 	}
 
 	@EventHandler
-	public void lookAtWoolmap(PlayerMoveEvent e) throws ReflectiveOperationException {
+	public void lookAtWoolmap(PlayerMoveEvent e) {
         if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
 			Block target = e.getPlayer().getTargetBlockExact(50);
 			for (WoolMapBlock block : woolMapBlocks) {
 				assert target != null;
 				if (target.getLocation().distance(block.blockLocation) == 0) {
-					spawnGlower(e.getPlayer(), block);
+					spawnGlower(e.getPlayer(), block.blockLocation);
 				}
 			}
 		}
 	}
 
 
-	public static final HashMap<Player, Block> shulkers = new HashMap<>();
-	public void spawnGlower(Player p, WoolMapBlock woolblock) throws ReflectiveOperationException {
-      if ((!shulkers.containsKey(p)) || shulkers.get(p).getLocation() != woolblock.blockLocation ) {
-		  Main.glowingblocks.setGlowing(woolblock.blockLocation.getBlock(), p , Objects.requireNonNull(getGlowColor(woolblock.blockLocation.getBlock())));
-          shulkers.put(p, woolblock.blockLocation.getBlock());
-		  new BukkitRunnable() {
-			  @Override
-			  public void run() {
-				  try {
-					  Main.glowingblocks.unsetGlowing(woolblock.blockLocation.getBlock(), p);
-				  } catch (ReflectiveOperationException e) {
-					  throw new RuntimeException(e);
-				  }
-				  shulkers.remove(p, woolblock.blockLocation.getBlock());
-			  }
-		  }.runTaskLater(Main.plugin, 60);
+	public static final HashMap<Player, Shulker> shulkers = new HashMap<>();
+	public void spawnGlower(Player p, Location loc) {
+      if ((!shulkers.containsKey(p)) || shulkers.get(p).getLocation() != loc) {
+
+		  ScoreboardManager manager = Bukkit.getScoreboardManager();
+		  assert manager != null;
+		  org.bukkit.scoreboard.Scoreboard board = manager.getNewScoreboard();
+
+		  Shulker shulk = (Shulker) Objects.requireNonNull(loc.getWorld()).spawnEntity(loc, EntityType.SHULKER);
+          shulkers.put(p, shulk);
+		  shulk.setAI(false);
+		  shulk.setInvulnerable(true);
+		  shulk.setInvisible(true);
+		  shulk.setCustomName(shulk.getUniqueId().toString());
+		  p.showEntity(Main.plugin, shulk);
+
+		  shulk.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 8000, 0, false, false));
+          keepShulkerAlive(p, shulk, loc.getBlock());
 	  }
+	}
+
+	public void keepShulkerAlive(Player p, Shulker shulk, Block b) {
+
+		Block target = p.getTargetBlockExact(50);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				assert target != null;
+				if (target.equals(b)) {
+					shulkers.remove(p, shulk);
+					shulk.remove();
+				} else {
+					this.cancel();
+				}
+			}
+		}.runTaskTimer(Main.plugin, 20, 20);
 	}
 
 
 	/**
-	 * Convert the team's primary wool color to a chat color for the glowing block colour
+	 * Convert the  wool color to a chat color for the glowing block colour
 	 * @param b the block to check for wool
 	 * @return The chat colour corresponding to the team's primary wool color, null if primary wool is no wool
 	 */
