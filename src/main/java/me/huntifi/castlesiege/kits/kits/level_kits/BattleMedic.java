@@ -41,10 +41,14 @@ public class BattleMedic extends LevelKit implements Listener {
     private static final double meleeDamage = 42;
     private static final int ladderCount = 4;
 
+    private static final int bandageCount = 16;
+
+    private static final int level = 10;
+
     public static final ArrayList<Player> cooldown = new ArrayList<>();
 
     public BattleMedic() {
-        super("BattleMedic", health, regen, Material.PAPER, "support", 10);
+        super("BattleMedic", health, regen, Material.PAPER, "support", level);
 
         super.canSeeHealth = true;
 
@@ -87,7 +91,7 @@ public class BattleMedic extends LevelKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Bandages
-        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.PAPER, 16),
+        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.PAPER, bandageCount),
                 ChatColor.DARK_AQUA + "Bandages",
                 Collections.singletonList(ChatColor.AQUA + "Right click teammates to heal."), null);
 
@@ -148,5 +152,27 @@ public class BattleMedic extends LevelKit implements Listener {
      */
     private void addPotionEffect(Player player, PotionEffect potion) {
         Bukkit.getScheduler().runTask(Main.plugin, () -> player.addPotionEffect(potion));
+    }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7Melee-support kit that can");
+        kitLore.add("§7heal allies with bandages.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§a" + bandageCount + " §7Bandages");
+        kitLore.add(" ");
+        kitLore.add("§6Ability: ");
+        kitLore.add("§7- Right click your teammates");
+        kitLore.add("§7with bandages to heal them.");
+        kitLore.add("");
+        kitLore.add("§2Passive: ");
+        kitLore.add("§7- Can see health.");
+        kitLore.add("");
+        kitLore.add("§7Unlocks at level &a" + level);
+        return kitLore;
     }
 }

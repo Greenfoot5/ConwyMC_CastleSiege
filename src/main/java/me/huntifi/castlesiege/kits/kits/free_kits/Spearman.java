@@ -195,7 +195,7 @@ public class Spearman extends FreeKit implements Listener {
 		kitLore.add(" ");
 		kitLore.add("§a" + health + " §7HP");
 		kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-		kitLore.add("§a" + throwDamage + " §7Ranged DMG");
+		kitLore.add("§a" + throwDamage + " §7Spear-throw DMG");
 		kitLore.add("§a" + regen + " §7Regen");
 		kitLore.add("§a" + ladderCount + " §7Ladders");
 		kitLore.add("§a" + spearCount + " §7Spears");
@@ -203,7 +203,11 @@ public class Spearman extends FreeKit implements Listener {
 		kitLore.add("§6Ability: ");
 		kitLore.add("§7- Right click your spears");
 		kitLore.add("§7to throw a spear.");
-		kitLore.add(" ");
+		kitLore.add("");
+		kitLore.add("§2Passive: ");
+		kitLore.add("§7- Deals extra damage to horses.");
+		kitLore.add("§7- Can break entire rows of ladders instantly.");
+		kitLore.add("");
 		kitLore.add("§7Free To Play!");
 		return kitLore;
 	}

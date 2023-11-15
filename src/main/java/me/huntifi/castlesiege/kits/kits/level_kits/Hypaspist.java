@@ -28,6 +28,7 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Objects;
@@ -38,10 +39,12 @@ public class Hypaspist extends LevelKit implements Listener {
     private static final int health = 460;
     private static final double regen = 10.5;
     private static final double meleeDamage = 30;
+    private static final double throwDamage = 45;
     private static final int ladderCount = 4;
+    private static final int level = 20;
 
     public Hypaspist() {
-        super("Hypaspist", health, regen, Material.GOLDEN_CHESTPLATE, "Tank", 20);
+        super("Hypaspist", health, regen, Material.GOLDEN_CHESTPLATE, "Tank", level);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -128,12 +131,13 @@ public class Hypaspist extends LevelKit implements Listener {
         if (e.getEntity() instanceof Trident &&
                 e.getEntity().getShooter() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            ((Trident) e.getEntity()).setDamage(45);
+            ((Trident) e.getEntity()).setDamage(throwDamage);
             tridents.put((Player) e.getEntity().getShooter(), e.getEntity());
             if (e.getHitEntity() instanceof Player) {
                 Player p = (Player) e.getHitEntity();
                 p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
                 p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 60, 2)));
+                p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 60, 2)));
             }
         }
     }
@@ -172,5 +176,25 @@ public class Hypaspist extends LevelKit implements Listener {
             tridents.get(e.getPlayer()).remove();
             tridents.remove(e.getPlayer());
         }
+    }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A tank with a trident & shield, ");
+        kitLore.add("§7which weakens opponents.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + throwDamage + " §7Trident-throw DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("");
+        kitLore.add("§2Passive: ");
+        kitLore.add("§7- Trident-throw inflicts confusion IV,");
+        kitLore.add("§7Mining Fatigue III and Slowness II");
+        kitLore.add("§7to hit opponents.");
+        kitLore.add("");
+        kitLore.add("§7Unlocks at level &a" + level);
+        return kitLore;
     }
 }

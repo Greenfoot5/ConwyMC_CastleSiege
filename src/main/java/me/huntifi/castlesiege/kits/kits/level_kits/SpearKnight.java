@@ -31,6 +31,7 @@ import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
@@ -41,6 +42,7 @@ public class SpearKnight extends LevelKit implements Listener {
     private static final double regen = 10.5;
     private static final double meleeDamage = 35;
     private static final int ladderCount = 4;
+    private static final int level = 5;
 
     // Spear Throw
     private static final int throwCooldown = 160;
@@ -52,7 +54,7 @@ public class SpearKnight extends LevelKit implements Listener {
     private static final double HORSE_MULTIPLIER = 1.5;
 
     public SpearKnight() {
-        super("Spear Knight", health, regen, Material.STICK, "damage", 5);
+        super("Spear Knight", health, regen, Material.STICK, "damage", level);
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;
@@ -183,5 +185,28 @@ public class SpearKnight extends LevelKit implements Listener {
                 e.setDamage(e.getDamage() * HORSE_MULTIPLIER);
             }
         }
+    }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A sword and spear wielder, ");
+        kitLore.add("§7can throw a powerful spear.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + throwDamage + " §7Spear-throw DMG");
+        kitLore.add("§a1 §7Spear");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("");
+        kitLore.add("§6Ability: ");
+        kitLore.add("§7- Right click with your spear");
+        kitLore.add("§7in your hand to throw it.");
+        kitLore.add("");
+        kitLore.add("§2Passive: ");
+        kitLore.add("§7- Deals extra damage to horses.");
+        kitLore.add("");
+        kitLore.add("§7Unlocks at level &a" + level);
+        return kitLore;
     }
 }

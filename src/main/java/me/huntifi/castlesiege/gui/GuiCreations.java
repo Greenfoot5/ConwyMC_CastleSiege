@@ -3,11 +3,13 @@ package me.huntifi.castlesiege.gui;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
+import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
+import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
+import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
 import me.huntifi.castlesiege.kits.kits.voter_kits.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 public class GuiCreations {
@@ -62,6 +64,9 @@ public class GuiCreations {
         gui.addItem("§9§lCLASS:§r§9 Skirmisher", Material.IRON_BOOTS,
                 Skirmisher.loreStats(), 2, "skirmisher", true);
 
+        gui.addItem("§2§lCLASS:§r§2 Spear-knight", Material.STICK,
+                SpearKnight.loreStats(), 3, "spearknight", true);
+
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
         return gui;
@@ -73,6 +78,9 @@ public class GuiCreations {
         gui.addItem("§9§lCLASS:§r§9 Shieldman", Material.SHIELD,
                 Shieldman.loreStats(), 0, "shieldman", true);
 
+        gui.addItem("§2§lCLASS:§r§2 Hypaspist", Material.GOLDEN_CHESTPLATE,
+                Hypaspist.loreStats(), 1, "hypaspist", true);
+
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
         return gui;
@@ -80,6 +88,9 @@ public class GuiCreations {
 
     public static Gui support() {
         Gui gui = new Gui("support", 2);
+
+        gui.addItem("§2§lCLASS:§r§2 Battle Medic", Material.PAPER,
+                BattleMedic.loreStats(), 0, "battlemedic", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);

@@ -482,7 +482,7 @@ commands:
     usage: /halberdier
   Hypaspist:
     description: Selects the hypaspist kit
-    usage: /Hypaspist
+    usage: /hypaspist
   HelmsdeepBerserker:
     description: Selects the Berserker kit on Helm's Deep
     usage: /helmsdeepberserker
