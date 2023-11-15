@@ -23,15 +23,18 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * The berserker kit
  */
 public class Berserker extends DonatorKit implements Listener {
+
+    private static final int health = 200;
+    private static final double regen = 20;
+    private static final double meleeDamage = 53;
+    private static final double meleeDamageZerk = 105.5;
+    private static final int ladderCount = 5;
 
     private final ItemStack regularSword;
     private final ItemStack regularSwordVoted;
@@ -42,7 +45,7 @@ public class Berserker extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Berserker() {
-        super("Berserker", 200, 20, Material.POTION, "damage");
+        super("Berserker", health, regen, Material.POTION, "damage");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -50,18 +53,18 @@ public class Berserker extends DonatorKit implements Listener {
 
         // Weapon
         regularSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword", null, null, 53);
+                ChatColor.GREEN + "Iron Sword", null, null, meleeDamage);
         es.hotbar[0] = regularSword;
         // Voted Weapon
         regularSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 55);
+                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
         // Ladders
-        es.hotbar[2] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
+        es.hotbar[2] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 2);
 
         // Potion Item
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POTION, 1),
@@ -70,13 +73,13 @@ public class Berserker extends DonatorKit implements Listener {
         // Berserk Weapon
         berserkSword = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Berserker Sword", null,
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 105.5);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamageZerk);
         // Voted Berserk Weapon
         berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Berserker Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
-                        new Tuple<>(Enchantment.KNOCKBACK, 1)), 107.5);
+                        new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamageZerk + 2);
 
         super.equipment = es;
 
@@ -163,5 +166,27 @@ public class Berserker extends DonatorKit implements Listener {
             inventory.addItem(swordVoted);
         else
             inventory.addItem(sword);
+    }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A warrior with no armor with a");
+        kitLore.add("§7berserker's potion.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Speed I");
+        kitLore.add("");
+        kitLore.add("§5Berserker Effects:");
+        kitLore.add("§7- Speed II");
+        kitLore.add("§7- Confusion II");
+        kitLore.add("§7- Strength I");
+        kitLore.add("§7- Melee hits deal 105+ damage");
+        kitLore.add("");
+        kitLore.add("§7Can be unlocked with coins");
+        return kitLore;
     }
 }

@@ -188,6 +188,9 @@ public class Hypaspist extends LevelKit implements Listener {
         kitLore.add("§a" + throwDamage + " §7Trident-throw DMG");
         kitLore.add("§a" + regen + " §7Regen");
         kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Slowness I");
+        kitLore.add("§7- Mining fatigue I");
         kitLore.add("");
         kitLore.add("§2Passive: ");
         kitLore.add("§7- Trident-throw inflicts confusion IV,");

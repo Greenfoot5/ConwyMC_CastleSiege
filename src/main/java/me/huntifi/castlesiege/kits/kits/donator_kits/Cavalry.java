@@ -25,21 +25,24 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * The cavalry kit
  */
 public class Cavalry extends DonatorKit implements Listener {
 
+    private static final int health = 300;
+    private static final double regen = 10.5;
+    private static final double meleeDamage = 43;
+    private static final int ladderCount = 4;
+    private static final int horseHealth = 400;
+
     /**
      * Set the equipment and attributes of this kit
      */
     public Cavalry() {
-        super("Cavalry", 300, 10.5, Material.IRON_HORSE_ARMOR, "damage");
+        super("Cavalry", health, regen, Material.IRON_HORSE_ARMOR, "damage");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -47,13 +50,13 @@ public class Cavalry extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Sabre", null, null, 43);
+                ChatColor.GREEN + "Sabre", null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.GREEN + "Sabre",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.SWEEPING_EDGE, 0)), 45),
+                        Collections.singletonList(new Tuple<>(Enchantment.SWEEPING_EDGE, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
@@ -74,13 +77,13 @@ public class Cavalry extends DonatorKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
-        es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
+        es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         // Horse
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.WHEAT),
                 ChatColor.GREEN + "Spawn Horse", null, null);
-        HorseHandler.add(name, 600, 400, 1, 0.2425, 0.8,
+        HorseHandler.add(name, 600, horseHealth, 1, 0.2425, 0.8,
                 Material.IRON_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
                         new PotionEffect(PotionEffectType.REGENERATION, 999999, 0),
@@ -166,5 +169,25 @@ public class Cavalry extends DonatorKit implements Listener {
                 }
             }
         }
+    }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7Can summon a horse to ride on.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§a" + horseHealth + " §7Horse HP");
+        kitLore.add("");
+        kitLore.add("§6Horse ability:");
+        kitLore.add("§7- When on your horse you can");
+        kitLore.add("§7perform a kick attack.");
+        kitLore.add("§7This kick attack is an AOE attack");
+        kitLore.add("§7that deals damage and slows enemies down.");
+        kitLore.add("");
+        kitLore.add("§7Can be unlocked with coins");
+        return kitLore;
     }
 }

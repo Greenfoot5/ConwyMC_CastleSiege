@@ -1,5 +1,9 @@
 package me.huntifi.castlesiege.gui;
 
+import me.huntifi.castlesiege.kits.kits.donator_kits.Alchemist;
+import me.huntifi.castlesiege.kits.kits.donator_kits.Berserker;
+import me.huntifi.castlesiege.kits.kits.donator_kits.Cavalry;
+import me.huntifi.castlesiege.kits.kits.donator_kits.Crossbowman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
@@ -67,6 +71,21 @@ public class GuiCreations {
         gui.addItem("§2§lCLASS:§r§2 Spear-knight", Material.STICK,
                 SpearKnight.loreStats(), 3, "spearknight", true);
 
+        gui.addItem("§6§lCLASS:§r§6 Berserker", Material.POTION,
+                Berserker.loreStats(), 4, "berserker", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Cavalry", Material.IRON_HORSE_ARMOR,
+                Cavalry.loreStats(), 5, "cavalry", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Viking", Material.IRON_CHESTPLATE,
+                Collections.singletonList(""), 6, "viking", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Vanguard", Material.DIAMOND_SWORD,
+                Collections.singletonList(""), 7, "vanguard", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Executioner", Material.DIAMOND_AXE,
+                Collections.singletonList(""), 8, "executioner", true);
+
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
         return gui;
@@ -81,6 +100,9 @@ public class GuiCreations {
         gui.addItem("§2§lCLASS:§r§2 Hypaspist", Material.GOLDEN_CHESTPLATE,
                 Hypaspist.loreStats(), 1, "hypaspist", true);
 
+        gui.addItem("§6§lCLASS:§r§6 Halberdier", Material.DIAMOND_CHESTPLATE,
+                Collections.singletonList(""), 2, "halberdier", true);
+
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
         return gui;
@@ -92,6 +114,12 @@ public class GuiCreations {
         gui.addItem("§2§lCLASS:§r§2 Battle Medic", Material.PAPER,
                 BattleMedic.loreStats(), 0, "battlemedic", true);
 
+        gui.addItem("§6§lCLASS:§r§6 Alchemist", Material.BREWING_STAND,
+                Alchemist.loreStats(), 1, "alchemist", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Medic", Material.CAKE,
+                Collections.singletonList(""), 2, "medic", true);
+
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
         return gui;
@@ -99,6 +127,15 @@ public class GuiCreations {
 
     public static Gui controller() {
         Gui gui = new Gui("controller", 2);
+
+        gui.addItem("§6§lCLASS:§r§6 Maceman", Material.IRON_SHOVEL,
+                Collections.singletonList(""), 0, "maceman", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Warhound", Material.GHAST_TEAR,
+                Collections.singletonList(""), 1, "warhound", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Engineer", Material.COBWEB,
+                Collections.singletonList(""), 2, "engineer", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
@@ -114,6 +151,9 @@ public class GuiCreations {
         gui.addItem("§9§lCLASS:§r§9 Ladderman", Material.LADDER,
                 Ladderman.loreStats(), 1, "ladderman", true);
 
+        gui.addItem("§9§lCLASS:§r§9 Rogue", Material.NETHERITE_BOOTS,
+                Collections.singletonList(""), 2, "rogue", true);
+
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
         return gui;
@@ -127,6 +167,12 @@ public class GuiCreations {
 
         gui.addItem("§9§lCLASS:§r§9 Fire Archer", Material.BLAZE_POWDER,
                 FireArcher.loreStats(), 1, "firearcher", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Ranger", Material.LIME_DYE,
+                Collections.singletonList(""), 2, "ranger", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Crossbowman", Material.POTION,
+                Crossbowman.loreStats(), 3, "crossbowman", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);

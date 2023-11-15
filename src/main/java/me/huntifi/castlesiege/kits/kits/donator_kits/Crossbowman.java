@@ -31,6 +31,11 @@ import java.util.*;
  */
 public class Crossbowman extends DonatorKit implements Listener {
 
+    private static final int health = 270;
+    private static final double regen = 9;
+    private static final int ladderCount = 4;
+    private static final int arrowCount = 48;
+
     /**
      * Set the equipment and attributes of this kit
      */
@@ -44,7 +49,7 @@ public class Crossbowman extends DonatorKit implements Listener {
     private final ItemStack sniperSwitchActive;
 
     public Crossbowman() {
-        super("Crossbowman", 270, 9, Material.CROSSBOW, "ranged");
+        super("Crossbowman", health, regen, Material.CROSSBOW, "ranged");
         super.kbResistance = 1;
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -79,8 +84,8 @@ public class Crossbowman extends DonatorKit implements Listener {
                 Color.fromRGB(255, 255, 51));
 
         // Ladders
-        es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
+        es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         // mode switch button
         mobilitySwitchInactive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
@@ -262,5 +267,31 @@ public class Crossbowman extends DonatorKit implements Listener {
                 }
             }
         }
+    }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A ranged kit that can function");
+        kitLore.add("§7like a sniper.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a36+ §7Ranged DMG");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§a" + arrowCount + " §7Arrows");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Slowness III (sniper mode)");
+        kitLore.add("§7- Speed I (mobility mode)");
+        kitLore.add("");
+        kitLore.add("§5Ability:");
+        kitLore.add("§7- Can switch in between");
+        kitLore.add("§7mobility mode and sniper mode.");
+        kitLore.add("");
+        kitLore.add("§2Passive: ");
+        kitLore.add("§7- Arrows are not affected by");
+        kitLore.add("§7gravity in sniper mode.");
+        kitLore.add("");
+        kitLore.add("§7Can be unlocked with coins");
+        return kitLore;
     }
 }
