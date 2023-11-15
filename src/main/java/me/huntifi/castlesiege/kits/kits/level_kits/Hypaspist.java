@@ -194,7 +194,7 @@ public class Hypaspist extends LevelKit implements Listener {
         kitLore.add("§7Mining Fatigue III and Slowness II");
         kitLore.add("§7to hit opponents.");
         kitLore.add("");
-        kitLore.add("§7Unlocks at level &a" + level);
+        kitLore.add("§7Unlocks at level §a" + level);
         return kitLore;
     }
 }
