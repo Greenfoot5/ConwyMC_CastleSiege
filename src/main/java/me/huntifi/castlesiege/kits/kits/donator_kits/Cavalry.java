@@ -187,7 +187,7 @@ public class Cavalry extends DonatorKit implements Listener {
         kitLore.add("§7This kick attack is an AOE attack");
         kitLore.add("§7that deals damage and slows enemies down.");
         kitLore.add("");
-        kitLore.add("§7Can be unlocked with coins");
+        kitLore.add("§7Can be unlocked with §e§lcoins");
         return kitLore;
     }
 }

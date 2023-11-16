@@ -1,9 +1,6 @@
 package me.huntifi.castlesiege.gui;
 
-import me.huntifi.castlesiege.kits.kits.donator_kits.Alchemist;
-import me.huntifi.castlesiege.kits.kits.donator_kits.Berserker;
-import me.huntifi.castlesiege.kits.kits.donator_kits.Cavalry;
-import me.huntifi.castlesiege.kits.kits.donator_kits.Crossbowman;
+import me.huntifi.castlesiege.kits.kits.donator_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
@@ -23,27 +20,27 @@ public class GuiCreations {
         GuiController.add("damage", damage());
         GuiController.add("tank", tank());
         GuiController.add("support", support());
-        GuiController.add("controller", controller());
-        GuiController.add("lurker", lurker());
+        GuiController.add("debuff", debuff());
+        GuiController.add("movement", movement());
         GuiController.add("ranged", ranged());
     }
 
     public static Gui selector() {
         Gui gui = new Gui("selector", 6);
-        gui.addItem(ChatColor.GREEN + "DPS (Damage)", Material.NETHERITE_SWORD,
-                Collections.singletonList(ChatColor.DARK_GREEN + "Select a DPS (damage) kit here!"), 11, "kit damage", true);
+        gui.addItem(ChatColor.GREEN + "Damager", Material.IRON_SWORD,
+                Collections.singletonList(ChatColor.DARK_GREEN + "Select a damager kit here!"), 11, "kit damage", true);
 
         gui.addItem(ChatColor.GREEN + "Tank", Material.DIAMOND_CHESTPLATE,
                 Collections.singletonList(ChatColor.DARK_GREEN + "Select a tank kit here!"), 13, "kit tank", true);
 
-        gui.addItem(ChatColor.GREEN + "Support", Material.DRAGON_BREATH,
+        gui.addItem(ChatColor.GREEN + "Support", Material.GOLDEN_APPLE,
                 Collections.singletonList(ChatColor.DARK_GREEN + "Select a support kit here!"), 15, "kit support", true);
 
-        gui.addItem(ChatColor.GREEN + "Controller", Material.REDSTONE,
-                Collections.singletonList(ChatColor.DARK_GREEN + "Select a controller kit here!"), 29, "kit controller", true);
+        gui.addItem(ChatColor.GREEN + "Debuff", Material.REDSTONE,
+                Collections.singletonList(ChatColor.DARK_GREEN + "Select a debuff kit here!"), 29, "kit debuff", true);
 
-        gui.addItem(ChatColor.GREEN + "Lurker", Material.DRIED_KELP,
-                Collections.singletonList(ChatColor.DARK_GREEN + "Select a lurker kit here!"), 31, "kit lurker", true);
+        gui.addItem(ChatColor.GREEN + "Movement", Material.IRON_BOOTS,
+                Collections.singletonList(ChatColor.DARK_GREEN + "Select a movement kit here!"), 31, "kit movement", true);
 
         gui.addItem(ChatColor.GREEN + "Ranged", Material.BOW,
                 Collections.singletonList(ChatColor.DARK_GREEN + "Select a ranged kit here!"), 33, "kit ranged", true);
@@ -51,7 +48,7 @@ public class GuiCreations {
         gui.addItem(ChatColor.DARK_PURPLE + "The Shop", Material.SUNFLOWER,
                 Collections.singletonList(ChatColor.LIGHT_PURPLE + "Get teleported to the shop!"), 48, "coinshop", true);
 
-        gui.addItem(ChatColor.BLUE + "Random kit", Material.COOKIE,
+        gui.addItem(ChatColor.BLUE + "Random kit", Material.SUSPICIOUS_STEW,
                 Collections.singletonList(ChatColor.DARK_AQUA + "You will be given a random kit that you own."), 50, "Random", true);
         return gui;
     }
@@ -65,26 +62,20 @@ public class GuiCreations {
         gui.addItem("§a§lCLASS:§r§a Spearman", Material.STICK,
                 Spearman.loreStats(), 1, "spearman", true);
 
-        gui.addItem("§9§lCLASS:§r§9 Skirmisher", Material.IRON_BOOTS,
-                Skirmisher.loreStats(), 2, "skirmisher", true);
-
         gui.addItem("§2§lCLASS:§r§2 Spear-knight", Material.STICK,
-                SpearKnight.loreStats(), 3, "spearknight", true);
+                SpearKnight.loreStats(), 2, "spearknight", true);
 
         gui.addItem("§6§lCLASS:§r§6 Berserker", Material.POTION,
-                Berserker.loreStats(), 4, "berserker", true);
-
-        gui.addItem("§6§lCLASS:§r§6 Cavalry", Material.IRON_HORSE_ARMOR,
-                Cavalry.loreStats(), 5, "cavalry", true);
+                Berserker.loreStats(), 3, "berserker", true);
 
         gui.addItem("§6§lCLASS:§r§6 Viking", Material.IRON_CHESTPLATE,
-                Collections.singletonList(""), 6, "viking", true);
+                Collections.singletonList(""), 4, "viking", true);
 
         gui.addItem("§6§lCLASS:§r§6 Vanguard", Material.DIAMOND_SWORD,
-                Collections.singletonList(""), 7, "vanguard", true);
+                Collections.singletonList(""), 5, "vanguard", true);
 
         gui.addItem("§6§lCLASS:§r§6 Executioner", Material.DIAMOND_AXE,
-                Collections.singletonList(""), 8, "executioner", true);
+                Collections.singletonList(""), 6, "executioner", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
@@ -125,8 +116,8 @@ public class GuiCreations {
         return gui;
     }
 
-    public static Gui controller() {
-        Gui gui = new Gui("controller", 2);
+    public static Gui debuff() {
+        Gui gui = new Gui("debuff", 2);
 
         gui.addItem("§6§lCLASS:§r§6 Maceman", Material.IRON_SHOVEL,
                 Collections.singletonList(""), 0, "maceman", true);
@@ -135,24 +126,31 @@ public class GuiCreations {
                 Collections.singletonList(""), 1, "warhound", true);
 
         gui.addItem("§6§lCLASS:§r§6 Engineer", Material.COBWEB,
-                Collections.singletonList(""), 2, "engineer", true);
+                Engineer.loreStats(), 2, "engineer", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
         return gui;
     }
 
-    public static Gui lurker() {
-        Gui gui = new Gui("lurker", 2);
+    public static Gui movement() {
+        Gui gui = new Gui("movement", 2);
+
+        gui.addItem("§9§lCLASS:§r§9 Skirmisher", Material.IRON_BOOTS,
+                Skirmisher.loreStats(), 0, "skirmisher", true);
 
         gui.addItem("§9§lCLASS:§r§9 Scout", Material.LEATHER_BOOTS,
-                Scout.loreStats(), 0, "scout", true);
+                Scout.loreStats(), 1, "scout", true);
 
         gui.addItem("§9§lCLASS:§r§9 Ladderman", Material.LADDER,
-                Ladderman.loreStats(), 1, "ladderman", true);
+                Ladderman.loreStats(), 2, "ladderman", true);
 
         gui.addItem("§6§lCLASS:§r§6 Rogue", Material.NETHERITE_BOOTS,
-                Collections.singletonList(""), 2, "rogue", true);
+                Collections.singletonList(""), 3, "rogue", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Cavalry", Material.IRON_HORSE_ARMOR,
+                Cavalry.loreStats(), 4, "cavalry", true);
+
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);

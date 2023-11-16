@@ -291,7 +291,7 @@ public class Crossbowman extends DonatorKit implements Listener {
         kitLore.add("§7- Arrows are not affected by");
         kitLore.add("§7gravity in sniper mode.");
         kitLore.add("");
-        kitLore.add("§7Can be unlocked with coins");
+        kitLore.add("§7Can be unlocked with §e§lcoins");
         return kitLore;
     }
 }

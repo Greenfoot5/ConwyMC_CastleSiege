@@ -50,6 +50,15 @@ import java.util.*;
  */
 public class Engineer extends DonatorKit implements Listener {
 
+    private static final int health = 210;
+    private static final double regen = 10.5;
+    private static final int ladderCount = 4;
+    private static final int meleeDamage = 38;
+    private static final int cobwebCount = 16;
+    private static final int planksCount = 20;
+    private static final int cobblestoneCount = 20;
+    private static final int trapCount = 8;
+
     private static final HashMap<Player, ArrayList<Block>> traps = new HashMap<>();
     private static final HashMap<Player, Tuple<Location, Boolean>> ballista = new HashMap<>();
 
@@ -57,7 +66,7 @@ public class Engineer extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Engineer() {
-        super("Engineer", 210, 10.5, Material.COBWEB, "controller");
+        super("Engineer", health, regen, Material.COBWEB, "Debuff");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -65,13 +74,13 @@ public class Engineer extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Shortsword", null, null, 38);
+                ChatColor.GREEN + "Shortsword", null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Shortsword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 40),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
@@ -96,20 +105,20 @@ public class Engineer extends DonatorKit implements Listener {
                 Color.fromRGB(129, 129, 129));
 
         // Ladders
-        es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
+        es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         // Traps
-        es.hotbar[2] = new ItemStack(Material.STONE_PRESSURE_PLATE, 8);
+        es.hotbar[2] = new ItemStack(Material.STONE_PRESSURE_PLATE, trapCount);
 
         // Cobwebs
-        es.hotbar[3] = new ItemStack(Material.COBWEB, 16);
+        es.hotbar[3] = new ItemStack(Material.COBWEB, cobwebCount);
 
         // Wood
-        es.hotbar[4] = new ItemStack(Material.OAK_PLANKS, 20);
+        es.hotbar[4] = new ItemStack(Material.OAK_PLANKS, planksCount);
 
         // Stone
-        es.hotbar[5] = new ItemStack(Material.COBBLESTONE, 20);
+        es.hotbar[5] = new ItemStack(Material.COBBLESTONE, cobblestoneCount);
 
         super.equipment = es;
 
@@ -498,5 +507,36 @@ public class Engineer extends DonatorKit implements Listener {
                 ballista.setSecond(false);
             }
         }.runTaskLater(Main.plugin, 80);
+    }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A support/debuff kit that is good at");
+        kitLore.add("§7slowing down the opposing team, or");
+        kitLore.add("§7getting their team inside the enemy base.");
+        kitLore.add("§7Can use catapults efficiently and use ballistae.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§a" + cobwebCount + " §7Cobwebs");
+        kitLore.add("§a" + planksCount + " §7Planks");
+        kitLore.add("§a" + cobblestoneCount + " §7Cobblestone");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Speed I");
+        kitLore.add("§7- Jump Boost I");
+        kitLore.add("§7- Haste II");
+        kitLore.add("");
+        kitLore.add("§2Passive(s): ");
+        kitLore.add("§7- Is able to place down traps");
+        kitLore.add("§7that damage enemies.");
+        kitLore.add("§7- Operates ballistae.");
+        kitLore.add("§7- Can refill catapults with cobblestone.");
+        kitLore.add("§7- Can repair stone walls and wood.");
+        kitLore.add("§7- Has cobwebs to slow down enemies.");
+        kitLore.add("");
+        kitLore.add("§7Can be unlocked with §e§lcoins");
+        return kitLore;
     }
 }

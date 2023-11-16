@@ -186,7 +186,7 @@ public class Berserker extends DonatorKit implements Listener {
         kitLore.add("§7- Strength I");
         kitLore.add("§7- Melee hits deal 105+ damage");
         kitLore.add("");
-        kitLore.add("§7Can be unlocked with coins");
+        kitLore.add("§7Can be unlocked with §e§lcoins");
         return kitLore;
     }
 }
