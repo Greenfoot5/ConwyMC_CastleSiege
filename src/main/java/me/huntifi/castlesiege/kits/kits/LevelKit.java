@@ -25,8 +25,8 @@ public class LevelKit extends Kit {
      * @param material what is its symbol in the GUI?
      * @param role Which role does this kit fulfill?
      */
-    public LevelKit(String name, int baseHealth, double regenAmount, Material material, String role, int level) {
-        super(name, baseHealth, regenAmount, material, role);
+    public LevelKit(String name, int baseHealth, double regenAmount, Material material, int level) {
+        super(name, baseHealth, regenAmount, material);
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());

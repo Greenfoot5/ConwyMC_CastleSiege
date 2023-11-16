@@ -48,7 +48,7 @@ public class BattleMedic extends LevelKit implements Listener {
     public static final ArrayList<Player> cooldown = new ArrayList<>();
 
     public BattleMedic() {
-        super("BattleMedic", health, regen, Material.PAPER, "support", level);
+        super("BattleMedic", health, regen, Material.PAPER, level);
 
         super.canSeeHealth = true;
 

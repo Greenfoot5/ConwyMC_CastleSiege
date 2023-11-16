@@ -54,7 +54,7 @@ public class SpearKnight extends LevelKit implements Listener {
     private static final double HORSE_MULTIPLIER = 1.5;
 
     public SpearKnight() {
-        super("Spear Knight", health, regen, Material.STICK, "damage", level);
+        super("Spear Knight", health, regen, Material.STICK, level);
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;

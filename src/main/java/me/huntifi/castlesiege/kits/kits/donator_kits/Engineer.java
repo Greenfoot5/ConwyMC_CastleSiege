@@ -66,7 +66,7 @@ public class Engineer extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Engineer() {
-        super("Engineer", health, regen, Material.COBWEB, "Debuff");
+        super("Engineer", health, regen, Material.COBWEB);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

@@ -75,15 +75,12 @@ public abstract class Kit implements CommandExecutor {
     // GUI
     public final Material material;
 
-    //What type of kit is this? Ranged, lurker, controller, damage, support or tank. (Team kits work differently)
-    public String roleSelection;
-
     /**
      * Create a kit with basic settings
      * @param name This kit's name
      * @param baseHealth This kit's base health
      */
-    public Kit(String name, int baseHealth, double regenAmount, Material material, String role) {
+    public Kit(String name, int baseHealth, double regenAmount, Material material) {
         this.name = name;
         this.baseHealth = baseHealth;
         this.regenAmount = regenAmount;
@@ -106,7 +103,6 @@ public abstract class Kit implements CommandExecutor {
         projectileKillMessage = new String[]{" shot ", ""};
 
         levelRequirement = 0;
-        roleSelection = role;
         this.material = material;
     }
 

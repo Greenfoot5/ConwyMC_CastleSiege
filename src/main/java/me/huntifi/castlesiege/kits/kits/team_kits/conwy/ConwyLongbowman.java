@@ -26,7 +26,7 @@ public class ConwyLongbowman extends TeamKit implements Listener {
 
     public ConwyLongbowman() {
         super("Conwy Longbowman", 220, 10, "Conwy",
-                "The Rebellion", 2500, Material.BOW, "ranged");
+                "The Rebellion", 2500, Material.BOW);
 
 
         // Equipment Stuff

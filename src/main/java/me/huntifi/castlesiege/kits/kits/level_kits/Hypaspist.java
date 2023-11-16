@@ -44,7 +44,7 @@ public class Hypaspist extends LevelKit implements Listener {
     private static final int level = 20;
 
     public Hypaspist() {
-        super("Hypaspist", health, regen, Material.GOLDEN_CHESTPLATE, "Tank", level);
+        super("Hypaspist", health, regen, Material.GOLDEN_CHESTPLATE, level);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

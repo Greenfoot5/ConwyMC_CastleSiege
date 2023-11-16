@@ -22,8 +22,8 @@ public abstract class DonatorKit extends Kit {
     public static final List<String> boostedKits = new ArrayList<>();
     public static final List<String> donatorKits = new ArrayList<>();
 
-    public DonatorKit(String name, int baseHealth, double regenAmount, Material material, String role) {
-        super(name, baseHealth, regenAmount, material, role);
+    public DonatorKit(String name, int baseHealth, double regenAmount, Material material) {
+        super(name, baseHealth, regenAmount, material);
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());

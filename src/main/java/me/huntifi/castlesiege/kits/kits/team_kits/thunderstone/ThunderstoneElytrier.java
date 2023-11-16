@@ -36,7 +36,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
 
     public ThunderstoneElytrier() {
         super("Elytrier", 170, 7, "Thunderstone",
-                "Thunderstone Guard", 5000, Material.ELYTRA, "support");
+                "Thunderstone Guard", 5000, Material.ELYTRA);
         super.canCap = false;
         super.canSeeHealth = true;
         // Equipment Stuff
