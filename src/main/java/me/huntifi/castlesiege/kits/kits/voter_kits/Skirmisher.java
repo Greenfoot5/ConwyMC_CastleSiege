@@ -28,7 +28,7 @@ public class Skirmisher extends VoterKit {
      * Set the equipment and attributes of this kit
      */
     public Skirmisher() {
-        super("Skirmisher", health, regen, Material.IRON_BOOTS, "damage");
+        super("Skirmisher", health, regen, Material.IRON_BOOTS);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
