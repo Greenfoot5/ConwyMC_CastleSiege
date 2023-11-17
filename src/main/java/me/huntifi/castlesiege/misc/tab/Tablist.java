@@ -1,10 +1,4 @@
-package me.huntifi.castlesiege.tablist;
-
-import me.huntifi.castlesiege.Main;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
+package me.huntifi.castlesiege.misc.tab;
 
 public class Tablist {
 	

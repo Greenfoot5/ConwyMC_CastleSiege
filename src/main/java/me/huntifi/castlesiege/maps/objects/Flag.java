@@ -3,15 +3,17 @@ package me.huntifi.castlesiege.maps.objects;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.LocationFrame;
-import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -42,7 +44,7 @@ public class Flag {
     // Game Data
     protected boolean active;
     protected String currentOwners;
-    protected final int maxCap;
+    public final int maxCap;
     protected final int progressAmount;
     protected int progress;
     // Progresses needed per animationIndex
@@ -62,6 +64,8 @@ public class Flag {
 
     // Scoreboard value
     public int scoreboard;
+
+    public static HashMap<Flag, BossBar> bars = new HashMap<>();
 
     //The entity to create the flag's nametag
     protected ArmorStand hologram;
@@ -141,6 +145,7 @@ public class Flag {
      */
     public void playerEnter(Player player) {
         players.add(player.getUniqueId());
+        addPlayerToFlagBar(this, player);
         activate();
         capturing();
     }
@@ -151,6 +156,7 @@ public class Flag {
      */
     public void playerExit(Player player) {
         players.remove(player.getUniqueId());
+        removePlayerFromFlagBar(this, player);
     }
 
     /**
@@ -251,6 +257,10 @@ public class Flag {
             // Notify current capping players
             notifyPlayers(false);
 
+            //Bossbar change
+            setFlagBarValue(this, (float) animationIndex /maxCap);
+            setFlagBarColour(this, BossBar.Color.WHITE);
+
             if (!currentOwners.equals("neutral")) {
                 broadcastTeam("neutral");
             }
@@ -262,6 +272,8 @@ public class Flag {
             animationIndex += 1;
             broadcastTeam(currentOwners);
             notifyPlayers(true);
+            setFlagBarValue(this, (float) animationIndex /maxCap);
+            setFlagBarColour(this, getBarColour(this));
             animate(true, currentOwners);
         // Players have increased the capture
         } else if (capProgress > animationIndex) {
@@ -270,12 +282,14 @@ public class Flag {
             }
 
             animationIndex += 1;
+            setFlagBarValue(this, (float) animationIndex /maxCap);
             notifyPlayers(true);
 
             animate(true, currentOwners);
 
             // Players have fully captured the flag, and we should let them know
             if (animationIndex == maxCap) {
+                setFlagBarValue(this, (float) animationIndex /maxCap);
                 for (UUID uuid : players) {
                     Player player = Bukkit.getPlayer(uuid);
                     // Check they're a player
@@ -294,6 +308,7 @@ public class Flag {
         // Players have decreased the capture
         } else if (capProgress < animationIndex) {
             animationIndex -= 1;
+            setFlagBarValue(this, (float) animationIndex /maxCap);
 
             // Notify current capping players
             notifyPlayers(false);
@@ -576,5 +591,67 @@ public class Flag {
 
         Team team = MapController.getCurrentMap().getTeam(currentOwners);
         return team.primaryChatColor;
+    }
+
+    public static void createFlagBossbar(Flag flag, BossBar.Color barColour, BossBar.Overlay barStyle, String text, float progress) {
+        Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GREEN + flag.name + " Bossbar creation initialised");
+        BossBar bar = BossBar.bossBar(Component.text(text), progress, barColour, barStyle);
+        bars.putIfAbsent(flag, bar);
+    }
+
+    public void addPlayerToFlagBar(Flag flag, Player p) {
+        if (bars.containsKey(flag)) {
+            bars.get(flag).addViewer((Audience) p);
+        }
+    }
+
+    public void removePlayerFromFlagBar(Flag flag, Player p) {
+        if (bars.containsKey(flag)) {
+            bars.get(flag).removeViewer((Audience) p);
+        }
+    }
+
+    public void setFlagBarValue(Flag flag, float value) {
+        bars.get(flag).progress(value);
+    }
+
+    public void setFlagBarColour(Flag flag, BossBar.Color color) {
+        bars.get(flag).color(color);
+    }
+
+    public static void registerBossbars() {
+        for (Flag flag : MapController.getCurrentMap().flags) {
+            createFlagBossbar(flag, getBarColour(flag), BossBar.Overlay.NOTCHED_20, flag.name, (float) flag.animationIndex/flag.maxCap);
+        }
+    }
+
+    public static BossBar.Color getBarColour(Flag flag) {
+        switch (flag.getColor()) {
+            case BLUE:
+            case DARK_AQUA:
+            case DARK_BLUE:
+            case AQUA:
+                return net.kyori.adventure.bossbar.BossBar.Color.BLUE;
+            case GRAY:
+            case DARK_GRAY:
+            case WHITE:
+                return net.kyori.adventure.bossbar.BossBar.Color.WHITE;
+            case DARK_GREEN:
+            case GREEN:
+                return net.kyori.adventure.bossbar.BossBar.Color.GREEN;
+            case LIGHT_PURPLE:
+                return net.kyori.adventure.bossbar.BossBar.Color.PINK;
+            case BLACK:
+            case DARK_PURPLE:
+                return net.kyori.adventure.bossbar.BossBar.Color.PURPLE;
+            case DARK_RED:
+            case RED:
+                return net.kyori.adventure.bossbar.BossBar.Color.RED;
+            case YELLOW:
+            case GOLD:
+                return net.kyori.adventure.bossbar.BossBar.Color.YELLOW;
+            default:
+                return null;
+        }
     }
 }
