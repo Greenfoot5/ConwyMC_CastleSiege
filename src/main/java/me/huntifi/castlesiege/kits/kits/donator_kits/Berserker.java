@@ -34,7 +34,7 @@ public class Berserker extends DonatorKit implements Listener {
     private static final double regen = 20;
     private static final double meleeDamage = 53;
     private static final double meleeDamageZerk = 105.5;
-    private static final int ladderCount = 5;
+    private static final int ladderCount = 4;
 
     private final ItemStack regularSword;
     private final ItemStack regularSwordVoted;

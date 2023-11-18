@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -29,11 +30,16 @@ import java.util.Objects;
  */
 public class Executioner extends DonatorKit implements Listener {
 
+	private static final int health = 210;
+	private static final double regen = 15;
+	private static final double meleeDamage = 48;
+	private static final int ladderCount = 4;
+
 	/**
 	 * Set the equipment and attributes of this kit
 	 */
 	public Executioner() {
-		super("Executioner", 210, 15, Material.DIAMOND_AXE);
+		super("Executioner", health, regen, Material.DIAMOND_AXE);
 		super.canSeeHealth = true;
 
 		// Equipment Stuff
@@ -42,13 +48,13 @@ public class Executioner extends DonatorKit implements Listener {
                 
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-				ChatColor.GREEN + "Diamond Axe", null, null, 48);
+				ChatColor.GREEN + "Diamond Axe", null, null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
 						ChatColor.GREEN + "Diamond Axe",
 						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 50),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
                 
 		// Chestplate
@@ -71,8 +77,8 @@ public class Executioner extends DonatorKit implements Listener {
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
                 
 		// Ladders
-		es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-		es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
+		es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+		es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
                 
 		super.equipment = es;
 
@@ -136,5 +142,24 @@ public class Executioner extends DonatorKit implements Listener {
 				}
 			}
 		}
+	}
+
+	public static ArrayList<String> loreStats() {
+		ArrayList<String> kitLore = new ArrayList<>();
+		kitLore.add("§7An axe-wielder capable of");
+		kitLore.add("§7instantly killing weak enemies.");
+		kitLore.add(" ");
+		kitLore.add("§a" + health + " §7HP");
+		kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+		kitLore.add("§a" + regen + " §7Regen");
+		kitLore.add("§a" + ladderCount + " §7Ladders");
+		kitLore.add("§5Effects:");
+		kitLore.add("§7- Speed I");
+		kitLore.add("");
+		kitLore.add("§2Passive: ");
+		kitLore.add("§7- Executes enemies that are below");
+		kitLore.add("30% of their max health.");
+		kitLore.add("§7Can be unlocked with §e§lcoins");
+		return kitLore;
 	}
 }

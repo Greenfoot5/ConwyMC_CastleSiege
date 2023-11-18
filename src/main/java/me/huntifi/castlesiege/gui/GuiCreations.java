@@ -75,7 +75,7 @@ public class GuiCreations {
                 Collections.singletonList(""), 5, "vanguard", true);
 
         gui.addItem("§6§lCLASS:§r§6 Executioner", Material.DIAMOND_AXE,
-                Collections.singletonList(""), 6, "executioner", true);
+                Executioner.loreStats(), 6, "executioner", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
