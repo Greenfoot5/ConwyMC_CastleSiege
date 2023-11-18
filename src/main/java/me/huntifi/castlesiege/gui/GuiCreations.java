@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.kits.kits.donator_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
+import me.huntifi.castlesiege.kits.kits.in_development.Barbarian;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
@@ -76,6 +77,9 @@ public class GuiCreations {
 
         gui.addItem("§6§lCLASS:§r§6 Executioner", Material.DIAMOND_AXE,
                 Executioner.loreStats(), 6, "executioner", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Barbarian", Material.NETHERITE_AXE,
+                Barbarian.loreStats(), 7, "barbarian", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);

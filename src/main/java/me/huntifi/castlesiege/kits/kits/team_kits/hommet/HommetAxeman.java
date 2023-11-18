@@ -40,11 +40,11 @@ public class HommetAxeman extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Battle Axe", null, null, 40);
+                ChatColor.GREEN + "Iron Sword", null, null, 40);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        ChatColor.GREEN + "Battle Axe",
+                        ChatColor.GREEN + "Iron Sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 42),
                 0);

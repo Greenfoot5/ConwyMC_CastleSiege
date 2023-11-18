@@ -65,6 +65,7 @@ import me.huntifi.castlesiege.kits.kits.donator_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
+import me.huntifi.castlesiege.kits.kits.in_development.Barbarian;
 import me.huntifi.castlesiege.kits.kits.in_development.Chef;
 import me.huntifi.castlesiege.kits.kits.in_development.Warbear;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
@@ -219,6 +220,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Kits
                 getServer().getPluginManager().registerEvents(new Alchemist(), plugin);
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
+                getServer().getPluginManager().registerEvents(new Barbarian(), plugin);
                 getServer().getPluginManager().registerEvents(new BattleMedic(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
@@ -355,6 +357,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
                 Objects.requireNonNull(getCommand("Battlemedic")).setExecutor(new BattleMedic());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
+                Objects.requireNonNull(getCommand("Barbarian")).setExecutor(new Barbarian());
                 Objects.requireNonNull(getCommand("ConwyArbalester")).setExecutor(new ConwyArbalester());
                 Objects.requireNonNull(getCommand("ConwyLongbowman")).setExecutor(new ConwyLongbowman());
                 Objects.requireNonNull(getCommand("ConwyRoyalKnight")).setExecutor(new ConwyRoyalKnight());

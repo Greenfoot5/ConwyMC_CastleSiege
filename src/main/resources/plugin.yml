@@ -438,6 +438,9 @@ commands:
   BattleMedic:
     description: Selects the battle medic kit
     usage: /battlemedic
+  Barbarian:
+    description: Selects the barbarian kit
+    usage: /barbarian
   Cavalry:
     description: Selects the cavalry kit
     usage: /cavalry
