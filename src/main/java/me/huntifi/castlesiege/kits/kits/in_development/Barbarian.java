@@ -1,18 +1,13 @@
 package me.huntifi.castlesiege.kits.kits.in_development;
 
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -51,11 +46,11 @@ public class Barbarian extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
-                ChatColor.GREEN + "Short-sword", null, null, meleeDamage);
+                ChatColor.GREEN + "Battle Axe", null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
-                        ChatColor.GREEN + "Short-sword",
+                        ChatColor.GREEN + "Battle Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
@@ -99,13 +94,13 @@ public class Barbarian extends DonatorKit implements Listener {
         es.votedFeet.setItemMeta(aboot);
 
         // Ladders
-        es.hotbar[2] = new ItemStack(Material.LADDER, ladderCount);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 2);
+        es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         super.equipment = es;
 
         // Perm Potion Effect
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0, true, false));
 
     }
 
