@@ -94,6 +94,9 @@ public class GuiCreations {
         gui.addItem("§6§lCLASS:§r§6 Halberdier", Material.NETHERITE_CHESTPLATE,
                 Collections.singletonList(""), 2, "halberdier", true);
 
+        gui.addItem("§3§lCLASS:§r§3 Warbear", Material.POLAR_BEAR_SPAWN_EGG,
+                Collections.singletonList(""), 3, "warbear", true);
+
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
         return gui;

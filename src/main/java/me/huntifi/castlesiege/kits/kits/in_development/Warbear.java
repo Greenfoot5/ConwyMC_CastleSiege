@@ -32,11 +32,11 @@ public class Warbear extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Warbear() {
-        super("Warbear", 500, 9, Material.DEAD_HORN_CORAL_FAN);
+        super("Warbear", 500, 14, Material.DEAD_HORN_CORAL_FAN);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;
-        super.kbResistance = 1;
+        super.kbResistance = 2;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
