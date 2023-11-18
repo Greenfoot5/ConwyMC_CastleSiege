@@ -593,38 +593,74 @@ public class Flag {
         return team.primaryChatColor;
     }
 
+    /**
+     *
+     * @param flag the flag to create the bossbar for
+     * @param barColour the colour of the bar, should be the team colour.
+     * @param barStyle the style to put the bossbar in
+     * @param text this is actually just the flag name
+     * @param progress the amount of progress done on the bossbar, should be (index / maxcaps)
+     */
     public static void createFlagBossbar(Flag flag, BossBar.Color barColour, BossBar.Overlay barStyle, String text, float progress) {
         Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GREEN + flag.name + " Bossbar creation initialised");
         BossBar bar = BossBar.bossBar(Component.text(text), progress, barColour, barStyle);
         bars.putIfAbsent(flag, bar);
     }
 
+    /**
+     *
+     * @param flag the flag which this bossbar belongs to
+     * @param p the player to display the bossbar to
+     */
     public void addPlayerToFlagBar(Flag flag, Player p) {
         if (bars.containsKey(flag)) {
             bars.get(flag).addViewer((Audience) p);
         }
     }
 
+    /**
+     *
+     * @param flag the flag which this bossbar belongs to
+     * @param p the player to remove the bossbar from
+     */
     public void removePlayerFromFlagBar(Flag flag, Player p) {
         if (bars.containsKey(flag)) {
             bars.get(flag).removeViewer((Audience) p);
         }
     }
 
+    /**
+     *
+     * @param flag the flag which the bossbar belongs to
+     * @param value the amount of progress on the bossbar to display, should be the flag's progress or capture index/maxcaps
+     */
     public void setFlagBarValue(Flag flag, float value) {
         bars.get(flag).progress(value);
     }
 
+    /**
+     *
+     * @param flag the flag which the bossbar belongs to
+     * @param color the colour to put the bossbar to
+     */
     public void setFlagBarColour(Flag flag, BossBar.Color color) {
         bars.get(flag).color(color);
     }
 
+    /**
+     * called to register all bossbars for each flag on the current map
+     */
     public static void registerBossbars() {
         for (Flag flag : MapController.getCurrentMap().flags) {
             createFlagBossbar(flag, getBarColour(flag), BossBar.Overlay.NOTCHED_20, flag.name, (float) flag.animationIndex/flag.maxCap);
         }
     }
 
+    /**
+     *
+     * @param flag the flag to get the teamcolour from
+     * @return the correct colour of this flag's bossbar depending on the team.
+     */
     public static BossBar.Color getBarColour(Flag flag) {
         switch (flag.getColor()) {
             case BLUE:
