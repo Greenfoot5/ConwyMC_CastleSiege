@@ -158,7 +158,8 @@ public class Executioner extends DonatorKit implements Listener {
 		kitLore.add("");
 		kitLore.add("§2Passive: ");
 		kitLore.add("§7- Executes enemies that are below");
-		kitLore.add("30% of their max health.");
+		kitLore.add("§730% of their max health.");
+		kitLore.add("");
 		kitLore.add("§7Can be unlocked with §e§lcoins");
 		return kitLore;
 	}
