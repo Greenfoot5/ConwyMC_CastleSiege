@@ -204,6 +204,9 @@ public class Paladin extends DonatorKit implements Listener {
         kitLore.add("§7regen VI to itself and regen V to all");
         kitLore.add("§7allies in a 5 block radius for 8 seconds.");
         kitLore.add("");
+        kitLore.add("§2Passive: ");
+        kitLore.add("§7- Can see player health.");
+        kitLore.add("");
         kitLore.add("§7Can be unlocked with §l§ecoins");
         return kitLore;
     }

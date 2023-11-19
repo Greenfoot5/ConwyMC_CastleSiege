@@ -267,4 +267,30 @@ public class Priest extends DonatorKit implements Listener {
     public void onDisconnect(PlayerQuitEvent e) {
         blessings.remove(e.getPlayer());
     }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A support kit with the power of");
+        kitLore.add("§7the holy book on their side.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Potions");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Mining Fatigue I");
+        kitLore.add("");
+        kitLore.add("§6Abilities: ");
+        kitLore.add("§7- Can shoot a bolt of light at opponents");
+        kitLore.add("§7to damage them.");
+        kitLore.add("§7- With the holy bible can select an ally");
+        kitLore.add("§7to give them and them only regen IV for");
+        kitLore.add("§7as long as they are selected.");
+        kitLore.add("");
+        kitLore.add("§2Passive: ");
+        kitLore.add("§7- Can see player health.");
+        kitLore.add("");
+        kitLore.add("§7Can be unlocked with §l§ecoins");
+        return kitLore;
+    }
 }

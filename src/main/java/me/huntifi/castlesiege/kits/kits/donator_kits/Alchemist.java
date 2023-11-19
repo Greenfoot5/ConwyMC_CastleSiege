@@ -683,6 +683,7 @@ public class Alchemist extends DonatorKit implements Listener {
         kitLore.add("");
         kitLore.add("§2Passive: ");
         kitLore.add("§7- Gets two potions on kill.");
+        kitLore.add("§7- Can see player health.");
         kitLore.add("");
         kitLore.add("§7Can be unlocked with §l§ecoins");
         return kitLore;
