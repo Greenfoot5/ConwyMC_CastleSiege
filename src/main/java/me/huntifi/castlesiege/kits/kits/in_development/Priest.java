@@ -1,21 +1,32 @@
 package me.huntifi.castlesiege.kits.kits.in_development;
 
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.TeamController;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -24,11 +35,9 @@ import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class Priest extends DonatorKit implements Listener {
 
@@ -39,6 +48,8 @@ public class Priest extends DonatorKit implements Listener {
     private static final int blessingCooldown = 500;
     private static final int staffCooldown = 40;
     private final ItemStack holybook;
+    public static final HashMap<Player, Player> blessings = new HashMap<>();
+
     public Priest() {
         super("Priest", health, regen, Material.SPECTRAL_ARROW);
 
@@ -163,5 +174,97 @@ public class Priest extends DonatorKit implements Listener {
                 }
             }
         }
+    }
+
+
+    /**
+     * Activate the priest holy blessing ability to buff 1 target.
+     * @param e The event called when right-clicking with a book
+     */
+    @EventHandler
+    public void clickBible(PlayerInteractEntityEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+        ItemStack book = p.getInventory().getItemInMainHand();
+        int cooldown = p.getCooldown(Material.BOOK);
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            if (book.getType().equals(Material.BOOK)) {
+                if (e.getRightClicked() instanceof Player &&
+                        TeamController.getTeam(e.getRightClicked().getUniqueId()) == TeamController.getTeam(p.getUniqueId())) {
+                    if (cooldown == 0) {
+                        p.setCooldown(Material.BOOK, blessingCooldown);
+                        blessings.put(p, (Player) e.getRightClicked());
+                        assignBook(p, book);
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                                ChatColor.AQUA + "Your blessing is currently affecting: " + e.getRightClicked()));
+
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    if (blessings.containsKey(p)) {
+                                        blessings.get(p).addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 200, 2)));
+
+                                        AttributeInstance healthAttribute = blessings.get(p).getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                                        assert healthAttribute != null;
+                                        //Paladin doesn't get a heal for blessing someone who is full health.
+                                        if (blessings.get(p).getHealth() != healthAttribute.getBaseValue()) {
+                                            UpdateStats.addHeals(p.getUniqueId(), 1);
+                                        }
+                                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                                                ChatColor.AQUA + "Your blessing is currently affecting: " + blessings.get(p)));
+                                    } else {
+                                        this.cancel();
+                                    }
+                                }
+                            }.runTaskTimer(Main.plugin, 20, 200);
+
+                    }
+                }
+            }
+
+        }
+    }
+
+    @EventHandler
+    public void onClickEnderchest(EnderchestEvent event) {
+        if (blessings.containsKey(event.getPlayer())) {
+            assignBook(event.getPlayer(), holybook);
+            event.getPlayer().getInventory().setItem(1, holybook);
+        }
+    }
+
+
+    public void assignBook(Player priest, ItemStack book) {
+        if (blessings.containsKey(priest)) {
+            ItemMeta metatron = book.getItemMeta();
+            assert metatron != null;
+            metatron.setDisplayName(Objects.requireNonNull(holybook.getItemMeta()).getDisplayName() + " : " +
+                    ChatColor.AQUA + blessings.get(priest).getName());
+            book.setItemMeta(metatron);
+        }
+    }
+
+    /**
+     *
+     * @param e if a player dies remove them from the blessings list.
+     */
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent e) {
+            blessings.remove(e.getPlayer());
+    }
+
+    /**
+     *
+     * @param e if a player quits remove them from the blessings list.
+     */
+    @EventHandler
+    public void onDisconnect(PlayerQuitEvent e) {
+        blessings.remove(e.getPlayer());
     }
 }
