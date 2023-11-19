@@ -208,7 +208,7 @@ public class Priest extends DonatorKit implements Listener {
                                 @Override
                                 public void run() {
                                     if (blessings.containsKey(p)) {
-                                        blessings.get(p).addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 200, 2)));
+                                        blessings.get(p).addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 200, 3)));
 
                                         AttributeInstance healthAttribute = blessings.get(p).getAttribute(Attribute.GENERIC_MAX_HEALTH);
                                         assert healthAttribute != null;
