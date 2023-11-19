@@ -67,7 +67,8 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.kits.kits.donator_kits.Barbarian;
 import me.huntifi.castlesiege.kits.kits.in_development.Chef;
-import me.huntifi.castlesiege.kits.kits.in_development.Paladin;
+import me.huntifi.castlesiege.kits.kits.donator_kits.Paladin;
+import me.huntifi.castlesiege.kits.kits.in_development.Priest;
 import me.huntifi.castlesiege.kits.kits.staff_kits.Warbear;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
@@ -92,6 +93,7 @@ import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.maps.objects.*;
+import me.huntifi.castlesiege.misc.mythic.MythicListener;
 import me.huntifi.castlesiege.secrets.Abrakhan.AbrakhanSecretDoor;
 import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
 import me.huntifi.castlesiege.secrets.SecretBlocks;
@@ -251,6 +253,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new MoriaCaveTroll(), plugin);
                 getServer().getPluginManager().registerEvents(new MoriaGuardian(), plugin);
                 getServer().getPluginManager().registerEvents(new MoriaOrc(), plugin);
+                getServer().getPluginManager().registerEvents(new Priest(), plugin);
                 getServer().getPluginManager().registerEvents(new Paladin(), plugin);
                 getServer().getPluginManager().registerEvents(new Rogue(), plugin);
                 getServer().getPluginManager().registerEvents(new Ranger(), plugin);
@@ -260,6 +263,9 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
                 getServer().getPluginManager().registerEvents(new Warbear(), plugin);
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
+
+                //mythic stuff
+                getServer().getPluginManager().registerEvents(new MythicListener(), plugin);
 
 
                 // Chat
@@ -391,6 +397,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("MoriaAxeThrower")).setExecutor(new MoriaAxeThrower());
                 Objects.requireNonNull(getCommand("MoriaOrc")).setExecutor(new MoriaOrc());
                 Objects.requireNonNull(getCommand("Paladin")).setExecutor(new Paladin());
+                Objects.requireNonNull(getCommand("Priest")).setExecutor(new Priest());
                 Objects.requireNonNull(getCommand("Ranger")).setExecutor(new Ranger());
                 Objects.requireNonNull(getCommand("Rogue")).setExecutor(new Rogue());
                 Objects.requireNonNull(getCommand("Shieldman")).setExecutor(new Shieldman());

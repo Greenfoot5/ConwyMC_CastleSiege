@@ -1,9 +1,9 @@
 name: CastleSiege
 main: me.huntifi.castlesiege.Main
 version: 1.2.5
-api-version: 1.13
+api-version: 1.16
 authors: [Huntifi, Greenfoot5, kasteelvuur]
-depend: [Votifier, WorldGuard, NametagEdit]
+depend: [Votifier, WorldGuard, NametagEdit, MythicMobs]
 softdepend: [LibsDisguises, WorldEdit]
 load: STARTUP
 
@@ -528,6 +528,9 @@ commands:
   Moriaorc:
     description: Selects the Moria Orc kit for Moria
     usage: /moriaorc
+  Priest:
+    description: Selects the Priest kit
+    usage: /priest
   Paladin:
     description: Selects the Paladin kit
     usage: /paladin

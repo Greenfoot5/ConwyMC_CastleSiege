@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.in_development;
+package me.huntifi.castlesiege.kits.kits.donator_kits;
 
 import io.lumine.mythic.api.skills.SkillCaster;
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
@@ -108,7 +108,7 @@ public class Paladin extends DonatorKit implements Listener {
         es.feet.setItemMeta(aboot);
         es.votedFeet.setItemMeta(aboot);
 
-        // Gouge
+        // divine blessing
         ItemStack divine = ItemCreator.weapon(new ItemStack(Material.BOOK, 3),
                 ChatColor.GOLD + "Divine Blessing", Arrays.asList("",
                         ChatColor.YELLOW + "Give yourself regeneration VI and give",
