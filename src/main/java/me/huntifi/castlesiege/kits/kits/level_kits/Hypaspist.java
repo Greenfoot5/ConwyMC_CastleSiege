@@ -64,7 +64,7 @@ public class Hypaspist extends LevelKit implements Listener {
         // Weapon
         es.offhand = ItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
                 ChatColor.GREEN + "Concave Shield",
-                Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."),
+                Collections.singletonList(ChatColor.AQUA + "Right-click to block."),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)) , 10);
 
         // Weapon

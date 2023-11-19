@@ -528,6 +528,9 @@ commands:
   Moriaorc:
     description: Selects the Moria Orc kit for Moria
     usage: /moriaorc
+  Paladin:
+    description: Selects the Paladin kit
+    usage: /paladin
   Ranger:
     description: Selects the ranger kit
     usage: /ranger

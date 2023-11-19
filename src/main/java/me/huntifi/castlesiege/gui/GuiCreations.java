@@ -4,7 +4,8 @@ import me.huntifi.castlesiege.kits.kits.donator_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.kits.kits.in_development.Barbarian;
+import me.huntifi.castlesiege.kits.kits.donator_kits.Barbarian;
+import me.huntifi.castlesiege.kits.kits.in_development.Paladin;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
@@ -100,6 +101,9 @@ public class GuiCreations {
 
         gui.addItem("§3§lCLASS:§r§3 Warbear", Material.POLAR_BEAR_SPAWN_EGG,
                 Collections.singletonList(""), 3, "warbear", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Paladin", Material.GOLDEN_AXE,
+                Paladin.loreStats(), 4, "paladin", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);

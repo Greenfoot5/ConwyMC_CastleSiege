@@ -283,7 +283,7 @@ public class Crossbowman extends DonatorKit implements Listener {
         kitLore.add("§7- Slowness III (sniper mode)");
         kitLore.add("§7- Speed I (mobility mode)");
         kitLore.add("");
-        kitLore.add("§5Ability:");
+        kitLore.add("§6Ability:");
         kitLore.add("§7- Can switch in between");
         kitLore.add("§7mobility mode and sniper mode.");
         kitLore.add("");

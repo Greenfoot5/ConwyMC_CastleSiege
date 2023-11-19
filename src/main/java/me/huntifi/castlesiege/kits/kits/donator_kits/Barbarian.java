@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.in_development;
+package me.huntifi.castlesiege.kits.kits.donator_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -37,8 +37,6 @@ public class Barbarian extends DonatorKit implements Listener {
 
     public Barbarian() {
         super("Barbarian", health, regen, Material.NETHERITE_AXE);
-
-        super.canSeeHealth = true;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -147,7 +145,7 @@ public class Barbarian extends DonatorKit implements Listener {
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed I");
         kitLore.add("");
-        kitLore.add("§6Passive: ");
+        kitLore.add("§2Passive: ");
         kitLore.add("§7- Melee damage is increased depending");
         kitLore.add("§7on how much health you have left.");
         kitLore.add("§7Maximum damage dealt is 108 DMG.");
