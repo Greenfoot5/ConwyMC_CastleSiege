@@ -59,7 +59,7 @@ public class Warlock extends DonatorKit implements Listener {
                 ChatColor.DARK_PURPLE + "Cursed Skull", Arrays.asList("",
                         ChatColor.YELLOW + "Right click to shoot a bolt of shadows, ",
                         ChatColor.YELLOW + "which does damage to enemies and inflicts",
-                        ChatColor.YELLOW + "weakness II for 5 seconds and 70 DMG to them.",
+                        ChatColor.YELLOW + "slowness I for 5 seconds and 70 DMG to them.",
                         ChatColor.YELLOW + "Direct hits give a soulshard and have",
                 ChatColor.YELLOW + "a 10% chance to give a healthstone."), null, meleeDamage);
         // Voted Weapon
@@ -69,7 +69,7 @@ public class Warlock extends DonatorKit implements Listener {
                         Arrays.asList("",
                                 ChatColor.YELLOW + "Right click to shoot a bolt of shadows, ",
                                 ChatColor.YELLOW + "which does damage to enemies and inflicts",
-                                ChatColor.YELLOW + "weakness II for 5 seconds and 70 to them.",
+                                ChatColor.YELLOW + "slowness I for 5 seconds and 70 to them.",
                                 ChatColor.YELLOW + "Direct hits give a soulshard and have",
                                 ChatColor.YELLOW + "a 10% chance to give a healthstone.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
@@ -79,7 +79,7 @@ public class Warlock extends DonatorKit implements Listener {
         // 1st ability
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POISONOUS_POTATO),
                 ChatColor.LIGHT_PURPLE + "Curse of Weakness", Arrays.asList("",
-                        ChatColor.YELLOW + "Right click to give weakness IV to all ",
+                        ChatColor.YELLOW + "Right click to give weakness to all ",
                         ChatColor.YELLOW + "enemies in a 7 block radius of you for 8s.",
                         ChatColor.YELLOW + " ",
                         ChatColor.YELLOW + "Has a cooldown of 16 seconds."), null);
@@ -202,7 +202,7 @@ public class Warlock extends DonatorKit implements Listener {
             //Warlock gets supports for cursing enemies
             UpdateStats.addSupports(curser.getUniqueId(), 1);
 
-            cursed.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 160, 2, true, true));
+            cursed.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 160, 0, true, true));
         }
     }
 
@@ -292,36 +292,39 @@ public class Warlock extends DonatorKit implements Listener {
             }
 
             Entity q = event.getRightClicked();
-            if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&             
-                    (staff.getType().equals(Material.REDSTONE)) &&
-                    q instanceof Player &&                                                        
-                    TeamController.getTeam(uuid) == TeamController.getTeam(q.getUniqueId()) &&      
-                    ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth) {                                               // Not on cooldown
+            if (Objects.equals(Kit.equippedKits.get(uuid).name, name) && q instanceof Player &&
+                    TeamController.getTeam(uuid) == TeamController.getTeam(q.getUniqueId())) {
+                if (((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth) {
 
-                // Apply cooldown
-                Player r = (Player) q;
-                
-                if (player.getHealth() < (double) Kit.equippedKits.get(player.getUniqueId()).baseHealth / 4) {
+                    if (!staff.getType().equals(Material.REDSTONE)) {
+                        return;
+                    }
+
+                    // Apply cooldown
+                    Player r = (Player) q;
+
+                    if (player.getHealth() < (double) Kit.equippedKits.get(player.getUniqueId()).baseHealth / 4) {
+                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                                ChatColor.RED + "You cannot sacrifice your health cause you are too low on HP!"));
+                        return;
+                    }
+
+
+                    if (cooldown == 0) {
+                        r.setHealth(r.getHealth() + (double) Kit.equippedKits.get(player.getUniqueId()).baseHealth / 4);
+                        player.setHealth(player.getHealth() - (double) Kit.equippedKits.get(player.getUniqueId()).baseHealth / 4);
+                        r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                                NameTag.color(player) + player.getName() + ChatColor.AQUA + " has sacrificed his health for you"));
+                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                                ChatColor.AQUA + "You have sacrificed your health for player: " + NameTag.color(r) + r.getName()));
+                        UpdateStats.addHeals(uuid, 2);
+                        player.setCooldown(Material.REDSTONE, healthfunnelCooldown);
+                        mythicParticle2(r);
+                    }
+                } else {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.RED + "You cannot sacrifice your health cause you are too low on HP!"));
-                    return;
+                            ChatColor.RED + "This player already has full health."));
                 }
-
-
-                if (cooldown == 0) {
-                    r.setHealth(r.getHealth() + (double) Kit.equippedKits.get(player.getUniqueId()).baseHealth / 4);
-                    player.setHealth(player.getHealth() - (double) Kit.equippedKits.get(player.getUniqueId()).baseHealth / 4);
-                    r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NameTag.color(player) + player.getName() + ChatColor.AQUA + " has sacrificed his health for you"));
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You have sacrificed your health for player: " + NameTag.color(r) + r.getName()));
-                    UpdateStats.addHeals(uuid, 2);
-                    player.setCooldown(Material.REDSTONE, healthfunnelCooldown);
-                    mythicParticle2(r);
-                }
-            } else {
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        ChatColor.RED + "This player already has full health."));
             }
     }
 
@@ -427,9 +430,9 @@ public class Warlock extends DonatorKit implements Listener {
         kitLore.add("");
         kitLore.add("§6Abilities: ");
         kitLore.add("§7- Can shoot a shadowbolt at opponents");
-        kitLore.add("§7to damage them and give them weakness II.");
+        kitLore.add("§7to damage them and give them slowness I.");
         kitLore.add("§7- Can curse all enemies in a 7 block radius");
-        kitLore.add("§7giving them weakness IV for 8 seconds.");
+        kitLore.add("§7giving them weakness for 8 seconds.");
         kitLore.add("§7- Can drain life from targets for 5 seconds.");
         kitLore.add("§7- Has the possibility to sacrifice 25% of their HP");
         kitLore.add("§7to heal a teammate for 25% of the warlock's max health.");

@@ -44,7 +44,7 @@ public abstract class Kit implements CommandExecutor {
 
     public final String name;
     public final int baseHealth;
-    public double kbResistance = 0;
+    public double kbResistance;
     protected final double regenAmount;
 
     //Level requirement for level kits.
@@ -91,6 +91,7 @@ public abstract class Kit implements CommandExecutor {
         canCap = true;
         canClimb = true;
         canSeeHealth = false;
+        kbResistance = 0;
 
         // Equipment
         equipment = new EquipmentSet();
