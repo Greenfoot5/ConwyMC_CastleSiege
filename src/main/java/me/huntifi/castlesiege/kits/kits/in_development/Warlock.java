@@ -34,10 +34,7 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class Warlock extends DonatorKit implements Listener {
 
@@ -52,6 +49,7 @@ public class Warlock extends DonatorKit implements Listener {
     public Warlock() {
         super("Warlock", health, regen, Material.WITHER_SKELETON_SKULL);
 
+        super.canSeeHealth = true;
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;
@@ -61,7 +59,7 @@ public class Warlock extends DonatorKit implements Listener {
                 ChatColor.DARK_PURPLE + "Cursed Skull", Arrays.asList("",
                         ChatColor.YELLOW + "Right click to shoot a bolt of shadows, ",
                         ChatColor.YELLOW + "which does damage to enemies and inflicts",
-                        ChatColor.YELLOW + "weakness II to them.",
+                        ChatColor.YELLOW + "weakness II for 5 seconds and 70 DMG to them.",
                         ChatColor.YELLOW + "Direct hits give a soulshard and have",
                 ChatColor.YELLOW + "a 10% chance to give a healthstone."), null, meleeDamage);
         // Voted Weapon
@@ -71,7 +69,7 @@ public class Warlock extends DonatorKit implements Listener {
                         Arrays.asList("",
                                 ChatColor.YELLOW + "Right click to shoot a bolt of shadows, ",
                                 ChatColor.YELLOW + "which does damage to enemies and inflicts",
-                                ChatColor.YELLOW + "weakness II to them.",
+                                ChatColor.YELLOW + "weakness II for 5 seconds and 70 to them.",
                                 ChatColor.YELLOW + "Direct hits give a soulshard and have",
                                 ChatColor.YELLOW + "a 10% chance to give a healthstone.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
@@ -81,8 +79,8 @@ public class Warlock extends DonatorKit implements Listener {
         // 1st ability
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POISONOUS_POTATO),
                 ChatColor.LIGHT_PURPLE + "Curse of Weakness", Arrays.asList("",
-                        ChatColor.YELLOW + "Right click to give weakness III to all ",
-                        ChatColor.YELLOW + "enemies in a 7 block radius of you for 4s.",
+                        ChatColor.YELLOW + "Right click to give weakness IV to all ",
+                        ChatColor.YELLOW + "enemies in a 7 block radius of you for 8s.",
                         ChatColor.YELLOW + " ",
                         ChatColor.YELLOW + "Has a cooldown of 16 seconds."), null);
 
@@ -154,7 +152,7 @@ public class Warlock extends DonatorKit implements Listener {
         super.equipment = es;
 
         // Perm Potion Effect
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0, true, false));
+        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 1, true, false));
     }
 
 
@@ -204,17 +202,17 @@ public class Warlock extends DonatorKit implements Listener {
             //Warlock gets supports for cursing enemies
             UpdateStats.addSupports(curser.getUniqueId(), 1);
 
-            cursed.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 80, 2, true, true));
+            cursed.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 160, 2, true, true));
         }
     }
 
 
     /**
-     * Activate the spearman ability of throwing a spear
+     * Activate the warlock ability of cursing the area
      * @param e The event called when right-clicking with a stick
      */
     @EventHandler
-    public void clickBlessing(PlayerInteractEvent e) {
+    public void clickCurse(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         ItemStack patat = p.getInventory().getItemInMainHand();
@@ -283,7 +281,6 @@ public class Warlock extends DonatorKit implements Listener {
      */
     @EventHandler
     public void onHealthfunnel(PlayerInteractEntityEvent event) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             Player player = event.getPlayer();
             UUID uuid = player.getUniqueId();
             ItemStack staff = player.getInventory().getItemInMainHand();
@@ -312,6 +309,8 @@ public class Warlock extends DonatorKit implements Listener {
 
 
                 if (cooldown == 0) {
+                    r.setHealth(r.getHealth() + (double) Kit.equippedKits.get(r.getUniqueId()).baseHealth / 4);
+                    player.setHealth(player.getHealth() - (double) Kit.equippedKits.get(player.getUniqueId()).baseHealth / 4);
                     r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             NameTag.color(player) + player.getName() + ChatColor.AQUA + " has sacrificed his health for you"));
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
@@ -324,7 +323,6 @@ public class Warlock extends DonatorKit implements Listener {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                         ChatColor.RED + "This player already has full health."));
             }
-        });
     }
 
     public void mythicParticle2(Player p) {
@@ -407,5 +405,42 @@ public class Warlock extends DonatorKit implements Listener {
     public void mythicParticle3(Player p) {
         BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
         mythicMobsApi.castSkill(p,"WarlockHealthstoneEffect");
+    }
+
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A debuff kit that can curse enemies, ");
+        kitLore.add("§7sacrifice its own health to heal teammates");
+        kitLore.add("§7and obliterate enemies with hellfire.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a70 §7shadowbolt DMG");
+        kitLore.add("§a15dmg/s §7life-drain DMG");
+        kitLore.add("§a70dmg/s §7Hellfire DMG");
+        kitLore.add("§ano §7ladders");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Slowness II");
+        kitLore.add("");
+        kitLore.add("§6Abilities: ");
+        kitLore.add("§7- Can shoot a shadowbolt at opponents");
+        kitLore.add("§7to damage them and give them weakness II.");
+        kitLore.add("§7- Can curse all enemies in a 7 block radius");
+        kitLore.add("§7giving them weakness IV for 8 seconds.");
+        kitLore.add("§7- Can drain life from targets for 5 seconds.");
+        kitLore.add("§7- Has the possibility to sacrifice 25% of their HP");
+        kitLore.add("§7to heal a teammate for 25% of their max health.");
+        kitLore.add("§7- Can pay hell with 5 soulshards to summon devastating");
+        kitLore.add("§7hellfire that incinerates all enemy players it comes across.");
+        kitLore.add("");
+        kitLore.add("§2Passive: ");
+        kitLore.add("§7- Can see player health.");
+        kitLore.add("§7- Hitting targets with shadowbolt gives soulshards");
+        kitLore.add("§7and has a 10% chance to give a healthstone.");
+        kitLore.add("");
+        kitLore.add("§7Can be unlocked with §e§lcoins");
+        return kitLore;
     }
 }

@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.kits.kits.donator_kits.Barbarian;
 import me.huntifi.castlesiege.kits.kits.donator_kits.Paladin;
 import me.huntifi.castlesiege.kits.kits.donator_kits.Priest;
+import me.huntifi.castlesiege.kits.kits.in_development.Warlock;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
@@ -142,6 +143,9 @@ public class GuiCreations {
 
         gui.addItem("§6§lCLASS:§r§6 Engineer", Material.COBWEB,
                 Engineer.loreStats(), 2, "engineer", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Warlock", Material.WITHER_SKELETON_SKULL,
+                Warlock.loreStats(), 3, "warlock", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);

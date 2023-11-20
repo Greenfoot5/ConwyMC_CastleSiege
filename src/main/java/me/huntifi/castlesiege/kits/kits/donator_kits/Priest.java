@@ -275,6 +275,7 @@ public class Priest extends DonatorKit implements Listener {
         kitLore.add("§a" + health + " §7HP");
         kitLore.add("§a" + meleeDamage + " §7Melee DMG");
         kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a50 §7lightbolt DMG");
         kitLore.add("§a" + ladderCount + " §7Potions");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Mining Fatigue I");
