@@ -44,7 +44,7 @@ public class Warlock extends DonatorKit implements Listener {
     private static final int curseCooldown = 320;
     private static final int staffCooldown = 80;
     private static final int lifedrainCooldown = 400;
-    private static final int healthfunnelCooldown = 400;
+    private static final int healthfunnelCooldown = 200;
 
     public Warlock() {
         super("Warlock", health, regen, Material.WITHER_SKELETON_SKULL);
@@ -96,7 +96,7 @@ public class Warlock extends DonatorKit implements Listener {
         es.hotbar[3] = ItemCreator.item(new ItemStack(Material.REDSTONE),
                 ChatColor.DARK_RED + "Health Funnel", Arrays.asList("",
                         ChatColor.YELLOW + "Sacrifice 25% of your health to heal",
-                        ChatColor.YELLOW + "your ally for 25% of their max health.",
+                        ChatColor.YELLOW + "your ally for 25% of your max health.",
                         ChatColor.YELLOW + " ",
                         ChatColor.YELLOW + "Has a cooldown of 10 seconds."), null);
 
@@ -309,7 +309,7 @@ public class Warlock extends DonatorKit implements Listener {
 
 
                 if (cooldown == 0) {
-                    r.setHealth(r.getHealth() + (double) Kit.equippedKits.get(r.getUniqueId()).baseHealth / 4);
+                    r.setHealth(r.getHealth() + (double) Kit.equippedKits.get(player.getUniqueId()).baseHealth / 4);
                     player.setHealth(player.getHealth() - (double) Kit.equippedKits.get(player.getUniqueId()).baseHealth / 4);
                     r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             NameTag.color(player) + player.getName() + ChatColor.AQUA + " has sacrificed his health for you"));
@@ -357,6 +357,7 @@ public class Warlock extends DonatorKit implements Listener {
                     if (p.getInventory().contains(Material.AMETHYST_SHARD, 5)) {
                         for (ItemStack item : p.getInventory().getContents()) {
                             hellfire(p);
+                            if (item == null) { return; }
                             if (item.getType().equals(Material.AMETHYST_SHARD)) {
                                 item.setAmount(0);
                             }
@@ -391,7 +392,7 @@ public class Warlock extends DonatorKit implements Listener {
             if (staff.getType().equals(Material.EMERALD)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                      staff.setAmount(staff.getAmount() - 1);
-                     if (p.getHealth() + ((double) health /4) <= health) {
+                     if (p.getHealth() + ((double) health /4) < health) {
                          p.setHealth(p.getHealth() + ((double) health / 4));
                      } else {
                          p.setHealth(health);
@@ -431,7 +432,7 @@ public class Warlock extends DonatorKit implements Listener {
         kitLore.add("§7giving them weakness IV for 8 seconds.");
         kitLore.add("§7- Can drain life from targets for 5 seconds.");
         kitLore.add("§7- Has the possibility to sacrifice 25% of their HP");
-        kitLore.add("§7to heal a teammate for 25% of their max health.");
+        kitLore.add("§7to heal a teammate for 25% of the warlock's max health.");
         kitLore.add("§7- Can pay hell with 5 soulshards to summon devastating");
         kitLore.add("§7hellfire that incinerates all enemy players it comes across.");
         kitLore.add("");
