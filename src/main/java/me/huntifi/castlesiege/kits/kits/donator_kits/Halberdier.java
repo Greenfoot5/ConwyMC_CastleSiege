@@ -32,7 +32,7 @@ public class Halberdier extends DonatorKit implements Listener {
      */
     public Halberdier() {
         super("Halberdier", 630, 23, Material.NETHERITE_CHESTPLATE);
-        super.kbResistance = 1;
+        super.kbResistance = 2;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

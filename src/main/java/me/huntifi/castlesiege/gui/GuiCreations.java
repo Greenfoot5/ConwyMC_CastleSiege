@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.kits.kits.donator_kits.Barbarian;
 import me.huntifi.castlesiege.kits.kits.donator_kits.Paladin;
-import me.huntifi.castlesiege.kits.kits.in_development.Priest;
+import me.huntifi.castlesiege.kits.kits.donator_kits.Priest;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;

@@ -68,7 +68,8 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.kits.kits.donator_kits.Barbarian;
 import me.huntifi.castlesiege.kits.kits.in_development.Chef;
 import me.huntifi.castlesiege.kits.kits.donator_kits.Paladin;
-import me.huntifi.castlesiege.kits.kits.in_development.Priest;
+import me.huntifi.castlesiege.kits.kits.donator_kits.Priest;
+import me.huntifi.castlesiege.kits.kits.in_development.Warlock;
 import me.huntifi.castlesiege.kits.kits.staff_kits.Warbear;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
@@ -263,6 +264,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
                 getServer().getPluginManager().registerEvents(new Warbear(), plugin);
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
+                getServer().getPluginManager().registerEvents(new Warlock(), plugin);
 
                 //mythic stuff
                 getServer().getPluginManager().registerEvents(new MythicListener(), plugin);
@@ -409,6 +411,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
                 Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
+                Objects.requireNonNull(getCommand("Warlock")).setExecutor(new Warlock());
                 //loadKits();
                 GuiCreations.registerGUIs();
                 applyKitLimits();

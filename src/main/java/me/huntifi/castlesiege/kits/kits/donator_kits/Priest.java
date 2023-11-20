@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.in_development;
+package me.huntifi.castlesiege.kits.kits.donator_kits;
 
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.huntifi.castlesiege.Main;
@@ -13,6 +13,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -48,7 +49,7 @@ public class Priest extends DonatorKit implements Listener {
     private static final int blessingCooldown = 500;
     private static final int staffCooldown = 40;
     private final ItemStack holybook;
-    public static final HashMap<Player, Player> blessings = new HashMap<>();
+    public static final HashMap<Player, UUID> blessings = new HashMap<>();
 
     public Priest() {
         super("Priest", health, regen, Material.SPECTRAL_ARROW);
@@ -199,30 +200,28 @@ public class Priest extends DonatorKit implements Listener {
                         TeamController.getTeam(e.getRightClicked().getUniqueId()) == TeamController.getTeam(p.getUniqueId())) {
                     if (cooldown == 0) {
                         p.setCooldown(Material.BOOK, blessingCooldown);
-                        blessings.put(p, (Player) e.getRightClicked());
+                        blessings.put(p, e.getRightClicked().getUniqueId());
                         assignBook(p, book);
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "Your blessing is currently affecting: " + e.getRightClicked()));
 
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {
                                     if (blessings.containsKey(p)) {
-                                        blessings.get(p).addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 200, 3)));
+                                        Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 200, 3)));
 
-                                        AttributeInstance healthAttribute = blessings.get(p).getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                                        AttributeInstance healthAttribute = Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getAttribute(Attribute.GENERIC_MAX_HEALTH);
                                         assert healthAttribute != null;
-                                        //Paladin doesn't get a heal for blessing someone who is full health.
-                                        if (blessings.get(p).getHealth() != healthAttribute.getBaseValue()) {
+                                        //Priest doesn't get a heal for blessing someone who is full health.
+                                        if (Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getHealth() != healthAttribute.getBaseValue()) {
                                             UpdateStats.addHeals(p.getUniqueId(), 1);
                                         }
                                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                                ChatColor.AQUA + "Your blessing is currently affecting: " + blessings.get(p)));
+                                                ChatColor.AQUA + "Your blessing is currently affecting: " + Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getName()));
                                     } else {
                                         this.cancel();
                                     }
                                 }
-                            }.runTaskTimer(Main.plugin, 20, 200);
+                            }.runTaskTimer(Main.plugin, 10, 200);
 
                     }
                 }
@@ -245,7 +244,7 @@ public class Priest extends DonatorKit implements Listener {
             ItemMeta metatron = book.getItemMeta();
             assert metatron != null;
             metatron.setDisplayName(Objects.requireNonNull(holybook.getItemMeta()).getDisplayName() + " : " +
-                    ChatColor.AQUA + blessings.get(priest).getName());
+                    ChatColor.AQUA + Objects.requireNonNull(Bukkit.getPlayer(blessings.get(priest))).getName());
             book.setItemMeta(metatron);
         }
     }
@@ -290,7 +289,7 @@ public class Priest extends DonatorKit implements Listener {
         kitLore.add("§2Passive: ");
         kitLore.add("§7- Can see player health.");
         kitLore.add("");
-        kitLore.add("§7Can be unlocked with §l§ecoins");
+        kitLore.add("§7Can be unlocked with §e§lcoins");
         return kitLore;
     }
 }

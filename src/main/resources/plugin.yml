@@ -570,3 +570,6 @@ commands:
   Warhound:
     description: Selects the warhound kit
     usage: /warhound
+  Warlock:
+    description: Selects the warlock kit
+    usage: /warlock
