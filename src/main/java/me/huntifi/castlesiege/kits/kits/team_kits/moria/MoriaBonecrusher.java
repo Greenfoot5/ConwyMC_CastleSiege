@@ -28,7 +28,7 @@ import java.util.Random;
 public class MoriaBonecrusher extends TeamKit implements Listener {
 
     public MoriaBonecrusher() {
-        super("Moria Bonecrusher", 300, 8, "Moria",
+        super("Bonecrusher", 300, 8, "Moria",
                 "The Orcs", 4000, Material.BONE);
 
 

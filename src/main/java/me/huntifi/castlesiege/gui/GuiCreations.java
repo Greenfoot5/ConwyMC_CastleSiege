@@ -99,7 +99,7 @@ public class GuiCreations {
                 Hypaspist.loreStats(), 1, "hypaspist", true);
 
         gui.addItem("§6§lCLASS:§r§6 Halberdier", Material.NETHERITE_CHESTPLATE,
-                Collections.singletonList(""), 2, "halberdier", true);
+                Halberdier.loreStats(), 2, "halberdier", true);
 
         gui.addItem("§3§lCLASS:§r§3 Warbear", Material.POLAR_BEAR_SPAWN_EGG,
                 Collections.singletonList(""), 3, "warbear", true);
@@ -136,7 +136,7 @@ public class GuiCreations {
         Gui gui = new Gui("debuff", 2);
 
         gui.addItem("§6§lCLASS:§r§6 Maceman", Material.IRON_SHOVEL,
-                Collections.singletonList(""), 0, "maceman", true);
+                Maceman.loreStats(), 0, "maceman", true);
 
         gui.addItem("§6§lCLASS:§r§6 Warhound", Material.GHAST_TEAR,
                 Collections.singletonList(""), 1, "warhound", true);

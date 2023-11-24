@@ -23,7 +23,7 @@ import java.util.Objects;
 public class MoriaGuardian extends TeamKit implements Listener {
 
     public MoriaGuardian() {
-        super("Dwarven Guardian", 620, 15, "Moria",
+        super("Guardian", 620, 15, "Moria",
                 "The Dwarves", 5000, Material.SHIELD);
 
         // Equipment Stuff

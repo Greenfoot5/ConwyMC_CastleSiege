@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -26,6 +27,10 @@ import java.util.Objects;
  * The halberdier kit
  */
 public class Halberdier extends DonatorKit implements Listener {
+
+    private static final int health = 630;
+    private static final double regen = 23;
+    private static final double meleeDamage = 90;
 
     /**
      * Set the equipment and attributes of this kit
@@ -40,13 +45,13 @@ public class Halberdier extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-                ChatColor.GREEN + "Halberd", null, null, 80);
+                ChatColor.GREEN + "Halberd", null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
                         ChatColor.GREEN + "Halberd",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 82),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
@@ -127,5 +132,29 @@ public class Halberdier extends DonatorKit implements Listener {
                 Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
             e.setDamage(e.getDamage() * 2);
         }
+    }
+
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7Our classic tank capable of");
+        kitLore.add("§7taking a large beating.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a0 §7Ladders");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Slowness III");
+        kitLore.add("§7- Mining Fatigue II");
+        kitLore.add("§7- Resistance I");
+        kitLore.add("");
+        kitLore.add("§2Passive: ");
+        kitLore.add("§7- Halberdier can't run.");
+        kitLore.add("§7- It has a cooldown on attacking.");
+        kitLore.add("§7- Halberdier takes 50% more DMG from arrows.");
+        kitLore.add("");
+        kitLore.add("§7Can be unlocked with §e§lcoins");
+        return kitLore;
     }
 }

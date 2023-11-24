@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Random;
@@ -29,11 +30,16 @@ import java.util.Random;
  */
 public class Maceman extends DonatorKit implements Listener {
 
+    private static final int health = 300;
+    private static final double regen = 10.5;
+    private static final double meleeDamage = 37;
+    private static final int ladderCount = 4;
+
     /**
      * Set the equipment and attributes of this kit
      */
     public Maceman() {
-        super("Maceman", 300, 10.5, Material.DIAMOND_SHOVEL);
+        super("Maceman", health, regen, Material.DIAMOND_SHOVEL);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -41,13 +47,13 @@ public class Maceman extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
-                ChatColor.GREEN + "Mace", null, null, 37);
+                ChatColor.GREEN + "Mace", null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
                         ChatColor.GREEN + "Mace",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 39),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
@@ -68,8 +74,8 @@ public class Maceman extends DonatorKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
-        es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
+        es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         super.equipment = es;
 
@@ -102,7 +108,13 @@ public class Maceman extends DonatorKit implements Listener {
                     q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             NameTag.color(p) + p.getName() + ChatColor.AQUA + " blocked your stun"));
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You blocked " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s stun"));
+                            ChatColor.AQUA + "Your shield broke whilst blocking " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s stun"));
+                    if (p.getInventory().getItemInMainHand().getType().equals(Material.SHIELD)) {
+                        p.getInventory().getItemInMainHand().setAmount(0);
+                    } else if (p.getInventory().getItemInOffHand().getType().equals(Material.SHIELD)) {
+                        p.getInventory().getItemInOffHand().setAmount(0);
+                    }
+                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK , 1, 1 );
                 } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
                     q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             NameTag.color(p) + p.getName() + ChatColor.AQUA + " dodged your stun"));
@@ -117,9 +129,33 @@ public class Maceman extends DonatorKit implements Listener {
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 60, 2)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 60, 2)));
-                    e.setDamage(e.getDamage() * 0.75);
+                    e.setDamage(e.getDamage() * 1.5);
                 }
             }
         }
+    }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A melee kit that can stun");
+        kitLore.add("§7opponents, making them weaker.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("");
+        kitLore.add("§5Ability: ");
+        kitLore.add("§7- Maceman can stun their target");
+        kitLore.add("§7which deals extra DMG, gives the target");
+        kitLore.add("§7blindness, slowness, confusion and mining fatigue");
+        kitLore.add("§7for 3 seconds. This ability has a cooldown.");
+        kitLore.add("");
+        kitLore.add("§2Passive: ");
+        kitLore.add("§7- Can break a shield when the opponent is");
+        kitLore.add("§7blocking with a shield whilst being stunned.");
+        kitLore.add("");
+        kitLore.add("§7Can be unlocked with §e§lcoins");
+        return kitLore;
     }
 }
