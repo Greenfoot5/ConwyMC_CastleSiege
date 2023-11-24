@@ -432,6 +432,9 @@ commands:
   Archer:
     description: Selects the archer kit
     usage: /archer
+  Armorer:
+    description: Selects the armorer kit
+    usage: /armorer
   Berserker:
     description: Selects the berserker kit
     usage: /berserker
@@ -441,6 +444,9 @@ commands:
   Barbarian:
     description: Selects the barbarian kit
     usage: /barbarian
+  Bannerman:
+    description: Selects the bannerman kit
+    usage: /bannerman
   Cavalry:
     description: Selects the cavalry kit
     usage: /cavalry
@@ -558,6 +564,9 @@ commands:
   Swordsman:
     description: Selects the swordsman kit
     usage: /swordsman
+  Sorcerer:
+    description: Selects the sorcerer kit
+    usage: /sorcerer
   Vanguard:
     description: Selects the vanguard kit
     usage: /vanguard
