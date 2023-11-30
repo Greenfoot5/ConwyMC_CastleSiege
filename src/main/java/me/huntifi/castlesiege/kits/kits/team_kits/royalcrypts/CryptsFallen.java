@@ -29,7 +29,7 @@ public class CryptsFallen extends TeamKit implements Listener {
      */
     public CryptsFallen() {
         super("Fallen", 360, 23, "Royal Crypts", "Tomb Guardians",
-                2000, Material.WITHER_SKELETON_SKULL, new Location(Bukkit.getWorld("RoyalCryptsNew"), 216, 5, -70));
+                2000, Material.WITHER_SKELETON_SKULL, "royalcryptsfallen");
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;

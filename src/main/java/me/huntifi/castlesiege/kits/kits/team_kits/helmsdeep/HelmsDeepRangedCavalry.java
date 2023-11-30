@@ -29,7 +29,7 @@ public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
     
     public HelmsDeepRangedCavalry() {
         super("Ranged Cavalry", 230, 9, "Helm's Deep",
-                "Rohan", 2500, Material.BOW, new Location(Bukkit.getWorld("Helmsdeep"), 284, 13, 966));
+                "Rohan", 2500, Material.BOW, "helmsdeeprangedcavalry");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

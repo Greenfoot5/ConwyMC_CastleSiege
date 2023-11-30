@@ -23,7 +23,7 @@ public class ConwyLongbowman extends TeamKit implements Listener {
 
     public ConwyLongbowman() {
         super("Conwy Longbowman", 220, 10, "Conwy",
-                "The Rebellion", 2500, Material.BOW, new Location(Bukkit.getWorld("Conwy"), -65, 86, 606));
+                "The Rebellion", 2500, Material.BOW, "conwylongbowman");
 
 
         // Equipment Stuff

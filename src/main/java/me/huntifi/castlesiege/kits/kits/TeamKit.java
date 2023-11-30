@@ -1,16 +1,22 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class TeamKit extends DonatorKit implements Listener {
@@ -18,6 +24,9 @@ public abstract class TeamKit extends DonatorKit implements Listener {
     //map for the map specific kits and the team
     protected final String map;
     protected final String team;
+    //Might seem odd to add, but it's cause map names vary, and it isn't exactly helpful to get the exact kitname
+    //out of mapname and name of the kit. Like this would work for Elytrier but not for any of the Helm's Deep kits.
+    protected final String commandname;
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
@@ -33,13 +42,14 @@ public abstract class TeamKit extends DonatorKit implements Listener {
      * @param coins the amount of coins this kit costs
      */
     public TeamKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins
-                   , Material material, Location signloc) {
+                   , Material material, String commandname) {
         super(name, baseHealth, regenAmount, material);
         team = playableTeam;
         map = playableMap;
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
+        this.commandname = commandname;
     }
 
     public String getMapName() {
@@ -84,6 +94,23 @@ public abstract class TeamKit extends DonatorKit implements Listener {
      */
     public static Collection<String> getKits() {
         return kits;
+    }
+
+
+    @EventHandler
+    public void onClickSign(PlayerInteractEvent e) {
+        // Prevent using in lobby
+        if (!InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
+            return;
+        }
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
+                Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
+            Sign sign = (Sign) e.getClickedBlock().getState();
+            if (sign.getLine(0).contains("Team Kit") && sign.getLine(2).contains(name)) {
+                e.getPlayer().performCommand(commandname.toLowerCase());
+            }
+        }
+
     }
 
 }

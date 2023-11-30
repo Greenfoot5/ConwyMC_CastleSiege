@@ -378,7 +378,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
                 Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
-                Objects.requireNonNull(getCommand("CryptsFallen")).setExecutor(new CryptsFallen());
+                Objects.requireNonNull(getCommand("RoyalCryptsFallen")).setExecutor(new CryptsFallen());
                 Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
                 Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
                 Objects.requireNonNull(getCommand("ThunderstoneElytrier")).setExecutor(new ThunderstoneElytrier());
@@ -388,7 +388,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("FirelandsHellsteed")).setExecutor(new FirelandsHellsteed());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
                 Objects.requireNonNull(getCommand("Hypaspist")).setExecutor(new Hypaspist());
-                Objects.requireNonNull(getCommand("HelmsDeepBerserker")).setExecutor(new HelmsDeepBerserker());
+                Objects.requireNonNull(getCommand("HelmsDeepUrukBerserker")).setExecutor(new HelmsDeepBerserker());
                 Objects.requireNonNull(getCommand("HelmsDeepLancer")).setExecutor(new HelmsDeepLancer());
                 Objects.requireNonNull(getCommand("HelmsDeepRangedCavalry")).setExecutor(new HelmsDeepRangedCavalry());
                 Objects.requireNonNull(getCommand("HommetLongbowman")).setExecutor(new HommetLongbowarcher());

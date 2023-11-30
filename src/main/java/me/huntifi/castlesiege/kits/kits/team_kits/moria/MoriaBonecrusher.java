@@ -26,7 +26,7 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
 
     public MoriaBonecrusher() {
         super("Bonecrusher", 300, 8, "Moria",
-                "The Orcs", 4000, Material.BONE, new Location(Bukkit.getWorld("Toucan_Moria"), 214, 5, 5));
+                "The Orcs", 4000, Material.BONE, "moriabonecrusher");
 
 
         // Equipment Stuff

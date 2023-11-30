@@ -27,7 +27,7 @@ public class MoriaGuardian extends TeamKit implements Listener {
     public MoriaGuardian() {
         super("Guardian", 620, 15, "Moria",
                 "The Dwarves", 5000, Material.SHIELD,
-                new Location(Bukkit.getWorld("Toucan_Moria"), 216, 5, -70));
+                "moriaguardian");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

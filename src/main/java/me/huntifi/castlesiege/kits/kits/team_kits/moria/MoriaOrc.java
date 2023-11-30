@@ -5,9 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -27,8 +25,8 @@ public class MoriaOrc extends TeamKit implements Listener {
 
 
     public MoriaOrc() {
-        super("Orc", 230, 7, "Moria",
-                "The Orcs", 2500, Material.BOW, new Location(Bukkit.getWorld("Toucan_Moria"), 208, 5, 5));
+        super("Moria Orc", 230, 7, "Moria",
+                "The Orcs", 2500, Material.BOW, "moriaorc");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

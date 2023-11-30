@@ -16,6 +16,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -39,7 +40,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
 
     public MoriaCaveTroll() {
         super("Cave Troll", 800, 20, "Moria",
-                "The Orcs", 7500, Material.POPPY, new Location(Bukkit.getWorld("Toucan_Moria"), 211, 5, 5));
+                "The Orcs", 7500, Material.POPPY, "moriacavetroll");
         super.canClimb = false;
         super.kbResistance = 0.8;
 

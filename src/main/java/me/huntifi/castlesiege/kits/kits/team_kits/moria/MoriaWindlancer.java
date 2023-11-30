@@ -33,7 +33,7 @@ public class MoriaWindlancer extends TeamKit implements Listener {
     public MoriaWindlancer() {
         super("Windlancer", 300, 9 , "Moria",
                 "The Dwarves", 5000, Material.STICK,
-                new Location(Bukkit.getWorld("Toucan_Moria"), 205 , 5, -70));
+                "moriawindlancer");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

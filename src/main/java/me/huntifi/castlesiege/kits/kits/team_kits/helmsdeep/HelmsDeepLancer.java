@@ -36,7 +36,7 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
 
     public HelmsDeepLancer() {
         super("Lancer", 270, 9, "Helm's Deep", "Rohan", 5000,
-                Material.STICK, new Location(Bukkit.getWorld("Helmsdeep"), 284, 13, 964));
+                Material.STICK, "helmsdeeplancer");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

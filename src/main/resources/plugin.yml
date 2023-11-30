@@ -453,9 +453,9 @@ commands:
   Chef:
     description: Selects the chef kit
     usage: /chef
-  CryptsFallen:
-    description: Selects the Fallen kit for Royal Crypts as Tomb Guardians
-    usage: /cryptsfallen
+  RoyalCryptsFallen:
+    description: Selects the Fallen kit for Royal Crypts as Fallen
+    usage: /royalcryptsfallen
   Crossbowman:
     description: Selects the crossbowman kit
     usage: /crossbowman
@@ -492,7 +492,7 @@ commands:
   Hypaspist:
     description: Selects the hypaspist kit
     usage: /hypaspist
-  HelmsdeepBerserker:
+  HelmsDeepUrukBerserker:
     description: Selects the Berserker kit on Helm's Deep
     usage: /helmsdeepberserker
   HelmsdeepLancer:

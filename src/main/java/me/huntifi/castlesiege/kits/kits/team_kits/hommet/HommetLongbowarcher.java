@@ -26,7 +26,7 @@ public class HommetLongbowarcher extends TeamKit implements Listener {
 
     public HommetLongbowarcher() {
         super("Longbowman", 220, 10, "Hommet",
-                "Normans", 2500, Material.BOW, new Location(Bukkit.getWorld("Hommet"), -496, 32, -96));
+                "Normans", 2500, Material.BOW, "hommetlongbowman");
 
 
         // Equipment Stuff

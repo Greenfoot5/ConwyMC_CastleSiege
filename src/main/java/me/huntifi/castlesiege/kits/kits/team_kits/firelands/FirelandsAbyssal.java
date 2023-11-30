@@ -46,7 +46,8 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
 
     public FirelandsAbyssal() {
         super("Abyssal", 600, 9, "Firelands",
-                "Burning Legion", 5000, Material.MAGMA_BLOCK, new Location(Bukkit.getWorld("Firelands"), -65, 86, 606));
+                "Burning Legion", 5000, Material.MAGMA_BLOCK,
+                "firelandsabyssal");
         super.canCap = true;
         super.canClimb = false;
         super.canSeeHealth = true;
