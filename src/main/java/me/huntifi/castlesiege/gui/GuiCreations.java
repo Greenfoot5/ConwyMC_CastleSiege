@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.kits.kits.donator_kits.Barbarian;
 import me.huntifi.castlesiege.kits.kits.donator_kits.Paladin;
 import me.huntifi.castlesiege.kits.kits.donator_kits.Priest;
+import me.huntifi.castlesiege.kits.kits.in_development.Sorcerer;
 import me.huntifi.castlesiege.kits.kits.in_development.Warlock;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
@@ -190,6 +191,9 @@ public class GuiCreations {
 
         gui.addItem("§6§lCLASS:§r§6 Crossbowman", Material.CROSSBOW,
                 Crossbowman.loreStats(), 3, "crossbowman", true);
+
+        gui.addItem("§6§lCLASS:§r§6 Sorcerer", Material.AMETHYST_SHARD,
+                Sorcerer.loreStats(), 4, "sorcerer", true);
 
         gui.addItem("§4§lGo back", Material.BARRIER,
                 Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);

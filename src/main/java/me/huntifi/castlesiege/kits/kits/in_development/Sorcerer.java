@@ -1,14 +1,22 @@
 package me.huntifi.castlesiege.kits.kits.in_development;
 
+import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.Kit;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,8 +26,7 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 
 public class Sorcerer extends DonatorKit implements Listener {
 
@@ -27,8 +34,8 @@ public class Sorcerer extends DonatorKit implements Listener {
     private static final double regen = 10.5;
     private static final double meleeDamage = 26;
     private static final int ladderCount = 4;
-    private static final int arcaneboltCooldown = 320;
-    private static final int frostnovaCooldown = 80;
+    private static final int arcaneboltCooldown = 60;
+    private static final int frostnovaCooldown = 220;
     private static final int arcaneBarrageCooldown = 400;
     private static final int slowFallingCooldown = 300;
     public Sorcerer() {
@@ -43,6 +50,7 @@ public class Sorcerer extends DonatorKit implements Listener {
                 ChatColor.DARK_PURPLE + "Sorcerer's Wand", Arrays.asList("",
                         ChatColor.YELLOW + "Right click to shoot an arcanebolt which",
                         ChatColor.YELLOW + "does 60 DMG on hit.",
+                        ChatColor.YELLOW + " ",
                         ChatColor.YELLOW + "Has a cooldown of " + arcaneboltCooldown/20 + " seconds."), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
@@ -51,6 +59,7 @@ public class Sorcerer extends DonatorKit implements Listener {
                         Arrays.asList("",
                                 ChatColor.YELLOW + "Right click to shoot an arcane bolt which",
                                 ChatColor.YELLOW + "does 60 DMG on hit.",
+                                ChatColor.YELLOW + " ",
                                 ChatColor.YELLOW + "Has a cooldown of " + arcaneboltCooldown/20 + " seconds.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
@@ -58,21 +67,23 @@ public class Sorcerer extends DonatorKit implements Listener {
 
         // 1st ability
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.DIAMOND),
-                ChatColor.LIGHT_PURPLE + "Frost nova", Arrays.asList("",
+                ChatColor.BLUE + "Frost nova", Arrays.asList("",
                         ChatColor.YELLOW + "Right click to send a freezing shockwave out ",
                         ChatColor.YELLOW + "of yourself, slowing every enemy in a 4 block radius",
                         ChatColor.YELLOW + "around you and dealing 30 DMG to them.",
+                        ChatColor.YELLOW + " ",
                         ChatColor.YELLOW + "Has a cooldown of " + frostnovaCooldown/20 + " seconds."), null);
 
         // 2nd ability
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.AMETHYST_SHARD),
-                ChatColor.DARK_GREEN + "Arcane Barrage", Arrays.asList("",
+                ChatColor.LIGHT_PURPLE + "Arcane Barrage", Arrays.asList("",
                         ChatColor.YELLOW + "Fire 3 arcane bolts at a target.",
+                        ChatColor.YELLOW + " ",
                         ChatColor.YELLOW + "Has a cooldown of " + arcaneBarrageCooldown/20 + " seconds."), null);
 
         // 3rd ability
         es.hotbar[3] = ItemCreator.item(new ItemStack(Material.FEATHER),
-                ChatColor.DARK_RED + "Slow Falling", Arrays.asList("",
+                ChatColor.DARK_BLUE + "Slow Falling", Arrays.asList("",
                         ChatColor.YELLOW + "Right click to give yourself slow falling",
                         ChatColor.YELLOW + "for 5 seconds.",
                         ChatColor.YELLOW + " ",
@@ -126,6 +137,171 @@ public class Sorcerer extends DonatorKit implements Listener {
 
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 0, true, false));
+    }
+
+    public void shootArcanebolt(Player p) {
+        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
+        mythicMobsApi.castSkill(p ,"SorcererArcanebolt", p.getLocation());
+    }
+
+
+    /**
+     * Activate the warlock ability of shooting a shadowbolt
+     * @param e The event called when right-clicking with a wither skull
+     */
+    @EventHandler
+    public void clickStaff(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+        ItemStack staff = p.getInventory().getItemInMainHand();
+        int cooldown = p.getCooldown(Material.STICK);
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            if (staff.getType().equals(Material.STICK)) {
+                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    if (cooldown == 0) {
+                        p.setCooldown(Material.STICK, arcaneboltCooldown);
+                        shootArcanebolt(p);
+                    }
+                }
+            }
+        }
+    }
+
+    public void frostnova(Player p) {
+        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
+        mythicMobsApi.castSkill(p ,"SorcererFrostnova", p.getLocation());
+    }
+
+
+    /**
+     * Activate the warlock ability of cursing the area
+     * @param e The event called when right-clicking with a stick
+     */
+    @EventHandler
+    public void clickFrostnova(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+        ItemStack patat = p.getInventory().getItemInMainHand();
+        int cooldown = p.getCooldown(Material.DIAMOND);
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            if (patat.getType().equals(Material.DIAMOND)) {
+                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    if (cooldown == 0) {
+                        p.setCooldown(Material.DIAMOND, frostnovaCooldown);
+                        frostnova(p);
+                    }
+                }
+            }
+        }
+    }
+
+
+    public void shootArcanebarrage(Player p) {
+        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
+        mythicMobsApi.castSkill(p ,"SorcererArcaneboltBarrage", p.getLocation());
+    }
+
+
+    /**
+     * Activate the warlock ability of shooting a shadowbolt
+     * @param e The event called when right-clicking with a wither skull
+     */
+    @EventHandler
+    public void clickBarrage(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+        ItemStack staff = p.getInventory().getItemInMainHand();
+        int cooldown = p.getCooldown(Material.AMETHYST_SHARD);
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            if (staff.getType().equals(Material.AMETHYST_SHARD)) {
+                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    if (cooldown == 0) {
+                        p.setCooldown(Material.AMETHYST_SHARD, arcaneBarrageCooldown);
+                        shootArcanebarrage(p);
+                    }
+                }
+            }
+        }
+    }
+
+
+    public void slowfalling(Player p) {
+        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
+        mythicMobsApi.castSkill(p ,"SorcererSlowfalling", p.getLocation());
+    }
+
+
+    /**
+     * Activate the warlock ability of shooting a shadowbolt
+     * @param e The event called when right-clicking with a wither skull
+     */
+    @EventHandler
+    public void clickSlowfalling(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
+        ItemStack staff = p.getInventory().getItemInMainHand();
+        int cooldown = p.getCooldown(Material.FEATHER);
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            if (staff.getType().equals(Material.FEATHER)) {
+                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    if (cooldown == 0) {
+                        p.setCooldown(Material.FEATHER, slowFallingCooldown);
+                        slowfalling(p);
+                    }
+                }
+            }
+        }
+    }
+
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A sorcerer specialised in the arcane arts, ");
+        kitLore.add("§7can also slow down enemies with ice.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a60 §7arcane-bolt DMG");
+        kitLore.add("§a30 §7frost nova DMG");
+        kitLore.add("§a" + ladderCount + " §7ladders");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Slowness I");
+        kitLore.add("");
+        kitLore.add("§6Abilities: ");
+        kitLore.add("§7- Can shoot an arcane-bolt at opponents at a");
+        kitLore.add("§7higher speed then other magic ranged attacks.");
+        kitLore.add("§7- In a wave of cold can damage and slow down enemies");
+        kitLore.add("§7in a 4 block radius around the sorcerer.");
+        kitLore.add("§7- Can shoot a barrage of arcane-bolts.");
+        kitLore.add("§7- Has a spell that gives slow falling to the caster.");
+        kitLore.add("");
+        kitLore.add("§7Can be unlocked with §e§lcoins");
+        return kitLore;
     }
 
 }
