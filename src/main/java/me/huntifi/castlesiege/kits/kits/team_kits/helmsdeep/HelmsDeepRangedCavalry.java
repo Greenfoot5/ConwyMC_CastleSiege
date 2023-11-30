@@ -6,7 +6,9 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
@@ -27,7 +29,7 @@ public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
     
     public HelmsDeepRangedCavalry() {
         super("Ranged Cavalry", 230, 9, "Helm's Deep",
-                "Rohan", 2500, Material.BOW);
+                "Rohan", 2500, Material.BOW, new Location(Bukkit.getWorld("Helmsdeep"), 284, 13, 966));
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

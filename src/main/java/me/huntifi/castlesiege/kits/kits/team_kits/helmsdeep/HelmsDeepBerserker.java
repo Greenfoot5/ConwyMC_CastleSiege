@@ -30,7 +30,7 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
 
     public HelmsDeepBerserker() {
         super("Uruk Berserker", 220, 6, "Helm's Deep", "Uruk-hai",
-                2500, Material.REDSTONE);
+                2500, Material.REDSTONE, new Location(Bukkit.getWorld("Helmsdeep"), 1746, 13, 944));
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -25,7 +26,7 @@ public class HommetLongbowarcher extends TeamKit implements Listener {
 
     public HommetLongbowarcher() {
         super("Longbowman", 220, 10, "Hommet",
-                "Normans", 2500, Material.BOW);
+                "Normans", 2500, Material.BOW, new Location(Bukkit.getWorld("Hommet"), -496, 32, -96));
 
 
         // Equipment Stuff

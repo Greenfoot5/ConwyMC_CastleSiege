@@ -7,7 +7,9 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -27,7 +29,7 @@ public class CryptsFallen extends TeamKit implements Listener {
      */
     public CryptsFallen() {
         super("Fallen", 360, 23, "Royal Crypts", "Tomb Guardians",
-                3500, Material.WITHER_SKELETON_SKULL);
+                2000, Material.WITHER_SKELETON_SKULL, new Location(Bukkit.getWorld("RoyalCryptsNew"), 216, 5, -70));
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;

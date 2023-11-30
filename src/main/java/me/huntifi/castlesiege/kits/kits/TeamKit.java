@@ -3,15 +3,17 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-public abstract class TeamKit extends DonatorKit {
+public abstract class TeamKit extends DonatorKit implements Listener {
 
     //map for the map specific kits and the team
     protected final String map;
@@ -31,7 +33,7 @@ public abstract class TeamKit extends DonatorKit {
      * @param coins the amount of coins this kit costs
      */
     public TeamKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins
-                   ,Material material) {
+                   , Material material, Location signloc) {
         super(name, baseHealth, regenAmount, material);
         team = playableTeam;
         map = playableMap;

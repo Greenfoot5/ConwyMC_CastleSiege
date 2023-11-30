@@ -10,7 +10,9 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
@@ -34,7 +36,7 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
 
     public HelmsDeepLancer() {
         super("Lancer", 270, 9, "Helm's Deep", "Rohan", 5000,
-                Material.STICK);
+                Material.STICK, new Location(Bukkit.getWorld("Helmsdeep"), 284, 13, 964));
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

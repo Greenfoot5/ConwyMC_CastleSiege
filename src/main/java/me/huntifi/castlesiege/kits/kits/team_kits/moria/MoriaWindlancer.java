@@ -9,9 +9,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -34,7 +32,8 @@ import java.util.UUID;
 public class MoriaWindlancer extends TeamKit implements Listener {
     public MoriaWindlancer() {
         super("Windlancer", 300, 9 , "Moria",
-                "The Dwarves", 5000, Material.STICK);
+                "The Dwarves", 5000, Material.STICK,
+                new Location(Bukkit.getWorld("Toucan_Moria"), 205 , 5, -70));
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

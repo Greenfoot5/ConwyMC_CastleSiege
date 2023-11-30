@@ -5,9 +5,7 @@ import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -20,7 +18,7 @@ public class ConwyRoyalKnight extends TeamKit {
 
     public ConwyRoyalKnight() {
         super("Royal Knight", 600, 5, "Conwy", "The English",
-                5000, Material.DIAMOND_HORSE_ARMOR);
+                5000, Material.DIAMOND_HORSE_ARMOR, new Location(Bukkit.getWorld("Conwy"), 91, 88, 619));
 
 
         // Equipment Stuff

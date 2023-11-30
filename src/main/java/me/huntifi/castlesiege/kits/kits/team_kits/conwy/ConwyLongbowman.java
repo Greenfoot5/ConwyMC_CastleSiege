@@ -5,10 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -26,7 +23,7 @@ public class ConwyLongbowman extends TeamKit implements Listener {
 
     public ConwyLongbowman() {
         super("Conwy Longbowman", 220, 10, "Conwy",
-                "The Rebellion", 2500, Material.BOW);
+                "The Rebellion", 2500, Material.BOW, new Location(Bukkit.getWorld("Conwy"), -65, 86, 606));
 
 
         // Equipment Stuff

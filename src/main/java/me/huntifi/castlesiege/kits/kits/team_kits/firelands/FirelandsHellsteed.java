@@ -38,7 +38,7 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
      * **/
     public FirelandsHellsteed() {
         super("Hellsteed", 500, 10, "Firelands",
-                "Hellfire Guards", 2500, Material.LEATHER_HORSE_ARMOR);
+                "Hellfire Guards", 2500, Material.LEATHER_HORSE_ARMOR, new Location(Bukkit.getWorld("Firelands"), -65, 86, 606));
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;

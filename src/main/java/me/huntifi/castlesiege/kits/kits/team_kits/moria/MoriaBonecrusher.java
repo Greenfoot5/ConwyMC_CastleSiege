@@ -8,10 +8,7 @@ import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.NameTag;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,7 +26,7 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
 
     public MoriaBonecrusher() {
         super("Bonecrusher", 300, 8, "Moria",
-                "The Orcs", 4000, Material.BONE);
+                "The Orcs", 4000, Material.BONE, new Location(Bukkit.getWorld("Toucan_Moria"), 214, 5, 5));
 
 
         // Equipment Stuff

@@ -5,7 +5,9 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -24,7 +26,8 @@ public class MoriaGuardian extends TeamKit implements Listener {
 
     public MoriaGuardian() {
         super("Guardian", 620, 15, "Moria",
-                "The Dwarves", 5000, Material.SHIELD);
+                "The Dwarves", 5000, Material.SHIELD,
+                new Location(Bukkit.getWorld("Toucan_Moria"), 216, 5, -70));
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

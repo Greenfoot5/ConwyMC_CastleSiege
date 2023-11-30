@@ -8,9 +8,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
@@ -33,7 +31,8 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
 
     public MoriaAxeThrower() {
         super("Axe Thrower", 300, 10, "Moria",
-                "The Dwarves", 5000, Material.STONE_AXE);
+                "The Dwarves", 5000, Material.STONE_AXE,
+                new Location(Bukkit.getWorld("Toucan_Moria"), 211, 5, -70));
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

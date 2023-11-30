@@ -6,9 +6,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -26,7 +24,7 @@ public class ConwyArbalester extends TeamKit implements Listener {
 
     public ConwyArbalester() {
         super("Arbalester", 260, 3, "Conwy", "The English",
-                5000, Material.CROSSBOW);
+                5000, Material.CROSSBOW, new Location(Bukkit.getWorld("Conwy"), 106, 88, 619));
 
 
         // Equipment Stuff

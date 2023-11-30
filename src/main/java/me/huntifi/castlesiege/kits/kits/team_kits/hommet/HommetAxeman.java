@@ -8,9 +8,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
@@ -33,7 +31,7 @@ public class HommetAxeman extends TeamKit implements Listener {
 
     public HommetAxeman() {
         super("Axeman", 300, 10, "Hommet",
-                "Saxons", 2500, Material.STONE_AXE);
+                "Saxons", 2500, Material.STONE_AXE, new Location(Bukkit.getWorld("Hommet"), -401, 89, 72));
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;

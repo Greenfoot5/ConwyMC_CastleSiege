@@ -39,7 +39,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
 
     public MoriaCaveTroll() {
         super("Cave Troll", 800, 20, "Moria",
-                "The Orcs", 7500, Material.POPPY);
+                "The Orcs", 7500, Material.POPPY, new Location(Bukkit.getWorld("Toucan_Moria"), 211, 5, 5));
         super.canClimb = false;
         super.kbResistance = 0.8;
 

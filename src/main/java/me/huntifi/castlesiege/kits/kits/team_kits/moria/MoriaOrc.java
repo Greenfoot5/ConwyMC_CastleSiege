@@ -28,7 +28,7 @@ public class MoriaOrc extends TeamKit implements Listener {
 
     public MoriaOrc() {
         super("Orc", 230, 7, "Moria",
-                "The Orcs", 2500, Material.BOW);
+                "The Orcs", 2500, Material.BOW, new Location(Bukkit.getWorld("Toucan_Moria"), 208, 5, 5));
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
