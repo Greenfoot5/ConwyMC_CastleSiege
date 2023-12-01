@@ -60,9 +60,6 @@ public class Rogue extends DonatorKit implements Listener {
     private final ItemStack gouge;
 
     private final ItemStack shadowStep;
-    private final ItemStack shadowLeap;
-
-    private final ItemStack trackArrow;
 
     private final ItemStack comboPoint;
 
@@ -126,27 +123,16 @@ public class Rogue extends DonatorKit implements Listener {
         ItemStack poison = poisonPotion();
         es.hotbar[2] = poison;
 
-        shadowStep = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+        shadowStep = ItemCreator.item(new ItemStack(Material.DRIED_KELP),
                 ChatColor.DARK_GRAY + "Shadowstep",
                 Arrays.asList(ChatColor.AQUA + "", ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to activate.",
                         ChatColor.AQUA + "", ChatColor.AQUA + "You move through the shadows, invisible to everyone.",
-                        ChatColor.AQUA + "Whilst you shadowstep you can not attack targets.",
-                        ChatColor.AQUA + "This ability lasts 6 seconds and has a cool-down of 13 seconds."),
+                        ChatColor.AQUA + "Whilst you shadowstep you can not attack targets, but you can gauge them.",
+                        ChatColor.AQUA + "This ability lasts 8 seconds and has a cool-down of 13 seconds."),
                 null);
         es.hotbar[3] = shadowStep;
 
-        shadowLeap = ItemCreator.item(new ItemStack(Material.DRIED_KELP),
-                ChatColor.DARK_GRAY + "Shadowleap",
-                Arrays.asList(ChatColor.AQUA + "", ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to activate.",
-                        ChatColor.AQUA + "", ChatColor.AQUA + "You move through the shadows, invisible to everyone.",
-                        ChatColor.AQUA + "Whilst you shadowleap you can not attack targets.",
-                        ChatColor.AQUA + "You get jump boost 5 so you can easily jump on top of roofs and towers.",
-                        ChatColor.AQUA + "This ability can be used as an extension to shadowstep,",
-                        ChatColor.AQUA + "lasts for 6 seconds and has a cool-down of 20 seconds."),
-                null);
-        es.hotbar[4] = shadowLeap;
-
-        trackArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
+        ItemStack trackArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
                 ChatColor.YELLOW + "Track Arrow",
                 Arrays.asList(ChatColor.AQUA + "", ChatColor.YELLOW + "" + ChatColor.BOLD + "Left click/Right click to throw!",
                         ChatColor.AQUA + "", ChatColor.AQUA + "Hitting enemy targets with this gives them",
@@ -163,7 +149,7 @@ public class Rogue extends DonatorKit implements Listener {
         potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.GLOWING, 1200, 0), true);
         trackArrow.setItemMeta(potionMeta);
 
-        es.hotbar[5] = trackArrow;
+        es.hotbar[4] = trackArrow;
 
         comboPoint = ItemCreator.item(new ItemStack(Material.GLOWSTONE_DUST),
                 ChatColor.LIGHT_PURPLE + "Combo Point",
@@ -281,39 +267,17 @@ public class Rogue extends DonatorKit implements Listener {
     }
 
     /**
-     * Activate Shadow Leap
-     * @param e event triggered by right-clicking mode switch button.
-     */
-    @EventHandler
-    public void onShadowleap(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
-            return;
-        }
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                Material item = p.getInventory().getItemInMainHand().getType();
-                if (item.equals(shadowLeap.getType())) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.RED + "You triggered the Shadowleap ability!"));
-                    shadowleapAbility(p);
-                }
-            }
-        }
-    }
-
-    /**
      * Disguise the player as a vex and make them invisible to prevent footsteps for a set amount of time.
      * @param p The player to (un)disguise
      */
     public void shadowstepAbility(Player p) {
         int duration = 160;
         if (p.getCooldown(shadowStep.getType()) == 0) {
-            p.setCooldown(shadowStep.getType(), 260);
+            p.setCooldown(shadowStep.getType(), 420);
             isShadow.add(p.getUniqueId());
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 0));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, 4));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2));
             mythicParticle(p);
                 new BukkitRunnable() {
                     @Override
@@ -321,11 +285,11 @@ public class Rogue extends DonatorKit implements Listener {
                         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
                             isShadow.remove(p.getUniqueId());
 
-                            if (!InCombat.isPlayerInCombat(p.getUniqueId())) {
+                            if (!InCombat.isPlayerInCombat(p.getUniqueId()) && isShadow.contains(p.getUniqueId())) {
                                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                         ChatColor.GOLD +""+ ChatColor.BOLD + "You are no longer invisible! (Strike now!)"));
+                                mythicParticle2(p);
                             }
-                            mythicParticle2(p);
                             for (PotionEffect effect : p.getActivePotionEffects()) {
                                 if ((effect.getType().getName().equals(PotionEffectType.INVISIBILITY.getName()) && effect.getAmplifier() == 0)
                                         || (effect.getType().getName().equals(PotionEffectType.JUMP.getName()) && effect.getAmplifier() == 4)) {
@@ -351,24 +315,6 @@ public class Rogue extends DonatorKit implements Listener {
     public void mythicParticle2(Player p) {
         BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
         mythicMobsApi.castSkill(p,"RogueEffect2");
-    }
-
-    /**
-     * Disguise the player as a vex and make them invisible to prevent footsteps for a set amount of time. + jump boost
-     * @param p The player to (un)disguise
-     */
-    public void shadowleapAbility(Player p) {
-        if (p.getCooldown(shadowLeap.getType()) == 0 && isShadow.contains(p.getUniqueId())) {
-            p.setCooldown(shadowLeap.getType(), 400);
-            p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, 4));
-            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2));
-        } else if (!isShadow.contains(p.getUniqueId())) {
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.RED + "You can only use this ability when shadowstepping!"));
-        } else {
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.RED + "This ability is still under cool-down."));
-        }
     }
 
     public void applyPoison(Player p) {
@@ -482,7 +428,7 @@ public class Rogue extends DonatorKit implements Listener {
                             arrow.setVelocity(p.getLocation().getDirection().multiply(4.0));
                             Vector v = arrow.getVelocity();
                             p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
-                            p.launchProjectile(Arrow.class, v.rotateAroundY(-0.214));
+                            p.launchProjectile(Arrow.class, v.rotateAroundY(-0.314));
 
                     } else if (isShadow.contains(p.getUniqueId())) {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
