@@ -33,6 +33,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
@@ -42,6 +43,11 @@ import java.util.UUID;
  */
 public class Ranger extends DonatorKit implements Listener {
 
+    private static final int health = 210;
+    private static final double regen = 10.5;
+    private static final double meleeDamage = 36;
+    private static final int ladderCount = 4;
+
     private boolean canBackstab = false;
     private BukkitRunnable br = null;
 
@@ -49,7 +55,7 @@ public class Ranger extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Ranger() {
-        super("Ranger", 210, 10.5, Material.LIME_DYE);
+        super("Ranger", health, regen, Material.LIME_DYE);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -57,13 +63,13 @@ public class Ranger extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Dagger", null, null, 36);
+                ChatColor.GREEN + "Dagger", null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         ChatColor.GREEN + "Dagger",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 38),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
@@ -102,8 +108,8 @@ public class Ranger extends DonatorKit implements Listener {
                 Collections.singletonList(ChatColor.AQUA + "Shoot 4 consecutive arrows"), null);
 
         // Ladders
-        es.hotbar[4] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 4);
+        es.hotbar[4] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 4);
 
         // Arrows
         es.hotbar[7] = new ItemStack(Material.ARROW, 48);
@@ -305,5 +311,32 @@ public class Ranger extends DonatorKit implements Listener {
                 BarCooldown.add(uuid, 40);
             }
         }
+    }
+
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7Ranger is a versatile ranged kit that");
+        kitLore.add("§7can shoot volleys and bursts of arrows.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Speed I");
+        kitLore.add("§7- Haste I");
+        kitLore.add("");
+        kitLore.add("§5Ability: ");
+        kitLore.add("§7- Has a bow which can shoot a volley of arrows.");
+        kitLore.add("§7- Has another which can shoot a burst of arrows");
+        kitLore.add("§7in front of the ranger.");
+        kitLore.add("");
+        kitLore.add("§2Passive: ");
+        kitLore.add("§7- Can backstab enemies by shifting");
+        kitLore.add("§7behind them and stabbing them.");
+        kitLore.add("");
+        kitLore.add("§7Can be unlocked with §e§lcoins");
+        return kitLore;
     }
 }

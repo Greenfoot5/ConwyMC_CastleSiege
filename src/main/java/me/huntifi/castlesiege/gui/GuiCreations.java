@@ -123,7 +123,7 @@ public class GuiCreations {
                 Alchemist.loreStats(), 1, "alchemist", true);
 
         gui.addItem("§6§lCLASS:§r§6 Medic", Material.CAKE,
-                Collections.singletonList(""), 2, "medic", true);
+                Medic.loreStats(), 2, "medic", true);
 
         gui.addItem("§6§lCLASS:§r§6 Priest", Material.SPECTRAL_ARROW,
                 Priest.loreStats(), 3, "priest", true);
@@ -166,7 +166,7 @@ public class GuiCreations {
                 Ladderman.loreStats(), 2, "ladderman", true);
 
         gui.addItem("§6§lCLASS:§r§6 Rogue", Material.NETHERITE_BOOTS,
-                Collections.singletonList(""), 3, "rogue", true);
+                Rogue.loreStats(), 3, "rogue", true);
 
         gui.addItem("§6§lCLASS:§r§6 Cavalry", Material.IRON_HORSE_ARMOR,
                 Cavalry.loreStats(), 4, "cavalry", true);
@@ -187,7 +187,7 @@ public class GuiCreations {
                 FireArcher.loreStats(), 1, "firearcher", true);
 
         gui.addItem("§6§lCLASS:§r§6 Ranger", Material.LIME_DYE,
-                Collections.singletonList(""), 2, "ranger", true);
+                Ranger.loreStats(), 2, "ranger", true);
 
         gui.addItem("§6§lCLASS:§r§6 Crossbowman", Material.CROSSBOW,
                 Crossbowman.loreStats(), 3, "crossbowman", true);

@@ -195,7 +195,7 @@ public class Paladin extends DonatorKit implements Listener {
         kitLore.add("§a" + health + " §7HP");
         kitLore.add("§a" + meleeDamage + " §7Melee DMG");
         kitLore.add("§a" + regenAmount + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Potions");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Mining Fatigue I");
         kitLore.add("");

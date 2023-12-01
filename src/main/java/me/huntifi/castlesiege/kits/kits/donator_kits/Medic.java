@@ -44,6 +44,11 @@ import java.util.*;
  */
 public class Medic extends DonatorKit implements Listener {
 
+    private static final int health = 210;
+    private static final double regen = 15;
+    private static final double meleeDamage = 30;
+    private static final int ladderCount = 4;
+
     public static final HashMap<Player, Block> cakes = new HashMap<>();
     public static final ArrayList<Player> cooldown = new ArrayList<>();
 
@@ -51,7 +56,7 @@ public class Medic extends DonatorKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Medic() {
-        super("Medic", 210, 15, Material.CAKE);
+        super("Medic", health, regen, Material.CAKE);
         super.canSeeHealth = true;
 
         // Equipment Stuff
@@ -60,13 +65,13 @@ public class Medic extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
-                ChatColor.GREEN + "Scalpel", null, null, 36);
+                ChatColor.GREEN + "Scalpel", null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
                         ChatColor.GREEN + "Scalpel",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 38),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage),
                 0);
 
         // Chestplate
@@ -103,8 +108,8 @@ public class Medic extends DonatorKit implements Listener {
         es.hotbar[3] = healthPotion();
 
         // Ladders
-        es.hotbar[4] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 4);
+        es.hotbar[4] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 4);
 
         super.equipment = es;
 
@@ -122,7 +127,7 @@ public class Medic extends DonatorKit implements Listener {
 
         potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 1, 6), true);
         potionMeta.setColor(Color.RED);
-        potionMeta.setDisplayName(ChatColor.RED + "Instant Healing IIV");
+        potionMeta.setDisplayName(ChatColor.RED + "Health Potion");
         itemStack.setItemMeta(potionMeta);
 
         return itemStack;
@@ -310,5 +315,30 @@ public class Medic extends DonatorKit implements Listener {
 
             }
         }
+    }
+
+    public static ArrayList<String> loreStats() {
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7Our classic healer, which makes");
+        kitLore.add("§7use of bandages and cake to heal allies.");
+        kitLore.add(" ");
+        kitLore.add("§a" + health + " §7HP");
+        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
+        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§a" +  16 + " §7Cakes");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Speed I");
+        kitLore.add("");
+        kitLore.add("§5Ability: ");
+        kitLore.add("§7- Medics can right click to heal allies.");
+        kitLore.add("§7- They can also place down cakes which");
+        kitLore.add("§7allies can right-click to heal themselves.");
+        kitLore.add("");
+        kitLore.add("§2Passive: ");
+        kitLore.add("§7- When healing an ally receives resistance I");
+        kitLore.add("");
+        kitLore.add("§7Can be unlocked with §e§lcoins");
+        return kitLore;
     }
 }
