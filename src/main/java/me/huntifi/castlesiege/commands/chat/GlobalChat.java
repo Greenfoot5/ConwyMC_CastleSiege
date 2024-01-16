@@ -10,6 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Allows the user to switch to global chat
+ */
 public class GlobalChat implements CommandExecutor {
 
     /**
