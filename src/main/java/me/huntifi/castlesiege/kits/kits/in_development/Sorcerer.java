@@ -278,7 +278,10 @@ public class Sorcerer extends DonatorKit implements Listener {
     }
 
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A sorcerer specialised in the arcane arts, ");
         kitLore.add("§7can also slow down enemies with ice.");

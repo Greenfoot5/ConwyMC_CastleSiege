@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.huntifi.castlesiege.Main;
@@ -267,30 +267,25 @@ public class Priest extends DonatorKit implements Listener {
         blessings.remove(e.getPlayer());
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A support kit with the power of");
         kitLore.add("§7the holy book on their side.");
-        kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a50 §7lightbolt DMG");
-        kitLore.add("§a" + ladderCount + " §7Potions");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, 50, ladderCount, -1));
         kitLore.add("§5Effects:");
         kitLore.add("§7- Mining Fatigue I");
         kitLore.add("");
-        kitLore.add("§6Abilities: ");
+        kitLore.add("§6Active:");
         kitLore.add("§7- Can shoot a bolt of light at opponents");
-        kitLore.add("§7to damage them.");
-        kitLore.add("§7- With the holy bible can select an ally");
-        kitLore.add("§7to give them and them only regen IV for");
-        kitLore.add("§7as long as they are selected.");
-        kitLore.add("");
-        kitLore.add("§2Passive: ");
+        kitLore.add("§7- Buffs selected ally with regen IV.");
+        kitLore.add("§7Lasts until another ally is selected");
+        kitLore.add(" ");
+        kitLore.add("§2Passive:");
         kitLore.add("§7- Can see player health.");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

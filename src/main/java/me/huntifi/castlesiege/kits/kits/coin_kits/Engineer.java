@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -509,34 +509,30 @@ public class Engineer extends DonatorKit implements Listener {
         }.runTaskLater(Main.plugin, 80);
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A support/debuff kit that is good at");
-        kitLore.add("§7slowing down the opposing team, or");
-        kitLore.add("§7getting their team inside the enemy base.");
-        kitLore.add("§7Can use catapults efficiently and use ballistae.");
-        kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§7A support/debuff kit that can lay trap");
+        kitLore.add("§7an operate various machines of war");
+        kitLore.add("§7or repair broken structures");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add("§a" + cobwebCount + " §7Cobwebs");
         kitLore.add("§a" + planksCount + " §7Planks");
         kitLore.add("§a" + cobblestoneCount + " §7Cobblestone");
+        kitLore.add(" ");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed I");
         kitLore.add("§7- Jump Boost I");
         kitLore.add("§7- Haste II");
-        kitLore.add("");
-        kitLore.add("§2Passive(s): ");
-        kitLore.add("§7- Is able to place down traps");
-        kitLore.add("§7that damage enemies.");
-        kitLore.add("§7- Operates ballistae.");
-        kitLore.add("§7- Can refill catapults with cobblestone.");
-        kitLore.add("§7- Can repair stone walls and wood.");
-        kitLore.add("§7- Has cobwebs to slow down enemies.");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.add(" ");
+        kitLore.add("§2Passive:");
+        kitLore.add("§7- Can place down traps and cobwebs");
+        kitLore.add("§7- Can fire ballista");
+        kitLore.add("§7- Can refill catapults with cobblestone");
+        kitLore.add("§7- Can repair stone and wood blocks");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

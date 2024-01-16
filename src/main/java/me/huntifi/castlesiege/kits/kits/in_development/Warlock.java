@@ -412,23 +412,24 @@ public class Warlock extends DonatorKit implements Listener {
     }
 
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A debuff kit that can curse enemies, ");
         kitLore.add("§7sacrifice its own health to heal teammates");
         kitLore.add("§7and obliterate enemies with hellfire.");
-        kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
+        // TODO - Externalise values
         kitLore.add("§a70 §7shadowbolt DMG");
         kitLore.add("§a15dmg/s §7life-drain DMG");
         kitLore.add("§a70dmg/s §7Hellfire DMG");
-        kitLore.add("§ano §7ladders");
+        kitLore.add(" ");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Slowness II");
-        kitLore.add("");
-        kitLore.add("§6Abilities: ");
+        kitLore.add(" ");
+        kitLore.add("§Active:");
         kitLore.add("§7- Can shoot a shadowbolt at opponents");
         kitLore.add("§7to damage them and give them slowness I.");
         kitLore.add("§7- Can curse all enemies in a 7 block radius");
@@ -438,13 +439,12 @@ public class Warlock extends DonatorKit implements Listener {
         kitLore.add("§7to heal a teammate for 25% of the warlock's max health.");
         kitLore.add("§7- Can pay hell with 5 soulshards to summon devastating");
         kitLore.add("§7hellfire that incinerates all enemy players it comes across.");
-        kitLore.add("");
-        kitLore.add("§2Passive: ");
+        kitLore.add(" ");
+        kitLore.add("§2Passive ");
         kitLore.add("§7- Can see player health.");
         kitLore.add("§7- Hitting targets with shadowbolt gives soulshards");
         kitLore.add("§7and has a 10% chance to give a healthstone.");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;

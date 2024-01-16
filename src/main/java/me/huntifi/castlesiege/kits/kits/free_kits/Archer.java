@@ -75,7 +75,10 @@ public class Archer extends FreeKit {
 		super.equipment = es;
 	}
 
-	public static ArrayList<String> loreStats() {
+	/**
+	 * @return The lore to add to the kit gui item
+	 */
+	public static ArrayList<String> getGuiDescription() {
 		ArrayList<String> kitLore = new ArrayList<>();
 		kitLore.add("§7Standard ranged kit");
 		kitLore.add("§7has a sword and bow.");

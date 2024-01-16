@@ -355,7 +355,10 @@ public class FireArcher extends VoterKit implements Listener {
                 .orElse(null);
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Ranged kit with a firepit,");
         kitLore.add("§7can create fire arrows.");

@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.EnderchestEvent;
@@ -269,29 +269,26 @@ public class Crossbowman extends DonatorKit implements Listener {
         }
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A ranged kit that can function");
-        kitLore.add("§7like a sniper.");
+        kitLore.add("§7like a sniper");
+        kitLore.addAll(getBaseStats(health, regen, 1, 36, ladderCount, arrowCount));
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a36+ §7Ranged DMG");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
-        kitLore.add("§a" + arrowCount + " §7Arrows");
         kitLore.add("§5Effects:");
-        kitLore.add("§7- Slowness III (sniper mode)");
-        kitLore.add("§7- Speed I (mobility mode)");
-        kitLore.add("");
-        kitLore.add("§6Ability:");
-        kitLore.add("§7- Can switch in between");
-        kitLore.add("§7mobility mode and sniper mode.");
-        kitLore.add("");
+        kitLore.add("§7- Slowness III §a(sniper mode)");
+        kitLore.add("§7- Speed I §e(mobility mode)");
+        kitLore.add(" ");
+        kitLore.add("§6Active:");
+        kitLore.add("§7- Has two movement modes");
+        kitLore.add(" ");
         kitLore.add("§2Passive: ");
         kitLore.add("§7- Arrows are not affected by");
-        kitLore.add("§7gravity in sniper mode.");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.add("§7gravity §a(sniper mode)");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

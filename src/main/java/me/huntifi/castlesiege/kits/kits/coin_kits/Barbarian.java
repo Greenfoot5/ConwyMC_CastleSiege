@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -103,29 +103,23 @@ public class Barbarian extends DonatorKit implements Listener {
     }
 
 
+    /**
+     * Calculate how much damage should be increased by
+     * @param e The entity hit
+     */
     @EventHandler
     public void onIncreasedDamage(EntityDamageByEntityEvent e) {
         // Both are players
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-            Player whoHit = (Player) e.getDamager();
+        if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player) {
+            Player attacker = (Player) e.getDamager();
 
-            double formula = (health/whoHit.getHealth());
-            // Barbarian increased damage
-            if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name)) {
-                if (formula < 3) {
-                    e.setDamage(meleeDamage * formula);
-                } else {
-                    e.setDamage(meleeDamage * 3);
-                }
-            }
-        } else if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player) {
-            Player whoHit = (Player) e.getDamager();
+
+            double potentialDamage = health / attacker.getHealth();
 
             // Barbarian increased damage
-            if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name)) {
-                double formula = (health/whoHit.getHealth());
-                if (formula < 3) {
-                    e.setDamage(meleeDamage * formula);
+            if (Objects.equals(Kit.equippedKits.get(attacker.getUniqueId()).name, name)) {
+                if (potentialDamage < 3) {
+                    e.setDamage(meleeDamage * potentialDamage);
                 } else {
                     e.setDamage(meleeDamage * 3);
                 }
@@ -133,24 +127,23 @@ public class Barbarian extends DonatorKit implements Listener {
         }
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Fast axe wielding warrior that deals");
-        kitLore.add("§7more damage when they are low on health.");
+        kitLore.add("§7more damage when they are low on health");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed I");
-        kitLore.add("");
-        kitLore.add("§2Passive: ");
+        kitLore.add(" ");
+        kitLore.add("§2Passive:");
         kitLore.add("§7- Melee damage is increased depending");
         kitLore.add("§7on how much health you have left.");
-        kitLore.add("§7Maximum damage dealt is 108 DMG.");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.add("§7Maximum damage dealt is §a" + meleeDamage * 3 + " §7DMG");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

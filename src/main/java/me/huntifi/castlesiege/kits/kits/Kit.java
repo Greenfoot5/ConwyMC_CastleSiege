@@ -415,4 +415,58 @@ public abstract class Kit implements CommandExecutor {
         }
         return 0;
     }
+
+    /**
+     * @return The description to display in the kit gui
+     */
+    public static ArrayList<String> getGuiDescription() {
+        return null;
+    }
+
+    /**
+     * @param health The health of the kit
+     * @param meleeDamage The melee damage the kit deals
+     * @param regen The regen of the kit
+     * @param ladders The number of ladders the kit starts with
+     * @return A simple display with these stats listed
+     */
+    protected static ArrayList<String> getBaseStats(int health, double regen, double meleeDamage,  int ladders) {
+        ArrayList<String> baseStats = new ArrayList<>();
+        baseStats.add(" ");
+        baseStats.add("§a" + health + " §7HP");
+        baseStats.add("§a" + regen + " §7Regen");
+        baseStats.add("§a" + meleeDamage + " §7Melee DMG");
+        if (ladders != 0)
+            baseStats.add("§a" + ladders + " §7Ladders");
+        return baseStats;
+    }
+
+    /**
+     * @param health The health of the kit
+     * @param meleeDamage The melee damage the kit deals
+     * @param regen The regen of the kit
+     * @param ladders The number of ladders the kit starts with
+     * @return A simple display with these stats listed
+     */
+    protected static ArrayList<String> getBaseStats(int health, double regen, double meleeDamage, double rangedDamage,
+                                                    int ladders, int ammo) {
+        ArrayList<String> baseStats = new ArrayList<>();
+        baseStats.add(" ");
+        baseStats.add("§a" + health + " §7HP");
+        baseStats.add("§a" + regen + " §7Regen");
+        baseStats.add("§a" + meleeDamage + " §7Melee DMG");
+        baseStats.add("§a" + rangedDamage + "+ §7Ranged DMG");
+        if (ladders < 1)
+            baseStats.add("§a" + ladders + " §7Ladders");
+        if (ammo < 1)
+            baseStats.add("§a" + ammo + " §7Ammo");
+        return baseStats;
+    }
+
+    protected static ArrayList<String> getGuiCostText() {
+        ArrayList<String> text = new ArrayList<>();
+        text.add(" ");
+        text.add("§lApparently, it's a secret...");
+        return text;
+    }
 }

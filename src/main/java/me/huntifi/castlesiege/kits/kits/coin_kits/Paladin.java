@@ -1,12 +1,9 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
-import io.lumine.mythic.api.skills.SkillCaster;
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
@@ -33,20 +30,19 @@ import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
 public class Paladin extends DonatorKit implements Listener {
 
     private static final int health = 400;
-    private static final double regenAmount = 8;
+    private static final double regen = 8;
     private static final double meleeDamage = 33;
     private static final int ladderCount = 4;
     private static final int blessingCooldown = 500;
 
     public Paladin() {
-        super("Paladin", health, regenAmount, Material.GOLDEN_AXE);
+        super("Paladin", health, regen, Material.GOLDEN_AXE);
 
         super.canSeeHealth = true;
         super.kbResistance = 2;
@@ -187,27 +183,26 @@ public class Paladin extends DonatorKit implements Listener {
         mythicMobsApi.castSkill(p,"PaladinBlessingEffect");
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A tank/support kit that can");
         kitLore.add("§7bless allies around it.");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regenAmount + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Mining Fatigue I");
-        kitLore.add("");
-        kitLore.add("§6Ability: ");
+        kitLore.add(" ");
+        kitLore.add("§6Active:");
         kitLore.add("§7- Can cast a blessing that gives");
         kitLore.add("§7regen VI to itself and regen V to all");
         kitLore.add("§7allies in a 5 block radius for 8 seconds.");
-        kitLore.add("");
-        kitLore.add("§2Passive: ");
+        kitLore.add(" ");
+        kitLore.add("§2Passive:");
         kitLore.add("§7- Can see player health.");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §l§ecoins");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

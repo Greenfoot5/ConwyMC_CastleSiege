@@ -1,9 +1,8 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.combat.AssistKill;
@@ -669,23 +668,25 @@ public class Alchemist extends DonatorKit implements Listener {
         return itemStack;
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A support kit that makes use");
-        kitLore.add("§7of many different kinds of potions.");
+        kitLore.add("§7of many different kinds of potions");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Potions");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed I");
-        kitLore.add("");
-        kitLore.add("§2Passive: ");
-        kitLore.add("§7- Gets two potions on kill.");
-        kitLore.add("§7- Can see player health.");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.add(" ");
+        kitLore.add("§6Active:");
+        kitLore.add("§7- Can craft potions");
+        kitLore.add(" ");
+        kitLore.add("§2Passive:");
+        kitLore.add("§7- Gets two potions on kill");
+        kitLore.add("§7- Can see player health");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 

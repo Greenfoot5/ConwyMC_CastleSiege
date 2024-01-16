@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.death.DeathEvent;
@@ -97,70 +97,56 @@ public class Executioner extends DonatorKit implements Listener {
 	@EventHandler (ignoreCancelled = true)
 	public void onExecute(EntityDamageByEntityEvent e) {
 		// Both are players
-		if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-			Player whoWasHit = (Player) e.getEntity();
-			Player whoHit = (Player) e.getDamager();
+		if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player) {
+			Attributable defAttri = (Attributable) e.getEntity();
+			Damageable defender = (Damageable) e.getEntity();
+			Player attacker = (Player) e.getDamager();
 
 			// Executioner hits with axe
-			if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name) &&
-					whoHit.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE) {
+			if (Objects.equals(Kit.equippedKits.get(attacker.getUniqueId()).name, name) &&
+					attacker.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE) {
 
-				AttributeInstance healthAttribute = whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+				AttributeInstance healthAttribute = defAttri.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 				assert healthAttribute != null;
 
 				// Execute
-				if (whoWasHit.getHealth() < healthAttribute.getValue() * 0.3) {
+				if (defender.getHealth() < healthAttribute.getValue() * 0.3) {
 					e.setCancelled(true);
 
-					Location loc = whoWasHit.getEyeLocation();
-					whoWasHit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
-					Material wool = TeamController.getTeam(whoWasHit.getUniqueId()).primaryWool;
-					whoWasHit.getWorld().dropItem(loc, new ItemStack(wool)).setPickupDelay(32767);
+					Location loc = defender.getLocation();
+					// Do extra stuff if they were a player
+					if (defender instanceof Player) {
+						Player p = (Player) defender;
+						loc = p.getEyeLocation();
 
-					DeathEvent.setKiller(whoWasHit, whoHit);
-					whoWasHit.setHealth(0);
-				}
-			}
-		} else if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player) {
-			Player whoHit = (Player) e.getDamager();
-			Attributable whoWasHit = (Attributable) e.getEntity();
-			Damageable damageable = (Damageable) e.getEntity();
+						Material wool = TeamController.getTeam(defender.getUniqueId()).primaryWool;
+						defender.getWorld().dropItem(loc, new ItemStack(wool)).setPickupDelay(32767);
 
-			// Executioner hits with axe
-			if (Objects.equals(Kit.equippedKits.get(whoHit.getUniqueId()).name, name) &&
-					whoHit.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE) {
-				AttributeInstance healthAttribute = whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-				assert healthAttribute != null;
+						DeathEvent.setKiller(p, attacker);
+					}
 
-				// Execute
-				if (damageable.getHealth() < healthAttribute.getValue() * 0.3) {
-					e.setCancelled(true);
-
-					Location loc = damageable.getLocation();
-					damageable.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
-					damageable.setHealth(0);
+					defender.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
+					defender.setHealth(0);
 				}
 			}
 		}
 	}
 
-	public static ArrayList<String> loreStats() {
+	/**
+	 * @return The lore to add to the kit gui item
+	 */
+	public static ArrayList<String> getGuiDescription() {
 		ArrayList<String> kitLore = new ArrayList<>();
 		kitLore.add("§7An axe-wielder capable of");
-		kitLore.add("§7instantly killing weak enemies.");
-		kitLore.add(" ");
-		kitLore.add("§a" + health + " §7HP");
-		kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-		kitLore.add("§a" + regen + " §7Regen");
-		kitLore.add("§a" + ladderCount + " §7Ladders");
+		kitLore.add("§7instantly killing weak enemies");
+		kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
 		kitLore.add("§5Effects:");
 		kitLore.add("§7- Speed I");
 		kitLore.add("");
 		kitLore.add("§2Passive: ");
 		kitLore.add("§7- Executes enemies that are below");
-		kitLore.add("§730% of their max health.");
-		kitLore.add("");
-		kitLore.add("§7Can be unlocked with §e§lcoins");
+		kitLore.add("§a30% §7of their max health");
+		kitLore.addAll(getGuiCostText());
 		return kitLore;
 	}
 }

@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -168,25 +168,24 @@ public class Berserker extends DonatorKit implements Listener {
             inventory.addItem(sword);
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A warrior with no armor with a");
-        kitLore.add("§7berserker's potion.");
+        kitLore.add("§7A warrior with no armor and");
+        kitLore.add("§7a berserker potion");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed I");
-        kitLore.add("");
-        kitLore.add("§5Berserker Effects:");
+        kitLore.add(" ");
+        kitLore.add("§5Berserk Effects:");
         kitLore.add("§7- Speed II");
         kitLore.add("§7- Confusion II");
         kitLore.add("§7- Strength I");
         kitLore.add("§7- Melee hits deal 105+ damage");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

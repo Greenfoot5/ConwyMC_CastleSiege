@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -171,23 +171,19 @@ public class Cavalry extends DonatorKit implements Listener {
         }
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Can summon a horse to ride on.");
-        kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.add("§7Can summon a horse to ride on");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add("§a" + horseHealth + " §7Horse HP");
-        kitLore.add("");
-        kitLore.add("§6Horse ability:");
-        kitLore.add("§7- When on your horse you can");
-        kitLore.add("§7perform a kick attack.");
-        kitLore.add("§7This kick attack is an AOE attack");
-        kitLore.add("§7that deals damage and slows enemies down.");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.add(" ");
+        kitLore.add("§6Horse Active:");
+        kitLore.add("§7- When riding, can perform a kick");
+        kitLore.add("§7dealing AIE damage and slowing enemies");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

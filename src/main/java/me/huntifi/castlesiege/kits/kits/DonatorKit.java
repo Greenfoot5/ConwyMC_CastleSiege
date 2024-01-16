@@ -1,11 +1,9 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -78,5 +76,12 @@ public abstract class DonatorKit extends Kit {
 
     public static boolean isFree() {
         return ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 1 || MapController.allKitsFree;
+    }
+
+    public static ArrayList<String> getGuiCostText() {
+        ArrayList<String> text = new ArrayList<>();
+        text.add(" ");
+        text.add("§eCan be unlocked with coins");
+        return text;
     }
 }

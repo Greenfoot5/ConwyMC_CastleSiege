@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -317,28 +317,26 @@ public class Medic extends DonatorKit implements Listener {
         }
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Our classic healer, which makes");
         kitLore.add("§7use of bandages and cake to heal allies.");
-        kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add("§a" +  16 + " §7Cakes");
+        kitLore.add(" ");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed I");
-        kitLore.add("");
-        kitLore.add("§5Ability: ");
-        kitLore.add("§7- Medics can right click to heal allies.");
-        kitLore.add("§7- They can also place down cakes which");
-        kitLore.add("§7allies can right-click to heal themselves.");
-        kitLore.add("");
-        kitLore.add("§2Passive: ");
+        kitLore.add(" ");
+        kitLore.add("§6Active:");
+        kitLore.add("§7- Can use bandages to heal teammates");
+        kitLore.add("§7- Can place cakes (1 active max)");
+        kitLore.add(" ");
+        kitLore.add("§2Passive:");
         kitLore.add("§7- When healing an ally receives resistance I");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

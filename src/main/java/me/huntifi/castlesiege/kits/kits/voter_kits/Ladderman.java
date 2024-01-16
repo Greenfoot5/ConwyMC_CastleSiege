@@ -101,7 +101,10 @@ public class Ladderman extends VoterKit implements Listener {
         }
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Melee kit with an axe");
         kitLore.add("§7and loads of ladders.");

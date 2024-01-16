@@ -73,7 +73,10 @@ public class Skirmisher extends VoterKit {
         super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 1));
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Fast melee unit similar");
         kitLore.add("§7to swordsman with more ladders.");

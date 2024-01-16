@@ -48,7 +48,7 @@ public class BattleMedic extends LevelKit implements Listener {
     public static final ArrayList<Player> cooldown = new ArrayList<>();
 
     public BattleMedic() {
-        super("BattleMedic", health, regen, Material.PAPER, level);
+        super("Battle Medic", health, regen, Material.PAPER, level);
 
         super.canSeeHealth = true;
 
@@ -154,7 +154,10 @@ public class BattleMedic extends LevelKit implements Listener {
         Bukkit.getScheduler().runTask(Main.plugin, () -> player.addPotionEffect(potion));
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Melee-support kit that can");
         kitLore.add("§7heal allies with bandages.");

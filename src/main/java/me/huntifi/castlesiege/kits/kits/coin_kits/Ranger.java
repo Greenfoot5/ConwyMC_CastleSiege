@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -47,6 +47,7 @@ public class Ranger extends DonatorKit implements Listener {
     private static final double regen = 10.5;
     private static final double meleeDamage = 36;
     private static final int ladderCount = 4;
+    private static final int arrowCount = 48;
 
     private boolean canBackstab = false;
     private BukkitRunnable br = null;
@@ -112,7 +113,7 @@ public class Ranger extends DonatorKit implements Listener {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 4);
 
         // Arrows
-        es.hotbar[7] = new ItemStack(Material.ARROW, 48);
+        es.hotbar[7] = new ItemStack(Material.ARROW, arrowCount);
 
         super.equipment = es;
 
@@ -314,29 +315,26 @@ public class Ranger extends DonatorKit implements Listener {
     }
 
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Ranger is a versatile ranged kit that");
         kitLore.add("§7can shoot volleys and bursts of arrows.");
+        // TODO - Check ranged damage
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, 18, ladderCount, arrowCount));
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed I");
         kitLore.add("§7- Haste I");
-        kitLore.add("");
-        kitLore.add("§5Ability: ");
-        kitLore.add("§7- Has a bow which can shoot a volley of arrows.");
-        kitLore.add("§7- Has another which can shoot a burst of arrows");
-        kitLore.add("§7in front of the ranger.");
-        kitLore.add("");
-        kitLore.add("§2Passive: ");
+        kitLore.add(" ");
+        kitLore.add("§6Active:");
+        kitLore.add("§7- Can fire a volley of arrows");
+        kitLore.add("§7- Can fire a bust of arrows");
         kitLore.add("§7- Can backstab enemies by shifting");
         kitLore.add("§7behind them and stabbing them.");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

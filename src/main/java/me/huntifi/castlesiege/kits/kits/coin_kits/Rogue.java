@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.huntifi.castlesiege.Main;
@@ -13,10 +13,6 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
-import me.libraryaddict.disguise.DisguiseAPI;
-import me.libraryaddict.disguise.disguisetypes.DisguiseType;
-import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -660,38 +656,37 @@ public class Rogue extends DonatorKit implements Listener {
     }
 
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Rogue is a master of camouflage and can");
         kitLore.add("§7become invisible and strike enemies from behind.");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed II");
         kitLore.add("§7- Haste II");
         kitLore.add("§7- Nigh Vision I");
         kitLore.add("§7- Jump Boost I");
-        kitLore.add("");
-        kitLore.add("§5Ability: ");
-        kitLore.add("§7- Can throw (multiple) track arrows which");
-        kitLore.add("§7mark enemies and generate combo points.");
-        kitLore.add("§7- Is able to shadowstep (become invisible)");
-        kitLore.add("§7for a couple seconds.");
-        kitLore.add("§7- Can pour poison on its dagger to poison");
-        kitLore.add("§7enemies when hitting them.");
+        kitLore.add(" ");
+        kitLore.add("§6Active:");
+        kitLore.add("§7- Can throw track arrows");
+        kitLore.add("§7- Can perform shadowstep (grants invisibility)");
+        kitLore.add("§7- Can temporarily enhance their dagger");
+        kitLore.add("with poison");
         kitLore.add("§7- When behind enemies can gauge them, which");
         kitLore.add("§7stuns them temporarily, also heals the rogue.");
-        kitLore.add("");
-        kitLore.add("§2Passive: ");
+        kitLore.add(" ");
+        // TODO - Improve passive descriptions
+        kitLore.add("§2Passive:");
         kitLore.add("§7- Can use gauge whilst invisible.");
         kitLore.add("§7- Uses combo points to perform more");
         kitLore.add("§7powerful gauges.");
         kitLore.add("§7- Killing opponents and hitting them");
         kitLore.add("§7with track arrows generates combo-points.");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

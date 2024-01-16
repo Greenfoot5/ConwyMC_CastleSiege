@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.donator_kits;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -135,27 +135,24 @@ public class Maceman extends DonatorKit implements Listener {
         }
     }
 
-    public static ArrayList<String> loreStats() {
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A melee kit that can stun");
         kitLore.add("§7opponents, making them weaker.");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
-        kitLore.add("");
-        kitLore.add("§5Ability: ");
-        kitLore.add("§7- Maceman can stun their target");
-        kitLore.add("§7which deals extra DMG, gives the target");
-        kitLore.add("§7blindness, slowness, confusion and mining fatigue");
-        kitLore.add("§7for 3 seconds. This ability has a cooldown.");
-        kitLore.add("");
-        kitLore.add("§2Passive: ");
+        kitLore.add("§6Active:");
+        kitLore.add("§7- Maceman can stun their target,");
+        kitLore.add("§7slowing, blinding and confusing the target for 3s.");
+        kitLore.add("§7Also deals bonus DMG.");
+        kitLore.add(" ");
+        kitLore.add("§2Passive:");
         kitLore.add("§7- Can break a shield when the opponent is");
         kitLore.add("§7blocking with a shield whilst being stunned.");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }
