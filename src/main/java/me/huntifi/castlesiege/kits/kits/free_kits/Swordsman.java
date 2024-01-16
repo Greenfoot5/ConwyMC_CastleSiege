@@ -17,7 +17,7 @@ import java.util.Collections;
  */
 public class Swordsman extends FreeKit {
 	private static final int health = 390;
-	private static final double regenAmount = 10.5;
+	private static final double regen = 10.5;
 	private static final double meleeDamage = 43;
 	private static final int ladderCount = 4;
 
@@ -25,7 +25,7 @@ public class Swordsman extends FreeKit {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Swordsman() {
-		super("Swordsman", health, regenAmount, Material.IRON_SWORD);
+		super("Swordsman", health, regen, Material.IRON_SWORD);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
@@ -73,12 +73,8 @@ public class Swordsman extends FreeKit {
 		ArrayList<String> kitLore = new ArrayList<>();
 		kitLore.add("§7Standard melee kit");
 		kitLore.add("§7has a sword.");
-		kitLore.add(" ");
-		kitLore.add("§a" + health + " §7HP");
-		kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-		kitLore.add("§a" + regenAmount + " §7Regen");
-		kitLore.add("§a" + ladderCount + " §7Ladders");
-		kitLore.add("§7Free To Play!");
+		kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
+		kitLore.addAll(getGuiCostText());
 		return kitLore;
 	}
 }

@@ -82,14 +82,8 @@ public class Archer extends FreeKit {
 		ArrayList<String> kitLore = new ArrayList<>();
 		kitLore.add("§7Standard ranged kit");
 		kitLore.add("§7has a sword and bow.");
-		kitLore.add(" ");
-		kitLore.add("§a" + health + " §7HP");
-		kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-		kitLore.add("§a" + "45+ §7Ranged DMG");
-		kitLore.add("§a" + regen + " §7Regen");
-		kitLore.add("§a" + ladderCount + " §7Ladders");
-		kitLore.add("§a" + arrowCount + " §7Arrows");
-		kitLore.add("§7Free To Play!");
+		kitLore.addAll(getBaseStats(health, regen, meleeDamage, 45, ladderCount, arrowCount));
+		kitLore.addAll(getGuiCostText());
 		return kitLore;
 	}
 }

@@ -78,6 +78,9 @@ public abstract class DonatorKit extends Kit {
         return ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 1 || MapController.allKitsFree;
     }
 
+    /**
+     * @return Displays the cost for the footer of a kit gui's lore
+     */
     public static ArrayList<String> getGuiCostText() {
         ArrayList<String> text = new ArrayList<>();
         text.add(" ");

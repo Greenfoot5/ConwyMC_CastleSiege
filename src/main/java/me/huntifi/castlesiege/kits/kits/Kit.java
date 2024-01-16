@@ -420,7 +420,9 @@ public abstract class Kit implements CommandExecutor {
      * @return The description to display in the kit gui
      */
     public static ArrayList<String> getGuiDescription() {
-        return null;
+        ArrayList<String> description = new ArrayList<>();
+        description.add("§7//TODO - Add kit description");
+        return description;
     }
 
     /**

@@ -195,23 +195,15 @@ public class Spearman extends FreeKit implements Listener {
 		ArrayList<String> kitLore = new ArrayList<>();
 		kitLore.add("§7Melee kit that can");
 		kitLore.add("§7throw spears.");
+		kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, spearCount));
 		kitLore.add(" ");
-		kitLore.add("§a" + health + " §7HP");
-		kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-		kitLore.add("§a" + throwDamage + " §7Spear-throw DMG");
-		kitLore.add("§a" + regen + " §7Regen");
-		kitLore.add("§a" + ladderCount + " §7Ladders");
-		kitLore.add("§a" + spearCount + " §7Spears");
+		kitLore.add("§6Active: ");
+		kitLore.add("§7- Can throw their spears");
 		kitLore.add(" ");
-		kitLore.add("§6Ability: ");
-		kitLore.add("§7- Right click your spears");
-		kitLore.add("§7to throw a spear.");
-		kitLore.add("");
 		kitLore.add("§2Passive: ");
-		kitLore.add("§7- Deals extra damage to horses.");
-		kitLore.add("§7- Can break entire rows of ladders instantly.");
-		kitLore.add("");
-		kitLore.add("§7Free To Play!");
+		kitLore.add("§7- Deals bonus damage to horses.");
+		kitLore.add("§7- Can break entire columns of ladders instantly.");
+		kitLore.addAll(getGuiCostText());
 		return kitLore;
 	}
 }
