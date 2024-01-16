@@ -185,22 +185,16 @@ public class Hypaspist extends LevelKit implements Listener {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A tank with a trident & shield, ");
         kitLore.add("§7which weakens opponents.");
-        kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + throwDamage + " §7Trident-throw DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, -1));
         kitLore.add("§5Effects:");
         kitLore.add("§7- Slowness I");
         kitLore.add("§7- Mining fatigue I");
-        kitLore.add("");
+        kitLore.add(" ");
         kitLore.add("§2Passive: ");
         kitLore.add("§7- Trident-throw inflicts confusion IV,");
         kitLore.add("§7Mining Fatigue III and Slowness II");
-        kitLore.add("§7to hit opponents.");
-        kitLore.add("");
-        kitLore.add("§7Unlocks at level §a" + level);
+        kitLore.add("§7on hit opponents.");
+        kitLore.addAll(getGuiCostText(level));
         return kitLore;
     }
 }

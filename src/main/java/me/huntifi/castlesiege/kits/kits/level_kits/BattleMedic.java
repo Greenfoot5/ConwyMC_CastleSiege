@@ -161,21 +161,15 @@ public class BattleMedic extends LevelKit implements Listener {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Melee-support kit that can");
         kitLore.add("§7heal allies with bandages.");
-        kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add("§a" + bandageCount + " §7Bandages");
         kitLore.add(" ");
-        kitLore.add("§6Ability: ");
-        kitLore.add("§7- Right click your teammates");
-        kitLore.add("§7with bandages to heal them.");
-        kitLore.add("");
-        kitLore.add("§2Passive: ");
+        kitLore.add("§6Active: ");
+        kitLore.add("§7- Can heal teammates with bandages");
+        kitLore.add(" ");
+        kitLore.add("§2Passive:");
         kitLore.add("§7- Can see health.");
-        kitLore.add("");
-        kitLore.add("§7Unlocks at level §a" + level);
+        kitLore.addAll(getGuiCostText(level));
         return kitLore;
     }
 }
