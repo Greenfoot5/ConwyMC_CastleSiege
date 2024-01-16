@@ -20,19 +20,23 @@ public class Messenger {
      * @param sender Who to send the message to
      */
     public static void sendError(String message, @NotNull CommandSender sender) {
+        message = message.replaceAll("§r", ChatColor.DARK_RED.toString());
         sender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + message);
     }
 
     public static void sendActionError(String message, @NotNull Player sender) {
+        message = message.replaceAll("§r", ChatColor.DARK_RED.toString());
         sender.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                 TextComponent.fromLegacyText(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + message));
     }
 
     public static void sendWarning(String message, @NotNull CommandSender sender) {
+        message = message.replaceAll("§r", ChatColor.RED.toString());
         sender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.RED + message);
     }
 
     public static void broadcastWarning(String message) {
+        message = message.replaceAll("§r", ChatColor.RED.toString());
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[!] " + ChatColor.RED + message);
     }
 
@@ -42,6 +46,7 @@ public class Messenger {
      * @param sender Who to send the message to
      */
     public static void sendTip(String message, CommandSender sender) {
+        message = message.replaceAll("§r", ChatColor.AQUA.toString());
         sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.AQUA + message);
     }
 
@@ -50,6 +55,7 @@ public class Messenger {
      * @param message The tip message
      */
     public static void broadcastTip(String message) {
+        message = message.replaceAll("§r", ChatColor.AQUA.toString());
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[i] " + ChatColor.AQUA + message);
     }
 
@@ -59,6 +65,7 @@ public class Messenger {
      * @param sender Who to send the message to
      */
     public static void sendSecret(String message, CommandSender sender) {
+        message = message.replaceAll("§r", ChatColor.YELLOW.toString());
         sender.sendMessage(ChatColor.GOLD + "[S] " + ChatColor.YELLOW + message);
     }
 
@@ -67,6 +74,7 @@ public class Messenger {
      * @param message The message to send
      */
     public static void broadcastSecret(String message) {
+        message = message.replaceAll("§r", ChatColor.YELLOW.toString());
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[S] " + ChatColor.YELLOW + message);
     }
 
@@ -76,6 +84,7 @@ public class Messenger {
      * @param sender Who to send the message to
      */
     public static void sendSuccess(String message, CommandSender sender) {
+        message = message.replaceAll("§r", ChatColor.GREEN.toString());
         sender.sendMessage(ChatColor.GOLD + "[+] " + ChatColor.GREEN + message);
     }
 
@@ -85,6 +94,7 @@ public class Messenger {
      * @param sender Who to send the message to
      */
     public static void sendActionSuccess(String message, @NotNull Player sender) {
+        message = message.replaceAll("§r", ChatColor.GREEN.toString());
         sender.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                 TextComponent.fromLegacyText(ChatColor.GOLD + "[+] " + ChatColor.GREEN + message));
     }
@@ -94,14 +104,17 @@ public class Messenger {
      * @param message The message to send
      */
     public static void broadcastSuccess(String message) {
+        message = message.replaceAll("§r", ChatColor.GREEN.toString());
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[+] " + ChatColor.GREEN + message);
     }
 
     public static void sendInfo(String message, @NotNull CommandSender sender) {
+        message = message.replaceAll("§r", ChatColor.BLUE.toString());
         sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message);
     }
 
     public static void sendInfo(String message, @NotNull Player sender, int maximumLevel) {
+        message = message.replaceAll("§r", ChatColor.BLUE.toString());
         PlayerData data = ActiveData.getData(sender.getUniqueId());
         if (data.getLevel() <= maximumLevel || data.getSetting("alwaysInfo").equals("true")) {
             sender.sendMessage(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message);
@@ -109,15 +122,18 @@ public class Messenger {
     }
 
     public static void sendActionInfo(String message, @NotNull Player sender) {
+        message = message.replaceAll("§r", ChatColor.BLUE.toString());
         sender.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                 TextComponent.fromLegacyText(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message));
     }
 
     public static void broadcastInfo(String message) {
+        message = message.replaceAll("§r", ChatColor.BLUE.toString());
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[i] " + ChatColor.BLUE + message);
     }
 
     public static void sendBounty(String message, @NotNull CommandSender sender) {
+        message = message.replaceAll("§r", ChatColor.YELLOW.toString());
         sender.sendMessage(ChatColor.GOLD + "[B] " + ChatColor.YELLOW + message);
     }
 
@@ -149,6 +165,7 @@ public class Messenger {
     }
 
     public static void requestInput(String message, @NotNull CommandSender sender) {
+        message = message.replaceAll("§r", ChatColor.LIGHT_PURPLE.toString());
         sender.sendMessage(ChatColor.GOLD + "[_] " + ChatColor.LIGHT_PURPLE + message);
     }
 }
