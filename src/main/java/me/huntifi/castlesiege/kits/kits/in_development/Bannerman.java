@@ -3,7 +3,6 @@ package me.huntifi.castlesiege.kits.kits.in_development;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -21,6 +20,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class Bannerman extends FreeKit implements Listener {
 
@@ -39,12 +39,12 @@ public class Bannerman extends FreeKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.DARK_PURPLE + "Short-sword", Arrays.asList(""), null, meleeDamage);
+                ChatColor.DARK_PURPLE + "Short-sword", List.of(""), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         ChatColor.DARK_PURPLE + "Short-sword",
-                        Arrays.asList(""),
+                        List.of(""),
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
                 0);
 

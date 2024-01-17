@@ -3,13 +3,11 @@ package me.huntifi.castlesiege.events.combat;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftLivingEntity;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.io.IOException;
 
 
 public class ArrowCollision implements Listener {

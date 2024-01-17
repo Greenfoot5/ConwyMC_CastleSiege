@@ -587,7 +587,7 @@ public class Main extends JavaPlugin implements Listener {
     private void createConfigs() {
 
         // Set up the vector adapter
-        TypeAdapter<Vector> vectorAdapter = new TypeAdapter<Vector>() {
+        TypeAdapter<Vector> vectorAdapter = new TypeAdapter<>() {
             @NotNull
             @Override
             public java.util.Map<Object, Object> serialize(@NotNull Vector vector) {
@@ -615,7 +615,7 @@ public class Main extends JavaPlugin implements Listener {
         getLogger().info("Loaded Vector Adapter");
 
         // Set up the frame adapters
-        TypeAdapter<LocationFrame> locationFrameTypeAdapter = new TypeAdapter<LocationFrame>() {
+        TypeAdapter<LocationFrame> locationFrameTypeAdapter = new TypeAdapter<>() {
 
             @NotNull
             public java.util.Map<Object, Object> serialize(@NotNull LocationFrame object) {

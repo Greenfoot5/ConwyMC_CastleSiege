@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class SettingsCommand implements CommandExecutor {
-    public static final HashMap<String, String[]> defaultSettings = new HashMap<String, String[]>(){{
+    public static final HashMap<String, String[]> defaultSettings = new HashMap<>(){{
         put("randomDeath", new String[]{"false", "true"});
         put("deathMessages", new String[]{"false", "true"});
         // TODO: put("language", new String[]{"EnglishUK", "Pirate"});

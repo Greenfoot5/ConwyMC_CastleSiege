@@ -2,14 +2,10 @@ package me.huntifi.castlesiege.commands.donator;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
-import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,13 +13,10 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -53,7 +46,7 @@ public class FireworkCmd implements CommandExecutor {
         spawnFirework(p);
         fireworkUsers.add(p);
 
-        //After 6 seconds removes the player from the firework users list. Then afterwards they can use the command again.
+        //After 6 seconds removes the player from the firework users list. Then afterward they can use the command again.
         new BukkitRunnable() {
             @Override
             public void run() {

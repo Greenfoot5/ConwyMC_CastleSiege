@@ -40,7 +40,7 @@ public class PunishmentTime {
             case 'y':
                 num *= 12;
             case 'M':
-                num *= 30.42;
+                num = (long) ((double) num * 30.42);
             case 'd':
                 num *= 24;
             case 'h':
@@ -110,7 +110,7 @@ public class PunishmentTime {
         }
 
         if (duration >= 30.42) {
-            duration /= 30.42;
+            duration = (long) ((double) duration / 30.42);
         } else {
             return df.format(duration) + " day(s)";
         }

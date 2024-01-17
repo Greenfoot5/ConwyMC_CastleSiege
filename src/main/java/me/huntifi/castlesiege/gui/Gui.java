@@ -97,9 +97,9 @@ public class Gui implements Listener {
                     lore.add(ChatColor.GREEN + "Map: " + ChatColor.BOLD + "OUT OF ROTATION");
             }
             lore.add(ChatColor.YELLOW + "Click here to buy!");
-                    Bukkit.getScheduler().runTask(Main.plugin, () -> {
-                        addItem(itemName, material, lore, location, "buykit " + kitName, false);
-                    });
+                    Bukkit.getScheduler().runTask(Main.plugin, () ->
+                        addItem(itemName, material, lore, location, "buykit " + kitName, false)
+                    );
         });
     }
 

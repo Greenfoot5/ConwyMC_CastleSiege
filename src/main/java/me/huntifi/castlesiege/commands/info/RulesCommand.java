@@ -14,9 +14,9 @@ public class RulesCommand implements CommandExecutor {
 	private final static String[] rulesList = {
 			"Hacks and Mods are not allowed, if you attempt to hack you will get banned without warning!",
 			"Xray is not allowed, that includes transparent blocks!",
-			"No abusing bugs. Report a bug immediately. Do not tell others how to use the bug.",
-			"No spamming. Do not say the same thing more than once or twice. Do not spam chat with arguments.",
-			"No trolling. We have a zero-tolerance policy for trolling. We know what trolling is and it will not be tolerated.",
+			"No abusing bugs. Please report them to a member of staff or on our Discord.",
+			"No spamming. Do not say the same thing more than once or twice.",
+			"No trolling. We have a zero-tolerance policy for trolling.",
 			"Use English in the server chat.",
 			"Do not advertise other servers, unless they are a sub-community of TheDarkAge/Conwy.",
 			"Do not use hacked clients. Zero-tolerance policy. You will be banned without warning!",
@@ -31,16 +31,16 @@ public class RulesCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender p, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("The list of rules everyone must follow!" + ChatColor.BOLD + " Don't break them.\n");
-		sb.append(ChatColor.WHITE + border + "\n"); //print out border
+		sb.append("The list of rules everyone must follow!").append(ChatColor.BOLD).append(" Don't break them.\n");
+		sb.append(ChatColor.WHITE).append(border).append("\n"); //print out border
 		int i = 0;
 		ChatColor col; //alternates between grey and white
 		for (String s : rulesList) {
 			col = (i % 2 == 0) ? ChatColor.WHITE: ChatColor.GRAY;
-			sb.append(ChatColor.YELLOW + "").append(i + 1).append(col).append(") ").append(s).append("\n");
+			sb.append(ChatColor.YELLOW).append(i + 1).append(col).append(") ").append(s).append("\n");
 			i++;
 		}
-		sb.append(ChatColor.WHITE + border);
+		sb.append(ChatColor.WHITE).append(border);
 		p.sendMessage(sb.toString());
 		return true;
 	}

@@ -8,8 +8,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
-import java.util.Objects;
-
 /**
  * Makes sure a player can't change their inventory
  */

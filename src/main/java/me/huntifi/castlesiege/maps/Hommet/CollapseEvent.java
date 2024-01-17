@@ -29,7 +29,7 @@ public class CollapseEvent implements Listener {
 
         Player player = e.getPlayer();
 
-        Boolean isActive = false;
+        boolean isActive = false;
 
         // Check we're on HelmsDeep
         if(MapController.getCurrentMap().worldName.equals("Hommet") && MapController.isOngoing()) {
@@ -84,7 +84,6 @@ public class CollapseEvent implements Listener {
                         }.runTaskLater(Main.plugin, 140);
                     }
                 }
-
             }
         }
     }

@@ -23,7 +23,7 @@ public class LevelKit extends Kit {
      * @param baseHealth  This kit's base health
      * @param regenAmount amount of regen it gets per x amount seconds
      * @param material what is its symbol in the GUI?
-     * @param role Which role does this kit fulfill?
+     * @param level The level required to unlock
      */
     public LevelKit(String name, int baseHealth, double regenAmount, Material material, int level) {
         super(name, baseHealth, regenAmount, material);

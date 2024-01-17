@@ -52,9 +52,7 @@ public class InteractContainer implements Listener {
     @EventHandler
     public void onInteract(SignChangeEvent e) {
         // Allow interacting in creative mode
-        if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
-            return;
-        } else {
+        if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
             e.setCancelled(true);
         }
     }

@@ -75,11 +75,8 @@ public class PlayerChat implements Listener {
 			}
 		}
 
-		/**
-		 * Set the message so that the bot still receives input.
-		 * Also removed all recipients as that would send the message twice to everyone.
-		 *
-		 */
+		// Set the message so that the bot still receives input.
+		// Also removed all recipients as that would send the message twice to everyone
 		e.setMessage(message);
 		e.setFormat("%s: %s");
 		sendTotalMessage(p, color, message);

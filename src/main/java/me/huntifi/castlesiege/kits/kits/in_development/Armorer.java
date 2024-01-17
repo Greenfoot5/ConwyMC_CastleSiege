@@ -15,11 +15,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class Armorer extends DonatorKit implements Listener {
 
@@ -36,12 +35,12 @@ public class Armorer extends DonatorKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.NETHERITE_SHOVEL),
-                ChatColor.DARK_PURPLE + "Smith's Hammer", Arrays.asList(""), null, meleeDamage);
+                ChatColor.DARK_PURPLE + "Smith's Hammer", List.of(""), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.NETHERITE_SHOVEL),
                         ChatColor.DARK_PURPLE + "Smith's Hammer",
-                        Arrays.asList(""),
+                        List.of(""),
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
                 0);
 
