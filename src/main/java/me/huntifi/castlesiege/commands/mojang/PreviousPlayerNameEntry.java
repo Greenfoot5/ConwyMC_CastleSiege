@@ -24,7 +24,7 @@ public class PreviousPlayerNameEntry {
      * Get the time of change of the name.
      * <br><b>Note: This will return 0 if the name is the original (initial) name of the player! Make sure you check if it is 0 before handling!
      * <br>Parsing 0 to a Date will result in the date "01/01/1970".</b>
-     * @return a timestamp in miliseconds that you can turn into a date or handle however you want :)
+     * @return a timestamp in milliseconds that you can turn into a date or handle however you want :)
      */
     public long getChangeTime() {
         return changeTime;

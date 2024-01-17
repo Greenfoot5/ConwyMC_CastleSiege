@@ -200,7 +200,7 @@ public class PlayerConnect implements Listener {
 
     /**
      * send a title bar to the player after 5 seconds, then another time after 30 seconds.
-     * But only if they are in the spawnroom still.
+     * But only if they are in the spawn room still.
      * @param p The player
      */
     public static void sendTitlebarMessages(Player p) {

@@ -101,10 +101,10 @@ public class PlayerChat implements Listener {
 
 	/** This handles level colours for all players.
 	 * 	 * @param p the player to send the message from globally.
-	 * @param chatcolor the colour that the player's chat should be in.
+	 * @param chatColor the colour that the player's chat should be in.
 	 * @param message The message that comes after the name.
 	 */
-	public void sendTotalMessage(Player p, ChatColor chatcolor, String message) {
+	public void sendTotalMessage(Player p, ChatColor chatColor, String message) {
 
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 
@@ -131,15 +131,15 @@ public class PlayerChat implements Listener {
 				int everyoneLevel = everyoneData.getLevel();
 
 				if (playerLevel + 10 < everyoneLevel) {
-					everyoneMessage = ChatColor.DARK_GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+					everyoneMessage = ChatColor.DARK_GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
 				} else if (playerLevel + 5 < everyoneLevel && playerLevel + 10 >= everyoneLevel) {
-					everyoneMessage = ChatColor.GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+					everyoneMessage = ChatColor.GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
 				} else if (playerLevel - 5 <= everyoneLevel && playerLevel + 5 >= everyoneLevel) {
-					everyoneMessage = ChatColor.YELLOW + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+					everyoneMessage = ChatColor.YELLOW + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
 				} else if (playerLevel - 5 > everyoneLevel && playerLevel - 10 <= everyoneLevel) {
-					everyoneMessage = ChatColor.RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+					everyoneMessage = ChatColor.RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
 				} else if (playerLevel - 10 > everyoneLevel) {
-					everyoneMessage = ChatColor.DARK_RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatcolor + message;
+					everyoneMessage = ChatColor.DARK_RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
 				}
 
 				everyone.sendMessage(everyoneMessage);

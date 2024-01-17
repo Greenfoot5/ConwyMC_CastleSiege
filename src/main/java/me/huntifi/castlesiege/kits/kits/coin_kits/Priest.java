@@ -48,7 +48,7 @@ public class Priest extends DonatorKit implements Listener {
     private static final int ladderCount = 4;
     private static final int blessingCooldown = 500;
     private static final int staffCooldown = 40;
-    private final ItemStack holybook;
+    private final ItemStack holyBook;
     public static final HashMap<Player, UUID> blessings = new HashMap<>();
 
     public Priest() {
@@ -81,22 +81,22 @@ public class Priest extends DonatorKit implements Listener {
                 ChatColor.GREEN + "Priest's robe", null, null,
                 Color.fromRGB(20, 0, 24));
         ItemMeta chest = es.chest.getItemMeta();
-        ArmorMeta ameta = (ArmorMeta) chest;
+        ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
-        ArmorTrim trim = new ArmorTrim(TrimMaterial.GOLD, TrimPattern.VEX);
-        ((ArmorMeta) chest).setTrim(trim);
-        es.chest.setItemMeta(ameta);
+        ArmorTrim chestTrim = new ArmorTrim(TrimMaterial.GOLD, TrimPattern.VEX);
+        ((ArmorMeta) chest).setTrim(chestTrim);
+        es.chest.setItemMeta(chestMeta);
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Priest's Pants", null, null,
                 Color.fromRGB(20, 0, 24));
         ItemMeta legs = es.legs.getItemMeta();
-        ArmorMeta aleg = (ArmorMeta) legs;
+        ArmorMeta legsMeta = (ArmorMeta) legs;
         assert legs != null;
-        ArmorTrim trimleg = new ArmorTrim(TrimMaterial.GOLD, TrimPattern.VEX);
-        aleg.setTrim(trimleg);
-        es.legs.setItemMeta(aleg);
+        ArmorTrim legsTrim = new ArmorTrim(TrimMaterial.GOLD, TrimPattern.VEX);
+        legsMeta.setTrim(legsTrim);
+        es.legs.setItemMeta(legsMeta);
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
@@ -109,21 +109,21 @@ public class Priest extends DonatorKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(20, 0, 24));
         ItemMeta boots = es.feet.getItemMeta();
-        ArmorMeta aboot = (ArmorMeta) boots;
+        ArmorMeta bootsMeta = (ArmorMeta) boots;
         assert boots != null;
-        ArmorTrim boottrim = new ArmorTrim(TrimMaterial.GOLD, TrimPattern.VEX);
-        aboot.setTrim(boottrim);
-        es.feet.setItemMeta(aboot);
-        es.votedFeet.setItemMeta(aboot);
+        ArmorTrim bootsTrim = new ArmorTrim(TrimMaterial.GOLD, TrimPattern.VEX);
+        bootsMeta.setTrim(bootsTrim);
+        es.feet.setItemMeta(bootsMeta);
+        es.votedFeet.setItemMeta(bootsMeta);
 
         // Gouge
-        holybook = ItemCreator.weapon(new ItemStack(Material.BOOK),
+        holyBook = ItemCreator.weapon(new ItemStack(Material.BOOK),
                 ChatColor.GOLD + "Holy Bible", Arrays.asList("",
                         ChatColor.YELLOW + "Select an ally with this holy book.",
                         ChatColor.YELLOW + "This ally will receive regeneration III",
                         ChatColor.YELLOW + "until you select a different ally."),
                 null, 1);
-        es.hotbar[1] = holybook;
+        es.hotbar[1] = holyBook;
 
         // Ladders
         es.hotbar[2] = new ItemStack(Material.LADDER, ladderCount);
@@ -231,19 +231,19 @@ public class Priest extends DonatorKit implements Listener {
     @EventHandler
     public void onClickEnderchest(EnderchestEvent event) {
         if (blessings.containsKey(event.getPlayer())) {
-            assignBook(event.getPlayer(), holybook);
-            event.getPlayer().getInventory().setItem(1, holybook);
+            assignBook(event.getPlayer(), holyBook);
+            event.getPlayer().getInventory().setItem(1, holyBook);
         }
     }
 
 
     public void assignBook(Player priest, ItemStack book) {
         if (blessings.containsKey(priest)) {
-            ItemMeta metatron = book.getItemMeta();
-            assert metatron != null;
-            metatron.setDisplayName(Objects.requireNonNull(holybook.getItemMeta()).getDisplayName() + " : " +
+            ItemMeta bootMeta = book.getItemMeta();
+            assert bootMeta != null;
+            bootMeta.setDisplayName(Objects.requireNonNull(holyBook.getItemMeta()).getDisplayName() + " : " +
                     ChatColor.AQUA + Objects.requireNonNull(Bukkit.getPlayer(blessings.get(priest))).getName());
-            book.setItemMeta(metatron);
+            book.setItemMeta(bootMeta);
         }
     }
 

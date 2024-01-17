@@ -33,8 +33,8 @@ public class Sorcerer extends DonatorKit implements Listener {
     private static final double regen = 10.5;
     private static final double meleeDamage = 26;
     private static final int ladderCount = 4;
-    private static final int arcaneboltCooldown = 60;
-    private static final int frostnovaCooldown = 220;
+    private static final int arcaneBoltCooldown = 60;
+    private static final int frostNovaCooldown = 220;
     private static final int arcaneBarrageCooldown = 400;
     private static final int slowFallingCooldown = 300;
     public Sorcerer() {
@@ -50,7 +50,7 @@ public class Sorcerer extends DonatorKit implements Listener {
                         ChatColor.YELLOW + "Right click to shoot an arcanebolt which",
                         ChatColor.YELLOW + "does 60 DMG on hit.",
                         ChatColor.YELLOW + " ",
-                        ChatColor.YELLOW + "Has a cooldown of " + arcaneboltCooldown/20 + " seconds."), null, meleeDamage);
+                        ChatColor.YELLOW + "Has a cooldown of " + arcaneBoltCooldown /20 + " seconds."), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STICK),
@@ -59,7 +59,7 @@ public class Sorcerer extends DonatorKit implements Listener {
                                 ChatColor.YELLOW + "Right click to shoot an arcane bolt which",
                                 ChatColor.YELLOW + "does 60 DMG on hit.",
                                 ChatColor.YELLOW + " ",
-                                ChatColor.YELLOW + "Has a cooldown of " + arcaneboltCooldown/20 + " seconds.",
+                                ChatColor.YELLOW + "Has a cooldown of " + arcaneBoltCooldown /20 + " seconds.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
                 0);
@@ -71,7 +71,7 @@ public class Sorcerer extends DonatorKit implements Listener {
                         ChatColor.YELLOW + "of yourself, slowing every enemy in a 4 block radius",
                         ChatColor.YELLOW + "around you and dealing 30 DMG to them.",
                         ChatColor.YELLOW + " ",
-                        ChatColor.YELLOW + "Has a cooldown of " + frostnovaCooldown/20 + " seconds."), null);
+                        ChatColor.YELLOW + "Has a cooldown of " + frostNovaCooldown /20 + " seconds."), null);
 
         // 2nd ability
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.AMETHYST_SHARD),
@@ -93,22 +93,22 @@ public class Sorcerer extends DonatorKit implements Listener {
                 ChatColor.GREEN + "Sorcerer's robe", null, null,
                 Color.fromRGB(75, 60, 63));
         ItemMeta chest = es.chest.getItemMeta();
-        ArmorMeta ameta = (ArmorMeta) chest;
+        ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
-        ArmorTrim trim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.DUNE);
-        ((ArmorMeta) chest).setTrim(trim);
-        es.chest.setItemMeta(ameta);
+        ArmorTrim chestTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.DUNE);
+        ((ArmorMeta) chest).setTrim(chestTrim);
+        es.chest.setItemMeta(chestMeta);
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Sorcerer's pants", null, null,
                 Color.fromRGB(106, 62, 156));
         ItemMeta legs = es.legs.getItemMeta();
-        ArmorMeta aleg = (ArmorMeta) legs;
+        ArmorMeta legsMeta = (ArmorMeta) legs;
         assert legs != null;
-        ArmorTrim trimleg = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.TIDE);
-        aleg.setTrim(trimleg);
-        es.legs.setItemMeta(aleg);
+        ArmorTrim legsTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.TIDE);
+        legsMeta.setTrim(legsTrim);
+        es.legs.setItemMeta(legsMeta);
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
@@ -121,12 +121,12 @@ public class Sorcerer extends DonatorKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(106, 62, 156));
         ItemMeta boots = es.feet.getItemMeta();
-        ArmorMeta aboot = (ArmorMeta) boots;
+        ArmorMeta bootsMeta = (ArmorMeta) boots;
         assert boots != null;
-        ArmorTrim boottrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.TIDE);
-        aboot.setTrim(boottrim);
-        es.feet.setItemMeta(aboot);
-        es.votedFeet.setItemMeta(aboot);
+        ArmorTrim bootsTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.TIDE);
+        bootsMeta.setTrim(bootsTrim);
+        es.feet.setItemMeta(bootsMeta);
+        es.votedFeet.setItemMeta(bootsMeta);
 
         // Ladders
         es.hotbar[4] = new ItemStack(Material.LADDER, ladderCount);
@@ -138,14 +138,14 @@ public class Sorcerer extends DonatorKit implements Listener {
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 0, true, false));
     }
 
-    public void shootArcanebolt(Player p) {
+    public void shootArcaneBolt(Player p) {
         BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
         mythicMobsApi.castSkill(p ,"SorcererArcanebolt", p.getLocation());
     }
 
 
     /**
-     * Activate the warlock ability of shooting a shadowbolt
+     * Activate the warlock ability of shooting a shadowBolt
      * @param e The event called when right-clicking with a wither skull
      */
     @EventHandler
@@ -164,15 +164,15 @@ public class Sorcerer extends DonatorKit implements Listener {
             if (staff.getType().equals(Material.STICK)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
-                        p.setCooldown(Material.STICK, arcaneboltCooldown);
-                        shootArcanebolt(p);
+                        p.setCooldown(Material.STICK, arcaneBoltCooldown);
+                        shootArcaneBolt(p);
                     }
                 }
             }
         }
     }
 
-    public void frostnova(Player p) {
+    public void frostNova(Player p) {
         BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
         mythicMobsApi.castSkill(p ,"SorcererFrostnova", p.getLocation());
     }
@@ -183,10 +183,10 @@ public class Sorcerer extends DonatorKit implements Listener {
      * @param e The event called when right-clicking with a stick
      */
     @EventHandler
-    public void clickFrostnova(PlayerInteractEvent e) {
+    public void clickFrostNova(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
-        ItemStack patat = p.getInventory().getItemInMainHand();
+        ItemStack pItem = p.getInventory().getItemInMainHand();
         int cooldown = p.getCooldown(Material.DIAMOND);
 
         // Prevent using in lobby
@@ -195,11 +195,11 @@ public class Sorcerer extends DonatorKit implements Listener {
         }
 
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (patat.getType().equals(Material.DIAMOND)) {
+            if (pItem.getType().equals(Material.DIAMOND)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
-                        p.setCooldown(Material.DIAMOND, frostnovaCooldown);
-                        frostnova(p);
+                        p.setCooldown(Material.DIAMOND, frostNovaCooldown);
+                        frostNova(p);
                     }
                 }
             }
@@ -207,14 +207,14 @@ public class Sorcerer extends DonatorKit implements Listener {
     }
 
 
-    public void shootArcanebarrage(Player p) {
+    public void shootArcaneBarrage(Player p) {
         BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
         mythicMobsApi.castSkill(p ,"SorcererArcaneboltBarrage", p.getLocation());
     }
 
 
     /**
-     * Activate the warlock ability of shooting a shadowbolt
+     * Activate the warlock ability of shooting a shadow bolt
      * @param e The event called when right-clicking with a wither skull
      */
     @EventHandler
@@ -234,7 +234,7 @@ public class Sorcerer extends DonatorKit implements Listener {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         p.setCooldown(Material.AMETHYST_SHARD, arcaneBarrageCooldown);
-                        shootArcanebarrage(p);
+                        shootArcaneBarrage(p);
                     }
                 }
             }
@@ -242,18 +242,18 @@ public class Sorcerer extends DonatorKit implements Listener {
     }
 
 
-    public void slowfalling(Player p) {
+    public void slowFalling(Player p) {
         BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
         mythicMobsApi.castSkill(p ,"SorcererSlowfalling", p.getLocation());
     }
 
 
     /**
-     * Activate the warlock ability of shooting a shadowbolt
+     * Activate the warlock ability of shooting a shadow bolt
      * @param e The event called when right-clicking with a wither skull
      */
     @EventHandler
-    public void clickSlowfalling(PlayerInteractEvent e) {
+    public void clickSlowFalling(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         ItemStack staff = p.getInventory().getItemInMainHand();
@@ -269,7 +269,7 @@ public class Sorcerer extends DonatorKit implements Listener {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         p.setCooldown(Material.FEATHER, slowFallingCooldown);
-                        slowfalling(p);
+                        slowFalling(p);
                     }
                 }
             }

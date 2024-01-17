@@ -154,7 +154,7 @@ public class Scoreboard implements Runnable {
 				replaceScore(objective, 5, ChatColor.GRAY + "Captures: " + ChatColor.WHITE + num.format(data.getCaptures()));
 				replaceScore(objective, 4, ChatColor.LIGHT_PURPLE + "Heals: " + ChatColor.WHITE + num.format(data.getHeals()));
 				replaceScore(objective, 3, ChatColor.DARK_PURPLE + "Supports: " + ChatColor.WHITE + num.format(data.getSupports()));
-				replaceScore(objective, 2, ChatColor.DARK_GRAY + "Killstreak: " + ChatColor.WHITE + num.format(data.getKillStreak()));
+				replaceScore(objective, 2, ChatColor.DARK_GRAY + "Kill Streak: " + ChatColor.WHITE + num.format(data.getKillStreak()));
 			}
 
 			// Actually displays the scoreboard

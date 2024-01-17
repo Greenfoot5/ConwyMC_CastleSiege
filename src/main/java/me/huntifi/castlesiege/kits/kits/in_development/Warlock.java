@@ -42,8 +42,10 @@ public class Warlock extends DonatorKit implements Listener {
     private static final double meleeDamage = 20;
     private static final int curseCooldown = 320;
     private static final int staffCooldown = 80;
-    private static final int lifedrainCooldown = 400;
-    private static final int healthfunnelCooldown = 200;
+    private static final int lifeDrainCooldown = 400;
+    private static final int healthFunnelCooldown = 200;
+
+    private static final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
 
     public Warlock() {
         super("Warlock", health, regen, Material.WITHER_SKELETON_SKULL);
@@ -59,8 +61,8 @@ public class Warlock extends DonatorKit implements Listener {
                         ChatColor.YELLOW + "Right click to shoot a bolt of shadows, ",
                         ChatColor.YELLOW + "which does damage to enemies and inflicts",
                         ChatColor.YELLOW + "slowness I for 5 seconds and 70 DMG to them.",
-                        ChatColor.YELLOW + "Direct hits give a soulshard and have",
-                ChatColor.YELLOW + "a 10% chance to give a healthstone."), null, meleeDamage);
+                        ChatColor.YELLOW + "Direct hits give a soul shard and have",
+                ChatColor.YELLOW + "a 10% chance to give a health stone."), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.WITHER_SKELETON_SKULL),
@@ -69,8 +71,8 @@ public class Warlock extends DonatorKit implements Listener {
                                 ChatColor.YELLOW + "Right click to shoot a bolt of shadows, ",
                                 ChatColor.YELLOW + "which does damage to enemies and inflicts",
                                 ChatColor.YELLOW + "slowness I for 5 seconds and 70 to them.",
-                                ChatColor.YELLOW + "Direct hits give a soulshard and have",
-                                ChatColor.YELLOW + "a 10% chance to give a healthstone.",
+                                ChatColor.YELLOW + "Direct hits give a soul shard and have",
+                                ChatColor.YELLOW + "a 10% chance to give a health stone.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
                 0);
@@ -102,7 +104,7 @@ public class Warlock extends DonatorKit implements Listener {
         // 3rd ability
         es.hotbar[4] = ItemCreator.item(new ItemStack(Material.BLAZE_POWDER),
                 ChatColor.GOLD + "Hellfire", Arrays.asList("",
-                        ChatColor.DARK_GRAY + "Requires 5 soulshards to cast.",
+                        ChatColor.DARK_GRAY + "Requires 5 soul shards to cast.",
                         ChatColor.YELLOW + "Shoot a large burst of hellfire in",
                         ChatColor.YELLOW + "front of you, burning anything on its path.",
                         ChatColor.YELLOW + " ",
@@ -113,22 +115,22 @@ public class Warlock extends DonatorKit implements Listener {
                 ChatColor.GREEN + "Warlock's robe", null, null,
                 Color.fromRGB(85, 30, 127));
         ItemMeta chest = es.chest.getItemMeta();
-        ArmorMeta ameta = (ArmorMeta) chest;
+        ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
-        ArmorTrim trim = new ArmorTrim(TrimMaterial.EMERALD, TrimPattern.EYE);
-        ((ArmorMeta) chest).setTrim(trim);
-        es.chest.setItemMeta(ameta);
+        ArmorTrim chestTrim= new ArmorTrim(TrimMaterial.EMERALD, TrimPattern.EYE);
+        ((ArmorMeta) chest).setTrim(chestTrim);
+        es.chest.setItemMeta(chestMeta);
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 ChatColor.GREEN + "Warlock's pants", null, null,
                 Color.fromRGB(85, 30, 127));
         ItemMeta legs = es.legs.getItemMeta();
-        ArmorMeta aleg = (ArmorMeta) legs;
+        ArmorMeta legsMeta = (ArmorMeta) legs;
         assert legs != null;
-        ArmorTrim trimleg = new ArmorTrim(TrimMaterial.EMERALD, TrimPattern.DUNE);
-        aleg.setTrim(trimleg);
-        es.legs.setItemMeta(aleg);
+        ArmorTrim legsTrim = new ArmorTrim(TrimMaterial.EMERALD, TrimPattern.DUNE);
+        legsMeta.setTrim(legsTrim);
+        es.legs.setItemMeta(legsMeta);
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
@@ -141,12 +143,12 @@ public class Warlock extends DonatorKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(85, 30, 127));
         ItemMeta boots = es.feet.getItemMeta();
-        ArmorMeta aboot = (ArmorMeta) boots;
+        ArmorMeta bootsMeta = (ArmorMeta) boots;
         assert boots != null;
-        ArmorTrim boottrim = new ArmorTrim(TrimMaterial.EMERALD, TrimPattern.DUNE);
-        aboot.setTrim(boottrim);
-        es.feet.setItemMeta(aboot);
-        es.votedFeet.setItemMeta(aboot);
+        ArmorTrim bootsTrim = new ArmorTrim(TrimMaterial.EMERALD, TrimPattern.DUNE);
+        bootsMeta.setTrim(bootsTrim);
+        es.feet.setItemMeta(bootsMeta);
+        es.votedFeet.setItemMeta(bootsMeta);
 
         super.equipment = es;
 
@@ -155,14 +157,8 @@ public class Warlock extends DonatorKit implements Listener {
     }
 
 
-    public void shootShadowBolt(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p ,"WarlockShadowbolt", p.getLocation());
-    }
-
-
     /**
-     * Activate the warlock ability of shooting a shadowbolt
+     * Activate the warlock ability of shooting a shadow bolt
      * @param e The event called when right-clicking with a wither skull
      */
     @EventHandler
@@ -182,18 +178,18 @@ public class Warlock extends DonatorKit implements Listener {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         p.setCooldown(Material.WITHER_SKELETON_SKULL, staffCooldown);
-                        shootShadowBolt(p);
+                        mythicMobsApi.castSkill(p ,"WarlockShadowbolt", p.getLocation());
                     }
                 }
             }
         }
     }
 
-    public void curse(Player curser, Player cursed) {
+    public void cursePlayer(Player curser, Player cursed) {
 
         curser.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                 ChatColor.DARK_PURPLE + "You cursed the enemies around you!"));
-        mythicParticle(curser);
+        mythicMobsApi.castSkill(curser,"WarlockCurseEffect");
 
         if (TeamController.getTeam(curser.getUniqueId()) != TeamController.getTeam(cursed.getUniqueId())
                 && curser.getLocation().distance(cursed.getLocation()) <= 7 && curser != cursed) {
@@ -214,7 +210,7 @@ public class Warlock extends DonatorKit implements Listener {
     public void clickCurse(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
-        ItemStack patat = p.getInventory().getItemInMainHand();
+        ItemStack pItem = p.getInventory().getItemInMainHand();
         int cooldown = p.getCooldown(Material.POISONOUS_POTATO);
 
         // Prevent using in lobby
@@ -223,12 +219,12 @@ public class Warlock extends DonatorKit implements Listener {
         }
 
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (patat.getType().equals(Material.POISONOUS_POTATO)) {
+            if (pItem.getType().equals(Material.POISONOUS_POTATO)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         p.setCooldown(Material.POISONOUS_POTATO, curseCooldown);
                         for (Player near : Bukkit.getOnlinePlayers()) {
-                            curse(p, near);
+                            cursePlayer(p, near);
                         }
                     }
                 }
@@ -236,22 +232,12 @@ public class Warlock extends DonatorKit implements Listener {
         }
     }
 
-    public void mythicParticle(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p,"WarlockCurseEffect");
-    }
-
-    public void lifedrain(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p ,"WarlockLifedrain", p.getLocation());
-    }
-
     /**
-     * Activate the warlock ability of lifedrain
+     * Activate the warlock ability of life drain
      * @param e The event called when right-clicking with a scute
      */
     @EventHandler
-    public void clickLifedrain(PlayerInteractEvent e) {
+    public void clickLifeDrain(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         ItemStack staff = p.getInventory().getItemInMainHand();
@@ -266,8 +252,8 @@ public class Warlock extends DonatorKit implements Listener {
             if (staff.getType().equals(Material.SCUTE)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
-                        p.setCooldown(Material.SCUTE, lifedrainCooldown);
-                        lifedrain(p);
+                        p.setCooldown(Material.SCUTE, lifeDrainCooldown);
+                        mythicMobsApi.castSkill(p ,"WarlockLifedrain", p.getLocation());
                     }
                 }
             }
@@ -279,7 +265,7 @@ public class Warlock extends DonatorKit implements Listener {
      * @param event The event called when clicking on a teammate with redstone
      */
     @EventHandler
-    public void onHealthfunnel(PlayerInteractEntityEvent event) {
+    public void onHealthFunnel(PlayerInteractEntityEvent event) {
             Player player = event.getPlayer();
             UUID uuid = player.getUniqueId();
             ItemStack staff = player.getInventory().getItemInMainHand();
@@ -317,25 +303,14 @@ public class Warlock extends DonatorKit implements Listener {
                         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.AQUA + "You have sacrificed your health for player: " + NameTag.color(r) + r.getName()));
                         UpdateStats.addHeals(uuid, 2);
-                        player.setCooldown(Material.REDSTONE, healthfunnelCooldown);
-                        mythicParticle2(r);
+                        player.setCooldown(Material.REDSTONE, healthFunnelCooldown);
+                        mythicMobsApi.castSkill(r,"WarlockHealthFunnelEffect");
                     }
                 } else {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                             ChatColor.RED + "This player already has full health."));
                 }
             }
-    }
-
-    public void mythicParticle2(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p,"WarlockHealthFunnelEffect");
-    }
-
-
-    public void hellfire(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p ,"Hellfire", p.getLocation());
     }
 
     /**
@@ -358,7 +333,7 @@ public class Warlock extends DonatorKit implements Listener {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (p.getInventory().contains(Material.AMETHYST_SHARD, 5)) {
                         for (ItemStack item : p.getInventory().getContents()) {
-                            hellfire(p);
+                            mythicMobsApi.castSkill(p ,"Hellfire", p.getLocation());
                             if (item == null) { return; }
                             if (item.getType().equals(Material.AMETHYST_SHARD)) {
                                 item.setAmount(0);
@@ -376,11 +351,11 @@ public class Warlock extends DonatorKit implements Listener {
 
 
     /**
-     * Consume a healthstone
-     * @param e The event called when right-clicking a healthstone/emerald
+     * Consume a health stone
+     * @param e The event called when right-clicking a health stone/emerald
      */
     @EventHandler
-    public void clickHealthstone(PlayerInteractEvent e) {
+    public void clickHealthStone(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         ItemStack staff = p.getInventory().getItemInMainHand();
@@ -398,16 +373,11 @@ public class Warlock extends DonatorKit implements Listener {
                          p.setHealth(p.getHealth() + ((double) health / 4));
                      } else {
                          p.setHealth(health);
-                         mythicParticle3(p);
+                         mythicMobsApi.castSkill(p,"WarlockHealthstoneEffect");
                      }
                 }
             }
         }
-    }
-
-    public void mythicParticle3(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p,"WarlockHealthstoneEffect");
     }
 
 
@@ -421,7 +391,7 @@ public class Warlock extends DonatorKit implements Listener {
         kitLore.add("§7and obliterate enemies with hellfire");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
         // TODO - Externalise values
-        kitLore.add("§a70 §7shadowbolt DMG");
+        kitLore.add("§a70 §7shadow bolt DMG");
         kitLore.add("§a15dmg/s §7life-drain DMG");
         kitLore.add("§a70dmg/s §7Hellfire DMG");
         kitLore.add(" ");
@@ -429,20 +399,20 @@ public class Warlock extends DonatorKit implements Listener {
         kitLore.add("§7- Slowness II");
         kitLore.add(" ");
         kitLore.add("§Active:");
-        kitLore.add("§7- Can shoot a shadowbolt at opponents");
+        kitLore.add("§7- Can shoot a shadow bolt at opponents");
         kitLore.add("§7to damage them and give them slowness I");
         kitLore.add("§7- Can curse all enemies in a 7 block radius");
         kitLore.add("§7giving them weakness for 8 seconds");
         kitLore.add("§7- Can drain life from targets for 5 seconds");
         kitLore.add("§7- Has the possibility to sacrifice 25% of their HP");
         kitLore.add("§7to heal a teammate for 25% of the warlock's max health");
-        kitLore.add("§7- Can pay hell with 5 soulshards to summon devastating");
+        kitLore.add("§7- Can pay hell with 5 soul shards to summon devastating");
         kitLore.add("§7hellfire that incinerates all enemy players it comes across");
         kitLore.add(" ");
         kitLore.add("§2Passive ");
         kitLore.add("§7- Can see player health");
-        kitLore.add("§7- Hitting targets with shadowbolt gives soulshards");
-        kitLore.add("§7and has a 10% chance to give a healthstone");
+        kitLore.add("§7- Hitting targets with shadow bolt gives soul shards");
+        kitLore.add("§7and has a 10% chance to give a health stone");
         kitLore.addAll(getGuiCostText());
         return kitLore;
     }

@@ -151,7 +151,7 @@ public class Doors implements Listener {
                             b32ab.setType(Material.AIR); b123ab.setType(Material.AIR); b223ab.setType(Material.AIR); b323ab.setType(Material.AIR);
                             b324ab.setType(Material.AIR); b325ab.setType(Material.AIR);
 
-                            SchematicSpawner.spawnSchematic(statueSchematicLoc, "SkyholSecretStatue");
+                            SchematicSpawner.spawnSchematic(statueSchematicLoc, "SkyholdSecretStatue");
 
                         }
                     }.runTaskLater(Main.plugin, 30);

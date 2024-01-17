@@ -36,7 +36,7 @@ public class SecretItems implements Listener {
         spawnSecretItem("HelmsDeep" , herugrim(),
                 new Location(Bukkit.getWorld("HelmsDeep"), 983.903, 58, 986.954));
 
-        spawnSecretItem("Thunderstone" , skycookie(),
+        spawnSecretItem("Thunderstone" , skyCookie(),
                 new Location(Bukkit.getWorld("Thunderstone"), 233.50, 67, 78.50));
 
         spawnSecretItem("Skyhold" , skyholdKeyDoor(),
@@ -117,7 +117,7 @@ public class SecretItems implements Listener {
     public static void registerSecretItems() {
 
         secretItems.add(herugrim());
-        secretItems.add(skycookie());
+        secretItems.add(skyCookie());
         secretItems.add(skyholdKeyDoor());
         secretItems.add(skyholdKeyInquisitor());
         secretItems.add(skyholdShield());
@@ -167,7 +167,7 @@ public class SecretItems implements Listener {
         return sword;
      }
 
-    public static ItemStack skycookie() {
+    public static ItemStack skyCookie() {
 
         ItemStack cookie = new ItemStack(Material.COOKIE);
 

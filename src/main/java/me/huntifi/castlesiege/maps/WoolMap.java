@@ -94,20 +94,20 @@ public class WoolMap implements Listener {
 		  assert manager != null;
 		  org.bukkit.scoreboard.Scoreboard board = manager.getNewScoreboard();
 
-		  Shulker shulk = (Shulker) Objects.requireNonNull(loc.getWorld()).spawnEntity(loc, EntityType.SHULKER);
-          shulkers.put(p, shulk);
-		  shulk.setAI(false);
-		  shulk.setInvulnerable(true);
-		  shulk.setInvisible(true);
-		  shulk.setCustomName(shulk.getUniqueId().toString());
-		  p.showEntity(Main.plugin, shulk);
+		  Shulker shulker = (Shulker) Objects.requireNonNull(loc.getWorld()).spawnEntity(loc, EntityType.SHULKER);
+          shulkers.put(p, shulker);
+		  shulker.setAI(false);
+		  shulker.setInvulnerable(true);
+		  shulker.setInvisible(true);
+		  shulker.setCustomName(shulker.getUniqueId().toString());
+		  p.showEntity(Main.plugin, shulker);
 
-		  shulk.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 8000, 0, false, false));
-          keepShulkerAlive(p, shulk, loc.getBlock());
+		  shulker.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 8000, 0, false, false));
+          keepShulkerAlive(p, shulker, loc.getBlock());
 	  }
 	}
 
-	public void keepShulkerAlive(Player p, Shulker shulk, Block b) {
+	public void keepShulkerAlive(Player p, Shulker shulker, Block b) {
 
 		Block target = p.getTargetBlockExact(50);
 		new BukkitRunnable() {
@@ -115,8 +115,8 @@ public class WoolMap implements Listener {
 			public void run() {
 				assert target != null;
 				if (target.equals(b)) {
-					shulkers.remove(p, shulk);
-					shulk.remove();
+					shulkers.remove(p, shulker);
+					shulker.remove();
 				} else {
 					this.cancel();
 				}

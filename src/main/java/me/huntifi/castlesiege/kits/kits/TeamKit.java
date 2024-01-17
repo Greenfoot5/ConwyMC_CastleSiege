@@ -23,9 +23,9 @@ public abstract class TeamKit extends DonatorKit implements Listener {
     //map for the map specific kits and the team
     protected final String map;
     protected final String team;
-    //Might seem odd to add, but it's cause map names vary, and it isn't exactly helpful to get the exact kitname
-    //out of mapname and name of the kit. Like this would work for Elytrier but not for any of the Helm's Deep kits.
-    protected final String commandname;
+    // Might seem odd to add, but it's cause map names vary, and it isn't exactly helpful to get the exact kit name
+    // out of map name and name of the kit. Like this would work for Elytrier but not for any of the Helm's Deep kits.
+    protected final String commandName;
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
@@ -41,14 +41,14 @@ public abstract class TeamKit extends DonatorKit implements Listener {
      * @param coins the amount of coins this kit costs
      */
     public TeamKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins
-                   , Material material, String commandname) {
+                   , Material material, String commandName) {
         super(name, baseHealth, regenAmount, material);
         team = playableTeam;
         map = playableMap;
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
-        this.commandname = commandname;
+        this.commandName = commandName;
     }
 
     public String getMapName() {
@@ -106,7 +106,7 @@ public abstract class TeamKit extends DonatorKit implements Listener {
                 Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
             Sign sign = (Sign) e.getClickedBlock().getState();
             if (sign.getLine(0).contains("Team Kit") && sign.getLine(2).contains(name)) {
-                e.getPlayer().performCommand(commandname.toLowerCase());
+                e.getPlayer().performCommand(commandName.toLowerCase());
             }
         }
 

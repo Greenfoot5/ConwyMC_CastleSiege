@@ -23,7 +23,7 @@ public class SecretDoor implements Listener {
 
     final Location chestLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 992, 62, 983);
 
-    final Location stonebuttonLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 63, 979);
+    final Location stoneButtonLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 63, 979);
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
@@ -110,7 +110,7 @@ public class SecretDoor implements Listener {
 
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
 
-            if(event.getClickedBlock().getType().equals(Material.STONE_BUTTON) && event.getClickedBlock().getLocation().equals(stonebuttonLoc)) {
+            if(event.getClickedBlock().getType().equals(Material.STONE_BUTTON) && event.getClickedBlock().getLocation().equals(stoneButtonLoc)) {
 
                 Player p = event.getPlayer();
 

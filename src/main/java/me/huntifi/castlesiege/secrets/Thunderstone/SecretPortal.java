@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class SecretPortal implements Listener {
 
-    final Location etableLoc = new Location(Main.plugin.getServer().getWorld("Thunderstone"), 166, 65, 82);
+    final Location eTableLoc = new Location(Main.plugin.getServer().getWorld("Thunderstone"), 166, 65, 82);
 
     final Location portalLoc = new Location(Main.plugin.getServer().getWorld("Thunderstone"), 184, 113, 133);
 
@@ -25,7 +25,7 @@ public class SecretPortal implements Listener {
 
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
 
-            if(event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE) && event.getClickedBlock().getLocation().equals(etableLoc)) {
+            if(event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE) && event.getClickedBlock().getLocation().equals(eTableLoc)) {
 
                 Player p = event.getPlayer();
 

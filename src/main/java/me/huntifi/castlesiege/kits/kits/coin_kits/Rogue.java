@@ -160,11 +160,11 @@ public class Rogue extends DonatorKit implements Listener {
                 ChatColor.GREEN + "Leather Chestplate", null, null,
                 Color.fromRGB(15, 15, 15));
         ItemMeta chest = es.chest.getItemMeta();
-        ArmorMeta ameta = (ArmorMeta) chest;
+        ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
-        ArmorTrim trim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.COAST);
-        ((ArmorMeta) chest).setTrim(trim);
-        es.chest.setItemMeta(ameta);
+        ArmorTrim chestTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.COAST);
+        ((ArmorMeta) chest).setTrim(chestTrim);
+        es.chest.setItemMeta(chestMeta);
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
@@ -464,11 +464,11 @@ public class Rogue extends DonatorKit implements Listener {
         }
     }
 
-    public void healPlayer(Player toheal, int healed) {
+    public void healPlayer(Player toHeal, int healed) {
         if ((baseHealth + healed) > baseHealth) {
-            toheal.setHealth(baseHealth);
+            toHeal.setHealth(baseHealth);
         } else {
-            toheal.setHealth(toheal.getHealth() + healed);
+            toHeal.setHealth(toHeal.getHealth() + healed);
         }
     }
 

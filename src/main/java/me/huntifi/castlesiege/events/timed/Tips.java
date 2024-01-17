@@ -44,7 +44,7 @@ public class Tips extends BukkitRunnable {
             "Low on health? Find a medic or some cake!",
             "Found a suspicious player? Make a report on the §e/discord§r server or tell a staff member",
             "Low on arrows or ladders? Resupply with an enderchest!",
-            "Enderchests clear all temporary effects, both good and bad!",
+            "Ender Chests clear all temporary effects, both good and bad!",
             "Landing on a hay bale stops you taking falling damage",
             "Found a bug or exploit? Report it on the discord server.",
             "Low on ladders? You can get two more by voting!",
@@ -54,7 +54,7 @@ public class Tips extends BukkitRunnable {
             "Have you found all the secrets yet? Use §e/secrets§r to check your progress! Don't forget to right-click to collect them!",
             "Being shot at by archers? Try to find some cover!",
             "Rams no longer require 4 people, instead the damage inflicted to the gate is increased with each player on the ram.",
-            "Got lag? Get optifine!",
+            "Got lag? Get Optifine!",
             "Donators can set an unique leave and join message with §e/joinmsg§r and §e/leavemsg§r!",
             "Donators can switch teams whenever they want, no matter the amount of players!",
             "Looking for a change in pace? Try §e/random§r!",
@@ -62,7 +62,7 @@ public class Tips extends BukkitRunnable {
             "Did you know you can use §e§l/voteskip§r to vote to skip the current map?",
             "Bored of playing alone? Mention the §e@fighter§r role on our discord server!",
             "Want something more competitive? Join a Player Pool Match (PPM) hosted on the Discord!",
-            "Check out the latest patch notes: §e§nhttps://conwymc.alchemix.dev/updates§r"
+            "Check out the latest patch notes:§e§n https://conwymc.alchemix.dev/updates§r"
     };
 
     // Sends a random tip to all players
