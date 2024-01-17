@@ -190,7 +190,7 @@ public class Flag {
         isRunning.incrementAndGet();
 
         // Keep running as long as there are players in the area
-        if (players.size() > 0) {
+        if (!players.isEmpty()) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -202,7 +202,7 @@ public class Flag {
                         captureFlag();
 
                     // No more players in the zone
-                    if (players.size() == 0 || isRunning.get() > 1) {
+                    if (players.isEmpty() || isRunning.get() > 1) {
                         isRunning.decrementAndGet();
                         this.cancel();
                     }
@@ -651,7 +651,7 @@ public class Flag {
      */
     public static void registerBossbars() {
         for (Flag flag : MapController.getCurrentMap().flags) {
-            createFlagBossbar(flag, getBarColour(flag), BossBar.Overlay.NOTCHED_20, flag.name, (float) flag.animationIndex/flag.maxCap);
+            createFlagBossbar(flag, getBarColour(flag), BossBar.Overlay.PROGRESS, flag.name, (float) flag.animationIndex/flag.maxCap);
         }
     }
 
