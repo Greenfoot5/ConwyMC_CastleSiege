@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.in_development;
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -10,8 +11,6 @@ import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -79,8 +78,8 @@ public class Warlock extends DonatorKit implements Listener {
 
         // 1st ability
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POISONOUS_POTATO),
-                ChatColor.LIGHT_PURPLE + "Curse of Weakness", Arrays.asList("",
-                        ChatColor.YELLOW + "Right click to give weakness to all ",
+                ChatColor.LIGHT_PURPLE + "Curse of Slowing", Arrays.asList("",
+                        ChatColor.YELLOW + "Right click to give slowness to all ",
                         ChatColor.YELLOW + "enemies in a 7 block radius of you for 8s.",
                         ChatColor.YELLOW + " ",
                         ChatColor.YELLOW + "Has a cooldown of 16 seconds."), null);
@@ -101,7 +100,7 @@ public class Warlock extends DonatorKit implements Listener {
                         ChatColor.YELLOW + " ",
                         ChatColor.YELLOW + "Has a cooldown of 10 seconds."), null);
 
-        // 3rd ability
+        // 4th ability
         es.hotbar[4] = ItemCreator.item(new ItemStack(Material.BLAZE_POWDER),
                 ChatColor.GOLD + "Hellfire", Arrays.asList("",
                         ChatColor.DARK_GRAY + "Requires 5 soul shards to cast.",
@@ -162,7 +161,7 @@ public class Warlock extends DonatorKit implements Listener {
      * @param e The event called when right-clicking with a wither skull
      */
     @EventHandler
-    public void clickCursedSkull(PlayerInteractEvent e) {
+    public void castShadowBolt(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         ItemStack staff = p.getInventory().getItemInMainHand();
@@ -173,62 +172,69 @@ public class Warlock extends DonatorKit implements Listener {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (staff.getType().equals(Material.WITHER_SKELETON_SKULL)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0) {
-                        p.setCooldown(Material.WITHER_SKELETON_SKULL, staffCooldown);
-                        mythicMobsApi.castSkill(p ,"WarlockShadowbolt", p.getLocation());
-                    }
-                }
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name) || !staff.getType().equals(Material.WITHER_SKELETON_SKULL))
+        {
+            return;
+        }
+
+        if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (cooldown == 0) {
+                p.setCooldown(Material.WITHER_SKELETON_SKULL, staffCooldown);
+                mythicMobsApi.castSkill(p ,"WarlockShadowbolt", p.getLocation());
             }
         }
     }
-
-    public void cursePlayer(Player curser, Player cursed) {
-
-        curser.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                ChatColor.DARK_PURPLE + "You cursed the enemies around you!"));
-        mythicMobsApi.castSkill(curser,"WarlockCurseEffect");
-
-        if (TeamController.getTeam(curser.getUniqueId()) != TeamController.getTeam(cursed.getUniqueId())
-                && curser.getLocation().distance(cursed.getLocation()) <= 7 && curser != cursed) {
-
-            //Warlock gets supports for cursing enemies
-            UpdateStats.addSupports(curser.getUniqueId(), 1);
-
-            cursed.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 160, 0, true, true));
-        }
-    }
-
 
     /**
      * Activate the warlock ability of cursing the area
      * @param e The event called when right-clicking with a stick
      */
     @EventHandler
-    public void clickCurse(PlayerInteractEvent e) {
+    public void castCurse(PlayerInteractEvent e) {
         Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
         ItemStack pItem = p.getInventory().getItemInMainHand();
         int cooldown = p.getCooldown(Material.POISONOUS_POTATO);
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (pItem.getType().equals(Material.POISONOUS_POTATO)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0) {
-                        p.setCooldown(Material.POISONOUS_POTATO, curseCooldown);
-                        for (Player near : Bukkit.getOnlinePlayers()) {
-                            cursePlayer(p, near);
-                        }
-                    }
+        if (!Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) || !pItem.getType().equals(Material.POISONOUS_POTATO)) {
+            return;
+        }
+
+        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (cooldown == 0) {
+                p.setCooldown(Material.POISONOUS_POTATO, curseCooldown);
+                for (Player online : Bukkit.getOnlinePlayers()) {
+                    cursePlayer(p, online);
                 }
+
+                Messenger.sendSuccess("You cursed the enemies around you!", p);
+                mythicMobsApi.castSkill(p,"WarlockCurseEffect");
             }
+        }
+    }
+
+    /**
+     * Applies the curse to the user
+     * @param caster The user casting the curse
+     * @param cursed The user cursed
+     */
+    public void cursePlayer(Player caster, Player cursed) {
+
+        if (TeamController.getTeam(caster.getUniqueId()) == TeamController.getTeam(cursed.getUniqueId())) {
+            return;
+        }
+
+        if (caster.getLocation().distance(cursed.getLocation()) <= 7 && caster != cursed) {
+
+            //Warlock gets supports for cursing enemies
+            UpdateStats.addSupports(caster.getUniqueId(), 1);
+
+            Messenger.sendWarning("You were cursed by " + caster.getDisplayName(), cursed);
+            cursed.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 160, 0, true, true));
         }
     }
 
@@ -237,7 +243,7 @@ public class Warlock extends DonatorKit implements Listener {
      * @param e The event called when right-clicking with a scute
      */
     @EventHandler
-    public void clickLifeDrain(PlayerInteractEvent e) {
+    public void castLifeDrain(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         ItemStack staff = p.getInventory().getItemInMainHand();
@@ -248,14 +254,14 @@ public class Warlock extends DonatorKit implements Listener {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (staff.getType().equals(Material.SCUTE)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0) {
-                        p.setCooldown(Material.SCUTE, lifeDrainCooldown);
-                        mythicMobsApi.castSkill(p ,"WarlockLifedrain", p.getLocation());
-                    }
-                }
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name) || !staff.getType().equals(Material.SCUTE)) {
+            return;
+        }
+
+        if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (cooldown == 0) {
+                p.setCooldown(Material.SCUTE, lifeDrainCooldown);
+                mythicMobsApi.castSkill(p ,"WarlockLifedrain", p.getLocation());
             }
         }
     }
@@ -265,52 +271,53 @@ public class Warlock extends DonatorKit implements Listener {
      * @param event The event called when clicking on a teammate with redstone
      */
     @EventHandler
-    public void onHealthFunnel(PlayerInteractEntityEvent event) {
-            Player player = event.getPlayer();
-            UUID uuid = player.getUniqueId();
-            ItemStack staff = player.getInventory().getItemInMainHand();
-            int cooldown = player.getCooldown(Material.REDSTONE);
-            
-            // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(uuid)) {
+    public void castHealthFunnel(PlayerInteractEntityEvent event) {
+        Player caster = event.getPlayer();
+        ItemStack staff = caster.getInventory().getItemInMainHand();
+        int cooldown = caster.getCooldown(Material.REDSTONE);
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(caster.getUniqueId())) {
+            return;
+        }
+
+        // If the user isn't a warlock
+        if (!Objects.equals(Kit.equippedKits.get(caster.getUniqueId()).name, name) || !staff.getType().equals(Material.REDSTONE)) {
+            return;
+        }
+
+        // They've clicked a player on the same team
+        Entity clickedEntity = event.getRightClicked();
+        if (clickedEntity instanceof Player &&
+                TeamController.getTeam(caster.getUniqueId()) == TeamController.getTeam(clickedEntity.getUniqueId())) {
+
+            // The healed isn't at full health
+            Player healed = (Player) clickedEntity;
+            if (healed.getHealth() >= Kit.equippedKits.get(healed.getUniqueId()).baseHealth) {
+                Messenger.sendActionError("This player already has full health.", caster);
+                return;
+            }
+            if (caster.getHealth() < (double) Kit.equippedKits.get(caster.getUniqueId()).baseHealth / 4) {
+                Messenger.sendError("You cannot sacrifice your health cause you are too low on HP!", caster);
                 return;
             }
 
-            Entity q = event.getRightClicked();
-            if (Objects.equals(Kit.equippedKits.get(uuid).name, name) && q instanceof Player &&
-                    TeamController.getTeam(uuid) == TeamController.getTeam(q.getUniqueId())) {
-                if (((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth) {
 
-                    if (!staff.getType().equals(Material.REDSTONE)) {
-                        return;
-                    }
+            if (cooldown == 0) {
+                caster.setCooldown(Material.REDSTONE, healthFunnelCooldown);
+                UpdateStats.addHeals(caster.getUniqueId(), 2);
 
-                    // Apply cooldown
-                    Player r = (Player) q;
-
-                    if (player.getHealth() < (double) Kit.equippedKits.get(player.getUniqueId()).baseHealth / 4) {
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.RED + "You cannot sacrifice your health cause you are too low on HP!"));
-                        return;
-                    }
+                double healthTransferred = (double) Kit.equippedKits.get(caster.getUniqueId()).baseHealth / 4;
+                healed.setHealth(healed.getHealth() + healthTransferred);
+                caster.setHealth(caster.getHealth() - healthTransferred);
 
 
-                    if (cooldown == 0) {
-                        r.setHealth(r.getHealth() + (double) Kit.equippedKits.get(player.getUniqueId()).baseHealth / 4);
-                        player.setHealth(player.getHealth() - (double) Kit.equippedKits.get(player.getUniqueId()).baseHealth / 4);
-                        r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                NameTag.color(player) + player.getName() + ChatColor.AQUA + " has sacrificed his health for you"));
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "You have sacrificed your health for player: " + NameTag.color(r) + r.getName()));
-                        UpdateStats.addHeals(uuid, 2);
-                        player.setCooldown(Material.REDSTONE, healthFunnelCooldown);
-                        mythicMobsApi.castSkill(r,"WarlockHealthFunnelEffect");
-                    }
-                } else {
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.RED + "This player already has full health."));
-                }
+                Messenger.sendSuccess(NameTag.color(caster) + caster.getName() + "§r has sacrificed health for you", healed);
+                Messenger.sendSuccess("You have sacrificed your health for " + NameTag.color(healed) + healed.getName(), caster);
+
+                mythicMobsApi.castSkill(healed,"WarlockHealthFunnelEffect");
             }
+        }
     }
 
     /**
@@ -328,21 +335,19 @@ public class Warlock extends DonatorKit implements Listener {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (staff.getType().equals(Material.BLAZE_POWDER)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (p.getInventory().contains(Material.AMETHYST_SHARD, 5)) {
-                        for (ItemStack item : p.getInventory().getContents()) {
-                            mythicMobsApi.castSkill(p ,"Hellfire", p.getLocation());
-                            if (item == null) { return; }
-                            if (item.getType().equals(Material.AMETHYST_SHARD)) {
-                                item.setAmount(0);
-                            }
-                        }
-                    } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.RED + "You require 5 soul shards to perform this spell!"));
-                    }
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name) || !staff.getType().equals(Material.BLAZE_POWDER)) {
+            return;
+        }
+        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (!p.getInventory().contains(Material.AMETHYST_SHARD, 5)) {
+                Messenger.sendError("You require 5 soul shards to perform this spell!", p);
+            }
+
+            for (ItemStack item : p.getInventory().getContents()) {
+                mythicMobsApi.castSkill(p ,"Hellfire", p.getLocation());
+                if (item == null) { return; }
+                if (item.getType().equals(Material.AMETHYST_SHARD)) {
+                    item.setAmount(0);
                 }
             }
         }
@@ -365,18 +370,20 @@ public class Warlock extends DonatorKit implements Listener {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (staff.getType().equals(Material.EMERALD)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                     staff.setAmount(staff.getAmount() - 1);
-                     if (p.getHealth() + ((double) health /4) < health) {
-                         p.setHealth(p.getHealth() + ((double) health / 4));
-                     } else {
-                         p.setHealth(health);
-                         mythicMobsApi.castSkill(p,"WarlockHealthstoneEffect");
-                     }
-                }
-            }
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) || staff.getType().equals(Material.EMERALD)) {
+            return;
+        }
+
+        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+             staff.setAmount(staff.getAmount() - 1);
+
+             // Heal for 25% health, or fully heal
+             if (p.getHealth() + ((double) health / 4) < health) {
+                 p.setHealth(p.getHealth() + ((double) health / 4));
+             } else {
+                 p.setHealth(health);
+                 mythicMobsApi.castSkill(p,"WarlockHealthstoneEffect");
+             }
         }
     }
 
@@ -402,7 +409,7 @@ public class Warlock extends DonatorKit implements Listener {
         kitLore.add("§7- Can shoot a shadow bolt at opponents");
         kitLore.add("§7to damage them and give them slowness I");
         kitLore.add("§7- Can curse all enemies in a 7 block radius");
-        kitLore.add("§7giving them weakness for 8 seconds");
+        kitLore.add("§7giving them slowness for 8 seconds");
         kitLore.add("§7- Can drain life from targets for 5 seconds");
         kitLore.add("§7- Has the possibility to sacrifice 25% of their HP");
         kitLore.add("§7to heal a teammate for 25% of the warlock's max health");
