@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +20,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 
 import java.util.*;
 
@@ -70,10 +72,26 @@ public class Gui implements Listener {
     }
 
     /**
+     * @param location The location of the item
+     * @param command The command to execute when clicking the item
+     */
+    public void addBackItem(int location, String command) {
+        ItemStack item = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW), "§4§lGo back",
+                Collections.singletonList("§cReturn to the previous interface."), null);
+        PotionMeta potionMeta = (PotionMeta) item.getItemMeta();
+        assert potionMeta != null;
+        potionMeta.setColor(Color.RED);
+        item.setItemMeta(potionMeta);
+        inventory.setItem(location, item);
+        locationToItem.put(location, new GuiItem(command, true));
+    }
+
+    /**
      * Add a coin shop item to the inventory.
      * @param kitName The name of the kit without spaces
      * @param material The material of the item
      * @param location The location of the item
+     * @param uuid The UUID of the player
      */
     public void addCoinShopItem(String kitName, Material material, int location, UUID uuid) {
         Kit kit = Kit.getKit(kitName);

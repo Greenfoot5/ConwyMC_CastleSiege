@@ -4,9 +4,6 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.*;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.kits.kits.coin_kits.Barbarian;
-import me.huntifi.castlesiege.kits.kits.coin_kits.Paladin;
-import me.huntifi.castlesiege.kits.kits.coin_kits.Priest;
 import me.huntifi.castlesiege.kits.kits.in_development.Sorcerer;
 import me.huntifi.castlesiege.kits.kits.in_development.Warlock;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
@@ -85,8 +82,7 @@ public class GuiCreations {
         gui.addItem("§6§lCLASS:§r§6 Barbarian", Material.NETHERITE_AXE,
                 Barbarian.getGuiDescription(), 7, "barbarian", true);
 
-        gui.addItem("§4§lGo back", Material.BARRIER,
-                Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
+        gui.addBackItem(13, "kit selector");
         return gui;
     }
 
@@ -108,8 +104,7 @@ public class GuiCreations {
         gui.addItem("§6§lCLASS:§r§6 Paladin", Material.GOLDEN_AXE,
                 Paladin.getGuiDescription(), 4, "paladin", true);
 
-        gui.addItem("§4§lGo back", Material.BARRIER,
-                Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
+        gui.addBackItem(13, "kit selector");
         return gui;
     }
 
@@ -128,8 +123,7 @@ public class GuiCreations {
         gui.addItem("§6§lCLASS:§r§6 Priest", Material.SPECTRAL_ARROW,
                 Priest.getGuiDescription(), 3, "priest", true);
 
-        gui.addItem("§4§lGo back", Material.BARRIER,
-                Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
+        gui.addBackItem(13, "kit selector");
         return gui;
     }
 
@@ -148,8 +142,7 @@ public class GuiCreations {
         gui.addItem("§6§lCLASS:§r§6 Warlock", Material.WITHER_SKELETON_SKULL,
                 Warlock.getGuiDescription(), 3, "warlock", true);
 
-        gui.addItem("§4§lGo back", Material.BARRIER,
-                Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
+        gui.addBackItem(13, "kit selector");
         return gui;
     }
 
@@ -172,8 +165,7 @@ public class GuiCreations {
                 Cavalry.getGuiDescription(), 4, "cavalry", true);
 
 
-        gui.addItem("§4§lGo back", Material.BARRIER,
-                Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
+        gui.addBackItem(13, "kit selector");
         return gui;
     }
 
@@ -195,8 +187,7 @@ public class GuiCreations {
         gui.addItem("§6§lCLASS:§r§6 Sorcerer", Material.AMETHYST_SHARD,
                 Sorcerer.getGuiDescription(), 4, "sorcerer", true);
 
-        gui.addItem("§4§lGo back", Material.BARRIER,
-                Collections.singletonList("§cReturn to the previous interface."), 13, "kit selector", true);
+        gui.addBackItem(13, "kit selector");
         return gui;
     }
 }
