@@ -438,7 +438,7 @@ public abstract class Kit implements CommandExecutor {
         baseStats.add("§a" + health + " §7HP");
         baseStats.add("§a" + regen + " §7Regen");
         baseStats.add("§a" + meleeDamage + " §7Melee DMG");
-        if (ladders != 0)
+        if (ladders > 0)
             baseStats.add("§a" + ladders + " §7Ladders");
         return baseStats;
     }
@@ -458,9 +458,9 @@ public abstract class Kit implements CommandExecutor {
         baseStats.add("§a" + regen + " §7Regen");
         baseStats.add("§a" + meleeDamage + " §7Melee DMG");
         baseStats.add("§a" + rangedDamage + "+ §7Ranged DMG");
-        if (ladders < 1)
+        if (ladders > 0)
             baseStats.add("§a" + ladders + " §7Ladders");
-        if (ammo < 1)
+        if (ammo > 0)
             baseStats.add("§a" + ammo + " §7Ammo");
         return baseStats;
     }

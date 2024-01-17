@@ -284,13 +284,10 @@ public class Sorcerer extends DonatorKit implements Listener {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A sorcerer specialised in the arcane arts, ");
         kitLore.add("§7can also slow down enemies with ice");
-        kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add("§a60 §7arcane-bolt DMG");
         kitLore.add("§a30 §7frost nova DMG");
-        kitLore.add("§a" + ladderCount + " §7ladders");
+        kitLore.add(" ");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Slowness I");
         kitLore.add("");
@@ -301,8 +298,7 @@ public class Sorcerer extends DonatorKit implements Listener {
         kitLore.add("§7in a 4 block radius");
         kitLore.add("§7- Can shoot a barrage of arcane-bolts");
         kitLore.add("§7- Has a spell that gives slow falling to the caster");
-        kitLore.add("");
-        kitLore.add("§7Can be unlocked with §e§lcoins");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 

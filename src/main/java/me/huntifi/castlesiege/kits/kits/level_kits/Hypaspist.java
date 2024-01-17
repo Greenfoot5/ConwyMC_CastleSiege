@@ -186,6 +186,7 @@ public class Hypaspist extends LevelKit implements Listener {
         kitLore.add("§7A tank with a trident & shield, ");
         kitLore.add("§7which weakens opponents");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, -1));
+        kitLore.add(" ");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Slowness I");
         kitLore.add("§7- Mining fatigue I");
