@@ -52,11 +52,11 @@ public class Hypaspist extends LevelKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Shortsword", null, null, meleeDamage);
+                ChatColor.GREEN + "Short-sword", null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        ChatColor.GREEN + "Shortsword",
+                        ChatColor.GREEN + "Short-sword",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
@@ -75,11 +75,11 @@ public class Hypaspist extends LevelKit implements Listener {
         es.chest = ItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
                 ChatColor.GREEN + "Copper Chestplate", null, null);
         ItemMeta chest = es.chest.getItemMeta();
-        ArmorMeta ameta = (ArmorMeta) chest;
+        ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
-        ArmorTrim trim = new ArmorTrim(TrimMaterial.REDSTONE, TrimPattern.SILENCE);
-        ((ArmorMeta) chest).setTrim(trim);
-        es.chest.setItemMeta(ameta);
+        ArmorTrim chestTrim = new ArmorTrim(TrimMaterial.REDSTONE, TrimPattern.SILENCE);
+        ((ArmorMeta) chest).setTrim(chestTrim);
+        es.chest.setItemMeta(chestMeta);
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
@@ -89,24 +89,24 @@ public class Hypaspist extends LevelKit implements Listener {
         // Boots + trim
         es.feet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 ChatColor.GREEN + "copper Boots", null, null);
-        ItemMeta feet = es.feet.getItemMeta();
-        ArmorMeta ametafeet = (ArmorMeta) feet;
-        assert feet != null;
-        ArmorTrim trimfeet = new ArmorTrim(TrimMaterial.REDSTONE, TrimPattern.SILENCE);
-        ((ArmorMeta) feet).setTrim(trimfeet);
-        es.feet.setItemMeta(ametafeet);
+        ItemMeta boots = es.feet.getItemMeta();
+        ArmorMeta bootsMeta = (ArmorMeta) boots;
+        assert boots != null;
+        ArmorTrim bootsTrim = new ArmorTrim(TrimMaterial.REDSTONE, TrimPattern.SILENCE);
+        ((ArmorMeta) boots).setTrim(bootsTrim);
+        es.feet.setItemMeta(bootsMeta);
 
         // Voted Boots + trim
         es.votedFeet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 ChatColor.GREEN + "Copper Boots",
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
-        ItemMeta votedfeet = es.votedFeet.getItemMeta();
-        ArmorMeta ametavotedfeet = (ArmorMeta) votedfeet;
-        assert votedfeet != null;
-        ArmorTrim trimvotedfeet = new ArmorTrim(TrimMaterial.REDSTONE, TrimPattern.SILENCE);
-        ((ArmorMeta) votedfeet).setTrim(trimvotedfeet);
-        es.votedFeet.setItemMeta(ametavotedfeet);
+        ItemMeta votedBoots = es.votedFeet.getItemMeta();
+        ArmorMeta votedBootsMeta = (ArmorMeta) votedBoots;
+        assert votedBoots != null;
+        ArmorTrim votedBootsTrim = new ArmorTrim(TrimMaterial.REDSTONE, TrimPattern.SILENCE);
+        ((ArmorMeta) votedBoots).setTrim(votedBootsTrim);
+        es.votedFeet.setItemMeta(votedBootsMeta);
 
         // Ladders
         es.hotbar[2] = new ItemStack(Material.LADDER, ladderCount);

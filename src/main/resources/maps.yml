@@ -264,7 +264,7 @@ HelmsDeep:
               y: 21
               z: 952
             sign_direction: west
-          ukruk_camp:
+          uruk_camp:
             flag_name: "Uruk's Camp"
             wool_position:
               x: 1753
@@ -342,8 +342,8 @@ Conwy:
               y: 94
               z: 622
             sign_direction: north
-          stockhouse:
-            flag_name: "Stockhouse"
+          stock-house:
+            flag_name: "Stock-house"
             wool_position:
               x: 98
               y: 94
@@ -693,7 +693,7 @@ SoldiersPeak:
               y: 69
               z: 209
             sign_direction: south
-          soldier_maingate:
+          soldier_main_gate:
             flag_name: "Main Gate"
             wool_position:
               x: 1251
@@ -728,14 +728,14 @@ SoldiersPeak:
               y: 75
               z: 209
             sign_direction: south
-          throneroom:
-            flag_name: "Throneroom"
+          throne_room:
+            flag_name: "Throne Room"
             wool_position:
               x: 1249
               y: 76
               z: 209
             sign_direction: south
-          warroom:
+          war_room:
             flag_name: "War Room"
             wool_position:
               x: 1247
@@ -810,14 +810,14 @@ SoldiersPeak:
               y: 73
               z: 411
             sign_direction: south
-          throneroom:
-            flag_name: "Throneroom"
+          throne_room:
+            flag_name: "Throne Room"
             wool_position:
               x: 1177
               y: 74
               z: 411
             sign_direction: south
-          warroom:
+          war_room:
             flag_name: "War Room"
             wool_position:
               x: 1175
@@ -933,7 +933,7 @@ Elwynn:
               y: 134
               z: 82
             sign_direction: up
-          diggershire:
+          goldshire:
             flag_name: "Goldshire"
             wool_position:
               x: 351

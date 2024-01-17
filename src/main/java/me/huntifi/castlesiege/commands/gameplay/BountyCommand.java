@@ -157,7 +157,7 @@ public class BountyCommand implements CommandExecutor {
         }
     }
 
-    public static void killstreak(Player killer) {
+    public static void killStreak(Player killer) {
         int amount = 0;
         switch (ActiveData.getData(killer.getUniqueId()).getKillStreak()) {
             case 5:
@@ -178,7 +178,7 @@ public class BountyCommand implements CommandExecutor {
         }
         if (amount > 0) {
             int total = getAndAddBounty(killer.getUniqueId(), (int) (amount * PlayerData.getCoinMultiplier()));
-            Messenger.broadcastKillstreakBounty(NameTag.color(killer) + killer.getName(),
+            Messenger.broadcastKillStreakBounty(NameTag.color(killer) + killer.getName(),
                     ActiveData.getData(killer.getUniqueId()).getKillStreak(), total);
         }
     }

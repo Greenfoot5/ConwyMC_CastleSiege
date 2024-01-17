@@ -192,7 +192,7 @@ public class DeathEvent implements Listener {
                     killDeathMessage(killer, target, kit.getMeleeMessage());
 
             // Check for bounty
-            BountyCommand.killstreak(killer);
+            BountyCommand.killStreak(killer);
         }
 
         // Assist

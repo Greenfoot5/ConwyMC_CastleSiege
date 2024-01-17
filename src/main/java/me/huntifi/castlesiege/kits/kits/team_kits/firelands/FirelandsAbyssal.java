@@ -197,7 +197,7 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
     }
 
     /**
-     * Activate the abbysal ability of throwing a magma block
+     * Activate the abyssal ability of throwing a magma block
      * @param e The event called when right-clicking with green_dye
      */
     @EventHandler

@@ -77,7 +77,7 @@ public class MyStatsCommand implements CommandExecutor {
                 + ChatColor.BLACK + "Captures: " + ChatColor.DARK_GRAY + num.format(data.getCaptures()) + "\n"
                 + ChatColor.BLACK + "Heals: " + ChatColor.DARK_GRAY + num.format(data.getHeals()) + "\n"
                 + ChatColor.BLACK + "Supports: " + ChatColor.DARK_GRAY + num.format(data.getSupports()) + "\n"
-                + ChatColor.BLACK + "Killstreak: " + ChatColor.DARK_GRAY + num.format(data.getMaxKillStreak()),
+                + ChatColor.BLACK + "Kill Streak: " + ChatColor.DARK_GRAY + num.format(data.getMaxKillStreak()),
                 ChatColor.BLACK + "Level: " + ChatColor.DARK_GRAY + num.format(data.getLevel()) + "\n"
                 + ChatColor.BLACK + "Next Level: " + ChatColor.DARK_GRAY +
                         dec.format(UpdateStats.levelScore(data.getLevel() + 1) - data.getScore()));

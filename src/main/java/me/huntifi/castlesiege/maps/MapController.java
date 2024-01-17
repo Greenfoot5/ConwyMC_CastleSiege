@@ -105,7 +105,7 @@ public class MapController {
 
 	/**
 	 * @param mapName The name of the map to get
-	 * @return The Map of the mapname, null if no map of that name exists
+	 * @return The Map of the map name, null if no map of that name exists
 	 */
 	public static Map getMap(String mapName) {
 		for (Map map : maps) {

@@ -256,7 +256,7 @@ public class Flag {
             // Notify current capping players
             notifyPlayers(false);
 
-            //Bossbar change
+            // Bossbar change
             setFlagBarValue(this, (float) animationIndex /maxCap);
             setFlagBarColour(this, BossBar.Color.WHITE);
 
@@ -598,7 +598,7 @@ public class Flag {
      * @param barColour the colour of the bar, should be the team colour.
      * @param barStyle the style to put the bossbar in
      * @param text this is actually just the flag name
-     * @param progress the amount of progress done on the bossbar, should be (index / maxcaps)
+     * @param progress the amount of progress done on the bossbar, should be (index / max caps)
      */
     public static void createFlagBossbar(Flag flag, BossBar.Color barColour, BossBar.Overlay barStyle, String text, float progress) {
         Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GREEN + flag.name + " Bossbar creation initialised");
@@ -631,7 +631,7 @@ public class Flag {
     /**
      *
      * @param flag the flag which the bossbar belongs to
-     * @param value the amount of progress on the bossbar to display, should be the flag's progress or capture index/maxcaps
+     * @param value the amount of progress on the bossbar to display, should be the flag's progress or capture index/max caps
      */
     public void setFlagBarValue(Flag flag, float value) {
         bars.get(flag).progress(value);
@@ -657,7 +657,7 @@ public class Flag {
 
     /**
      *
-     * @param flag the flag to get the teamcolour from
+     * @param flag the flag to get the team colour from
      * @return the correct colour of this flag's bossbar depending on the team.
      */
     public static BossBar.Color getBarColour(Flag flag) {

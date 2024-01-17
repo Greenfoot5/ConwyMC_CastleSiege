@@ -89,10 +89,10 @@ public class HommetLongbowarcher extends TeamKit implements Listener {
 
             Entity hit = e.getHitEntity();
 
-            Location shooterloc = p.getLocation();
-            Location hitloc = hit.getLocation();
+            Location shooterLoc = p.getLocation();
+            Location hitLoc = hit.getLocation();
 
-            double distance = shooterloc.distance(hitloc);
+            double distance = shooterLoc.distance(hitLoc);
 
             //default value
             ((Arrow) e.getEntity()).setDamage(14);

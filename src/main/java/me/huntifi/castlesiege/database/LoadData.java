@@ -90,9 +90,9 @@ public class LoadData {
      * @return returns the price of the next elite kit.
      */
     public static int returnPremiumKitPrice(UUID uuid) {
-        final int basicprice = 5000;
+        final int basicPrice = 5000;
         final int addon = 2500;
-        return basicprice + (addon * returnPremiumKits(uuid));
+        return basicPrice + (addon * returnPremiumKits(uuid));
     }
 
     /**

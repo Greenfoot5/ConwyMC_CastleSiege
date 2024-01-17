@@ -214,7 +214,7 @@ premium:
       kit: Berserker
       lore:
         - "§6------------------------------"
-        - "§2[Desc]:§a An armorless warrior with high dps and speed."
+        - "§2[Desc]:§a A naked warrior with high dps and speed."
         - "§2[Health]:§a 170"
         - "§2[Melee Damage]:§a 53"
         - "§2[Regen]:§a 16"
@@ -251,7 +251,7 @@ premium:
         - "§2[Health]:§a 300"
         - "§2[Melee Damage]:§a 44"
         - "§2[Regen]:§a 9"
-        - "§2[Ability]:§a Insta-kills enemies that are below 33.3% hp."
+        - "§2[Ability]:§a Instakills enemies that are below 33.3% hp."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
         - "§3Battlepoints: §98"
@@ -333,7 +333,7 @@ premium:
         - "§2[Regen]:§a 9"
         - "§2[Effects]:§a Jump Boost 1, haste 1"
         - "§2[Ability]:§a Can place traps and cobwebs, repair walls and wooden"
-        - "§2[Ability]:§a structures, refill catapults, and operate ballistae."
+        - "§2[Ability]:§a structures, refill catapults, and operate ballista."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
         - "§3Battlepoints: §910"
@@ -352,7 +352,7 @@ premium:
         - "§2[Effects]:§a Speed 1, Haste 2"
         - "§2[Ability]:§a Can shoot 3 arrows at once with the volley bow."
         - "§2[Ability]:§a Can shoot 3 consecutive arrows with the burst bow."
-        - "§2[Ability]:§a Can insta-kill enemies by backstabbing them."
+        - "§2[Ability]:§a Can instakill enemies by backstabbing them."
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"
         - "§3Battlepoints: §910"
@@ -540,7 +540,7 @@ burning_legion:
   name: "§2Burning Legion Kits"
   key: "burning legion"
   items:
-    abbysal:
+    abyssal:
       name: "§a§lCLASS:§r§a Abyssal"
       kit: Abyssal
       lore:
@@ -742,7 +742,7 @@ english:
   name: "§4The English"
   key: "the english"
   items:
-    royalknight:
+    royal_knight:
       name: "§a§lCLASS:§r§a Royal Knight"
       kit: RoyalKnight
       lore:
@@ -769,7 +769,7 @@ english:
         - "§2[Melee Damage]:§a 35.5"
         - "§2[Regen]:§a 5"
         - "§2[Effects]:§a Slowness 2, Mining fatigue"
-        - "§2[Ability]:§a Slower Xbow with stronger arrows."
+        - "§2[Ability]:§a Slower crossbow with stronger arrows."
         - "§2[Status]:§a Unlocked with coins."
         - "§4------------------------------"
         - "§3Battlepoints: §910"
@@ -798,7 +798,7 @@ thunderstoneGuard:
         - "§2[Melee Damage]:§a 30"
         - "§2[Regen]:§a 7"
         - "§2[Effects]:§a Slow falling, haste and speed"
-        - "§2[Ability]:§a Can drop 3 boms, health package, glide in the air!"
+        - "§2[Ability]:§a Can drop 3 bombs, health package, glide in the air!"
         - "§2[Weakness]:§a Can't capture flags!"
         - "§2[Status]:§a Unlocked with coins."
         - "§6------------------------------"

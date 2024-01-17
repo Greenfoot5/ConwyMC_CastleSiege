@@ -16,7 +16,6 @@ import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,21 +48,21 @@ public class Armorer extends DonatorKit implements Listener {
                 ChatColor.GREEN + "Armorer's robe", null, null,
                 Color.fromRGB(50, 54, 57));
         ItemMeta chest = es.chest.getItemMeta();
-        ArmorMeta ameta = (ArmorMeta) chest;
+        ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
-        ArmorTrim trim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.DUNE);
-        ((ArmorMeta) chest).setTrim(trim);
-        es.chest.setItemMeta(ameta);
+        ArmorTrim chestTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.DUNE);
+        ((ArmorMeta) chest).setTrim(chestTrim);
+        es.chest.setItemMeta(chestMeta);
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
                 ChatColor.GREEN + "Armorer's Leggings", null, null);
         ItemMeta legs = es.legs.getItemMeta();
-        ArmorMeta aleg = (ArmorMeta) legs;
+        ArmorMeta legsMeta = (ArmorMeta) legs;
         assert legs != null;
-        ArmorTrim trimleg = new ArmorTrim(TrimMaterial.IRON, TrimPattern.RAISER);
-        aleg.setTrim(trimleg);
-        es.legs.setItemMeta(aleg);
+        ArmorTrim legsTrim = new ArmorTrim(TrimMaterial.IRON, TrimPattern.RAISER);
+        legsMeta.setTrim(legsTrim);
+        es.legs.setItemMeta(legsMeta);
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
@@ -74,12 +73,12 @@ public class Armorer extends DonatorKit implements Listener {
                 Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
         ItemMeta boots = es.feet.getItemMeta();
-        ArmorMeta aboot = (ArmorMeta) boots;
+        ArmorMeta bootsMeta = (ArmorMeta) boots;
         assert boots != null;
-        ArmorTrim boottrim = new ArmorTrim(TrimMaterial.IRON, TrimPattern.RAISER);
-        aboot.setTrim(boottrim);
-        es.feet.setItemMeta(aboot);
-        es.votedFeet.setItemMeta(aboot);
+        ArmorTrim bootsTrim = new ArmorTrim(TrimMaterial.IRON, TrimPattern.RAISER);
+        bootsMeta.setTrim(bootsTrim);
+        es.feet.setItemMeta(bootsMeta);
+        es.votedFeet.setItemMeta(bootsMeta);
 
         // Ladders
         es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);

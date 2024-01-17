@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import java.util.List;
 
 /**
- * A basic abstract booster that has a duration onlu
+ * A basic abstract booster that has a duration only
  */
 public abstract class Booster implements Comparable<Booster> {
     public int id;

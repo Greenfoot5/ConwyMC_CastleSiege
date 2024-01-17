@@ -184,7 +184,7 @@ public class Catapult implements Listener {
      * Tension the catapult and start the timer for it being refilled
      */
     private void tension() {
-        // Animate the tensioning and play the tensioning sound
+        // Animate the tightening and play the tightening sound
         SchematicSpawner.spawnSchematic(schematicLocation, schematicReloading);
         world.playSound(sound, Sound.BLOCK_DISPENSER_DISPENSE, 5, 1);
         canRefill = true;

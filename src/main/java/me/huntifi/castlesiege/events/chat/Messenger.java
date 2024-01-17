@@ -144,7 +144,7 @@ public class Messenger {
                 + ChatColor.GOLD + total + ChatColor.YELLOW + "!");
     }
 
-    public static void broadcastKillstreakBounty(String bountied, int kills, int total) {
+    public static void broadcastKillStreakBounty(String bountied, int kills, int total) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[B] "
                 + ChatColor.YELLOW + bountied + ChatColor.YELLOW + " has reached a " + ChatColor.AQUA + kills
                 + ChatColor.YELLOW + " kill streak! Their bounty has increased to " + ChatColor.GOLD + total + ChatColor.YELLOW + "!");

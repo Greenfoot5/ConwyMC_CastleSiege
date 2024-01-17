@@ -26,18 +26,18 @@ public class ArrowCollision implements Listener {
         }
 
             if(e.getEntity().getShooter() instanceof Player && e.getHitEntity() instanceof Player){
-                Player damages = (Player) e.getEntity().getShooter();
-                Player beingshot = (Player) e.getHitEntity();
+                Player attacker = (Player) e.getEntity().getShooter();
+                Player defender = (Player) e.getHitEntity();
 
-                if (TeamController.getTeam(damages.getUniqueId()) == TeamController.getTeam(beingshot.getUniqueId())) {
+                if (TeamController.getTeam(attacker.getUniqueId()) == TeamController.getTeam(defender.getUniqueId())) {
 
-                    beingshot.setCollidable(false);
+                    defender.setCollidable(false);
                     CraftLivingEntity craftEntityLiving = (CraftLivingEntity) e.getEntity();
                     craftEntityLiving.setCollidable(false);
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            beingshot.setCollidable(true);
+                            defender.setCollidable(true);
                             craftEntityLiving.setCollidable(true);
                         }
                     }.runTaskLater(Main.plugin, 5);

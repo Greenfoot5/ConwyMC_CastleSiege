@@ -73,11 +73,11 @@ public class BattleMedic extends LevelKit implements Listener {
         es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
                 ChatColor.GREEN + "Iron Chestplate", null, null);
         ItemMeta chest = es.chest.getItemMeta();
-        ArmorMeta ameta = (ArmorMeta) chest;
+        ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
-        ArmorTrim trim = new ArmorTrim(TrimMaterial.REDSTONE, TrimPattern.SENTRY);
-        ((ArmorMeta) chest).setTrim(trim);
-        es.chest.setItemMeta(ameta);
+        ArmorTrim chestTrim = new ArmorTrim(TrimMaterial.REDSTONE, TrimPattern.SENTRY);
+        ((ArmorMeta) chest).setTrim(chestTrim);
+        es.chest.setItemMeta(chestMeta);
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
