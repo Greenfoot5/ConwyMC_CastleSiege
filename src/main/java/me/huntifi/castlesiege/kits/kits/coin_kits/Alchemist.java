@@ -122,82 +122,85 @@ public class Alchemist extends DonatorKit implements Listener {
     @EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onThrownPotion(PotionSplashEvent e) {
         // Is the potion thrown by an alchemist?
-        if (e.getPotion().getShooter() instanceof Player) {
-            Player damager = (Player) e.getPotion().getShooter();
-            if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
-                e.setCancelled(true);
+        if (!(e.getPotion().getShooter() instanceof Player)) {
+            return;
+        }
 
-                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                    Collection<PotionEffect> effects = e.getPotion().getEffects();
-                    for (Entity entity : e.getAffectedEntities()) {
-                        if (!(entity instanceof Player))
-                            continue;
+        Player damager = (Player) e.getPotion().getShooter();
+        if (!Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
+            return;
+        }
+        e.setCancelled(true);
 
-                        Player hit = ((Player) entity).getPlayer();
-                        assert hit != null;
-                        for (PotionEffect effect : effects) {
-                            PotionEffectType potionType = effect.getType();
-                            boolean isEnemy = TeamController.getTeam(damager.getUniqueId())
-                                    != TeamController.getTeam(hit.getUniqueId());
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            Collection<PotionEffect> effects = e.getPotion().getEffects();
+            for (Entity entity : e.getAffectedEntities()) {
+                if (!(entity instanceof Player))
+                    continue;
 
-                            // Enemies
-                            if (isEnemy) {
-                                // Effects for enemies
-                                if (potionType.equals(PotionEffectType.POISON)
-                                        || potionType.equals(PotionEffectType.HARM)
-                                        || potionType.equals(PotionEffectType.CONFUSION)
-                                        || potionType.equals(PotionEffectType.BLINDNESS)
-                                        || potionType.equals(PotionEffectType.SLOW)
-                                        || potionType.equals(PotionEffectType.SLOW_DIGGING)
-                                        || potionType.equals(PotionEffectType.HUNGER)
-                                        || potionType.equals(PotionEffectType.WEAKNESS)
-                                        || potionType.equals(PotionEffectType.GLOWING)
-                                        || potionType.equals(PotionEffectType.LEVITATION)
-                                        || potionType.equals(PotionEffectType.SLOW_FALLING)
-                                        || potionType.equals(PotionEffectType.WITHER)) {
-                                    AssistKill.addDamager(hit.getUniqueId(), damager.getUniqueId(), 60);
-                                    Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
-                                }
-                            }
+                Player hit = ((Player) entity).getPlayer();
+                assert hit != null;
+                for (PotionEffect effect : effects) {
+                    PotionEffectType potionType = effect.getType();
+                    boolean isEnemy = TeamController.getTeam(damager.getUniqueId())
+                            != TeamController.getTeam(hit.getUniqueId());
 
-                            // Healing Potions
-                            if (hit.getHealth() != baseHealth
-                                    && (potionType.equals(PotionEffectType.HEAL)
-                                    || potionType.equals(PotionEffectType.HEALTH_BOOST)
-                                    || potionType.equals(PotionEffectType.REGENERATION))) {
-                                Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
-                                if (hit.getPlayer() != damager && !isEnemy)
-                                    UpdateStats.addHeals(damager.getUniqueId(), 2);
-                            // Friendly Potions
-                            } else if (potionType.equals(PotionEffectType.SPEED)
-                                    || potionType.equals(PotionEffectType.JUMP)
-                                    || potionType.equals(PotionEffectType.WATER_BREATHING)
-                                    || potionType.equals(PotionEffectType.FAST_DIGGING)
-                                    || potionType.equals(PotionEffectType.DAMAGE_RESISTANCE)
-                                    || potionType.equals(PotionEffectType.DOLPHINS_GRACE)
-                                    || potionType.equals(PotionEffectType.LEVITATION)
-                                    || potionType.equals(PotionEffectType.SLOW_FALLING)
-                                    || potionType.equals(PotionEffectType.INCREASE_DAMAGE)
-                                    || potionType.equals(PotionEffectType.INVISIBILITY)
-                                    || potionType.equals(PotionEffectType.GLOWING)
-                                    || potionType.equals(PotionEffectType.NIGHT_VISION)
-                                    || potionType.equals(PotionEffectType.CONDUIT_POWER)
-                                    || potionType.equals(PotionEffectType.FIRE_RESISTANCE)) {
-                                Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
-                                if (hit.getPlayer() != damager && !isEnemy)
-                                    UpdateStats.addSupports(damager.getUniqueId(), 3);
-                            }
+                    // Enemies
+                    if (isEnemy) {
+                        // Effects for enemies
+                        if (potionType.equals(PotionEffectType.POISON)
+                                || potionType.equals(PotionEffectType.HARM)
+                                || potionType.equals(PotionEffectType.CONFUSION)
+                                || potionType.equals(PotionEffectType.BLINDNESS)
+                                || potionType.equals(PotionEffectType.SLOW)
+                                || potionType.equals(PotionEffectType.SLOW_DIGGING)
+                                || potionType.equals(PotionEffectType.HUNGER)
+                                || potionType.equals(PotionEffectType.WEAKNESS)
+                                || potionType.equals(PotionEffectType.GLOWING)
+                                || potionType.equals(PotionEffectType.LEVITATION)
+                                || potionType.equals(PotionEffectType.SLOW_FALLING)
+                                || potionType.equals(PotionEffectType.WITHER)) {
+                            AssistKill.addDamager(hit.getUniqueId(), damager.getUniqueId(), 60);
+                            Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
                         }
                     }
-                });
+
+                    // Healing Potions
+                    if (hit.getHealth() != baseHealth
+                            && (potionType.equals(PotionEffectType.HEAL)
+                            || potionType.equals(PotionEffectType.HEALTH_BOOST)
+                            || potionType.equals(PotionEffectType.REGENERATION))) {
+                        Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
+                        if (hit.getPlayer() != damager && !isEnemy)
+                            UpdateStats.addHeals(damager.getUniqueId(), 2);
+                    // Friendly Potions
+                    } else if (potionType.equals(PotionEffectType.SPEED)
+                            || potionType.equals(PotionEffectType.JUMP)
+                            || potionType.equals(PotionEffectType.WATER_BREATHING)
+                            || potionType.equals(PotionEffectType.FAST_DIGGING)
+                            || potionType.equals(PotionEffectType.DAMAGE_RESISTANCE)
+                            || potionType.equals(PotionEffectType.DOLPHINS_GRACE)
+                            || potionType.equals(PotionEffectType.LEVITATION)
+                            || potionType.equals(PotionEffectType.SLOW_FALLING)
+                            || potionType.equals(PotionEffectType.INCREASE_DAMAGE)
+                            || potionType.equals(PotionEffectType.INVISIBILITY)
+                            || potionType.equals(PotionEffectType.GLOWING)
+                            || potionType.equals(PotionEffectType.NIGHT_VISION)
+                            || potionType.equals(PotionEffectType.CONDUIT_POWER)
+                            || potionType.equals(PotionEffectType.FIRE_RESISTANCE)) {
+                        Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
+                        if (hit.getPlayer() != damager && !isEnemy)
+                            UpdateStats.addSupports(damager.getUniqueId(), 3);
+                    }
+                }
             }
-         }
+        });
     }
 
 
     /**
-     * Place a cauldron
-     * @param e The event called when placing a cauldron
+     * Place a brewing stand
+     * @param e The event called when placing a brewing stand
      */
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e) {
@@ -211,10 +214,10 @@ public class Alchemist extends DonatorKit implements Listener {
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
                 e.getBlockPlaced().getType() == Material.BREWING_STAND) {
 
-            // Destroy old cauldron
+            // Destroy old stand
             destroyStand(p);
 
-            // Place new cauldron
+            // Place new stand
             e.setCancelled(false);
             stands.put(p, e.getBlockPlaced());
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
@@ -234,37 +237,37 @@ public class Alchemist extends DonatorKit implements Listener {
         }
 
         if (e.getAction() == Action.LEFT_CLICK_BLOCK &&
-                e.getClickedBlock().getType() == Material.BREWING_STAND) {
-            Player p = e.getPlayer();
-            Player q = getPlacer(e.getClickedBlock());
+                Objects.requireNonNull(e.getClickedBlock()).getType() == Material.BREWING_STAND) {
+            Player destroyer = e.getPlayer();
+            Player placer = getPlacer(e.getClickedBlock());
 
             // Pick up own brewing stand
-            if (Objects.equals(p, q)) {
-                if (!q.getInventory().getItemInMainHand().getType().equals(Material.GLASS_BOTTLE)) {
-                    destroyStand(q);
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+            if (Objects.equals(destroyer, placer)) {
+                if (!placer.getInventory().getItemInMainHand().getType().equals(Material.GLASS_BOTTLE)) {
+                    destroyStand(placer);
+                    placer.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                             TextComponent.fromLegacyText(ChatColor.AQUA + "You took back your brewing stand!"));
-                    p.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER, 3, 1);
+                    destroyer.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER, 3, 1);
                     // Can only hold 1 brewing stand at a time
-                    PlayerInventory inv = p.getInventory();
+                    PlayerInventory inv = destroyer.getInventory();
                     if (inv.getItemInOffHand().getType() != Material.BREWING_STAND &&
                             !inv.contains(Material.BREWING_STAND)) {
-                        if (!ActiveData.getData(p.getUniqueId()).hasVote("sword")) {
-                            p.getInventory().addItem(stand);
+                        if (!ActiveData.getData(destroyer.getUniqueId()).hasVote("sword")) {
+                            destroyer.getInventory().addItem(stand);
                         } else {
-                            p.getInventory().addItem(standVoted);
+                            destroyer.getInventory().addItem(standVoted);
                         }
                     }
                 }
 
                 // Destroy enemy brewing stand
-            } else if (q != null &&
-                    TeamController.getTeam(p.getUniqueId())
-                            != TeamController.getTeam(q.getUniqueId())){
-                destroyStand(q);
-                p.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER , 5, 1);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacyText(ChatColor.RED + "You destroyed " + q.getName() + "'s brewing stand!"));
+            } else if (placer != null &&
+                    TeamController.getTeam(destroyer.getUniqueId())
+                            != TeamController.getTeam(placer.getUniqueId())){
+                destroyStand(placer);
+                destroyer.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER , 5, 1);
+                destroyer.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                        TextComponent.fromLegacyText(ChatColor.RED + "You destroyed " + placer.getName() + "'s brewing stand!"));
             }
         }
     }
@@ -371,46 +374,48 @@ public class Alchemist extends DonatorKit implements Listener {
      */
     @EventHandler
     public void onUseStand(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
         if (e.getItem() == null) { return; }
         ItemStack usedItem = e.getItem();
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+        if (InCombat.isPlayerInLobby(player.getUniqueId())) {
+            return;
+        }
+
+        if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) ||
+                Objects.requireNonNull(e.getClickedBlock()).getType() == Material.BREWING_STAND) {
             return;
         }
 
         // Check if an alchemist tries to brew a potion, while off-cooldown
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) && (e.getAction() ==
-                Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK) &&
-                e.getClickedBlock().getType() == Material.BREWING_STAND &&
-                usedItem != null &&
-                usedItem.getType() == Material.GLASS_BOTTLE &&
-                p.getCooldown(Material.GLASS_BOTTLE) == 0) {
+        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK) &&
+                usedItem != null && usedItem.getType() == Material.GLASS_BOTTLE &&
+                player.getCooldown(Material.GLASS_BOTTLE) == 0) {
 
             // Check if the player may brew potions
-            Player q = getPlacer(e.getClickedBlock());
-            if (q != null && q == p) {
+            Player placer = getPlacer(e.getClickedBlock());
+            if (placer != null && placer == player) {
 
                 if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
-                    PlayerInventory inv = p.getInventory();
+                    PlayerInventory inv = player.getInventory();
                     // Brew a potion
-                    p.setCooldown(Material.GLASS_BOTTLE, 30);
+                    player.setCooldown(Material.GLASS_BOTTLE, 30);
                     usedItem.setAmount(usedItem.getAmount() - 1);
                     inv.addItem(randomPositivePotion());
-                    p.playSound(p.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                    player.playSound(player.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                             TextComponent.fromLegacyText(ChatColor.AQUA + "You brewed a positive potion!"));
 
                 } else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
-                    PlayerInventory inv = p.getInventory();
+                    PlayerInventory inv = player.getInventory();
                     // Brew a potion
-                    p.setCooldown(Material.GLASS_BOTTLE, 30);
+                    player.setCooldown(Material.GLASS_BOTTLE, 30);
                     usedItem.setAmount(usedItem.getAmount() - 1);
                     inv.addItem(randomNegativePotion());
-                    p.playSound(p.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                    player.playSound(player.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                             TextComponent.fromLegacyText(ChatColor.AQUA + "You brewed a negative potion!"));
                 }
             }
