@@ -84,18 +84,14 @@ public class Shieldman extends VoterKit {
      */
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Basic tank has a");
-        kitLore.add("§7sword and shield.");
+        kitLore.add("§7Basic tank equipped with a");
+        kitLore.add("§7sword and shield");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Mining Fatigue I");
         kitLore.add("§7- Slowness I");
-        kitLore.add("");
-        kitLore.add("§7Vote on PMC for this kit!");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

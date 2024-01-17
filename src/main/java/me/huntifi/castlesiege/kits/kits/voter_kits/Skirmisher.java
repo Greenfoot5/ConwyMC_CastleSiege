@@ -78,18 +78,13 @@ public class Skirmisher extends VoterKit {
      */
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Fast melee unit similar");
-        kitLore.add("§7to swordsman with more ladders.");
+        kitLore.add("§7A faster more agile swordsman");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Haste II");
         kitLore.add("§7- Speed I");
-        kitLore.add("");
-        kitLore.add("§7Vote on PMC for this kit!");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

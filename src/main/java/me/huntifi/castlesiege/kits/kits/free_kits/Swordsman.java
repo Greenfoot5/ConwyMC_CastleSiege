@@ -72,7 +72,6 @@ public class Swordsman extends FreeKit {
 	public static ArrayList<String> getGuiDescription() {
 		ArrayList<String> kitLore = new ArrayList<>();
 		kitLore.add("§7Standard melee kit");
-		kitLore.add("§7has a sword.");
 		kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
 		kitLore.addAll(getGuiCostText());
 		return kitLore;

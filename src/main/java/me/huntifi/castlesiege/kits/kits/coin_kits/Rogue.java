@@ -661,8 +661,8 @@ public class Rogue extends DonatorKit implements Listener {
      */
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Rogue is a master of camouflage and can");
-        kitLore.add("§7become invisible and strike enemies from behind.");
+        kitLore.add("§7A master of camouflage and tracking. Can");
+        kitLore.add("§7become invisible and strike enemies from behind");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
         kitLore.add(" ");
         kitLore.add("§5Effects:");
@@ -677,15 +677,15 @@ public class Rogue extends DonatorKit implements Listener {
         kitLore.add("§7- Can temporarily enhance their dagger");
         kitLore.add("with poison");
         kitLore.add("§7- When behind enemies can gauge them, which");
-        kitLore.add("§7stuns them temporarily, also heals the rogue.");
+        kitLore.add("§7stuns them temporarily and grants a bit of healing");
         kitLore.add(" ");
         // TODO - Improve passive descriptions
         kitLore.add("§2Passive:");
-        kitLore.add("§7- Can use gauge whilst invisible.");
+        kitLore.add("§7- Can use gauge whilst invisible");
         kitLore.add("§7- Uses combo points to perform more");
-        kitLore.add("§7powerful gauges.");
+        kitLore.add("§7powerful gauges");
         kitLore.add("§7- Killing opponents and hitting them");
-        kitLore.add("§7with track arrows generates combo-points.");
+        kitLore.add("§7with track arrows generates combo-points");
         kitLore.addAll(getGuiCostText());
         return kitLore;
     }

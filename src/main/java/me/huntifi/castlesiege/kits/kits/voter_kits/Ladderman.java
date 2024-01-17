@@ -29,7 +29,7 @@ import java.util.UUID;
 public class Ladderman extends VoterKit implements Listener {
 
     private static final int health = 270;
-    private static final double regenAmount = 10.5;
+    private static final double regen = 10.5;
     private static final double meleeDamage = 36;
     private static final int ladderCount = 25;
 
@@ -37,7 +37,7 @@ public class Ladderman extends VoterKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Ladderman() {
-        super("Ladderman", health, regenAmount, Material.LADDER);
+        super("Ladderman", health, regen, Material.LADDER);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -107,20 +107,15 @@ public class Ladderman extends VoterKit implements Listener {
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Melee kit with an axe");
-        kitLore.add("§7and loads of ladders.");
+        kitLore.add("§7and loads of ladders");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regenAmount + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Jump Boost II");
-        kitLore.add("");
+        kitLore.add(" ");
         kitLore.add("§2Passive: ");
-        kitLore.add("§7- Can break ladders and");
-        kitLore.add("§7pick them up.");
-        kitLore.add("");
-        kitLore.add("§7Vote on PMC for this kit!");
+        kitLore.add("§7- Can pickup ladders");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

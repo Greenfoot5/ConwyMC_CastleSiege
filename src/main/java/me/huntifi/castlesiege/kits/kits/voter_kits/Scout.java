@@ -22,7 +22,7 @@ import java.util.Collections;
 public class Scout extends VoterKit {
 
     private static final int health = 230;
-    private static final double regenAmount = 9;
+    private static final double regen = 9;
     private static final double meleeDamage = 45;
     private static final int ladderCount = 6;
 
@@ -30,7 +30,7 @@ public class Scout extends VoterKit {
      * Set the equipment and attributes of this kit
      */
     public Scout() {
-        super("Scout", health, regenAmount, Material.LEATHER_BOOTS);
+        super("Scout", health, regen, Material.LEATHER_BOOTS);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -86,18 +86,14 @@ public class Scout extends VoterKit {
      */
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Fastest free melee kit.");
+        kitLore.add("§7A light and agile kit");
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + regenAmount + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed II");
         kitLore.add("§7- Jump Boost I");
         kitLore.add("§7- Haste II");
-        kitLore.add("");
-        kitLore.add("§7Vote on PMC for this kit!");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

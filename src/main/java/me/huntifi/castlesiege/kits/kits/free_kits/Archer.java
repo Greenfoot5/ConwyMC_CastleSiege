@@ -81,7 +81,6 @@ public class Archer extends FreeKit {
 	public static ArrayList<String> getGuiDescription() {
 		ArrayList<String> kitLore = new ArrayList<>();
 		kitLore.add("§7Standard ranged kit");
-		kitLore.add("§7has a sword and bow.");
 		kitLore.addAll(getBaseStats(health, regen, meleeDamage, 45, ladderCount, arrowCount));
 		kitLore.addAll(getGuiCostText());
 		return kitLore;

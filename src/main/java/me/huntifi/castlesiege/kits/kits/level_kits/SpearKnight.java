@@ -193,14 +193,14 @@ public class SpearKnight extends LevelKit implements Listener {
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A sword and spear wielder, ");
-        kitLore.add("§7can throw a powerful spear.");
+        kitLore.add("§7can throw a powerful spear");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, 1));
         kitLore.add(" ");
         kitLore.add("§6Active:");
         kitLore.add("§7- Can throw their spear");
         kitLore.add(" ");
         kitLore.add("§2Passive: ");
-        kitLore.add("§7- Deals bonus damage to horses.");
+        kitLore.add("§7- Deals bonus damage to horses");
         kitLore.addAll(getGuiCostText(level));
         return kitLore;
     }

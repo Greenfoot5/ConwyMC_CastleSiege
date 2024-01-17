@@ -141,17 +141,17 @@ public class Maceman extends DonatorKit implements Listener {
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A melee kit that can stun");
-        kitLore.add("§7opponents, making them weaker.");
+        kitLore.add("§7opponents, making them weaker");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(" ");
         kitLore.add("§6Active:");
         kitLore.add("§7- Maceman can stun their target,");
         kitLore.add("§7slowing, blinding and confusing the target for 3s.");
-        kitLore.add("§7Also deals bonus DMG.");
+        kitLore.add("§7Also deals bonus DMG");
         kitLore.add(" ");
         kitLore.add("§2Passive:");
         kitLore.add("§7- Can break a shield when the opponent is");
-        kitLore.add("§7blocking with a shield whilst being stunned.");
+        kitLore.add("§7actively blocking when stunned");
         kitLore.addAll(getGuiCostText());
         return kitLore;
     }

@@ -64,14 +64,14 @@ public class Priest extends DonatorKit implements Listener {
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
                 ChatColor.GREEN + "Holy Staff", Arrays.asList("",
                         ChatColor.YELLOW + "Right click to shoot a bolt of light, ",
-                        ChatColor.YELLOW + "which does damage to enemies."), null, meleeDamage);
+                        ChatColor.YELLOW + "which does damage to enemies"), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
                         ChatColor.GREEN + "Holy Staff",
                         Arrays.asList("",
                                 ChatColor.YELLOW + "Right click to shoot a bolt of light, ",
-                                ChatColor.YELLOW + "which does damage to enemies.",
+                                ChatColor.YELLOW + "which does damage to enemies",
                                 ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_UNDEAD, 5)), meleeDamage + 2),
                 0);
@@ -121,9 +121,7 @@ public class Priest extends DonatorKit implements Listener {
                 ChatColor.GOLD + "Holy Bible", Arrays.asList("",
                         ChatColor.YELLOW + "Select an ally with this holy book.",
                         ChatColor.YELLOW + "This ally will receive regeneration III",
-                        ChatColor.YELLOW + "until you select a different ally.",
-                        ChatColor.YELLOW + "Then the effect will wear off and go",
-                        ChatColor.YELLOW + "on the different ally you chose."),
+                        ChatColor.YELLOW + "until you select a different ally."),
                 null, 1);
         es.hotbar[1] = holybook;
 
@@ -273,7 +271,7 @@ public class Priest extends DonatorKit implements Listener {
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A support kit with the power of");
-        kitLore.add("§7the holy book on their side.");
+        kitLore.add("§7the holy book on their side");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 50, ladderCount, -1));
         kitLore.add("§5Effects:");
         kitLore.add("§7- Mining Fatigue I");
@@ -284,7 +282,7 @@ public class Priest extends DonatorKit implements Listener {
         kitLore.add("§7Lasts until another ally is selected");
         kitLore.add(" ");
         kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see player health.");
+        kitLore.add("§7- Can see player health");
         kitLore.addAll(getGuiCostText());
         return kitLore;
     }

@@ -160,7 +160,7 @@ public class BattleMedic extends LevelKit implements Listener {
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Melee-support kit that can");
-        kitLore.add("§7heal allies with bandages.");
+        kitLore.add("§7heal allies with bandages");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add("§a" + bandageCount + " §7Bandages");
         kitLore.add(" ");
@@ -168,7 +168,7 @@ public class BattleMedic extends LevelKit implements Listener {
         kitLore.add("§7- Can heal teammates with bandages");
         kitLore.add(" ");
         kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see health.");
+        kitLore.add("§7- Can see health");
         kitLore.addAll(getGuiCostText(level));
         return kitLore;
     }

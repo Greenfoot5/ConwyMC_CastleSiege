@@ -360,25 +360,18 @@ public class FireArcher extends VoterKit implements Listener {
      */
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Ranged kit with a firepit,");
-        kitLore.add("§7can create fire arrows.");
+        kitLore.add("§7Ranged kit that can craft and");
+        kitLore.add("§7shoot flaming arrows");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, arrowDamage, ladderCount, arrowCount));
         kitLore.add(" ");
-        kitLore.add("§a" + health + " §7HP");
-        kitLore.add("§a" + meleeDamage + " §7Melee DMG");
-        kitLore.add("§a" + "40+ §7Ranged DMG");
-        kitLore.add("§a" + regen + " §7Regen");
-        kitLore.add("§a" + ladderCount + " §7Ladders");
-        kitLore.add("§a" + arrowCount + " §7Arrows");
         kitLore.add("§5Effects:");
-        kitLore.add("§7- Slowness I (with cauldron in ");
+        kitLore.add("§7- Slowness I (with fire pit in ");
         kitLore.add("§7inventory)");
-        kitLore.add("§6Ability: ");
-        kitLore.add("§7- Place down the cauldron and");
-        kitLore.add("§7right click it with arrows to");
-        kitLore.add("§7create fire arrows. Left click");
-        kitLore.add("§7to pick the cauldron back up.");
-        kitLore.add("");
-        kitLore.add("§7Vote on PMC for this kit!");
+        kitLore.add(" ");
+        kitLore.add("§6Active: ");
+        kitLore.add("§7- Can place and pickup their fire pit");
+        kitLore.add("§7- Can craft fire arrows using the fire pit");
+        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

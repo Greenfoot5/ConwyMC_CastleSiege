@@ -323,7 +323,7 @@ public class Medic extends DonatorKit implements Listener {
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Our classic healer, which makes");
-        kitLore.add("§7use of bandages and cake to heal allies.");
+        kitLore.add("§7use of bandages and cake to heal allies");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add("§a" +  16 + " §7Cakes");
         kitLore.add(" ");

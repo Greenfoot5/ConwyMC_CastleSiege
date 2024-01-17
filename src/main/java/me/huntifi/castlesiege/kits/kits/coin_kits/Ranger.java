@@ -321,7 +321,7 @@ public class Ranger extends DonatorKit implements Listener {
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Ranger is a versatile ranged kit that");
-        kitLore.add("§7can shoot volleys and bursts of arrows.");
+        kitLore.add("§7can shoot volleys and bursts of arrows");
         // TODO - Check ranged damage
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 18, ladderCount, arrowCount));
         kitLore.add(" ");
@@ -332,8 +332,7 @@ public class Ranger extends DonatorKit implements Listener {
         kitLore.add("§6Active:");
         kitLore.add("§7- Can fire a volley of arrows");
         kitLore.add("§7- Can fire a bust of arrows");
-        kitLore.add("§7- Can backstab enemies by shifting");
-        kitLore.add("§7behind them and stabbing them.");
+        kitLore.add("§7- Can instakill enemies with a backstab");
         kitLore.addAll(getGuiCostText());
         return kitLore;
     }

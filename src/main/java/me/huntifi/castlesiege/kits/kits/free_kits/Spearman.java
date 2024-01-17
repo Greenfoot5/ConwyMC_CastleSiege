@@ -193,16 +193,16 @@ public class Spearman extends FreeKit implements Listener {
 	 */
 	public static ArrayList<String> getGuiDescription() {
 		ArrayList<String> kitLore = new ArrayList<>();
-		kitLore.add("§7Melee kit that can");
-		kitLore.add("§7throw spears.");
+		kitLore.add("§7A mid-ranged unit with a melee weapon");
+		kitLore.add("§7that can be thrown");
 		kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, spearCount));
 		kitLore.add(" ");
 		kitLore.add("§6Active: ");
 		kitLore.add("§7- Can throw their spears");
 		kitLore.add(" ");
 		kitLore.add("§2Passive: ");
-		kitLore.add("§7- Deals bonus damage to horses.");
-		kitLore.add("§7- Can break entire columns of ladders instantly.");
+		kitLore.add("§7- Deals bonus damage to horses");
+		kitLore.add("§7- Can break entire columns of ladders instantly");
 		kitLore.addAll(getGuiCostText());
 		return kitLore;
 	}

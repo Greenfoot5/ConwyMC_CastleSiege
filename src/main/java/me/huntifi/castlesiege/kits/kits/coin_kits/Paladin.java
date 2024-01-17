@@ -189,7 +189,7 @@ public class Paladin extends DonatorKit implements Listener {
     public static ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A tank/support kit that can");
-        kitLore.add("§7bless allies around it.");
+        kitLore.add("§7bless allies around it");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(" ");
         kitLore.add("§5Effects:");
@@ -198,10 +198,10 @@ public class Paladin extends DonatorKit implements Listener {
         kitLore.add("§6Active:");
         kitLore.add("§7- Can cast a blessing that gives");
         kitLore.add("§7regen VI to itself and regen V to all");
-        kitLore.add("§7allies in a 5 block radius for 8 seconds.");
+        kitLore.add("§7allies in a 5 block radius for 8 seconds");
         kitLore.add(" ");
         kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see player health.");
+        kitLore.add("§7- Can see player health");
         kitLore.addAll(getGuiCostText());
         return kitLore;
     }
