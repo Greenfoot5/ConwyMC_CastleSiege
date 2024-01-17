@@ -67,7 +67,7 @@ public abstract class VoterKit extends Kit {
     public static ArrayList<String> getGuiCostText() {
         ArrayList<String> text = new ArrayList<>();
         text.add(" ");
-        text.add("§9Vote on PMC for this kit");
+        text.add("§9§lVote on PMC for this kit");
         return text;
     }
 }

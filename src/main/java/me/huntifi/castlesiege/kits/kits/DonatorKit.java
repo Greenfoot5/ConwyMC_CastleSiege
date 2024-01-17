@@ -84,7 +84,7 @@ public abstract class DonatorKit extends Kit {
     public static ArrayList<String> getGuiCostText() {
         ArrayList<String> text = new ArrayList<>();
         text.add(" ");
-        text.add("§eCan be unlocked with coins");
+        text.add("§e§lCan be unlocked with coins");
         return text;
     }
 }

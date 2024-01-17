@@ -77,7 +77,7 @@ public class LevelKit extends Kit {
     public static ArrayList<String> getGuiCostText(int level) {
         ArrayList<String> text = new ArrayList<>();
         text.add(" ");
-        text.add("§aUnlocked at level §a§l" + level);
+        text.add("§a§lUnlocked at level §a" + level);
         return text;
     }
 }

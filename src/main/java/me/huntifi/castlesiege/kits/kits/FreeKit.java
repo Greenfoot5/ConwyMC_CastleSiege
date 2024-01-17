@@ -36,7 +36,7 @@ public abstract class FreeKit extends Kit {
     public static ArrayList<String> getGuiCostText() {
         ArrayList<String> text = new ArrayList<>();
         text.add(" ");
-        text.add("§2Free to play!");
+        text.add("§2§lFree to play!");
         return text;
     }
 
