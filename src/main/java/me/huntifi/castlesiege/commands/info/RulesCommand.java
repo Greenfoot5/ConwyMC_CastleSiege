@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class RulesCommand implements CommandExecutor {
 
-	private final static String[] rulesList = {
+	private static final String[] rulesList = {
 			"Hacks and Mods are not allowed, if you attempt to hack you will get banned without warning!",
 			"Xray is not allowed, that includes transparent blocks!",
 			"No abusing bugs. Please report them to a member of staff or on our Discord.",
@@ -26,7 +26,7 @@ public class RulesCommand implements CommandExecutor {
 			"Do not evade punishments.",
 			"Do not post NSFW content."
 	};
-	private final static String border = "-----------------------------------------------------";
+	private static final String border = "-----------------------------------------------------";
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender p, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {

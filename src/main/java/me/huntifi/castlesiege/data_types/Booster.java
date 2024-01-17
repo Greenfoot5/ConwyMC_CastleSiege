@@ -9,7 +9,7 @@ import java.util.List;
  */
 public abstract class Booster implements Comparable<Booster> {
     public int id;
-    public int duration;
+    public final int duration;
     public final Material material;
 
     public static int newId;

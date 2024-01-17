@@ -42,11 +42,11 @@ import java.util.*;
  */
 public class Chef extends DonatorKit implements Listener {
 
-    private final static int baseHealth = 260;
-    private final static int regenAmount = 3;
-    private final static int coinCost = 20000;
-    private final static int bpCost = 6;
-    private final static Material material = Material.IRON_SHOVEL;
+    private static final int baseHealth = 260;
+    private static final int regenAmount = 3;
+    private static final int coinCost = 20000;
+    private static final int bpCost = 6;
+    private static final Material material = Material.IRON_SHOVEL;
     private static ItemStack campfire;
     private static ItemStack fryingPan;
     private static ItemStack fryingPanVoted;

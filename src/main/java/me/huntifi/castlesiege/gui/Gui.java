@@ -21,6 +21,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -102,23 +103,29 @@ public class Gui implements Listener {
             String price = ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPrice(uuid);
             String duration = ChatColor.GREEN + "Duration: permanent";
 
-            ArrayList<String> lore = new ArrayList<>();
-            lore.add(price);
-            lore.add(duration);
-            if (kit instanceof TeamKit) {
-                Map map = MapController.getMap(((TeamKit) kit).getMapName());
-                if (map != null) {
-                    Team team = map.getTeam(((TeamKit) kit).getTeamName());
-                    lore.add(ChatColor.GREEN + "Map: " + ChatColor.BOLD + map.name);
-                    lore.add(ChatColor.GREEN + "Team: " + team.primaryChatColor + team.name);
-                } else
-                    lore.add(ChatColor.GREEN + "Map: " + ChatColor.BOLD + "OUT OF ROTATION");
-            }
-            lore.add(ChatColor.YELLOW + "Click here to buy!");
-                    Bukkit.getScheduler().runTask(Main.plugin, () ->
+            ArrayList<String> lore = getKitLore(price, duration, kit);
+            Bukkit.getScheduler().runTask(Main.plugin, () ->
                         addItem(itemName, material, lore, location, "buykit " + kitName, false)
                     );
         });
+    }
+
+    @NotNull
+    private static ArrayList<String> getKitLore(String price, String duration, Kit kit) {
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(price);
+        lore.add(duration);
+        if (kit instanceof TeamKit) {
+            Map map = MapController.getMap(((TeamKit) kit).getMapName());
+            if (map != null) {
+                Team team = map.getTeam(((TeamKit) kit).getTeamName());
+                lore.add(ChatColor.GREEN + "Map: " + ChatColor.BOLD + map.name);
+                lore.add(ChatColor.GREEN + "Team: " + team.primaryChatColor + team.name);
+            } else
+                lore.add(ChatColor.GREEN + "Map: " + ChatColor.BOLD + "OUT OF ROTATION");
+        }
+        lore.add(ChatColor.YELLOW + "Click here to buy!");
+        return lore;
     }
 
     /**

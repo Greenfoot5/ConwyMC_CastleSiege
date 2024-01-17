@@ -113,7 +113,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
             if (stick.getType().equals(Material.DEAD_BUBBLE_CORAL_FAN)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
-                        if (grabbed.size() == 0) { return; }
+                        if (grabbed.isEmpty()) { return; }
                         for (Player passengers : grabbed) {
                             throwPlayer(p, passengers);
                             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
@@ -128,7 +128,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
             } else if (stick.getType().equals(Material.DEAD_BRAIN_CORAL_FAN)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown2 == 0) {
-                        if (p.getPassengers().size() > 0) { return;}
+                        if (!p.getPassengers().isEmpty()) { return;}
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                 ChatColor.AQUA + "You grabbed the enemy!"));
                         for (Player all : Bukkit.getOnlinePlayers()) {

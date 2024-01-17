@@ -171,18 +171,10 @@ public class MapController {
 				// Check if the defenders have won
 				for (Flag flag : getCurrentMap().flags) {
 					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].name)) {
-						if (flag.isActive()) {
-							winners = getCurrentMap().teams[0].name;
-						} else {
-							winners = getCurrentMap().teams[0].name;
-						}
-					} else {
-						if (flag.isActive()) {
-							winners = getCurrentMap().teams[1].name;
-						} else {
-							winners = getCurrentMap().teams[1].name;
-						}
-					}
+                        winners = getCurrentMap().teams[0].name;
+                    } else {
+                        winners = getCurrentMap().teams[1].name;
+                    }
 				}
 				break;
 			case Assault:

@@ -24,7 +24,7 @@ import java.util.Objects;
  */
 public class FireworkCmd implements CommandExecutor {
 
-    private ArrayList<Player> fireworkUsers = new ArrayList<>();
+    private final ArrayList<Player> fireworkUsers = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {

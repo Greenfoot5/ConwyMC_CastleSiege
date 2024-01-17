@@ -29,7 +29,8 @@ import java.util.*;
  * A command to check your boosters, and/or use them
  */
 public class BoosterCommand implements CommandExecutor, Listener {
-    private final static int inputWaitDuration = 10;
+    private static final int inputWaitDuration = 10;
+    public static final Map<UUID, KitBooster> waitingForWildKit = new HashMap<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
@@ -132,7 +133,6 @@ public class BoosterCommand implements CommandExecutor, Listener {
         Messenger.sendError("You don't own a booster with that id!", sender);
     }
 
-    public static Map<UUID, KitBooster> waitingForWildKit = new HashMap<>();
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChat(AsyncPlayerChatEvent e) {
 

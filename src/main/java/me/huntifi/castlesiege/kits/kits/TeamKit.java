@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
+import org.bukkit.block.sign.Side;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -105,7 +106,7 @@ public abstract class TeamKit extends DonatorKit implements Listener {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
                 Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
             Sign sign = (Sign) e.getClickedBlock().getState();
-            if (sign.getLine(0).contains("Team Kit") && sign.getLine(2).contains(name)) {
+            if (sign.getSide(Side.FRONT).getLine(0).contains("Team Kit") && sign.getSide(Side.FRONT).getLine(2).contains(name)) {
                 e.getPlayer().performCommand(commandName.toLowerCase());
             }
         }

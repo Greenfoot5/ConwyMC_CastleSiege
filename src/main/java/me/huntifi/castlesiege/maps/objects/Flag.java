@@ -47,9 +47,9 @@ public class Flag {
     protected final int progressAmount;
     protected int progress;
     // Progresses needed per animationIndex
-    protected final static int progressMultiplier = 100;
+    protected static final int progressMultiplier = 100;
     // Multiplier for multiple people
-    public final static double capMultiplier = 2;
+    public static final double capMultiplier = 2;
 
     // Capturing data
     protected final AtomicInteger isRunning;
@@ -64,7 +64,7 @@ public class Flag {
     // Scoreboard value
     public int scoreboard;
 
-    public static HashMap<Flag, BossBar> bars = new HashMap<>();
+    public static final HashMap<Flag, BossBar> bars = new HashMap<>();
 
     //The entity to create the flag's nametag
     protected ArmorStand hologram;

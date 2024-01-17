@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.maps.objects.Flag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 
@@ -114,20 +115,20 @@ public class Scoreboard implements Runnable {
 			// Create a new one
 			Objective objective;
 			if (score.getObjective(online.getName()) == null) {
-				objective = score.registerNewObjective(online.getName(), "dummy", displayName);
+				objective = score.registerNewObjective(online.getName(), Criteria.DUMMY, displayName);
 			} else {
 				objective = score.getObjective(online.getName());
 			}
 
-				assert objective != null;
-				objective.setDisplayName(displayName);
-				replaceScore(objective, 15, "");
-				replaceScore(objective, 15, String.format("%s%sMap:%s %s",
-						ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
+			assert objective != null;
+			objective.setDisplayName(displayName);
+			replaceScore(objective, 15, "");
+			replaceScore(objective, 15, String.format("%s%sMap:%s %s",
+					ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
 
-				// Setup timer display
-				replaceScore(objective, 13, ChatColor.GOLD + String.valueOf(ChatColor.BOLD) + getTimeText());
-				replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
+			// Setup timer display
+			replaceScore(objective, 13, ChatColor.GOLD + String.valueOf(ChatColor.BOLD) + getTimeText());
+			replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
 
 
 			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {

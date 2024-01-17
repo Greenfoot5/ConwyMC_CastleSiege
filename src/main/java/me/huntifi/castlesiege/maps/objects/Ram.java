@@ -110,7 +110,7 @@ public class Ram {
             public void run() {
                 // Stop ramming when no more players in region or gate is breached
                 // Don't stop with only defenders because corresponding flag owner can change
-                if (players.size() == 0 || gate.isBreached()) {
+                if (players.isEmpty() || gate.isBreached()) {
                     setIdle();
                     isRunning.decrementAndGet();
                     this.cancel();

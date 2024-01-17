@@ -30,14 +30,14 @@ public class WallEvent implements Listener {
 	private int tnt_counter = 0;
 	private UUID carrier;
 
-	private final static Location PICKUP_LOCATION = new Location(Bukkit.getWorld("HelmsDeep"), 1168, 35, 1125);
-	private final static Location PLACE_LOCATION = new Location(Bukkit.getWorld("HelmsDeep"), 1026, 34, 1124);
-	private final static Location[] TNT_LOCATIONS = new Location[] {
+	private static final Location PICKUP_LOCATION = new Location(Bukkit.getWorld("HelmsDeep"), 1168, 35, 1125);
+	private static final Location PLACE_LOCATION = new Location(Bukkit.getWorld("HelmsDeep"), 1026, 34, 1124);
+	private static final Location[] TNT_LOCATIONS = new Location[] {
 			new Location(Bukkit.getWorld("HelmsDeep"), 1026, 34, 1124),
 			new Location(Bukkit.getWorld("HelmsDeep"), 1026, 34, 1123),
 			new Location(Bukkit.getWorld("HelmsDeep"), 1027, 34, 1123)};
 
-	private final static int DEATH_RADIUS = 15;
+	private static final int DEATH_RADIUS = 15;
 
 	/**
 	 * Called when the player picks up the TNT on Helms Deep

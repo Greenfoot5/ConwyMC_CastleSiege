@@ -111,7 +111,7 @@ public class HorseHandler implements Listener {
     @EventHandler
     public void onHorseDeath(EntityDeathEvent e) {
         Entity horse = e.getEntity();
-        if (horse.getPassengers().size() > 0)
+        if (!horse.getPassengers().isEmpty())
             setCooldown(horse.getPassengers().get(0), horse);
         if (horse instanceof Horse)
             e.getDrops().clear();

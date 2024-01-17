@@ -30,7 +30,7 @@ import java.util.UUID;
 
 public class ThunderstoneElytrier extends TeamKit implements Listener {
 
-    private final static int POTION_COOLDOWN = 300;
+    private static final int POTION_COOLDOWN = 300;
 
     public ThrownPotion potion;
 

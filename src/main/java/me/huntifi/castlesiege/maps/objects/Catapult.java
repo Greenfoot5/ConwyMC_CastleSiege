@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Powerable;
+import org.bukkit.block.sign.Side;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -240,7 +241,7 @@ public class Catapult implements Listener {
 
             // Update the sign
             Sign sign = (Sign) target.getState();
-            sign.setLine(2, aimVertical + "");
+            sign.getSide(Side.FRONT).setLine(2, aimVertical + "");
             sign.update();
         }
     }
@@ -268,7 +269,7 @@ public class Catapult implements Listener {
 
             // Update the sign
             Sign sign = (Sign) target.getState();
-            sign.setLine(2, aimHorizontal + "");
+            sign.getSide(Side.FRONT).setLine(2, aimHorizontal + "");
             sign.update();
         }
     }

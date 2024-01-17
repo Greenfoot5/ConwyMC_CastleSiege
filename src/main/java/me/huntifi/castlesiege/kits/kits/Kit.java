@@ -28,13 +28,19 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Criterias;
+import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -271,7 +277,7 @@ public abstract class Kit implements CommandExecutor {
         Objective healthDisplay = scoreboard.getObjective("healthDisplay");
 
         if (canSeeHealth && healthDisplay == null) {
-            scoreboard.registerNewObjective("healthDisplay", Criterias.HEALTH,
+            scoreboard.registerNewObjective("healthDisplay", Criteria.HEALTH,
                     ChatColor.DARK_RED + "❤").setDisplaySlot(DisplaySlot.BELOW_NAME);
         } else if (!canSeeHealth && healthDisplay != null){
             healthDisplay.unregister();
