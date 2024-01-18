@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.StaffKit;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.ChatColor;
@@ -26,7 +27,7 @@ import java.util.Objects;
 /**
  * The warbear kit
  */
-public class Warbear extends DonatorKit implements Listener {
+public class Warbear extends StaffKit implements Listener {
 
     /**
      * Set the equipment and attributes of this kit
