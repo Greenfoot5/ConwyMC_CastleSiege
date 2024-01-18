@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,7 +25,7 @@ import java.util.Objects;
 /**
  * The viking kit
  */
-public class Viking extends DonatorKit implements Listener {
+public class Viking extends CoinKit implements Listener {
 
     private static final double PERCENTAGE_DAMAGE = 0.15;
 

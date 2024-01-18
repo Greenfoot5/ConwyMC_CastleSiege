@@ -12,7 +12,7 @@ import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
@@ -61,7 +61,7 @@ import java.util.UUID;
 /**
  * The engineer kit
  */
-public class Engineer extends DonatorKit implements Listener {
+public class Engineer extends CoinKit implements Listener {
 
     private static final int health = 210;
     private static final double regen = 10.5;

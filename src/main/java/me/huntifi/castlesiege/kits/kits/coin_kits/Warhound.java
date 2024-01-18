@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -41,7 +41,7 @@ import java.util.UUID;
 /**
  * The warhound kit
  */
-public class Warhound extends DonatorKit implements Listener {
+public class Warhound extends CoinKit implements Listener {
 
     /**
      * Set the equipment and attributes of this kit

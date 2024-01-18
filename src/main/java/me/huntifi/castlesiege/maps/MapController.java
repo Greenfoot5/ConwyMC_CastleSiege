@@ -18,7 +18,7 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
@@ -43,6 +43,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
+
+import static org.bukkit.Bukkit.getPlayer;
+import static org.bukkit.Bukkit.getServer;
+import static org.bukkit.Bukkit.getWorld;
 
 /**
  * Manages what map the game is currently on
@@ -140,7 +144,7 @@ public class MapController {
 				if (map != null) {
 					newMaps.add(map);
 				} else {
-					getLogger().severe("Could not load match mode. Could not find map: `" + mapName + "`");
+					Main.instance.getLogger().severe("Could not load match mode. Could not find map: `" + mapName + "`");
 				}
 			}
 			maps = newMaps;
@@ -157,7 +161,7 @@ public class MapController {
 		VoteSkipCommand.clearVotes();
 		for (int i = 0; i < maps.size(); i++) {
 			if (Objects.equals(maps.get(i).name, mapName)) {
-				getLogger().info("Loading map - " + mapName);
+				Main.instance.getLogger().info("Loading map - " + mapName);
 				mapIndex = i;
 				unloadMap(oldMap);
 				loadMap();
@@ -177,7 +181,7 @@ public class MapController {
 		String winners = null;
 		switch(getCurrentMap().gamemode) {
 			case Control:
-				getLogger().severe("Control game mode has not been implemented yet! It's a draw!");
+				Main.instance.getLogger().severe("Control game mode has not been implemented yet! It's a draw!");
 				break;
 			case Charge:
 				// Check if the defenders have won
@@ -230,8 +234,8 @@ public class MapController {
 					if (!InCombat.isPlayerInLobby(uuid))
 					{
 						Kit kit = Kit.equippedKits.get(uuid);
-						if (kit instanceof DonatorKit) {
-							DonatorKit dKit = (DonatorKit) kit;
+						if (kit instanceof CoinKit) {
+							CoinKit dKit = (CoinKit) kit;
 						}
 					}
 				}
@@ -297,7 +301,7 @@ public class MapController {
 	public static void giveCoinReward(Team team) {
 
 		for (UUID uuid : team.getPlayers()) {
-			Player p = Bukkit.getPlayer(uuid);
+			Player p = getPlayer(uuid);
 			assert p != null;
 			double score = MVPStats.getStats(p.getUniqueId()).getScore();
 
@@ -352,7 +356,7 @@ public class MapController {
 					} else if (boosterType + KIT_BOOSTER_RANDOM_CHANCE < KIT_BOOSTER_WILD_CHANCE) {
 						kit = "wild";
 					} else {
-						ArrayList<String> dKits = (ArrayList<String>) DonatorKit.getKits();
+						ArrayList<String> dKits = (ArrayList<String>) CoinKit.getKits();
 						do {
 							kit = dKits.get(new Random().nextInt(dKits.size()));
 						} while (Kit.getKit(kit) instanceof TeamKit);
@@ -362,7 +366,7 @@ public class MapController {
 
 				GrantBooster.updateDatabase(uuid, booster);
 				data.addBooster(booster);
-				Player player = Bukkit.getPlayer(uuid);
+				Player player = getPlayer(uuid);
 				if (player != null) {
 					Messenger.broadcastSuccess(player.getDisplayName() + " gained a " + booster.getName() + " for being MVP!");
 				}
@@ -379,12 +383,12 @@ public class MapController {
 
 		Map oldMap = maps.get(mapIndex);
 		if (finalMap()) {
-			getLogger().info("Completed map cycle! Restarting server...");
+			Main.instance.getLogger().info("Completed map cycle! Restarting server...");
 			getServer().spigot().restart();
 		}
 		else {
 			mapIndex++;
-			getLogger().info("Loading next map: " + maps.get(mapIndex).name);
+			Main.instance.getLogger().info("Loading next map: " + maps.get(mapIndex).name);
 			unloadMap(oldMap);
 			loadMap();
 		}
@@ -429,14 +433,14 @@ public class MapController {
 
 		// Teleport Spectators
 		for (UUID spectator : SpectateCommand.spectators) {
-			Player player = Bukkit.getPlayer(spectator);
+			Player player = getPlayer(spectator);
 			if (player != null && player.isOnline()) {
 				player.teleport(getCurrentMap().flags[0].getSpawnPoint());
 			}
 		}
 
 		// Set up the time
-		World world = Bukkit.getWorld(maps.get(mapIndex).worldName);
+		World world = getWorld(maps.get(mapIndex).worldName);
 		assert world != null;
 		world.setTime(maps.get(mapIndex).startTime);
 		world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, maps.get(mapIndex).daylightCycle);
@@ -685,7 +689,7 @@ public class MapController {
 	 * @param team The team
 	 */
 	private static void joinTeam(UUID uuid, Team team) {
-		Player player = Bukkit.getPlayer(uuid);
+		Player player = getPlayer(uuid);
 		assert player != null;
 
 		team.addPlayer(uuid);

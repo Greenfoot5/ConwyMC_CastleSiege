@@ -8,7 +8,7 @@ import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -41,7 +41,7 @@ import java.util.UUID;
 /**
  * The ranger kit
  */
-public class Ranger extends DonatorKit implements Listener {
+public class Ranger extends CoinKit implements Listener {
 
     private static final int health = 210;
     private static final double regen = 10.5;

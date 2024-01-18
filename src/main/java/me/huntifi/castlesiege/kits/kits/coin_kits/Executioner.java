@@ -4,7 +4,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.ChatColor;
@@ -32,7 +32,7 @@ import java.util.Objects;
 /**
  * The executioner kit
  */
-public class Executioner extends DonatorKit implements Listener {
+public class Executioner extends CoinKit implements Listener {
 
 	private static final int health = 210;
 	private static final double regen = 15;

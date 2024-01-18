@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import net.md_5.bungee.api.ChatMessageType;
@@ -28,7 +28,7 @@ import java.util.Random;
 /**
  * The maceman kit
  */
-public class Maceman extends DonatorKit implements Listener {
+public class Maceman extends CoinKit implements Listener {
 
     private static final int health = 300;
     private static final double regen = 10.5;

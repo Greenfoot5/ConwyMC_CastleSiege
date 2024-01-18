@@ -4,7 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 import org.bukkit.Bukkit;
@@ -526,7 +526,7 @@ public class PlayerData {
      * @return Whether the player has access to the kit
      */
     public boolean hasKit(String kitName) {
-        return unlockedKits.contains(kitName) || DonatorKit.boostedKits.contains(kitName);
+        return unlockedKits.contains(kitName) || CoinKit.boostedKits.contains(kitName);
     }
 
     /**
@@ -668,12 +668,12 @@ public class PlayerData {
         } else if (booster instanceof KitBooster) {
             KitBooster kitBooster = (KitBooster) booster;
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                DonatorKit.boostedKits.add(kitBooster.kitName);
+                CoinKit.boostedKits.add(kitBooster.kitName);
                 Messenger.broadcastInfo(player.getName() + " has activated a " + kitBooster.kitName + " kit booster " +
                         "for " + booster.getDurationAsString() + "!");
             });
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                DonatorKit.boostedKits.remove(kitBooster.kitName);
+                CoinKit.boostedKits.remove(kitBooster.kitName);
                 Messenger.broadcastWarning(player.getName() + "'s " + kitBooster.kitName + " kit booster has expired! ");
             }, booster.duration * 20L);
         } else {

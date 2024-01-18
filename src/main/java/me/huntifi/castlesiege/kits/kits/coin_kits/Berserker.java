@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -32,7 +32,7 @@ import java.util.UUID;
 /**
  * The berserker kit
  */
-public class Berserker extends DonatorKit implements Listener {
+public class Berserker extends CoinKit implements Listener {
 
     private static final int health = 200;
     private static final double regen = 20;

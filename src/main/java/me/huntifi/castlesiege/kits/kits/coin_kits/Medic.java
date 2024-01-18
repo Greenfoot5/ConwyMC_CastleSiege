@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -48,7 +48,7 @@ import java.util.UUID;
 /**
  * The medic kit
  */
-public class Medic extends DonatorKit implements Listener {
+public class Medic extends CoinKit implements Listener {
 
     private static final int health = 210;
     private static final double regen = 15;
@@ -149,9 +149,11 @@ public class Medic extends DonatorKit implements Listener {
 
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(player.getUniqueId())) {
-            event.setCancelled(true);
             return;
         }
+
+        if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name))
+            return;
 
         // Check you aren't placing on a cake
         if (event.canBuild() && event.getBlockAgainst() instanceof Cake)
@@ -160,9 +162,7 @@ public class Medic extends DonatorKit implements Listener {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) &&
-                event.getBlockPlaced().getType() == Material.CAKE) {
-            event.setCancelled(false);
+        if (event.getBlockPlaced().getType() == Material.CAKE) {
             destroyCake(player);
             cakes.put(player, event.getBlockPlaced());
         }

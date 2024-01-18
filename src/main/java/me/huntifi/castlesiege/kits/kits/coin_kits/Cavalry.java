@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -34,7 +34,7 @@ import java.util.UUID;
 /**
  * The cavalry kit
  */
-public class Cavalry extends DonatorKit implements Listener {
+public class Cavalry extends CoinKit implements Listener {
 
     private static final int health = 300;
     private static final double regen = 10.5;

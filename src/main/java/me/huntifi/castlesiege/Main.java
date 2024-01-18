@@ -113,7 +113,7 @@ import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.gui.GuiController;
 import me.huntifi.castlesiege.gui.GuiCreations;
 import me.huntifi.castlesiege.kits.items.Enderchest;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Alchemist;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Barbarian;
@@ -137,7 +137,6 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.kits.kits.in_development.Armorer;
 import me.huntifi.castlesiege.kits.kits.in_development.Bannerman;
-import me.huntifi.castlesiege.kits.kits.in_development.Chef;
 import me.huntifi.castlesiege.kits.kits.in_development.Sorcerer;
 import me.huntifi.castlesiege.kits.kits.in_development.Warlock;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
@@ -337,7 +336,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new BattleMedic(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
-                getServer().getPluginManager().registerEvents(new Chef(), plugin);
+                //getServer().getPluginManager().registerEvents(new Chef(), plugin);
                 getServer().getPluginManager().registerEvents(new CryptsFallen(), plugin);
                 getServer().getPluginManager().registerEvents(new ConwyArbalester(), plugin);
                 getServer().getPluginManager().registerEvents(new ConwyLongbowman(), plugin);
@@ -484,7 +483,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("ConwyLongbowman")).setExecutor(new ConwyLongbowman());
                 Objects.requireNonNull(getCommand("ConwyRoyalKnight")).setExecutor(new ConwyRoyalKnight());
                 Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
-                Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
+                //Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
                 Objects.requireNonNull(getCommand("RoyalCryptsFallen")).setExecutor(new CryptsFallen());
                 Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
@@ -1476,12 +1475,12 @@ public class Main extends JavaPlugin implements Listener {
                     case "KIT":
                     case "K":
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                            DonatorKit.boostedKits.add(other);
+                            CoinKit.boostedKits.add(other);
                             Messenger.broadcastInfo("A " + other + " kit booster " +
                                     "for " + Booster.durationToString((int) remaining_duration) + "!");
                         });
                         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                            DonatorKit.boostedKits.remove(other);
+                            CoinKit.boostedKits.remove(other);
                             Messenger.broadcastWarning("A " + other + " kit booster has expired! ");
                         }, remaining_duration * 20L);
                 }

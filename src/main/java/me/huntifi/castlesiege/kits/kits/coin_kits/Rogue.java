@@ -11,7 +11,7 @@ import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -52,7 +52,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Rogue extends DonatorKit implements Listener {
+public class Rogue extends CoinKit implements Listener {
 
     public static final ArrayList<UUID> hasPoisonedWeapons = new ArrayList<>();
 

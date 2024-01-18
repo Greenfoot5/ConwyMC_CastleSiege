@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
 
-public abstract class TeamKit extends DonatorKit implements Listener {
+public abstract class TeamKit extends CoinKit implements Listener {
 
     //map for the map specific kits and the team
     protected final String map;

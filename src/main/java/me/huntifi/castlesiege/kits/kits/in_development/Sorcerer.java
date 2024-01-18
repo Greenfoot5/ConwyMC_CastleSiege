@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Sorcerer extends DonatorKit implements Listener {
+public class Sorcerer extends CoinKit implements Listener {
 
     private static final int health = 230;
     private static final double regen = 10.5;
@@ -41,6 +41,9 @@ public class Sorcerer extends DonatorKit implements Listener {
     private static final int frostNovaCooldown = 220;
     private static final int arcaneBarrageCooldown = 400;
     private static final int slowFallingCooldown = 300;
+
+    private static final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
+
     public Sorcerer() {
         super("Sorcerer", health, regen, Material.BOOK);
 
@@ -142,12 +145,6 @@ public class Sorcerer extends DonatorKit implements Listener {
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW, 999999, 0, true, false));
     }
 
-    public void shootArcaneBolt(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p ,"SorcererArcanebolt", p.getLocation());
-    }
-
-
     /**
      * Activate the warlock ability of shooting a shadowBolt
      * @param e The event called when right-clicking with a wither skull
@@ -169,18 +166,12 @@ public class Sorcerer extends DonatorKit implements Listener {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         p.setCooldown(Material.STICK, arcaneBoltCooldown);
-                        shootArcaneBolt(p);
+                        mythicMobsApi.castSkill(p ,"SorcererArcanebolt", p.getLocation());
                     }
                 }
             }
         }
     }
-
-    public void frostNova(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p ,"SorcererFrostnova", p.getLocation());
-    }
-
 
     /**
      * Activate the warlock ability of cursing the area
@@ -203,19 +194,12 @@ public class Sorcerer extends DonatorKit implements Listener {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         p.setCooldown(Material.DIAMOND, frostNovaCooldown);
-                        frostNova(p);
+                        mythicMobsApi.castSkill(p ,"SorcererFrostnova", p.getLocation());
                     }
                 }
             }
         }
     }
-
-
-    public void shootArcaneBarrage(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p ,"SorcererArcaneboltBarrage", p.getLocation());
-    }
-
 
     /**
      * Activate the warlock ability of shooting a shadow bolt
@@ -238,19 +222,12 @@ public class Sorcerer extends DonatorKit implements Listener {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         p.setCooldown(Material.AMETHYST_SHARD, arcaneBarrageCooldown);
-                        shootArcaneBarrage(p);
+                        mythicMobsApi.castSkill(p ,"SorcererArcaneboltBarrage", p.getLocation());
                     }
                 }
             }
         }
     }
-
-
-    public void slowFalling(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p ,"SorcererSlowfalling", p.getLocation());
-    }
-
 
     /**
      * Activate the warlock ability of shooting a shadow bolt
@@ -273,7 +250,7 @@ public class Sorcerer extends DonatorKit implements Listener {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         p.setCooldown(Material.FEATHER, slowFallingCooldown);
-                        slowFalling(p);
+                        mythicMobsApi.castSkill(p ,"SorcererSlowfalling", p.getLocation());
                     }
                 }
             }
@@ -305,5 +282,4 @@ public class Sorcerer extends DonatorKit implements Listener {
         kitLore.addAll(getGuiCostText());
         return kitLore;
     }
-
 }

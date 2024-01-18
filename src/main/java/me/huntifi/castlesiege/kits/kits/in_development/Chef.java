@@ -7,7 +7,7 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
@@ -52,7 +52,7 @@ import java.util.UUID;
 /**
  * Creates the Chef kit
  */
-public class Chef extends DonatorKit implements Listener {
+public class Chef extends CoinKit implements Listener {
 
     private static final int baseHealth = 260;
     private static final int regenAmount = 3;

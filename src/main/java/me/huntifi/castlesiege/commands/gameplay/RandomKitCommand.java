@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.commands.gameplay;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
@@ -52,7 +52,7 @@ public class RandomKitCommand implements CommandExecutor {
         }
 
         // Get unlocked kits, or all if it's Friday
-        Collection<String> unlockedKits = DonatorKit.isFree() ? Kit.getKits() : ActiveData.getData(uuid).getUnlockedKits();
+        Collection<String> unlockedKits = CoinKit.isFree() ? Kit.getKits() : ActiveData.getData(uuid).getUnlockedKits();
         ArrayList<Kit> kits = new ArrayList<>();
 
         unlockedKits.forEach((kitName) -> {

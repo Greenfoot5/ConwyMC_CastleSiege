@@ -13,14 +13,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class DonatorKit extends Kit {
+public abstract class CoinKit extends Kit {
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
     public static final List<String> boostedKits = new ArrayList<>();
     public static final List<String> donatorKits = new ArrayList<>();
 
-    public DonatorKit(String name, int baseHealth, double regenAmount, Material material) {
+    public CoinKit(String name, int baseHealth, double regenAmount, Material material) {
         super(name, baseHealth, regenAmount, material);
 
         if (!kits.contains(getSpacelessName()))
@@ -43,8 +43,7 @@ public abstract class DonatorKit extends Kit {
 
         UUID uuid = ((Player) sender).getUniqueId();
         boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
-        boolean allKitsFree = MapController.allKitsFree;
-        if (!hasKit && !isFree() && !allKitsFree) {
+        if (!hasKit && !isFree()) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null) {
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
@@ -74,6 +73,10 @@ public abstract class DonatorKit extends Kit {
         return kits;
     }
 
+    /**
+     * Checks if the kit is available for the player to use
+     * @return If the kit is free to use
+     */
     public static boolean isFree() {
         return ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 1 || MapController.allKitsFree;
     }

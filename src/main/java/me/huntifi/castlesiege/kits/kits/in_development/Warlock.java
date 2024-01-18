@@ -7,7 +7,7 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -38,7 +38,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Warlock extends DonatorKit implements Listener {
+public class Warlock extends CoinKit implements Listener {
 
     private static final int health = 210;
     private static final double regen = 10.5;

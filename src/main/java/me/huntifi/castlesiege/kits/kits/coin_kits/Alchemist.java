@@ -9,7 +9,7 @@ import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
@@ -49,7 +49,7 @@ import java.util.Objects;
 /**
  * Alchemist kit, a brewing support kit
  */
-public class Alchemist extends DonatorKit implements Listener {
+public class Alchemist extends CoinKit implements Listener {
 
     public static final HashMap<Player, Block> stands = new HashMap<>();
     private final ItemStack stand;

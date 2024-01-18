@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -34,7 +34,7 @@ import java.util.UUID;
 /**
  * The crossbowman kit
  */
-public class Crossbowman extends DonatorKit implements Listener {
+public class Crossbowman extends CoinKit implements Listener {
 
     private static final int health = 270;
     private static final double regen = 9;

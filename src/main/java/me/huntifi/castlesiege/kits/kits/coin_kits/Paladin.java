@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
@@ -37,7 +37,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Paladin extends DonatorKit implements Listener {
+public class Paladin extends CoinKit implements Listener {
 
     private static final int health = 400;
     private static final double regen = 8;

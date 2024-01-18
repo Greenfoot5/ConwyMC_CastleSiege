@@ -14,7 +14,7 @@ import me.huntifi.castlesiege.database.Punishments;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
@@ -109,7 +109,7 @@ public class PlayerConnect implements Listener {
             p.sendMessage(ChatColor.DARK_PURPLE + "The max amount of players is 100.");
         }
 
-        if (DonatorKit.isFree()) {
+        if (CoinKit.isFree()) {
             Messenger.broadcastInfo("It's Friday! All donator and team kits are " + ChatColor.BOLD + "UNLOCKED!");
         }
 

@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.kits.kits.in_development;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -19,7 +19,7 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import java.util.Collections;
 import java.util.List;
 
-public class Armorer extends DonatorKit implements Listener {
+public class Armorer extends CoinKit implements Listener {
 
     private static final int health = 230;
     private static final double regen = 10.5;

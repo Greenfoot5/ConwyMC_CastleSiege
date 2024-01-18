@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.gui;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.Map;
@@ -101,11 +101,11 @@ public class Gui implements Listener {
      */
     public void addCoinShopItem(String kitName, Material material, int location, UUID uuid) {
         Kit kit = Kit.getKit(kitName);
-        if (!(kit instanceof DonatorKit))
+        if (!(kit instanceof CoinKit))
             throw new IllegalArgumentException(kitName + " is not a donator kit, it's " + kit.getClass());
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             String itemName = (kit instanceof TeamKit ? ChatColor.BLUE : ChatColor.GOLD) + "" + ChatColor.BOLD + kit.name;
-            String price = ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + DonatorKit.getPrice(uuid);
+            String price = ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + CoinKit.getPrice(uuid);
             String duration = ChatColor.GREEN + "Duration: permanent";
 
             ArrayList<String> lore = getKitLore(price, duration, kit);
@@ -115,6 +115,12 @@ public class Gui implements Listener {
         });
     }
 
+    /**
+     * @param price The price of the kit
+     * @param duration The length of time you receive the kit for
+     * @param kit The kit that's unlocked
+     * @return The lore for an item of this kit
+     */
     @NotNull
     private static ArrayList<String> getKitLore(String price, String duration, Kit kit) {
         ArrayList<String> lore = new ArrayList<>();
@@ -150,6 +156,8 @@ public class Gui implements Listener {
         if (Objects.equals(event.getClickedInventory(), inventory)) {
             GuiItem item = locationToItem.get(event.getSlot());
             if (item != null) {
+                event.setCancelled(false);
+                event.setResult(Event.Result.DENY);
                 Player player = (Player) event.getWhoClicked();
                 if (item.shouldClose)
                     player.closeInventory();

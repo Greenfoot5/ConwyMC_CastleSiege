@@ -83,7 +83,7 @@ public class LoadData {
     public static int returnPremiumKits(UUID uuid) {
         int amount = 0;
         for (String kits : getUnlockedKits(uuid)) {
-           if (DonatorKit.donatorKits.contains(kits)) {
+           if (CoinKit.donatorKits.contains(kits)) {
                 amount++;
            }
         }
@@ -116,7 +116,7 @@ public class LoadData {
 
             while (rs.next()) {
                 String kit = rs.getString("unlocked_kits");
-                if (DonatorKit.getKits().contains(kit)) {
+                if (CoinKit.getKits().contains(kit)) {
                     unlockedKits.add(kit);
                 }
             }

@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -35,7 +35,7 @@ import java.util.UUID;
 /**
  * The Vanguard kit
  */
-public class Vanguard extends DonatorKit implements Listener, CommandExecutor {
+public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
     private static final ArrayList<UUID> vanguards = new ArrayList<>();
 

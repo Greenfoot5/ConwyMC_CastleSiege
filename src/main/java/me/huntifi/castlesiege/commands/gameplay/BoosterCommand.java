@@ -8,7 +8,7 @@ import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.gui.Gui;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import org.bukkit.Bukkit;
@@ -89,7 +89,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
                     KitBooster kBooster = (KitBooster) booster;
 
                     // Kit boosters don't stack
-                    if (DonatorKit.boostedKits.contains(kBooster.kitName)) {
+                    if (CoinKit.boostedKits.contains(kBooster.kitName)) {
                         Messenger.sendError("A kit booster of that type is already active!", sender);
                         return;
                     }
@@ -117,7 +117,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
                     // Select a random kit
                     if (kBooster.kitName.equalsIgnoreCase("RANDOM")) {
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                            ArrayList<String> dKits = (ArrayList<String>) DonatorKit.getKits();
+                            ArrayList<String> dKits = (ArrayList<String>) CoinKit.getKits();
                             do {
                                 kBooster.kitName = dKits.get(new Random().nextInt(dKits.size()));
                             } while (Kit.getKit(kBooster.kitName) instanceof TeamKit);
@@ -154,7 +154,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
             }
 
             Kit kit = Kit.getKit(e.getMessage().trim());
-            if (kit instanceof DonatorKit) {
+            if (kit instanceof CoinKit) {
                 KitBooster booster = waitingForWildKit.get(uuid);
                 booster.kitName = e.getMessage();
                 PlayerData data = ActiveData.getData(uuid);
