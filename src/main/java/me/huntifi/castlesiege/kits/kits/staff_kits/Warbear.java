@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.StaffKit;
+import me.huntifi.castlesiege.maps.events.RamEvent;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.ChatColor;
@@ -23,6 +24,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * The warbear kit
@@ -140,6 +142,7 @@ public class Warbear extends StaffKit implements Listener {
 
     /**
      * Activate the warbear's flee ability
+     * @param e The player interact event
      */
     @EventHandler
     public void onFlee(PlayerInteractEvent e) {
@@ -150,6 +153,20 @@ public class Warbear extends StaffKit implements Listener {
                 && player.getCooldown(Material.RABBIT_FOOT) == 0) {
             player.setCooldown(Material.RABBIT_FOOT, 500);
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 180, 4));
+        }
+    }
+
+    /**
+     * Grants bonus damage when a warbear punches a gate
+     * @param e The ram event
+     */
+    @EventHandler
+    public void onPunchGate(RamEvent e) {
+        for (UUID uuid : e.getPlayerUUIDs()) {
+            if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
+            e.getRamType() == RamEvent.RamType.FIST) {
+                e.setDamageDealt((int) (e.getDamageDealt() * 1.5));
+            }
         }
     }
 

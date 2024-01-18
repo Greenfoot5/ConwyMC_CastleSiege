@@ -144,7 +144,7 @@ public class Ram {
             Bukkit.getPluginManager().callEvent(ramEvent);
             if (!ramEvent.isCancelled()) {
                 // Deal damage to the gate
-                gate.dealDamage(ramEvent.getPlayers(), ramEvent.getDamageDealt());
+                gate.dealDamage(ramEvent.getPlayerUUIDs(), ramEvent.getDamageDealt());
             }
 
             // Award supports to attacking players

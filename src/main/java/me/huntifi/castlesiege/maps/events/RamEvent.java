@@ -22,7 +22,7 @@ public class RamEvent extends Event implements Cancellable {
 
     private int damageDealt;
 
-    private final ArrayList<UUID> players;
+    private final ArrayList<UUID> uuids;
 
     /**
      * Create a RamEvent of damage by player(s) on a ram
@@ -36,7 +36,7 @@ public class RamEvent extends Event implements Cancellable {
         this.gateName = gateName;
         this.damageDealt = damageDealt;
         this.currentHealth = currentHealth;
-        this.players = players;
+        this.uuids = players;
 
         this.ramType = RamType.RAM;
     }
@@ -53,8 +53,8 @@ public class RamEvent extends Event implements Cancellable {
         this.gateName = gateName;
         this.damageDealt = damageDealt;
         this.currentHealth = currentHealth;
-        this.players = new ArrayList<>();
-        this.players.add(player);
+        this.uuids = new ArrayList<>();
+        this.uuids.add(player);
 
         this.ramType = RamType.FIST;
     }
@@ -112,8 +112,8 @@ public class RamEvent extends Event implements Cancellable {
     /**
      * @return The player(s) ramming the gate
      */
-    public ArrayList<UUID> getPlayers() {
-        return players;
+    public ArrayList<UUID> getPlayerUUIDs() {
+        return uuids;
     }
 
     /**

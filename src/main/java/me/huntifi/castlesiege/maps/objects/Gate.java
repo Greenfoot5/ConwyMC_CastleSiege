@@ -24,7 +24,6 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -170,8 +169,11 @@ public class Gate implements Listener {
                             return;
                         }
 
-                        dealDamage(ramEvent.getPlayers(), ramEvent.getDamageDealt());
-                        UpdateStats.addSupports(player.getUniqueId(), 1);
+                        dealDamage(ramEvent.getPlayerUUIDs(), ramEvent.getDamageDealt());
+                        for (UUID uuid : ramEvent.getPlayerUUIDs()) {
+                            UpdateStats.addSupports(uuid, 1);
+                        }
+
 
                         new BukkitRunnable() {
                             @Override
