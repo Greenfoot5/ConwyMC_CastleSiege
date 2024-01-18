@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.kits.kits;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public abstract class FreeKit extends Kit {
      * @param baseHealth This kit's base health
      */
     public FreeKit(String name, int baseHealth, double regenAmount, Material material) {
-        super(name, baseHealth, regenAmount, material);
+        super(name, baseHealth, regenAmount, material, ChatColor.DARK_GREEN);
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
     }

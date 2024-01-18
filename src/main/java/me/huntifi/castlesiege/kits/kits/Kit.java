@@ -50,6 +50,7 @@ public abstract class Kit implements CommandExecutor {
 
     public final String name;
     public final int baseHealth;
+    public final ChatColor color;
     public double kbResistance;
     protected final double regenAmount;
 
@@ -84,8 +85,9 @@ public abstract class Kit implements CommandExecutor {
      * @param name This kit's name
      * @param baseHealth This kit's base health
      */
-    public Kit(String name, int baseHealth, double regenAmount, Material material) {
+    public Kit(String name, int baseHealth, double regenAmount, Material material, ChatColor color) {
         this.name = name;
+        this.color = color;
         this.baseHealth = baseHealth;
         this.regenAmount = regenAmount;
 
