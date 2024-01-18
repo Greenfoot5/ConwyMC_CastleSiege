@@ -523,7 +523,6 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
                 Objects.requireNonNull(getCommand("Warlock")).setExecutor(new Warlock());
-                GuiCreations.registerGUIs();
                 applyKitLimits();
 
                 // Map Specific
