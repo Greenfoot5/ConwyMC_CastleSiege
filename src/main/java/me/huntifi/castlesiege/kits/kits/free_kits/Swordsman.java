@@ -74,7 +74,6 @@ public class Swordsman extends FreeKit {
 		ArrayList<String> kitLore = new ArrayList<>();
 		kitLore.add("§7Standard melee kit");
 		kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-		kitLore.addAll(getGuiCostText());
 		return kitLore;
 	}
 }

@@ -85,7 +85,6 @@ public class Skirmisher extends VoterKit {
         kitLore.add("§5Effects:");
         kitLore.add("§7- Haste II");
         kitLore.add("§7- Speed I");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

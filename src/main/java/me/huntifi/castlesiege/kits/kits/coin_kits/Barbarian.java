@@ -146,7 +146,6 @@ public class Barbarian extends CoinKit implements Listener {
         kitLore.add("§7- Melee damage is increased depending");
         kitLore.add("§7on how much health you have left.");
         kitLore.add("§7Maximum damage dealt is §a" + meleeDamage * 3 + " §7DMG");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

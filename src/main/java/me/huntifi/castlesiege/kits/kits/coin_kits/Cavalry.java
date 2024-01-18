@@ -188,7 +188,6 @@ public class Cavalry extends CoinKit implements Listener {
         kitLore.add("§6Horse Active:");
         kitLore.add("§7- When riding, can perform a kick");
         kitLore.add("§7dealing AIE damage and slowing enemies");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

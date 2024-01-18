@@ -334,7 +334,6 @@ public class Ranger extends CoinKit implements Listener {
         kitLore.add("§7- Can fire a volley of arrows");
         kitLore.add("§7- Can fire a bust of arrows");
         kitLore.add("§7- Can instakill enemies with a backstab");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

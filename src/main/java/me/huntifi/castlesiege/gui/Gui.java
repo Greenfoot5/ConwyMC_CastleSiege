@@ -13,6 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -90,6 +91,36 @@ public class Gui implements Listener {
         item.setItemMeta(potionMeta);
         inventory.setItem(location, item);
         locationToItem.put(location, new GuiItem(command, true));
+    }
+
+    /**
+     * Add an item to the inventory only if the user can select it
+     * @param player The player opening the GUI
+     * @param kit The kit to select
+     * @param material The material of the item
+     * @param location The location of the item
+     * @param command The command to execute when clicking the item
+     */
+    public void addKitItem(Player player, Kit kit, int location, String command) {
+        if (kit.canSelect(player, false, false)) {
+            inventory.setItem(location, ItemCreator.item(new ItemStack(kit.material),
+                    getKitDisplayName(kit,true), kit.getGuiDescription(), null));
+            locationToItem.put(location, new GuiItem(command, true));
+        } else {
+            ArrayList<String> lore = kit.getGuiDescription();
+            lore.addAll(kit.getGuiCostText());
+            inventory.setItem(location, ItemCreator.item(new ItemStack(Material.BLACK_STAINED_GLASS_PANE),
+                    getKitDisplayName(kit, false), lore, null));
+            locationToItem.put(location, new GuiItem(command, false));
+        }
+    }
+
+    /**
+     * @param kit The kit to display the name of
+     * @return A string displaying in for them [Color]CLASS: kit.name
+     */
+    private String getKitDisplayName(Kit kit, boolean hasUnlocked) {
+        return kit.color + "§lCLASS: " + kit.color + kit.name;
     }
 
     /**

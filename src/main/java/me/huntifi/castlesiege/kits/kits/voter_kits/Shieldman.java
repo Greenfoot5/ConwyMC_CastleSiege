@@ -92,7 +92,6 @@ public class Shieldman extends VoterKit {
         kitLore.add("§5Effects:");
         kitLore.add("§7- Mining Fatigue I");
         kitLore.add("§7- Slowness I");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

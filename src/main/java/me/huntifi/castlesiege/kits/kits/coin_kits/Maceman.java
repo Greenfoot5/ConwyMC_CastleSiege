@@ -153,7 +153,6 @@ public class Maceman extends CoinKit implements Listener {
         kitLore.add("§2Passive:");
         kitLore.add("§7- Can break a shield when the opponent is");
         kitLore.add("§7actively blocking when stunned");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

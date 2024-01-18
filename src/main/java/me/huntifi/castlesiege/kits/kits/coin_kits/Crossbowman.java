@@ -294,7 +294,6 @@ public class Crossbowman extends CoinKit implements Listener {
         kitLore.add("§2Passive: ");
         kitLore.add("§7- Arrows are not affected by");
         kitLore.add("§7gravity §a(sniper mode)");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

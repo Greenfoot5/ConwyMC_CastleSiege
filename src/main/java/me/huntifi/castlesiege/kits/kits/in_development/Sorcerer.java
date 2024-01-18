@@ -280,7 +280,6 @@ public class Sorcerer extends CoinKit implements Listener {
         kitLore.add("§7in a 4 block radius");
         kitLore.add("§7- Can shoot a barrage of arcane-bolts");
         kitLore.add("§7- Has a spell that gives slow falling to the caster");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

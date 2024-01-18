@@ -207,7 +207,6 @@ public class Paladin extends CoinKit implements Listener {
         kitLore.add(" ");
         kitLore.add("§2Passive:");
         kitLore.add("§7- Can see player health");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

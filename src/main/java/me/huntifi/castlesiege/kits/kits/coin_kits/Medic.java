@@ -343,7 +343,6 @@ public class Medic extends CoinKit implements Listener {
         kitLore.add(" ");
         kitLore.add("§2Passive:");
         kitLore.add("§7- When healing an ally receives resistance I");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

@@ -190,7 +190,6 @@ public class Berserker extends CoinKit implements Listener {
         kitLore.add("§7- Confusion II");
         kitLore.add("§7- Strength I");
         kitLore.add("§7- Melee hits deal 105+ damage");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

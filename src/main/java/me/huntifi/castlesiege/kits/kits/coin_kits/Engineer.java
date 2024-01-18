@@ -546,7 +546,6 @@ public class Engineer extends CoinKit implements Listener {
         kitLore.add("§7- Can fire ballista");
         kitLore.add("§7- Can refill catapults with cobblestone");
         kitLore.add("§7- Can repair stone and wood blocks");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

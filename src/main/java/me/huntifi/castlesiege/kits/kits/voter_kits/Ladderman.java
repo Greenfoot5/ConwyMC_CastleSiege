@@ -116,7 +116,6 @@ public class Ladderman extends VoterKit implements Listener {
         kitLore.add(" ");
         kitLore.add("§2Passive: ");
         kitLore.add("§7- Can pickup ladders");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

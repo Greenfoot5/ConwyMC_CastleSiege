@@ -680,7 +680,7 @@ public class Rogue extends CoinKit implements Listener {
         kitLore.add("§7- Can throw track arrows");
         kitLore.add("§7- Can perform shadowstep (grants invisibility)");
         kitLore.add("§7- Can temporarily enhance their dagger");
-        kitLore.add("with poison");
+        kitLore.add("§7with poison");
         kitLore.add("§7- When behind enemies can gauge them, which");
         kitLore.add("§7stuns them temporarily and grants a bit of healing");
         kitLore.add(" ");
@@ -691,7 +691,6 @@ public class Rogue extends CoinKit implements Listener {
         kitLore.add("§7powerful gauges");
         kitLore.add("§7- Killing opponents and hitting them");
         kitLore.add("§7with track arrows generates combo-points");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

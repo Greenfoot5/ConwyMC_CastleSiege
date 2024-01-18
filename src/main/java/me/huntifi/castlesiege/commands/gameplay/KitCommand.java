@@ -2,18 +2,14 @@ package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.gui.Gui;
-import me.huntifi.castlesiege.gui.GuiController;
+import me.huntifi.castlesiege.gui.KitGUIs;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.TeamController;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 /**
  * Allows the player to select a kit
@@ -41,33 +37,18 @@ public class KitCommand implements CommandExecutor {
 
         assert sender instanceof Player;
         Player p = (Player) sender;
+        Gui gui;
         if (args.length == 0) {
             // No arguments passed -> open kit selector GUI
-            GuiController.get("selector").open(p);
+            gui = KitGUIs.getGUI(null, p);
         } else {
-            // Arguments passed -> open specified GUI
-            String category = String.join(" ", args);
-            Gui gui = get(p.getUniqueId(), category.toLowerCase());
-            if (gui == null) {
-                Messenger.sendError("Unknown category: " + ChatColor.RED + args[0], p);
-            } else {
-                gui.open(p);
-            }
+            gui = KitGUIs.getGUI(args[0], p);
+        }
+
+        if (gui != null)
+        {
+            gui.open(p);
         }
         return true;
-    }
-
-    /**
-     * Retrieve the specified kit GUI
-     * @param uuid The unique id of the player who wants to open the GUI
-     * @param category The category that should be opened
-     * @return The specified GUI, or the player's team GUI if the category is "team"
-     */
-    private Gui get(UUID uuid, String category) {
-        if (category.equals("team")) {
-            String team = TeamController.getTeam(uuid).name;
-            return GuiController.getOrDefault(team.toLowerCase(), "defaultTeam");
-        }
-        return GuiController.get(category);
     }
 }

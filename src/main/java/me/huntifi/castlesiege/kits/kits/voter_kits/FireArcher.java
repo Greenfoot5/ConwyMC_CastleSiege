@@ -377,7 +377,6 @@ public class FireArcher extends VoterKit implements Listener {
         kitLore.add("§6Active: ");
         kitLore.add("§7- Can place and pickup their fire pit");
         kitLore.add("§7- Can craft fire arrows using the fire pit");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

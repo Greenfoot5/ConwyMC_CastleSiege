@@ -154,7 +154,6 @@ public class Halberdier extends CoinKit implements Listener {
         kitLore.add("§7- Halberdier can't run");
         kitLore.add("§7- It has a cooldown on attacking");
         kitLore.add("§7- Halberdier takes §a50% §7more DMG from arrows");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

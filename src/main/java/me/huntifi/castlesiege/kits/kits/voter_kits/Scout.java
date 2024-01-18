@@ -94,7 +94,6 @@ public class Scout extends VoterKit {
         kitLore.add("§7- Speed II");
         kitLore.add("§7- Jump Boost I");
         kitLore.add("§7- Haste II");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

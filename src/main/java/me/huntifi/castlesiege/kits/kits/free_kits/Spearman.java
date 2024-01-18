@@ -208,7 +208,6 @@ public class Spearman extends FreeKit implements Listener {
 		kitLore.add("§2Passive: ");
 		kitLore.add("§7- Deals bonus damage to horses");
 		kitLore.add("§7- Can break entire columns of ladders instantly");
-		kitLore.addAll(getGuiCostText());
 		return kitLore;
 	}
 }

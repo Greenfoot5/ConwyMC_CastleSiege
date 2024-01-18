@@ -202,7 +202,6 @@ public class SpearKnight extends LevelKit implements Listener {
         kitLore.add(" ");
         kitLore.add("§2Passive: ");
         kitLore.add("§7- Deals bonus damage to horses");
-        kitLore.addAll(getGuiCostText(level));
         return kitLore;
     }
 }

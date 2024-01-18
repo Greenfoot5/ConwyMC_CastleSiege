@@ -425,7 +425,6 @@ public class Warlock extends CoinKit implements Listener {
         kitLore.add("§7- Can see player health");
         kitLore.add("§7- Hitting targets with shadow bolt gives soul shards");
         kitLore.add("§7and has a 10% chance to give a health stone");
-        kitLore.addAll(getGuiCostText());
         return kitLore;
     }
 }

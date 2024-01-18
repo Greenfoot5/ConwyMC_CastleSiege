@@ -152,7 +152,6 @@ public class Executioner extends CoinKit implements Listener {
 		kitLore.add("§2Passive: ");
 		kitLore.add("§7- Executes enemies that are below");
 		kitLore.add("§a30% §7of their max health");
-		kitLore.addAll(getGuiCostText());
 		return kitLore;
 	}
 }

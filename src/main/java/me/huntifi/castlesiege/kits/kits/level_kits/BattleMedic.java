@@ -172,7 +172,6 @@ public class BattleMedic extends LevelKit implements Listener {
         kitLore.add(" ");
         kitLore.add("§2Passive:");
         kitLore.add("§7- Can see health");
-        kitLore.addAll(getGuiCostText(level));
         return kitLore;
     }
 }
