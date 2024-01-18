@@ -20,6 +20,8 @@ public abstract class VoterKit extends Kit {
      *
      * @param name       This kit's name
      * @param baseHealth This kit's base health
+     * @param regenAmount The regen rate of the kit
+     * @param material The material to display in menus
      */
     public VoterKit(String name, int baseHealth, double regenAmount, Material material) {
         super(name, baseHealth, regenAmount, material);

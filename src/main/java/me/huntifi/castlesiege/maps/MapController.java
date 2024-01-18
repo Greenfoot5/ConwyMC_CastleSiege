@@ -7,7 +7,11 @@ import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.boosters.GrantBooster;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
-import me.huntifi.castlesiege.data_types.*;
+import me.huntifi.castlesiege.data_types.Booster;
+import me.huntifi.castlesiege.data_types.CoinBooster;
+import me.huntifi.castlesiege.data_types.KitBooster;
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -18,7 +22,11 @@ import me.huntifi.castlesiege.kits.kits.DonatorKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.maps.objects.*;
+import me.huntifi.castlesiege.maps.objects.Catapult;
+import me.huntifi.castlesiege.maps.objects.Door;
+import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.maps.objects.Ram;
 import me.huntifi.castlesiege.secrets.SecretItems;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -28,9 +36,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
-
-import static org.bukkit.Bukkit.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * Manages what map the game is currently on

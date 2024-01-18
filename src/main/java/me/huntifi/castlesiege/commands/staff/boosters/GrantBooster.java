@@ -1,7 +1,10 @@
 package me.huntifi.castlesiege.commands.staff.boosters;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.*;
+import me.huntifi.castlesiege.data_types.Booster;
+import me.huntifi.castlesiege.data_types.CoinBooster;
+import me.huntifi.castlesiege.data_types.KitBooster;
+import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
