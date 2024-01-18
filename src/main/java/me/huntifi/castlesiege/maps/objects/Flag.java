@@ -432,7 +432,7 @@ public class Flag {
         Location location = player.getLocation();
 
         // Play level up sound if it's fully capped, or play a xp orb pickup
-        Sound effect = fullyCapped ? Sound.ENTITY_PLAYER_LEVELUP : Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
+        Sound effect = fullyCapped ? Sound.ITEM_GOAT_HORN_SOUND_1 : Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 
         float volume = 1f; //1 = 100%
         float pitch = fullyCapped ? 0.5f : 0.8f; //Float between 0.5 and 2.0
