@@ -53,8 +53,6 @@ public abstract class Kit implements CommandExecutor {
     public double kbResistance;
     protected final double regenAmount;
 
-    //Level requirement for level kits.
-    protected int levelRequirement;
     public boolean canCap;
     public boolean canClimb;
     protected boolean canSeeHealth;
@@ -109,7 +107,6 @@ public abstract class Kit implements CommandExecutor {
         projectileDeathMessage = new String[]{"You were shot by ", ""};
         projectileKillMessage = new String[]{" shot ", ""};
 
-        levelRequirement = 0;
         this.material = material;
     }
 

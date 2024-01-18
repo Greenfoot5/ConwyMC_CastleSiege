@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-public class LevelKit extends Kit {
+public abstract class LevelKit extends Kit {
 
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
+
+    private final int levelRequired;
 
     /**
      * Create a kit that can be unlocked at a certain level.
@@ -30,7 +32,7 @@ public class LevelKit extends Kit {
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
-        levelRequirement = level;
+        levelRequired = level;
     }
 
     /**
@@ -47,7 +49,7 @@ public class LevelKit extends Kit {
 
         UUID uuid = ((Player) sender).getUniqueId();
         int level = ActiveData.getData(uuid).getLevel();
-        boolean unlocked = level >= levelRequirement;
+        boolean unlocked = level >= levelRequired;
         if (!unlocked) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null) {
