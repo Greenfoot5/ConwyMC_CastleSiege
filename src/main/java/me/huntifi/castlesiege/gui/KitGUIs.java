@@ -149,10 +149,10 @@ public class KitGUIs {
 
         // Coins
         gui.addKitItem(player, new Halberdier(), 2, "halberdier");
-        gui.addKitItem(player, new Paladin(), 4, "paladin");
+        gui.addKitItem(player, new Paladin(), 3, "paladin");
 
         // Staff
-        gui.addKitItem(player, new Warbear(), 3, "warbear");
+        gui.addKitItem(player, new Warbear(), 4, "warbear");
 
         gui.addBackItem(13, "kit");
         return gui;
