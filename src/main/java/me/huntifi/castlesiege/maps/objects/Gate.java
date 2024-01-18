@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.maps.events.RamEvent;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -89,6 +90,13 @@ public class Gate implements Listener {
     }
 
     /**
+     * @return The current health of the gate
+     */
+    public int getHealth() {
+        return this.health;
+    }
+
+    /**
      * @param health The current health of the gate
      */
     public void setHealth(int health) {
@@ -156,7 +164,13 @@ public class Gate implements Listener {
                     if (!recentHitters.contains(player.getUniqueId())) {
                         recentHitters.add(player.getUniqueId());
 
-                        dealDamage(Collections.singletonList(player.getUniqueId()), getDamage(player.getUniqueId()));
+                        RamEvent ramEvent = new RamEvent(getName(), getDamage(player.getUniqueId()), getHealth(), player.getUniqueId());
+                        Bukkit.getPluginManager().callEvent(ramEvent);
+                        if (ramEvent.isCancelled()) {
+                            return;
+                        }
+
+                        dealDamage(ramEvent.getPlayers(), ramEvent.getDamageDealt());
                         UpdateStats.addSupports(player.getUniqueId(), 1);
 
                         new BukkitRunnable() {

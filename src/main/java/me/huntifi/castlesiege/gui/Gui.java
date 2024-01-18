@@ -97,7 +97,6 @@ public class Gui implements Listener {
      * Add an item to the inventory only if the user can select it
      * @param player The player opening the GUI
      * @param kit The kit to select
-     * @param material The material of the item
      * @param location The location of the item
      * @param command The command to execute when clicking the item
      */

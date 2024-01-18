@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.events.RamEvent;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -139,8 +140,12 @@ public class Ram {
             spawnSchematic(schematicNameActiveHit);
             Bukkit.getScheduler().runTaskLater(Main.plugin, () -> spawnSchematic(schematicNameActiveRest), 7);
 
-            // Deal damage to the gate
-            gate.dealDamage(contenders.getFirst(), damage);
+            RamEvent ramEvent = new RamEvent(gate.getName(), damage, gate.getHealth(), contenders.getFirst());
+            Bukkit.getPluginManager().callEvent(ramEvent);
+            if (!ramEvent.isCancelled()) {
+                // Deal damage to the gate
+                gate.dealDamage(ramEvent.getPlayers(), ramEvent.getDamageDealt());
+            }
 
             // Award supports to attacking players
             for (UUID uuid : players)
