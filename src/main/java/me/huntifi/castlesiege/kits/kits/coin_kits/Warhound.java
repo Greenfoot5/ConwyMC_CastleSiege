@@ -118,9 +118,10 @@ public class Warhound extends CoinKit implements Listener {
      */
     @EventHandler
     public void onBite(EntityDamageByEntityEvent e) {
-        if (e.isCancelled() || e.getDamager() instanceof Player) {
+        if (e.isCancelled() || !(e.getDamager() instanceof Player)) {
             return;
         }
+
         Player q = (Player) e.getDamager();
 
         // Warhound bit enemy player

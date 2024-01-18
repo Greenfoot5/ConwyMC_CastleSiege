@@ -64,6 +64,11 @@ public class RamEvent extends Event implements Cancellable {
         return HANDLERS;
     }
 
+    @SuppressWarnings("unused")
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
     @Override
     public boolean isCancelled() {
         return this.isCancelled;

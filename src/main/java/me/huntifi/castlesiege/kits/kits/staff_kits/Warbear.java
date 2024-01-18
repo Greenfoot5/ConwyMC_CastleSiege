@@ -31,11 +31,15 @@ import java.util.UUID;
  */
 public class Warbear extends StaffKit implements Listener {
 
+    private static final int health = 500;
+    private static final int regen = 14;
+    private static final int meleeDamage = 30;
+
     /**
      * Set the equipment and attributes of this kit
      */
     public Warbear() {
-        super("Warbear", 500, 14, Material.DEAD_HORN_CORAL_FAN);
+        super("Warbear", health, regen, Material.DEAD_HORN_CORAL_FAN);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;
@@ -47,13 +51,13 @@ public class Warbear extends StaffKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
-                ChatColor.RED + "Claws", null, null, 30);
+                ChatColor.RED + "Claws", null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
                         ChatColor.RED + "Claws",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Claws
@@ -172,8 +176,20 @@ public class Warbear extends StaffKit implements Listener {
 
     @Override
     public ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7//TODO - Add kit description");
-        return description;
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A mighty polar bear ready for action");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
+        kitLore.add(" ");
+        kitLore.add("§6Active: ");
+        kitLore.add("§7- Stacks wither with basic attacks");
+        kitLore.add("§7- Can bite to stun an opponent");
+        kitLore.add("§7- Can gain a short burst of speed");
+        kitLore.add(" ");
+        kitLore.add("§2Passive:");
+        kitLore.add("§7- Can see health");
+        kitLore.add("§c- Cannot climb");
+        kitLore.add("§7- Deals bonus damage to gates when punching");
+        kitLore.add("§c- Cannot cap flags");
+        return kitLore;
     }
 }
