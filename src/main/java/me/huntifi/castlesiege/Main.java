@@ -240,7 +240,6 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument[] catapultsConfigs;
 
     private YamlDocument gameConfig;
-    private YamlDocument kitsConfig;
 
 
     @Override
@@ -524,7 +523,6 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
                 Objects.requireNonNull(getCommand("Warlock")).setExecutor(new Warlock());
-                //loadKits();
                 GuiCreations.registerGUIs();
                 applyKitLimits();
 
@@ -780,16 +778,6 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         getLogger().info("Loaded config.yml");
-
-        // Load kits.yml with BoostedYAML
-        try {
-            kitsConfig = YamlDocument.create(new File(getDataFolder(), "kits.yml"),
-                    getClass().getResourceAsStream("kits.yml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        getLogger().info("Loaded kits.yml");
     }
 
     private YamlDocument[] loadYMLs(String folderName) {
@@ -813,36 +801,6 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         return configs.toArray(new YamlDocument[configs.size()]);
-    }
-
-    /**
-     * This is old code and is kept just in case we would need it back later.
-     * Create the inventories corresponding to the GUIs in kits.yml
-     */
-    private void loadKits() {
-        String[] guiPaths = getPaths(kitsConfig, null);
-        for (String guiPath : guiPaths) {
-            Route guiRoute = Route.from(guiPath);
-            Gui gui = new Gui(kitsConfig.getString(guiRoute.add("name")), 6);
-
-            String[] itemPaths = getPaths(kitsConfig, guiRoute.add("items"));
-            for (String itemPath : itemPaths) {
-                Route itemRoute = guiRoute.add("items").add(itemPath);
-                String itemName = kitsConfig.getString(itemRoute.add("name"));
-                String command = kitsConfig.getString(itemRoute.add("command"));
-                Material material;
-                if (kitsConfig.contains(itemRoute.add("kit"))) {
-                    material = Kit.getMaterial(kitsConfig.getString(itemRoute.add("kit")));
-                } else {
-                    material = Material.getMaterial(kitsConfig.getString(itemRoute.add("material")));
-                }
-                List<String> lore = kitsConfig.getStringList(itemRoute.add("lore"));
-                int location = kitsConfig.getInt(itemRoute.add("location"));
-                gui.addItem(itemName, material, lore, location, command, true);
-            }
-
-            GuiController.add(kitsConfig.getString(guiRoute.add("key")), gui);
-        }
     }
 
     /**
