@@ -273,11 +273,13 @@ public class Priest extends CoinKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A support kit with the power of");
         kitLore.add("§7the holy book on their side");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 50, ladderCount, -1));
+        kitLore.add(" ");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Mining Fatigue I");
         kitLore.add("");

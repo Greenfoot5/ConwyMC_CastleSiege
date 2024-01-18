@@ -181,7 +181,8 @@ public class Hypaspist extends LevelKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A tank with a trident & shield, ");
         kitLore.add("§7which weakens opponents");

@@ -74,13 +74,12 @@ public abstract class LevelKit extends Kit {
     }
 
     /**
-     * @param level The level required to unlock the kit
      * @return Displays the cost for the footer of a kit gui's lore
      */
-    public static ArrayList<String> getGuiCostText(int level) {
+    public ArrayList<String> getGuiCostText() {
         ArrayList<String> text = new ArrayList<>();
         text.add(" ");
-        text.add("§a§lUnlocked at level §a" + level);
+        text.add(color + "§lUnlocked at level " + levelRequired);
         return text;
     }
 }

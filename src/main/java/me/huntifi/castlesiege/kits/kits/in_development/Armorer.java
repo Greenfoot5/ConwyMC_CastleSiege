@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -85,5 +86,12 @@ public class Armorer extends CoinKit implements Listener {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         super.equipment = es;
+    }
+
+    @Override
+    public ArrayList<String> getGuiDescription() {
+        ArrayList<String> description = new ArrayList<>();
+        description.add("§7//TODO - Add kit description");
+        return description;
     }
 }

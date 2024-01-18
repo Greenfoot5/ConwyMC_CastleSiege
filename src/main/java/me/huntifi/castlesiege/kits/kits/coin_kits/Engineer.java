@@ -525,15 +525,16 @@ public class Engineer extends CoinKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A support/debuff kit that can lay trap");
         kitLore.add("§7an operate various machines of war");
         kitLore.add("§7or repair broken structures");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add("§a" + cobwebCount + " §7Cobwebs");
-        kitLore.add("§a" + planksCount + " §7Planks");
-        kitLore.add("§a" + cobblestoneCount + " §7Cobblestone");
+        kitLore.add(color.toString() + cobwebCount + " §7Cobwebs");
+        kitLore.add(color.toString() + planksCount + " §7Planks");
+        kitLore.add(color.toString() + cobblestoneCount + " §7Cobblestone");
         kitLore.add(" ");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed I");

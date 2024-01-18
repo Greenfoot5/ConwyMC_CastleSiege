@@ -82,7 +82,8 @@ public class Shieldman extends VoterKit {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Basic tank equipped with a");
         kitLore.add("§7sword and shield");

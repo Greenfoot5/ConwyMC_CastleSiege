@@ -424,11 +424,7 @@ public abstract class Kit implements CommandExecutor {
     /**
      * @return The description to display in the kit gui
      */
-    public static ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7//TODO - Add kit description");
-        return description;
-    }
+    public abstract ArrayList<String> getGuiDescription();
 
     /**
      * @param health The health of the kit
@@ -437,14 +433,14 @@ public abstract class Kit implements CommandExecutor {
      * @param ladders The number of ladders the kit starts with
      * @return A simple display with these stats listed
      */
-    protected static ArrayList<String> getBaseStats(int health, double regen, double meleeDamage,  int ladders) {
+    protected ArrayList<String> getBaseStats(int health, double regen, double meleeDamage,  int ladders) {
         ArrayList<String> baseStats = new ArrayList<>();
         baseStats.add(" ");
-        baseStats.add("§a" + health + " §7HP");
-        baseStats.add("§a" + regen + " §7Regen");
-        baseStats.add("§a" + meleeDamage + " §7Melee DMG");
+        baseStats.add(color.toString() + health + " §7HP");
+        baseStats.add(color.toString() + regen + " §7Regen");
+        baseStats.add(color.toString() + meleeDamage + " §7Melee DMG");
         if (ladders > 0)
-            baseStats.add("§a" + ladders + " §7Ladders");
+            baseStats.add(color.toString() + ladders + " §7Ladders");
         return baseStats;
     }
 
@@ -455,22 +451,22 @@ public abstract class Kit implements CommandExecutor {
      * @param ladders The number of ladders the kit starts with
      * @return A simple display with these stats listed
      */
-    protected static ArrayList<String> getBaseStats(int health, double regen, double meleeDamage, double rangedDamage,
+    protected ArrayList<String> getBaseStats(int health, double regen, double meleeDamage, double rangedDamage,
                                                     int ladders, int ammo) {
         ArrayList<String> baseStats = new ArrayList<>();
         baseStats.add(" ");
-        baseStats.add("§a" + health + " §7HP");
-        baseStats.add("§a" + regen + " §7Regen");
-        baseStats.add("§a" + meleeDamage + " §7Melee DMG");
-        baseStats.add("§a" + rangedDamage + "+ §7Ranged DMG");
+        baseStats.add(color.toString() + health + " §7HP");
+        baseStats.add(color.toString() + regen + " §7Regen");
+        baseStats.add(color.toString() + meleeDamage + " §7Melee DMG");
+        baseStats.add(color.toString() + rangedDamage + "+ §7Ranged DMG");
         if (ladders > 0)
-            baseStats.add("§a" + ladders + " §7Ladders");
+            baseStats.add(color.toString() + ladders + " §7Ladders");
         if (ammo > 0)
-            baseStats.add("§a" + ammo + " §7Ammo");
+            baseStats.add(color.toString() + ammo + " §7Ammo");
         return baseStats;
     }
 
-    protected static ArrayList<String> getGuiCostText() {
+    public ArrayList<String> getGuiCostText() {
         ArrayList<String> text = new ArrayList<>();
         text.add(" ");
         text.add("§lApparently, it's a secret...");

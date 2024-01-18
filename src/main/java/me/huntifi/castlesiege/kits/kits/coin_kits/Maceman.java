@@ -138,7 +138,8 @@ public class Maceman extends CoinKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A melee kit that can stun");
         kitLore.add("§7opponents, making them weaker");

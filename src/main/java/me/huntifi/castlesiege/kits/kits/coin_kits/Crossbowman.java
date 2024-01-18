@@ -277,7 +277,8 @@ public class Crossbowman extends CoinKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A ranged kit that can function");
         kitLore.add("§7like a sniper");

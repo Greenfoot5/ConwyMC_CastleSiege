@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -94,5 +95,12 @@ public class Bannerman extends FreeKit implements Listener {
         super.equipment = es;
 
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0, true, false));
+    }
+
+    @Override
+    public ArrayList<String> getGuiDescription() {
+        ArrayList<String> description = new ArrayList<>();
+        description.add("§7//TODO - Add kit description");
+        return description;
     }
 }

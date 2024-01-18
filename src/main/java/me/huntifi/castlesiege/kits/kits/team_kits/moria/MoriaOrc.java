@@ -20,6 +20,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -103,5 +104,12 @@ public class MoriaOrc extends TeamKit implements Listener {
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
             ((Arrow) e.getEntity()).setDamage(13);
         }
+    }
+
+    @Override
+    public ArrayList<String> getGuiDescription() {
+        ArrayList<String> description = new ArrayList<>();
+        description.add("§7//TODO - Add kit description");
+        return description;
     }
 }

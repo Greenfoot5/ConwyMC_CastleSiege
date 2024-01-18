@@ -84,11 +84,12 @@ public class Scout extends VoterKit {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A light and agile kit");
-        kitLore.add(" ");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
+        kitLore.add(" ");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed II");
         kitLore.add("§7- Jump Boost I");

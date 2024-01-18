@@ -663,7 +663,8 @@ public class Rogue extends CoinKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A master of camouflage and tracking. Can");
         kitLore.add("§7become invisible and strike enemies from behind");

@@ -181,4 +181,11 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
             }
         }.runTaskLaterAsynchronously(Main.plugin, 20);
     }
+
+    @Override
+    public ArrayList<String> getGuiDescription() {
+        ArrayList<String> description = new ArrayList<>();
+        description.add("§7//TODO - Add kit description");
+        return description;
+    }
 }

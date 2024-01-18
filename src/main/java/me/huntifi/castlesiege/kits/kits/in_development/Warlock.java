@@ -374,7 +374,7 @@ public class Warlock extends CoinKit implements Listener {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) || staff.getType().equals(Material.EMERALD)) {
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name) || !staff.getType().equals(Material.EMERALD)) {
             return;
         }
 
@@ -395,16 +395,17 @@ public class Warlock extends CoinKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A debuff kit that can curse enemies, ");
         kitLore.add("§7sacrifice its own health to heal teammates");
         kitLore.add("§7and obliterate enemies with hellfire");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
         // TODO - Externalise values
-        kitLore.add("§a70 §7shadow bolt DMG");
-        kitLore.add("§a15dmg/s §7life-drain DMG");
-        kitLore.add("§a70dmg/s §7Hellfire DMG");
+        kitLore.add(color + "70 §7shadow bolt DMG");
+        kitLore.add(color + "15dmg/s §7life-drain DMG");
+        kitLore.add(color + "70dmg/s §7Hellfire DMG");
         kitLore.add(" ");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Slowness II");

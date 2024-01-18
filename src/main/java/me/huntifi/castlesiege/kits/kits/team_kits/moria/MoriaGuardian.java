@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -94,5 +95,12 @@ public class MoriaGuardian extends TeamKit implements Listener {
                 hit.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30, 1));
             }
         }
+    }
+
+    @Override
+    public ArrayList<String> getGuiDescription() {
+        ArrayList<String> description = new ArrayList<>();
+        description.add("§7//TODO - Add kit description");
+        return description;
     }
 }

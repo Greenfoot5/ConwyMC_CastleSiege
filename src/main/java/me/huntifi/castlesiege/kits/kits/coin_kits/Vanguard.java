@@ -163,4 +163,11 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
             }
         }
     }
+
+    @Override
+    public ArrayList<String> getGuiDescription() {
+        ArrayList<String> description = new ArrayList<>();
+        description.add("§7//TODO - Add kit description");
+        return description;
+    }
 }

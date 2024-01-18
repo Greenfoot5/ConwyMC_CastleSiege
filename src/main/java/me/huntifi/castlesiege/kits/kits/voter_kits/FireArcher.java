@@ -363,7 +363,8 @@ public class FireArcher extends VoterKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Ranged kit that can craft and");
         kitLore.add("§7shoot flaming arrows");

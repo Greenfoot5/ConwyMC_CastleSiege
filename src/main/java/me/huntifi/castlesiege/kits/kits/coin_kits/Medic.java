@@ -326,12 +326,13 @@ public class Medic extends CoinKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Our classic healer, which makes");
         kitLore.add("§7use of bandages and cake to heal allies");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add("§a" +  16 + " §7Cakes");
+        kitLore.add(color.toString() +  16 + " §7Cakes");
         kitLore.add(" ");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed I");

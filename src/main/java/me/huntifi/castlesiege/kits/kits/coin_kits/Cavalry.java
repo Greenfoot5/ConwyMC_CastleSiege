@@ -178,11 +178,12 @@ public class Cavalry extends CoinKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Can summon a horse to ride on");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add("§a" + horseHealth + " §7Horse HP");
+        kitLore.add(color.toString() + horseHealth + " §7Horse HP");
         kitLore.add(" ");
         kitLore.add("§6Horse Active:");
         kitLore.add("§7- When riding, can perform a kick");

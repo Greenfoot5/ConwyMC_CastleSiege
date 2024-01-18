@@ -110,16 +110,5 @@ public abstract class TeamKit extends CoinKit implements Listener {
                 e.getPlayer().performCommand(commandName.toLowerCase());
             }
         }
-
-    }
-
-    /**
-     * @return Displays the cost for the footer of a kit gui's lore
-     */
-    public static ArrayList<String> getGuiCostText() {
-        ArrayList<String> text = new ArrayList<>();
-        text.add(" ");
-        text.add("§e§lCan be unlocked with coins");
-        return text;
     }
 }

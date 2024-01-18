@@ -26,7 +26,7 @@ import java.util.Objects;
 /**
  * The halberdier kit
  */
-public class Halberdier extends DonatorKit implements Listener {
+public class Halberdier extends CoinKit implements Listener {
 
     private static final int health = 630;
     private static final double regen = 23;
@@ -138,7 +138,8 @@ public class Halberdier extends DonatorKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Our classic tank capable of");
         kitLore.add("§7taking a large beating");

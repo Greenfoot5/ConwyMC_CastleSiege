@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -133,5 +134,12 @@ public class HommetLongbowarcher extends TeamKit implements Listener {
                 ((Arrow) e.getEntity()).setDamage(40);
             }
         }
+    }
+
+    @Override
+    public ArrayList<String> getGuiDescription() {
+        ArrayList<String> description = new ArrayList<>();
+        description.add("§7//TODO - Add kit description");
+        return description;
     }
 }

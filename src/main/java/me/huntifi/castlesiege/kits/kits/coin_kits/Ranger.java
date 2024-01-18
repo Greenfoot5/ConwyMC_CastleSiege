@@ -318,7 +318,8 @@ public class Ranger extends CoinKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7Ranger is a versatile ranged kit that");
         kitLore.add("§7can shoot volleys and bursts of arrows");

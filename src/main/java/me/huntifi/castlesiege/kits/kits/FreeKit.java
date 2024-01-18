@@ -34,10 +34,10 @@ public abstract class FreeKit extends Kit {
     /**
      * @return Displays the cost for the footer of a kit gui's lore
      */
-    public static ArrayList<String> getGuiCostText() {
+    public ArrayList<String> getGuiCostText() {
         ArrayList<String> text = new ArrayList<>();
         text.add(" ");
-        text.add("§2§lFree to play!");
+        text.add(color + "§lFree to play!");
         return text;
     }
 

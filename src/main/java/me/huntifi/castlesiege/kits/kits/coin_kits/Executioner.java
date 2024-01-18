@@ -139,14 +139,16 @@ public class Executioner extends CoinKit implements Listener {
 	/**
 	 * @return The lore to add to the kit gui item
 	 */
-	public static ArrayList<String> getGuiDescription() {
+	@Override
+    public ArrayList<String> getGuiDescription() {
 		ArrayList<String> kitLore = new ArrayList<>();
 		kitLore.add("§7An axe-wielder capable of");
 		kitLore.add("§7instantly killing weak enemies");
 		kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
+		kitLore.add(" ");
 		kitLore.add("§5Effects:");
 		kitLore.add("§7- Speed I");
-		kitLore.add("");
+		kitLore.add(" ");
 		kitLore.add("§2Passive: ");
 		kitLore.add("§7- Executes enemies that are below");
 		kitLore.add("§a30% §7of their max health");

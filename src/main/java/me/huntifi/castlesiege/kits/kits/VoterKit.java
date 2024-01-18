@@ -67,10 +67,10 @@ public abstract class VoterKit extends Kit {
     /**
      * @return Displays the cost for the footer of a kit gui's lore
      */
-    public static ArrayList<String> getGuiCostText() {
+    public ArrayList<String> getGuiCostText() {
         ArrayList<String> text = new ArrayList<>();
         text.add(" ");
-        text.add("§9§lVote on PMC for this kit");
+        text.add(color + "§lUnlocked by voting on PMC");
         return text;
     }
 }

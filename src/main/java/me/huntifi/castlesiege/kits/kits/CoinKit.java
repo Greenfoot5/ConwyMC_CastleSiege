@@ -85,10 +85,10 @@ public abstract class CoinKit extends Kit {
     /**
      * @return Displays the cost for the footer of a kit gui's lore
      */
-    public static ArrayList<String> getGuiCostText() {
+    public ArrayList<String> getGuiCostText() {
         ArrayList<String> text = new ArrayList<>();
         text.add(" ");
-        text.add("§e§lCan be unlocked with coins");
+        text.add(color + "§lUnlocked with coins");
         return text;
     }
 }

@@ -195,7 +195,8 @@ public class Spearman extends FreeKit implements Listener {
 	/**
 	 * @return The lore to add to the kit gui item
 	 */
-	public static ArrayList<String> getGuiDescription() {
+	@Override
+    public ArrayList<String> getGuiDescription() {
 		ArrayList<String> kitLore = new ArrayList<>();
 		kitLore.add("§7A mid-ranged unit with a melee weapon");
 		kitLore.add("§7that can be thrown");

@@ -261,13 +261,14 @@ public class Sorcerer extends CoinKit implements Listener {
     /**
      * @return The lore to add to the kit gui item
      */
-    public static ArrayList<String> getGuiDescription() {
+    @Override
+    public ArrayList<String> getGuiDescription() {
         ArrayList<String> kitLore = new ArrayList<>();
         kitLore.add("§7A sorcerer specialised in the arcane arts, ");
         kitLore.add("§7can also slow down enemies with ice");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add("§a60 §7arcane-bolt DMG");
-        kitLore.add("§a30 §7frost nova DMG");
+        kitLore.add(color.toString() + "60 §7arcane-bolt DMG");
+        kitLore.add(color.toString() + "30 §7frost nova DMG");
         kitLore.add(" ");
         kitLore.add("§5Effects:");
         kitLore.add("§7- Slowness I");
