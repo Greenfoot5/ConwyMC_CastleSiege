@@ -37,6 +37,11 @@ import java.util.UUID;
  */
 public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
+    private static final int health = 270;
+    private static final double regen = 10.5;
+    private static final double meleeDamage = 57;
+    private static final int ladderAmount = 4
+
     private static final ArrayList<UUID> vanguards = new ArrayList<>();
 
     /**
@@ -53,14 +58,14 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Reinforced Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "Right-click to activate charge ability."),
-                null, 57);
+                null,  meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                         ChatColor.GREEN + "Reinforced Iron Sword",
                         Arrays.asList(ChatColor.AQUA + "Right-click to activate charge ability.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 59),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
@@ -84,8 +89,8 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
                 Color.fromRGB(99, 179, 101));
 
         // Ladders
-        es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
+        es.hotbar[1] = new ItemStack(Material.LADDER, ladderAmount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderAmount + 2), 1);
 
         super.equipment = es;
 
@@ -166,8 +171,19 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
     @Override
     public ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7//TODO - Add kit description");
-        return description;
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A master of camouflage and tracking. Can");
+        kitLore.add("§7become invisible and strike enemies from behind");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
+        kitLore.add(" ");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Speed I");
+        kitLore.add("§7- Haste I");
+        kitLore.add(" ");
+        kitLore.add("§6Active:");
+        kitLore.add("§7- Can charge forward gaining Speed V and");
+        kitLore.add("§7Jump Boost II and bonus damage to the first");
+        kitLore.add("§7target hit");
+        return kitLore;
     }
 }
