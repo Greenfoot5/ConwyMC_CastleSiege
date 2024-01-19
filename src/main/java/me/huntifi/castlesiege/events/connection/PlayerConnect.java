@@ -110,7 +110,7 @@ public class PlayerConnect implements Listener {
         }
 
         if (CoinKit.isFree()) {
-            Messenger.broadcastInfo("It's Friday! All donator and team kits are " + ChatColor.BOLD + "UNLOCKED!");
+            Messenger.broadcastInfo("It's Friday! All coin and team kits are " + ChatColor.BOLD + "UNLOCKED!");
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
