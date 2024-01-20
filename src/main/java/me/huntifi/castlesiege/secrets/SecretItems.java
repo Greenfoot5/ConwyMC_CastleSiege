@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.secrets;
 
 import me.huntifi.castlesiege.events.EnderchestEvent;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -87,9 +88,11 @@ public class SecretItems implements Listener {
     private void dropSecretItems(Player player) {
         if (!secretItemHolder.containsKey(player))
             return;
+
         for (ItemStack item : secretItemHolder.get(player)) {
             player.getInventory().remove(item);
             player.getWorld().dropItem(player.getLocation().add(0, 1, 0), item).setVelocity(new Vector(0, 0, 0));
+            Messenger.broadcastSecret(ChatColor.YELLOW + item.getItemMeta().getDisplayName() + "§r has been dropped!");
         }
 
         secretItemHolder.remove(player);
@@ -108,6 +111,7 @@ public class SecretItems implements Listener {
         if (secretItems.contains(event.getItem().getItemStack())) {
             secretItemHolder.putIfAbsent(player, new ArrayList<>());
             secretItemHolder.get(player).add(event.getItem().getItemStack());
+            Messenger.broadcastSecret(player.getName() + " has picked up " + event.getItem().getName());
         }
     }
 
