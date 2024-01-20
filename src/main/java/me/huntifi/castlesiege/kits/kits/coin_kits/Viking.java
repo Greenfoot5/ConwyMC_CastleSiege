@@ -28,6 +28,11 @@ import java.util.Objects;
  */
 public class Viking extends CoinKit implements Listener {
 
+    private static final int health = 330;
+    private static final double regen = 10.5;
+    private static final double meleeDamage = 16;
+    private static final int ladderAmount = 4;
+
     private static final double PERCENTAGE_DAMAGE = 0.15;
 
     /**
@@ -42,13 +47,13 @@ public class Viking extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                ChatColor.GREEN + "Giant Battle Axe", null, null, 16);
+                ChatColor.GREEN + "Giant Battle Axe", null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                         ChatColor.GREEN + "Giant Battle Axe",
                         Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 18),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
@@ -69,8 +74,8 @@ public class Viking extends CoinKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
-        es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 1);
+        es.hotbar[1] = new ItemStack(Material.LADDER, ladderAmount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderAmount + 2), 1);
 
         super.equipment = es;
 
@@ -112,8 +117,18 @@ public class Viking extends CoinKit implements Listener {
 
     @Override
     public ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7//TODO - Add kit description");
-        return description;
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A mighty norse warrior with an axe so strong");
+        kitLore.add("§7it ignores any armour that stands in the way");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
+        kitLore.add(" ");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Slow I");
+        kitLore.add("§7- Mining Fatigue I");
+        kitLore.add(" ");
+        kitLore.add("§2Passive:");
+        kitLore.add("§7- Deals " + PERCENTAGE_DAMAGE + "% damage plus ");
+        kitLore.add(meleeDamage + " DMG each attack");
+        return kitLore;
     }
 }
