@@ -44,6 +44,11 @@ import java.util.UUID;
  */
 public class Warhound extends CoinKit implements Listener {
 
+    private static final int health = 200;
+    private static final double regen = 10.5;
+    private static final double meleeDamage = 57;
+    private static final int ladderAmount = 4;
+
     /**
      * Set the equipment and attributes of this kit
      */
@@ -293,8 +298,25 @@ public class Warhound extends CoinKit implements Listener {
 
     @Override
     public ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7//TODO - Add kit description");
-        return description;
+        ArrayList<String> kitLore = new ArrayList<>();
+        kitLore.add("§7A quick a ferocious hound. Hard to hit and bites hard");
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
+        kitLore.add(" ");
+        kitLore.add("§5Effects:");
+        kitLore.add("§7- Resistance I");
+        kitLore.add("§7- Jump Boost I");
+        kitLore.add("§7- Night Vision I");
+        kitLore.add("§7- Speed III");
+        kitLore.add(" ");
+        kitLore.add("§6Active:");
+        kitLore.add("§7- Can bite enemies to briefly immobilise them");
+        kitLore.add(" ");
+        kitLore.add("§2Passive:");
+        kitLore.add("§7- Slows enemies when hitting them");
+        kitLore.add("§7- Can see players' health");
+        kitLore.add("§7- Has a coloured collar to represent team");
+        kitLore.add("§c- Cannot cap flags");
+        kitLore.add("§c- Cannot climb");
+        return kitLore;
     }
 }
