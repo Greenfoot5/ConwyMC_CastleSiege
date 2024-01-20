@@ -48,7 +48,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
      * Set the equipment and attributes of this kit
      */
     public Vanguard() {
-        super("Vanguard", 270, 10.5, Material.DIAMOND_SWORD);
+        super("Vanguard", health, regen, Material.DIAMOND_SWORD);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -58,14 +58,14 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 ChatColor.GREEN + "Reinforced Iron Sword",
                 Collections.singletonList(ChatColor.AQUA + "Right-click to activate charge ability."),
-                null, 57);
+                null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                         ChatColor.GREEN + "Reinforced Iron Sword",
                         Arrays.asList(ChatColor.AQUA + "Right-click to activate charge ability.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 59),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate

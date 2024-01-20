@@ -422,7 +422,7 @@ public class Warlock extends CoinKit implements Listener {
         kitLore.add("§7hellfire that incinerates all enemy players it comes across");
         kitLore.add(" ");
         kitLore.add("§2Passive ");
-        kitLore.add("§7- Can see player health");
+        kitLore.add("§7- Can see players' health");
         kitLore.add("§7- Hitting targets with shadow bolt gives soul shards");
         kitLore.add("§7and has a 10% chance to give a health stone");
         return kitLore;

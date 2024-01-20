@@ -673,7 +673,7 @@ public class Rogue extends CoinKit implements Listener {
         kitLore.add("§5Effects:");
         kitLore.add("§7- Speed II");
         kitLore.add("§7- Haste II");
-        kitLore.add("§7- Nigh Vision I");
+        kitLore.add("§7- Night Vision I");
         kitLore.add("§7- Jump Boost I");
         kitLore.add(" ");
         kitLore.add("§6Active:");

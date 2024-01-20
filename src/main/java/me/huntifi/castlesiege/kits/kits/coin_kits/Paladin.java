@@ -206,7 +206,7 @@ public class Paladin extends CoinKit implements Listener {
         kitLore.add("§7allies in a 5 block radius for 8 seconds");
         kitLore.add(" ");
         kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see player health");
+        kitLore.add("§7- Can see players' health");
         return kitLore;
     }
 }

@@ -186,7 +186,7 @@ public class Warbear extends StaffKit implements Listener {
         kitLore.add("§7- Can gain a short burst of speed");
         kitLore.add(" ");
         kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see health");
+        kitLore.add("§7- Can see players' health");
         kitLore.add("§c- Cannot climb");
         kitLore.add("§7- Deals bonus damage to gates when punching");
         kitLore.add("§c- Cannot cap flags");

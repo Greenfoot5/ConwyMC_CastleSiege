@@ -289,7 +289,7 @@ public class Priest extends CoinKit implements Listener {
         kitLore.add("§7Lasts until another ally is selected");
         kitLore.add(" ");
         kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see player health");
+        kitLore.add("§7- Can see players' health");
         return kitLore;
     }
 }

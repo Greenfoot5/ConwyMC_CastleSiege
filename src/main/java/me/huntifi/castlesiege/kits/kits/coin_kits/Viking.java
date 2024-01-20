@@ -39,7 +39,7 @@ public class Viking extends CoinKit implements Listener {
      * Set the equipment and attributes of this kit
      */
     public Viking() {
-        super("Viking", 330, 10.5, Material.IRON_CHESTPLATE);
+        super("Viking", health, regen, Material.IRON_CHESTPLATE);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

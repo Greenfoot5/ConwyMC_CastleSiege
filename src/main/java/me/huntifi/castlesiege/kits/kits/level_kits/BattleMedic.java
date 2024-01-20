@@ -171,7 +171,7 @@ public class BattleMedic extends LevelKit implements Listener {
         kitLore.add("§7- Can heal teammates with bandages");
         kitLore.add(" ");
         kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see health");
+        kitLore.add("§7- Can see players' health");
         return kitLore;
     }
 }
