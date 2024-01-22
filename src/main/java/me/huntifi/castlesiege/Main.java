@@ -1291,20 +1291,24 @@ public class Main extends JavaPlugin implements Listener {
                 colors.setSecond(ChatColor.DARK_GRAY);
                 break;
             case "dark_blue":
+            case "darkblue":
                 colors.setFirst(Material.BLUE_WOOL);
                 colors.setSecond(ChatColor.DARK_BLUE);
                 break;
             case "dark_green":
+            case "darkgreen":
             case "green":
                 colors.setFirst(Material.GREEN_WOOL);
                 colors.setSecond(ChatColor.DARK_GREEN);
                 break;
             case "cyan":
             case "dark_aqua":
+            case "darkaqua":
                 colors.setFirst(Material.CYAN_WOOL);
                 colors.setSecond(ChatColor.DARK_AQUA);
                 break;
             case "dark_red":
+            case "darkred":
             case "red":
                 colors.setFirst(Material.RED_WOOL);
                 colors.setSecond(ChatColor.DARK_RED);
@@ -1314,24 +1318,31 @@ public class Main extends JavaPlugin implements Listener {
                 colors.setSecond(ChatColor.DARK_RED);
                 break;
             case "dark_purple":
+            case "darkpurple":
             case "purple":
                 colors.setFirst(Material.PURPLE_WOOL);
                 colors.setSecond(ChatColor.DARK_PURPLE);
                 break;
             case "gold":
             case "dark_gold":
+            case "darkgold":
             case "dark_yellow":
+            case "darkyellow":
             case "orange":
                 colors.setFirst(Material.ORANGE_WOOL);
                 colors.setSecond(ChatColor.GOLD);
                 break;
             case "light_gold":
+            case "lightgold":
                 colors.setFirst(Material.YELLOW_WOOL);
                 colors.setSecond(ChatColor.GOLD);
                 break;
             case "light_gray":
+            case "lightgray":
             case "light_grey":
+            case "lightgrey":
             case "gray":
+            case "grey":
                 colors.setFirst(Material.LIGHT_GRAY_WOOL);
                 colors.setSecond(ChatColor.GRAY);
                 break;
@@ -1347,10 +1358,12 @@ public class Main extends JavaPlugin implements Listener {
                 colors.setSecond(ChatColor.BLUE);
                 break;
             case "light_blue":
+            case "lightblue":
                 colors.setFirst(Material.LIGHT_BLUE_WOOL);
                 colors.setSecond(ChatColor.BLUE);
                 break;
             case "light_green":
+            case "lightgreen":
             case "lime":
                 colors.setFirst(Material.LIME_WOOL);
                 colors.setSecond(ChatColor.GREEN);
@@ -1360,10 +1373,12 @@ public class Main extends JavaPlugin implements Listener {
                 colors.setSecond(ChatColor.AQUA);
                 break;
             case "light_red":
+            case "lightred":
                 colors.setFirst(Material.PINK_WOOL);
                 colors.setSecond(ChatColor.RED);
                 break;
             case "light_purple":
+            case "lightpurple":
             case "magenta":
                 colors.setFirst(Material.MAGENTA_WOOL);
                 colors.setSecond(ChatColor.LIGHT_PURPLE);
@@ -1373,6 +1388,7 @@ public class Main extends JavaPlugin implements Listener {
                 colors.setSecond(ChatColor.LIGHT_PURPLE);
                 break;
             case "light_yellow":
+            case "lightyellow":
             case "yellow":
                 colors.setFirst(Material.YELLOW_WOOL);
                 colors.setSecond(ChatColor.YELLOW);
