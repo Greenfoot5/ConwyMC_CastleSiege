@@ -13,6 +13,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.TeamController;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -458,8 +459,13 @@ public class Rogue extends CoinKit implements Listener {
                     arrow.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 0), true);
                     arrow.addCustomEffect(new PotionEffect(PotionEffectType.GLOWING, 1200, 0), true);
                     if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                        arrow.setDamage(5);
-                        ((Player) arrow.getShooter()).getInventory().addItem(comboPoint);
+                        Player hit = (Player) e.getHitEntity();
+                        //check if players aren't on the same team
+                        if (TeamController.getTeam(damages.getUniqueId())
+                                != TeamController.getTeam(hit.getUniqueId())) {
+                            arrow.setDamage(5);
+                            ((Player) arrow.getShooter()).getInventory().addItem(comboPoint);
+                        }
                     }
                 }
             } else if(arrow.getShooter() instanceof Player && !(e.getHitEntity() instanceof Player)){
