@@ -57,7 +57,8 @@ public class Berserker extends CoinKit implements Listener {
 
         // Weapon
         regularSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword", null, null, meleeDamage);
+                ChatColor.GREEN + "Iron Sword", null,
+                Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage);
         es.hotbar[0] = regularSword;
         // Voted Weapon
         regularSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
@@ -75,11 +76,11 @@ public class Berserker extends CoinKit implements Listener {
                 ChatColor.GOLD + "Berserker Potion", null, null);
 
         // Berserk Weapon
-        berserkSword = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
+        berserkSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword", null,
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamageZerk);
         // Voted Berserk Weapon
-        berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
+        berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 ChatColor.GREEN + "Berserker Sword",
                 Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
@@ -113,6 +114,8 @@ public class Berserker extends CoinKit implements Listener {
                 } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
                     p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
                 }
+
+                p.getInventory().remove(Material.GLASS_BOTTLE);
 
                 // Prevent using in lobby
                 if (InCombat.isPlayerInLobby(uuid)) {
