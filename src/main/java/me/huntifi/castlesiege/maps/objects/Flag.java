@@ -673,7 +673,6 @@ public class Flag {
             case AQUA:
                 return net.kyori.adventure.bossbar.BossBar.Color.BLUE;
             case GRAY:
-            case DARK_GRAY:
             case WHITE:
                 return net.kyori.adventure.bossbar.BossBar.Color.WHITE;
             case DARK_GREEN:
@@ -682,6 +681,7 @@ public class Flag {
             case LIGHT_PURPLE:
                 return net.kyori.adventure.bossbar.BossBar.Color.PINK;
             case BLACK:
+            case DARK_GRAY:
             case DARK_PURPLE:
                 return net.kyori.adventure.bossbar.BossBar.Color.PURPLE;
             case DARK_RED:
