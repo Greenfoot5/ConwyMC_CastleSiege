@@ -31,6 +31,7 @@ import me.huntifi.castlesiege.secrets.SecretItems;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -696,6 +697,8 @@ public class MapController {
 
 		player.teleport(team.lobby.spawnPoint);
 		NameTag.give(player);
+
+		player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_2, 1f, 1f);
 
 		player.sendMessage("You joined" + team.primaryChatColor + " " + team.name);
 
