@@ -434,8 +434,8 @@ public class Flag {
         // Play level up sound if it's fully capped, or play a xp orb pickup
         Sound effect = fullyCapped ? Sound.ITEM_GOAT_HORN_SOUND_1 : Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 
-        float volume = 1f; //1 = 100%
-        float pitch = fullyCapped ? 0.5f : 0.8f; //Float between 0.5 and 2.0
+        float volume = 1f; //1 = 100%0
+        float pitch = fullyCapped ? 1f : 0.8f; //Float between 0.5 and 2.0
 
         player.playSound(location, effect, volume, pitch);
     }
