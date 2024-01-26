@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.maps.events;
 
+import me.huntifi.castlesiege.Main;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -32,6 +33,7 @@ public class RamEvent extends Event implements Cancellable {
      * @param players The player(s) dealing the damage
      */
     public RamEvent(String gateName, int damageDealt, int currentHealth, ArrayList<UUID> players) {
+        super(true);
         this.isCancelled = false;
         this.gateName = gateName;
         this.damageDealt = damageDealt;

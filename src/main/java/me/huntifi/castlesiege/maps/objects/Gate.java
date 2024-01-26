@@ -205,10 +205,15 @@ public class Gate implements Listener {
                         String.format("%s%sGate Health: %d", ChatColor.GRAY, ChatColor.BOLD, health)));
             }
 
-            // Play an explosion sound for hitting the gate
-            World world = Bukkit.getWorld(MapController.getCurrentMap().worldName);
-            assert world != null;
-            world.playSound(breachSoundLocation.toLocation(world), Sound.ENTITY_GENERIC_EXPLODE, 2, 1 );
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    // Play an explosion sound for hitting the gate
+                    World world = Bukkit.getWorld(MapController.getCurrentMap().worldName);
+                    assert world != null;
+                    world.playSound(breachSoundLocation.toLocation(world), Sound.ENTITY_GENERIC_EXPLODE, 2, 1);
+                }
+            }.runTask(Main.plugin);
 
         } else {
             gateBreached();

@@ -122,13 +122,13 @@ public class Scoreboard implements Runnable {
 
 			assert objective != null;
 			objective.setDisplayName(displayName);
-			replaceScore(objective, 15, "");
-			replaceScore(objective, 15, String.format("%s%sMap:%s %s",
+			replaceScore(objective, 20, "");
+			replaceScore(objective, 20, String.format("%s%sMap:%s %s",
 					ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
 
 			// Setup timer display
-			replaceScore(objective, 13, ChatColor.GOLD + String.valueOf(ChatColor.BOLD) + getTimeText());
-			replaceScore(objective, 12, ChatColor.DARK_GRAY + "-");
+			replaceScore(objective, 18, ChatColor.GOLD + String.valueOf(ChatColor.BOLD) + getTimeText());
+			replaceScore(objective, 17, ChatColor.DARK_GRAY + "-");
 
 
 			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {

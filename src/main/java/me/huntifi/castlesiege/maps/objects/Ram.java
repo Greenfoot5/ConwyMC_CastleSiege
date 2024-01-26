@@ -136,16 +136,20 @@ public class Ram {
      */
     private void doRamTick(Tuple<ArrayList<UUID>, ArrayList<UUID>> contenders) {
         if (shouldHit(contenders.getFirst().size() - contenders.getSecond().size())) {
+            RamEvent ramEvent = new RamEvent(gate.getName(), damage, gate.getHealth(), contenders.getFirst());
+            Bukkit.getPluginManager().callEvent(ramEvent);
+            if (ramEvent.isCancelled()) {
+                return;
+            }
+
             // Perform the ram blockAnimation
             spawnSchematic(schematicNameActiveHit);
             Bukkit.getScheduler().runTaskLater(Main.plugin, () -> spawnSchematic(schematicNameActiveRest), 7);
 
-            RamEvent ramEvent = new RamEvent(gate.getName(), damage, gate.getHealth(), contenders.getFirst());
-            Bukkit.getPluginManager().callEvent(ramEvent);
-            if (!ramEvent.isCancelled()) {
-                // Deal damage to the gate
-                gate.dealDamage(ramEvent.getPlayerUUIDs(), ramEvent.getDamageDealt());
-            }
+
+            // Deal damage to the gate
+            //gate.dealDamage(contenders.getFirst(), damage);
+            gate.dealDamage(ramEvent.getPlayerUUIDs(), ramEvent.getDamageDealt());
 
             // Award supports to attacking players
             for (UUID uuid : players)
@@ -200,9 +204,14 @@ public class Ram {
      * @param sound The sound to play
      */
     private void playSound(Sound sound) {
-        World world = Bukkit.getWorld(MapController.getCurrentMap().worldName);
-        assert world != null;
-        world.playSound(schematicLocation.toLocation(world), sound, 1, 0.5f);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                World world = Bukkit.getWorld(MapController.getCurrentMap().worldName);
+                assert world != null;
+                world.playSound(schematicLocation.toLocation(world), sound, 1, 0.5f);
+            }
+        }.runTask(Main.plugin);
     }
 
     /**
