@@ -36,8 +36,6 @@ public class SetMapCommand implements CommandExecutor {
 			Player p = (Player) sender;
 			MapController.setMap(mapName);
 			Messenger.broadcastInfo(p.getName() + " has set the map to " + mapName + "!");
-			Bukkit.getServer().broadcastMessage(
-					p.getName() + ChatColor.YELLOW + " has set the map to " + mapName + "!");
 
 
 		} else if (sender instanceof ConsoleCommandSender) {
