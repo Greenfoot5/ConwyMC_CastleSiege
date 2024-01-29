@@ -23,7 +23,7 @@ public class Shieldman extends FreeKit {
     private static final int health = 400;
     private static final double regen = 14;
     private static final double meleeDamage = 36;
-    private static final int ladderCount = 25;
+    private static final int ladderCount = 4;
 
     /**
      * Set the equipment and attributes of this kit
