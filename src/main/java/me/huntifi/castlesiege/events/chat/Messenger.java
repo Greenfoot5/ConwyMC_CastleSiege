@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.chat;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.events.curses.Curse;
 import me.huntifi.castlesiege.events.curses.CurseEnum;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
@@ -188,15 +189,15 @@ public class Messenger {
      */
     public static void broadcastCurseActivated(Curse curse, Object... args) {
         Main.plugin.getServer().broadcastMessage(String.format(ChatColor.GOLD + "[☠] "
-                + ChatColor.DARK_RED + curse.getName() + ChatColor.RED + " has been activated! "
-                + curse.getActivateDescription(), args));
+                + ChatColor.DARK_RED + curse.displayName + ChatColor.RED + " has been activated! "
+                + curse.activateMessage, args));
     }
 
     /**
      * Broadcasts an expired curse to everyone.
      * @param curse The expired curse
      */
-    public static void broadcastCurseExpired(Curse curse) {
+    public static void broadcastCurseExpired(CurseEnum curse) {
         Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[☠] "
                 + ChatColor.DARK_RED + curse.getName() + ChatColor.RED + " has expired! "
                 + curse.getExpireDescription());
