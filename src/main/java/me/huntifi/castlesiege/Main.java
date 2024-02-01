@@ -161,7 +161,7 @@ import me.huntifi.castlesiege.kits.kits.team_kits.thunderstone.ThunderstoneElytr
 import me.huntifi.castlesiege.kits.kits.voter_kits.FireArcher;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Scout;
-import me.huntifi.castlesiege.kits.kits.voter_kits.Shieldman;
+import me.huntifi.castlesiege.kits.kits.free_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Skirmisher;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.Hommet.CollapseEvent;

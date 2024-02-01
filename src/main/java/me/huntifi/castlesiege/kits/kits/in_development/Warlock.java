@@ -410,7 +410,7 @@ public class Warlock extends CoinKit implements Listener {
         kitLore.add("§5Effects:");
         kitLore.add("§7- Slowness II");
         kitLore.add(" ");
-        kitLore.add("§Active:");
+        kitLore.add("§aActive:");
         kitLore.add("§7- Can shoot a shadow bolt at opponents");
         kitLore.add("§7to damage them and give them slowness I");
         kitLore.add("§7- Can curse all enemies in a 7 block radius");

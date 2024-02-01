@@ -1,8 +1,9 @@
-package me.huntifi.castlesiege.kits.kits.voter_kits;
+package me.huntifi.castlesiege.kits.kits.free_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -17,12 +18,12 @@ import java.util.Collections;
 /**
  * The shieldman kit
  */
-public class Shieldman extends VoterKit {
+public class Shieldman extends FreeKit {
 
     private static final int health = 400;
     private static final double regen = 14;
     private static final double meleeDamage = 36;
-    private static final int ladderCount = 25;
+    private static final int ladderCount = 4;
 
     /**
      * Set the equipment and attributes of this kit

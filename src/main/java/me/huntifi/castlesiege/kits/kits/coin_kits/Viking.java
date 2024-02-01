@@ -128,7 +128,7 @@ public class Viking extends CoinKit implements Listener {
         kitLore.add(" ");
         kitLore.add("§2Passive:");
         kitLore.add("§7- Deals " + PERCENTAGE_DAMAGE + "% damage plus ");
-        kitLore.add(meleeDamage + " DMG each attack");
+        kitLore.add("§7 " + meleeDamage + " DMG each attack");
         return kitLore;
     }
 }
