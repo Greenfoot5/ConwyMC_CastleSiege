@@ -201,6 +201,25 @@ public class MapProtection implements Listener {
 	}
 
 	/**
+	 * Cancels event when player picks fruit
+	 * @param e The event called when a player tramples farmland
+	 */
+	@EventHandler
+	public void onPickBerries(PlayerInteractEvent e) {
+		// Allow trampling in creative mode
+		Player p = e.getPlayer();
+		if (p.getGameMode() == GameMode.CREATIVE || e.getAction() != Action.RIGHT_CLICK_BLOCK) {
+			return;
+		}
+
+		Material block = Objects.requireNonNull(e.getClickedBlock()).getType();
+
+		if(block == Material.SWEET_BERRY_BUSH || block == Material.CAVE_VINES_PLANT) {
+			e.setCancelled(true);
+		}
+	}
+
+	/**
 	 * Stops tnt from being primed. Primed TNT will still explode
 	 * @param e Called when tnt is primed
 	 */
