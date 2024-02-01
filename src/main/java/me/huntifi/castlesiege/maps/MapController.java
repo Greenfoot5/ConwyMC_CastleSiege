@@ -57,18 +57,18 @@ public class MapController {
 	// Boosters - chances
 	private static final double BASE_BOOSTER_CHANCE = 0.15;
 	private static final double COIN_BOOSTER_CHANCE = 0.35;
-	private static final double BATTLEPOINT_BOOSTER_CHANCE = 0.3;
-	//private static final double KIT_BOOSTER_CHANCE = 0.35; // Not actually used, set for reference
+//	private static final double BATTLEPOINT_BOOSTER_CHANCE = 0.3;
+//	private static final double KIT_BOOSTER_CHANCE = 0.35; // Not actually used, set for reference
 	// Boosters - limits/sub-chances
 	private static final int COIN_BOOSTER_MAX_TIME = 9000;
 	private static final int COIN_BOOSTER_MIN_TIME = 1800;
 	private static final double COIN_BOOSTER_GAUSSIAN_DIV = 2.75;
 	private static final double COIN_BOOSTER_GAUSSIAN_ADD = 3;
-	private static final int BP_BOOSTER_MAX_TIME = 2700;
-	private static final int BP_BOOSTER_MIN_TIME = 300;
-	private static final double BP_BOOSTER_MULT_CHANCE = 0.5;
-	private static final double BP_BOOSTER_MAX_MULT = 2.5;
-	private static final double BP_BOOSTER_MIN_MULT = -1;
+//	private static final int BP_BOOSTER_MAX_TIME = 2700;
+//	private static final int BP_BOOSTER_MIN_TIME = 300;
+//	private static final double BP_BOOSTER_MULT_CHANCE = 0.5;
+//	private static final double BP_BOOSTER_MAX_MULT = 2.5;
+//	private static final double BP_BOOSTER_MIN_MULT = -1;
 	private static final int KIT_BOOSTER_MAX_TIME = 9000;
 	private static final int KIT_BOOSTER_MIN_TIME = 1800;
 	private static final double KIT_BOOSTER_RANDOM_CHANCE = 0.35;
