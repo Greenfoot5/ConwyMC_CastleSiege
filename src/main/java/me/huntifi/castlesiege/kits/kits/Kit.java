@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.curses.CurseEnum;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
@@ -84,6 +85,9 @@ public abstract class Kit implements CommandExecutor {
      * Create a kit with basic settings
      * @param name This kit's name
      * @param baseHealth This kit's base health
+     * @param regenAmount The amount the kit regenerates per regen tick
+     * @param material The material to represent the kit in GUIs
+     * @param color The chat colour for the kit
      */
     public Kit(String name, int baseHealth, double regenAmount, Material material, ChatColor color) {
         this.name = name;
@@ -97,7 +101,6 @@ public abstract class Kit implements CommandExecutor {
         canCap = true;
         canClimb = true;
         canSeeHealth = false;
-        kbResistance = 0;
 
         // Equipment
         equipment = new EquipmentSet();
@@ -115,11 +118,17 @@ public abstract class Kit implements CommandExecutor {
     /**
      * Give the items and attributes of this kit to a player
      * @param uuid The unique id of the player to whom this kit is given
+     * @param force If the
      */
-    public void setItems(UUID uuid) {
+    public void setItems(UUID uuid, boolean force) {
         Bukkit.getScheduler().runTask(Main.plugin, () -> {
             Player player = Bukkit.getPlayer(uuid);
-            if (player == null) {
+            if (player == null)
+                return;
+
+            // The player shouldn't get the items
+            if (!(force || canSelect(player,false, false, false))) {
+                player.performCommand("random");
                 return;
             }
 
@@ -206,30 +215,33 @@ public abstract class Kit implements CommandExecutor {
     /**
      * Register the player as using this kit and set their items
      * @param uuid The unique id of the player to register
+     * @param shouldRespawn If the player should be respawned
      */
-    public void addPlayer(UUID uuid) {
+    public void addPlayer(UUID uuid, boolean shouldRespawn) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             Player player = Bukkit.getPlayer(uuid);
             assert player != null;
             players.add(uuid);
             equippedKits.put(uuid, this);
-            setItems(uuid);
+            setItems(uuid, true);
             ActiveData.getData(uuid).setKit(getSpacelessName());
             Messenger.sendInfo("Selected Kit: " + this.name, player);
 
             // Kills the player if they have spawned this life, otherwise heal them
-            if (!InCombat.isPlayerInLobby(uuid)) {
-                Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
-                if (MapController.isOngoing()) {
-                    Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
-                    UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
+            if (shouldRespawn) {
+                if (!InCombat.isPlayerInLobby(uuid)) {
+                    Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
+                    if (MapController.isOngoing()) {
+                        Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
+                        UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
+                    } else {
+                        Messenger.sendInfo("You have committed suicide!", player);
+                    }
                 } else {
-                    Messenger.sendInfo("You have committed suicide!", player);
+                    Bukkit.getScheduler().runTask(Main.plugin, () ->
+                            player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue())
+                    );
                 }
-            } else {
-                Bukkit.getScheduler().runTask(Main.plugin, () ->
-                    player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue())
-                );
             }
         });
     }
@@ -340,8 +352,8 @@ public abstract class Kit implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            if (canSelect(sender, true, false))
-                addPlayer(((Player) sender).getUniqueId());
+            if (canSelect(sender, true, false, true))
+                addPlayer(((Player) sender).getUniqueId(), true);
         });
         return true;
     }
@@ -349,11 +361,12 @@ public abstract class Kit implements CommandExecutor {
     /**
      * Check if the player can select this kit
      * @param sender Source of the command
+     * @param applyLimit Whether to apply the kit limit in the check
      * @param verbose Whether error messages should be sent
      * @param isRandom Whether the check is done by the random command
      * @return Whether the player can select this kit
      */
-    public boolean canSelect(CommandSender sender, boolean verbose, boolean isRandom) {
+    public boolean canSelect(CommandSender sender, boolean applyLimit, boolean verbose, boolean isRandom) {
         if (!(sender instanceof Player)) {
             if (verbose)
                 Messenger.sendError("Console cannot select kits!", sender);
@@ -367,7 +380,19 @@ public abstract class Kit implements CommandExecutor {
             return false;
         }
 
-        if (limit >= 0 && violatesLimit(TeamController.getTeam(uuid))) {
+        if (equippedKits.get(((Player) sender).getUniqueId()) != null && CurseEnum.BINDING.isActive()) {
+            if (verbose)
+                Messenger.sendError(CurseEnum.BINDING.getName() + " prevents you from changing kits!", sender);
+            return false;
+        }
+
+        if (equippedKits.get(((Player) sender).getUniqueId()) != null && CurseEnum.POSSESSION.isActive()) {
+            if (verbose)
+                Messenger.sendError(CurseEnum.POSSESSION.getName() + " prevents you from changing kits!", sender);
+            return false;
+        }
+
+        if (applyLimit && limit >= 0 && violatesLimit(TeamController.getTeam(uuid))) {
             if (verbose)
                 Messenger.sendError("Could not select " + this.name + " as its limit has been reached!", sender);
             return false;

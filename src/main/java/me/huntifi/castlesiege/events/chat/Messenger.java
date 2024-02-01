@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.chat;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.events.curses.CurseEnum;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import net.md_5.bungee.api.ChatMessageType;
@@ -167,5 +168,26 @@ public class Messenger {
     public static void requestInput(String message, @NotNull CommandSender sender) {
         message = message.replaceAll("§r", ChatColor.LIGHT_PURPLE.toString());
         sender.sendMessage(ChatColor.GOLD + "[_] " + ChatColor.LIGHT_PURPLE + message);
+    }
+
+    /**
+     * Broadcasts an activated curseEnum to everyone.
+     * @param curseEnum The activated curseEnum
+     * @param args Optional arguments for the activation message
+     */
+    public static void broadcastCurseActivated(CurseEnum curseEnum, Object... args) {
+        Main.plugin.getServer().broadcastMessage(String.format(ChatColor.GOLD + "[☠] "
+                + ChatColor.DARK_RED + curseEnum.getName() + ChatColor.RED + " has been activated! "
+                + curseEnum.getActivateDescription(), args));
+    }
+
+    /**
+     * Broadcasts an expired curseEnum to everyone.
+     * @param curseEnum The expired curseEnum
+     */
+    public static void broadcastCurseExpired(CurseEnum curseEnum) {
+        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[☠] "
+                + ChatColor.DARK_RED + curseEnum.getName() + ChatColor.RED + " has expired! "
+                + curseEnum.getExpireDescription());
     }
 }

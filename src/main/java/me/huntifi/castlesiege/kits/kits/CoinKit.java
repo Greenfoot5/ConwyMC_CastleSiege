@@ -33,13 +33,13 @@ public abstract class CoinKit extends Kit {
     /**
      * Check if the player can select this kit
      * @param sender Source of the command
+     * @param applyLimit Whether to apply the kit limit in the check
      * @param verbose Whether error messages should be sent
-     * @param isRandom If the kit is selected by the random command
+     * @param isRandom Whether the check is done by the random command
      * @return Whether the player can select this kit
      */
-    @Override
-    public boolean canSelect(CommandSender sender, boolean verbose, boolean isRandom) {
-        if (!super.canSelect(sender, verbose, isRandom))
+    public boolean canSelect(CommandSender sender, boolean applyLimit, boolean verbose, boolean isRandom) {
+        if (!super.canSelect(sender, applyLimit, verbose, isRandom))
             return false;
 
         UUID uuid = ((Player) sender).getUniqueId();

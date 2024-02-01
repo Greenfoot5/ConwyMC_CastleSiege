@@ -101,7 +101,7 @@ public class Gui implements Listener {
      * @param command The command to execute when clicking the item
      */
     public void addKitItem(Player player, Kit kit, int location, String command) {
-        if (kit.canSelect(player, false, false)) {
+        if (kit.canSelect(player, false, false, false)) {
             inventory.setItem(location, ItemCreator.item(new ItemStack(kit.material),
                     getKitDisplayName(kit,true), kit.getGuiDescription(), null));
             locationToItem.put(location, new GuiItem(command, true));

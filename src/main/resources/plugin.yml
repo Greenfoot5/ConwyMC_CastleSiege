@@ -306,6 +306,11 @@ commands:
     usage: /csreload
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
+  Curse:
+    description: Manages the active curses
+    usage: /curse [curse]
+    permission: castlesiege.developer
+    permission-message: You are not permitted to use this command!
   Fly:
     description: Toggle flight
     usage: /fly

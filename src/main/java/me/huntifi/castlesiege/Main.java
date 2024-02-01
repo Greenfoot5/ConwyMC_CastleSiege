@@ -96,6 +96,7 @@ import me.huntifi.castlesiege.events.combat.LobbyCombat;
 import me.huntifi.castlesiege.events.combat.TeamCombat;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
 import me.huntifi.castlesiege.events.connection.PlayerDisconnect;
+import me.huntifi.castlesiege.events.curses.CurseCommand;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.death.VoidLocation;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
@@ -445,6 +446,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Staff
                 Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastMessage());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
+                Objects.requireNonNull(getCommand("CurseEnum")).setExecutor(new CurseCommand());
                 Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
                 Objects.requireNonNull(getCommand("SetStaffRank")).setExecutor(new SetStaffRank());
                 Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());

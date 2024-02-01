@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.commands.gameplay;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.curses.CurseEnum;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
@@ -51,18 +52,28 @@ public class RandomKitCommand implements CommandExecutor {
             return;
         }
 
+        if (CurseEnum.BINDING.isActive()) {
+            Messenger.sendError(CurseEnum.BINDING.getName() + " prevents you from changing kits!", sender);
+            return;
+        }
+
+        if (CurseEnum.POSSESSION.isActive()) {
+            Messenger.sendError(CurseEnum.POSSESSION.getName() + " prevents you from changing kits!", sender);
+            return;
+        }
+
         // Get unlocked kits, or all if it's Friday
         Collection<String> unlockedKits = CoinKit.isFree() ? Kit.getKits() : ActiveData.getData(uuid).getUnlockedKits();
         ArrayList<Kit> kits = new ArrayList<>();
 
         unlockedKits.forEach((kitName) -> {
             Kit kit = Kit.getKit(kitName);
-            if (kit == null || !kit.canSelect(player, false, true)) {
+            if (kit == null || !kit.canSelect(player, true, false, true)) {
                 return;
             }
             kits.add(kit);
         });
 
-        kits.get(new Random().nextInt(kits.size())).addPlayer(uuid);
+        kits.get(new Random().nextInt(kits.size())).addPlayer(uuid, true);
     }
 }
