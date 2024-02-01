@@ -8,13 +8,20 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Allows the player to select a kit
  */
-public class KitCommand implements CommandExecutor {
+public class KitCommand implements TabExecutor {
 
     /**
      * Opens the kit selector GUI for the command source if no arguments are passed
@@ -50,5 +57,18 @@ public class KitCommand implements CommandExecutor {
             gui.open(p);
         }
         return true;
+    }
+
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        List<String> options = new ArrayList<>();
+
+        if (args.length == 1) {
+            StringUtil.copyPartialMatches(args[0], Arrays.asList(KitGUIs.OPTIONS), options);
+            return options;
+        }
+
+        return null;
     }
 }
