@@ -351,7 +351,7 @@ public class Warlock extends CoinKit implements Listener {
                 mythicMobsApi.castSkill(p ,"Hellfire", p.getLocation());
                 if (item == null) { return; }
                 if (item.getType().equals(Material.AMETHYST_SHARD)) {
-                    item.setAmount(0);
+                    item.setAmount(item.getAmount() - 5);
                 }
             }
         }
