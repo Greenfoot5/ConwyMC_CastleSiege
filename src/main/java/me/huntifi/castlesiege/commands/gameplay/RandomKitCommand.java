@@ -3,6 +3,8 @@ package me.huntifi.castlesiege.commands.gameplay;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.curses.BindingCurse;
+import me.huntifi.castlesiege.events.curses.Curse;
 import me.huntifi.castlesiege.events.curses.CurseEnum;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -52,8 +54,10 @@ public class RandomKitCommand implements CommandExecutor {
             return;
         }
 
-        if (CurseEnum.BINDING.isActive()) {
-            Messenger.sendError(CurseEnum.BINDING.getName() + " prevents you from changing kits!", sender);
+        Curse curse = Curse.isCurseActive(BindingCurse.class, player.getUniqueId());
+        if (curse != null) {
+            Messenger.sendCurse(curse.displayName + " prevents you from changing kits! It will expire in "
+                    + curse.getRemainingTime() + "s.", sender);
             return;
         }
 

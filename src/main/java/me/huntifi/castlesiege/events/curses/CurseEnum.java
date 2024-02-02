@@ -79,11 +79,11 @@ public enum CurseEnum {
      */
     public void activate(long duration, Object... args) {
         this.isActive = true;
-        Messenger.broadcastCurseActivated(this, args);
+        //Messenger.broadcastCurseActivated(this, args);
 
         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
             this.isActive = false;
-            Messenger.broadcastCurseExpired(this);
+            //Messenger.broadcastCurseExpired(this);
         }, duration);
     }
 }

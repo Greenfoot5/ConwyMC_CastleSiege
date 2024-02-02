@@ -33,18 +33,15 @@ public class CurseCommand implements CommandExecutor {
     public CurseCommand() {
         gui = new Gui(ChatColor.DARK_RED + "Curses", 1);
         // TODO: Add curses
-        gui.addItem(ChatColor.DARK_RED + CurseEnum.GREED.getName(), Material.SUNFLOWER, Collections.singletonList(
-                ChatColor.DARK_PURPLE + "Set the coin multiplier to a random number in the range [0.7-1.5]"
-        ), 0, "curse greed", true);
-        gui.addItem(ChatColor.DARK_RED + CurseEnum.BINDING.getName(), Material.BARRIER, Collections.singletonList(
+        gui.addItem(ChatColor.DARK_RED + BindingCurse.name, Material.BARRIER, Collections.singletonList(
                 ChatColor.DARK_PURPLE + "Prevent players from changing kits"
         ), 2, "curse binding", true);
-        gui.addItem(ChatColor.DARK_RED + CurseEnum.POSSESSION.getName(), Material.LEAD, Collections.singletonList(
-                ChatColor.DARK_PURPLE + "Force a random kit onto all players"
-        ), 3, "curse possession", true);
-        gui.addItem(ChatColor.DARK_RED + CurseEnum.TEAMWORK.getName(), Material.CAMPFIRE, Collections.singletonList(
-                ChatColor.DARK_PURPLE + "Prevent players from switching teams"
-        ), 5, "curse teamwork", true);
+//        gui.addItem(ChatColor.DARK_RED + CurseEnum.POSSESSION.getName(), Material.LEAD, Collections.singletonList(
+//                ChatColor.DARK_PURPLE + "Force a random kit onto all players"
+//        ), 3, "curse possession", true);
+//        gui.addItem(ChatColor.DARK_RED + CurseEnum.TEAMWORK.getName(), Material.CAMPFIRE, Collections.singletonList(
+//                ChatColor.DARK_PURPLE + "Prevent players from switching teams"
+//        ), 5, "curse teamwork", true);
 
         Main.plugin.getServer().getPluginManager().registerEvents(gui, Main.plugin);
     }
@@ -60,6 +57,11 @@ public class CurseCommand implements CommandExecutor {
                     Bukkit.getScheduler().runTask(Main.plugin, () -> gui.open((Player) sender));
                 }
             } else {
+                if (args[0].equals("binding")) {
+                    Curse curse = new BindingCurse(30);
+                    activateCurse(curse);
+                    return;
+                }
                 // Attempt to activate the curse
                 try {
                     CurseEnum curseEnum = CurseEnum.valueOf(args[0].toUpperCase());
@@ -82,6 +84,10 @@ public class CurseCommand implements CommandExecutor {
      */
     private void activateCurse(CurseEnum curseEnum) {
         activateCurse(curseEnum, ThreadLocalRandom.current().nextLong(5, 31) * 1200);
+    }
+
+    private void activateCurse(Curse curse) {
+        curse.activateCurse();
     }
 
     /**

@@ -1,8 +1,6 @@
 package me.huntifi.castlesiege.events.chat;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.curses.Curse;
-import me.huntifi.castlesiege.events.curses.CurseEnum;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import net.md_5.bungee.api.ChatMessageType;
@@ -172,34 +170,44 @@ public class Messenger {
     }
 
     /**
-     * Broadcasts an activated curseEnum to everyone.
-     * @param curseEnum The activated curseEnum
-     * @param args Optional arguments for the activation message
+     * Broadcasts a cursed message to everyone
+     * @param message The message to send
      */
-    public static void broadcastCurseActivated(CurseEnum curseEnum, Object... args) {
-        Main.plugin.getServer().broadcastMessage(String.format(ChatColor.GOLD + "[☠] "
-                + ChatColor.DARK_RED + curseEnum.getName() + ChatColor.RED + " has been activated! "
-                + curseEnum.getActivateDescription(), args));
+    public static void broadcastCurse(String message) {
+        message = message.replaceAll("§r", ChatColor.RED.toString());
+        Main.plugin.getServer().broadcastMessage(String.format(ChatColor.GOLD + "[☠] " +
+                ChatColor.RED + message));
     }
 
     /**
-     * Broadcasts an activated curse to everyone.
-     * @param curse The activated curse
-     * @param args Optional arguments for the activation message
+     * Sends a cursed message to a specific user
+     * @param message The message
+     * @param sender Who to send the message to
      */
-    public static void broadcastCurseActivated(Curse curse, Object... args) {
-        Main.plugin.getServer().broadcastMessage(String.format(ChatColor.GOLD + "[☠] "
-                + ChatColor.DARK_RED + curse.displayName + ChatColor.RED + " has been activated! "
-                + curse.activateMessage, args));
+    public static void sendCurse(String message, @NotNull CommandSender sender) {
+        message = message.replaceAll("§r", ChatColor.RED.toString());
+        sender.sendMessage(String.format(ChatColor.GOLD + "[☠] " +
+                ChatColor.RED + message));
     }
 
     /**
-     * Broadcasts an expired curse to everyone.
-     * @param curse The expired curse
+     * Broadcasts a cursed end message to everyone
+     * @param message The message to send
      */
-    public static void broadcastCurseExpired(CurseEnum curse) {
-        Main.plugin.getServer().broadcastMessage(ChatColor.GOLD + "[☠] "
-                + ChatColor.DARK_RED + curse.getName() + ChatColor.RED + " has expired! "
-                + curse.getExpireDescription());
+    public static void broadcastCurseEnd(String message) {
+        message = message.replaceAll("§r", ChatColor.GREEN.toString());
+        Main.plugin.getServer().broadcastMessage(String.format(ChatColor.GOLD + "[☠] " +
+                ChatColor.GREEN + message));
+    }
+
+    /**
+     * Sends a cursed message to a specific user
+     * @param message The message
+     * @param sender Who to send the message to
+     */
+    public static void sendCurseEnd(String message, @NotNull CommandSender sender) {
+        message = message.replaceAll("§r", ChatColor.GREEN.toString());
+        sender.sendMessage(String.format(ChatColor.GOLD + "[☠] " +
+                ChatColor.GREEN + message));
     }
 }

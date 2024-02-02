@@ -6,6 +6,8 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.curses.BindingCurse;
+import me.huntifi.castlesiege.events.curses.Curse;
 import me.huntifi.castlesiege.events.curses.CurseEnum;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
@@ -352,7 +354,7 @@ public abstract class Kit implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            if (canSelect(sender, true, false, true))
+            if (canSelect(sender, true, true, false))
                 addPlayer(((Player) sender).getUniqueId(), true);
         });
         return true;
@@ -380,9 +382,11 @@ public abstract class Kit implements CommandExecutor {
             return false;
         }
 
-        if (equippedKits.get(((Player) sender).getUniqueId()) != null && CurseEnum.BINDING.isActive()) {
+        Curse curse = Curse.isCurseActive(BindingCurse.class, uuid);
+        if (curse != null) {
             if (verbose)
-                Messenger.sendError(CurseEnum.BINDING.getName() + " prevents you from changing kits!", sender);
+                Messenger.sendCurse(curse.displayName + " prevents you from changing kits! It will expire in "
+                        + curse.getRemainingTime() + "s.", sender);
             return false;
         }
 
