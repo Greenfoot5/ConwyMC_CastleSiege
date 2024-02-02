@@ -76,11 +76,12 @@ public class CurseCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         List<String> options = new ArrayList<>();
-        if (args.length == 1) {
+        if (args.length < 2) {
             List<String> values = new ArrayList<>();
             values.add("binding");
             values.add("dice");
             StringUtil.copyPartialMatches(args[0], values, options);
+            return options;
         }
 
         // Creates the curse excluding the most recent argument
