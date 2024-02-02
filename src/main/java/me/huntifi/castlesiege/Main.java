@@ -1434,7 +1434,7 @@ public class Main extends JavaPlugin implements Listener {
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                             PlayerData.setCoinMultiplier(PlayerData.getCoinMultiplier() + multiplier);
                             Messenger.broadcastInfo(" A " + percentage + "% coin booster " +
-                                    "for " + Booster.durationToString((int) remaining_duration) + " has been activated!");
+                                    "for " + getTimeString((int) remaining_duration) + " has been activated!");
                             Messenger.broadcastInfo("The total coin multiplier is now " + PlayerData.getCoinMultiplier() + ".");
                         });
                         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
@@ -1449,7 +1449,7 @@ public class Main extends JavaPlugin implements Listener {
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                             CoinKit.boostedKits.add(other);
                             Messenger.broadcastInfo("A " + other + " kit booster " +
-                                    "for " + Booster.durationToString((int) remaining_duration) + "!");
+                                    "for " + getTimeString((int) remaining_duration) + "!");
                         });
                         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
                             CoinKit.boostedKits.remove(other);
@@ -1460,5 +1460,26 @@ public class Main extends JavaPlugin implements Listener {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String getTimeString(long duration) {
+        long days, hours, minutes, seconds, remainder;
+        days = duration / 86400;
+        remainder = duration % 86400;
+        hours = remainder / 3600;
+        remainder = remainder % 3600;
+        minutes = remainder / 60;
+        seconds = remainder % 60;
+
+        if (days == 0) {
+            if (hours == 0) {
+                if (minutes == 0) {
+                    return seconds + "s";
+                }
+                return minutes + " mins " + seconds + "s";
+            }
+            return hours + " hr " + minutes + " mins " + seconds + "s";
+        }
+        return days + "d " + hours + "h " + minutes + "m " + seconds + "s";
     }
 }
