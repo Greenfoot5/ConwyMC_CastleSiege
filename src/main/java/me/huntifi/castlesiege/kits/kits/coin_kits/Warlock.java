@@ -40,6 +40,8 @@ import java.util.UUID;
 
 public class Warlock extends CoinKit implements Listener {
 
+    // Abilities mentioned for this kit are configured / handled through mythic mobs.
+    
     private static final int health = 210;
     private static final double regen = 10.5;
     private static final double meleeDamage = 20;
