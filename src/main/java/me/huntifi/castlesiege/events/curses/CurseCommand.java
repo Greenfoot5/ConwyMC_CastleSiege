@@ -1,28 +1,29 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
-import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.UUID;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class CurseCommand implements CommandExecutor {
+public class CurseCommand implements TabExecutor {
 
     /** The curses GUI */
     private final Gui gui;
@@ -48,84 +49,72 @@ public class CurseCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            if (args.length == 0) {
-                // Attempt to open the curses GUI
-                if (!(sender instanceof Player)) {
-                    Messenger.sendError("Only players can open the curses GUI!", sender);
-                } else {
-                    Bukkit.getScheduler().runTask(Main.plugin, () -> gui.open((Player) sender));
-                }
+        if (args.length == 0) {
+            // Attempt to open the curses GUI
+            if (!(sender instanceof Player)) {
+                Messenger.sendError("Only players can open the curses GUI!", sender);
             } else {
-                if (args[0].equals("binding")) {
-                    Curse curse = new BindingCurse(30);
-                    activateCurse(curse);
-                    return;
-                }
-                // Attempt to activate the curse
-                try {
-                    CurseEnum curseEnum = CurseEnum.valueOf(args[0].toUpperCase());
-                    if (curseEnum.isActive())
-                        Messenger.sendError(curseEnum.getName() + " is already active!", sender);
-                    else
-                        activateCurse(curseEnum);
-                } catch (IllegalArgumentException exception) {
-                    Messenger.sendError("The curse \"" + args[0] + "\" does not exist!", sender);
-                }
+                Bukkit.getScheduler().runTask(Main.plugin, () -> gui.open((Player) sender));
             }
-        });
+            return true;
+        }
+
+        // Attempt to activate the curse
+        try {
+            Curse curse = createCurse(args);
+            activateCurse(curse);
+        } catch (NumberFormatException exception) {
+            Messenger.sendError("One of your arguments should be a number and isn't!", sender);
+        } catch (IllegalArgumentException exception) {
+            Messenger.sendError("The curse \"" + args[0] + "\" does not exist!", sender);
+        }
 
         return true;
     }
 
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        List<String> options = new ArrayList<>();
+        if (args.length == 1) {
+            List<String> values = new ArrayList<>();
+            values.add("binding");
+            values.add("dice");
+            StringUtil.copyPartialMatches(args[0], values, options);
+        }
+
+        // Creates the curse excluding the most recent argument
+        Curse curse = createCurse(Arrays.copyOfRange(args, 0, args.length - 1));
+        if (args.length <= curse.options.length) {
+            List<String> values = new ArrayList<>(List.of(curse.options[args.length - 2]));
+            if (Objects.equals(values.get(0), "[player]") || Objects.equals(values.get(0), "<player>"))
+                return null;
+            StringUtil.copyPartialMatches(args[args.length - 1], values, options);
+        }
+
+        return options;
+    }
+
     /**
-     * Activate a curseEnum.
-     * @param curseEnum The curseEnum to activate
+     * Attempts to create a curse.
+     * @param args The curseEnum to activate
      */
-    private void activateCurse(CurseEnum curseEnum) {
-        activateCurse(curseEnum, ThreadLocalRandom.current().nextLong(5, 31) * 1200);
+    private Curse createCurse(@NotNull String[] args) {
+        switch (args[0].toLowerCase()) {
+            case "binding":
+                if (args.length == 1)
+                    return new BindingCurse(300);
+                // Can throw NumberFormatException
+                return new BindingCurse(Integer.parseInt(args[1]));
+            case "dice":
+                return new DiceCurse();
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
     private void activateCurse(Curse curse) {
         curse.activateCurse();
-    }
-
-    /**
-     * Activate a curseEnum.
-     * @param curseEnum The curseEnum to activate
-     * @param duration The curseEnum's duration in ticks
-     */
-    private void activateCurse(CurseEnum curseEnum, long duration) {
-        switch (curseEnum) {
-            case GREED:
-                double multiplier = ThreadLocalRandom.current().nextInt(7, 16) / 10.0;
-                PlayerData.setCoinMultiplier(multiplier);
-                Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> PlayerData.setCoinMultiplier(1), duration);
-                curseEnum.activate(duration, new DecimalFormat("0.0").format(multiplier));
-                break;
-            case DICE:
-                // TODO: Swap teams for some players
-                break;
-            case POSSESSION:
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    UUID uuid = player.getUniqueId();
-                    if (SpectateCommand.spectators.contains(uuid))
-                        continue;
-
-                    randomKit().addPlayer(uuid, InCombat.isPlayerInLobby(uuid));
-                }
-                curseEnum.activate(duration / 5);
-                break;
-            case VANISHING:
-                // TODO: Prevent players from picking kits they have died with
-                break;
-            case TELEPORTATION:
-                // TODO: Swap some player positions
-                break;
-            default:
-                // The curseEnum's effect is handled by it being active and the broadcast has no arguments
-                curseEnum.activate(duration);
-        }
     }
 
     /**
