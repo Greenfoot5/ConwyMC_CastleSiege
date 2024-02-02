@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.in_development;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -43,7 +43,7 @@ public class Warlock extends CoinKit implements Listener {
     private static final int health = 210;
     private static final double regen = 10.5;
     private static final double meleeDamage = 20;
-    private static final int curseCooldown = 320;
+    private static final int curseCooldown = 260;
     private static final int staffCooldown = 80;
     private static final int lifeDrainCooldown = 400;
     private static final int healthFunnelCooldown = 200;
@@ -83,10 +83,10 @@ public class Warlock extends CoinKit implements Listener {
         // 1st ability
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POISONOUS_POTATO),
                 ChatColor.LIGHT_PURPLE + "Curse of Slowing", Arrays.asList("",
-                        ChatColor.YELLOW + "Right click to give slowness to all ",
-                        ChatColor.YELLOW + "enemies in a 7 block radius of you for 8s.",
+                        ChatColor.YELLOW + "Right click to give negative damage to all ",
+                        ChatColor.YELLOW + "enemies in a 7 block radius of you for 4s.",
                         ChatColor.YELLOW + " ",
-                        ChatColor.YELLOW + "Has a cooldown of 16 seconds."), null);
+                        ChatColor.YELLOW + "Has a cooldown of 13 seconds."), null);
 
         // 2nd ability
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.SCUTE),
@@ -238,7 +238,7 @@ public class Warlock extends CoinKit implements Listener {
             UpdateStats.addSupports(caster.getUniqueId(), 1);
 
             Messenger.sendWarning("You were cursed by " + caster.getDisplayName(), cursed);
-            cursed.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 160, 0, true, true));
+            cursed.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 80, 1, true, true));
         }
     }
 
@@ -414,7 +414,7 @@ public class Warlock extends CoinKit implements Listener {
         kitLore.add("§7- Can shoot a shadow bolt at opponents");
         kitLore.add("§7to damage them and give them slowness I");
         kitLore.add("§7- Can curse all enemies in a 7 block radius");
-        kitLore.add("§7giving them slowness for 8 seconds");
+        kitLore.add("§7giving them negative damage for 4 seconds");
         kitLore.add("§7- Can drain life from targets for 5 seconds");
         kitLore.add("§7- Has the possibility to sacrifice 25% of their HP");
         kitLore.add("§7to heal a teammate for 25% of the warlock's max health");
