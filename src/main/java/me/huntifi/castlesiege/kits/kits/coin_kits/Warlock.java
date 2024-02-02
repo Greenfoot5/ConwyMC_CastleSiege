@@ -46,7 +46,7 @@ public class Warlock extends CoinKit implements Listener {
     private static final int curseCooldown = 260;
     private static final int staffCooldown = 80;
     private static final int lifeDrainCooldown = 400;
-    private static final int healthFunnelCooldown = 200;
+    private static final int healthFunnelCooldown = 100;
 
     private static final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
 
@@ -102,7 +102,7 @@ public class Warlock extends CoinKit implements Listener {
                         ChatColor.YELLOW + "Sacrifice 25% of your health to heal",
                         ChatColor.YELLOW + "your ally for 25% of your max health.",
                         ChatColor.YELLOW + " ",
-                        ChatColor.YELLOW + "Has a cooldown of 10 seconds."), null);
+                        ChatColor.YELLOW + "Has a cooldown of 5 seconds."), null);
 
         // 4th ability
         es.hotbar[4] = ItemCreator.item(new ItemStack(Material.BLAZE_POWDER),
