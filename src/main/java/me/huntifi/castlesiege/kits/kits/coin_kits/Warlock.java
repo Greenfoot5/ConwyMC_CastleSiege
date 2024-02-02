@@ -347,6 +347,7 @@ public class Warlock extends CoinKit implements Listener {
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (!p.getInventory().contains(Material.AMETHYST_SHARD, 5)) {
                 Messenger.sendError("You require 5 soul shards to perform this spell!", p);
+                return;
             }
 
             for (ItemStack item : p.getInventory().getContents()) {
