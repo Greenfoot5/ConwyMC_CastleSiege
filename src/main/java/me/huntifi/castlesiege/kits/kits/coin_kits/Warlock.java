@@ -84,9 +84,9 @@ public class Warlock extends CoinKit implements Listener {
 
         // 1st ability
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POISONOUS_POTATO),
-                ChatColor.LIGHT_PURPLE + "Curse of Slowing", Arrays.asList("",
+                ChatColor.LIGHT_PURPLE + "Curse", Arrays.asList("",
                         ChatColor.YELLOW + "Right click to give negative damage to all ",
-                        ChatColor.YELLOW + "enemies in a 7 block radius of you for 4s.",
+                        ChatColor.YELLOW + "enemies in a 7 block radius of you for 6s.",
                         ChatColor.YELLOW + " ",
                         ChatColor.YELLOW + "Has a cooldown of 13 seconds."), null);
 
@@ -239,8 +239,8 @@ public class Warlock extends CoinKit implements Listener {
             //Warlock gets supports for cursing enemies
             UpdateStats.addSupports(caster.getUniqueId(), 1);
 
-            Messenger.sendWarning("You were cursed by " + caster.getDisplayName(), cursed);
-            cursed.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 80, 1, true, true));
+            Messenger.sendWarning("You were cursed by " + caster.getName(), cursed);
+            cursed.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 120, 1, true, true));
         }
     }
 
