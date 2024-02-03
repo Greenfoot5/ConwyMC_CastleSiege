@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
@@ -27,36 +28,49 @@ public class DiceCurse extends Curse {
         }
 
         super.startTime = System.currentTimeMillis() / 1000;
-
         Random random = new Random();
         int amountToSwap = random.nextInt(MapController.getCurrentMap().smallestTeam().getTeamSize() / 2);
 
         Player[][] playersToSwap = new Player[MapController.getCurrentMap().teams.length][amountToSwap];
-        int index = 0;
-        for (Team team : MapController.getCurrentMap().teams) {
+        // Loop through teams and pick random players to get
+        Team[] teams = MapController.getCurrentMap().teams;
+        for (int t = 0; t < teams.length; t++) {
+            Team team = teams[t];
             ArrayList<UUID> players = team.getPlayers();
             for (int i = 0; i < amountToSwap; i++) {
                 UUID nextPlayer = players.get(random.nextInt(players.size()));
+                // Make sure we don't pick duplicate players
                 players.remove(nextPlayer);
-                playersToSwap[index][i] = Bukkit.getPlayer(nextPlayer);
+                playersToSwap[t][i] = Bukkit.getPlayer(nextPlayer);
             }
-            index += 1;
         }
 
+        // Loop through all the players to swap and swap them
         for (int i = 0; i < playersToSwap.length; i++) {
             for (Player player : playersToSwap[i]) {
-                MapController.getCurrentMap().teams[i].removePlayer(player.getUniqueId());
-                if (i == playersToSwap.length - 1) {
-                    MapController.getCurrentMap().teams[0].addPlayer(player.getUniqueId());
-                } else {
-                    MapController.getCurrentMap().teams[i + 1].addPlayer(player.getUniqueId());
-                }
-                Messenger.sendCurse("You have been affected by " + name + "! You have swapped teams.", player);
+                swapPlayer(player, i);
             }
         }
 
         Messenger.broadcastCurse(ChatColor.DARK_RED + name + "§r has been activated! " + activateMessage);
         return true;
+    }
+
+    /**
+     * Swaps a player onto the next team
+     * @param player The player to swap
+     * @param teamIndex The index of the team they are on
+     */
+    private void swapPlayer(Player player, int teamIndex) {
+        MapController.getCurrentMap().teams[teamIndex].removePlayer(player.getUniqueId());
+        int nextTeam = teamIndex == MapController.getCurrentMap().teams.length ? 0 : teamIndex + 1;
+
+        MapController.getCurrentMap().teams[nextTeam].addPlayer(player.getUniqueId());
+        if (InCombat.isPlayerInLobby(player.getUniqueId())) {
+            player.teleport(MapController.getCurrentMap().teams[nextTeam].lobby.spawnPoint);
+        }
+
+        Messenger.sendCurse("You have been affected by " + ChatColor.DARK_RED + name + "§r! You have swapped teams.", player);
     }
 
     @Override
