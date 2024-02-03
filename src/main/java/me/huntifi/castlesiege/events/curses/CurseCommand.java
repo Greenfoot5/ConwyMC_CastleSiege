@@ -86,8 +86,8 @@ public class CurseCommand implements TabExecutor {
 
         // Creates the curse excluding the most recent argument
         Curse curse = createCurse(Arrays.copyOfRange(args, 0, args.length - 1));
-        if (args.length <= curse.options.length) {
-            List<String> values = new ArrayList<>(List.of(curse.options[args.length - 2]));
+        if (args.length <= curse.options.size()) {
+            List<String> values = curse.options.get(args.length - 2);
             if (Objects.equals(values.get(0), "[player]") || Objects.equals(values.get(0), "<player>"))
                 return null;
             StringUtil.copyPartialMatches(args[args.length - 1], values, options);

@@ -9,13 +9,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public abstract class Curse {
     public final String displayName;
     public final String activateMessage;
     public final String expireMessage;
-    public final String[][] options;
+    public final List<List<String>> options;
     protected long startTime;
     public final int duration;
     public final long endTime;
@@ -23,7 +24,7 @@ public abstract class Curse {
     protected static final ArrayList<Curse> globalActivatedCurses = new ArrayList<>();
     protected static final ArrayList<Tuple<Curse, UUID>> playerActivatedCurses = new ArrayList<>();
 
-    public Curse(String name, String activateMessage, String expireMessage, String[][] options, int duration) {
+    public Curse(String name, String activateMessage, String expireMessage, List<List<String>> options, int duration) {
         this.displayName = name;
         this.activateMessage = activateMessage;
         this.expireMessage = expireMessage;

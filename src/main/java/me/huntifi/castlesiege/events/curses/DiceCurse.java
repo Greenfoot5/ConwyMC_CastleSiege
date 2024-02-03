@@ -18,7 +18,7 @@ public class DiceCurse extends Curse {
     private final static String expireMessage = "";
     private final static int MIN_SIZE_TO_SWAP = 3;
     public DiceCurse() {
-        super(name, activateMessage, expireMessage, new String[0][0],0);
+        super(name, activateMessage, expireMessage, new ArrayList<>(),0);
     }
 
     @Override
