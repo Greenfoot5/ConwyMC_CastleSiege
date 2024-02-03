@@ -95,7 +95,7 @@ public class Team implements Listener {
     }
 
     /**
-     * Removes a uuid from the team
+     * Removes an uuid from the team
      * @param uuid the uuid to remove
      */
     public void removePlayer(UUID uuid) {

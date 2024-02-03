@@ -140,6 +140,9 @@ public class PlayerChat implements Listener {
 					everyoneMessage = ChatColor.RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
 				} else if (playerLevel - 10 > everyoneLevel) {
 					everyoneMessage = ChatColor.DARK_RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
+					//during duels (beneath)
+				} else if (p.getWorld().getName().equalsIgnoreCase("duelsmap")) {
+					everyoneMessage = ChatColor.BLUE + "⚔ " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
 				}
 
 				everyone.sendMessage(everyoneMessage);
