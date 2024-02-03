@@ -132,8 +132,8 @@ commands:
     permission-message: Only donators -> noble or above are permitted to use this command!
   AcceptDuel:
     description: Accept a duel from someone
-    usage: /AcceptDuel <player>
-    aliases: Acceptd
+    usage: /acceptduel <player>
+    aliases: acceptd
 
   # Gameplay
   Switch:

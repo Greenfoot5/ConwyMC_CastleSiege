@@ -19,9 +19,9 @@ import java.util.Objects;
 
 public class DuelCmd implements CommandExecutor {
 
-    private static final HashMap<CommandSender, CommandSender> inviter = new HashMap<>();
+    static final HashMap<CommandSender, CommandSender> inviter = new HashMap<>();
 
-    private static final HashMap<Player, Player> challenging = new HashMap<>();
+    static final HashMap<Player, Player> challenging = new HashMap<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
@@ -65,19 +65,16 @@ public class DuelCmd implements CommandExecutor {
         //Hashmap that has the data on whether someone is invited by a certain someone.
         inviter.put(receiver, sender);
         Messenger.sendSuccess("You challenged " + receiver.getName() + " to a duel!", sender);
-        Messenger.sendSuccess(sender.getName() + " has challenged you to a duel!", receiver);
+        Messenger.sendSuccess(sender.getName() + " has challenged you to a duel! (/acceptduel <player>)", receiver);
 
         new BukkitRunnable() {
             @Override
             public void run() {
 
-                if (challenging.get(receiver) != null) {
-                    if (!challenging.get(receiver).equals(sender)) {
+                if (challenging.get(receiver) == null) {
                         Messenger.sendWarning("Your invitation to a duel with " + receiver.getName() + " has expired!", sender);
                         Messenger.sendWarning("The invitation that you received from " + sender.getName() + " has expired.", receiver);
-                    }
                 }
-
                 inviter.remove(receiver, sender);
             }
         }.runTaskLater(Main.plugin, 300);
