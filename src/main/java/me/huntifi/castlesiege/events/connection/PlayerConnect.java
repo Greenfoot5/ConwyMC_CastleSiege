@@ -45,7 +45,7 @@ public class PlayerConnect implements Listener {
      * Assign the player's data and join a team
      * @param e The event called when a player join the game
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
@@ -129,7 +129,7 @@ public class PlayerConnect implements Listener {
      * @param e The event called when a player attempts to join the server
      * @throws SQLException If something goes wrong executing a query
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void preLogin(AsyncPlayerPreLoginEvent e) throws SQLException {
         Tuple<String, Timestamp> banned = getBan(e.getUniqueId(), e.getAddress());
         if (banned != null) {

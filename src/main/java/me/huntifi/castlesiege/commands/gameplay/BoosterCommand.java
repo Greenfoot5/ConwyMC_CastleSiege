@@ -141,7 +141,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
         Messenger.sendError("You don't own a booster with that id!", sender);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChat(AsyncPlayerChatEvent e) {
 
         Player player = e.getPlayer();

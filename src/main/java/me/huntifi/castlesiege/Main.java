@@ -446,7 +446,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Staff
                 Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastMessage());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
-                Objects.requireNonNull(getCommand("Curse")).setExecutor(new CurseCommand());
+                Objects.requireNonNull(getCommand("CurseCast")).setExecutor(new CurseCommand());
                 Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
                 Objects.requireNonNull(getCommand("SetStaffRank")).setExecutor(new SetStaffRank());
                 Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());

@@ -24,7 +24,8 @@ public class CollapseEvent implements Listener {
     private static final Location CENTRAL = new Location(Bukkit.getWorld("Hommet"), -34, 84, -59);
 
     private static final Location SCHEMATIC = new Location(Bukkit.getWorld("Hommet"), -34, 83, -46);
-    @EventHandler
+
+    @EventHandler(ignoreCancelled = true)
     public void wallClickEvent(PlayerInteractEvent e) {
 
         Player player = e.getPlayer();

@@ -33,7 +33,7 @@ public class Doors implements Listener {
     final Location tombSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -28);
     final Location tombCloseSchematicLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -27);
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onClickDoor(PlayerInteractEvent event) {
 
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -64,7 +64,7 @@ public class Doors implements Listener {
     }
 
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onClickVault(PlayerInteractEvent event) {
 
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
@@ -95,7 +95,7 @@ public class Doors implements Listener {
     }
 
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onClickStatue(PlayerInteractEvent event) {
 
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
@@ -164,7 +164,8 @@ public class Doors implements Listener {
     final Location button3Loc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 80, -27);
     final Location primeButtonLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 1658, 82, -30);
     String code = "";
-    @EventHandler
+
+    @EventHandler(ignoreCancelled = true)
     public void onClickTomb(PlayerInteractEvent event) {
 
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK){

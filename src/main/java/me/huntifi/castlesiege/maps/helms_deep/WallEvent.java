@@ -46,7 +46,7 @@ public class WallEvent implements Listener {
 	/**
 	 * Called when the player picks up the TNT on Helms Deep
 	 */
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPickupTake(PlayerInteractEvent e) {
 
 		Player player = e.getPlayer();
@@ -104,7 +104,7 @@ public class WallEvent implements Listener {
 	/**
 	 * Called when the player places a block
 	 */
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPickupPlace(PlayerInteractEvent e) {
 
 		Player p = e.getPlayer();
@@ -172,7 +172,7 @@ public class WallEvent implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onCarrierDeath(PlayerDeathEvent e) {
 
 		if (nullCarrier(e.getEntity())) {
@@ -181,12 +181,12 @@ public class WallEvent implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onCarrierQuit(PlayerQuitEvent e) {
 		nullCarrier(e.getPlayer());
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onCarrierLeave(PlayerChangedWorldEvent e) {
 		nullCarrier(e.getPlayer());
 	}

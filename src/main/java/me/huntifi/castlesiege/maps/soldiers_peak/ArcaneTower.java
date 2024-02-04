@@ -9,7 +9,7 @@ import org.bukkit.event.world.ChunkLoadEvent;
 @SuppressWarnings("MissingJavadoc")
 public class ArcaneTower implements Listener {
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onChunk(ChunkLoadEvent e) {
 
         if (MapController.getCurrentMap().worldName.equals("SoldiersPeak")) {

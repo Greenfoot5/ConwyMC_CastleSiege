@@ -156,7 +156,7 @@ public class Priest extends CoinKit implements Listener {
      * Activate the spearman ability of throwing a spear
      * @param e The event called when right-clicking with a stick
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void clickHolyStaff(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
@@ -185,7 +185,7 @@ public class Priest extends CoinKit implements Listener {
      * Activate the priest holy blessing ability to buff 1 target.
      * @param e The event called when right-clicking with a book
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void clickBible(PlayerInteractEntityEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();

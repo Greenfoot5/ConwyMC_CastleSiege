@@ -41,7 +41,7 @@ public class HurtAnimation implements Listener {
     }
 
 
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void doDamageParticle(EntityDamageByEntityEvent e) {
         // Both are players
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {

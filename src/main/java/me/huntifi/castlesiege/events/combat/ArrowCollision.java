@@ -19,7 +19,7 @@ public class ArrowCollision implements Listener {
      *          We use this event to prevent our projectiles from being stopped by our team.
      *
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void projectileCollision(ProjectileHitEvent e) {
         if (e.isCancelled()) {
             return;

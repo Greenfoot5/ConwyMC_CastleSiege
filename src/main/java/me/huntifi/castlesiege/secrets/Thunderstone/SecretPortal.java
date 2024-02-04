@@ -19,7 +19,7 @@ public class SecretPortal implements Listener {
 
     final Location portalLoc = new Location(Main.plugin.getServer().getWorld("Thunderstone"), 184, 113, 133);
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onInteract(PlayerInteractEvent event){
 
 
