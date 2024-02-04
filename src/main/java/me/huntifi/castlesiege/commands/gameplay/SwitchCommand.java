@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCmd;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -67,6 +68,9 @@ public class SwitchCommand implements CommandExecutor {
 		} else if (MapController.isSpectator((p).getUniqueId())) {
 			Messenger.sendError("Spectators don't have a team! Remove them from spectator first!", sender);
 			return;
+		} else if (DuelCmd.isDueling(p)) {
+			Messenger.sendError("This person is dueling, you cannot force switch them!", sender);
+			return;
 		}
 
 		// If the player hasn't specified a team, swap to the next one
@@ -90,6 +94,9 @@ public class SwitchCommand implements CommandExecutor {
 			return;
 		} else if (MapController.isSpectator(((Player) sender).getUniqueId())) {
 			Messenger.sendError("Spectators don't have a team!", sender);
+			return;
+		} else if (DuelCmd.isDueling((Player) sender)) {
+			Messenger.sendError("You can't switch whilst dueling!", sender);
 			return;
 		}
 

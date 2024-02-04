@@ -152,7 +152,8 @@ public class Gate implements Listener {
 
             // Check the player is left-clicking and the gate isn't friendly
             Player player = event.getPlayer();
-            if (canBreach(player.getUniqueId()) && event.getAction() == Action.LEFT_CLICK_BLOCK && !DuelCmd.isDueling(player)) {
+            if (DuelCmd.isDueling(player)) { return; }
+            if (canBreach(player.getUniqueId()) && event.getAction() == Action.LEFT_CLICK_BLOCK) {
                 assert event.getClickedBlock() != null;
                 if (isGateBlock(event.getClickedBlock())) {
                     if (!player.isSprinting()) {

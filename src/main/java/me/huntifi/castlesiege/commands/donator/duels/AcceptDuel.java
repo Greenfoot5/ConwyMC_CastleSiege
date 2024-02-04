@@ -4,7 +4,10 @@ import com.nametagedit.plugin.NametagEdit;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Bukkit;
@@ -15,9 +18,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -91,9 +96,9 @@ public class AcceptDuel implements CommandExecutor, Listener {
         }
 
         if (arena1 && arena2 && arena3) {
-            Messenger.sendSuccess("You accepted " + challenger.getName() + "'s invitation to a duel. However all arena's are currently " +
+            Messenger.sendWarning("You accepted " + challenger.getName() + "'s invitation to a duel. However all arena's are currently " +
                     "in use. Our apologies.", sender);
-            Messenger.sendSuccess(sender.getName() + " has accepted your invitation to a duel! However all arena's are currently " +
+            Messenger.sendWarning(sender.getName() + " has accepted your invitation to a duel! However all arena's are currently " +
             "in use. Our apologies.", challenger);
             return true;
         }
@@ -120,14 +125,19 @@ public class AcceptDuel implements CommandExecutor, Listener {
           sendCountdownMessages(challenger);
           sendCountdownMessages(contender);
           challenger.getInventory().setHelmet(new ItemStack(Material.RED_WOOL));
-          challenger.getInventory().setHelmet(new ItemStack(Material.BLUE_WOOL));
+          contender.getInventory().setHelmet(new ItemStack(Material.BLUE_WOOL));
     }
 
-    public void onDuelEnd(Player challenger, Player contender) {
-        clearPlayerFromArenaList(challenger, contender);
-        DuelCmd.challenging.remove(contender, challenger);
+    public void onDuelEndChallenger(Player challenger) {
+        clearPlayerFromArenaList(challenger);
         MapController.joinATeam(challenger.getUniqueId());
+
+    }
+
+    public void onDuelEndContender(Player contender) {
+        clearPlayerFromArenaList(contender);
         MapController.joinATeam(contender.getUniqueId());
+        DuelCmd.challenging.remove(contender);
     }
 
     /**
@@ -228,26 +238,26 @@ public class AcceptDuel implements CommandExecutor, Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", String.valueOf(ChatColor.DARK_RED) + 3, 0, 20, 15);
+                p.sendTitle(String.valueOf(ChatColor.DARK_RED) + 3, "", 0, 20, 15);
             }
         }.runTaskLater(Main.plugin, 20);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", String.valueOf(ChatColor.DARK_RED) + 3, 0, 20, 15);
+                p.sendTitle(String.valueOf(ChatColor.DARK_RED) + 2, "", 0, 20, 15);
 
             }
         }.runTaskLater(Main.plugin, 40);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", String.valueOf(ChatColor.DARK_RED) + 3, 0, 20, 15);
+                p.sendTitle(String.valueOf(ChatColor.DARK_RED) + 1, "", 0, 20, 15);
             }
         }.runTaskLater(Main.plugin, 60);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_RED + "FIGHT!", 0, 20, 15);
+                p.sendTitle(ChatColor.DARK_RED + "FIGHT!", "", 0, 30, 20);
                 openGate(p);
             }
         }.runTaskLater(Main.plugin, 80);
@@ -289,15 +299,31 @@ public class AcceptDuel implements CommandExecutor, Listener {
     /**
      * Auto-respawn the player
      * Apply stat changes
-     * @param event The event called when a player dies
+     * @param e The event called when a player dies
      */
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-         if (DuelCmd.challenging.containsKey(event.getEntity())) {
-             onDuelEnd(DuelCmd.challenging.get(event.getEntity()), event.getEntity());
-         } else if (DuelCmd.challenging.containsValue(event.getEntity())) {
-             onDuelEnd(event.getEntity(), DuelCmd.challenging.get(event.getEntity()));
-         }
+    public void onPlayerDeath(EntityDamageByEntityEvent e) {
+        if (e.getDamager() instanceof Player) {
+            Player killer = (Player) e.getDamager();
+            if (e.getEntityType() == EntityType.PLAYER) {
+                Player killed = (Player) e.getEntity();
+                if (DuelCmd.isDueling(killer) && DuelCmd.isDueling(killed)
+                        && killed.getHealth() - killed.getLastDamage() < 0) {
+
+                    if (DuelCmd.challenging.containsKey(killer)) {
+                        onDuelEndContender(killer);
+                        onDuelEndChallenger(killed);
+                    } else {
+                        onDuelEndChallenger(killer);
+                        onDuelEndContender(killed);
+                    }
+                    Messenger.sendSuccess("You won the duel from " + killed.getName(), killer);
+                    Messenger.sendSuccess("You lost the duel from " + killer.getName(), killed);
+                    e.setCancelled(true);
+                }
+                DeathEvent.onCooldown.remove((Player) e.getEntity());
+            }
+        }
     }
 
     /**
@@ -321,5 +347,14 @@ public class AcceptDuel implements CommandExecutor, Listener {
         } else if (ploc.distance(arenaContender3) <= 5) {
             SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -210, 4, -173), "DuelingOpen");
         }
+    }
+
+    /**
+     * resets the arena's
+     */
+    public static void resetArenas() {
+        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -162, 4, -29), "DuelsArena1");
+        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -169, 4, -107), "DuelsArena1");
+        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -168, 4, -173), "DuelsArena1");
     }
 }

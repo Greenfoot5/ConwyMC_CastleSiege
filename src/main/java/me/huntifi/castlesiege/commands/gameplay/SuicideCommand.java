@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCmd;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -30,7 +31,7 @@ public class SuicideCommand implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label,
 							 @NotNull String[] args) {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-			if (canSuicide(sender)) {
+			if (canSuicide(sender) && !DuelCmd.isDueling((Player) sender)) {
 				Player p = (Player) sender;
 				if (p.getHealth() != 0)
 					Bukkit.getScheduler().runTask(Main.plugin, () -> p.setHealth(0));
