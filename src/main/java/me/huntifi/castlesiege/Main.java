@@ -286,27 +286,29 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new PlayerDisconnect(), plugin);
 
                 //Secrets
+                getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
+                getServer().getPluginManager().registerEvents(new Doors(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretDoor(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretItems(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretSigns(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretBlocks(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretPortal(), plugin);
-                getServer().getPluginManager().registerEvents(new Doors(), plugin);
-                getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
 
+                //Duels
+                getServer().getPluginManager().registerEvents(new AcceptDuel(), plugin);
 
                 // Combat
                 //getServer().getPluginManager().registerEvents(new ArrowCollision(), plugin);
                 getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
                 getServer().getPluginManager().registerEvents(new AssistKill(), plugin);
+                getServer().getPluginManager().registerEvents(new DamageBalance(), plugin);
+                getServer().getPluginManager().registerEvents(new EatCake(), plugin);
                 getServer().getPluginManager().registerEvents(new FallDamage(), plugin);
                 getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
                 getServer().getPluginManager().registerEvents(new HurtAnimation(), plugin);
                 getServer().getPluginManager().registerEvents(new InCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new LobbyCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new TeamCombat(), plugin);
-                getServer().getPluginManager().registerEvents(new DamageBalance(), plugin);
-                getServer().getPluginManager().registerEvents(new EatCake(), plugin);
 
                 // Death
                 getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
@@ -315,8 +317,8 @@ public class Main extends JavaPlugin implements Listener {
                 // Gameplay
                 //getServer().getPluginManager().registerEvents(new ArcaneTower(), plugin);
                 getServer().getPluginManager().registerEvents(new CollapseEvent(), plugin);
-                getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new Explosion(), plugin);
+                getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new LeaveMapBorder(), plugin);
                 getServer().getPluginManager().registerEvents(new Movement(), plugin);
 

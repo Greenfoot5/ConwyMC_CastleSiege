@@ -4,27 +4,41 @@ import com.nametagedit.plugin.NametagEdit;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class AcceptDuel implements CommandExecutor {
+public class AcceptDuel implements CommandExecutor, Listener {
 
     //These booleans determine whether an arena is occupied or not
     boolean arena1 = false;
     boolean arena2 = false;
     boolean arena3 = false;
+
+    //These arraylists are used to determine in which arena players are in.
+    public static ArrayList<Player> arenaList1 = new ArrayList<>();
+    public static ArrayList<Player> arenaList2 = new ArrayList<>();
+    public static ArrayList<Player> arenaList3 = new ArrayList<>();
 
     //The locations to spawn the challenger and the contender at, when a duel is initiated.
     Location arenaChallenger1 = new Location(Bukkit.getWorld("DuelsMap"), -168, 4, -29, 90, 0);
@@ -103,6 +117,17 @@ public class AcceptDuel implements CommandExecutor {
           forceDuelTeam(challenger, contender);
           InCombat.playerSpawned(challenger.getUniqueId());
           InCombat.playerSpawned(contender.getUniqueId());
+          sendCountdownMessages(challenger);
+          sendCountdownMessages(contender);
+          challenger.getInventory().setHelmet(new ItemStack(Material.RED_WOOL));
+          challenger.getInventory().setHelmet(new ItemStack(Material.BLUE_WOOL));
+    }
+
+    public void onDuelEnd(Player challenger, Player contender) {
+        clearPlayerFromArenaList(challenger, contender);
+        DuelCmd.challenging.remove(contender, challenger);
+        MapController.joinATeam(challenger.getUniqueId());
+        MapController.joinATeam(contender.getUniqueId());
     }
 
     /**
@@ -114,14 +139,59 @@ public class AcceptDuel implements CommandExecutor {
         if (!arena1) {
         challenger.teleport(arenaChallenger1);
         contender.teleport(arenaContender1);
+        arenaList1.add(challenger); arenaList1.add(contender);
         } else if (!arena2) {
             challenger.teleport(arenaChallenger2);
             contender.teleport(arenaContender2);
+            arenaList2.add(challenger); arenaList2.add(contender);
         } else if (!arena3) {
             challenger.teleport(arenaChallenger3);
             contender.teleport(arenaContender3);
+            arenaList3.add(challenger); arenaList3.add(contender);
         }
 
+    }
+
+    /**
+     * Clears the lists, basically saying they are not occupying that arena anymore.
+     * Also repairs the arena
+     * @param challenger the player to clear from the list.
+     * @param contender the player to clear from the list.
+     */
+    public void clearPlayerFromArenaList(Player challenger, Player contender) {
+        if (arenaList1.contains(challenger) && arenaList1.contains(contender)) {
+            arenaList1.remove(challenger);
+            arenaList1.remove(contender);
+            arena1 = false;
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -162, 4, -29), "DuelsArena1");
+        } else if (arenaList2.contains(challenger) && arenaList1.contains(contender)) {
+            arenaList2.remove(challenger);
+            arenaList2.remove(contender);
+            arena2 = false;
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -169, 4, -107), "DuelsArena1");
+        } else arenaList3.remove(challenger);
+        arenaList1.remove(contender);
+        arena3 = false;
+        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -168, 4, -173), "DuelsArena1");
+    }
+
+    /**
+     * Clears the lists, basically saying they are not occupying that arena anymore.
+     * Also repairs the arena
+     * @param challenger the player to clear from the list.
+     */
+    public void clearPlayerFromArenaList(Player challenger) {
+        if (arenaList1.contains(challenger)) {
+            arenaList1.remove(challenger);
+            arena1 = false;
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -162, 4, -29), "DuelsArena1");
+        } else if (arenaList2.contains(challenger)) {
+            arenaList2.remove(challenger);
+            arena2 = false;
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -169, 4, -107), "DuelsArena1");
+        } else arenaList3.remove(challenger);
+        arena3 = false;
+        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -168, 4, -173), "DuelsArena1");
     }
 
     /**
@@ -146,6 +216,110 @@ public class AcceptDuel implements CommandExecutor {
             return ChatColor.BLUE.toString();
         } else {
             return ChatColor.RED.toString();
+        }
+    }
+
+    /**
+     * send a title bar to the player after 5 seconds, then another time after 30 seconds.
+     * But only if they are in the spawn room still.
+     * @param p The player
+     */
+    public void sendCountdownMessages(Player p) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                p.sendTitle("", String.valueOf(ChatColor.DARK_RED) + 3, 0, 20, 15);
+            }
+        }.runTaskLater(Main.plugin, 20);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                p.sendTitle("", String.valueOf(ChatColor.DARK_RED) + 3, 0, 20, 15);
+
+            }
+        }.runTaskLater(Main.plugin, 40);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                p.sendTitle("", String.valueOf(ChatColor.DARK_RED) + 3, 0, 20, 15);
+            }
+        }.runTaskLater(Main.plugin, 60);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                p.sendTitle("", ChatColor.DARK_RED + "FIGHT!", 0, 20, 15);
+                openGate(p);
+            }
+        }.runTaskLater(Main.plugin, 80);
+
+    }
+
+    /**
+     *
+     * @param e event when a player leaves, they are removed from the lists and the arena's reset.
+     */
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e) {
+        Player p = e.getPlayer();
+
+        DuelCmd.challenging.entrySet()
+                .removeIf(entry -> entry.getKey().equals(p));
+
+        if (arenaList1.contains(p)) {
+            arenaList1.remove(p);
+            for (Player present : arenaList1) {
+                MapController.joinATeam(present.getUniqueId());
+                clearPlayerFromArenaList(present);
+            }
+        } else if (arenaList2.contains(p)) {
+            arenaList2.remove(p);
+            for (Player present : arenaList2) {
+                MapController.joinATeam(present.getUniqueId());
+                clearPlayerFromArenaList(present);
+            }
+        } else if (arenaList3.contains(p)) {
+            arenaList3.remove(p);
+            for (Player present : arenaList3) {
+                MapController.joinATeam(present.getUniqueId());
+                clearPlayerFromArenaList(present);
+            }
+        }
+    }
+
+    /**
+     * Auto-respawn the player
+     * Apply stat changes
+     * @param event The event called when a player dies
+     */
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+         if (DuelCmd.challenging.containsKey(event.getEntity())) {
+             onDuelEnd(DuelCmd.challenging.get(event.getEntity()), event.getEntity());
+         } else if (DuelCmd.challenging.containsValue(event.getEntity())) {
+             onDuelEnd(event.getEntity(), DuelCmd.challenging.get(event.getEntity()));
+         }
+    }
+
+    /**
+     * Guesses where the gate has to be opened for this specific player.
+     * @param contender the player to check the location for
+     */
+    public void openGate(Player contender) {
+        if (contender == null) { return; }
+        Location ploc = contender.getLocation();
+
+        if (ploc.distance(arenaChallenger1) <= 5) {
+          SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -172, 4, -29), "DuelingOpen");
+        } else if (ploc.distance(arenaChallenger2) <= 5) {
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -179, 4, -107), "DuelingOpen");
+        } else if (ploc.distance(arenaChallenger3) <= 5) {
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -178, 4, -173), "DuelingOpen");
+        } else if (ploc.distance(arenaContender1) <= 5) {
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -204, 4, -29), "DuelingOpen");
+        } else if (ploc.distance(arenaContender2) <= 5) {
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -211, 4, -107), "DuelingOpen");
+        } else if (ploc.distance(arenaContender3) <= 5) {
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -210, 4, -173), "DuelingOpen");
         }
     }
 }
