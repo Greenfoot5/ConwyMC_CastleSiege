@@ -119,24 +119,20 @@ public class AcceptDuel implements CommandExecutor, Listener {
      */
     public void onDuelInitation(Player challenger, Player contender) {
           teleportContestants(challenger, contender);
-          forceDuelTeam(challenger, contender);
           InCombat.playerSpawned(challenger.getUniqueId());
           InCombat.playerSpawned(contender.getUniqueId());
           sendCountdownMessages(challenger);
           sendCountdownMessages(contender);
-          challenger.getInventory().setHelmet(new ItemStack(Material.RED_WOOL));
-          contender.getInventory().setHelmet(new ItemStack(Material.BLUE_WOOL));
     }
 
     public void onDuelEndChallenger(Player challenger) {
         clearPlayerFromArenaList(challenger);
-        MapController.joinATeam(challenger.getUniqueId());
-
+        MapController.rejoinAfterDuel(challenger.getUniqueId());
     }
 
     public void onDuelEndContender(Player contender) {
         clearPlayerFromArenaList(contender);
-        MapController.joinATeam(contender.getUniqueId());
+        MapController.rejoinAfterDuel(contender.getUniqueId());
         DuelCmd.challenging.remove(contender);
     }
 
@@ -166,29 +162,6 @@ public class AcceptDuel implements CommandExecutor, Listener {
      * Clears the lists, basically saying they are not occupying that arena anymore.
      * Also repairs the arena
      * @param challenger the player to clear from the list.
-     * @param contender the player to clear from the list.
-     */
-    public void clearPlayerFromArenaList(Player challenger, Player contender) {
-        if (arenaList1.contains(challenger) && arenaList1.contains(contender)) {
-            arenaList1.remove(challenger);
-            arenaList1.remove(contender);
-            arena1 = false;
-            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -162, 4, -29), "DuelsArena1");
-        } else if (arenaList2.contains(challenger) && arenaList1.contains(contender)) {
-            arenaList2.remove(challenger);
-            arenaList2.remove(contender);
-            arena2 = false;
-            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -169, 4, -107), "DuelsArena1");
-        } else arenaList3.remove(challenger);
-        arenaList1.remove(contender);
-        arena3 = false;
-        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -168, 4, -173), "DuelsArena1");
-    }
-
-    /**
-     * Clears the lists, basically saying they are not occupying that arena anymore.
-     * Also repairs the arena
-     * @param challenger the player to clear from the list.
      */
     public void clearPlayerFromArenaList(Player challenger) {
         if (arenaList1.contains(challenger)) {
@@ -202,31 +175,6 @@ public class AcceptDuel implements CommandExecutor, Listener {
         } else arenaList3.remove(challenger);
         arena3 = false;
         SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -168, 4, -173), "DuelsArena1");
-    }
-
-    /**
-     *
-     * @param challenger the person who challenged the contender
-     * @param contender the person who accepted the challenge from the challenger
-     */
-    public void forceDuelTeam(Player challenger, Player contender) {
-        TeamController.leaveTeam(challenger.getUniqueId());
-        TeamController.leaveTeam(contender.getUniqueId());
-        NametagEdit.getApi().setPrefix(challenger, determineColor(challenger));
-        NametagEdit.getApi().setPrefix(contender, determineColor(contender));
-    }
-
-    /**
-     *
-     * @param participant the player to check the colour for
-     * @return the colour blue for the challenger, red for the contender
-     */
-    public static String determineColor(Player participant) {
-        if (DuelCmd.challenging.containsKey(participant)) {
-            return ChatColor.BLUE.toString();
-        } else {
-            return ChatColor.RED.toString();
-        }
     }
 
     /**

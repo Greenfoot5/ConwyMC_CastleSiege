@@ -706,6 +706,27 @@ public class MapController {
 		checkTeamKit(player);
 	}
 
+	/**
+	 * Puts the players back in their spawnrooms.
+	 * @param uuid the player to add to a team
+	 */
+	public static void rejoinAfterDuel(UUID uuid) {
+		rejoinAfterDuels(uuid, getCurrentMap().smallestTeam());
+	}
+
+	/**
+	 *
+	 * @param uuid the player to sent to the spawnroom
+	 * @param team their team
+	 */
+	private static void rejoinAfterDuels(UUID uuid, Team team) {
+		Player player = getPlayer(uuid);
+		assert player != null;
+
+		player.teleport(team.lobby.spawnPoint);
+		checkTeamKit(player);
+	}
+
 
 	/**
 	 * Removes a player from the team when they disconnect

@@ -150,7 +150,7 @@ public class PlayerChat implements Listener {
 
 					//If they are then their display should be this:
 				} else {
-					everyoneMessage = ChatColor.BLUE + "⚔ " + rank + AcceptDuel.determineColor(p) + p.getName() + ": " + chatColor + message;
+					everyoneMessage = ChatColor.BLUE + "⚔ " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
 				}
 
 				everyone.sendMessage(everyoneMessage);
