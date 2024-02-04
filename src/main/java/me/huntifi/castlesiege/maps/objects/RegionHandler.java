@@ -8,8 +8,10 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.session.MoveType;
 import com.sk89q.worldguard.session.Session;
 import com.sk89q.worldguard.session.handler.Handler;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCmd;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import org.bukkit.entity.Player;
 
 import java.util.Set;
 
@@ -49,6 +51,7 @@ public class RegionHandler extends Handler {
         // Ensure the player is actually a player
         if (!player.isPlayer())
             return true;
+
 
         // Player entered a region
         for (ProtectedRegion region : entered) {

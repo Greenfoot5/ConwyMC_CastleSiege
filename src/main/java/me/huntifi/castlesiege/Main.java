@@ -554,8 +554,6 @@ public class Main extends JavaPlugin implements Listener {
                 //This registers the secret items
                 SecretItems.registerSecretItems();
 
-                createWorld("DuelsMap");
-
             }
         }.runTaskLater(plugin, 1);
     }
@@ -894,6 +892,8 @@ public class Main extends JavaPlugin implements Listener {
 
                 // World Data
                 createWorld(map.worldName);
+                //duels map
+                createWorld("DuelsMap");
 
                 // Flag Data
                 loadFlags(mapRoute, map);

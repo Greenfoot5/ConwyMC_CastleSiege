@@ -2,6 +2,8 @@ package me.huntifi.castlesiege.events.chat;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.commands.donator.duels.AcceptDuel;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCmd;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
@@ -130,19 +132,25 @@ public class PlayerChat implements Listener {
 				}
 				int everyoneLevel = everyoneData.getLevel();
 
-				if (playerLevel + 10 < everyoneLevel) {
-					everyoneMessage = ChatColor.DARK_GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
-				} else if (playerLevel + 5 < everyoneLevel && playerLevel + 10 >= everyoneLevel) {
-					everyoneMessage = ChatColor.GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
-				} else if (playerLevel - 5 <= everyoneLevel && playerLevel + 5 >= everyoneLevel) {
-					everyoneMessage = ChatColor.YELLOW + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
-				} else if (playerLevel - 5 > everyoneLevel && playerLevel - 10 <= everyoneLevel) {
-					everyoneMessage = ChatColor.RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
-				} else if (playerLevel - 10 > everyoneLevel) {
-					everyoneMessage = ChatColor.DARK_RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
-					//during duels (beneath)
-				} else if (p.getWorld().getName().equalsIgnoreCase("duelsmap")) {
-					everyoneMessage = ChatColor.BLUE + "⚔ " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
+                //Check if the player is not in some other non-game world (currently just the duelsmap)
+				if (!DuelCmd.challenging.containsKey(p) && !DuelCmd.challenging.containsValue(p)) {
+
+					if (playerLevel + 10 < everyoneLevel) {
+						everyoneMessage = ChatColor.DARK_GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
+					} else if (playerLevel + 5 < everyoneLevel && playerLevel + 10 >= everyoneLevel) {
+						everyoneMessage = ChatColor.GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
+					} else if (playerLevel - 5 <= everyoneLevel && playerLevel + 5 >= everyoneLevel) {
+						everyoneMessage = ChatColor.YELLOW + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
+					} else if (playerLevel - 5 > everyoneLevel && playerLevel - 10 <= everyoneLevel) {
+						everyoneMessage = ChatColor.RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
+					} else if (playerLevel - 10 > everyoneLevel) {
+						everyoneMessage = ChatColor.DARK_RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
+						//during duels (beneath)
+					}
+
+					//If they are then their display should be this:
+				} else {
+					everyoneMessage = ChatColor.BLUE + "⚔ " + rank + AcceptDuel.determineColor(p) + p.getName() + ": " + chatColor + message;
 				}
 
 				everyone.sendMessage(everyoneMessage);

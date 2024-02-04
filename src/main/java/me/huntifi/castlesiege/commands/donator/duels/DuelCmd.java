@@ -21,7 +21,7 @@ public class DuelCmd implements CommandExecutor {
 
     static final HashMap<CommandSender, CommandSender> inviter = new HashMap<>();
 
-    static final HashMap<Player, Player> challenging = new HashMap<>();
+    public static final HashMap<Player, Player> challenging = new HashMap<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
@@ -89,5 +89,13 @@ public class DuelCmd implements CommandExecutor {
      */
     public CommandSender getLastInviter(CommandSender s) {
         return inviter.get(s);
+    }
+
+    /**
+     * simple method returning true or false to determine whether someone is dueling.
+     * @p player to check for
+     */
+    public static boolean isDueling(Player p) {
+        return challenging.containsKey(p) || challenging.containsValue(p);
     }
 }

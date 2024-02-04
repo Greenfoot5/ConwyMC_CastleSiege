@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCmd;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
@@ -74,6 +75,9 @@ public class WoolMap implements Listener {
 
 	@EventHandler
 	public void lookAtWoolmap(PlayerMoveEvent e) {
+		if (DuelCmd.challenging.containsValue(e.getPlayer()) || DuelCmd.challenging.containsKey(e.getPlayer())) {
+			return;
+		}
         if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
 			Block target = e.getPlayer().getTargetBlockExact(50);
 			for (WoolMapBlock block : woolMapBlocks) {

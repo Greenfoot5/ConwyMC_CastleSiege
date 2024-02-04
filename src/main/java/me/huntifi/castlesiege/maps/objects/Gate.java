@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.maps.objects;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCmd;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
@@ -151,7 +152,7 @@ public class Gate implements Listener {
 
             // Check the player is left-clicking and the gate isn't friendly
             Player player = event.getPlayer();
-            if (canBreach(player.getUniqueId()) && event.getAction() == Action.LEFT_CLICK_BLOCK) {
+            if (canBreach(player.getUniqueId()) && event.getAction() == Action.LEFT_CLICK_BLOCK && !DuelCmd.isDueling(player)) {
                 assert event.getClickedBlock() != null;
                 if (isGateBlock(event.getClickedBlock())) {
                     if (!player.isSprinting()) {

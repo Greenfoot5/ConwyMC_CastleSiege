@@ -14,13 +14,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Objects;
 
-import static me.huntifi.castlesiege.maps.NameTag.color;
 
 public class AcceptDuel implements CommandExecutor {
 
@@ -104,6 +101,8 @@ public class AcceptDuel implements CommandExecutor {
     public void onDuelInitation(Player challenger, Player contender) {
           teleportContestants(challenger, contender);
           forceDuelTeam(challenger, contender);
+          InCombat.playerSpawned(challenger.getUniqueId());
+          InCombat.playerSpawned(contender.getUniqueId());
     }
 
     /**
