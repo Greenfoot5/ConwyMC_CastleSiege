@@ -63,7 +63,7 @@ public class DiceCurse extends Curse {
      */
     private void swapPlayer(Player player, int teamIndex) {
         MapController.getCurrentMap().teams[teamIndex].removePlayer(player.getUniqueId());
-        int nextTeam = teamIndex == MapController.getCurrentMap().teams.length ? 0 : teamIndex + 1;
+        int nextTeam = teamIndex + 1 == MapController.getCurrentMap().teams.length ? 0 : teamIndex + 1;
 
         MapController.getCurrentMap().teams[nextTeam].addPlayer(player.getUniqueId());
         if (InCombat.isPlayerInLobby(player.getUniqueId())) {
