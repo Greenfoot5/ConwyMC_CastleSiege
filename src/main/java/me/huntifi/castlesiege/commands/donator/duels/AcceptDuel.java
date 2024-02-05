@@ -125,11 +125,22 @@ public class AcceptDuel implements CommandExecutor, Listener {
           sendCountdownMessages(contender);
     }
 
+    /**
+     * NOTE: These two can technically be put together, but I separated them to avoid confusion.
+     * Mainly for myself.
+     * @param challenger the player to clear from the lists
+     *        this is the person that requested the duel.
+     */
     public void onDuelEndChallenger(Player challenger) {
         clearPlayerFromArenaList(challenger);
         MapController.rejoinAfterDuel(challenger.getUniqueId());
     }
 
+    /**
+     *
+      * @param contender the player to clear from the lists
+     *                  This is the person that accepted the duel
+     */
     public void onDuelEndContender(Player contender) {
         clearPlayerFromArenaList(contender);
         MapController.rejoinAfterDuel(contender.getUniqueId());
@@ -261,10 +272,17 @@ public class AcceptDuel implements CommandExecutor, Listener {
                     if (DuelCmd.challenging.containsKey(killer)) {
                         onDuelEndContender(killer);
                         onDuelEndChallenger(killed);
+                        //respawn the players at their spawnroom
+                        killer.spigot().respawn();
+                        killed.spigot().respawn();
                     } else {
                         onDuelEndChallenger(killer);
                         onDuelEndContender(killed);
+                        //respawn the players at their spawnroom
+                        killer.spigot().respawn();
+                        killed.spigot().respawn();
                     }
+                    //who won? who lost. Also cancelled event as that would kill the killed player a few times after the duel had ended.
                     Messenger.sendSuccess("You won the duel from " + killed.getName(), killer);
                     Messenger.sendSuccess("You lost the duel from " + killer.getName(), killed);
                     e.setCancelled(true);
@@ -275,7 +293,7 @@ public class AcceptDuel implements CommandExecutor, Listener {
     }
 
     /**
-     * Guesses where the gate has to be opened for this specific player.
+     * Spawns a schematic where the gate has to be opened for this specific player.
      * @param contender the player to check the location for
      */
     public void openGate(Player contender) {
@@ -298,7 +316,7 @@ public class AcceptDuel implements CommandExecutor, Listener {
     }
 
     /**
-     * resets the arena's
+     * resets the arenas when the server reopens/closes
      */
     public static void resetArenas() {
         SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -162, 4, -29), "DuelsArena1");
