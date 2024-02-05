@@ -21,8 +21,9 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.kits.kits.in_development.Sorcerer;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Sorcerer;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
+import me.huntifi.castlesiege.kits.kits.in_development.Armorer;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
@@ -172,6 +173,7 @@ public class KitGUIs {
         gui.addKitItem(player, new Alchemist(), 1, "alchemist");
         gui.addKitItem(player, new Medic(), 2, "medic");
         gui.addKitItem(player, new Priest(), 3, "priest");
+        gui.addKitItem(player, new Armorer(), 4, "armorer");
 
         gui.addBackItem(13, "kit");
         return gui;

@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.in_development;
+package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.huntifi.castlesiege.data_types.Tuple;
