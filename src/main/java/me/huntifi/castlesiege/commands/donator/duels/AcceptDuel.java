@@ -24,16 +24,22 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.UUID;
 
-
+/**
+ * This class's main function is to initiate a duel when the command /acceptduel is being executed
+ * and afterwards also properly reset the arenas but at the same time manage them.
+ */
 public class AcceptDuel implements CommandExecutor, Listener {
 
-    //These booleans determine whether an arena is occupied or not
-    boolean arena1 = false;
-    boolean arena2 = false;
-    boolean arena3 = false;
+    final static String MAP = "DuelsMap";
+    final public String GATE = "DuelingOpen";
+    final static String ARENA = "DuelsArena1";
 
-    //These arraylists are used to determine in which arena players are in.
+    //This array determines whether an arena is occupied or not
+    boolean[] arena = {false, false, false};
+
+    //This arraylist is used to determine in which arena players are in.
     public static ArrayList<Player> arenaList1 = new ArrayList<>();
     public static ArrayList<Player> arenaList2 = new ArrayList<>();
     public static ArrayList<Player> arenaList3 = new ArrayList<>();
@@ -80,15 +86,12 @@ public class AcceptDuel implements CommandExecutor, Listener {
         }
 
         // Both players have to be in a spawnroom.
-        if (!InCombat.isPlayerInLobby(challenger.getUniqueId())) {
-            Messenger.sendWarning("The host is currently not in a spawnroom!", sender);
-            return true;
-        } else if (!InCombat.isPlayerInLobby(((Player) sender).getUniqueId())) {
-            Messenger.sendWarning("You have to perform this command whilst in a spawnroom!", sender);
+        if (!InCombat.isPlayerInLobby(challenger.getUniqueId()) || !InCombat.isPlayerInLobby(((Player) sender).getUniqueId())) {
+            Messenger.sendWarning("Both the host and recipient need to be in a spawnroom!", sender);
             return true;
         }
 
-        if (arena1 && arena2 && arena3) {
+        if (arena[0] && arena[1] && arena[2]) {
             Messenger.sendWarning("You accepted " + challenger.getName() + "'s invitation to a duel. However all arena's are currently " +
                     "in use. Our apologies.", sender);
             Messenger.sendWarning(sender.getName() + " has accepted your invitation to a duel! However all arena's are currently " +
@@ -146,20 +149,27 @@ public class AcceptDuel implements CommandExecutor, Listener {
      * @param contender the person who accepted the challenge from the challenger
      */
     public void teleportContestants(Player challenger, Player contender) {
-        if (!arena1) {
-        challenger.teleport(arenaChallenger1);
-        contender.teleport(arenaContender1);
-        arenaList1.add(challenger); arenaList1.add(contender);
-        } else if (!arena2) {
-            challenger.teleport(arenaChallenger2);
-            contender.teleport(arenaContender2);
-            arenaList2.add(challenger); arenaList2.add(contender);
-        } else if (!arena3) {
-            challenger.teleport(arenaChallenger3);
-            contender.teleport(arenaContender3);
-            arenaList3.add(challenger); arenaList3.add(contender);
+        for (int i = 0; i < 3; i++) {
+            if (!arena[i]) {
+                switch (i) {
+                    case 0:
+                        challenger.teleport(arenaChallenger1);
+                        contender.teleport(arenaContender1);
+                        arenaList1.add(challenger); arenaList1.add(contender);
+                        break;
+                    case 1:
+                        challenger.teleport(arenaChallenger2);
+                        contender.teleport(arenaContender2);
+                        arenaList2.add(challenger); arenaList2.add(contender);
+                        break;
+                    case 2:
+                        challenger.teleport(arenaChallenger3);
+                        contender.teleport(arenaContender3);
+                        arenaList3.add(challenger); arenaList3.add(contender);
+                        break;
+                }
+            }
         }
-
     }
 
     /**
@@ -170,15 +180,15 @@ public class AcceptDuel implements CommandExecutor, Listener {
     public void clearPlayerFromArenaList(Player challenger) {
         if (arenaList1.contains(challenger)) {
             arenaList1.remove(challenger);
-            arena1 = false;
-            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -162, 4, -29), "DuelsArena1");
+            arena[0] = false;
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -162, 4, -29), ARENA);
         } else if (arenaList2.contains(challenger)) {
             arenaList2.remove(challenger);
-            arena2 = false;
-            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -169, 4, -107), "DuelsArena1");
+            arena[1] = false;
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -169, 4, -107), ARENA);
         } else arenaList3.remove(challenger);
-        arena3 = false;
-        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -168, 4, -173), "DuelsArena1");
+        arena[2] = false;
+        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -168, 4, -173), ARENA);
     }
 
     /**
@@ -294,17 +304,17 @@ public class AcceptDuel implements CommandExecutor, Listener {
         Location ploc = contender.getLocation();
 
         if (ploc.distance(arenaChallenger1) <= 5) {
-          SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -172, 4, -29), "DuelingOpen");
+          SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -172, 4, -29), GATE);
         } else if (ploc.distance(arenaChallenger2) <= 5) {
-            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -179, 4, -107), "DuelingOpen");
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -179, 4, -107), GATE);
         } else if (ploc.distance(arenaChallenger3) <= 5) {
-            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -178, 4, -173), "DuelingOpen");
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -178, 4, -173), GATE);
         } else if (ploc.distance(arenaContender1) <= 5) {
-            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -204, 4, -29), "DuelingOpen");
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -204, 4, -29), GATE);
         } else if (ploc.distance(arenaContender2) <= 5) {
-            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -211, 4, -107), "DuelingOpen");
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -211, 4, -107), GATE);
         } else if (ploc.distance(arenaContender3) <= 5) {
-            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -210, 4, -173), "DuelingOpen");
+            SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -210, 4, -173), GATE);
         }
     }
 
@@ -312,8 +322,8 @@ public class AcceptDuel implements CommandExecutor, Listener {
      * resets the arenas when the server reopens/closes
      */
     public static void resetArenas() {
-        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -162, 4, -29), "DuelsArena1");
-        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -169, 4, -107), "DuelsArena1");
-        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld("DuelsMap"), -168, 4, -173), "DuelsArena1");
+        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -162, 4, -29), ARENA);
+        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -169, 4, -107), ARENA);
+        SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -168, 4, -173), ARENA);
     }
 }
