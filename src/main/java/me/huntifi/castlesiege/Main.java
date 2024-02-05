@@ -391,7 +391,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("JoinMessage")).setExecutor(new JoinMessage());
 
                 //duels
-                Objects.requireNonNull(getCommand("AcceptDuel")).setExecutor(new AcceptDuel());
+                Objects.requireNonNull(getCommand("DuelAccept")).setExecutor(new AcceptDuel());
                 Objects.requireNonNull(getCommand("Duel")).setExecutor(new DuelCmd());
 
                 // Gameplay

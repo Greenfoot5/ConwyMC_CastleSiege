@@ -1,19 +1,14 @@
 package me.huntifi.castlesiege.commands.donator.duels;
 
-import com.nametagedit.plugin.NametagEdit;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
-import me.huntifi.castlesiege.maps.Team;
-import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,9 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,7 +50,7 @@ public class AcceptDuel implements CommandExecutor, Listener {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 
         if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage("Console cannot accept a duel from anyone");
+            Messenger.sendError("Console cannot accept a duel from anyone", sender);
             return true;
         }
 
@@ -72,7 +65,7 @@ public class AcceptDuel implements CommandExecutor, Listener {
         //Check if the player received an invitation from the host
         if (DuelCmd.inviter.get(sender) != null) {
             if (!DuelCmd.inviter.get(sender).equals(challenger)) {
-                Messenger.sendWarning(ChatColor.RED + "You currently don't have an invitation from this player.", sender);
+                Messenger.sendWarning("You currently don't have an invitation from this player.", sender);
                 return true;
             }
         }
@@ -82,16 +75,16 @@ public class AcceptDuel implements CommandExecutor, Listener {
             Messenger.sendError( "Could not find player: " + ChatColor.RED + args[0], sender);
             return true;
         } else if (Objects.equals(sender, challenger)) {
-            Messenger.sendWarning(ChatColor.RED + "I doubt you sent an invitation to yourself...", sender);
+            Messenger.sendWarning("I doubt you sent an invitation to yourself...", sender);
             return true;
         }
 
         // Both players have to be in a spawnroom.
         if (!InCombat.isPlayerInLobby(challenger.getUniqueId())) {
-            Messenger.sendWarning(ChatColor.RED + "The host is currently not in a spawnroom!", sender);
+            Messenger.sendWarning("The host is currently not in a spawnroom!", sender);
             return true;
         } else if (!InCombat.isPlayerInLobby(((Player) sender).getUniqueId())) {
-            Messenger.sendWarning(ChatColor.RED + "You have to perform this command whilst in a spawnroom!", sender);
+            Messenger.sendWarning("You have to perform this command whilst in a spawnroom!", sender);
             return true;
         }
 
@@ -138,7 +131,7 @@ public class AcceptDuel implements CommandExecutor, Listener {
 
     /**
      *
-      * @param contender the player to clear from the lists
+     * @param contender the player to clear from the lists
      *                  This is the person that accepted the duel
      */
     public void onDuelEndContender(Player contender) {

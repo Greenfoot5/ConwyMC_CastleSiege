@@ -129,11 +129,11 @@ commands:
     usage: /duel <player>
     aliases: duel
     permission: castlesiege.noble
-    permission-message: Only donators -> noble or above are permitted to use this command!
-  AcceptDuel:
+    permission-message: Only donators, noble or above can you use this command!
+  DuelAccept:
     description: Accept a duel from someone
-    usage: /acceptduel <player>
-    aliases: acceptd
+    usage: /duelaccept <player>
+    aliases: acceptduel
 
   # Gameplay
   Switch:
