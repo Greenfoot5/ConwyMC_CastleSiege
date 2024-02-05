@@ -18,7 +18,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class Doors implements Listener {
+public class SkyholdDoors implements Listener {
 
     final Location soundDoorLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 184, 113, 133);
     final Location soundVaultLoc = new Location(Main.plugin.getServer().getWorld("Skyhold"), 184, 113, 133);
