@@ -22,11 +22,7 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.maps.objects.Catapult;
-import me.huntifi.castlesiege.maps.objects.Door;
-import me.huntifi.castlesiege.maps.objects.Flag;
-import me.huntifi.castlesiege.maps.objects.Gate;
-import me.huntifi.castlesiege.maps.objects.Ram;
+import me.huntifi.castlesiege.maps.objects.*;
 import me.huntifi.castlesiege.secrets.SecretItems;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -37,6 +33,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -181,6 +178,21 @@ public class MapController {
 		// Calculate the winner based on the game mode
 		String winners = null;
 		switch(getCurrentMap().gamemode) {
+			case DestroyTheCore:
+				java.util.Map<String, Double> coreCounts = new HashMap<>();
+				// Check if the defenders have won
+				for (Core core : getCurrentMap().cores) {
+					// Get the health of each core and who owns it
+					coreCounts.put(core.getOwners(), core.health);
+					//doesn't make sense yet
+					double maxValueInMap = (Collections.max(coreCounts.values()));
+					if (core.health < maxValueInMap && Objects.equals(core.getOwners(), getCurrentMap().teams[0].name)) {
+						winners = getCurrentMap().teams[0].name;
+					} else {
+						winners = getCurrentMap().teams[1].name;
+					}
+				}
+				break;
 			case Control:
 				Main.instance.getLogger().severe("Control game mode has not been implemented yet! It's a draw!");
 				break;

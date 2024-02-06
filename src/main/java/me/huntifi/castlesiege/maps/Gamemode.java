@@ -6,6 +6,8 @@ package me.huntifi.castlesiege.maps;
 public enum Gamemode {
     Assault,
     Domination,
+    DestroyTheCore,
     Control,
     Charge
+
 }
