@@ -177,7 +177,7 @@ public class MapController {
 				for (Core core : getCurrentMap().cores) {
 					if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].name)) {
 						winners = getCurrentMap().teams[0].name;
-					} else {
+					} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].name)) {
 						winners = getCurrentMap().teams[1].name;
 					}
 				}

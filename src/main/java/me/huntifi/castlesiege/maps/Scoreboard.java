@@ -124,7 +124,7 @@ public class Scoreboard implements Runnable {
 			assert objective != null;
 			objective.setDisplayName(displayName);
 			replaceScore(objective, 20, "");
-			replaceScore(objective, 20, String.format("%s%sMap:%s %s",
+			replaceScore(objective, 19, String.format("%s%sMap:%s %s",
 					ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
 
 			// Setup timer display
@@ -133,29 +133,24 @@ public class Scoreboard implements Runnable {
 
 
 			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {
-				switch(MapController.getCurrentMap().gamemode) {
-					case DestroyTheCore:
-						// Display the core scoreboard
-						for (Core core : MapController.getCurrentMap().cores) {
-							Team owners = MapController.getCurrentMap().getTeam(core.getOwners());
-							Scoreboard.replaceScore(objective, core.scoreboard, (owners == null ? ChatColor.GRAY : owners.primaryChatColor)
-									+ "" + ChatColor.BOLD + core.name);
-							Scoreboard.replaceScore(objective, core.scoreboard - 1, (owners == null ? ChatColor.GRAY : owners.primaryChatColor) +
-									"Health: " + ChatColor.WHITE + core.health);
+				if (MapController.getCurrentMap().gamemode.equals(Gamemode.DestroyTheCore)) {
+					// Display the core scoreboard
+					for (Core core : MapController.getCurrentMap().cores) {
+						Team owners = MapController.getCurrentMap().getTeam(core.getOwners());
+						Scoreboard.replaceScore(objective, core.scoreboard, (owners == null ? ChatColor.GRAY : owners.primaryChatColor)
+								+ "" + ChatColor.BOLD + core.name);
+						Scoreboard.replaceScore(objective, core.scoreboard - 1, (owners == null ? ChatColor.GRAY : owners.primaryChatColor) +
+								"Health: " + ChatColor.WHITE + core.health);
+					}
+					// Display the flag scoreboard
+					for (Flag flag : MapController.getCurrentMap().flags) {
+						if (flag.isActive()) {
+							Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
+							Scoreboard.replaceScore(objective, flag.scoreboard,
+									(owners == null ? ChatColor.GRAY : owners.primaryChatColor) + flag.name);
 						}
-						// Display the flag scoreboard
-						for (Flag flag : MapController.getCurrentMap().flags) {
-							if (flag.isActive()) {
-								Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
-								Scoreboard.replaceScore(objective, flag.scoreboard,
-										(owners == null ? ChatColor.GRAY : owners.primaryChatColor) + flag.name);
-							}
-						}
-					case Charge:
-					case Control:
-					case Assault:
-					case Domination:
-					default:
+					}
+				} else {
 					// Display the flag scoreboard
 					for (Flag flag : MapController.getCurrentMap().flags) {
 						if (flag.isActive()) {
