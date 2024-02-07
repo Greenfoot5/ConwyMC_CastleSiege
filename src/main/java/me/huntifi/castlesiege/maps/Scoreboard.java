@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.maps;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
+import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -132,12 +133,36 @@ public class Scoreboard implements Runnable {
 
 
 			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {
-				// Display the flag scoreboard
-				for (Flag flag : MapController.getCurrentMap().flags) {
-					if (flag.isActive()) {
-						Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
-						Scoreboard.replaceScore(objective, flag.scoreboard,
-								(owners == null ? ChatColor.GRAY : owners.primaryChatColor) + flag.name);
+				switch(MapController.getCurrentMap().gamemode) {
+					case DestroyTheCore:
+						// Display the core scoreboard
+						for (Core core : MapController.getCurrentMap().cores) {
+							Team owners = MapController.getCurrentMap().getTeam(core.getOwners());
+							Scoreboard.replaceScore(objective, core.scoreboard, (owners == null ? ChatColor.GRAY : owners.primaryChatColor)
+									+ "" + ChatColor.BOLD + core.name);
+							Scoreboard.replaceScore(objective, core.scoreboard - 1, (owners == null ? ChatColor.GRAY : owners.primaryChatColor) +
+									"Health: " + ChatColor.WHITE + core.health);
+						}
+						// Display the flag scoreboard
+						for (Flag flag : MapController.getCurrentMap().flags) {
+							if (flag.isActive()) {
+								Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
+								Scoreboard.replaceScore(objective, flag.scoreboard,
+										(owners == null ? ChatColor.GRAY : owners.primaryChatColor) + flag.name);
+							}
+						}
+					case Charge:
+					case Control:
+					case Assault:
+					case Domination:
+					default:
+					// Display the flag scoreboard
+					for (Flag flag : MapController.getCurrentMap().flags) {
+						if (flag.isActive()) {
+							Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
+							Scoreboard.replaceScore(objective, flag.scoreboard,
+									(owners == null ? ChatColor.GRAY : owners.primaryChatColor) + flag.name);
+						}
 					}
 				}
 

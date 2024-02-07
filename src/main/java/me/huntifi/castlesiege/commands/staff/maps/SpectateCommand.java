@@ -64,7 +64,16 @@ public class SpectateCommand implements CommandExecutor {
             spectators.add(player.getUniqueId());
             player.setGameMode(GameMode.SPECTATOR);
             if (InCombat.isPlayerInLobby(player.getUniqueId())) {
-                player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
+                switch(MapController.getCurrentMap().gamemode) {
+                    case DestroyTheCore:
+                    player.teleport(MapController.getCurrentMap().cores[0].getSpawnPoint());
+                    case Control:
+                    case Charge:
+                    case Assault:
+                    case Domination:
+                    default:
+                        player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
+                }
             }
             NameTag.give(player);
         }

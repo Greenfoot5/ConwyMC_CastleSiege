@@ -1,33 +1,46 @@
 package me.huntifi.castlesiege.maps.objects;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
+import java.util.*;
 
 public class Core implements Listener {
 
 
     public final String name;
     protected String owners;
-    public final double health;
+    public double health;
+    public boolean isDestroyed = false;
 
     // Location Data
     protected Location spawnPoint;;
     public ProtectedRegion region;
     public static final HashMap<Flag, BossBar> bars = new HashMap<>();
 
+    // Scoreboard value
+    public int scoreboard;
+
     // Game Data
     protected boolean active;
-    public Material[] materials;
+    public List<String> materials;
 
     public Core(String name, String team, double health) {
         this.name = name;
@@ -80,7 +93,7 @@ public class Core implements Listener {
      * Plays the capturing ping sound to a player
      * @param player The player to play the sound to
      */
-    protected void playCapSound(Player player, boolean isDestroyed) {
+    protected void playDamageSound(Player player, boolean isDestroyed) {
         Location location = player.getLocation();
 
         // Play level up sound if it's fully capped, or play a xp orb pickup
@@ -170,12 +183,79 @@ public class Core implements Listener {
      * @return whether the block is the right material or not
      */
     public boolean isCorrectMaterial(Block b) {
-        for (Material matter : materials) {
-            if (matter.equals(b.getType())) {
+        for (String matter : materials) {
+            if (matter.equals(b.getType().name())) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     *
+     * @param b the block to check the region for
+     * @return the core which the block in the region belongs to
+     */
+    public Core getRelativeCore(Block b) {
+        isInRegion(b);
+        return this;
+    }
+
+    /**
+     * returns a core's health
+     */
+    private double getCoreHealth() {
+        return health;
+    }
+
+    /**
+     *
+     * @param health the health to set the core to
+     */
+    private void setCoreHealth(double health) {
+        this.health = health;
+    }
+
+    /**
+     *
+     * @param damage the damage to deal to this core
+     */
+    private void damageCoreHealth(double damage, Core core) {
+        core.setCoreHealth(core.getCoreHealth() - damage);
+    }
+
+    /**
+     * Handles shooting the catapult
+     * @param event The event called when pulling a lever
+     */
+    @EventHandler
+    public void onDestroyCoreBlock(BlockBreakEvent event) {
+        Block clickedBlock = event.getBlock();
+        //Messenger.sendActionError("block name: " + clickedBlock.getType().name(), event.getPlayer());
+        if (!isInRegion(clickedBlock) || !isCorrectMaterial(clickedBlock) ||
+                this.getOwners().equalsIgnoreCase(TeamController.getTeam(event.getPlayer().getUniqueId()).name)) {
+            return;
+        }
+
+        Player player = event.getPlayer();
+
+        for (Team team : MapController.getCurrentMap().teams) {
+            if (!team.hasPlayer(player.getUniqueId())) {
+                for (UUID member : team.getPlayers()) {
+                    Messenger.sendActionError("Your core is under attack!", Objects.requireNonNull(Bukkit.getPlayer(member)));
+                }
+            }
+        }
+        UpdateStats.addCaptures(player.getUniqueId(), 1);
+        playDamageSound(player, false);
+        damageCoreHealth(1, getRelativeCore(clickedBlock));
+        if (getCoreHealth() < 1) {
+            isDestroyed = true;
+            playDamageSound(player, true);
+
+            if (MapController.hasMapEnded()) {
+                MapController.endMap();
+            }
+        }
+    }
 }

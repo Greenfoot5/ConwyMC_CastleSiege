@@ -175,16 +175,7 @@ import me.huntifi.castlesiege.maps.WoolMap;
 import me.huntifi.castlesiege.maps.WoolMapBlock;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
-import me.huntifi.castlesiege.maps.objects.ButtonDoor;
-import me.huntifi.castlesiege.maps.objects.Catapult;
-import me.huntifi.castlesiege.maps.objects.ChargeFlag;
-import me.huntifi.castlesiege.maps.objects.Door;
-import me.huntifi.castlesiege.maps.objects.Flag;
-import me.huntifi.castlesiege.maps.objects.Gate;
-import me.huntifi.castlesiege.maps.objects.LeverDoor;
-import me.huntifi.castlesiege.maps.objects.PressurePlateDoor;
-import me.huntifi.castlesiege.maps.objects.Ram;
-import me.huntifi.castlesiege.maps.objects.RegionHandler;
+import me.huntifi.castlesiege.maps.objects.*;
 import me.huntifi.castlesiege.misc.mythic.MythicListener;
 import me.huntifi.castlesiege.secrets.Abrakhan.AbrakhanSecretDoor;
 import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
@@ -235,6 +226,7 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument[] doorsConfigs;
     private YamlDocument[] gatesConfigs;
     private YamlDocument[] catapultsConfigs;
+    private YamlDocument[] coreConfigs;
 
     private YamlDocument gameConfig;
 
@@ -664,6 +656,14 @@ public class Main extends JavaPlugin implements Listener {
     }
         return null;}
 
+    public YamlDocument getCoreConfig(Route corePath) {
+        for (YamlDocument document : coreConfigs) {
+            if (document.contains(corePath)) {
+                return document;
+            }
+        }
+        return null;}
+
     public YamlDocument getDoorsConfig(Route mapPath) {
         for (YamlDocument document : doorsConfigs) {
             if (document.contains(mapPath)) {
@@ -758,6 +758,9 @@ public class Main extends JavaPlugin implements Listener {
 
         gatesConfigs = loadYMLs("gates");
         getLogger().info("Loaded gates");
+
+        coreConfigs = loadYMLs("cores");
+        getLogger().info("Loaded cores");
 
         catapultsConfigs = loadYMLs("catapults");
         getLogger().info("Loaded catapults");
@@ -886,9 +889,14 @@ public class Main extends JavaPlugin implements Listener {
 
                 // World Data
                 createWorld(map.worldName);
+                //Core Data
+                if (map.gamemode.equals(Gamemode.DestroyTheCore)) {
+                    loadCores(mapRoute, map);
+                }
 
                 // Flag Data
                 loadFlags(mapRoute, map);
+
                 // Doors
                 loadDoors(mapRoute, map);
                 // Gates
@@ -914,7 +922,40 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
+    private void loadCores(Route mapRoute, Map map) {
+        YamlDocument coreConfig = getCoreConfig(mapRoute);
+        String[] corePaths = getPaths(coreConfig, mapRoute);
+
+        map.cores = new Core[corePaths.length];
+        for (int i = 0; i < corePaths.length; i++) {
+            Route coreRoute = mapRoute.add(corePaths[i]);
+            double coreHealth = coreConfig.getDouble(coreRoute.add("core_health"));
+            Core core;
+            if (map.gamemode.equals(Gamemode.DestroyTheCore)) {
+                core = new Core(coreConfig.getString(coreRoute.add("name")),
+                        coreConfig.getString(coreRoute.add("owners")), coreHealth);
+                // Set the spawn point
+                core.setSpawnPoint(getLocation(coreRoute.add("spawn_point"), map.worldName, coreConfig));
+                // Set the capture area and animations
+                Route captureRoute = coreRoute.add("core_area");
+                if (coreConfig.contains(captureRoute)
+                        && coreConfig.getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
+                    core.region = getRegion(coreConfig, captureRoute, core.name.replace(' ', '_'));
+                }
+                core.materials = coreConfig.getStringList(coreRoute.add("materials"));
+
+
+                core.scoreboard = coreConfig.getInt(coreRoute.add("scoreboard"));
+
+                map.cores[i] = core;
+            }
+        }
+    }
+
     private void loadFlags(Route mapRoute, Map map) {
+        if (map.gamemode.equals(Gamemode.DestroyTheCore)) {
+            return;
+        }
         YamlDocument flagConfig = getFlagsConfig(mapRoute);
         String[] flagPaths = getPaths(flagConfig, mapRoute);
 
@@ -1056,6 +1097,10 @@ public class Main extends JavaPlugin implements Listener {
             Route mapFlagRoute = woolMapPath.add(mapFlags[i]);
 
             block.flagName = config.getString(mapFlagRoute.add("flag_name"));
+            if (map.gamemode.equals(Gamemode.DestroyTheCore)) {
+                block.coreName = config.getString(mapFlagRoute.add("core_name"));
+            }
+
             block.blockLocation = getLocation(mapFlagRoute.add("wool_position"), map.worldName, config);
             block.signLocation = block.blockLocation.clone();
 

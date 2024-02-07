@@ -108,6 +108,23 @@ public class Map {
     }
 
     /**
+     * Gets a core based on a name
+     * @param name the name of the core
+     * @return the core, null if none was found
+     */
+    public Core getCore(String name)
+    {
+        for (Core core : cores)
+        {
+            if (core.name.equalsIgnoreCase(name))
+            {
+                return core;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Updates all WoolMaps of a flag to the correct wool
      * @param flagName The flag to update
      */

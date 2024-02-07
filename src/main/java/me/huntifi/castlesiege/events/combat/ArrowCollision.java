@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.maps.TeamController;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,10 +18,10 @@ public class ArrowCollision implements Listener {
      *          We use this event to prevent our projectiles from being stopped by our team.
      *
      */
-    @EventHandler
+   /** @EventHandler
     public void projectileCollision(ProjectileHitEvent e) {
         if (e.isCancelled()) {
-            return;
+           return;
         }
 
             if(e.getEntity().getShooter() instanceof Player && e.getHitEntity() instanceof Player){
@@ -46,4 +45,5 @@ public class ArrowCollision implements Listener {
             }
 
     }
+   **/
 }
