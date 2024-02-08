@@ -8,13 +8,13 @@ import org.bukkit.Bukkit;
  * The different curses used to affect gameplay.
  */
 public enum CurseEnum {
-    GREED ("Curse of Greed", "The coin multiplier is now %s", "The coin multiplier is now 1.0"),
-    DICE ("Curse of the Dice", "", ""),
-    BINDING ("Curse of Binding", "You can no longer switch kits", "You can now switch kits again"),
-    POSSESSION ("Curse of Possession", "The kits have picked you", "The kits lost their grasp on you"),
-    VANISHING ("Curse of Vanishing", "", ""),
-    TEAMWORK ("Curse of Teamwork", "You can no longer switch teams", "You can now switch teams again"),
-    TELEPORTATION ("Curse of Teleportation", "", "");
+    GREED ("CurseCast of Greed", "The coin multiplier is now %s", "The coin multiplier is now 1.0"),
+    DICE ("CurseCast of the Dice", "", ""),
+    BINDING ("CurseCast of Binding", "You can no longer switch kits", "You can now switch kits again"),
+    POSSESSION ("CurseCast of Possession", "The kits have picked you", "The kits lost their grasp on you"),
+    VANISHING ("CurseCast of Vanishing", "", ""),
+    TEAMWORK ("CurseCast of Teamwork", "You can no longer switch teams", "You can now switch teams again"),
+    TELEPORTATION ("CurseCast of Teleportation", "", "");
 
     /** The name of the curse */
     private final String name;

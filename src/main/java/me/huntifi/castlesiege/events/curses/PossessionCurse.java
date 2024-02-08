@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class PossessionCurse extends Curse {
-    public final static String name = "Curse of Possession";
+public class PossessionCurse extends CurseCast {
+    public final static String name = "CurseCast of Possession";
     private final static String activateMessage = "Random kits have possessed players!";
     private final static String expireMessage = "The kits have released their hold on players";
     private final String kitName;

@@ -61,7 +61,7 @@ public class CurseCommand implements TabExecutor {
 
         // Attempt to activate the curse
         try {
-            Curse curse = createCurse(args);
+            CurseCast curse = createCurse(args);
             activateCurse(curse);
         } catch (NumberFormatException exception) {
             Messenger.sendError("One of your arguments should be a number and isn't!", sender);
@@ -85,7 +85,7 @@ public class CurseCommand implements TabExecutor {
         }
 
         // Creates the curse excluding the most recent argument
-        Curse curse = createCurse(Arrays.copyOfRange(args, 0, args.length - 1));
+        CurseCast curse = createCurse(Arrays.copyOfRange(args, 0, args.length - 1));
         if (args.length <= curse.options.size()) {
             List<String> values = curse.options.get(args.length - 2);
             if (Objects.equals(values.get(0), "[player]") || Objects.equals(values.get(0), "<player>"))
@@ -100,7 +100,7 @@ public class CurseCommand implements TabExecutor {
      * Attempts to create a curse.
      * @param args The curseEnum to activate
      */
-    private Curse createCurse(@NotNull String[] args) {
+    private CurseCast createCurse(@NotNull String[] args) {
         switch (args[0].toLowerCase()) {
             case "binding":
                 if (args.length == 1)
@@ -114,7 +114,7 @@ public class CurseCommand implements TabExecutor {
         }
     }
 
-    private void activateCurse(Curse curse) {
+    private void activateCurse(CurseCast curse) {
         curse.activateCurse();
     }
 

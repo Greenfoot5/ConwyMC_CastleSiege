@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
-public class DiceCurse extends Curse {
-    public final static String name = "Curse of the Dice";
+public class DiceCurse extends CurseCast {
+    public final static String name = "CurseCast of the Dice";
     private final static String activateMessage = "Some players have swapped teams!";
     private final static String expireMessage = "";
     private final static int MIN_SIZE_TO_SWAP = 3;

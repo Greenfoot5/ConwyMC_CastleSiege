@@ -7,7 +7,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.curses.BindingCurse;
-import me.huntifi.castlesiege.events.curses.Curse;
+import me.huntifi.castlesiege.events.curses.CurseCast;
 import me.huntifi.castlesiege.events.curses.CurseEnum;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
@@ -382,7 +382,7 @@ public abstract class Kit implements CommandExecutor {
             return false;
         }
 
-        Curse curse = Curse.isCurseActive(BindingCurse.class, uuid);
+        CurseCast curse = CurseCast.isCurseActive(BindingCurse.class, uuid);
         if (curse != null) {
             if (verbose)
                 Messenger.sendCurse(curse.displayName + " prevents you from changing kits! It will expire in "
