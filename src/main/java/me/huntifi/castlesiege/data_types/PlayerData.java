@@ -53,8 +53,6 @@ public class PlayerData {
     private HashMap<String, String> settings;
     private ArrayList<Booster> boosters;
 
-    //private ArrayList<String> ownedAchievements;
-
     private static double coinMultiplier = 1;
 
     /**
@@ -63,10 +61,9 @@ public class PlayerData {
      * @param rankData The data retrieved from player_rank
      * @throws SQLException If the columns don't match up
      */
-    public PlayerData(ArrayList<String> achievements, ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
+    public PlayerData(ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
                       ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, boolean isMatch, ArrayList<Booster> boosters) throws SQLException {
 
-        //this.ownedAchievements = achievements;
         this.unlockedKits = unlockedKits;
         this.foundSecrets = foundSecrets;
         this.mute = mute.next() ? new Tuple<>(mute.getString("reason"), mute.getTimestamp("end")) : null;

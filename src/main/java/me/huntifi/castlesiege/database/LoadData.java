@@ -31,10 +31,6 @@ public class LoadData {
      */
     public static PlayerData load(UUID uuid) {
         try {
-
-            // Unlock achievements data
-            ArrayList<String> unlockedAchievements = getUnlockedAchievements(uuid);
-
             // Unlock kits data
             ArrayList<String> unlockedKits = getUnlockedKits(uuid);
 
@@ -62,7 +58,7 @@ public class LoadData {
             ArrayList<Booster> boosters = getBoosters(uuid);
 
             // Collect data and release resources
-            PlayerData data = new PlayerData(unlockedAchievements, unlockedKits, foundSecrets, prMute.getSecond(),
+            PlayerData data = new PlayerData(unlockedKits, foundSecrets, prMute.getSecond(),
                     prStats.getSecond(), prRank.getSecond(), votes, settings, MapController.isMatch, boosters);
             prMute.getFirst().close();
             prStats.getFirst().close();
@@ -352,31 +348,6 @@ public class LoadData {
         }
 
         return foundSecrets;
-    }
-
-    /**
-     * Get all currently unlocked achievements from the database
-     * @param uuid The unique id of the player whose data to get
-     * @return A list of all currently unlocked achievements
-     */
-    private static ArrayList<String> getUnlockedAchievements(UUID uuid) {
-        ArrayList<String> unlockedAchievements = new ArrayList<>();
-
-        try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT achievement FROM player_achievements WHERE uuid = ?")) {
-            ps.setString(1, uuid.toString());
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                String gadget = rs.getString("achievement");
-                unlockedAchievements.add(gadget);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return unlockedAchievements;
     }
 
     private static ArrayList<Booster> getBoosters(UUID uuid) {
