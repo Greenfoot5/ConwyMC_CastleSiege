@@ -873,6 +873,9 @@ public class Main extends JavaPlugin implements Listener {
                 // Basic Map Details
                 Map map = new Map();
                 Route mapRoute = Route.from(mapPath);
+                if (getCoreConfig(mapRoute) != null) {
+                    map = new CoreMap();
+                }
                 map.name = config.getString(mapRoute.add("name"));
                 map.worldName = config.getString(mapRoute.add("world"));
                 map.gamemode = Gamemode.valueOf(config.getString(mapRoute.add("gamemode")));
@@ -890,8 +893,9 @@ public class Main extends JavaPlugin implements Listener {
 
                 // World Data
                 createWorld(map.worldName);
+
                 //Core Data
-                if (map.gamemode.equals(Gamemode.DestroyTheCore)) {
+                if (getCoreConfig(mapRoute) != null) {
                     loadCores(mapRoute, map);
                 }
 
@@ -927,9 +931,8 @@ public class Main extends JavaPlugin implements Listener {
         YamlDocument coreConfig = getCoreConfig(mapRoute);
         String[] corePaths = getPaths(coreConfig, mapRoute);
 
-        if (map instanceof CoreMap) {
-            CoreMap mapp = (CoreMap) map;
-            mapp.setCores(new Core[corePaths.length]);
+            // create new coremap
+        ((CoreMap) map).setCores(new Core[corePaths.length]);
             for (int i = 0; i < corePaths.length; i++) {
                 Route coreRoute = mapRoute.add(corePaths[i]);
                 double coreHealth = coreConfig.getDouble(coreRoute.add("core_health"));
@@ -946,9 +949,8 @@ public class Main extends JavaPlugin implements Listener {
                 core.materials = coreConfig.getStringList(coreRoute.add("materials"));
                 core.scoreboard = coreConfig.getInt(coreRoute.add("scoreboard"));
 
-                mapp.setCore(i, core);
+                ((CoreMap) map).setCore(i, core);
             }
-        }
     }
 
     private void loadFlags(Route mapRoute, Map map) {

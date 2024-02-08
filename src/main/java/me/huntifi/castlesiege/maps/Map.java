@@ -151,6 +151,17 @@ public class Map {
         if (MapController.timer.state == TimerState.ENDED) {
             return true;
         }
+
+        if (MapController.getCurrentMap() instanceof CoreMap) {
+            CoreMap map = (CoreMap) MapController.getCurrentMap();
+            for (Core core : map.getCores()) {
+                if (core.health <= 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         String startingTeam = MapController.getCurrentMap().flags[0].getCurrentOwners();
         if (startingTeam == null) {
             return false;

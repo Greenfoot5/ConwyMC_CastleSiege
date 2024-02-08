@@ -1,13 +1,15 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.maps.objects.Core;
+import me.huntifi.castlesiege.maps.objects.Flag;
 
 public class CoreMap extends Map {
 
     private Core[] cores;
 
-    private CoreMap() {
+    public CoreMap() {
         super();
+
         cores = new Core[0];
     }
 
@@ -43,4 +45,5 @@ public class CoreMap extends Map {
         }
         return null;
     }
+
 }
