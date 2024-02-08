@@ -163,6 +163,7 @@ import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Scout;
 import me.huntifi.castlesiege.kits.kits.free_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Skirmisher;
+import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.Hommet.CollapseEvent;
 import me.huntifi.castlesiege.maps.Lobby;
@@ -926,26 +927,26 @@ public class Main extends JavaPlugin implements Listener {
         YamlDocument coreConfig = getCoreConfig(mapRoute);
         String[] corePaths = getPaths(coreConfig, mapRoute);
 
-        map.cores = new Core[corePaths.length];
-        for (int i = 0; i < corePaths.length; i++) {
-            Route coreRoute = mapRoute.add(corePaths[i]);
-            double coreHealth = coreConfig.getDouble(coreRoute.add("core_health"));
-            Core core;
-            if (map.gamemode.equals(Gamemode.DestroyTheCore)) {
+        if (map instanceof CoreMap) {
+            CoreMap mapp = (CoreMap) map;
+            mapp.setCores(new Core[corePaths.length]);
+            for (int i = 0; i < corePaths.length; i++) {
+                Route coreRoute = mapRoute.add(corePaths[i]);
+                double coreHealth = coreConfig.getDouble(coreRoute.add("core_health"));
+                Core core;
                 core = new Core(coreConfig.getString(coreRoute.add("name")),
                         coreConfig.getString(coreRoute.add("owners")), coreHealth);
                 // Set the spawn point
                 core.setSpawnPoint(getLocation(coreRoute.add("spawn_point"), map.worldName, coreConfig));
                 // Set the capture area and animations
                 Route captureRoute = coreRoute.add("core_area");
-                if (coreConfig.contains(captureRoute)
-                        && coreConfig.getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
+                if (coreConfig.contains(captureRoute) && coreConfig.getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
                     core.region = getRegion(coreConfig, captureRoute, core.name.replace(' ', '_'));
                 }
                 core.materials = coreConfig.getStringList(coreRoute.add("materials"));
                 core.scoreboard = coreConfig.getInt(coreRoute.add("scoreboard"));
 
-                map.cores[i] = core;
+                mapp.setCore(i, core);
             }
         }
     }
@@ -1095,7 +1096,7 @@ public class Main extends JavaPlugin implements Listener {
             Route mapFlagRoute = woolMapPath.add(mapFlags[i]);
 
             block.flagName = config.getString(mapFlagRoute.add("flag_name"));
-            if (map.gamemode.equals(Gamemode.DestroyTheCore)) {
+            if (map instanceof CoreMap) {
                 block.coreName = config.getString(mapFlagRoute.add("core_name"));
             }
 

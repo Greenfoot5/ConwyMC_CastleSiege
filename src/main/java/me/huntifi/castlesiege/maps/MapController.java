@@ -33,8 +33,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.security.Key;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+import java.util.UUID;
 
 import static org.bukkit.Bukkit.getPlayer;
 import static org.bukkit.Bukkit.getServer;
@@ -173,12 +178,15 @@ public class MapController {
 		String winners = null;
 		switch(getCurrentMap().gamemode) {
 			case DestroyTheCore:
-				// Check if the defenders have won
-				for (Core core : getCurrentMap().cores) {
-					if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].name)) {
-						winners = getCurrentMap().teams[0].name;
-					} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].name)) {
-						winners = getCurrentMap().teams[1].name;
+				if (MapController.getCurrentMap() instanceof CoreMap) {
+					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+					// Check if the defenders have won
+					for (Core core : coreMap.getCores()) {
+						if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].name)) {
+							winners = getCurrentMap().teams[0].name;
+						} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].name)) {
+							winners = getCurrentMap().teams[1].name;
+						}
 					}
 				}
 				break;
@@ -437,15 +445,12 @@ public class MapController {
 		for (UUID spectator : SpectateCommand.spectators) {
 			Player player = getPlayer(spectator);
 			if (player != null && player.isOnline()) {
-				switch(MapController.getCurrentMap().gamemode) {
-					case DestroyTheCore:
-						player.teleport(MapController.getCurrentMap().cores[0].getSpawnPoint());
-					case Control:
-					case Charge:
-					case Assault:
-					case Domination:
-					default:
-						player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
+				if (MapController.getCurrentMap() instanceof CoreMap) {
+					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+						player.teleport(coreMap.getCores(1).getSpawnPoint());
+
+				} else {
+					player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
 				}
 			}
 		}
@@ -530,9 +535,18 @@ public class MapController {
 					Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
 				}
 
-				// Register cores
-				for (Core core : maps.get(mapIndex).cores) {
-					Main.plugin.getServer().getPluginManager().registerEvents(core, Main.plugin);
+				// Register cores and regions
+				if (maps.get(mapIndex) instanceof CoreMap) {
+					CoreMap coreMap = (CoreMap) maps.get(mapIndex);
+					for (Core core : coreMap.getCores()) {
+						Main.plugin.getServer().getPluginManager().registerEvents(core, Main.plugin);
+
+						if (core.region != null) {
+							Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+											BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName)))))
+									.addRegion(core.region);
+						}
+					}
 				}
 
 				// Register gates
@@ -543,15 +557,6 @@ public class MapController {
 						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
 										BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName)))))
 								.addRegion(ram.getRegion());
-					}
-				}
-
-				// Register the core regions
-				for (Core core : maps.get(mapIndex).cores) {
-					if (core.region != null) {
-						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
-										BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName)))))
-								.addRegion(core.region);
 					}
 				}
 
@@ -625,14 +630,17 @@ public class MapController {
 		}
 
 		// Unregister core listeners and regions
-		for (Core core : oldMap.cores) {
-			HandlerList.unregisterAll(core);
+		if (maps.get(mapIndex) instanceof CoreMap) {
+			CoreMap coreMap = (CoreMap) maps.get(mapIndex);
+			for (Core core : coreMap.getCores()) {
+				HandlerList.unregisterAll(core);
 
-			if (core.region != null) {
-				Bukkit.getScheduler().runTask(Main.plugin, () ->
-						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
-										BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
-								.removeRegion(core.name.replace(' ', '_')));
+				if (core.region != null) {
+					Bukkit.getScheduler().runTask(Main.plugin, () ->
+							Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+											BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
+									.removeRegion(core.name.replace(' ', '_')));
+				}
 			}
 		}
 
@@ -689,35 +697,6 @@ public class MapController {
 	 */
 	public static Map getCurrentMap() {
 		return maps.get(mapIndex);
-	}
-
-	/**
-	 * Checks if the current map has ended
-	 * @return If all the flags belong to the same team or if the enemy cores are destroyed.
-	 */
-	public static Boolean hasMapEnded() {
-		if (timer.state == TimerState.ENDED) {
-			return true;
-		}
-
-		if (getCurrentMap().gamemode.equals(Gamemode.DestroyTheCore)) {
-			for (Core core : getCurrentMap().cores) {
-				if (core.isDestroyed) {
-					return true;
-				}
-			}
-		} else {
-			String startingTeam = getCurrentMap().flags[0].getCurrentOwners();
-			if (startingTeam == null) {
-				return false;
-			}
-			for (Flag flag : getCurrentMap().flags) {
-				if (!startingTeam.equalsIgnoreCase(flag.getCurrentOwners()) && flag.isActive()) {
-					return false;
-				}
-			}
-		}
-		return true;
 	}
 
 	/**

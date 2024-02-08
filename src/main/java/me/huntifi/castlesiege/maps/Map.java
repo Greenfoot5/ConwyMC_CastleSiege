@@ -20,7 +20,6 @@ public class Map {
 
     private MapBorder mapBorder;
 
-    public Core[] cores;
     public Team[] teams;
     public Flag[] flags;
     public Door[] doors;
@@ -31,7 +30,6 @@ public class Map {
     public Tuple<Integer, Integer> duration = new Tuple<>(20, 0);
 
     public Map() {
-        cores = new Core[0];
         teams = new Team[0];
         flags = new Flag[0];
         doors = new Door[0];
@@ -108,23 +106,6 @@ public class Map {
     }
 
     /**
-     * Gets a core based on a name
-     * @param name the name of the core
-     * @return the core, null if none was found
-     */
-    public Core getCore(String name)
-    {
-        for (Core core : cores)
-        {
-            if (core.name.equalsIgnoreCase(name))
-            {
-                return core;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Updates all WoolMaps of a flag to the correct wool
      * @param flagName The flag to update
      */
@@ -160,5 +141,26 @@ public class Map {
      */
     public MapBorder getMapBorder() {
         return mapBorder;
+    }
+
+    /**
+     * Checks if the current map has ended
+     * @return If all the flags belong to the same team or if the enemy cores are destroyed.
+     */
+    public static Boolean hasMapEnded() {
+        if (MapController.timer.state == TimerState.ENDED) {
+            return true;
+        }
+        String startingTeam = MapController.getCurrentMap().flags[0].getCurrentOwners();
+        if (startingTeam == null) {
+            return false;
+        }
+        for (Flag flag : MapController.getCurrentMap().flags) {
+            if (!startingTeam.equalsIgnoreCase(flag.getCurrentOwners()) && flag.isActive()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -1,17 +1,46 @@
 package me.huntifi.castlesiege.maps;
 
-import me.huntifi.castlesiege.maps.objects.*;
+import me.huntifi.castlesiege.maps.objects.Core;
 
 public class CoreMap extends Map {
 
-    public Core[] cores;
+    private Core[] cores;
 
-    public CoreMap() {
+    private CoreMap() {
+        super();
         cores = new Core[0];
-        teams = new Team[0];
-        flags = new Flag[0];
-        doors = new Door[0];
-        gates = new Gate[0];
-        catapults = new Catapult[0];
+    }
+
+    public void setCores(Core[] coreList) {
+        cores = coreList;
+    }
+
+    public void setCore(int index, Core core) {
+        cores[index] = core;
+    }
+
+    public Core[] getCores() {
+        return cores;
+    }
+
+    public Core getCores(int i) {
+        return cores[i];
+    }
+
+    /**
+     * Gets a core based on a name
+     * @param name the name of the core
+     * @return the core, null if none was found
+     */
+    public Core getCore(String name)
+    {
+        for (Core core : cores)
+        {
+            if (core.name.equalsIgnoreCase(name))
+            {
+                return core;
+            }
+        }
+        return null;
     }
 }

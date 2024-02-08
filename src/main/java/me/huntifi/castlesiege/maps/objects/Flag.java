@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.data_types.LocationFrame;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -447,7 +448,7 @@ public class Flag {
      */
     protected synchronized void animate(boolean isCapUp, String teamName) {
 
-        if (MapController.hasMapEnded()) {
+        if (Map.hasMapEnded()) {
             MapController.endMap();
         }
 

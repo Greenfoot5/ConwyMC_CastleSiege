@@ -9,5 +9,4 @@ public enum Gamemode {
     DestroyTheCore,
     Control,
     Charge
-
 }

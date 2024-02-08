@@ -123,7 +123,6 @@ public class Scoreboard implements Runnable {
 
 			assert objective != null;
 			objective.setDisplayName(displayName);
-			replaceScore(objective, 20, "");
 			replaceScore(objective, 19, String.format("%s%sMap:%s %s",
 					ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
 
@@ -133,9 +132,10 @@ public class Scoreboard implements Runnable {
 
 
 			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {
-				if (MapController.getCurrentMap().gamemode.equals(Gamemode.DestroyTheCore)) {
+				if (MapController.getCurrentMap() instanceof CoreMap) {
+					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
 					// Display the core scoreboard
-					for (Core core : MapController.getCurrentMap().cores) {
+					for (Core core : coreMap.getCores()) {
 						Team owners = MapController.getCurrentMap().getTeam(core.getOwners());
 						Scoreboard.replaceScore(objective, core.scoreboard, (owners == null ? ChatColor.GRAY : owners.primaryChatColor)
 								+ "" + ChatColor.BOLD + core.name);

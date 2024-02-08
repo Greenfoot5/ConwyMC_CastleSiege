@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
@@ -64,15 +65,12 @@ public class SpectateCommand implements CommandExecutor {
             spectators.add(player.getUniqueId());
             player.setGameMode(GameMode.SPECTATOR);
             if (InCombat.isPlayerInLobby(player.getUniqueId())) {
-                switch(MapController.getCurrentMap().gamemode) {
-                    case DestroyTheCore:
-                    player.teleport(MapController.getCurrentMap().cores[0].getSpawnPoint());
-                    case Control:
-                    case Charge:
-                    case Assault:
-                    case Domination:
-                    default:
-                        player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
+                if (MapController.getCurrentMap() instanceof CoreMap) {
+                    CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+                    player.teleport(coreMap.getCores(1).getSpawnPoint());
+
+                } else {
+                    player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
                 }
             }
             NameTag.give(player);

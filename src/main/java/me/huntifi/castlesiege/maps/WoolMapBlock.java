@@ -39,15 +39,17 @@ public class WoolMapBlock {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             Team team = TeamController.getTeam(uuid);
             Kit kit = Kit.equippedKits.get(uuid);
-            switch(MapController.getCurrentMap().gamemode) {
-                case DestroyTheCore:
-                Core core = MapController.getCurrentMap().getCore(coreName);
+                if (MapController.getCurrentMap() instanceof CoreMap) {
+                    CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+                    Core core = coreMap.getCore(coreName);
                     if (team != null && team.hasPlayer(uuid)) {
                         if (!Objects.equals(core.getOwners(), team.name)) {
                             Messenger.sendActionError("Your team does not own this core.", player);
+                            return;
                         } else if (kit == null) {
                             Messenger.sendError("You can't join the battlefield without a kit/class!", player);
                             Messenger.sendError("Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!", player);
+                            return;
                         } else {
                             Bukkit.getScheduler().runTask(Main.plugin, () -> {
                                 // Remove mount
@@ -69,12 +71,7 @@ public class WoolMapBlock {
                                     TextComponent.fromLegacyText(core.getSpawnMessage()));
                         }
                     }
-                    break;
-                case Control:
-                case Charge:
-                case Assault:
-                case Domination:
-                default:
+                }
                 Flag flag = MapController.getCurrentMap().getFlag(flagName);
                 if (team != null && team.hasPlayer(uuid)) {
                     if (!Objects.equals(flag.getCurrentOwners(), team.name)) {
@@ -105,7 +102,6 @@ public class WoolMapBlock {
                                 TextComponent.fromLegacyText(flag.getSpawnMessage()));
                     }
                 }
-            }
-      });
+        });
     }
 }
