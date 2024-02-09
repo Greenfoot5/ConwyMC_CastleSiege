@@ -4,12 +4,12 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-public abstract class GamemodeKit extends Kit {
+public abstract class GamemodeKit extends CoinKit implements Listener {
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
-    private final Gamemode gamemode;
+    private final Gamemode gamemodes;
     protected final String commandName;
 
     /**
@@ -31,12 +31,12 @@ public abstract class GamemodeKit extends Kit {
      * @param baseHealth  This kit's base health
      */
     public GamemodeKit(String name, int baseHealth, double regenAmount, Material material, Gamemode gm, String command) {
-        super(name, baseHealth, regenAmount, material, ChatColor.AQUA);
+        super(name, baseHealth, regenAmount, material);
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
         this.commandName = command;
-        gamemode = gm;
+        gamemodes = gm;
     }
 
     /**
@@ -51,7 +51,7 @@ public abstract class GamemodeKit extends Kit {
         if (!super.canSelect(sender, verbose, isRandom))
             return false;
 
-        boolean canPlay = MapController.getCurrentMap().gamemode.equals(gamemode);
+        boolean canPlay = MapController.getCurrentMap().gamemode.equals(gamemodes);
         if (!canPlay) {
             if (verbose) {
                 Messenger.sendError(String.format("You can't use %s! in this gamemode!", name), sender);
@@ -76,7 +76,7 @@ public abstract class GamemodeKit extends Kit {
     public ArrayList<String> getGuiCostText() {
         ArrayList<String> text = new ArrayList<>();
         text.add(" ");
-        text.add(color + "§lCan be played on " + gamemode.toString() + " maps.");
+        text.add(color + "§lCan be played on " + gamemodes.toString() + " maps.");
         return text;
     }
 
