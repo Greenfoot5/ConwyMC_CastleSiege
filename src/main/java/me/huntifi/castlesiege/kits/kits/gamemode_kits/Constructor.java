@@ -49,7 +49,7 @@ public class Constructor extends GamemodeKit implements Listener {
     private static final ArrayList<Block> placedPlanks = new ArrayList<>();
     
     public Constructor() {
-        super("Constructor", health, regen, Material.OAK_PLANKS, Gamemode.DestroyTheCore);
+        super("Constructor", health, regen, Material.OAK_PLANKS, Gamemode.DestroyTheCore, "constructor");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

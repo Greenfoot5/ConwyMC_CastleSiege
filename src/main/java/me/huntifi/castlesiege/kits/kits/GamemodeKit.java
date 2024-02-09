@@ -1,20 +1,28 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Sign;
+import org.bukkit.block.sign.Side;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 public abstract class GamemodeKit extends Kit {
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
     private final Gamemode gamemode;
+    protected final String commandName;
 
     /**
      * Create a gamemode specific kit, which are kits that can only be played on certain gamemodes.
@@ -22,12 +30,12 @@ public abstract class GamemodeKit extends Kit {
      * @param name        This kit's name
      * @param baseHealth  This kit's base health
      */
-    public GamemodeKit(String name, int baseHealth, double regenAmount, Material material, Gamemode gm) {
+    public GamemodeKit(String name, int baseHealth, double regenAmount, Material material, Gamemode gm, String command) {
         super(name, baseHealth, regenAmount, material, ChatColor.AQUA);
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
-
+        this.commandName = command;
         gamemode = gm;
     }
 
@@ -70,5 +78,20 @@ public abstract class GamemodeKit extends Kit {
         text.add(" ");
         text.add(color + "§lCan be played on " + gamemode.toString() + " maps.");
         return text;
+    }
+
+    @EventHandler
+    public void onClickSign(PlayerInteractEvent e) {
+        // Prevent using in lobby
+        if (!InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
+            return;
+        }
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
+                Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
+            Sign sign = (Sign) e.getClickedBlock().getState();
+            if (sign.getSide(Side.FRONT).getLine(0).contains("Gamemode Kit") && sign.getSide(Side.FRONT).getLine(2).contains(name)) {
+                e.getPlayer().performCommand(commandName.toLowerCase());
+            }
+        }
     }
 }
