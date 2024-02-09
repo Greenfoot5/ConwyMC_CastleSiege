@@ -453,6 +453,9 @@ commands:
   Chef:
     description: Selects the chef kit
     usage: /chef
+  Constructor:
+    description: Selects the constructor kit
+    usage: /constructor
   RoyalCryptsFallen:
     description: Selects the Fallen kit for Royal Crypts as Fallen
     usage: /royalcryptsfallen

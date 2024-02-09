@@ -87,7 +87,7 @@ public class Cavalry extends CoinKit implements Listener {
         // Horse
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.WHEAT),
                 ChatColor.GREEN + "Spawn Horse", null, null);
-        HorseHandler.add(name, 600, horseHealth, 1, 0.2425, 0.8,
+        HorseHandler.add(name, 600, horseHealth, 2, 0.2425, 1,
                 Material.IRON_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
                         new PotionEffect(PotionEffectType.REGENERATION, 999999, 0),
