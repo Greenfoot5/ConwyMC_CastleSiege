@@ -30,8 +30,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -107,17 +109,16 @@ public class Rogue extends CoinKit implements Listener {
         // Gouge
         gouge = ItemCreator.weapon(new ItemStack(Material.NETHERITE_INGOT),
                 ChatColor.GOLD + "Gouge", Arrays.asList("",
+                        ChatColor.YELLOW + "" + ChatColor.BOLD + "Sneak + Right Click behind target",
+                        "",
                         ChatColor.AQUA + "This attack uses combo points, the",
                         ChatColor.AQUA + "more combo points the stronger the attack.", "",
                         ChatColor.AQUA + "This stuns and damages the target but",
                         ChatColor.AQUA + "in order for it to work you have to be behind",
                         ChatColor.AQUA + "your target.", "",
-                        ChatColor.AQUA + "If you consume combo points you will deal extra",
-                        ChatColor.AQUA + "damage depending on how many you have, on" +
-                        ChatColor.AQUA + "top of that you will be",
-                        ChatColor.AQUA + "healed 100 + 25hp per combo point consumed.","",
-                        ChatColor.AQUA + "Gouge kills grant 1 combo point",
-                        ChatColor.AQUA + "and another set of track arrows."),
+                        ChatColor.AQUA + "More combo points means more damage and",
+                        ChatColor.AQUA + "self healing on a succesful gouge.",
+                        ChatColor.BLUE + "Can be performed whilst shadow-stepping."),
                 null, 1);
         es.hotbar[1] = gouge;
 
@@ -268,28 +269,29 @@ public class Rogue extends CoinKit implements Listener {
     }
 
     /**
-     * Disguise the player as a vex and make them invisible to prevent footsteps for a set amount of time.
-     * @param p The player to (un)disguise
+     * Hide the player from everyone.
+     * @param p The player to make invisible
      */
     public void shadowstepAbility(Player p) {
         int duration = 160;
         if (p.getCooldown(shadowStep.getType()) == 0) {
             p.setCooldown(shadowStep.getType(), 420);
             isShadow.add(p.getUniqueId());
+            //invis is there for show
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 0));
             p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, 4));
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2));
+            //Makes invisible
             mythicParticle(p);
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-                            isShadow.remove(p.getUniqueId());
-
-                            if (!InCombat.isPlayerInCombat(p.getUniqueId()) && isShadow.contains(p.getUniqueId())) {
+                            if (isShadow.contains(p.getUniqueId())) {
                                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                        ChatColor.GOLD +""+ ChatColor.BOLD + "You are no longer invisible! (Strike now!)"));
+                                        ChatColor.GOLD + "" + ChatColor.BOLD + "You are no longer invisible! (Strike now!)"));
                                 mythicParticle2(p);
+                                isShadow.remove(p.getUniqueId());
                             }
                             for (PotionEffect effect : p.getActivePotionEffects()) {
                                 if ((effect.getType().getName().equals(PotionEffectType.INVISIBILITY.getName()) && effect.getAmplifier() == 0)
@@ -301,6 +303,9 @@ public class Rogue extends CoinKit implements Listener {
                     }
                 }.runTaskLater(Main.plugin, duration);
 
+        } else if (InCombat.isPlayerInCombat(p.getUniqueId())) {
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                    ChatColor.RED + "You can't shadowstep whilst in combat!"));
         } else {
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                     ChatColor.RED + "This ability is still under cool-down."));
@@ -316,6 +321,11 @@ public class Rogue extends CoinKit implements Listener {
     public void mythicParticle2(Player p) {
         BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
         mythicMobsApi.castSkill(p,"RogueEffect2");
+    }
+
+    public void mythicParticleQuit(Player p) {
+        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
+        mythicMobsApi.castSkill(p,"RogueEffectQuit");
     }
 
     public void applyPoison(Player p) {
@@ -529,7 +539,10 @@ public class Rogue extends CoinKit implements Listener {
         }
         //remove used up combo points
         removeComboPoints(damager);
-
+        if (isShadow.contains(damager.getUniqueId())) {
+            mythicParticleQuit(damager);
+            isShadow.remove(damager.getUniqueId());
+        }
         if ((target.getHealth() - damage > 0)) {
             target.damage(damage);
         } else {
@@ -572,13 +585,12 @@ public class Rogue extends CoinKit implements Listener {
      * @param ed The event called when a player attacks another player
      */
     @EventHandler (ignoreCancelled = true)
-    public void gougeDamage(EntityDamageByEntityEvent ed) {
-        if (ed.getDamager() instanceof Player && ed.getEntity() instanceof Player) {
-            Player p = (Player) ed.getDamager();
-            Player hit = (Player) ed.getEntity();
+    public void gougeDamage(PlayerInteractEntityEvent ed) {
+        if (ed.getRightClicked() instanceof Player) {
+            Player p = ed.getPlayer();
+            Player hit = (Player) ed.getRightClicked();
             if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
                 if (p.getCooldown(gouge.getType()) == 0) {
-                    p.setCooldown(gouge.getType(), 100);
 
                     Location hitLoc = hit.getLocation();
                     Location damagerLoc = p.getLocation();
@@ -591,6 +603,7 @@ public class Rogue extends CoinKit implements Listener {
                         if (p.getInventory().getItemInMainHand().getType() != Material.NETHERITE_INGOT) {
                             return;
                         }
+                        p.setCooldown(gouge.getType(), 100);
 
                         ed.setCancelled(true);
                         hit.sendMessage(ChatColor.RED + "You were gouged by " + p.getName());
@@ -692,6 +705,7 @@ public class Rogue extends CoinKit implements Listener {
         kitLore.add(" ");
         // TODO - Improve passive descriptions
         kitLore.add("§2Passive:");
+        kitLore.add("§7- Can see player health.");
         kitLore.add("§7- Can use gauge whilst invisible");
         kitLore.add("§7- Uses combo points to perform more");
         kitLore.add("§7powerful gauges");
