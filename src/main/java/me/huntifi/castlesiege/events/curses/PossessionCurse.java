@@ -1,21 +1,26 @@
 package me.huntifi.castlesiege.events.curses;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PossessionCurse extends CurseCast {
     public final static String name = "Curse of Possession";
-    private final static String activateMessage = "Random kits have possessed players!";
+    private final static String activateMessage = "Random kits have possessed player(s)!";
     private final static String expireMessage = "";
-    private final static List<List<String>> OPTIONS = new ArrayList<>(2);
+    private final static List<List<String>> OPTIONS = new ArrayList<>();
     private final String kitName;
 
     private PossessionCurse(CurseBuilder builder) {
@@ -26,6 +31,20 @@ public class PossessionCurse extends CurseCast {
     @Override
     public void cast() {
         Messenger.broadcastCurse(ChatColor.DARK_RED + name + "§r has been activated! " + activateMessage);
+
+        Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+        if (getPlayer() != null)
+            players = Collections.singleton(Bukkit.getPlayer(getPlayer()));
+        System.out.println(players.size());
+        for (Player player : players) {
+            Kit kit = getKit() == null ? randomKit() : Kit.getKit(kitName);
+            System.out.println(kit.name);
+            kit.addPlayer(player.getUniqueId(), false);
+            System.out.println("Granted Kit");
+            Bukkit.getScheduler().runTask(Main.plugin, () ->
+                    player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue())
+            );
+        }
     }
 
     public String getKit() {
@@ -52,10 +71,10 @@ public class PossessionCurse extends CurseCast {
             super(name, activateMessage, expireMessage);
             kitName = null;
             this.options = OPTIONS;
-            Collection<String> kits = Kit.getKits();
+            List<String> kits = new ArrayList<>(Kit.getKits());
             kits.add("random");
-            this.options.set(0, (List<String>) kits);
-            this.options.set(1, List.of("[player]"));
+            this.options.add(kits);
+            this.options.add(List.of("[player]"));
         }
 
         public PossessionCurse cast() {
@@ -66,13 +85,13 @@ public class PossessionCurse extends CurseCast {
             return curse;
         }
 
-        public CurseCast.CurseBuilder setPlayer(UUID player) {
+        public CurseBuilder setPlayer(UUID player) {
             this.player = player;
             return this;
         }
 
-        public CurseCast.CurseBuilder setKit(UUID player) {
-            this.player = player;
+        public CurseBuilder setKit(String kitName) {
+            this.kitName = kitName;
             return this;
         }
     }

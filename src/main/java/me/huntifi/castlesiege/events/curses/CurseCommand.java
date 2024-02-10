@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class CurseCommand implements TabExecutor {
 
@@ -69,8 +71,9 @@ public class CurseCommand implements TabExecutor {
         List<String> options = new ArrayList<>();
         if (args.length < 2) {
             List<String> values = new ArrayList<>();
-            values.add("binding");
-            values.add("dice");
+            values.add("Binding");
+            values.add("Dice");
+            values.add("Possession");
             StringUtil.copyPartialMatches(args[0], values, options);
             return options;
         }
@@ -96,10 +99,20 @@ public class CurseCommand implements TabExecutor {
             case "binding":
                 if (args.length == 1)
                     return new BindingCurse.CurseBuilder(300);
-                // Can throw NumberFormatException
-                return new BindingCurse.CurseBuilder(Integer.parseInt(args[1]));
+                if (args.length == 2)
+                    // Can throw NumberFormatException
+                    return new BindingCurse.CurseBuilder(Integer.parseInt(args[1]));
+                if (args.length == 3)
+                    return new BindingCurse.CurseBuilder(Integer.parseInt(args[1])).setPlayer(UUID.fromString(args[2]));
             case "dice":
                 return new DiceCurse.CurseBuilder();
+            case "possession":
+                if (args.length == 1)
+                    return new PossessionCurse.CurseBuilder();
+                if (args.length == 2)
+                    return new PossessionCurse.CurseBuilder().setKit(args[1]);
+                if (args.length == 3)
+                    return new PossessionCurse.CurseBuilder().setKit(args[1]).setPlayer(Bukkit.getPlayer(args[2]).getUniqueId());
             default:
                 throw new IllegalArgumentException();
         }

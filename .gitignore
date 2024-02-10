@@ -6,4 +6,5 @@ bin/
 .settings/
 *.iml
 
-[Ff][Tt][Pt]/
+FTP/
+ftp/
