@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -28,7 +29,7 @@ import java.util.UUID;
  */
 public class RandomKitCommand implements CommandExecutor, Listener {
 
-    private static boolean bindingActive = false;
+    private static final List<UUID> activeBindings = new ArrayList<>();
 
     /**
      * Opens the kit selector GUI for the command source if no arguments are passed
@@ -58,7 +59,7 @@ public class RandomKitCommand implements CommandExecutor, Listener {
             return;
         }
 
-        if (bindingActive) {
+        if (activeBindings.contains(null) || activeBindings.contains(uuid)) {
             Messenger.sendCurse("A curse is preventing you from changing kits!", sender);
             return;
         }
@@ -80,11 +81,11 @@ public class RandomKitCommand implements CommandExecutor, Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void bindingActive(BindingCurse curse) {
-        bindingActive = true;
+        activeBindings.add(curse.getPlayer());
     }
 
     @EventHandler(ignoreCancelled = true)
     public void bindingExpired(CurseExpired curse) {
-        bindingActive = false;
+        activeBindings.add(curse.getPlayer());
     }
 }

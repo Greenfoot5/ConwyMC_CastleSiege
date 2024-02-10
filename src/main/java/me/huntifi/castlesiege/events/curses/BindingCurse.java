@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
@@ -25,7 +26,12 @@ public class BindingCurse extends CurseCast {
     @Override
     protected void cast() {
         this.setStartTime();
-        Messenger.broadcastCurse(ChatColor.DARK_RED + getDisplayName() + "§r has been activated! " + getActivateMessage());
+        Player player = getPlayer() == null ? null : Bukkit.getPlayer(getPlayer());
+        if (player == null) {
+            Messenger.broadcastCurse(ChatColor.DARK_RED + getDisplayName() + "§r has been activated! " + getActivateMessage());
+        } else {
+            Messenger.sendCurse(ChatColor.DARK_RED + getDisplayName() + "§r has been activated! " + getActivateMessage(), player);
+        }
 
         CurseCast curse = this;
 
@@ -34,7 +40,10 @@ public class BindingCurse extends CurseCast {
             public void run() {
                 CurseExpired expired = new CurseExpired(curse);
                 Bukkit.getPluginManager().callEvent(expired);
-                Messenger.broadcastCurseEnd(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage());
+                if (player == null) {
+                    Messenger.broadcastCurse(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage());
+                } else
+                    Messenger.sendCurse(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage(), player);
             }
         }.runTaskLater(Main.plugin, getDuration());
 

@@ -86,7 +86,7 @@ public abstract class Kit implements CommandExecutor, Listener {
     public final Material material;
 
     // Curses
-    private static boolean bindingActive = false;
+    private static final List<UUID> activeBindings = new ArrayList<>();
 
     /**
      * Create a kit with basic settings
@@ -387,7 +387,7 @@ public abstract class Kit implements CommandExecutor, Listener {
             return false;
         }
 
-        if (bindingActive) {
+        if (activeBindings.contains(null) || activeBindings.contains(uuid)) {
             if (verbose)
                 Messenger.sendCurse("A curse is stopping you from changing kits!", sender);
             return false;
@@ -501,11 +501,11 @@ public abstract class Kit implements CommandExecutor, Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void bindingActive(BindingCurse curse) {
-        bindingActive = true;
+        activeBindings.add(curse.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void bindingExpired(CurseExpired curse) {
-        bindingActive = false;
+        activeBindings.add(curse.getPlayer());
     }
 }
