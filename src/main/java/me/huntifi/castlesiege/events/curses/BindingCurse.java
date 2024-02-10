@@ -1,19 +1,67 @@
 package me.huntifi.castlesiege.events.curses;
 
-import org.bukkit.entity.Player;
+import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.events.chat.Messenger;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class BindingCurse extends CurseCast {
-    public final static String name = "CurseCast of Binding";
+    public final static String name = "Curse of Binding";
     private final static String activateMessage = "You can no longer switch kits";
     private final static String expireMessage = "You can now switch kits again!";
     private final static List<List<String>> OPTIONS = Arrays.asList(List.of("<duration>"), List.of("[player]"));
 
     public final static int MIN_DURATION = 30;
 
-    public BindingCurse(int duration) {
-        super(name, activateMessage, expireMessage, OPTIONS, duration);
+    private BindingCurse(CurseBuilder builder) {
+        super(builder);
+    }
+
+    @Override
+    protected void cast() {
+        this.setStartTime();
+        Messenger.broadcastCurse(ChatColor.DARK_RED + getDisplayName() + "§r has been activated! " + getActivateMessage());
+
+        CurseCast curse = this;
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                CurseExpired expired = new CurseExpired(curse);
+                Bukkit.getPluginManager().callEvent(expired);
+                Messenger.broadcastCurseEnd(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage());
+            }
+        }.runTaskLater(Main.plugin, getDuration());
+
+    }
+
+    //Builder Class
+    public static class CurseBuilder extends CurseCast.CurseBuilder {
+
+        public CurseBuilder(int duration) {
+            super(name, activateMessage, expireMessage);
+            if (duration < MIN_DURATION)
+                throw new IllegalArgumentException("Duration is too small!");
+            this.duration = duration;
+            this.options = OPTIONS;
+        }
+
+        public BindingCurse cast() {
+            BindingCurse curse = new BindingCurse(this);
+            Bukkit.getPluginManager().callEvent(curse);
+            if (!curse.isCancelled())
+                curse.cast();
+            return curse;
+        }
+
+        public CurseCast.CurseBuilder setPlayer(UUID player) {
+            this.player = player;
+            return this;
+        }
     }
 }

@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.events.curses;
 
+import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
@@ -9,25 +10,30 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
 public class DiceCurse extends CurseCast {
-    public final static String name = "CurseCast of the Dice";
+    public final static String name = "Curse of the Dice";
     private final static String activateMessage = "Some players have swapped teams!";
     private final static String expireMessage = "";
+    private final static List<List<String>> OPTIONS = new ArrayList<>();
     private final static int MIN_SIZE_TO_SWAP = 3;
-    public DiceCurse() {
-        super(name, activateMessage, expireMessage, new ArrayList<>(),0);
+
+    private DiceCurse(CurseBuilder builder) {
+        super(builder);
     }
 
     @Override
-    public boolean activateCurse() {
+    protected void cast() {
         if (MapController.getCurrentMap().smallestTeam().getTeamSize() < MIN_SIZE_TO_SWAP) {
-            return false;
+            StaffChat.sendMessage("Failed to activate Curse of the Dice: Not Enough Players");
+            return;
         }
 
-        super.startTime = System.currentTimeMillis() / 1000;
+        this.setStartTime();
+
         Random random = new Random();
         int amountToSwap = random.nextInt(MapController.getCurrentMap().smallestTeam().getTeamSize() / 2);
 
@@ -53,7 +59,6 @@ public class DiceCurse extends CurseCast {
         }
 
         Messenger.broadcastCurse(ChatColor.DARK_RED + name + "§r has been activated! " + activateMessage);
-        return true;
     }
 
     /**
@@ -73,8 +78,20 @@ public class DiceCurse extends CurseCast {
         Messenger.sendCurse("You have been affected by " + ChatColor.DARK_RED + name + "§r! You have swapped teams.", player);
     }
 
-    @Override
-    public boolean activateCurse(Player player) {
-        return false;
+    //Builder Class
+    public static class CurseBuilder extends CurseCast.CurseBuilder {
+
+        public CurseBuilder() {
+            super(name, activateMessage, expireMessage);
+            this.options = OPTIONS;
+        }
+
+        public DiceCurse cast() {
+            DiceCurse curse = new DiceCurse(this);
+            Bukkit.getPluginManager().callEvent(curse);
+            if (!curse.isCancelled())
+                curse.cast();
+            return curse;
+        }
     }
 }

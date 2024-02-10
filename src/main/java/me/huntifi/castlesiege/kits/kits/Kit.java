@@ -7,8 +7,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.curses.BindingCurse;
-import me.huntifi.castlesiege.events.curses.CurseCast;
-import me.huntifi.castlesiege.events.curses.CurseEnum;
+import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
@@ -27,6 +26,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -49,7 +51,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * The abstract kit
  */
-public abstract class Kit implements CommandExecutor {
+public abstract class Kit implements CommandExecutor, Listener {
 
     public final String name;
     public final int baseHealth;
@@ -82,6 +84,9 @@ public abstract class Kit implements CommandExecutor {
 
     // GUI
     public final Material material;
+
+    // Curses
+    private static boolean bindingActive = false;
 
     /**
      * Create a kit with basic settings
@@ -382,17 +387,9 @@ public abstract class Kit implements CommandExecutor {
             return false;
         }
 
-        CurseCast curse = CurseCast.isCurseActive(BindingCurse.class, uuid);
-        if (curse != null) {
+        if (bindingActive) {
             if (verbose)
-                Messenger.sendCurse(curse.displayName + " prevents you from changing kits! It will expire in "
-                        + curse.getRemainingTime() + "s.", sender);
-            return false;
-        }
-
-        if (equippedKits.get(((Player) sender).getUniqueId()) != null && CurseEnum.POSSESSION.isActive()) {
-            if (verbose)
-                Messenger.sendError(CurseEnum.POSSESSION.getName() + " prevents you from changing kits!", sender);
+                Messenger.sendCurse("A curse is stopping you from changing kits!", sender);
             return false;
         }
 
@@ -500,5 +497,15 @@ public abstract class Kit implements CommandExecutor {
         text.add(" ");
         text.add("§lApparently, it's a secret...");
         return text;
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void bindingActive(BindingCurse curse) {
+        bindingActive = true;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void bindingExpired(CurseExpired curse) {
+        bindingActive = false;
     }
 }

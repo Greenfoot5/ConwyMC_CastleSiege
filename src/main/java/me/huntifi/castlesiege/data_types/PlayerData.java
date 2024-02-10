@@ -63,7 +63,7 @@ public class PlayerData {
      * @param rankData The data retrieved from player_rank
      * @throws SQLException If the columns don't match up
      */
-    public PlayerData(ArrayList<String> achievements, ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
+    public PlayerData(ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
                       ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, boolean isMatch, ArrayList<Booster> boosters) throws SQLException {
 
         //this.ownedAchievements = achievements;

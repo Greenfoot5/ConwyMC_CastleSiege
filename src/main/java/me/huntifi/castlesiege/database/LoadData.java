@@ -33,7 +33,7 @@ public class LoadData {
         try {
 
             // Unlock achievements data
-            ArrayList<String> unlockedAchievements = getUnlockedAchievements(uuid);
+            //ArrayList<String> unlockedAchievements = getUnlockedAchievements(uuid);
 
             // Unlock kits data
             ArrayList<String> unlockedKits = getUnlockedKits(uuid);
@@ -62,7 +62,7 @@ public class LoadData {
             ArrayList<Booster> boosters = getBoosters(uuid);
 
             // Collect data and release resources
-            PlayerData data = new PlayerData(unlockedAchievements, unlockedKits, foundSecrets, prMute.getSecond(),
+            PlayerData data = new PlayerData(unlockedKits, foundSecrets, prMute.getSecond(),
                     prStats.getSecond(), prRank.getSecond(), votes, settings, MapController.isMatch, boosters);
             prMute.getFirst().close();
             prStats.getFirst().close();

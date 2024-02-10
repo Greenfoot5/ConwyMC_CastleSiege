@@ -4,8 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.curses.BindingCurse;
-import me.huntifi.castlesiege.events.curses.CurseCast;
-import me.huntifi.castlesiege.events.curses.CurseEnum;
+import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
@@ -14,6 +13,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -24,7 +26,9 @@ import java.util.UUID;
 /**
  * Selects a random kit for the user
  */
-public class RandomKitCommand implements CommandExecutor {
+public class RandomKitCommand implements CommandExecutor, Listener {
+
+    private static boolean bindingActive = false;
 
     /**
      * Opens the kit selector GUI for the command source if no arguments are passed
@@ -54,15 +58,8 @@ public class RandomKitCommand implements CommandExecutor {
             return;
         }
 
-        CurseCast curse = CurseCast.isCurseActive(BindingCurse.class, player.getUniqueId());
-        if (curse != null) {
-            Messenger.sendCurse(curse.displayName + " prevents you from changing kits! It will expire in "
-                    + curse.getRemainingTime() + "s.", sender);
-            return;
-        }
-
-        if (CurseEnum.POSSESSION.isActive()) {
-            Messenger.sendError(CurseEnum.POSSESSION.getName() + " prevents you from changing kits!", sender);
+        if (bindingActive) {
+            Messenger.sendCurse("A curse is preventing you from changing kits!", sender);
             return;
         }
 
@@ -79,5 +76,15 @@ public class RandomKitCommand implements CommandExecutor {
         });
 
         kits.get(new Random().nextInt(kits.size())).addPlayer(uuid, true);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void bindingActive(BindingCurse curse) {
+        bindingActive = true;
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void bindingExpired(CurseExpired curse) {
+        bindingActive = false;
     }
 }
