@@ -74,6 +74,7 @@ public class CurseCommand implements TabExecutor {
             values.add("Binding");
             values.add("Dice");
             values.add("Possession");
+            values.add("Teleportation");
             StringUtil.copyPartialMatches(args[0], values, options);
             return options;
         }
@@ -113,6 +114,9 @@ public class CurseCommand implements TabExecutor {
                     return new PossessionCurse.CurseBuilder().setKit(args[1]);
                 if (args.length == 3)
                     return new PossessionCurse.CurseBuilder().setKit(args[1]).setPlayer(Bukkit.getPlayer(args[2]).getUniqueId());
+            case "teleport":
+            case "teleportation":
+                return new TeleportationCurse.CurseBuilder();
             default:
                 throw new IllegalArgumentException();
         }
