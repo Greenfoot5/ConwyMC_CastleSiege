@@ -33,9 +33,9 @@ public class WoolHat implements Listener {
 
 		ItemStack wool;
 		if (hideTeamColour)
-			wool = new ItemStack(team.primaryWool);
-		else
 			wool = new ItemStack(Material.WHITE_WOOL);
+		else
+			wool = new ItemStack(team.primaryWool);
 		ItemMeta woolMeta = wool.getItemMeta();
 		assert woolMeta != null;
 		woolMeta.setDisplayName(ChatColor.GREEN + "WoolHat");

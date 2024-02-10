@@ -10,7 +10,7 @@ import java.util.List;
 
 public class BlindnessCurse extends CurseCast {
     public final static String name = "Curse of Blindness";
-    private final static String activateMessage = "Your name has been obfuscated";
+    private final static String activateMessage = "Your name, rank & level has been hidden";
     private final static String expireMessage = "Your name is now clear to all!";
     private final static List<List<String>> OPTIONS = List.of(List.of("<duration>"));
 
@@ -32,7 +32,7 @@ public class BlindnessCurse extends CurseCast {
             public void run() {
                 CurseExpired expired = new CurseExpired(curse);
                 Bukkit.getPluginManager().callEvent(expired);
-                Messenger.broadcastCurse(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage());
+                Messenger.broadcastCurseEnd(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage());
             }
         }.runTaskLater(Main.plugin, getDuration());
 

@@ -61,8 +61,14 @@ public class NameTag implements CommandExecutor, Listener {
 
         Bukkit.getScheduler().runTask(Main.plugin, () -> {
             // Set the player's tags
-            p.setDisplayName("§e" + data.getLevel() + " " + rank + color(p) + p.getName());
-            NametagEdit.getApi().setPrefix(p, rank + color(p));
+
+            if (hidePlayerName) {
+                p.setDisplayName("§e" + color(p) + p.getName());
+                NametagEdit.getApi().setPrefix(p, color(p));
+            } else {
+                p.setDisplayName("§e" + data.getLevel() + " " + rank + color(p) + p.getName());
+                NametagEdit.getApi().setPrefix(p, rank + color(p));
+            }
         });
 
         
@@ -76,18 +82,55 @@ public class NameTag implements CommandExecutor, Listener {
      */
     public static String color(Player p) {
         if (!MapController.isSpectator(p.getUniqueId())) {
-            String colour;
             if (hideTeamColour)
-                colour = ChatColor.WHITE.toString();
-            else
-                colour = TeamController.getTeam(p.getUniqueId()).primaryChatColor.toString();
-
-            if (hidePlayerName)
-                return colour + ChatColor.MAGIC;
-            return colour;
+                return ChatColor.WHITE.toString();
+            return TeamController.getTeam(p.getUniqueId()).primaryChatColor.toString();
         } else {
             return ChatColor.GRAY + ChatColor.ITALIC.toString();
         }
+    }
+
+    public static String level(int senderLevel, int viewerLevel) {
+        if (hidePlayerName) {
+            return "";
+        }
+        // Sender is 11+ levels below the viewer
+        else if (senderLevel + 10 < viewerLevel) {
+            return ChatColor.DARK_GREEN + String.valueOf(senderLevel) + " ";
+        }
+        // Sender is 6-10 levels below the viewer
+        else if (senderLevel + 5 < viewerLevel && senderLevel + 10 >= viewerLevel) {
+            return ChatColor.GREEN + String.valueOf(senderLevel) + " ";
+        }
+        // Sender is within 5 levels of the viewer
+        else if (senderLevel - 5 <= viewerLevel && senderLevel + 5 >= viewerLevel) {
+            return ChatColor.YELLOW + String.valueOf(senderLevel) + " ";
+        }
+        // Sender is 6-10 levels above the viewer
+        else if (senderLevel - 5 > viewerLevel && senderLevel - 10 <= viewerLevel) {
+            return ChatColor.RED + String.valueOf(senderLevel) + " ";
+        }
+        // Sender is 11+ levels above the viewer
+        else {
+            return ChatColor.DARK_RED + String.valueOf(senderLevel) + " ";
+        }
+    }
+
+    public static String chatName(Player sender, Player viewer) {
+        PlayerData senderData = ActiveData.getData(sender.getUniqueId());
+        PlayerData viewerData = ActiveData.getData(viewer.getUniqueId());
+
+        // Get the player's rank
+        String rank;
+        if (sender.hasPermission("castlesiege.builder") && !ToggleRankCommand.showDonator.contains(sender)) {
+            rank = convertRank(senderData.getStaffRank());
+        } else {
+            rank = convertRank(senderData.getRank());
+        }
+
+        if (hidePlayerName)
+            return color(sender) + ChatColor.MAGIC + sender.getName();
+        return level(senderData.getLevel(), viewerData.getLevel()) + rank + color(sender) + sender.getName();
     }
 
     /**
@@ -96,6 +139,10 @@ public class NameTag implements CommandExecutor, Listener {
      * @return A formatted rank or an empty string if invalid
      */
     public static String convertRank(String rank) {
+        if (hidePlayerName) {
+            return "";
+        }
+
         switch (rank) {
             // Staff Ranks
             case "builder":

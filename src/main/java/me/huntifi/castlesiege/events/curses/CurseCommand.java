@@ -71,11 +71,12 @@ public class CurseCommand implements TabExecutor {
         List<String> options = new ArrayList<>();
         if (args.length < 2) {
             List<String> values = new ArrayList<>();
-            values.add("Binding");
-            values.add("Dice");
-            values.add("Possession");
-            values.add("Teleportation");
-            values.add("Blindness");
+            values.add("binding");
+            values.add("dice");
+            values.add("possession");
+            values.add("teleportation");
+            values.add("blindness");
+            values.add("blindness_greater");
             StringUtil.copyPartialMatches(args[0], values, options);
             return options;
         }
@@ -122,6 +123,10 @@ public class CurseCommand implements TabExecutor {
                 if (args.length == 1)
                     return new BlindnessCurse.CurseBuilder(300);
                 return new BlindnessCurse.CurseBuilder(Integer.parseInt(args[1]));
+            case "blindness_greater":
+                if (args.length == 1)
+                    return new GreaterBlindnessCurse.CurseBuilder(300);
+                return new GreaterBlindnessCurse.CurseBuilder(Integer.parseInt(args[1]));
             default:
                 throw new IllegalArgumentException();
         }

@@ -32,7 +32,7 @@ public class GreaterBlindnessCurse extends CurseCast {
             public void run() {
                 CurseExpired expired = new CurseExpired(curse);
                 Bukkit.getPluginManager().callEvent(expired);
-                Messenger.broadcastCurse(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage());
+                Messenger.broadcastCurseEnd(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage());
             }
         }.runTaskLater(Main.plugin, getDuration());
 

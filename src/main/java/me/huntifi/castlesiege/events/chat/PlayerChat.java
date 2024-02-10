@@ -5,8 +5,6 @@ import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -107,44 +105,9 @@ public class PlayerChat implements Listener {
 	public void sendTotalMessage(Player p, ChatColor chatColor, String message) {
 
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-
-			PlayerData data = ActiveData.getData(p.getUniqueId());
-			if (data == null) {
-				return;
+			for (Player viewer : Bukkit.getOnlinePlayers()) {
+				viewer.sendMessage(NameTag.chatName(p, viewer) + ": " + chatColor + message);
 			}
-			int playerLevel = data.getLevel();
-
-			// Get the player's wanted rank
-			String rank;
-			if (p.hasPermission("castlesiege.builder") && !ToggleRankCommand.showDonator.contains(p)) {
-				rank = NameTag.convertRank(data.getStaffRank());
-			} else {
-				rank = NameTag.convertRank(data.getRank());
-			}
-
-			for (Player everyone : Bukkit.getOnlinePlayers()) {
-				String everyoneMessage = "";
-				PlayerData everyoneData = ActiveData.getData(everyone.getUniqueId());
-				if (everyoneData == null) {
-					return;
-				}
-				int everyoneLevel = everyoneData.getLevel();
-
-				if (playerLevel + 10 < everyoneLevel) {
-					everyoneMessage = ChatColor.DARK_GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
-				} else if (playerLevel + 5 < everyoneLevel && playerLevel + 10 >= everyoneLevel) {
-					everyoneMessage = ChatColor.GREEN + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
-				} else if (playerLevel - 5 <= everyoneLevel && playerLevel + 5 >= everyoneLevel) {
-					everyoneMessage = ChatColor.YELLOW + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
-				} else if (playerLevel - 5 > everyoneLevel && playerLevel - 10 <= everyoneLevel) {
-					everyoneMessage = ChatColor.RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
-				} else if (playerLevel - 10 > everyoneLevel) {
-					everyoneMessage = ChatColor.DARK_RED + String.valueOf(playerLevel) + " " + rank + NameTag.color(p) + p.getName() + ": " + chatColor + message;
-				}
-
-				everyone.sendMessage(everyoneMessage);
-			}
-
 		});
 	}
 }

@@ -41,9 +41,9 @@ public class BindingCurse extends CurseCast {
                 CurseExpired expired = new CurseExpired(curse);
                 Bukkit.getPluginManager().callEvent(expired);
                 if (player == null) {
-                    Messenger.broadcastCurse(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage());
+                    Messenger.broadcastCurseEnd(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage());
                 } else
-                    Messenger.sendCurse(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage(), player);
+                    Messenger.sendCurseEnd(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage(), player);
             }
         }.runTaskLater(Main.plugin, getDuration());
 
