@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.curses.BlindnessCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
+import me.huntifi.castlesiege.events.curses.GreaterBlindnessCurse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -164,8 +165,19 @@ public class NameTag implements CommandExecutor, Listener {
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void bindingActive(BlindnessCurse curse) {
+    public void beginHidingNames(BlindnessCurse curse) {
         hidePlayerName = true;
+
+        for (Team t : MapController.getCurrentMap().teams) {
+            for (UUID uuid : t.getPlayers()) {
+                give(Bukkit.getPlayer(uuid));
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void beginHidingTeams(GreaterBlindnessCurse curse) {
+        hideTeamColour = true;
 
         for (Team t : MapController.getCurrentMap().teams) {
             for (UUID uuid : t.getPlayers()) {
@@ -176,7 +188,18 @@ public class NameTag implements CommandExecutor, Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void bindingExpired(CurseExpired curse) {
-        if (Objects.equals(curse.getDisplayName(), BlindnessCurse.name))
+        if (Objects.equals(curse.getDisplayName(), BlindnessCurse.name)) {
             hidePlayerName = false;
+        } else if (Objects.equals(curse.getDisplayName(), GreaterBlindnessCurse.name)) {
+            hideTeamColour = false;
+        } else {
+            return;
+        }
+
+        for (Team t : MapController.getCurrentMap().teams) {
+            for (UUID uuid : t.getPlayers()) {
+                give(Bukkit.getPlayer(uuid));
+            }
+        }
     }
 }

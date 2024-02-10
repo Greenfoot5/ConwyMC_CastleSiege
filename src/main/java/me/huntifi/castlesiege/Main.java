@@ -111,6 +111,7 @@ import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.kits.items.Enderchest;
+import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Alchemist;
@@ -378,6 +379,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Misc
                 getServer().getPluginManager().registerEvents(new RandomKitCommand(), plugin);
                 getServer().getPluginManager().registerEvents(new NameTag(), plugin);
+                getServer().getPluginManager().registerEvents(new WoolHat(), plugin);
 
 
                 // Chat
