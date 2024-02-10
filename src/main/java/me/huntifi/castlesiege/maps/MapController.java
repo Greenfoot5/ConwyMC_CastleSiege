@@ -17,7 +17,6 @@ import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.events.curses.CurseEnum;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -415,7 +414,7 @@ public class MapController {
 		}
 
 		// Move all players to the new map and team
-		if (!(keepTeams || CurseEnum.TEAMWORK.isActive()) || maps.get(mapIndex).teams.length < teams.size()) {
+		if (!keepTeams || maps.get(mapIndex).teams.length < teams.size()) {
 			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
 				if (!SpectateCommand.spectators.contains(player.getUniqueId()))
 					joinATeam(player.getUniqueId());

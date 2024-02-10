@@ -8,7 +8,6 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
-import me.huntifi.castlesiege.events.curses.CurseEnum;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
@@ -67,7 +66,7 @@ public class DeathEvent implements Listener {
         MapController.forcedRandom)
             player.performCommand("random");
         else
-            Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), CurseEnum.POSSESSION.isActive());
+            Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), false);
 
         player.setWalkSpeed(0.2f);
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> respawnCounter(player), 10);
