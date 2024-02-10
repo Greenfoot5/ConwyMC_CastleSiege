@@ -5,21 +5,32 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.events.curses.BlindnessCurse;
+import me.huntifi.castlesiege.events.curses.CurseExpired;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Manages the name tags of players
  */
-public class NameTag implements CommandExecutor {
+public class NameTag implements CommandExecutor, Listener {
+
+    private static boolean hidePlayerName = false;
+    private static boolean hideTeamColour = false;
+
 
     /**
      * Give a player their name tag
@@ -64,7 +75,15 @@ public class NameTag implements CommandExecutor {
      */
     public static String color(Player p) {
         if (!MapController.isSpectator(p.getUniqueId())) {
-            return TeamController.getTeam(p.getUniqueId()).primaryChatColor.toString();
+            String colour;
+            if (hideTeamColour)
+                colour = ChatColor.WHITE.toString();
+            else
+                colour = TeamController.getTeam(p.getUniqueId()).primaryChatColor.toString();
+
+            if (hidePlayerName)
+                return colour + ChatColor.MAGIC;
+            return colour;
         } else {
             return ChatColor.GRAY + ChatColor.ITALIC.toString();
         }
@@ -142,5 +161,22 @@ public class NameTag implements CommandExecutor {
             }
         }.runTask(Main.plugin);
         return true;
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void bindingActive(BlindnessCurse curse) {
+        hidePlayerName = true;
+
+        for (Team t : MapController.getCurrentMap().teams) {
+            for (UUID uuid : t.getPlayers()) {
+                give(Bukkit.getPlayer(uuid));
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void bindingExpired(CurseExpired curse) {
+        if (Objects.equals(curse.getDisplayName(), BlindnessCurse.name))
+            hidePlayerName = false;
     }
 }

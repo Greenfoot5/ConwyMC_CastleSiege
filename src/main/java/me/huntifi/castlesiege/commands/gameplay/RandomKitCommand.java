@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -86,6 +87,7 @@ public class RandomKitCommand implements CommandExecutor, Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void bindingExpired(CurseExpired curse) {
-        activeBindings.add(curse.getPlayer());
+        if (Objects.equals(curse.getDisplayName(), BindingCurse.name))
+            activeBindings.remove(curse.getPlayer());
     }
 }

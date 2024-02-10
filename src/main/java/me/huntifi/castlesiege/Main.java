@@ -377,6 +377,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Misc
                 getServer().getPluginManager().registerEvents(new RandomKitCommand(), plugin);
+                getServer().getPluginManager().registerEvents(new NameTag(), plugin);
 
 
                 // Chat

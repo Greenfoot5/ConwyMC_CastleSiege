@@ -506,6 +506,7 @@ public abstract class Kit implements CommandExecutor, Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void bindingExpired(CurseExpired curse) {
-        activeBindings.add(curse.getPlayer());
+        if (Objects.equals(curse.getDisplayName(), BindingCurse.name))
+            activeBindings.remove(curse.getPlayer());
     }
 }
