@@ -91,6 +91,10 @@ public class PossessionCurse extends CurseCast {
         }
 
         public CurseBuilder setKit(String kitName) {
+            if (kitName.equalsIgnoreCase("random")) {
+                kitName = null;
+            }
+
             this.kitName = kitName;
             return this;
         }
