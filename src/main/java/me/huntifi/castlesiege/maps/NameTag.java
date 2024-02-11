@@ -67,7 +67,7 @@ public class NameTag implements CommandExecutor, Listener {
 
             if (hidePlayerName || hideBoth) {
                 p.setDisplayName("§e" + color(p) + getName(p));
-                NametagEdit.getApi().setPrefix(p, ChatColor.MAGIC + color(p));
+                NametagEdit.getApi().setPrefix(p, color(p) + ChatColor.MAGIC);
             } else {
                 p.setDisplayName("§e" + data.getLevel() + " " + rank + color(p) + p.getName());
                 NametagEdit.getApi().setPrefix(p, rank + color(p));
@@ -230,10 +230,8 @@ public class NameTag implements CommandExecutor, Listener {
     public void beginHidingNames(BlindnessCurse curse) {
         hidePlayerName = true;
 
-        for (Team t : MapController.getCurrentMap().teams) {
-            for (UUID uuid : t.getPlayers()) {
-                give(Bukkit.getPlayer(uuid));
-            }
+        for (UUID uuid : MapController.getPlayers()) {
+            give(Bukkit.getPlayer(uuid));
         }
     }
 
@@ -241,21 +239,17 @@ public class NameTag implements CommandExecutor, Listener {
     public void beginHidingTeams(GreaterBlindnessCurse curse) {
         hideTeamColour = true;
 
-        for (Team t : MapController.getCurrentMap().teams) {
-            for (UUID uuid : t.getPlayers()) {
-                give(Bukkit.getPlayer(uuid));
-            }
+        for (UUID uuid : MapController.getPlayers()) {
+            give(Bukkit.getPlayer(uuid));
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void beginHidingBoth(BlindnessCurse curse) {
+    public void beginHidingBoth(TrueBlindnessCurse curse) {
         hideBoth = true;
 
-        for (Team t : MapController.getCurrentMap().teams) {
-            for (UUID uuid : t.getPlayers()) {
-                give(Bukkit.getPlayer(uuid));
-            }
+        for (UUID uuid : MapController.getPlayers()) {
+            give(Bukkit.getPlayer(uuid));
         }
     }
 
@@ -266,15 +260,13 @@ public class NameTag implements CommandExecutor, Listener {
         } else if (Objects.equals(curse.getDisplayName(), GreaterBlindnessCurse.name)) {
             hideTeamColour = false;
         } else if (Objects.equals(curse.getDisplayName(), TrueBlindnessCurse.name)) {
-            hideBoth = true;
+            hideBoth = false;
         } else {
             return;
         }
 
-        for (Team t : MapController.getCurrentMap().teams) {
-            for (UUID uuid : t.getPlayers()) {
-                give(Bukkit.getPlayer(uuid));
-            }
+        for (UUID uuid : MapController.getPlayers()) {
+            give(Bukkit.getPlayer(uuid));
         }
     }
 }

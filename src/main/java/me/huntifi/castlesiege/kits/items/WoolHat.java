@@ -49,21 +49,17 @@ public class WoolHat implements Listener {
 	public void greaterBlindnessActive(GreaterBlindnessCurse curse) {
 		hideTeamColour = true;
 
-		for (Team t : MapController.getCurrentMap().teams) {
-			for (UUID uuid : t.getPlayers()) {
-				setHead(Bukkit.getPlayer(uuid));
-			}
+		for (UUID uuid : MapController.getPlayers()) {
+			setHead(Bukkit.getPlayer(uuid));
 		}
 	}
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
 	public void beginHidingAll(TrueBlindnessCurse curse) {
-		hideTeamColour = true;
+		trueHideTeamColour = true;
 
-		for (Team t : MapController.getCurrentMap().teams) {
-			for (UUID uuid : t.getPlayers()) {
-				setHead(Bukkit.getPlayer(uuid));
-			}
+		for (UUID uuid : MapController.getPlayers()) {
+			setHead(Bukkit.getPlayer(uuid));
 		}
 	}
 
@@ -77,10 +73,8 @@ public class WoolHat implements Listener {
 			return;
 		}
 
-		for (Team t : MapController.getCurrentMap().teams) {
-			for (UUID uuid : t.getPlayers()) {
-				setHead(Bukkit.getPlayer(uuid));
-			}
+		for (UUID uuid : MapController.getPlayers()) {
+			setHead(Bukkit.getPlayer(uuid));
 		}
 	}
 }

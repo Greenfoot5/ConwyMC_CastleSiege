@@ -114,7 +114,6 @@ public class PlayerChat implements Listener {
 	 * @param message The message that comes after the name.
 	 */
 	public void sendTotalMessage(Player p, ChatColor chatColor, String message) {
-
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 			for (Player viewer : Bukkit.getOnlinePlayers()) {
 				viewer.sendMessage(NameTag.chatName(p, viewer) + ": " + chatColor + message);
