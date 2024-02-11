@@ -30,13 +30,7 @@ public class TeleportationCurse extends CurseCast {
 
     @Override
     protected void cast() {
-        List<UUID> totalPlayers = new ArrayList<>();
-        for (Team t : MapController.getCurrentMap().teams) {
-            for (UUID uuid : t.getPlayers()) {
-                if (!InCombat.isPlayerInLobby(uuid))
-                    totalPlayers.add(uuid);
-            }
-        }
+        List<UUID> totalPlayers = MapController.getActivePlayers();
 
 
         if (totalPlayers.size() < MIN_SIZE_TO_SWAP) {

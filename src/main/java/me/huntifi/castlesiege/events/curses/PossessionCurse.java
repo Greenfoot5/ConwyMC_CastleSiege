@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
@@ -35,11 +36,13 @@ public class PossessionCurse extends CurseCast {
     public void cast() {
         Messenger.broadcastCurse(ChatColor.DARK_RED + name + "§r has been activated! " + activateMessage);
 
-        Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+        Collection<UUID> players = MapController.getPlayers();
         if (getPlayer() != null)
-            players = Collections.singleton(Bukkit.getPlayer(getPlayer()));
+            players = Collections.singleton(Objects.requireNonNull(Bukkit.getPlayer(getPlayer())).getUniqueId());
         System.out.println(players.size());
-        for (Player player : players) {
+        for (UUID uuid : players) {
+            Player player = Bukkit.getPlayer(uuid);
+            assert player != null;
             Kit kit = getKit() == null ? randomKit() : Kit.getKit(kitName);
             System.out.println(kit.name);
             kit.addPlayer(player.getUniqueId(), false);
