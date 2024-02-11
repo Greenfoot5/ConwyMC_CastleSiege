@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -63,8 +64,8 @@ public class NameTag implements CommandExecutor, Listener {
             // Set the player's tags
 
             if (hidePlayerName) {
-                p.setDisplayName("§e" + color(p) + p.getName());
-                NametagEdit.getApi().setPrefix(p, color(p));
+                p.setDisplayName("§e" + color(p) + getName(p));
+                NametagEdit.getApi().setPrefix(p, ChatColor.MAGIC + color(p));
             } else {
                 p.setDisplayName("§e" + data.getLevel() + " " + rank + color(p) + p.getName());
                 NametagEdit.getApi().setPrefix(p, rank + color(p));
@@ -87,6 +88,19 @@ public class NameTag implements CommandExecutor, Listener {
             return TeamController.getTeam(p.getUniqueId()).primaryChatColor.toString();
         } else {
             return ChatColor.GRAY + ChatColor.ITALIC.toString();
+        }
+    }
+
+    /**
+     * Get the player's primary chat color
+     * @param p The player
+     * @return The player's chat color
+     */
+    public static String getName(Player p) {
+        if (hidePlayerName) {
+            return ChatColor.MAGIC + new String(new char[new Random().nextInt(5, 20)]).replace("\0", "-");
+        } else {
+            return p.getName();
         }
     }
 
@@ -129,7 +143,7 @@ public class NameTag implements CommandExecutor, Listener {
         }
 
         if (hidePlayerName)
-            return color(sender) + ChatColor.MAGIC + sender.getName();
+            return color(sender) + ChatColor.MAGIC + getName(sender);
         return level(senderData.getLevel(), viewerData.getLevel()) + rank + color(sender) + sender.getName();
     }
 
@@ -198,7 +212,6 @@ public class NameTag implements CommandExecutor, Listener {
         }
 
         String rank = Arrays.toString(args).replace('&', '§');
-
 
         // Set the player's tags
         p.setDisplayName("§e" + data.getLevel() + " " + rank + color(p) + p.getName());
