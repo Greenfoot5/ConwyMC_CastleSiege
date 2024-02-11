@@ -38,6 +38,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -700,6 +701,33 @@ public class MapController {
 			team.removePlayer(uuid);
 		else if (isSpectator(uuid))
 			SpectateCommand.spectators.remove(uuid);
+	}
+
+	/**
+	 * @return All the players currently playing the game
+	 */
+	public static Collection<UUID> getPlayers() {
+		List<UUID> players = new ArrayList<>();
+		for (Team t : getCurrentMap().teams) {
+            players.addAll(t.getPlayers());
+		}
+
+		return players;
+	}
+
+	/**
+	 * @return All the players playing the game and not in a lobby
+	 */
+	public static Collection<UUID> getActivePlayers() {
+		List<UUID> players = new ArrayList<>();
+		for (Team t : getCurrentMap().teams) {
+			for (UUID uuid : t.getPlayers()) {
+				if (!InCombat.isPlayerInLobby(uuid))
+					players.add(uuid);
+			}
+		}
+
+		return players;
 	}
 
 	/**
