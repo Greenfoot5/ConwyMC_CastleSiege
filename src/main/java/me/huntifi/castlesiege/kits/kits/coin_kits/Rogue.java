@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.EnderchestEvent;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
@@ -275,8 +276,7 @@ public class Rogue extends CoinKit implements Listener {
     public void shadowstepAbility(Player p) {
         int duration = 160;
         if (InCombat.isPlayerInCombat(p.getUniqueId())) {
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.RED + "You can't shadow-step whilst in combat!"));
+            Messenger.sendActionError("You can't shadow-step whilst in combat!", p);
             return;
         }
         if (p.getCooldown(shadowStep.getType()) == 0) {
@@ -309,8 +309,7 @@ public class Rogue extends CoinKit implements Listener {
                 }.runTaskLater(Main.plugin, duration);
 
         } else {
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.RED + "This ability is still under cool-down."));
+            Messenger.sendActionError("This ability is still under cool-down.", p);
         }
 
     }
