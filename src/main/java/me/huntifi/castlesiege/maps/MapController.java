@@ -706,7 +706,7 @@ public class MapController {
 	/**
 	 * @return All the players currently playing the game
 	 */
-	public static Collection<UUID> getPlayers() {
+	public static List<UUID> getPlayers() {
 		List<UUID> players = new ArrayList<>();
 		for (Team t : getCurrentMap().teams) {
             players.addAll(t.getPlayers());
@@ -718,7 +718,7 @@ public class MapController {
 	/**
 	 * @return All the players playing the game and not in a lobby
 	 */
-	public static Collection<UUID> getActivePlayers() {
+	public static List<UUID> getActivePlayers() {
 		List<UUID> players = new ArrayList<>();
 		for (Team t : getCurrentMap().teams) {
 			for (UUID uuid : t.getPlayers()) {
