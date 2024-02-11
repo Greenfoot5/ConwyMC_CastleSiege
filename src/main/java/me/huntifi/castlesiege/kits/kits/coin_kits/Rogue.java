@@ -274,6 +274,11 @@ public class Rogue extends CoinKit implements Listener {
      */
     public void shadowstepAbility(Player p) {
         int duration = 160;
+        if (InCombat.isPlayerInCombat(p.getUniqueId())) {
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                    ChatColor.RED + "You can't shadow-step whilst in combat!"));
+            return;
+        }
         if (p.getCooldown(shadowStep.getType()) == 0) {
             p.setCooldown(shadowStep.getType(), 420);
             isShadow.add(p.getUniqueId());
@@ -303,9 +308,6 @@ public class Rogue extends CoinKit implements Listener {
                     }
                 }.runTaskLater(Main.plugin, duration);
 
-        } else if (InCombat.isPlayerInCombat(p.getUniqueId())) {
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.RED + "You can't shadowstep whilst in combat!"));
         } else {
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                     ChatColor.RED + "This ability is still under cool-down."));
@@ -492,51 +494,21 @@ public class Rogue extends CoinKit implements Listener {
         }
     }
 
+    /**
+     *
+     * @param damager the player who is damaging the target
+     * @param target the target to deal damage to
+     * @param amount the amount of combo points used
+     */
     public void gougedDamage(Player damager, Player target, int amount) {
-        int damage = 50;
-        if (amount == 0) {
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 75);
-            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 4));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 40, 0));
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 75);
-        } else if (amount == 1) {
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 125);
-            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 50, 4));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 50, 0));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 50, 0));
-            healPlayer(damager, 100);
-            damage = 125;
-        } else if (amount == 2) {
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 175);
-            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 4));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 60, 0));
-            healPlayer(damager, 125);
-            damage = 175;
-        } else if (amount == 3) {
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 215);
-            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 70, 4));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 70, 0));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 70, 0));
-            removeComboPoints(damager);
-            healPlayer(damager, 150);
-            damage = 215;
-        } else if (amount == 4) {
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 250);
-            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80, 4));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 0));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 80, 0));
-            healPlayer(damager, 175);
-            damage = 250;
-        } else if (amount >= 5) {
-            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 4));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 0));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 0));
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 350);
-            healPlayer(damager, 200);
-            damage = 350;
-        }
+        int damage = 25 + (25 * amount);
+        int duration = 40 + (10 * amount);
+        target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, 4));
+        target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 0));
+        target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, duration, 0));
+        AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), damage);
+        healPlayer(damager, damage);
+
         //remove used up combo points
         removeComboPoints(damager);
         if (isShadow.contains(damager.getUniqueId())) {
@@ -667,14 +639,18 @@ public class Rogue extends CoinKit implements Listener {
     }
 
     /**
-     * Crossbow is put into mobility mode when they click an enderchest.
+     * Rogue becomes visible again.
      * @param event The event called when an off-cooldown player interacts with an enderchest
      */
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onClickEnderchest(EnderchestEvent event) {
         if (Objects.equals(Kit.equippedKits.get(event.getPlayer().getUniqueId()).name, name)) {
-            isShadow.remove(event.getPlayer().getUniqueId());
-            hasPoisonedWeapons.remove(event.getPlayer().getUniqueId());
+            event.setCancelled(true);
+            Player p = event.getPlayer();
+
+            isShadow.remove(p.getUniqueId());
+            hasPoisonedWeapons.remove(p.getUniqueId());
+            mythicParticleQuit(p);
         }
     }
 
