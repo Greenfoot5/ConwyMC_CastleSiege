@@ -5,6 +5,8 @@ import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
+import me.huntifi.castlesiege.events.curses.BlindnessCurse;
+import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,10 +14,12 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Customises a player's chat message
@@ -23,6 +27,8 @@ import java.util.ArrayList;
 public class PlayerChat implements Listener {
 
 	private static final ArrayList<String> owners = new ArrayList<>();
+
+	public static boolean hidePlayerName = false;
 
 	public PlayerChat() {
 		owners.add("Huntifi");
@@ -65,6 +71,9 @@ public class PlayerChat implements Listener {
 		if (owners.contains(p.getName()) && !ToggleRankCommand.showDonator.contains(p)) {
 			color = ChatColor.GREEN;
 		}
+
+		if (hidePlayerName)
+			color = ChatColor.GRAY;
 
 		//Allow to tag players in chat
 		for (Player tagged : Bukkit.getOnlinePlayers()) {
@@ -109,6 +118,18 @@ public class PlayerChat implements Listener {
 				viewer.sendMessage(NameTag.chatName(p, viewer) + ": " + chatColor + message);
 			}
 		});
+	}
+
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+	public void beginHidingNames(BlindnessCurse curse) {
+		hidePlayerName = true;
+	}
+
+	@EventHandler(ignoreCancelled = true)
+	public void bindingExpired(CurseExpired curse) {
+		if (Objects.equals(curse.getDisplayName(), BlindnessCurse.name)) {
+			hidePlayerName = false;
+		}
 	}
 }
 
