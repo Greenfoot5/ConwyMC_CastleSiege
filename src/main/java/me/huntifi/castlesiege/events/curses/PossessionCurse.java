@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.events.curses;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.TeamKit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
@@ -22,6 +23,8 @@ public class PossessionCurse extends CurseCast {
     private final static String expireMessage = "";
     private final static List<List<String>> OPTIONS = new ArrayList<>();
     private final String kitName;
+
+    private final static float TEAM_KIT_CHANCE = 0.1f; //10%
 
     private PossessionCurse(CurseBuilder builder) {
         super(builder);
@@ -57,8 +60,18 @@ public class PossessionCurse extends CurseCast {
      */
     private Kit randomKit() {
         Collection<String> kits = Kit.getKits();
-        int num = ThreadLocalRandom.current().nextInt(0, kits.size());
-        for (String kit: kits) if (--num < 0) return Kit.getKit(kit);
+        Collection<String> teamKits = TeamKit.getKits();
+        kits.removeAll(teamKits);
+
+        // Team kits only have a 10% chance of appearing
+        if (ThreadLocalRandom.current().nextInt() > TEAM_KIT_CHANCE) {
+            int num = ThreadLocalRandom.current().nextInt(0, kits.size());
+            for (String kit : kits) if (--num < 0) return Kit.getKit(kit);
+        }
+        else {
+            int num = ThreadLocalRandom.current().nextInt(0, teamKits.size());
+            for (String kit : teamKits) if (--num < 0) return Kit.getKit(kit);
+        }
         throw new AssertionError();
     }
 
