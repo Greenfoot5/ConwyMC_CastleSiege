@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.curses.BlindnessCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.events.curses.GreaterBlindnessCurse;
+import me.huntifi.castlesiege.events.curses.TrueBlindnessCurse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -32,6 +33,7 @@ public class NameTag implements CommandExecutor, Listener {
 
     private static boolean hidePlayerName = false;
     private static boolean hideTeamColour = false;
+    private static boolean hideBoth = false;
 
 
     /**
@@ -63,7 +65,7 @@ public class NameTag implements CommandExecutor, Listener {
         Bukkit.getScheduler().runTask(Main.plugin, () -> {
             // Set the player's tags
 
-            if (hidePlayerName) {
+            if (hidePlayerName || hideBoth) {
                 p.setDisplayName("§e" + color(p) + getName(p));
                 NametagEdit.getApi().setPrefix(p, ChatColor.MAGIC + color(p));
             } else {
@@ -83,7 +85,7 @@ public class NameTag implements CommandExecutor, Listener {
      */
     public static String color(Player p) {
         if (!MapController.isSpectator(p.getUniqueId())) {
-            if (hideTeamColour)
+            if (hideTeamColour || hideBoth)
                 return ChatColor.WHITE.toString();
             return TeamController.getTeam(p.getUniqueId()).primaryChatColor.toString();
         } else {
@@ -97,7 +99,7 @@ public class NameTag implements CommandExecutor, Listener {
      * @return The player's chat color
      */
     public static String getName(Player p) {
-        if (hidePlayerName) {
+        if (hidePlayerName || hideBoth) {
             return ChatColor.MAGIC + new String(new char[new Random().nextInt(5, 20)]).replace("\0", "-");
         } else {
             return p.getName();
@@ -105,7 +107,7 @@ public class NameTag implements CommandExecutor, Listener {
     }
 
     public static String level(int senderLevel, int viewerLevel) {
-        if (hidePlayerName) {
+        if (hidePlayerName || hideBoth) {
             return "";
         }
         // Sender is 11+ levels below the viewer
@@ -142,7 +144,7 @@ public class NameTag implements CommandExecutor, Listener {
             rank = convertRank(senderData.getRank());
         }
 
-        if (hidePlayerName)
+        if (hidePlayerName || hideBoth)
             return color(sender) + ChatColor.MAGIC + getName(sender);
         return level(senderData.getLevel(), viewerData.getLevel()) + rank + color(sender) + sender.getName();
     }
@@ -153,7 +155,7 @@ public class NameTag implements CommandExecutor, Listener {
      * @return A formatted rank or an empty string if invalid
      */
     public static String convertRank(String rank) {
-        if (hidePlayerName) {
+        if (hidePlayerName || hideBoth) {
             return "";
         }
 
@@ -246,12 +248,25 @@ public class NameTag implements CommandExecutor, Listener {
         }
     }
 
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void beginHidingBoth(BlindnessCurse curse) {
+        hideBoth = true;
+
+        for (Team t : MapController.getCurrentMap().teams) {
+            for (UUID uuid : t.getPlayers()) {
+                give(Bukkit.getPlayer(uuid));
+            }
+        }
+    }
+
     @EventHandler(ignoreCancelled = true)
-    public void bindingExpired(CurseExpired curse) {
+    public void blindnessExpired(CurseExpired curse) {
         if (Objects.equals(curse.getDisplayName(), BlindnessCurse.name)) {
             hidePlayerName = false;
         } else if (Objects.equals(curse.getDisplayName(), GreaterBlindnessCurse.name)) {
             hideTeamColour = false;
+        } else if (Objects.equals(curse.getDisplayName(), TrueBlindnessCurse.name)) {
+            hideBoth = true;
         } else {
             return;
         }

@@ -77,6 +77,7 @@ public class CurseCommand implements TabExecutor {
             values.add("teleportation");
             values.add("blindness");
             values.add("blindness_greater");
+            values.add("blindness_true");
             StringUtil.copyPartialMatches(args[0], values, options);
             return options;
         }
@@ -127,6 +128,10 @@ public class CurseCommand implements TabExecutor {
                 if (args.length == 1)
                     return new GreaterBlindnessCurse.CurseBuilder(300);
                 return new GreaterBlindnessCurse.CurseBuilder(Integer.parseInt(args[1]));
+            case "blindness_true":
+                if (args.length == 1)
+                    return new TrueBlindnessCurse.CurseBuilder(300);
+                return new TrueBlindnessCurse.CurseBuilder(Integer.parseInt(args[1]));
             default:
                 throw new IllegalArgumentException();
         }

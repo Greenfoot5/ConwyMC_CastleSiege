@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.events.curses.GreaterBlindnessCurse;
+import me.huntifi.castlesiege.events.curses.TrueBlindnessCurse;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -23,6 +24,7 @@ import java.util.UUID;
  */
 public class WoolHat implements Listener {
 	private static boolean hideTeamColour = false;
+	public static boolean trueHideTeamColour = false;
 
 	/**
 	 * Sets a wool block with a player's team's color as their hat
@@ -32,7 +34,7 @@ public class WoolHat implements Listener {
 		Team team = TeamController.getTeam(player.getUniqueId());
 
 		ItemStack wool;
-		if (hideTeamColour)
+		if (hideTeamColour || trueHideTeamColour)
 			wool = new ItemStack(Material.WHITE_WOOL);
 		else
 			wool = new ItemStack(team.primaryWool);
@@ -54,10 +56,23 @@ public class WoolHat implements Listener {
 		}
 	}
 
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+	public void beginHidingAll(TrueBlindnessCurse curse) {
+		hideTeamColour = true;
+
+		for (Team t : MapController.getCurrentMap().teams) {
+			for (UUID uuid : t.getPlayers()) {
+				setHead(Bukkit.getPlayer(uuid));
+			}
+		}
+	}
+
 	@EventHandler(ignoreCancelled = true)
-	public void bindingExpired(CurseExpired curse) {
+	public void blindnessExpired(CurseExpired curse) {
 		if (Objects.equals(curse.getDisplayName(), GreaterBlindnessCurse.name)) {
 			hideTeamColour = false;
+		} else if (Objects.equals(curse.getDisplayName(), TrueBlindnessCurse.name)) {
+			trueHideTeamColour = false;
 		} else {
 			return;
 		}

@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import me.huntifi.castlesiege.events.curses.BlindnessCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
+import me.huntifi.castlesiege.events.curses.TrueBlindnessCurse;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -29,6 +30,7 @@ public class PlayerChat implements Listener {
 	private static final ArrayList<String> owners = new ArrayList<>();
 
 	public static boolean hidePlayerName = false;
+	public static boolean trueHidePlayerName = false;
 
 	public PlayerChat() {
 		owners.add("Huntifi");
@@ -125,10 +127,17 @@ public class PlayerChat implements Listener {
 		hidePlayerName = true;
 	}
 
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+	public void trueBeginHidingNames(BlindnessCurse curse) {
+		trueHidePlayerName = true;
+	}
+
 	@EventHandler(ignoreCancelled = true)
-	public void bindingExpired(CurseExpired curse) {
+	public void blindnessExpired(CurseExpired curse) {
 		if (Objects.equals(curse.getDisplayName(), BlindnessCurse.name)) {
 			hidePlayerName = false;
+		} else if (Objects.equals(curse.getDisplayName(), TrueBlindnessCurse.name)) {
+			trueHidePlayerName = false;
 		}
 	}
 }
