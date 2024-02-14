@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.events.gameplay;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Material;
 import org.bukkit.entity.Camel;
 import org.bukkit.entity.Entity;
@@ -11,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
@@ -19,6 +21,7 @@ import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 public class CamelHandler implements Listener {
@@ -80,6 +83,21 @@ public class CamelHandler implements Listener {
     public void onDismount(EntityDismountEvent e) {
         removeCamel(e.getDismounted());
         setCooldown(e.getEntity(), e.getDismounted());
+    }
+
+    /**
+     * players that aren't on the same team of the rider, cannot join on the camel's back
+     * @param e The event called when a player right-clicks an enemy camel
+     */
+    @EventHandler
+    public void onClickCamel(PlayerInteractEntityEvent e) {
+        if (e.getRightClicked() instanceof Camel) {
+            Camel camel = (Camel) e.getRightClicked();
+            UUID uuid = Objects.requireNonNull(camel.getOwner()).getUniqueId();
+            if (!(TeamController.getTeam(e.getPlayer().getUniqueId()).equals(TeamController.getTeam(uuid)))) {
+                e.setCancelled(true);
+            }
+        }
     }
 
     /**
