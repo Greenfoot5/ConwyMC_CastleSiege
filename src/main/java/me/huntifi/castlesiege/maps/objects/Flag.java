@@ -448,7 +448,7 @@ public class Flag {
      */
     protected synchronized void animate(boolean isCapUp, String teamName) {
 
-        if (Map.hasMapEnded()) {
+        if (MapController.getCurrentMap().hasMapEnded()) {
             MapController.endMap();
         }
 

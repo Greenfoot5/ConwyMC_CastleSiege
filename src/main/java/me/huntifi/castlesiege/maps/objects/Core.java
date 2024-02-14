@@ -230,16 +230,6 @@ public class Core implements Listener {
     }
 
     /**
-     *
-     * @param b the block to check the region for
-     * @return the core which the block in the region belongs to
-     */
-    public Core getRelativeCore(Block b) {
-        isInRegion(b);
-        return this;
-    }
-
-    /**
      * returns a core's health
      */
     private double getCoreHealth() {
@@ -283,7 +273,7 @@ public class Core implements Listener {
             isDestroyed = true;
             playDamageSound(player, true);
 
-            if (Map.hasMapEnded()) {
+            if (MapController.getCurrentMap().hasMapEnded()) {
                 MapController.endMap();
             }
         }

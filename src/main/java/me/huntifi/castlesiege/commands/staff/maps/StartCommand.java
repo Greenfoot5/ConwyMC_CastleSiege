@@ -14,7 +14,7 @@ public class StartCommand implements CommandExecutor {
         if (MapController.isOngoing()) {
             Messenger.sendError("Map is ongoing, we can't start it!", sender);
             return true;
-        } else if (Map.hasMapEnded()) {
+        } else if (MapController.getCurrentMap().hasMapEnded()) {
             Messenger.sendError("Map has ended, we can't start it!", sender);
             return true;
         }

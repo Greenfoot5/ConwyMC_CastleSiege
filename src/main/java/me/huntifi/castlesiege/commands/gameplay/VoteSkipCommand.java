@@ -47,7 +47,7 @@ public class VoteSkipCommand implements CommandExecutor {
                 return;
             }
 
-            if (Map.hasMapEnded()) {
+            if (MapController.getCurrentMap().hasMapEnded()) {
                 Messenger.sendError("The current map has already ended!", sender);
                 return;
             }

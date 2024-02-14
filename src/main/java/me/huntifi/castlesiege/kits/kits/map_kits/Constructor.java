@@ -47,7 +47,7 @@ public class Constructor extends MapKit implements Listener {
     private static final ArrayList<Block> placedPlanks = new ArrayList<>();
     
     public Constructor() {
-        super("Constructor", health, regen, Material.OAK_PLANKS, "MoriaCore", "constructor");
+        super("Constructor", health, regen, Material.OAK_PLANKS, "MoriaCore");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

@@ -25,7 +25,7 @@ public class CoreMap extends Map {
         return cores;
     }
 
-    public Core getCores(int i) {
+    public Core getCore(int i) {
         return cores[i];
     }
 

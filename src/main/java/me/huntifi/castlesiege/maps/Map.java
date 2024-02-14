@@ -147,7 +147,7 @@ public class Map {
      * Checks if the current map has ended
      * @return If all the flags belong to the same team or if the enemy cores are destroyed.
      */
-    public static Boolean hasMapEnded() {
+    public Boolean hasMapEnded() {
         if (MapController.timer.state == TimerState.ENDED) {
             return true;
         }
@@ -166,7 +166,7 @@ public class Map {
         if (startingTeam == null) {
             return false;
         }
-        for (Flag flag : MapController.getCurrentMap().flags) {
+        for (Flag flag : flags) {
             if (!startingTeam.equalsIgnoreCase(flag.getCurrentOwners()) && flag.isActive()) {
                 return false;
             }

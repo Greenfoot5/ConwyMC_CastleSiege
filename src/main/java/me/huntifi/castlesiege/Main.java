@@ -667,7 +667,8 @@ public class Main extends JavaPlugin implements Listener {
                 return document;
             }
         }
-        return null;}
+        return null;
+    }
 
     public YamlDocument getDoorsConfig(Route mapPath) {
         for (YamlDocument document : doorsConfigs) {
@@ -904,7 +905,9 @@ public class Main extends JavaPlugin implements Listener {
                 }
 
                 // Flag Data
-                loadFlags(mapRoute, map);
+                if (getFlagsConfig(mapRoute) != null) {
+                    loadFlags(mapRoute, map);
+                }
 
                 // Doors
                 loadDoors(mapRoute, map);
@@ -958,9 +961,6 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private void loadFlags(Route mapRoute, Map map) {
-        if (map.gamemode.equals(Gamemode.DestroyTheCore)) {
-            return;
-        }
         YamlDocument flagConfig = getFlagsConfig(mapRoute);
         String[] flagPaths = getPaths(flagConfig, mapRoute);
 
