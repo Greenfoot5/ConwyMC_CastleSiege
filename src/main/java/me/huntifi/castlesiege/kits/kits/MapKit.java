@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
@@ -17,26 +18,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-public abstract class GamemodeKit extends CoinKit implements Listener {
+public abstract class MapKit extends Kit implements Listener {
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
-    private final Gamemode gamemodes;
+    private final String map;
     protected final String commandName;
 
     /**
-     * Create a gamemode specific kit, which are kits that can only be played on certain gamemodes.
+     * Create a map specific kit, which are kits that can only be played on a specific map but are not bound by teams.
      *
      * @param name        This kit's name
      * @param baseHealth  This kit's base health
      */
-    public GamemodeKit(String name, int baseHealth, double regenAmount, Material material, Gamemode gm, String command) {
-        super(name, baseHealth, regenAmount, material);
+    public MapKit(String name, int baseHealth, double regenAmount, Material material, String mapName, String command) {
+        super(name, baseHealth, regenAmount, material, ChatColor.DARK_AQUA);
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
         this.commandName = command;
-        gamemodes = gm;
+        this.map = mapName;
     }
 
     /**
@@ -51,10 +52,10 @@ public abstract class GamemodeKit extends CoinKit implements Listener {
         if (!super.canSelect(sender, verbose, isRandom))
             return false;
 
-        boolean canPlay = MapController.getCurrentMap().gamemode.equals(gamemodes);
+        boolean canPlay = MapController.getCurrentMap().worldName.equalsIgnoreCase(map);
         if (!canPlay) {
             if (verbose) {
-                Messenger.sendError(String.format("You can't use %s! in this gamemode!", name), sender);
+                Messenger.sendError(String.format("You can't use %s on this map!", name), sender);
             }
             return false;
         }
@@ -76,7 +77,7 @@ public abstract class GamemodeKit extends CoinKit implements Listener {
     public ArrayList<String> getGuiCostText() {
         ArrayList<String> text = new ArrayList<>();
         text.add(" ");
-        text.add(color + "§lCan be played on " + gamemodes.toString() + " maps.");
+        text.add(color + "§lCan be played on " + map + "!");
         return text;
     }
 
@@ -89,7 +90,7 @@ public abstract class GamemodeKit extends CoinKit implements Listener {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
                 Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
             Sign sign = (Sign) e.getClickedBlock().getState();
-            if (sign.getSide(Side.FRONT).getLine(0).contains("Gamemode Kit") && sign.getSide(Side.FRONT).getLine(2).contains(name)) {
+            if (sign.getSide(Side.FRONT).getLine(0).contains("Map Kit") && sign.getSide(Side.FRONT).getLine(2).contains(name)) {
                 e.getPlayer().performCommand(commandName.toLowerCase());
             }
         }

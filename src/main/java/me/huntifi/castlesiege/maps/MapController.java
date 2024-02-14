@@ -19,8 +19,8 @@ import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
-import me.huntifi.castlesiege.kits.kits.GamemodeKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.objects.*;
@@ -602,7 +602,7 @@ public class MapController {
 		if (kit == null)
 			return;
 
-		if (kit instanceof TeamKit || kit instanceof GamemodeKit) {
+		if (kit instanceof TeamKit || kit instanceof MapKit) {
 			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
 			ActiveData.getData(player.getUniqueId()).setKit("swordsman");
 		}

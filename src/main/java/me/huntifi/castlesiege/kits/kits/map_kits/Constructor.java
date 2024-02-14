@@ -1,14 +1,13 @@
-package me.huntifi.castlesiege.kits.kits.gamemode_kits;
+package me.huntifi.castlesiege.kits.kits.map_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.GamemodeKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.maps.CoreMap;
-import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Flag;
@@ -35,11 +34,10 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Constructor extends GamemodeKit implements Listener {
+public class Constructor extends MapKit implements Listener {
 
     private static final int health = 260;
     private static final double regen = 10.5;
@@ -49,7 +47,7 @@ public class Constructor extends GamemodeKit implements Listener {
     private static final ArrayList<Block> placedPlanks = new ArrayList<>();
     
     public Constructor() {
-        super("Constructor", health, regen, Material.OAK_PLANKS, Gamemode.DestroyTheCore, "constructor");
+        super("Constructor", health, regen, Material.OAK_PLANKS, "MoriaCore", "constructor");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

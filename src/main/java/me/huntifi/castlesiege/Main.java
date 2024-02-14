@@ -133,7 +133,7 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.kits.kits.gamemode_kits.Constructor;
+import me.huntifi.castlesiege.kits.kits.map_kits.Constructor;
 import me.huntifi.castlesiege.kits.kits.in_development.Armorer;
 import me.huntifi.castlesiege.kits.kits.in_development.Bannerman;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Sorcerer;
