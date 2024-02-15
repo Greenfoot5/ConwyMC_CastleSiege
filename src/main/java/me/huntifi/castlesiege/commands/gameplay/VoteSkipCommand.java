@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
@@ -46,7 +47,7 @@ public class VoteSkipCommand implements CommandExecutor {
                 return;
             }
 
-            if (MapController.hasMapEnded()) {
+            if (MapController.getCurrentMap().hasMapEnded()) {
                 Messenger.sendError("The current map has already ended!", sender);
                 return;
             }

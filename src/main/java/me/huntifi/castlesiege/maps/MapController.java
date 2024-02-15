@@ -20,13 +20,10 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.maps.objects.Catapult;
-import me.huntifi.castlesiege.maps.objects.Door;
-import me.huntifi.castlesiege.maps.objects.Flag;
-import me.huntifi.castlesiege.maps.objects.Gate;
-import me.huntifi.castlesiege.maps.objects.Ram;
+import me.huntifi.castlesiege.maps.objects.*;
 import me.huntifi.castlesiege.secrets.SecretItems;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -181,6 +178,19 @@ public class MapController {
 		// Calculate the winner based on the game mode
 		String winners = null;
 		switch(getCurrentMap().gamemode) {
+			case DestroyTheCore:
+				if (MapController.getCurrentMap() instanceof CoreMap) {
+					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+					// Check if the defenders have won
+					for (Core core : coreMap.getCores()) {
+						if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].name)) {
+							winners = getCurrentMap().teams[0].name;
+						} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].name)) {
+							winners = getCurrentMap().teams[1].name;
+						}
+					}
+				}
+				break;
 			case Control:
 				Main.instance.getLogger().severe("Control game mode has not been implemented yet! It's a draw!");
 				break;
@@ -436,7 +446,13 @@ public class MapController {
 		for (UUID spectator : SpectateCommand.spectators) {
 			Player player = getPlayer(spectator);
 			if (player != null && player.isOnline()) {
-				player.teleport(getCurrentMap().flags[0].getSpawnPoint());
+				if (MapController.getCurrentMap() instanceof CoreMap) {
+					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+						player.teleport(coreMap.getCore(1).getSpawnPoint());
+
+				} else {
+					player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
+				}
 			}
 		}
 
@@ -520,6 +536,20 @@ public class MapController {
 					Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
 				}
 
+				// Register cores and regions
+				if (maps.get(mapIndex) instanceof CoreMap) {
+					CoreMap coreMap = (CoreMap) maps.get(mapIndex);
+					for (Core core : coreMap.getCores()) {
+						Main.plugin.getServer().getPluginManager().registerEvents(core, Main.plugin);
+
+						if (core.region != null) {
+							Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+											BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName)))))
+									.addRegion(core.region);
+						}
+					}
+				}
+
 				// Register gates
 				for (Gate gate : maps.get(mapIndex).gates) {
 					Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
@@ -572,7 +602,7 @@ public class MapController {
 		if (kit == null)
 			return;
 
-		if (kit instanceof TeamKit) {
+		if (kit instanceof TeamKit || kit instanceof MapKit) {
 			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
 			ActiveData.getData(player.getUniqueId()).setKit("swordsman");
 		}
@@ -598,6 +628,21 @@ public class MapController {
 		// Clear capture zones
 		for (Flag flag : oldMap.flags) {
 			flag.clear();
+		}
+
+		// Unregister core listeners and regions
+		if (maps.get(mapIndex) instanceof CoreMap) {
+			CoreMap coreMap = (CoreMap) maps.get(mapIndex);
+			for (Core core : coreMap.getCores()) {
+				HandlerList.unregisterAll(core);
+
+				if (core.region != null) {
+					Bukkit.getScheduler().runTask(Main.plugin, () ->
+							Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+											BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
+									.removeRegion(core.name.replace(' ', '_')));
+				}
+			}
 		}
 
 		// Unregister catapult listeners
@@ -653,27 +698,6 @@ public class MapController {
 	 */
 	public static Map getCurrentMap() {
 		return maps.get(mapIndex);
-	}
-
-	/**
-	 * Checks if the current map has ended
-	 * @return If all the flags belong to the same team
-	 */
-	public static Boolean hasMapEnded() {
-		if (timer.state == TimerState.ENDED) {
-			return true;
-		}
-
-		String startingTeam = getCurrentMap().flags[0].getCurrentOwners();
-		if (startingTeam == null) {
-			return false;
-		}
-		for (Flag flag : getCurrentMap().flags) {
-			if (!startingTeam.equalsIgnoreCase(flag.getCurrentOwners()) && flag.isActive()) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	/**

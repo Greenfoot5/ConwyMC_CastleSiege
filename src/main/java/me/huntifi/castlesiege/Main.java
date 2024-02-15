@@ -84,6 +84,7 @@ import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
+import me.huntifi.castlesiege.events.combat.ArrowCollision;
 import me.huntifi.castlesiege.events.combat.ArrowRemoval;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.DamageBalance;
@@ -132,6 +133,7 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
+import me.huntifi.castlesiege.kits.kits.map_kits.Constructor;
 import me.huntifi.castlesiege.kits.kits.in_development.Armorer;
 import me.huntifi.castlesiege.kits.kits.in_development.Bannerman;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Sorcerer;
@@ -163,6 +165,7 @@ import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Scout;
 import me.huntifi.castlesiege.kits.kits.free_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Skirmisher;
+import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.Hommet.CollapseEvent;
 import me.huntifi.castlesiege.maps.Lobby;
@@ -175,16 +178,7 @@ import me.huntifi.castlesiege.maps.WoolMap;
 import me.huntifi.castlesiege.maps.WoolMapBlock;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
-import me.huntifi.castlesiege.maps.objects.ButtonDoor;
-import me.huntifi.castlesiege.maps.objects.Catapult;
-import me.huntifi.castlesiege.maps.objects.ChargeFlag;
-import me.huntifi.castlesiege.maps.objects.Door;
-import me.huntifi.castlesiege.maps.objects.Flag;
-import me.huntifi.castlesiege.maps.objects.Gate;
-import me.huntifi.castlesiege.maps.objects.LeverDoor;
-import me.huntifi.castlesiege.maps.objects.PressurePlateDoor;
-import me.huntifi.castlesiege.maps.objects.Ram;
-import me.huntifi.castlesiege.maps.objects.RegionHandler;
+import me.huntifi.castlesiege.maps.objects.*;
 import me.huntifi.castlesiege.misc.mythic.MythicListener;
 import me.huntifi.castlesiege.secrets.Abrakhan.AbrakhanSecretDoor;
 import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
@@ -235,6 +229,7 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument[] doorsConfigs;
     private YamlDocument[] gatesConfigs;
     private YamlDocument[] catapultsConfigs;
+    private YamlDocument[] coreConfigs;
 
     private YamlDocument gameConfig;
 
@@ -294,7 +289,7 @@ public class Main extends JavaPlugin implements Listener {
 
 
                 // Combat
-                //getServer().getPluginManager().registerEvents(new ArrowCollision(), plugin);
+                getServer().getPluginManager().registerEvents(new ArrowCollision(), plugin);
                 getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
                 getServer().getPluginManager().registerEvents(new AssistKill(), plugin);
                 getServer().getPluginManager().registerEvents(new FallDamage(), plugin);
@@ -332,6 +327,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new BattleMedic(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
+                getServer().getPluginManager().registerEvents(new Constructor(), plugin);
                 //getServer().getPluginManager().registerEvents(new Chef(), plugin);
                 getServer().getPluginManager().registerEvents(new CryptsFallen(), plugin);
                 getServer().getPluginManager().registerEvents(new ConwyArbalester(), plugin);
@@ -475,6 +471,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Bannerman")).setExecutor(new Bannerman());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
                 Objects.requireNonNull(getCommand("Barbarian")).setExecutor(new Barbarian());
+                Objects.requireNonNull(getCommand("Constructor")).setExecutor(new Constructor());
                 Objects.requireNonNull(getCommand("ConwyArbalester")).setExecutor(new ConwyArbalester());
                 Objects.requireNonNull(getCommand("ConwyLongbowman")).setExecutor(new ConwyLongbowman());
                 Objects.requireNonNull(getCommand("ConwyRoyalKnight")).setExecutor(new ConwyRoyalKnight());
@@ -664,6 +661,15 @@ public class Main extends JavaPlugin implements Listener {
     }
         return null;}
 
+    public YamlDocument getCoreConfig(Route corePath) {
+        for (YamlDocument document : coreConfigs) {
+            if (document.contains(corePath)) {
+                return document;
+            }
+        }
+        return null;
+    }
+
     public YamlDocument getDoorsConfig(Route mapPath) {
         for (YamlDocument document : doorsConfigs) {
             if (document.contains(mapPath)) {
@@ -758,6 +764,9 @@ public class Main extends JavaPlugin implements Listener {
 
         gatesConfigs = loadYMLs("gates");
         getLogger().info("Loaded gates");
+
+        coreConfigs = loadYMLs("cores");
+        getLogger().info("Loaded cores");
 
         catapultsConfigs = loadYMLs("catapults");
         getLogger().info("Loaded catapults");
@@ -869,6 +878,9 @@ public class Main extends JavaPlugin implements Listener {
                 // Basic Map Details
                 Map map = new Map();
                 Route mapRoute = Route.from(mapPath);
+                if (getCoreConfig(mapRoute) != null) {
+                    map = new CoreMap();
+                }
                 map.name = config.getString(mapRoute.add("name"));
                 map.worldName = config.getString(mapRoute.add("world"));
                 map.gamemode = Gamemode.valueOf(config.getString(mapRoute.add("gamemode")));
@@ -887,8 +899,16 @@ public class Main extends JavaPlugin implements Listener {
                 // World Data
                 createWorld(map.worldName);
 
+                //Core Data
+                if (getCoreConfig(mapRoute) != null) {
+                    loadCores(mapRoute, map);
+                }
+
                 // Flag Data
-                loadFlags(mapRoute, map);
+                if (getFlagsConfig(mapRoute) != null) {
+                    loadFlags(mapRoute, map);
+                }
+
                 // Doors
                 loadDoors(mapRoute, map);
                 // Gates
@@ -912,6 +932,32 @@ public class Main extends JavaPlugin implements Listener {
                 MapController.maps.add(map);
             }
         }
+    }
+
+    private void loadCores(Route mapRoute, Map map) {
+        YamlDocument coreConfig = getCoreConfig(mapRoute);
+        String[] corePaths = getPaths(coreConfig, mapRoute);
+
+            // create new coremap
+        ((CoreMap) map).setCores(new Core[corePaths.length]);
+            for (int i = 0; i < corePaths.length; i++) {
+                Route coreRoute = mapRoute.add(corePaths[i]);
+                double coreHealth = coreConfig.getDouble(coreRoute.add("core_health"));
+                Core core;
+                core = new Core(coreConfig.getString(coreRoute.add("name")),
+                        coreConfig.getString(coreRoute.add("owners")), coreHealth);
+                // Set the spawn point
+                core.setSpawnPoint(getLocation(coreRoute.add("spawn_point"), map.worldName, coreConfig));
+                // Set the capture area and animations
+                Route captureRoute = coreRoute.add("core_area");
+                if (coreConfig.contains(captureRoute) && coreConfig.getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
+                    core.region = getRegion(coreConfig, captureRoute, core.name.replace(' ', '_'));
+                }
+                core.materials = coreConfig.getStringList(coreRoute.add("materials"));
+                core.scoreboard = coreConfig.getInt(coreRoute.add("scoreboard"));
+
+                ((CoreMap) map).setCore(i, core);
+            }
     }
 
     private void loadFlags(Route mapRoute, Map map) {
@@ -1056,6 +1102,10 @@ public class Main extends JavaPlugin implements Listener {
             Route mapFlagRoute = woolMapPath.add(mapFlags[i]);
 
             block.flagName = config.getString(mapFlagRoute.add("flag_name"));
+            if (map instanceof CoreMap) {
+                block.coreName = config.getString(mapFlagRoute.add("core_name"));
+            }
+
             block.blockLocation = getLocation(mapFlagRoute.add("wool_position"), map.worldName, config);
             block.signLocation = block.blockLocation.clone();
 

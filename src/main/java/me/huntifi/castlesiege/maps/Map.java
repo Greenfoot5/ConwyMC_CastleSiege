@@ -4,11 +4,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.MapBorder;
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.maps.objects.Catapult;
-import me.huntifi.castlesiege.maps.objects.Door;
-import me.huntifi.castlesiege.maps.objects.Flag;
-import me.huntifi.castlesiege.maps.objects.Gate;
-import me.huntifi.castlesiege.maps.objects.Ram;
+import me.huntifi.castlesiege.maps.objects.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
@@ -145,5 +141,37 @@ public class Map {
      */
     public MapBorder getMapBorder() {
         return mapBorder;
+    }
+
+    /**
+     * Checks if the current map has ended
+     * @return If all the flags belong to the same team or if the enemy cores are destroyed.
+     */
+    public Boolean hasMapEnded() {
+        if (MapController.timer.state == TimerState.ENDED) {
+            return true;
+        }
+
+        if (MapController.getCurrentMap() instanceof CoreMap) {
+            CoreMap map = (CoreMap) MapController.getCurrentMap();
+            for (Core core : map.getCores()) {
+                if (core.health <= 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        String startingTeam = MapController.getCurrentMap().flags[0].getCurrentOwners();
+        if (startingTeam == null) {
+            return false;
+        }
+        for (Flag flag : flags) {
+            if (!startingTeam.equalsIgnoreCase(flag.getCurrentOwners()) && flag.isActive()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

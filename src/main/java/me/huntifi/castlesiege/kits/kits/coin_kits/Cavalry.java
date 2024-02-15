@@ -87,7 +87,7 @@ public class Cavalry extends CoinKit implements Listener {
         // Horse
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.WHEAT),
                 ChatColor.GREEN + "Spawn Horse", null, null);
-        HorseHandler.add(name, 600, horseHealth, 1, 0.2425, 0.8,
+        HorseHandler.add(name, 600, horseHealth, 2, 0.2425, 0.8,
                 Material.IRON_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
                         new PotionEffect(PotionEffectType.REGENERATION, 999999, 0),
@@ -158,13 +158,14 @@ public class Cavalry extends CoinKit implements Listener {
                                 all.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
                                 all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));
                                 all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
-                                all.damage(70, p);
+                                all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 20, 0)));
+                                all.damage(100, p);
                             }
                         }
 
                         if (hasEnemyInRange) {
                             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY, 1, (float) 0.8);
-                            p.setCooldown(Material.ANVIL, 240);
+                            p.setCooldown(Material.ANVIL, 200);
                         } else {
                             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                                     ChatColor.DARK_RED + "No enemy players are close enough for you to perform this ability!"));
@@ -187,7 +188,7 @@ public class Cavalry extends CoinKit implements Listener {
         kitLore.add(" ");
         kitLore.add("§6Horse Active:");
         kitLore.add("§7- When riding, can perform a kick");
-        kitLore.add("§7dealing AIE damage and slowing enemies");
+        kitLore.add("§7dealing AOE damage and slowing enemies");
         return kitLore;
     }
 }

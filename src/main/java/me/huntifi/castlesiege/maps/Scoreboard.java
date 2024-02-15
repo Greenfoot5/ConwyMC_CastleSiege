@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.maps;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
+import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -122,8 +123,7 @@ public class Scoreboard implements Runnable {
 
 			assert objective != null;
 			objective.setDisplayName(displayName);
-			replaceScore(objective, 20, "");
-			replaceScore(objective, 20, String.format("%s%sMap:%s %s",
+			replaceScore(objective, 19, String.format("%s%sMap:%s %s",
 					ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
 
 			// Setup timer display
@@ -132,12 +132,32 @@ public class Scoreboard implements Runnable {
 
 
 			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {
-				// Display the flag scoreboard
-				for (Flag flag : MapController.getCurrentMap().flags) {
-					if (flag.isActive()) {
-						Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
-						Scoreboard.replaceScore(objective, flag.scoreboard,
-								(owners == null ? ChatColor.GRAY : owners.primaryChatColor) + flag.name);
+				if (MapController.getCurrentMap() instanceof CoreMap) {
+					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+					// Display the core scoreboard
+					for (Core core : coreMap.getCores()) {
+						Team owners = MapController.getCurrentMap().getTeam(core.getOwners());
+						Scoreboard.replaceScore(objective, core.scoreboard, (owners == null ? ChatColor.GRAY : owners.primaryChatColor)
+								+ "" + ChatColor.BOLD + core.name);
+						Scoreboard.replaceScore(objective, core.scoreboard - 1, (owners == null ? ChatColor.GRAY : owners.primaryChatColor) +
+								"Health: " + ChatColor.WHITE + core.health);
+					}
+					// Display the flag scoreboard
+					for (Flag flag : MapController.getCurrentMap().flags) {
+						if (flag.isActive()) {
+							Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
+							Scoreboard.replaceScore(objective, flag.scoreboard,
+									(owners == null ? ChatColor.GRAY : owners.primaryChatColor) + flag.name);
+						}
+					}
+				} else {
+					// Display the flag scoreboard
+					for (Flag flag : MapController.getCurrentMap().flags) {
+						if (flag.isActive()) {
+							Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
+							Scoreboard.replaceScore(objective, flag.scoreboard,
+									(owners == null ? ChatColor.GRAY : owners.primaryChatColor) + flag.name);
+						}
 					}
 				}
 

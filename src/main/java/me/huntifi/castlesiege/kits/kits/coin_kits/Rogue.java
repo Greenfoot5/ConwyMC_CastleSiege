@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.EnderchestEvent;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
@@ -30,8 +31,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -107,17 +110,16 @@ public class Rogue extends CoinKit implements Listener {
         // Gouge
         gouge = ItemCreator.weapon(new ItemStack(Material.NETHERITE_INGOT),
                 ChatColor.GOLD + "Gouge", Arrays.asList("",
+                        ChatColor.YELLOW + "" + ChatColor.BOLD + "Sneak + Right Click behind target",
+                        "",
                         ChatColor.AQUA + "This attack uses combo points, the",
                         ChatColor.AQUA + "more combo points the stronger the attack.", "",
                         ChatColor.AQUA + "This stuns and damages the target but",
                         ChatColor.AQUA + "in order for it to work you have to be behind",
                         ChatColor.AQUA + "your target.", "",
-                        ChatColor.AQUA + "If you consume combo points you will deal extra",
-                        ChatColor.AQUA + "damage depending on how many you have, on" +
-                        ChatColor.AQUA + "top of that you will be",
-                        ChatColor.AQUA + "healed 100 + 25hp per combo point consumed.","",
-                        ChatColor.AQUA + "Gouge kills grant 1 combo point",
-                        ChatColor.AQUA + "and another set of track arrows."),
+                        ChatColor.AQUA + "More combo points means more damage and",
+                        ChatColor.AQUA + "self healing on a succesful gouge.",
+                        ChatColor.BLUE + "Can be performed whilst shadow-stepping."),
                 null, 1);
         es.hotbar[1] = gouge;
 
@@ -268,28 +270,33 @@ public class Rogue extends CoinKit implements Listener {
     }
 
     /**
-     * Disguise the player as a vex and make them invisible to prevent footsteps for a set amount of time.
-     * @param p The player to (un)disguise
+     * Hide the player from everyone.
+     * @param p The player to make invisible
      */
     public void shadowstepAbility(Player p) {
         int duration = 160;
+        if (InCombat.isPlayerInCombat(p.getUniqueId())) {
+            Messenger.sendActionError("You can't shadow-step whilst in combat!", p);
+            return;
+        }
         if (p.getCooldown(shadowStep.getType()) == 0) {
             p.setCooldown(shadowStep.getType(), 420);
             isShadow.add(p.getUniqueId());
+            //invis is there for show
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 0));
             p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, 4));
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2));
+            //Makes invisible
             mythicParticle(p);
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-                            isShadow.remove(p.getUniqueId());
-
-                            if (!InCombat.isPlayerInCombat(p.getUniqueId()) && isShadow.contains(p.getUniqueId())) {
+                            if (isShadow.contains(p.getUniqueId())) {
                                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                        ChatColor.GOLD +""+ ChatColor.BOLD + "You are no longer invisible! (Strike now!)"));
+                                        ChatColor.GOLD + "" + ChatColor.BOLD + "You are no longer invisible! (Strike now!)"));
                                 mythicParticle2(p);
+                                isShadow.remove(p.getUniqueId());
                             }
                             for (PotionEffect effect : p.getActivePotionEffects()) {
                                 if ((effect.getType().getName().equals(PotionEffectType.INVISIBILITY.getName()) && effect.getAmplifier() == 0)
@@ -302,8 +309,7 @@ public class Rogue extends CoinKit implements Listener {
                 }.runTaskLater(Main.plugin, duration);
 
         } else {
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.RED + "This ability is still under cool-down."));
+            Messenger.sendActionError("This ability is still under cool-down.", p);
         }
 
     }
@@ -316,6 +322,11 @@ public class Rogue extends CoinKit implements Listener {
     public void mythicParticle2(Player p) {
         BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
         mythicMobsApi.castSkill(p,"RogueEffect2");
+    }
+
+    public void mythicParticleQuit(Player p) {
+        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
+        mythicMobsApi.castSkill(p,"RogueEffectQuit");
     }
 
     public void applyPoison(Player p) {
@@ -482,54 +493,27 @@ public class Rogue extends CoinKit implements Listener {
         }
     }
 
+    /**
+     *
+     * @param damager the player who is damaging the target
+     * @param target the target to deal damage to
+     * @param amount the amount of combo points used
+     */
     public void gougedDamage(Player damager, Player target, int amount) {
-        int damage = 50;
-        if (amount == 0) {
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 75);
-            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 4));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 40, 0));
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 75);
-        } else if (amount == 1) {
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 125);
-            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 50, 4));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 50, 0));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 50, 0));
-            healPlayer(damager, 100);
-            damage = 125;
-        } else if (amount == 2) {
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 175);
-            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 4));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 60, 0));
-            healPlayer(damager, 125);
-            damage = 175;
-        } else if (amount == 3) {
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 215);
-            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 70, 4));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 70, 0));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 70, 0));
-            removeComboPoints(damager);
-            healPlayer(damager, 150);
-            damage = 215;
-        } else if (amount == 4) {
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 250);
-            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80, 4));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 0));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 80, 0));
-            healPlayer(damager, 175);
-            damage = 250;
-        } else if (amount >= 5) {
-            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 4));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 0));
-            target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 0));
-            AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), 350);
-            healPlayer(damager, 200);
-            damage = 350;
-        }
+        int damage = 25 + (25 * amount);
+        int duration = 40 + (10 * amount);
+        target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, 4));
+        target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 0));
+        target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, duration, 0));
+        AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), damage);
+        healPlayer(damager, damage);
+
         //remove used up combo points
         removeComboPoints(damager);
-
+        if (isShadow.contains(damager.getUniqueId())) {
+            mythicParticleQuit(damager);
+            isShadow.remove(damager.getUniqueId());
+        }
         if ((target.getHealth() - damage > 0)) {
             target.damage(damage);
         } else {
@@ -572,13 +556,12 @@ public class Rogue extends CoinKit implements Listener {
      * @param ed The event called when a player attacks another player
      */
     @EventHandler (ignoreCancelled = true)
-    public void gougeDamage(EntityDamageByEntityEvent ed) {
-        if (ed.getDamager() instanceof Player && ed.getEntity() instanceof Player) {
-            Player p = (Player) ed.getDamager();
-            Player hit = (Player) ed.getEntity();
+    public void gougeDamage(PlayerInteractEntityEvent ed) {
+        if (ed.getRightClicked() instanceof Player) {
+            Player p = ed.getPlayer();
+            Player hit = (Player) ed.getRightClicked();
             if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
                 if (p.getCooldown(gouge.getType()) == 0) {
-                    p.setCooldown(gouge.getType(), 100);
 
                     Location hitLoc = hit.getLocation();
                     Location damagerLoc = p.getLocation();
@@ -591,6 +574,7 @@ public class Rogue extends CoinKit implements Listener {
                         if (p.getInventory().getItemInMainHand().getType() != Material.NETHERITE_INGOT) {
                             return;
                         }
+                        p.setCooldown(gouge.getType(), 100);
 
                         ed.setCancelled(true);
                         hit.sendMessage(ChatColor.RED + "You were gouged by " + p.getName());
@@ -654,14 +638,18 @@ public class Rogue extends CoinKit implements Listener {
     }
 
     /**
-     * Crossbow is put into mobility mode when they click an enderchest.
+     * Rogue becomes visible again.
      * @param event The event called when an off-cooldown player interacts with an enderchest
      */
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onClickEnderchest(EnderchestEvent event) {
         if (Objects.equals(Kit.equippedKits.get(event.getPlayer().getUniqueId()).name, name)) {
-            isShadow.remove(event.getPlayer().getUniqueId());
-            hasPoisonedWeapons.remove(event.getPlayer().getUniqueId());
+            event.setCancelled(true);
+            Player p = event.getPlayer();
+
+            isShadow.remove(p.getUniqueId());
+            hasPoisonedWeapons.remove(p.getUniqueId());
+            mythicParticleQuit(p);
         }
     }
 
@@ -692,6 +680,7 @@ public class Rogue extends CoinKit implements Listener {
         kitLore.add(" ");
         // TODO - Improve passive descriptions
         kitLore.add("§2Passive:");
+        kitLore.add("§7- Can see player health.");
         kitLore.add("§7- Can use gauge whilst invisible");
         kitLore.add("§7- Uses combo points to perform more");
         kitLore.add("§7powerful gauges");

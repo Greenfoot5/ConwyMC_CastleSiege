@@ -20,7 +20,7 @@ public class VoidLocation implements Listener {
 		Player p = e.getPlayer();
 		Location loc = p.getLocation();
 		
-		if (loc.getY() < 0) {
+		if (loc.getY() < 0 && p.getWorld().getName().equalsIgnoreCase("Thunderstone")) {
 			p.setHealth(0);
 		}
 	}
