@@ -78,6 +78,8 @@ public class CurseCommand implements TabExecutor {
             values.add("blindness");
             values.add("blindness_greater");
             values.add("blindness_true");
+            values.add("healing");
+            values.add("vulnerability");
             StringUtil.copyPartialMatches(args[0], values, options);
             return options;
         }
@@ -132,6 +134,18 @@ public class CurseCommand implements TabExecutor {
                 if (args.length == 1)
                     return new TrueBlindnessCurse.CurseBuilder(300);
                 return new TrueBlindnessCurse.CurseBuilder(Integer.parseInt(args[1]));
+            case "healing":
+                if (args.length == 1)
+                    return new HealingCurse.CurseBuilder(300);
+                if (args.length == 2)
+                    return new HealingCurse.CurseBuilder(Integer.parseInt(args[1]));
+                if (args.length == 3)
+                    return new HealingCurse.CurseBuilder(Integer.parseInt(args[1])).setMultiplier(Float.parseFloat(args[2]));
+            case "vulnerable":
+            case "vulnerability":
+                if (args.length == 1)
+                    return new VulnerabilityCurse.CurseBuilder(300);
+                return new VulnerabilityCurse.CurseBuilder(Integer.parseInt(args[1]));
             default:
                 throw new IllegalArgumentException();
         }

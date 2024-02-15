@@ -8,6 +8,8 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.curses.BindingCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
+import me.huntifi.castlesiege.events.curses.HealingCurse;
+import me.huntifi.castlesiege.events.curses.VulnerabilityCurse;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
@@ -87,6 +89,8 @@ public abstract class Kit implements CommandExecutor, Listener {
 
     // Curses
     private static final List<UUID> activeBindings = new ArrayList<>();
+    private static double healthMultiplier = 1.0;
+    private static boolean vulnerable = false;
 
     /**
      * Create a kit with basic settings
@@ -142,12 +146,16 @@ public abstract class Kit implements CommandExecutor, Listener {
             // Health
             AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
             assert healthAttribute != null;
-            healthAttribute.setBaseValue(baseHealth);
-            player.setHealth(baseHealth);
+            double maxHealth = vulnerable ? 1 : baseHealth * healthMultiplier;
+            healthAttribute.setBaseValue(maxHealth);
+            player.setHealth(maxHealth);
             player.setFireTicks(0);
-            if (baseHealth > 200) {
-                player.setHealthScale(baseHealth / 10.0);
-            } else {
+            if (maxHealth > 200) {
+                player.setHealthScale(maxHealth / 10.0);
+            } else if (maxHealth == 1) {
+                player.setHealthScale(0.5);
+            }
+            else {
                 player.setHealthScale(20.0);
             }
 
@@ -502,6 +510,16 @@ public abstract class Kit implements CommandExecutor, Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void bindingActive(BindingCurse curse) {
         activeBindings.add(curse.getPlayer());
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void healingActive(HealingCurse curse) {
+        healthMultiplier = curse.multiplier;
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void vulnerabilityActive(VulnerabilityCurse curse) {
+        vulnerable = true;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
