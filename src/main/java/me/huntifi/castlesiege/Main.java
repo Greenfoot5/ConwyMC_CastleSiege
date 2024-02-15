@@ -286,7 +286,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 //Secrets
                 getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
-                getServer().getPluginManager().registerEvents(new Doors(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretDoor(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretItems(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretSigns(), plugin);

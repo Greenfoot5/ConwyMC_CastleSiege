@@ -84,9 +84,6 @@ public class Warlock extends CoinKit implements Listener {
 
         // 1st ability
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POISONOUS_POTATO),
-                ChatColor.LIGHT_PURPLE + "Curse of Slowing", Arrays.asList("",
-                        ChatColor.YELLOW + "Right click to give slowness to all ",
-                        ChatColor.YELLOW + "enemies in a 7 block radius of you for 8s.",
                 ChatColor.LIGHT_PURPLE + "Curse", Arrays.asList("",
                         ChatColor.YELLOW + "Right click to give negative damage to all ",
                         ChatColor.YELLOW + "enemies in a 7 block radius of you for 6s.",

@@ -48,8 +48,8 @@ public abstract class MapKit extends Kit implements Listener {
      * @return Whether the player can select this kit
      */
     @Override
-    public boolean canSelect(CommandSender sender, boolean verbose, boolean isRandom) {
-        if (!super.canSelect(sender, verbose, isRandom))
+    public boolean canSelect(CommandSender sender, boolean applyLimit, boolean verbose, boolean isRandom) {
+        if (!super.canSelect(sender, applyLimit, verbose, isRandom))
             return false;
 
         boolean canPlay = MapController.getCurrentMap().worldName.equalsIgnoreCase(map);
