@@ -81,8 +81,10 @@ public class CamelHandler implements Listener {
      */
     @EventHandler
     public void onDismount(EntityDismountEvent e) {
-        removeCamel(e.getDismounted());
-        setCooldown(e.getEntity(), e.getDismounted());
+        if (e.getEntity() instanceof Player) {
+            removeCamel(e.getDismounted(), (Player) e.getEntity());
+            setCooldown(e.getEntity(), e.getDismounted());
+        }
     }
 
     /**
@@ -106,7 +108,7 @@ public class CamelHandler implements Listener {
      */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        removeCamel(e.getEntity().getVehicle());
+        removeCamel(e.getEntity().getVehicle(), e.getEntity());
     }
 
     /**
@@ -115,7 +117,7 @@ public class CamelHandler implements Listener {
      */
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
-        removeCamel(e.getPlayer().getVehicle());
+        removeCamel(e.getPlayer().getVehicle(), e.getPlayer());
     }
 
     /**
@@ -135,9 +137,12 @@ public class CamelHandler implements Listener {
      * Remove the camel
      * @param camel The camel that is to be removed
      */
-    private void removeCamel(Entity camel) {
+    private void removeCamel(Entity camel, Player rider) {
         if (camel instanceof Camel) {
-            camel.remove();
+            Camel kameel = (Camel) camel;
+            if (rider.equals(((Camel) camel).getOwner())) {
+                kameel.remove();
+            }
         }
     }
 

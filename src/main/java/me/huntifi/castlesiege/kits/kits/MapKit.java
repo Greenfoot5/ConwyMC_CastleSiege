@@ -23,6 +23,7 @@ public abstract class MapKit extends Kit implements Listener {
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
     private final String map;
+    private final String sign;
 
     /**
      * Create a map specific kit, which are kits that can only be played on a specific map but are not bound by teams.
@@ -30,12 +31,13 @@ public abstract class MapKit extends Kit implements Listener {
      * @param name        This kit's name
      * @param baseHealth  This kit's base health
      */
-    public MapKit(String name, int baseHealth, double regenAmount, Material material, String mapName) {
+    public MapKit(String name, int baseHealth, double regenAmount, Material material, String mapName, String signName) {
         super(name, baseHealth, regenAmount, material, ChatColor.DARK_AQUA);
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
         map = mapName;
+        sign = signName;
     }
 
     /**
@@ -87,8 +89,8 @@ public abstract class MapKit extends Kit implements Listener {
         }
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
                 Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
-            Sign sign = (Sign) e.getClickedBlock().getState();
-            if (sign.getSide(Side.FRONT).getLine(0).contains("Map Kit") && sign.getSide(Side.FRONT).getLine(2).contains(name)) {
+            Sign asign = (Sign) e.getClickedBlock().getState();
+            if (asign.getSide(Side.FRONT).getLine(0).contains("Map Kit") && asign.getSide(Side.FRONT).getLine(2).contains(sign)) {
                 e.getPlayer().performCommand(name.toLowerCase());
             }
         }

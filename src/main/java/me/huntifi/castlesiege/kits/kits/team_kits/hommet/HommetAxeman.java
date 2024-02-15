@@ -34,7 +34,7 @@ public class HommetAxeman extends TeamKit implements Listener {
 
     public HommetAxeman() {
         super("Axeman", 300, 10, "Hommet",
-                "Saxons", 2500, Material.STONE_AXE, "committeeman");
+                "Saxons", 2500, Material.STONE_AXE, "hommetaxeman");
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;
