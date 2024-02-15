@@ -1,12 +1,12 @@
 package me.huntifi.castlesiege.events.combat;
 
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.maps.TeamController;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 
 public class ArrowCollision implements Listener {
@@ -24,25 +24,18 @@ public class ArrowCollision implements Listener {
             return;
         }
 
-            if(e.getEntity().getShooter() instanceof Player && e.getHitEntity() instanceof Player){
-                Player attacker = (Player) e.getEntity().getShooter();
-                Player defender = (Player) e.getHitEntity();
+        if(e.getEntity().getShooter() instanceof Player && e.getHitEntity() instanceof Player){
+            Player attacker = (Player) e.getEntity().getShooter();
+            Player defender = (Player) e.getHitEntity();
 
-                if (TeamController.getTeam(attacker.getUniqueId()) == TeamController.getTeam(defender.getUniqueId())) {
-
-                    defender.setCollidable(false);
-                    CraftLivingEntity craftEntityLiving = (CraftLivingEntity) e.getEntity();
-                    craftEntityLiving.setCollidable(false);
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            defender.setCollidable(true);
-                            craftEntityLiving.setCollidable(true);
-                        }
-                    }.runTaskLater(Main.plugin, 5);
-                }
-
+            if (TeamController.getTeam(attacker.getUniqueId()) == TeamController.getTeam(defender.getUniqueId())) {
+                Vector thor = e.getEntity().getVelocity();
+                Arrow a = defender.launchProjectile(Arrow.class);
+                a.setShooter(attacker);
+                a.setVelocity(thor);
             }
+
+        }
 
     }
 }
