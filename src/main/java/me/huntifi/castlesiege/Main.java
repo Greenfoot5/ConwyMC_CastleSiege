@@ -18,6 +18,8 @@ import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.donator.FireworkCmd;
 import me.huntifi.castlesiege.commands.donator.JoinMessage;
 import me.huntifi.castlesiege.commands.donator.LeaveMessage;
+import me.huntifi.castlesiege.commands.donator.duels.AcceptDuel;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCmd;
 import me.huntifi.castlesiege.commands.gameplay.BoosterCommand;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
 import me.huntifi.castlesiege.commands.gameplay.BuyKitCommand;
@@ -279,27 +281,29 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new PlayerDisconnect(), plugin);
 
                 //Secrets
+                getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
+                getServer().getPluginManager().registerEvents(new Doors(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretDoor(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretItems(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretSigns(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretBlocks(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretPortal(), plugin);
-                getServer().getPluginManager().registerEvents(new Doors(), plugin);
-                getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
 
+                //Duels
+                getServer().getPluginManager().registerEvents(new AcceptDuel(), plugin);
 
                 // Combat
                 getServer().getPluginManager().registerEvents(new ArrowCollision(), plugin);
                 getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
                 getServer().getPluginManager().registerEvents(new AssistKill(), plugin);
+                getServer().getPluginManager().registerEvents(new DamageBalance(), plugin);
+                getServer().getPluginManager().registerEvents(new EatCake(), plugin);
                 getServer().getPluginManager().registerEvents(new FallDamage(), plugin);
                 getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
                 getServer().getPluginManager().registerEvents(new HurtAnimation(), plugin);
                 getServer().getPluginManager().registerEvents(new InCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new LobbyCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new TeamCombat(), plugin);
-                getServer().getPluginManager().registerEvents(new DamageBalance(), plugin);
-                getServer().getPluginManager().registerEvents(new EatCake(), plugin);
 
                 // Death
                 getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
@@ -308,8 +312,8 @@ public class Main extends JavaPlugin implements Listener {
                 // Gameplay
                 //getServer().getPluginManager().registerEvents(new ArcaneTower(), plugin);
                 getServer().getPluginManager().registerEvents(new CollapseEvent(), plugin);
-                getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new Explosion(), plugin);
+                getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new LeaveMapBorder(), plugin);
                 getServer().getPluginManager().registerEvents(new Movement(), plugin);
 
@@ -381,6 +385,10 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Firework")).setExecutor(new FireworkCmd());
                 Objects.requireNonNull(getCommand("LeaveMessage")).setExecutor(new LeaveMessage());
                 Objects.requireNonNull(getCommand("JoinMessage")).setExecutor(new JoinMessage());
+
+                //duels
+                Objects.requireNonNull(getCommand("DuelAccept")).setExecutor(new AcceptDuel());
+                Objects.requireNonNull(getCommand("Duel")).setExecutor(new DuelCmd());
 
                 // Gameplay
                 Objects.requireNonNull(getCommand("Bounties")).setExecutor(new BountyCommand());
@@ -526,6 +534,9 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(boatEvent, plugin);
                 getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
                 boatEvent.spawnBoat();
+
+                //reset duel arena's
+                AcceptDuel.resetArenas();
 
                 // Timed
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);
@@ -898,6 +909,8 @@ public class Main extends JavaPlugin implements Listener {
 
                 // World Data
                 createWorld(map.worldName);
+                //duels map
+                createWorld("DuelsMap");
 
                 //Core Data
                 if (getCoreConfig(mapRoute) != null) {
