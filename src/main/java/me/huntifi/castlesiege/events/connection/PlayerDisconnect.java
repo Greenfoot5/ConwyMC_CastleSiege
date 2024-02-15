@@ -33,7 +33,7 @@ public class PlayerDisconnect implements Listener {
      * Store the player's data and remove them from their team
      * @param e The event called when a player leaves the game
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         UUID uuid = e.getPlayer().getUniqueId();
         PlayerData data = ActiveData.getData(uuid);

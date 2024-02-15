@@ -56,7 +56,7 @@ public class SecretSigns implements Listener {
     final String abrakhan4 = "Abrakhan_Sewer";
 
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
 
         Player player = e.getPlayer();

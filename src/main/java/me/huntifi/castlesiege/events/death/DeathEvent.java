@@ -54,7 +54,7 @@ public class DeathEvent implements Listener {
      * Spawn the player correctly
      * @param event The event called when a player respawns
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
 
@@ -81,7 +81,7 @@ public class DeathEvent implements Listener {
      * Apply stat changes
      * @param event The event called when a player dies
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         onCooldown.add(event.getEntity());
         event.getEntity().eject();
@@ -101,7 +101,7 @@ public class DeathEvent implements Listener {
      * Placed in separate function to allow performing after mythic mobs.
      * @param event The event called when a player dies
      */
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler (priority = EventPriority.MONITOR)
     public void disableDeathMessage(PlayerDeathEvent event) {
         event.setDeathMessage(null);
     }
@@ -257,7 +257,7 @@ public class DeathEvent implements Listener {
      *
      * @param e removes players that can't respawn from the list when they leave.
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onLeave (PlayerQuitEvent e) {
         onCooldown.remove(e.getPlayer());
     }

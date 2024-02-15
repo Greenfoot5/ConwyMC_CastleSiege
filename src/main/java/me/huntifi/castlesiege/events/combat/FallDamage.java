@@ -20,7 +20,7 @@ public class FallDamage implements Listener {
      * Cancels damage when landed on hay bales
      * @param e The event called when a player takes falling damage
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onFallDamage(EntityDamageEvent e) {
         if (e.isCancelled() || e.getCause() != EntityDamageEvent.DamageCause.FALL ||
                 !(e.getEntity() instanceof Player)) {

@@ -52,7 +52,7 @@ public class HorseHandler implements Listener {
      * Spawn and embark a horse
      * @param e The event called when clicking with wheat in hand
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onRide(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
@@ -80,7 +80,7 @@ public class HorseHandler implements Listener {
      * Remove the horse when its rider dismounts and apply cooldown
      * @param e The event called when dismounting a horse
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onDismount(EntityDismountEvent e) {
         removeHorse(e.getDismounted());
         setCooldown(e.getEntity(), e.getDismounted());
@@ -90,7 +90,7 @@ public class HorseHandler implements Listener {
      * Remove the horse when its rider dies
      * @param e The event called when a player dies
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         removeHorse(e.getEntity().getVehicle());
     }
@@ -99,7 +99,7 @@ public class HorseHandler implements Listener {
      * Remove the horse when its rider leaves the game
      * @param e The event called when a player leaves the game
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         removeHorse(e.getPlayer().getVehicle());
     }
@@ -108,7 +108,7 @@ public class HorseHandler implements Listener {
      * Apply cooldown when the horse dies
      * @param e The event called when a horse dies
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onHorseDeath(EntityDeathEvent e) {
         Entity horse = e.getEntity();
         if (!horse.getPassengers().isEmpty())

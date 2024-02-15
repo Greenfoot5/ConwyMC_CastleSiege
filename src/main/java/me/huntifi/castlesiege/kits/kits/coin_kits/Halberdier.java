@@ -89,7 +89,7 @@ public class Halberdier extends CoinKit implements Listener {
      * Activate the halberdier ability of dealing +50% damage to cavalry
      * @param e The event called when dealing damage to another player
      */
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler (priority = EventPriority.HIGH)
     public void antiCav(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player cav = (Player) e.getEntity();

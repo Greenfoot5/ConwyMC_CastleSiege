@@ -37,7 +37,7 @@ public class WoolMap implements Listener {
 	 * Used to measure when a player clicks on a WoolMap sign
 	 * @param e The click
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 		Bukkit.getScheduler().runTask(Main.plugin, () -> {
 			// Prevent spawning by physical actions, e.g. stepping on a pressure plate
@@ -73,7 +73,7 @@ public class WoolMap implements Listener {
 		});
 	}
 
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void lookAtWoolmap(PlayerMoveEvent e) {
 		if (DuelCmd.challenging.containsValue(e.getPlayer()) || DuelCmd.challenging.containsKey(e.getPlayer())) {
 			return;

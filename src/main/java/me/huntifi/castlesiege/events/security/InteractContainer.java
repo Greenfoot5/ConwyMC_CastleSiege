@@ -29,7 +29,7 @@ public class InteractContainer implements Listener {
      * Cancels event when player interacts inventory holder or other banned block
      * @param e The event called when a player right-clicks a block or entity
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         // Allow interacting in creative mode
         if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
@@ -49,7 +49,7 @@ public class InteractContainer implements Listener {
      * Cancels event when player interacts with a sign to change what is on it.
      * @param e The event called when a player attempts to edit a sign.
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onInteract(SignChangeEvent e) {
         // Allow interacting in creative mode
         if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {

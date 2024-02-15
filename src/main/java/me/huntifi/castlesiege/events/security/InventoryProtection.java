@@ -17,7 +17,7 @@ public class InventoryProtection implements Listener {
 	 * Cancels event when player attempts to move an inventory item
 	 * @param e The event called when a player clicks an inventory item
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onClick(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
 
@@ -34,7 +34,7 @@ public class InventoryProtection implements Listener {
 	 * Cancels event when player attempts to drop an item
 	 * @param e The event called when a player drops an item
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onDrop(PlayerDropItemEvent e) {
 		Player p = e.getPlayer();
 		if (p.getGameMode() != GameMode.CREATIVE) {

@@ -25,7 +25,7 @@ public class InCombat implements Listener {
 	/**
 	 * When a player attacks another player, they have interacted
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler (ignoreCancelled = true)
 	public void battles(EntityDamageByEntityEvent ed) {
 		// Both are players
 		if (ed.getEntity() instanceof Player && ed.getDamager() instanceof Player)
@@ -35,7 +35,7 @@ public class InCombat implements Listener {
 	/**
 	 * When a player takes any damage, they are placed in combat
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler (ignoreCancelled = true)
 	public void playerTakesDamage(EntityDamageEvent event) {
 		if (!(event.getEntity() instanceof Player))
 			return;

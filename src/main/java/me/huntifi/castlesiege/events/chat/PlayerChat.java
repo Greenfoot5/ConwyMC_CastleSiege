@@ -44,7 +44,7 @@ public class PlayerChat implements Listener {
 	 *
 	 * @param e The event called when a player sends a message
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
 		String message = e.getMessage();

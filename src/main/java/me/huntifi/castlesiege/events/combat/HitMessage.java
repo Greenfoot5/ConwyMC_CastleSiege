@@ -23,7 +23,7 @@ public class HitMessage implements Listener {
 	/**
 	 * Notifies the shooter when they hit a player or animal
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler (ignoreCancelled = true)
 	public void onHit(ProjectileHitEvent e) {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 			// Check it was a player that fired an arrow

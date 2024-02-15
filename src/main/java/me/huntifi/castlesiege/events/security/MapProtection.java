@@ -34,7 +34,7 @@ public class MapProtection implements Listener {
 	 * Cancels event when player places block
 	 * @param e The event called when a player places a block
 	 */
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler (priority = EventPriority.LOW)
 	 public void onBlockPlace(BlockPlaceEvent e) {
 		// Allow building in creative mode
 		Player p = e.getPlayer();
@@ -53,7 +53,7 @@ public class MapProtection implements Listener {
 	 * Cancels event when player destroys a block
 	 * @param e The event called when a player breaks a block
 	 */
-	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+	@EventHandler (ignoreCancelled = true, priority = EventPriority.LOW)
 	public void onBlockBreak(BlockBreakEvent e) {
 		// Allow breaking in creative mode
 		Player p = e.getPlayer();
@@ -108,7 +108,7 @@ public class MapProtection implements Listener {
 	 * Cancels event when player breaks item frame or painting
 	 * @param e The event called when breaking an item frame or painting
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onHangingBreak(HangingBreakEvent e) {
 		if (e.getCause() == HangingBreakEvent.RemoveCause.ENTITY) {
 			e.setCancelled(true);
@@ -120,7 +120,7 @@ public class MapProtection implements Listener {
 	 * Doesn't work for armor stand for some reason
 	 * @param e The event called when a player interacts with an entity
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onInteractItemFrame(PlayerInteractEntityEvent e) {
 		// Allow interacting in creative mode
 		if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
@@ -136,7 +136,7 @@ public class MapProtection implements Listener {
 	 * Cancels event when entity damages armor stand, item frame, or ender crystal
 	 * @param e The event called when an entity is damaged
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onDamageEntity(EntityDamageByEntityEvent e) {
 		// Allow breaking in creative mode
 		if (e.getDamager() instanceof Player && ((Player) e.getDamager()).getGameMode() == GameMode.CREATIVE) {
@@ -154,7 +154,7 @@ public class MapProtection implements Listener {
 	 * Doesn't work for item frame for some reason
 	 * @param e The event called when a player interacts with an entity
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onInteractArmorStand(PlayerInteractAtEntityEvent e) {
 		// Allow interacting in creative mode
 		if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
@@ -170,7 +170,7 @@ public class MapProtection implements Listener {
 	 * Cancels event when player destroys a minecart
 	 * @param e The event called when a minecart is destroyed
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onDestroyMinecart(VehicleDestroyEvent e) {
 		// Allow breaking in creative mode
 		if (e.getAttacker() instanceof Player && ((Player) e.getAttacker()).getGameMode() == GameMode.CREATIVE) {
@@ -186,7 +186,7 @@ public class MapProtection implements Listener {
 	 * Cancels event when player tramples farmland
 	 * @param e The event called when a player tramples farmland
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onTrample(PlayerInteractEvent e) {
 		// Allow trampling in creative mode
 		Player p = e.getPlayer();
@@ -204,7 +204,7 @@ public class MapProtection implements Listener {
 	 * Cancels event when player picks fruit
 	 * @param e The event called when a player tramples farmland
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onPickBerries(PlayerInteractEvent e) {
 		// Allow trampling in creative mode
 		Player p = e.getPlayer();
@@ -223,7 +223,7 @@ public class MapProtection implements Listener {
 	 * Stops tnt from being primed. Primed TNT will still explode
 	 * @param e Called when tnt is primed
 	 */
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler
 	public void onTNTPrimed(TNTPrimeEvent e) {
 		e.setCancelled(true);
 	}

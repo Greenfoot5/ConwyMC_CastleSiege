@@ -152,10 +152,10 @@ public class Crossbowman extends CoinKit implements Listener {
      * Activate the crossbowman ability, shooting an arrow in the direction the player is looking at high speed
      * @param e The even called when shooting an arrow from a crossbow
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void shootCrossbow(EntityShootBowEvent e) {
         //Multiple checks including if the crossbow is in sniper mode.
-        if (!(e.getEntity() instanceof Player) || !isInSnipingMode(e.getEntity().getUniqueId())) {
+        if (e.isCancelled() || !(e.getEntity() instanceof Player) || !isInSnipingMode(e.getEntity().getUniqueId())) {
             return;
         }
 

@@ -28,7 +28,7 @@ public class CavesBoat implements Listener, Runnable {
 	 * Adds a boat to the boat list if it isn't there already
 	 * @param event Called when an entity enters a vehicle
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void enterBoat(VehicleEnterEvent event) {
 		if (event.getVehicle() instanceof Boat) {
 			if (event.getEntered() instanceof Player) {
@@ -95,7 +95,7 @@ public class CavesBoat implements Listener, Runnable {
 	 * Destroys the boat if the player riding it dies
 	 * @param event Called when a player dies
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onPassengerKill(PlayerDeathEvent event) {
 		if (!(event.getEntity().getVehicle() instanceof Boat)) {
 			return;
@@ -113,7 +113,7 @@ public class CavesBoat implements Listener, Runnable {
 	 * Removes a boat if the player was sitting in it
 	 * @param event Called when a player disconnects
 	 */
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onDisconnect(PlayerQuitEvent event) {
 		if (!(event.getPlayer().getVehicle() instanceof Boat)) {
 			return;

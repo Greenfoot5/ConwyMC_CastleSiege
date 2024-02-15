@@ -225,7 +225,7 @@ public class Rogue extends CoinKit implements Listener {
      * Activate poisoned weapons
      * @param e event triggered by right-clicking mode switch button.
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onAbilityTrigger(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();

@@ -33,7 +33,7 @@ public class LeaveMapBorder implements Listener {
      * Kill the player when they exceed the margin as well.
      * @param e The event called when a player moves
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onLeaveBorder(PlayerMoveEvent e) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             // Check if the player should be held accountable

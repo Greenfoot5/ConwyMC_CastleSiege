@@ -98,7 +98,7 @@ public abstract class TeamKit extends CoinKit implements Listener {
     }
 
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onClickSign(PlayerInteractEvent e) {
         // Prevent using in lobby
         if (!InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {

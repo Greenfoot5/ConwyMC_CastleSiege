@@ -25,7 +25,7 @@ public class SecretDoor implements Listener {
 
     final Location stoneButtonLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 63, 979);
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onInteract(PlayerInteractEvent event){
 
 
@@ -104,7 +104,7 @@ public class SecretDoor implements Listener {
     }
 
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onInteract2(PlayerInteractEvent event){
 
 

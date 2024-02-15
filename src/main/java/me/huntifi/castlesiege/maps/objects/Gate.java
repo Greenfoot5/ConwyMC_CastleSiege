@@ -150,7 +150,7 @@ public class Gate implements Listener {
                 && !Objects.equals(TeamController.getTeam(uuid).name, flag.getCurrentOwners()));
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         // Make sure the gate is on the correct map and has not been breached yet
         if (Objects.equals(mapName, MapController.getCurrentMap().name) && !isBreached) {

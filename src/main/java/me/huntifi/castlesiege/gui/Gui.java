@@ -181,7 +181,7 @@ public class Gui implements Listener {
      * Performs an action corresponding to the clicked item
      * @param event A click event while in the GUI
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onClick(InventoryClickEvent event) {
         if (Objects.equals(event.getClickedInventory(), inventory)) {
             GuiItem item = locationToItem.get(event.getSlot());
@@ -200,7 +200,7 @@ public class Gui implements Listener {
      * Unregister this GUI when it is closed.
      * @param event The event called when an inventory is closed.
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onCloseGui(InventoryCloseEvent event) {
         if (Objects.equals(event.getInventory(), inventory) && shouldUnregister)
             HandlerList.unregisterAll(this);

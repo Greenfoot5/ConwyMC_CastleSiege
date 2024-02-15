@@ -52,7 +52,7 @@ public abstract class Door implements Listener {
      * Handles the opening and then closing of the door
      * @param event Called when a player interacts with an object or air
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (isCorrectInteraction(event) && isControlled(event)) {
             activate(event);
