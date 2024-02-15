@@ -28,7 +28,7 @@ import java.util.UUID;
 
 /**
  * This class's main function is to initiate a duel when the command /acceptduel is being executed
- * and afterwards also properly reset the arenas but at the same time manage them.
+ * and afterward also properly reset the arenas but at the same time manage them.
  */
 public class AcceptDuel implements CommandExecutor, Listener {
 
@@ -45,12 +45,12 @@ public class AcceptDuel implements CommandExecutor, Listener {
     public static ArrayList<Player> arenaList3 = new ArrayList<>();
 
     //The locations to spawn the challenger and the contender at, when a duel is initiated.
-    Location arenaChallenger1 = new Location(Bukkit.getWorld("DuelsMap"), -168, 4, -29, 90, 0);
-    Location arenaChallenger2 = new Location(Bukkit.getWorld("DuelsMap"), -175, 4, -107, 90, 0);
-    Location arenaChallenger3 = new Location(Bukkit.getWorld("DuelsMap"), -174, 4, -173, 90, 0);
-    Location arenaContender1 = new Location(Bukkit.getWorld("DuelsMap"), -210, 4, -29, -90, 0);
-    Location arenaContender2 = new Location(Bukkit.getWorld("DuelsMap"), -217, 4, -107, -90, 0);
-    Location arenaContender3 = new Location(Bukkit.getWorld("DuelsMap"), -216, 4, -173, -90, 0);
+    Location[] arenaChallengers = {new Location(Bukkit.getWorld("DuelsMap"), -168, 4, -29, 90, 0),
+            new Location(Bukkit.getWorld("DuelsMap"), -175, 4, -107, 90, 0),
+            new Location(Bukkit.getWorld("DuelsMap"), -174, 4, -173, 90, 0)};
+    Location[] arenaContenders = {new Location(Bukkit.getWorld("DuelsMap"), -210, 4, -29, -90, 0),
+            new Location(Bukkit.getWorld("DuelsMap"), -217, 4, -107, -90, 0),
+            new Location(Bukkit.getWorld("DuelsMap"), -216, 4, -173, -90, 0)};
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
@@ -151,20 +151,16 @@ public class AcceptDuel implements CommandExecutor, Listener {
     public void teleportContestants(Player challenger, Player contender) {
         for (int i = 0; i < 3; i++) {
             if (!arena[i]) {
+                challenger.teleport(arenaChallengers[i]);
+                contender.teleport(arenaContenders[i]);
                 switch (i) {
                     case 0:
-                        challenger.teleport(arenaChallenger1);
-                        contender.teleport(arenaContender1);
                         arenaList1.add(challenger); arenaList1.add(contender);
                         break;
                     case 1:
-                        challenger.teleport(arenaChallenger2);
-                        contender.teleport(arenaContender2);
                         arenaList2.add(challenger); arenaList2.add(contender);
                         break;
                     case 2:
-                        challenger.teleport(arenaChallenger3);
-                        contender.teleport(arenaContender3);
                         arenaList3.add(challenger); arenaList3.add(contender);
                         break;
                 }
@@ -197,33 +193,21 @@ public class AcceptDuel implements CommandExecutor, Listener {
      * @param p The player
      */
     public void sendCountdownMessages(Player p) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                p.sendTitle(String.valueOf(ChatColor.DARK_RED) + 3, "", 0, 20, 15);
-            }
-        }.runTaskLater(Main.plugin, 20);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                p.sendTitle(String.valueOf(ChatColor.DARK_RED) + 2, "", 0, 20, 15);
-
-            }
-        }.runTaskLater(Main.plugin, 40);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                p.sendTitle(String.valueOf(ChatColor.DARK_RED) + 1, "", 0, 20, 15);
-            }
-        }.runTaskLater(Main.plugin, 60);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                p.sendTitle(ChatColor.DARK_RED + "FIGHT!", "", 0, 30, 20);
-                openGate(p);
-            }
-        }.runTaskLater(Main.plugin, 80);
-
+        for (int i = 3; i >= 0; i--) {
+            int finalI = i;
+            int delay = 80 - (20 * i);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (finalI != 0) {
+                        p.sendTitle(String.valueOf(ChatColor.DARK_RED) + finalI, "", 0, 20, 15);
+                    } else {
+                        p.sendTitle(ChatColor.DARK_RED + "FIGHT!", "", 0, 30, 20);
+                        openGate(p);
+                    }
+                }
+            }.runTaskLater(Main.plugin, delay);
+        }
     }
 
     /**
@@ -303,17 +287,17 @@ public class AcceptDuel implements CommandExecutor, Listener {
         if (contender == null) { return; }
         Location ploc = contender.getLocation();
 
-        if (ploc.distance(arenaChallenger1) <= 5) {
+        if (ploc.distance(arenaChallengers[0]) <= 5) {
           SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -172, 4, -29), GATE);
-        } else if (ploc.distance(arenaChallenger2) <= 5) {
+        } else if (ploc.distance(arenaChallengers[1]) <= 5) {
             SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -179, 4, -107), GATE);
-        } else if (ploc.distance(arenaChallenger3) <= 5) {
+        } else if (ploc.distance(arenaChallengers[2]) <= 5) {
             SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -178, 4, -173), GATE);
-        } else if (ploc.distance(arenaContender1) <= 5) {
+        } else if (ploc.distance(arenaContenders[0]) <= 5) {
             SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -204, 4, -29), GATE);
-        } else if (ploc.distance(arenaContender2) <= 5) {
+        } else if (ploc.distance(arenaContenders[1]) <= 5) {
             SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -211, 4, -107), GATE);
-        } else if (ploc.distance(arenaContender3) <= 5) {
+        } else if (ploc.distance(arenaContenders[2]) <= 5) {
             SchematicSpawner.spawnSchematic(new Location(Bukkit.getWorld(MAP), -210, 4, -173), GATE);
         }
     }

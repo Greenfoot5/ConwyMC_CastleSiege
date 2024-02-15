@@ -19,7 +19,7 @@ import java.util.Objects;
 
 public class DuelCmd implements CommandExecutor {
 
-    static final HashMap<CommandSender, CommandSender> inviter = new HashMap<>();
+    public static final HashMap<CommandSender, CommandSender> inviter = new HashMap<>();
 
     public static final HashMap<Player, Player> challenging = new HashMap<>();
 

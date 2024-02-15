@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.maps;
 
 import com.nametagedit.plugin.NametagEdit;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.donator.duels.DuelCmd;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
