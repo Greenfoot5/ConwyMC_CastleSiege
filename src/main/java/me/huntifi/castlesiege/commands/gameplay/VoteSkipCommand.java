@@ -8,19 +8,23 @@ import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
 /**
  * Allows regular players to skip a map
  */
-public class VoteSkipCommand implements CommandExecutor {
+public class VoteSkipCommand implements TabExecutor {
 
     public static final double requiredVotePercentage = 0.6;
     private static final HashSet<UUID> votedPlayers = new HashSet<>();
@@ -60,6 +64,20 @@ public class VoteSkipCommand implements CommandExecutor {
         });
 
         return true;
+    }
+
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        List<String> options = new ArrayList<>();
+        if (args.length == 1) {
+            List<String> values = new ArrayList<>();
+            values.add("cancel");
+            StringUtil.copyPartialMatches(args[0], values, options);
+            return options;
+        }
+
+        return null;
     }
 
     /**

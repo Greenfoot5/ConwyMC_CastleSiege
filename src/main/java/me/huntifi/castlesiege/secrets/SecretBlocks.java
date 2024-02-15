@@ -23,7 +23,7 @@ public class SecretBlocks implements Listener {
     final String thunderstone1 = "Thunderstone_Lantern";
 
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent e) {
 
         Player player = e.getPlayer();

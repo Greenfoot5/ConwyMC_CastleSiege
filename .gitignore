@@ -5,3 +5,6 @@ bin/
 .project
 .settings/
 *.iml
+
+FTP/
+ftp/

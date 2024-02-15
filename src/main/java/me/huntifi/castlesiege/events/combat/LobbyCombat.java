@@ -19,7 +19,7 @@ public class LobbyCombat implements Listener {
 	 * Cancels event if the player is in the lobby
 	 * @param e The event called when a player takes damage
 	 */
-	@EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onTakeDamage(EntityDamageEvent e) {
 		if (InCombat.isPlayerInLobby(e.getEntity().getUniqueId()))
 			e.setCancelled(true);
@@ -30,7 +30,7 @@ public class LobbyCombat implements Listener {
 	 * Cancels event if the player is in the lobby
 	 * @param e The event called when a player hits another player
 	 */
-	@EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onHurt(EntityDamageByEntityEvent e) {
 		if (InCombat.isPlayerInLobby(e.getDamager().getUniqueId()))
 			e.setCancelled(true);
@@ -41,7 +41,7 @@ public class LobbyCombat implements Listener {
 	 * Cancels event if the player is in the lobby
 	 * @param e The event called when a player shoots an arrow
 	 */
-	@EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onShoot(EntityShootBowEvent e) {
 		if (InCombat.isPlayerInLobby(e.getEntity().getUniqueId()))
 			e.setCancelled(true);

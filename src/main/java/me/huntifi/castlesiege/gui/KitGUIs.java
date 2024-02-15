@@ -37,12 +37,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Generates dynamic kit selection GUIs
  */
 public class KitGUIs {
+
+    public final static String[] OPTIONS = {"damage", "tank", "support", "debuff", "movement", "ranged"};
 
     /**
      * Displays the kit gui for a category or category selection

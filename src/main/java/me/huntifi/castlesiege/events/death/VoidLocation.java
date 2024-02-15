@@ -15,7 +15,7 @@ public class VoidLocation implements Listener {
 	 * Kills player when their Y level is below 0
 	 * @param e The event called when a player moves
 	 */
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onEnterVoid(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
 		Location loc = p.getLocation();

@@ -130,8 +130,13 @@ public class Gate implements Listener {
             return;
 
         SchematicSpawner.spawnSchematic(schematicLocation.toLocation(world), schematicName);
-        world.playSound(breachSoundLocation.toLocation(world),
-                Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR , 5, 1 );
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                world.playSound(breachSoundLocation.toLocation(world),
+                        Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR , 5, 1 );
+            }
+        }.runTask(Main.plugin);
         isBreached = true;
     }
 
@@ -145,7 +150,7 @@ public class Gate implements Listener {
                 && !Objects.equals(TeamController.getTeam(uuid).name, flag.getCurrentOwners()));
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent event) {
         // Make sure the gate is on the correct map and has not been breached yet
         if (Objects.equals(mapName, MapController.getCurrentMap().name) && !isBreached) {

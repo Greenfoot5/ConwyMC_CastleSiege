@@ -6,6 +6,10 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.curses.BindingCurse;
+import me.huntifi.castlesiege.events.curses.CurseExpired;
+import me.huntifi.castlesiege.events.curses.HealingCurse;
+import me.huntifi.castlesiege.events.curses.VulnerabilityCurse;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
@@ -24,6 +28,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -46,7 +53,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * The abstract kit
  */
-public abstract class Kit implements CommandExecutor {
+public abstract class Kit implements CommandExecutor, Listener {
 
     public final String name;
     public final int baseHealth;
@@ -80,10 +87,18 @@ public abstract class Kit implements CommandExecutor {
     // GUI
     public final Material material;
 
+    // Curses
+    private static final List<UUID> activeBindings = new ArrayList<>();
+    private static double healthMultiplier = 1.0;
+    private static boolean vulnerable = false;
+
     /**
      * Create a kit with basic settings
      * @param name This kit's name
      * @param baseHealth This kit's base health
+     * @param regenAmount The amount the kit regenerates per regen tick
+     * @param material The material to represent the kit in GUIs
+     * @param color The chat colour for the kit
      */
     public Kit(String name, int baseHealth, double regenAmount, Material material, ChatColor color) {
         this.name = name;
@@ -97,7 +112,6 @@ public abstract class Kit implements CommandExecutor {
         canCap = true;
         canClimb = true;
         canSeeHealth = false;
-        kbResistance = 0;
 
         // Equipment
         equipment = new EquipmentSet();
@@ -115,23 +129,33 @@ public abstract class Kit implements CommandExecutor {
     /**
      * Give the items and attributes of this kit to a player
      * @param uuid The unique id of the player to whom this kit is given
+     * @param force If the
      */
-    public void setItems(UUID uuid) {
+    public void setItems(UUID uuid, boolean force) {
         Bukkit.getScheduler().runTask(Main.plugin, () -> {
             Player player = Bukkit.getPlayer(uuid);
-            if (player == null) {
+            if (player == null)
+                return;
+
+            // The player shouldn't get the items
+            if (!(force || canSelect(player,false, false, false))) {
+                player.performCommand("random");
                 return;
             }
 
             // Health
             AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
             assert healthAttribute != null;
-            healthAttribute.setBaseValue(baseHealth);
-            player.setHealth(baseHealth);
+            double maxHealth = vulnerable ? 1 : baseHealth * healthMultiplier;
+            healthAttribute.setBaseValue(maxHealth);
+            player.setHealth(maxHealth);
             player.setFireTicks(0);
-            if (baseHealth > 200) {
-                player.setHealthScale(baseHealth / 10.0);
-            } else {
+            if (maxHealth > 200) {
+                player.setHealthScale(maxHealth / 10.0);
+            } else if (maxHealth == 1) {
+                player.setHealthScale(0.5);
+            }
+            else {
                 player.setHealthScale(20.0);
             }
 
@@ -206,30 +230,33 @@ public abstract class Kit implements CommandExecutor {
     /**
      * Register the player as using this kit and set their items
      * @param uuid The unique id of the player to register
+     * @param shouldRespawn If the player should be respawned
      */
-    public void addPlayer(UUID uuid) {
+    public void addPlayer(UUID uuid, boolean shouldRespawn) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             Player player = Bukkit.getPlayer(uuid);
             assert player != null;
             players.add(uuid);
             equippedKits.put(uuid, this);
-            setItems(uuid);
+            setItems(uuid, true);
             ActiveData.getData(uuid).setKit(getSpacelessName());
             Messenger.sendInfo("Selected Kit: " + this.name, player);
 
             // Kills the player if they have spawned this life, otherwise heal them
-            if (!InCombat.isPlayerInLobby(uuid)) {
-                Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
-                if (MapController.isOngoing()) {
-                    Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
-                    UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
+            if (shouldRespawn) {
+                if (!InCombat.isPlayerInLobby(uuid)) {
+                    Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
+                    if (MapController.isOngoing()) {
+                        Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
+                        UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
+                    } else {
+                        Messenger.sendInfo("You have committed suicide!", player);
+                    }
                 } else {
-                    Messenger.sendInfo("You have committed suicide!", player);
+                    Bukkit.getScheduler().runTask(Main.plugin, () ->
+                            player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue())
+                    );
                 }
-            } else {
-                Bukkit.getScheduler().runTask(Main.plugin, () ->
-                    player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue())
-                );
             }
         });
     }
@@ -340,8 +367,8 @@ public abstract class Kit implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            if (canSelect(sender, true, false))
-                addPlayer(((Player) sender).getUniqueId());
+            if (canSelect(sender, true, true, false))
+                addPlayer(((Player) sender).getUniqueId(), true);
         });
         return true;
     }
@@ -349,11 +376,12 @@ public abstract class Kit implements CommandExecutor {
     /**
      * Check if the player can select this kit
      * @param sender Source of the command
+     * @param applyLimit Whether to apply the kit limit in the check
      * @param verbose Whether error messages should be sent
      * @param isRandom Whether the check is done by the random command
      * @return Whether the player can select this kit
      */
-    public boolean canSelect(CommandSender sender, boolean verbose, boolean isRandom) {
+    public boolean canSelect(CommandSender sender, boolean applyLimit, boolean verbose, boolean isRandom) {
         if (!(sender instanceof Player)) {
             if (verbose)
                 Messenger.sendError("Console cannot select kits!", sender);
@@ -367,7 +395,13 @@ public abstract class Kit implements CommandExecutor {
             return false;
         }
 
-        if (limit >= 0 && violatesLimit(TeamController.getTeam(uuid))) {
+        if (activeBindings.contains(null) || activeBindings.contains(uuid)) {
+            if (verbose)
+                Messenger.sendCurse("A curse is stopping you from changing kits!", sender);
+            return false;
+        }
+
+        if (applyLimit && limit >= 0 && violatesLimit(TeamController.getTeam(uuid))) {
             if (verbose)
                 Messenger.sendError("Could not select " + this.name + " as its limit has been reached!", sender);
             return false;
@@ -471,5 +505,26 @@ public abstract class Kit implements CommandExecutor {
         text.add(" ");
         text.add("§lApparently, it's a secret...");
         return text;
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void bindingActive(BindingCurse curse) {
+        activeBindings.add(curse.getPlayer());
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void healingActive(HealingCurse curse) {
+        healthMultiplier = curse.multiplier;
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void vulnerabilityActive(VulnerabilityCurse curse) {
+        vulnerable = true;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void bindingExpired(CurseExpired curse) {
+        if (Objects.equals(curse.getDisplayName(), BindingCurse.name))
+            activeBindings.remove(curse.getPlayer());
     }
 }

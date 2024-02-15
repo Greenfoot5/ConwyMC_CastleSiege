@@ -72,10 +72,6 @@
       <url>https://papermc.io/repo/repository/maven-public/</url>
     </repository>
     <repository>
-      <id>upstream</id>
-      <url>https://ci.nametagedit.com/plugin/repository/everything/</url>
-    </repository>
-    <repository>
       <id>md_5-public</id>
       <url>https://repo.md-5.net/content/groups/public/</url>
     </repository>
@@ -83,6 +79,10 @@
       <id>nexus</id>
       <name>Lumine Releases</name>
       <url>https://mvn.lumine.io/repository/maven-public/</url>
+    </repository>
+    <repository>
+      <id>upstream</id>
+      <url>https://ci.nametagedit.com/plugin/repository/everything/</url>
     </repository>
   </repositories>
   <dependencies>

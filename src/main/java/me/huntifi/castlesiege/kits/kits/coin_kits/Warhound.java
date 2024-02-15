@@ -121,9 +121,9 @@ public class Warhound extends CoinKit implements Listener {
      * Cause slowness to the bitten enemy
      * @param e The event called when hitting another player
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBite(EntityDamageByEntityEvent e) {
-        if (e.isCancelled() || !(e.getDamager() instanceof Player)) {
+        if (!(e.getDamager() instanceof Player)) {
             return;
         }
 
@@ -150,7 +150,7 @@ public class Warhound extends CoinKit implements Listener {
      *
      * @param e Warhound's new immobilise ability
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onImmobilise(PlayerInteractEntityEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();

@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 
 public class MythicListener implements Listener {
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onLoadMechanics(MythicConditionLoadEvent e) {
         if (e.getConditionName().equalsIgnoreCase("sameteam")) {
             e.register(new SameTeam());

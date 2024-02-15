@@ -22,7 +22,7 @@ public class TeamCombat implements Listener {
 	 * Cancels event if the corresponding players are on the same team.
 	 * @param event The event called when a player attacks another entity
 	 */
-	@EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onHurt(EntityDamageByEntityEvent event) {
 		if (!MapController.isOngoing()) {
 			event.setCancelled(true);

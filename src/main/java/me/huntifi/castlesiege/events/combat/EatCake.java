@@ -34,7 +34,7 @@ public class EatCake implements Listener {
      * Take a bite from a cake and gain a short period of regeneration.
      * @param event The event called when right-clicking a cake
      */
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEatCake(PlayerInteractEvent event) {
         // Check if the player attempts to eat a cake
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK || !Objects.requireNonNull(event.getClickedBlock()).getType().equals(Material.CAKE))

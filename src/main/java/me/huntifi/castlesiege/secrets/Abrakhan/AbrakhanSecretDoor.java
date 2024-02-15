@@ -33,7 +33,7 @@ public class AbrakhanSecretDoor implements Listener {
      * Checks if the player interacted with a redstone torch
      * @param event Called when a player interacts with anything
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onInteract(PlayerInteractEvent event){
 
 

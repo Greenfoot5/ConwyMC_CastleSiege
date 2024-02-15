@@ -6,13 +6,19 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manages custom join messages
  */
-public class JoinMessage implements CommandExecutor {
+public class JoinMessage implements TabExecutor {
 
     /**
      * Change the player's custom join message if valid arguments are supplied
@@ -40,6 +46,25 @@ public class JoinMessage implements CommandExecutor {
         }
 
         return false;
+    }
+
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        List<String> options = new ArrayList<>();
+        // Command needs a player and a message
+        if (args.length == 0) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            List<String> values = new ArrayList<>();
+            values.add("set");
+            values.add("reset");
+            StringUtil.copyPartialMatches(args[0], values, options);
+        }
+
+        return options;
     }
 
     /**

@@ -140,7 +140,7 @@ public class Catapult implements Listener {
      * Handles shooting the catapult
      * @param event The event called when pulling a lever
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPullLever(PlayerInteractEvent event) {
         Block clickedBlock = event.getClickedBlock();
         if (clickedBlock == null || clickedBlock.getType() != Material.LEVER
@@ -226,7 +226,7 @@ public class Catapult implements Listener {
      * Handles interactions with the aim up/down sign of the catapult
      * @param event The event called when interacting with a sign
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onClickAimVertical(PlayerInteractEvent event) {
         Block target = event.getClickedBlock();
         Player p = event.getPlayer();
@@ -254,7 +254,7 @@ public class Catapult implements Listener {
      * Handles interactions with the aim left/right sign of the catapult
      * @param event The event called when interacting with a sign
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onClickAimHorizontal(PlayerInteractEvent event) {
         Block target = event.getClickedBlock();
         Player p = event.getPlayer();
@@ -311,7 +311,7 @@ public class Catapult implements Listener {
      * Delete the cobblestone and create an explosion on impact
      * @param event The event called when the snowball hits something
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onImpact(ProjectileHitEvent event) {
         if (Objects.equals(snowball, event.getEntity())) {
             snowball.getPassengers().get(0).remove();
@@ -323,7 +323,7 @@ public class Catapult implements Listener {
      * Allows engineers to refill catapults
      * @param event The event called when a block is placed
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void engineerRefill(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();

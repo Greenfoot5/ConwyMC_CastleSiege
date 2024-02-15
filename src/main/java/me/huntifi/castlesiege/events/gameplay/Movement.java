@@ -16,7 +16,7 @@ public class Movement implements Listener {
      * Prevent animals from climbing ladders
      * @param e The event called when moving on a ladder
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onClimb(PlayerMoveEvent e) {
         Player p = e.getPlayer();
         if (Kit.equippedKits.get(p.getUniqueId()) == null) { return;}

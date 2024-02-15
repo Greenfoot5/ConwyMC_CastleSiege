@@ -31,6 +31,10 @@ public class LoadData {
      */
     public static PlayerData load(UUID uuid) {
         try {
+
+            // Unlock achievements data
+            //ArrayList<String> unlockedAchievements = getUnlockedAchievements(uuid);
+
             // Unlock kits data
             ArrayList<String> unlockedKits = getUnlockedKits(uuid);
 

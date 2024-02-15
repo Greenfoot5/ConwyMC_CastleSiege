@@ -15,7 +15,7 @@ public class ArrowRemoval implements Listener {
 	 * Removes the arrow if it hits an entity
 	 * @param e Called when a projectile hits something
 	 */
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onHit(final ProjectileHitEvent e) {
 		if (!MapController.isOngoing()) {
 			return;

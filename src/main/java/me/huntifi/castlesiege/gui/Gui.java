@@ -101,7 +101,7 @@ public class Gui implements Listener {
      * @param command The command to execute when clicking the item
      */
     public void addKitItem(Player player, Kit kit, int location, String command) {
-        if (kit.canSelect(player, false, false)) {
+        if (kit.canSelect(player, false, false, false)) {
             inventory.setItem(location, ItemCreator.item(new ItemStack(kit.material),
                     getKitDisplayName(kit,true), kit.getGuiDescription(), null));
             locationToItem.put(location, new GuiItem(command, true));
@@ -181,7 +181,7 @@ public class Gui implements Listener {
      * Performs an action corresponding to the clicked item
      * @param event A click event while in the GUI
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onClick(InventoryClickEvent event) {
         if (Objects.equals(event.getClickedInventory(), inventory)) {
             GuiItem item = locationToItem.get(event.getSlot());
@@ -200,7 +200,7 @@ public class Gui implements Listener {
      * Unregister this GUI when it is closed.
      * @param event The event called when an inventory is closed.
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onCloseGui(InventoryCloseEvent event) {
         if (Objects.equals(event.getInventory(), inventory) && shouldUnregister)
             HandlerList.unregisterAll(this);

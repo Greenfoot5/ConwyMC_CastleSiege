@@ -8,18 +8,22 @@ import me.huntifi.castlesiege.maps.Scoreboard;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
-public class SettingsCommand implements CommandExecutor {
+public class SettingsCommand implements TabExecutor {
     public static final HashMap<String, String[]> defaultSettings = new HashMap<>(){{
         put("randomDeath", new String[]{"false", "true"});
         put("deathMessages", new String[]{"false", "true"});
@@ -95,6 +99,25 @@ public class SettingsCommand implements CommandExecutor {
         }
 
         return true;
+    }
+
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        List<String> options = new ArrayList<>();
+
+        if (args.length == 1) {
+            List<String> values = new ArrayList<>(defaultSettings.keySet());
+            StringUtil.copyPartialMatches(args[0], values, options);
+        }
+
+        if (args.length == 2) {
+            List<String> values = Arrays.asList(defaultSettings.get(args[0]));
+            values.add("reset");
+            StringUtil.copyPartialMatches(args[0], values, options);
+        }
+
+        return options;
     }
 
     /**

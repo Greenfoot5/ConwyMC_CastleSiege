@@ -34,7 +34,7 @@ public class Enderchest implements Listener {
 	 * Refills a player's inventory when they click an enderchest
 	 * @param e The event called when a player clicks an enderchest
 	 */
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onInteract(PlayerInteractEvent e){
 		if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK) &&
 				Objects.requireNonNull(e.getClickedBlock()).getType() == Material.ENDER_CHEST){
@@ -69,7 +69,7 @@ public class Enderchest implements Listener {
 	 * Resupply a players items when an enderchest is used.
 	 * @param event The event called when an off-cooldown player interacts with an enderchest
 	 */
-	@EventHandler (priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onClickEnderchest(EnderchestEvent event) {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();

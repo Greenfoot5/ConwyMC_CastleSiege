@@ -99,6 +99,7 @@ import me.huntifi.castlesiege.events.combat.LobbyCombat;
 import me.huntifi.castlesiege.events.combat.TeamCombat;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
 import me.huntifi.castlesiege.events.connection.PlayerDisconnect;
+import me.huntifi.castlesiege.events.curses.CurseCommand;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.death.VoidLocation;
 import me.huntifi.castlesiege.events.gameplay.CamelHandler;
@@ -114,6 +115,7 @@ import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.kits.items.Enderchest;
+import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Alchemist;
@@ -189,7 +191,7 @@ import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
 import me.huntifi.castlesiege.secrets.SecretBlocks;
 import me.huntifi.castlesiege.secrets.SecretItems;
 import me.huntifi.castlesiege.secrets.SecretSigns;
-import me.huntifi.castlesiege.secrets.Skyhold.Doors;
+import me.huntifi.castlesiege.secrets.Skyhold.SkyholdDoors;
 import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
@@ -290,6 +292,8 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new SecretSigns(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretBlocks(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretPortal(), plugin);
+                getServer().getPluginManager().registerEvents(new SkyholdDoors(), plugin);
+                getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
 
                 //Duels
                 getServer().getPluginManager().registerEvents(new AcceptDuel(), plugin);
@@ -378,6 +382,11 @@ public class Main extends JavaPlugin implements Listener {
                 //mythic stuff
                 getServer().getPluginManager().registerEvents(new MythicListener(), plugin);
 
+                // Misc
+                getServer().getPluginManager().registerEvents(new RandomKitCommand(), plugin);
+                getServer().getPluginManager().registerEvents(new NameTag(), plugin);
+                getServer().getPluginManager().registerEvents(new WoolHat(), plugin);
+
 
                 // Chat
                 Objects.requireNonNull(getCommand("GlobalChat")).setExecutor(new GlobalChat());
@@ -453,6 +462,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Staff
                 Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastMessage());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
+                Objects.requireNonNull(getCommand("Curse")).setExecutor(new CurseCommand());
                 Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
                 Objects.requireNonNull(getCommand("SetStaffRank")).setExecutor(new SetStaffRank());
                 Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
@@ -1500,7 +1510,7 @@ public class Main extends JavaPlugin implements Listener {
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                             PlayerData.setCoinMultiplier(PlayerData.getCoinMultiplier() + multiplier);
                             Messenger.broadcastInfo(" A " + percentage + "% coin booster " +
-                                    "for " + Booster.durationToString((int) remaining_duration) + " has been activated!");
+                                    "for " + getTimeString((int) remaining_duration) + " has been activated!");
                             Messenger.broadcastInfo("The total coin multiplier is now " + PlayerData.getCoinMultiplier() + ".");
                         });
                         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
@@ -1515,7 +1525,7 @@ public class Main extends JavaPlugin implements Listener {
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                             CoinKit.boostedKits.add(other);
                             Messenger.broadcastInfo("A " + other + " kit booster " +
-                                    "for " + Booster.durationToString((int) remaining_duration) + "!");
+                                    "for " + getTimeString((int) remaining_duration) + "!");
                         });
                         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
                             CoinKit.boostedKits.remove(other);
@@ -1526,5 +1536,26 @@ public class Main extends JavaPlugin implements Listener {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String getTimeString(long duration) {
+        long days, hours, minutes, seconds, remainder;
+        days = duration / 86400;
+        remainder = duration % 86400;
+        hours = remainder / 3600;
+        remainder = remainder % 3600;
+        minutes = remainder / 60;
+        seconds = remainder % 60;
+
+        if (days == 0) {
+            if (hours == 0) {
+                if (minutes == 0) {
+                    return seconds + "s";
+                }
+                return minutes + " mins " + seconds + "s";
+            }
+            return hours + " hr " + minutes + " mins " + seconds + "s";
+        }
+        return days + "d " + hours + "h " + minutes + "m " + seconds + "s";
     }
 }

@@ -129,7 +129,7 @@ public class Alchemist extends CoinKit implements Listener {
      * Only applies the correct potion effect to the correct players
      * @param e Called when a player throws a potion
      */
-    @EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onThrownPotion(PotionSplashEvent e) {
         // Is the potion thrown by an alchemist?
         if (!(e.getPotion().getShooter() instanceof Player)) {

@@ -67,7 +67,7 @@ public class SecretItems implements Listener {
      * When a player dies, they drop any secret items they hold on the ground.
      * @param e The event called when a player quits the game
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onDeath(PlayerDeathEvent e) {
         dropSecretItems(e.getEntity());
     }
@@ -76,7 +76,7 @@ public class SecretItems implements Listener {
      * When a player quits, they drop any secret items they hold on the ground.
      * @param e The event called when a player quits the game
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
         dropSecretItems(e.getPlayer());
     }
@@ -102,7 +102,7 @@ public class SecretItems implements Listener {
      * Register the holder of a secret item on pickup
      * @param event The event called when a player picks up an item
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPickup(EntityPickupItemEvent event) {
         if (!(event.getEntity() instanceof Player))
             return;
@@ -132,7 +132,7 @@ public class SecretItems implements Listener {
      * When a player clicks an enderchest, they shall be given back the secret items they had.
      * @param event The event called when an off-cooldown player interacts with an enderchest
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onClickEnderchest(EnderchestEvent event) {
         Player player = event.getPlayer();
         if (!secretItemHolder.containsKey(player))

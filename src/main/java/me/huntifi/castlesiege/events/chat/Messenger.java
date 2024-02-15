@@ -168,4 +168,46 @@ public class Messenger {
         message = message.replaceAll("§r", ChatColor.LIGHT_PURPLE.toString());
         sender.sendMessage(ChatColor.GOLD + "[_] " + ChatColor.LIGHT_PURPLE + message);
     }
+
+    /**
+     * Broadcasts a cursed message to everyone
+     * @param message The message to send
+     */
+    public static void broadcastCurse(String message) {
+        message = message.replaceAll("§r", ChatColor.RED.toString());
+        Main.plugin.getServer().broadcastMessage(String.format(ChatColor.GOLD + "[☠] " +
+                ChatColor.RED + message));
+    }
+
+    /**
+     * Sends a cursed message to a specific user
+     * @param message The message
+     * @param sender Who to send the message to
+     */
+    public static void sendCurse(String message, @NotNull CommandSender sender) {
+        message = message.replaceAll("§r", ChatColor.RED.toString());
+        sender.sendMessage(String.format(ChatColor.GOLD + "[☠] " +
+                ChatColor.RED + message));
+    }
+
+    /**
+     * Broadcasts a cursed end message to everyone
+     * @param message The message to send
+     */
+    public static void broadcastCurseEnd(String message) {
+        message = message.replaceAll("§r", ChatColor.GREEN.toString());
+        Main.plugin.getServer().broadcastMessage(String.format(ChatColor.GOLD + "[☠] " +
+                ChatColor.GREEN + message));
+    }
+
+    /**
+     * Sends a cursed message to a specific user
+     * @param message The message
+     * @param sender Who to send the message to
+     */
+    public static void sendCurseEnd(String message, @NotNull CommandSender sender) {
+        message = message.replaceAll("§r", ChatColor.GREEN.toString());
+        sender.sendMessage(String.format(ChatColor.GOLD + "[☠] " +
+                ChatColor.GREEN + message));
+    }
 }

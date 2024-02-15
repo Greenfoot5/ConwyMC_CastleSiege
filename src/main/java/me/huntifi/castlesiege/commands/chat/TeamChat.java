@@ -1,10 +1,12 @@
 package me.huntifi.castlesiege.commands.chat;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
@@ -69,15 +71,13 @@ public class TeamChat implements CommandExecutor {
 		Team t = TeamController.getTeam(p.getUniqueId());
 		ChatColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
 				? ChatColor.WHITE : ChatColor.GRAY;
-		String s = p.getDisplayName() + ChatColor.DARK_AQUA + " TEAM: " + color + m;
 
-		// Send the message to all team members
-		System.out.println(s);
-		for (Player q : Bukkit.getOnlinePlayers()) {
-			if (t.hasPlayer(q.getUniqueId())) {
-				q.sendMessage(s);
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+			for (UUID uuid : t.getPlayers()) {
+				Player viewer = Bukkit.getPlayer(uuid);
+				viewer.sendMessage(NameTag.chatName(p, viewer) + ChatColor.DARK_AQUA + " TEAM: " + color + m);
 			}
-		}
+		});
 	}
 
 	/**
