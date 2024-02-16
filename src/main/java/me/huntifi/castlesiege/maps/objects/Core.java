@@ -18,6 +18,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
@@ -248,33 +249,37 @@ public class Core implements Listener {
      * Handles destroying the core
      * @param event The event called when destroying a block that belongs to a core
      */
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onDestroyCoreBlock(BlockBreakEvent event) {
         Block clickedBlock = event.getBlock();
-        if (!isInRegion(clickedBlock) || !isCorrectMaterial(clickedBlock) ||
-                this.getOwners().equalsIgnoreCase(TeamController.getTeam(event.getPlayer().getUniqueId()).name)) {
-            return;
-        }
 
-        Player player = event.getPlayer();
+        if (isInRegion(clickedBlock) && isCorrectMaterial(clickedBlock)) {
 
-        for (Team team : MapController.getCurrentMap().teams) {
+            if (this.getOwners().equalsIgnoreCase(TeamController.getTeam(event.getPlayer().getUniqueId()).name)) {
+                Messenger.sendError("You cannot damage your own core!", event.getPlayer());
+                return;
+            }
 
-            if (!team.hasPlayer(player.getUniqueId())) {
-                for (UUID member : team.getPlayers()) {
-                    Messenger.sendActionError("Your core is under attack!", Objects.requireNonNull(Bukkit.getPlayer(member)));
+            Player player = event.getPlayer();
+
+            for (Team team : MapController.getCurrentMap().teams) {
+
+                if (!team.hasPlayer(player.getUniqueId())) {
+                    for (UUID member : team.getPlayers()) {
+                        Messenger.sendActionError("Your core is under attack!", Objects.requireNonNull(Bukkit.getPlayer(member)));
+                    }
                 }
             }
-        }
-        UpdateStats.addCaptures(player.getUniqueId(), 1);
-        playDamageSound(player, false);
-        damageCore(1);
-        if (getCoreHealth() < 1) {
-            isDestroyed = true;
-            playDamageSound(player, true);
+            UpdateStats.addCaptures(player.getUniqueId(), 1);
+            playDamageSound(player, false);
+            damageCore(1);
+            if (getCoreHealth() < 1) {
+                isDestroyed = true;
+                playDamageSound(player, true);
 
-            if (MapController.getCurrentMap().hasMapEnded()) {
-                MapController.endMap();
+                if (MapController.getCurrentMap().hasMapEnded()) {
+                    MapController.endMap();
+                }
             }
         }
     }

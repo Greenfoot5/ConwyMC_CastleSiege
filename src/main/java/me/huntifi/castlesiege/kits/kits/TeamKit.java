@@ -42,7 +42,7 @@ public abstract class TeamKit extends CoinKit implements Listener {
      * @param coins the amount of coins this kit costs
      */
     public TeamKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins
-                   , Material material, String commandName) {
+                   ,Material material, String commandName) {
         super(name, baseHealth, regenAmount, material);
         team = playableTeam;
         map = playableMap;
