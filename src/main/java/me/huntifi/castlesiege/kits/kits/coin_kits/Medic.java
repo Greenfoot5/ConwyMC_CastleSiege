@@ -143,7 +143,7 @@ public class Medic extends CoinKit implements Listener {
      * Place a cake
      * @param event The event called when placing a cake
      */
-    @EventHandler (priority = EventPriority.HIGHEST)
+    @EventHandler (priority = EventPriority.LOWEST)
     public void onPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
 

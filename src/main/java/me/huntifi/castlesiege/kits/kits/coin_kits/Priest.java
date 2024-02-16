@@ -153,8 +153,8 @@ public class Priest extends CoinKit implements Listener {
 
 
     /**
-     * Activate the spearman ability of throwing a spear
-     * @param e The event called when right-clicking with a stick
+     * Activate the priest's ability of shooting holy stuff
+     * @param e The event called when right-clicking with a spectral arrow
      */
     @EventHandler
     public void clickHolyStaff(PlayerInteractEvent e) {
