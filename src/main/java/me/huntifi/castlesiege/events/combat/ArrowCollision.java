@@ -33,9 +33,8 @@ public class ArrowCollision implements Listener {
                 Arrow a = defender.launchProjectile(Arrow.class);
                 a.setShooter(attacker);
                 a.setVelocity(thor);
+                e.setCancelled(true);
             }
-
         }
-
     }
 }
