@@ -57,9 +57,14 @@ public class TeamCombat implements Listener {
 	private void sameTeam(EntityDamageByEntityEvent e, Player p) {
 
 		//if dueling this shouldn't count
-		if (e.getDamager() instanceof Player || e.getDamager() instanceof Projectile &&
-				((Projectile) e.getDamager()).getShooter() instanceof Player) {
+		if (e.getDamager() instanceof Player) {
 			if (DuelCmd.isDueling((Player) e.getDamager()) && DuelCmd.isDueling(p)) {
+				e.setCancelled(false);
+				return;
+			}
+		} else if (e.getDamager() instanceof Projectile &&
+				((Projectile) e.getDamager()).getShooter() instanceof Player) {
+			if (DuelCmd.isDueling((Player) ((Projectile) e.getDamager()).getShooter()) && DuelCmd.isDueling(p)) {
 				e.setCancelled(false);
 				return;
 			}
