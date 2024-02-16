@@ -526,5 +526,9 @@ public abstract class Kit implements CommandExecutor, Listener {
     public void bindingExpired(CurseExpired curse) {
         if (Objects.equals(curse.getDisplayName(), BindingCurse.name))
             activeBindings.remove(curse.getPlayer());
+        if (Objects.equals(curse.getDisplayName(), HealingCurse.name))
+            healthMultiplier = 1f;
+        if (Objects.equals(curse.getDisplayName(), VulnerabilityCurse.name))
+            vulnerable = false;
     }
 }
