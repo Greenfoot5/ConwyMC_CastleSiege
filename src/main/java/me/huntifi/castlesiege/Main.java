@@ -584,6 +584,7 @@ public class Main extends JavaPlugin implements Listener {
         HandlerList.unregisterAll(plugin);
         // Unload all worlds
         for (World world:Bukkit.getWorlds()) {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all flush");
             Bukkit.unloadWorld(world, false);
         }
         // Reload the original world - HelmsDeep

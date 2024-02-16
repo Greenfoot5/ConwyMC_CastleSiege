@@ -36,6 +36,7 @@ public class PlayerChat implements Listener {
 
 	public PlayerChat() {
 		owners.add("Huntifi");
+		owners.add("Greenfoot5");
 	}
 
 	/**
@@ -73,7 +74,14 @@ public class PlayerChat implements Listener {
 
 
 		if (owners.contains(p.getName()) && !ToggleRankCommand.showDonator.contains(p)) {
-			color = ChatColor.GREEN;
+			switch (p.getName()) {
+				case "Huntifi":
+					color = ChatColor.DARK_PURPLE;
+					break;
+				case "Greenfoot5":
+					color = ChatColor.DARK_GREEN;
+					break;
+			}
 		}
 
 		if (hidePlayerName)
