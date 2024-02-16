@@ -143,7 +143,7 @@ public class Medic extends CoinKit implements Listener {
      * Place a cake
      * @param event The event called when placing a cake
      */
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
 
@@ -152,17 +152,16 @@ public class Medic extends CoinKit implements Listener {
             return;
         }
 
-        if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name))
-            return;
+        if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) &&
+                event.getBlockPlaced().getType() == Material.CAKE) {
 
-        // Check you aren't placing on a cake
-        if (event.canBuild() && event.getBlockAgainst() instanceof Cake)
-        {
-            event.setCancelled(true);
-            return;
-        }
+            // Check you aren't placing on a cake
+            if (event.canBuild() && event.getBlockAgainst() instanceof Cake) {
+                event.setCancelled(true);
+                return;
+            }
 
-        if (event.getBlockPlaced().getType() == Material.CAKE) {
+            event.setCancelled(false);
             destroyCake(player);
             cakes.put(player, event.getBlockPlaced());
         }
