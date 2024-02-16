@@ -35,7 +35,6 @@ public class DamageCurse extends CurseCast {
                 new DecimalFormat("0.00").format(multiplier) + "!");
 
         // Update all player's current health
-        System.out.println("Equipping Kits");
         for (UUID uuid : MapController.getPlayers())
             Kit.equippedKits.get(uuid).setItems(uuid, true);
 

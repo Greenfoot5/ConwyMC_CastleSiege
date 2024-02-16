@@ -37,7 +37,6 @@ public class HealingCurse extends CurseCast {
         Messenger.broadcastCurse(ChatColor.DARK_RED + getDisplayName() + "§r has been activated! " + getActivateMessage() +
                 new DecimalFormat("0.00").format(multiplier) + "!");
 
-        System.out.println("Setting health for " + MapController.getPlayers().size());
         // Update all player's current health
         for (UUID uuid : MapController.getPlayers())
             updateHealth(uuid, multiplier);
@@ -49,7 +48,6 @@ public class HealingCurse extends CurseCast {
                 CurseExpired expired = new CurseExpired(curse);
                 Bukkit.getPluginManager().callEvent(expired);
 
-                System.out.println("Resetting Health");
                 // Update all player's current health
                 for (UUID uuid : MapController.getPlayers())
                     updateHealth(uuid, 1f);
@@ -71,9 +69,6 @@ public class HealingCurse extends CurseCast {
         Kit currentKit = Kit.equippedKits.get(uuid);
         double currentHealth = player.getHealth() / currentKit.baseHealth;
         float newMax = currentKit.baseHealth * multiplier;
-        System.out.println("Player Name: " + player.getDisplayName());
-        System.out.println("New Max: " + newMax);
-        System.out.println("Player Current: " + player.getHealth());
         healthAttribute.setBaseValue(newMax);
         player.setHealth(currentHealth * newMax);
         if (newMax > 200) {

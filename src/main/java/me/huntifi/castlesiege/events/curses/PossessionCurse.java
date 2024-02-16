@@ -39,14 +39,12 @@ public class PossessionCurse extends CurseCast {
         Collection<UUID> players = MapController.getPlayers();
         if (getPlayer() != null)
             players = Collections.singleton(Objects.requireNonNull(Bukkit.getPlayer(getPlayer())).getUniqueId());
-        System.out.println(players.size());
+
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
             assert player != null;
             Kit kit = getKit() == null ? randomKit() : Kit.getKit(kitName);
-            System.out.println(kit.name);
             kit.addPlayer(player.getUniqueId(), false);
-            System.out.println("Granted Kit");
             Bukkit.getScheduler().runTask(Main.plugin, () ->
                     player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue())
             );
