@@ -6,7 +6,6 @@ import me.huntifi.castlesiege.data_types.LocationFrame;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -32,6 +31,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -266,7 +266,7 @@ public class Flag {
             setFlagBarValue(this, (float) animationIndex /maxCap);
             setFlagBarColour(this, BossBar.Color.WHITE);
 
-            if (!currentOwners.equals("neutral")) {
+            if (!Objects.equals(currentOwners, "neutral")) {
                 broadcastTeam("neutral");
             }
 
