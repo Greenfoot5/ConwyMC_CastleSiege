@@ -68,7 +68,7 @@ public class EatCake implements Listener {
                     eater.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, CAKE_DURATION, REGEN_AMPLIFIER));
                     Cake cakeData = (Cake) cake.getBlockData();
 
-                    if (cakeData.getBites() == cakeData.getMaximumBites()) {
+                    if (cakeData.getBites() >= cakeData.getMaximumBites()) {
                         cake.breakNaturally();
                         Medic.cakes.remove(placer);
                     } else {

@@ -156,7 +156,7 @@ public class Medic extends CoinKit implements Listener {
                 event.getBlockPlaced().getType() == Material.CAKE) {
 
             // Check you aren't placing on a cake
-            if (event.canBuild() && event.getBlockAgainst() instanceof Cake) {
+            if (event.getBlockAgainst() instanceof Cake) {
                 event.setCancelled(true);
                 return;
             }
