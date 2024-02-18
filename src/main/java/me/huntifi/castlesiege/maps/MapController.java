@@ -412,7 +412,7 @@ public class MapController {
 		// Move all players to the new map and team
 		if (!keepTeams || maps.get(mapIndex).teams.length < teams.size()) {
 			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
-				if (!SpectateCommand.spectators.contains(player.getUniqueId()) || !DuelCmd.isDueling(player))
+				if (!SpectateCommand.spectators.contains(player.getUniqueId()) && !DuelCmd.isDueling(player))
 					joinATeam(player.getUniqueId());
 			}
 		} else {
