@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.staff.maps;
 
+import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -64,6 +65,7 @@ public class SpectateCommand implements CommandExecutor {
             VoteSkipCommand.removePlayer(player.getUniqueId());
             spectators.add(player.getUniqueId());
             player.setGameMode(GameMode.SPECTATOR);
+            TeamChat.removePlayer(player.getUniqueId());
             if (InCombat.isPlayerInLobby(player.getUniqueId())) {
                 if (MapController.getCurrentMap() instanceof CoreMap) {
                     CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
