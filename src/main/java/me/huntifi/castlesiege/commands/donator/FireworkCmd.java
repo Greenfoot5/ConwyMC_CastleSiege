@@ -69,21 +69,36 @@ public class FireworkCmd implements CommandExecutor {
      * @return The primary colour retrieved from the specified player's team.
      */
     private Color getPrimaryColor(Player p) {
-        return switch (TeamController.getTeam(p.getUniqueId()).primaryChatColor) {
-            case BLACK, DARK_GRAY -> Color.BLACK;
-            case DARK_AQUA, AQUA -> Color.AQUA;
-            case BLUE -> Color.BLUE;
-            case DARK_BLUE -> Color.NAVY;
-            case GRAY -> Color.GRAY;
-            case DARK_GREEN -> Color.GREEN;
-            case GREEN -> Color.LIME;
-            case GOLD -> Color.ORANGE;
-            case DARK_PURPLE -> Color.PURPLE;
-            case RED -> Color.RED;
-            case DARK_RED -> Color.MAROON;
-            case YELLOW -> Color.YELLOW;
-            default -> Color.WHITE;
-        };
+        switch (TeamController.getTeam(p.getUniqueId()).primaryChatColor) {
+            case BLACK:
+            case DARK_GRAY:
+                return Color.BLACK;
+            case DARK_AQUA:
+            case AQUA:
+                return Color.AQUA;
+            case BLUE:
+                return Color.BLUE;
+            case DARK_BLUE:
+                return Color.NAVY;
+            case GRAY:
+                return Color.GRAY;
+            case DARK_GREEN:
+                return Color.GREEN;
+            case GREEN:
+                return Color.LIME;
+            case GOLD:
+                return Color.ORANGE;
+            case DARK_PURPLE:
+                return Color.PURPLE;
+            case RED:
+                return Color.RED;
+            case DARK_RED:
+                return Color.MAROON;
+            case YELLOW:
+                return Color.YELLOW;
+            default:
+                return Color.WHITE;
+        }
     }
 
     /**
@@ -92,21 +107,36 @@ public class FireworkCmd implements CommandExecutor {
      * @return The secondary colour retrieved from the specified player's team.
      */
     private Color getSecondaryColor(Player p) {
-        return switch (TeamController.getTeam(p.getUniqueId()).secondaryChatColor) {
-            case BLACK, DARK_GRAY -> Color.BLACK;
-            case DARK_AQUA, AQUA -> Color.AQUA;
-            case BLUE -> Color.BLUE;
-            case DARK_BLUE -> Color.NAVY;
-            case GRAY -> Color.GRAY;
-            case DARK_GREEN -> Color.GREEN;
-            case GREEN -> Color.LIME;
-            case GOLD -> Color.ORANGE;
-            case DARK_PURPLE -> Color.PURPLE;
-            case RED -> Color.RED;
-            case DARK_RED -> Color.MAROON;
-            case YELLOW -> Color.YELLOW;
-            default -> Color.WHITE;
-        };
+        switch (TeamController.getTeam(p.getUniqueId()).secondaryChatColor) {
+            case BLACK:
+            case DARK_GRAY:
+                return Color.BLACK;
+            case DARK_AQUA:
+            case AQUA:
+                return Color.AQUA;
+            case BLUE:
+                return Color.BLUE;
+            case DARK_BLUE:
+                return Color.NAVY;
+            case GRAY:
+                return Color.GRAY;
+            case DARK_GREEN:
+                return Color.GREEN;
+            case GREEN:
+                return Color.LIME;
+            case GOLD:
+                return Color.ORANGE;
+            case DARK_PURPLE:
+                return Color.PURPLE;
+            case RED:
+                return Color.RED;
+            case DARK_RED:
+                return Color.MAROON;
+            case YELLOW:
+                return Color.YELLOW;
+            default:
+                return Color.WHITE;
+        }
     }
 
     /**
