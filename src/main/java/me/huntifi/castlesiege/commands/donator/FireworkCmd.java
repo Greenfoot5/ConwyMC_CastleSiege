@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.commands.donator;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -34,8 +35,13 @@ public class FireworkCmd implements CommandExecutor {
         }
         Player p = (Player) sender;
 
+        if (TeamController.getTeam(p.getUniqueId()) == null) {
+            Messenger.sendError("You must be on a team to use this command!", p);
+            return true;
+        }
+
         if (fireworkUsers.contains(p)) {
-            Messenger.sendError(ChatColor.DARK_RED + "You have to wait until you can use this again. (6s cooldown)", p);
+            Messenger.sendError("You have to wait until you can use this again. (6s cooldown)", p);
             return true;
         }
 
@@ -63,36 +69,21 @@ public class FireworkCmd implements CommandExecutor {
      * @return The primary colour retrieved from the specified player's team.
      */
     private Color getPrimaryColor(Player p) {
-        switch (TeamController.getTeam(p.getUniqueId()).primaryChatColor) {
-            case BLACK:
-            case DARK_GRAY:
-                return Color.BLACK;
-            case DARK_AQUA:
-            case AQUA:
-                return Color.AQUA;
-            case BLUE:
-                return Color.BLUE;
-            case DARK_BLUE:
-                return Color.NAVY;
-            case GRAY:
-                return Color.GRAY;
-            case DARK_GREEN:
-                return Color.GREEN;
-            case GREEN:
-                return Color.LIME;
-            case GOLD:
-                return Color.ORANGE;
-            case DARK_PURPLE:
-                return Color.PURPLE;
-            case RED:
-                return Color.RED;
-            case DARK_RED:
-                return Color.MAROON;
-            case YELLOW:
-                return Color.YELLOW;
-            default:
-                return Color.WHITE;
-        }
+        return switch (TeamController.getTeam(p.getUniqueId()).primaryChatColor) {
+            case BLACK, DARK_GRAY -> Color.BLACK;
+            case DARK_AQUA, AQUA -> Color.AQUA;
+            case BLUE -> Color.BLUE;
+            case DARK_BLUE -> Color.NAVY;
+            case GRAY -> Color.GRAY;
+            case DARK_GREEN -> Color.GREEN;
+            case GREEN -> Color.LIME;
+            case GOLD -> Color.ORANGE;
+            case DARK_PURPLE -> Color.PURPLE;
+            case RED -> Color.RED;
+            case DARK_RED -> Color.MAROON;
+            case YELLOW -> Color.YELLOW;
+            default -> Color.WHITE;
+        };
     }
 
     /**
@@ -101,36 +92,21 @@ public class FireworkCmd implements CommandExecutor {
      * @return The secondary colour retrieved from the specified player's team.
      */
     private Color getSecondaryColor(Player p) {
-        switch (TeamController.getTeam(p.getUniqueId()).secondaryChatColor) {
-            case BLACK:
-            case DARK_GRAY:
-                return Color.BLACK;
-            case DARK_AQUA:
-            case AQUA:
-                return Color.AQUA;
-            case BLUE:
-                return Color.BLUE;
-            case DARK_BLUE:
-                return Color.NAVY;
-            case GRAY:
-                return Color.GRAY;
-            case DARK_GREEN:
-                return Color.GREEN;
-            case GREEN:
-                return Color.LIME;
-            case GOLD:
-                return Color.ORANGE;
-            case DARK_PURPLE:
-                return Color.PURPLE;
-            case RED:
-                return Color.RED;
-            case DARK_RED:
-                return Color.MAROON;
-            case YELLOW:
-                return Color.YELLOW;
-            default:
-                return Color.WHITE;
-        }
+        return switch (TeamController.getTeam(p.getUniqueId()).secondaryChatColor) {
+            case BLACK, DARK_GRAY -> Color.BLACK;
+            case DARK_AQUA, AQUA -> Color.AQUA;
+            case BLUE -> Color.BLUE;
+            case DARK_BLUE -> Color.NAVY;
+            case GRAY -> Color.GRAY;
+            case DARK_GREEN -> Color.GREEN;
+            case GREEN -> Color.LIME;
+            case GOLD -> Color.ORANGE;
+            case DARK_PURPLE -> Color.PURPLE;
+            case RED -> Color.RED;
+            case DARK_RED -> Color.MAROON;
+            case YELLOW -> Color.YELLOW;
+            default -> Color.WHITE;
+        };
     }
 
     /**
