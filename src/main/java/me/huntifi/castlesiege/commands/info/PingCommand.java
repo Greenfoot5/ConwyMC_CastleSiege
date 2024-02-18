@@ -10,8 +10,6 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * Shows the player their current ping
  */
@@ -56,13 +54,11 @@ public class PingCommand implements CommandExecutor {
 	private int getPing(Player player) {
 		int ping = -1;
 		try {
-			Object entityPlayer = player.getClass().getMethod("getHandle").invoke(player);
-			ping = (int) entityPlayer.getClass().getField("ping").get(entityPlayer);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | NoSuchFieldException e) {
+			ping = player.getPing();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return ping;
 	}
-
 }
