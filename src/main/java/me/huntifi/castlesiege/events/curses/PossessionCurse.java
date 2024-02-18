@@ -60,18 +60,24 @@ public class PossessionCurse extends CurseCast {
      * @return A random kit
      */
     private Kit randomKit() {
-        Collection<String> kits = Kit.getKits();
+        // Create a copy of kits
+        Collection<String> kits = new ArrayList<>(Kit.getKits());
         Collection<String> teamKits = TeamKit.getKits();
         kits.removeAll(teamKits);
 
         // Team kits only have a 10% chance of appearing
-        if (ThreadLocalRandom.current().nextInt() > TEAM_KIT_CHANCE) {
+        if (ThreadLocalRandom.current().nextFloat() > TEAM_KIT_CHANCE) {
             int num = ThreadLocalRandom.current().nextInt(0, kits.size());
             for (String kit : kits) if (--num < 0) return Kit.getKit(kit);
         }
         else {
             int num = ThreadLocalRandom.current().nextInt(0, teamKits.size());
-            for (String kit : teamKits) if (--num < 0) return Kit.getKit(kit);
+            for (String kit : teamKits) {
+                if (--num < 0) {
+                    return Kit.getKit(kit);
+                }
+            }
+
         }
         throw new AssertionError();
     }
