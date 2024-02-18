@@ -103,7 +103,8 @@ public class PlayerChat implements Listener {
 			e.getRecipients().remove(everyone);
 		}
 
-		Main.plugin.getLogger().info(p.getName() + ": " + e.getMessage());
+		if (hidePlayerName || trueHidePlayerName)
+			Main.plugin.getLogger().info(p.getName() + ": " + e.getMessage());
 	}
 
 	private void playTagSound(Player player) {
