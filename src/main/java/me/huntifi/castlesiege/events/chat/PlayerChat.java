@@ -84,7 +84,7 @@ public class PlayerChat implements Listener {
 			}
 		}
 
-		if (hidePlayerName)
+		if (hidePlayerName || trueHidePlayerName)
 			color = ChatColor.GRAY;
 
 		//Allow to tag players in chat
