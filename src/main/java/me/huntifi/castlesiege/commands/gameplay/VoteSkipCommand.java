@@ -138,12 +138,6 @@ public class VoteSkipCommand implements TabExecutor {
      * @return The amount of required votes
      */
     private static int getRequiredVotes() {
-        int playerCount = 0;
-
-        for (Team team : MapController.getCurrentMap().teams) {
-            playerCount += team.getTeamSize();
-        }
-
-        return (int) Math.ceil(playerCount * requiredVotePercentage);
+        return (int) Math.ceil(MapController.getPlayers().size() * requiredVotePercentage);
     }
 }
