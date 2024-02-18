@@ -72,6 +72,8 @@ public class TeamChat implements CommandExecutor {
 		ChatColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
 				? ChatColor.WHITE : ChatColor.GRAY;
 
+		Main.plugin.getLogger().info(p.getName() + " (TEAM): " + m);
+
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 			for (UUID uuid : t.getPlayers()) {
 				Player viewer = Bukkit.getPlayer(uuid);
