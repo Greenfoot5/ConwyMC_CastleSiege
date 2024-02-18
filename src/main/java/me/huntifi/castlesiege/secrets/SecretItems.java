@@ -21,6 +21,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SecretItems implements Listener {
 
@@ -48,6 +49,9 @@ public class SecretItems implements Listener {
 
         spawnSecretItem("Skyhold" , skyholdShield(),
                 new Location(Bukkit.getWorld("Skyhold"), 1617, 49, -51));
+
+        spawnSecretItem("HallOfHercules" , herculesApple(),
+                new Location(Bukkit.getWorld("HallOfHercules"), -232, 38, -497));
     }
 
     /**
@@ -273,5 +277,31 @@ public class SecretItems implements Listener {
         shield.setItemMeta(shieldMeta);
 
         return shield;
+    }
+
+    public static ItemStack herculesApple() {
+
+        ItemStack apple = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE);
+
+        ItemMeta appleMeta = apple.getItemMeta();
+
+        appleMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        appleMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+        appleMeta.setUnbreakable(true);
+
+        appleMeta.setDisplayName(ChatColor.GOLD + "Hera's Golden Apple");
+
+        List<String> lore = List.of("§7An apple of Hera's sacred tree, given to her as a gift from Zeus",
+                "§7The tree grows apples made entirely of gold.",
+                "",
+                "§7The dragon Ladon was sent to guard it from anyone who might",
+                "§7try to steal the apples.");
+
+        appleMeta.setLore(lore);
+
+        apple.setItemMeta(appleMeta);
+
+        return apple;
     }
 }
