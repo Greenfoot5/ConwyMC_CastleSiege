@@ -116,7 +116,7 @@ public class SecretItems implements Listener {
         if (secretItems.contains(event.getItem().getItemStack())) {
             secretItemHolder.putIfAbsent(player, new ArrayList<>());
             secretItemHolder.get(player).add(event.getItem().getItemStack());
-            Messenger.broadcastSecret(player.getName() + " has picked up " + event.getItem().getName());
+            Messenger.broadcastSecret(player.getName() + " has picked up " + event.getItem().getItemStack().getItemMeta().getDisplayName());
         }
     }
 
@@ -130,6 +130,7 @@ public class SecretItems implements Listener {
         secretItems.add(skyholdKeyDoor());
         secretItems.add(skyholdKeyInquisitor());
         secretItems.add(skyholdShield());
+        secretItems.add(herculesApple());
 
     }
 
