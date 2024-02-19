@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -29,8 +30,10 @@ public class BindingCurse extends CurseCast {
         Player player = getPlayer() == null ? null : Bukkit.getPlayer(getPlayer());
         if (player == null) {
             Messenger.broadcastCurse(ChatColor.DARK_RED + getDisplayName() + "§r has been activated! " + getActivateMessage());
+            playSound(MapController.getPlayers());
         } else {
             Messenger.sendCurse(ChatColor.DARK_RED + getDisplayName() + "§r has been activated! " + getActivateMessage(), player);
+            playSound(List.of(player.getUniqueId()));
         }
 
         CurseCast curse = this;

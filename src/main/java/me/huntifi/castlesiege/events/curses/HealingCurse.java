@@ -36,6 +36,7 @@ public class HealingCurse extends CurseCast {
         this.setStartTime();
         Messenger.broadcastCurse(ChatColor.DARK_RED + getDisplayName() + "§r has been activated! " + getActivateMessage() +
                 new DecimalFormat("0.00").format(multiplier) + "!");
+        playSound(MapController.getPlayers());
 
         // Update all player's current health
         for (UUID uuid : MapController.getPlayers())

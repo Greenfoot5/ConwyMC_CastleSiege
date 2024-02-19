@@ -1,6 +1,9 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.Main;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -85,6 +88,14 @@ public abstract class CurseCast extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean isCancelled) {
         this.isCancelled = isCancelled;
+    }
+
+    protected static void playSound(List<UUID> uuids) {
+        for (UUID uuid : uuids) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null)
+                player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 1);
+        }
     }
 
     //Builder Class

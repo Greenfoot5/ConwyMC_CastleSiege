@@ -35,6 +35,7 @@ public class PossessionCurse extends CurseCast {
     @Override
     public void cast() {
         Messenger.broadcastCurse(ChatColor.DARK_RED + name + "§r has been activated! " + activateMessage);
+        playSound(MapController.getPlayers());
 
         Collection<UUID> players = MapController.getPlayers();
         if (getPlayer() != null)

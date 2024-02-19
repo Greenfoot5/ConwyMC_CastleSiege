@@ -58,6 +58,7 @@ public class TeleportationCurse extends CurseCast {
         }
 
         Messenger.broadcastCurse(ChatColor.DARK_RED + name + "§r has been activated! " + activateMessage);
+        playSound(MapController.getPlayers());
     }
 
     /**
