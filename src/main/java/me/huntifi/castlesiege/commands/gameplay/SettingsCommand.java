@@ -112,9 +112,10 @@ public class SettingsCommand implements TabExecutor {
         }
 
         if (args.length == 2) {
-            List<String> values = Arrays.asList(defaultSettings.get(args[0]));
+            ArrayList<String> values = new ArrayList<>();
+            Collections.addAll(values, defaultSettings.get(args[0]));
             values.add("reset");
-            StringUtil.copyPartialMatches(args[0], values, options);
+            StringUtil.copyPartialMatches(args[1], values, options);
         }
 
         return options;
