@@ -42,8 +42,8 @@ public class TeamChat implements CommandExecutor {
 		if (!(sender instanceof Player)) {
 			Messenger.sendError("Team chat cannot be used from console!", sender);
 			return true;
-		} else if (MapController.isSpectator(((Player) sender).getUniqueId())) {
-			Messenger.sendError("Spectators don't have a team!", sender);
+		} else if (MapController.getPlayers().contains(((Player) sender).getUniqueId())) {
+			Messenger.sendError("You don't have a team!", sender);
 			return true;
 		}
 
@@ -66,9 +66,14 @@ public class TeamChat implements CommandExecutor {
 	 * Send a message to all teammates of a player
 	 * @param p The player that sends the message
 	 * @param m The message to send
+     * @return true if the message was sent correctly
 	 */
-	public static void sendMessage(Player p, String m) {
+	public static boolean sendMessage(Player p, String m) {
 		Team t = TeamController.getTeam(p.getUniqueId());
+		if (t == null) {
+			Messenger.sendInfo("You left your team and are now talking in global chat", p);
+			return false;
+		}
 		ChatColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
 				? ChatColor.WHITE : ChatColor.GRAY;
 
@@ -80,6 +85,7 @@ public class TeamChat implements CommandExecutor {
 				viewer.sendMessage(NameTag.chatName(p, viewer) + ChatColor.DARK_AQUA + " TEAM: " + color + m);
 			}
 		});
+		return true;
 	}
 
 	/**

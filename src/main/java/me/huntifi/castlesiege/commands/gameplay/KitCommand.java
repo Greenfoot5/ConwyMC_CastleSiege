@@ -37,13 +37,16 @@ public class KitCommand implements TabExecutor {
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage("Console cannot select kits!");
             return true;
-        } else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
-            Messenger.sendError("Spectators cannot select kits!", sender);
-            return true;
         }
 
         assert sender instanceof Player;
         Player p = (Player) sender;
+
+        if (MapController.getPlayers().contains(p.getUniqueId())) {
+            Messenger.sendError("You must be on a team to select a kit!", sender);
+            return true;
+        }
+
         Gui gui;
         if (args.length == 0) {
             // No arguments passed -> open kit selector GUI

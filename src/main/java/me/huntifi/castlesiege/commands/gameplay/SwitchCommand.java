@@ -65,11 +65,8 @@ public class SwitchCommand implements CommandExecutor {
 		if (p == null) {
 			Messenger.sendError("Could not find player: " + ChatColor.RED + args[0], sender);
 			return;
-		} else if (MapController.isSpectator((p).getUniqueId())) {
-			Messenger.sendError("Spectators don't have a team! Remove them from spectator first!", sender);
-			return;
-		} else if (DuelCmd.isDueling(p)) {
-			Messenger.sendError("This person is dueling, you cannot force switch them!", sender);
+		} else if (MapController.getPlayers().contains(p.getUniqueId())) {
+			Messenger.sendError("You must be on a team to swap!", sender);
 			return;
 		}
 
@@ -92,11 +89,8 @@ public class SwitchCommand implements CommandExecutor {
 		} else if (!(sender instanceof Player)) {
 			Messenger.sendError("Console cannot join a team!", sender);
 			return;
-		} else if (MapController.isSpectator(((Player) sender).getUniqueId())) {
-			Messenger.sendError("Spectators don't have a team!", sender);
-			return;
-		} else if (DuelCmd.isDueling((Player) sender)) {
-			Messenger.sendError("You can't switch whilst dueling!", sender);
+		} else if (MapController.getPlayers().contains(((Player) sender).getUniqueId())) {
+			Messenger.sendError("Must be on a team to switch!", sender);
 			return;
 		}
 

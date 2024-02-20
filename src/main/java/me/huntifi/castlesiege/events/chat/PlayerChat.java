@@ -2,8 +2,6 @@ package me.huntifi.castlesiege.events.chat;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
-import me.huntifi.castlesiege.commands.donator.duels.AcceptDuel;
-import me.huntifi.castlesiege.commands.donator.duels.DuelCmd;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
@@ -56,11 +54,14 @@ public class PlayerChat implements Listener {
 			return;
 		}
 
-		// Send message in team-chat or staff-chat
+		// If they are in team chat
 		if (TeamChat.isTeamChatter(p.getUniqueId())) {
-			TeamChat.sendMessage(e.getPlayer(), e.getMessage());
-			e.setCancelled(true);
-			return;
+			// The team chat message was actually sent
+			if (TeamChat.sendMessage(e.getPlayer(), e.getMessage())) {
+				e.setCancelled(true);
+				return;
+			}
+		// If they are in staff chat
 		} else if (StaffChat.isStaffChatter(p.getUniqueId())) {
 			StaffChat.sendMessage(e.getPlayer(), e.getMessage());
 			e.setCancelled(true);

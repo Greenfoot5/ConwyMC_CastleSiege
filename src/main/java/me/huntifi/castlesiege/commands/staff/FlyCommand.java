@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.staff;
 
+import me.huntifi.castlesiege.commands.donator.duels.DuelCmd;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.ChatColor;
@@ -28,12 +29,19 @@ public class FlyCommand implements CommandExecutor {
 		if (sender instanceof ConsoleCommandSender) {
 			Messenger.sendError("Console cannot fly!", sender);
 			return true;
-		} else if (sender instanceof Player && MapController.isSpectator(((Player) sender).getUniqueId())) {
-			Messenger.sendError("Spectators can already fly!", sender);
 		}
 
 		assert sender instanceof Player;
 		Player p = (Player) sender;
+
+		if (MapController.isSpectator(p.getUniqueId())) {
+			Messenger.sendError("Spectators can already fly!", sender);
+			return true;
+		} else if (DuelCmd.isDueling(p)) {
+			Messenger.sendError("You are dueling, you cannot fly!", p);
+			return true;
+		}
+
 		p.setAllowFlight(!p.getAllowFlight());
 		p.setFlying(p.getAllowFlight());
 		p.setFlySpeed(0.2f);

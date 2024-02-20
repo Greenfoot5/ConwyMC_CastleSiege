@@ -84,7 +84,7 @@ public class NameTag implements CommandExecutor, Listener {
      * @return The player's chat color
      */
     public static String color(Player p) {
-        if (!MapController.isSpectator(p.getUniqueId())) {
+        if (!MapController.getPlayers().contains(p.getUniqueId())) {
             if (hideTeamColour || hideBoth)
                 return ChatColor.WHITE.toString();
             return TeamController.getTeam(p.getUniqueId()).primaryChatColor.toString();

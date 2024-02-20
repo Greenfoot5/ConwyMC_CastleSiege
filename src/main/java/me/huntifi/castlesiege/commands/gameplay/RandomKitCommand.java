@@ -55,8 +55,8 @@ public class RandomKitCommand implements CommandExecutor, Listener {
 
         Player player = (Player) sender;
         UUID uuid = player.getUniqueId();
-        if (MapController.isSpectator(uuid)) {
-            Messenger.sendError("Spectators cannot select kits!", sender);
+        if (MapController.getPlayers().contains(player.getUniqueId())) {
+            Messenger.sendError("You must be on a team to select kits", sender);
             return;
         }
 
