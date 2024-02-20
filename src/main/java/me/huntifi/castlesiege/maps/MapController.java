@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.donator.duels.DuelCmd;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.boosters.GrantBooster;
@@ -36,7 +36,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -412,7 +411,7 @@ public class MapController {
 		// Move all players to the new map and team
 		if (!keepTeams || maps.get(mapIndex).teams.length < teams.size()) {
 			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
-				if (!SpectateCommand.spectators.contains(player.getUniqueId()) && !DuelCmd.isDueling(player))
+				if (!SpectateCommand.spectators.contains(player.getUniqueId()) && !DuelCommand.isDueling(player))
 					joinATeam(player.getUniqueId());
 			}
 		} else {

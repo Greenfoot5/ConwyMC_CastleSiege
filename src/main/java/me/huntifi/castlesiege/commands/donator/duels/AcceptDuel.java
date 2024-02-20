@@ -24,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * This class's main function is to initiate a duel when the command /acceptduel is being executed
@@ -69,8 +68,8 @@ public class AcceptDuel implements CommandExecutor, Listener {
         Player challenger = Bukkit.getPlayer(args[0]);
 
         //Check if the player received an invitation from the host
-        if (DuelCmd.inviter.get(sender) != null) {
-            if (!DuelCmd.inviter.get(sender).equals(challenger)) {
+        if (DuelCommand.inviter.get(sender) != null) {
+            if (!DuelCommand.inviter.get(sender).equals(challenger)) {
                 Messenger.sendWarning("You currently don't have an invitation from this player.", sender);
                 return true;
             }
@@ -100,8 +99,8 @@ public class AcceptDuel implements CommandExecutor, Listener {
         }
 
         //Hashmap that has the data on whether someone is invited by a certain someone.
-        DuelCmd.inviter.remove(sender, challenger);
-        DuelCmd.challenging.put((Player) sender, challenger);
+        DuelCommand.inviter.remove(sender, challenger);
+        DuelCommand.challenging.put((Player) sender, challenger);
         Messenger.sendSuccess("You accepted " + challenger.getName() + "'s invitation to a duel.", sender);
         Messenger.sendSuccess(sender.getName() + " has accepted your invitation to a duel!", challenger);
         onDuelInitation(challenger, (Player) sender);
@@ -140,7 +139,7 @@ public class AcceptDuel implements CommandExecutor, Listener {
     public void onDuelEndContender(Player contender) {
         clearPlayerFromArenaList(contender);
         MapController.rejoinAfterDuel(contender.getUniqueId());
-        DuelCmd.challenging.remove(contender);
+        DuelCommand.challenging.remove(contender);
     }
 
     /**
@@ -218,7 +217,7 @@ public class AcceptDuel implements CommandExecutor, Listener {
     public void onLeave(PlayerQuitEvent e) {
         Player p = e.getPlayer();
 
-        DuelCmd.challenging.entrySet()
+        DuelCommand.challenging.entrySet()
                 .removeIf(entry -> entry.getKey().equals(p));
 
         if (arenaList1.contains(p)) {
@@ -253,10 +252,10 @@ public class AcceptDuel implements CommandExecutor, Listener {
             Player killer = (Player) e.getDamager();
             if (e.getEntityType() == EntityType.PLAYER) {
                 Player killed = (Player) e.getEntity();
-                if (DuelCmd.isDueling(killer) && DuelCmd.isDueling(killed)
+                if (DuelCommand.isDueling(killer) && DuelCommand.isDueling(killed)
                         && killed.getHealth() - killed.getLastDamage() < 0) {
 
-                    if (DuelCmd.challenging.containsKey(killer)) {
+                    if (DuelCommand.challenging.containsKey(killer)) {
                         onDuelEndContender(killer);
                         onDuelEndChallenger(killed);
                         //respawn the players at their spawnroom

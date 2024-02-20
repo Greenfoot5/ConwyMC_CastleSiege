@@ -19,7 +19,7 @@ import me.huntifi.castlesiege.commands.donator.FireworkCmd;
 import me.huntifi.castlesiege.commands.donator.JoinMessage;
 import me.huntifi.castlesiege.commands.donator.LeaveMessage;
 import me.huntifi.castlesiege.commands.donator.duels.AcceptDuel;
-import me.huntifi.castlesiege.commands.donator.duels.DuelCmd;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.BoosterCommand;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
 import me.huntifi.castlesiege.commands.gameplay.BuyKitCommand;
@@ -400,7 +400,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 //duels
                 Objects.requireNonNull(getCommand("DuelAccept")).setExecutor(new AcceptDuel());
-                Objects.requireNonNull(getCommand("Duel")).setExecutor(new DuelCmd());
+                Objects.requireNonNull(getCommand("Duel")).setExecutor(new DuelCommand());
 
                 // Gameplay
                 Objects.requireNonNull(getCommand("Bounties")).setExecutor(new BountyCommand());

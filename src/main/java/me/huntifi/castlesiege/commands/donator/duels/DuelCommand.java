@@ -3,7 +3,6 @@ package me.huntifi.castlesiege.commands.donator.duels;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.events.combat.LobbyCombat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class DuelCmd implements CommandExecutor {
+public class DuelCommand implements CommandExecutor {
 
     public static final HashMap<CommandSender, CommandSender> inviter = new HashMap<>();
 
