@@ -15,7 +15,7 @@ import me.huntifi.castlesiege.commands.chat.GlobalChat;
 import me.huntifi.castlesiege.commands.chat.PrivateMessage;
 import me.huntifi.castlesiege.commands.chat.ReplyMessage;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
-import me.huntifi.castlesiege.commands.donator.FireworkCmd;
+import me.huntifi.castlesiege.commands.donator.FireworkCommand;
 import me.huntifi.castlesiege.commands.donator.JoinMessage;
 import me.huntifi.castlesiege.commands.donator.LeaveMessage;
 import me.huntifi.castlesiege.commands.donator.duels.AcceptDuel;
@@ -394,7 +394,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
 
                 // Donator
-                Objects.requireNonNull(getCommand("Firework")).setExecutor(new FireworkCmd());
+                Objects.requireNonNull(getCommand("Firework")).setExecutor(new FireworkCommand());
                 Objects.requireNonNull(getCommand("LeaveMessage")).setExecutor(new LeaveMessage());
                 Objects.requireNonNull(getCommand("JoinMessage")).setExecutor(new JoinMessage());
 

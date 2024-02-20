@@ -2,9 +2,7 @@ package me.huntifi.castlesiege.commands.donator;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.command.Command;
@@ -23,7 +21,7 @@ import java.util.Objects;
 /**
  *  The firework command for donators
  */
-public class FireworkCmd implements CommandExecutor {
+public class FireworkCommand implements CommandExecutor {
 
     private final ArrayList<Player> fireworkUsers = new ArrayList<>();
 
