@@ -67,7 +67,9 @@ public class DamageCurse extends CurseCast {
                 throw new IllegalArgumentException("Duration is too small!");
             this.duration = duration;
             this.options = OPTIONS;
-            this.multiplier =  2 - new Random().nextFloat(0, 2);
+            //this.multiplier =  2 - new Random().nextFloat(0, 2);
+            Random rando = new Random();
+            this.multiplier =  2 - rando.nextFloat() * 2;
         }
 
         public DamageCurse cast() {

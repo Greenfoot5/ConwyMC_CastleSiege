@@ -100,7 +100,9 @@ public class NameTag implements CommandExecutor, Listener {
      */
     public static String getName(Player p) {
         if (hidePlayerName || hideBoth) {
-            return ChatColor.MAGIC + new String(new char[new Random().nextInt(5, 20)]).replace("\0", "-");
+            //return ChatColor.MAGIC + new String(new char[new Random().nextInt(5, 20)]).replace("\0", "-");
+            int randomNum = new Random().nextInt((20 - 5) + 1) + 5;
+            return ChatColor.MAGIC + new String(new char[randomNum]).replace("\0", "-");
         } else {
             return p.getName();
         }
