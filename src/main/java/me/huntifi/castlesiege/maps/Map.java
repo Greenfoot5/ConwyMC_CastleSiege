@@ -26,6 +26,7 @@ public class Map {
     public Gate[] gates;
 
     public Catapult[] catapults;
+    public Cannon[] cannons;
     public Gamemode gamemode;
     public Tuple<Integer, Integer> duration = new Tuple<>(20, 0);
 
@@ -35,6 +36,7 @@ public class Map {
         doors = new Door[0];
         gates = new Gate[0];
         catapults = new Catapult[0];
+        cannons = new Cannon[0];
     }
 
     /**

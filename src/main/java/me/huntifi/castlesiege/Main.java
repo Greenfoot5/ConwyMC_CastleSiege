@@ -235,6 +235,7 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument[] doorsConfigs;
     private YamlDocument[] gatesConfigs;
     private YamlDocument[] catapultsConfigs;
+    private YamlDocument[] cannonConfigs;
     private YamlDocument[] coreConfigs;
 
     private YamlDocument gameConfig;
@@ -687,6 +688,14 @@ public class Main extends JavaPlugin implements Listener {
     }
         return null;}
 
+    public YamlDocument getCannonConfig(Route cannonPath) {
+        for (YamlDocument document : cannonConfigs) {
+            if (document.contains(cannonPath)) {
+                return document;
+            }
+        }
+        return null;}
+
     public YamlDocument getCoreConfig(Route corePath) {
         for (YamlDocument document : coreConfigs) {
             if (document.contains(corePath)) {
@@ -943,6 +952,8 @@ public class Main extends JavaPlugin implements Listener {
                 loadGates(mapRoute, map);
                 // Catapults
                 loadCatapults(mapRoute, map);
+                //cannons
+                loadCannons(mapRoute, map);
 
                 // Team Data
                 String[] teamPaths = getPaths(config, Route.from(mapPath).add("teams"));
@@ -1271,6 +1282,31 @@ public class Main extends JavaPlugin implements Listener {
 
             map.gates[i] = gate;
         }
+    }
+
+    private void loadCannons(Route mapRoute, Map map) {
+        YamlDocument cannonConfig = getCannonConfig(mapRoute);
+        if (!Objects.nonNull(cannonConfig)) {
+            map.cannons = new Cannon[0];
+            return;
+        }
+
+        String[] cannonPaths = getPaths(cannonConfig, mapRoute);
+
+        map.cannons = new Cannon[cannonPaths.length];
+
+        for (int i = 0; i < cannonPaths.length; i++) {
+
+            Route cannonRoute = mapRoute.add(cannonPaths[i]);
+                String world = cannonConfig.getString(cannonRoute.add("world"));
+            String direction = cannonConfig.getString(cannonRoute.add("direction"));
+            Vector location = cannonConfig.getAs(cannonRoute.add("location"), Vector.class);
+            double horizontal = cannonConfig.getDouble(cannonRoute.add("horizontal_angle"));
+
+            Cannon cannon = new Cannon(world, direction, location, horizontal);
+            map.cannons[i] = cannon;
+        }
+
     }
 
     private void loadCatapults(Route mapRoute, Map map) {

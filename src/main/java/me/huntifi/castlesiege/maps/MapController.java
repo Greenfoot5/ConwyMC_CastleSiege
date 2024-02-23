@@ -521,6 +521,11 @@ public class MapController {
 					Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
 				}
 
+				// Register catapults
+				for (Cannon cannon : maps.get(mapIndex).cannons) {
+					Main.plugin.getServer().getPluginManager().registerEvents(cannon, Main.plugin);
+				}
+
 				// Register cores and regions
 				if (maps.get(mapIndex) instanceof CoreMap) {
 					CoreMap coreMap = (CoreMap) maps.get(mapIndex);
@@ -634,6 +639,11 @@ public class MapController {
 		for (Catapult catapult : oldMap.catapults) {
 			HandlerList.unregisterAll(catapult);
 		}
+
+			// Unregister cannon listeners
+			for (Cannon cannon : oldMap.cannons) {
+				HandlerList.unregisterAll(cannon);
+			}
 
 		// Unregister flag regions
 		for (Flag flag : oldMap.flags) {
