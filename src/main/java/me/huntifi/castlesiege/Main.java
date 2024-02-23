@@ -694,7 +694,8 @@ public class Main extends JavaPlugin implements Listener {
                 return document;
             }
         }
-        return null;}
+        return null;
+    }
 
     public YamlDocument getCoreConfig(Route corePath) {
         for (YamlDocument document : coreConfigs) {
@@ -805,6 +806,9 @@ public class Main extends JavaPlugin implements Listener {
 
         catapultsConfigs = loadYMLs("catapults");
         getLogger().info("Loaded catapults");
+
+        cannonConfigs = loadYMLs("cannons");
+        getLogger().info("Loaded cannons");
 
         mapConfigs = loadYMLs("maps");
         getLogger().info("Loaded maps");
