@@ -88,7 +88,7 @@ public class SwitchCommand implements CommandExecutor {
 		} else if (!(sender instanceof Player)) {
 			Messenger.sendError("Console cannot join a team!", sender);
 			return;
-		} else if (MapController.getPlayers().contains(((Player) sender).getUniqueId())) {
+		} else if (!MapController.getPlayers().contains(((Player) sender).getUniqueId())) {
 			Messenger.sendError("Must be on a team to switch!", sender);
 			return;
 		}

@@ -138,6 +138,7 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
+import me.huntifi.castlesiege.kits.kits.map_kits.Artillerist;
 import me.huntifi.castlesiege.kits.kits.map_kits.CamelRider;
 import me.huntifi.castlesiege.kits.kits.map_kits.Constructor;
 import me.huntifi.castlesiege.kits.kits.in_development.Armorer;
@@ -488,6 +489,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Random")).setExecutor(new RandomKitCommand());
                 Objects.requireNonNull(getCommand("Alchemist")).setExecutor(new Alchemist());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
+                Objects.requireNonNull(getCommand("Artillerist")).setExecutor(new Artillerist());
                 Objects.requireNonNull(getCommand("Armorer")).setExecutor(new Armorer());
                 Objects.requireNonNull(getCommand("Battlemedic")).setExecutor(new BattleMedic());
                 Objects.requireNonNull(getCommand("Bannerman")).setExecutor(new Bannerman());
@@ -1306,8 +1308,9 @@ public class Main extends JavaPlugin implements Listener {
             String direction = cannonConfig.getString(cannonRoute.add("direction"));
             Vector location = cannonConfig.getAs(cannonRoute.add("location"), Vector.class);
             double horizontal = cannonConfig.getDouble(cannonRoute.add("horizontal_angle"));
+            double vertical = cannonConfig.getDouble(cannonRoute.add("power"));
 
-            Cannon cannon = new Cannon(world, direction, location, horizontal);
+            Cannon cannon = new Cannon(world, direction, location, horizontal, vertical);
             map.cannons[i] = cannon;
         }
 

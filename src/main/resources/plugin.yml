@@ -446,6 +446,9 @@ commands:
   Alchemist:
     description: Selects the alchemist kit
     usage: /alchemist
+  Artillerist:
+    description: Selects the archer kit
+    usage: /artillerist
   Archer:
     description: Selects the archer kit
     usage: /archer

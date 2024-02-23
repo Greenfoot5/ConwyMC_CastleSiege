@@ -90,7 +90,7 @@ public abstract class MapKit extends Kit implements Listener {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
                 Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
             Sign asign = (Sign) e.getClickedBlock().getState();
-            if (asign.getSide(Side.FRONT).getLine(0).contains("Map Kit") && asign.getSide(Side.FRONT).getLine(2).contains(sign)) {
+            if (asign.getSide(Side.FRONT).getLine(0).contains("Map Kit") && asign.getSide(Side.FRONT).getLine(2).contains(sign.toLowerCase())) {
                 e.getPlayer().performCommand(name.toLowerCase());
             }
         }
