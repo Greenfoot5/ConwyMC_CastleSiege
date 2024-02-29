@@ -42,7 +42,7 @@ public class TeamChat implements CommandExecutor {
 		if (!(sender instanceof Player)) {
 			Messenger.sendError("Team chat cannot be used from console!", sender);
 			return true;
-		} else if (MapController.getPlayers().contains(((Player) sender).getUniqueId())) {
+		} else if (!MapController.getPlayers().contains(((Player) sender).getUniqueId())) {
 			Messenger.sendError("You don't have a team!", sender);
 			return true;
 		}
