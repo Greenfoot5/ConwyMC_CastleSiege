@@ -9,6 +9,9 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -74,15 +77,20 @@ public class TeamChat implements CommandExecutor {
 			Messenger.sendInfo("You left your team and are now talking in global chat", p);
 			return false;
 		}
-		ChatColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
-				? ChatColor.WHITE : ChatColor.GRAY;
+		NamedTextColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
+				? NamedTextColor.WHITE : NamedTextColor.GRAY;
 
 		Main.plugin.getLogger().info(p.getName() + " (TEAM): " + m);
 
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 			for (UUID uuid : t.getPlayers()) {
 				Player viewer = Bukkit.getPlayer(uuid);
-				viewer.sendMessage(NameTag.chatName(p, viewer) + ChatColor.DARK_AQUA + " TEAM: " + color + m);
+				((Audience) viewer).sendMessage(Component.text()
+						.append(NameTag.chatName(p, viewer))
+						.append(Component.text(" TEAM: ")
+								.color(NamedTextColor.DARK_AQUA))
+						.append(Component.text(m)
+								.color(color)));
 			}
 		});
 		return true;

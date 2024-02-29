@@ -91,7 +91,7 @@ public class PrivateMessage implements CommandExecutor {
 	private String getTeamColor(CommandSender s) {
 		if (s instanceof Player) {
 			Player p = (Player) s;
-			return NameTag.color(p);
+			return NameTag.color(p).toString();
 		}
 		return ChatColor.WHITE.toString();
 	}

@@ -9,6 +9,10 @@ import me.huntifi.castlesiege.events.curses.BlindnessCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.events.curses.TrueBlindnessCurse;
 import me.huntifi.castlesiege.maps.NameTag;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -70,23 +74,23 @@ public class PlayerChat implements Listener {
 
 
 		// Set message colour to white or gray and send as regular message
-		ChatColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
-				? ChatColor.WHITE : ChatColor.GRAY;
+		NamedTextColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
+				? NamedTextColor.WHITE : NamedTextColor.GRAY;
 
 
 		if (owners.contains(p.getName()) && !ToggleRankCommand.showDonator.contains(p)) {
 			switch (p.getName()) {
 				case "Huntifi":
-					color = ChatColor.DARK_PURPLE;
+					color = NamedTextColor.DARK_PURPLE;
 					break;
 				case "Greenfoot5":
-					color = ChatColor.DARK_GREEN;
+					color = NamedTextColor.DARK_GREEN;
 					break;
 			}
 		}
 
 		if (hidePlayerName || trueHidePlayerName)
-			color = ChatColor.GRAY;
+			color = NamedTextColor.GRAY;
 
 		//Allow to tag players in chat
 		for (Player tagged : Bukkit.getOnlinePlayers()) {
@@ -125,10 +129,14 @@ public class PlayerChat implements Listener {
 	 * @param chatColor the colour that the player's chat should be in.
 	 * @param message The message that comes after the name.
 	 */
-	public void sendTotalMessage(Player p, ChatColor chatColor, String message) {
+	public void sendTotalMessage(Player p, NamedTextColor chatColor, String message) {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 			for (Player viewer : Bukkit.getOnlinePlayers()) {
-				viewer.sendMessage(NameTag.chatName(p, viewer) + ": " + chatColor + message);
+				var mm = MiniMessage.miniMessage();
+				((Audience)viewer).sendMessage(
+						NameTag.chatName(p, viewer)
+								.append(Component.text(": "))
+								.append(Component.text(message).color(chatColor)));
 			}
 		});
 	}

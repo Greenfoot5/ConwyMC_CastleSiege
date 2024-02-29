@@ -9,6 +9,10 @@ import me.huntifi.castlesiege.events.curses.BlindnessCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.events.curses.GreaterBlindnessCurse;
 import me.huntifi.castlesiege.events.curses.TrueBlindnessCurse;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -50,12 +54,12 @@ public class NameTag implements CommandExecutor, Listener {
         // Only set name tag color if data has not been loaded yet
         PlayerData data = ActiveData.getData(p.getUniqueId());
         if (data == null) {
-            Bukkit.getScheduler().runTask(Main.plugin, () -> NametagEdit.getApi().setPrefix(p, color(p)));
+            Bukkit.getScheduler().runTask(Main.plugin, () -> NametagEdit.getApi().setPrefix(p, color(p).toString()));
             return;
         }
 
         // Get the player's wanted rank
-        String rank;
+        Component rank;
         if (p.hasPermission("castlesiege.builder") && !ToggleRankCommand.showDonator.contains(p)) {
             rank = convertRank(data.getStaffRank());
         } else {
@@ -67,14 +71,12 @@ public class NameTag implements CommandExecutor, Listener {
 
             if (hidePlayerName || hideBoth) {
                 p.setDisplayName("§e" + color(p) + getName(p));
-                NametagEdit.getApi().setPrefix(p, color(p) + ChatColor.MAGIC);
+                NametagEdit.getApi().setPrefix(p, color(p).toString() + ChatColor.MAGIC);
             } else {
                 p.setDisplayName("§e" + data.getLevel() + " " + rank + color(p) + p.getName());
-                NametagEdit.getApi().setPrefix(p, rank + color(p));
+                NametagEdit.getApi().setPrefix(p, rank + color(p).toString());
             }
         });
-
-        
      });
     }
 
@@ -83,14 +85,15 @@ public class NameTag implements CommandExecutor, Listener {
      * @param p The player
      * @return The player's chat color
      */
-    public static String color(Player p) {
-        if (!MapController.getPlayers().contains(p.getUniqueId())) {
-            if (hideTeamColour || hideBoth)
-                return ChatColor.WHITE.toString();
-            return TeamController.getTeam(p.getUniqueId()).primaryChatColor.toString();
-        } else {
-            return ChatColor.GRAY + ChatColor.ITALIC.toString();
-        }
+    public static NamedTextColor color(Player p) {
+        return NamedTextColor.WHITE;
+//        if (!MapController.getPlayers().contains(p.getUniqueId())) {
+//            if (hideTeamColour || hideBoth)
+//                return NamedTextColor.WHITE.toString();
+//            return TeamController.getTeam(p.getUniqueId()).primaryChatColor.toString();
+//        } else {
+//            return NamedTextColor.GRAY + TextDecoration.ITALIC;
+//        }
     }
 
     /**
@@ -108,47 +111,52 @@ public class NameTag implements CommandExecutor, Listener {
         }
     }
 
-    public static String level(int senderLevel, int viewerLevel) {
+    public static Component level(int senderLevel, int viewerLevel) {
         if (hidePlayerName || hideBoth) {
-            return "";
+            return Component.text("");
         }
         // Sender is 11+ levels below the viewer
         else if (senderLevel + 10 < viewerLevel) {
-            return ChatColor.DARK_GREEN + String.valueOf(senderLevel) + " ";
+            return Component.text(senderLevel + " ").color(NamedTextColor.DARK_GREEN);
         }
         // Sender is 6-10 levels below the viewer
         else if (senderLevel + 5 < viewerLevel && senderLevel + 10 >= viewerLevel) {
-            return ChatColor.GREEN + String.valueOf(senderLevel) + " ";
+            return Component.text(senderLevel + " ").color(NamedTextColor.GREEN);
         }
         // Sender is within 5 levels of the viewer
         else if (senderLevel - 5 <= viewerLevel && senderLevel + 5 >= viewerLevel) {
-            return ChatColor.YELLOW + String.valueOf(senderLevel) + " ";
+            return Component.text(senderLevel + " ").color(NamedTextColor.YELLOW);
         }
         // Sender is 6-10 levels above the viewer
         else if (senderLevel - 5 > viewerLevel && senderLevel - 10 <= viewerLevel) {
-            return ChatColor.RED + String.valueOf(senderLevel) + " ";
+            return Component.text(senderLevel + " ").color(NamedTextColor.RED);
         }
         // Sender is 11+ levels above the viewer
         else {
-            return ChatColor.DARK_RED + String.valueOf(senderLevel) + " ";
+            return Component.text(senderLevel + " ").color(NamedTextColor.DARK_RED);
         }
     }
 
-    public static String chatName(Player sender, Player viewer) {
+    public static Component chatName(Player sender, Player viewer) {
         PlayerData senderData = ActiveData.getData(sender.getUniqueId());
         PlayerData viewerData = ActiveData.getData(viewer.getUniqueId());
 
         // Get the player's rank
-        String rank;
+        Component rank;
         if (sender.hasPermission("castlesiege.builder") && !ToggleRankCommand.showDonator.contains(sender)) {
             rank = convertRank(senderData.getStaffRank());
         } else {
             rank = convertRank(senderData.getRank());
         }
+        MiniMessage mm = MiniMessage.miniMessage();
 
         if (hidePlayerName || hideBoth)
-            return color(sender) + ChatColor.MAGIC + getName(sender);
-        return level(senderData.getLevel(), viewerData.getLevel()) + rank + color(sender) + sender.getName();
+            return mm.deserialize(color(sender).toString() + ChatColor.MAGIC + getName(sender));
+        return level(senderData.getLevel(), viewerData.getLevel())
+                .append(rank)
+                .append(Component.text(sender.getName())
+                        .color(color(sender))
+                );
     }
 
     /**
@@ -156,48 +164,48 @@ public class NameTag implements CommandExecutor, Listener {
      * @param rank The rank to convert
      * @return A formatted rank or an empty string if invalid
      */
-    public static String convertRank(String rank) {
+    public static Component convertRank(String rank) {
         if (hidePlayerName || hideBoth) {
-            return "";
+            return Component.text("");
         }
 
         switch (rank) {
             // Staff Ranks
             case "builder":
-                return "§b§lBuilder ";
+                return Component.text("§b§lBuilder ");
             case "chatmod":
-                return "§9§lChatMod ";
+                return Component.text("§9§lChatMod ");
             case "chatmod+":
-                return "§1§lChatMod+ ";
+                return Component.text("§1§lChatMod+ ");
             case "moderator":
-                return "§a§lMod ";
+                return Component.text("§a§lMod ");
             case "developer":
-                return "§2§lDev ";
+                return Component.text("§2§lDev ");
             case "communitymanager":
-                return "§5§lComm Man ";
+                return Component.text("§5§lComm Man ");
             case "admin":
-                return "§c§lAdmin ";
+                return Component.text("§c§lAdmin ");
             case "owner":
-                return "§6§lOwner ";
+                return MiniMessage.miniMessage().deserialize("<dark_red><b><obf><st>!</st></obf></dark_red><gradient:#FFAA00:#FF5500>Owner</gradient><obf><st><dark_red>!</dark_red></st></obf><b> ");
             // Donator Ranks
             case "esquire":
-                return "§3Esquire ";
+                return Component.text("§3Esquire ");
             case "noble":
-                return "§aNoble ";
+                return Component.text("§aNoble ");
             case "baron":
-                return "§5Baron ";
+                return Component.text("§5Baron ");
             case "count":
-                return "§6Count ";
+                return Component.text("§6Count ");
             case "duke":
-                return "§4Duke ";
+                return Component.text("§4Duke ");
             case "viceroy":
-                return "§dViceroy ";
+                return Component.text("§dViceroy ");
             case "king":
-                return "§eKing ";
+                return Component.text("§eKing ");
             case "high_king":
-                return "§eHigh King ";
+                return Component.text("§eHigh King ");
             default:
-                return "";
+                return Component.text("");
         }
     }
 
@@ -211,7 +219,7 @@ public class NameTag implements CommandExecutor, Listener {
         // Only set name tag color if data has not been loaded yet
         PlayerData data = ActiveData.getData(p.getUniqueId());
         if (data == null) {
-            NametagEdit.getApi().setPrefix(p, color(p));
+            NametagEdit.getApi().setPrefix(p, color(p).toString());
             return true;
         }
 

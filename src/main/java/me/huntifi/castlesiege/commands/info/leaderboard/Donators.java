@@ -105,6 +105,6 @@ public class Donators implements CommandExecutor {
         } else {
             rank = RankPoints.getRank(points);
         }
-        return NameTag.convertRank(rank);
+        return NameTag.convertRank(rank).toString();
     }
 }
