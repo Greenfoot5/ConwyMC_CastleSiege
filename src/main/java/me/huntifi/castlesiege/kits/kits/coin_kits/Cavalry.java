@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -137,29 +138,28 @@ public class Cavalry extends CoinKit implements Listener {
                     }
 
                     boolean hasEnemyInRange = false;
-                    for (Player all : Bukkit.getOnlinePlayers()) {
+                    for (Player hit : Bukkit.getOnlinePlayers()) {
 
                         //if the player is not in the same world ignore them.
-                        if (p.getWorld() != all.getWorld())
+                        if (p.getWorld() != hit.getWorld())
                             continue;
 
                         //the player executing the ability should have enemy players in range.
-                        if (p.getLocation().distance(all.getLocation()) <= 2.3 &&
-                                TeamController.getTeam(all.getUniqueId())
+                        if (p.getLocation().distance(hit.getLocation()) <= 2.3 &&
+                                TeamController.getTeam(hit.getUniqueId())
                                 != TeamController.getTeam(p.getUniqueId())) {
 
                             hasEnemyInRange = true;
 
                             // The stomp can be blocked using a shield
-                            if (all.isBlocking()) {
-                                all.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                        ChatColor.AQUA + "You blocked " + NameTag.color(p) + p.getName() + ChatColor.AQUA + "'s horse stomp"));
+                            if (hit.isBlocking()) {
+                                Messenger.sendActionSuccess("You blocked " + NameTag.mmUsername(p) + "'s horse stomp", hit);
                             } else {
-                                all.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
-                                all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));
-                                all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
-                                all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 20, 0)));
-                                all.damage(100, p);
+                                hit.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
+                                hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));
+                                hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
+                                hit.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 20, 0)));
+                                hit.damage(100, p);
                             }
                         }
 

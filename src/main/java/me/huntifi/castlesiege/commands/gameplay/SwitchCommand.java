@@ -13,7 +13,6 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -62,9 +61,9 @@ public class SwitchCommand implements CommandExecutor {
 
 		Player p = Bukkit.getPlayer(args[0]);
 		if (p == null) {
-			Messenger.sendError("Could not find player: " + ChatColor.RED + args[0], sender);
+			Messenger.sendError("Could not find player: <red>" + args[0], sender);
 			return;
-		} else if (MapController.getPlayers().contains(p.getUniqueId())) {
+		} else if (!MapController.getPlayers().contains(p.getUniqueId())) {
 			Messenger.sendError("You must be on a team to swap!", sender);
 			return;
 		}
@@ -88,7 +87,7 @@ public class SwitchCommand implements CommandExecutor {
 		} else if (!(sender instanceof Player)) {
 			Messenger.sendError("Console cannot join a team!", sender);
 			return;
-		} else if (MapController.getPlayers().contains(((Player) sender).getUniqueId())) {
+		} else if (!MapController.getPlayers().contains(((Player) sender).getUniqueId())) {
 			Messenger.sendError("Must be on a team to switch!", sender);
 			return;
 		}
@@ -146,7 +145,7 @@ public class SwitchCommand implements CommandExecutor {
 		if (deaths > 0 && MapController.isOngoing()) {
 			// Regular switch on the battlefield during a game
 			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name +
-					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)", p);
+					 "<dark_aqua> (+" + deaths + " deaths)", p);
 			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
 
 		} else if (deaths == 0 || !MapController.isOngoing()){
@@ -209,7 +208,7 @@ public class SwitchCommand implements CommandExecutor {
 		}
 
 		// The team is invalid
-		Messenger.sendError(ChatColor.DARK_AQUA + String.join(" ", args) + ChatColor.RED + " isn't a valid team name!", p);
+		Messenger.sendError("<aqua>" + String.join(" ", args) + "<red> isn't a valid team name!", p);
 		return true;
 	}
 }

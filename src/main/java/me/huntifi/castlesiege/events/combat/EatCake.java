@@ -54,13 +54,12 @@ public class EatCake implements Listener {
             if (canEatCake(eater, placer)) {
                 // Send messages and award heal
                 if (placer != null && !Objects.equals(eater, placer)) {
-                    Messenger.sendActionInfo(NameTag.color(placer) + placer.getName() + ChatColor.AQUA + "'s cake is healing you!", eater);
-                    Messenger.sendActionInfo("Your cake is healing " + NameTag.color(eater) + eater.getName(), placer);
+                    Messenger.sendActionInfo(NameTag.mmUsername(placer) + "'s cake is healing you!", eater);
+                    Messenger.sendActionSuccess("Your cake is healing " + NameTag.mmUsername(eater), placer);
                     UpdateStats.addHeals(placer.getUniqueId(), 1);
 
                 } else {
-                    eater.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "The cake is healing you!"));
+                    Messenger.sendHealing("The cake is healing you!", eater);
                 }
 
                 // Eat cake

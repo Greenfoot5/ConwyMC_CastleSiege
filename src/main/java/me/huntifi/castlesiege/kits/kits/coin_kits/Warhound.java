@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -13,8 +14,6 @@ import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -199,10 +198,8 @@ public class Warhound extends CoinKit implements Listener {
 
             // Activate stun
             q.setCooldown(Material.GHAST_TEAR, 240);
-            q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.AQUA + "You immobilised " + NameTag.color(p) + p.getName() + ChatColor.AQUA + "."));
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.DARK_RED + "You have been immobilised by " + NameTag.color(q) + q.getName() + ChatColor.DARK_RED + "!"));
+            Messenger.sendSuccess("You immobilised " + NameTag.mmUsername(p) + ".", q);
+            Messenger.sendWarning("You have been immobilised by " + NameTag.mmUsername(q) + "!", p);
             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 1 );
 
             // Apply potion effects
@@ -239,8 +236,7 @@ public class Warhound extends CoinKit implements Listener {
 
             // Activate stun
             q.setCooldown(Material.GHAST_TEAR, 240);
-            q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.AQUA + "You immobilised " + Objects.requireNonNull(h.getOwner()).getName() + ChatColor.AQUA + "'s horse."));
+            Messenger.sendActionSuccess("You immobilised <aqua>" + Objects.requireNonNull(h.getOwner()) + "</aqua>'s horse.", q);
             h.getWorld().playSound(h.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 1 );
 
             // Apply potion effects

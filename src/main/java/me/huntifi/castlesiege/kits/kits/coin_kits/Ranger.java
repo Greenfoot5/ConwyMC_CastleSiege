@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
@@ -170,8 +171,7 @@ public class Ranger extends CoinKit implements Listener {
      * @param v The vector of the original arrow
      */
     private void volleyAbility(Player p, Vector v) {
-        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                ChatColor.GREEN + "You shot your volley bow!"));
+        Messenger.sendActionSuccess("You shot your volley bow!", p);
         p.setCooldown(Material.BOW, 60);
 
         // Shoot the extra arrows

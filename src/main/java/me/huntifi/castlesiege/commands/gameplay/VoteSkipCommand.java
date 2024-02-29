@@ -46,7 +46,7 @@ public class VoteSkipCommand implements TabExecutor {
             }
 
             Player player = (Player) sender;
-            if (MapController.getPlayers().contains(player.getUniqueId())) {
+            if (!MapController.getPlayers().contains(player.getUniqueId())) {
                 Messenger.sendError("You must be playing to vote to skip!", sender);
                 return;
             }

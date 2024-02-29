@@ -19,8 +19,11 @@ import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -57,7 +60,7 @@ public abstract class Kit implements CommandExecutor, Listener {
 
     public final String name;
     public final int baseHealth;
-    public final ChatColor color;
+    public final TextColor color;
     public double kbResistance;
     protected final double regenAmount;
 
@@ -100,7 +103,7 @@ public abstract class Kit implements CommandExecutor, Listener {
      * @param material The material to represent the kit in GUIs
      * @param color The chat colour for the kit
      */
-    public Kit(String name, int baseHealth, double regenAmount, Material material, ChatColor color) {
+    public Kit(String name, int baseHealth, double regenAmount, Material material, TextColor color) {
         this.name = name;
         this.color = color;
         this.baseHealth = baseHealth;
@@ -247,7 +250,7 @@ public abstract class Kit implements CommandExecutor, Listener {
                 if (!InCombat.isPlayerInLobby(uuid)) {
                     Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
                     if (MapController.isOngoing()) {
-                        Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
+                        Messenger.sendInfo("You have committed suicide <dark_aqua>(+2 deaths)", player);
                         UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
                     } else {
                         Messenger.sendInfo("You have committed suicide!", player);
@@ -281,7 +284,7 @@ public abstract class Kit implements CommandExecutor, Listener {
             }
         }
         else {
-            disguise.getWatcher().setCustomName(NameTag.color(p) + p.getName());
+            disguise.getWatcher().setCustomName(MiniMessage.miniMessage().serialize(NameTag.username(p)));
             disguise.setCustomDisguiseName(true);
             disguise.setHearSelfDisguise(true);
             disguise.setSelfDisguiseVisible(false);
@@ -304,7 +307,7 @@ public abstract class Kit implements CommandExecutor, Listener {
 
         if (canSeeHealth && healthDisplay == null) {
             scoreboard.registerNewObjective("healthDisplay", Criteria.HEALTH,
-                    ChatColor.DARK_RED + "❤").setDisplaySlot(DisplaySlot.BELOW_NAME);
+                    Component.text("❤").color(NamedTextColor.DARK_RED)).setDisplaySlot(DisplaySlot.BELOW_NAME);
         } else if (!canSeeHealth && healthDisplay != null){
             healthDisplay.unregister();
             scoreboard.clearSlot(DisplaySlot.BELOW_NAME);

@@ -4,13 +4,13 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.CoreMap;
-import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -22,7 +22,26 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.BLACK;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_BLUE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_PURPLE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_RED;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 public class Core implements Listener {
 
@@ -67,15 +86,6 @@ public class Core implements Listener {
     }
 
     /**
-     * Gets the spawn point based on the team name
-     * @param teamName The team to get the spawn point for
-     * @return The Spawn Point Locations
-     */
-    public Location getSpawnPoint(String teamName) {
-        return spawnPoint;
-    }
-
-    /**
      * Gets the basic spawn point for the flag
      * @return The Spawn Point Locations
      */
@@ -111,7 +121,7 @@ public class Core implements Listener {
      * Get the core's color.
      * @return The primary chat color of the flag's owners, gray if neutral
      */
-    public ChatColor getColor() {
+    public NamedTextColor getColor() {
         String owners = getOwners();
         Team team = MapController.getCurrentMap().getTeam(owners);
         return team.primaryChatColor;
@@ -153,33 +163,23 @@ public class Core implements Listener {
      * @return the correct colour of this flag's bossbar depending on the team.
      */
     public static BossBar.Color getBarColour(Core core) {
-        switch (core.getColor()) {
-            case BLUE:
-            case DARK_AQUA:
-            case DARK_BLUE:
-            case AQUA:
-                return net.kyori.adventure.bossbar.BossBar.Color.BLUE;
-            case GRAY:
-            case WHITE:
-                return net.kyori.adventure.bossbar.BossBar.Color.WHITE;
-            case DARK_GREEN:
-            case GREEN:
-                return net.kyori.adventure.bossbar.BossBar.Color.GREEN;
-            case LIGHT_PURPLE:
-                return net.kyori.adventure.bossbar.BossBar.Color.PINK;
-            case BLACK:
-            case DARK_GRAY:
-            case DARK_PURPLE:
-                return net.kyori.adventure.bossbar.BossBar.Color.PURPLE;
-            case DARK_RED:
-            case RED:
-                return net.kyori.adventure.bossbar.BossBar.Color.RED;
-            case YELLOW:
-            case GOLD:
-                return net.kyori.adventure.bossbar.BossBar.Color.YELLOW;
-            default:
-                return null;
+        NamedTextColor color = core.getColor();
+        if (color.equals(NamedTextColor.BLUE) || color.equals(DARK_AQUA) || color.equals(DARK_BLUE) || color.equals(AQUA)) {
+            return BossBar.Color.BLUE;
+        } else if (color.equals(GRAY) || color.equals(WHITE)) {
+            return BossBar.Color.WHITE;
+        } else if (color.equals(DARK_GREEN) || color.equals(GREEN)) {
+            return BossBar.Color.GREEN;
+        } else if (color.equals(LIGHT_PURPLE)) {
+            return BossBar.Color.PINK;
+        } else if (color.equals(BLACK) || color.equals(DARK_GRAY) || color.equals(DARK_PURPLE)) {
+            return BossBar.Color.PURPLE;
+        } else if (color.equals(DARK_RED) || color.equals(RED)) {
+            return BossBar.Color.RED;
+        } else if (color.equals(YELLOW) || color.equals(GOLD)) {
+            return BossBar.Color.YELLOW;
         }
+        return null;
     }
 
     /**

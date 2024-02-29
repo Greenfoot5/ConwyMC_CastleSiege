@@ -2,7 +2,9 @@ package me.huntifi.castlesiege.commands.donator;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.command.Command;
@@ -17,6 +19,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.BLACK;
+import static net.kyori.adventure.text.format.NamedTextColor.BLUE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_BLUE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_PURPLE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_RED;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 /**
  *  The firework command for donators
@@ -63,78 +80,36 @@ public class FireworkCommand implements CommandExecutor {
 
     /**
      *
-     * @param p checks this player's team to retrieve colours from it.
-     * @return The primary colour retrieved from the specified player's team.
+     * @param color The chat colour to get the Color for
+     * @return The Color to use in the firework
      */
-    private Color getPrimaryColor(Player p) {
-        switch (TeamController.getTeam(p.getUniqueId()).primaryChatColor) {
-            case BLACK:
-            case DARK_GRAY:
-                return Color.BLACK;
-            case DARK_AQUA:
-            case AQUA:
-                return Color.AQUA;
-            case BLUE:
-                return Color.BLUE;
-            case DARK_BLUE:
-                return Color.NAVY;
-            case GRAY:
-                return Color.GRAY;
-            case DARK_GREEN:
-                return Color.GREEN;
-            case GREEN:
-                return Color.LIME;
-            case GOLD:
-                return Color.ORANGE;
-            case DARK_PURPLE:
-                return Color.PURPLE;
-            case RED:
-                return Color.RED;
-            case DARK_RED:
-                return Color.MAROON;
-            case YELLOW:
-                return Color.YELLOW;
-            default:
-                return Color.WHITE;
+    private Color getColor(NamedTextColor color) {
+        if (color.equals(BLACK) || color.equals(DARK_GRAY)) {
+            return Color.BLACK;
+        } else if (color.equals(DARK_AQUA) || color.equals(AQUA)) {
+            return Color.AQUA;
+        } else if (color.equals(BLUE)) {
+            return Color.BLUE;
+        } else if (color.equals(DARK_BLUE)) {
+            return Color.NAVY;
+        } else if (color.equals(GRAY)) {
+            return Color.GRAY;
+        } else if (color.equals(DARK_GREEN)) {
+            return Color.GREEN;
+        } else if (color.equals(GREEN)) {
+            return Color.LIME;
+        } else if (color.equals(GOLD)) {
+            return Color.ORANGE;
+        } else if (color.equals(DARK_PURPLE)) {
+            return Color.PURPLE;
+        } else if (color.equals(RED)) {
+            return Color.RED;
+        } else if (color.equals(DARK_RED)) {
+            return Color.MAROON;
+        } else if (color.equals(YELLOW)) {
+            return Color.YELLOW;
         }
-    }
-
-    /**
-     *
-     * @param p checks this player's team to retrieve colours from it.
-     * @return The secondary colour retrieved from the specified player's team.
-     */
-    private Color getSecondaryColor(Player p) {
-        switch (TeamController.getTeam(p.getUniqueId()).secondaryChatColor) {
-            case BLACK:
-            case DARK_GRAY:
-                return Color.BLACK;
-            case DARK_AQUA:
-            case AQUA:
-                return Color.AQUA;
-            case BLUE:
-                return Color.BLUE;
-            case DARK_BLUE:
-                return Color.NAVY;
-            case GRAY:
-                return Color.GRAY;
-            case DARK_GREEN:
-                return Color.GREEN;
-            case GREEN:
-                return Color.LIME;
-            case GOLD:
-                return Color.ORANGE;
-            case DARK_PURPLE:
-                return Color.PURPLE;
-            case RED:
-                return Color.RED;
-            case DARK_RED:
-                return Color.MAROON;
-            case YELLOW:
-                return Color.YELLOW;
-            default:
-                return Color.WHITE;
-        }
+        return Color.WHITE;
     }
 
     /**
@@ -147,8 +122,9 @@ public class FireworkCommand implements CommandExecutor {
 
         meta.setPower(4);
         FireworkEffect.Builder builder = FireworkEffect.builder();
-        builder.withTrail().withFlicker().withFade(getPrimaryColor(p), getSecondaryColor(p)).with(FireworkEffect.Type.BALL_LARGE);
-        builder.withColor(getPrimaryColor(p), getSecondaryColor(p));
+        Team team = TeamController.getTeam(p.getUniqueId());
+        builder.withTrail().withFlicker().withFade(getColor(team.primaryChatColor), getColor(team.secondaryChatColor)).with(FireworkEffect.Type.BALL_LARGE);
+        builder.withColor(getColor(team.primaryChatColor), getColor(team.secondaryChatColor));
         meta.addEffect(builder.build());
         firework.setFireworkMeta(meta);
     }

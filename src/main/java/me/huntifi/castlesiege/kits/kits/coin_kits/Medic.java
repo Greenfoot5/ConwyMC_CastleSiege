@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -189,14 +190,12 @@ public class Medic extends CoinKit implements Listener {
                 destroyCake(q);
                 cakeType = TeamController.getTeam(p.getUniqueId())
                         == TeamController.getTeam(q.getUniqueId()) ? " friendly" : "n enemy";
-                q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        ChatColor.RED + "Your cake was destroyed by " + NameTag.color(p) + p.getName()));
+                Messenger.sendWarning("Your cake was destroyed by " + NameTag.mmUsername(p), q);
             } else {
                 cake.setType(Material.AIR);
                 cakeType = " neutral";
             }
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.RED + "You destroyed a" + cakeType + " cake"));
+            Messenger.sendInfo("You destroyed a" + cakeType + " cake", p);
         }
     }
 
@@ -232,10 +231,8 @@ public class Medic extends CoinKit implements Listener {
                 // Heal
                 addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
                 addPotionEffect(player, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
-                r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        NameTag.color(player) + player.getName() + ChatColor.AQUA + " is healing you"));
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        ChatColor.AQUA + "You are healing " + NameTag.color(r) + r.getName()));
+                Messenger.sendHealing(NameTag.mmUsername(player) + " is healing you", r);
+                Messenger.sendHealing("You are healing " + NameTag.mmUsername(r), player);
                 UpdateStats.addHeals(uuid, 1);
             }
         });

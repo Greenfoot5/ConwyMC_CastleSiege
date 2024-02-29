@@ -1,14 +1,13 @@
 package me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -102,8 +101,7 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
 
                 // Enemy blocks cleave
                 if (hit.isBlocking()) {
-                    hit.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You blocked " + NameTag.color(damager) + damager.getName() + ChatColor.AQUA + "'s cleave"));
+                    Messenger.sendActionInfo("You blocked " + NameTag.username(damager) + ChatColor.AQUA + "'s cleave", hit);
                 } else {
                     hit.getWorld().playSound(hit.getLocation(), Sound.ENTITY_PLAYER_BIG_FALL, 1, 1);
                     event.setDamage(event.getDamage() * 2);

@@ -3,6 +3,9 @@ package me.huntifi.castlesiege.commands.chat;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -69,15 +72,14 @@ public class PrivateMessage implements CommandExecutor {
 			return;
 		}
 
-		// Get team colors
-		String sColor = getTeamColor(s);
-		String rColor = getTeamColor(r);
-
-		// Send messages
-		s.sendMessage(String.format("%sTo %s%s%s: %s%s",
-				ChatColor.GOLD, rColor, r.getName(), ChatColor.GOLD, ChatColor.DARK_AQUA, m));
-		r.sendMessage(String.format("%sFrom %s%s%s: %s%s",
-				ChatColor.GOLD, sColor, s.getName(), ChatColor.GOLD, ChatColor.DARK_AQUA, m));
+		((Audience) s).sendMessage(Component.text("To ").color(NamedTextColor.GOLD)
+				.append(getUsername(r))
+				.append(Component.text(": ").color(NamedTextColor.GOLD))
+				.append(Component.text(m).color(NamedTextColor.DARK_AQUA)));
+		((Audience) r).sendMessage(Component.text("From ").color(NamedTextColor.GOLD)
+				.append(getUsername(s))
+				.append(Component.text(": ").color(NamedTextColor.GOLD))
+				.append(Component.text(m).color(NamedTextColor.DARK_AQUA)));
 
 		// Set last message sender
 		lastSender.put(r, s);
@@ -88,12 +90,12 @@ public class PrivateMessage implements CommandExecutor {
 	 * @param s The command sender to get the team color for
 	 * @return The team color of a player or white
 	 */
-	private String getTeamColor(CommandSender s) {
+	private Component getUsername(CommandSender s) {
 		if (s instanceof Player) {
 			Player p = (Player) s;
-			return NameTag.color(p).toString();
+			return NameTag.username(p);
 		}
-		return ChatColor.WHITE.toString();
+		return Component.text(s.getName()).color(NamedTextColor.WHITE);
 	}
 
 	/**

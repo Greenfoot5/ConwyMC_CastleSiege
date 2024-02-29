@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,7 +29,7 @@ public abstract class LevelKit extends Kit {
      * @param level The level required to unlock
      */
     public LevelKit(String name, int baseHealth, double regenAmount, Material material, int level) {
-        super(name, baseHealth, regenAmount, material, ChatColor.GREEN);
+        super(name, baseHealth, regenAmount, material, NamedTextColor.GREEN);
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());

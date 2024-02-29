@@ -7,7 +7,6 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -37,7 +36,7 @@ public class SuicideCommand implements CommandExecutor {
 					Bukkit.getScheduler().runTask(Main.plugin, () -> p.setHealth(0));
 
 				if (MapController.isOngoing() && !InCombat.isPlayerInLobby(p.getUniqueId())) {
-					Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", p);
+					Messenger.sendInfo("You have committed suicide <dark_aqua>(+2 deaths)", p);
 					UpdateStats.addDeaths(p.getUniqueId(), 1);
 				} else
 					Messenger.sendInfo("You have committed suicide.", p);

@@ -2,9 +2,8 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
@@ -32,7 +31,7 @@ public abstract class MapKit extends Kit implements Listener {
      * @param baseHealth  This kit's base health
      */
     public MapKit(String name, int baseHealth, double regenAmount, Material material, String mapName, String signName) {
-        super(name, baseHealth, regenAmount, material, ChatColor.DARK_AQUA);
+        super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_AQUA);
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());

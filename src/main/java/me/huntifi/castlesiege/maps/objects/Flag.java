@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.data_types.LocationFrame;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -13,6 +14,7 @@ import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -34,6 +36,23 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.BLACK;
+import static net.kyori.adventure.text.format.NamedTextColor.BLUE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_BLUE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_PURPLE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_RED;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 /**
  * Stores all details and handles all flag actions.
@@ -303,7 +322,7 @@ public class Flag {
                         if (TeamController.getTeam(uuid).name.equals(currentOwners)) {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: " + name));
                         } else {
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies have fully captured the flag!"));
+                            Messenger.sendActionError("Enemies have fully captured the flag!", player);
                         }
                         playCapSound(player, true);
                     }
@@ -342,10 +361,10 @@ public class Flag {
             if (player != null) {
                 // Make sure they're on the capping team
                 if (TeamController.getTeam(uuid).name.equals(currentOwners) == areOwnersCapping) {
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+" + count + " flag-capping point(s)" + ChatColor.AQUA + " Flag: " + name));
+                    Messenger.sendActionInfo("+" + count + " flag-capping point(s) <aqua>Flag: " + name, player);
                     UpdateStats.addCaptures(player.getUniqueId(), count);
                 } else {
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies are capturing the flag!"));
+                    Messenger.sendActionError("Enemies are capturing the flag!", player);
                 }
                 playCapSound(player, false);
             }
@@ -372,7 +391,7 @@ public class Flag {
 
             //Hologram
             if (hologram == null) { return; }
-            updateHologram(ChatColor.GRAY);
+            updateHologram(GRAY);
         }
     }
 
@@ -580,7 +599,7 @@ public class Flag {
         hologram.setCustomName(ChatColor.BOLD +  "Flag: " + getColor() + name);
     }
 
-    public void updateHologram(ChatColor teamColour) {
+    public void updateHologram(NamedTextColor teamColour) {
         hologram.setCustomName(ChatColor.BOLD + "Flag: " + teamColour + name);
         hologram.setCustomNameVisible(true);
     }
@@ -589,10 +608,10 @@ public class Flag {
      * Get the flag's color.
      * @return The primary chat color of the flag's owners, gray if neutral
      */
-    public ChatColor getColor() {
+    public NamedTextColor getColor() {
         String currentOwners = getCurrentOwners();
         if (currentOwners.equals("neutral"))
-            return ChatColor.GRAY;
+            return GRAY;
 
         Team team = MapController.getCurrentMap().getTeam(currentOwners);
         return team.primaryChatColor;
@@ -667,32 +686,22 @@ public class Flag {
      * @return the correct colour of this flag's bossbar depending on the team.
      */
     public static BossBar.Color getBarColour(Flag flag) {
-        switch (flag.getColor()) {
-            case BLUE:
-            case DARK_AQUA:
-            case DARK_BLUE:
-            case AQUA:
-                return net.kyori.adventure.bossbar.BossBar.Color.BLUE;
-            case GRAY:
-            case WHITE:
-                return net.kyori.adventure.bossbar.BossBar.Color.WHITE;
-            case DARK_GREEN:
-            case GREEN:
-                return net.kyori.adventure.bossbar.BossBar.Color.GREEN;
-            case LIGHT_PURPLE:
-                return net.kyori.adventure.bossbar.BossBar.Color.PINK;
-            case BLACK:
-            case DARK_GRAY:
-            case DARK_PURPLE:
-                return net.kyori.adventure.bossbar.BossBar.Color.PURPLE;
-            case DARK_RED:
-            case RED:
-                return net.kyori.adventure.bossbar.BossBar.Color.RED;
-            case YELLOW:
-            case GOLD:
-                return net.kyori.adventure.bossbar.BossBar.Color.YELLOW;
-            default:
-                return null;
+        NamedTextColor color = flag.getColor();
+        if (color.equals(BLUE) || color.equals(DARK_AQUA) || color.equals(DARK_BLUE) || color.equals(AQUA)) {
+            return BossBar.Color.BLUE;
+        } else if (color.equals(GRAY) || color.equals(WHITE)) {
+            return BossBar.Color.WHITE;
+        } else if (color.equals(DARK_GREEN) || color.equals(GREEN)) {
+            return BossBar.Color.GREEN;
+        } else if (color.equals(LIGHT_PURPLE)) {
+            return BossBar.Color.PINK;
+        } else if (color.equals(BLACK) || color.equals(DARK_GRAY) || color.equals(DARK_PURPLE)) {
+            return BossBar.Color.PURPLE;
+        } else if (color.equals(DARK_RED) || color.equals(RED)) {
+            return BossBar.Color.RED;
+        } else if (color.equals(YELLOW) || color.equals(GOLD)) {
+            return BossBar.Color.YELLOW;
         }
+        return null;
     }
 }

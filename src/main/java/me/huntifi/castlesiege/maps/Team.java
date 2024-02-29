@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MVPStats;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -31,8 +32,8 @@ public class Team implements Listener {
     // Colours
     public Material primaryWool;
     public Material secondaryWool;
-    public ChatColor primaryChatColor;
-    public ChatColor secondaryChatColor;
+    public NamedTextColor primaryChatColor;
+    public NamedTextColor secondaryChatColor;
 
     //Prevents players from spawning at their bed when they sleep in a bad.
     @EventHandler

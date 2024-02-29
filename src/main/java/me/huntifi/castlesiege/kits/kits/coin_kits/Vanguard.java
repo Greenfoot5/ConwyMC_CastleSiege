@@ -2,13 +2,12 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -121,8 +120,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
                     if (cooldown == 0) {
                         p.setCooldown(Material.DIAMOND_SWORD, 300);
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "You are charging forward"));
+                        Messenger.sendInfo("You are charging forward", p);
                         p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 160, 4)));
                         p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 160, 1)));
 
@@ -133,8 +131,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
                         vanguards.add(uuid);
                         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> vanguards.remove(uuid), 165);
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't charge forward yet."));
+                        Messenger.sendWarning("You can't charge forward yet.", p);
                     }
                 }
             }

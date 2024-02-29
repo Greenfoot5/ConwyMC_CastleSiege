@@ -50,7 +50,7 @@ public class BountyCommand implements CommandExecutor {
 
         if (args.length == 1) {
             int amount = getBounty(bountied.getUniqueId());
-            sender.sendMessage(ChatColor.GOLD + "[B] " + ChatColor.YELLOW + NameTag.color(bountied) + bountied.getName()
+            sender.sendMessage(ChatColor.GOLD + "[B] " + ChatColor.YELLOW + NameTag.username(bountied)
                     + ChatColor.YELLOW + " has a bounty of "
                     + ChatColor.GOLD + amount + ChatColor.YELLOW + " coins on their head.");
             return true;
@@ -65,7 +65,7 @@ public class BountyCommand implements CommandExecutor {
         if (sender instanceof ConsoleCommandSender) {
             int totalBounty = getAndAddBounty(bountied.getUniqueId(), amount);
             Messenger.broadcastPaidBounty(ChatColor.DARK_AQUA + "CONSOLE",
-                    NameTag.color(bountied) + bountied.getName(), amount, totalBounty);
+                    NameTag.mmUsername(bountied), amount, totalBounty);
             return true;
         } else if (!(sender instanceof Player)) {
             return true;
@@ -77,8 +77,8 @@ public class BountyCommand implements CommandExecutor {
             return true;
         }
         int totalBounty = getAndAddBounty(bountied.getUniqueId(), amount);
-        Messenger.broadcastPaidBounty(NameTag.color(payee) + payee.getName(),
-                NameTag.color(bountied) + bountied.getName(), amount, totalBounty);
+        Messenger.broadcastPaidBounty(NameTag.mmUsername(payee),
+                NameTag.mmUsername(bountied), amount, totalBounty);
         return true;
     }
 
@@ -123,11 +123,11 @@ public class BountyCommand implements CommandExecutor {
         ActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty);
 
         if (bounty >= MIN_CLAIM) {
-            Messenger.broadcastBountyClaimed(NameTag.color(bountied) + bountied.getName(),
-                    NameTag.color(killer) + killer.getName(), bounty);
+            Messenger.broadcastBountyClaimed(NameTag.mmUsername(bountied),
+                    NameTag.mmUsername(killer), bounty);
         } else {
-            Messenger.sendBounty("You killed " + bountied.getName() + " and claimed "
-                    + ChatColor.GOLD + (bounty) + ChatColor.YELLOW + " coins!", killer);
+            Messenger.sendBounty("You killed " + NameTag.mmUsername(bountied) + " and claimed <gold>"
+                    + bounty + "</gold> coins!", killer);
         }
     }
 
@@ -147,13 +147,13 @@ public class BountyCommand implements CommandExecutor {
        ActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty - assistAmount);
 
         if (bounty >= MIN_CLAIM) {
-            Messenger.broadcastBountyClaimed(NameTag.color(bountied) + bountied.getName(),
-                    NameTag.color(killer) + killer.getName(), NameTag.color(assist) + assist.getName(), bounty);
+            Messenger.broadcastBountyClaimed(NameTag.mmUsername(bountied),
+                    NameTag.mmUsername(killer), NameTag.mmUsername(assist), bounty);
         } else {
-            Messenger.sendBounty("You killed " + bountied.getName() + " and claimed "
-                    + ChatColor.GOLD + (bounty - assistAmount) + ChatColor.YELLOW + " coins!", killer);
-            Messenger.sendBounty("You assisted in killing " + bountied.getName() + " and claimed "
-                    + ChatColor.GOLD + (assistAmount) + ChatColor.YELLOW + " coins!", assist);
+            Messenger.sendBounty("You killed " + bountied.getName() + " and claimed <gold>"
+                    + (bounty - assistAmount) + "</gold> coins!", killer);
+            Messenger.sendBounty("You assisted in killing " + bountied.getName() + " and claimed <gold>"
+                    + assistAmount + "</gold> coins!", assist);
         }
     }
 
@@ -178,7 +178,7 @@ public class BountyCommand implements CommandExecutor {
         }
         if (amount > 0) {
             int total = getAndAddBounty(killer.getUniqueId(), (int) (amount * PlayerData.getCoinMultiplier()));
-            Messenger.broadcastKillStreakBounty(NameTag.color(killer) + killer.getName(),
+            Messenger.broadcastKillStreakBounty(NameTag.mmUsername(killer),
                     ActiveData.getData(killer.getUniqueId()).getKillStreak(), total);
         }
     }

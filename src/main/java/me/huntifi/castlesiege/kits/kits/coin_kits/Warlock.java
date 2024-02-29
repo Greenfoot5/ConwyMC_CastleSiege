@@ -318,8 +318,8 @@ public class Warlock extends CoinKit implements Listener {
                 caster.setHealth(caster.getHealth() - healthTransferred);
 
 
-                Messenger.sendSuccess(NameTag.color(caster) + caster.getName() + "§r has sacrificed health for you", healed);
-                Messenger.sendSuccess("You have sacrificed your health for " + NameTag.color(healed) + healed.getName(), caster);
+                Messenger.sendSuccess(NameTag.mmUsername(caster) + "§r has sacrificed health for you", healed);
+                Messenger.sendInfo("You have sacrificed your health for " + NameTag.mmUsername(healed), caster);
 
                 mythicMobsApi.castSkill(healed,"WarlockHealthFunnelEffect");
             }

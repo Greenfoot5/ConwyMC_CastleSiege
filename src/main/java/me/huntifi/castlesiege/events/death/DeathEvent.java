@@ -224,19 +224,19 @@ public class DeathEvent implements Listener {
      * @param messages The messages sent to the killer and target
      */
     private void killDeathMessage(Player killer, Player target, Tuple<String[], String[]> messages) {
-        killer.sendMessage("You" + messages.getFirst()[0] + NameTag.color(target) + target.getName()
+        killer.sendMessage("You" + messages.getFirst()[0] + NameTag.username(target)
                 + ChatColor.RESET + messages.getFirst()[1] + ChatColor.GRAY +
                 " (" + (ActiveData.getData(killer.getUniqueId()).getKillStreak()) + ")");
 
-        target.sendMessage(messages.getSecond()[0] + NameTag.color(killer) + killer.getName()
+        target.sendMessage(messages.getSecond()[0] + NameTag.username(killer)
                 + ChatColor.RESET + messages.getSecond()[1]);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player == killer || player == target
                     || ActiveData.getData(player.getUniqueId()).getSetting("deathMessages").equals("false"))
                 continue;
-            player.sendMessage(NameTag.color(killer) + killer.getName() + ChatColor.RESET
-                    + messages.getFirst()[0] + NameTag.color(target) + target.getName()
+            player.sendMessage(NameTag.username(killer) + ChatColor.RESET.toString()
+                    + messages.getFirst()[0] + NameTag.username(target)
                     + ChatColor.RESET + messages.getFirst()[1]);
         }
     }
@@ -249,7 +249,7 @@ public class DeathEvent implements Listener {
     private void assistMessage(UUID uuid, Player target) {
         Player assist = Bukkit.getPlayer(uuid);
         if (assist != null) {
-            assist.sendMessage("You assisted in killing " + NameTag.color(target) + target.getName());
+            assist.sendMessage("You assisted in killing " + NameTag.username(target));
         }
     }
 

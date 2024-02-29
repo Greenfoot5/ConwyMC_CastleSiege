@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
@@ -105,10 +106,8 @@ public class Maceman extends CoinKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NameTag.color(p) + p.getName() + ChatColor.AQUA + " blocked your stun"));
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "Your shield broke whilst blocking " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s stun"));
+                    Messenger.sendActionInfo(NameTag.username(p) + "§r blocked your stun", q);
+                    Messenger.sendActionInfo("Your shield broke whilst blocking " + NameTag.username(q) + "§r's stun", p);
                     if (p.getInventory().getItemInMainHand().getType().equals(Material.SHIELD)) {
                         p.getInventory().getItemInMainHand().setAmount(0);
                     } else if (p.getInventory().getItemInOffHand().getType().equals(Material.SHIELD)) {
@@ -116,14 +115,11 @@ public class Maceman extends CoinKit implements Listener {
                     }
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK , 1, 1 );
                 } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NameTag.color(p) + p.getName() + ChatColor.AQUA + " dodged your stun"));
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You dodged " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s stun"));
+                    Messenger.sendActionInfo(NameTag.username(p) + "§r dodged your stun", q);
+                    Messenger.sendActionInfo("You dodged " + NameTag.username(q) + "§r's stun", p);
                 } else {
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You have stunned " + NameTag.color(p) + p.getName()));
-                    p.sendMessage(ChatColor.DARK_RED + "You have been stunned by " + NameTag.color(q) + q.getName() + ChatColor.DARK_RED + "!");
+                    Messenger.sendActionInfo("You have stunned " + NameTag.username(q), p);
+                    Messenger.sendActionWarning("You have been stunned by " + NameTag.username(p) + "§r!", q);
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 60, 1)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 60, 2)));

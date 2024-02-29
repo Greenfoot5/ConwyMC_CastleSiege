@@ -193,6 +193,7 @@ import me.huntifi.castlesiege.secrets.SecretItems;
 import me.huntifi.castlesiege.secrets.SecretSigns;
 import me.huntifi.castlesiege.secrets.Skyhold.SkyholdDoors;
 import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -1100,7 +1101,7 @@ public class Main extends JavaPlugin implements Listener {
         Team team = new Team(name);
 
         // Colours
-        Tuple<Material, ChatColor> colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("primary_color")).toLowerCase()));
+        Tuple<Material, NamedTextColor> colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("primary_color")).toLowerCase()));
         team.primaryWool = colors.getFirst();
         team.primaryChatColor = colors.getSecond();
         colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("secondary_color")).toLowerCase()));
@@ -1361,45 +1362,45 @@ public class Main extends JavaPlugin implements Listener {
         return new Location(Bukkit.getServer().getWorld(worldName), x, y, z, yaw, pitch);
     }
 
-    private Tuple<Material, ChatColor> getColors(String color) {
-        Tuple<Material, ChatColor> colors = new Tuple<>(Material.WHITE_WOOL, ChatColor.WHITE);
+    private Tuple<Material, NamedTextColor> getColors(String color) {
+        Tuple<Material, NamedTextColor> colors = new Tuple<>(Material.WHITE_WOOL, NamedTextColor.WHITE);
         switch (color) {
             case "black":
                 colors.setFirst(Material.BLACK_WOOL);
-                colors.setSecond(ChatColor.DARK_GRAY);
+                colors.setSecond(NamedTextColor.DARK_GRAY);
                 break;
             case "dark_blue":
             case "darkblue":
                 colors.setFirst(Material.BLUE_WOOL);
-                colors.setSecond(ChatColor.DARK_BLUE);
+                colors.setSecond(NamedTextColor.DARK_BLUE);
                 break;
             case "dark_green":
             case "darkgreen":
             case "green":
                 colors.setFirst(Material.GREEN_WOOL);
-                colors.setSecond(ChatColor.DARK_GREEN);
+                colors.setSecond(NamedTextColor.DARK_GREEN);
                 break;
             case "cyan":
             case "dark_aqua":
             case "darkaqua":
                 colors.setFirst(Material.CYAN_WOOL);
-                colors.setSecond(ChatColor.DARK_AQUA);
+                colors.setSecond(NamedTextColor.DARK_AQUA);
                 break;
             case "dark_red":
             case "darkred":
             case "red":
                 colors.setFirst(Material.RED_WOOL);
-                colors.setSecond(ChatColor.DARK_RED);
+                colors.setSecond(NamedTextColor.DARK_RED);
                 break;
             case "brown":
                 colors.setFirst(Material.BROWN_WOOL);
-                colors.setSecond(ChatColor.GOLD);
+                colors.setSecond(NamedTextColor.GOLD);
                 break;
             case "dark_purple":
             case "darkpurple":
             case "purple":
                 colors.setFirst(Material.PURPLE_WOOL);
-                colors.setSecond(ChatColor.DARK_PURPLE);
+                colors.setSecond(NamedTextColor.DARK_PURPLE);
                 break;
             case "gold":
             case "dark_gold":
@@ -1408,12 +1409,12 @@ public class Main extends JavaPlugin implements Listener {
             case "darkyellow":
             case "orange":
                 colors.setFirst(Material.ORANGE_WOOL);
-                colors.setSecond(ChatColor.GOLD);
+                colors.setSecond(NamedTextColor.GOLD);
                 break;
             case "light_gold":
             case "lightgold":
                 colors.setFirst(Material.YELLOW_WOOL);
-                colors.setSecond(ChatColor.GOLD);
+                colors.setSecond(NamedTextColor.GOLD);
                 break;
             case "light_gray":
             case "lightgray":
@@ -1422,59 +1423,59 @@ public class Main extends JavaPlugin implements Listener {
             case "gray":
             case "grey":
                 colors.setFirst(Material.LIGHT_GRAY_WOOL);
-                colors.setSecond(ChatColor.GRAY);
+                colors.setSecond(NamedTextColor.GRAY);
                 break;
             case "dark_grey":
             case "dark_gray":
             case "darkgrey":
             case "darkgray":
                 colors.setFirst(Material.GRAY_WOOL);
-                colors.setSecond(ChatColor.DARK_GRAY);
+                colors.setSecond(NamedTextColor.DARK_GRAY);
                 break;
             case "blue":
                 colors.setFirst(Material.BLUE_WOOL);
-                colors.setSecond(ChatColor.BLUE);
+                colors.setSecond(NamedTextColor.BLUE);
                 break;
             case "light_blue":
             case "lightblue":
                 colors.setFirst(Material.LIGHT_BLUE_WOOL);
-                colors.setSecond(ChatColor.BLUE);
+                colors.setSecond(NamedTextColor.BLUE);
                 break;
             case "light_green":
             case "lightgreen":
             case "lime":
                 colors.setFirst(Material.LIME_WOOL);
-                colors.setSecond(ChatColor.GREEN);
+                colors.setSecond(NamedTextColor.GREEN);
                 break;
             case "aqua":
                 colors.setFirst(Material.LIGHT_BLUE_WOOL);
-                colors.setSecond(ChatColor.AQUA);
+                colors.setSecond(NamedTextColor.AQUA);
                 break;
             case "light_red":
             case "lightred":
                 colors.setFirst(Material.PINK_WOOL);
-                colors.setSecond(ChatColor.RED);
+                colors.setSecond(NamedTextColor.RED);
                 break;
             case "light_purple":
             case "lightpurple":
             case "magenta":
                 colors.setFirst(Material.MAGENTA_WOOL);
-                colors.setSecond(ChatColor.LIGHT_PURPLE);
+                colors.setSecond(NamedTextColor.LIGHT_PURPLE);
                 break;
             case "pink":
                 colors.setFirst(Material.PINK_WOOL);
-                colors.setSecond(ChatColor.LIGHT_PURPLE);
+                colors.setSecond(NamedTextColor.LIGHT_PURPLE);
                 break;
             case "light_yellow":
             case "lightyellow":
             case "yellow":
                 colors.setFirst(Material.YELLOW_WOOL);
-                colors.setSecond(ChatColor.YELLOW);
+                colors.setSecond(NamedTextColor.YELLOW);
                 break;
             case "white":
             default:
                 colors.setFirst(Material.WHITE_WOOL);
-                colors.setSecond(ChatColor.WHITE);
+                colors.setSecond(NamedTextColor.WHITE);
         }
 
         return colors;

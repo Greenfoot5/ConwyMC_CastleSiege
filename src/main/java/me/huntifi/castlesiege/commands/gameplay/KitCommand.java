@@ -42,7 +42,7 @@ public class KitCommand implements TabExecutor {
         assert sender instanceof Player;
         Player p = (Player) sender;
 
-        if (MapController.getPlayers().contains(p.getUniqueId())) {
+        if (!MapController.getPlayers().contains(p.getUniqueId())) {
             Messenger.sendError("You must be on a team to select a kit!", sender);
             return true;
         }

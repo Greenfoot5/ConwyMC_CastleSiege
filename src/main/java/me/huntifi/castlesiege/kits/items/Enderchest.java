@@ -75,7 +75,6 @@ public class Enderchest implements Listener {
 		UUID uuid = player.getUniqueId();
 		Kit kit = Kit.equippedKits.get(uuid);
 		kit.refillItems(uuid);
-		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-				ChatColor.DARK_GREEN + "Equipment resupplied"));
+		Messenger.sendActionSuccess("Equipment resupplied", player);
 	}
 }

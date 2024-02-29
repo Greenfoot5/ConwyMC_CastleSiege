@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.in_development;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -159,17 +160,14 @@ public class Armorer extends CoinKit implements Listener {
             meta.setLore(Collections.singletonList(ChatColor.AQUA + "- Reinforced"));
             meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, level(armor), false);
             item.setItemMeta(meta);
-            target.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    NameTag.color(smith) + smith.getName() + ChatColor.AQUA + " has reinforced your armor"));
-            smith.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.AQUA + "You are reinforcing " + NameTag.color(target) + target.getName() + "'s armor"));
+            Messenger.sendActionInfo(NameTag.username(smith) + ChatColor.AQUA.toString() + " has reinforced your armor", target);
+            Messenger.sendActionInfo("You are reinforcing " + NameTag.username(target) + "'s armor", smith);
             addPotionEffect(smith, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () ->
                     UpdateStats.addSupports(smith.getUniqueId(), 2), cooldownTicks);
         } else {
-            smith.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.RED + "You can't reinforce this player anymore as their armor" +
-                            " has reached its maximum reinforcement."));
+            Messenger.sendActionError("You can't reinforce this player anymore as their armor" +
+                            " has reached its maximum reinforcement.", smith);
         }
         return item;
     }

@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits.team_kits.firelands;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -134,8 +135,7 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You blocked " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s stomp"));
+                    Messenger.sendSuccess("You blocked " + NameTag.username(q) + "'s stomp", p);
                 } else {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY , 1, (float) 0.8);
                     e.setDamage(e.getDamage() * 1.5);

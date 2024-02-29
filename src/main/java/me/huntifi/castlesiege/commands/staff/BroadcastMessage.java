@@ -1,7 +1,8 @@
 package me.huntifi.castlesiege.commands.staff;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,7 +27,7 @@ public class BroadcastMessage implements CommandExecutor {
 
         String broadcastPrefix = "§2[§4ConwyMC§2] - §a";
 
-        Bukkit.broadcastMessage(broadcastPrefix + ChatColor.translateAlternateColorCodes('&', String.join(" ", args)));
+        Bukkit.getServer().sendMessage(Component.text(broadcastPrefix).append(MiniMessage.miniMessage().deserialize(String.join(" ", args))));
         return true;
     }
 }

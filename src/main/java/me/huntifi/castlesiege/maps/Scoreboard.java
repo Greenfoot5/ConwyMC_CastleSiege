@@ -5,6 +5,10 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Flag;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -50,6 +54,12 @@ public class Scoreboard implements Runnable {
 		return null;
 	}
 
+	/**
+	 * Checks if there is an entry with a specified score
+	 * @param o The objective to search through
+	 * @param score The score to check for
+	 * @return true if the score exists on the scoreboard
+	 */
 	public static boolean hasScoreTaken(Objective o, int score) {
 		for (String s : Objects.requireNonNull(o.getScoreboard()).getEntries()) {
 			if(o.getScore(s).getScore() == score) return true;
@@ -58,9 +68,11 @@ public class Scoreboard implements Runnable {
 	}
 
 	public static void replaceScore(Objective o, int score, String name) {
-		if(hasScoreTaken(o, score)) {
-			if(getEntryFromScore(o, score).equalsIgnoreCase(name)) return;
-			if(!(getEntryFromScore(o, score).equalsIgnoreCase(name))) Objects.requireNonNull(o.getScoreboard()).resetScores(getEntryFromScore(o, score));
+		if (hasScoreTaken(o, score)) {
+			// If the name is the same we do nothing
+			if (getEntryFromScore(o, score).equalsIgnoreCase(name)) return;
+			// If the names don't match we want to replace that score with a new value
+			Objects.requireNonNull(o.getScoreboard()).resetScores(getEntryFromScore(o, score));
 		}
 		o.getScore(name).setScore(score);
 	}
@@ -69,7 +81,7 @@ public class Scoreboard implements Runnable {
 		String name;
 
 		if (MapController.timer == null)
-			return "Time: " + ChatColor.RESET + "N/A";
+			return "Time: <reset>N/A";
 		
 		switch (MapController.timer.state) {
 			case PREGAME:
@@ -87,15 +99,15 @@ public class Scoreboard implements Runnable {
 			case ENDED:
 				return "MAP ENDED";
 			default:
-				return "Time: " + ChatColor.RESET + "N/A";
+				return "Time: <reset>N/A";
 		}
 
 		if (MapController.timer.seconds < 0 || MapController.timer.minutes < 0)
-			return name + ChatColor.RESET + "--:--";
+			return name + "<reset>--:--";
 		else if (MapController.timer.seconds < 10)
-			return name + ChatColor.RESET + MapController.timer.minutes + ":0" + MapController.timer.seconds;
+			return name + "<reset>" + MapController.timer.minutes + ":0" + MapController.timer.seconds;
 		else
-			return name + ChatColor.RESET + MapController.timer.minutes + ":" + MapController.timer.seconds;
+			return name + "<reset>" + MapController.timer.minutes + ":" + MapController.timer.seconds;
 	}
 
 	@Override
@@ -107,22 +119,24 @@ public class Scoreboard implements Runnable {
 			}
 
 			// Gets the scoreboard displayed to the player
-			org.bukkit.scoreboard.Scoreboard score = online.getScoreboard();
+			org.bukkit.scoreboard.Scoreboard board = online.getScoreboard();
 
 			// Title/display name of the scoreboard
-			String displayName = ChatColor.DARK_RED + String.valueOf(ChatColor.BOLD) + "Mode: " + ChatColor.RED + ChatColor.BOLD + MapController.getCurrentMap().gamemode;
+			Component displayName = Component.text("Mode: ").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD)
+					.append(Component.text(MapController.getCurrentMap().gamemode.toString()).color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
+			//String displayName = ChatColor.DARK_RED + String.valueOf(ChatColor.BOLD) + "Mode: " + ChatColor.RED + ChatColor.BOLD + MapController.getCurrentMap().gamemode;
 
 			// If there isn't an object by the name of the player on the scoreboard,
 			// Create a new one
 			Objective objective;
-			if (score.getObjective(online.getName()) == null) {
-				objective = score.registerNewObjective(online.getName(), Criteria.DUMMY, displayName);
+			if (board.getObjective(online.getName()) == null) {
+				objective = board.registerNewObjective(online.getName(), Criteria.DUMMY, displayName);
 			} else {
-				objective = score.getObjective(online.getName());
+				objective = board.getObjective(online.getName());
 			}
 
 			assert objective != null;
-			objective.setDisplayName(displayName);
+			objective.displayName(displayName);
 			replaceScore(objective, 19, String.format("%s%sMap:%s %s",
 					ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
 
@@ -183,7 +197,7 @@ public class Scoreboard implements Runnable {
 				objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 			}
 
-			online.setScoreboard(score);
+			online.setScoreboard(board);
 		}
 	}
 }

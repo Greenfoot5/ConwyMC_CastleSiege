@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import net.md_5.bungee.api.ChatMessageType;
@@ -72,8 +73,7 @@ public class WallEvent implements Listener {
 						player.getInventory().setHelmet(tnt);
 
 						// Notify the player
-						player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA
-								+ "You picked up the explosives!"));
+						Messenger.sendActionInfo("You picked up the explosives!", player);
 						carrier = player.getUniqueId();
 
 					// The player clicked on the torch
@@ -91,9 +91,8 @@ public class WallEvent implements Listener {
 						player.getInventory().setHelmet(tnt);
 
 						// Notify the player(s)
-						player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA
-								+ "You picked up the torch!"));
-						Messenger.broadcastWarning(player.getName() + " has picked up the torch!");
+						Messenger.sendInfo("You picked up the torch!", player);
+						Messenger.broadcastWarning(NameTag.mmUsername(player) + " has picked up the torch!");
 						carrier = player.getUniqueId();
 					}
 				}

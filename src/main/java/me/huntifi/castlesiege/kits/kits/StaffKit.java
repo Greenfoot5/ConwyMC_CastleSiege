@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public abstract class StaffKit extends Kit {
     public static final List<String> donatorKits = new ArrayList<>();
 
     public StaffKit(String name, int baseHealth, double regenAmount, Material material) {
-        super(name, baseHealth, regenAmount, material, ChatColor.DARK_AQUA);
+        super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_AQUA);
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());

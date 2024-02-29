@@ -5,15 +5,15 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.EnderchestEvent;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -230,8 +230,7 @@ public class Alchemist extends CoinKit implements Listener {
             // Place new stand
             e.setCancelled(false);
             stands.put(p, e.getBlockPlaced());
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                    TextComponent.fromLegacyText(ChatColor.AQUA + "You placed down your brewing stand!"));
+            Messenger.sendActionInfo("You placed down your brewing stand!", p);
         }
     }
 
@@ -255,8 +254,7 @@ public class Alchemist extends CoinKit implements Listener {
             if (Objects.equals(destroyer, placer)) {
                 if (!placer.getInventory().getItemInMainHand().getType().equals(Material.GLASS_BOTTLE)) {
                     destroyStand(placer);
-                    placer.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatColor.AQUA + "You took back your brewing stand!"));
+                    Messenger.sendActionInfo("You took back your brewing stand!", placer);
                     destroyer.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER, 3, 1);
                     // Can only hold 1 brewing stand at a time
                     PlayerInventory inv = destroyer.getInventory();
@@ -276,8 +274,7 @@ public class Alchemist extends CoinKit implements Listener {
                             != TeamController.getTeam(placer.getUniqueId())){
                 destroyStand(placer);
                 destroyer.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER , 5, 1);
-                destroyer.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacyText(ChatColor.RED + "You destroyed " + placer.getName() + "'s brewing stand!"));
+                Messenger.sendActionWarning("You destroyed " + NameTag.mmUsername(placer) + "'s brewing stand!", destroyer);
             }
         }
     }
@@ -415,8 +412,7 @@ public class Alchemist extends CoinKit implements Listener {
                     usedItem.setAmount(usedItem.getAmount() - 1);
                     inv.addItem(randomPositivePotion());
                     player.playSound(player.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatColor.AQUA + "You brewed a positive potion!"));
+                    Messenger.sendActionSuccess("You brewed a positive potion!", player);
 
                 } else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
                     PlayerInventory inv = player.getInventory();
@@ -425,8 +421,7 @@ public class Alchemist extends CoinKit implements Listener {
                     usedItem.setAmount(usedItem.getAmount() - 1);
                     inv.addItem(randomNegativePotion());
                     player.playSound(player.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatColor.AQUA + "You brewed a negative potion!"));
+                    Messenger.sendActionSuccess("You brewed a negative potion!", player);
                 }
             }
         }

@@ -13,6 +13,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -54,7 +55,7 @@ public class NameTag implements CommandExecutor, Listener {
         // Only set name tag color if data has not been loaded yet
         PlayerData data = ActiveData.getData(p.getUniqueId());
         if (data == null) {
-            Bukkit.getScheduler().runTask(Main.plugin, () -> NametagEdit.getApi().setPrefix(p, color(p).toString()));
+            Bukkit.getScheduler().runTask(Main.plugin, () -> NametagEdit.getApi().setPrefix(p, MiniMessage.miniMessage().serialize(username(p))));
             return;
         }
 
@@ -70,30 +71,58 @@ public class NameTag implements CommandExecutor, Listener {
             // Set the player's tags
 
             if (hidePlayerName || hideBoth) {
-                p.setDisplayName("§e" + color(p) + getName(p));
-                NametagEdit.getApi().setPrefix(p, color(p).toString() + ChatColor.MAGIC);
+                p.displayName(username(p));
+                NametagEdit.getApi().setPrefix(p, legacyColor(p) + ChatColor.MAGIC);
             } else {
-                p.setDisplayName("§e" + data.getLevel() + " " + rank + color(p) + p.getName());
-                NametagEdit.getApi().setPrefix(p, rank + color(p).toString());
+                p.displayName( Component.text(data.getLevel() + " ").color(NamedTextColor.YELLOW)
+                        .append(rank).append(username(p)));
+                String serialized = LegacyComponentSerializer.legacySection().serialize(rank);
+                NametagEdit.getApi().setPrefix(p, serialized.substring(0, serialized.length() - 1) + legacyColor(p));
             }
         });
      });
     }
 
     /**
-     * Get the player's primary chat color
+     * Get the player's username as a component
      * @param p The player
-     * @return The player's chat color
+     * @return The player's username & colour
      */
-    public static NamedTextColor color(Player p) {
-        return NamedTextColor.WHITE;
-//        if (!MapController.getPlayers().contains(p.getUniqueId())) {
-//            if (hideTeamColour || hideBoth)
-//                return NamedTextColor.WHITE.toString();
-//            return TeamController.getTeam(p.getUniqueId()).primaryChatColor.toString();
-//        } else {
-//            return NamedTextColor.GRAY + TextDecoration.ITALIC;
-//        }
+    public static Component username(Player p) {
+        if (MapController.getPlayers().contains(p.getUniqueId())) {
+            if (hideTeamColour || hideBoth)
+                return Component.text(getName(p)).color(NamedTextColor.WHITE);
+            return Component.text(getName(p)).color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
+        } else {
+            return Component.text(getName(p)).color(NamedTextColor.GRAY).decorate(TextDecoration.ITALIC);
+        }
+    }
+
+    /**
+     * Get the player's username with minimessage
+     * @param p The player
+     * @return The player's username with minimessage colour
+     */
+    public static String mmUsername(Player p) {
+        if (MapController.getPlayers().contains(p.getUniqueId())) {
+            if (hideTeamColour || hideBoth)
+                return "<white>" + getName(p) + "</white>";
+            String tag = "color:" + TeamController.getTeam(p.getUniqueId()).primaryChatColor.asHexString();
+            return "<" + tag + ">" + getName(p) + "</" + tag + ">";
+        } else {
+            return "<gray><i>" + getName(p) + "</gray>";
+        }
+    }
+
+    private static String legacyColor(Player p) {
+        if (MapController.getPlayers().contains(p.getUniqueId())) {
+            if (hideTeamColour || hideBoth)
+                return ChatColor.WHITE.toString();
+            Component c = Component.text(" ").color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
+            return LegacyComponentSerializer.legacySection().serialize(c);
+        } else {
+            return ChatColor.GRAY.toString() + ChatColor.ITALIC;
+        }
     }
 
     /**
@@ -151,12 +180,10 @@ public class NameTag implements CommandExecutor, Listener {
         MiniMessage mm = MiniMessage.miniMessage();
 
         if (hidePlayerName || hideBoth)
-            return mm.deserialize(color(sender).toString() + ChatColor.MAGIC + getName(sender));
+            return mm.deserialize(mmUsername(sender));
         return level(senderData.getLevel(), viewerData.getLevel())
                 .append(rank)
-                .append(Component.text(sender.getName())
-                        .color(color(sender))
-                );
+                .append(username(sender));
     }
 
     /**
@@ -178,15 +205,15 @@ public class NameTag implements CommandExecutor, Listener {
             case "chatmod+":
                 return Component.text("§1§lChatMod+ ");
             case "moderator":
-                return Component.text("§a§lMod ");
+                return MiniMessage.miniMessage().deserialize("<b><gradient:#2db359:#1c8c70>Mod</gradient></b> ");
             case "developer":
-                return Component.text("§2§lDev ");
+                return MiniMessage.miniMessage().deserialize("<b><gradient:#32731d:#269926>Dev</gradient></b> ");
             case "communitymanager":
-                return Component.text("§5§lComm Man ");
+                return MiniMessage.miniMessage().deserialize("<b><gradient:#a422e6:#7830bf>Comm Man</gradient></b> ");
             case "admin":
-                return Component.text("§c§lAdmin ");
+                return MiniMessage.miniMessage().deserialize("<b><gradient:#A82533:#EF4848>Admin</gradient></b> ");
             case "owner":
-                return MiniMessage.miniMessage().deserialize("<dark_red><b><obf><st>!</st></obf></dark_red><gradient:#FFAA00:#FF5500>Owner</gradient><obf><st><dark_red>!</dark_red></st></obf><b> ");
+                return MiniMessage.miniMessage().deserialize("<b><dark_red><obf><st>!</dark_red><gradient:#FFAA00:#FF5500>Owner</gradient><dark_red><obf><st>!</dark_red> ");
             // Donator Ranks
             case "esquire":
                 return Component.text("§3Esquire ");
@@ -199,11 +226,11 @@ public class NameTag implements CommandExecutor, Listener {
             case "duke":
                 return Component.text("§4Duke ");
             case "viceroy":
-                return Component.text("§dViceroy ");
+                return Component.text("<gradient:#be1fcc:#d94cd9>Viceroy</gradient> ");
             case "king":
-                return Component.text("§eKing ");
+                return Component.text("<gradient:#F07654:#F5DF2E:#F07654>⚜King⚜</gradient> ");
             case "high_king":
-                return Component.text("§eHigh King ");
+                return Component.text("<gradient:#FFED00:#FF0000>👑High King👑</gradient> ");
             default:
                 return Component.text("");
         }
@@ -219,18 +246,19 @@ public class NameTag implements CommandExecutor, Listener {
         // Only set name tag color if data has not been loaded yet
         PlayerData data = ActiveData.getData(p.getUniqueId());
         if (data == null) {
-            NametagEdit.getApi().setPrefix(p, color(p).toString());
+            NametagEdit.getApi().setPrefix(p, legacyColor(p));
             return true;
         }
 
         String rank = Arrays.toString(args).replace('&', '§');
+        Component mmRank = MiniMessage.miniMessage().deserialize(rank);
 
         // Set the player's tags
-        p.setDisplayName("§e" + data.getLevel() + " " + rank + color(p) + p.getName());
+        p.displayName(Component.text(data.getLevel()).color(NamedTextColor.YELLOW).append(mmRank).append(username(p)));
         new BukkitRunnable() {
             @Override
             public void run() {
-                NametagEdit.getApi().setPrefix(p, rank + color(p));
+                NametagEdit.getApi().setPrefix(p, rank + legacyColor(p));
             }
         }.runTask(Main.plugin);
         return true;

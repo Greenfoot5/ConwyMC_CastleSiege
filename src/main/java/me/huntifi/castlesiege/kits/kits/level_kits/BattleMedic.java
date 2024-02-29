@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.level_kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -138,10 +139,8 @@ public class BattleMedic extends LevelKit implements Listener {
                 Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(r), 39);
                 player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
                 addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
-                r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        NameTag.color(player) + player.getName() + ChatColor.AQUA + " is healing you"));
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        ChatColor.AQUA + "You are healing " + NameTag.color(r) + r.getName()));
+                Messenger.sendActionInfo(NameTag.username(player) + "§r is healing you", r);
+                Messenger.sendActionInfo("You are healing " + NameTag.username(r), player);
                 UpdateStats.addHeals(uuid, 1);
             }
         });

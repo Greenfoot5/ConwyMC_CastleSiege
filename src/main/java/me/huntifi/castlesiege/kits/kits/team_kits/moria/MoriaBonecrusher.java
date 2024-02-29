@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -100,19 +101,14 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NameTag.color(p) + p.getName() + ChatColor.AQUA + " blocked your crushing stun"));
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You blocked " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s crushing stun"));
+                    Messenger.sendWarning(NameTag.mmUsername(p) + " blocked your crushing stun!", q);
+                    Messenger.sendSuccess("You blocked " + NameTag.mmUsername(q) + "'s crushing stun!", p);
                 } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NameTag.color(p) + p.getName() + ChatColor.AQUA + " dodged your crushing stun"));
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You dodged " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s crushing stun"));
+                    Messenger.sendWarning(NameTag.mmUsername(p) + " dodged your crushing stun!", q);
+                    Messenger.sendSuccess("You dodged " + NameTag.mmUsername(q) + "'s crushing stun!", p);
                 } else {
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You have crushed & stunned " + NameTag.color(p) + p.getName()));
-                    p.sendMessage(ChatColor.DARK_RED + "You have been crush-stunned by " + NameTag.color(q) + q.getName() + ChatColor.DARK_RED + "!");
+                    Messenger.sendSuccess("You have crushed " + NameTag.mmUsername(p), q);
+                    Messenger.sendWarning("You have been crushed by " + NameTag.mmUsername(q) + "!", p);
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BONE_BLOCK_BREAK , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 50, 6)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 5)));

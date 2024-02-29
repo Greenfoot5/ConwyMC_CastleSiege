@@ -194,8 +194,8 @@ public class Engineer extends CoinKit implements Listener {
                 e.setCancelled(true);
                 traps.get(t).remove(trap);
                 trap.setType(Material.AIR);
-                p.sendMessage(ChatColor.RED + "You stepped on " + NameTag.color(t) + t.getName() + ChatColor.RED + "'s trap.");
-                t.sendMessage(NameTag.color(p) + p.getName() + ChatColor.GREEN + " stepped on your trap.");
+                Messenger.sendWarning("You stepped on " + NameTag.mmUsername(t) + "'s trap.", p);
+                Messenger.sendSuccess(NameTag.mmUsername(p) + " stepped on your trap.", t);
 
                 // Deal damage
                 double damage = Math.min(p.getHealth(), 60);
@@ -232,8 +232,8 @@ public class Engineer extends CoinKit implements Listener {
                 e.setCancelled(true);
                 traps.get(t).remove(trap);
                 trap.setType(Material.AIR);
-                p.sendMessage(ChatColor.RED + "Your horse stepped on " + NameTag.color(t) + t.getName() + ChatColor.RED + "'s trap.");
-                t.sendMessage(NameTag.color(p) + p.getName() + ChatColor.GREEN + "'s horse stepped on your trap.");
+                Messenger.sendWarning("Your horse on " + NameTag.mmUsername(t) + "'s trap.", p);
+                Messenger.sendSuccess(NameTag.mmUsername(p) + "'s horse stepped on your trap.", t);
                 h.damage(60);
             }
         }
