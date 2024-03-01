@@ -2,11 +2,8 @@ package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -87,14 +84,15 @@ public class VoteSkipCommand implements TabExecutor {
     private void vote(Player player) {
         if (votedPlayers.add(player.getUniqueId())) {
             int requiredVotes = getRequiredVotes();
-            Messenger.broadcastInfo(String.format("%s has voted to skip the current map! %s(%d/%d)",
-                    player.getName(), ChatColor.YELLOW, votedPlayers.size(), requiredVotes));
+            Messenger.broadcastInfo(String.format("%s has voted to skip the current map! <yellow>(%d/%d)</yellow>" +
+                            "<br>Use <yellow><click:run_command:/voteskip>/voteskip</click></yellow> to cast your vote",
+                    player.getName(), votedPlayers.size(), requiredVotes));
             if (votedPlayers.size() >= requiredVotes)
                 MapController.endMap();
             else
-                Messenger.sendInfo("Changed your mind? You can cancel your vote with /voteskip cancel", player);
+                Messenger.sendInfo("Changed your mind? You can cancel your vote with <yellow><click:run_command:/voteskip cancel>/voteskip cancel</click>", player);
         } else {
-            Messenger.sendError("You have already voted! To cancel, use /voteskip cancel", player);
+            Messenger.sendError("You have already voted! To cancel, use <yellow><click:run_command:/voteskip cancel>/voteckip cancel</click>", player);
         }
     }
 
