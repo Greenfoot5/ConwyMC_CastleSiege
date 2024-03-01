@@ -255,10 +255,7 @@ public class MapController {
 					Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has lost!~~~~~~~~");
 				}
 
-				// Broadcast MVP
-				for (String message : MVPCommand.getMVPMessage(team)) {
-					Bukkit.broadcastMessage(message);
-				}
+				Bukkit.getServer().sendMessage(MVPCommand.getMVPMessage(team));
 
 				if (team.name.equals(winners)) {
 					giveCoinReward(team);
@@ -271,10 +268,7 @@ public class MapController {
 				Bukkit.broadcastMessage("");
 				Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has drawn!~~~~~~~~");
 
-				// Broadcast MVP
-				for (String message : MVPCommand.getMVPMessage(team)) {
-					Bukkit.broadcastMessage(message);
-				}
+				Bukkit.getServer().sendMessage(MVPCommand.getMVPMessage(team));
 			}
 		}
 		VoteSkipCommand.clearVotes();
