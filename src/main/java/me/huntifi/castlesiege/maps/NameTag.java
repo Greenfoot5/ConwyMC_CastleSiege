@@ -9,6 +9,8 @@ import me.huntifi.castlesiege.events.curses.BlindnessCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.events.curses.GreaterBlindnessCurse;
 import me.huntifi.castlesiege.events.curses.TrueBlindnessCurse;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -167,8 +169,16 @@ public class NameTag implements CommandExecutor, Listener {
     }
 
     public static Component chatName(Player sender, Player viewer) {
+        return getChatName(sender, viewer.getUniqueId());
+    }
+
+    public static Component chatName(Player sender, Audience viewer) {
+        return getChatName(sender, viewer.getOrDefault(Identity.UUID, UUID.randomUUID()));
+    }
+
+    public static Component getChatName(Player sender, UUID viewer) {
         PlayerData senderData = ActiveData.getData(sender.getUniqueId());
-        PlayerData viewerData = ActiveData.getData(viewer.getUniqueId());
+        PlayerData viewerData = ActiveData.getData(viewer);
 
         // Get the player's rank
         Component rank;

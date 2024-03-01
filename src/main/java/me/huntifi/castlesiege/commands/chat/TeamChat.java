@@ -1,5 +1,7 @@
 package me.huntifi.castlesiege.commands.chat;
 
+import io.papermc.paper.chat.ChatRenderer;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
@@ -10,6 +12,7 @@ import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -18,6 +21,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -27,9 +33,51 @@ import java.util.UUID;
 /**
  * Toggles team-chat and sends a message to all teammates
  */
-public class TeamChat implements CommandExecutor {
+public class TeamChat implements CommandExecutor, Listener, ChatRenderer {
 
 	private static final Collection<UUID> teamChatters = new ArrayList<>();
+
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	public void onChat(AsyncChatEvent e) {
+		Player p = e.getPlayer();
+
+		// Check if the player is muted
+		if (Mute.isMuted(p.getUniqueId())) {
+			e.setCancelled(true);
+			return;
+		}
+
+		Team t = TeamController.getTeam(p.getUniqueId());
+		if (t == null && isTeamChatter(p.getUniqueId())) {
+			Messenger.sendInfo("You left your team and are now talking in global chat", p);
+			return;
+		}
+		e.setCancelled(true);
+
+		// Remove any players that aren't in the team
+		ArrayList<Audience> toRemove = new ArrayList<>();
+		e.viewers().forEach(v -> {
+			if (v.get(Identity.NAME).isPresent() && !t.hasPlayer(v.getOrDefault(Identity.UUID, null)))
+				toRemove.add(v);
+		});
+		toRemove.forEach(e.viewers()::remove);
+
+		e.renderer(this);
+	}
+
+	@Override
+	public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
+		NamedTextColor color = source.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(source)
+				? NamedTextColor.WHITE : NamedTextColor.GRAY;
+
+		// Console
+		if (viewer.get(Identity.NAME).isEmpty()) {
+			return sourceDisplayName.append(Component.text(" (TEAM): ")).append(message);
+		}
+
+		return NameTag.chatName(source, viewer).append(Component.text(" TEAM: ").color(NamedTextColor.DARK_AQUA))
+				.append(message.color(color));
+	}
 
 	/**
 	 * Toggle team-chat mode if no arguments are provided

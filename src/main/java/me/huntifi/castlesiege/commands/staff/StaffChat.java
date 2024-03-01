@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.staff;
 
+import io.papermc.paper.chat.ChatRenderer;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -8,6 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

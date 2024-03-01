@@ -1,8 +1,7 @@
 package me.huntifi.castlesiege.events.chat;
 
-import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.chat.TeamChat;
-import me.huntifi.castlesiege.commands.staff.StaffChat;
+import io.papermc.paper.chat.ChatRenderer;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import me.huntifi.castlesiege.events.curses.BlindnessCurse;
@@ -10,26 +9,26 @@ import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.events.curses.TrueBlindnessCurse;
 import me.huntifi.castlesiege.maps.NameTag;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static org.bukkit.Sound.BLOCK_NOTE_BLOCK_BELL;
+
 /**
  * Customises a player's chat message
  */
-public class PlayerChat implements Listener {
+public class PlayerChat implements Listener, ChatRenderer {
 
 	private static final ArrayList<String> owners = new ArrayList<>();
 
@@ -41,16 +40,9 @@ public class PlayerChat implements Listener {
 		owners.add("Greenfoot5");
 	}
 
-	/**
-	 * Set message color to white for staff and gray otherwise
-	 * Send the message in a specific mode if applicable
-	 *
-	 * @param e The event called when a player sends a message
-	 */
-	@EventHandler
-	public void onPlayerChat(AsyncPlayerChatEvent e) {
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	public void onChat(AsyncChatEvent e) {
 		Player p = e.getPlayer();
-		String message = e.getMessage();
 
 		// Check if the player is muted
 		if (Mute.isMuted(p.getUniqueId())) {
@@ -58,33 +50,25 @@ public class PlayerChat implements Listener {
 			return;
 		}
 
-		// If they are in team chat
-		if (TeamChat.isTeamChatter(p.getUniqueId())) {
-			// The team chat message was actually sent
-			if (TeamChat.sendMessage(e.getPlayer(), e.getMessage())) {
-				e.setCancelled(true);
-				return;
+		e.renderer(this);
+	}
+
+	public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
+		NamedTextColor color = NamedTextColor.GRAY;
+
+		if (!ToggleRankCommand.showDonator.contains(source)) {
+			if (source.hasPermission("castlesiege.chatmod")) {
+				color = NamedTextColor.WHITE;
 			}
-		// If they are in staff chat
-		} else if (StaffChat.isStaffChatter(p.getUniqueId())) {
-			StaffChat.sendMessage(e.getPlayer(), e.getMessage());
-			e.setCancelled(true);
-			return;
-		}
 
-
-		// Set message colour to white or gray and send as regular message
-		NamedTextColor color = p.hasPermission("castlesiege.chatmod") && !ToggleRankCommand.showDonator.contains(p)
-				? NamedTextColor.WHITE : NamedTextColor.GRAY;
-
-
-		if (owners.contains(p.getName()) && !ToggleRankCommand.showDonator.contains(p)) {
-			switch (p.getName()) {
+			switch (source.getName()) {
 				case "Huntifi":
 					color = NamedTextColor.DARK_PURPLE;
 					break;
 				case "Greenfoot5":
 					color = NamedTextColor.DARK_GREEN;
+					break;
+				default:
 					break;
 			}
 		}
@@ -92,53 +76,30 @@ public class PlayerChat implements Listener {
 		if (hidePlayerName || trueHidePlayerName)
 			color = NamedTextColor.GRAY;
 
-		//Allow to tag players in chat
-		for (Player tagged : Bukkit.getOnlinePlayers()) {
-			if (message.contains("@" + tagged.getName())) {
-				playTagSound(tagged);
+		if (message instanceof TextComponent) {
+			String content = ((TextComponent) message).content();
+			if (content.contains("@" + viewer.get(Identity.NAME))) {
+				playTagSound(viewer);
 			}
 		}
 
-		// Set the message so that the bot still receives input.
-		// Also removed all recipients as that would send the message twice to everyone
-		e.setMessage(message);
-		e.setFormat("%s: %s");
-		sendTotalMessage(p, color, message);
-		for (Player everyone : Bukkit.getOnlinePlayers()) {
-			e.getRecipients().remove(everyone);
+		// Console
+		if (viewer.get(Identity.NAME).isEmpty()) {
+			return sourceDisplayName.append(Component.text(": ")).append(message);
 		}
 
-		if (hidePlayerName || trueHidePlayerName)
-			Main.plugin.getLogger().info(p.getName() + ": " + e.getMessage());
+		return NameTag.chatName(source, viewer).append(Component.text(": "))
+				.append(message.color(color));
 	}
 
-	private void playTagSound(Player player) {
-		Location location = player.getLocation();
-
-		Sound effect = Sound.BLOCK_NOTE_BLOCK_BELL;
-
+	private void playTagSound(Audience viewer) {
 		float volume = 1f; //1 = 100%
 		float pitch = 0.5f; //Float between 0.5 and 2.0
 
-		player.playSound(location, effect, volume, pitch);
-	}
+		Sound sound = Sound.sound().type(BLOCK_NOTE_BLOCK_BELL)
+				.pitch(pitch).volume(volume).build();
 
-
-	/** This handles level colours for all players.
-	 * 	 * @param p the player to send the message from globally.
-	 * @param chatColor the colour that the player's chat should be in.
-	 * @param message The message that comes after the name.
-	 */
-	public void sendTotalMessage(Player p, NamedTextColor chatColor, String message) {
-		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-			for (Player viewer : Bukkit.getOnlinePlayers()) {
-				var mm = MiniMessage.miniMessage();
-				((Audience)viewer).sendMessage(
-						NameTag.chatName(p, viewer)
-								.append(Component.text(": "))
-								.append(Component.text(message).color(chatColor)));
-			}
-		});
+		viewer.playSound(sound);
 	}
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
