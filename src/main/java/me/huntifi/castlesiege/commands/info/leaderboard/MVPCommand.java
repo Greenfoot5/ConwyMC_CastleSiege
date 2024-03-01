@@ -111,6 +111,10 @@ public class MVPCommand implements CommandExecutor {
      */
     private static Collection<String> getMessage(UUID uuid, PlayerData data, Team t, boolean mvp) {
         Collection<String> message = new ArrayList<>();
+        if (data == null) {
+            message.add(t.primaryChatColor + t.name + ChatColor.DARK_AQUA + " MVP: N/A");
+            return message;
+        }
 
         // Header
         if (mvp) {
