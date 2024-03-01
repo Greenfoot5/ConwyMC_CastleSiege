@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
@@ -14,6 +15,7 @@ import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -37,22 +39,17 @@ public class TeamChat implements CommandExecutor, Listener, ChatRenderer {
 
 	private static final Collection<UUID> teamChatters = new ArrayList<>();
 
-	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onChat(AsyncChatEvent e) {
 		Player p = e.getPlayer();
-
-		// Check if the player is muted
-		if (Mute.isMuted(p.getUniqueId())) {
-			e.setCancelled(true);
+		if (!isTeamChatter(p.getUniqueId()))
 			return;
-		}
 
 		Team t = TeamController.getTeam(p.getUniqueId());
-		if (t == null && isTeamChatter(p.getUniqueId())) {
+		if (t == null) {
 			Messenger.sendInfo("You left your team and are now talking in global chat", p);
 			return;
 		}
-		e.setCancelled(true);
 
 		// Remove any players that aren't in the team
 		ArrayList<Audience> toRemove = new ArrayList<>();
@@ -73,6 +70,13 @@ public class TeamChat implements CommandExecutor, Listener, ChatRenderer {
 		// Console
 		if (viewer.get(Identity.NAME).isEmpty()) {
 			return sourceDisplayName.append(Component.text(" (TEAM): ")).append(message);
+		}
+
+		if (message instanceof TextComponent) {
+			String content = ((TextComponent) message).content();
+			if (content.contains("@" + viewer.get(Identity.NAME))) {
+				PlayerChat.playTagSound(viewer);
+			}
 		}
 
 		return NameTag.chatName(source, viewer).append(Component.text(" TEAM: ").color(NamedTextColor.DARK_AQUA))

@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.staff.punishments;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
@@ -12,6 +13,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +26,17 @@ import java.util.UUID;
 /**
  * Mutes a player
  */
-public class Mute implements CommandExecutor {
+public class Mute implements CommandExecutor, Listener {
+
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onChat(AsyncChatEvent e) {
+        Player p = e.getPlayer();
+
+        // Check if the player is muted
+        if (isMuted(p.getUniqueId())) {
+            e.setCancelled(true);
+        }
+    }
 
     /**
      * Mute a player
@@ -61,20 +75,6 @@ public class Mute implements CommandExecutor {
     }
 
     /**
-     * Get the UUID of a player that is currently offline
-     * @param s Source of the command
-     * @param args Passed command arguments
-     */
-    private void muteOffline(CommandSender s, String[] args) throws SQLException {
-        UUID uuid = LoadData.getUUID(args[0]);
-        if (uuid == null) {
-            s.sendMessage(ChatColor.DARK_RED + "Could not find player: " + ChatColor.RED + args[0]);
-        } else {
-            mute(s, uuid, args);
-        }
-    }
-
-    /**
      * Mute the player
      * @param s Source of the command
      * @param uuid Unique ID of the player to mute
@@ -109,6 +109,20 @@ public class Mute implements CommandExecutor {
             ActiveData.getData(uuid).setMute(reason, new Timestamp(System.currentTimeMillis() + PunishmentTime.getDuration(duration)));
             p.sendMessage(ChatColor.DARK_RED + "You were muted for: " + ChatColor.RED + reason);
             p.sendMessage(ChatColor.DARK_RED + "This mute expires in: " + PunishmentTime.getExpire(duration));
+        }
+    }
+
+    /**
+     * Get the UUID of a player that is currently offline
+     * @param s Source of the command
+     * @param args Passed command arguments
+     */
+    private void muteOffline(CommandSender s, String[] args) throws SQLException {
+        UUID uuid = LoadData.getUUID(args[0]);
+        if (uuid == null) {
+            s.sendMessage(ChatColor.DARK_RED + "Could not find player: " + ChatColor.RED + args[0]);
+        } else {
+            mute(s, uuid, args);
         }
     }
 

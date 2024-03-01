@@ -3,7 +3,6 @@ package me.huntifi.castlesiege.events.chat;
 import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
-import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import me.huntifi.castlesiege.events.curses.BlindnessCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.events.curses.TrueBlindnessCurse;
@@ -40,17 +39,10 @@ public class PlayerChat implements Listener, ChatRenderer {
 		owners.add("Greenfoot5");
 	}
 
-	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onChat(AsyncChatEvent e) {
-		Player p = e.getPlayer();
-
-		// Check if the player is muted
-		if (Mute.isMuted(p.getUniqueId())) {
-			e.setCancelled(true);
-			return;
-		}
-
-		e.renderer(this);
+		if (e.originalMessage() == e.message())
+			e.renderer(this);
 	}
 
 	public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
@@ -92,7 +84,7 @@ public class PlayerChat implements Listener, ChatRenderer {
 				.append(message.color(color));
 	}
 
-	private void playTagSound(Audience viewer) {
+	public static void playTagSound(Audience viewer) {
 		float volume = 1f; //1 = 100%
 		float pitch = 0.5f; //Float between 0.5 and 2.0
 

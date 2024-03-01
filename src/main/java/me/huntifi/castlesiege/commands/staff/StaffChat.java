@@ -1,7 +1,15 @@
 package me.huntifi.castlesiege.commands.staff;
 
 import io.papermc.paper.chat.ChatRenderer;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.events.chat.PlayerChat;
+import me.huntifi.castlesiege.maps.NameTag;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,6 +17,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,9 +29,48 @@ import java.util.UUID;
 /**
  * Toggles staff-chat and sends a message to all staff members
  */
-public class StaffChat implements CommandExecutor {
+public class StaffChat implements CommandExecutor, Listener, ChatRenderer {
 
 	private static final Collection<UUID> staffChatters = new ArrayList<>();
+
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	public void onChat(AsyncChatEvent e) {
+		Player p = e.getPlayer();
+
+		if (!isStaffChatter(p.getUniqueId())) {
+			return;
+		}
+
+		// Remove any players that aren't in the team
+		ArrayList<Audience> toRemove = new ArrayList<>();
+		e.viewers().forEach(v -> {
+			if (v.get(Identity.NAME).isPresent() && !p.hasPermission("castlesiege.chatmod"))
+				toRemove.add(v);
+		});
+		toRemove.forEach(e.viewers()::remove);
+
+		e.renderer(this);
+	}
+
+	@Override
+	public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
+		NamedTextColor color = NamedTextColor.WHITE;
+
+		// Console
+		if (viewer.get(Identity.NAME).isEmpty()) {
+			return sourceDisplayName.append(Component.text(" STAFF: ")).append(message);
+		}
+
+		if (message instanceof TextComponent) {
+			String content = ((TextComponent) message).content();
+			if (content.contains("@" + viewer.get(Identity.NAME))) {
+				PlayerChat.playTagSound(viewer);
+			}
+		}
+
+		return NameTag.chatName(source, viewer).append(Component.text(" STAFF: ").color(NamedTextColor.AQUA))
+				.append(message.color(color));
+	}
 
 	/**
 	 * Toggle staff-chat mode if no arguments are provided
