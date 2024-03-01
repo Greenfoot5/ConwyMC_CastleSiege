@@ -3,11 +3,9 @@ package me.huntifi.castlesiege.commands.chat;
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -47,10 +45,10 @@ public class PrivateMessage implements CommandExecutor {
 		// Make sure that a correct recipient is supplied
 		// Cannot send message to yourself
 		if (r == null) {
-			Messenger.sendError( "Could not find player: " + ChatColor.RED + args[0], s);
+			Messenger.sendError( "Could not find player: <red>" + args[0], s);
 			return true;
 		} else if (Objects.equals(s, r)) {
-			Messenger.sendWarning(ChatColor.RED + "You are not a clown. You are the entire circus.", s);
+			Messenger.sendWarning("You are not a clown. You are the entire circus.", s);
 			return true;
 		}
 
@@ -72,11 +70,11 @@ public class PrivateMessage implements CommandExecutor {
 			return;
 		}
 
-		((Audience) s).sendMessage(Component.text("To ").color(NamedTextColor.GOLD)
+		s.sendMessage(Component.text("To ").color(NamedTextColor.GOLD)
 				.append(getUsername(r))
 				.append(Component.text(": ").color(NamedTextColor.GOLD))
 				.append(Component.text(m).color(NamedTextColor.DARK_AQUA)));
-		((Audience) r).sendMessage(Component.text("From ").color(NamedTextColor.GOLD)
+		r.sendMessage(Component.text("From ").color(NamedTextColor.GOLD)
 				.append(getUsername(s))
 				.append(Component.text(": ").color(NamedTextColor.GOLD))
 				.append(Component.text(m).color(NamedTextColor.DARK_AQUA)));

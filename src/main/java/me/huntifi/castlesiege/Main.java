@@ -551,9 +551,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
                 boatEvent.spawnBoat();
 
-                //reset duel arena's
-                AcceptDuel.resetArenas();
-
                 // Timed
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 20);

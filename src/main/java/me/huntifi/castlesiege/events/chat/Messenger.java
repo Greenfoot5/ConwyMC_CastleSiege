@@ -260,7 +260,18 @@ public class Messenger {
     }
     
     public static void sendActionHit(String playerHit, @NotNull CommandSender receiver) {
-        Component msg = Component.text("Hit (" + playerHit + ")").color(NamedTextColor.AQUA);
+        Component msg = Component.text("Hit (" + playerHit + ")").color(AQUA);
         receiver.sendActionBar(msg);
+    }
+
+    public static void sendDuel(String message, @NotNull CommandSender receiver) {
+        Component msg = mm.deserialize("<gradient:#48A9FE:#0BEEF9>" + message + "</gradient>");
+        receiver.sendMessage(mm.deserialize("<gold>[⚔]</gold> ").append(msg));
+    }
+
+    public static void broadcastDuel(String message) {
+        Component msg = mm.deserialize(message).color(BLUE);
+        ForwardingAudience audience = Bukkit.getServer();
+        audience.sendMessage(mm.deserialize("<gold>[⚔]</gold> ").append(msg));
     }
 }
