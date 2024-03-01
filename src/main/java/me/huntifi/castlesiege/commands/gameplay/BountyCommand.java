@@ -7,7 +7,6 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -50,9 +49,7 @@ public class BountyCommand implements CommandExecutor {
 
         if (args.length == 1) {
             int amount = getBounty(bountied.getUniqueId());
-            sender.sendMessage(ChatColor.GOLD + "[B] " + ChatColor.YELLOW + NameTag.username(bountied)
-                    + ChatColor.YELLOW + " has a bounty of "
-                    + ChatColor.GOLD + amount + ChatColor.YELLOW + " coins on their head.");
+            Messenger.sendBounty(NameTag.username(bountied) + " has a bounty of <gold>" + amount + "</gold> coins on their head.", sender);
             return true;
         }
 
@@ -64,7 +61,7 @@ public class BountyCommand implements CommandExecutor {
 
         if (sender instanceof ConsoleCommandSender) {
             int totalBounty = getAndAddBounty(bountied.getUniqueId(), amount);
-            Messenger.broadcastPaidBounty(ChatColor.DARK_AQUA + "CONSOLE",
+            Messenger.broadcastPaidBounty("<dark_aqua>CONSOLE</dark_aqua>",
                     NameTag.mmUsername(bountied), amount, totalBounty);
             return true;
         } else if (!(sender instanceof Player)) {
@@ -97,17 +94,17 @@ public class BountyCommand implements CommandExecutor {
                 bounties.sort((o1, o2) -> o2.getSecond() - o1.getSecond());
 
                 // Send header
-                sender.sendMessage(ChatColor.AQUA + "#. Player " + ChatColor.GOLD + "BountyCommand");
+                Messenger.send("<aqua>#. Player</aqua> <gold>Bounty</gold>", sender);
 
                 // Send Entries
                 int pos = requested < 6 ? 0 : Math.min(requested - 5, bounties.size());
                 DecimalFormat num = new DecimalFormat("0");
                 while (pos < bounties.size()) {
-                    ChatColor color = pos == requested ? ChatColor.AQUA : ChatColor.DARK_AQUA;
+                    String color = pos == requested ? "<aqua>" : "<dark_aqua>";
                     Tuple<UUID, Integer> bounty = bounties.get(pos);
-                    sender.sendMessage(ChatColor.GRAY + num.format(pos + 1) + ". " +
-                            color + Bukkit.getOfflinePlayer(bounty.getFirst()).getName() + " " +
-                            ChatColor.GOLD + bounty.getSecond());
+                    Messenger.send("<gray>" + num.format(pos + 1) + ". " +
+                            color + Bukkit.getOfflinePlayer(bounty.getFirst()).getName() + " <gold>"
+                            + bounty.getSecond(), sender);
                     pos++;
                 }
             }

@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Booster;
 import me.huntifi.castlesiege.data_types.CoinBooster;
@@ -11,6 +12,7 @@ import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,7 +21,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -142,32 +143,32 @@ public class BoosterCommand implements CommandExecutor, Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onChat(AsyncPlayerChatEvent e) {
+    public void onChat(AsyncChatEvent e) {
 
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        if (waitingForWildKit.containsKey(uuid)) {
-            e.setCancelled(true);
-            while (e.getMessage().startsWith("§")) {
-                e.setMessage(e.getMessage().substring(2));
-            }
-
-            Kit kit = Kit.getKit(e.getMessage().trim());
-            if (kit instanceof CoinKit) {
-                KitBooster booster = waitingForWildKit.get(uuid);
-                booster.kitName = e.getMessage();
-                PlayerData data = ActiveData.getData(uuid);
-                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                    data.useBooster(uuid, booster);
-                    removeBooster(booster.id, uuid);
-                    activateBooster(booster, uuid);
-                });
-            } else {
-                Messenger.sendError("Invalid kit name!", player);
-            }
-            waitingForWildKit.remove(uuid);
+        if (!waitingForWildKit.containsKey(uuid)) {
+            return;
         }
+
+        String message = PlainTextComponentSerializer.plainText().serialize(e.message());
+        e.setCancelled(true);
+
+        Kit kit = Kit.getKit(message.trim());
+        if (kit instanceof CoinKit) {
+            KitBooster booster = waitingForWildKit.get(uuid);
+            booster.kitName = message;
+            PlayerData data = ActiveData.getData(uuid);
+            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                data.useBooster(uuid, booster);
+                removeBooster(booster.id, uuid);
+                activateBooster(booster, uuid);
+            });
+        } else {
+            Messenger.sendError("Invalid kit name!", player);
+        }
+        waitingForWildKit.remove(uuid);
     }
 
     private static void removeBooster(int boostId, UUID uuid) {

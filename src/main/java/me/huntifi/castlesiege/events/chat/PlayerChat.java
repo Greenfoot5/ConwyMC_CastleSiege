@@ -13,6 +13,7 @@ import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -69,7 +70,7 @@ public class PlayerChat implements Listener, ChatRenderer {
 			color = NamedTextColor.GRAY;
 
 		if (message instanceof TextComponent) {
-			String content = ((TextComponent) message).content();
+			String content = PlainTextComponentSerializer.plainText().serialize(message);
 			if (content.contains("@" + viewer.get(Identity.NAME))) {
 				playTagSound(viewer);
 			}

@@ -10,6 +10,7 @@ import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -62,7 +63,7 @@ public class StaffChat implements CommandExecutor, Listener, ChatRenderer {
 		}
 
 		if (message instanceof TextComponent) {
-			String content = ((TextComponent) message).content();
+			String content = PlainTextComponentSerializer.plainText().serialize(message);
 			if (content.contains("@" + viewer.get(Identity.NAME))) {
 				PlayerChat.playTagSound(viewer);
 			}

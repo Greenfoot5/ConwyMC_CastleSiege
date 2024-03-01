@@ -52,7 +52,7 @@ public class BuyKitCommand implements TabExecutor {
             if (args.length == 2) {
                 receiver = Bukkit.getPlayer(args[1]);
                 if (receiver == null) {
-                    Messenger.sendError("Could not find player: " + ChatColor.RED + args[1], sender);
+                    Messenger.sendError("Could not find player: <red>" + args[1], sender);
                     return;
                 }
             } else {
@@ -108,7 +108,7 @@ public class BuyKitCommand implements TabExecutor {
         if (args.length == 2) {
             receiver = Bukkit.getPlayer(args[1]);
             if (receiver == null) {
-                Messenger.sendError("Could not find player: " + ChatColor.RED + args[1], sender);
+                Messenger.sendError("Could not find player: <red>" + args[1], sender);
                 receiver = buyer;
             }
         } else {
