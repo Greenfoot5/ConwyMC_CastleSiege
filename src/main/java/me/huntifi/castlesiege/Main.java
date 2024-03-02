@@ -193,6 +193,7 @@ import me.huntifi.castlesiege.secrets.SecretItems;
 import me.huntifi.castlesiege.secrets.SecretSigns;
 import me.huntifi.castlesiege.secrets.Skyhold.SkyholdDoors;
 import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
@@ -223,6 +224,23 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.BLACK;
+import static net.kyori.adventure.text.format.NamedTextColor.BLUE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_BLUE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_PURPLE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_RED;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 public class Main extends JavaPlugin implements Listener {
 
@@ -1475,8 +1493,31 @@ public class Main extends JavaPlugin implements Listener {
                 colors.setFirst(Material.WHITE_WOOL);
                 colors.setSecond(NamedTextColor.WHITE);
         }
-
         return colors;
+    }
+
+    /**
+     *
+     * @param flag the flag to get the team colour from
+     * @return the correct colour of this flag's bossbar depending on the team.
+     */
+    public static BossBar.Color getBarColour(NamedTextColor color) {
+        if (color.equals(BLUE) || color.equals(DARK_AQUA) || color.equals(DARK_BLUE) || color.equals(AQUA)) {
+            return BossBar.Color.BLUE;
+        } else if (color.equals(GRAY) || color.equals(WHITE)) {
+            return BossBar.Color.WHITE;
+        } else if (color.equals(DARK_GREEN) || color.equals(GREEN)) {
+            return BossBar.Color.GREEN;
+        } else if (color.equals(LIGHT_PURPLE)) {
+            return BossBar.Color.PINK;
+        } else if (color.equals(BLACK) || color.equals(DARK_GRAY) || color.equals(DARK_PURPLE)) {
+            return BossBar.Color.PURPLE;
+        } else if (color.equals(DARK_RED) || color.equals(RED)) {
+            return BossBar.Color.RED;
+        } else if (color.equals(YELLOW) || color.equals(GOLD)) {
+            return BossBar.Color.YELLOW;
+        }
+        return null;
     }
 
     public void reload() {

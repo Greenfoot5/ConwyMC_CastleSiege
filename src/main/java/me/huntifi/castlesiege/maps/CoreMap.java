@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.maps.objects.Core;
-import me.huntifi.castlesiege.maps.objects.Flag;
 
 public class CoreMap extends Map {
 

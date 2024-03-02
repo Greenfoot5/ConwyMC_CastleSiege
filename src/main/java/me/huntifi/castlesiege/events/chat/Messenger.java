@@ -43,6 +43,15 @@ public class Messenger {
         receiver.sendMessage(msg);
     }
 
+    public static void broadcast(String message) {
+        Component msg = mm.deserialize(message);
+        Bukkit.getServer().sendMessage(msg);
+    }
+
+    public static void broadcast(Component msg) {
+        Bukkit.getServer().sendMessage(msg);
+    }
+
     /**
      * Sends an error message to a user
      * @param message The message to send
@@ -142,6 +151,16 @@ public class Messenger {
         Component msg = mm.deserialize(message).color(GREEN);
         ForwardingAudience audience = Bukkit.getServer();
         audience.sendMessage(mm.deserialize("<gold>[+]</gold> ").append(msg));
+    }
+
+    /**
+     * Broadcasts a success message to everyone
+     * @param message The message to send
+     */
+    public static void broadcastSuccess(Component message) {
+        message = message.color(GREEN);
+        ForwardingAudience audience = Bukkit.getServer();
+        audience.sendMessage(mm.deserialize("<gold>[+]</gold> ").append(message));
     }
 
     public static void sendInfo(String message, @NotNull CommandSender receiver) {

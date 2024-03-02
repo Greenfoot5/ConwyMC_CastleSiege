@@ -1,18 +1,17 @@
 package me.huntifi.castlesiege.maps.objects;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -27,21 +26,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
-import static net.kyori.adventure.text.format.NamedTextColor.BLACK;
-import static net.kyori.adventure.text.format.NamedTextColor.DARK_AQUA;
-import static net.kyori.adventure.text.format.NamedTextColor.DARK_BLUE;
-import static net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
+import static me.huntifi.castlesiege.Main.getBarColour;
 import static net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
-import static net.kyori.adventure.text.format.NamedTextColor.DARK_PURPLE;
-import static net.kyori.adventure.text.format.NamedTextColor.DARK_RED;
-import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
-import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
-import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
-import static net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
-import static net.kyori.adventure.text.format.NamedTextColor.RED;
-import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
-import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 public class Core implements Listener {
 
@@ -52,7 +38,7 @@ public class Core implements Listener {
     public boolean isDestroyed = false;
 
     // Location Data
-    protected Location spawnPoint;;
+    protected Location spawnPoint;
     public ProtectedRegion region;
     public static final HashMap<Core, BossBar> bars = new HashMap<>();
 
@@ -67,15 +53,6 @@ public class Core implements Listener {
         this.name = name;
         this.owners = team;
         this.health = health;
-    }
-
-    /**
-     * Gets the message to send to the user when they spawn in
-     * @return the message to send
-     */
-    public String getSpawnMessage() {
-        Team team = MapController.getCurrentMap().getTeam(owners);
-        return team.secondaryChatColor + "Spawning at:" + team.primaryChatColor + " " + name;
     }
 
     /**
@@ -138,11 +115,11 @@ public class Core implements Listener {
 
     /**
      *
-     * @param flag the core which the bossbar belongs to
+     * @param core the core which the bossbar belongs to
      * @param color the colour to put the bossbar to
      */
-    public void setCoreBarColour(Flag flag, BossBar.Color color) {
-        bars.get(flag).color(color);
+    public void setCoreBarColour(Core core, BossBar.Color color) {
+        bars.get(core).color(color);
     }
 
     /**
@@ -152,34 +129,9 @@ public class Core implements Listener {
         if (MapController.getCurrentMap() instanceof CoreMap) {
             CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
             for (Core core : coreMap.getCores()) {
-                createFlagBossbar(core, getBarColour(core), BossBar.Overlay.PROGRESS, core.name, (float) core.health);
+                createFlagBossbar(core, getBarColour(core.getColor()), BossBar.Overlay.PROGRESS, core.name, (float) core.health);
             }
         }
-    }
-
-    /**
-     *
-     * @param core the core to get the team colour from
-     * @return the correct colour of this flag's bossbar depending on the team.
-     */
-    public static BossBar.Color getBarColour(Core core) {
-        NamedTextColor color = core.getColor();
-        if (color.equals(NamedTextColor.BLUE) || color.equals(DARK_AQUA) || color.equals(DARK_BLUE) || color.equals(AQUA)) {
-            return BossBar.Color.BLUE;
-        } else if (color.equals(GRAY) || color.equals(WHITE)) {
-            return BossBar.Color.WHITE;
-        } else if (color.equals(DARK_GREEN) || color.equals(GREEN)) {
-            return BossBar.Color.GREEN;
-        } else if (color.equals(LIGHT_PURPLE)) {
-            return BossBar.Color.PINK;
-        } else if (color.equals(BLACK) || color.equals(DARK_GRAY) || color.equals(DARK_PURPLE)) {
-            return BossBar.Color.PURPLE;
-        } else if (color.equals(DARK_RED) || color.equals(RED)) {
-            return BossBar.Color.RED;
-        } else if (color.equals(YELLOW) || color.equals(GOLD)) {
-            return BossBar.Color.YELLOW;
-        }
-        return null;
     }
 
     /**
@@ -191,7 +143,7 @@ public class Core implements Listener {
      * @param progress the amount of progress done on the bossbar, should be (index / max caps)
      */
     public static void createFlagBossbar(Core core, BossBar.Color barColour, BossBar.Overlay barStyle, String text, float progress) {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GREEN + core.name + " Bossbar creation initialised");
+        Main.plugin.getComponentLogger().info(Component.text(core.name + " Bossbar creation initialised", DARK_GREEN));
         BossBar bar = BossBar.bossBar(Component.text(text), progress, barColour, barStyle);
         bars.putIfAbsent(core, bar);
     }
@@ -203,7 +155,7 @@ public class Core implements Listener {
      */
     public void addPlayerToCoreBar(Core core, Player p) {
         if (bars.containsKey(core)) {
-            bars.get(core).addViewer((Audience) p);
+            bars.get(core).addViewer(p);
         }
     }
 
@@ -257,19 +209,20 @@ public class Core implements Listener {
 
             if (this.getOwners().equalsIgnoreCase(TeamController.getTeam(event.getPlayer().getUniqueId()).name)) {
                 Messenger.sendError("You cannot damage your own core!", event.getPlayer());
+                event.setCancelled(true);
                 return;
             }
 
             Player player = event.getPlayer();
 
             for (Team team : MapController.getCurrentMap().teams) {
-
                 if (!team.hasPlayer(player.getUniqueId())) {
                     for (UUID member : team.getPlayers()) {
                         Messenger.sendActionError("Your core is under attack!", Objects.requireNonNull(Bukkit.getPlayer(member)));
                     }
                 }
             }
+
             UpdateStats.addCaptures(player.getUniqueId(), 1);
             playDamageSound(player, false);
             damageCore(1);

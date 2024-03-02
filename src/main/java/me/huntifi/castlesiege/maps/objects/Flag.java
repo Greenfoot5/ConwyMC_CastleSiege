@@ -11,14 +11,11 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -37,22 +34,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
-import static net.kyori.adventure.text.format.NamedTextColor.BLACK;
-import static net.kyori.adventure.text.format.NamedTextColor.BLUE;
-import static net.kyori.adventure.text.format.NamedTextColor.DARK_AQUA;
-import static net.kyori.adventure.text.format.NamedTextColor.DARK_BLUE;
-import static net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
-import static net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
-import static net.kyori.adventure.text.format.NamedTextColor.DARK_PURPLE;
-import static net.kyori.adventure.text.format.NamedTextColor.DARK_RED;
-import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static me.huntifi.castlesiege.Main.getBarColour;
 import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
-import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
-import static net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
-import static net.kyori.adventure.text.format.NamedTextColor.RED;
-import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
-import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 /**
  * Stores all details and handles all flag actions.
@@ -116,15 +99,6 @@ public class Flag {
         this.players = new ArrayList<>();
         progress = progressMultiplier * startAmount;
         isRunning = new AtomicInteger(0);
-    }
-
-    /**
-     * Gets the message to send to the user when they spawn in
-     * @return the message to send
-     */
-    public String getSpawnMessage() {
-        Team team = MapController.getCurrentMap().getTeam(currentOwners);
-        return team.secondaryChatColor + "Spawning at:" + team.primaryChatColor + " " + name;
     }
 
     /**
@@ -297,7 +271,7 @@ public class Flag {
             broadcastTeam(currentOwners);
             notifyPlayers(true);
             setFlagBarValue(this, (float) animationIndex /maxCap);
-            setFlagBarColour(this, getBarColour(this));
+            setFlagBarColour(this, getBarColour(this.getColor()));
             animate(true, currentOwners);
         // Players have increased the capture
         } else if (capProgress > animationIndex) {
@@ -320,7 +294,7 @@ public class Flag {
                     if (player != null) {
                         // Make sure they're on the capping team
                         if (TeamController.getTeam(uuid).name.equals(currentOwners)) {
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: " + name));
+                            Messenger.sendAction("<gold>Flag fully captured! <aqua>Flag: " + name, player);
                         } else {
                             Messenger.sendActionError("Enemies have fully captured the flag!", player);
                         }
@@ -379,7 +353,7 @@ public class Flag {
         if (!newTeam.equals("neutral"))
         {
             Team team = MapController.getCurrentMap().getTeam(newTeam);
-            Bukkit.broadcastMessage(team.primaryChatColor + "~~~ " + newTeam + " has captured " + name + "! ~~~");
+            Messenger.broadcast(Component.text("~~~ " + newTeam + " has captured " + name + "! ~~~", team.primaryChatColor));
 
             //Hologram
             if (hologram == null) { return; }
@@ -387,7 +361,7 @@ public class Flag {
         }
         else
         {
-            Bukkit.broadcastMessage(ChatColor.GRAY + "~~~ " + name + " has been neutralised! ~~~");
+            Messenger.broadcast(Component.text("~~~ " + name + " has been neutralised! ~~~", NamedTextColor.GRAY));
 
             //Hologram
             if (hologram == null) { return; }
@@ -596,11 +570,11 @@ public class Flag {
         hologram.setInvulnerable(true);
         hologram.setCustomNameVisible(true);
         hologram.setSmall(true);
-        hologram.setCustomName(ChatColor.BOLD +  "Flag: " + getColor() + name);
+        hologram.customName(MiniMessage.miniMessage().deserialize("Flag: ").append(Component.text(name, getColor())));
     }
 
-    public void updateHologram(NamedTextColor teamColour) {
-        hologram.setCustomName(ChatColor.BOLD + "Flag: " + teamColour + name);
+    public void updateHologram(NamedTextColor teamColor) {
+        hologram.customName(MiniMessage.miniMessage().deserialize("<b>Flag:</b> ").append(Component.text(name, teamColor)));
         hologram.setCustomNameVisible(true);
     }
 
@@ -626,7 +600,7 @@ public class Flag {
      * @param progress the amount of progress done on the bossbar, should be (index / max caps)
      */
     public static void createFlagBossbar(Flag flag, BossBar.Color barColour, BossBar.Overlay barStyle, String text, float progress) {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GREEN + flag.name + " Bossbar creation initialised");
+        Main.plugin.getComponentLogger().info(Component.text(flag.name + " Bossbar creation initialised", NamedTextColor.DARK_GREEN));
         BossBar bar = BossBar.bossBar(Component.text(text), progress, barColour, barStyle);
         bars.putIfAbsent(flag, bar);
     }
@@ -638,7 +612,7 @@ public class Flag {
      */
     public void addPlayerToFlagBar(Flag flag, Player p) {
         if (bars.containsKey(flag)) {
-            bars.get(flag).addViewer((Audience) p);
+            bars.get(flag).addViewer(p);
         }
     }
 
@@ -649,7 +623,7 @@ public class Flag {
      */
     public void removePlayerFromFlagBar(Flag flag, Player p) {
         if (bars.containsKey(flag)) {
-            bars.get(flag).removeViewer((Audience) p);
+            bars.get(flag).removeViewer(p);
         }
     }
 
@@ -676,32 +650,7 @@ public class Flag {
      */
     public static void registerBossbars() {
         for (Flag flag : MapController.getCurrentMap().flags) {
-            createFlagBossbar(flag, getBarColour(flag), BossBar.Overlay.PROGRESS, flag.name, (float) flag.animationIndex/flag.maxCap);
+            createFlagBossbar(flag, getBarColour(flag.getColor()), BossBar.Overlay.PROGRESS, flag.name, (float) flag.animationIndex/flag.maxCap);
         }
-    }
-
-    /**
-     *
-     * @param flag the flag to get the team colour from
-     * @return the correct colour of this flag's bossbar depending on the team.
-     */
-    public static BossBar.Color getBarColour(Flag flag) {
-        NamedTextColor color = flag.getColor();
-        if (color.equals(BLUE) || color.equals(DARK_AQUA) || color.equals(DARK_BLUE) || color.equals(AQUA)) {
-            return BossBar.Color.BLUE;
-        } else if (color.equals(GRAY) || color.equals(WHITE)) {
-            return BossBar.Color.WHITE;
-        } else if (color.equals(DARK_GREEN) || color.equals(GREEN)) {
-            return BossBar.Color.GREEN;
-        } else if (color.equals(LIGHT_PURPLE)) {
-            return BossBar.Color.PINK;
-        } else if (color.equals(BLACK) || color.equals(DARK_GRAY) || color.equals(DARK_PURPLE)) {
-            return BossBar.Color.PURPLE;
-        } else if (color.equals(DARK_RED) || color.equals(RED)) {
-            return BossBar.Color.RED;
-        } else if (color.equals(YELLOW) || color.equals(GOLD)) {
-            return BossBar.Color.YELLOW;
-        }
-        return null;
     }
 }

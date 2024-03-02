@@ -55,7 +55,7 @@ public class KitBooster extends Booster {
 
     private static Material getMaterial(String kitName) {
         if (kitName.equalsIgnoreCase("wild")) {
-            return Material.GRASS;
+            return Material.SHORT_GRASS;
         } else if (kitName.equalsIgnoreCase("random")) {
             return Material.COOKIE;
         }

@@ -58,7 +58,7 @@ public class AcceptDuel implements CommandExecutor, Listener {
 
     public AcceptDuel() {
         for (int i = 0; i < ARENA_COUNT; i++) {
-            arenaPlayers.set(i, new Tuple<>(null, null));
+            arenaPlayers.add(new Tuple<>(null, null));
 
             Location loc = ORIGIN_CHALLENGER.clone();
             loc.setX(loc.x() + X_SPACING * i);

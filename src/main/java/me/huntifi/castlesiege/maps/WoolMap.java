@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -103,7 +104,7 @@ public class WoolMap implements Listener {
 		  shulker.setAI(false);
 		  shulker.setInvulnerable(true);
 		  shulker.setInvisible(true);
-		  shulker.setCustomName(shulker.getUniqueId().toString());
+		  shulker.customName(Component.text(shulker.getUniqueId().toString()));
 		  p.showEntity(Main.plugin, shulker);
 
 		  shulker.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 8000, 0, false, false));
