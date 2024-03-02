@@ -209,15 +209,15 @@ public class NameTag implements CommandExecutor, Listener {
         switch (rank) {
             // Staff Ranks
             case "builder":
-                return Component.text("§b§lBuilder ");
+                return MiniMessage.miniMessage().deserialize("<b><gradient:#80CED7:#007EA7>Builder</gradient></b> ");
             case "chatmod":
-                return Component.text("§9§lChatMod ");
+                return MiniMessage.miniMessage().deserialize("<b><gradient:#08C8F6:#4D5DFB>ChatMod</gradient></b> ");
             case "chatmod+":
-                return Component.text("§1§lChatMod+ ");
+                return MiniMessage.miniMessage().deserialize("<b><gradient:#2876F9:#6D17CB>ChatMod+</gradient></b>  ");
             case "moderator":
-                return MiniMessage.miniMessage().deserialize("<b><gradient:#2db359:#1c8c70>Mod</gradient></b> ");
+                return MiniMessage.miniMessage().deserialize("<b><gradient:#2db379:#1c8c70>Mod</gradient></b> ");
             case "developer":
-                return MiniMessage.miniMessage().deserialize("<b><gradient:#32731d:#269926>Dev</gradient></b> ");
+                return MiniMessage.miniMessage().deserialize("<b><gradient:#00BF00:#1A913E>Dev</gradient></b> ");
             case "communitymanager":
                 return MiniMessage.miniMessage().deserialize("<b><gradient:#a422e6:#7830bf>Comm Man</gradient></b> ");
             case "admin":
