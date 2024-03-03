@@ -37,7 +37,7 @@ public class Tips extends BukkitRunnable {
             "Want to apply for staff? Go to <yellow>/discord</yellow> ---> #join-us",
             "Does a kit look too strong? Request & discuss a nerf on our <yellow>/discord</yellow> server!",
             //"Is the server empty or are you all by yourself? Mention the <yellow>@fighter</yellow> role on our discord server!",
-            "You have a chance to dodge maceman' stuns by shifting.",
+            "You have a chance to dodge maceman's stuns by shifting.",
             "Use <yellow>/maps</yellow> to see the current rotation",
             "Hit by something that seems invisible? Check your surroundings for Crossbowmen!",
             "Engineers are a useful class that can speed up catapult reloads, repair gates, place traps and use ballista, a great addition to your team!",
