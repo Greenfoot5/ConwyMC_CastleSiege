@@ -3,7 +3,9 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -68,10 +70,10 @@ public abstract class StaffKit extends Kit {
     /**
      * @return Displays the cost for the footer of a kit gui's lore
      */
-    public ArrayList<String> getGuiCostText() {
-        ArrayList<String> text = new ArrayList<>();
-        text.add(" ");
-        text.add(color + "§lUnlocked by becoming staff");
+    public ArrayList<Component> getGuiCostText() {
+        ArrayList<Component> text = new ArrayList<>();
+        text.add(Component.text(" "));
+        text.add(Component.text("Unlocked by becoming staff", color).decorate(TextDecoration.BOLD));
         return text;
     }
 }

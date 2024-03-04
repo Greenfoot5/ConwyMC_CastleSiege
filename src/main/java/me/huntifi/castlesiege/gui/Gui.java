@@ -9,8 +9,9 @@ import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -74,7 +75,7 @@ public class Gui implements Listener {
      * @param command The command to execute when clicking the item
      * @param shouldClose Whether the GUI should close after performing the command
      */
-    public void addItem(String name, Material material, List<String> lore, int location, String command, boolean shouldClose) {
+    public void addItem(Component name, Material material, List<Component> lore, int location, String command, boolean shouldClose) {
         inventory.setItem(location, ItemCreator.item(new ItemStack(material), name, lore, null));
         locationToItem.put(location, new GuiItem(command, shouldClose));
     }
@@ -84,8 +85,9 @@ public class Gui implements Listener {
      * @param command The command to execute when clicking the item
      */
     public void addBackItem(int location, String command) {
-        ItemStack item = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW), "§4§lGo back",
-                Collections.singletonList("§cReturn to the previous interface."), null);
+        ItemStack item = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
+                Component.text("Go back", NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD),
+                Collections.singletonList(Component.text("Return to the previous interface.", NamedTextColor.RED)), null);
         PotionMeta potionMeta = (PotionMeta) item.getItemMeta();
         assert potionMeta != null;
         potionMeta.setColor(Color.RED);
@@ -107,7 +109,7 @@ public class Gui implements Listener {
                     getKitDisplayName(kit), kit.getGuiDescription(), null));
             locationToItem.put(location, new GuiItem(command, true));
         } else {
-            ArrayList<String> lore = kit.getGuiDescription();
+            ArrayList<Component> lore = kit.getGuiDescription();
             lore.addAll(kit.getGuiCostText());
             inventory.setItem(location, ItemCreator.item(new ItemStack(Material.BLACK_STAINED_GLASS_PANE),
                     getKitDisplayName(kit), lore, null));
@@ -119,8 +121,9 @@ public class Gui implements Listener {
      * @param kit The kit to display the name of
      * @return A string displaying in for them [Color]CLASS: kit.name
      */
-    private String getKitDisplayName(Kit kit) {
-        return kit.color + "§lCLASS: " + kit.color + kit.name;
+    private Component getKitDisplayName(Kit kit) {
+        return Component.text("CLASS: ", kit.color).decorate(TextDecoration.BOLD)
+                .append(Component.text(kit.name).decoration(TextDecoration.BOLD, false));
     }
 
     /**
@@ -135,11 +138,13 @@ public class Gui implements Listener {
         if (!(kit instanceof CoinKit))
             throw new IllegalArgumentException(kitName + " is not a donator kit, it's " + kit.getClass());
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            String itemName = (kit instanceof TeamKit ? ChatColor.BLUE : ChatColor.GOLD) + "" + ChatColor.BOLD + kit.name;
-            String price = ChatColor.GREEN + "Coins: " + ChatColor.YELLOW + CoinKit.getPrice(uuid);
-            String duration = ChatColor.GREEN + "Duration: permanent";
+            NamedTextColor color = kit instanceof TeamKit ? NamedTextColor.BLUE : NamedTextColor.GOLD;
+            Component itemName = Component.text(kit.name, color).decorate(TextDecoration.BOLD);
+            Component price = Component.text("Coins: ", NamedTextColor.GREEN)
+                    .append(Component.text(CoinKit.getPrice(uuid), NamedTextColor.YELLOW));
+            Component duration = Component.text("Duration: permanent", NamedTextColor.GREEN);
 
-            ArrayList<String> lore = getKitLore(price, duration, kit);
+            ArrayList<Component> lore = getKitLore(price, duration, kit);
             Bukkit.getScheduler().runTask(Main.plugin, () ->
                         addItem(itemName, material, lore, location, "buykit " + kitName, false)
                     );
@@ -153,20 +158,23 @@ public class Gui implements Listener {
      * @return The lore for an item of this kit
      */
     @NotNull
-    private static ArrayList<String> getKitLore(String price, String duration, Kit kit) {
-        ArrayList<String> lore = new ArrayList<>();
+    private static ArrayList<Component> getKitLore(Component price, Component duration, Kit kit) {
+        ArrayList<Component> lore = new ArrayList<>();
         lore.add(price);
         lore.add(duration);
         if (kit instanceof TeamKit) {
             Map map = MapController.getMap(((TeamKit) kit).getMapName());
             if (map != null) {
                 Team team = map.getTeam(((TeamKit) kit).getTeamName());
-                lore.add(ChatColor.GREEN + "Map: " + ChatColor.BOLD + map.name);
-                lore.add(ChatColor.GREEN + "Team: " + team.primaryChatColor + team.name);
+                lore.add(Component.text("Map: ", NamedTextColor.GREEN)
+                        .append(Component.text(map.name).decorate(TextDecoration.BOLD)));
+                lore.add(Component.text("Team: ", NamedTextColor.GREEN)
+                        .append(Component.text(team.name, team.primaryChatColor)));
             } else
-                lore.add(ChatColor.GREEN + "Map: " + ChatColor.BOLD + "OUT OF ROTATION");
+                lore.add(Component.text("Map: ", NamedTextColor.GREEN)
+                        .append(Component.text("OUT OF ROTATION").decorate(TextDecoration.BOLD)));
         }
-        lore.add(ChatColor.YELLOW + "Click here to buy!");
+        lore.add(Component.text("Click here to buy!", NamedTextColor.YELLOW));
         return lore;
     }
 

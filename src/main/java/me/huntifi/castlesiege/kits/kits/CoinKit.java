@@ -4,7 +4,9 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -85,10 +87,10 @@ public abstract class CoinKit extends Kit {
     /**
      * @return Displays the cost for the footer of a kit gui's lore
      */
-    public ArrayList<String> getGuiCostText() {
-        ArrayList<String> text = new ArrayList<>();
-        text.add(" ");
-        text.add(color + "§lUnlocked with coins");
+    public ArrayList<Component> getGuiCostText() {
+        ArrayList<Component> text = new ArrayList<>();
+        text.add(Component.text(" "));
+        text.add(Component.text("Unlocked with coins", color).decorate(TextDecoration.BOLD));
         return text;
     }
 }

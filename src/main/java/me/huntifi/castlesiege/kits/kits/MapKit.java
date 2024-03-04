@@ -3,7 +3,9 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
@@ -74,10 +76,10 @@ public abstract class MapKit extends Kit implements Listener {
     /**
      * @return Displays the cost for the footer of a kit gui's lore
      */
-    public ArrayList<String> getGuiCostText() {
-        ArrayList<String> text = new ArrayList<>();
-        text.add(" ");
-        text.add(color + "§lCan be played on " + map + "!");
+    public ArrayList<Component> getGuiCostText() {
+        ArrayList<Component> text = new ArrayList<>();
+        text.add(Component.text(" "));
+        text.add(Component.text("Can be played on " + map + "!", color).decorate(TextDecoration.BOLD));
         return text;
     }
 

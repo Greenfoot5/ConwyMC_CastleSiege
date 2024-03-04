@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
@@ -107,8 +108,10 @@ public abstract class TeamKit extends CoinKit implements Listener {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
                 Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
             Sign sign = (Sign) e.getClickedBlock().getState();
-            if (sign.getSide(Side.FRONT).getLine(0).contains("Team Kit") && sign.getSide(Side.FRONT).getLine(2).contains(name)) {
-                e.getPlayer().performCommand(commandName.toLowerCase());
+            String mapKit = PlainTextComponentSerializer.plainText().serialize(sign.getSide(Side.FRONT).line(0));
+            String kitName = PlainTextComponentSerializer.plainText().serialize(sign.getSide(Side.FRONT).line(2));
+            if (mapKit.contains("Map Kit") && kitName.contains(name)) {
+                e.getPlayer().performCommand(name.toLowerCase());
             }
         }
     }

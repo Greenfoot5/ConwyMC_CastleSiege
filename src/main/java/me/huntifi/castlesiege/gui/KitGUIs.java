@@ -34,7 +34,7 @@ import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Scout;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Skirmisher;
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -84,29 +84,37 @@ public class KitGUIs {
     // TODO - Maybe list how many of the total have been collected?
     private static Gui selector() {
         Gui gui = new Gui(Component.text("Categories"), 6);
-        gui.addItem(ChatColor.GREEN + "Damager", Material.IRON_SWORD,
-                Collections.singletonList(ChatColor.DARK_GREEN + "Select a damager kit here!"), 11, "kit damage", true);
+        gui.addItem(Component.text("Damager", NamedTextColor.GREEN), Material.IRON_SWORD,
+                Collections.singletonList(Component.text("Select a damager kit here!", NamedTextColor.DARK_GREEN)),
+                        11, "kit damage", true);
 
-        gui.addItem(ChatColor.GREEN + "Tank", Material.DIAMOND_CHESTPLATE,
-                Collections.singletonList(ChatColor.DARK_GREEN + "Select a tank kit here!"), 13, "kit tank", true);
+        gui.addItem(Component.text("Tank", NamedTextColor.GREEN), Material.DIAMOND_CHESTPLATE,
+                Collections.singletonList(Component.text("Select a tank kit here!", NamedTextColor.DARK_GREEN)),
+                13, "kit tank", true);
 
-        gui.addItem(ChatColor.GREEN + "Ranged", Material.BOW,
-                Collections.singletonList(ChatColor.DARK_GREEN + "Select a ranged kit here!"), 15, "kit ranged", true);
+        gui.addItem(Component.text("Ranged", NamedTextColor.GREEN), Material.BOW,
+                Collections.singletonList(Component.text("Select a ranged kit here!", NamedTextColor.DARK_GREEN)),
+                15, "kit ranged", true);
 
-        gui.addItem(ChatColor.GREEN + "Movement", Material.IRON_BOOTS,
-                Collections.singletonList(ChatColor.DARK_GREEN + "Select a movement kit here!"), 29, "kit movement", true);
+        gui.addItem(Component.text("Movement", NamedTextColor.GREEN), Material.IRON_BOOTS,
+                Collections.singletonList(Component.text("Select a movement kit here!", NamedTextColor.DARK_GREEN)),
+                29, "kit movement", true);
 
-        gui.addItem(ChatColor.GREEN + "Support", Material.GOLDEN_APPLE,
-                Collections.singletonList(ChatColor.DARK_GREEN + "Select a support kit here!"), 31, "kit support", true);
+        gui.addItem(Component.text("Support", NamedTextColor.GREEN), Material.GOLDEN_APPLE,
+                Collections.singletonList(Component.text("Select a support kit here!", NamedTextColor.DARK_GREEN)),
+                31, "kit support", true);
 
-        gui.addItem(ChatColor.GREEN + "Debuff", Material.REDSTONE,
-                Collections.singletonList(ChatColor.DARK_GREEN + "Select a debuff kit here!"), 33, "kit debuff", true);
+        gui.addItem(Component.text("Debuff", NamedTextColor.GREEN), Material.REDSTONE,
+                Collections.singletonList(Component.text("Select a debuff kit here!", NamedTextColor.DARK_GREEN)),
+                33, "kit debuff", true);
 
-        gui.addItem(ChatColor.DARK_PURPLE + "The Shop", Material.SUNFLOWER,
-                Collections.singletonList(ChatColor.LIGHT_PURPLE + "Get teleported to the shop!"), 48, "coinshop", true);
+        gui.addItem(Component.text("The Shop", NamedTextColor.DARK_PURPLE), Material.SUNFLOWER,
+                Collections.singletonList(Component.text("Get teleported to the shop!", NamedTextColor.LIGHT_PURPLE)),
+                48, "coinshop", true);
 
-        gui.addItem(ChatColor.BLUE + "Random kit", Material.SUSPICIOUS_STEW,
-                Collections.singletonList(ChatColor.DARK_AQUA + "You will be given a random kit that you own."), 50, "Random", true);
+        gui.addItem(Component.text("Random kit", NamedTextColor.BLUE), Material.SUSPICIOUS_STEW,
+                Collections.singletonList(Component.text("You will be given a random kit that you own.", NamedTextColor.DARK_AQUA)),
+                50, "Random", true);
 
         return gui;
     }

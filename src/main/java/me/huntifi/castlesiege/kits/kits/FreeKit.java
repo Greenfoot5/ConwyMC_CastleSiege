@@ -1,6 +1,8 @@
 package me.huntifi.castlesiege.kits.kits;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -34,10 +36,10 @@ public abstract class FreeKit extends Kit {
     /**
      * @return Displays the cost for the footer of a kit gui's lore
      */
-    public ArrayList<String> getGuiCostText() {
-        ArrayList<String> text = new ArrayList<>();
-        text.add(" ");
-        text.add(color + "§lFree to play!");
+    public ArrayList<Component> getGuiCostText() {
+        ArrayList<Component> text = new ArrayList<>();
+        text.add(Component.text(" "));
+        text.add(Component.text("Free to play!", color).decorate(TextDecoration.BOLD));
         return text;
     }
 
