@@ -3,8 +3,22 @@ main: me.huntifi.castlesiege.Main
 version: 1.2.5
 api-version: 1.20
 authors: [Huntifi, Greenfoot5, kasteelvuur]
-depend: [Votifier, WorldGuard, NametagEdit, MythicMobs]
-softdepend: [LibsDisguises, WorldEdit]
+depend:
+  - Votifier
+  - WorldGuard
+  - NametagEdit
+  - MythicMobs
+softdepend:
+  - LibsDisguises
+  - WorldEdit
+  # Packets Stuff
+  - ProtocolLib
+  - ProtocolSupport
+  - ViaVersion
+  - ViaBackwards
+  - ViaRewind
+  - Geyser-Spigot
+  # End Packets Stuff
 load: STARTUP
 
 permissions:

@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class SettingsCommand implements TabExecutor {
-    public static final HashMap<String, String[]> defaultSettings = new HashMap<>(){{
+    public static final HashMap<String, String[]> defaultSettings = new HashMap<String, String[]>(){{
         put("randomDeath", new String[]{"false", "true"});
         put("deathMessages", new String[]{"false", "true"});
         // TODO: put("language", new String[]{"EnglishUK", "Pirate"});

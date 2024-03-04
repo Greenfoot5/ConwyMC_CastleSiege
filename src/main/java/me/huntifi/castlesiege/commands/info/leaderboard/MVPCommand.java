@@ -134,7 +134,7 @@ public class MVPCommand implements CommandExecutor {
                 .append(Component.text(" | Assists ", DARK_AQUA))
                 .append(Component.text(num.format(data.getAssists()), WHITE));
         c = c.append(Component.newline())
-                .append(Component.text(" | Captures", DARK_AQUA))
+                .append(Component.text(" | Captures ", DARK_AQUA))
                 .append(Component.text(num.format(data.getCaptures()), WHITE))
                 .append(Component.text(" | Heals ", DARK_AQUA))
                 .append(Component.text(num.format(data.getCaptures()), WHITE))

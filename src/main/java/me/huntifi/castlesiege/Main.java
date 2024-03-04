@@ -132,21 +132,22 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Paladin;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Priest;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Ranger;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Rogue;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Sorcerer;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Vanguard;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Viking;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
+import me.huntifi.castlesiege.kits.kits.free_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.kits.kits.map_kits.CamelRider;
-import me.huntifi.castlesiege.kits.kits.map_kits.Constructor;
 import me.huntifi.castlesiege.kits.kits.in_development.Armorer;
 import me.huntifi.castlesiege.kits.kits.in_development.Bannerman;
-import me.huntifi.castlesiege.kits.kits.coin_kits.Sorcerer;
-import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
+import me.huntifi.castlesiege.kits.kits.map_kits.CamelRider;
+import me.huntifi.castlesiege.kits.kits.map_kits.Constructor;
 import me.huntifi.castlesiege.kits.kits.staff_kits.Warbear;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyArbalester;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyLongbowman;
@@ -169,7 +170,6 @@ import me.huntifi.castlesiege.kits.kits.team_kits.thunderstone.ThunderstoneElytr
 import me.huntifi.castlesiege.kits.kits.voter_kits.FireArcher;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Scout;
-import me.huntifi.castlesiege.kits.kits.free_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Skirmisher;
 import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.Gamemode;
@@ -184,7 +184,17 @@ import me.huntifi.castlesiege.maps.WoolMap;
 import me.huntifi.castlesiege.maps.WoolMapBlock;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
-import me.huntifi.castlesiege.maps.objects.*;
+import me.huntifi.castlesiege.maps.objects.ButtonDoor;
+import me.huntifi.castlesiege.maps.objects.Catapult;
+import me.huntifi.castlesiege.maps.objects.ChargeFlag;
+import me.huntifi.castlesiege.maps.objects.Core;
+import me.huntifi.castlesiege.maps.objects.Door;
+import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.maps.objects.LeverDoor;
+import me.huntifi.castlesiege.maps.objects.PressurePlateDoor;
+import me.huntifi.castlesiege.maps.objects.Ram;
+import me.huntifi.castlesiege.maps.objects.RegionHandler;
 import me.huntifi.castlesiege.misc.mythic.MythicListener;
 import me.huntifi.castlesiege.secrets.Abrakhan.AbrakhanSecretDoor;
 import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
@@ -194,10 +204,13 @@ import me.huntifi.castlesiege.secrets.SecretSigns;
 import me.huntifi.castlesiege.secrets.Skyhold.SkyholdDoors;
 import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
 import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.megavex.scoreboardlibrary.api.ScoreboardLibrary;
+import net.megavex.scoreboardlibrary.api.exception.NoPacketAdapterAvailableException;
+import net.megavex.scoreboardlibrary.api.noop.NoopScoreboardLibrary;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -246,6 +259,7 @@ public class Main extends JavaPlugin implements Listener {
 
     public static Plugin plugin;
     public static Main instance;
+    public static ScoreboardLibrary scoreboardLibrary;
 
     public static MySQL SQL;
 
@@ -257,6 +271,16 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument[] coreConfigs;
 
     private YamlDocument gameConfig;
+
+//    @Override
+//    public void onLoad() {
+//        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
+//        //Are all listeners read only?
+//        PacketEvents.getAPI().getSettings().reEncodeByDefault(false)
+//                .checkForUpdates(true)
+//                .bStats(true);
+//        PacketEvents.getAPI().load();
+//    }
 
 
     @Override
@@ -290,6 +314,18 @@ public class Main extends JavaPlugin implements Listener {
                 SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
                 // second param allows for ordering of handlers - see the JavaDocs
                 sessionManager.registerHandler(RegionHandler.FACTORY, null);
+
+                //Scoreboard
+                //PacketEvents.getAPI().getEventManager().registerListener(new PacketEventsListener());
+                //PacketEvents.getAPI().init();
+                try {
+                    assert plugin != null;
+                    scoreboardLibrary = ScoreboardLibrary.loadScoreboardLibrary(plugin);
+                } catch (NoPacketAdapterAvailableException e) {
+                    // If no packet adapter was found, you can fallback to the no-op implementation:
+                    scoreboardLibrary = new NoopScoreboardLibrary();
+                    plugin.getLogger().warning("No scoreboard packet adapter available!");
+                }
 
                 // Tips
                 new Tips().runTaskTimer(plugin, Tips.TIME_BETWEEN_TIPS * 20L, Tips.TIME_BETWEEN_TIPS * 20L);
@@ -405,7 +441,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new RandomKitCommand(), plugin);
                 getServer().getPluginManager().registerEvents(new NameTag(), plugin);
                 getServer().getPluginManager().registerEvents(new WoolHat(), plugin);
-
 
                 // Chat
                 Objects.requireNonNull(getCommand("GlobalChat")).setExecutor(new GlobalChat());
@@ -571,7 +606,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Timed
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);
-                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 20);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 5);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
@@ -597,6 +632,7 @@ public class Main extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         getLogger().info("Disabling plugin...");
+        //PacketEvents.getAPI().terminate();
         // Unregister all listeners
         HandlerList.unregisterAll(plugin);
         // Unload all worlds
@@ -615,6 +651,8 @@ public class Main extends JavaPlugin implements Listener {
         } catch (NullPointerException ex) {
             getLogger().warning("SQL could not disconnect, it doesn't exist!");
         }
+        scoreboardLibrary.close();
+
         getLogger().info("Plugin has been disabled!");
     }
 
@@ -737,7 +775,7 @@ public class Main extends JavaPlugin implements Listener {
     private void createConfigs() {
 
         // Set up the vector adapter
-        TypeAdapter<Vector> vectorAdapter = new TypeAdapter<>() {
+        TypeAdapter<Vector> vectorAdapter = new TypeAdapter<Vector>() {
             @NotNull
             @Override
             public java.util.Map<Object, Object> serialize(@NotNull Vector vector) {
@@ -765,7 +803,7 @@ public class Main extends JavaPlugin implements Listener {
         getLogger().info("Loaded Vector Adapter");
 
         // Set up the frame adapters
-        TypeAdapter<LocationFrame> locationFrameTypeAdapter = new TypeAdapter<>() {
+        TypeAdapter<LocationFrame> locationFrameTypeAdapter = new TypeAdapter<LocationFrame>() {
 
             @NotNull
             public java.util.Map<Object, Object> serialize(@NotNull LocationFrame object) {
@@ -1498,8 +1536,8 @@ public class Main extends JavaPlugin implements Listener {
 
     /**
      *
-     * @param flag the flag to get the team colour from
-     * @return the correct colour of this flag's bossbar depending on the team.
+     * @param color the chat colour to use to pick boss colour
+     * @return the bossbar colour to use
      */
     public static BossBar.Color getBarColour(NamedTextColor color) {
         if (color.equals(BLUE) || color.equals(DARK_AQUA) || color.equals(DARK_BLUE) || color.equals(AQUA)) {
@@ -1521,10 +1559,10 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     public void reload() {
-        plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Reloading plugin...");
+        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Reloading plugin...", GOLD)));
         onDisable();
         onEnable();
-        plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Plugin Reloaded!");
+        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Plugin Reloaded!", GOLD)));
     }
 
     public void activateBoosters() {

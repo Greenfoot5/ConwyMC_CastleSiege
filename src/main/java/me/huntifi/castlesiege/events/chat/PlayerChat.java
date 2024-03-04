@@ -11,8 +11,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -47,19 +46,19 @@ public class PlayerChat implements Listener, ChatRenderer {
 	}
 
 	public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
-		NamedTextColor color = NamedTextColor.GRAY;
+		String color = "<gray>";
 
 		if (!ToggleRankCommand.showDonator.contains(source)) {
 			if (source.hasPermission("castlesiege.chatmod")) {
-				color = NamedTextColor.WHITE;
+				color = "<white>";
 			}
 
 			switch (source.getName()) {
 				case "Huntifi":
-					color = NamedTextColor.DARK_PURPLE;
+					color = "<dark_purple>";
 					break;
 				case "Greenfoot5":
-					color = NamedTextColor.DARK_GREEN;
+					color = "<gradient:#1FD1F9:#B621FE>";
 					break;
 				default:
 					break;
@@ -67,14 +66,13 @@ public class PlayerChat implements Listener, ChatRenderer {
 		}
 
 		if (hidePlayerName || trueHidePlayerName)
-			color = NamedTextColor.GRAY;
+			color = "<gray>";
 
-		if (message instanceof TextComponent) {
-			String content = PlainTextComponentSerializer.plainText().serialize(message);
-			if (content.contains("@" + viewer.get(Identity.NAME))) {
-				playTagSound(viewer);
-			}
+		String content = PlainTextComponentSerializer.plainText().serialize(message);
+		if (content.contains("@" + viewer.get(Identity.NAME))) {
+			playTagSound(viewer);
 		}
+		message = MiniMessage.miniMessage().deserialize(color + content);
 
 		// Console
 		if (viewer.get(Identity.NAME).isEmpty()) {
@@ -82,7 +80,7 @@ public class PlayerChat implements Listener, ChatRenderer {
 		}
 
 		return NameTag.chatName(source, viewer).append(Component.text(": "))
-				.append(message.color(color));
+				.append(message);
 	}
 
 	public static void playTagSound(Audience viewer) {

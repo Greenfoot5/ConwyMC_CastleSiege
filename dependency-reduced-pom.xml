@@ -21,17 +21,26 @@
           <relocations>
             <relocation>
               <pattern>dev.dejvokep.boostedyaml</pattern>
-              <shadedPattern>com.github.Huntif.CastleSiege</shadedPattern>
+              <shadedPattern>com.github.Huntif.CastleSiege.yaml</shadedPattern>
             </relocation>
             <relocation>
               <pattern>commons-io.commons-io</pattern>
-              <shadedPattern>com.github.Huntif.CastleSiege</shadedPattern>
+              <shadedPattern>com.github.Huntif.CastleSiege.commons-io</shadedPattern>
+            </relocation>
+            <relocation>
+              <pattern>net.megavex.scoreboardlibrary</pattern>
+              <shadedPattern>com.github.Huntif.CastleSiege.libs.scoreboardlibrary</shadedPattern>
             </relocation>
           </relocations>
           <artifactSet>
             <includes>
               <include>dev.dejvokep:boosted-yaml-spigot</include>
               <include>commons-io:commons-io</include>
+              <include>com.github.megavexnetwork.scoreboard-library:scoreboard-library-api</include>
+              <include>com.github.megavexnetwork.scoreboard-library:scoreboard-library-implementation</include>
+              <include>com.github.megavexnetwork.scoreboard-library:scoreboard-library-modern</include>
+              <include>com.github.megavexnetwork.scoreboard-library:scoreboard-library-commons</include>
+              <include>com.github.megavexnetwork.scoreboard-library:scoreboard-library-packet-adapter-base</include>
             </includes>
           </artifactSet>
         </configuration>
@@ -80,6 +89,10 @@
       <id>upstream</id>
       <url>https://ci.nametagedit.com/plugin/repository/everything/</url>
     </repository>
+    <repository>
+      <id>codemc-releases</id>
+      <url>https://repo.codemc.io/repository/maven-releases/</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
@@ -115,13 +128,13 @@
     <dependency>
       <groupId>com.sk89q.worldedit</groupId>
       <artifactId>worldedit-core</artifactId>
-      <version>7.3.0-SNAPSHOT</version>
+      <version>7.2.21-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.sk89q.worldedit</groupId>
       <artifactId>worldedit-bukkit</artifactId>
-      <version>7.3.0-SNAPSHOT</version>
+      <version>7.2.21-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

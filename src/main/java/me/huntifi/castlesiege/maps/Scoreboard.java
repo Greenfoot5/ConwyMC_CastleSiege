@@ -1,87 +1,53 @@
 package me.huntifi.castlesiege.maps;
 
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.castlesiege.maps.objects.Core;
-import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.FlagSidebar;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.megavex.scoreboardlibrary.api.sidebar.Sidebar;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Criteria;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
 
-import java.text.DecimalFormat;
-import java.util.Objects;
+import static me.huntifi.castlesiege.Main.scoreboardLibrary;
 
 /**
  * Displays the scoreboard with current flag ownership to all players
  */
 public class Scoreboard implements Runnable {
 
+	private static Sidebar flagSidebar;
+	private static FlagSidebar flagComponent;
+
 	/**
 	 * Clears the scoreboard for all players
 	 */
 	public static void clearScoreboard() {
-		for (Player online : Bukkit.getOnlinePlayers()) {
-			Objective objective = online.getScoreboard().getObjective(DisplaySlot.SIDEBAR);
-			if (objective != null)
-				objective.unregister();
-		}
+		if (flagSidebar == null)
+			return;
+
+		flagSidebar.close();
+		flagSidebar = null;
 	}
+
+//	public static void createScoreboard() {
+//		flagSidebar = Main.scoreboardLibrary.createSidebar();
+//		flagSidebar.title(Component.text("Mode: ", NamedTextColor.DARK_RED, TextDecoration.BOLD)
+//				.append(Component.text(MapController.getCurrentMap().gamemode.toString(), NamedTextColor.RED, TextDecoration.BOLD)));
+//
+//	}
 
 	/**
 	 * Clears the scoreboard for one player
 	 * @param player The player to clear the scoreboard for
 	 */
 	public static void clearScoreboard(Player player) {
-		Objective objective = player.getScoreboard().getObjective(DisplaySlot.SIDEBAR);
-		if (objective != null)
-			objective.unregister();
+		flagSidebar.removePlayer(player);
 	}
 
-	public static String getEntryFromScore(Objective o, int score) {
-		if(o == null) return null;
-		if(!hasScoreTaken(o, score)) return null;
-		for (String s : Objects.requireNonNull(o.getScoreboard()).getEntries()) {
-			if(o.getScore(s).getScore() == score) return o.getScore(s).getEntry();
-		}
-		return null;
-	}
-
-	/**
-	 * Checks if there is an entry with a specified score
-	 * @param o The objective to search through
-	 * @param score The score to check for
-	 * @return true if the score exists on the scoreboard
-	 */
-	public static boolean hasScoreTaken(Objective o, int score) {
-		for (String s : Objects.requireNonNull(o.getScoreboard()).getEntries()) {
-			if(o.getScore(s).getScore() == score) return true;
-		}
-		return false;
-	}
-
-	public static void replaceScore(Objective o, int score, String name) {
-		if (hasScoreTaken(o, score)) {
-			// If the name is the same we do nothing
-			if (getEntryFromScore(o, score).equalsIgnoreCase(name)) return;
-			// If the names don't match we want to replace that score with a new value
-			Objects.requireNonNull(o.getScoreboard()).resetScores(getEntryFromScore(o, score));
-		}
-		o.getScore(name).setScore(score);
-	}
-
-	public static String getTimeText() {
+	public static Component getTimeText() {
 		String name;
 
 		if (MapController.timer == null)
-			return "Time: <reset>N/A";
+			return MiniMessage.miniMessage().deserialize("Time: <reset>N/A");
 		
 		switch (MapController.timer.state) {
 			case PREGAME:
@@ -97,107 +63,52 @@ public class Scoreboard implements Runnable {
 				name = "Play: ";
 				break;
 			case ENDED:
-				return "MAP ENDED";
+				return MiniMessage.miniMessage().deserialize("MAP ENDED");
 			default:
-				return "Time: <reset>N/A";
+				return MiniMessage.miniMessage().deserialize("Time: <reset>N/A");
 		}
 
 		if (MapController.timer.seconds < 0 || MapController.timer.minutes < 0)
-			return name + "<reset>--:--";
+			return MiniMessage.miniMessage().deserialize(name + "<reset>--:--");
 		else if (MapController.timer.seconds < 10)
-			return name + "<reset>" + MapController.timer.minutes + ":0" + MapController.timer.seconds;
+			return MiniMessage.miniMessage().deserialize(name + "<reset>" + MapController.timer.minutes
+					+ ":0" + MapController.timer.seconds);
 		else
-			return name + "<reset>" + MapController.timer.minutes + ":" + MapController.timer.seconds;
+			return MiniMessage.miniMessage().deserialize(name + "<reset>" + MapController.timer.minutes
+					+ ":" + MapController.timer.seconds);
 	}
 
 	@Override
 	public void run() {
-		for (Player online : Bukkit.getOnlinePlayers()) {
-			// If the player is seeing the default scoreboard, we want to give them a new one
-			if (online.getScoreboard() == Objects.requireNonNull(Bukkit.getServer().getScoreboardManager()).getMainScoreboard()) {
-				online.setScoreboard(Bukkit.getServer().getScoreboardManager().getNewScoreboard());
-			}
-
-			// Gets the scoreboard displayed to the player
-			org.bukkit.scoreboard.Scoreboard board = online.getScoreboard();
-
-			// Title/display name of the scoreboard
-			Component displayName = Component.text("Mode: ").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD)
-					.append(Component.text(MapController.getCurrentMap().gamemode.toString()).color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
-			//String displayName = ChatColor.DARK_RED + String.valueOf(ChatColor.BOLD) + "Mode: " + ChatColor.RED + ChatColor.BOLD + MapController.getCurrentMap().gamemode;
-
-			// If there isn't an object by the name of the player on the scoreboard,
-			// Create a new one
-			Objective objective;
-			if (board.getObjective(online.getName()) == null) {
-				objective = board.registerNewObjective(online.getName(), Criteria.DUMMY, displayName);
-			} else {
-				objective = board.getObjective(online.getName());
-			}
-
-			assert objective != null;
-			objective.displayName(displayName);
-			replaceScore(objective, 19, String.format("%s%sMap:%s %s",
-					ChatColor.GOLD, ChatColor.BOLD, ChatColor.GREEN, MapController.getCurrentMap().name));
-
-			// Setup timer display
-			replaceScore(objective, 18, ChatColor.GOLD + String.valueOf(ChatColor.BOLD) + getTimeText());
-			replaceScore(objective, 17, ChatColor.DARK_GRAY + "-");
-
-
-			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {
-				if (MapController.getCurrentMap() instanceof CoreMap) {
-					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
-					// Display the core scoreboard
-					for (Core core : coreMap.getCores()) {
-						Team owners = MapController.getCurrentMap().getTeam(core.getOwners());
-						Scoreboard.replaceScore(objective, core.scoreboard, (owners == null ? ChatColor.GRAY : owners.primaryChatColor)
-								+ "" + ChatColor.BOLD + core.name);
-						Scoreboard.replaceScore(objective, core.scoreboard - 1, (owners == null ? ChatColor.GRAY : owners.primaryChatColor) +
-								"Health: " + ChatColor.WHITE + core.health);
-					}
-					// Display the flag scoreboard
-					for (Flag flag : MapController.getCurrentMap().flags) {
-						if (flag.isActive()) {
-							Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
-							Scoreboard.replaceScore(objective, flag.scoreboard,
-									(owners == null ? ChatColor.GRAY : owners.primaryChatColor) + flag.name);
-						}
-					}
-				} else {
-					// Display the flag scoreboard
-					for (Flag flag : MapController.getCurrentMap().flags) {
-						if (flag.isActive()) {
-							Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
-							Scoreboard.replaceScore(objective, flag.scoreboard,
-									(owners == null ? ChatColor.GRAY : owners.primaryChatColor) + flag.name);
-						}
-					}
-				}
-
-			} else if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("true")) {
-				// Display the stats scoreboard
-				DecimalFormat dec = new DecimalFormat("0.00");
-				DecimalFormat num = new DecimalFormat("0");
-				PlayerData data = MVPStats.getStats(online.getUniqueId());
-
-				replaceScore(objective, 10, ChatColor.WHITE + "Score: " + ChatColor.WHITE + num.format(data.getScore()));
-				replaceScore(objective, 9, ChatColor.GREEN + "Kills: " + ChatColor.WHITE + num.format(data.getKills()));
-				replaceScore(objective, 8, ChatColor.RED + "Deaths: " + ChatColor.WHITE + num.format(data.getDeaths()));
-				replaceScore(objective, 7, ChatColor.YELLOW + "KDR: " + ChatColor.WHITE + dec.format(data.getKills() / data.getDeaths()));
-				replaceScore(objective, 6, ChatColor.DARK_GREEN + "Assists: " + ChatColor.WHITE + num.format(data.getAssists()));
-				replaceScore(objective, 5, ChatColor.GRAY + "Captures: " + ChatColor.WHITE + num.format(data.getCaptures()));
-				replaceScore(objective, 4, ChatColor.LIGHT_PURPLE + "Heals: " + ChatColor.WHITE + num.format(data.getHeals()));
-				replaceScore(objective, 3, ChatColor.DARK_PURPLE + "Supports: " + ChatColor.WHITE + num.format(data.getSupports()));
-				replaceScore(objective, 2, ChatColor.DARK_GRAY + "Kill Streak: " + ChatColor.WHITE + num.format(data.getKillStreak()));
-			}
-
-			// Actually displays the scoreboard
-			if (objective.getDisplaySlot() != DisplaySlot.SIDEBAR) {
-				objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-			}
-
-			online.setScoreboard(board);
+		// Recreate the sidebar if it's gone
+		if (flagSidebar == null) {
+			flagSidebar = scoreboardLibrary.createSidebar();
+			flagComponent = new FlagSidebar(flagSidebar);
 		}
+		flagComponent.tick();
+
+		// TODO - Allow players to select which scoreboard they want
+		for (Player online : Bukkit.getOnlinePlayers()) {
+			flagSidebar.addPlayer(online);
+		}
+
+//        Bukkit.getOnlinePlayers();
+// 			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {
+//			} else if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("true")) {
+//				// Display the stats scoreboard
+//				DecimalFormat dec = new DecimalFormat("0.00");
+//				DecimalFormat num = new DecimalFormat("0");
+//				PlayerData data = MVPStats.getStats(online.getUniqueId());
+//
+//				replaceScore(objective, 10, ChatColor.WHITE + "Score: " + ChatColor.WHITE + num.format(data.getScore()));
+//				replaceScore(objective, 9, ChatColor.GREEN + "Kills: " + ChatColor.WHITE + num.format(data.getKills()));
+//				replaceScore(objective, 8, ChatColor.RED + "Deaths: " + ChatColor.WHITE + num.format(data.getDeaths()));
+//				replaceScore(objective, 7, ChatColor.YELLOW + "KDR: " + ChatColor.WHITE + dec.format(data.getKills() / data.getDeaths()));
+//				replaceScore(objective, 6, ChatColor.DARK_GREEN + "Assists: " + ChatColor.WHITE + num.format(data.getAssists()));
+//				replaceScore(objective, 5, ChatColor.GRAY + "Captures: " + ChatColor.WHITE + num.format(data.getCaptures()));
+//				replaceScore(objective, 4, ChatColor.LIGHT_PURPLE + "Heals: " + ChatColor.WHITE + num.format(data.getHeals()));
+//				replaceScore(objective, 3, ChatColor.DARK_PURPLE + "Supports: " + ChatColor.WHITE + num.format(data.getSupports()));
+//				replaceScore(objective, 2, ChatColor.DARK_GRAY + "Kill Streak: " + ChatColor.WHITE + num.format(data.getKillStreak()));
+//			}
 	}
 }

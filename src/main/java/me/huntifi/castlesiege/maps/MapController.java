@@ -569,6 +569,8 @@ public class MapController {
 				}
 				//enable the bossbars
 				Flag.registerBossbars();
+
+				Scoreboard.clearScoreboard();
 			}
 		}.runTask(Main.plugin);
 

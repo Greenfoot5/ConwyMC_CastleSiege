@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
@@ -89,7 +90,9 @@ public abstract class MapKit extends Kit implements Listener {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
                 Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
             Sign asign = (Sign) e.getClickedBlock().getState();
-            if (asign.getSide(Side.FRONT).getLine(0).contains("Map Kit") && asign.getSide(Side.FRONT).getLine(2).contains(sign)) {
+            String mapKit = PlainTextComponentSerializer.plainText().serialize(asign.getSide(Side.FRONT).line(0));
+            String kitName = PlainTextComponentSerializer.plainText().serialize(asign.getSide(Side.FRONT).line(2));
+            if (mapKit.contains("Map Kit") && kitName.contains(sign)) {
                 e.getPlayer().performCommand(name.toLowerCase());
             }
         }
