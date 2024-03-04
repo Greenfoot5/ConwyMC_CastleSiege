@@ -26,7 +26,7 @@ public class TeamsCommand implements CommandExecutor {
 		Team[] teams = MapController.getCurrentMap().teams;
 
 		for (Team t : teams) {
-			sender.sendMessage(String.format("%sTeam %s%s: %s%d",
+			sender.sendMessage(String.format("<green>Team %s%s: %s%d",
 					ChatColor.GREEN, t.primaryChatColor, t.name, ChatColor.WHITE, t.getTeamSize()));
 		}
 

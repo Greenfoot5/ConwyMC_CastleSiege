@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.commands.info;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,8 +21,8 @@ public class DiscordCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		Messenger.sendInfo("The link to the " + ChatColor.LIGHT_PURPLE + "[ConwyMC] " + ChatColor.AQUA +
-				"discord is: " + ChatColor.DARK_PURPLE + "https://discord.gg/AUDqTpC", sender);
+		Messenger.sendInfo("The link to the <light_purple>[ConwyMC]</light_purple> " +
+				"discord is: <yellow><click:open_url:https://discord.gg/AUDqTpC>https://discord.gg/AUDqTpC</click></yellow>", sender);
 		return true;
 	}
 }

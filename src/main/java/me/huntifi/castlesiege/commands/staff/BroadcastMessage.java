@@ -25,9 +25,10 @@ public class BroadcastMessage implements CommandExecutor {
         if (args.length == 0)
             return false;
 
-        String broadcastPrefix = "§2[§4ConwyMC§2] - §a";
+        Component broadcastPrefix = MiniMessage.miniMessage().deserialize("<dark_green>[<dark_red>ConwyMC</dark_red>] - </dark_green>");
 
-        Bukkit.getServer().sendMessage(Component.text(broadcastPrefix).append(MiniMessage.miniMessage().deserialize(String.join(" ", args))));
+        Bukkit.getServer().sendMessage(broadcastPrefix.append(MiniMessage.miniMessage().deserialize(
+                "<gradient:#EC9F05:#FF4E00>" + String.join(" ", args))));
         return true;
     }
 }

@@ -1,13 +1,17 @@
 package me.huntifi.castlesiege.commands.info;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -25,21 +29,25 @@ public class MapsCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		StringBuilder sb = new StringBuilder();
+		Component c = Component.text().build();
 
 		// Add all maps to the string builder and color the active map green
-		for (Map map : MapController.maps) {
-			if (Objects.equals(MapController.getCurrentMap(), map)) {
-				sb.append(ChatColor.DARK_GREEN);
-			} else {
-				sb.append(ChatColor.GRAY);
-			}
-			sb.append(map.name).append(ChatColor.WHITE).append(" > ");
-		}
-		sb.append(ChatColor.GRAY).append("Restart");
+
+        List<Map> maps = MapController.maps;
+        for (int i = 0; i < maps.size(); i++) {
+            Map map = maps.get(i);
+            if (Objects.equals(MapController.getCurrentMap(), map)) {
+                c = c.append(Component.text(map.name, NamedTextColor.DARK_GREEN));
+            } else {
+                c = c.append(Component.text(map.name, NamedTextColor.GRAY));
+            }
+			float phase = ((float)i + 1f) / ((float)maps.size());
+            c = c.append(MiniMessage.miniMessage().deserialize("<transition:#3EADCF:#ABE9CD:" + phase + "> > </transition>"));
+        }
+		c = c.append(Component.text("Restart", NamedTextColor.GRAY));
 
 		// Print the message
-		sender.sendMessage(sb.toString());
+		Messenger.send(c, sender);
 		return true;
 	}
 }

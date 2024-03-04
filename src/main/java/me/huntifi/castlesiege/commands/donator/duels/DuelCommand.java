@@ -64,7 +64,7 @@ public class DuelCommand implements CommandExecutor {
         inviter.put(receiver, sender);
         Messenger.sendDuel("You challenged " + receiver.getName() + " to a duel!", sender);
         Messenger.sendDuel(sender.getName() + " has challenged you to a duel! " +
-                "<yellow><click:run_command:/acceptduel " + sender.getName() + ">/acceptduel <player></click></yellow>", receiver);
+                "<yellow><click:suggest_command:/acceptduel " + sender.getName() + ">/acceptduel <player></click></yellow>", receiver);
 
         new BukkitRunnable() {
             @Override
