@@ -29,8 +29,6 @@ public class CollapseEvent implements Listener {
 
         Player player = e.getPlayer();
 
-        boolean isActive = false;
-
         // Check we're on HelmsDeep
         if(MapController.getCurrentMap().worldName.equals("Hommet") && MapController.isOngoing()) {
             // Check the player has right-clicked a SPRUCE BUTTON while standing within 5 blocks of the CENTRE
@@ -40,49 +38,45 @@ public class CollapseEvent implements Listener {
                 if(!Objects.equals(TeamController.getTeam(player.getUniqueId()).name,
                         MapController.getCurrentMap().teams[0].name)) {
 
-                    if (!isActive) {
-
-                        for (UUID all : MapController.getCurrentMap().teams[1].getPlayers()) {
-                            Player near = Bukkit.getPlayer(all);
-                            if (near.getLocation().distance(CENTRAL) <= 10) {
-                                near.sendTitle("", "Run the tunnel is about to collapse!", 10, 80, 10);
-                            }
+                    for (UUID all : MapController.getCurrentMap().teams[1].getPlayers()) {
+                        Player near = Bukkit.getPlayer(all);
+                        if (near.getLocation().distance(CENTRAL) <= 10) {
+                            near.sendTitle("", "Run the tunnel is about to collapse!", 10, 80, 10);
                         }
-
-                        isActive = true;
-                        UpdateStats.addSupports(player.getUniqueId(), 60);
-
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                SchematicSpawner.spawnSchematic(SCHEMATIC, "HommetWallCollapse2");
-
-                            }
-                        }.runTaskLater(Main.plugin, 20);
-
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                SchematicSpawner.spawnSchematic(SCHEMATIC, "HommetWallCollapse3");
-
-                            }
-                        }.runTaskLater(Main.plugin, 60);
-
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                SchematicSpawner.spawnSchematic(SCHEMATIC, "HommetCollapsedWall");
-
-                                // Play various sound effects to make it sound like a massive explosion
-                                Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_GENERIC_EXPLODE , 10000, 2 );
-                                Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_BLAST_FAR , 10000, 2 );
-                                Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_BLAST , 10000, 2 );
-                                Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST , 10000, 2 );
-                                Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 10000, 2 );
-                                Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE , 10000, 2 );
-                            }
-                        }.runTaskLater(Main.plugin, 140);
                     }
+
+                    UpdateStats.addSupports(player.getUniqueId(), 60);
+
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            SchematicSpawner.spawnSchematic(SCHEMATIC, "HommetWallCollapse2");
+
+                        }
+                    }.runTaskLater(Main.plugin, 20);
+
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            SchematicSpawner.spawnSchematic(SCHEMATIC, "HommetWallCollapse3");
+
+                        }
+                    }.runTaskLater(Main.plugin, 60);
+
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            SchematicSpawner.spawnSchematic(SCHEMATIC, "HommetCollapsedWall");
+
+                            // Play various sound effects to make it sound like a massive explosion
+                            Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_GENERIC_EXPLODE , 10000, 2 );
+                            Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_BLAST_FAR , 10000, 2 );
+                            Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_BLAST , 10000, 2 );
+                            Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST , 10000, 2 );
+                            Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 10000, 2 );
+                            Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE , 10000, 2 );
+                        }
+                    }.runTaskLater(Main.plugin, 140);
                 }
             }
         }

@@ -4,7 +4,6 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class TrueBlindnessCurse extends CurseCast {
     @Override
     protected void cast() {
         this.setStartTime();
-        Messenger.broadcastCurse(ChatColor.DARK_RED + getDisplayName() + "§r has been activated! " + getActivateMessage());
+        Messenger.broadcastCurse("<dark_red>" + getDisplayName() + "</dark_red> has been activated! " + getActivateMessage());
         playSound(MapController.getPlayers());
 
         CurseCast curse = this;
@@ -34,7 +33,7 @@ public class TrueBlindnessCurse extends CurseCast {
             public void run() {
                 CurseExpired expired = new CurseExpired(curse);
                 Bukkit.getPluginManager().callEvent(expired);
-                Messenger.broadcastCurseEnd(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage());
+                Messenger.broadcastCurseEnd("<dark_green>" + expired.getDisplayName() + "</dark_green> has been expired! " + expired.getExpireMessage());
             }
         }.runTaskLater(Main.plugin, getDuration());
 

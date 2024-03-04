@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.commands.mojang;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -67,7 +66,7 @@ public class WhoisCommand implements CommandExecutor {
 
             // Create the message header
             StringBuilder message = new StringBuilder();
-            message.append(ChatColor.DARK_PURPLE).append(" --------- ")
+            message.append("<dark_purple> --------- ")
                     .append(args.length == 0 ? "Your" : args[0] + "'s")
                     .append(" name history --------- \n");
 
@@ -75,22 +74,22 @@ public class WhoisCommand implements CommandExecutor {
             PreviousPlayerNameEntry[] previousNames = NameLookup.getPlayerPreviousNames(uuid);
             for (PreviousPlayerNameEntry entry : previousNames) {
                 if (entry.isPlayersInitialName()) {
-                    message.append(ChatColor.LIGHT_PURPLE).append("Original Name: ")
-                            .append(ChatColor.YELLOW).append(entry.getPlayerName()).append("\n");
+                    message.append("<light_purple>Original Name: </light_purple><yellow>")
+                            .append(entry.getPlayerName()).append("</yellow><br>");
                 } else {
-                    message.append(ChatColor.LIGHT_PURPLE).append("Name: ")
-                            .append(ChatColor.YELLOW).append(entry.getPlayerName()).append("\n");
-                    message.append(ChatColor.LIGHT_PURPLE).append("Time of change: ")
-                            .append(ChatColor.YELLOW).append(new Date(entry.getChangeTime())).append("\n");
+                    message.append("<light_purple>Name: </light_purple><yellow>")
+                            .append(entry.getPlayerName()).append("</yellow><br>");
+                    message.append("<light_purple>Time of change: </light_purple><yellow>")
+                            .append(new Date(entry.getChangeTime())).append("</yellow><br>");
                 }
             }
 
             // Add the message footer and send the name history message
-            message.append(ChatColor.DARK_PURPLE).append(" ----------------------------------- ");
+            message.append("<dark_purple> ----------------------------------- ");
             sender.sendMessage(message.toString());
 
         } catch (IOException e) {
-            Messenger.sendError("An error occurred while performing the command!\n" +
+            Messenger.sendError("An error occurred while performing the command! " +
                     "Please contact staff if this issue persists.", sender);
             throw new RuntimeException(e);
         }

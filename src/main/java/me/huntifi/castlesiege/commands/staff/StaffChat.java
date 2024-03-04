@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.commands.staff;
 import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.maps.NameTag;
 import net.kyori.adventure.audience.Audience;
@@ -12,7 +13,6 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -111,12 +111,12 @@ public class StaffChat implements CommandExecutor, Listener, ChatRenderer {
 	 * @param m The message to send
 	 */
 	public static void sendMessage(String m) {
-		String s = ChatColor.WHITE + "CONSOLE" + ChatColor.AQUA + " STAFF: " + ChatColor.WHITE + m;
+		String s = "<white>CONSOLE</white> <aqua>STAFF:</aqua> " + m;
 
 		// Send the message to all staff members
-		for (Player q : Bukkit.getOnlinePlayers()) {
-			if (q.hasPermission("castlesiege.chatmod")) {
-				q.sendMessage(s);
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (p.hasPermission("castlesiege.chatmod")) {
+				Messenger.send(s, p);
 			}
 		}
 	}
@@ -127,13 +127,13 @@ public class StaffChat implements CommandExecutor, Listener, ChatRenderer {
 	 * @param m The message to send
 	 */
 	public static void sendMessage(Player p, String m) {
-		String s = p.getDisplayName() + ChatColor.AQUA + " STAFF: " + ChatColor.WHITE + m;
+		String s = "<white>" + NameTag.mmUsername(p) + "<aqua>STAFF:</aqua>" + m;
 
 		// Send the message to all staff members
 		System.out.println(s);
-		for (Player q : Bukkit.getOnlinePlayers()) {
-			if (q.hasPermission("castlesiege.chatmod")) {
-				q.sendMessage(s);
+		for (Player receiver : Bukkit.getOnlinePlayers()) {
+			if (receiver.hasPermission("castlesiege.chatmod")) {
+				receiver.sendMessage(s);
 			}
 		}
 	}
@@ -155,11 +155,11 @@ public class StaffChat implements CommandExecutor, Listener, ChatRenderer {
 		UUID uuid = p.getUniqueId();
 		if (staffChatters.contains(uuid)) {
 			staffChatters.remove(uuid);
-			p.sendMessage(ChatColor.DARK_AQUA + "You are no longer talking in staff-chat!");
+			Messenger.sendInfo("You are no longer talking in staff-chat!", p);
 		} else {
 			TeamChat.removePlayer(uuid);
 			staffChatters.add(uuid);
-			p.sendMessage(ChatColor.DARK_AQUA + "You are now talking in staff-chat!");
+			Messenger.sendInfo("You are now talking in staff-chat!", p);
 		}
 	}
 

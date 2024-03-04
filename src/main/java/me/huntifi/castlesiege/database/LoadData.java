@@ -8,7 +8,6 @@ import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -63,7 +62,7 @@ public class LoadData {
 
             // Collect data and release resources
             PlayerData data = new PlayerData(unlockedKits, foundSecrets, prMute.getSecond(),
-                    prStats.getSecond(), prRank.getSecond(), votes, settings, MapController.isMatch, boosters);
+                    prStats.getSecond(), prRank.getSecond(), votes, settings, boosters);
             prMute.getFirst().close();
             prStats.getFirst().close();
             prRank.getFirst().close();

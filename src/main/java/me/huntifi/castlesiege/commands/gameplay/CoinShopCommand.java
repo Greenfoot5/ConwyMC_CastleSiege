@@ -4,6 +4,9 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.gui.GuiController;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -41,7 +44,7 @@ public class CoinShopCommand implements CommandExecutor {
      * Not included in [TODO: loading GUIs from yml] because the kits must be registered first
      */
     private void registerCoinShop(Player player) {
-        Gui gui = new Gui( "<dark_green>Coin Shop", 5);
+        Gui gui = new Gui( Component.text("Coin Shop", NamedTextColor.DARK_GREEN), 5);
 
         gui.addCoinShopItem("Alchemist", Kit.getMaterial("Alchemist"), 0, player.getUniqueId());
         gui.addCoinShopItem("Berserker", Kit.getMaterial("Berserker"), 1, player.getUniqueId());

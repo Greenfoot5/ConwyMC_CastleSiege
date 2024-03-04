@@ -60,7 +60,7 @@ public class Tips extends BukkitRunnable {
             "Looking for a change in pace? Try <yellow><click:suggest_command:/random>/random</click:suggest_command></yellow>!",
             "Want to try a kit before buying? Play on Fridays for free or buy a kit booster!",
             "Did you know you can use <yellow><click:suggest_command:/voteskip>/voteskip</click></yellow> to vote to skip the current map?",
-            "Don't like using Discord? You can always access support at <yellow><click:open_url:mailto:conwymc@alchemix.dev>conwymc@alchemix.dev!</click></yellow>",
+            "Don't like using Discord? You can always access support at <yellow><click:open_url:https://conwymc.alchemix.dev/contact>conwymc@alchemix.dev!</click></yellow>",
             //"Want something more competitive? Join a Player Pool Match (PPM) hosted on the Discord!",
             //"Check out the latest patch notes: <yellow><u>https://conwymc.alchemix.dev/updates</u></yellow>"
     };

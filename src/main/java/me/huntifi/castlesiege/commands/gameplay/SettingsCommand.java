@@ -5,6 +5,8 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.maps.Scoreboard;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -46,7 +48,7 @@ public class SettingsCommand implements TabExecutor {
 
         if (args.length < 1) {
             // Register and open a settings GUI for the player
-            Gui gui = new Gui("<gold>Settings</gold>", 1, true);
+            Gui gui = new Gui(Component.text("Settings", NamedTextColor.GOLD), 1, true);
             guis.put(player, gui);
 
             for (String setting : defaultSettings.keySet())

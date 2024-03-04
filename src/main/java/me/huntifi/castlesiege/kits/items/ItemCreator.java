@@ -32,7 +32,7 @@ public class ItemCreator {
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
         itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemMeta.setUnbreakable(true);

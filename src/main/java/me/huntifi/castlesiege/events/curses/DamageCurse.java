@@ -5,7 +5,6 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.DecimalFormat;
@@ -31,7 +30,7 @@ public class DamageCurse extends CurseCast {
     @Override
     protected void cast() {
         this.setStartTime();
-        Messenger.broadcastCurse(ChatColor.DARK_RED + getDisplayName() + "§r has been activated! " + getActivateMessage() +
+        Messenger.broadcastCurse("<dark_red>" + getDisplayName() + "</dark_red> has been activated! " + getActivateMessage() +
                 new DecimalFormat("0.00").format(multiplier) + "!");
         playSound(MapController.getPlayers());
 
@@ -50,7 +49,7 @@ public class DamageCurse extends CurseCast {
                 for (UUID uuid : MapController.getPlayers())
                     Kit.equippedKits.get(uuid).setItems(uuid, true);
 
-                Messenger.broadcastCurseEnd(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage());
+                Messenger.broadcastCurseEnd("<dark_green>" + expired.getDisplayName() + "</dark_green> has been expired! " + expired.getExpireMessage());
             }
         }.runTaskLater(Main.plugin, getDuration());
 

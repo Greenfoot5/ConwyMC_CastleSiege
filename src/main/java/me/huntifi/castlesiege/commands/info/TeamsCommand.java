@@ -1,8 +1,10 @@
 package me.huntifi.castlesiege.commands.info;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,12 +26,17 @@ public class TeamsCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		Team[] teams = MapController.getCurrentMap().teams;
+		Component c = Component.text("Team Counts: ");
 
 		for (Team t : teams) {
-			sender.sendMessage(String.format("<green>Team %s%s: %s%d",
-					ChatColor.GREEN, t.primaryChatColor, t.name, ChatColor.WHITE, t.getTeamSize()));
+			c = c.append(Component.newline()
+					.append(Component.text("Team ", NamedTextColor.GREEN))
+					.append(Component.text(t.name, t.primaryChatColor))
+					.append(Component.text(": ", NamedTextColor.GREEN))
+					.append(Component.text(t.getTeamSize(), NamedTextColor.WHITE)));
 		}
 
+		Messenger.sendInfo(c, sender);
 		return true;
 	}
 }

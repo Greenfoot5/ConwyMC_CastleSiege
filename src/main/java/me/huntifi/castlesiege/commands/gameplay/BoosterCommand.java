@@ -12,6 +12,7 @@ import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -69,7 +70,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
      * @return The Gui with the boosters in
      */
     public static Gui createGUI(List<Booster> boosters) {
-        Gui gui = new Gui("Booster Selection", (boosters.size() / 9 + 1), true);
+        Gui gui = new Gui(Component.text("Booster Selection"), (boosters.size() / 9 + 1), true);
         boosters.sort(Booster::compareTo);
         for (int i = 0; i < boosters.size(); i++) {
             Booster booster = boosters.get(i);

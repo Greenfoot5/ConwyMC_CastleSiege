@@ -103,7 +103,7 @@ public class DeathEvent implements Listener {
      */
     @EventHandler (priority = EventPriority.MONITOR)
     public void disableDeathMessage(PlayerDeathEvent event) {
-        event.setDeathMessage(null);
+        event.deathMessage(null);
     }
 
     private void respawn(Player p) {

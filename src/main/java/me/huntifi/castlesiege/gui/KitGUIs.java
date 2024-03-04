@@ -15,14 +15,15 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Paladin;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Priest;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Ranger;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Rogue;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Sorcerer;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Vanguard;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Viking;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
+import me.huntifi.castlesiege.kits.kits.free_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.kits.kits.coin_kits.Sorcerer;
-import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
 import me.huntifi.castlesiege.kits.kits.in_development.Armorer;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
@@ -31,15 +32,13 @@ import me.huntifi.castlesiege.kits.kits.staff_kits.Warbear;
 import me.huntifi.castlesiege.kits.kits.voter_kits.FireArcher;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Scout;
-import me.huntifi.castlesiege.kits.kits.free_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Skirmisher;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Generates dynamic kit selection GUIs
@@ -73,7 +72,7 @@ public class KitGUIs {
             case "ranged":
                 return ranged(p);
             default:
-                Messenger.sendError("Unknown category: " + ChatColor.RED + category, p);
+                Messenger.sendError("Unknown category: <red>" + category, p);
                 return null;
         }
     }
@@ -84,7 +83,7 @@ public class KitGUIs {
      */
     // TODO - Maybe list how many of the total have been collected?
     private static Gui selector() {
-        Gui gui = new Gui("Categories", 6);
+        Gui gui = new Gui(Component.text("Categories"), 6);
         gui.addItem(ChatColor.GREEN + "Damager", Material.IRON_SWORD,
                 Collections.singletonList(ChatColor.DARK_GREEN + "Select a damager kit here!"), 11, "kit damage", true);
 
@@ -117,7 +116,7 @@ public class KitGUIs {
      * @return The generated GUI
      */
     private static Gui damage(Player player) {
-        Gui gui = new Gui("Damage Kits", 2);
+        Gui gui = new Gui(Component.text("Damage Kits"), 2);
 
         // Free
         gui.addKitItem(player, new Swordsman(), 0, "swordsman");
@@ -144,7 +143,7 @@ public class KitGUIs {
      * @return The generated GUI
      */
     private static Gui tank(Player player) {
-        Gui gui = new Gui("Tank Kits", 2);
+        Gui gui = new Gui(Component.text("Tank Kits"), 2);
 
         // Voter
         gui.addKitItem(player, new Shieldman(), 0, "shieldman");
@@ -168,7 +167,7 @@ public class KitGUIs {
      * @return The generated GUI
      */
     private static Gui support(Player player) {
-        Gui gui = new Gui("Support Kits", 2);
+        Gui gui = new Gui(Component.text("Support Kits"), 2);
 
         // Level
         gui.addKitItem(player, new BattleMedic(),0, "battlemedic");
@@ -188,7 +187,7 @@ public class KitGUIs {
      * @return The generated GUI
      */
     private static Gui debuff(Player player) {
-        Gui gui = new Gui("Debuff Kits", 2);
+        Gui gui = new Gui(Component.text("Debuff Kits"), 2);
 
         // Coins
         gui.addKitItem(player, new Maceman(), 0, "maceman");
@@ -205,7 +204,7 @@ public class KitGUIs {
      * @return The generated GUI
      */
     private static Gui movement(Player player) {
-        Gui gui = new Gui("Movement Kits", 2);
+        Gui gui = new Gui(Component.text("Movement Kits"), 2);
 
         // Voter
         gui.addKitItem(player, new Skirmisher(), 0, "skirmisher");
@@ -225,7 +224,7 @@ public class KitGUIs {
      * @return The generated GUI
      */
     private static Gui ranged(Player player) {
-        Gui gui = new Gui("Ranged Kits", 2);
+        Gui gui = new Gui(Component.text("Ranged Kits"), 2);
 
         // Free
         gui.addKitItem(player, new Archer(), 0, "archer");

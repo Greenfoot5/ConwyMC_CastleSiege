@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.commands.staff.punishments;
 
-import org.bukkit.ChatColor;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.command.CommandSender;
 
 import java.sql.Timestamp;
@@ -12,11 +12,9 @@ import java.text.DecimalFormat;
 public class PunishmentTime {
 
     public static void wrongFormat(CommandSender s) {
-        s.sendMessage(ChatColor.DARK_RED + "Please supply a duration in the form " + ChatColor.RED + "0t"
-                + ChatColor.DARK_RED + ", where " + ChatColor.RED + "0" + ChatColor.DARK_RED
-                + " is any positive number and " + ChatColor.RED + "t" + ChatColor.DARK_RED
-                + " is one of the following units: ");
-        s.sendMessage(ChatColor.RED + "y(ears), M(onths), d(ays), h(ours), m(inutes), s(econds)");
+        Messenger.sendError("Please supply in the duration <red>0t</red>, where <red>0</red>" +
+                " is any positive number and <red>t</red> is one of the following units:<br>" +
+                "<red>y(ears), M(onths), d(ays), h(ours), m(inutes), s(econds)", s);
     }
 
     /**

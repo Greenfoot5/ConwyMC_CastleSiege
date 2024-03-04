@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -47,7 +48,7 @@ public class Gui implements Listener {
      * @param name The name of the inventory
      * @param rows The amount of rows of the inventory
      */
-    public Gui(String name, int rows) {
+    public Gui(Component name, int rows) {
         this(name, rows, false);
     }
 
@@ -57,7 +58,7 @@ public class Gui implements Listener {
      * @param rows The amount of rows of the inventory
      * @param shouldUnregister Whether this GUI should stop listening for events after being closed
      */
-    public Gui(String name, int rows, boolean shouldUnregister) {
+    public Gui(Component name, int rows, boolean shouldUnregister) {
         inventory = Main.plugin.getServer().createInventory(null, 9 * rows, name);
         this.shouldUnregister = shouldUnregister;
 
@@ -103,13 +104,13 @@ public class Gui implements Listener {
     public void addKitItem(Player player, Kit kit, int location, String command) {
         if (kit.canSelect(player, false, false, false)) {
             inventory.setItem(location, ItemCreator.item(new ItemStack(kit.material),
-                    getKitDisplayName(kit,true), kit.getGuiDescription(), null));
+                    getKitDisplayName(kit), kit.getGuiDescription(), null));
             locationToItem.put(location, new GuiItem(command, true));
         } else {
             ArrayList<String> lore = kit.getGuiDescription();
             lore.addAll(kit.getGuiCostText());
             inventory.setItem(location, ItemCreator.item(new ItemStack(Material.BLACK_STAINED_GLASS_PANE),
-                    getKitDisplayName(kit, false), lore, null));
+                    getKitDisplayName(kit), lore, null));
             locationToItem.put(location, new GuiItem(command, false));
         }
     }
@@ -118,7 +119,7 @@ public class Gui implements Listener {
      * @param kit The kit to display the name of
      * @return A string displaying in for them [Color]CLASS: kit.name
      */
-    private String getKitDisplayName(Kit kit, boolean hasUnlocked) {
+    private String getKitDisplayName(Kit kit) {
         return kit.color + "§lCLASS: " + kit.color + kit.name;
     }
 

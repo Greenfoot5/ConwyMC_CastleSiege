@@ -9,7 +9,9 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 
-public class BroadcastMessage implements CommandExecutor {
+public class BroadcastCommand implements CommandExecutor {
+
+    public static Component broadcastPrefix = MiniMessage.miniMessage().deserialize("<dark_green>[<dark_red>ConwyMC</dark_red>] - </dark_green>");
 
     /**
      * Sends a message to all players on the server, this can for example be used to let players know someone donated to the server.
@@ -24,8 +26,6 @@ public class BroadcastMessage implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0)
             return false;
-
-        Component broadcastPrefix = MiniMessage.miniMessage().deserialize("<dark_green>[<dark_red>ConwyMC</dark_red>] - </dark_green>");
 
         Bukkit.getServer().sendMessage(broadcastPrefix.append(MiniMessage.miniMessage().deserialize(
                 "<gradient:#EC9F05:#FF4E00>" + String.join(" ", args))));

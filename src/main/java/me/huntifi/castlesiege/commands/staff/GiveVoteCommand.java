@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.commands.staff;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.StoreData;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -39,7 +40,7 @@ public class GiveVoteCommand implements TabExecutor {
         // Get the target player
         Player p = Bukkit.getPlayer(args[0]);
         if (p == null) {
-            sender.sendMessage(ChatColor.DARK_RED + "Could not find player: " + ChatColor.RED + args[0]);
+            Messenger.sendError("Could not find player: <red>" + args[0], sender);
             return true;
         }
 

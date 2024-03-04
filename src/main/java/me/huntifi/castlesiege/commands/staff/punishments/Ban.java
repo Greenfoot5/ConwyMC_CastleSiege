@@ -3,8 +3,9 @@ package me.huntifi.castlesiege.commands.staff.punishments;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.Punishments;
+import me.huntifi.castlesiege.events.chat.Messenger;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -48,8 +49,7 @@ public class Ban implements CommandExecutor {
                         ban(sender, p.getUniqueId(), Objects.requireNonNull(p.getAddress()).getAddress(), args);
                     }
                 } catch (SQLException e) {
-                    sender.sendMessage(ChatColor.DARK_RED + "An error occurred while trying to ban: "
-                            + ChatColor.RED + args[0]);
+                    Messenger.sendError("An error occurred while trying to ban: <red>" + args[0], sender);
                     e.printStackTrace();
                 }
             }
@@ -66,7 +66,7 @@ public class Ban implements CommandExecutor {
     private void banOffline(CommandSender s, String[] args) throws SQLException {
         UUID uuid = LoadData.getUUID(args[0]);
         if (uuid == null) {
-            s.sendMessage(ChatColor.DARK_RED + "Could not find player: " + ChatColor.RED + args[0]);
+            Messenger.sendError("Could not find player: <red>" + args[0], s);
         } else {
             ban(s, uuid, null, args);
         }
@@ -91,7 +91,7 @@ public class Ban implements CommandExecutor {
 
         // Apply the ban to our database
         Punishments.add(args[0], uuid, ip, "ban", reason, duration);
-        s.sendMessage(ChatColor.DARK_GREEN + "Successfully banned: " + ChatColor.GREEN + args[0]);
+        Messenger.sendSuccess("Successfully banned: <dark_green>" + args[0], s);
 
         // Kick the player if they are online
         kick(uuid, reason, args[1]);
@@ -109,8 +109,8 @@ public class Ban implements CommandExecutor {
             public void run() {
                 Player p = Bukkit.getPlayer(uuid);
                 if (p != null) {
-                    p.kickPlayer(ChatColor.DARK_RED + "\n[BAN] " + ChatColor.RED + reason
-                            + ChatColor.DARK_RED + "\n[EXPIRES IN] " + ChatColor.RED + PunishmentTime.getExpire(duration));
+                    p.kick(MiniMessage.miniMessage().deserialize("<dark_red>[BAN] </dark_red><red>" +
+                            reason + "<dark_red>[EXPIRES IN]</dark_red>" + PunishmentTime.getExpire(duration)));
                 }
             }
         }.runTask(Main.plugin);

@@ -45,7 +45,7 @@ import me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
-import me.huntifi.castlesiege.commands.staff.BroadcastMessage;
+import me.huntifi.castlesiege.commands.staff.BroadcastCommand;
 import me.huntifi.castlesiege.commands.staff.FlyCommand;
 import me.huntifi.castlesiege.commands.staff.GiveVoteCommand;
 import me.huntifi.castlesiege.commands.staff.ReloadCommand;
@@ -514,7 +514,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Warn")).setExecutor(new Warn());
 
                 // Staff
-                Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastMessage());
+                Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastCommand());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("Curse")).setExecutor(new CurseCommand());
                 Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());

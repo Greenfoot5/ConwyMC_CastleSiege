@@ -7,8 +7,8 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.Punishments;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -64,8 +64,7 @@ public class Mute implements CommandExecutor, Listener {
                         mute(sender, p.getUniqueId(), args);
                     }
                 } catch (SQLException e) {
-                    sender.sendMessage(ChatColor.DARK_RED + "An error occurred while trying to mute: "
-                            + ChatColor.RED + args[0]);
+                    Messenger.sendError("An error occurred while trying to mute: <red>" + args[0], sender);
                     e.printStackTrace();
                 }
             }
@@ -94,7 +93,7 @@ public class Mute implements CommandExecutor, Listener {
         // Apply the mute to our database
         Punishments.add(args[0], uuid, null, "mute", reason, duration);
         muteOnline(uuid, reason, args[1]);
-        s.sendMessage(ChatColor.DARK_GREEN + "Successfully muted: " + ChatColor.GREEN + args[0]);
+        Messenger.sendSuccess("Successfully muted: <green>" + args[0], s);
     }
 
     /**
@@ -107,8 +106,8 @@ public class Mute implements CommandExecutor, Listener {
         Player p = Bukkit.getPlayer(uuid);
         if (p != null) {
             ActiveData.getData(uuid).setMute(reason, new Timestamp(System.currentTimeMillis() + PunishmentTime.getDuration(duration)));
-            p.sendMessage(ChatColor.DARK_RED + "You were muted for: " + ChatColor.RED + reason);
-            p.sendMessage(ChatColor.DARK_RED + "This mute expires in: " + PunishmentTime.getExpire(duration));
+            Messenger.sendError("You were muted for: <red>" + reason +
+                    "<br>It expires in: " + PunishmentTime.getExpire(duration), p);
         }
     }
 
@@ -120,7 +119,7 @@ public class Mute implements CommandExecutor, Listener {
     private void muteOffline(CommandSender s, String[] args) throws SQLException {
         UUID uuid = LoadData.getUUID(args[0]);
         if (uuid == null) {
-            s.sendMessage(ChatColor.DARK_RED + "Could not find player: " + ChatColor.RED + args[0]);
+            Messenger.sendError("Could not find player: <red>" + args[0], s);
         } else {
             mute(s, uuid, args);
         }
@@ -141,12 +140,12 @@ public class Mute implements CommandExecutor, Listener {
         assert p != null;
         Tuple<String, Timestamp> mute = data.getMute();
         if (mute.getSecond().after(new Timestamp(System.currentTimeMillis()))) {
-            p.sendMessage(ChatColor.DARK_RED + "You are muted for: " + ChatColor.RED + mute.getFirst());
-            p.sendMessage(ChatColor.DARK_RED + "This mute expires in: " + PunishmentTime.getExpire(mute.getSecond()));
+            Messenger.sendError("You were muted for: <red>" + mute.getFirst() +
+                    "<br>It expires in: " + PunishmentTime.getExpire(mute.getSecond()), p);
             return true;
         } else {
             data.setMute(null, null);
-            p.sendMessage(ChatColor.GREEN + "Your mute has expired!");
+            Messenger.sendSuccess("Your mute has expired! Try not to get another!", p);
             return false;
         }
     }

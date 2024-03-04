@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
 import static net.kyori.adventure.text.format.NamedTextColor.BLUE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
 import static net.kyori.adventure.text.format.NamedTextColor.DARK_RED;
 import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 import static net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
@@ -267,5 +268,16 @@ public class Messenger {
         Component msg = mm.deserialize(message).color(BLUE);
         ForwardingAudience audience = Bukkit.getServer();
         audience.sendMessage(mm.deserialize("<gold>[⚔]</gold> ").append(msg));
+    }
+
+    public static void sendCongrats(String message, @NotNull CommandSender receiver) {
+        Component msg = mm.deserialize(message).color(DARK_GREEN);
+        receiver.sendMessage(mm.deserialize("<gold>[+]</gold> ").append(msg));
+    }
+
+    public static void broadcastCongrats(String message) {
+        Component msg = mm.deserialize(message).color(DARK_GREEN);
+        ForwardingAudience audience = Bukkit.getServer();
+        audience.sendMessage(mm.deserialize("<gold>[+]</gold> ").append(msg));
     }
 }

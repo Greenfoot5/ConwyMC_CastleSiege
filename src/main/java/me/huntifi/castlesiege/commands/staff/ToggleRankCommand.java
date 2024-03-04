@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.staff;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Configures a player's shown rank
@@ -37,10 +36,10 @@ public class ToggleRankCommand implements CommandExecutor {
 		Player p = (Player) sender;
 		if (showDonator.contains(p)) {
 			showDonator.remove(p);
-			p.sendMessage(ChatColor.RED + "Staff rank toggled on");
+			Messenger.sendWarning("Staff rank toggled on", p);
 		} else {
 			showDonator.add(p);
-			p.sendMessage(ChatColor.RED + "Staff rank toggled off");
+			Messenger.sendWarning("Staff rank toggled off", p);
 		}
 
 		NameTag.give(p);

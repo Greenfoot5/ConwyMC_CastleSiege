@@ -3,8 +3,8 @@ package me.huntifi.castlesiege.commands.staff.punishments;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.Punishments;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -43,8 +43,7 @@ public class Warn implements CommandExecutor {
                         warn(sender, p.getUniqueId(), args);
                     }
                 } catch (SQLException e) {
-                    sender.sendMessage(ChatColor.DARK_RED + "An error occurred while trying to warn: "
-                            + ChatColor.RED + args[0]);
+                    Messenger.sendError("An error occurred while trying to warn: <red>" + args[0], sender);
                     e.printStackTrace();
                 }
             }
@@ -61,7 +60,7 @@ public class Warn implements CommandExecutor {
     private void warnOffline(CommandSender s, String[] args) throws SQLException {
         UUID uuid = LoadData.getUUID(args[0]);
         if (uuid == null) {
-            s.sendMessage(ChatColor.DARK_RED + "Could not find player: " + ChatColor.RED + args[0]);
+            Messenger.sendError("Could not find player: <red>" + args[0], s);
         } else {
             warn(s, uuid, args);
         }
@@ -80,7 +79,7 @@ public class Warn implements CommandExecutor {
         // Apply the warning to our database
         Punishments.add(args[0], uuid, null, "warn", reason, 0);
         warnOnline(uuid, reason);
-        s.sendMessage(ChatColor.DARK_GREEN + "Successfully muted: " + ChatColor.GREEN + args[0]);
+        Messenger.sendSuccess(  "Successfully warned: <green>" + args[0], s);
     }
 
     /**
@@ -91,7 +90,7 @@ public class Warn implements CommandExecutor {
     private void warnOnline(UUID uuid, String reason) {
         Player p = Bukkit.getPlayer(uuid);
         if (p != null) {
-            p.sendMessage(ChatColor.DARK_RED + "You were warned for: " + ChatColor.RED + reason);
+            Messenger.sendError("You were warned for: <red>" + reason, p);
         }
     }
 }

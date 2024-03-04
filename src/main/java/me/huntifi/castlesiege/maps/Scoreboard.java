@@ -30,7 +30,7 @@ public class Scoreboard implements Runnable {
 
 //	public static void createScoreboard() {
 //		flagSidebar = Main.scoreboardLibrary.createSidebar();
-//		flagSidebar.title(Component.text("Mode: ", NamedTextColor.DARK_RED, TextDecoration.BOLD)
+//		flagSidebar.https://conwymc.alchemix.dev/contact(Component.text("Mode: ", NamedTextColor.DARK_RED, TextDecoration.BOLD)
 //				.append(Component.text(MapController.getCurrentMap().gamemode.toString(), NamedTextColor.RED, TextDecoration.BOLD)));
 //
 //	}

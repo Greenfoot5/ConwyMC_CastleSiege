@@ -7,6 +7,8 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -69,7 +71,7 @@ public class WallEvent implements Listener {
 						ItemStack tnt = new ItemStack(Material.TNT);
 						ItemMeta tntMeta = tnt.getItemMeta();
 						assert tntMeta != null;
-						tntMeta.setDisplayName(ChatColor.GREEN + "Tnt-head");
+						tntMeta.displayName(Component.text("TNT-Head", NamedTextColor.GREEN));
 						player.getInventory().setHelmet(tnt);
 
 						// Notify the player
@@ -87,7 +89,7 @@ public class WallEvent implements Listener {
 						ItemStack tnt = new ItemStack(Material.GLOWSTONE);
 						ItemMeta tntMeta = tnt.getItemMeta();
 						assert tntMeta != null;
-						tntMeta.setDisplayName(ChatColor.GREEN + "Glowstone-head");
+						tntMeta.displayName(Component.text("Glowstone Head", NamedTextColor.GREEN));
 						player.getInventory().setHelmet(tnt);
 
 						// Notify the player(s)
