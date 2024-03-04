@@ -557,15 +557,13 @@ public class MapController {
 					}
 				}
 
-				for (ArrayList<UUID> t : teams) {
-					for (UUID uuid : t) {
-						Player player = getPlayer(uuid);
-						if (player == null) continue;
-						Team team = TeamController.getTeam(uuid);
-						Messenger.send(Component.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
-						Messenger.send(Component.text("~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
-						Messenger.send(Component.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"), player);
-					}
+				for (UUID uuid : getPlayers()) {
+					Player player = getPlayer(uuid);
+					if (player == null) continue;
+					Team team = TeamController.getTeam(uuid);
+					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
+					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
+					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
 				}
 				//enable the bossbars
 				Flag.registerBossbars();
