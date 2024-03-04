@@ -12,6 +12,8 @@ import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -144,18 +146,20 @@ public class SwitchCommand implements CommandExecutor {
 
 		if (deaths > 0 && MapController.isOngoing()) {
 			// Regular switch on the battlefield during a game
-			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name +
-					 "<dark_aqua> (+" + deaths + " deaths)", p);
+			Messenger.sendInfo(Component.text("You switched to ")
+							.append(Component.text(team.name, team.primaryChatColor))
+							.append(Component.text(" (+" + deaths + " deaths)", NamedTextColor.DARK_AQUA)),
+					p);
 			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
 
 		} else if (deaths == 0 || !MapController.isOngoing()){
 			// Regular switch outside the battlefield or not during a game
-			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name, p);
+			Messenger.sendInfo(Component.text("You switched to ").append(Component.text(team.name, team.primaryChatColor)), p);
 			InCombat.playerDied(p.getUniqueId());
 
 		} else {
 			// Forced switch
-			Messenger.sendInfo("You were forcefully switched to " + team.primaryChatColor + team.name, p);
+			Messenger.sendInfo(Component.text("You forcefully switched to ").append(Component.text(team.name, team.primaryChatColor)), p);
 			InCombat.playerDied(p.getUniqueId());
 		}
 

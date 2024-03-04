@@ -30,10 +30,6 @@ public class Messenger {
         receiver.sendActionBar(msg);
     }
 
-    public static void sendAction(Component msg, @NotNull CommandSender receiver) {
-        receiver.sendActionBar(msg);
-    }
-
     public static void send(String message, @NotNull CommandSender receiver) {
         Component msg = mm.deserialize(message);
         receiver.sendMessage(msg);
@@ -41,11 +37,6 @@ public class Messenger {
 
     public static void send(Component msg, @NotNull CommandSender receiver) {
         receiver.sendMessage(msg);
-    }
-
-    public static void broadcast(String message) {
-        Component msg = mm.deserialize(message);
-        Bukkit.getServer().sendMessage(msg);
     }
 
     public static void broadcast(Component msg) {
@@ -81,16 +72,6 @@ public class Messenger {
     public static void sendActionWarning(String message, @NotNull Player receiver) {
         Component msg = mm.deserialize(message).color(RED);
         receiver.sendActionBar(mm.deserialize("<gold>[!]</gold> ").append(msg));
-    }
-
-    /**
-     * Sends a tip message to a user
-     * @param message The message to send
-     * @param receiver Who to send the message to
-     */
-    public static void sendTip(String message, CommandSender receiver) {
-        Component msg = mm.deserialize(message).color(AQUA);
-        receiver.sendMessage(mm.deserialize("<gold>[i]</gold> ").append(msg));
     }
 
     /**
@@ -147,16 +128,6 @@ public class Messenger {
      * Broadcasts a success message to everyone
      * @param message The message to send
      */
-    public static void broadcastSuccess(String message) {
-        Component msg = mm.deserialize(message).color(GREEN);
-        ForwardingAudience audience = Bukkit.getServer();
-        audience.sendMessage(mm.deserialize("<gold>[+]</gold> ").append(msg));
-    }
-
-    /**
-     * Broadcasts a success message to everyone
-     * @param message The message to send
-     */
     public static void broadcastSuccess(Component message) {
         message = message.color(GREEN);
         ForwardingAudience audience = Bukkit.getServer();
@@ -166,6 +137,10 @@ public class Messenger {
     public static void sendInfo(String message, @NotNull CommandSender receiver) {
         Component msg = mm.deserialize(message).color(BLUE);
         receiver.sendMessage(mm.deserialize("<gold>[i]</gold> ").append(msg));
+    }
+
+    public static void sendInfo(Component message, @NotNull CommandSender receiver) {
+        receiver.sendMessage(mm.deserialize("<gold>[i]</gold> ").append(message.color(BLUE)));
     }
 
     public static void sendInfo(String message, @NotNull Player receiver, int maximumLevel) {
