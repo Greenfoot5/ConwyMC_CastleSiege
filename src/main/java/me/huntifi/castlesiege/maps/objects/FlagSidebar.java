@@ -43,7 +43,8 @@ public class FlagSidebar {
                     return time.color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD);
                 })
                 .addStaticLine(Component.text("Map: ", NamedTextColor.GOLD).decorate(TextDecoration.BOLD)
-                        .append(Component.text(MapController.getCurrentMap().name).style(Style.style(NamedTextColor.GREEN))))
+                        .append(Component.text(MapController.getCurrentMap().name, NamedTextColor.GREEN)
+                                .decoration(TextDecoration.BOLD, false)))
                 .addStaticLine(Component.text("-", NamedTextColor.DARK_GRAY));
 
 
@@ -55,8 +56,10 @@ public class FlagSidebar {
                 Team owners = MapController.getCurrentMap().getTeam(core.getOwners());
                 NamedTextColor color = owners == null ? NamedTextColor.GRAY : owners.primaryChatColor;
                 lines.addStaticLine(Component.text(core.name, color).decorate(TextDecoration.BOLD));
-                lines.addStaticLine(Component.text("Health: ", color).decorate(TextDecoration.BOLD)
-                        .append(Component.text(core.health).style(Style.style(NamedTextColor.WHITE))));
+                lines.addDynamicLine(() ->
+                        Component.text("Health: ", color).decorate(TextDecoration.BOLD)
+                                .append(Component.text(core.health, NamedTextColor.WHITE)
+                                        .decoration(TextDecoration.BOLD, false)));
             }
         }
 
@@ -66,9 +69,11 @@ public class FlagSidebar {
         // Display the flag scoreboard
         for (Flag flag : reversedFlags) {
             if (flag.isActive()) {
-                Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
-                lines.addStaticLine(Component.text(flag.name,
-                        owners == null ? NamedTextColor.GRAY : owners.primaryChatColor));
+                lines.addDynamicLine(() -> {
+                    Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
+                    return Component.text(flag.name,
+                            owners == null ? NamedTextColor.GRAY : owners.primaryChatColor);
+                });
             }
         }
 
