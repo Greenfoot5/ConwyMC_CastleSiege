@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.LevelKit;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -191,17 +192,17 @@ public class SpearKnight extends LevelKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A sword and spear wielder, ");
-        kitLore.add("§7can throw a powerful spear");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A sword and spear wielder, ");
+        kitLore.add(Component.text("can throw a powerful spear");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, 1));
-        kitLore.add(" ");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Can throw their spear");
-        kitLore.add(" ");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can throw their spear");
+        kitLore.add(Component.text(" "));
         kitLore.add("§2Passive: ");
-        kitLore.add("§7- Deals bonus damage to horses");
+        kitLore.add(Component.text("- Deals bonus damage to horses");
         return kitLore;
     }
 }

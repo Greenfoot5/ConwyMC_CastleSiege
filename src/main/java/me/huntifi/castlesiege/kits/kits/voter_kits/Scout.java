@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -85,15 +86,15 @@ public class Scout extends VoterKit {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A light and agile kit");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A light and agile kit");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Speed II");
-        kitLore.add("§7- Jump Boost I");
-        kitLore.add("§7- Haste II");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Speed II");
+        kitLore.add(Component.text("- Jump Boost I");
+        kitLore.add(Component.text("- Haste II");
         return kitLore;
     }
 }

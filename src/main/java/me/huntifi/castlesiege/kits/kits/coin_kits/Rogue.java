@@ -15,6 +15,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -658,34 +659,34 @@ public class Rogue extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A master of camouflage and tracking. Can");
-        kitLore.add("§7become invisible and strike enemies from behind");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A master of camouflage and tracking. Can");
+        kitLore.add(Component.text("become invisible and strike enemies from behind");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Speed II");
-        kitLore.add("§7- Haste II");
-        kitLore.add("§7- Night Vision I");
-        kitLore.add("§7- Jump Boost I");
-        kitLore.add(" ");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Can throw track arrows");
-        kitLore.add("§7- Can perform shadowstep (grants invisibility)");
-        kitLore.add("§7- Can temporarily enhance their dagger");
-        kitLore.add("§7with poison");
-        kitLore.add("§7- When behind enemies can gauge them, which");
-        kitLore.add("§7stuns them temporarily and grants a bit of healing");
-        kitLore.add(" ");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Speed II");
+        kitLore.add(Component.text("- Haste II");
+        kitLore.add(Component.text("- Night Vision I");
+        kitLore.add(Component.text("- Jump Boost I");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can throw track arrows");
+        kitLore.add(Component.text("- Can perform shadowstep (grants invisibility)");
+        kitLore.add(Component.text("- Can temporarily enhance their dagger");
+        kitLore.add(Component.text("with poison");
+        kitLore.add(Component.text("- When behind enemies can gauge them, which");
+        kitLore.add(Component.text("stuns them temporarily and grants a bit of healing");
+        kitLore.add(Component.text(" "));
         // TODO - Improve passive descriptions
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see player health.");
-        kitLore.add("§7- Can use gauge whilst invisible");
-        kitLore.add("§7- Uses combo points to perform more");
-        kitLore.add("§7powerful gauges");
-        kitLore.add("§7- Killing opponents and hitting them");
-        kitLore.add("§7with track arrows generates combo-points");
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can see player health.");
+        kitLore.add(Component.text("- Can use gauge whilst invisible");
+        kitLore.add(Component.text("- Uses combo points to perform more");
+        kitLore.add(Component.text("powerful gauges");
+        kitLore.add(Component.text("- Killing opponents and hitting them");
+        kitLore.add(Component.text("with track arrows generates combo-points");
         return kitLore;
     }
 }

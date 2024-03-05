@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Flag;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -177,18 +178,18 @@ public class Constructor extends MapKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Constructors can barricade cores and flags!");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Constructors can barricade cores and flags!");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(color.toString() + planksCount + " §7Planks");
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- JUMP I");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can pick up planks placed by");
-        kitLore.add("§7other constructors.");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- JUMP I");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can pick up planks placed by");
+        kitLore.add(Component.text("other constructors.");
         return kitLore;
     }
 }

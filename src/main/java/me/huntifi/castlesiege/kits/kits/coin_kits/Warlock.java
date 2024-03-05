@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -399,35 +400,35 @@ public class Warlock extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A debuff kit that can curse enemies, ");
-        kitLore.add("§7sacrifice its own health to heal teammates");
-        kitLore.add("§7and obliterate enemies with hellfire");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A debuff kit that can curse enemies, ");
+        kitLore.add(Component.text("sacrifice its own health to heal teammates");
+        kitLore.add(Component.text("and obliterate enemies with hellfire");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
         // TODO - Externalise values
         kitLore.add(color + "70 §7shadow bolt DMG");
         kitLore.add(color + "15dmg/s §7life-drain DMG");
         kitLore.add(color + "70dmg/s §7Hellfire DMG");
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Slowness II");
-        kitLore.add(" ");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Slowness II");
+        kitLore.add(Component.text(" "));
         kitLore.add("§aActive:");
-        kitLore.add("§7- Can shoot a shadow bolt at opponents");
-        kitLore.add("§7to damage them and give them slowness I");
-        kitLore.add("§7- Can curse all enemies in a 7 block radius");
-        kitLore.add("§7giving them negative damage for 4 seconds");
-        kitLore.add("§7- Can drain life from targets for 5 seconds");
-        kitLore.add("§7- Has the possibility to sacrifice 25% of their HP");
-        kitLore.add("§7to heal a teammate for 25% of the warlock's max health");
-        kitLore.add("§7- Can pay hell with 5 soul shards to summon devastating");
-        kitLore.add("§7hellfire that incinerates all enemy players it comes across");
-        kitLore.add(" ");
+        kitLore.add(Component.text("- Can shoot a shadow bolt at opponents");
+        kitLore.add(Component.text("to damage them and give them slowness I");
+        kitLore.add(Component.text("- Can curse all enemies in a 7 block radius");
+        kitLore.add(Component.text("giving them negative damage for 4 seconds");
+        kitLore.add(Component.text("- Can drain life from targets for 5 seconds");
+        kitLore.add(Component.text("- Has the possibility to sacrifice 25% of their HP");
+        kitLore.add(Component.text("to heal a teammate for 25% of the warlock's max health");
+        kitLore.add(Component.text("- Can pay hell with 5 soul shards to summon devastating");
+        kitLore.add(Component.text("hellfire that incinerates all enemy players it comes across");
+        kitLore.add(Component.text(" "));
         kitLore.add("§2Passive ");
-        kitLore.add("§7- Can see players' health");
-        kitLore.add("§7- Hitting targets with shadow bolt gives soul shards");
-        kitLore.add("§7and has a 10% chance to give a health stone");
+        kitLore.add(Component.text("- Can see players' health");
+        kitLore.add(Component.text("- Hitting targets with shadow bolt gives soul shards");
+        kitLore.add(Component.text("and has a 10% chance to give a health stone");
         return kitLore;
     }
 }

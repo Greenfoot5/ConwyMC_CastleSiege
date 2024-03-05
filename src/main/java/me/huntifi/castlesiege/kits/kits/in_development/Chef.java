@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -488,9 +489,9 @@ public class Chef extends CoinKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7//TODO - Add kit description");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("//TODO - Add kit description");
         return description;
     }
 }

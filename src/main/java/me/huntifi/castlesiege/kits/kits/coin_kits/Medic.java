@@ -11,6 +11,8 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -323,22 +325,22 @@ public class Medic extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Our classic healer, which makes");
-        kitLore.add("§7use of bandages and cake to heal allies");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Our classic healer, which makes");
+        kitLore.add(Component.text("use of bandages and cake to heal allies");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(color.toString() +  16 + " §7Cakes");
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Speed I");
-        kitLore.add(" ");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Can use bandages to heal teammates");
-        kitLore.add("§7- Can place cakes (1 active max)");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- When healing an ally receives resistance I");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Speed I");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can use bandages to heal teammates");
+        kitLore.add(Component.text("- Can place cakes (1 active max)");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- When healing an ally receives resistance I");
         return kitLore;
     }
 }

@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -139,21 +140,21 @@ public class Halberdier extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Our classic tank capable of");
-        kitLore.add("§7taking a large beating");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Our classic tank capable of");
+        kitLore.add(Component.text("taking a large beating");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Slowness III");
-        kitLore.add("§7- Mining Fatigue II");
-        kitLore.add("§7- Resistance I");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§c- Cannot run");
-        kitLore.add("§c- Has a slower attack speed");
-        kitLore.add("§c- Halberdier takes 50% more DMG from arrows");
+        kitLore.add(Component.text(" ");
+        kitLore.add(Component.text("§5Effects:");
+        kitLore.add(Component.text("- Slowness III");
+        kitLore.add(Component.text("- Mining Fatigue II");
+        kitLore.add(Component.text("- Resistance I");
+        kitLore.add(Component.text(" ");
+        kitLore.add(Component.text("§2Passive:");
+        kitLore.add(Component.text("§c- Cannot run");
+        kitLore.add(Component.text("§c- Has a slower attack speed");
+        kitLore.add(Component.text("§c- Halberdier takes 50% more DMG from arrows");
         return kitLore;
     }
 }

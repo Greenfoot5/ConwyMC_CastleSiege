@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -135,20 +136,20 @@ public class Maceman extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A melee kit that can stun");
-        kitLore.add("§7opponents, making them weaker");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A melee kit that can stun");
+        kitLore.add(Component.text("opponents, making them weaker");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(" ");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Maceman can stun their target,");
-        kitLore.add("§7slowing, blinding and confusing the target for 3s.");
-        kitLore.add("§7Also deals bonus DMG");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can break a shield when the opponent is");
-        kitLore.add("§7actively blocking when stunned");
+        kitLore.add(Component.text(" ");
+        kitLore.add(Component.text("§6Active:");
+        kitLore.add(Component.text("- Maceman can stun their target,");
+        kitLore.add(Component.text("slowing, blinding and confusing the target for 3s.");
+        kitLore.add(Component.text("Also deals bonus DMG");
+        kitLore.add(Component.text(" ");
+        kitLore.add(Component.text("§2Passive:");
+        kitLore.add(Component.text("- Can break a shield when the opponent is");
+        kitLore.add(Component.text("actively blocking when stunned");
         return kitLore;
     }
 }

@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -364,19 +365,19 @@ public class FireArcher extends VoterKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Ranged kit that can craft and");
-        kitLore.add("§7shoot flaming arrows");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Ranged kit that can craft and");
+        kitLore.add(Component.text("shoot flaming arrows");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, arrowDamage, ladderCount, arrowCount));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Slowness I (with fire pit in ");
-        kitLore.add("§7inventory)");
-        kitLore.add(" ");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Slowness I (with fire pit in ");
+        kitLore.add(Component.text("inventory)");
+        kitLore.add(Component.text(" "));
         kitLore.add("§6Active: ");
-        kitLore.add("§7- Can place and pickup their fire pit");
-        kitLore.add("§7- Can craft fire arrows using the fire pit");
+        kitLore.add(Component.text("- Can place and pickup their fire pit");
+        kitLore.add(Component.text("- Can craft fire arrows using the fire pit");
         return kitLore;
     }
 }

@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.kits.kits.StaffKit;
 import me.huntifi.castlesiege.maps.events.RamEvent;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -175,20 +176,20 @@ public class Warbear extends StaffKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A mighty polar bear ready for action");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A mighty polar bear ready for action");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
-        kitLore.add(" ");
+        kitLore.add(Component.text(" "));
         kitLore.add("§6Active: ");
-        kitLore.add("§7- Stacks wither with basic attacks");
-        kitLore.add("§7- Can bite to stun an opponent");
-        kitLore.add("§7- Can gain a short burst of speed");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see players' health");
+        kitLore.add(Component.text("- Stacks wither with basic attacks");
+        kitLore.add(Component.text("- Can bite to stun an opponent");
+        kitLore.add(Component.text("- Can gain a short burst of speed");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can see players' health");
         kitLore.add("§c- Cannot climb");
-        kitLore.add("§7- Deals bonus damage to gates when punching");
+        kitLore.add(Component.text("- Deals bonus damage to gates when punching");
         kitLore.add("§c- Cannot cap flags");
         return kitLore;
     }

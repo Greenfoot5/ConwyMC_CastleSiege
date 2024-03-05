@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.LevelKit;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -182,20 +183,20 @@ public class Hypaspist extends LevelKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A tank with a trident & shield, ");
-        kitLore.add("§7which weakens opponents");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A tank with a trident & shield, ");
+        kitLore.add(Component.text("which weakens opponents");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, -1));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Slowness I");
-        kitLore.add("§7- Mining fatigue I");
-        kitLore.add(" ");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Slowness I");
+        kitLore.add(Component.text("- Mining fatigue I");
+        kitLore.add(Component.text(" "));
         kitLore.add("§2Passive: ");
-        kitLore.add("§7- Trident-throw inflicts confusion IV,");
-        kitLore.add("§7Mining Fatigue III and Slowness II");
-        kitLore.add("§7on hit opponents");
+        kitLore.add(Component.text("- Trident-throw inflicts confusion IV,");
+        kitLore.add(Component.text("Mining Fatigue III and Slowness II");
+        kitLore.add(Component.text("on hit opponents");
         return kitLore;
     }
 }

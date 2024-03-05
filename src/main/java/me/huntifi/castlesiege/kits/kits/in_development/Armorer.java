@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -207,18 +208,18 @@ public class Armorer extends CoinKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7An armorsmith that reinforces");
-        description.add("§7his allies' armor!");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("An armorsmith that reinforces");
+        description.add(Component.text("his allies' armor!");
         description.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         description.add(" ");
         description.add("§6Active:");
-        description.add("§7- Can use a smith's hammer to reinforce teammates");
+        description.add(Component.text("- Can use a smith's hammer to reinforce teammates");
         description.add(" ");
         description.add("§2Passive:");
-        description.add("§7- When reinforcing an ally receives resistance I");
-        description.add("§7- Can see a player's health");
+        description.add(Component.text("- When reinforcing an ally receives resistance I");
+        description.add(Component.text("- Can see a player's health");
         return description;
     }
 }

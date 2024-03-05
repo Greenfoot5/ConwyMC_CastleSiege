@@ -10,6 +10,8 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -180,15 +182,15 @@ public class Cavalry extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Can summon a horse to ride on");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Can summon a horse to ride on");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(color.toString() + horseHealth + " §7Horse HP");
-        kitLore.add(" ");
-        kitLore.add("§6Horse Active:");
-        kitLore.add("§7- When riding, can perform a kick");
-        kitLore.add("§7dealing AOE damage and slowing enemies");
+        kitLore.add(Component.text(horseHealth, color).append(Component.text(" Horse HP", NamedTextColor.GRAY)));
+        kitLore.add(Component.text(" ");
+        kitLore.add(Component.text("Horse Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- When riding, can perform a kick");
+        kitLore.add(Component.text("dealing AOE damage and slowing enemies");
         return kitLore;
     }
 }

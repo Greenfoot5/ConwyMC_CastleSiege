@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.LevelKit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -159,18 +160,18 @@ public class BattleMedic extends LevelKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Melee-support kit that can");
-        kitLore.add("§7heal allies with bandages");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Melee-support kit that can");
+        kitLore.add(Component.text("heal allies with bandages");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(color.toString() + bandageCount + " §7Bandages");
-        kitLore.add(" ");
+        kitLore.add(Component.text(" "));
         kitLore.add("§6Active: ");
-        kitLore.add("§7- Can heal teammates with bandages");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see players' health");
+        kitLore.add(Component.text("- Can heal teammates with bandages");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can see players' health");
         return kitLore;
     }
 }

@@ -17,6 +17,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -526,26 +527,26 @@ public class Engineer extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A support/debuff kit that can lay trap");
-        kitLore.add("§7an operate various machines of war");
-        kitLore.add("§7or repair broken structures");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A support/debuff kit that can lay trap");
+        kitLore.add(Component.text("an operate various machines of war");
+        kitLore.add(Component.text("or repair broken structures");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(color.toString() + cobwebCount + " §7Cobwebs");
         kitLore.add(color.toString() + planksCount + " §7Planks");
         kitLore.add(color.toString() + cobblestoneCount + " §7Cobblestone");
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Speed I");
-        kitLore.add("§7- Jump Boost I");
-        kitLore.add("§7- Haste II");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can place down traps and cobwebs");
-        kitLore.add("§7- Can fire ballista");
-        kitLore.add("§7- Can refill catapults with cobblestone");
-        kitLore.add("§7- Can repair stone and wood blocks");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("§5Effects:");
+        kitLore.add(Component.text("- Speed I");
+        kitLore.add(Component.text("- Jump Boost I");
+        kitLore.add(Component.text("- Haste II");
+        kitLore.add(Component.text(" ");
+        kitLore.add(Component.text("§2Passive:");
+        kitLore.add(Component.text("- Can place down traps and cobwebs");
+        kitLore.add(Component.text("- Can fire ballista");
+        kitLore.add(Component.text("- Can refill catapults with cobblestone");
+        kitLore.add(Component.text("- Can repair stone and wood blocks");
         return kitLore;
     }
 }

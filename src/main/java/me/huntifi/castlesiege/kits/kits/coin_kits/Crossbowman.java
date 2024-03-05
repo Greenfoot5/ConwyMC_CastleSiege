@@ -7,6 +7,8 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -278,22 +280,22 @@ public class Crossbowman extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A ranged kit that can function");
-        kitLore.add("§7like a sniper");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A ranged kit that can function");
+        kitLore.add(Component.text("like a sniper");
         kitLore.addAll(getBaseStats(health, regen, 1, 36, ladderCount, arrowCount));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Slowness III §a(sniper mode)");
-        kitLore.add("§7- Speed I §e(mobility mode)");
-        kitLore.add(" ");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Has two movement modes");
-        kitLore.add(" ");
-        kitLore.add("§2Passive: ");
-        kitLore.add("§7- Arrows are not affected by");
-        kitLore.add("§7gravity §a(sniper mode)");
+        kitLore.add(Component.text(" ");
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Slowness III §a(sniper mode)");
+        kitLore.add(Component.text("- Speed I §e(mobility mode)");
+        kitLore.add(Component.text(" ");
+        kitLore.add(Component.text("§6Active:");
+        kitLore.add(Component.text("- Has two movement modes");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("§2Passive: ");
+        kitLore.add(Component.text("- Arrows are not affected by");
+        kitLore.add(Component.text("gravity §a(sniper mode)");
         return kitLore;
     }
 }

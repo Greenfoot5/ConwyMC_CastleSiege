@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -167,20 +168,20 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A master of camouflage and tracking. Can");
-        kitLore.add("§7become invisible and strike enemies from behind");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A master of camouflage and tracking. Can");
+        kitLore.add(Component.text("become invisible and strike enemies from behind");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Speed I");
-        kitLore.add("§7- Haste I");
-        kitLore.add(" ");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Can charge forward gaining Speed V and");
-        kitLore.add("§7Jump Boost II and bonus damage to the first");
-        kitLore.add("§7target hit");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Speed I");
+        kitLore.add(Component.text("- Haste I");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can charge forward gaining Speed V and");
+        kitLore.add(Component.text("Jump Boost II and bonus damage to the first");
+        kitLore.add(Component.text("target hit");
         return kitLore;
     }
 }

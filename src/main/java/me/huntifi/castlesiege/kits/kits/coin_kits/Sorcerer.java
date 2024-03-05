@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -262,24 +263,24 @@ public class Sorcerer extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A sorcerer specialised in the arcane arts, ");
-        kitLore.add("§7can also slow down enemies with ice");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A sorcerer specialised in the arcane arts, ");
+        kitLore.add(Component.text("can also slow down enemies with ice");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(color.toString() + "60 §7arcane-bolt DMG");
         kitLore.add(color.toString() + "30 §7frost nova DMG");
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Slowness I");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Slowness I");
         kitLore.add("");
         kitLore.add("§6Abilities: ");
-        kitLore.add("§7- Can shoot an arcane-bolt at opponents at a");
-        kitLore.add("§7higher speed then other magic ranged attacks");
-        kitLore.add("§7- In a wave of cold can damage and slow down enemies");
-        kitLore.add("§7in a 4 block radius");
-        kitLore.add("§7- Can shoot a barrage of arcane-bolts");
-        kitLore.add("§7- Has a spell that gives slow falling to the caster");
+        kitLore.add(Component.text("- Can shoot an arcane-bolt at opponents at a");
+        kitLore.add(Component.text("higher speed then other magic ranged attacks");
+        kitLore.add(Component.text("- In a wave of cold can damage and slow down enemies");
+        kitLore.add(Component.text("in a 4 block radius");
+        kitLore.add(Component.text("- Can shoot a barrage of arcane-bolts");
+        kitLore.add(Component.text("- Has a spell that gives slow falling to the caster");
         return kitLore;
     }
 }

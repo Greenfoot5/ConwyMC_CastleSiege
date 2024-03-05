@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -109,21 +110,21 @@ public class Hunter extends CoinKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7Has a companion and traps on their side!");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("Has a companion and traps on their side!");
         description.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         description.add(" ");
         description.add("§5Effects:");
-        description.add("§7- Speed I");
-        description.add("§7- Jump Boost I");
+        description.add(Component.text("- Speed I");
+        description.add(Component.text("- Jump Boost I");
         description.add(" ");
         description.add("§6Active:");
-        description.add("§7- Can place down poison, mark or bleeding traps.");
+        description.add(Component.text("- Can place down poison, mark or bleeding traps.");
         description.add(" ");
         description.add("§2Passive:");
-        description.add("§7- Can summon a companion hound, which");
-        description.add("§7fights for the hunter.");
+        description.add(Component.text("- Can summon a companion hound, which");
+        description.add(Component.text("fights for the hunter.");
         return description;
     }
 }

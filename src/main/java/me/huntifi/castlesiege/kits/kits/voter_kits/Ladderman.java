@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
@@ -105,17 +106,17 @@ public class Ladderman extends VoterKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Melee kit with an axe");
-        kitLore.add("§7and loads of ladders");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Melee kit with an axe");
+        kitLore.add(Component.text("and loads of ladders");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Jump Boost II");
-        kitLore.add(" ");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Jump Boost II");
+        kitLore.add(Component.text(" "));
         kitLore.add("§2Passive: ");
-        kitLore.add("§7- Can pickup ladders");
+        kitLore.add(Component.text("- Can pickup ladders");
         return kitLore;
     }
 }

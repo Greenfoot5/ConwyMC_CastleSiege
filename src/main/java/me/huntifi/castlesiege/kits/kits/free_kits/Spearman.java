@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -196,18 +197,18 @@ public class Spearman extends FreeKit implements Listener {
 	 * @return The lore to add to the kit gui item
 	 */
 	@Override
-    public ArrayList<String> getGuiDescription() {
-		ArrayList<String> kitLore = new ArrayList<>();
-		kitLore.add("§7A mid-ranged unit with a melee weapon");
-		kitLore.add("§7that can be thrown");
+    public ArrayList<Component> getGuiDescription() {
+		ArrayList<Component> kitLore = new ArrayList<>();
+		kitLore.add(Component.text("A mid-ranged unit with a melee weapon");
+		kitLore.add(Component.text("that can be thrown");
 		kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, spearCount));
-		kitLore.add(" ");
+		kitLore.add(Component.text(" "));
 		kitLore.add("§6Active: ");
-		kitLore.add("§7- Can throw their spears");
-		kitLore.add(" ");
+		kitLore.add(Component.text("- Can throw their spears");
+		kitLore.add(Component.text(" "));
 		kitLore.add("§2Passive: ");
-		kitLore.add("§7- Deals bonus damage to horses");
-		kitLore.add("§7- Can break entire columns of ladders instantly");
+		kitLore.add(Component.text("- Deals bonus damage to horses");
+		kitLore.add(Component.text("- Can break entire columns of ladders instantly");
 		return kitLore;
 	}
 }

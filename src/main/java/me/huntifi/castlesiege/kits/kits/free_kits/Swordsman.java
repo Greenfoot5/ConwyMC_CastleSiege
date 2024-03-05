@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -70,9 +71,9 @@ public class Swordsman extends FreeKit {
 	 * @return The lore to add to the kit gui item
 	 */
 	@Override
-    public ArrayList<String> getGuiDescription() {
-		ArrayList<String> kitLore = new ArrayList<>();
-		kitLore.add("§7Standard melee kit");
+    public ArrayList<Component> getGuiDescription() {
+		ArrayList<Component> kitLore = new ArrayList<>();
+		kitLore.add(Component.text("Standard melee kit");
 		kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
 		return kitLore;
 	}

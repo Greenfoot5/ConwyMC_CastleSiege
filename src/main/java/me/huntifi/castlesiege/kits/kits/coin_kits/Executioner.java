@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -140,18 +141,18 @@ public class Executioner extends CoinKit implements Listener {
 	 * @return The lore to add to the kit gui item
 	 */
 	@Override
-    public ArrayList<String> getGuiDescription() {
-		ArrayList<String> kitLore = new ArrayList<>();
-		kitLore.add("§7An axe-wielder capable of");
-		kitLore.add("§7instantly killing weak enemies");
+    public ArrayList<Component> getGuiDescription() {
+		ArrayList<Component> kitLore = new ArrayList<>();
+		kitLore.add(Component.text("An axe-wielder capable of");
+		kitLore.add(Component.text("instantly killing weak enemies");
 		kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-		kitLore.add(" ");
-		kitLore.add("§5Effects:");
-		kitLore.add("§7- Speed I");
-		kitLore.add(" ");
-		kitLore.add("§2Passive: ");
-		kitLore.add("§7- Executes enemies that are below");
-		kitLore.add("§a30% §7of their max health");
+		kitLore.add(Component.text(" ");
+		kitLore.add(Component.text("§5Effects:");
+		kitLore.add(Component.text("- Speed I");
+		kitLore.add(Component.text(" ");
+		kitLore.add(Component.text("§2Passive: ");
+		kitLore.add(Component.text("- Executes enemies that are below");
+		kitLore.add(Component.text("§a30% §7of their max health");
 		return kitLore;
 	}
 }

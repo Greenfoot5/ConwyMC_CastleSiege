@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -274,22 +275,22 @@ public class Priest extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A support kit with the power of");
-        kitLore.add("§7the holy book on their side");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A support kit with the power of");
+        kitLore.add(Component.text("the holy book on their side");
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 50, ladderCount, -1));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Mining Fatigue I");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Mining Fatigue I");
         kitLore.add("");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Can shoot a bolt of light at opponents");
-        kitLore.add("§7- Buffs selected ally with regen IV.");
-        kitLore.add("§7Lasts until another ally is selected");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see players' health");
+        kitLore.add(Component.text("Effects:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can shoot a bolt of light at opponents");
+        kitLore.add(Component.text("- Buffs selected ally with regen IV.");
+        kitLore.add(Component.text("Lasts until another ally is selected");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can see players' health");
         return kitLore;
     }
 }
