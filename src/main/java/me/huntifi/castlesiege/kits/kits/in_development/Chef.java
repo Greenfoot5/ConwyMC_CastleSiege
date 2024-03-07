@@ -12,10 +12,8 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -58,8 +56,6 @@ public class Chef extends CoinKit implements Listener {
 
     private static final int baseHealth = 260;
     private static final int regenAmount = 3;
-    private static final int coinCost = 20000;
-    private static final int bpCost = 6;
     private static final Material material = Material.IRON_SHOVEL;
     private static ItemStack campfire;
     private static ItemStack fryingPan;
@@ -94,29 +90,31 @@ public class Chef extends CoinKit implements Listener {
         super.heldItemSlot = 0;
 
         fryingPan = ItemCreator.weapon(new ItemStack(Material.IRON_SHOVEL),
-                ChatColor.DARK_GRAY + "Frying Pan", Arrays.asList(
-                        ChatColor.AQUA + "Knock enemies away with the back of a pan",
-                        ChatColor.AQUA + "Also halves bow damage while in the main hand",
-                        ChatColor.AQUA + "Crossbow damage is 75%"),
+                Component.text("Frying Pan", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Knock enemies away with the back of a pan", NamedTextColor.AQUA),
+                        Component.text("Also halves bow damage while in the main hand", NamedTextColor.AQUA),
+                        Component.text("Crossbow damage is 75%", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), 20);
         // Weapon
         es.hotbar[0] = fryingPan;
 
         fryingPanVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SHOVEL),
-                ChatColor.DARK_GRAY + "Frying Pan", Arrays.asList(
-                        ChatColor.AQUA + "Knock enemies away with the back of a pan",
-                        ChatColor.AQUA + "Also halves bow damage while in the main hand",
-                        ChatColor.AQUA + "Crossbow damage is 75%",
-                        ChatColor.AQUA + "- voted: +2 damage"),
+                Component.text("Frying Pan", NamedTextColor.GREEN), Arrays.asList(
+                        Component.empty(),
+                        Component.text("Knock enemies away with the back of a pan", NamedTextColor.AQUA),
+                        Component.text("Also halves bow damage while in the main hand", NamedTextColor.AQUA),
+                        Component.text("Crossbow damage is 75%", NamedTextColor.AQUA),
+                        Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), 22);
         es.votedWeapon = new Tuple<>(fryingPanVoted, 0);
 
         ItemStack kitchenKnives = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW, knifeCount),
-                ChatColor.DARK_GRAY + "Kitchen Knife",
-                Arrays.asList(ChatColor.BOLD + "Right click to throw!",
-                        String.valueOf(ChatColor.AQUA),
-                        ChatColor.AQUA + "Hitting enemy targets with this gives them",
-                        ChatColor.AQUA + "a brief poison effect and brief slowness."),
+                Component.text("Kitchen Knife", NamedTextColor.GREEN),
+                Arrays.asList(Component.text("Right click to throw!", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
+                        Component.empty(),
+                        Component.text("Hitting enemy targets with this gives them", NamedTextColor.AQUA),
+                        Component.text("a brief poison effect and brief slowness.", NamedTextColor.AQUA)),
                 null);
         PotionMeta potionMeta = (PotionMeta) kitchenKnives.getItemMeta();
         assert potionMeta != null;
@@ -130,38 +128,43 @@ public class Chef extends CoinKit implements Listener {
 
         campfire = ItemCreator.item(new ItemStack(Material.CAMPFIRE),
                 Component.text("Campfire", NamedTextColor.GREEN),
-                Arrays.asList(ChatColor.AQUA + "Can be placed down on the ground",
-                        ChatColor.AQUA + "When placed grants a slow regen effect to players nearby"),
+                Arrays.asList(Component.empty(),
+                        Component.text("Can be placed down on the ground", NamedTextColor.AQUA),
+                        Component.text("When placed grants a slow regen effect to players nearby", NamedTextColor.AQUA)),
                 null);
 
         es.hotbar[2] = campfire;
 
         ItemStack egg = ItemCreator.item(new ItemStack(Material.EGG, eggCount),
-                ChatColor.DARK_GRAY + "Mystery Egg", Arrays.asList(
-                        ChatColor.AQUA + "Right click to prepare food",
-                        ChatColor.AQUA + "Food grants a bonus to teammates",
-                        ChatColor.AQUA + "by right-clicking on them"),
+                Component.text("Mystery Egg", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right click to prepare food", NamedTextColor.AQUA),
+                        Component.text("Food grants a bonus to teammates", NamedTextColor.AQUA),
+                        Component.text("by right-clicking on them", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_BLOCKS, 0)));
 
         es.hotbar[3] = egg;
 
         steak = ItemCreator.item(new ItemStack(Material.COOKED_BEEF),
-                ChatColor.DARK_GRAY + "Strength Steak", Arrays.asList(
-                        ChatColor.AQUA + "Right click on a teammate to feed them",
-                        ChatColor.AQUA + "Grants strength to fed player"),
+                Component.text("Strength Steak", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right click on a teammate to feed them", NamedTextColor.AQUA),
+                        Component.text("Grants strength to fed player", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)));
 
         goldenCarrot = ItemCreator.item(new ItemStack(Material.GOLDEN_CARROT),
-                ChatColor.DARK_GRAY + "Golden Carrot", Arrays.asList(
-                        ChatColor.AQUA + "Right click a teammate to feed them",
-                        ChatColor.AQUA + "Grants night vision to the player"),
+                Component.text("Golden Carrot", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right click a teammate to feed them", NamedTextColor.AQUA),
+                        Component.text("Grants night vision to the player", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)));
 
         pie = ItemCreator.item(new ItemStack(Material.PUMPKIN_PIE),
-                ChatColor.DARK_GRAY + "Filling Pie", Arrays.asList(
-                        ChatColor.AQUA + "Right click a teammate to feed them",
-                        ChatColor.AQUA + "Grants absorption to the fed teammate",
-                        ChatColor.AQUA + "Grants slow to the fed teammate"),
+                Component.text("Filling Pie", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right click a teammate to feed them", NamedTextColor.AQUA),
+                        Component.text("Grants absorption to the fed teammate", NamedTextColor.AQUA),
+                        Component.text("Grants slow to the fed teammate", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)));
 
         // Chestplate
@@ -176,7 +179,7 @@ public class Chef extends CoinKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                Component.text("Kitchen Soles", NamedTextColor.GREEN), NamedTextColor.GREEN), null, null);
+                Component.text("Kitchen Soles", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Kitchen Soles", NamedTextColor.GREEN),
@@ -218,8 +221,7 @@ public class Chef extends CoinKit implements Listener {
             // Place new campfire
             e.setCancelled(false);
             campfires.put(p, e.getBlockPlaced());
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                    TextComponent.fromLegacyText(ChatColor.AQUA + "You setup your Campfire!"));
+            Messenger.sendActionInfo("You built a campfire", p);
 
             new BukkitRunnable() {
                 @Override

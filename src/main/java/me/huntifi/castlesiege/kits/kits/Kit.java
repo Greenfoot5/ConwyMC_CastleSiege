@@ -472,7 +472,7 @@ public abstract class Kit implements CommandExecutor, Listener {
      */
     protected ArrayList<Component> getBaseStats(int health, double regen, double meleeDamage,  int ladders) {
         ArrayList<Component> baseStats = new ArrayList<>();
-        baseStats.add(Component.text(" "));
+        baseStats.add(Component.empty());
         baseStats.add(Component.text(health, color).append(Component.text(" HP", NamedTextColor.GRAY)));
         baseStats.add(Component.text(regen, color).append(Component.text(" Regen", NamedTextColor.GRAY)));
         baseStats.add(Component.text(meleeDamage, color).append(Component.text(" Melee DMG", NamedTextColor.GRAY)));
@@ -491,7 +491,7 @@ public abstract class Kit implements CommandExecutor, Listener {
     protected ArrayList<Component> getBaseStats(int health, double regen, double meleeDamage, double rangedDamage,
                                                     int ladders, int ammo) {
         ArrayList<Component> baseStats = new ArrayList<>();
-        baseStats.add(Component.text(" "));
+        baseStats.add(Component.empty());
         baseStats.add(Component.text(health, color).append(Component.text(" HP", NamedTextColor.GRAY)));
         baseStats.add(Component.text(regen, color).append(Component.text(" Regen", NamedTextColor.GRAY)));
         baseStats.add(Component.text(meleeDamage, color).append(Component.text(" Melee DMG", NamedTextColor.GRAY)));
@@ -505,7 +505,7 @@ public abstract class Kit implements CommandExecutor, Listener {
 
     public ArrayList<Component> getGuiCostText() {
         ArrayList<Component> text = new ArrayList<>();
-        text.add(Component.text(" "));
+        text.add(Component.empty());
         text.add(Component.text("Apparently, it's a secret...").decorate(TextDecoration.BOLD));
         return text;
     }

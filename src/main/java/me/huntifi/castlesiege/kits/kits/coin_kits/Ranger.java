@@ -11,12 +11,10 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.NameTag;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -105,12 +103,12 @@ public class Ranger extends CoinKit implements Listener {
         // Volley Bow
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.BOW),
                 Component.text("Volley Bow", NamedTextColor.GREEN),
-                Collections.singletonList(ChatColor.AQUA + "Shoot 5 arrows at once"), null);
+                Collections.singletonList(Component.text("Shoot 5 arrows at once", NamedTextColor.AQUA)), null);
 
         // Burst Bow
         es.hotbar[3] = ItemCreator.item(new ItemStack(Material.BOW),
                 Component.text("Burst Bow", NamedTextColor.GREEN),
-                Collections.singletonList(ChatColor.AQUA + "Shoot 4 consecutive arrows"), null);
+                Collections.singletonList(Component.text("Shoot 4 consecutive arrows", NamedTextColor.AQUA)), null);
 
         // Ladders
         es.hotbar[4] = new ItemStack(Material.LADDER, ladderCount);
@@ -199,8 +197,7 @@ public class Ranger extends CoinKit implements Listener {
      * @param force The force of the original arrow
      */
     private void burstAbility(Player p, float force) {
-        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                Component.text("You shot your burst bow!", NamedTextColor.GREEN));
+        Messenger.sendInfo("You shot your burst bow!", p);
         p.setCooldown(Material.BOW, 100);
         burstArrow(p, force, 11);
         burstArrow(p, force, 21);
@@ -270,7 +267,8 @@ public class Ranger extends CoinKit implements Listener {
                         && canBackstab) {
 
                     ed.setCancelled(true);
-                    hit.sendMessage(ChatColor.RED + "You got backstabbed.");
+                    Messenger.sendWarning("You got backstabbed by " + NameTag.mmUsername(p), hit);
+                    Messenger.sendSuccess("You backstabbed " + NameTag.mmUsername(hit), p);
                     AssistKill.addDamager(hit.getUniqueId(), p.getUniqueId(), hit.getHealth());
                     DeathEvent.setKiller(hit, p);
                     hit.setHealth(0);
@@ -329,11 +327,11 @@ public class Ranger extends CoinKit implements Listener {
         kitLore.add(Component.text("can shoot volleys and bursts of arrows", NamedTextColor.GRAY));
         // TODO - Check ranged damage
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 18, ladderCount, arrowCount));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Haste I", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
         kitLore.add(Component.text("- Can fire a volley of arrows", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Can fire a bust of arrows", NamedTextColor.GRAY));

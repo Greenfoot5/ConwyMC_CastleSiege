@@ -38,7 +38,7 @@ public abstract class FreeKit extends Kit {
      */
     public ArrayList<Component> getGuiCostText() {
         ArrayList<Component> text = new ArrayList<>();
-        text.add(Component.text(" "));
+        text.add(Component.empty());
         text.add(Component.text("Free to play!", color).decorate(TextDecoration.BOLD));
         return text;
     }

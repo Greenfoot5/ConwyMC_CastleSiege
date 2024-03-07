@@ -16,7 +16,6 @@ import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -65,27 +64,23 @@ public class Warhound extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
-                ChatColor.RED + "Fangs " + ChatColor.GRAY + "(Right Click)", Arrays.asList("",
-                        ChatColor.GRAY + "Warhound main ability",
-                        ChatColor.WHITE + "",
-                        ChatColor.WHITE + "Description:",
-                        ChatColor.RED + "Immobilise your enemies, making them",
-                        ChatColor.RED + "slow and also you for a short period of time and",
-                        ChatColor.RED + "you can also slow down horses.",
-                        ChatColor.RED + "Has a 12 second cooldown."), null, 20);
+                Component.text("Fangs ", NamedTextColor.GREEN).append(Component.text("(Right Click)", NamedTextColor.GRAY)),
+                        Arrays.asList(Component.empty(),
+                        Component.text("Immobilise your enemies, making them", NamedTextColor.AQUA),
+                        Component.text("slow and also you for a short period of time and", NamedTextColor.AQUA),
+                        Component.text("you can also slow down horses.", NamedTextColor.AQUA),
+                        Component.text("Has a 12 second cooldown.", NamedTextColor.AQUA)), null, 20);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
-                        ChatColor.RED + "Fangs" + ChatColor.GRAY + "(Right Click)",
-                        Arrays.asList("",
-                                ChatColor.GRAY + "Warhound main ability",
-                                ChatColor.WHITE + "",
-                                ChatColor.WHITE + "Description:",
-                                ChatColor.RED + "Immobilise your enemies, making them",
-                                ChatColor.RED + "slow and also you for a short period of time and",
-                                ChatColor.RED + "you can also slow down horses.",
-                                ChatColor.RED + "Has a 12 second cooldown.",
-                                ChatColor.AQUA + "+2 damage"),
+                        Component.text("Fangs ", NamedTextColor.GREEN).append(Component.text("(Right Click)", NamedTextColor.GRAY)),
+                        Arrays.asList(Component.empty(),
+                                Component.text("Immobilise your enemies, making them", NamedTextColor.AQUA),
+                                Component.text("slow and also you for a short period of time and", NamedTextColor.AQUA),
+                                Component.text("you can also slow down horses.", NamedTextColor.AQUA),
+                                Component.text("Has a 12 second cooldown.", NamedTextColor.AQUA),
+                                Component.empty(),
+                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 30),
                 0);
 
@@ -299,16 +294,16 @@ public class Warhound extends CoinKit implements Listener {
         ArrayList<Component> kitLore = new ArrayList<>();
         kitLore.add(Component.text("A quick a ferocious hound. Hard to hit and bites hard", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Resistance I", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Jump Boost I", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Night Vision I", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Speed III", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
         kitLore.add(Component.text("- Can bite enemies to briefly immobilise them", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Slows enemies when hitting them", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));

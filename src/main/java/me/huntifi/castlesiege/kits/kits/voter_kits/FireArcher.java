@@ -109,10 +109,10 @@ public class FireArcher extends VoterKit implements Listener {
         // Firepit
         firepit = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
                 Component.text("Firepit", NamedTextColor.GREEN),
-                Arrays.asList(Component.text(" "),
+                Arrays.asList(Component.empty(),
                         Component.text("Place the firepit down, then", NamedTextColor.AQUA),
                         Component.text( "right click it with an arrow.", NamedTextColor.AQUA),
-                        Component.text(" "),
+                        Component.empty(),
                         Component.text( "(tip): This firepit is very hard, so you", NamedTextColor.AQUA),
                         Component.text( "can beat your enemies to death with it.", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, knockbackLevel)), meleeDamage);
@@ -120,10 +120,10 @@ public class FireArcher extends VoterKit implements Listener {
         // Voted Firepit
         firepitVoted = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
                 Component.text("Firepit", NamedTextColor.GREEN),
-                Arrays.asList(Component.text(" "),
+                Arrays.asList(Component.empty(),
                         Component.text("Place the firepit down, then", NamedTextColor.AQUA),
                         Component.text( "right click it with an arrow.", NamedTextColor.AQUA),
-                        Component.text(" "),
+                        Component.empty(),
                         Component.text( "- voted: + 2 damage.", NamedTextColor.AQUA),
                         Component.text( "(tip): This firepit is very hard, so you", NamedTextColor.AQUA),
                         Component.text( "can beat your enemies to death with it.", NamedTextColor.AQUA)),
@@ -370,11 +370,11 @@ public class FireArcher extends VoterKit implements Listener {
         kitLore.add(Component.text("Ranged kit that can craft and", NamedTextColor.GRAY));
         kitLore.add(Component.text("shoot flaming arrows", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, arrowDamage, ladderCount, arrowCount));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Slowness I (with fire pit in ", NamedTextColor.GRAY));
         kitLore.add(Component.text("inventory)", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
         kitLore.add(Component.text("- Can place and pickup their fire pit", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Can craft fire arrows using the fire pit", NamedTextColor.GRAY));

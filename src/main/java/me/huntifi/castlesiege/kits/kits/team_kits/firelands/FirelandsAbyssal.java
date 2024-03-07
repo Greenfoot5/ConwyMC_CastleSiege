@@ -223,7 +223,7 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
                     if (cooldown == 0) {
                         shooter = p;
                         p.setCooldown(Material.GREEN_DYE, 400);
-                        Messenger.sendInfo("You are charging, aim at the right location!", p);
+                        Messenger.sendActionInfo("You are charging, aim at the right location!", p);
                         p.getWorld().playSound(p.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1, (float) 0.5);
                         spawnMagmaProjectile(p);
                         launchProjectile(p);

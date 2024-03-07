@@ -12,10 +12,7 @@ import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -126,16 +123,14 @@ public class Cavalry extends CoinKit implements Listener {
 
                 //prevent from using it when not on a horse
                 if (p.getVehicle() == null) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatColor.DARK_RED + "You can't use this when not on your horse."));
+                    Messenger.sendActionError("You can't use this when not on your horse", p);
                     return;
                 }
 
                 if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
                     if (p.getCooldown(Material.ANVIL) != 0) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "Your horse's ability to stomp is still recharging!"));
+                        Messenger.sendActionError("Your horse's ability to stomp is still recharging!", p);
                         return;
                     }
 
@@ -169,8 +164,7 @@ public class Cavalry extends CoinKit implements Listener {
                             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY, 1, (float) 0.8);
                             p.setCooldown(Material.ANVIL, 200);
                         } else {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                    ChatColor.DARK_RED + "No enemy players are close enough for you to perform this ability!"));
+                            Messenger.sendActionError("No enemy players close enough!", p);
                         }
                     }
                 }
@@ -187,7 +181,7 @@ public class Cavalry extends CoinKit implements Listener {
         kitLore.add(Component.text("Can summon a horse to ride on", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(Component.text(horseHealth, color).append(Component.text(" Horse HP", NamedTextColor.GRAY)));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Horse Active:", NamedTextColor.GOLD));
         kitLore.add(Component.text("- When riding, can perform a kick", NamedTextColor.GRAY));
         kitLore.add(Component.text("dealing AOE damage and slowing enemies", NamedTextColor.GRAY));

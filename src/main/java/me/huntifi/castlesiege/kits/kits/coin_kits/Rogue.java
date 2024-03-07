@@ -14,12 +14,11 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -33,7 +32,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -61,23 +59,17 @@ import java.util.UUID;
 public class Rogue extends CoinKit implements Listener {
 
     public static final ArrayList<UUID> hasPoisonedWeapons = new ArrayList<>();
-
     public static final ArrayList<UUID> isShadow = new ArrayList<>();
-    private final ItemStack gouge;
-
-    private final ItemStack shadowStep;
-
-    private final ItemStack comboPoint;
-
-    private final ItemStack netheriteSword;
-
-    private final ItemStack netheriteSwordVoted;
-
-    private final ItemStack poisonSwordVoted;
-
     private static final int health = 210;
     private static final double regen = 8;
     private static final double meleeDamage = 32;
+
+    private final ItemStack gouge;
+    private final ItemStack shadowStep;
+    private final ItemStack comboPoint;
+    private final ItemStack netheriteSword;
+    private final ItemStack netheriteSwordVoted;
+    private final ItemStack poisonSwordVoted;
 
     private boolean canGouge = false;
     private BukkitRunnable br = null;
@@ -91,37 +83,40 @@ public class Rogue extends CoinKit implements Listener {
         super.heldItemSlot = 0;
 
         netheriteSword = ItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
-                ChatColor.DARK_GRAY + "Dagger", null, null, 32);
+                Component.text("Dagger", NamedTextColor.GREEN), null, null, 32);
         // Weapon
         es.hotbar[0] = netheriteSword;
 
         // Voted weapon
         netheriteSwordVoted = ItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
-                ChatColor.DARK_GRAY + "Dagger",
+                Component.text("Dagger", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 34);
         es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
 
         // Voted weapon
         poisonSwordVoted = ItemCreator.weapon(new ItemStack(Material.GOLDEN_SWORD),
-                ChatColor.DARK_GRAY + "Poison Dagger",
-                Collections.singletonList(Component.text("- Special: +2 damage", NamedTextColor.GREEN)),
+                Component.text("Poison Dagger", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- special: +2 damage", NamedTextColor.GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 34);
         es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
 
         // Gouge
         gouge = ItemCreator.weapon(new ItemStack(Material.NETHERITE_INGOT),
-                ChatColor.GOLD + "Gouge", Arrays.asList("",
-                        ChatColor.YELLOW + "" + ChatColor.BOLD + "Sneak + Right Click behind target",
-                        "",
-                        ChatColor.AQUA + "This attack uses combo points, the",
-                        ChatColor.AQUA + "more combo points the stronger the attack.", "",
-                        ChatColor.AQUA + "This stuns and damages the target but",
-                        ChatColor.AQUA + "in order for it to work you have to be behind",
-                        ChatColor.AQUA + "your target.", "",
-                        ChatColor.AQUA + "More combo points means more damage and",
-                        ChatColor.AQUA + "self healing on a succesful gouge.",
-                        ChatColor.BLUE + "Can be performed whilst shadow-stepping."),
+                Component.text("Gouge", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Sneak + Right Click behind target", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
+                        Component.empty(),
+                        Component.text("This attack uses combo points, the", NamedTextColor.AQUA),
+                        Component.text("more combo points the stronger the attack.", NamedTextColor.AQUA),
+                        Component.empty(),
+                        Component.text("This stuns and damages the target but", NamedTextColor.AQUA),
+                        Component.text("in order for it to work you have to be behind", NamedTextColor.AQUA),
+                        Component.text("your target.", NamedTextColor.AQUA),
+                        Component.empty(),
+                        Component.text("More combo points means more damage and", NamedTextColor.AQUA),
+                        Component.text("self healing on a succesful gouge.", NamedTextColor.AQUA),
+                        Component.text("Can be performed whilst shadow-stepping.", NamedTextColor.BLUE)),
                 null, 1);
         es.hotbar[1] = gouge;
 
@@ -129,22 +124,26 @@ public class Rogue extends CoinKit implements Listener {
         es.hotbar[2] = poison;
 
         shadowStep = ItemCreator.item(new ItemStack(Material.DRIED_KELP),
-                ChatColor.DARK_GRAY + "Shadowstep",
-                Arrays.asList(ChatColor.AQUA + "", ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to activate.",
-                        ChatColor.AQUA + "", ChatColor.AQUA + "You move through the shadows, invisible to everyone.",
-                        ChatColor.AQUA + "Whilst you shadowstep you can not attack targets, but you can gauge them.",
-                        ChatColor.AQUA + "This ability lasts 8 seconds and has a cool-down of 13 seconds."),
+                Component.text("Shadowstep", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right click to activate.", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
+                        Component.empty(),
+                        Component.text("You move through the shadows, invisible to everyone.", NamedTextColor.AQUA),
+                        Component.text("Whilst you shadowstep you can not attack targets, but you can gauge them.", NamedTextColor.AQUA),
+                        Component.text("This ability lasts 8 seconds and has a cool-down of 13 seconds.", NamedTextColor.AQUA)),
                 null);
         es.hotbar[3] = shadowStep;
 
         ItemStack trackArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
-                ChatColor.YELLOW + "Track Arrow",
-                Arrays.asList(ChatColor.AQUA + "", ChatColor.YELLOW + "" + ChatColor.BOLD + "Left click/Right click to throw!",
-                        ChatColor.AQUA + "", ChatColor.AQUA + "Hitting enemy targets with this gives them",
-                        ChatColor.AQUA + "glowing for a minute and stuns them briefly.",
-                        ChatColor.AQUA + "Allowing you enough time to strike or escape.",
-                        ChatColor.AQUA + "hitting enemies with this ability also awards you ",
-                        ChatColor.AQUA + "with a combo point."),
+                Component.text("Track Arrow", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Left click/Right click to throw!", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
+                        Component.empty(),
+                        Component.text("Hitting enemy targets with this gives them", NamedTextColor.AQUA),
+                        Component.text("glowing for a minute and stuns them briefly.", NamedTextColor.AQUA),
+                        Component.text("Allowing you enough time to strike or escape.", NamedTextColor.AQUA),
+                        Component.text("hitting enemies with this ability also awards you ", NamedTextColor.AQUA),
+                        Component.text("with a combo point.", NamedTextColor.AQUA)),
                 null);
         PotionMeta potionMeta = (PotionMeta) trackArrow.getItemMeta();
         assert potionMeta != null;
@@ -157,11 +156,13 @@ public class Rogue extends CoinKit implements Listener {
         es.hotbar[4] = trackArrow;
 
         comboPoint = ItemCreator.item(new ItemStack(Material.GLOWSTONE_DUST),
-                ChatColor.LIGHT_PURPLE + "Combo Point",
-                Arrays.asList(ChatColor.AQUA + "", ChatColor.YELLOW + "" + ChatColor.BOLD + "Ability Power Currency",
-                        ChatColor.AQUA + "", ChatColor.AQUA + "This currency can be used to perform a stronger gouge.",
-                        ChatColor.AQUA + "You can get combo points by killing opponents",
-                        ChatColor.AQUA + "and hitting enemies with track arrows."),
+                Component.text("Combo Point", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Ability Power Currency", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
+                        Component.empty(),
+                        Component.text("This currency can be used to perform a stronger gouge.", NamedTextColor.AQUA),
+                        Component.text("You can get combo points by killing opponents", NamedTextColor.AQUA),
+                        Component.text("and hitting enemies with track arrows.", NamedTextColor.AQUA)),
                 null);
 
         // Chestplate
@@ -183,12 +184,13 @@ public class Rogue extends CoinKit implements Listener {
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Rogue Boots", NamedTextColor.GREEN),
-                Collections.singletonList(ChatColor.AQUA + "- Feather Falling XV"),
+                Collections.singletonList(Component.text("- Feather Falling XV", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_FALL, 15)));
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Rogue Boots", NamedTextColor.GREEN),
-                Arrays.asList(ChatColor.AQUA + "- Feather Falling XV", ChatColor.AQUA + "- voted: Depth Strider II"),
+                Arrays.asList(Component.text("- Feather Falling XV", NamedTextColor.AQUA),
+                        Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Arrays.asList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3), new Tuple<>(Enchantment.PROTECTION_FALL, 15)));
 
 
@@ -215,10 +217,10 @@ public class Rogue extends CoinKit implements Listener {
 
         potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, 1, 6), true);
         potionMeta.setColor(Color.GREEN);
-        potionMeta.setDisplayName(ChatColor.RED + "Bottle of Poison");
-        potionMeta.setLore(Arrays.asList(
-                ChatColor.AQUA + "", ChatColor.AQUA + "When right clicking this, you will deal poison attacks",
-                ChatColor.AQUA + "for the next 10 seconds. This has a 50 second cooldown."));
+        potionMeta.displayName(Component.text("Bottle of Poison", NamedTextColor.RED));
+        potionMeta.lore(Arrays.asList(Component.empty(),
+                Component.text("When right clicking this, you will deal poison attacks", NamedTextColor.AQUA),
+                Component.text("for the next 10 seconds. This has a 50 second cooldown.", NamedTextColor.AQUA)));
         itemStack.setItemMeta(potionMeta);
 
         return itemStack;
@@ -241,9 +243,8 @@ public class Rogue extends CoinKit implements Listener {
                 if (p.getInventory().getItemInMainHand().getType() != Material.POTION) {
                     return;
                 }
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.DARK_GREEN + "You poisoned your weapons!"));
-                    applyPoison(p);
+                Messenger.sendActionInfo("You poisoned your weapons", p);
+                applyPoison(p);
             }
         }
     }
@@ -264,8 +265,7 @@ public class Rogue extends CoinKit implements Listener {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 Material item = p.getInventory().getItemInMainHand().getType();
                 if (item.equals(shadowStep.getType())) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.RED + "You triggered the Shadowstep ability!"));
+                    Messenger.sendActionInfo("You dived into the shadows", p);
                     shadowstepAbility(p);
                 }
             }
@@ -296,14 +296,13 @@ public class Rogue extends CoinKit implements Listener {
                     public void run() {
                         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
                             if (isShadow.contains(p.getUniqueId())) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                        ChatColor.GOLD + "" + ChatColor.BOLD + "You are no longer invisible! (Strike now!)"));
+                                Messenger.sendActionWarning("You are no longer invisible! (Strike now!)", p);
                                 mythicParticle2(p);
                                 isShadow.remove(p.getUniqueId());
                             }
                             for (PotionEffect effect : p.getActivePotionEffects()) {
-                                if ((effect.getType().getName().equals(PotionEffectType.INVISIBILITY.getName()) && effect.getAmplifier() == 0)
-                                        || (effect.getType().getName().equals(PotionEffectType.JUMP.getName()) && effect.getAmplifier() == 4)) {
+                                if ((effect.getType().equals(PotionEffectType.INVISIBILITY) && effect.getAmplifier() == 0)
+                                        || (effect.getType().equals(PotionEffectType.JUMP) && effect.getAmplifier() == 4)) {
                                     p.removePotionEffect(effect.getType());
                                 }
                             }
@@ -429,11 +428,9 @@ public class Rogue extends CoinKit implements Listener {
                         p.setCooldown(Material.TIPPED_ARROW, 100);
                         p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(4.0));
                     } else if (isShadow.contains(p.getUniqueId())) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your track arrow whilst shadowstepping!"));
+                        Messenger.sendActionError("You can't throw your arrow while in shadows!", p);
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your track arrow yet."));
+                        Messenger.sendActionError("You can't throw your tracking arrow yet!", p);
                     }
                 } else if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0 && !isShadow.contains(p.getUniqueId())) {
@@ -446,11 +443,9 @@ public class Rogue extends CoinKit implements Listener {
                             p.launchProjectile(Arrow.class, v.rotateAroundY(-0.314));
 
                     } else if (isShadow.contains(p.getUniqueId())) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your track arrow whilst shadowstepping!"));
+                        Messenger.sendActionError("You can't throw your tracking arrow while in shadows!", p);
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your track arrow yet."));
+                        Messenger.sendActionError("You can't throw your tracking arrow yet!", p);
                     }
                 }
             }
@@ -580,8 +575,8 @@ public class Rogue extends CoinKit implements Listener {
                         p.setCooldown(gouge.getType(), 100);
 
                         ed.setCancelled(true);
-                        hit.sendMessage(ChatColor.RED + "You were gouged by " + p.getName());
-                        p.sendMessage(ChatColor.RED + "You gouged " + hit.getName());
+                        Messenger.sendWarning("You were gouged by " + NameTag.mmUsername(p), hit);
+                        Messenger.sendSuccess("You gouged " + NameTag.mmUsername(hit), p);
                         if (p.getInventory().contains(Material.GLOWSTONE_DUST)) {
                             for (ItemStack item : p.getInventory().getContents()) {
                                 if (item == null) {
@@ -666,13 +661,13 @@ public class Rogue extends CoinKit implements Listener {
         kitLore.add(Component.text("A master of camouflage and tracking. Can", NamedTextColor.GRAY));
         kitLore.add(Component.text("become invisible and strike enemies from behind", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Speed II", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Haste II", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Night Vision I", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Jump Boost I", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
         kitLore.add(Component.text("- Can throw track arrows", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Can perform shadowstep (grants invisibility)", NamedTextColor.GRAY));
@@ -680,7 +675,7 @@ public class Rogue extends CoinKit implements Listener {
         kitLore.add(Component.text("with poison", NamedTextColor.GRAY));
         kitLore.add(Component.text("- When behind enemies can gauge them, which", NamedTextColor.GRAY));
         kitLore.add(Component.text("stuns them temporarily and grants a bit of healing", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         // TODO - Improve passive descriptions
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Can see player health.", NamedTextColor.GRAY));

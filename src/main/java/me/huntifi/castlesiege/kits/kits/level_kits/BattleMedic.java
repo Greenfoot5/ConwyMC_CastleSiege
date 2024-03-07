@@ -13,10 +13,7 @@ import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -97,8 +94,8 @@ public class BattleMedic extends LevelKit implements Listener {
 
         // Bandages
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.PAPER, bandageCount),
-                ChatColor.DARK_AQUA + "Bandages",
-                Collections.singletonList(ChatColor.AQUA + "Right click teammates to heal."), null);
+                Component.text("Bandages", NamedTextColor.DARK_AQUA),
+                Collections.singletonList(Component.text("Right click teammates to heal.", NamedTextColor.AQUA)), null);
 
         // Ladders
         es.hotbar[2] = new ItemStack(Material.LADDER, 4);
@@ -168,10 +165,10 @@ public class BattleMedic extends LevelKit implements Listener {
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(Component.text(bandageCount, color)
                         .append(Component.text(" Bandages", NamedTextColor.GRAY)));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Active:", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Can heal teammates with bandages", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
         return kitLore;

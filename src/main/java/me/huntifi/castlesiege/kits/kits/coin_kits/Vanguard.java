@@ -11,7 +11,6 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -28,8 +27,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -58,14 +57,14 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
-                Collections.singletonList(ChatColor.AQUA + "Right-click to activate charge ability."),
+                Collections.singletonList(Component.text("Right-click to activate charge ability.", NamedTextColor.AQUA)),
                 null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                         Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
-                        Arrays.asList(ChatColor.AQUA + "Right-click to activate charge ability.",
-                                ChatColor.AQUA + "- voted: +2 damage"),
+                        List.of(Component.text("Right-click to activate charge ability.", NamedTextColor.AQUA),
+                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
@@ -122,7 +121,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
                     if (cooldown == 0) {
                         p.setCooldown(Material.DIAMOND_SWORD, 300);
-                        Messenger.sendInfo("You are charging forward", p);
+                        Messenger.sendActionInfo("You are charging forward", p);
                         p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 160, 4)));
                         p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 160, 1)));
 
@@ -155,9 +154,9 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
             if (vanguards.contains(uuid)) {
                 for (PotionEffect effect : player.getActivePotionEffects()) {
-                    if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 4)
-                            || (effect.getType().getName().equals(PotionEffectType.JUMP.getName()) && effect.getAmplifier() == 1)
-                            || (effect.getType().getName().equals(PotionEffectType.INCREASE_DAMAGE.getName()) && effect.getAmplifier() == 2)) {
+                    if ((effect.getType().equals(PotionEffectType.SPEED) && effect.getAmplifier() == 4)
+                            || (effect.getType().equals(PotionEffectType.JUMP) && effect.getAmplifier() == 1)
+                            || (effect.getType().equals(PotionEffectType.INCREASE_DAMAGE) && effect.getAmplifier() == 2)) {
                         player.removePotionEffect(effect.getType());
                     }
                 }
@@ -174,11 +173,11 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
         kitLore.add(Component.text("A master of camouflage and tracking. Can", NamedTextColor.GRAY));
         kitLore.add(Component.text("become invisible and strike enemies from behind", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Haste I", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
         kitLore.add(Component.text("- Can charge forward gaining Speed V and", NamedTextColor.GRAY));
         kitLore.add(Component.text("Jump Boost II and bonus damage to the first", NamedTextColor.GRAY));

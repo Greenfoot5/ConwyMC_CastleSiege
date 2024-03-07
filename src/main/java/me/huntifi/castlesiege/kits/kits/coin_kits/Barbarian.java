@@ -52,7 +52,7 @@ public class Barbarian extends CoinKit implements Listener {
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
                         Component.text("Battle Axe", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),,
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
@@ -139,10 +139,10 @@ public class Barbarian extends CoinKit implements Listener {
         kitLore.add(Component.text("Fast axe wielding warrior that deals", NamedTextColor.GRAY));
         kitLore.add(Component.text("more damage when they are low on health", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Melee damage is increased depending", NamedTextColor.GRAY));
         kitLore.add(Component.text("on how much health you have left.", NamedTextColor.GRAY));

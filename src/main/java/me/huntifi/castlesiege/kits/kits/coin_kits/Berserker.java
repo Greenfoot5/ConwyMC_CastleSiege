@@ -64,7 +64,7 @@ public class Berserker extends CoinKit implements Listener {
         // Voted Weapon
         regularSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Iron Sword", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),,
+                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
@@ -83,7 +83,7 @@ public class Berserker extends CoinKit implements Listener {
         // Voted Berserk Weapon
         berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Berserker Sword", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),,
+                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
                         new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamageZerk + 2);
 
@@ -187,7 +187,7 @@ public class Berserker extends CoinKit implements Listener {
         kitLore.add(Component.text("A warrior with no armor and", NamedTextColor.GRAY));
         kitLore.add(Component.text("a berserker potion", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
         kitLore.add(Component.text(" ", NamedTextColor.GRAY));

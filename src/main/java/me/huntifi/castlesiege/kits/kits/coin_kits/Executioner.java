@@ -9,7 +9,6 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -147,7 +146,7 @@ public class Executioner extends CoinKit implements Listener {
 		kitLore.add(Component.text("An axe-wielder capable of", NamedTextColor.GRAY));
 		kitLore.add(Component.text("instantly killing weak enemies", NamedTextColor.GRAY));
 		kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-		kitLore.add(Component.text(" "));
+		kitLore.add(Component.empty());
 		kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
 		kitLore.add(Component.text("- Speed I", NamedTextColor.DARK_GREEN));
 		kitLore.add(Component.text(" ", NamedTextColor.GRAY));

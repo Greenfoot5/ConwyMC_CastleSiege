@@ -2,6 +2,10 @@ package me.huntifi.castlesiege.data_types;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -27,29 +31,31 @@ public class KitBooster extends Booster {
     }
 
     @Override
-    public String getName() {
+    public Component getName() {
         if (kitName.equalsIgnoreCase("wild")) {
-            return "§a§oWild§a kit booster - ID " + id;
+            return Component.text("Wild", NamedTextColor.GREEN).decorate(TextDecoration.ITALIC)
+                    .append(Component.text("kit booster - ID " + id).decoration(TextDecoration.ITALIC, false));
         } else if (kitName.equalsIgnoreCase("random")) {
-            return "§a§k!§aRandom§k!§a kit booster - ID " + id;
+            return MiniMessage.miniMessage().deserialize("<green><obf>!</obf>Random<obf>!</obf> kit booster - ID " + id);
         }
-        return "§a" + kitName + " kit booster - ID " + id;
+        return Component.text(kitName + " kit booster - ID " + id, NamedTextColor.GREEN);
     }
 
     @Override
-    public List<String> getLore() {
-        List<String> lore = new ArrayList<>();
-        lore.add("§3Duration: §b" + getDurationAsString());
-        lore.add(" ");
+    public List<Component> getLore() {
+        List<Component> lore = new ArrayList<>();
+        lore.add(Component.text("Duration: ", NamedTextColor.DARK_AQUA)
+                .append(Component.text(getDurationAsString()).decorate(TextDecoration.BOLD)));
+        lore.add(Component.empty());
         if (kitName.equalsIgnoreCase("wild")) {
-            lore.add("§aChoose which elite kit gets boosted!");
+            lore.add(Component.text("Choose which elite kit gets boosted!", NamedTextColor.GREEN));
         } else if (kitName.equalsIgnoreCase("random")) {
-            lore.add("§eA random elite kit gets boosted!");
+            lore.add(Component.text("A random elite kit gets boosted!", NamedTextColor.YELLOW));
         } else {
-            lore.add("§a" + kitName + " gets boosted!");
+            lore.add(Component.text(kitName + " gets boosted!", NamedTextColor.GREEN));
         }
-        lore.add("§3A boosted kit is unlocked for all players");
-        lore.add("§3    for the booster's duration!");
+        lore.add(Component.text("A boosted kit is unlocked for all players", NamedTextColor.DARK_AQUA));
+        lore.add(Component.text("    for the booster's duration!", NamedTextColor.DARK_AQUA));
         return lore;
     }
 

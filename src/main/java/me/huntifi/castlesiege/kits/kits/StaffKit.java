@@ -72,7 +72,7 @@ public abstract class StaffKit extends Kit {
      */
     public ArrayList<Component> getGuiCostText() {
         ArrayList<Component> text = new ArrayList<>();
-        text.add(Component.text(" "));
+        text.add(Component.empty());
         text.add(Component.text("Unlocked by becoming staff", color).decorate(TextDecoration.BOLD));
         return text;
     }

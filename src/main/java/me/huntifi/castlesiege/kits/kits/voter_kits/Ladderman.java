@@ -111,10 +111,10 @@ public class Ladderman extends VoterKit implements Listener {
         kitLore.add(Component.text("Melee kit with an axe", NamedTextColor.GRAY));
         kitLore.add(Component.text("and loads of ladders", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Jump Boost II", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Can pickup ladders", NamedTextColor.GRAY));
         return kitLore;

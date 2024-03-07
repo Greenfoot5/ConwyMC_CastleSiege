@@ -113,11 +113,11 @@ public class HommetAxeman extends TeamKit implements Listener {
                     if (cooldown == 0) {
                         axe.setAmount(axe.getAmount() - 1);
                         p.setCooldown(Material.STONE_AXE, 60);
-                        Messenger.sendInfo("You threw your Axe!", p);
+                        Messenger.sendActionInfo("You threw your Axe!", p);
                         p.launchProjectile(Snowball.class).setVelocity(p.getLocation().getDirection().multiply(2.5));
 
                     } else {
-                        Messenger.sendError("You can't throw your Axe yet.", p);
+                        Messenger.sendActionError("You can't throw your Axe yet.", p);
                     }
                 }
             }

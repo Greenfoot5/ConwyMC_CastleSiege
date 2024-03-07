@@ -135,7 +135,7 @@ public class Constructor extends MapKit implements Listener {
         for (Flag flag : MapController.getCurrentMap().flags) {
             if (placerLoc.distance(flag.getSpawnPoint()) <= 6 ||
                     flag.region.contains((int) placerLoc.getX(), (int) placerLoc.getY(), (int) placerLoc.getZ())) {
-                Messenger.sendError("You can't place planks here!", player);
+                Messenger.sendActionError("You can't place planks here!", player);
                 return false;
             }
         }
@@ -144,7 +144,7 @@ public class Constructor extends MapKit implements Listener {
             for (Core core : map.getCores()) {
                 if (placerLoc.distance(core.getSpawnPoint()) <= 6 ||
                         core.region.contains((int) placerLoc.getX(), (int) placerLoc.getY(), (int) placerLoc.getZ())) {
-                    Messenger.sendError("You can't place planks here!", player);
+                    Messenger.sendActionError("You can't place planks here!", player);
                     return false;
                 }
             }
@@ -184,10 +184,10 @@ public class Constructor extends MapKit implements Listener {
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(Component.text(planksCount, color)
                         .append(Component.text(" Planks", NamedTextColor.GRAY)));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- JUMP I", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Can pick up planks placed by", NamedTextColor.GRAY));
         kitLore.add(Component.text("other constructors.", NamedTextColor.GRAY));

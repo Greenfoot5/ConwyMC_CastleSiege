@@ -90,7 +90,7 @@ public class Scout extends VoterKit {
         ArrayList<Component> kitLore = new ArrayList<>();
         kitLore.add(Component.text("A light and agile kit", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Speed II", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Jump Boost I", NamedTextColor.GRAY));

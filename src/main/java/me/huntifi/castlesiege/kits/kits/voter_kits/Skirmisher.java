@@ -82,7 +82,7 @@ public class Skirmisher extends VoterKit {
         ArrayList<Component> kitLore = new ArrayList<>();
         kitLore.add(Component.text("A faster more agile swordsman", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Haste II", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));

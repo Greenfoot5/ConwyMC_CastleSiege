@@ -76,10 +76,10 @@ public class Alchemist extends CoinKit implements Listener {
         // Brewing Stand
         stand = ItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
                 Component.text("Brewing Stand", NamedTextColor.LIGHT_PURPLE),
-                Arrays.asList(Component.text(" "),
+                Arrays.asList(Component.empty(),
                         Component.text("Place the brewing stand down, then", NamedTextColor.AQUA),
                         Component.text("right click it to get a positive potion.", NamedTextColor.AQUA),
-                        Component.text(" "),
+                        Component.empty(),
                         Component.text("left click it to get a negative potion.", NamedTextColor.AQUA),
                         Component.text("(tip): This brewing stand is a weapon, so you", NamedTextColor.AQUA),
                         Component.text("can beat your enemies to death with it.", NamedTextColor.AQUA)),
@@ -693,13 +693,13 @@ public class Alchemist extends CoinKit implements Listener {
         kitLore.add(Component.text("A support kit that makes use", NamedTextColor.GRAY));
         kitLore.add(Component.text("of many different kinds of potions", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
         kitLore.add(Component.text("- Can craft potions", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Gets two potions on kill", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));

@@ -9,7 +9,7 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -97,41 +97,45 @@ public class Crossbowman extends CoinKit implements Listener {
         // mode switch button
         mobilitySwitchInactive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
                 Component.text("Mobility Mode", NamedTextColor.GREEN),
-                Arrays.asList("",
-                        ChatColor.AQUA + "Mobility mode:",
-                        ChatColor.AQUA + "In this mode crossbowman is faster, ",
-                        ChatColor.AQUA + "has no cooldown and shoots like a normal",
-                        ChatColor.AQUA + "crossbow.", "",
-                        ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to enable Mobility Mode."),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right-click to enable Mobility Mode", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
+                        Component.empty(),
+                        Component.text("Mobility mode:", NamedTextColor.AQUA),
+                        Component.text("In this mode crossbowman is faster, ", NamedTextColor.AQUA),
+                        Component.text("has no cooldown and shoots like a normal", NamedTextColor.AQUA),
+                        Component.text("crossbow.", NamedTextColor.AQUA)),
                 null, 0);
 
         sniperSwitchInactive = ItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
-                ChatColor.YELLOW + "Sniper Mode", Arrays.asList("",
-                        ChatColor.AQUA + "Sniper mode:",
-                        ChatColor.AQUA + "In this mode crossbowman is slower, ",
-                        ChatColor.AQUA + "has a cooldown and shoots like a sniper",
-                        ChatColor.AQUA + "",
-                        ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to enable Sniper Mode."),
+                Component.text("Sniper Mode", NamedTextColor.YELLOW),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right-click to enable Sniper Mode", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
+                        Component.empty(),
+                        Component.text("Sniper mode:", NamedTextColor.AQUA),
+                        Component.text("In this mode crossbowman is slower, ", NamedTextColor.AQUA),
+                        Component.text("has a cooldown and shoots like a sniper", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 0);
 
         // mode switch button
         mobilitySwitchActive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
                 Component.text("Mobility Mode", NamedTextColor.GREEN),
-                Arrays.asList("",
-                        ChatColor.AQUA + "Mobility mode:",
-                        ChatColor.AQUA + "In this mode crossbowman is faster, ",
-                        ChatColor.AQUA + "has no cooldown and shoots like a normal",
-                        ChatColor.AQUA + "crossbow.", "",
-                        ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to enable Mobility Mode."),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right-click to enable Mobility Mode", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
+                        Component.empty(),
+                        Component.text("Mobility mode:", NamedTextColor.AQUA),
+                        Component.text("In this mode crossbowman is faster, ", NamedTextColor.AQUA),
+                        Component.text("has no cooldown and shoots like a normal", NamedTextColor.AQUA),
+                        Component.text("crossbow.", NamedTextColor.AQUA)),
                 null, 0);
 
         sniperSwitchActive = ItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
-                ChatColor.YELLOW + "Sniper Mode", Arrays.asList("",
-                        ChatColor.AQUA + "Sniper mode:",
-                        ChatColor.AQUA + "In this mode crossbowman is slower, ",
-                        ChatColor.AQUA + "has a cooldown and shoots like a sniper",
-                        ChatColor.AQUA + "",
-                        ChatColor.YELLOW + "" + ChatColor.BOLD + "Right click to enable Sniper Mode."),
+                Component.text("Sniper Mode", NamedTextColor.YELLOW),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right-click to enable Sniper Mode", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
+                        Component.empty(),
+                        Component.text("Sniper mode:", NamedTextColor.AQUA),
+                        Component.text("In this mode crossbowman is slower, ", NamedTextColor.AQUA),
+                        Component.text("has a cooldown and shoots like a sniper", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 0);
 
         es.hotbar[6] = mobilitySwitchActive;
@@ -224,7 +228,7 @@ public class Crossbowman extends CoinKit implements Listener {
             p.getInventory().setItem(7, sniperSwitchInactive);
             // Potion effects when Mobility Mode
             for (PotionEffect effect : p.getActivePotionEffects()) {
-                if ((effect.getType().getName().equals(PotionEffectType.SLOW.getName()) && effect.getAmplifier() == 2)) {
+                if ((effect.getType().equals(PotionEffectType.SLOW) && effect.getAmplifier() == 2)) {
                     p.removePotionEffect(effect.getType());
                     this.potionEffects.remove(effect.getType());
                 }
@@ -243,7 +247,7 @@ public class Crossbowman extends CoinKit implements Listener {
             p.getInventory().setItem(7, sniperSwitchActive);
             // Potion effects when Sniper Mode
             for (PotionEffect effect : p.getActivePotionEffects()) {
-                if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 0)) {
+                if ((effect.getType().equals(PotionEffectType.SPEED) && effect.getAmplifier() == 0)) {
                     p.removePotionEffect(effect.getType());
                     this.potionEffects.remove(effect.getType());
                 }
@@ -287,7 +291,7 @@ public class Crossbowman extends CoinKit implements Listener {
         kitLore.add(Component.text("A ranged kit that can function", NamedTextColor.GRAY));
         kitLore.add(Component.text("like a sniper", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, 1, 36, ladderCount, arrowCount));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Slowness III ", NamedTextColor.GRAY)
                 .append(Component.text("(sniper mode)", NamedTextColor.GREEN)));
@@ -296,7 +300,7 @@ public class Crossbowman extends CoinKit implements Listener {
         kitLore.add(Component.text(" ", NamedTextColor.GRAY));
         kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
         kitLore.add(Component.text("- Has two movement modes", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive: ", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Arrows are not affected by", NamedTextColor.GRAY));
         kitLore.add(Component.text("gravity ", NamedTextColor.GRAY)

@@ -66,7 +66,7 @@ public class Hypaspist extends LevelKit implements Listener {
         // Weapon
         es.offhand = ItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
                 Component.text("Concave Shield", NamedTextColor.GREEN),
-                Collections.singletonList(ChatColor.AQUA + "Right-click to block."),
+                Collections.singletonList(Component.text("Right-click to block.", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)) , 10);
 
         // Weapon
@@ -189,11 +189,11 @@ public class Hypaspist extends LevelKit implements Listener {
         kitLore.add(Component.text("A tank with a trident & shield, ", NamedTextColor.GRAY));
         kitLore.add(Component.text("which weakens opponents", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, -1));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Slowness I", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Mining fatigue I", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Trident-throw inflicts confusion IV,", NamedTextColor.GRAY));
         kitLore.add(Component.text("Mining Fatigue III and Slowness II", NamedTextColor.GRAY));

@@ -78,7 +78,7 @@ public abstract class MapKit extends Kit implements Listener {
      */
     public ArrayList<Component> getGuiCostText() {
         ArrayList<Component> text = new ArrayList<>();
-        text.add(Component.text(" "));
+        text.add(Component.empty());
         text.add(Component.text("Can be played on " + map + "!", color).decorate(TextDecoration.BOLD));
         return text;
     }

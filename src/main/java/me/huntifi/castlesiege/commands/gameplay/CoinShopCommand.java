@@ -6,7 +6,6 @@ import me.huntifi.castlesiege.gui.GuiController;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -62,12 +61,12 @@ public class CoinShopCommand implements CommandExecutor {
         gui.addCoinShopItem("Viking", Kit.getMaterial("Viking"), 13, player.getUniqueId());
         gui.addCoinShopItem("Warhound", Kit.getMaterial("Warhound"), 14, player.getUniqueId());
 
-        List<String> lore = new ArrayList<>();
-        lore.add("/\\ Elite Kits /\\");
-        lore.add(" ");
-        lore.add("\\/ Team Kits \\/");
+        List<Component> lore = new ArrayList<>();
+        lore.add(Component.text("/\\ Elite Kits /\\"));
+        lore.add(Component.text(" "));
+        lore.add(Component.text("\\/ Team Kits \\/"));
         for (int i = 18; i < 27; i++) {
-            gui.addItem("-", Material.GRAY_STAINED_GLASS_PANE, lore, i, "", false);
+            gui.addItem(Component.text("-"), Material.GRAY_STAINED_GLASS_PANE, lore, i, "", false);
         }
 
         gui.addCoinShopItem("Elytrier", Kit.getMaterial("Elytrier"), 27, player.getUniqueId());

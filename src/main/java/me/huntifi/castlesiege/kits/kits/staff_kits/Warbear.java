@@ -180,12 +180,12 @@ public class Warbear extends StaffKit implements Listener {
         ArrayList<Component> kitLore = new ArrayList<>();
         kitLore.add(Component.text("A mighty polar bear ready for action", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
         kitLore.add(Component.text("- Stacks wither with basic attacks", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Can bite to stun an opponent", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Can gain a short burst of speed", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Cannot climb", NamedTextColor.RED));

@@ -13,10 +13,7 @@ import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -41,9 +38,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -105,14 +102,14 @@ public class Medic extends CoinKit implements Listener {
 
         // Bandages
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.PAPER),
-                ChatColor.DARK_AQUA + "Bandages",
-                Collections.singletonList(ChatColor.AQUA + "Right click teammates to heal."), null);
+                Component.text("Bandages", NamedTextColor.DARK_AQUA),
+                Collections.singletonList(Component.text("Right click teammates to heal.", NamedTextColor.AQUA)), null);
 
         // Cake
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.CAKE, cakeCount),
-                ChatColor.DARK_AQUA + "Healing Cake",
-                Arrays.asList(ChatColor.AQUA + "Place the cake down, then",
-                        ChatColor.AQUA + "teammates can heal from it."), null);
+                Component.text("Healing Cake", NamedTextColor.DARK_AQUA),
+                List.of(Component.text("Place the cake down, then", NamedTextColor.AQUA),
+                        Component.text("teammates can heal from it.", NamedTextColor.AQUA)), null);
 
         // Self Potion
         es.hotbar[3] = healthPotion();
@@ -137,7 +134,7 @@ public class Medic extends CoinKit implements Listener {
 
         potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 1, 6), true);
         potionMeta.setColor(Color.RED);
-        potionMeta.setDisplayName(ChatColor.RED + "Health Potion");
+        potionMeta.displayName(Component.text("Health Potion", NamedTextColor.RED));
         itemStack.setItemMeta(potionMeta);
 
         return itemStack;
@@ -198,7 +195,7 @@ public class Medic extends CoinKit implements Listener {
                 cake.setType(Material.AIR);
                 cakeType = " neutral";
             }
-            Messenger.sendInfo("You destroyed a" + cakeType + " cake", p);
+            Messenger.sendActionInfo("You destroyed a" + cakeType + " cake", p);
         }
     }
 
@@ -333,14 +330,14 @@ public class Medic extends CoinKit implements Listener {
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(Component.text(cakeCount, color)
                         .append(Component.text(" Cakes", NamedTextColor.GRAY)));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
         kitLore.add(Component.text("- Can use bandages to heal teammates", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Can place cakes (1 active max)", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- When healing an ally receives resistance I", NamedTextColor.GRAY));
         return kitLore;

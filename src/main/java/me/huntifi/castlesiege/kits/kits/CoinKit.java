@@ -89,7 +89,7 @@ public abstract class CoinKit extends Kit {
      */
     public ArrayList<Component> getGuiCostText() {
         ArrayList<Component> text = new ArrayList<>();
-        text.add(Component.text(" "));
+        text.add(Component.empty());
         text.add(Component.text("Unlocked with coins", color).decorate(TextDecoration.BOLD));
         return text;
     }

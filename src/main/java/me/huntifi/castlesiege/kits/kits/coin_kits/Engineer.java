@@ -19,7 +19,6 @@ import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -89,7 +88,7 @@ public class Engineer extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                Component.text("Short-sword", null, null, meleeDamage);
+                Component.text("Short-sword", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
@@ -276,9 +275,9 @@ public class Engineer extends CoinKit implements Listener {
 
             if (!inv.contains(Material.STONE_PRESSURE_PLATE, 8 - trapsOffHand)) {
                 inv.addItem(new ItemStack(Material.STONE_PRESSURE_PLATE, 1));
-                p.sendMessage(Component.text("You took this trap.");
+                Messenger.sendActionInfo("You picked up the trap", p);
             } else {
-                p.sendMessage(ChatColor.DARK_RED + "You took this trap and put it away.");
+                Messenger.sendActionInfo("You picked up the trap and put it away.", p);
             }
         }
     }
@@ -290,18 +289,19 @@ public class Engineer extends CoinKit implements Listener {
     @EventHandler
     public void onEnterBallista(VehicleEnterEvent e) {
         if (e.getVehicle() instanceof Minecart && e.getEntered() instanceof Player) {
+            Player p = (Player) e.getEntered();
 
             // Ensure that the entered minecart is a ballista and the player is an engineer
             Location dispenserFace = getDispenserFace(e.getVehicle().getLocation().add(0, 2, 0));
             if (dispenserFace == null) {
                 return;
             } else if (!Objects.equals(Kit.equippedKits.get(e.getEntered().getUniqueId()).name, name)) {
-                Messenger.sendError("Only engineers can use a ballista!", e.getEntered());
+                Messenger.sendActionError("Only engineers can use a ballista!", p);
                 e.setCancelled(true);
                 return;
             }
 
-            ballista.put((Player) e.getEntered(), new Tuple<>(dispenserFace, false));
+            ballista.put(p, new Tuple<>(dispenserFace, false));
         }
     }
 
@@ -540,12 +540,12 @@ public class Engineer extends CoinKit implements Listener {
                 .append(Component.text(" Planks", NamedTextColor.GRAY)));
         kitLore.add(Component.text(cobblestoneCount, color)
                 .append(Component.text(" Cobblestone", NamedTextColor.GRAY)));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Jump Boost I", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Haste II", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Can place down traps and cobwebs", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Can fire ballista", NamedTextColor.GRAY));

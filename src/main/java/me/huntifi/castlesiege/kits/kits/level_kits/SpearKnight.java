@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits.level_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -10,9 +11,6 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.LevelKit;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
@@ -75,7 +73,8 @@ public class SpearKnight extends LevelKit implements Listener {
         // Weapon
         es.offhand = ItemCreator.weapon(new ItemStack(Material.STICK, 1),
                 Component.text("Spear", NamedTextColor.GREEN),
-                Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, meleeDamage);
+                Collections.singletonList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA)),
+                null, meleeDamage);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
@@ -138,8 +137,7 @@ public class SpearKnight extends LevelKit implements Listener {
             }
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "Preparing to throw your spear!"));
+                        Messenger.sendActionInfo("Preparing to throw your spear...", p);
                         if(stack == null) { return; }
                         stack.setAmount(stack.getAmount() - 1);
                         p.setCooldown(Material.STICK, throwCooldown);
@@ -147,14 +145,12 @@ public class SpearKnight extends LevelKit implements Listener {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                        ChatColor.AQUA + "You threw your spear!"));
+                                Messenger.sendActionInfo("You threw your spear!", p);
                                 p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(throwVelocity));
                             }
                         }.runTaskLater(Main.plugin, throwDelay);
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your spear yet."));
+                        Messenger.sendActionError("You can't throw you spear yet", p);
                     }
                 }
 
@@ -198,10 +194,10 @@ public class SpearKnight extends LevelKit implements Listener {
         kitLore.add(Component.text("A sword and spear wielder, ", NamedTextColor.GRAY));
         kitLore.add(Component.text("can throw a powerful spear", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, 1));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
         kitLore.add(Component.text("- Can throw their spear", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" "));
+        kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Deals bonus damage to horses", NamedTextColor.GRAY));
         return kitLore;
