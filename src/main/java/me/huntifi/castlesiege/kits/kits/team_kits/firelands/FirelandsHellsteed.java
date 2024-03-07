@@ -16,10 +16,7 @@ import me.libraryaddict.disguise.disguisetypes.watchers.HorseWatcher;
 import net.citizensnpcs.api.npc.NPC;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -59,22 +56,22 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GRAY_DYE),
-                ChatColor.RED + "Horseshoe", null, null, 20);
+                Component.text("Horseshoe", NamedTextColor.RED), null, null, 20);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.GRAY_DYE),
-                        ChatColor.RED + "Horseshoe",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Horseshoe", NamedTextColor.RED),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 22),
                 0);
 
         // stomp
         es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.ANVIL),
-                ChatColor.GREEN + "Stomp", null, null, 20);
+                Component.text("Stomp", NamedTextColor.GREEN), null, null, 20);
 
         // stomp
         es.hotbar[7] = ItemCreator.weapon(new ItemStack(Material.BARRIER),
-                ChatColor.RED + "Eject", null, null, 0);
+                Component.text("Eject", NamedTextColor.RED), null, null, 0);
 
 
         super.equipment = es;
@@ -100,7 +97,7 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
     protected void setDisguise(Player p) {
 
         ItemStack horseArmor = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_HORSE_ARMOR),
-                ChatColor.GREEN + "Leather Armor", null, null,
+                Component.text("Leather Armor", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(40, 2, 2));
 
         MobDisguise mobDisguise = new MobDisguise(DisguiseType.HORSE);

@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
@@ -14,10 +15,7 @@ import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -51,22 +49,22 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SHOVEL),
-                ChatColor.GREEN + "Troll Fist", null, null, 43);
+                Component.text("Troll Fist", NamedTextColor.GREEN), null, null, 43);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SHOVEL),
-                        ChatColor.GREEN + "Troll Fist",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Troll Fist", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 45),
                 0);
 
         // Ability
         es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.DEAD_BRAIN_CORAL_FAN),
-                ChatColor.GREEN + "Grab", null, null, 1);
+                Component.text("Grab", NamedTextColor.GREEN), null, null, 1);
 
         // Ability
         es.hotbar[2] = ItemCreator.weapon(new ItemStack(Material.DEAD_BUBBLE_CORAL_FAN),
-                ChatColor.GREEN + "Throw", null, null, 1);
+                Component.text("Throw", NamedTextColor.GREEN), null, null, 1);
 
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 2));
         super.potionEffects.add(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999, 0));
@@ -118,21 +116,18 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
                         if (grabbed.isEmpty()) { return; }
                         for (Player passengers : grabbed) {
                             throwPlayer(p, passengers);
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                    ChatColor.AQUA + "You threw the enemy!"));
+                            Messenger.sendActionSuccess("You threw the enemy!", p);
                         }
 
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw a player yet."));
+                        Messenger.sendActionError("You can't throw a player yet!", p);
                     }
                 }
             } else if (stick.getType().equals(Material.DEAD_BRAIN_CORAL_FAN)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown2 == 0) {
                         if (!p.getPassengers().isEmpty()) { return;}
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "You grabbed the enemy!"));
+                        Messenger.sendActionInfo("You grabbed the enemy!", p);
                         for (Player all : Bukkit.getOnlinePlayers()) {
                             if (TeamController.getTeam(p.getUniqueId())
                                     != TeamController.getTeam(all.getUniqueId())
@@ -141,8 +136,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
                             }
                         }
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't grab a player yet."));
+                        Messenger.sendActionError("You can't grab a player yet!", p);
                     }
                 }
             }

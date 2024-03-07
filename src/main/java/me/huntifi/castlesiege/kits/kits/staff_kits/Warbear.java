@@ -10,7 +10,6 @@ import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -53,22 +52,22 @@ public class Warbear extends StaffKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
-                ChatColor.RED + "Claws", null, null, meleeDamage);
+                Component.text("Claws", NamedTextColor.RED), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
-                        ChatColor.RED + "Claws",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Claws", NamedTextColor.RED),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Claws
         es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
-                ChatColor.RED + "Fangs", null, null, 12);
+                Component.text("Fangs", NamedTextColor.RED), null, null, 12);
 
         // Paw
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.RABBIT_FOOT),
-                ChatColor.GREEN + "Paw", null, null);
+                Component.text("Paw", NamedTextColor.GREEN), null, null);
 
         super.equipment = es;
 

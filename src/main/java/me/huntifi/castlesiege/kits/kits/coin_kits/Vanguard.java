@@ -57,13 +57,13 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
-                ChatColor.GREEN + "Reinforced Iron Sword",
+                Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
                 Collections.singletonList(ChatColor.AQUA + "Right-click to activate charge ability."),
                 null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
-                        ChatColor.GREEN + "Reinforced Iron Sword",
+                        Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
                         Arrays.asList(ChatColor.AQUA + "Right-click to activate charge ability.",
                                 ChatColor.AQUA + "- voted: +2 damage"),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
@@ -71,21 +71,21 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Leather Tunic", null, null,
+                Component.text("Leather Tunic", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(99, 179, 101));
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
-                ChatColor.GREEN + "Iron Leggings", null, null);
+                Component.text("Iron Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots", null, null,
+                Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(99, 179, 101));
         // Voted boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(99, 179, 101));
 

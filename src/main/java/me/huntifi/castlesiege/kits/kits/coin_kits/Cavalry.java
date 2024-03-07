@@ -57,30 +57,30 @@ public class Cavalry extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Sabre", null, null, meleeDamage);
+                Component.text("Sabre", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        ChatColor.GREEN + "Sabre",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Sabre", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.SWEEPING_EDGE, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
-                ChatColor.GREEN + "Chainmail Chestplate", null, null);
+                Component.text("Chainmail Chestplate", NamedTextColor.GREEN), null, null);
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                ChatColor.GREEN + "Chainmail Leggings", null, null);
+                Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots", null, null);
+                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
@@ -89,7 +89,7 @@ public class Cavalry extends CoinKit implements Listener {
 
         // Horse
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.WHEAT),
-                ChatColor.GREEN + "Spawn Horse", null, null);
+                Component.text("Spawn Horse", NamedTextColor.GREEN), null, null);
         HorseHandler.add(name, 600, horseHealth, 2, 0.2425, 0.8,
                 Material.IRON_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
@@ -100,7 +100,7 @@ public class Cavalry extends CoinKit implements Listener {
 
         // stomp
         es.hotbar[3] = ItemCreator.weapon(new ItemStack(Material.ANVIL),
-                ChatColor.GREEN + "Horse Kick", null, null, 0);
+                Component.text("Horse Kick", NamedTextColor.GREEN), null, null, 0);
 
         super.equipment = es;
     }

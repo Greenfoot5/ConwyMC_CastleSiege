@@ -59,24 +59,24 @@ public class Paladin extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GOLDEN_AXE),
-                ChatColor.GREEN + "Holy Hammer", null, null, meleeDamage);
+                Component.text("Holy Hammer", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.GOLDEN_AXE),
-                        ChatColor.GREEN + "Holy Hammer",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Holy Hammer", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_UNDEAD, 5)), meleeDamage + 2),
                 0);
 
         // Weapon
         es.offhand = ItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
-                ChatColor.GREEN + "Blessed Shield",
+                Component.text("Blessed Shield", NamedTextColor.GREEN),
                 Collections.singletonList(ChatColor.AQUA + "Right-click block."),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)) , 10);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
-                ChatColor.GREEN + "Blessed Chestplate", null, null);
+                Component.text("Blessed Chestplate", NamedTextColor.GREEN), null, null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
@@ -86,7 +86,7 @@ public class Paladin extends CoinKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
-                ChatColor.GREEN + "Blessed Iron Leggings", null, null);
+                Component.text("Blessed Iron Leggings", NamedTextColor.GREEN), null, null);
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
         assert legs != null;
@@ -96,11 +96,11 @@ public class Paladin extends CoinKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
-                ChatColor.GREEN + "Paladin Boots", null, null);
+                Component.text("Paladin Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
-                ChatColor.GREEN + "Paladin Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Paladin Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
         ItemMeta boots = es.feet.getItemMeta();
         ArmorMeta bootsMeta = (ArmorMeta) boots;

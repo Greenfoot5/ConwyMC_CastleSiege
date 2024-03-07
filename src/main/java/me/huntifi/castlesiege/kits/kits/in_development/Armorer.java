@@ -43,7 +43,7 @@ public class Armorer extends CoinKit implements Listener {
     private static final double regen = 10.5;
     private static final double meleeDamage = 30;
     private static final int ladderCount = 4;
-    private int cooldownTicks = 50;
+    private static final int cooldownTicks = 50;
 
     public static final ArrayList<Player> cooldown = new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class Armorer extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Armorer's robe", null, null,
+                Component.text("Armorer's Robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(50, 54, 57));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -78,7 +78,7 @@ public class Armorer extends CoinKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                ChatColor.GREEN + "Armorer's Leggings", null, null);
+                Component.text("Armorer's Leggings", NamedTextColor.GREEN), null, null);
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
         assert legs != null;
@@ -88,11 +88,11 @@ public class Armorer extends CoinKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                ChatColor.GREEN + "Armorer's Boots", null, null);
+                Component.text("Armorer's Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                ChatColor.GREEN + "Armorer's Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Armorer's Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
         ItemMeta boots = es.feet.getItemMeta();
         ArmorMeta bootsMeta = (ArmorMeta) boots;

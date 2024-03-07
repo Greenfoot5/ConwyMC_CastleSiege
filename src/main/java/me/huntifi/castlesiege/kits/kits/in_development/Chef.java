@@ -112,7 +112,7 @@ public class Chef extends CoinKit implements Listener {
         es.votedWeapon = new Tuple<>(fryingPanVoted, 0);
 
         ItemStack kitchenKnives = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW, knifeCount),
-                ChatColor.DARK_GRAY + "KitchenKnife",
+                ChatColor.DARK_GRAY + "Kitchen Knife",
                 Arrays.asList(ChatColor.BOLD + "Right click to throw!",
                         String.valueOf(ChatColor.AQUA),
                         ChatColor.AQUA + "Hitting enemy targets with this gives them",
@@ -129,7 +129,7 @@ public class Chef extends CoinKit implements Listener {
         es.hotbar[1] = kitchenKnives;
 
         campfire = ItemCreator.item(new ItemStack(Material.CAMPFIRE),
-                ChatColor.GREEN + "Campfire",
+                Component.text("Campfire", NamedTextColor.GREEN),
                 Arrays.asList(ChatColor.AQUA + "Can be placed down on the ground",
                         ChatColor.AQUA + "When placed grants a slow regen effect to players nearby"),
                 null);
@@ -166,21 +166,21 @@ public class Chef extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.DARK_GRAY + "Apron Top", null, null,
+                Component.text("Apron Top", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 255, 255));
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.DARK_GRAY + "Apron Bottom", null, null,
+                Component.text("Apron Bottom", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 255, 255));
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                ChatColor.DARK_GRAY + "Kitchen Soles", null, null);
+                Component.text("Kitchen Soles", NamedTextColor.GREEN), NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                ChatColor.GREEN + "Kitchen Soles",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Kitchen Soles", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3)));
 
         super.equipment = es;

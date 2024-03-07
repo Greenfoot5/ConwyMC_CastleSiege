@@ -69,13 +69,13 @@ public class Priest extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
-                ChatColor.GREEN + "Holy Staff", Arrays.asList("",
+                Component.text("Holy Staff", NamedTextColor.GREEN), Arrays.asList("",
                         ChatColor.YELLOW + "Right click to shoot a bolt of light, ",
                         ChatColor.YELLOW + "which does damage to enemies"), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
-                        ChatColor.GREEN + "Holy Staff",
+                        Component.text("Holy Staff", NamedTextColor.GREEN),
                         Arrays.asList("",
                                 ChatColor.YELLOW + "Right click to shoot a bolt of light, ",
                                 ChatColor.YELLOW + "which does damage to enemies",
@@ -85,7 +85,7 @@ public class Priest extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Priest's robe", null, null,
+                Component.text("Priest's robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(20, 0, 24));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -96,7 +96,7 @@ public class Priest extends CoinKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Priest's Pants", null, null,
+                Component.text("Priest's Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(20, 0, 24));
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
@@ -107,12 +107,12 @@ public class Priest extends CoinKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Priest's Boots", null, null,
+                Component.text("Priest's Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(20, 0, 24));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Priest's Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Priest's Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(20, 0, 24));
         ItemMeta boots = es.feet.getItemMeta();

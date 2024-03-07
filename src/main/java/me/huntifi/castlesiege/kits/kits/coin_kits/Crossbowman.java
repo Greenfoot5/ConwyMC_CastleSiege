@@ -64,29 +64,29 @@ public class Crossbowman extends CoinKit implements Listener {
 
         // Crossbow
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.CROSSBOW),
-                ChatColor.GREEN + "Crossbow", null, null, 1);
+                Component.text("Crossbow", NamedTextColor.GREEN), null, null, 1);
         es.votedWeapon = new Tuple<>(ItemCreator.weapon(new ItemStack(Material.CROSSBOW),
-                ChatColor.GREEN + "Crossbow",
-                Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                Component.text("Crossbow", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 3), 0);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
-                ChatColor.GREEN + "Iron Chestplate", null, null);
+                Component.text("Iron Chestplate", NamedTextColor.GREEN), null, null);
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 255, 51));
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots", null, null,
+                Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 255, 51));
         // Voted boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(255, 255, 51));
 
@@ -96,7 +96,8 @@ public class Crossbowman extends CoinKit implements Listener {
 
         // mode switch button
         mobilitySwitchInactive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
-                ChatColor.GREEN + "Mobility Mode", Arrays.asList("",
+                Component.text("Mobility Mode", NamedTextColor.GREEN),
+                Arrays.asList("",
                         ChatColor.AQUA + "Mobility mode:",
                         ChatColor.AQUA + "In this mode crossbowman is faster, ",
                         ChatColor.AQUA + "has no cooldown and shoots like a normal",
@@ -115,7 +116,8 @@ public class Crossbowman extends CoinKit implements Listener {
 
         // mode switch button
         mobilitySwitchActive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
-                ChatColor.GREEN + "Mobility Mode", Arrays.asList("",
+                Component.text("Mobility Mode", NamedTextColor.GREEN),
+                Arrays.asList("",
                         ChatColor.AQUA + "Mobility mode:",
                         ChatColor.AQUA + "In this mode crossbowman is faster, ",
                         ChatColor.AQUA + "has no cooldown and shoots like a normal",

@@ -49,30 +49,30 @@ public class Viking extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                ChatColor.GREEN + "Giant Battle Axe", null, null, meleeDamage);
+                Component.text("Giant Battle Axe", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                        ChatColor.GREEN + "Giant Battle Axe",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Giant Battle Axe", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
-                ChatColor.GREEN + "Iron Chestplate", null, null);
+                Component.text("Iron Chestplate", NamedTextColor.GREEN), null, null);
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                ChatColor.GREEN + "Chainmail Leggings", null, null);
+                Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
-                ChatColor.GREEN + "Chainmail Boots", null, null);
+                Component.text("Chainmail Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
-                ChatColor.GREEN + "Chainmail Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Chainmail Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders

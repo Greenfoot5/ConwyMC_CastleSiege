@@ -47,31 +47,31 @@ public class Halberdier extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-                ChatColor.GREEN + "Halberd", null, null, meleeDamage);
+                Component.text("Halberd", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-                        ChatColor.GREEN + "Halberd",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Halberd", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.NETHERITE_CHESTPLATE),
-                ChatColor.GREEN + "Indestructible Chestplate", null,
+                Component.text("Indestructible Chestplate", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_ENVIRONMENTAL, 2)));
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                ChatColor.GREEN + "Chainmail Leggings", null, null);
+                Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots", null, null);
+                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         super.equipment = es;

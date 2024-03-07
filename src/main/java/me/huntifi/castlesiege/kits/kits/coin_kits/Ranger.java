@@ -13,6 +13,7 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -67,48 +68,48 @@ public class Ranger extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Dagger", null, null, meleeDamage);
+                Component.text("Dagger", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                        ChatColor.GREEN + "Dagger",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Dagger", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Leather Chestplate", null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(28, 165, 33));
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(32, 183, 37));
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots", null, null,
+                Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(28, 165, 33));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(28, 165, 33));
 
         // Regular Bow
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
-                ChatColor.GREEN + "Bow", null, null);
+                Component.text("Bow", NamedTextColor.GREEN), null, null);
 
         // Volley Bow
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.BOW),
-                ChatColor.GREEN + "Volley Bow",
+                Component.text("Volley Bow", NamedTextColor.GREEN),
                 Collections.singletonList(ChatColor.AQUA + "Shoot 5 arrows at once"), null);
 
         // Burst Bow
         es.hotbar[3] = ItemCreator.item(new ItemStack(Material.BOW),
-                ChatColor.GREEN + "Burst Bow",
+                Component.text("Burst Bow", NamedTextColor.GREEN),
                 Collections.singletonList(ChatColor.AQUA + "Shoot 4 consecutive arrows"), null);
 
         // Ladders
@@ -156,12 +157,13 @@ public class Ranger extends CoinKit implements Listener {
         if (e.getEntity() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
             Player p = (Player) e.getEntity();
-            String b = Objects.requireNonNull(Objects.requireNonNull(e.getBow()).getItemMeta()).getDisplayName();
+            Component bow = Objects.requireNonNull(Objects.requireNonNull(e.getBow()).getItemMeta()).displayName();
+            String bowName = PlainTextComponentSerializer.plainText().serialize(bow);
 
-            if (Objects.equals(b, ChatColor.GREEN + "Volley Bow")) {
+            if (Objects.equals(bowName, "Volley Bow")) {
                 Vector v = e.getProjectile().getVelocity();
                 volleyAbility(p, v);
-            } else if (Objects.equals(b, ChatColor.GREEN + "Burst Bow")) {
+            } else if (Objects.equals(bowName, "Burst Bow")) {
                 burstAbility(p, e.getForce());
             }
         }
@@ -198,7 +200,7 @@ public class Ranger extends CoinKit implements Listener {
      */
     private void burstAbility(Player p, float force) {
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                ChatColor.GREEN + "You shot your burst bow!"));
+                Component.text("You shot your burst bow!", NamedTextColor.GREEN));
         p.setCooldown(Material.BOW, 100);
         burstArrow(p, force, 11);
         burstArrow(p, force, 21);

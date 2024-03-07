@@ -153,8 +153,12 @@ public class Messenger {
     }
 
     public static void sendActionInfo(String message, @NotNull Player receiver) {
-        Component msg = mm.deserialize(message).color(BLUE);
-        receiver.sendActionBar(mm.deserialize("<gold>[i]</gold> ").append(msg));
+        receiver.sendActionBar(mm.deserialize(message).color(BLUE));
+    }
+
+    public static void broadcastInfo(Component message) {
+        ForwardingAudience audience = Bukkit.getServer();
+        audience.sendMessage(mm.deserialize("<gold>[i]</gold> ").append(message.color(BLUE)));
     }
 
     public static void broadcastInfo(String message) {

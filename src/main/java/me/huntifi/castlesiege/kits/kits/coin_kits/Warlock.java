@@ -119,7 +119,7 @@ public class Warlock extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Warlock's robe", null, null,
+                Component.text("Warlock's Robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(85, 30, 127));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -130,7 +130,7 @@ public class Warlock extends CoinKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Warlock's pants", null, null,
+                Component.text("Warlock's Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(85, 30, 127));
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
@@ -141,12 +141,12 @@ public class Warlock extends CoinKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Warlock's Boots", null, null,
+                Component.text("Warlock's Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(85, 30, 127));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Warlock's Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Warlock's Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(85, 30, 127));
         ItemMeta boots = es.feet.getItemMeta();

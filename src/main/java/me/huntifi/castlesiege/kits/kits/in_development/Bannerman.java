@@ -41,7 +41,7 @@ public class Bannerman extends FreeKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.DARK_PURPLE + "Short-sword", List.of(""), null, meleeDamage);
+                ChatColor.DARK_PURPLE + "Short-sword", null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
@@ -52,7 +52,7 @@ public class Bannerman extends FreeKit implements Listener {
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Armorer's robe", null, null,
+                Component.text("Armorer's robe", null, null,
                 Color.fromRGB(58, 179, 218));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -63,7 +63,7 @@ public class Bannerman extends FreeKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Bannerman's pants", null, null,
+                Component.text("Bannerman's Leggings", null, null,
                 Color.fromRGB(58, 179, 218));
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
@@ -74,12 +74,12 @@ public class Bannerman extends FreeKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Bannerman's Boots", null, null,
+                Component.text("Bannerman's Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(58, 179, 218));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Bannerman's Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Bannerman's Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(58, 179, 218));
         ItemMeta boots = es.feet.getItemMeta();

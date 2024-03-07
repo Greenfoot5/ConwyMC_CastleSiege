@@ -12,6 +12,7 @@ import me.huntifi.castlesiege.events.curses.TrueBlindnessCurse;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -76,7 +77,7 @@ public class NameTag implements CommandExecutor, Listener {
                 p.displayName(username(p));
                 NametagEdit.getApi().setPrefix(p, legacyColor(p) + ChatColor.MAGIC);
             } else {
-                p.displayName( Component.text(data.getLevel() + " ").color(NamedTextColor.YELLOW)
+                p.displayName(Component.text(data.getLevel() + " ").color(NamedTextColor.YELLOW)
                         .append(rank).append(username(p)));
                 String serialized = LegacyComponentSerializer.legacySection().serialize(rank);
                 NametagEdit.getApi().setPrefix(p, serialized.substring(0, serialized.length() - 1) + legacyColor(p));
@@ -93,10 +94,10 @@ public class NameTag implements CommandExecutor, Listener {
     public static Component username(Player p) {
         if (MapController.getPlayers().contains(p.getUniqueId())) {
             if (hideTeamColour || hideBoth)
-                return Component.text(getName(p)).color(NamedTextColor.WHITE);
-            return Component.text(getName(p)).color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
+                return getName(p).color(NamedTextColor.WHITE);
+            return getName(p).color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
         } else {
-            return Component.text(getName(p)).color(NamedTextColor.GRAY).decorate(TextDecoration.ITALIC);
+            return getName(p).color(NamedTextColor.GRAY).decorate(TextDecoration.ITALIC);
         }
     }
 
@@ -106,13 +107,14 @@ public class NameTag implements CommandExecutor, Listener {
      * @return The player's username with minimessage colour
      */
     public static String mmUsername(Player p) {
+        String name = MiniMessage.miniMessage().serialize(getName(p));
         if (MapController.getPlayers().contains(p.getUniqueId())) {
             if (hideTeamColour || hideBoth)
-                return "<white>" + getName(p) + "</white>";
+                return "<white>" + name + "</white>";
             String tag = "color:" + TeamController.getTeam(p.getUniqueId()).primaryChatColor.asHexString();
-            return "<" + tag + ">" + getName(p) + "</" + tag + ">";
+            return "<" + tag + ">" + name + "</" + tag + ">";
         } else {
-            return "<gray><i>" + getName(p) + "</gray>";
+            return "<gray><i>" + name + "</gray>";
         }
     }
 
@@ -132,13 +134,13 @@ public class NameTag implements CommandExecutor, Listener {
      * @param p The player
      * @return The player's chat color
      */
-    public static String getName(Player p) {
+    public static TextComponent getName(Player p) {
         if (hidePlayerName || hideBoth) {
             //return ChatColor.MAGIC + new String(new char[new Random().nextInt(5, 20)]).replace("\0", "-");
             int randomNum = new Random().nextInt((20 - 5) + 1) + 5;
-            return ChatColor.MAGIC + new String(new char[randomNum]).replace("\0", "-");
+            return Component.text(new String(new char[randomNum]).replace("\0", "-")).decorate(TextDecoration.OBFUSCATED);
         } else {
-            return p.getName();
+            return Component.text(p.getName());
         }
     }
 

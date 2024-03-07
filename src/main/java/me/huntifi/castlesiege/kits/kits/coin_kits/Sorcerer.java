@@ -99,7 +99,7 @@ public class Sorcerer extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Sorcerer's robe", null, null,
+                Component.text("Sorcerer's Robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(75, 60, 63));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -110,7 +110,7 @@ public class Sorcerer extends CoinKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Sorcerer's pants", null, null,
+                Component.text("Sorcerer's Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(106, 62, 156));
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
@@ -121,12 +121,12 @@ public class Sorcerer extends CoinKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Sorcerer's Boots", null, null,
+                Component.text("Sorcerer's Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(106, 62, 156));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Sorcerer's Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Sorcerer's Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(106, 62, 156));
         ItemMeta boots = es.feet.getItemMeta();

@@ -54,28 +54,28 @@ public class Hypaspist extends LevelKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Short-sword", null, null, meleeDamage);
+                Component.text("Short-sword", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        ChatColor.GREEN + "Short-sword",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Short-sword", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Weapon
         es.offhand = ItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
-                ChatColor.GREEN + "Concave Shield",
+                Component.text("Concave Shield", NamedTextColor.GREEN),
                 Collections.singletonList(ChatColor.AQUA + "Right-click to block."),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)) , 10);
 
         // Weapon
         es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.TRIDENT),
-                ChatColor.GREEN + "Sarissa", null, null, meleeDamage);
+                Component.text("Sarissa", NamedTextColor.GREEN), null, null, meleeDamage);
 
         // Chestplate + trim
         es.chest = ItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
-                ChatColor.GREEN + "Copper Chestplate", null, null);
+                Component.text("Copper Chestplate", NamedTextColor.GREEN), null, null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
@@ -85,12 +85,12 @@ public class Hypaspist extends LevelKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(183, 12, 12));
 
         // Boots + trim
         es.feet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
-                ChatColor.GREEN + "copper Boots", null, null);
+                Component.text("Copper Boots", NamedTextColor.GREEN), null, null);
         ItemMeta boots = es.feet.getItemMeta();
         ArmorMeta bootsMeta = (ArmorMeta) boots;
         assert boots != null;
@@ -100,8 +100,8 @@ public class Hypaspist extends LevelKit implements Listener {
 
         // Voted Boots + trim
         es.votedFeet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
-                ChatColor.GREEN + "Copper Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Copper Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
         ItemMeta votedBoots = es.votedFeet.getItemMeta();
         ArmorMeta votedBootsMeta = (ArmorMeta) votedBoots;

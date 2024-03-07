@@ -40,35 +40,35 @@ public class Shieldman extends FreeKit {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Longsword", null, null, meleeDamage);
+                Component.text("Longsword", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                        ChatColor.GREEN + "Longsword",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Longsword", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Shield
         es.offhand = ItemCreator.item(new ItemStack(Material.SHIELD),
-                ChatColor.GREEN + "Shield", null,
+                Component.text("Shield", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)));
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
-                ChatColor.GREEN + "Iron Chestplate Tunic", null, null);
+                Component.text("Iron Chestplate", NamedTextColor.GREEN), null, null);
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                ChatColor.GREEN + "Chainmail Leggings", null, null);
+                Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
-                ChatColor.GREEN + "Diamond Chestplate Boots", null, null);
+                Component.text("Diamond Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Diamond Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders

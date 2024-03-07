@@ -98,14 +98,14 @@ public class Rogue extends CoinKit implements Listener {
         // Voted weapon
         netheriteSwordVoted = ItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
                 ChatColor.DARK_GRAY + "Dagger",
-                Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 34);
         es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
 
         // Voted weapon
         poisonSwordVoted = ItemCreator.weapon(new ItemStack(Material.GOLDEN_SWORD),
                 ChatColor.DARK_GRAY + "Poison Dagger",
-                Collections.singletonList(ChatColor.GREEN + "- Special: +2 damage"),
+                Collections.singletonList(Component.text("- Special: +2 damage", NamedTextColor.GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 34);
         es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
 
@@ -166,7 +166,7 @@ public class Rogue extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Leather Chestplate", null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(15, 15, 15));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -177,17 +177,18 @@ public class Rogue extends CoinKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.DARK_GRAY + "Leather Leggings", null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(19, 19, 19));
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                ChatColor.DARK_GRAY + "Rogue Boots", Collections.singletonList(ChatColor.AQUA + "- rogue: Feather Falling XV"),
+                Component.text("Rogue Boots", NamedTextColor.GREEN),
+                Collections.singletonList(ChatColor.AQUA + "- Feather Falling XV"),
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_FALL, 15)));
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                ChatColor.GREEN + "Leather Boots",
-                Arrays.asList(ChatColor.AQUA + "- voted: Depth Strider II", ChatColor.AQUA + "- rogue: Feather Falling XV"),
+                Component.text("Rogue Boots", NamedTextColor.GREEN),
+                Arrays.asList(ChatColor.AQUA + "- Feather Falling XV", ChatColor.AQUA + "- voted: Depth Strider II"),
                 Arrays.asList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3), new Tuple<>(Enchantment.PROTECTION_FALL, 15)));
 
 

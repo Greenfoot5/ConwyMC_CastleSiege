@@ -52,7 +52,7 @@ public class Barbarian extends CoinKit implements Listener {
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
                         Component.text("Battle Axe", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),,
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 

@@ -85,7 +85,7 @@ public class VoteSkipCommand implements TabExecutor {
         if (votedPlayers.add(player.getUniqueId())) {
             int requiredVotes = getRequiredVotes();
             Messenger.broadcastInfo(String.format("%s has voted to skip the current map! <yellow>(%d/%d)</yellow>" +
-                            "<br>Use <yellow><insert:/voteskip>/voteskip</click></yellow> to cast your vote",
+                            "<br>Use <yellow><click:suggest_command:/voteskip>/voteskip</click></yellow> to cast your vote",
                     player.getName(), votedPlayers.size(), requiredVotes));
             if (votedPlayers.size() >= requiredVotes)
                 MapController.endMap();
