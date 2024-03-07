@@ -42,7 +42,7 @@ public class Tips extends BukkitRunnable {
             "Hit by something that seems invisible? Check your surroundings for Crossbowmen!",
             "Engineers are a useful class that can speed up catapult reloads, repair gates, place traps and use ballista, a great addition to your team!",
             "Low on health? Find a medic or some cake!",
-            "Found a suspicious player? Make a report on the <yellow><click:suggest_command:/discord>/discord</discord></yellow> server or <yellow><click:suggest_command:/msg>/msg</click:suggest_command></yellow> a staff member",
+            "Found a suspicious player? Make a report on the <yellow><click:suggest_command:/discord>/discord</click></yellow> server or <yellow><click:suggest_command:/msg>/msg</click:suggest_command></yellow> a staff member",
             "Low on ammo or ladders? Resupply with an enderchest!",
             "Ender Chests clear all temporary effects, both good and bad!",
             "Landing on a hay bale stops you taking falling damage",

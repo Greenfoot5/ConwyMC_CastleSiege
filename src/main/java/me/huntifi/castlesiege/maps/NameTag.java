@@ -122,7 +122,7 @@ public class NameTag implements CommandExecutor, Listener {
         if (MapController.getPlayers().contains(p.getUniqueId())) {
             if (hideTeamColour || hideBoth)
                 return ChatColor.WHITE.toString();
-            Component c = Component.text(" ").color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
+            Component c = Component.empty().color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
             return LegacyComponentSerializer.legacySection().serialize(c);
         } else {
             return ChatColor.GRAY.toString() + ChatColor.ITALIC;
