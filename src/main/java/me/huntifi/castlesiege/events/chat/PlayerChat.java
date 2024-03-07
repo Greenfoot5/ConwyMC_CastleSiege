@@ -11,6 +11,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
@@ -80,7 +81,7 @@ public class PlayerChat implements Listener, ChatRenderer {
 		}
 
 		return NameTag.chatName(source, viewer).append(Component.text(": "))
-				.append(message);
+				.append(message.decorationIfAbsent(TextDecoration.OBFUSCATED, TextDecoration.State.FALSE));
 	}
 
 	public static void playTagSound(Audience viewer) {

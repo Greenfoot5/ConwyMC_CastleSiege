@@ -122,7 +122,7 @@ public class NameTag implements CommandExecutor, Listener {
         if (MapController.getPlayers().contains(p.getUniqueId())) {
             if (hideTeamColour || hideBoth)
                 return ChatColor.WHITE.toString();
-            Component c = Component.empty().color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
+            Component c = Component.text(" ").color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
             return LegacyComponentSerializer.legacySection().serialize(c);
         } else {
             return ChatColor.GRAY.toString() + ChatColor.ITALIC;
@@ -225,26 +225,26 @@ public class NameTag implements CommandExecutor, Listener {
             case "admin":
                 return MiniMessage.miniMessage().deserialize("<b><gradient:#A82533:#EF4848>Admin</gradient></b> ");
             case "owner":
-                return MiniMessage.miniMessage().deserialize("<b><dark_red><obf><st>!</dark_red><gradient:#FFAA00:#FF5500>Owner</gradient><dark_red><obf><st>!</dark_red> ");
+                return MiniMessage.miniMessage().deserialize("<b><dark_red><obf><st>!</dark_red><gradient:#FFAA00:#FF5500>Owner</gradient><dark_red><obf><st>!</dark_red></b> ");
             // Donator Ranks
             case "esquire":
-                return Component.text("§3Esquire ");
+                return MiniMessage.miniMessage().deserialize("<dark_aqua>Esquire</dark_aqua> ");
             case "noble":
-                return Component.text("§aNoble ");
+                return MiniMessage.miniMessage().deserialize("<green>Noble</green> ");
             case "baron":
-                return Component.text("§5Baron ");
+                return MiniMessage.miniMessage().deserialize("<dark_purple>Baron</dark_purple> ");
             case "count":
-                return Component.text("§6Count ");
+                return MiniMessage.miniMessage().deserialize("<gold>Count</gold> ");
             case "duke":
-                return Component.text("§4Duke ");
+                return MiniMessage.miniMessage().deserialize("<dark_red>Duke</dark_red> ");
             case "viceroy":
-                return Component.text("<gradient:#be1fcc:#d94cd9>Viceroy</gradient> ");
+                return MiniMessage.miniMessage().deserialize("<gradient:#be1fcc:#d94cd9>Viceroy</gradient> ");
             case "king":
-                return Component.text("<gradient:#F07654:#F5DF2E:#F07654>⚜King⚜</gradient> ");
+                return MiniMessage.miniMessage().deserialize("<gradient:#F07654:#F5DF2E:#F07654>⚜King⚜</gradient> ");
             case "high_king":
-                return Component.text("<gradient:#FFED00:#FF0000>👑High King👑</gradient> ");
+                return MiniMessage.miniMessage().deserialize("<gradient:#FFED00:#FF0000>👑High King👑</gradient> ");
             default:
-                return Component.text("");
+                return Component.empty();
         }
     }
 
