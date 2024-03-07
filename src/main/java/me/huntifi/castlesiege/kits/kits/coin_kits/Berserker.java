@@ -184,18 +184,18 @@ public class Berserker extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A warrior with no armor and");
-        kitLore.add(Component.text("a berserker potion");
+        kitLore.add(Component.text("A warrior with no armor and", NamedTextColor.GRAY));
+        kitLore.add(Component.text("a berserker potion", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(Component.text(" ");
+        kitLore.add(Component.text(" "));
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Speed I");
-        kitLore.add(Component.text(" ");
+        kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
+        kitLore.add(Component.text(" ", NamedTextColor.GRAY));
         kitLore.add(Component.text("Berserk Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Speed II");
-        kitLore.add(Component.text("- Confusion II");
-        kitLore.add(Component.text("- Strength I");
-        kitLore.add(Component.text("- Melee hits deal 105+ damage");
+        kitLore.add(Component.text("- Speed II", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Confusion II", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Strength I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Melee hits deal 105+ damage", NamedTextColor.GRAY));
         return kitLore;
     }
 }

@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.LevelKit;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -185,18 +186,18 @@ public class Hypaspist extends LevelKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A tank with a trident & shield, ");
-        kitLore.add(Component.text("which weakens opponents");
+        kitLore.add(Component.text("A tank with a trident & shield, ", NamedTextColor.GRAY));
+        kitLore.add(Component.text("which weakens opponents", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, -1));
         kitLore.add(Component.text(" "));
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Slowness I");
-        kitLore.add(Component.text("- Mining fatigue I");
+        kitLore.add(Component.text("- Slowness I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Mining fatigue I", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add("§2Passive: ");
-        kitLore.add(Component.text("- Trident-throw inflicts confusion IV,");
-        kitLore.add(Component.text("Mining Fatigue III and Slowness II");
-        kitLore.add(Component.text("on hit opponents");
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Trident-throw inflicts confusion IV,", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Mining Fatigue III and Slowness II", NamedTextColor.GRAY));
+        kitLore.add(Component.text("on hit opponents", NamedTextColor.GRAY));
         return kitLore;
     }
 }

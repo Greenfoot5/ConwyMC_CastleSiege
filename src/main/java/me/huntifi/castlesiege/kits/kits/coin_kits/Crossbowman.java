@@ -282,20 +282,23 @@ public class Crossbowman extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A ranged kit that can function");
-        kitLore.add(Component.text("like a sniper");
+        kitLore.add(Component.text("A ranged kit that can function", NamedTextColor.GRAY));
+        kitLore.add(Component.text("like a sniper", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, 1, 36, ladderCount, arrowCount));
-        kitLore.add(Component.text(" ");
-        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Slowness III §a(sniper mode)");
-        kitLore.add(Component.text("- Speed I §e(mobility mode)");
-        kitLore.add(Component.text(" ");
-        kitLore.add(Component.text("§6Active:");
-        kitLore.add(Component.text("- Has two movement modes");
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("§2Passive: ");
-        kitLore.add(Component.text("- Arrows are not affected by");
-        kitLore.add(Component.text("gravity §a(sniper mode)");
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Slowness III ", NamedTextColor.GRAY)
+                .append(Component.text("(sniper mode)", NamedTextColor.GREEN)));
+        kitLore.add(Component.text("- Speed I ", NamedTextColor.GRAY)
+                .append(Component.text("(mobility move)", NamedTextColor.YELLOW)));
+        kitLore.add(Component.text(" ", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Has two movement modes", NamedTextColor.GRAY));
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Passive: ", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Arrows are not affected by", NamedTextColor.GRAY));
+        kitLore.add(Component.text("gravity ", NamedTextColor.GRAY)
+                .append(Component.text("(sniper mode)", NamedTextColor.GREEN)));
         return kitLore;
     }
 }

@@ -6,6 +6,8 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -18,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
@@ -108,15 +109,15 @@ public class Ladderman extends VoterKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("Melee kit with an axe");
-        kitLore.add(Component.text("and loads of ladders");
+        kitLore.add(Component.text("Melee kit with an axe", NamedTextColor.GRAY));
+        kitLore.add(Component.text("and loads of ladders", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(Component.text(" "));
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Jump Boost II");
+        kitLore.add(Component.text("- Jump Boost II", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add("§2Passive: ");
-        kitLore.add(Component.text("- Can pickup ladders");
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can pickup ladders", NamedTextColor.GRAY));
         return kitLore;
     }
 }

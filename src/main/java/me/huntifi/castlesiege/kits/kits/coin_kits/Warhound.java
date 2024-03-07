@@ -15,6 +15,7 @@ import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -296,24 +297,24 @@ public class Warhound extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A quick a ferocious hound. Hard to hit and bites hard");
+        kitLore.add(Component.text("A quick a ferocious hound. Hard to hit and bites hard", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
         kitLore.add(Component.text(" "));
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Resistance I");
-        kitLore.add(Component.text("- Jump Boost I");
-        kitLore.add(Component.text("- Night Vision I");
-        kitLore.add(Component.text("- Speed III");
+        kitLore.add(Component.text("- Resistance I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Jump Boost I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Night Vision I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Speed III", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("Effects:", NamedTextColor.GOLD));
-        kitLore.add(Component.text("- Can bite enemies to briefly immobilise them");
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can bite enemies to briefly immobilise them", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_GREEN));
-        kitLore.add(Component.text("- Slows enemies when hitting them");
-        kitLore.add(Component.text("- Can see players' health");
-        kitLore.add(Component.text("- Has a coloured collar to represent team");
-        kitLore.add("§c- Cannot cap flags");
-        kitLore.add("§c- Cannot climb");
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Slows enemies when hitting them", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Has a coloured collar to represent team", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Cannot cap flags", NamedTextColor.RED));
+        kitLore.add(Component.text("- Cannot climb", NamedTextColor.RED));
         return kitLore;
     }
 }

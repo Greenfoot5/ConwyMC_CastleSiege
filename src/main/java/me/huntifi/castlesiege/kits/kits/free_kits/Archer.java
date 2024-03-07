@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -82,7 +83,7 @@ public class Archer extends FreeKit {
 	@Override
     public ArrayList<Component> getGuiDescription() {
 		ArrayList<Component> kitLore = new ArrayList<>();
-		kitLore.add(Component.text("Standard ranged kit");
+		kitLore.add(Component.text("Standard ranged kit", NamedTextColor.GRAY));
 		kitLore.addAll(getBaseStats(health, regen, meleeDamage, 45, ladderCount, arrowCount));
 		return kitLore;
 	}

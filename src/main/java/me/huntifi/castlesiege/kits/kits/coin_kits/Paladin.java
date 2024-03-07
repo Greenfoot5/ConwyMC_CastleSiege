@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -194,20 +195,20 @@ public class Paladin extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A tank/support kit that can");
-        kitLore.add(Component.text("bless allies around it");
+        kitLore.add(Component.text("A tank/support kit that can", NamedTextColor.GRAY));
+        kitLore.add(Component.text("bless allies around it", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(Component.text(" "));
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Mining Fatigue I");
+        kitLore.add(Component.text("- Mining Fatigue I", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("Effects:", NamedTextColor.GOLD));
-        kitLore.add(Component.text("- Can cast a blessing that gives");
-        kitLore.add(Component.text("regen VI to itself and regen V to all");
-        kitLore.add(Component.text("allies in a 5 block radius for 8 seconds");
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can cast a blessing that gives", NamedTextColor.GRAY));
+        kitLore.add(Component.text("regen VI to itself and regen V to all", NamedTextColor.GRAY));
+        kitLore.add(Component.text("allies in a 5 block radius for 8 seconds", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_GREEN));
-        kitLore.add(Component.text("- Can see players' health");
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
         return kitLore;
     }
 }

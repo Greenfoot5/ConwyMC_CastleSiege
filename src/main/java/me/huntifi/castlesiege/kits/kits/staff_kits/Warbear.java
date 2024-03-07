@@ -9,6 +9,7 @@ import me.huntifi.castlesiege.maps.events.RamEvent;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -178,19 +179,19 @@ public class Warbear extends StaffKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A mighty polar bear ready for action");
+        kitLore.add(Component.text("A mighty polar bear ready for action", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
         kitLore.add(Component.text(" "));
-        kitLore.add("§6Active: ");
-        kitLore.add(Component.text("- Stacks wither with basic attacks");
-        kitLore.add(Component.text("- Can bite to stun an opponent");
-        kitLore.add(Component.text("- Can gain a short burst of speed");
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Stacks wither with basic attacks", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can bite to stun an opponent", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can gain a short burst of speed", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_GREEN));
-        kitLore.add(Component.text("- Can see players' health");
-        kitLore.add("§c- Cannot climb");
-        kitLore.add(Component.text("- Deals bonus damage to gates when punching");
-        kitLore.add("§c- Cannot cap flags");
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Cannot climb", NamedTextColor.RED));
+        kitLore.add(Component.text("- Deals bonus damage to gates when punching", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Cannot cap flags", NamedTextColor.RED));
         return kitLore;
     }
 }

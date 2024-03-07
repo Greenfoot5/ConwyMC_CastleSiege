@@ -9,6 +9,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.LevelKit;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -194,15 +195,15 @@ public class SpearKnight extends LevelKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A sword and spear wielder, ");
-        kitLore.add(Component.text("can throw a powerful spear");
+        kitLore.add(Component.text("A sword and spear wielder, ", NamedTextColor.GRAY));
+        kitLore.add(Component.text("can throw a powerful spear", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, 1));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("Effects:", NamedTextColor.GOLD));
-        kitLore.add(Component.text("- Can throw their spear");
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can throw their spear", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add("§2Passive: ");
-        kitLore.add(Component.text("- Deals bonus damage to horses");
+        kitLore.add(Component.text("Passive:", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Deals bonus damage to horses", NamedTextColor.GRAY));
         return kitLore;
     }
 }

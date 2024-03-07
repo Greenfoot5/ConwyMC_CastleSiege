@@ -18,6 +18,7 @@ import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -529,24 +530,27 @@ public class Engineer extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A support/debuff kit that can lay trap");
-        kitLore.add(Component.text("an operate various machines of war");
-        kitLore.add(Component.text("or repair broken structures");
+        kitLore.add(Component.text("A support/debuff kit that can lay trap", NamedTextColor.GRAY));
+        kitLore.add(Component.text("an operate various machines of war", NamedTextColor.GRAY));
+        kitLore.add(Component.text("or repair broken structures", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(color.toString() + cobwebCount + " §7Cobwebs");
-        kitLore.add(color.toString() + planksCount + " §7Planks");
-        kitLore.add(color.toString() + cobblestoneCount + " §7Cobblestone");
+        kitLore.add(Component.text(cobwebCount, color)
+                .append(Component.text(" Cobwebs", NamedTextColor.GRAY)));
+        kitLore.add(Component.text(planksCount, color)
+                .append(Component.text(" Planks", NamedTextColor.GRAY)));
+        kitLore.add(Component.text(cobblestoneCount, color)
+                .append(Component.text(" Cobblestone", NamedTextColor.GRAY)));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("§5Effects:");
-        kitLore.add(Component.text("- Speed I");
-        kitLore.add(Component.text("- Jump Boost I");
-        kitLore.add(Component.text("- Haste II");
-        kitLore.add(Component.text(" ");
-        kitLore.add(Component.text("§2Passive:");
-        kitLore.add(Component.text("- Can place down traps and cobwebs");
-        kitLore.add(Component.text("- Can fire ballista");
-        kitLore.add(Component.text("- Can refill catapults with cobblestone");
-        kitLore.add(Component.text("- Can repair stone and wood blocks");
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Jump Boost I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Haste II", NamedTextColor.GRAY));
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can place down traps and cobwebs", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can fire ballista", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can refill catapults with cobblestone", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can repair stone and wood blocks", NamedTextColor.GRAY));
         return kitLore;
     }
 }

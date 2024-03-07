@@ -184,13 +184,13 @@ public class Cavalry extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("Can summon a horse to ride on");
+        kitLore.add(Component.text("Can summon a horse to ride on", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(Component.text(horseHealth, color).append(Component.text(" Horse HP", NamedTextColor.GRAY)));
-        kitLore.add(Component.text(" ");
+        kitLore.add(Component.text(" "));
         kitLore.add(Component.text("Horse Active:", NamedTextColor.GOLD));
-        kitLore.add(Component.text("- When riding, can perform a kick");
-        kitLore.add(Component.text("dealing AOE damage and slowing enemies");
+        kitLore.add(Component.text("- When riding, can perform a kick", NamedTextColor.GRAY));
+        kitLore.add(Component.text("dealing AOE damage and slowing enemies", NamedTextColor.GRAY));
         return kitLore;
     }
 }

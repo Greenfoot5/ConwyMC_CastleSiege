@@ -16,6 +16,7 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -661,32 +662,32 @@ public class Rogue extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A master of camouflage and tracking. Can");
-        kitLore.add(Component.text("become invisible and strike enemies from behind");
+        kitLore.add(Component.text("A master of camouflage and tracking. Can", NamedTextColor.GRAY));
+        kitLore.add(Component.text("become invisible and strike enemies from behind", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
         kitLore.add(Component.text(" "));
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Speed II");
-        kitLore.add(Component.text("- Haste II");
-        kitLore.add(Component.text("- Night Vision I");
-        kitLore.add(Component.text("- Jump Boost I");
+        kitLore.add(Component.text("- Speed II", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Haste II", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Night Vision I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Jump Boost I", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("Effects:", NamedTextColor.GOLD));
-        kitLore.add(Component.text("- Can throw track arrows");
-        kitLore.add(Component.text("- Can perform shadowstep (grants invisibility)");
-        kitLore.add(Component.text("- Can temporarily enhance their dagger");
-        kitLore.add(Component.text("with poison");
-        kitLore.add(Component.text("- When behind enemies can gauge them, which");
-        kitLore.add(Component.text("stuns them temporarily and grants a bit of healing");
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can throw track arrows", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can perform shadowstep (grants invisibility)", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can temporarily enhance their dagger", NamedTextColor.GRAY));
+        kitLore.add(Component.text("with poison", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- When behind enemies can gauge them, which", NamedTextColor.GRAY));
+        kitLore.add(Component.text("stuns them temporarily and grants a bit of healing", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
         // TODO - Improve passive descriptions
-        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_GREEN));
-        kitLore.add(Component.text("- Can see player health.");
-        kitLore.add(Component.text("- Can use gauge whilst invisible");
-        kitLore.add(Component.text("- Uses combo points to perform more");
-        kitLore.add(Component.text("powerful gauges");
-        kitLore.add(Component.text("- Killing opponents and hitting them");
-        kitLore.add(Component.text("with track arrows generates combo-points");
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can see player health.", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can use gauge whilst invisible", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Uses combo points to perform more", NamedTextColor.GRAY));
+        kitLore.add(Component.text("powerful gauges", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Killing opponents and hitting them", NamedTextColor.GRAY));
+        kitLore.add(Component.text("with track arrows generates combo-points", NamedTextColor.GRAY));
         return kitLore;
     }
 }

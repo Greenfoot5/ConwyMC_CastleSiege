@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -80,12 +81,12 @@ public class Skirmisher extends VoterKit {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A faster more agile swordsman");
+        kitLore.add(Component.text("A faster more agile swordsman", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(Component.text(" "));
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Haste II");
-        kitLore.add(Component.text("- Speed I");
+        kitLore.add(Component.text("- Haste II", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
         return kitLore;
     }
 }

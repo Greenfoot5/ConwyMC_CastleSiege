@@ -9,6 +9,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -170,18 +171,18 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A master of camouflage and tracking. Can");
-        kitLore.add(Component.text("become invisible and strike enemies from behind");
+        kitLore.add(Component.text("A master of camouflage and tracking. Can", NamedTextColor.GRAY));
+        kitLore.add(Component.text("become invisible and strike enemies from behind", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
         kitLore.add(Component.text(" "));
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Speed I");
-        kitLore.add(Component.text("- Haste I");
+        kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Haste I", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("Effects:", NamedTextColor.GOLD));
-        kitLore.add(Component.text("- Can charge forward gaining Speed V and");
-        kitLore.add(Component.text("Jump Boost II and bonus damage to the first");
-        kitLore.add(Component.text("target hit");
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can charge forward gaining Speed V and", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Jump Boost II and bonus damage to the first", NamedTextColor.GRAY));
+        kitLore.add(Component.text("target hit", NamedTextColor.GRAY));
         return kitLore;
     }
 }

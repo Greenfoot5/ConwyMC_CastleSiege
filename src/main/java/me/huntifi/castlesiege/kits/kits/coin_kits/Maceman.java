@@ -8,8 +8,7 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -138,18 +137,18 @@ public class Maceman extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A melee kit that can stun");
-        kitLore.add(Component.text("opponents, making them weaker");
+        kitLore.add(Component.text("A melee kit that can stun", NamedTextColor.GRAY));
+        kitLore.add(Component.text("opponents, making them weaker", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(Component.text(" ");
-        kitLore.add(Component.text("§6Active:");
-        kitLore.add(Component.text("- Maceman can stun their target,");
-        kitLore.add(Component.text("slowing, blinding and confusing the target for 3s.");
-        kitLore.add(Component.text("Also deals bonus DMG");
-        kitLore.add(Component.text(" ");
-        kitLore.add(Component.text("§2Passive:");
-        kitLore.add(Component.text("- Can break a shield when the opponent is");
-        kitLore.add(Component.text("actively blocking when stunned");
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Maceman can stun their target,", NamedTextColor.GRAY));
+        kitLore.add(Component.text("slowing, blinding and confusing the target for 3s.", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Also deals bonus DMG", NamedTextColor.GRAY));
+        kitLore.add(Component.text(" "));
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can break a shield when the opponent is", NamedTextColor.GRAY));
+        kitLore.add(Component.text("actively blocking when stunned", NamedTextColor.GRAY));
         return kitLore;
     }
 }

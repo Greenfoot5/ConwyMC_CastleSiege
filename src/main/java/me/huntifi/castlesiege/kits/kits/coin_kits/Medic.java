@@ -57,6 +57,7 @@ public class Medic extends CoinKit implements Listener {
     private static final double regen = 15;
     private static final double meleeDamage = 30;
     private static final int ladderCount = 4;
+    private static final int cakeCount = 16;
 
     public static final HashMap<Player, Block> cakes = new HashMap<>();
     public static final ArrayList<Player> cooldown = new ArrayList<>();
@@ -108,7 +109,7 @@ public class Medic extends CoinKit implements Listener {
                 Collections.singletonList(ChatColor.AQUA + "Right click teammates to heal."), null);
 
         // Cake
-        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.CAKE, 16),
+        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.CAKE, cakeCount),
                 ChatColor.DARK_AQUA + "Healing Cake",
                 Arrays.asList(ChatColor.AQUA + "Place the cake down, then",
                         ChatColor.AQUA + "teammates can heal from it."), null);
@@ -327,20 +328,21 @@ public class Medic extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("Our classic healer, which makes");
-        kitLore.add(Component.text("use of bandages and cake to heal allies");
+        kitLore.add(Component.text("Our classic healer, which makes", NamedTextColor.GRAY));
+        kitLore.add(Component.text("use of bandages and cake to heal allies", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(color.toString() +  16 + " §7Cakes");
+        kitLore.add(Component.text(cakeCount, color)
+                        .append(Component.text(" Cakes", NamedTextColor.GRAY)));
         kitLore.add(Component.text(" "));
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Speed I");
+        kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("Effects:", NamedTextColor.GOLD));
-        kitLore.add(Component.text("- Can use bandages to heal teammates");
-        kitLore.add(Component.text("- Can place cakes (1 active max)");
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can use bandages to heal teammates", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can place cakes (1 active max)", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_GREEN));
-        kitLore.add(Component.text("- When healing an ally receives resistance I");
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- When healing an ally receives resistance I", NamedTextColor.GRAY));
         return kitLore;
     }
 }

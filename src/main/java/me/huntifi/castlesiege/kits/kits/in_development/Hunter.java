@@ -5,6 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -112,19 +113,19 @@ public class Hunter extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> description = new ArrayList<>();
-        description.add(Component.text("Has a companion and traps on their side!");
+        description.add(Component.text("Has a companion and traps on their side!", NamedTextColor.GRAY));
         description.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        description.add(" ");
-        description.add("§5Effects:");
-        description.add(Component.text("- Speed I");
-        description.add(Component.text("- Jump Boost I");
-        description.add(" ");
-        description.add("§6Active:");
-        description.add(Component.text("- Can place down poison, mark or bleeding traps.");
-        description.add(" ");
-        description.add("§2Passive:");
-        description.add(Component.text("- Can summon a companion hound, which");
-        description.add(Component.text("fights for the hunter.");
+        description.add(Component.text(" "));
+        description.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        description.add(Component.text("- Speed I", NamedTextColor.GRAY));
+        description.add(Component.text("- Jump Boost I", NamedTextColor.GRAY));
+        description.add(Component.text(" "));
+        description.add(Component.text("Active:", NamedTextColor.GOLD));
+        description.add(Component.text("- Can place down poison, mark or bleeding traps.", NamedTextColor.GRAY));
+        description.add(Component.text(" "));
+        description.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        description.add(Component.text("- Can summon a companion hound, which", NamedTextColor.GRAY));
+        description.add(Component.text("fights for the hunter.", NamedTextColor.GRAY));
         return description;
     }
 }

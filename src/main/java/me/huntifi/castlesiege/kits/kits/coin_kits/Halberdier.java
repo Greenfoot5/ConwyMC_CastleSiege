@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -142,19 +143,19 @@ public class Halberdier extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("Our classic tank capable of");
-        kitLore.add(Component.text("taking a large beating");
+        kitLore.add(Component.text("Our classic tank capable of", NamedTextColor.GRAY));
+        kitLore.add(Component.text("taking a large beating", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
-        kitLore.add(Component.text(" ");
-        kitLore.add(Component.text("§5Effects:");
-        kitLore.add(Component.text("- Slowness III");
-        kitLore.add(Component.text("- Mining Fatigue II");
-        kitLore.add(Component.text("- Resistance I");
-        kitLore.add(Component.text(" ");
-        kitLore.add(Component.text("§2Passive:");
-        kitLore.add(Component.text("§c- Cannot run");
-        kitLore.add(Component.text("§c- Has a slower attack speed");
-        kitLore.add(Component.text("§c- Halberdier takes 50% more DMG from arrows");
+        kitLore.add(Component.text(" ", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Slowness III", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Mining Fatigue II", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Resistance I", NamedTextColor.GRAY));
+        kitLore.add(Component.text(" ", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Cannot run", NamedTextColor.RED));
+        kitLore.add(Component.text("- Has a slower attack speed", NamedTextColor.RED));
+        kitLore.add(Component.text("- Halberdier takes 50% more DMG from arrows", NamedTextColor.RED));
         return kitLore;
     }
 }

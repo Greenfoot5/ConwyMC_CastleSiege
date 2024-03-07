@@ -12,6 +12,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -322,19 +323,19 @@ public class Ranger extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("Ranger is a versatile ranged kit that");
-        kitLore.add(Component.text("can shoot volleys and bursts of arrows");
+        kitLore.add(Component.text("Ranger is a versatile ranged kit that", NamedTextColor.GRAY));
+        kitLore.add(Component.text("can shoot volleys and bursts of arrows", NamedTextColor.GRAY));
         // TODO - Check ranged damage
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 18, ladderCount, arrowCount));
         kitLore.add(Component.text(" "));
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Speed I");
-        kitLore.add(Component.text("- Haste I");
+        kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Haste I", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("Effects:", NamedTextColor.GOLD));
-        kitLore.add(Component.text("- Can fire a volley of arrows");
-        kitLore.add(Component.text("- Can fire a bust of arrows");
-        kitLore.add(Component.text("- Can instakill enemies with a backstab");
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can fire a volley of arrows", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can fire a bust of arrows", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can instakill enemies with a backstab", NamedTextColor.GRAY));
         return kitLore;
     }
 }

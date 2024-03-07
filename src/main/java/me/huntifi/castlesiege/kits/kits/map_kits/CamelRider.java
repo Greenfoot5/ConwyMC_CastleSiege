@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.MapKit;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -77,9 +78,10 @@ public class CamelRider extends MapKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("Can summon a camel to ride on");
+        kitLore.add(Component.text("Can summon a camel to ride on", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(color.toString() + camelHealth + " §7Camel HP");
+        kitLore.add(Component.text(camelHealth, color)
+                        .append(Component.text(" Camel HP", color)));
         return kitLore;
     }
 }

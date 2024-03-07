@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -119,17 +120,17 @@ public class Viking extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A mighty norse warrior with an axe so strong");
-        kitLore.add(Component.text("it ignores any armour that stands in the way");
+        kitLore.add(Component.text("A mighty norse warrior with an axe so strong", NamedTextColor.GRAY));
+        kitLore.add(Component.text("it ignores any armour that stands in the way", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
         kitLore.add(Component.text(" "));
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
-        kitLore.add(Component.text("- Slow I");
-        kitLore.add(Component.text("- Mining Fatigue I");
+        kitLore.add(Component.text("- Slow I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Mining Fatigue I", NamedTextColor.GRAY));
         kitLore.add(Component.text(" "));
-        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_GREEN));
-        kitLore.add(Component.text("- Deals " + PERCENTAGE_DAMAGE + "% damage plus ");
-        kitLore.add(Component.text(" " + meleeDamage + " DMG each attack");
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Deals " + PERCENTAGE_DAMAGE + "% damage plus ", NamedTextColor.GRAY));
+        kitLore.add(Component.text(" " + meleeDamage + " DMG each attack", NamedTextColor.GRAY));
         return kitLore;
     }
 }
