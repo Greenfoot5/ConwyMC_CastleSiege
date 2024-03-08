@@ -4,9 +4,6 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -75,7 +72,6 @@ public class Enderchest implements Listener {
 		UUID uuid = player.getUniqueId();
 		Kit kit = Kit.equippedKits.get(uuid);
 		kit.refillItems(uuid);
-		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-				ChatColor.DARK_GREEN + "Equipment resupplied"));
+		Messenger.sendActionSuccess("Equipment resupplied", player);
 	}
 }

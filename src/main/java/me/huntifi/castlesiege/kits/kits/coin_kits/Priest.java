@@ -5,16 +5,17 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.EnderchestEvent;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -67,23 +68,25 @@ public class Priest extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
-                ChatColor.GREEN + "Holy Staff", Arrays.asList("",
-                        ChatColor.YELLOW + "Right click to shoot a bolt of light, ",
-                        ChatColor.YELLOW + "which does damage to enemies"), null, meleeDamage);
+                Component.text("Holy Staff", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right click to shoot a bolt of light, ", NamedTextColor.AQUA),
+                        Component.text("which does damage to enemies", NamedTextColor.AQUA)), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
-                        ChatColor.GREEN + "Holy Staff",
-                        Arrays.asList("",
-                                ChatColor.YELLOW + "Right click to shoot a bolt of light, ",
-                                ChatColor.YELLOW + "which does damage to enemies",
-                                ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Holy Staff", NamedTextColor.GREEN),
+                        Arrays.asList(Component.empty(),
+                                Component.text("Right click to shoot a bolt of light, ", NamedTextColor.AQUA),
+                                Component.text("which does damage to enemies", NamedTextColor.AQUA),
+                                Component.empty(),
+                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_UNDEAD, 5)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Priest's robe", null, null,
+                Component.text("Priest's robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(20, 0, 24));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -94,7 +97,7 @@ public class Priest extends CoinKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Priest's Pants", null, null,
+                Component.text("Priest's Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(20, 0, 24));
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
@@ -105,12 +108,12 @@ public class Priest extends CoinKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Priest's Boots", null, null,
+                Component.text("Priest's Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(20, 0, 24));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Priest's Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Priest's Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(20, 0, 24));
         ItemMeta boots = es.feet.getItemMeta();
@@ -123,10 +126,11 @@ public class Priest extends CoinKit implements Listener {
 
         // Gouge
         holyBook = ItemCreator.weapon(new ItemStack(Material.BOOK),
-                ChatColor.GOLD + "Holy Bible", Arrays.asList("",
-                        ChatColor.YELLOW + "Select an ally with this holy book.",
-                        ChatColor.YELLOW + "This ally will receive regeneration III",
-                        ChatColor.YELLOW + "until you select a different ally."),
+                Component.text("Holy Bible", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Select an ally with this holy book.", NamedTextColor.AQUA),
+                        Component.text("This ally will receive regeneration III", NamedTextColor.AQUA),
+                        Component.text("until you select a different ally.", NamedTextColor.AQUA)),
                 null, 1);
         es.hotbar[1] = holyBook;
 
@@ -218,8 +222,7 @@ public class Priest extends CoinKit implements Listener {
                                         if (Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getHealth() != healthAttribute.getBaseValue()) {
                                             UpdateStats.addHeals(p.getUniqueId(), 1);
                                         }
-                                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                                ChatColor.AQUA + "Your blessing is currently affecting: " + Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getName()));
+                                        Messenger.sendActionInfo("Your blessing is currently affecting: " + NameTag.mmUsername(Bukkit.getPlayer(blessings.get(p))), p);
                                     } else {
                                         this.cancel();
                                     }
@@ -246,8 +249,9 @@ public class Priest extends CoinKit implements Listener {
         if (blessings.containsKey(priest)) {
             ItemMeta bootMeta = book.getItemMeta();
             assert bootMeta != null;
-            bootMeta.setDisplayName(Objects.requireNonNull(holyBook.getItemMeta()).getDisplayName() + " : " +
-                    ChatColor.AQUA + Objects.requireNonNull(Bukkit.getPlayer(blessings.get(priest))).getName());
+            bootMeta.displayName(Objects.requireNonNull(holyBook.getItemMeta().displayName())
+                    .append(Component.text(" : ", NamedTextColor.GREEN))
+                    .append(Component.text(Objects.requireNonNull(Bukkit.getPlayer(blessings.get(priest))).getName(), NamedTextColor.AQUA)));
             book.setItemMeta(bootMeta);
         }
     }
@@ -274,22 +278,22 @@ public class Priest extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A support kit with the power of");
-        kitLore.add("§7the holy book on their side");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A support kit with the power of", NamedTextColor.GRAY));
+        kitLore.add(Component.text("the holy book on their side", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 50, ladderCount, -1));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Mining Fatigue I");
-        kitLore.add("");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Can shoot a bolt of light at opponents");
-        kitLore.add("§7- Buffs selected ally with regen IV.");
-        kitLore.add("§7Lasts until another ally is selected");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see players' health");
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Mining Fatigue I", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can shoot a bolt of light at opponents", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Buffs selected ally with regen IV.", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Lasts until another ally is selected", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
         return kitLore;
     }
 }

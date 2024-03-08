@@ -11,7 +11,8 @@ import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Flag;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -55,18 +56,18 @@ public class Constructor extends MapKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_AXE),
-                ChatColor.GREEN + "Constructor's Axe", null, null, meleeDamage);
+                Component.text("Constructor's Axe", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_AXE),
-                        ChatColor.GREEN + "Constructor's Axe",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Constructor's Axe", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.NETHERITE_CHESTPLATE),
-                ChatColor.GREEN + "Reinforced-iron Chestplate", null, null);
+                Component.text("Reinforced Iron Chestplate", NamedTextColor.GREEN), null, null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
@@ -76,16 +77,16 @@ public class Constructor extends MapKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(20, 19, 19));
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Iron Boots", null, null, Color.fromRGB(20, 19, 19));
+                Component.text("Leather Boots", NamedTextColor.GREEN), null, null, Color.fromRGB(20, 19, 19));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)), Color.fromRGB(20, 19, 19));
 
         // Ladders
@@ -134,7 +135,7 @@ public class Constructor extends MapKit implements Listener {
         for (Flag flag : MapController.getCurrentMap().flags) {
             if (placerLoc.distance(flag.getSpawnPoint()) <= 6 ||
                     flag.region.contains((int) placerLoc.getX(), (int) placerLoc.getY(), (int) placerLoc.getZ())) {
-                Messenger.sendError("You can't place planks here!", player);
+                Messenger.sendActionError("You can't place planks here!", player);
                 return false;
             }
         }
@@ -143,7 +144,7 @@ public class Constructor extends MapKit implements Listener {
             for (Core core : map.getCores()) {
                 if (placerLoc.distance(core.getSpawnPoint()) <= 6 ||
                         core.region.contains((int) placerLoc.getX(), (int) placerLoc.getY(), (int) placerLoc.getZ())) {
-                    Messenger.sendError("You can't place planks here!", player);
+                    Messenger.sendActionError("You can't place planks here!", player);
                     return false;
                 }
             }
@@ -177,18 +178,19 @@ public class Constructor extends MapKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Constructors can barricade cores and flags!");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Constructors can barricade cores and flags!", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(color.toString() + planksCount + " §7Planks");
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- JUMP I");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can pick up planks placed by");
-        kitLore.add("§7other constructors.");
+        kitLore.add(Component.text(planksCount, color)
+                        .append(Component.text(" Planks", NamedTextColor.GRAY)));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- JUMP I", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can pick up planks placed by", NamedTextColor.GRAY));
+        kitLore.add(Component.text("other constructors.", NamedTextColor.GRAY));
         return kitLore;
     }
 }

@@ -11,10 +11,9 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -65,22 +64,22 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
-                ChatColor.RED + "Fist",
-                Collections.singletonList(ChatColor.AQUA + "Right-click to start spawning a magma projectile"),
+                Component.text("Fist", NamedTextColor.RED),
+                Collections.singletonList(Component.text("Right-click to start spawning a magma projectile", NamedTextColor.AQUA)),
                 null, 30.5);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
-                        ChatColor.RED + "Fist",
-                        Arrays.asList(ChatColor.AQUA + "Right-click to start spawning a magma projectile!",
-                                ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Fist", NamedTextColor.RED),
+                        Arrays.asList(Component.text("Right-click to start spawning a magma projectile!", NamedTextColor.AQUA),
+                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32.5),
                 0);
 
         // Weapon
         es.offhand = ItemCreator.item(new ItemStack(Material.GREEN_DYE),
-                ChatColor.GREEN + "Fist",
-                Collections.singletonList(ChatColor.AQUA + "Right-click to start spawning a magma projectile!"), null);
+                Component.text("Fist", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("Right-click to start spawning a magma projectile!", NamedTextColor.AQUA)), null);
 
         super.equipment = es;
 
@@ -224,13 +223,12 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
                     if (cooldown == 0) {
                         shooter = p;
                         p.setCooldown(Material.GREEN_DYE, 400);
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "You are charging, aim at the right location!"));
-                                p.getWorld().playSound(p.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1, (float) 0.5);
-                                spawnMagmaProjectile(p);
-                                launchProjectile(p);
+                        Messenger.sendActionInfo("You are charging, aim at the right location!", p);
+                        p.getWorld().playSound(p.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1, (float) 0.5);
+                        spawnMagmaProjectile(p);
+                        launchProjectile(p);
                     } else {
-                        Messenger.sendActionError(ChatColor.BOLD + "You can't launch your magma block just yet.", p);
+                        Messenger.sendActionError("You can't launch your magma block just yet.", p);
                     }
                 }
             }
@@ -238,9 +236,9 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7//TODO - Add kit description");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
         return description;
     }
 }

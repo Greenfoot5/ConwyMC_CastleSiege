@@ -1,11 +1,11 @@
 package me.huntifi.castlesiege.secrets;
 
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -97,7 +97,7 @@ public class SecretItems implements Listener {
         for (ItemStack item : secretItemHolder.get(player)) {
             player.getInventory().remove(item);
             player.getWorld().dropItem(player.getLocation().add(0, 1, 0), item).setVelocity(new Vector(0, 0, 0));
-            Messenger.broadcastSecret(ChatColor.YELLOW + item.getItemMeta().getDisplayName() + "§r has been dropped!");
+            Messenger.broadcastSecret("<yellow>" + item.getItemMeta().displayName() + "§r has been dropped!");
         }
 
         secretItemHolder.remove(player);
@@ -116,7 +116,7 @@ public class SecretItems implements Listener {
         if (secretItems.contains(event.getItem().getItemStack())) {
             secretItemHolder.putIfAbsent(player, new ArrayList<>());
             secretItemHolder.get(player).add(event.getItem().getItemStack());
-            Messenger.broadcastSecret(player.getName() + " has picked up " + event.getItem().getItemStack().getItemMeta().getDisplayName());
+            Messenger.broadcastSecret(player.getName() + " has picked up " + event.getItem().getItemStack().getItemMeta().displayName());
         }
     }
 
@@ -162,15 +162,15 @@ public class SecretItems implements Listener {
 
          swordMeta.setUnbreakable(true);
 
-         swordMeta.setDisplayName(ChatColor.DARK_PURPLE + "Herugrim");
+         swordMeta.displayName(Component.text("Herugrim").color(NamedTextColor.DARK_PURPLE));
 
          swordMeta.addEnchant(Enchantment.DAMAGE_ALL, 10, true);
 
          swordMeta.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
 
-         ArrayList<String> lore1 = new ArrayList<>();
+         ArrayList<Component> lore = new ArrayList<>();
 
-         swordMeta.setLore(lore1);
+         swordMeta.lore(lore);
 
          sword.setItemMeta(swordMeta);
 
@@ -189,15 +189,15 @@ public class SecretItems implements Listener {
 
         cookieMeta.setUnbreakable(true);
 
-        cookieMeta.setDisplayName(ChatColor.GOLD + "Sky Cookie");
+        cookieMeta.displayName(Component.text("Sky Cookie").color(NamedTextColor.GOLD));
 
         cookieMeta.addEnchant(Enchantment.DAMAGE_ALL, 40, true);
 
         cookieMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
 
-        ArrayList<String> lore1 = new ArrayList<>();
+        ArrayList<Component> lore = new ArrayList<>();
 
-        cookieMeta.setLore(lore1);
+        cookieMeta.lore(lore);
 
         cookie.setItemMeta(cookieMeta);
 
@@ -216,13 +216,13 @@ public class SecretItems implements Listener {
 
         vaultKeyMeta.setUnbreakable(true);
 
-        vaultKeyMeta.setDisplayName(ChatColor.GOLD + "Vault Key");
+        vaultKeyMeta.displayName(Component.text("Vault Key").color(NamedTextColor.GOLD));
 
         vaultKeyMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
 
-        ArrayList<String> lore1 = new ArrayList<>();
+        ArrayList<Component> lore = new ArrayList<>();
 
-        vaultKeyMeta.setLore(lore1);
+        vaultKeyMeta.lore(lore);
 
         vaultKey.setItemMeta(vaultKeyMeta);
 
@@ -241,13 +241,13 @@ public class SecretItems implements Listener {
 
         vaultKeyMeta.setUnbreakable(true);
 
-        vaultKeyMeta.setDisplayName(ChatColor.GOLD + "Door Key");
+        vaultKeyMeta.displayName(Component.text("Door Key").color(NamedTextColor.GOLD));
 
         vaultKeyMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
 
-        ArrayList<String> lore1 = new ArrayList<>();
+        ArrayList<Component> lore = new ArrayList<>();
 
-        vaultKeyMeta.setLore(lore1);
+        vaultKeyMeta.lore(lore);
 
         vaultKey.setItemMeta(vaultKeyMeta);
 
@@ -266,15 +266,15 @@ public class SecretItems implements Listener {
 
         shieldMeta.setUnbreakable(true);
 
-        shieldMeta.setDisplayName(ChatColor.GOLD + "Shield of Skyhold");
+        shieldMeta.displayName(Component.text("Shield of Skyhold").color(NamedTextColor.GOLD));
 
         shieldMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
 
         shieldMeta.addEnchant(Enchantment.THORNS, 10, true);
 
-        ArrayList<String> lore1 = new ArrayList<>();
+        ArrayList<Component> lore = new ArrayList<>();
 
-        shieldMeta.setLore(lore1);
+        shieldMeta.lore(lore);
 
         shield.setItemMeta(shieldMeta);
 
@@ -292,15 +292,16 @@ public class SecretItems implements Listener {
 
         appleMeta.setUnbreakable(true);
 
-        appleMeta.setDisplayName(ChatColor.GOLD + "Hera's Golden Apple");
+        appleMeta.displayName(Component.text("Hera's Golden Apple").color(NamedTextColor.GOLD));
 
-        List<String> lore = List.of("§7An apple of Hera's sacred tree, given to her as a gift from Zeus",
-                "§7The tree grows apples made entirely of gold.",
-                "",
-                "§7The dragon Ladon was sent to guard it from anyone who might",
-                "§7try to steal the apples.");
+        List<Component> lore = List.of(
+                Component.text("An apple of Hera's sacred tree, given to her as a gift from Zeus").color(NamedTextColor.GRAY),
+                Component.text("§7The tree grows apples made entirely of gold.").color(NamedTextColor.GRAY),
+                Component.text(""),
+                Component.text("The dragon Ladon was sent to guard it from anyone who might").color(NamedTextColor.GRAY),
+                Component.text("try to steal the apples.").color(NamedTextColor.GRAY));
 
-        appleMeta.setLore(lore);
+        appleMeta.lore(lore);
 
         apple.setItemMeta(appleMeta);
 

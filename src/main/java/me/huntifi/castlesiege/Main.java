@@ -45,7 +45,7 @@ import me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
-import me.huntifi.castlesiege.commands.staff.BroadcastMessage;
+import me.huntifi.castlesiege.commands.staff.BroadcastCommand;
 import me.huntifi.castlesiege.commands.staff.FlyCommand;
 import me.huntifi.castlesiege.commands.staff.GiveVoteCommand;
 import me.huntifi.castlesiege.commands.staff.ReloadCommand;
@@ -132,10 +132,13 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Paladin;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Priest;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Ranger;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Rogue;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Sorcerer;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Vanguard;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Viking;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
+import me.huntifi.castlesiege.kits.kits.free_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.kits.kits.map_kits.Artillerist;
@@ -143,11 +146,11 @@ import me.huntifi.castlesiege.kits.kits.map_kits.CamelRider;
 import me.huntifi.castlesiege.kits.kits.map_kits.Constructor;
 import me.huntifi.castlesiege.kits.kits.in_development.Armorer;
 import me.huntifi.castlesiege.kits.kits.in_development.Bannerman;
-import me.huntifi.castlesiege.kits.kits.coin_kits.Sorcerer;
-import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
+import me.huntifi.castlesiege.kits.kits.map_kits.CamelRider;
+import me.huntifi.castlesiege.kits.kits.map_kits.Constructor;
 import me.huntifi.castlesiege.kits.kits.staff_kits.Warbear;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyArbalester;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyLongbowman;
@@ -170,7 +173,6 @@ import me.huntifi.castlesiege.kits.kits.team_kits.thunderstone.ThunderstoneElytr
 import me.huntifi.castlesiege.kits.kits.voter_kits.FireArcher;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Scout;
-import me.huntifi.castlesiege.kits.kits.free_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Skirmisher;
 import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.Gamemode;
@@ -185,7 +187,17 @@ import me.huntifi.castlesiege.maps.WoolMap;
 import me.huntifi.castlesiege.maps.WoolMapBlock;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
-import me.huntifi.castlesiege.maps.objects.*;
+import me.huntifi.castlesiege.maps.objects.ButtonDoor;
+import me.huntifi.castlesiege.maps.objects.Catapult;
+import me.huntifi.castlesiege.maps.objects.ChargeFlag;
+import me.huntifi.castlesiege.maps.objects.Core;
+import me.huntifi.castlesiege.maps.objects.Door;
+import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.maps.objects.LeverDoor;
+import me.huntifi.castlesiege.maps.objects.PressurePlateDoor;
+import me.huntifi.castlesiege.maps.objects.Ram;
+import me.huntifi.castlesiege.maps.objects.RegionHandler;
 import me.huntifi.castlesiege.misc.mythic.MythicListener;
 import me.huntifi.castlesiege.secrets.Abrakhan.AbrakhanSecretDoor;
 import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
@@ -194,9 +206,14 @@ import me.huntifi.castlesiege.secrets.SecretItems;
 import me.huntifi.castlesiege.secrets.SecretSigns;
 import me.huntifi.castlesiege.secrets.Skyhold.SkyholdDoors;
 import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
+import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.megavex.scoreboardlibrary.api.ScoreboardLibrary;
+import net.megavex.scoreboardlibrary.api.exception.NoPacketAdapterAvailableException;
+import net.megavex.scoreboardlibrary.api.noop.NoopScoreboardLibrary;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -224,10 +241,28 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.BLACK;
+import static net.kyori.adventure.text.format.NamedTextColor.BLUE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_BLUE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_PURPLE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_RED;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+
 public class Main extends JavaPlugin implements Listener {
 
     public static Plugin plugin;
     public static Main instance;
+    public static ScoreboardLibrary scoreboardLibrary;
 
     public static MySQL SQL;
 
@@ -240,6 +275,16 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument[] coreConfigs;
 
     private YamlDocument gameConfig;
+
+//    @Override
+//    public void onLoad() {
+//        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
+//        //Are all listeners read only?
+//        PacketEvents.getAPI().getSettings().reEncodeByDefault(false)
+//                .checkForUpdates(true)
+//                .bStats(true);
+//        PacketEvents.getAPI().load();
+//    }
 
 
     @Override
@@ -274,6 +319,18 @@ public class Main extends JavaPlugin implements Listener {
                 // second param allows for ordering of handlers - see the JavaDocs
                 sessionManager.registerHandler(RegionHandler.FACTORY, null);
 
+                //Scoreboard
+                //PacketEvents.getAPI().getEventManager().registerListener(new PacketEventsListener());
+                //PacketEvents.getAPI().init();
+                try {
+                    assert plugin != null;
+                    scoreboardLibrary = ScoreboardLibrary.loadScoreboardLibrary(plugin);
+                } catch (NoPacketAdapterAvailableException e) {
+                    // If no packet adapter was found, you can fallback to the no-op implementation:
+                    scoreboardLibrary = new NoopScoreboardLibrary();
+                    plugin.getLogger().warning("No scoreboard packet adapter available!");
+                }
+
                 // Tips
                 new Tips().runTaskTimer(plugin, Tips.TIME_BETWEEN_TIPS * 20L, Tips.TIME_BETWEEN_TIPS * 20L);
 
@@ -281,6 +338,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
                 getServer().getPluginManager().registerEvents(new BoosterCommand(), plugin);
+                getServer().getPluginManager().registerEvents(new TeamChat(), plugin);
 
                 // Connection
                 getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);
@@ -388,7 +446,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new NameTag(), plugin);
                 getServer().getPluginManager().registerEvents(new WoolHat(), plugin);
 
-
                 // Chat
                 Objects.requireNonNull(getCommand("GlobalChat")).setExecutor(new GlobalChat());
                 Objects.requireNonNull(getCommand("Message")).setExecutor(new PrivateMessage());
@@ -461,7 +518,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Warn")).setExecutor(new Warn());
 
                 // Staff
-                Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastMessage());
+                Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastCommand());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("Curse")).setExecutor(new CurseCommand());
                 Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
@@ -552,12 +609,9 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
                 boatEvent.spawnBoat();
 
-                //reset duel arena's
-                AcceptDuel.resetArenas();
-
                 // Timed
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);
-                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 20);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 5);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
@@ -583,6 +637,7 @@ public class Main extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         getLogger().info("Disabling plugin...");
+        //PacketEvents.getAPI().terminate();
         // Unregister all listeners
         HandlerList.unregisterAll(plugin);
         // Unload all worlds
@@ -601,6 +656,8 @@ public class Main extends JavaPlugin implements Listener {
         } catch (NullPointerException ex) {
             getLogger().warning("SQL could not disconnect, it doesn't exist!");
         }
+        scoreboardLibrary.close();
+
         getLogger().info("Plugin has been disabled!");
     }
 
@@ -732,7 +789,7 @@ public class Main extends JavaPlugin implements Listener {
     private void createConfigs() {
 
         // Set up the vector adapter
-        TypeAdapter<Vector> vectorAdapter = new TypeAdapter<>() {
+        TypeAdapter<Vector> vectorAdapter = new TypeAdapter<Vector>() {
             @NotNull
             @Override
             public java.util.Map<Object, Object> serialize(@NotNull Vector vector) {
@@ -760,7 +817,7 @@ public class Main extends JavaPlugin implements Listener {
         getLogger().info("Loaded Vector Adapter");
 
         // Set up the frame adapters
-        TypeAdapter<LocationFrame> locationFrameTypeAdapter = new TypeAdapter<>() {
+        TypeAdapter<LocationFrame> locationFrameTypeAdapter = new TypeAdapter<LocationFrame>() {
 
             @NotNull
             public java.util.Map<Object, Object> serialize(@NotNull LocationFrame object) {
@@ -1117,7 +1174,7 @@ public class Main extends JavaPlugin implements Listener {
         Team team = new Team(name);
 
         // Colours
-        Tuple<Material, ChatColor> colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("primary_color")).toLowerCase()));
+        Tuple<Material, NamedTextColor> colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("primary_color")).toLowerCase()));
         team.primaryWool = colors.getFirst();
         team.primaryChatColor = colors.getSecond();
         colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("secondary_color")).toLowerCase()));
@@ -1404,45 +1461,45 @@ public class Main extends JavaPlugin implements Listener {
         return new Location(Bukkit.getServer().getWorld(worldName), x, y, z, yaw, pitch);
     }
 
-    private Tuple<Material, ChatColor> getColors(String color) {
-        Tuple<Material, ChatColor> colors = new Tuple<>(Material.WHITE_WOOL, ChatColor.WHITE);
+    private Tuple<Material, NamedTextColor> getColors(String color) {
+        Tuple<Material, NamedTextColor> colors = new Tuple<>(Material.WHITE_WOOL, NamedTextColor.WHITE);
         switch (color) {
             case "black":
                 colors.setFirst(Material.BLACK_WOOL);
-                colors.setSecond(ChatColor.DARK_GRAY);
+                colors.setSecond(NamedTextColor.DARK_GRAY);
                 break;
             case "dark_blue":
             case "darkblue":
                 colors.setFirst(Material.BLUE_WOOL);
-                colors.setSecond(ChatColor.DARK_BLUE);
+                colors.setSecond(NamedTextColor.DARK_BLUE);
                 break;
             case "dark_green":
             case "darkgreen":
             case "green":
                 colors.setFirst(Material.GREEN_WOOL);
-                colors.setSecond(ChatColor.DARK_GREEN);
+                colors.setSecond(NamedTextColor.DARK_GREEN);
                 break;
             case "cyan":
             case "dark_aqua":
             case "darkaqua":
                 colors.setFirst(Material.CYAN_WOOL);
-                colors.setSecond(ChatColor.DARK_AQUA);
+                colors.setSecond(NamedTextColor.DARK_AQUA);
                 break;
             case "dark_red":
             case "darkred":
             case "red":
                 colors.setFirst(Material.RED_WOOL);
-                colors.setSecond(ChatColor.DARK_RED);
+                colors.setSecond(NamedTextColor.DARK_RED);
                 break;
             case "brown":
                 colors.setFirst(Material.BROWN_WOOL);
-                colors.setSecond(ChatColor.GOLD);
+                colors.setSecond(NamedTextColor.GOLD);
                 break;
             case "dark_purple":
             case "darkpurple":
             case "purple":
                 colors.setFirst(Material.PURPLE_WOOL);
-                colors.setSecond(ChatColor.DARK_PURPLE);
+                colors.setSecond(NamedTextColor.DARK_PURPLE);
                 break;
             case "gold":
             case "dark_gold":
@@ -1451,12 +1508,12 @@ public class Main extends JavaPlugin implements Listener {
             case "darkyellow":
             case "orange":
                 colors.setFirst(Material.ORANGE_WOOL);
-                colors.setSecond(ChatColor.GOLD);
+                colors.setSecond(NamedTextColor.GOLD);
                 break;
             case "light_gold":
             case "lightgold":
                 colors.setFirst(Material.YELLOW_WOOL);
-                colors.setSecond(ChatColor.GOLD);
+                colors.setSecond(NamedTextColor.GOLD);
                 break;
             case "light_gray":
             case "lightgray":
@@ -1465,69 +1522,92 @@ public class Main extends JavaPlugin implements Listener {
             case "gray":
             case "grey":
                 colors.setFirst(Material.LIGHT_GRAY_WOOL);
-                colors.setSecond(ChatColor.GRAY);
+                colors.setSecond(NamedTextColor.GRAY);
                 break;
             case "dark_grey":
             case "dark_gray":
             case "darkgrey":
             case "darkgray":
                 colors.setFirst(Material.GRAY_WOOL);
-                colors.setSecond(ChatColor.DARK_GRAY);
+                colors.setSecond(NamedTextColor.DARK_GRAY);
                 break;
             case "blue":
                 colors.setFirst(Material.BLUE_WOOL);
-                colors.setSecond(ChatColor.BLUE);
+                colors.setSecond(NamedTextColor.BLUE);
                 break;
             case "light_blue":
             case "lightblue":
                 colors.setFirst(Material.LIGHT_BLUE_WOOL);
-                colors.setSecond(ChatColor.BLUE);
+                colors.setSecond(NamedTextColor.BLUE);
                 break;
             case "light_green":
             case "lightgreen":
             case "lime":
                 colors.setFirst(Material.LIME_WOOL);
-                colors.setSecond(ChatColor.GREEN);
+                colors.setSecond(NamedTextColor.GREEN);
                 break;
             case "aqua":
                 colors.setFirst(Material.LIGHT_BLUE_WOOL);
-                colors.setSecond(ChatColor.AQUA);
+                colors.setSecond(NamedTextColor.AQUA);
                 break;
             case "light_red":
             case "lightred":
                 colors.setFirst(Material.PINK_WOOL);
-                colors.setSecond(ChatColor.RED);
+                colors.setSecond(NamedTextColor.RED);
                 break;
             case "light_purple":
             case "lightpurple":
             case "magenta":
                 colors.setFirst(Material.MAGENTA_WOOL);
-                colors.setSecond(ChatColor.LIGHT_PURPLE);
+                colors.setSecond(NamedTextColor.LIGHT_PURPLE);
                 break;
             case "pink":
                 colors.setFirst(Material.PINK_WOOL);
-                colors.setSecond(ChatColor.LIGHT_PURPLE);
+                colors.setSecond(NamedTextColor.LIGHT_PURPLE);
                 break;
             case "light_yellow":
             case "lightyellow":
             case "yellow":
                 colors.setFirst(Material.YELLOW_WOOL);
-                colors.setSecond(ChatColor.YELLOW);
+                colors.setSecond(NamedTextColor.YELLOW);
                 break;
             case "white":
             default:
                 colors.setFirst(Material.WHITE_WOOL);
-                colors.setSecond(ChatColor.WHITE);
+                colors.setSecond(NamedTextColor.WHITE);
         }
-
         return colors;
     }
 
+    /**
+     *
+     * @param color the chat colour to use to pick boss colour
+     * @return the bossbar colour to use
+     */
+    public static BossBar.Color getBarColour(NamedTextColor color) {
+        if (color.equals(BLUE) || color.equals(DARK_AQUA) || color.equals(DARK_BLUE) || color.equals(AQUA)) {
+            return BossBar.Color.BLUE;
+        } else if (color.equals(GRAY) || color.equals(WHITE)) {
+            return BossBar.Color.WHITE;
+        } else if (color.equals(DARK_GREEN) || color.equals(GREEN)) {
+            return BossBar.Color.GREEN;
+        } else if (color.equals(LIGHT_PURPLE)) {
+            return BossBar.Color.PINK;
+        } else if (color.equals(BLACK) || color.equals(DARK_GRAY) || color.equals(DARK_PURPLE)) {
+            return BossBar.Color.PURPLE;
+        } else if (color.equals(DARK_RED) || color.equals(RED)) {
+            return BossBar.Color.RED;
+        } else if (color.equals(YELLOW) || color.equals(GOLD)) {
+            return BossBar.Color.YELLOW;
+        }
+        return null;
+    }
+
     public void reload() {
-        plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Reloading plugin...");
+        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Reloading plugin...", GOLD)));
         onDisable();
         onEnable();
-        plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Plugin Reloaded!");
+        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Plugin Reloaded!", GOLD)));
     }
 
     public void activateBoosters() {

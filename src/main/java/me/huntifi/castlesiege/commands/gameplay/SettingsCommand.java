@@ -5,7 +5,8 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.maps.Scoreboard;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class SettingsCommand implements TabExecutor {
-    public static final HashMap<String, String[]> defaultSettings = new HashMap<>(){{
+    public static final HashMap<String, String[]> defaultSettings = new HashMap<String, String[]>(){{
         put("randomDeath", new String[]{"false", "true"});
         put("deathMessages", new String[]{"false", "true"});
         // TODO: put("language", new String[]{"EnglishUK", "Pirate"});
@@ -47,7 +48,7 @@ public class SettingsCommand implements TabExecutor {
 
         if (args.length < 1) {
             // Register and open a settings GUI for the player
-            Gui gui = new Gui(ChatColor.GOLD + "Settings", 1, true);
+            Gui gui = new Gui(Component.text("Settings", NamedTextColor.GOLD), 1, true);
             guis.put(player, gui);
 
             for (String setting : defaultSettings.keySet())
@@ -59,14 +60,14 @@ public class SettingsCommand implements TabExecutor {
 
         String setting = args[0];
         if (defaultSettings.get(setting) == null) {
-            Messenger.sendError("\"" + setting + "\" isn't a setting.", sender);
-            Messenger.sendInfo("Valid settings are: \n" +
-                            ChatColor.GOLD + "randomDeath (true/false) - " + ChatColor.BLUE + "Each time you die, runs /random to give you a new random class\n" +
-                            ChatColor.GOLD + "deathMessages (true/false) - " + ChatColor.BLUE + "View all death messages, not just your own\n" +
-                            ChatColor.GOLD + "joinPing (true/false) - " + ChatColor.BLUE + "Get a ping sound when another player joins the server\n" +
-                            ChatColor.GOLD + "woolmapTitleMessage (true/false) - " + ChatColor.BLUE + "Shows the title message related to the wool map\n" +
-                            ChatColor.GOLD + "statsBoard (true/false) - " + ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names\n" +
-                            ChatColor.GOLD + "alwaysInfo (false/true) - " + ChatColor.BLUE + "Shows info messages after you've reached the level required to hide them",
+            Messenger.sendError("<aqua>" + setting + "</aqua> isn't a setting.", sender);
+            Messenger.sendInfo("Valid settings are: <br>" +
+                            "<gold>randomDeath (true/false) - <blue>Each time you die, runs /random to give you a new random class<br>" +
+                            "<gold>deathMessages (true/false) - <blue>View all death messages, not just your own<br>" +
+                            "<gold>joinPing (true/false) - <blue>Get a ping sound when another player joins the server<br>" +
+                            "<gold>woolmapTitleMessage (true/false) - <blue>Shows the title message related to the wool map<br>" +
+                            "<gold>statsBoard (true/false) - <blue>The scoreboard will show your current game stats instead of flag names<br>" +
+                            "<gold>alwaysInfo (false/true) - <blue>Shows info messages after you've reached the level required to hide them",
                     sender);
             return true;
         }
@@ -130,7 +131,7 @@ public class SettingsCommand implements TabExecutor {
         Gui gui = guis.get(player);
 
         String currentValue = ActiveData.getData(player.getUniqueId()).getSetting(setting);
-        String itemName = String.format("%s%s: %s", ChatColor.GOLD, setting, currentValue);
+        Component itemName = Component.text(String.format("%s: %s", setting, currentValue), NamedTextColor.GOLD);
 
         String[] options = defaultSettings.get(setting);
         String nextValue = options[(Arrays.asList(options).indexOf(currentValue) + 1) % options.length];
@@ -139,32 +140,32 @@ public class SettingsCommand implements TabExecutor {
         switch (setting) {
             case "randomDeath":
                 gui.addItem(itemName, Material.COOKIE, Collections.singletonList(
-                        ChatColor.BLUE + "Each time you die, runs /random to give you a new random class"),
+                        Component.text("Each time you die, runs /random to give you a new random class", NamedTextColor.BLUE)),
                         0, command, false);
                 break;
             case "deathMessages":
                 gui.addItem(itemName, Material.OAK_SIGN, Collections.singletonList(
-                        ChatColor.BLUE + "View all death messages, not just your own"),
+                        Component.text("View all death messages, not just your own", NamedTextColor.BLUE)),
                         1, command, false);
                 break;
             case "joinPing":
                 gui.addItem(itemName, Material.NOTE_BLOCK, Collections.singletonList(
-                                ChatColor.BLUE + "Get a ping sound when another player joins the server"),
+                        Component.text("Get a ping sound when another player joins the server", NamedTextColor.BLUE)),
                         2, command, false);
                 break;
             case "statsBoard":
                 gui.addItem(itemName, Material.DIAMOND, Collections.singletonList(
-                                ChatColor.BLUE + "The scoreboard will show your current game stats instead of flag names"),
+                        Component.text("The scoreboard will show your current game stats instead of flag names", NamedTextColor.BLUE)),
                         3, command, false);
                 break;
             case "woolmapTitleMessage":
                 gui.addItem(itemName, Material.PAPER, Collections.singletonList(
-                                ChatColor.BLUE + "Disable the Title bar message related to the Wool-map"),
+                        Component.text("Displays a title message reminding you of the woolmap", NamedTextColor.BLUE)),
                         4, command, false);
                 break;
             case "alwaysInfo":
                 gui.addItem(itemName, Material.BLUE_WOOL, Collections.singletonList(
-                                ChatColor.BLUE + "Always display level dependent info messages"),
+                        Component.text("Always display level dependent info messages", NamedTextColor.BLUE)),
                         6, command, false);
                 break;
         }

@@ -8,8 +8,9 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -57,13 +58,13 @@ public class Berserker extends CoinKit implements Listener {
 
         // Weapon
         regularSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword", null,
+                Component.text("Iron Sword", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage);
         es.hotbar[0] = regularSword;
         // Voted Weapon
         regularSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword",
-                Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                Component.text("Iron Sword", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
@@ -73,16 +74,16 @@ public class Berserker extends CoinKit implements Listener {
 
         // Potion Item
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POTION, 1),
-                ChatColor.GOLD + "Berserker Potion", null, null);
+                Component.text("Berserker Potion", NamedTextColor.GOLD), null, null);
 
         // Berserk Weapon
         berserkSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Berserker Sword", null,
+                Component.text("Berserker Sword", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamageZerk);
         // Voted Berserk Weapon
         berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Berserker Sword",
-                Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                Component.text("Berserker Sword", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
                         new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamageZerk + 2);
 
@@ -116,6 +117,8 @@ public class Berserker extends CoinKit implements Listener {
                 }
 
                 p.getInventory().remove(Material.GLASS_BOTTLE);
+                if (p.getInventory().getItemInOffHand().getType() == Material.GLASS_BOTTLE)
+                    p.getInventory().setItemInOffHand(null);
 
                 // Prevent using in lobby
                 if (InCombat.isPlayerInLobby(uuid)) {
@@ -179,20 +182,20 @@ public class Berserker extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A warrior with no armor and");
-        kitLore.add("§7a berserker potion");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A warrior with no armor and", NamedTextColor.GRAY));
+        kitLore.add(Component.text("a berserker potion", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Speed I");
-        kitLore.add(" ");
-        kitLore.add("§5Berserk Effects:");
-        kitLore.add("§7- Speed II");
-        kitLore.add("§7- Confusion II");
-        kitLore.add("§7- Strength I");
-        kitLore.add("§7- Melee hits deal 105+ damage");
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
+        kitLore.add(Component.text(" ", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Berserk Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Speed II", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Confusion II", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Strength I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Melee hits deal 105+ damage", NamedTextColor.GRAY));
         return kitLore;
     }
 }

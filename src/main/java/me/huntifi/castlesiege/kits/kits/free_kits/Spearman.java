@@ -2,15 +2,15 @@ package me.huntifi.castlesiege.kits.kits.free_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -65,32 +65,32 @@ public class Spearman extends FreeKit implements Listener {
 
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, spearCount),
-				ChatColor.GREEN + "Spear",
-				Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, meleeDamage);
+				Component.text("Spear", NamedTextColor.GREEN),
+				Collections.singletonList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA)), null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				ItemCreator.weapon(new ItemStack(Material.STICK, 4),
-						ChatColor.GREEN + "Spear",
-						Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
-								ChatColor.AQUA + "- voted: +2 damage"),
+						Component.text("Spear", NamedTextColor.GREEN),
+						Arrays.asList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA),
+								Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
 						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
 
 		// Chestplate
 		es.chest = ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
-				ChatColor.GREEN + "Chainmail Chestplate", null, null);
+				Component.text("Chainmail Chestplate", NamedTextColor.GREEN), null, null);
 
 		// Leggings
 		es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-				ChatColor.GREEN + "Chainmail Leggings", null, null);
+				Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
 		// Boots
 		es.feet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
-				ChatColor.GREEN + "Chainmail Boots", null, null);
+				Component.text("Chainmail Boots", NamedTextColor.GREEN), null, null);
 		// Voted Boots
 		es.votedFeet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
-				ChatColor.GREEN + "Chainmail Boots",
-				Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+				Component.text("Chainmail Boots", NamedTextColor.GREEN),
+				Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders
@@ -125,22 +125,19 @@ public class Spearman extends FreeKit implements Listener {
 			if (stick.getType().equals(Material.STICK)) {
 				if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 					if (cooldown == 0) {
-						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-								ChatColor.AQUA + "Preparing to throw your spear!"));
+						Messenger.sendActionInfo("Preparing to throw your spear...", p);
 						stick.setAmount(stick.getAmount() - 1);
 						p.setCooldown(Material.STICK, throwCooldown);
 						BarCooldown.add(uuid, throwDelay);
 						new BukkitRunnable() {
 							@Override
 							public void run() {
-								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-										ChatColor.AQUA + "You threw your spear!"));
+								Messenger.sendActionInfo("You threw your spear!", p);
 								p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(throwVelocity));
 							}
 						}.runTaskLater(Main.plugin, throwDelay);
 					} else {
-						p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-								ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your spear yet."));
+						Messenger.sendActionError("You can't throw your spear yet", p);
 					}
 				}
 			}
@@ -196,18 +193,18 @@ public class Spearman extends FreeKit implements Listener {
 	 * @return The lore to add to the kit gui item
 	 */
 	@Override
-    public ArrayList<String> getGuiDescription() {
-		ArrayList<String> kitLore = new ArrayList<>();
-		kitLore.add("§7A mid-ranged unit with a melee weapon");
-		kitLore.add("§7that can be thrown");
+    public ArrayList<Component> getGuiDescription() {
+		ArrayList<Component> kitLore = new ArrayList<>();
+		kitLore.add(Component.text("A mid-ranged unit with a melee weapon", NamedTextColor.GRAY));
+		kitLore.add(Component.text("that can be thrown", NamedTextColor.GRAY));
 		kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, spearCount));
-		kitLore.add(" ");
-		kitLore.add("§6Active: ");
-		kitLore.add("§7- Can throw their spears");
-		kitLore.add(" ");
-		kitLore.add("§2Passive: ");
-		kitLore.add("§7- Deals bonus damage to horses");
-		kitLore.add("§7- Can break entire columns of ladders instantly");
+		kitLore.add(Component.empty());
+		kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+		kitLore.add(Component.text("- Can throw their spears", NamedTextColor.GRAY));
+		kitLore.add(Component.empty());
+		kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+		kitLore.add(Component.text("- Deals bonus damage to horses", NamedTextColor.GRAY));
+		kitLore.add(Component.text("- Can break entire columns of ladders instantly", NamedTextColor.GRAY));
 		return kitLore;
 	}
 }

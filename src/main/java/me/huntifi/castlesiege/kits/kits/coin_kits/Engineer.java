@@ -17,7 +17,8 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -87,33 +88,33 @@ public class Engineer extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Short-sword", null, null, meleeDamage);
+                Component.text("Short-sword", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                        ChatColor.GREEN + "Short-sword",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Short-sword", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Leather Chestplate", null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(128, 129, 129));
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(129, 129, 129));
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots", null, null,
+                Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(129, 129, 129));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(129, 129, 129));
 
@@ -194,8 +195,8 @@ public class Engineer extends CoinKit implements Listener {
                 e.setCancelled(true);
                 traps.get(t).remove(trap);
                 trap.setType(Material.AIR);
-                p.sendMessage(ChatColor.RED + "You stepped on " + NameTag.color(t) + t.getName() + ChatColor.RED + "'s trap.");
-                t.sendMessage(NameTag.color(p) + p.getName() + ChatColor.GREEN + " stepped on your trap.");
+                Messenger.sendWarning("You stepped on " + NameTag.mmUsername(t) + "'s trap.", p);
+                Messenger.sendSuccess(NameTag.mmUsername(p) + " stepped on your trap.", t);
 
                 // Deal damage
                 double damage = Math.min(p.getHealth(), 60);
@@ -232,8 +233,8 @@ public class Engineer extends CoinKit implements Listener {
                 e.setCancelled(true);
                 traps.get(t).remove(trap);
                 trap.setType(Material.AIR);
-                p.sendMessage(ChatColor.RED + "Your horse stepped on " + NameTag.color(t) + t.getName() + ChatColor.RED + "'s trap.");
-                t.sendMessage(NameTag.color(p) + p.getName() + ChatColor.GREEN + "'s horse stepped on your trap.");
+                Messenger.sendWarning("Your horse on " + NameTag.mmUsername(t) + "'s trap.", p);
+                Messenger.sendSuccess(NameTag.mmUsername(p) + "'s horse stepped on your trap.", t);
                 h.damage(60);
             }
         }
@@ -274,9 +275,9 @@ public class Engineer extends CoinKit implements Listener {
 
             if (!inv.contains(Material.STONE_PRESSURE_PLATE, 8 - trapsOffHand)) {
                 inv.addItem(new ItemStack(Material.STONE_PRESSURE_PLATE, 1));
-                p.sendMessage(ChatColor.GREEN + "You took this trap.");
+                Messenger.sendActionInfo("You picked up the trap", p);
             } else {
-                p.sendMessage(ChatColor.DARK_RED + "You took this trap and put it away.");
+                Messenger.sendActionInfo("You picked up the trap and put it away.", p);
             }
         }
     }
@@ -288,18 +289,19 @@ public class Engineer extends CoinKit implements Listener {
     @EventHandler
     public void onEnterBallista(VehicleEnterEvent e) {
         if (e.getVehicle() instanceof Minecart && e.getEntered() instanceof Player) {
+            Player p = (Player) e.getEntered();
 
             // Ensure that the entered minecart is a ballista and the player is an engineer
             Location dispenserFace = getDispenserFace(e.getVehicle().getLocation().add(0, 2, 0));
             if (dispenserFace == null) {
                 return;
             } else if (!Objects.equals(Kit.equippedKits.get(e.getEntered().getUniqueId()).name, name)) {
-                Messenger.sendError("Only engineers can use a ballista!", e.getEntered());
+                Messenger.sendActionError("Only engineers can use a ballista!", p);
                 e.setCancelled(true);
                 return;
             }
 
-            ballista.put((Player) e.getEntered(), new Tuple<>(dispenserFace, false));
+            ballista.put(p, new Tuple<>(dispenserFace, false));
         }
     }
 
@@ -526,26 +528,29 @@ public class Engineer extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A support/debuff kit that can lay trap");
-        kitLore.add("§7an operate various machines of war");
-        kitLore.add("§7or repair broken structures");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A support/debuff kit that can lay trap", NamedTextColor.GRAY));
+        kitLore.add(Component.text("an operate various machines of war", NamedTextColor.GRAY));
+        kitLore.add(Component.text("or repair broken structures", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(color.toString() + cobwebCount + " §7Cobwebs");
-        kitLore.add(color.toString() + planksCount + " §7Planks");
-        kitLore.add(color.toString() + cobblestoneCount + " §7Cobblestone");
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Speed I");
-        kitLore.add("§7- Jump Boost I");
-        kitLore.add("§7- Haste II");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can place down traps and cobwebs");
-        kitLore.add("§7- Can fire ballista");
-        kitLore.add("§7- Can refill catapults with cobblestone");
-        kitLore.add("§7- Can repair stone and wood blocks");
+        kitLore.add(Component.text(cobwebCount, color)
+                .append(Component.text(" Cobwebs", NamedTextColor.GRAY)));
+        kitLore.add(Component.text(planksCount, color)
+                .append(Component.text(" Planks", NamedTextColor.GRAY)));
+        kitLore.add(Component.text(cobblestoneCount, color)
+                .append(Component.text(" Cobblestone", NamedTextColor.GRAY)));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Jump Boost I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Haste II", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can place down traps and cobwebs", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can fire ballista", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can refill catapults with cobblestone", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can repair stone and wood blocks", NamedTextColor.GRAY));
         return kitLore;
     }
 }

@@ -4,7 +4,6 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -29,10 +28,10 @@ public class BindingCurse extends CurseCast {
         this.setStartTime();
         Player player = getPlayer() == null ? null : Bukkit.getPlayer(getPlayer());
         if (player == null) {
-            Messenger.broadcastCurse(ChatColor.DARK_RED + getDisplayName() + "§r has been activated! " + getActivateMessage());
+            Messenger.broadcastCurse("<dark_red>" + getDisplayName() + "</dark_red> has been activated! " + getActivateMessage());
             playSound(MapController.getPlayers());
         } else {
-            Messenger.sendCurse(ChatColor.DARK_RED + getDisplayName() + "§r has been activated! " + getActivateMessage(), player);
+            Messenger.sendCurse("<dark_red>" + getDisplayName() + "</dark_red> has been activated! " + getActivateMessage(), player);
             playSound(List.of(player.getUniqueId()));
         }
 
@@ -44,9 +43,9 @@ public class BindingCurse extends CurseCast {
                 CurseExpired expired = new CurseExpired(curse);
                 Bukkit.getPluginManager().callEvent(expired);
                 if (player == null) {
-                    Messenger.broadcastCurseEnd(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage());
+                    Messenger.broadcastCurseEnd("<dark_green>" + expired.getDisplayName() + "</dark_green> has been expired! " + expired.getExpireMessage());
                 } else
-                    Messenger.sendCurseEnd(ChatColor.DARK_GREEN + expired.getDisplayName() + "§r has been expired! " + expired.getExpireMessage(), player);
+                    Messenger.sendCurseEnd("<dark_green>" + expired.getDisplayName() + "</dark_green> has been expired! " + expired.getExpireMessage(), player);
             }
         }.runTaskLater(Main.plugin, getDuration());
 

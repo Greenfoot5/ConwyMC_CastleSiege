@@ -6,7 +6,6 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -58,7 +57,7 @@ public class DiceCurse extends CurseCast {
             }
         }
 
-        Messenger.broadcastCurse(ChatColor.DARK_RED + name + "§r has been activated! " + activateMessage);
+        Messenger.broadcastCurse("<dark_red>" + name + "</dark_red> has been activated! " + activateMessage);
         playSound(MapController.getPlayers());
     }
 
@@ -76,7 +75,7 @@ public class DiceCurse extends CurseCast {
             player.teleport(MapController.getCurrentMap().teams[nextTeam].lobby.spawnPoint);
         }
 
-        Messenger.sendCurse("You have been affected by " + ChatColor.DARK_RED + name + "§r! You have swapped teams.", player);
+        Messenger.sendCurse("You have been affected by <dark_red>" + name + "</dark_red>! You have swapped teams.", player);
     }
 
     //Builder Class

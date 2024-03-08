@@ -4,7 +4,8 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -21,7 +22,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 public class Hunter extends CoinKit implements Listener {
 
@@ -30,7 +30,7 @@ public class Hunter extends CoinKit implements Listener {
     private static final double meleeDamage = 30;
     private static final int ladderCount = 4;
     private static final int trapCount = 4;
-    private int cooldownTicks = 50;
+    private static final int cooldownTicks = 50;
 
     public Hunter() {
         super("hunter", health, regen, Material.LEATHER);
@@ -41,22 +41,20 @@ public class Hunter extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.DARK_PURPLE + "Hunter's Knife", List.of(""), null, meleeDamage);
+                Component.text("Hunter's Knife", NamedTextColor.DARK_PURPLE), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        ChatColor.DARK_PURPLE + "Hunter's Knife",
-                        List.of(""),
-                        Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
-                0);
+                        Component.text("Hunter's Knife", NamedTextColor.DARK_PURPLE), null,
+                        Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2), 0);
 
         // Regular Bow
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
-                ChatColor.GREEN + "Bow", null, null);
+                Component.text("Bow", NamedTextColor.GREEN), null, null);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Hunter's Chestpiece", null, null,
+                Component.text("Hunter's Chestpiece", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(54, 154, 42));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -67,16 +65,16 @@ public class Hunter extends CoinKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Hunter's pair of slacks", null, null);
+                Component.text("Hunter's Slacks", NamedTextColor.GREEN), null, null);
 
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                ChatColor.GREEN + "Hunter's Boots", null, null);
+                Component.text("Hunter's Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                ChatColor.GREEN + "Hunter's Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Hunter's Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
@@ -88,12 +86,13 @@ public class Hunter extends CoinKit implements Listener {
 
         // control hound
         es.hotbar[4] = ItemCreator.item(new ItemStack(Material.BONE),
-                ChatColor.GOLD + "Control Companion", Arrays.asList("",
-                        ChatColor.DARK_GRAY + "Left click: ",
-                        ChatColor.YELLOW + "Attacks the opponent you are pointing at.",
-                        ChatColor.DARK_GRAY + "Right click: ",
-                        ChatColor.YELLOW + "Summon or un-summon companion.",
-                        ChatColor.YELLOW + "Has no cooldown."), null);
+                Component.text("Control Companion", NamedTextColor.GOLD),
+                Arrays.asList(Component.empty(),
+                        Component.text("Left click: ", NamedTextColor.DARK_GRAY),
+                        Component.text("Attacks the opponent you are pointing at.", NamedTextColor.YELLOW),
+                        Component.text("Right click: ", NamedTextColor.DARK_GRAY),
+                        Component.text("Summon or un-summon companion.", NamedTextColor.YELLOW),
+                        Component.text("Has no cooldown.", NamedTextColor.YELLOW)), null);
 
         super.equipment = es;
 
@@ -109,21 +108,21 @@ public class Hunter extends CoinKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7Has a companion and traps on their side!");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("Has a companion and traps on their side!", NamedTextColor.GRAY));
         description.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        description.add(" ");
-        description.add("§5Effects:");
-        description.add("§7- Speed I");
-        description.add("§7- Jump Boost I");
-        description.add(" ");
-        description.add("§6Active:");
-        description.add("§7- Can place down poison, mark or bleeding traps.");
-        description.add(" ");
-        description.add("§2Passive:");
-        description.add("§7- Can summon a companion hound, which");
-        description.add("§7fights for the hunter.");
+        description.add(Component.empty());
+        description.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        description.add(Component.text("- Speed I", NamedTextColor.GRAY));
+        description.add(Component.text("- Jump Boost I", NamedTextColor.GRAY));
+        description.add(Component.empty());
+        description.add(Component.text("Active:", NamedTextColor.GOLD));
+        description.add(Component.text("- Can place down poison, mark or bleeding traps.", NamedTextColor.GRAY));
+        description.add(Component.empty());
+        description.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        description.add(Component.text("- Can summon a companion hound, which", NamedTextColor.GRAY));
+        description.add(Component.text("fights for the hunter.", NamedTextColor.GRAY));
         return description;
     }
 }

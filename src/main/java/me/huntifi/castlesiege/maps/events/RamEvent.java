@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.maps.events;
 
-import me.huntifi.castlesiege.Main;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

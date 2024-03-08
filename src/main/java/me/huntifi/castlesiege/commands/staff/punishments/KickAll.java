@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.staff.punishments;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,8 +29,8 @@ public class KickAll implements CommandExecutor {
 			message = " for: " + String.join(" ", args);
 		}
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			p.kickPlayer(ChatColor.RED + "You were kicked by " + ChatColor.WHITE + sender.getName()
-					+ ChatColor.RED + message);
+			p.kick(MiniMessage.miniMessage().deserialize("<red>You were kicked by <white>" + sender.getName()
+					+ "</white>" + message));
 		}
 
 		return true;

@@ -3,7 +3,6 @@ package me.huntifi.castlesiege.commands.staff;
 import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -47,9 +46,9 @@ public class FlyCommand implements CommandExecutor {
 		p.setFlySpeed(0.2f);
 
 		if (p.getAllowFlight()) {
-			p.sendMessage(ChatColor.DARK_GREEN + " Flying has been enabled for you, enjoy your flight!");
+			Messenger.sendSuccess("Flying has been enabled for you, enjoy your flight!", sender);
 		} else {
-			p.sendMessage(ChatColor.DARK_GREEN + " Flying has been disabled for you!");
+			Messenger.sendSuccess("Flying has been disabled for you!", sender);
 		}
 
 		return true;

@@ -7,7 +7,8 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -53,51 +54,55 @@ public class Sorcerer extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK),
-                ChatColor.DARK_PURPLE + "Sorcerer's Wand", Arrays.asList("",
-                        ChatColor.YELLOW + "Right click to shoot an arcanebolt which",
-                        ChatColor.YELLOW + "does 60 DMG on hit.",
-                        ChatColor.YELLOW + " ",
-                        ChatColor.YELLOW + "Has a cooldown of " + arcaneBoltCooldown /20 + " seconds."), null, meleeDamage);
+                Component.text("Sorcerer's Wand", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right click to shoot an arcanebolt which", NamedTextColor.AQUA),
+                        Component.text("does 60 DMG on hit.", NamedTextColor.AQUA),
+                        Component.empty(),
+                        Component.text("Has a cooldown of " + arcaneBoltCooldown /20 + " seconds.", NamedTextColor.AQUA)), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STICK),
-                        ChatColor.DARK_PURPLE + "Sorcerer's Wand",
-                        Arrays.asList("",
-                                ChatColor.YELLOW + "Right click to shoot an arcane bolt which",
-                                ChatColor.YELLOW + "does 60 DMG on hit.",
-                                ChatColor.YELLOW + " ",
-                                ChatColor.YELLOW + "Has a cooldown of " + arcaneBoltCooldown /20 + " seconds.",
-                                ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Sorcerer's Wand", NamedTextColor.GREEN),
+                        Arrays.asList(Component.empty(),
+                                Component.text("Right click to shoot an arcane bolt which", NamedTextColor.AQUA),
+                                Component.text("does 60 DMG on hit.", NamedTextColor.AQUA),
+                                Component.empty(),
+                                Component.text("Has a cooldown of " + arcaneBoltCooldown /20 + " seconds.", NamedTextColor.AQUA),
+                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
                 0);
 
         // 1st ability
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.DIAMOND),
-                ChatColor.BLUE + "Frost nova", Arrays.asList("",
-                        ChatColor.YELLOW + "Right click to send a freezing shockwave out ",
-                        ChatColor.YELLOW + "of yourself, slowing every enemy in a 4 block radius",
-                        ChatColor.YELLOW + "around you and dealing 30 DMG to them.",
-                        ChatColor.YELLOW + " ",
-                        ChatColor.YELLOW + "Has a cooldown of " + frostNovaCooldown /20 + " seconds."), null);
+                Component.text("Frost nova", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right click to send a freezing shockwave out ", NamedTextColor.AQUA),
+                        Component.text("of yourself, slowing every enemy in a 4 block radius", NamedTextColor.AQUA),
+                        Component.text("around you and dealing 30 DMG to them.", NamedTextColor.AQUA),
+                        Component.empty(),
+                        Component.text("Has a cooldown of " + frostNovaCooldown /20 + " seconds.", NamedTextColor.AQUA)), null);
 
         // 2nd ability
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.AMETHYST_SHARD),
-                ChatColor.LIGHT_PURPLE + "Arcane Barrage", Arrays.asList("",
-                        ChatColor.YELLOW + "Fire 3 arcane bolts at a target.",
-                        ChatColor.YELLOW + " ",
-                        ChatColor.YELLOW + "Has a cooldown of " + arcaneBarrageCooldown/20 + " seconds."), null);
+                Component.text("Arcane Barrage", NamedTextColor.GREEN),
+                        Arrays.asList(Component.empty(),
+                        Component.text("Fire 3 arcane bolts at a target.", NamedTextColor.AQUA),
+                        Component.text(" "),
+                        Component.text("Has a cooldown of " + arcaneBarrageCooldown/20 + " seconds.", NamedTextColor.AQUA)), null);
 
         // 3rd ability
         es.hotbar[3] = ItemCreator.item(new ItemStack(Material.FEATHER),
-                ChatColor.DARK_BLUE + "Slow Falling", Arrays.asList("",
-                        ChatColor.YELLOW + "Right click to give yourself slow falling",
-                        ChatColor.YELLOW + "for 5 seconds.",
-                        ChatColor.YELLOW + " ",
-                        ChatColor.YELLOW + "Has a cooldown of " + slowFallingCooldown/20 + " seconds."), null);
+                Component.text("Slow Falling", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right click to give yourself slow falling", NamedTextColor.AQUA),
+                        Component.text("for 5 seconds.", NamedTextColor.AQUA),
+                        Component.text(" "),
+                        Component.text("Has a cooldown of " + slowFallingCooldown/20 + " seconds.", NamedTextColor.AQUA)), null);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Sorcerer's robe", null, null,
+                Component.text("Sorcerer's Robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(75, 60, 63));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -108,7 +113,7 @@ public class Sorcerer extends CoinKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Sorcerer's pants", null, null,
+                Component.text("Sorcerer's Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(106, 62, 156));
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
@@ -119,12 +124,12 @@ public class Sorcerer extends CoinKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Sorcerer's Boots", null, null,
+                Component.text("Sorcerer's Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(106, 62, 156));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Sorcerer's Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Sorcerer's Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(106, 62, 156));
         ItemMeta boots = es.feet.getItemMeta();
@@ -262,24 +267,26 @@ public class Sorcerer extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A sorcerer specialised in the arcane arts, ");
-        kitLore.add("§7can also slow down enemies with ice");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A sorcerer specialised in the arcane arts, ", NamedTextColor.GRAY));
+        kitLore.add(Component.text("can also slow down enemies with ice", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(color.toString() + "60 §7arcane-bolt DMG");
-        kitLore.add(color.toString() + "30 §7frost nova DMG");
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Slowness I");
-        kitLore.add("");
-        kitLore.add("§6Abilities: ");
-        kitLore.add("§7- Can shoot an arcane-bolt at opponents at a");
-        kitLore.add("§7higher speed then other magic ranged attacks");
-        kitLore.add("§7- In a wave of cold can damage and slow down enemies");
-        kitLore.add("§7in a 4 block radius");
-        kitLore.add("§7- Can shoot a barrage of arcane-bolts");
-        kitLore.add("§7- Has a spell that gives slow falling to the caster");
+        kitLore.add(Component.text("60", color)
+                        .append(Component.text(" arcane-bolt DMG", NamedTextColor.GRAY)));
+        kitLore.add(Component.text("30", color)
+                        .append(Component.text(" frost nova DMG", NamedTextColor.GRAY)));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Slowness I", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active: ", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can shoot an arcane-bolt at opponents at a", NamedTextColor.GRAY));
+        kitLore.add(Component.text("higher speed then other magic ranged attacks", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- In a wave of cold can damage and slow down enemies", NamedTextColor.GRAY));
+        kitLore.add(Component.text("in a 4 block radius", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can shoot a barrage of arcane-bolts", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Has a spell that gives slow falling to the caster", NamedTextColor.GRAY));
         return kitLore;
     }
 }

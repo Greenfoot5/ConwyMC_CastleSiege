@@ -1,5 +1,8 @@
 package me.huntifi.castlesiege.data_types;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -25,18 +28,19 @@ public class CoinBooster extends Booster {
     }
 
     @Override
-    public List<String> getLore() {
-        List<String> lore = new ArrayList<>();
-        lore.add("§3Duration: §b" + getDurationAsString());
-        lore.add(" ");
-        lore.add("§6Increase all coins earnt by " + multiplier * 100 + "%");
-        lore.add("§6    for the booster's duration!");
+    public List<Component> getLore() {
+        List<Component> lore = new ArrayList<>();
+        lore.add(Component.text("Duration: ", NamedTextColor.DARK_AQUA)
+                .append(Component.text(getDurationAsString()).decorate(TextDecoration.BOLD)));
+        lore.add(Component.empty());
+        lore.add(Component.text("Increase all coins earnt by " + multiplier * 100 + "%", NamedTextColor.GOLD));
+        lore.add(Component.text("    for the booster's duration!", NamedTextColor.GOLD));
         return lore;
     }
 
     @Override
-    public String getName() {
-        return "§e" + getPercentage() + "% Coin Booster - ID " + id;
+    public Component getName() {
+        return Component.text(getPercentage() + "% Coin Booster - ID " + id, NamedTextColor.YELLOW);
     }
 
     public int getPercentage() {

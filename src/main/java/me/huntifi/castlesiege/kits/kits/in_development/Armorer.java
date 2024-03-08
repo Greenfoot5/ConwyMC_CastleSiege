@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.in_development;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -10,9 +11,12 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
@@ -21,7 +25,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ArmorMeta;
@@ -32,7 +35,10 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Armorer extends CoinKit implements Listener {
 
@@ -40,7 +46,7 @@ public class Armorer extends CoinKit implements Listener {
     private static final double regen = 10.5;
     private static final double meleeDamage = 30;
     private static final int ladderCount = 4;
-    private int cooldownTicks = 50;
+    private static final int cooldownTicks = 50;
 
     public static final ArrayList<Player> cooldown = new ArrayList<>();
 
@@ -53,18 +59,18 @@ public class Armorer extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.NETHERITE_SHOVEL),
-                ChatColor.DARK_PURPLE + "Smith's Hammer", List.of(""), null, meleeDamage);
+                Component.text("Smith's Hammer", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.NETHERITE_SHOVEL),
-                        ChatColor.DARK_PURPLE + "Smith's Hammer",
-                        List.of(""),
+                        Component.text("Smith's Hammer", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Armorer's robe", null, null,
+                Component.text("Armorer's Robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(50, 54, 57));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -75,7 +81,7 @@ public class Armorer extends CoinKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                ChatColor.GREEN + "Armorer's Leggings", null, null);
+                Component.text("Armorer's Leggings", NamedTextColor.GREEN), null, null);
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
         assert legs != null;
@@ -85,11 +91,11 @@ public class Armorer extends CoinKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                ChatColor.GREEN + "Armorer's Boots", null, null);
+                Component.text("Armorer's Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                ChatColor.GREEN + "Armorer's Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Armorer's Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
         ItemMeta boots = es.feet.getItemMeta();
         ArmorMeta bootsMeta = (ArmorMeta) boots;
@@ -156,20 +162,17 @@ public class Armorer extends CoinKit implements Listener {
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, modifier2);
         double armor = Objects.requireNonNull(target.getAttribute(Attribute.GENERIC_ARMOR)).getValue();
         if (armor <= 10) {
-            meta.setLore(Collections.singletonList(ChatColor.AQUA + "- Reinforced"));
+            meta.lore(Collections.singletonList(Component.text("- Reinforced", NamedTextColor.AQUA)));
             meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, level(armor), false);
             item.setItemMeta(meta);
-            target.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    NameTag.color(smith) + smith.getName() + ChatColor.AQUA + " has reinforced your armor"));
-            smith.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.AQUA + "You are reinforcing " + NameTag.color(target) + target.getName() + "'s armor"));
+            Messenger.sendActionInfo(NameTag.mmUsername(smith) + " has reinforced your armor", target);
+            Messenger.sendActionInfo("You are reinforcing " + NameTag.mmUsername(target) + "'s armor", smith);
             addPotionEffect(smith, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () ->
                     UpdateStats.addSupports(smith.getUniqueId(), 2), cooldownTicks);
         } else {
-            smith.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.RED + "You can't reinforce this player anymore as their armor" +
-                            " has reached its maximum reinforcement."));
+            Messenger.sendActionError("You can't reinforce this player anymore as their armor" +
+                            " has reached its maximum reinforcement.", smith);
         }
         return item;
     }
@@ -209,18 +212,18 @@ public class Armorer extends CoinKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7An armorsmith that reinforces");
-        description.add("§7his allies' armor!");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("An armorsmith that reinforces", NamedTextColor.GRAY));
+        description.add(Component.text("his allies' armor!", NamedTextColor.GRAY));
         description.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        description.add(" ");
-        description.add("§6Active:");
-        description.add("§7- Can use a smith's hammer to reinforce teammates");
-        description.add(" ");
-        description.add("§2Passive:");
-        description.add("§7- When reinforcing an ally receives resistance I");
-        description.add("§7- Can see a player's health");
+        description.add(Component.empty());
+        description.add(Component.text("Active:", NamedTextColor.GOLD));
+        description.add(Component.text("- Can use a smith's hammer to reinforce teammates", NamedTextColor.GRAY));
+        description.add(Component.empty());
+        description.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        description.add(Component.text("- When reinforcing an ally receives resistance I", NamedTextColor.GRAY));
+        description.add(Component.text("- Can see a player's health", NamedTextColor.GRAY));
         return description;
     }
 }

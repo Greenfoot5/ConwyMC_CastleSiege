@@ -1,14 +1,17 @@
 package me.huntifi.castlesiege.commands.staff;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import me.huntifi.castlesiege.events.chat.Messenger;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 
-public class BroadcastMessage implements CommandExecutor {
+public class BroadcastCommand implements CommandExecutor {
+
+    public static Component broadcastPrefix = MiniMessage.miniMessage().deserialize("<dark_green>[<dark_red>ConwyMC</dark_red>] - </dark_green>");
 
     /**
      * Sends a message to all players on the server, this can for example be used to let players know someone donated to the server.
@@ -24,9 +27,8 @@ public class BroadcastMessage implements CommandExecutor {
         if (args.length == 0)
             return false;
 
-        String broadcastPrefix = "§2[§4ConwyMC§2] - §a";
-
-        Bukkit.broadcastMessage(broadcastPrefix + ChatColor.translateAlternateColorCodes('&', String.join(" ", args)));
+        Messenger.broadcast(broadcastPrefix.append(MiniMessage.miniMessage().deserialize(
+                "<gradient:#EC9F05:#FF4E00>" + String.join(" ", args))));
         return true;
     }
 }

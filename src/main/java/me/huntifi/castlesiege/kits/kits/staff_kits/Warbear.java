@@ -8,7 +8,8 @@ import me.huntifi.castlesiege.kits.kits.StaffKit;
 import me.huntifi.castlesiege.maps.events.RamEvent;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -51,22 +52,22 @@ public class Warbear extends StaffKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
-                ChatColor.RED + "Claws", null, null, meleeDamage);
+                Component.text("Claws", NamedTextColor.RED), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
-                        ChatColor.RED + "Claws",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Claws", NamedTextColor.RED),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Claws
         es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
-                ChatColor.RED + "Fangs", null, null, 12);
+                Component.text("Fangs", NamedTextColor.RED), null, null, 12);
 
         // Paw
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.RABBIT_FOOT),
-                ChatColor.GREEN + "Paw", null, null);
+                Component.text("Paw", NamedTextColor.GREEN), null, null);
 
         super.equipment = es;
 
@@ -175,21 +176,21 @@ public class Warbear extends StaffKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A mighty polar bear ready for action");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A mighty polar bear ready for action", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
-        kitLore.add(" ");
-        kitLore.add("§6Active: ");
-        kitLore.add("§7- Stacks wither with basic attacks");
-        kitLore.add("§7- Can bite to stun an opponent");
-        kitLore.add("§7- Can gain a short burst of speed");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see players' health");
-        kitLore.add("§c- Cannot climb");
-        kitLore.add("§7- Deals bonus damage to gates when punching");
-        kitLore.add("§c- Cannot cap flags");
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Stacks wither with basic attacks", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can bite to stun an opponent", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can gain a short burst of speed", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Cannot climb", NamedTextColor.RED));
+        kitLore.add(Component.text("- Deals bonus damage to gates when punching", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Cannot cap flags", NamedTextColor.RED));
         return kitLore;
     }
 }

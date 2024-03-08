@@ -4,7 +4,6 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +24,7 @@ public class DuelCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage("Console cannot duel anyone");
+            Messenger.sendError("Console cannot duel anyone", sender);
             return true;
         }
         // Command needs a player
@@ -38,41 +37,42 @@ public class DuelCommand implements CommandExecutor {
 
         // Cannot challenge yourself
         if (receiver == null) {
-            Messenger.sendError( "Could not find player: " + ChatColor.RED + args[0], sender);
+            Messenger.sendError( "Could not find player: <red>" + args[0], sender);
             return true;
         } else if (Objects.equals(sender, receiver)) {
-            Messenger.sendWarning(ChatColor.RED + "Stuck in a fight against ourself are we? We should get some help.", sender);
+            Messenger.sendError("Stuck in a fight against ourself are we? We should get some help.", sender);
             return true;
         }
 
         // Both players have to be in a spawnroom.
         if (!InCombat.isPlayerInLobby(receiver.getUniqueId())) {
-            Messenger.sendWarning(ChatColor.RED + "This player is currently not in a spawnroom!", sender);
+            Messenger.sendError("This player is currently not in a spawnroom!", sender);
             return true;
         } else if (!InCombat.isPlayerInLobby(((Player) sender).getUniqueId())) {
-            Messenger.sendWarning(ChatColor.RED + "You have to perform this command whilst in a spawnroom!", sender);
+            Messenger.sendError("You have to perform this command whilst in a spawnroom!", sender);
             return true;
         }
 
         if (inviter.get(receiver) != null) {
             if (inviter.get(receiver).equals(sender)) {
-                Messenger.sendWarning(ChatColor.RED + "You have already challenged this person to a duel!", sender);
+                Messenger.sendError("You have already challenged this person to a duel!", sender);
                 return true;
             }
         }
 
         //Hashmap that has the data on whether someone is invited by a certain someone.
         inviter.put(receiver, sender);
-        Messenger.sendSuccess("You challenged " + receiver.getName() + " to a duel!", sender);
-        Messenger.sendSuccess(sender.getName() + " has challenged you to a duel! (/acceptduel <player>)", receiver);
+        Messenger.sendDuel("You challenged " + receiver.getName() + " to a duel!", sender);
+        Messenger.sendDuel(sender.getName() + " has challenged you to a duel! " +
+                "<yellow><click:suggest_command:/acceptduel " + sender.getName() + ">/acceptduel <player></click></yellow>", receiver);
 
         new BukkitRunnable() {
             @Override
             public void run() {
 
                 if (challenging.get(receiver) == null) {
-                        Messenger.sendWarning("Your invitation to a duel with " + receiver.getName() + " has expired!", sender);
-                        Messenger.sendWarning("The invitation that you received from " + sender.getName() + " has expired.", receiver);
+                        Messenger.sendDuel("Your invitation to a duel with " + receiver.getName() + " has expired!", sender);
+                        Messenger.sendDuel("The invitation that you received from " + sender.getName() + " has expired.", receiver);
                 }
                 inviter.remove(receiver, sender);
             }
@@ -92,7 +92,8 @@ public class DuelCommand implements CommandExecutor {
 
     /**
      * simple method returning true or false to determine whether someone is dueling.
-     * @p player to check for
+     * @param p The player to check if they're dueling
+     * @return If the player is dueling
      */
     public static boolean isDueling(Player p) {
         return challenging.containsKey(p) || challenging.containsValue(p);

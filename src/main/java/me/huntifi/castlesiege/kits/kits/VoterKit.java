@@ -2,7 +2,9 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,7 +27,7 @@ public abstract class VoterKit extends Kit {
      * @param material The material to display in menus
      */
     public VoterKit(String name, int baseHealth, double regenAmount, Material material) {
-        super(name, baseHealth, regenAmount, material, ChatColor.BLUE);
+        super(name, baseHealth, regenAmount, material, NamedTextColor.BLUE);
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
     }
@@ -68,10 +70,10 @@ public abstract class VoterKit extends Kit {
     /**
      * @return Displays the cost for the footer of a kit gui's lore
      */
-    public ArrayList<String> getGuiCostText() {
-        ArrayList<String> text = new ArrayList<>();
-        text.add(" ");
-        text.add(color + "§lUnlocked by voting on PMC");
+    public ArrayList<Component> getGuiCostText() {
+        ArrayList<Component> text = new ArrayList<>();
+        text.add(Component.empty());
+        text.add(Component.text("Unlocked by voting on PMC", color).decorate(TextDecoration.BOLD));
         return text;
     }
 }

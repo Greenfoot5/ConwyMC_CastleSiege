@@ -2,15 +2,15 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -27,8 +27,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -56,35 +56,35 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
-                ChatColor.GREEN + "Reinforced Iron Sword",
-                Collections.singletonList(ChatColor.AQUA + "Right-click to activate charge ability."),
+                Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("Right-click to activate charge ability.", NamedTextColor.AQUA)),
                 null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
-                        ChatColor.GREEN + "Reinforced Iron Sword",
-                        Arrays.asList(ChatColor.AQUA + "Right-click to activate charge ability.",
-                                ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
+                        List.of(Component.text("Right-click to activate charge ability.", NamedTextColor.AQUA),
+                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Leather Tunic", null, null,
+                Component.text("Leather Tunic", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(99, 179, 101));
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
-                ChatColor.GREEN + "Iron Leggings", null, null);
+                Component.text("Iron Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots", null, null,
+                Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(99, 179, 101));
         // Voted boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(99, 179, 101));
 
@@ -121,8 +121,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
                     if (cooldown == 0) {
                         p.setCooldown(Material.DIAMOND_SWORD, 300);
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "You are charging forward"));
+                        Messenger.sendActionInfo("You are charging forward", p);
                         p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 160, 4)));
                         p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP, 160, 1)));
 
@@ -133,8 +132,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
                         vanguards.add(uuid);
                         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> vanguards.remove(uuid), 165);
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't charge forward yet."));
+                        Messenger.sendWarning("You can't charge forward yet.", p);
                     }
                 }
             }
@@ -156,9 +154,9 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
             if (vanguards.contains(uuid)) {
                 for (PotionEffect effect : player.getActivePotionEffects()) {
-                    if ((effect.getType().getName().equals(PotionEffectType.SPEED.getName()) && effect.getAmplifier() == 4)
-                            || (effect.getType().getName().equals(PotionEffectType.JUMP.getName()) && effect.getAmplifier() == 1)
-                            || (effect.getType().getName().equals(PotionEffectType.INCREASE_DAMAGE.getName()) && effect.getAmplifier() == 2)) {
+                    if ((effect.getType().equals(PotionEffectType.SPEED) && effect.getAmplifier() == 4)
+                            || (effect.getType().equals(PotionEffectType.JUMP) && effect.getAmplifier() == 1)
+                            || (effect.getType().equals(PotionEffectType.INCREASE_DAMAGE) && effect.getAmplifier() == 2)) {
                         player.removePotionEffect(effect.getType());
                     }
                 }
@@ -170,20 +168,20 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A master of camouflage and tracking. Can");
-        kitLore.add("§7become invisible and strike enemies from behind");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A master of camouflage and tracking. Can", NamedTextColor.GRAY));
+        kitLore.add(Component.text("become invisible and strike enemies from behind", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Speed I");
-        kitLore.add("§7- Haste I");
-        kitLore.add(" ");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Can charge forward gaining Speed V and");
-        kitLore.add("§7Jump Boost II and bonus damage to the first");
-        kitLore.add("§7target hit");
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Haste I", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can charge forward gaining Speed V and", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Jump Boost II and bonus damage to the first", NamedTextColor.GRAY));
+        kitLore.add(Component.text("target hit", NamedTextColor.GRAY));
         return kitLore;
     }
 }

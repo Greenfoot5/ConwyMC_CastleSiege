@@ -1,10 +1,8 @@
 package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Animals;
@@ -48,8 +46,7 @@ public class HitMessage implements Listener {
 	 * @param hitName The name to display for the hit entity
 	 */
 	private void notifyHit(Player player, String hitName) {
-		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-				ChatColor.DARK_AQUA + "Hit (" + hitName + ")"));
+		Messenger.sendActionHit(hitName, player);
 		player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 0.5f);
 
 		// The shooter has interacted with the game

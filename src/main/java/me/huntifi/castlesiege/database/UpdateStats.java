@@ -2,9 +2,9 @@ package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -98,14 +98,14 @@ public class UpdateStats {
 
                     Player p = Bukkit.getPlayer(uuid);
                     assert p != null;
-                    p.sendMessage(ChatColor.GOLD + "[+] " + ChatColor.DARK_GREEN + "Congratulations, you leveled up to level: " + ChatColor.YELLOW + level);
+                    Messenger.sendCongrats("Congratulations, you leveled up to level: <yellow>" + level, p);
                     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                     p.setLevel(level);
                     NameTag.give(p);
 
-                    // Announce every 10th level
-                    if (level % 10 == 0) {
-                        Bukkit.broadcastMessage(ChatColor.GOLD + "[+] " + ChatColor.DARK_GREEN + p.getName() + " has reached level " + level + "!");
+                    // Announce every 5th level
+                    if (level % 5 == 0) {
+                        Messenger.broadcastCongrats(p.getName() + " has reached level " + level + "!");
                     }
                 }
             }

@@ -5,8 +5,8 @@ import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -21,7 +21,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -94,16 +93,12 @@ public class WoolMap implements Listener {
 	public void spawnGlower(Player p, Location loc) {
       if ((!shulkers.containsKey(p)) || shulkers.get(p).getLocation() != loc) {
 
-		  ScoreboardManager manager = Bukkit.getScoreboardManager();
-		  assert manager != null;
-		  org.bukkit.scoreboard.Scoreboard board = manager.getNewScoreboard();
-
 		  Shulker shulker = (Shulker) Objects.requireNonNull(loc.getWorld()).spawnEntity(loc, EntityType.SHULKER);
           shulkers.put(p, shulker);
 		  shulker.setAI(false);
 		  shulker.setInvulnerable(true);
 		  shulker.setInvisible(true);
-		  shulker.setCustomName(shulker.getUniqueId().toString());
+		  shulker.customName(Component.text(shulker.getUniqueId().toString()));
 		  p.showEntity(Main.plugin, shulker);
 
 		  shulker.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 8000, 0, false, false));
@@ -126,49 +121,5 @@ public class WoolMap implements Listener {
 				}
 			}
 		}.runTaskTimer(Main.plugin, 20, 20);
-	}
-
-
-	/**
-	 * Convert the  wool color to a chat color for the glowing block colour
-	 * @param b the block to check for wool
-	 * @return The chat colour corresponding to the team's primary wool color, null if primary wool is no wool
-	 */
-	private ChatColor getGlowColor(Block b) {
-		switch (b.getType()) {
-			case BLACK_WOOL:
-				return ChatColor.BLACK;
-			case BLUE_WOOL:
-				return ChatColor.DARK_BLUE;
-			case ORANGE_WOOL:
-			case BROWN_WOOL:
-				return ChatColor.GOLD;
-			case CYAN_WOOL:
-				return ChatColor.DARK_AQUA;
-			case GRAY_WOOL:
-				return ChatColor.DARK_GRAY;
-			case GREEN_WOOL:
-				return ChatColor.DARK_GREEN;
-			case LIGHT_BLUE_WOOL:
-				return ChatColor.AQUA;
-			case LIGHT_GRAY_WOOL:
-				return ChatColor.GRAY;
-			case LIME_WOOL:
-				return ChatColor.GREEN;
-			case MAGENTA_WOOL:
-				return ChatColor.LIGHT_PURPLE;
-			case PURPLE_WOOL:
-				return ChatColor.DARK_PURPLE;
-			case PINK_WOOL:
-				return ChatColor.RED;
-			case RED_WOOL:
-				return ChatColor.DARK_RED;
-			case WHITE_WOOL:
-				return ChatColor.WHITE;
-			case YELLOW_WOOL:
-				return ChatColor.YELLOW;
-			default:
-				return null;
-		}
 	}
 }

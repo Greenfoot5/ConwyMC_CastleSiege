@@ -3,11 +3,8 @@ package me.huntifi.castlesiege.events.curses;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -59,7 +56,7 @@ public class TeleportationCurse extends CurseCast {
             positionsNotUsed.remove(p);
         }
 
-        Messenger.broadcastCurse(ChatColor.DARK_RED + name + "§r has been activated! " + activateMessage);
+        Messenger.broadcastCurse("<dark_red>" + name + "</dark_red> has been activated! " + activateMessage);
         playSound(MapController.getPlayers());
     }
 
@@ -82,7 +79,7 @@ public class TeleportationCurse extends CurseCast {
 
         player.teleport(pos.getSecond());
 
-        Messenger.sendCurse("You have been affected by " + ChatColor.DARK_RED + name + "§r! You have been teleported.", player);
+        Messenger.sendCurse("You have been affected by <dark_red>" + name + "</dark_red>! You have been teleported.", player);
         return Bukkit.getPlayer(pos.getFirst());
     }
 

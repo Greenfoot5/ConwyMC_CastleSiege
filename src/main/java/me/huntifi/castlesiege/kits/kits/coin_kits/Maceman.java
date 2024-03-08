@@ -1,14 +1,14 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -47,30 +47,30 @@ public class Maceman extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
-                ChatColor.GREEN + "Mace", null, null, meleeDamage);
+                Component.text("Mace", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
-                        ChatColor.GREEN + "Mace",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Mace", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
-                ChatColor.GREEN + "Chainmail Chestplate", null, null);
+                Component.text("Chainmail Chestplate", NamedTextColor.GREEN), null, null);
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null);
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots", null, null);
+                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
@@ -105,10 +105,8 @@ public class Maceman extends CoinKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NameTag.color(p) + p.getName() + ChatColor.AQUA + " blocked your stun"));
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "Your shield broke whilst blocking " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s stun"));
+                    Messenger.sendActionInfo(NameTag.username(p) + "§r blocked your stun", q);
+                    Messenger.sendActionInfo("Your shield broke whilst blocking " + NameTag.username(q) + "§r's stun", p);
                     if (p.getInventory().getItemInMainHand().getType().equals(Material.SHIELD)) {
                         p.getInventory().getItemInMainHand().setAmount(0);
                     } else if (p.getInventory().getItemInOffHand().getType().equals(Material.SHIELD)) {
@@ -116,14 +114,11 @@ public class Maceman extends CoinKit implements Listener {
                     }
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK , 1, 1 );
                 } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NameTag.color(p) + p.getName() + ChatColor.AQUA + " dodged your stun"));
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You dodged " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s stun"));
+                    Messenger.sendActionInfo(NameTag.username(p) + "§r dodged your stun", q);
+                    Messenger.sendActionInfo("You dodged " + NameTag.username(q) + "§r's stun", p);
                 } else {
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You have stunned " + NameTag.color(p) + p.getName()));
-                    p.sendMessage(ChatColor.DARK_RED + "You have been stunned by " + NameTag.color(q) + q.getName() + ChatColor.DARK_RED + "!");
+                    Messenger.sendActionInfo("You have stunned " + NameTag.username(q), p);
+                    Messenger.sendActionWarning("You have been stunned by " + NameTag.username(p) + "§r!", q);
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 60, 1)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 60, 2)));
@@ -139,20 +134,20 @@ public class Maceman extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A melee kit that can stun");
-        kitLore.add("§7opponents, making them weaker");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A melee kit that can stun", NamedTextColor.GRAY));
+        kitLore.add(Component.text("opponents, making them weaker", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(" ");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Maceman can stun their target,");
-        kitLore.add("§7slowing, blinding and confusing the target for 3s.");
-        kitLore.add("§7Also deals bonus DMG");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can break a shield when the opponent is");
-        kitLore.add("§7actively blocking when stunned");
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Maceman can stun their target,", NamedTextColor.GRAY));
+        kitLore.add(Component.text("slowing, blinding and confusing the target for 3s.", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Also deals bonus DMG", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can break a shield when the opponent is", NamedTextColor.GRAY));
+        kitLore.add(Component.text("actively blocking when stunned", NamedTextColor.GRAY));
         return kitLore;
     }
 }

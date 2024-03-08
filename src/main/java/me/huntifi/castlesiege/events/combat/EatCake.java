@@ -7,10 +7,7 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Medic;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Cake;
@@ -54,13 +51,12 @@ public class EatCake implements Listener {
             if (canEatCake(eater, placer)) {
                 // Send messages and award heal
                 if (placer != null && !Objects.equals(eater, placer)) {
-                    Messenger.sendActionInfo(NameTag.color(placer) + placer.getName() + ChatColor.AQUA + "'s cake is healing you!", eater);
-                    Messenger.sendActionInfo("Your cake is healing " + NameTag.color(eater) + eater.getName(), placer);
+                    Messenger.sendActionInfo(NameTag.mmUsername(placer) + "'s cake is healing you!", eater);
+                    Messenger.sendActionSuccess("Your cake is healing " + NameTag.mmUsername(eater), placer);
                     UpdateStats.addHeals(placer.getUniqueId(), 1);
 
                 } else {
-                    eater.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "The cake is healing you!"));
+                    Messenger.sendHealing("The cake is healing you!", eater);
                 }
 
                 // Eat cake

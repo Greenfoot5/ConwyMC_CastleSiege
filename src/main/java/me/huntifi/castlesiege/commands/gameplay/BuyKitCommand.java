@@ -6,7 +6,6 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -52,7 +51,7 @@ public class BuyKitCommand implements TabExecutor {
             if (args.length == 2) {
                 receiver = Bukkit.getPlayer(args[1]);
                 if (receiver == null) {
-                    Messenger.sendError("Could not find player: " + ChatColor.RED + args[1], sender);
+                    Messenger.sendError("Could not find player: <red>" + args[1], sender);
                     return;
                 }
             } else {
@@ -108,7 +107,7 @@ public class BuyKitCommand implements TabExecutor {
         if (args.length == 2) {
             receiver = Bukkit.getPlayer(args[1]);
             if (receiver == null) {
-                Messenger.sendError("Could not find player: " + ChatColor.RED + args[1], sender);
+                Messenger.sendError("Could not find player: <red>" + args[1], sender);
                 receiver = buyer;
             }
         } else {

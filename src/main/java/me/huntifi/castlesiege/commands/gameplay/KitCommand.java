@@ -5,7 +5,6 @@ import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.gui.KitGUIs;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabExecutor;
@@ -35,14 +34,14 @@ public class KitCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage("Console cannot select kits!");
+            Messenger.sendError("Console cannot select kits!", sender);
             return true;
         }
 
         assert sender instanceof Player;
         Player p = (Player) sender;
 
-        if (MapController.getPlayers().contains(p.getUniqueId())) {
+        if (!MapController.getPlayers().contains(p.getUniqueId())) {
             Messenger.sendError("You must be on a team to select a kit!", sender);
             return true;
         }

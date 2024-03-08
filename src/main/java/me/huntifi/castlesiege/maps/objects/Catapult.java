@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -245,7 +246,7 @@ public class Catapult implements Listener {
 
             // Update the sign
             Sign sign = (Sign) target.getState();
-            sign.getSide(Side.FRONT).setLine(2, aimVertical + "");
+            sign.getSide(Side.FRONT).line(2, Component.text(aimVertical));
             sign.update();
         }
     }
@@ -273,7 +274,7 @@ public class Catapult implements Listener {
 
             // Update the sign
             Sign sign = (Sign) target.getState();
-            sign.getSide(Side.FRONT).setLine(2, aimHorizontal + "");
+            sign.getSide(Side.FRONT).line(2, Component.text(aimHorizontal));
             sign.update();
         }
     }

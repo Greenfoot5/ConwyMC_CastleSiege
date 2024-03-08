@@ -8,10 +8,7 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.maps.events.RamEvent;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -163,8 +160,7 @@ public class Gate implements Listener {
                 assert event.getClickedBlock() != null;
                 if (isGateBlock(event.getClickedBlock())) {
                     if (!player.isSprinting()) {
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                                TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "You need to sprint in order to bash the gate!"));
+                        Messenger.sendError("You need to sprint in order to bash the gate!", player);
                         return;
                     }
 
@@ -209,8 +205,7 @@ public class Gate implements Listener {
                 Player player = Bukkit.getPlayer(uuid);
                 if (player == null)
                     continue;
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        String.format("%s%sGate Health: %d", ChatColor.GRAY, ChatColor.BOLD, health)));
+                Messenger.sendAction(String.format("<gray><b>Gate Health: %d", health), player);
             }
 
             new BukkitRunnable() {

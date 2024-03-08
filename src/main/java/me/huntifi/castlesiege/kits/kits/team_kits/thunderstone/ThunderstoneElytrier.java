@@ -10,8 +10,9 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -55,49 +56,52 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Sword", null, null, 30);
+                Component.text("Sword", NamedTextColor.GREEN), null, null, 30);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        ChatColor.GREEN + "Sword",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Sword", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.ELYTRA),
-                ChatColor.GOLD + "Elytra", null, null);
+                Component.text("Elytra", NamedTextColor.GOLD), null, null);
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(236, 173, 91));
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots", null, null,
+                Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(236, 173, 91));
         // Voted boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(236, 173, 91));
 
         // Weapon
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.SNOWBALL, 3),
-                ChatColor.GREEN + "Small Bomb",
-                Collections.singletonList(ChatColor.AQUA + "Right-click to drop a bomb which explodes after 5 seconds!"), null);
+                Component.text("Small Bomb", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("Right-click to drop a bomb which explodes after 5 seconds",
+                        NamedTextColor.AQUA)), null);
 
         // Ability
         es.hotbar[3] = ItemCreator.item(new ItemStack(Material.FIREWORK_ROCKET),
-                ChatColor.GREEN + "Small Boost",
-                Collections.singletonList(ChatColor.AQUA + "Right-click to go a little faster!"), null);
+                Component.text("Small Boost", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("Right-click to go a little faster",
+                        NamedTextColor.AQUA)), null);
 
         // Support Ability
         es.hotbar[4] = ItemCreator.item(new ItemStack(Material.RED_DYE),
-                ChatColor.GREEN + "Drop support potion",
-                Collections.singletonList(ChatColor.AQUA + "Right-click to drop a health/speed potion."), null);
+                Component.text("Support Potion", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("Right-click to drop a health/speed potion",
+                        NamedTextColor.AQUA)), null);
 
         // Ladders
         es.hotbar[2] = new ItemStack(Material.LADDER, 4);
@@ -171,9 +175,9 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                         p.setCooldown(Material.FIREWORK_ROCKET, 40);
                         p.setVelocity(p.getVelocity().multiply(3.5));
                     } else if (!p.isGliding()){
-                        Messenger.sendActionError(ChatColor.BOLD + "You can't launch yourself whilst not gliding!", p);
+                        Messenger.sendActionError("You can't launch yourself whilst not gliding!", p);
                     } else {
-                        Messenger.sendActionError(ChatColor.BOLD + "You can't launch yourself forward yet!", p);
+                        Messenger.sendActionError("You can't launch yourself forward yet!", p);
                     }
                     e.setCancelled(true);
                 }
@@ -216,9 +220,9 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
 
                         p.setCooldown(Material.RED_DYE, POTION_COOLDOWN);
                     } else if (!p.isGliding()){
-                        Messenger.sendActionError(ChatColor.BOLD + "You can't drop a heal whilst not gliding!", p);
+                        Messenger.sendActionError("You can't drop a heal whilst not gliding!", p);
                     } else {
-                        Messenger.sendActionError(ChatColor.BOLD + "You can't do a health drop just yet!", p);
+                        Messenger.sendActionError("You can't do a health drop just yet!", p);
                     }
                 }
             }
@@ -252,9 +256,9 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7//TODO - Add kit description");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
         return description;
     }
 }

@@ -83,7 +83,7 @@ public class MapProtection implements Listener {
 			case SWEET_BERRY_BUSH:
 
 			case FERN:
-			case GRASS:
+			case SHORT_GRASS:
 			case LARGE_FERN:
 			case TALL_GRASS:
 

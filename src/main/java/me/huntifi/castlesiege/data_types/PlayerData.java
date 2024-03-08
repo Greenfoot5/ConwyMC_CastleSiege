@@ -62,7 +62,7 @@ public class PlayerData {
      * @throws SQLException If the columns don't match up
      */
     public PlayerData(ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
-                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, boolean isMatch, ArrayList<Booster> boosters) throws SQLException {
+                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, ArrayList<Booster> boosters) throws SQLException {
 
         this.unlockedKits = unlockedKits;
         this.foundSecrets = foundSecrets;

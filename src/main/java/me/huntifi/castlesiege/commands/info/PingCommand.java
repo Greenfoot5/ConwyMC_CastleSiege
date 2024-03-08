@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.commands.info;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,7 +25,7 @@ public class PingCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (sender instanceof ConsoleCommandSender && args.length == 0) {
-			sender.sendMessage("Console cannot use /ping!");
+			Messenger.sendError("Console cannot use <yellow>/ping</yellow>!", sender);
 			return true;
 		}
 
@@ -36,13 +35,13 @@ public class PingCommand implements CommandExecutor {
 		} else {
 			t = Bukkit.getPlayer(args[0]); //get target player specified in arg
 			if (t == null) { //if target does not exist/is not online
-				Messenger.sendError("Could not find player: "  + ChatColor.RED + args[0], sender);
+				Messenger.sendError("Could not find player: <red>" + args[0], sender);
 				return true;
 			}
 		}
 
 		String innerMessage = args.length == 0 ? "Your ": t.getName() + "'s ";
-		Messenger.sendInfo(innerMessage + "ping is " + ChatColor.AQUA + getPing(t) + ChatColor.DARK_AQUA + "ms.", sender);
+		Messenger.sendInfo(innerMessage + "ping is <aqua>" + getPing(t) + "</aqua>ms.", sender);
 		return true;
 	}
 

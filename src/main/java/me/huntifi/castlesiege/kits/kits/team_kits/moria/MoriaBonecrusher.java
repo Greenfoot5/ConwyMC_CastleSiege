@@ -1,14 +1,14 @@
 package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.NameTag;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -39,32 +39,34 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.BONE),
-                ChatColor.GREEN + "Crushing Bone", null, null, 38);
+                Component.text("Crushing Bone", NamedTextColor.GREEN), null, null, 38);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.BONE),
-                        ChatColor.GREEN + "Crushing Bone",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Crushing Bone", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 40),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Leather Chestplate", null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(21, 51, 10));
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(68, 65, 12));
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots", null, Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 1)));
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- Depth Strider I", NamedTextColor.AQUA)),
+                Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 1)));
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider III"),
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider III", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3)));
 
         // Ladders
@@ -100,19 +102,14 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NameTag.color(p) + p.getName() + ChatColor.AQUA + " blocked your crushing stun"));
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You blocked " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s crushing stun"));
+                    Messenger.sendWarning(NameTag.mmUsername(p) + " blocked your crushing stun!", q);
+                    Messenger.sendSuccess("You blocked " + NameTag.mmUsername(q) + "'s crushing stun!", p);
                 } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            NameTag.color(p) + p.getName() + ChatColor.AQUA + " dodged your crushing stun"));
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You dodged " + NameTag.color(q) + q.getName() + ChatColor.AQUA + "'s crushing stun"));
+                    Messenger.sendWarning(NameTag.mmUsername(p) + " dodged your crushing stun!", q);
+                    Messenger.sendSuccess("You dodged " + NameTag.mmUsername(q) + "'s crushing stun!", p);
                 } else {
-                    q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                            ChatColor.AQUA + "You have crushed & stunned " + NameTag.color(p) + p.getName()));
-                    p.sendMessage(ChatColor.DARK_RED + "You have been crush-stunned by " + NameTag.color(q) + q.getName() + ChatColor.DARK_RED + "!");
+                    Messenger.sendSuccess("You have crushed " + NameTag.mmUsername(p), q);
+                    Messenger.sendWarning("You have been crushed by " + NameTag.mmUsername(q) + "!", p);
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BONE_BLOCK_BREAK , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 50, 6)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 5)));
@@ -122,9 +119,9 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> description = new ArrayList<>();
-        description.add("§7//TODO - Add kit description");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
         return description;
     }
 }

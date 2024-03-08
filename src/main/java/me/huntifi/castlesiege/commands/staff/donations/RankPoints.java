@@ -7,8 +7,8 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.Permissions;
 import me.huntifi.castlesiege.database.StoreData;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -48,7 +48,7 @@ public class RankPoints implements CommandExecutor {
                     // Get the player's stored rank points
                     double rp = LoadData.getRankPoints(args[0]);
                     if (rp < 0) {
-                        sender.sendMessage(ChatColor.DARK_RED + "Could not find player: " + ChatColor.RED + args[0]);
+                        Messenger.sendError("Could not find player: <red>" + args[0], sender);
                         return;
                     }
 
@@ -64,18 +64,17 @@ public class RankPoints implements CommandExecutor {
                             setRankPoints(sender, args[0], Math.max(rp - Double.parseDouble(args[2]), 0));
                             break;
                         default:
-                            sender.sendMessage(ChatColor.DARK_RED + "The operation " + ChatColor.RED + args[1]
-                                    + ChatColor.DARK_RED + " is not supported!");
-                            sender.sendMessage(ChatColor.DARK_RED + "Please use one of the following: "
-                                    + ChatColor.RED + "set, add, remove");
+                            Messenger.sendError("The operation <red>" + args[1] +
+                                    "</red> is not supported!<br>" +
+                                    "Please use one of the following: <red>set, add, remove</red>", sender);
                             break;
                     }
 
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(ChatColor.DARK_RED + "The argument " + ChatColor.RED + args[2]
-                            + ChatColor.DARK_RED + " is not a number!");
+                    Messenger.sendError("The argument <red>" + args[2]
+                            + "</red> is not a number!", sender);
                 } catch (SQLException e) {
-                    sender.sendMessage(ChatColor.DARK_RED + "An error occurred while trying to perform your command!");
+                    Messenger.sendError("An error occurred while trying to perform your command!", sender);
                     e.printStackTrace();
                 }
             }
@@ -93,7 +92,7 @@ public class RankPoints implements CommandExecutor {
     private void setRankPoints(CommandSender s, String name, double rp) {
         StoreData.updateRank(name, rp);
         updateOnline(name, rp);
-        s.sendMessage(ChatColor.GREEN + name + " now has " + ChatColor.YELLOW + rp + ChatColor.GREEN + " rank points.");
+        Messenger.sendSuccess("<green>" + name + "</green> now has <yellow>" + rp + "</yellow> rank points.", s);
     }
 
     /**

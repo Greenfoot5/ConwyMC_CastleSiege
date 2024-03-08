@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -13,9 +14,8 @@ import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -64,27 +64,23 @@ public class Warhound extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
-                ChatColor.RED + "Fangs " + ChatColor.GRAY + "(Right Click)", Arrays.asList("",
-                        ChatColor.GRAY + "Warhound main ability",
-                        ChatColor.WHITE + "",
-                        ChatColor.WHITE + "Description:",
-                        ChatColor.RED + "Immobilise your enemies, making them",
-                        ChatColor.RED + "slow and also you for a short period of time and",
-                        ChatColor.RED + "you can also slow down horses.",
-                        ChatColor.RED + "Has a 12 second cooldown."), null, 20);
+                Component.text("Fangs ", NamedTextColor.GREEN).append(Component.text("(Right Click)", NamedTextColor.GRAY)),
+                        Arrays.asList(Component.empty(),
+                        Component.text("Immobilise your enemies, making them", NamedTextColor.AQUA),
+                        Component.text("slow and also you for a short period of time and", NamedTextColor.AQUA),
+                        Component.text("you can also slow down horses.", NamedTextColor.AQUA),
+                        Component.text("Has a 12 second cooldown.", NamedTextColor.AQUA)), null, 20);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
-                        ChatColor.RED + "Fangs" + ChatColor.GRAY + "(Right Click)",
-                        Arrays.asList("",
-                                ChatColor.GRAY + "Warhound main ability",
-                                ChatColor.WHITE + "",
-                                ChatColor.WHITE + "Description:",
-                                ChatColor.RED + "Immobilise your enemies, making them",
-                                ChatColor.RED + "slow and also you for a short period of time and",
-                                ChatColor.RED + "you can also slow down horses.",
-                                ChatColor.RED + "Has a 12 second cooldown.",
-                                ChatColor.AQUA + "+2 damage"),
+                        Component.text("Fangs ", NamedTextColor.GREEN).append(Component.text("(Right Click)", NamedTextColor.GRAY)),
+                        Arrays.asList(Component.empty(),
+                                Component.text("Immobilise your enemies, making them", NamedTextColor.AQUA),
+                                Component.text("slow and also you for a short period of time and", NamedTextColor.AQUA),
+                                Component.text("you can also slow down horses.", NamedTextColor.AQUA),
+                                Component.text("Has a 12 second cooldown.", NamedTextColor.AQUA),
+                                Component.empty(),
+                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 30),
                 0);
 
@@ -199,10 +195,8 @@ public class Warhound extends CoinKit implements Listener {
 
             // Activate stun
             q.setCooldown(Material.GHAST_TEAR, 240);
-            q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.AQUA + "You immobilised " + NameTag.color(p) + p.getName() + ChatColor.AQUA + "."));
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.DARK_RED + "You have been immobilised by " + NameTag.color(q) + q.getName() + ChatColor.DARK_RED + "!"));
+            Messenger.sendSuccess("You immobilised " + NameTag.mmUsername(p) + ".", q);
+            Messenger.sendWarning("You have been immobilised by " + NameTag.mmUsername(q) + "!", p);
             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 1 );
 
             // Apply potion effects
@@ -239,8 +233,7 @@ public class Warhound extends CoinKit implements Listener {
 
             // Activate stun
             q.setCooldown(Material.GHAST_TEAR, 240);
-            q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.AQUA + "You immobilised " + Objects.requireNonNull(h.getOwner()).getName() + ChatColor.AQUA + "'s horse."));
+            Messenger.sendActionSuccess("You immobilised <aqua>" + Objects.requireNonNull(h.getOwner()) + "</aqua>'s horse.", q);
             h.getWorld().playSound(h.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 1 );
 
             // Apply potion effects
@@ -297,26 +290,26 @@ public class Warhound extends CoinKit implements Listener {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A quick a ferocious hound. Hard to hit and bites hard");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A quick a ferocious hound. Hard to hit and bites hard", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Resistance I");
-        kitLore.add("§7- Jump Boost I");
-        kitLore.add("§7- Night Vision I");
-        kitLore.add("§7- Speed III");
-        kitLore.add(" ");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Can bite enemies to briefly immobilise them");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Slows enemies when hitting them");
-        kitLore.add("§7- Can see players' health");
-        kitLore.add("§7- Has a coloured collar to represent team");
-        kitLore.add("§c- Cannot cap flags");
-        kitLore.add("§c- Cannot climb");
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Resistance I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Jump Boost I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Night Vision I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Speed III", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can bite enemies to briefly immobilise them", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Slows enemies when hitting them", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Has a coloured collar to represent team", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Cannot cap flags", NamedTextColor.RED));
+        kitLore.add(Component.text("- Cannot climb", NamedTextColor.RED));
         return kitLore;
     }
 }

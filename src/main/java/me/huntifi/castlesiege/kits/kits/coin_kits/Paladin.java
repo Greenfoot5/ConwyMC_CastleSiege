@@ -3,16 +3,16 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -57,24 +57,24 @@ public class Paladin extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GOLDEN_AXE),
-                ChatColor.GREEN + "Holy Hammer", null, null, meleeDamage);
+                Component.text("Holy Hammer", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.GOLDEN_AXE),
-                        ChatColor.GREEN + "Holy Hammer",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Holy Hammer", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_UNDEAD, 5)), meleeDamage + 2),
                 0);
 
         // Weapon
         es.offhand = ItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
-                ChatColor.GREEN + "Blessed Shield",
-                Collections.singletonList(ChatColor.AQUA + "Right-click block."),
+                Component.text("Blessed Shield", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("Right-click block.", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)) , 10);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
-                ChatColor.GREEN + "Blessed Chestplate", null, null);
+                Component.text("Blessed Chestplate", NamedTextColor.GREEN), null, null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
@@ -84,7 +84,7 @@ public class Paladin extends CoinKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
-                ChatColor.GREEN + "Blessed Iron Leggings", null, null);
+                Component.text("Blessed Iron Leggings", NamedTextColor.GREEN), null, null);
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
         assert legs != null;
@@ -94,11 +94,11 @@ public class Paladin extends CoinKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
-                ChatColor.GREEN + "Paladin Boots", null, null);
+                Component.text("Paladin Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
-                ChatColor.GREEN + "Paladin Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Paladin Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
         ItemMeta boots = es.feet.getItemMeta();
         ArmorMeta bootsMeta = (ArmorMeta) boots;
@@ -110,12 +110,13 @@ public class Paladin extends CoinKit implements Listener {
 
         // divine blessing
         ItemStack divine = ItemCreator.weapon(new ItemStack(Material.BOOK, 3),
-                ChatColor.GOLD + "Divine Blessing", Arrays.asList("",
-                        ChatColor.YELLOW + "Give yourself regeneration VI and give",
-                        ChatColor.YELLOW + "your allies in a 5 block radius of you",
-                        ChatColor.YELLOW + "regeneration V.",
-                        ChatColor.YELLOW + "This effect lasts 8 seconds, ",
-                        ChatColor.YELLOW + "has a cooldown of 25 seconds."),
+                Component.text("Divine Blessing", NamedTextColor.GOLD),
+                Arrays.asList(Component.empty(),
+                        Component.text("Give yourself regeneration VI and give", NamedTextColor.AQUA),
+                        Component.text("your allies in a 5 block radius of you", NamedTextColor.AQUA),
+                        Component.text("regeneration V.", NamedTextColor.AQUA),
+                        Component.text("This effect lasts 8 seconds, ", NamedTextColor.AQUA),
+                        Component.text("has a cooldown of 25 seconds.", NamedTextColor.AQUA)),
                 null, 1);
         es.hotbar[1] = divine;
 
@@ -133,8 +134,7 @@ public class Paladin extends CoinKit implements Listener {
     public void bless(Player blesser, Player blessed) {
 
         blesser.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
-        blesser.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                ChatColor.AQUA + "You blessed your surroundings!"));
+        Messenger.sendActionInfo("You blessed your surroundings!", blesser);
         mythicParticle(blesser);
 
         if (TeamController.getTeam(blesser.getUniqueId()) == TeamController.getTeam(blessed.getUniqueId())
@@ -191,22 +191,22 @@ public class Paladin extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A tank/support kit that can");
-        kitLore.add("§7bless allies around it");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A tank/support kit that can", NamedTextColor.GRAY));
+        kitLore.add(Component.text("bless allies around it", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Mining Fatigue I");
-        kitLore.add(" ");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Can cast a blessing that gives");
-        kitLore.add("§7regen VI to itself and regen V to all");
-        kitLore.add("§7allies in a 5 block radius for 8 seconds");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- Can see players' health");
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Mining Fatigue I", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can cast a blessing that gives", NamedTextColor.GRAY));
+        kitLore.add(Component.text("regen VI to itself and regen V to all", NamedTextColor.GRAY));
+        kitLore.add(Component.text("allies in a 5 block radius for 8 seconds", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
         return kitLore;
     }
 }

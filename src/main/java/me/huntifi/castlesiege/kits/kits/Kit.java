@@ -19,8 +19,11 @@ import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -57,7 +60,7 @@ public abstract class Kit implements CommandExecutor, Listener {
 
     public final String name;
     public final int baseHealth;
-    public final ChatColor color;
+    public final NamedTextColor color;
     public double kbResistance;
     protected final double regenAmount;
 
@@ -100,7 +103,7 @@ public abstract class Kit implements CommandExecutor, Listener {
      * @param material The material to represent the kit in GUIs
      * @param color The chat colour for the kit
      */
-    public Kit(String name, int baseHealth, double regenAmount, Material material, ChatColor color) {
+    public Kit(String name, int baseHealth, double regenAmount, Material material, NamedTextColor color) {
         this.name = name;
         this.color = color;
         this.baseHealth = baseHealth;
@@ -247,7 +250,7 @@ public abstract class Kit implements CommandExecutor, Listener {
                 if (!InCombat.isPlayerInLobby(uuid)) {
                     Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
                     if (MapController.isOngoing()) {
-                        Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", player);
+                        Messenger.sendInfo("You have committed suicide <dark_aqua>(+2 deaths)", player);
                         UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
                     } else {
                         Messenger.sendInfo("You have committed suicide!", player);
@@ -281,7 +284,7 @@ public abstract class Kit implements CommandExecutor, Listener {
             }
         }
         else {
-            disguise.getWatcher().setCustomName(NameTag.color(p) + p.getName());
+            disguise.getWatcher().setCustomName(MiniMessage.miniMessage().serialize(NameTag.username(p)));
             disguise.setCustomDisguiseName(true);
             disguise.setHearSelfDisguise(true);
             disguise.setSelfDisguiseVisible(false);
@@ -304,7 +307,7 @@ public abstract class Kit implements CommandExecutor, Listener {
 
         if (canSeeHealth && healthDisplay == null) {
             scoreboard.registerNewObjective("healthDisplay", Criteria.HEALTH,
-                    ChatColor.DARK_RED + "❤").setDisplaySlot(DisplaySlot.BELOW_NAME);
+                    Component.text("❤").color(NamedTextColor.DARK_RED)).setDisplaySlot(DisplaySlot.BELOW_NAME);
         } else if (!canSeeHealth && healthDisplay != null){
             healthDisplay.unregister();
             scoreboard.clearSlot(DisplaySlot.BELOW_NAME);
@@ -458,7 +461,7 @@ public abstract class Kit implements CommandExecutor, Listener {
     /**
      * @return The description to display in the kit gui
      */
-    public abstract ArrayList<String> getGuiDescription();
+    public abstract ArrayList<Component> getGuiDescription();
 
     /**
      * @param health The health of the kit
@@ -467,14 +470,14 @@ public abstract class Kit implements CommandExecutor, Listener {
      * @param ladders The number of ladders the kit starts with
      * @return A simple display with these stats listed
      */
-    protected ArrayList<String> getBaseStats(int health, double regen, double meleeDamage,  int ladders) {
-        ArrayList<String> baseStats = new ArrayList<>();
-        baseStats.add(" ");
-        baseStats.add(color.toString() + health + " §7HP");
-        baseStats.add(color.toString() + regen + " §7Regen");
-        baseStats.add(color.toString() + meleeDamage + " §7Melee DMG");
+    protected ArrayList<Component> getBaseStats(int health, double regen, double meleeDamage,  int ladders) {
+        ArrayList<Component> baseStats = new ArrayList<>();
+        baseStats.add(Component.empty());
+        baseStats.add(Component.text(health, color).append(Component.text(" HP", NamedTextColor.GRAY)));
+        baseStats.add(Component.text(regen, color).append(Component.text(" Regen", NamedTextColor.GRAY)));
+        baseStats.add(Component.text(meleeDamage, color).append(Component.text(" Melee DMG", NamedTextColor.GRAY)));
         if (ladders > 0)
-            baseStats.add(color.toString() + ladders + " §7Ladders");
+            baseStats.add(Component.text(ladders, color).append(Component.text(" Ladders", NamedTextColor.GRAY)));
         return baseStats;
     }
 
@@ -485,25 +488,25 @@ public abstract class Kit implements CommandExecutor, Listener {
      * @param ladders The number of ladders the kit starts with
      * @return A simple display with these stats listed
      */
-    protected ArrayList<String> getBaseStats(int health, double regen, double meleeDamage, double rangedDamage,
+    protected ArrayList<Component> getBaseStats(int health, double regen, double meleeDamage, double rangedDamage,
                                                     int ladders, int ammo) {
-        ArrayList<String> baseStats = new ArrayList<>();
-        baseStats.add(" ");
-        baseStats.add(color.toString() + health + " §7HP");
-        baseStats.add(color.toString() + regen + " §7Regen");
-        baseStats.add(color.toString() + meleeDamage + " §7Melee DMG");
-        baseStats.add(color.toString() + rangedDamage + "+ §7Ranged DMG");
+        ArrayList<Component> baseStats = new ArrayList<>();
+        baseStats.add(Component.empty());
+        baseStats.add(Component.text(health, color).append(Component.text(" HP", NamedTextColor.GRAY)));
+        baseStats.add(Component.text(regen, color).append(Component.text(" Regen", NamedTextColor.GRAY)));
+        baseStats.add(Component.text(meleeDamage, color).append(Component.text(" Melee DMG", NamedTextColor.GRAY)));
+        baseStats.add(Component.text(rangedDamage + "+", color).append(Component.text(" Ranged DMG", NamedTextColor.GRAY)));
         if (ladders > 0)
-            baseStats.add(color.toString() + ladders + " §7Ladders");
+            baseStats.add(Component.text(ladders, color).append(Component.text(" Ladders", NamedTextColor.GRAY)));
         if (ammo > 0)
-            baseStats.add(color.toString() + ammo + " §7Ammo");
+            baseStats.add(Component.text(ammo, color).append(Component.text(" Ammo", NamedTextColor.GRAY)));
         return baseStats;
     }
 
-    public ArrayList<String> getGuiCostText() {
-        ArrayList<String> text = new ArrayList<>();
-        text.add(" ");
-        text.add("§lApparently, it's a secret...");
+    public ArrayList<Component> getGuiCostText() {
+        ArrayList<Component> text = new ArrayList<>();
+        text.add(Component.empty());
+        text.add(Component.text("Apparently, it's a secret...").decorate(TextDecoration.BOLD));
         return text;
     }
 

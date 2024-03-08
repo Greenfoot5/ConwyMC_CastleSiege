@@ -24,9 +24,15 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.maps.objects.*;
+import me.huntifi.castlesiege.maps.objects.Catapult;
+import me.huntifi.castlesiege.maps.objects.Core;
+import me.huntifi.castlesiege.maps.objects.Door;
+import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.maps.objects.Ram;
 import me.huntifi.castlesiege.secrets.SecretItems;
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.Sound;
@@ -54,7 +60,8 @@ public class MapController {
 
 	// Boosters - chances
 	private static final double BASE_BOOSTER_CHANCE = 0.15;
-	private static final double COIN_BOOSTER_CHANCE = 0.35;
+	private static final double COIN_BOOSTER_CHANCE = 0.5;
+	//private static final double KIT_BOOSTER_CHANCE = 0.5; // Not actually used, set for reference
 
 	// Boosters - limits/sub-chances
 	private static final int COIN_BOOSTER_MAX_TIME = 9000;
@@ -219,9 +226,9 @@ public class MapController {
 						// If two teams are the largest, we set up for a draw
 					}
 
-					//else if (flagCounts.get(teamName).equals(flagCounts.get(currentWinners))) {
-						//winners = null;
-					//}
+					else if (flagCounts.get(teamName).equals(flagCounts.get(currentWinners))) {
+						winners = null;
+					}
 				}
 				break;
 		}
@@ -247,17 +254,13 @@ public class MapController {
 		// Broadcast the winners
 		if (winners != null) {
 			for (Team team : getCurrentMap().teams) {
-				Bukkit.broadcastMessage("");
 				if (team.name.equals(winners)) {
-					Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has won!~~~~~~~~");
+					Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has won!~~~~~~~~", team.primaryChatColor));
 				} else {
-					Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has lost!~~~~~~~~");
+					Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has lost!~~~~~~~~", team.primaryChatColor));
 				}
 
-				// Broadcast MVP
-				for (String message : MVPCommand.getMVPMessage(team)) {
-					Bukkit.broadcastMessage(message);
-				}
+				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 
 				if (team.name.equals(winners)) {
 					giveCoinReward(team);
@@ -267,13 +270,9 @@ public class MapController {
 		// The map was a draw
 		} else {
 			for (Team team : getCurrentMap().teams) {
-				Bukkit.broadcastMessage("");
-				Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has drawn!~~~~~~~~");
+				Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has drawn!~~~~~~~~", team.primaryChatColor));
 
-				// Broadcast MVP
-				for (String message : MVPCommand.getMVPMessage(team)) {
-					Bukkit.broadcastMessage(message);
-				}
+				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 			}
 		}
 		VoteSkipCommand.clearVotes();
@@ -293,7 +292,8 @@ public class MapController {
 
 	/**
 	 * Gives a 50 coins reward for winning the game, is also affected by coin boosters.
-	 */
+     * @param team The team to grant the coins to
+     */
 	public static void giveCoinReward(Team team) {
 
 		for (UUID uuid : team.getPlayers()) {
@@ -303,7 +303,7 @@ public class MapController {
 
 			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
 				ActiveData.getData(p.getUniqueId()).addCoins(50 * PlayerData.getCoinMultiplier());
-				p.sendMessage(ChatColor.GOLD + "(" + ChatColor.YELLOW + "+" + (50 * PlayerData.getCoinMultiplier()) + " coins for winning" + ChatColor.GOLD + ")");
+				Messenger.sendSuccess("<gold>+" + (50 * PlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
 			}
 		}
 	}
@@ -364,7 +364,7 @@ public class MapController {
 				data.addBooster(booster);
 				Player player = getPlayer(uuid);
 				if (player != null) {
-					Messenger.broadcastSuccess(player.getDisplayName() + " gained a " + booster.getName() + " for being MVP!");
+					Messenger.broadcastSuccess(player.displayName().append(Component.text(" gained a " + booster.getName() + " for being MVP!")));
 				}
 			}
 		}
@@ -381,8 +381,7 @@ public class MapController {
 		if (finalMap()) {
 			Main.instance.getLogger().info("Completed map cycle! Restarting server...");
 			getServer().spigot().restart();
-		}
-		else {
+		} else {
 			mapIndex++;
 			Main.instance.getLogger().info("Loading next map: " + maps.get(mapIndex).name);
 			unloadMap(oldMap);
@@ -425,7 +424,7 @@ public class MapController {
 
 		//Spawn secret items if there are any
 		SecretItems.spawnSecretItems();
-		Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Spawning secret items if there are any.");
+		Main.plugin.getComponentLogger().info(Component.text("Spawning secret items if there are any.", NamedTextColor.DARK_GREEN));
 
 		// Teleport Spectators
 		for (UUID spectator : SpectateCommand.spectators) {
@@ -563,18 +562,18 @@ public class MapController {
 					}
 				}
 
-				for (ArrayList<UUID> t : teams) {
-					for (UUID uuid : t) {
-						Player player = getPlayer(uuid);
-						if (player == null) continue;
-						Team team = TeamController.getTeam(uuid);
-						player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-						player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~");
-						player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-					}
+				for (UUID uuid : getPlayers()) {
+					Player player = getPlayer(uuid);
+					if (player == null) continue;
+					Team team = TeamController.getTeam(uuid);
+					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
+					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
+					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
 				}
 				//enable the bossbars
 				Flag.registerBossbars();
+
+				Scoreboard.clearScoreboard();
 			}
 		}.runTask(Main.plugin);
 
@@ -719,7 +718,7 @@ public class MapController {
 
 		player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_2, 1f, 1f);
 
-		player.sendMessage("You joined" + team.primaryChatColor + " " + team.name);
+		Messenger.send(Component.text("You joined ").append(Component.text(team.name, team.primaryChatColor)), player);
 
 		checkTeamKit(player);
 	}

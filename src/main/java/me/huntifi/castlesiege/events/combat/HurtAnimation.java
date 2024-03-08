@@ -15,8 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * Allows the hurt blockAnimation to trigger without dealing damage
  */
@@ -33,11 +31,7 @@ public class HurtAnimation implements Listener {
         entityStatus.getIntegers().write(0, player.getEntityId());
         entityStatus.getBytes().write(0, (byte) 2);
 
-        try {
-            ProtocolLibrary.getProtocolManager().sendServerPacket(player, entityStatus);
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+        ProtocolLibrary.getProtocolManager().sendServerPacket(player, entityStatus);
     }
 
 
@@ -47,7 +41,7 @@ public class HurtAnimation implements Listener {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player whoWasHit = (Player) e.getEntity();
 
-            whoWasHit.getWorld().spawnParticle(Particle.BLOCK_DUST,
+            whoWasHit.getWorld().spawnParticle(Particle.BLOCK_CRACK,
                     whoWasHit.getLocation().add(0, 0.75, 0),
                     150, 0.1, 0.5, 0.1, Material.REDSTONE_WIRE.createBlockData());
             removeParticle();

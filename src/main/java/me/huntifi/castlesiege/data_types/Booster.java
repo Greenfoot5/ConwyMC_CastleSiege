@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.data_types;
 
 import me.huntifi.castlesiege.Main;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -41,12 +42,12 @@ public abstract class Booster implements Comparable<Booster> {
     /**
      * @return The display name of the booster
      */
-    public abstract String getName();
+    public abstract Component getName();
 
     /**
      * @return The lore used when displaying the booster in a gui
      */
-    public abstract List<String> getLore();
+    public abstract List<Component> getLore();
 
     /**
      * @return Get the duration in a nice day, hour, min, sec format

@@ -9,8 +9,9 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,10 +21,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.UUID;
+
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
 
 /**
  * Shows the player the current MVP(s)
@@ -46,9 +47,7 @@ public class MVPCommand implements CommandExecutor {
                 if (label.equalsIgnoreCase("MVPs")) {
                     // Print the MVP of each team
                     for (Team team : MapController.getCurrentMap().teams) {
-                        for (String message : getMVPMessage(team)) {
-                            sender.sendMessage(message);
-                        }
+                        Messenger.send(getMVPMessage(team), sender);
                     }
 
                 } else if (!(sender instanceof ConsoleCommandSender)) {
@@ -62,13 +61,9 @@ public class MVPCommand implements CommandExecutor {
 
                     UUID uuid = p.getUniqueId();
                     Team t = TeamController.getTeam(uuid);
-                    for (String message : getMVPMessage(t)) { // Print MVP of sender's team
-                        sender.sendMessage(message);
-                    }
+                    Messenger.send(getMVPMessage(t), sender);
                     if (t.getMVP().getFirst() != uuid) { // Only print sender stats if sender is not MVP
-                        for (String message : getPlayerMessage(uuid)) { // Print stats of sender
-                            sender.sendMessage(message);
-                        }
+                        Messenger.send(getPlayerMessage(uuid), sender);
                     }
 
                 } else {
@@ -84,7 +79,7 @@ public class MVPCommand implements CommandExecutor {
      * Get the MVP message for a player
      * @param uuid The unique ID of the player
      */
-    private Collection<String> getPlayerMessage(UUID uuid) {
+    private Component getPlayerMessage(UUID uuid) {
         PlayerData data = MVPStats.getStats(uuid);
         Team team = TeamController.getTeam(uuid);
         return getMessage(uuid, data, team, false);
@@ -93,12 +88,14 @@ public class MVPCommand implements CommandExecutor {
     /**
      * Get the MVP message for a team
      * @param t The team for which to get the MVP
+     * @return The component message
      */
-    public static Collection<String> getMVPMessage(Team t) {
+    public static Component getMVPMessage(Team t) {
         Tuple<UUID, PlayerData> mvp = t.getMVP();
-        if (mvp == null) {
-            return Collections.singletonList(t.primaryChatColor + t.name + ChatColor.DARK_AQUA
-                    + " MVP: " + ChatColor.WHITE + "N/A");
+        if (mvp == null || mvp.getSecond() == null) {
+            return Component.text(t.name, t.primaryChatColor)
+                    .append(Component.text(" MVP: ", DARK_AQUA))
+                    .append(Component.text("N/A", NamedTextColor.WHITE));
         }
         return getMessage(mvp.getFirst(), mvp.getSecond(), t, true);
     }
@@ -109,30 +106,41 @@ public class MVPCommand implements CommandExecutor {
      * @param t The team that the player is part of
      * @param mvp Whether the player is their team's MVP
      */
-    private static Collection<String> getMessage(UUID uuid, PlayerData data, Team t, boolean mvp) {
-        Collection<String> message = new ArrayList<>();
-
+    private static Component getMessage(UUID uuid, PlayerData data, Team t, boolean mvp) {
+        Component c;
         // Header
         if (mvp) {
-            message.add(t.primaryChatColor + t.name + ChatColor.DARK_AQUA
-                    + " MVP: " + ChatColor.WHITE + Bukkit.getOfflinePlayer(uuid).getName());
+            c = Component.text(t.name, t.primaryChatColor)
+                    .append(Component.text(" MVP ", DARK_AQUA))
+                    .append(Component.text(Bukkit.getOfflinePlayer(uuid).getName(), WHITE));
         } else {
-            message.add(t.primaryChatColor + t.name + ChatColor.DARK_AQUA + " You:");
+            c = Component.text(t.name, t.primaryChatColor)
+                    .append(Component.text(" You:", DARK_AQUA));
         }
 
         // Stats
         DecimalFormat dec = new DecimalFormat("0.00");
         DecimalFormat num = new DecimalFormat("0");
 
-        message.add(ChatColor.DARK_AQUA + "Score " + ChatColor.WHITE + dec.format(data.getScore())
-                + ChatColor.DARK_AQUA + " | Kills " + ChatColor.WHITE + num.format(data.getKills())
-                + ChatColor.DARK_AQUA + " | Deaths " + ChatColor.WHITE + num.format(data.getDeaths())
-                + ChatColor.DARK_AQUA + " | KDR " + ChatColor.WHITE + dec.format(data.getKills() / data.getDeaths())
-                + ChatColor.DARK_AQUA + " | Assists " + ChatColor.WHITE + num.format(data.getAssists()));
-        message.add(ChatColor.DARK_AQUA + " | Captures " + ChatColor.WHITE + num.format(data.getCaptures())
-                + ChatColor.DARK_AQUA + " | Heals " + ChatColor.WHITE + num.format(data.getHeals())
-                + ChatColor.DARK_AQUA + " | Supports " + ChatColor.WHITE + num.format(data.getSupports()));
+        c = c.append(Component.newline())
+                .append(Component.text("Score ", DARK_AQUA))
+                .append(Component.text(dec.format(data.getScore()), WHITE))
+                .append(Component.text(" | Kills ", DARK_AQUA))
+                .append(Component.text(num.format(data.getKills()), WHITE))
+                .append(Component.text(" | Deaths ", DARK_AQUA))
+                .append(Component.text(num.format(data.getDeaths()), WHITE))
+                .append(Component.text(" | KDR ", DARK_AQUA))
+                .append(Component.text(dec.format(data.getKills() / data.getDeaths()), WHITE))
+                .append(Component.text(" | Assists ", DARK_AQUA))
+                .append(Component.text(num.format(data.getAssists()), WHITE));
+        c = c.append(Component.newline())
+                .append(Component.text(" | Captures ", DARK_AQUA))
+                .append(Component.text(num.format(data.getCaptures()), WHITE))
+                .append(Component.text(" | Heals ", DARK_AQUA))
+                .append(Component.text(num.format(data.getCaptures()), WHITE))
+                .append(Component.text(" | Supports ", DARK_AQUA))
+                .append(Component.text(num.format(data.getSupports()), WHITE));
 
-        return message;
+        return c;
     }
 }

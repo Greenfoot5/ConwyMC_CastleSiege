@@ -6,10 +6,7 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Flag;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -48,7 +45,7 @@ public class WoolMapBlock {
                             return;
                         } else if (kit == null) {
                             Messenger.sendError("You can't join the battlefield without a kit/class!", player);
-                            Messenger.sendError("Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!", player);
+                            Messenger.sendError("Choose a kit/class with the command <red>/kit</red>!", player);
                             return;
                         } else {
                             Bukkit.getScheduler().runTask(Main.plugin, () -> {
@@ -58,17 +55,14 @@ public class WoolMapBlock {
                                 // Set kit items
                                 Kit.equippedKits.get(uuid).setItems(uuid, true);
                                 // Spawn player
-                                player.teleport(core.getSpawnPoint(team.name));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                                        TextComponent.fromLegacyText(core.getSpawnMessage()));
+                                player.teleport(core.getSpawnPoint());
                                 // Remove mount
                                 if (player.isInsideVehicle()) {
                                     Objects.requireNonNull(player.getVehicle()).remove();
                                 }
                                 InCombat.playerSpawned(uuid);
                             });
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                                    TextComponent.fromLegacyText(core.getSpawnMessage()));
+                            Messenger.sendActionSpawn(core.name, team.primaryChatColor, team.secondaryChatColor, player);
                         }
                     }
                 }
@@ -83,7 +77,7 @@ public class WoolMapBlock {
                         Messenger.sendActionError("You can't spawn here. This flag is under attack!", player);
                     } else if (kit == null) {
                         Messenger.sendError("You can't join the battlefield without a kit/class!", player);
-                        Messenger.sendError("Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!", player);
+                        Messenger.sendError("Choose a kit/class with the command <red>/kit</red>!", player);
                     } else {
                         Bukkit.getScheduler().runTask(Main.plugin, () -> {
                             // Remove mount
@@ -93,16 +87,13 @@ public class WoolMapBlock {
                             Kit.equippedKits.get(uuid).setItems(uuid, true);
                             // Spawn player
                             player.teleport(flag.getSpawnPoint(team.name));
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                                    TextComponent.fromLegacyText(flag.getSpawnMessage()));
                             // Remove mount
                             if (player.isInsideVehicle()) {
                                 Objects.requireNonNull(player.getVehicle()).remove();
                             }
                             InCombat.playerSpawned(uuid);
                         });
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                                TextComponent.fromLegacyText(flag.getSpawnMessage()));
+                        Messenger.sendActionSpawn(flagName, team.primaryChatColor, team.secondaryChatColor, player);
                     }
                 }
         });

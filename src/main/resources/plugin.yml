@@ -3,8 +3,22 @@ main: me.huntifi.castlesiege.Main
 version: 1.2.5
 api-version: 1.20
 authors: [Huntifi, Greenfoot5, kasteelvuur]
-depend: [Votifier, WorldGuard, NametagEdit, MythicMobs]
-softdepend: [LibsDisguises, WorldEdit]
+depend:
+  - Votifier
+  - WorldGuard
+  - NametagEdit
+  - MythicMobs
+softdepend:
+  - LibsDisguises
+  - WorldEdit
+  # Packets Stuff
+  - ProtocolLib
+  - ProtocolSupport
+  - ViaVersion
+  - ViaBackwards
+  - ViaRewind
+  - Geyser-Spigot
+  # End Packets Stuff
 load: STARTUP
 
 permissions:
@@ -421,17 +435,21 @@ commands:
   # Donations
   Unlockkit:
     description: Unlocks a kit for a player.
-    usage: /Unlockkit <Player Name> <add/remove> <Kit Name> <Time> <IsDonated:true/false>
+    usage: /unlockkit <Player Name> <add/remove> <Kit Name> <Time> <IsDonated:true/false>
     permission: castlesiege.developer
-    permission-message: You should donate or pay coins instead!
+    permission-message: Try /buykit instead
   Webshop:
-    description: Sends the link of the webshop to the commandsender.
+    description: Displays the link to support the server.
     usage: /Webshop
     aliases:
       - donate
+      - kofi
+      - ko-fi
+      - support
+      - shop
   Coinshop:
     description: Open the coinshop for the player.
-    usage: /Coinshop
+    usage: /coinshop
   buykit:
     description: Buy a kit with coins
     usage: /buykit <kit> [player]

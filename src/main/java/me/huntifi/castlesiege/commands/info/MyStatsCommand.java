@@ -4,9 +4,12 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,6 +22,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
+
+import static me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard.gradient;
 
 /**
  * Shows the player's stats
@@ -36,7 +41,7 @@ public class MyStatsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage("Console does not have any stats!");
+            Messenger.sendError("Console does not have any stats!", sender);
             return true;
         }
 
@@ -59,28 +64,54 @@ public class MyStatsCommand implements CommandExecutor {
     private ItemStack myStatsBook(Player p) {
         BookMeta meta = (BookMeta) Bukkit.getItemFactory().getItemMeta(Material.WRITTEN_BOOK);
         assert meta != null;
-        meta.setTitle(ChatColor.GREEN + p.getName() + ChatColor.WHITE + "'s Stats.");
-        meta.setAuthor(ChatColor.RED + "Hunt von Huntington");
+        meta.title(Component.text(p.getName(), NamedTextColor.GREEN)
+                .append(Component.text("'s Stats", NamedTextColor.WHITE)));
+        meta.author(Component.text("Hunt von Huntington", NamedTextColor.RED));
 
         PlayerData data = ActiveData.getData(p.getUniqueId());
         DecimalFormat dec = new DecimalFormat("0.00");
         DecimalFormat num = new DecimalFormat("0");
+        MiniMessage mm = MiniMessage.miniMessage();
 
-        meta.addPage(ChatColor.BLACK + "Name: " + ChatColor.DARK_GRAY + p.getName() + "\n\n"
-                + ChatColor.BLACK + "Rank: " + NameTag.convertRank(data.getStaffRank()) + "\n"
-                + ChatColor.BLACK + "Donator: " + NameTag.convertRank(data.getRank()) + "\n\n"
-                + ChatColor.BLACK + "Score: " + ChatColor.DARK_GRAY + dec.format(data.getScore()) + "\n"
-                + ChatColor.DARK_GREEN + "Kills: " + ChatColor.DARK_GRAY + num.format(data.getKills()) + "\n"
-                + ChatColor.RED + "Deaths: " + ChatColor.DARK_GRAY + num.format(data.getDeaths()) + "\n"
-                + ChatColor.BLACK + "KDR: " + ChatColor.DARK_GRAY + dec.format((data.getKills() / data.getDeaths())) + "\n"
-                + ChatColor.BLACK + "Assists: " + ChatColor.DARK_GRAY + num.format(data.getAssists()) + "\n"
-                + ChatColor.BLACK + "Captures: " + ChatColor.DARK_GRAY + num.format(data.getCaptures()) + "\n"
-                + ChatColor.BLACK + "Heals: " + ChatColor.DARK_GRAY + num.format(data.getHeals()) + "\n"
-                + ChatColor.BLACK + "Supports: " + ChatColor.DARK_GRAY + num.format(data.getSupports()) + "\n"
-                + ChatColor.BLACK + "Kill Streak: " + ChatColor.DARK_GRAY + num.format(data.getMaxKillStreak()),
-                ChatColor.BLACK + "Level: " + ChatColor.DARK_GRAY + num.format(data.getLevel()) + "\n"
-                + ChatColor.BLACK + "Next Level: " + ChatColor.DARK_GRAY +
-                        dec.format(UpdateStats.levelScore(data.getLevel() + 1) - data.getScore()));
+        meta.addPages(Component.text("Name: ", NamedTextColor.BLACK)
+                .append(mm.deserialize(NameTag.mmUsername(p)))
+                .append(Component.newline()).append(Component.newline())
+                .append(Component.text("Rank: ")).append(NameTag.convertRank(data.getStaffRank()))
+                .append(Component.newline())
+                .append(Component.text("Donator: ")).append(NameTag.convertRank(data.getRank()))
+                .append(Component.newline()).append(Component.newline())
+                .append(mm.deserialize("<transition:" + gradient +":0>Score: </transition>"))
+                .append(Component.text(dec.format(data.getScore()), NamedTextColor.DARK_GRAY))
+                .append(Component.newline())
+                .append(mm.deserialize("<transition:" + gradient + ":0.15>Kills: </transition>"))
+                .append(Component.text(num.format(data.getKills()), NamedTextColor.DARK_GRAY))
+                .append(Component.newline())
+                .append(mm.deserialize("<transition:" + gradient + ":0.4>Deaths: </transition>"))
+                .append(Component.text(num.format(data.getDeaths()), NamedTextColor.DARK_GRAY))
+                .append(Component.newline())
+                .append(mm.deserialize("<transition:" + gradient + ":0.6>KDR: </transition>"))
+                .append(Component.text(dec.format(data.getKills() / data.getDeaths()), NamedTextColor.DARK_GRAY))
+                .append(Component.newline())
+                .append(mm.deserialize("<transition:" + gradient + ":0.7>Assists: </transition>"))
+                .append(Component.text(num.format(data.getAssists()), NamedTextColor.DARK_GRAY))
+                .append(Component.newline())
+                .append(mm.deserialize("<transition:" + gradient + ":0.8>Captures: </transition>"))
+                .append(Component.text(num.format(data.getCaptures()), NamedTextColor.DARK_GRAY))
+                .append(Component.newline())
+                .append(mm.deserialize("<transition:" + gradient + ":0.9>Heals: </transition>"))
+                .append(Component.text(num.format(data.getHeals()), NamedTextColor.DARK_GRAY))
+                .append(Component.newline())
+                .append(mm.deserialize("<transition:" + gradient + ":1>Supports: </transition>"))
+                .append(Component.text(num.format(data.getSupports()), NamedTextColor.DARK_GRAY))
+                .append(Component.newline())
+                .append(Component.text("Kill Streak: ", NamedTextColor.GOLD))
+                .append(Component.text(num.format(data.getMaxKillStreak()))));
+
+        meta.addPages(Component.text("Level: ", NamedTextColor.BLACK)
+                .append(Component.text(num.format(data.getLevel()), NamedTextColor.DARK_GREEN))
+                .append(Component.newline())
+                .append(Component.text("Next Level: "))
+                .append(Component.text(dec.format(UpdateStats.levelScore(data.getLevel() + 1) - data.getScore()), NamedTextColor.RED)));
 
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
         book.setItemMeta(meta);

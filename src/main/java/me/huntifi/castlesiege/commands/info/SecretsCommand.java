@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.commands.info;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -30,7 +31,7 @@ public class SecretsCommand implements CommandExecutor {
         String abraham = getAbrakhanSecrets(p);
         String hallOfHercules = getHallOfHerculesSecrets(p);
 
-        p.sendMessage(ChatColor.DARK_AQUA + " -----Secrets----- ");
+        p.sendMessage(MiniMessage.miniMessage().deserialize("<dark_aqua> <st>━━━━━</st>Secrets<st>━━━━━</st> </dark_aqua>"));
         p.sendMessage(ChatColor.DARK_AQUA + " Abrakhan: " + abraham);
         p.sendMessage(ChatColor.DARK_AQUA + " Elwynn: " + elwynn);
         p.sendMessage(ChatColor.DARK_AQUA + " Helm's Deep: " + helms);

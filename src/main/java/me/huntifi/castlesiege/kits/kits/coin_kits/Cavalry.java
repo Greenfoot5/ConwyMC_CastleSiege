@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -9,10 +10,9 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -54,30 +54,30 @@ public class Cavalry extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Sabre", null, null, meleeDamage);
+                Component.text("Sabre", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        ChatColor.GREEN + "Sabre",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Sabre", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.SWEEPING_EDGE, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
-                ChatColor.GREEN + "Chainmail Chestplate", null, null);
+                Component.text("Chainmail Chestplate", NamedTextColor.GREEN), null, null);
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                ChatColor.GREEN + "Chainmail Leggings", null, null);
+                Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots", null, null);
+                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
@@ -86,7 +86,7 @@ public class Cavalry extends CoinKit implements Listener {
 
         // Horse
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.WHEAT),
-                ChatColor.GREEN + "Spawn Horse", null, null);
+                Component.text("Spawn Horse", NamedTextColor.GREEN), null, null);
         HorseHandler.add(name, 600, horseHealth, 2, 0.2425, 0.8,
                 Material.IRON_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
@@ -97,7 +97,7 @@ public class Cavalry extends CoinKit implements Listener {
 
         // stomp
         es.hotbar[3] = ItemCreator.weapon(new ItemStack(Material.ANVIL),
-                ChatColor.GREEN + "Horse Kick", null, null, 0);
+                Component.text("Horse Kick", NamedTextColor.GREEN), null, null, 0);
 
         super.equipment = es;
     }
@@ -123,43 +123,40 @@ public class Cavalry extends CoinKit implements Listener {
 
                 //prevent from using it when not on a horse
                 if (p.getVehicle() == null) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatColor.DARK_RED + "You can't use this when not on your horse."));
+                    Messenger.sendActionError("You can't use this when not on your horse", p);
                     return;
                 }
 
                 if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
                     if (p.getCooldown(Material.ANVIL) != 0) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "Your horse's ability to stomp is still recharging!"));
+                        Messenger.sendActionError("Your horse's ability to stomp is still recharging!", p);
                         return;
                     }
 
                     boolean hasEnemyInRange = false;
-                    for (Player all : Bukkit.getOnlinePlayers()) {
+                    for (Player hit : Bukkit.getOnlinePlayers()) {
 
                         //if the player is not in the same world ignore them.
-                        if (p.getWorld() != all.getWorld())
+                        if (p.getWorld() != hit.getWorld())
                             continue;
 
                         //the player executing the ability should have enemy players in range.
-                        if (p.getLocation().distance(all.getLocation()) <= 2.3 &&
-                                TeamController.getTeam(all.getUniqueId())
+                        if (p.getLocation().distance(hit.getLocation()) <= 2.3 &&
+                                TeamController.getTeam(hit.getUniqueId())
                                 != TeamController.getTeam(p.getUniqueId())) {
 
                             hasEnemyInRange = true;
 
                             // The stomp can be blocked using a shield
-                            if (all.isBlocking()) {
-                                all.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                        ChatColor.AQUA + "You blocked " + NameTag.color(p) + p.getName() + ChatColor.AQUA + "'s horse stomp"));
+                            if (hit.isBlocking()) {
+                                Messenger.sendActionSuccess("You blocked " + NameTag.mmUsername(p) + "'s horse stomp", hit);
                             } else {
-                                all.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
-                                all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));
-                                all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
-                                all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 20, 0)));
-                                all.damage(100, p);
+                                hit.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
+                                hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));
+                                hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
+                                hit.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 20, 0)));
+                                hit.damage(100, p);
                             }
                         }
 
@@ -167,8 +164,7 @@ public class Cavalry extends CoinKit implements Listener {
                             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY, 1, (float) 0.8);
                             p.setCooldown(Material.ANVIL, 200);
                         } else {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                    ChatColor.DARK_RED + "No enemy players are close enough for you to perform this ability!"));
+                            Messenger.sendActionError("No enemy players close enough!", p);
                         }
                     }
                 }
@@ -180,15 +176,15 @@ public class Cavalry extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Can summon a horse to ride on");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Can summon a horse to ride on", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(color.toString() + horseHealth + " §7Horse HP");
-        kitLore.add(" ");
-        kitLore.add("§6Horse Active:");
-        kitLore.add("§7- When riding, can perform a kick");
-        kitLore.add("§7dealing AOE damage and slowing enemies");
+        kitLore.add(Component.text(horseHealth, color).append(Component.text(" Horse HP", NamedTextColor.GRAY)));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Horse Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- When riding, can perform a kick", NamedTextColor.GRAY));
+        kitLore.add(Component.text("dealing AOE damage and slowing enemies", NamedTextColor.GRAY));
         return kitLore;
     }
 }

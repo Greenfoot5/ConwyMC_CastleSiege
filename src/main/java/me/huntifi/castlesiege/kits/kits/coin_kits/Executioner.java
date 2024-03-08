@@ -7,7 +7,8 @@ import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -52,32 +53,32 @@ public class Executioner extends CoinKit implements Listener {
                 
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-				ChatColor.GREEN + "Diamond Axe", null, null, meleeDamage);
+				Component.text("Diamond Axe", NamedTextColor.GREEN), null, null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-						ChatColor.GREEN + "Diamond Axe",
-						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+						Component.text("Diamond Axe", NamedTextColor.GREEN),
+						Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
 						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
                 
 		// Chestplate
 		es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-				ChatColor.GREEN + "Leather Chestplate", null, null,
+				Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
 				Color.fromRGB(32, 32, 32));
                 
 		// Leggings
 		es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-				ChatColor.GREEN + "Leather Leggings", null, null,
+				Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
 				Color.fromRGB(32, 32, 32));
                 
 		// Boots
 		es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-				ChatColor.GREEN + "Iron Boots", null, null);
+				Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
 		// Voted Boots
 		es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-				ChatColor.GREEN + "Iron Boots",
-				Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+				Component.text("Iron Boots", NamedTextColor.GREEN),
+				Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
                 
 		// Ladders
@@ -140,18 +141,18 @@ public class Executioner extends CoinKit implements Listener {
 	 * @return The lore to add to the kit gui item
 	 */
 	@Override
-    public ArrayList<String> getGuiDescription() {
-		ArrayList<String> kitLore = new ArrayList<>();
-		kitLore.add("§7An axe-wielder capable of");
-		kitLore.add("§7instantly killing weak enemies");
+    public ArrayList<Component> getGuiDescription() {
+		ArrayList<Component> kitLore = new ArrayList<>();
+		kitLore.add(Component.text("An axe-wielder capable of", NamedTextColor.GRAY));
+		kitLore.add(Component.text("instantly killing weak enemies", NamedTextColor.GRAY));
 		kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-		kitLore.add(" ");
-		kitLore.add("§5Effects:");
-		kitLore.add("§7- Speed I");
-		kitLore.add(" ");
-		kitLore.add("§2Passive: ");
-		kitLore.add("§7- Executes enemies that are below");
-		kitLore.add("§a30% §7of their max health");
+		kitLore.add(Component.empty());
+		kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+		kitLore.add(Component.text("- Speed I", NamedTextColor.DARK_GREEN));
+		kitLore.add(Component.text(" ", NamedTextColor.GRAY));
+		kitLore.add(Component.text("Passive: ", NamedTextColor.DARK_GREEN));
+		kitLore.add(Component.text("- Executes enemies that are below", NamedTextColor.GRAY));
+		kitLore.add(Component.text("§a30% §7of their max health", NamedTextColor.GRAY));
 		return kitLore;
 	}
 }

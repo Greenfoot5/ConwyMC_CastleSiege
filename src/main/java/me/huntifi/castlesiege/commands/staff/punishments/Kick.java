@@ -1,7 +1,8 @@
 package me.huntifi.castlesiege.commands.staff.punishments;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,7 +30,7 @@ public class Kick implements CommandExecutor {
 
 		Player p = Bukkit.getPlayer(args[0]);
 		if (p == null) {
-			sender.sendMessage(ChatColor.DARK_RED + "Could not find player: " + ChatColor.RED + args[0]);
+			Messenger.sendError("Could not find player: <red>" + args[0], sender);
 			return true;
 		}
 
@@ -37,8 +38,8 @@ public class Kick implements CommandExecutor {
 		if (args.length > 1) {
 			message = " for: " + String.join(" ", args).split(" ", 2)[1];
 		}
-		p.kickPlayer(ChatColor.RED + "You were kicked by " + ChatColor.WHITE + sender.getName()
-				+ ChatColor.RED + message);
+		p.kick(MiniMessage.miniMessage().deserialize("<red>You were kicked by <white>" + sender.getName()
+				+ "</white>" + message));
 
 		return true;
 	}

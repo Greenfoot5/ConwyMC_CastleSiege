@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -10,10 +11,9 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -38,9 +38,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -54,6 +54,7 @@ public class Medic extends CoinKit implements Listener {
     private static final double regen = 15;
     private static final double meleeDamage = 30;
     private static final int ladderCount = 4;
+    private static final int cakeCount = 16;
 
     public static final HashMap<Player, Block> cakes = new HashMap<>();
     public static final ArrayList<Player> cooldown = new ArrayList<>();
@@ -71,44 +72,44 @@ public class Medic extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
-                ChatColor.GREEN + "Scalpel", null, null, meleeDamage);
+                Component.text("Scalpel", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
-                        ChatColor.GREEN + "Scalpel",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Scalpel", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Leather Chestplate", null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 255, 255));
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 255, 255));
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
-                ChatColor.GREEN + "Golden Boots", null, null);
+                Component.text("Golden Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
-                ChatColor.GREEN + "Golden Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Golden Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Bandages
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.PAPER),
-                ChatColor.DARK_AQUA + "Bandages",
-                Collections.singletonList(ChatColor.AQUA + "Right click teammates to heal."), null);
+                Component.text("Bandages", NamedTextColor.DARK_AQUA),
+                Collections.singletonList(Component.text("Right click teammates to heal.", NamedTextColor.AQUA)), null);
 
         // Cake
-        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.CAKE, 16),
-                ChatColor.DARK_AQUA + "Healing Cake",
-                Arrays.asList(ChatColor.AQUA + "Place the cake down, then",
-                        ChatColor.AQUA + "teammates can heal from it."), null);
+        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.CAKE, cakeCount),
+                Component.text("Healing Cake", NamedTextColor.DARK_AQUA),
+                List.of(Component.text("Place the cake down, then", NamedTextColor.AQUA),
+                        Component.text("teammates can heal from it.", NamedTextColor.AQUA)), null);
 
         // Self Potion
         es.hotbar[3] = healthPotion();
@@ -133,7 +134,7 @@ public class Medic extends CoinKit implements Listener {
 
         potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 1, 6), true);
         potionMeta.setColor(Color.RED);
-        potionMeta.setDisplayName(ChatColor.RED + "Health Potion");
+        potionMeta.displayName(Component.text("Health Potion", NamedTextColor.RED));
         itemStack.setItemMeta(potionMeta);
 
         return itemStack;
@@ -189,14 +190,12 @@ public class Medic extends CoinKit implements Listener {
                 destroyCake(q);
                 cakeType = TeamController.getTeam(p.getUniqueId())
                         == TeamController.getTeam(q.getUniqueId()) ? " friendly" : "n enemy";
-                q.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        ChatColor.RED + "Your cake was destroyed by " + NameTag.color(p) + p.getName()));
+                Messenger.sendWarning("Your cake was destroyed by " + NameTag.mmUsername(p), q);
             } else {
                 cake.setType(Material.AIR);
                 cakeType = " neutral";
             }
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                    ChatColor.RED + "You destroyed a" + cakeType + " cake"));
+            Messenger.sendActionInfo("You destroyed a" + cakeType + " cake", p);
         }
     }
 
@@ -232,10 +231,8 @@ public class Medic extends CoinKit implements Listener {
                 // Heal
                 addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
                 addPotionEffect(player, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
-                r.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        NameTag.color(player) + player.getName() + ChatColor.AQUA + " is healing you"));
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        ChatColor.AQUA + "You are healing " + NameTag.color(r) + r.getName()));
+                Messenger.sendHealing(NameTag.mmUsername(player) + " is healing you", r);
+                Messenger.sendHealing("You are healing " + NameTag.mmUsername(r), player);
                 UpdateStats.addHeals(uuid, 1);
             }
         });
@@ -326,22 +323,23 @@ public class Medic extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Our classic healer, which makes");
-        kitLore.add("§7use of bandages and cake to heal allies");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Our classic healer, which makes", NamedTextColor.GRAY));
+        kitLore.add(Component.text("use of bandages and cake to heal allies", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
-        kitLore.add(color.toString() +  16 + " §7Cakes");
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Speed I");
-        kitLore.add(" ");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Can use bandages to heal teammates");
-        kitLore.add("§7- Can place cakes (1 active max)");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§7- When healing an ally receives resistance I");
+        kitLore.add(Component.text(cakeCount, color)
+                        .append(Component.text(" Cakes", NamedTextColor.GRAY)));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can use bandages to heal teammates", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can place cakes (1 active max)", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- When healing an ally receives resistance I", NamedTextColor.GRAY));
         return kitLore;
     }
 }

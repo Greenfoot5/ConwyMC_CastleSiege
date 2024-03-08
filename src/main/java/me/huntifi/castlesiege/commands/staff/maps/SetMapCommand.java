@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.commands.staff.maps;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,7 +38,7 @@ public class SetMapCommand implements CommandExecutor {
 
 		} else if (sender instanceof ConsoleCommandSender) {
 			MapController.setMap(mapName);
-			Messenger.broadcastInfo(ChatColor.DARK_AQUA + "CONSOLE §r has set the map to " + mapName + "!");
+			Messenger.broadcastInfo("<dark_aqua>CONSOLE</dark_aqua> has set the map to " + mapName + "!");
 		}
 
 		return true;

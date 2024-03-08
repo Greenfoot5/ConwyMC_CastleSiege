@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.commands.info;
 
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,12 +27,13 @@ public class CoinsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage("Console doesn't have any coins!");
+            Messenger.sendError("Console doesn't have any coins!", sender);
         } else {
             Player player = (Player) sender;
             double coins = ActiveData.getData(player.getUniqueId()).getCoins();
-            Messenger.sendInfo(ChatColor.GOLD + "Coins: " + ChatColor.YELLOW + new DecimalFormat("0").format(coins), sender);
-            Messenger.sendInfo("You can use coins to purchase kits from the /coinshop or adding a /bounty to someone", sender);
+            Messenger.sendInfo("<gold>Coins: </gold><yellow>" + new DecimalFormat("0").format(coins), sender);
+            Messenger.sendInfo("You can use coins to purchase kits from the <yellow><click:suggest_command:/coinshop>/coinshop</click></yellow>" +
+                    " or adding a <yellow><click:suggest_command:/bounty>/bounty</click></yellow> to someone", sender);
         }
 
         return true;

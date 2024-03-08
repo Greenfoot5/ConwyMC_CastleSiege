@@ -1,10 +1,8 @@
 package me.huntifi.castlesiege.commands.staff.maps;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,8 +28,7 @@ public class NextMapCommand implements CommandExecutor {
 		if(sender instanceof Player) {
 			Player p = (Player) sender;
 			if (!MapController.getCurrentMap().hasMapEnded()) {
-				Bukkit.getServer().broadcastMessage(
-						p.getDisplayName() + ChatColor.YELLOW + " has skipped to the next map!");
+				Messenger.broadcastWarning(NameTag.mmUsername(p) + " has skipped to the next map!");
 				MapController.endMap();
 			} else {
 				Messenger.sendError("Map has already ended!", p);
@@ -39,8 +36,7 @@ public class NextMapCommand implements CommandExecutor {
 
 		} else if (sender instanceof ConsoleCommandSender) {
 			if (!MapController.getCurrentMap().hasMapEnded()) {
-				Bukkit.getServer().broadcastMessage(
-						ChatColor.DARK_AQUA + "Console" + ChatColor.YELLOW + " has skipped to the next map!");
+				Messenger.broadcastWarning("<dark_aqua>Console</dark_aqua>" + " has skipped to the next map!");
 				MapController.endMap();
 			} else {
 				Messenger.sendError("Map has already ended!", sender);

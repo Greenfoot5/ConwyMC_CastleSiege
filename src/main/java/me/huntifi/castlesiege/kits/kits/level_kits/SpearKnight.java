@@ -2,15 +2,15 @@ package me.huntifi.castlesiege.kits.kits.level_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.LevelKit;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
@@ -61,23 +61,24 @@ public class SpearKnight extends LevelKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Iron Sword", null, null, meleeDamage);
+                Component.text("Iron Sword", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        ChatColor.GREEN + "Iron Sword",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Iron Sword", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Weapon
         es.offhand = ItemCreator.weapon(new ItemStack(Material.STICK, 1),
-                ChatColor.GREEN + "Spear",
-                Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, meleeDamage);
+                Component.text("Spear", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA)),
+                null, meleeDamage);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
-                ChatColor.GREEN + "Iron Chestplate", null, null);
+                Component.text("Iron Chestplate", NamedTextColor.GREEN), null, null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
@@ -87,15 +88,15 @@ public class SpearKnight extends LevelKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                ChatColor.GREEN + "Chainmail Leggings", null, null);
+                Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Chainmail Boots", null, null);
+                Component.text("Leather Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Chainmail Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
@@ -136,8 +137,7 @@ public class SpearKnight extends LevelKit implements Listener {
             }
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "Preparing to throw your spear!"));
+                        Messenger.sendActionInfo("Preparing to throw your spear...", p);
                         if(stack == null) { return; }
                         stack.setAmount(stack.getAmount() - 1);
                         p.setCooldown(Material.STICK, throwCooldown);
@@ -145,14 +145,12 @@ public class SpearKnight extends LevelKit implements Listener {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                        ChatColor.AQUA + "You threw your spear!"));
+                                Messenger.sendActionInfo("You threw your spear!", p);
                                 p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(throwVelocity));
                             }
                         }.runTaskLater(Main.plugin, throwDelay);
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw your spear yet."));
+                        Messenger.sendActionError("You can't throw you spear yet", p);
                     }
                 }
 
@@ -191,17 +189,17 @@ public class SpearKnight extends LevelKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A sword and spear wielder, ");
-        kitLore.add("§7can throw a powerful spear");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A sword and spear wielder, ", NamedTextColor.GRAY));
+        kitLore.add(Component.text("can throw a powerful spear", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, throwDamage, ladderCount, 1));
-        kitLore.add(" ");
-        kitLore.add("§6Active:");
-        kitLore.add("§7- Can throw their spear");
-        kitLore.add(" ");
-        kitLore.add("§2Passive: ");
-        kitLore.add("§7- Deals bonus damage to horses");
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can throw their spear", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Passive:", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Deals bonus damage to horses", NamedTextColor.GRAY));
         return kitLore;
     }
 }

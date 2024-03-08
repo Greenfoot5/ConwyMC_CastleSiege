@@ -11,8 +11,9 @@ import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -41,7 +42,6 @@ import java.util.UUID;
 public class Warlock extends CoinKit implements Listener {
 
     // Abilities mentioned for this kit are configured / handled through mythic mobs.
-
     private static final int health = 210;
     private static final double regen = 10.5;
     private static final double meleeDamage = 20;
@@ -62,62 +62,67 @@ public class Warlock extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WITHER_SKELETON_SKULL),
-                ChatColor.DARK_PURPLE + "Cursed Skull", Arrays.asList("",
-                        ChatColor.YELLOW + "Right click to shoot a bolt of shadows, ",
-                        ChatColor.YELLOW + "which does damage to enemies and inflicts",
-                        ChatColor.YELLOW + "slowness I for 5 seconds and 70 DMG to them.",
-                        ChatColor.YELLOW + "Direct hits give a soul shard and have",
-                ChatColor.YELLOW + "a 10% chance to give a health stone."), null, meleeDamage);
+                Component.text("Cursed Skull", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right click to shoot a bolt of shadows, ", NamedTextColor.AQUA),
+                        Component.text("which does damage to enemies and inflicts", NamedTextColor.AQUA),
+                        Component.text("slowness I for 5 seconds and 70 DMG to them.", NamedTextColor.AQUA),
+                        Component.text("Direct hits give a soul shard and have", NamedTextColor.AQUA),
+                Component.text("a 10% chance to give a health stone.", NamedTextColor.AQUA)), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.WITHER_SKELETON_SKULL),
-                        ChatColor.DARK_PURPLE + "Cursed Skull",
-                        Arrays.asList("",
-                                ChatColor.YELLOW + "Right click to shoot a bolt of shadows, ",
-                                ChatColor.YELLOW + "which does damage to enemies and inflicts",
-                                ChatColor.YELLOW + "slowness I for 5 seconds and 70 to them.",
-                                ChatColor.YELLOW + "Direct hits give a soul shard and have",
-                                ChatColor.YELLOW + "a 10% chance to give a health stone.",
-                                ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Cursed Skull", NamedTextColor.GREEN),
+                        Arrays.asList(Component.empty(),
+                                Component.text("Right click to shoot a bolt of shadows, ", NamedTextColor.AQUA),
+                                Component.text("which does damage to enemies and inflicts", NamedTextColor.AQUA),
+                                Component.text("slowness I for 5 seconds and 70 to them.", NamedTextColor.AQUA),
+                                Component.text("Direct hits give a soul shard and have", NamedTextColor.AQUA),
+                                Component.text("a 10% chance to give a health stone.", NamedTextColor.AQUA),
+                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
                 0);
 
         // 1st ability
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POISONOUS_POTATO),
-                ChatColor.LIGHT_PURPLE + "Curse", Arrays.asList("",
-                        ChatColor.YELLOW + "Right click to give negative damage to all ",
-                        ChatColor.YELLOW + "enemies in a 7 block radius of you for 6s.",
-                        ChatColor.YELLOW + " ",
-                        ChatColor.YELLOW + "Has a cooldown of 13 seconds."), null);
+                Component.text("Curse", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Right click to give negative damage to all ", NamedTextColor.AQUA),
+                        Component.text("enemies in a 7 block radius of you for 6s.", NamedTextColor.AQUA),
+                        Component.empty(),
+                        Component.text("Has a cooldown of 13 seconds.", NamedTextColor.AQUA)), null);
 
         // 2nd ability
         es.hotbar[2] = ItemCreator.item(new ItemStack(Material.SCUTE),
-                ChatColor.DARK_GREEN + "Drain life", Arrays.asList("",
-                        ChatColor.YELLOW + "Fire a beam of life draining energy that deals",
-                        ChatColor.YELLOW + "10 DMG/hit and heals you for 10 HP/hit.",
-                        ChatColor.YELLOW + " ",
-                        ChatColor.YELLOW + "Has a cooldown of 20 seconds."), null);
+                Component.text("Drain life", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Fire a beam of life draining energy that deals", NamedTextColor.AQUA),
+                        Component.text("10 DMG/hit and heals you for 10 HP/hit.", NamedTextColor.AQUA),
+                        Component.empty(),
+                        Component.text("Has a cooldown of 20 seconds.", NamedTextColor.AQUA)), null);
 
         // 3rd ability
         es.hotbar[3] = ItemCreator.item(new ItemStack(Material.REDSTONE),
-                ChatColor.DARK_RED + "Health Funnel", Arrays.asList("",
-                        ChatColor.YELLOW + "Sacrifice 25% of your health to heal",
-                        ChatColor.YELLOW + "your ally for 25% of your max health.",
-                        ChatColor.YELLOW + " ",
-                        ChatColor.YELLOW + "Has a cooldown of 5 seconds."), null);
+                Component.text("Health Funnel", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Sacrifice 25% of your health to heal", NamedTextColor.AQUA),
+                        Component.text("your ally for 25% of your max health.", NamedTextColor.AQUA),
+                        Component.empty(),
+                        Component.text("Has a cooldown of 5 seconds.", NamedTextColor.AQUA)), null);
 
         // 4th ability
         es.hotbar[4] = ItemCreator.item(new ItemStack(Material.BLAZE_POWDER),
-                ChatColor.GOLD + "Hellfire", Arrays.asList("",
-                        ChatColor.DARK_GRAY + "Requires 5 soul shards to cast.",
-                        ChatColor.YELLOW + "Shoot a large burst of hellfire in",
-                        ChatColor.YELLOW + "front of you, burning anything on its path.",
-                        ChatColor.YELLOW + " ",
-                        ChatColor.YELLOW + "Has no cooldown."), null);
+                Component.text("Hellfire", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Requires 5 soul shards to cast.", NamedTextColor.DARK_GRAY),
+                        Component.text("Shoot a large burst of hellfire in", NamedTextColor.AQUA),
+                        Component.text("front of you, burning anything on its path.", NamedTextColor.AQUA),
+                        Component.empty(),
+                        Component.text("Has no cooldown.", NamedTextColor.AQUA)), null);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Warlock's robe", null, null,
+                Component.text("Warlock's Robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(85, 30, 127));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -128,7 +133,7 @@ public class Warlock extends CoinKit implements Listener {
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Warlock's pants", null, null,
+                Component.text("Warlock's Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(85, 30, 127));
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
@@ -139,12 +144,12 @@ public class Warlock extends CoinKit implements Listener {
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Warlock's Boots", null, null,
+                Component.text("Warlock's Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(85, 30, 127));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Warlock's Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Warlock's Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(85, 30, 127));
         ItemMeta boots = es.feet.getItemMeta();
@@ -217,7 +222,7 @@ public class Warlock extends CoinKit implements Listener {
                     cursePlayer(p, online);
                 }
 
-                Messenger.sendSuccess("You cursed the enemies around you!", p);
+                Messenger.sendActionSuccess("You cursed the enemies around you!", p);
                 mythicMobsApi.castSkill(p,"WarlockCurseEffect");
             }
         }
@@ -304,7 +309,7 @@ public class Warlock extends CoinKit implements Listener {
                 return;
             }
             if (caster.getHealth() < (double) Kit.equippedKits.get(caster.getUniqueId()).baseHealth / 4) {
-                Messenger.sendError("You cannot sacrifice your health cause you are too low on HP!", caster);
+                Messenger.sendActionError("You cannot sacrifice your health cause you are too low on HP!", caster);
                 return;
             }
 
@@ -318,8 +323,8 @@ public class Warlock extends CoinKit implements Listener {
                 caster.setHealth(caster.getHealth() - healthTransferred);
 
 
-                Messenger.sendSuccess(NameTag.color(caster) + caster.getName() + "§r has sacrificed health for you", healed);
-                Messenger.sendSuccess("You have sacrificed your health for " + NameTag.color(healed) + healed.getName(), caster);
+                Messenger.sendSuccess(NameTag.mmUsername(caster) + " has sacrificed health for you", healed);
+                Messenger.sendInfo("You have sacrificed your health for " + NameTag.mmUsername(healed), caster);
 
                 mythicMobsApi.castSkill(healed,"WarlockHealthFunnelEffect");
             }
@@ -346,7 +351,7 @@ public class Warlock extends CoinKit implements Listener {
         }
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (!p.getInventory().contains(Material.AMETHYST_SHARD, 5)) {
-                Messenger.sendError("You require 5 soul shards to perform this spell!", p);
+                Messenger.sendActionError("You require 5 soul shards to perform this spell!", p);
                 return;
             }
 
@@ -399,35 +404,38 @@ public class Warlock extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7A debuff kit that can curse enemies, ");
-        kitLore.add("§7sacrifice its own health to heal teammates");
-        kitLore.add("§7and obliterate enemies with hellfire");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("A debuff kit that can curse enemies, ", NamedTextColor.GRAY));
+        kitLore.add(Component.text("sacrifice its own health to heal teammates", NamedTextColor.GRAY));
+        kitLore.add(Component.text("and obliterate enemies with hellfire", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
         // TODO - Externalise values
-        kitLore.add(color + "70 §7shadow bolt DMG");
-        kitLore.add(color + "15dmg/s §7life-drain DMG");
-        kitLore.add(color + "70dmg/s §7Hellfire DMG");
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Slowness II");
-        kitLore.add(" ");
-        kitLore.add("§aActive:");
-        kitLore.add("§7- Can shoot a shadow bolt at opponents");
-        kitLore.add("§7to damage them and give them slowness I");
-        kitLore.add("§7- Can curse all enemies in a 7 block radius");
-        kitLore.add("§7giving them negative damage for 4 seconds");
-        kitLore.add("§7- Can drain life from targets for 5 seconds");
-        kitLore.add("§7- Has the possibility to sacrifice 25% of their HP");
-        kitLore.add("§7to heal a teammate for 25% of the warlock's max health");
-        kitLore.add("§7- Can pay hell with 5 soul shards to summon devastating");
-        kitLore.add("§7hellfire that incinerates all enemy players it comes across");
-        kitLore.add(" ");
-        kitLore.add("§2Passive ");
-        kitLore.add("§7- Can see players' health");
-        kitLore.add("§7- Hitting targets with shadow bolt gives soul shards");
-        kitLore.add("§7and has a 10% chance to give a health stone");
+        kitLore.add(Component.text("70", color)
+                .append(Component.text(" shadow bolt DMG", NamedTextColor.GRAY)));
+        kitLore.add(Component.text("15", color)
+                .append(Component.text(" life-drain DPS", NamedTextColor.GRAY)));
+        kitLore.add(Component.text("70", color)
+                .append(Component.text(" hellfire DPS", NamedTextColor.GRAY)));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Slowness II", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can shoot a shadow bolt at opponents", NamedTextColor.GRAY));
+        kitLore.add(Component.text("to damage them and give them slowness I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can curse all enemies in a 7 block radius", NamedTextColor.GRAY));
+        kitLore.add(Component.text("giving them negative damage for 4 seconds", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can drain life from targets for 5 seconds", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Has the possibility to sacrifice 25% of their HP", NamedTextColor.GRAY));
+        kitLore.add(Component.text("to heal a teammate for 25% of the warlock's max health", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can pay hell with 5 soul shards to summon devastating", NamedTextColor.GRAY));
+        kitLore.add(Component.text("hellfire that incinerates all enemy players it comes across", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Hitting targets with shadow bolt gives soul shards", NamedTextColor.GRAY));
+        kitLore.add(Component.text("and has a 10% chance to give a health stone", NamedTextColor.GRAY));
         return kitLore;
     }
 }

@@ -5,7 +5,8 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
@@ -45,31 +46,31 @@ public class Halberdier extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-                ChatColor.GREEN + "Halberd", null, null, meleeDamage);
+                Component.text("Halberd", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-                        ChatColor.GREEN + "Halberd",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Halberd", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.NETHERITE_CHESTPLATE),
-                ChatColor.GREEN + "Indestructible Chestplate", null,
+                Component.text("Indestructible Chestplate", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_ENVIRONMENTAL, 2)));
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                ChatColor.GREEN + "Chainmail Leggings", null, null);
+                Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots", null, null);
+                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         super.equipment = es;
@@ -139,21 +140,21 @@ public class Halberdier extends CoinKit implements Listener {
      * @return The lore to add to the kit gui item
      */
     @Override
-    public ArrayList<String> getGuiDescription() {
-        ArrayList<String> kitLore = new ArrayList<>();
-        kitLore.add("§7Our classic tank capable of");
-        kitLore.add("§7taking a large beating");
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Our classic tank capable of", NamedTextColor.GRAY));
+        kitLore.add(Component.text("taking a large beating", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
-        kitLore.add(" ");
-        kitLore.add("§5Effects:");
-        kitLore.add("§7- Slowness III");
-        kitLore.add("§7- Mining Fatigue II");
-        kitLore.add("§7- Resistance I");
-        kitLore.add(" ");
-        kitLore.add("§2Passive:");
-        kitLore.add("§c- Cannot run");
-        kitLore.add("§c- Has a slower attack speed");
-        kitLore.add("§c- Halberdier takes 50% more DMG from arrows");
+        kitLore.add(Component.text(" ", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Slowness III", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Mining Fatigue II", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Resistance I", NamedTextColor.GRAY));
+        kitLore.add(Component.text(" ", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Cannot run", NamedTextColor.RED));
+        kitLore.add(Component.text("- Has a slower attack speed", NamedTextColor.RED));
+        kitLore.add(Component.text("- Halberdier takes 50% more DMG from arrows", NamedTextColor.RED));
         return kitLore;
     }
 }
