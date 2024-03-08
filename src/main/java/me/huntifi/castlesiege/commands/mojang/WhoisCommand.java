@@ -66,9 +66,9 @@ public class WhoisCommand implements CommandExecutor {
 
             // Create the message header
             StringBuilder message = new StringBuilder();
-            message.append("<dark_purple> --------- ")
+            message.append("<dark_purple> <st>━━━━━━━━━</st> ")
                     .append(args.length == 0 ? "Your" : args[0] + "'s")
-                    .append(" name history --------- \n");
+                    .append(" name history <st>━━━━━━━━━</st> \n");
 
             // Get the name history and add to the message
             PreviousPlayerNameEntry[] previousNames = NameLookup.getPlayerPreviousNames(uuid);
@@ -85,7 +85,7 @@ public class WhoisCommand implements CommandExecutor {
             }
 
             // Add the message footer and send the name history message
-            message.append("<dark_purple> ----------------------------------- ");
+            message.append("<dark_purple> <st>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</st> ");
             Messenger.send(message.toString(), sender);
 
         } catch (IOException e) {

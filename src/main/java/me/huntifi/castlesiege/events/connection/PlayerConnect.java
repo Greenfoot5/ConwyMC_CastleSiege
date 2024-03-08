@@ -103,8 +103,8 @@ public class PlayerConnect implements Listener {
         if (!p.hasPlayedBefore()) {
 
             Messenger.broadcast(BroadcastCommand.broadcastPrefix
-                    .append(MiniMessage.miniMessage().deserialize("<gradient:#663dff:#cc4499:#663dff>----- " +
-                            "Welcome <color:#cc4499>" + p.getName() + "</color> to Castle Siege! -----")));
+                    .append(MiniMessage.miniMessage().deserialize("<gradient:#663dff:#cc4499:#663dff><st>━━━━━</st> " +
+                            "Welcome <color:#cc4499>" + p.getName() + "</color> to Castle Siege! <st>━━━━━</st>")));
             Messenger.send(Component.text("If you encounter a problem or need help, contact us on " +
                             "<yellow><click:suggest_command:/discord>/discord</click></yellow> or " +
                             "<yellow><click:open_url:https://conwymc.alchemix.dev/contact>email us</click></yellow>!",

@@ -27,7 +27,7 @@ public class RulesCommand implements CommandExecutor {
 			"Do not evade punishments.",
 			"Staff have a final say. Do not attempt to argue against punishment decisions once a final decision is given.",
 	};
-	private static final Component border = Component.text("-----------------------------------------------------", NamedTextColor.WHITE);
+	private static final Component border = Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", NamedTextColor.WHITE).decorate(TextDecoration.STRIKETHROUGH);
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender p, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
@@ -44,7 +44,7 @@ public class RulesCommand implements CommandExecutor {
 					.append(MiniMessage.miniMessage().deserialize(s)).color(color));
 			i++;
 		}
-		c = c.append(Component.newline().append(border).append(Component.newline())
+		c = c.append(Component.newline().append(border).append(Component.newline()).decoration(TextDecoration.STRIKETHROUGH, false)
 				.append(MiniMessage.miniMessage().deserialize("<yellow><click:open_url:https://conwymc.alchemix.dev>See our website for more info</click></yellow>")));
 		Messenger.send(c, p);
 		return true;

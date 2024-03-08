@@ -34,7 +34,7 @@ public class Tips extends BukkitRunnable {
             "<yellow><click:suggest_command:/settings>/settings</click></yellow> opens a menu that allows you to change multiple settings.",
             "Rangers can backstab enemies, so watch your back!",
             "Engineers can repair broken stone and wood structures!",
-            "Want to apply for staff? Go to <yellow><click:suggest_command:/discord>/discord</click></yellow> ---> #join-us",
+            "Want to apply for staff? Go to <yellow><click:suggest_command:/discord>/discord</click></yellow> <st>━━━</st>> #join-us",
             "Does a kit look too strong? Request & discuss a nerf on our <yellow><click:suggest_command:/discord>/discord</click></yellow> server!",
             //"Is the server empty or are you all by yourself? Mention the <yellow>@fighter</yellow> role on our discord server!",
             "You have a chance to dodge maceman's stuns by shifting.",

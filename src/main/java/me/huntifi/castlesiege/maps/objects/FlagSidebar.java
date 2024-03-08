@@ -17,6 +17,7 @@ import net.megavex.scoreboardlibrary.api.sidebar.component.SidebarComponent;
 import net.megavex.scoreboardlibrary.api.sidebar.component.animation.CollectionSidebarAnimation;
 import net.megavex.scoreboardlibrary.api.sidebar.component.animation.SidebarAnimation;
 import org.apache.commons.lang3.ArrayUtils;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -45,7 +46,8 @@ public class FlagSidebar {
                 .addStaticLine(Component.text("Map: ", NamedTextColor.GOLD).decorate(TextDecoration.BOLD)
                         .append(Component.text(MapController.getCurrentMap().name, NamedTextColor.GREEN)
                                 .decoration(TextDecoration.BOLD, false)))
-                .addStaticLine(Component.text("-", NamedTextColor.DARK_GRAY));
+                // 30 dashes to define minimum width
+                .addStaticLine(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━", NamedTextColor.DARK_GRAY).decorate(TextDecoration.STRIKETHROUGH));
 
 
         // Core Map
@@ -103,5 +105,17 @@ public class FlagSidebar {
         }
 
         return new CollectionSidebarAnimation<>(frames);
+    }
+
+    public void addPlayer(Player player) {
+        sidebar.addPlayer(player);
+    }
+
+    public void removePlayer(Player player) {
+        sidebar.removePlayer(player);
+    }
+
+    public void close() {
+        sidebar.close();
     }
 }

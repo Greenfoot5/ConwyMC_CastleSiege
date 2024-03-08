@@ -1,11 +1,17 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.maps.objects.FlagSidebar;
+import me.huntifi.castlesiege.maps.objects.StatsSidebar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.megavex.scoreboardlibrary.api.sidebar.Sidebar;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.UUID;
 
 import static me.huntifi.castlesiege.Main.scoreboardLibrary;
 
@@ -14,13 +20,18 @@ import static me.huntifi.castlesiege.Main.scoreboardLibrary;
  */
 public class Scoreboard implements Runnable {
 
-	private static Sidebar flagSidebar;
-	private static FlagSidebar flagComponent;
+	private static final HashMap<UUID, StatsSidebar> statsSidebars = new HashMap<>();
+	private static FlagSidebar flagSidebar;
 
 	/**
 	 * Clears the scoreboard for all players
 	 */
 	public static void clearScoreboard() {
+		for (UUID uuid : statsSidebars.keySet()) {
+			statsSidebars.get(uuid).close();
+			statsSidebars.remove(uuid);
+		}
+
 		if (flagSidebar == null)
 			return;
 
@@ -40,7 +51,12 @@ public class Scoreboard implements Runnable {
 	 * @param player The player to clear the scoreboard for
 	 */
 	public static void clearScoreboard(Player player) {
-		flagSidebar.removePlayer(player);
+		if (statsSidebars.containsKey(player.getUniqueId())) {
+			statsSidebars.get(player.getUniqueId()).close();
+			statsSidebars.remove(player.getUniqueId());
+		} else {
+			flagSidebar.removePlayer(player);
+		}
 	}
 
 	public static Component getTimeText() {
@@ -82,33 +98,24 @@ public class Scoreboard implements Runnable {
 	public void run() {
 		// Recreate the sidebar if it's gone
 		if (flagSidebar == null) {
-			flagSidebar = scoreboardLibrary.createSidebar();
-			flagComponent = new FlagSidebar(flagSidebar);
+			flagSidebar = new FlagSidebar(scoreboardLibrary.createSidebar());
 		}
-		flagComponent.tick();
+		flagSidebar.tick();
 
 		// TODO - Allow players to select which scoreboard they want
 		for (Player online : Bukkit.getOnlinePlayers()) {
-			flagSidebar.addPlayer(online);
-		}
+			UUID uuid = online.getUniqueId();
+			PlayerData data = ActiveData.getData(uuid);
+			if (!Objects.equals(data.getSetting("statsBoard"), "true")) {
+				flagSidebar.addPlayer(online);
+				return;
+			}
 
-//        Bukkit.getOnlinePlayers();
-// 			if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("false")) {
-//			} else if (ActiveData.getData(online.getUniqueId()).getSetting("statsBoard").equals("true")) {
-//				// Display the stats scoreboard
-//				DecimalFormat dec = new DecimalFormat("0.00");
-//				DecimalFormat num = new DecimalFormat("0");
-//				PlayerData data = MVPStats.getStats(online.getUniqueId());
-//
-//				replaceScore(objective, 10, ChatColor.WHITE + "Score: " + ChatColor.WHITE + num.format(data.getScore()));
-//				replaceScore(objective, 9, ChatColor.GREEN + "Kills: " + ChatColor.WHITE + num.format(data.getKills()));
-//				replaceScore(objective, 8, ChatColor.RED + "Deaths: " + ChatColor.WHITE + num.format(data.getDeaths()));
-//				replaceScore(objective, 7, ChatColor.YELLOW + "KDR: " + ChatColor.WHITE + dec.format(data.getKills() / data.getDeaths()));
-//				replaceScore(objective, 6, ChatColor.DARK_GREEN + "Assists: " + ChatColor.WHITE + num.format(data.getAssists()));
-//				replaceScore(objective, 5, ChatColor.GRAY + "Captures: " + ChatColor.WHITE + num.format(data.getCaptures()));
-//				replaceScore(objective, 4, ChatColor.LIGHT_PURPLE + "Heals: " + ChatColor.WHITE + num.format(data.getHeals()));
-//				replaceScore(objective, 3, ChatColor.DARK_PURPLE + "Supports: " + ChatColor.WHITE + num.format(data.getSupports()));
-//				replaceScore(objective, 2, ChatColor.DARK_GRAY + "Kill Streak: " + ChatColor.WHITE + num.format(data.getKillStreak()));
-//			}
+            if (!statsSidebars.containsKey(uuid)) {
+                statsSidebars.put(uuid, new StatsSidebar(scoreboardLibrary.createSidebar(), uuid));
+				statsSidebars.get(uuid).addPlayer(online);
+            }
+            statsSidebars.get(uuid).tick();
+		}
 	}
 }
