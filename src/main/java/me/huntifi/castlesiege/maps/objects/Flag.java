@@ -3,18 +3,24 @@ package me.huntifi.castlesiege.maps.objects;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.LocationFrame;
-import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.Scoreboard;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -25,8 +31,12 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static me.huntifi.castlesiege.Main.getBarColour;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 
 /**
  * Stores all details and handles all flag actions.
@@ -42,13 +52,13 @@ public class Flag {
     // Game Data
     protected boolean active;
     protected String currentOwners;
-    protected final int maxCap;
+    public final int maxCap;
     protected final int progressAmount;
     protected int progress;
     // Progresses needed per animationIndex
-    protected final static int progressMultiplier = 100;
+    protected static final int progressMultiplier = 100;
     // Multiplier for multiple people
-    public final static double capMultiplier = 2;
+    public static final double capMultiplier = 2;
 
     // Capturing data
     protected final AtomicInteger isRunning;
@@ -62,6 +72,8 @@ public class Flag {
 
     // Scoreboard value
     public int scoreboard;
+
+    public static final HashMap<Flag, BossBar> bars = new HashMap<>();
 
     //The entity to create the flag's nametag
     protected ArmorStand hologram;
@@ -88,15 +100,6 @@ public class Flag {
         this.players = new ArrayList<>();
         progress = progressMultiplier * startAmount;
         isRunning = new AtomicInteger(0);
-    }
-
-    /**
-     * Gets the message to send to the user when they spawn in
-     * @return the message to send
-     */
-    public String getSpawnMessage() {
-        Team team = MapController.getCurrentMap().getTeam(currentOwners);
-        return team.secondaryChatColor + "Spawning at:" + team.primaryChatColor + " " + name;
     }
 
     /**
@@ -141,6 +144,7 @@ public class Flag {
      */
     public void playerEnter(Player player) {
         players.add(player.getUniqueId());
+        addPlayerToFlagBar(this, player);
         activate();
         capturing();
     }
@@ -151,6 +155,7 @@ public class Flag {
      */
     public void playerExit(Player player) {
         players.remove(player.getUniqueId());
+        removePlayerFromFlagBar(this, player);
     }
 
     /**
@@ -185,7 +190,7 @@ public class Flag {
         isRunning.incrementAndGet();
 
         // Keep running as long as there are players in the area
-        if (players.size() > 0) {
+        if (!players.isEmpty()) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -197,7 +202,7 @@ public class Flag {
                         captureFlag();
 
                     // No more players in the zone
-                    if (players.size() == 0 || isRunning.get() > 1) {
+                    if (players.isEmpty() || isRunning.get() > 1) {
                         isRunning.decrementAndGet();
                         this.cancel();
                     }
@@ -251,7 +256,11 @@ public class Flag {
             // Notify current capping players
             notifyPlayers(false);
 
-            if (!currentOwners.equals("neutral")) {
+            // Bossbar change
+            setFlagBarValue(this, (float) animationIndex /maxCap);
+            setFlagBarColour(this, BossBar.Color.WHITE);
+
+            if (!Objects.equals(currentOwners, "neutral")) {
                 broadcastTeam("neutral");
             }
 
@@ -261,22 +270,10 @@ public class Flag {
         } else if (capProgress == 1 && animationIndex == 0) {
             animationIndex += 1;
             broadcastTeam(currentOwners);
-
             notifyPlayers(true);
-
-            for (UUID uuid : players) {
-                Player player = Bukkit.getPlayer(uuid);
-                if (player != null && TeamController.getTeam(uuid).name.equals(currentOwners)) {
-                    //You get +1 battlepoint for taking control of a flag
-                    UpdateStats.addBattlepoints(uuid, PlayerData.bpTakeFlagControlAmount);
-                    Messenger.sendInfo("You gained "
-                            + PlayerData.bpTakeFlagControlAmount * PlayerData.getBattlepointMultiplier()
-                            + " BattlePoint(s) for taking control of a flag!", player, 15);
-                }
-            }
-
+            setFlagBarValue(this, (float) animationIndex /maxCap);
+            setFlagBarColour(this, getBarColour(this.getColor()));
             animate(true, currentOwners);
-
         // Players have increased the capture
         } else if (capProgress > animationIndex) {
             if (animationIndex >= maxCap) {
@@ -284,26 +281,23 @@ public class Flag {
             }
 
             animationIndex += 1;
+            setFlagBarValue(this, (float) animationIndex /maxCap);
             notifyPlayers(true);
 
             animate(true, currentOwners);
 
             // Players have fully captured the flag, and we should let them know
             if (animationIndex == maxCap) {
+                setFlagBarValue(this, (float) animationIndex /maxCap);
                 for (UUID uuid : players) {
                     Player player = Bukkit.getPlayer(uuid);
                     // Check they're a player
                     if (player != null) {
                         // Make sure they're on the capping team
                         if (TeamController.getTeam(uuid).name.equals(currentOwners)) {
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "Flag fully captured!" + ChatColor.AQUA + " Flag: " + name));
-                            //You get +1 battlepoint for fully capturing a flag
-                            UpdateStats.addBattlepoints(uuid, PlayerData.bpFlagFullCapAmount);
-                            Messenger.sendInfo("You gained " +
-                                    PlayerData.bpFlagFullCapAmount * PlayerData.getBattlepointMultiplier()
-                                    + " BattlePoint(s) for fully capturing a flag!", player, 15);
+                            Messenger.sendAction("<gold>Flag fully captured! <aqua>Flag: " + name, player);
                         } else {
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies have fully captured the flag!"));
+                            Messenger.sendActionError("Enemies have fully captured the flag!", player);
                         }
                         playCapSound(player, true);
                     }
@@ -313,6 +307,7 @@ public class Flag {
         // Players have decreased the capture
         } else if (capProgress < animationIndex) {
             animationIndex -= 1;
+            setFlagBarValue(this, (float) animationIndex /maxCap);
 
             // Notify current capping players
             notifyPlayers(false);
@@ -341,10 +336,10 @@ public class Flag {
             if (player != null) {
                 // Make sure they're on the capping team
                 if (TeamController.getTeam(uuid).name.equals(currentOwners) == areOwnersCapping) {
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "+" + count + " flag-capping point(s)" + ChatColor.AQUA + " Flag: " + name));
+                    Messenger.sendActionInfo("+" + count + " flag-capping point(s) <aqua>Flag: " + name, player);
                     UpdateStats.addCaptures(player.getUniqueId(), count);
                 } else {
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "Enemies are capturing the flag!"));
+                    Messenger.sendActionError("Enemies are capturing the flag!", player);
                 }
                 playCapSound(player, false);
             }
@@ -359,7 +354,7 @@ public class Flag {
         if (!newTeam.equals("neutral"))
         {
             Team team = MapController.getCurrentMap().getTeam(newTeam);
-            Bukkit.broadcastMessage(team.primaryChatColor + "~~~ " + newTeam + " has captured " + name + "! ~~~");
+            Messenger.broadcast(Component.text("~~~ " + newTeam + " has captured " + name + "! ~~~", team.primaryChatColor));
 
             //Hologram
             if (hologram == null) { return; }
@@ -367,11 +362,11 @@ public class Flag {
         }
         else
         {
-            Bukkit.broadcastMessage(ChatColor.GRAY + "~~~ " + name + " has been neutralised! ~~~");
+            Messenger.broadcast(Component.text("~~~ " + name + " has been neutralised! ~~~", NamedTextColor.GRAY));
 
             //Hologram
             if (hologram == null) { return; }
-            updateHologram(ChatColor.GRAY);
+            updateHologram(GRAY);
         }
     }
 
@@ -432,10 +427,10 @@ public class Flag {
         Location location = player.getLocation();
 
         // Play level up sound if it's fully capped, or play a xp orb pickup
-        Sound effect = fullyCapped ? Sound.ENTITY_PLAYER_LEVELUP : Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
+        Sound effect = fullyCapped ? Sound.ITEM_GOAT_HORN_SOUND_1 : Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 
-        float volume = 1f; //1 = 100%
-        float pitch = fullyCapped ? 0.5f : 0.8f; //Float between 0.5 and 2.0
+        float volume = 1f; //1 = 100%0
+        float pitch = fullyCapped ? 1f : 0.8f; //Float between 0.5 and 2.0
 
         player.playSound(location, effect, volume, pitch);
     }
@@ -447,7 +442,7 @@ public class Flag {
      */
     protected synchronized void animate(boolean isCapUp, String teamName) {
 
-        if (MapController.hasMapEnded()) {
+        if (MapController.getCurrentMap().hasMapEnded()) {
             MapController.endMap();
         }
 
@@ -536,6 +531,8 @@ public class Flag {
         if (!active) {
             active = true;
             createHologram();
+            // We need to update the flags on the scoreboard
+            Scoreboard.clearScoreboard();
         }
     }
 
@@ -576,11 +573,11 @@ public class Flag {
         hologram.setInvulnerable(true);
         hologram.setCustomNameVisible(true);
         hologram.setSmall(true);
-        hologram.setCustomName(ChatColor.BOLD +  "Flag: " + getColor() + name);
+        hologram.customName(MiniMessage.miniMessage().deserialize("<b>Flag:</b> ").append(Component.text(name, getColor())));
     }
 
-    public void updateHologram(ChatColor teamColour) {
-        hologram.setCustomName(ChatColor.BOLD + "Flag: " + teamColour + name);
+    public void updateHologram(NamedTextColor teamColor) {
+        hologram.customName(MiniMessage.miniMessage().deserialize("<b>Flag:</b> ").append(Component.text(name, teamColor)));
         hologram.setCustomNameVisible(true);
     }
 
@@ -588,12 +585,75 @@ public class Flag {
      * Get the flag's color.
      * @return The primary chat color of the flag's owners, gray if neutral
      */
-    public ChatColor getColor() {
+    public NamedTextColor getColor() {
         String currentOwners = getCurrentOwners();
         if (currentOwners.equals("neutral"))
-            return ChatColor.GRAY;
+            return GRAY;
 
         Team team = MapController.getCurrentMap().getTeam(currentOwners);
         return team.primaryChatColor;
+    }
+
+    /**
+     *
+     * @param flag the flag to create the bossbar for
+     * @param barColour the colour of the bar, should be the team colour.
+     * @param barStyle the style to put the bossbar in
+     * @param text this is actually just the flag name
+     * @param progress the amount of progress done on the bossbar, should be (index / max caps)
+     */
+    public static void createFlagBossbar(Flag flag, BossBar.Color barColour, BossBar.Overlay barStyle, String text, float progress) {
+        Main.plugin.getComponentLogger().info(Component.text(flag.name + " Bossbar creation initialised", NamedTextColor.DARK_GREEN));
+        BossBar bar = BossBar.bossBar(Component.text(text), progress, barColour, barStyle);
+        bars.putIfAbsent(flag, bar);
+    }
+
+    /**
+     *
+     * @param flag the flag which this bossbar belongs to
+     * @param p the player to display the bossbar to
+     */
+    public void addPlayerToFlagBar(Flag flag, Player p) {
+        if (bars.containsKey(flag)) {
+            bars.get(flag).addViewer(p);
+        }
+    }
+
+    /**
+     *
+     * @param flag the flag which this bossbar belongs to
+     * @param p the player to remove the bossbar from
+     */
+    public void removePlayerFromFlagBar(Flag flag, Player p) {
+        if (bars.containsKey(flag)) {
+            bars.get(flag).removeViewer(p);
+        }
+    }
+
+    /**
+     *
+     * @param flag the flag which the bossbar belongs to
+     * @param value the amount of progress on the bossbar to display, should be the flag's progress or capture index/max caps
+     */
+    public void setFlagBarValue(Flag flag, float value) {
+        bars.get(flag).progress(value);
+    }
+
+    /**
+     *
+     * @param flag the flag which the bossbar belongs to
+     * @param color the colour to put the bossbar to
+     */
+    public void setFlagBarColour(Flag flag, BossBar.Color color) {
+        bars.get(flag).color(color);
+    }
+
+    /**
+     * called to register all bossbars for each flag on the current map
+     */
+    public static void registerBossbars() {
+        for (Flag flag : MapController.getCurrentMap().flags) {
+            createFlagBossbar(flag, getBarColour(flag.getColor()), BossBar.Overlay.PROGRESS, flag.name, (float) flag.animationIndex/flag.maxCap);
+        }
     }
 }

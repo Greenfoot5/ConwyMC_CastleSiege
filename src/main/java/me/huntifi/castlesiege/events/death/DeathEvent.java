@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.events.death;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
-import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
@@ -16,8 +16,10 @@ import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -28,6 +30,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -38,7 +41,7 @@ import java.util.UUID;
  */
 public class DeathEvent implements Listener {
 
-    public final static ArrayList<Player> onCooldown = new ArrayList<>();
+    public static final ArrayList<Player> onCooldown = new ArrayList<>();
 
     private static final HashMap<Player, Player> killerMap = new HashMap<>();
 
@@ -68,7 +71,7 @@ public class DeathEvent implements Listener {
         MapController.forcedRandom)
             player.performCommand("random");
         else
-            Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+            Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), false);
 
         player.setWalkSpeed(0.2f);
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> respawnCounter(player), 10);
@@ -104,7 +107,7 @@ public class DeathEvent implements Listener {
      */
     @EventHandler (priority = EventPriority.MONITOR)
     public void disableDeathMessage(PlayerDeathEvent event) {
-        event.setDeathMessage(null);
+        event.deathMessage(null);
     }
 
     private void respawn(Player p) {
@@ -116,30 +119,43 @@ public class DeathEvent implements Listener {
      * @param p the player to display the counter to
      */
     private void respawnCounter(Player p) {
-        if (!p.isOnline()) {return;}
+        if (!p.isOnline()) return;
+
+        Title.Times times = Title.Times.times(Duration.ZERO, Duration.ofMillis(1000), Duration.ofMillis(750));
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 3, 0, 20, 15);
+                Title title = Title.title(Component.empty(), Component.text("You're able to spawn in ", NamedTextColor.DARK_GREEN)
+                        .append(Component.text(3, NamedTextColor.DARK_RED)),
+                        times);
+                p.showTitle(title);
                }
             }.runTaskLater(Main.plugin, 20);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 2, 0, 20, 15);
+                Title title = Title.title(Component.empty(), Component.text("You're able to spawn in ", NamedTextColor.DARK_GREEN)
+                                .append(Component.text(2, NamedTextColor.DARK_RED)),
+                        times);
+                p.showTitle(title);
 
             }
         }.runTaskLater(Main.plugin, 40);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 1, 0, 20, 15);
+                Title title = Title.title(Component.empty(), Component.text("You're able to spawn in ", NamedTextColor.DARK_GREEN)
+                                .append(Component.text(1, NamedTextColor.DARK_RED)),
+                        times);
+                p.showTitle(title);
             }
         }.runTaskLater(Main.plugin, 60);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You can now spawn!", 0, 20, 15);
+                Title title = Title.title(Component.empty(), Component.text("You can now spawn!", NamedTextColor.DARK_GREEN),
+                        times);
+                p.showTitle(title);
                 onCooldown.remove(p);
             }
         }.runTaskLater(Main.plugin, 80);
@@ -181,7 +197,7 @@ public class DeathEvent implements Listener {
         // Kill
         Player killer = killerMap.getOrDefault(target, target.getKiller());
         killerMap.remove(target);
-        if (killer != null) {
+        if (killer != null && !DuelCommand.isDueling(killer)) {
             UpdateStats.addKill(killer.getUniqueId());
             AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
 
@@ -194,7 +210,7 @@ public class DeathEvent implements Listener {
                     killDeathMessage(killer, target, kit.getMeleeMessage());
 
             // Check for bounty
-            BountyCommand.killstreak(killer);
+            BountyCommand.killStreak(killer);
         }
 
         // Assist
@@ -214,10 +230,7 @@ public class DeathEvent implements Listener {
         }
 
         if (killer != null || assist != null) {
-            UpdateStats.addDeaths(target.getUniqueId(), 1, false);
-            Messenger.sendInfo("You gained "
-                    + PlayerData.bpDeathAmount * PlayerData.getBattlepointMultiplier()
-                    + " BattlePoint(s) for a death...", target, 15);
+            UpdateStats.addDeaths(target.getUniqueId(), 1);
         }
     }
 
@@ -228,25 +241,20 @@ public class DeathEvent implements Listener {
      * @param messages The messages sent to the killer and target
      */
     private void killDeathMessage(Player killer, Player target, Tuple<String[], String[]> messages) {
-        killer.sendMessage("You" + messages.getFirst()[0] + NameTag.color(target) + target.getName()
-                + ChatColor.RESET + messages.getFirst()[1] + ChatColor.GRAY +
-                " (" + (ActiveData.getData(killer.getUniqueId()).getKillStreak()) + ")");
+        Messenger.send(Component.text("You" + messages.getFirst()[0]
+                                + NameTag.mmUsername(target) + messages.getFirst()[1])
+                .append(Component.text(" (" + (ActiveData.getData(killer.getUniqueId()).getKillStreak()) + ")", NamedTextColor.GRAY)),
+                killer);
 
-        target.sendMessage(messages.getSecond()[0] + NameTag.color(killer) + killer.getName()
-                + ChatColor.RESET + messages.getSecond()[1]);
+        Messenger.send(Component.text(messages.getSecond()[0] + NameTag.mmUsername(killer) + messages.getSecond()[1]), target);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player == killer || player == target
-                    || ActiveData.getData(player.getUniqueId()).getSetting("deathMessages").equals("false"))
-                continue;
-            player.sendMessage(NameTag.color(killer) + killer.getName() + ChatColor.RESET
-                    + messages.getFirst()[0] + NameTag.color(target) + target.getName()
-                    + ChatColor.RESET + messages.getFirst()[1]);
+            if (player != killer && player != target
+                    && !ActiveData.getData(player.getUniqueId()).getSetting("deathMessages").equals("false")) {
+                Messenger.send(NameTag.mmUsername(killer) + messages.getFirst()[0]
+                        + NameTag.mmUsername(target) + messages.getFirst()[1], player);
+            }
         }
-
-        Messenger.sendInfo("You gained "
-                + PlayerData.bpKillAmount * PlayerData.getBattlepointMultiplier()
-                + " BattlePoint(s) for a kill!", killer, 15);
     }
 
     /**
@@ -257,10 +265,7 @@ public class DeathEvent implements Listener {
     private void assistMessage(UUID uuid, Player target) {
         Player assist = Bukkit.getPlayer(uuid);
         if (assist != null) {
-            assist.sendMessage("You assisted in killing " + NameTag.color(target) + target.getName());
-            Messenger.sendInfo("You gained "
-                    + PlayerData.bpAssistAmount * PlayerData.getBattlepointMultiplier()
-                    + "BattlePoint(s) for assisting in a kill", assist,15);
+            Messenger.send("You assisted in killing " + NameTag.mmUsername(target), assist);
         }
     }
 

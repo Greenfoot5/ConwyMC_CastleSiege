@@ -1,9 +1,7 @@
 package me.huntifi.castlesiege.secrets.Helmsdeep;
 
 import me.huntifi.castlesiege.Main;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,7 +21,7 @@ public class SecretDoor implements Listener {
 
     final Location chestLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 992, 62, 983);
 
-    final Location stonebuttonLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 63, 979);
+    final Location stoneButtonLoc = new Location(Main.plugin.getServer().getWorld("HelmsDeep"), 990, 63, 979);
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
@@ -34,11 +32,9 @@ public class SecretDoor implements Listener {
             if(event.getClickedBlock().getType().equals(Material.CHEST) && event.getClickedBlock().getLocation().equals(chestLoc)) {
 
                 Player p = event.getPlayer();
-
-
                 if (!isOpen) {
 
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened a secret door!"));
+                    Messenger.sendSecret("You have opened a secret door!", p);
                     isOpen = true;
                     openDoor();
 
@@ -51,8 +47,6 @@ public class SecretDoor implements Listener {
                             closeDoor();
                         }
                     }.runTaskLater(Main.plugin, 60);
-
-
                 }
             }
         }
@@ -106,17 +100,14 @@ public class SecretDoor implements Listener {
 
     @EventHandler
     public void onInteract2(PlayerInteractEvent event){
-
-
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
 
-            if(event.getClickedBlock().getType().equals(Material.STONE_BUTTON) && event.getClickedBlock().getLocation().equals(stonebuttonLoc)) {
+            if(event.getClickedBlock().getType().equals(Material.STONE_BUTTON) && event.getClickedBlock().getLocation().equals(stoneButtonLoc)) {
 
                 Player p = event.getPlayer();
 
                 if (!isOpen) {
-
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have reopened the secret door!"));
+                    Messenger.sendSuccess("You have reopened the secret door!", p);
                     isOpen = true;
                     openDoor();
 
@@ -129,11 +120,8 @@ public class SecretDoor implements Listener {
                             closeDoor();
                         }
                     }.runTaskLater(Main.plugin, 60);
-
-
                 }
             }
         }
     }
-
 }

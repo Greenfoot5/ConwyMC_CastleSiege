@@ -2,14 +2,14 @@ package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -27,14 +27,16 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
 public class MoriaWindlancer extends TeamKit implements Listener {
     public MoriaWindlancer() {
-        super("Dwarven Windlancer", 300, 9 , "Moria",
-                "The Dwarves", 5000, Material.STICK);
+        super("Windlancer", 300, 9 , "Moria",
+                "The Dwarves", 5000, Material.STICK,
+                "moriawindlancer");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -42,32 +44,32 @@ public class MoriaWindlancer extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 20),
-                ChatColor.GREEN + "Small Hand-Windlass Spear", null, null, 29);
+                Component.text("Small Hand-Windlass Spear", NamedTextColor.GREEN), null, null, 29);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STICK, 20),
-                        ChatColor.GREEN + "Small Hand-Windlass Spear",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Small Hand-Windlass Spear", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Leather Chestplate", null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(218, 211, 183));
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(218, 183, 183));
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots", null, null);
+                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
@@ -103,13 +105,11 @@ public class MoriaWindlancer extends TeamKit implements Listener {
             if (stick.getType().equals(Material.STICK)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "You threw your spear-burst!"));
+                        Messenger.sendActionInfo("You threw your spear-burst!", p);
                         shootSpearBurst(p);
 
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't use spear-burst yet."));
+                        Messenger.sendActionError("You can't use spear-burst yet!", p);
                     }
                 }
             }
@@ -184,5 +184,12 @@ public class MoriaWindlancer extends TeamKit implements Listener {
 
         // No arrow found
         return false;
+    }
+
+    @Override
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
+        return description;
     }
 }

@@ -3,34 +3,55 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.boosters.GrantBooster;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
-import me.huntifi.castlesiege.data_types.*;
+import me.huntifi.castlesiege.data_types.Booster;
+import me.huntifi.castlesiege.data_types.CoinBooster;
+import me.huntifi.castlesiege.data_types.KitBooster;
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.maps.objects.*;
+import me.huntifi.castlesiege.maps.objects.Catapult;
+import me.huntifi.castlesiege.maps.objects.Core;
+import me.huntifi.castlesiege.maps.objects.Door;
+import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.maps.objects.Ram;
 import me.huntifi.castlesiege.secrets.SecretItems;
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+import java.util.UUID;
 
-import static org.bukkit.Bukkit.*;
+import static org.bukkit.Bukkit.getPlayer;
+import static org.bukkit.Bukkit.getServer;
+import static org.bukkit.Bukkit.getWorld;
 
 /**
  * Manages what map the game is currently on
@@ -39,19 +60,14 @@ public class MapController {
 
 	// Boosters - chances
 	private static final double BASE_BOOSTER_CHANCE = 0.15;
-	private static final double COIN_BOOSTER_CHANCE = 0.35;
-	private static final double BATTLEPOINT_BOOSTER_CHANCE = 0.3;
-	//private static final double KIT_BOOSTER_CHANCE = 0.35; // Not actually used, set for reference
+	private static final double COIN_BOOSTER_CHANCE = 0.5;
+	//private static final double KIT_BOOSTER_CHANCE = 0.5; // Not actually used, set for reference
+
 	// Boosters - limits/sub-chances
 	private static final int COIN_BOOSTER_MAX_TIME = 9000;
 	private static final int COIN_BOOSTER_MIN_TIME = 1800;
 	private static final double COIN_BOOSTER_GAUSSIAN_DIV = 2.75;
 	private static final double COIN_BOOSTER_GAUSSIAN_ADD = 3;
-	private static final int BP_BOOSTER_MAX_TIME = 2700;
-	private static final int BP_BOOSTER_MIN_TIME = 300;
-	private static final double BP_BOOSTER_MULT_CHANCE = 0.5;
-	private static final double BP_BOOSTER_MAX_MULT = 2.5;
-	private static final double BP_BOOSTER_MIN_MULT = -1;
 	private static final int KIT_BOOSTER_MAX_TIME = 9000;
 	private static final int KIT_BOOSTER_MIN_TIME = 1800;
 	private static final double KIT_BOOSTER_RANDOM_CHANCE = 0.35;
@@ -105,7 +121,7 @@ public class MapController {
 
 	/**
 	 * @param mapName The name of the map to get
-	 * @return The Map of the mapname, null if no map of that name exists
+	 * @return The Map of the map name, null if no map of that name exists
 	 */
 	public static Map getMap(String mapName) {
 		for (Map map : maps) {
@@ -128,7 +144,7 @@ public class MapController {
 				if (map != null) {
 					newMaps.add(map);
 				} else {
-					getLogger().severe("Could not load match mode. Could not find map: `" + mapName + "`");
+					Main.instance.getLogger().severe("Could not load match mode. Could not find map: `" + mapName + "`");
 				}
 			}
 			maps = newMaps;
@@ -145,7 +161,7 @@ public class MapController {
 		VoteSkipCommand.clearVotes();
 		for (int i = 0; i < maps.size(); i++) {
 			if (Objects.equals(maps.get(i).name, mapName)) {
-				getLogger().info("Loading map - " + mapName);
+				Main.instance.getLogger().info("Loading map - " + mapName);
 				mapIndex = i;
 				unloadMap(oldMap);
 				loadMap();
@@ -164,25 +180,30 @@ public class MapController {
 		// Calculate the winner based on the game mode
 		String winners = null;
 		switch(getCurrentMap().gamemode) {
+			case DestroyTheCore:
+				if (MapController.getCurrentMap() instanceof CoreMap) {
+					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+					// Check if the defenders have won
+					for (Core core : coreMap.getCores()) {
+						if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].name)) {
+							winners = getCurrentMap().teams[0].name;
+						} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].name)) {
+							winners = getCurrentMap().teams[1].name;
+						}
+					}
+				}
+				break;
 			case Control:
-				getLogger().severe("Control game mode has not been implemented yet! It's a draw!");
+				Main.instance.getLogger().severe("Control game mode has not been implemented yet! It's a draw!");
 				break;
 			case Charge:
 				// Check if the defenders have won
 				for (Flag flag : getCurrentMap().flags) {
 					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].name)) {
-						if (flag.isActive()) {
-							winners = getCurrentMap().teams[0].name;
-						} else {
-							winners = getCurrentMap().teams[0].name;
-						}
-					} else {
-						if (flag.isActive()) {
-							winners = getCurrentMap().teams[1].name;
-						} else {
-							winners = getCurrentMap().teams[1].name;
-						}
-					}
+                        winners = getCurrentMap().teams[0].name;
+                    } else {
+                        winners = getCurrentMap().teams[1].name;
+                    }
 				}
 				break;
 			case Assault:
@@ -205,9 +226,9 @@ public class MapController {
 						// If two teams are the largest, we set up for a draw
 					}
 
-					//else if (flagCounts.get(teamName).equals(flagCounts.get(currentWinners))) {
-						//winners = null;
-					//}
+					else if (flagCounts.get(teamName).equals(flagCounts.get(currentWinners))) {
+						winners = null;
+					}
 				}
 				break;
 		}
@@ -219,17 +240,6 @@ public class MapController {
 					Team team = TeamController.getTeam(player.getUniqueId());
 					if (team != null) {
 						player.teleport(team.lobby.spawnPoint);
-					}
-
-					// Refund the player's bp if they didn't die
-					UUID uuid = player.getUniqueId();
-					if (!InCombat.isPlayerInLobby(uuid))
-					{
-						Kit kit = Kit.equippedKits.get(uuid);
-						if (kit instanceof DonatorKit) {
-							DonatorKit dKit = (DonatorKit) kit;
-							ActiveData.getData(player.getUniqueId()).addBattlepointsClean(dKit.getBattlepointPrice());
-						}
 					}
 				}
 				InCombat.clearCombat();
@@ -244,28 +254,25 @@ public class MapController {
 		// Broadcast the winners
 		if (winners != null) {
 			for (Team team : getCurrentMap().teams) {
-				Bukkit.broadcastMessage("");
 				if (team.name.equals(winners)) {
-					Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has won!~~~~~~~~");
+					Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has won!~~~~~~~~", team.primaryChatColor));
 				} else {
-					Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has lost!~~~~~~~~");
+					Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has lost!~~~~~~~~", team.primaryChatColor));
 				}
 
-				// Broadcast MVP
-				for (String message : MVPCommand.getMVPMessage(team)) {
-					Bukkit.broadcastMessage(message);
+				Messenger.broadcast(MVPCommand.getMVPMessage(team));
+
+				if (team.name.equals(winners)) {
+					giveCoinReward(team);
 				}
+
 			}
 		// The map was a draw
 		} else {
 			for (Team team : getCurrentMap().teams) {
-				Bukkit.broadcastMessage("");
-				Bukkit.broadcastMessage(team.primaryChatColor + "~~~~~~~~" + team.name + " has drawn!~~~~~~~~");
+				Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has drawn!~~~~~~~~", team.primaryChatColor));
 
-				// Broadcast MVP
-				for (String message : MVPCommand.getMVPMessage(team)) {
-					Bukkit.broadcastMessage(message);
-				}
+				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 			}
 		}
 		VoteSkipCommand.clearVotes();
@@ -281,6 +288,24 @@ public class MapController {
 			}
 		}.runTaskLater(Main.plugin, 150);
 
+	}
+
+	/**
+	 * Gives a 50 coins reward for winning the game, is also affected by coin boosters.
+     * @param team The team to grant the coins to
+     */
+	public static void giveCoinReward(Team team) {
+
+		for (UUID uuid : team.getPlayers()) {
+			Player p = getPlayer(uuid);
+			assert p != null;
+			double score = MVPStats.getStats(p.getUniqueId()).getScore();
+
+			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
+				ActiveData.getData(p.getUniqueId()).addCoins(50 * PlayerData.getCoinMultiplier());
+				Messenger.sendSuccess("<gold>+" + (50 * PlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
+			}
+		}
 	}
 
 	/**
@@ -318,15 +343,6 @@ public class MapController {
 					mult = Math.abs(mult);
 					booster = new CoinBooster(duration, mult);
 				}
-				else if (boosterChoice + COIN_BOOSTER_CHANCE < BATTLEPOINT_BOOSTER_CHANCE) {
-					int duration = random.nextInt((BP_BOOSTER_MAX_TIME - BP_BOOSTER_MIN_TIME) + 1) + BP_BOOSTER_MIN_TIME;
-					double mult = (BP_BOOSTER_MAX_MULT - BP_BOOSTER_MIN_MULT) * random.nextDouble() + BP_BOOSTER_MIN_MULT;
-					if (random.nextDouble() < BP_BOOSTER_MULT_CHANCE) {
-						booster = new BattlepointBooster(duration);
-					} else {
-						booster = new BattlepointBooster(duration, mult);
-					}
-				}
 				else {
 					int duration = random.nextInt((KIT_BOOSTER_MAX_TIME - KIT_BOOSTER_MIN_TIME) + 1) + KIT_BOOSTER_MIN_TIME;
 					String kit;
@@ -336,7 +352,7 @@ public class MapController {
 					} else if (boosterType + KIT_BOOSTER_RANDOM_CHANCE < KIT_BOOSTER_WILD_CHANCE) {
 						kit = "wild";
 					} else {
-						ArrayList<String> dKits = (ArrayList<String>) DonatorKit.getKits();
+						ArrayList<String> dKits = (ArrayList<String>) CoinKit.getKits();
 						do {
 							kit = dKits.get(new Random().nextInt(dKits.size()));
 						} while (Kit.getKit(kit) instanceof TeamKit);
@@ -346,9 +362,9 @@ public class MapController {
 
 				GrantBooster.updateDatabase(uuid, booster);
 				data.addBooster(booster);
-				Player player = Bukkit.getPlayer(uuid);
+				Player player = getPlayer(uuid);
 				if (player != null) {
-					Messenger.broadcastSuccess(player.getDisplayName() + " gained a " + booster.getName() + " for being MVP!");
+					Messenger.broadcastSuccess(player.displayName().append(Component.text(" gained a " + booster.getName() + " for being MVP!")));
 				}
 			}
 		}
@@ -363,12 +379,11 @@ public class MapController {
 
 		Map oldMap = maps.get(mapIndex);
 		if (finalMap()) {
-			getLogger().info("Completed map cycle! Restarting server...");
+			Main.instance.getLogger().info("Completed map cycle! Restarting server...");
 			getServer().spigot().restart();
-		}
-		else {
+		} else {
 			mapIndex++;
-			getLogger().info("Loading next map: " + maps.get(mapIndex).name);
+			Main.instance.getLogger().info("Loading next map: " + maps.get(mapIndex).name);
 			unloadMap(oldMap);
 			loadMap();
 		}
@@ -395,7 +410,7 @@ public class MapController {
 		// Move all players to the new map and team
 		if (!keepTeams || maps.get(mapIndex).teams.length < teams.size()) {
 			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
-				if (!SpectateCommand.spectators.contains(player.getUniqueId()))
+				if (!SpectateCommand.spectators.contains(player.getUniqueId()) && !DuelCommand.isDueling(player))
 					joinATeam(player.getUniqueId());
 			}
 		} else {
@@ -409,18 +424,24 @@ public class MapController {
 
 		//Spawn secret items if there are any
 		SecretItems.spawnSecretItems();
-		Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Spawning secret items if there are any.");
+		Main.plugin.getComponentLogger().info(Component.text("Spawning secret items if there are any.", NamedTextColor.DARK_GREEN));
 
 		// Teleport Spectators
 		for (UUID spectator : SpectateCommand.spectators) {
-			Player player = Bukkit.getPlayer(spectator);
+			Player player = getPlayer(spectator);
 			if (player != null && player.isOnline()) {
-				player.teleport(getCurrentMap().flags[0].getSpawnPoint());
+				if (MapController.getCurrentMap() instanceof CoreMap) {
+					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+						player.teleport(coreMap.getCore(1).getSpawnPoint());
+
+				} else {
+					player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
+				}
 			}
 		}
 
 		// Set up the time
-		World world = Bukkit.getWorld(maps.get(mapIndex).worldName);
+		World world = getWorld(maps.get(mapIndex).worldName);
 		assert world != null;
 		world.setTime(maps.get(mapIndex).startTime);
 		world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, maps.get(mapIndex).daylightCycle);
@@ -499,6 +520,20 @@ public class MapController {
 					Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
 				}
 
+				// Register cores and regions
+				if (maps.get(mapIndex) instanceof CoreMap) {
+					CoreMap coreMap = (CoreMap) maps.get(mapIndex);
+					for (Core core : coreMap.getCores()) {
+						Main.plugin.getServer().getPluginManager().registerEvents(core, Main.plugin);
+
+						if (core.region != null) {
+							Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+											BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName)))))
+									.addRegion(core.region);
+						}
+					}
+				}
+
 				// Register gates
 				for (Gate gate : maps.get(mapIndex).gates) {
 					Main.plugin.getServer().getPluginManager().registerEvents(gate, Main.plugin);
@@ -522,16 +557,18 @@ public class MapController {
 					}
 				}
 
-				for (ArrayList<UUID> t : teams) {
-					for (UUID uuid : t) {
-						Player player = getPlayer(uuid);
-						if (player == null) continue;
-						Team team = TeamController.getTeam(uuid);
-						player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-						player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~");
-						player.sendMessage(team.primaryChatColor + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-					}
+				for (UUID uuid : getPlayers()) {
+					Player player = getPlayer(uuid);
+					if (player == null) continue;
+					Team team = TeamController.getTeam(uuid);
+					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
+					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
+					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
 				}
+				//enable the bossbars
+				Flag.registerBossbars();
+
+				Scoreboard.clearScoreboard();
 			}
 		}.runTask(Main.plugin);
 
@@ -549,12 +586,12 @@ public class MapController {
 		if (kit == null)
 			return;
 
-		if (kit instanceof TeamKit) {
+		if (kit instanceof TeamKit || kit instanceof MapKit) {
 			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
 			ActiveData.getData(player.getUniqueId()).setKit("swordsman");
 		}
 
-		Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId());
+		Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), true);
 	}
 
 	/**
@@ -575,6 +612,21 @@ public class MapController {
 		// Clear capture zones
 		for (Flag flag : oldMap.flags) {
 			flag.clear();
+		}
+
+		// Unregister core listeners and regions
+		if (maps.get(mapIndex) instanceof CoreMap) {
+			CoreMap coreMap = (CoreMap) maps.get(mapIndex);
+			for (Core core : coreMap.getCores()) {
+				HandlerList.unregisterAll(core);
+
+				if (core.region != null) {
+					Bukkit.getScheduler().runTask(Main.plugin, () ->
+							Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+											BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
+									.removeRegion(core.name.replace(' ', '_')));
+				}
+			}
 		}
 
 		// Unregister catapult listeners
@@ -633,27 +685,6 @@ public class MapController {
 	}
 
 	/**
-	 * Checks if the current map has ended
-	 * @return If all the flags belong to the same team
-	 */
-	public static Boolean hasMapEnded() {
-		if (timer.state == TimerState.ENDED) {
-			return true;
-		}
-
-		String startingTeam = getCurrentMap().flags[0].getCurrentOwners();
-		if (startingTeam == null) {
-			return false;
-		}
-		for (Flag flag : getCurrentMap().flags) {
-			if (!startingTeam.equalsIgnoreCase(flag.getCurrentOwners()) && flag.isActive()) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
 	 * Adds a player to a team on the current map
 	 * @param uuid the player to add to a team
 	 */
@@ -667,7 +698,7 @@ public class MapController {
 	 * @param team The team
 	 */
 	private static void joinTeam(UUID uuid, Team team) {
-		Player player = Bukkit.getPlayer(uuid);
+		Player player = getPlayer(uuid);
 		assert player != null;
 
 		team.addPlayer(uuid);
@@ -675,8 +706,31 @@ public class MapController {
 		player.teleport(team.lobby.spawnPoint);
 		NameTag.give(player);
 
-		player.sendMessage("You joined" + team.primaryChatColor + " " + team.name);
+		player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_2, 1f, 1f);
 
+		Messenger.send(Component.text("You joined ").append(Component.text(team.name, team.primaryChatColor)), player);
+
+		checkTeamKit(player);
+	}
+
+	/**
+	 * Puts the players back in their spawnrooms.
+	 * @param uuid the player to add to a team
+	 */
+	public static void rejoinAfterDuel(UUID uuid) {
+		rejoinAfterDuels(uuid, getCurrentMap().smallestTeam());
+	}
+
+	/**
+	 *
+	 * @param uuid the player to sent to the spawnroom
+	 * @param team their team
+	 */
+	private static void rejoinAfterDuels(UUID uuid, Team team) {
+		Player player = getPlayer(uuid);
+		assert player != null;
+
+		player.teleport(team.lobby.spawnPoint);
 		checkTeamKit(player);
 	}
 
@@ -694,8 +748,36 @@ public class MapController {
 	}
 
 	/**
+	 * @return All the players currently playing the game
+	 */
+	public static List<UUID> getPlayers() {
+		List<UUID> players = new ArrayList<>();
+		for (Team t : getCurrentMap().teams) {
+            players.addAll(t.getPlayers());
+		}
+
+		return players;
+	}
+
+	/**
+	 * @return All the players playing the game and not in a lobby
+	 */
+	public static List<UUID> getActivePlayers() {
+		List<UUID> players = new ArrayList<>();
+		for (Team t : getCurrentMap().teams) {
+			for (UUID uuid : t.getPlayers()) {
+				if (!InCombat.isPlayerInLobby(uuid))
+					players.add(uuid);
+			}
+		}
+
+		return players;
+	}
+
+	/**
 	 * Checks if a player is a spectator
 	 * @param uuid The uuid of the player to check
+     * @return If the player is a spectator
 	 */
 	public static boolean isSpectator(UUID uuid) {
 		return SpectateCommand.spectators.contains(uuid);

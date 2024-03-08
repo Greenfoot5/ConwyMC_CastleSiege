@@ -1,12 +1,12 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,14 +30,14 @@ public class SuicideCommand implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label,
 							 @NotNull String[] args) {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-			if (canSuicide(sender)) {
+			if (canSuicide(sender) && !DuelCommand.isDueling((Player) sender)) {
 				Player p = (Player) sender;
 				if (p.getHealth() != 0)
 					Bukkit.getScheduler().runTask(Main.plugin, () -> p.setHealth(0));
 
 				if (MapController.isOngoing() && !InCombat.isPlayerInLobby(p.getUniqueId())) {
-					Messenger.sendInfo("You have committed suicide " + ChatColor.DARK_AQUA + "(+2 deaths)", p);
-					UpdateStats.addDeaths(p.getUniqueId(), 1, true);
+					Messenger.sendInfo("You have committed suicide <dark_aqua>(+2 deaths)", p);
+					UpdateStats.addDeaths(p.getUniqueId(), 1);
 				} else
 					Messenger.sendInfo("You have committed suicide.", p);
 			}

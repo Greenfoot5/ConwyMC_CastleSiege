@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.events.RamEvent;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -110,7 +111,7 @@ public class Ram {
             public void run() {
                 // Stop ramming when no more players in region or gate is breached
                 // Don't stop with only defenders because corresponding flag owner can change
-                if (players.size() == 0 || gate.isBreached()) {
+                if (players.isEmpty() || gate.isBreached()) {
                     setIdle();
                     isRunning.decrementAndGet();
                     this.cancel();
@@ -135,12 +136,20 @@ public class Ram {
      */
     private void doRamTick(Tuple<ArrayList<UUID>, ArrayList<UUID>> contenders) {
         if (shouldHit(contenders.getFirst().size() - contenders.getSecond().size())) {
+            RamEvent ramEvent = new RamEvent(gate.getName(), damage, gate.getHealth(), contenders.getFirst());
+            Bukkit.getPluginManager().callEvent(ramEvent);
+            if (ramEvent.isCancelled()) {
+                return;
+            }
+
             // Perform the ram blockAnimation
             spawnSchematic(schematicNameActiveHit);
             Bukkit.getScheduler().runTaskLater(Main.plugin, () -> spawnSchematic(schematicNameActiveRest), 7);
 
+
             // Deal damage to the gate
-            gate.dealDamage(contenders.getFirst(), damage);
+            //gate.dealDamage(contenders.getFirst(), damage);
+            gate.dealDamage(ramEvent.getPlayerUUIDs(), ramEvent.getDamageDealt());
 
             // Award supports to attacking players
             for (UUID uuid : players)
@@ -195,9 +204,14 @@ public class Ram {
      * @param sound The sound to play
      */
     private void playSound(Sound sound) {
-        World world = Bukkit.getWorld(MapController.getCurrentMap().worldName);
-        assert world != null;
-        world.playSound(schematicLocation.toLocation(world), sound, 1, 0.5f);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                World world = Bukkit.getWorld(MapController.getCurrentMap().worldName);
+                assert world != null;
+                world.playSound(schematicLocation.toLocation(world), sound, 1, 0.5f);
+            }
+        }.runTask(Main.plugin);
     }
 
     /**

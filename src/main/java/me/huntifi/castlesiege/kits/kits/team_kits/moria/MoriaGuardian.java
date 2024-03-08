@@ -5,7 +5,8 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -17,14 +18,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
 public class MoriaGuardian extends TeamKit implements Listener {
 
     public MoriaGuardian() {
-        super("Dwarven Guardian", 620, 15, "Moria",
-                "The Dwarves", 5000, Material.SHIELD);
+        super("Guardian", 620, 15, "Moria",
+                "The Dwarves", 5000, Material.SHIELD,
+                "moriaguardian");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -32,36 +35,35 @@ public class MoriaGuardian extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Sword", null, null, 41);
+                Component.text("Sword", NamedTextColor.GREEN), null, null, 41);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                        ChatColor.GREEN + "Sword",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Sword", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 43),
                 0);
 
         // Shield
         es.offhand = ItemCreator.item(new ItemStack(Material.SHIELD),
-                ChatColor.GREEN + "Shield", null,
-                null);
+                Component.text("Shield", NamedTextColor.GREEN), null, null);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
-                ChatColor.GREEN + "Iron Chestplate", null, Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_PROJECTILE, 2)));
+                Component.text("Iron Chestplate", NamedTextColor.GREEN), null, Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_PROJECTILE, 2)));
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.NETHERITE_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null,
+                Component.text("Reinforced Iron Leggings", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_PROJECTILE, 2)));
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots", null, null);
+                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
@@ -93,5 +95,12 @@ public class MoriaGuardian extends TeamKit implements Listener {
                 hit.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30, 1));
             }
         }
+    }
+
+    @Override
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
+        return description;
     }
 }

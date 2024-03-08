@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.commands.staff.punishments;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.Punishments;
-import org.bukkit.ChatColor;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,10 +36,9 @@ public class Unban implements CommandExecutor {
             public void run() {
                 try {
                     Punishments.end(args[0], "ban");
-                    sender.sendMessage(ChatColor.DARK_GREEN + "Successfully unbanned: " + ChatColor.GREEN + args[0]);
+                    Messenger.sendSuccess("Successfully unbanned: <green>" + args[0], sender);
                 } catch (SQLException e) {
-                    sender.sendMessage(ChatColor.DARK_RED + "An error occurred while trying to unban: "
-                            + ChatColor.RED + args[0]);
+                    Messenger.sendError("An error occurred while trying to unban: <red>" + args[0], sender);
                     e.printStackTrace();
                 }
             }

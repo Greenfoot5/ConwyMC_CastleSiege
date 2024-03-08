@@ -1,20 +1,29 @@
 package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.staff.BroadcastCommand;
 import me.huntifi.castlesiege.commands.staff.donations.RankPoints;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.database.*;
+import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.LoadData;
+import me.huntifi.castlesiege.database.MVPStats;
+import me.huntifi.castlesiege.database.Permissions;
+import me.huntifi.castlesiege.database.Punishments;
+import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -28,12 +37,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.UUID;
 
 /**
  * Handles what happens when someone logs in
  */
 public class PlayerConnect implements Listener {
+
 
     /**
      * Assign the player's data and join a team
@@ -47,14 +58,14 @@ public class PlayerConnect implements Listener {
 
         // Ensure the player's data was loaded correctly
         if (data == null) {
-            p.kickPlayer(ChatColor.DARK_RED + "Something went wrong loading your data!\n"
-                    + "Please try joining again or contact staff if this issue persists.");
+            p.kick(Component.text("Something went wrong loading your data!", NamedTextColor.DARK_RED)
+                    .append(Component.newline()).append(Component.text("Please try joining again or contact staff if this issue persists.")));
             return;
         }
 
         // Set the join message
         if (!data.getJoinMessage().isEmpty()) {
-            e.setJoinMessage(ChatColor.YELLOW + data.getJoinMessage());
+            e.joinMessage(MiniMessage.miniMessage().deserialize(data.getJoinMessage()));
         }
 
         // Assign the player's staff and donator permissions
@@ -74,10 +85,10 @@ public class PlayerConnect implements Listener {
 
             // Assign stored kit
             Kit kit = Kit.getKit(data.getKit());
-            if (kit != null && kit.canSelect(p, true, false))
-                kit.addPlayer(uuid);
+            if (kit != null && kit.canSelect(p, true, true, false))
+                kit.addPlayer(uuid, true);
             else
-                Kit.getKit("Swordsman").addPlayer(uuid);
+                Kit.getKit("Swordsman").addPlayer(uuid, true);
         }
 
         // Reset player xp and level
@@ -91,20 +102,26 @@ public class PlayerConnect implements Listener {
         //Welcomes new players!
         if (!p.hasPlayedBefore()) {
 
-            String broadcastPrefix = "§2[§4ConwyMC§2] ";
-            Bukkit.broadcastMessage(broadcastPrefix + ChatColor.DARK_PURPLE + " ----- " + ChatColor.LIGHT_PURPLE + "Welcome " + p.getName()
-                    + " to Castle Siege!" + ChatColor.DARK_PURPLE + " ----- ");
-            p.sendMessage(ChatColor.GREEN + "If you encounter a problem or need help, contact us on Discord and create a support ticket");
+            Messenger.broadcast(BroadcastCommand.broadcastPrefix
+                    .append(MiniMessage.miniMessage().deserialize("<gradient:#663dff:#cc4499:#663dff><st>━━━━━</st> " +
+                            "Welcome <color:#cc4499>" + p.getName() + "</color> to Castle Siege! <st>━━━━━</st>")));
+            Messenger.send(Component.text("If you encounter a problem or need help, contact us on " +
+                            "<yellow><click:suggest_command:/discord>/discord</click></yellow> or " +
+                            "<yellow><click:open_url:https://conwymc.alchemix.dev/contact>email us</click></yellow>!",
+                    NamedTextColor.GREEN), p);
 
         } else {
-            p.sendMessage(ChatColor.DARK_RED + "Hello " + ChatColor.GREEN + p.getName());
-            p.sendMessage(ChatColor.DARK_RED + "Welcome to Castle Siege!");
-            p.sendMessage(ChatColor.DARK_PURPLE + "There are currently " + Bukkit.getOnlinePlayers().size() + " player(s) online.");
-            p.sendMessage(ChatColor.DARK_PURPLE + "The max amount of players is 100.");
+            Messenger.send(Component.text("Hello ", NamedTextColor.DARK_RED)
+                    .append(Component.text(p.getName()))
+                    .append(Component.newline())
+                    .append(Component.text("Welcome to Castle Siege", NamedTextColor.DARK_RED))
+                    .append(Component.newline())
+                    .append(Component.text("There are currently " + Bukkit.getOnlinePlayers().size() +
+                            " player(s) online.", NamedTextColor.DARK_PURPLE)), p);
         }
 
-        if (DonatorKit.isFree()) {
-            Messenger.broadcastInfo("It's Friday! All donator and team kits are " + ChatColor.BOLD + "UNLOCKED!");
+        if (CoinKit.isFree()) {
+            Messenger.broadcastInfo("It's Friday! All coin and team kits are <b>UNLOCKED!</b>");
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -128,8 +145,11 @@ public class PlayerConnect implements Listener {
         Tuple<String, Timestamp> banned = getBan(e.getUniqueId(), e.getAddress());
         if (banned != null) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
-                    ChatColor.DARK_RED + "\n[BAN] " + ChatColor.RED + banned.getFirst()
-                            + ChatColor.DARK_RED + "\n[EXPIRES IN] " + ChatColor.RED + PunishmentTime.getExpire(banned.getSecond()));
+                    Component.newline().append(Component.text("[BAN] ", NamedTextColor.DARK_RED)
+                            .append(Component.text(banned.getFirst(), NamedTextColor.RED)))
+                            .append(Component.newline())
+                            .append(Component.text("[EXPIRES IN]", NamedTextColor.DARK_RED))
+                            .append(Component.text(PunishmentTime.getExpire(banned.getSecond()))));
             return;
         }
 
@@ -199,19 +219,21 @@ public class PlayerConnect implements Listener {
 
     /**
      * send a title bar to the player after 5 seconds, then another time after 30 seconds.
-     * But only if they are in the spawnroom still.
+     * But only if they are in the spawn room still.
      * @param p The player
      */
     public static void sendTitlebarMessages(Player p) {
+        Title.Times times = Title.Times.times(Duration.ZERO, Duration.ofMillis(1000), Duration.ofMillis(750));
+        Title title = Title.title(Component.text("Click a sign on the woolmap to join the fight!"), Component.text(""), times);
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
             if (InCombat.isPlayerInLobby(p.getUniqueId())) {
-                p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
+                p.showTitle(title);
             }
         }, 100);
 
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
             if (InCombat.isPlayerInLobby(p.getUniqueId())) {
-                p.sendTitle("", "Click a sign on the woolmap to join the fight!", 20, 60, 20);
+                p.showTitle(title);
             }
         }, 600);
 

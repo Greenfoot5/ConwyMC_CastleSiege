@@ -2,9 +2,9 @@ package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -28,14 +28,12 @@ public class UpdateStats {
      * @param uuid The unique ID of the player
      * @param deaths The amount of deaths to add
      */
-    public static void addDeaths(UUID uuid, double deaths, boolean punishPlayer) {
+    public static void addDeaths(UUID uuid, double deaths) {
         if (uuid == null || ActiveData.getData(uuid) == null)
             return;
 
         ActiveData.getData(uuid).addDeaths(deaths);
         MVPStats.getStats(uuid).addDeaths(deaths);
-        ActiveData.getData(uuid).addBattlepoints(punishPlayer ? 0 : PlayerData.bpDeathAmount);
-        MVPStats.getStats(uuid).addBattlepoints(punishPlayer ? 0 : PlayerData.bpDeathAmount);
     }
 
     /**
@@ -86,16 +84,6 @@ public class UpdateStats {
     }
 
     /**
-     * Add battlepoints to the player's data
-     * @param uuid The unique ID of the player
-     * @param battlepoints The amount of battlepoints to add
-     */
-    public static void addBattlepoints(UUID uuid, double battlepoints) {
-        ActiveData.getData(uuid).addBattlepoints(battlepoints);
-        MVPStats.getStats(uuid).addBattlepoints(battlepoints);
-    }
-
-    /**
      * Attempt to level up the player
      * @param uuid The unique ID of the player
      */
@@ -110,14 +98,14 @@ public class UpdateStats {
 
                     Player p = Bukkit.getPlayer(uuid);
                     assert p != null;
-                    p.sendMessage(ChatColor.GOLD + "[+] " + ChatColor.DARK_GREEN + "Congratulations, you leveled up to level: " + ChatColor.YELLOW + level);
+                    Messenger.sendCongrats("Congratulations, you leveled up to level: <yellow>" + level, p);
                     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                     p.setLevel(level);
                     NameTag.give(p);
 
-                    // Announce every 10th level
-                    if (level % 10 == 0) {
-                        Bukkit.broadcastMessage(ChatColor.GOLD + "[+] " + ChatColor.DARK_GREEN + p.getName() + " has reached level " + level + "!");
+                    // Announce every 5th level
+                    if (level % 5 == 0) {
+                        Messenger.broadcastCongrats(p.getName() + " has reached level " + level + "!");
                     }
                 }
             }

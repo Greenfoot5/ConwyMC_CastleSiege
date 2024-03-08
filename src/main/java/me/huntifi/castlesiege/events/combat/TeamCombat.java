@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.events.combat;
 
+import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.entity.Boat;
@@ -54,6 +55,21 @@ public class TeamCombat implements Listener {
 	 * Cancels an attack if two entities are considered on the same team
 	 */
 	private void sameTeam(EntityDamageByEntityEvent e, Player p) {
+
+		//if dueling this shouldn't count
+		if (e.getDamager() instanceof Player) {
+			if (DuelCommand.isDueling((Player) e.getDamager()) && DuelCommand.isDueling(p)) {
+				e.setCancelled(false);
+				return;
+			}
+		} else if (e.getDamager() instanceof Projectile &&
+				((Projectile) e.getDamager()).getShooter() instanceof Player) {
+			if (DuelCommand.isDueling((Player) ((Projectile) e.getDamager()).getShooter()) && DuelCommand.isDueling(p)) {
+				e.setCancelled(false);
+				return;
+			}
+		}
+
 		// Hurt by teammate
 		if (e.getDamager() instanceof Player &&
 				TeamController.getTeam(p.getUniqueId()) == TeamController.getTeam(e.getDamager().getUniqueId())) {

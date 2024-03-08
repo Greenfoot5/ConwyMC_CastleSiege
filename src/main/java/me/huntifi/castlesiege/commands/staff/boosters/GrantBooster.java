@@ -1,7 +1,10 @@
 package me.huntifi.castlesiege.commands.staff.boosters;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.*;
+import me.huntifi.castlesiege.data_types.Booster;
+import me.huntifi.castlesiege.data_types.CoinBooster;
+import me.huntifi.castlesiege.data_types.KitBooster;
+import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -77,19 +80,6 @@ public class GrantBooster implements CommandExecutor {
                     return null;
                 }
                 return new CoinBooster(duration, multiplier);
-            case "BATTLEPOINT":
-            case "BP":
-                if (args.length != 4) {
-                    return new BattlepointBooster(duration);
-                }
-
-                try {
-                    multiplier = Double.parseDouble(args[3]);
-                } catch (NumberFormatException ex) {
-                    Messenger.sendError("Multiplier not a valid number! It should be a double!", sender);
-                    return null;
-                }
-                return new BattlepointBooster(duration, multiplier);
             case "KIT":
             case "K":
                 if (args.length != 4) {

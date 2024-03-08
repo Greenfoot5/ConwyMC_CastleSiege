@@ -1,5 +1,8 @@
 package me.huntifi.castlesiege.kits.kits;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ public abstract class FreeKit extends Kit {
      * @param baseHealth This kit's base health
      */
     public FreeKit(String name, int baseHealth, double regenAmount, Material material) {
-        super(name, baseHealth, regenAmount, material);
+        super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_GREEN);
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
     }
@@ -29,4 +32,15 @@ public abstract class FreeKit extends Kit {
     public static Collection<String> getKits() {
         return kits;
     }
+
+    /**
+     * @return Displays the cost for the footer of a kit gui's lore
+     */
+    public ArrayList<Component> getGuiCostText() {
+        ArrayList<Component> text = new ArrayList<>();
+        text.add(Component.empty());
+        text.add(Component.text("Free to play!", color).decorate(TextDecoration.BOLD));
+        return text;
+    }
+
 }

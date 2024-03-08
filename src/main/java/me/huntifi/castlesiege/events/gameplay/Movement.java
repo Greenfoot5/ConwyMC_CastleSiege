@@ -21,9 +21,11 @@ public class Movement implements Listener {
         Player p = e.getPlayer();
         if (Kit.equippedKits.get(p.getUniqueId()) == null) { return;}
         if (!Kit.equippedKits.get(p.getUniqueId()).canClimb &&
-                p.getLocation().getBlock().getType() == Material.LADDER &&
-                e.getTo() != null && e.getTo().getY() - e.getFrom().getY() > 0) {
-            e.setCancelled(true);
+                p.getLocation().getBlock().getType() == Material.LADDER) {
+            e.getTo();
+            if (e.getTo().getY() - e.getFrom().getY() > 0) {
+                e.setCancelled(true);
+            }
         }
     }
 }

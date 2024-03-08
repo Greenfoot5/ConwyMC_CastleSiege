@@ -9,10 +9,10 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
+import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -36,7 +36,12 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * The fire archer kit
@@ -73,22 +78,22 @@ public class FireArcher extends VoterKit implements Listener {
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Leather Chestplate", null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(204, 0, 0));
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 128, 0));
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots", null, null,
+                Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(204, 0, 0));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(204, 0, 0));
 
@@ -98,33 +103,37 @@ public class FireArcher extends VoterKit implements Listener {
 
         // Bow
         es.hotbar[0] = ItemCreator.item(new ItemStack(Material.BOW),
-                ChatColor.GREEN + "Bow", null,
+                Component.text("Bow", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, bowPowerLevel)));
 
         // Firepit
         firepit = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
-                ChatColor.GREEN + "Firepit", Arrays.asList("",
-                        ChatColor.AQUA + "Place the firepit down, then",
-                        ChatColor.AQUA + "right click it with an arrow.", "",
-                        ChatColor.AQUA + "(tip): This firepit is very hard, so you",
-                        ChatColor.AQUA + "can beat your enemies to death with it."),
+                Component.text("Firepit", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Place the firepit down, then", NamedTextColor.AQUA),
+                        Component.text( "right click it with an arrow.", NamedTextColor.AQUA),
+                        Component.empty(),
+                        Component.text( "(tip): This firepit is very hard, so you", NamedTextColor.AQUA),
+                        Component.text( "can beat your enemies to death with it.", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, knockbackLevel)), meleeDamage);
         es.hotbar[1] = firepit;
         // Voted Firepit
         firepitVoted = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
-                ChatColor.GREEN + "Firepit", Arrays.asList("",
-                        ChatColor.AQUA + "Place the firepit down, then",
-                        ChatColor.AQUA + "right click it with an arrow.", "",
-                        ChatColor.AQUA + "- voted: + 2 damage.",
-                        ChatColor.AQUA + "(tip): This firepit is very hard, so you",
-                        ChatColor.AQUA + "can beat your enemies to death with it."),
+                Component.text("Firepit", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Place the firepit down, then", NamedTextColor.AQUA),
+                        Component.text( "right click it with an arrow.", NamedTextColor.AQUA),
+                        Component.empty(),
+                        Component.text( "- voted: + 2 damage.", NamedTextColor.AQUA),
+                        Component.text( "(tip): This firepit is very hard, so you", NamedTextColor.AQUA),
+                        Component.text( "can beat your enemies to death with it.", NamedTextColor.AQUA)),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
                         new Tuple<>(Enchantment.KNOCKBACK, knockbackLevel)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(firepitVoted, 1);
 
         // Fire Arrows
         fireArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
-                ChatColor.GOLD + "Fire Arrow", null, null);
+                Component.text("Fire Arrow", NamedTextColor.GOLD), null, null);
         PotionMeta potionMeta = (PotionMeta) fireArrow.getItemMeta();
         assert potionMeta != null;
         potionMeta.setColor(Color.ORANGE);
@@ -164,10 +173,9 @@ public class FireArcher extends VoterKit implements Listener {
             // Place new cauldron
             e.setCancelled(false);
             cauldrons.put(p, e.getBlockPlaced());
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                    TextComponent.fromLegacyText(ChatColor.AQUA + "You placed down your Firepit!"));
+            Messenger.sendActionInfo("You placed down your Firepit", p);
             for (PotionEffect effect : p.getActivePotionEffects()) {
-                if (effect.getType().getName().equals(PotionEffectType.SLOW.getName()) && effect.getAmplifier() == 0) {
+                if (effect.getType().equals(PotionEffectType.SLOW) && effect.getAmplifier() == 0) {
                     p.removePotionEffect(effect.getType());
                 }
             }
@@ -193,8 +201,7 @@ public class FireArcher extends VoterKit implements Listener {
             // Pick up own firepit
             if (Objects.equals(p, q)) {
                 destroyFirepit(q);
-                q.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacyText(ChatColor.AQUA + "You took back your Firepit!"));
+                Messenger.sendActionInfo("You took back your Firepit", p);
                 // Perm Potion Effect
                 q.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 999999, 0));
 
@@ -214,8 +221,7 @@ public class FireArcher extends VoterKit implements Listener {
                     TeamController.getTeam(p.getUniqueId()) != TeamController.getTeam(q.getUniqueId())){
                 destroyFirepit(q);
                 p.playSound(e.getClickedBlock().getLocation(), Sound.ENTITY_ZOMBIE_INFECT , 5, 1);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacyText(ChatColor.RED + "You kicked over " + q.getName() + "'s Firepit!"));
+                Messenger.sendActionSuccess("You kicked over " + NameTag.mmUsername(q) + "'s Firepit!", p);
             }
         }
     }
@@ -353,5 +359,25 @@ public class FireArcher extends VoterKit implements Listener {
                 .filter(entry -> Objects.equals(entry.getValue(), cauldron))
                 .findFirst().map(Map.Entry::getKey)
                 .orElse(null);
+    }
+
+    /**
+     * @return The lore to add to the kit gui item
+     */
+    @Override
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Ranged kit that can craft and", NamedTextColor.GRAY));
+        kitLore.add(Component.text("shoot flaming arrows", NamedTextColor.GRAY));
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, arrowDamage, ladderCount, arrowCount));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Slowness I (with fire pit in ", NamedTextColor.GRAY));
+        kitLore.add(Component.text("inventory)", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can place and pickup their fire pit", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can craft fire arrows using the fire pit", NamedTextColor.GRAY));
+        return kitLore;
     }
 }

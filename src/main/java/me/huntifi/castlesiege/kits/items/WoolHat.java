@@ -1,16 +1,32 @@
 package me.huntifi.castlesiege.kits.items;
 
+import me.huntifi.castlesiege.events.curses.CurseExpired;
+import me.huntifi.castlesiege.events.curses.GreaterBlindnessCurse;
+import me.huntifi.castlesiege.events.curses.TrueBlindnessCurse;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * The wool block worn as hat by all players
  */
-public class WoolHat {
+public class WoolHat implements Listener {
+	private static boolean hideTeamColour = false;
+	public static boolean trueHideTeamColour = false;
 
 	/**
 	 * Sets a wool block with a player's team's color as their hat
@@ -19,11 +35,48 @@ public class WoolHat {
 	public static void setHead(Player player) {
 		Team team = TeamController.getTeam(player.getUniqueId());
 
-		ItemStack wool = new ItemStack(team.primaryWool);
+		ItemStack wool;
+		if (hideTeamColour || trueHideTeamColour)
+			wool = new ItemStack(Material.WHITE_WOOL);
+		else
+			wool = new ItemStack(team.primaryWool);
 		ItemMeta woolMeta = wool.getItemMeta();
 		assert woolMeta != null;
-		woolMeta.setDisplayName(ChatColor.GREEN + "WoolHat");
+		woolMeta.displayName(Component.text("WoolHat", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
 		wool.setItemMeta(woolMeta);
 		player.getInventory().setHelmet(wool);
+	}
+
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+	public void greaterBlindnessActive(GreaterBlindnessCurse curse) {
+		hideTeamColour = true;
+
+		for (UUID uuid : MapController.getPlayers()) {
+			setHead(Bukkit.getPlayer(uuid));
+		}
+	}
+
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+	public void beginHidingAll(TrueBlindnessCurse curse) {
+		trueHideTeamColour = true;
+
+		for (UUID uuid : MapController.getPlayers()) {
+			setHead(Bukkit.getPlayer(uuid));
+		}
+	}
+
+	@EventHandler(ignoreCancelled = true)
+	public void blindnessExpired(CurseExpired curse) {
+		if (Objects.equals(curse.getDisplayName(), GreaterBlindnessCurse.name)) {
+			hideTeamColour = false;
+		} else if (Objects.equals(curse.getDisplayName(), TrueBlindnessCurse.name)) {
+			trueHideTeamColour = false;
+		} else {
+			return;
+		}
+
+		for (UUID uuid : MapController.getPlayers()) {
+			setHead(Bukkit.getPlayer(uuid));
+		}
 	}
 }

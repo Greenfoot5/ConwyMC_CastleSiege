@@ -1,18 +1,26 @@
 package me.huntifi.castlesiege.commands.donator;
 
 import me.huntifi.castlesiege.database.ActiveData;
-import org.bukkit.ChatColor;
+import me.huntifi.castlesiege.events.chat.Messenger;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manages custom leave messages
  */
-public class LeaveMessage implements CommandExecutor {
+public class LeaveMessage implements TabExecutor {
 
     /**
      * Change the player's custom leave message if valid arguments are supplied
@@ -25,7 +33,7 @@ public class LeaveMessage implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage("Console cannot set their leave message!");
+            Messenger.sendError("Console cannot set their leave message!", sender);
             return true;
         }
 
@@ -42,6 +50,25 @@ public class LeaveMessage implements CommandExecutor {
         return false;
     }
 
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        List<String> options = new ArrayList<>();
+        // Command needs a player and a message
+        if (args.length == 0) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            List<String> values = new ArrayList<>();
+            values.add("set");
+            values.add("reset");
+            StringUtil.copyPartialMatches(args[0], values, options);
+        }
+
+        return options;
+    }
+
     /**
      * Set the player's custom leave message
      * @param p The player
@@ -49,15 +76,19 @@ public class LeaveMessage implements CommandExecutor {
      */
     private void setMessage(Player p, String message) {
         if (message.length() > 128) {
-            p.sendMessage(ChatColor.DARK_RED + "Your message cannot be longer than 128 characters!");
+            Messenger.sendError("Your message cannot be longer than 128 characters!", p);
             return;
         }
 
+        // Remove any MM formatting
+        Component c = MiniMessage.miniMessage().deserialize(message);
+        message = PlainTextComponentSerializer.plainText().serialize(c);
+
         ActiveData.getData(p.getUniqueId()).setLeaveMessage(message);
         if (message.isEmpty()) {
-            p.sendMessage(ChatColor.GREEN + "Your leave message has been reset.");
+            Messenger.sendSuccess("Your leave message has been reset.", p);
         } else {
-            p.sendMessage(ChatColor.GREEN + "Your leave message has been set to: " + ChatColor.YELLOW + message);
+            Messenger.sendSuccess("Your leave message has been set to: <yellow>" + message, p);
         }
     }
 }

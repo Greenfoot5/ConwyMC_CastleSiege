@@ -3,7 +3,7 @@
 ##############
 
 HelmsDeep:
-  ukuk_spawn:
+  uruk_spawn:
     name: "Uruk's Camp"
     start_owners: "Uruk-hai"
     max_cap: 1
@@ -1656,7 +1656,7 @@ Thunderstone:
       x: 92
       y: 89
       z: 106
-  stairhall:
+  stair_hall:
     name: "Stair Hall"
     start_owners: "Thunderstone Guard"
     max_cap: 7
@@ -4311,7 +4311,7 @@ Elwynn:
             x: -16
             y: 91
             z: -141
-  guardpost:
+  guard_post:
     name: "Guard's Outpost"
     start_owners: "The Alliance"
     max_cap: 10
@@ -6208,8 +6208,8 @@ Conwy:
             x: 81
             y: 141
             z: 177
-  stockhouse:
-    name: "Stockhouse"
+  stock-house:
+    name: "Stock-house"
     start_owners: "The English"
     max_cap: 8
     start_amount: 8
@@ -10335,7 +10335,7 @@ Abrakhan:
             x: 106
             y: 67
             z: -52
-            #Flags at the actual gate numero dos
+            # Flags at the actual gate dos
           - "==": Vector
             x: 127
             y: 67
@@ -10397,7 +10397,7 @@ Abrakhan:
             x: 106
             y: 67
             z: -52
-            #Flags at the actual gate numero dos
+            #Flags at the actual gate dos
           - "==": Vector
             x: 127
             y: 67
@@ -10459,7 +10459,7 @@ Abrakhan:
             x: 106
             y: 67
             z: -52
-            #Flags at the actual gate numero dos
+            #Flags at the actual gate dos
           - "==": Vector
             x: 127
             y: 67
@@ -10521,7 +10521,7 @@ Abrakhan:
             x: 106
             y: 67
             z: -52
-            #Flags at the actual gate numero dos
+            #Flags at the actual gate dos
           - "==": Vector
             x: 127
             y: 67
@@ -10583,7 +10583,7 @@ Abrakhan:
             x: 106
             y: 67
             z: -52
-            #Flags at the actual gate numero dos
+            #Flags at the actual gate dos
           - "==": Vector
             x: 127
             y: 67
@@ -10645,7 +10645,7 @@ Abrakhan:
             x: 106
             y: 67
             z: -52
-            #Flags at the actual gate numero dos
+            #Flags at the actual gate dos
           - "==": Vector
             x: 127
             y: 67
@@ -10707,7 +10707,7 @@ Abrakhan:
             x: 106
             y: 67
             z: -52
-            #Flags at the actual gate numero dos
+            #Flags at the actual gate dos
           - "==": Vector
             x: 127
             y: 67
@@ -10769,7 +10769,7 @@ Abrakhan:
             x: 106
             y: 67
             z: -52
-            #Flags at the actual gate numero dos
+            #Flags at the actual gate dos
           - "==": Vector
             x: 127
             y: 67
@@ -10814,7 +10814,7 @@ Abrakhan:
             x: 106
             y: 67
             z: -52
-            #Flags at the actual gate numero dos
+            #Flags at the actual gate dos
           - "==": Vector
             x: 127
             y: 67
@@ -12541,7 +12541,7 @@ SoldiersPeak:
       x: 96
       y: 85
       z: 156
-  soldier_maingate:
+  soldier_main_gate:
     name: "Main Gate"
     start_owners: "The Wardens"
     max_cap: 8
@@ -13963,8 +13963,8 @@ SoldiersPeak:
             x: -21
             y: 103
             z: -13
-  throneroom:
-    name: "Throneroom"
+  throne_room:
+    name: "Throne Room"
     start_owners: "The Wardens"
     max_cap: 7
     start_amount: 7
@@ -14146,7 +14146,7 @@ SoldiersPeak:
             x: 25
             y: 118
             z: -32
-  warroom:
+  war_room:
     name: "War Room"
     start_owners: "The Wardens"
     max_cap: 7
@@ -27383,7 +27383,7 @@ Skyhold:
             x: 1569
             y: 137
             z: -118
-  warroom:
+  war_room:
     name: "War Room"
     start_owners: "The Inquisition"
     max_cap: 8
@@ -27987,8 +27987,8 @@ Skyhold:
             x: 1692
             y: 123
             z: -92
-  grandhall:
-    name: "Grandhall"
+  grand_hall:
+    name: "Grand hall"
     start_owners: "The Inquisition"
     max_cap: 4
     start_amount: 4

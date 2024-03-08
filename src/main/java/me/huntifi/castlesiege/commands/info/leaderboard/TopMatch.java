@@ -8,8 +8,9 @@ import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,7 +20,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+import static me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard.gradient;
 
 /**
  * Shows the player the leaderboard for this match
@@ -105,39 +113,45 @@ public class TopMatch implements CommandExecutor {
         Collections.reverse(stats);
 
         // Create the message header
-        StringBuilder message = new StringBuilder();
-        message.append(ChatColor.AQUA).append("#. Player ")
-                .append(ChatColor.WHITE).append("S").append(ChatColor.AQUA).append("core ")
-                .append(ChatColor.GREEN).append("K").append(ChatColor.AQUA).append("ills ")
-                .append(ChatColor.RED).append("D").append(ChatColor.AQUA).append("eaths ")
-                .append(ChatColor.YELLOW).append("K").append(ChatColor.AQUA).append("DR ")
-                .append(ChatColor.DARK_GREEN).append("A").append(ChatColor.AQUA).append("ssists ")
-                .append(ChatColor.GRAY).append("C").append(ChatColor.AQUA).append("aptures ")
-                .append(ChatColor.LIGHT_PURPLE).append("H").append(ChatColor.AQUA).append("eals ")
-                .append(ChatColor.DARK_PURPLE).append("S").append(ChatColor.AQUA).append("upports");
+        Component message = MiniMessage.miniMessage().deserialize(
+                "<color:#CCCCCC>#. Player " +
+                        "<transition:" + gradient + ":0>S</transition>core " +
+                        "<transition:" + gradient + ":0.15>K</transition>ills " +
+                        "<transition:" + gradient + ":0.4>D</transition>eaths " +
+                        "<transition:" + gradient + ":0.6>K</transition>DR " +
+                        "<transition:" + gradient + ":0.7>A</transition>ssits " +
+                        "<transition:" + gradient + ":0.8>C</transition>aptures " +
+                        "<transition:" + gradient + ":0.9>H</transition>eals " +
+                        "<transition:" + gradient + ":1>S</transition>upports"
+        );
 
         // Add the stat entries
-        DecimalFormat dec = new DecimalFormat("0.00");
-        DecimalFormat num = new DecimalFormat("0");
         int first = requested < 6 ? 0 : requested - 5;
         for (int pos = first; pos < first + 10 && pos < stats.size(); pos++) {
             String name = Bukkit.getOfflinePlayer(stats.get(pos).getFirst()).getName();
             PlayerData data = stats.get(pos).getSecond();
-            ChatColor color = pos == requested ? ChatColor.AQUA : ChatColor.DARK_AQUA;
-            message.append("\n").append(ChatColor.GRAY).append(pos + 1).append(". ")
-                    .append(color).append(name).append(" ")
-                    .append(ChatColor.WHITE).append(num.format(data.getScore())).append(" ")
-                    .append(ChatColor.GREEN).append(num.format(data.getKills())).append(" ")
-                    .append(ChatColor.RED).append(num.format(data.getDeaths())).append(" ")
-                    .append(ChatColor.YELLOW).append(dec.format(data.getKills() / data.getDeaths())).append(" ")
-                    .append(ChatColor.DARK_GREEN).append(num.format(data.getAssists())).append(" ")
-                    .append(ChatColor.GRAY).append(num.format(data.getCaptures())).append(" ")
-                    .append(ChatColor.LIGHT_PURPLE).append(num.format(data.getHeals())).append(" ")
-                    .append(ChatColor.DARK_PURPLE).append(num.format(data.getSupports()));
+            String color = pos == requested ? "aqua>" : "dark_aqua>";
+            message = message.append(addPlayer(name, data, pos, color));
         }
 
         // Send the message
-        sender.sendMessage(message.toString());
+        Messenger.send(message, sender);
+    }
+
+    private Component addPlayer(String name, PlayerData d, int pos, String color) {
+        DecimalFormat dec = new DecimalFormat("0.00");
+        DecimalFormat num = new DecimalFormat("0");
+
+        return MiniMessage.miniMessage().deserialize("<br>" +
+                "<gray>" + (pos + 1) + ". <" + color + name + " </" + color
+                + "<transition:#13DB5D:#05B6D9:#F907FC:0>" + num.format(d.getScore()) + "</transition> "
+                + "<transition:#13DB5D:#05B6D9:#F907FC:0.15>" + num.format(d.getKills()) + "</transition> "
+                + "<transition:#13DB5D:#05B6D9:#F907FC:0.4>" + num.format(d.getDeaths()) + "</transition> "
+                + "<transition:#13DB5D:#05B6D9:#F907FC:0.6>" + dec.format(d.getKills() / d.getDeaths()) + "</transition> "
+                + "<transition:#13DB5D:#05B6D9:#F907FC:0.7>" + num.format(d.getAssists()) + "</transition> "
+                + "<transition:#13DB5D:#05B6D9:#F907FC:0.8>" + num.format(d.getAssists()) + "</transition> "
+                + "<transition:#13DB5D:#05B6D9:#F907FC:0.9>" + num.format(d.getHeals()) + "</transition> "
+                + "<transition:#13DB5D:#05B6D9:#F907FC:1>" + num.format(d.getSupports()) + "</transition>");
     }
 
     /**

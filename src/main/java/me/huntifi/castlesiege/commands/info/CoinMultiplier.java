@@ -1,7 +1,9 @@
 package me.huntifi.castlesiege.commands.info;
 
 import me.huntifi.castlesiege.data_types.PlayerData;
-import org.bukkit.ChatColor;
+import me.huntifi.castlesiege.events.chat.Messenger;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,8 +26,9 @@ public class CoinMultiplier implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        sender.sendMessage(ChatColor.GOLD + "Coin Multiplier: " + ChatColor.YELLOW
-                + new DecimalFormat("0.0").format(PlayerData.getCoinMultiplier()));
+        Messenger.send(Component.text("Coin Multiplier: ", NamedTextColor.GOLD)
+                .append(Component.text(new DecimalFormat("0.0").format(PlayerData.getCoinMultiplier()), NamedTextColor.YELLOW)),
+                sender);
         return true;
     }
 }

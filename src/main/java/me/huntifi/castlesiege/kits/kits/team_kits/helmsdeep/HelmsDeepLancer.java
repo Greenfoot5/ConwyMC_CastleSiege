@@ -8,9 +8,8 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
@@ -25,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
@@ -34,7 +34,7 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
 
     public HelmsDeepLancer() {
         super("Lancer", 270, 9, "Helm's Deep", "Rohan", 5000,
-                Material.STICK);
+                Material.STICK, "helmsdeeplancer");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -42,43 +42,43 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GREEN + "Sword", null, null, 35.5);
+                Component.text("Sword", NamedTextColor.GREEN), null, null, 35.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        ChatColor.GREEN + "Sword",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Sword", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37.5),
                 0);
 
         // Weapon
         es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.STICK, 3),
-                ChatColor.GREEN + "Spear",
-                Collections.singletonList(ChatColor.AQUA + "Right-click to throw a spear."), null, 30.5);
+                Component.text("Spear", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA)), null, 30.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STICK, 3),
-                        ChatColor.GREEN + "Spear",
-                        Arrays.asList(ChatColor.AQUA + "Right-click to throw a spear.",
-                                ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Spear", NamedTextColor.GREEN),
+                        Arrays.asList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA),
+                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32.5),
                 1);
 
         // Chestplate
         es.chest = ItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
-                ChatColor.GREEN + "Bronze Chestplate", null, null);
+                Component.text("Bronze Chestplate", NamedTextColor.GREEN), null, null);
 
         // Leggings
         es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                ChatColor.GREEN + "Chainmail Leggings", null, null);
+                Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
         es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots", null, null);
+                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
@@ -87,7 +87,7 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
 
         // Horse
         es.hotbar[3] = ItemCreator.item(new ItemStack(Material.WHEAT),
-                ChatColor.GREEN + "Spawn Horse", null, null);
+                Component.text("Spawn Horse", NamedTextColor.GREEN), null, null);
         HorseHandler.add(name, 600, 125, 1, 0.2425, 0.8,
                 Material.GOLDEN_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
@@ -125,12 +125,11 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
                     if (cooldown == 0) {
                         p.setCooldown(Material.STICK, 200);
                         stick.setAmount(stick.getAmount() - 1);
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "You threw your spear!"));
+                        Messenger.sendActionInfo("You threw your spear!", p);
                         p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.5));
 
                     } else {
-                        Messenger.sendActionError(ChatColor.BOLD + "You can't throw your spear yet.", p);
+                        Messenger.sendActionError("You can't throw your spear yet.", p);
                     }
                 }
             }
@@ -159,5 +158,12 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
                 }
             }
         }
+    }
+
+    @Override
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
+        return description;
     }
 }

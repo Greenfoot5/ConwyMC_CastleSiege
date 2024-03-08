@@ -1,17 +1,21 @@
 package me.huntifi.castlesiege.events.security;
 
-import com.destroystokyo.paper.event.block.TNTPrimeEvent;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.entity.*;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EnderCrystal;
+import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.Minecart;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.TNTPrimeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
@@ -79,7 +83,7 @@ public class MapProtection implements Listener {
 			case SWEET_BERRY_BUSH:
 
 			case FERN:
-			case GRASS:
+			case SHORT_GRASS:
 			case LARGE_FERN:
 			case TALL_GRASS:
 
@@ -192,6 +196,25 @@ public class MapProtection implements Listener {
 
 		if(e.getAction() == Action.PHYSICAL &&
 				Objects.requireNonNull(e.getClickedBlock()).getType() == Material.FARMLAND) {
+			e.setCancelled(true);
+		}
+	}
+
+	/**
+	 * Cancels event when player picks fruit
+	 * @param e The event called when a player tramples farmland
+	 */
+	@EventHandler
+	public void onPickBerries(PlayerInteractEvent e) {
+		// Allow trampling in creative mode
+		Player p = e.getPlayer();
+		if (p.getGameMode() == GameMode.CREATIVE || e.getAction() != Action.RIGHT_CLICK_BLOCK) {
+			return;
+		}
+
+		Material block = Objects.requireNonNull(e.getClickedBlock()).getType();
+
+		if(block == Material.SWEET_BERRY_BUSH || block == Material.CAVE_VINES_PLANT) {
 			e.setCancelled(true);
 		}
 	}

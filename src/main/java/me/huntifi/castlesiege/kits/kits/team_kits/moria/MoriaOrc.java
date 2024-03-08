@@ -5,7 +5,8 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -20,6 +21,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -28,7 +30,7 @@ public class MoriaOrc extends TeamKit implements Listener {
 
     public MoriaOrc() {
         super("Moria Orc", 230, 7, "Moria",
-                "The Orcs", 2500, Material.BOW);
+                "The Orcs", 2500, Material.BOW, "moriaorc");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -36,39 +38,39 @@ public class MoriaOrc extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                ChatColor.GREEN + "Dagger", null, null, 29);
+                Component.text("Dagger", NamedTextColor.GREEN), null, null, 29);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                        ChatColor.GREEN + "Dagger",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Dagger", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31),
                 0);
 
         // Chestplate
         es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                ChatColor.GREEN + "Leather Chestplate", null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(21, 51, 10));
 
         // Leggings
         es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(68, 65, 12));
 
         // Boots
         es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots", null, null,
+                Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(68, 65, 16));
         // Voted Boots
         es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Leather Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(68, 65, 16));
 
         // Regular Bow
         es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
-                ChatColor.GREEN + "Bow", null, null);
+                Component.text("Bow", NamedTextColor.GREEN), null, null);
 
         // Ladders
         es.hotbar[2] = new ItemStack(Material.LADDER, 4);
@@ -79,7 +81,7 @@ public class MoriaOrc extends TeamKit implements Listener {
 
         // Fire Arrows
         ItemStack poisonArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW, 16),
-                ChatColor.GREEN + "Poison Arrow", null, null);
+                Component.text("Poison Arrow", NamedTextColor.GREEN), null, null);
         PotionMeta potionMeta = (PotionMeta) poisonArrow.getItemMeta();
         assert potionMeta != null;
         potionMeta.setColor(Color.GREEN);
@@ -103,5 +105,12 @@ public class MoriaOrc extends TeamKit implements Listener {
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
             ((Arrow) e.getEntity()).setDamage(13);
         }
+    }
+
+    @Override
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
+        return description;
     }
 }

@@ -1,15 +1,17 @@
 package me.huntifi.castlesiege.data_types;
 
+import me.huntifi.castlesiege.Main;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 
 import java.util.List;
 
 /**
- * A basic abstract booster that has a duration onlu
+ * A basic abstract booster that has a duration only
  */
 public abstract class Booster implements Comparable<Booster> {
     public int id;
-    public int duration;
+    public final int duration;
     public final Material material;
 
     public static int newId;
@@ -40,39 +42,18 @@ public abstract class Booster implements Comparable<Booster> {
     /**
      * @return The display name of the booster
      */
-    public abstract String getName();
+    public abstract Component getName();
 
     /**
      * @return The lore used when displaying the booster in a gui
      */
-    public abstract List<String> getLore();
+    public abstract List<Component> getLore();
 
     /**
      * @return Get the duration in a nice day, hour, min, sec format
      */
     public String getDurationAsString() {
-        return durationToString(duration);
-    }
-
-    public static String durationToString(int duration) {
-        int days, hours, minutes, seconds, remainder;
-        days = duration / 86400;
-        remainder = duration % 86400;
-        hours = remainder / 3600;
-        remainder = remainder % 3600;
-        minutes = remainder / 60;
-        seconds = remainder % 60;
-
-        if (days == 0) {
-            if (hours == 0) {
-                if (minutes == 0) {
-                    return seconds + "s";
-                }
-                return minutes + " mins " + seconds + "s";
-            }
-            return hours + " hr " + minutes + " mins " + seconds + "s";
-        }
-        return days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+        return Main.getTimeString(duration);
     }
 
     public int compareTo(Booster booster) {

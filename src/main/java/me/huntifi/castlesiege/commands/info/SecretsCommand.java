@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.commands.info;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,20 +23,22 @@ public class SecretsCommand implements CommandExecutor {
         }
         Player p = (Player) sender;
 
-                String helms = getHelmsdeepSecrets(p);
-                String thunder = getThunderstoneSecrets(p);
-                String lake = getLakeboroughSecrets(p);
-                String elwynn = getElwynnSecrets(p);
-                String skyhold = getSkyholdSecrets(p);
-                String abraham = getAbrakhanSecrets(p);
+        String helms = getHelmsdeepSecrets(p);
+        String thunder = getThunderstoneSecrets(p);
+        String lake = getLakeboroughSecrets(p);
+        String elwynn = getElwynnSecrets(p);
+        String skyhold = getSkyholdSecrets(p);
+        String abraham = getAbrakhanSecrets(p);
+        String hallOfHercules = getHallOfHerculesSecrets(p);
 
-                        p.sendMessage(ChatColor.DARK_AQUA + " -----Secrets----- ");
-                        p.sendMessage(ChatColor.DARK_AQUA + " Abrakhan: " + abraham);
-                        p.sendMessage(ChatColor.DARK_AQUA + " Elwynn: " + elwynn);
-                        p.sendMessage(ChatColor.DARK_AQUA + " Helm's Deep: " + helms);
-                        p.sendMessage(ChatColor.DARK_AQUA + " Lakeborough: " + lake);
-                        p.sendMessage(ChatColor.DARK_AQUA + " Skyhold: " + skyhold);
-                        p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
+        p.sendMessage(MiniMessage.miniMessage().deserialize("<dark_aqua> <st>━━━━━</st>Secrets<st>━━━━━</st> </dark_aqua>"));
+        p.sendMessage(ChatColor.DARK_AQUA + " Abrakhan: " + abraham);
+        p.sendMessage(ChatColor.DARK_AQUA + " Elwynn: " + elwynn);
+        p.sendMessage(ChatColor.DARK_AQUA + " Helm's Deep: " + helms);
+        p.sendMessage(ChatColor.DARK_AQUA + " Lakeborough: " + lake);
+        p.sendMessage(ChatColor.DARK_AQUA + " Skyhold: " + skyhold);
+        p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
+        p.sendMessage(ChatColor.DARK_AQUA + " Hall Of Hercules: " + hallOfHercules);
 
 
 
@@ -225,5 +228,19 @@ public class SecretsCommand implements CommandExecutor {
         }
 
         return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/10)";
+    }
+
+    public String getHallOfHerculesSecrets(Player p) {
+        UUID uuid = p.getUniqueId();
+
+        PlayerData data = ActiveData.getData(uuid);
+
+        int foundAmount = 0;
+        String[] secrets = {"HallOfHercules_Waterfall", "HallOfHercules_Pillar", "HallOfHercules_Sewers",
+                "HallOfHercules_Roots", "HallOfHercules_TreeTop", "HallOfHercules_EagleHall"};
+
+        for (String secret : secrets) if (data.hasSecret(secret)) foundAmount++;
+
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/6)";
     }
 }

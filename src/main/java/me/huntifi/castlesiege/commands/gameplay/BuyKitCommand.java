@@ -1,19 +1,26 @@
 package me.huntifi.castlesiege.commands.gameplay;
+
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class BuyKitCommand implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class BuyKitCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
@@ -33,7 +40,7 @@ public class BuyKitCommand implements CommandExecutor {
             // Get the kit
             String kitName = args[0];
             Kit kit = Kit.getKit(kitName);
-            if (!(kit instanceof DonatorKit)) {
+            if (!(kit instanceof CoinKit)) {
                 Messenger.sendError(kitName + " is not a donator kit", sender);
                 return;
             }
@@ -44,11 +51,12 @@ public class BuyKitCommand implements CommandExecutor {
             if (args.length == 2) {
                 receiver = Bukkit.getPlayer(args[1]);
                 if (receiver == null) {
-                    Messenger.sendError("Could not find player: " + ChatColor.RED + args[1], sender);
+                    Messenger.sendError("Could not find player: <red>" + args[1], sender);
                     return;
                 }
-            } else
+            } else {
                 receiver = buyer;
+            }
 
             // Only unowned kits can be unlocked
             if (ActiveData.getData(receiver.getUniqueId()).hasKit(kitName)) {
@@ -57,7 +65,7 @@ public class BuyKitCommand implements CommandExecutor {
             }
 
             // Get the kit's price
-            double coinPrice = ((DonatorKit) kit).getPrice();
+            double coinPrice = CoinKit.getPrice(buyer.getUniqueId());
             if (coinPrice <= 0) {
                 Messenger.sendError("The coinPrice is " + coinPrice + ", report this!", sender);
                 return;
@@ -88,5 +96,33 @@ public class BuyKitCommand implements CommandExecutor {
         });
 
         return true;
+    }
+
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        // Get the kit's buyer and receiver
+        Player buyer = (Player) sender;
+        Player receiver;
+        if (args.length == 2) {
+            receiver = Bukkit.getPlayer(args[1]);
+            if (receiver == null) {
+                Messenger.sendError("Could not find player: <red>" + args[1], sender);
+                receiver = buyer;
+            }
+        } else {
+            receiver = buyer;
+        }
+        final Player finalReceiver = receiver;
+
+        List<String> options = new ArrayList<>();
+        if (args.length == 1) {
+            Stream<String> values = new ArrayList<>(CoinKit.getKits()).stream();
+            values = values.filter(name -> !ActiveData.getData(finalReceiver.getUniqueId()).hasKit(args[0]));
+            StringUtil.copyPartialMatches(args[0], Arrays.asList(values.toArray(String[]::new)), options);
+            return options;
+        }
+
+        return null;
     }
 }

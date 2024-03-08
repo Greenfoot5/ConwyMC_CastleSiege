@@ -10,7 +10,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Tracks damage dealt to grant assists
@@ -85,13 +89,13 @@ public class AssistKill implements Listener {
         cancelRunnables(brList);
         brList.clear();
 
-        HashMap<UUID, Double> damagers = damageMap.get(uuid);
-        if (damagers == null || damagers.isEmpty()) {
+        HashMap<UUID, Double> attackers = damageMap.get(uuid);
+        if (attackers == null || attackers.isEmpty()) {
             return null;
         }
 
         damageMap.remove(uuid);
-        return damagers.entrySet().stream().max(Map.Entry.comparingByValue()).get().getKey();
+        return attackers.entrySet().stream().max(Map.Entry.comparingByValue()).get().getKey();
     }
 
     /**

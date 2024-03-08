@@ -12,7 +12,6 @@ public class SchematicFrame extends Frame{
 
     public final List<Tuple<String, Vector>> schematics;
 
-
     public SchematicFrame() {
         super();
         schematics = new ArrayList<>();

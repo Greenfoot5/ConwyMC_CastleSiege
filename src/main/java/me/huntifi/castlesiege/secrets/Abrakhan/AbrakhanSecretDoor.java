@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.secrets.Abrakhan;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -46,7 +47,7 @@ public class AbrakhanSecretDoor implements Listener {
 
                 if (!isRedDoorOpen) {
 
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened a secret door!"));
+                    Messenger.sendSecret("You have opened a secret door!", p);
                     isRedDoorOpen = true;
                     openRedstoneDoor();
 
@@ -65,7 +66,7 @@ public class AbrakhanSecretDoor implements Listener {
             } else if (event.getClickedBlock().getType().equals(Material.WALL_TORCH) && event.getClickedBlock().getLocation().equals(torchLoc)) {
                 Player p = event.getPlayer();
                 if (!isTorchDoorOpen) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened a secret door!"));
+                    Messenger.sendSecret("You have opened a secret door!", p);
                     isTorchDoorOpen = true;
                     openTorchDoor();
 

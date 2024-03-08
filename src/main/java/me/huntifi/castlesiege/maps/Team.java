@@ -1,12 +1,18 @@
 package me.huntifi.castlesiege.maps;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MVPStats;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerBedEnterEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,7 +21,7 @@ import java.util.UUID;
 /**
  * Represents a team on a map
  */
-public class Team {
+public class Team implements Listener {
     // Basic Details
     public final String name;
     private ArrayList<UUID> players;
@@ -25,8 +31,19 @@ public class Team {
     // Colours
     public Material primaryWool;
     public Material secondaryWool;
-    public ChatColor primaryChatColor;
-    public ChatColor secondaryChatColor;
+    public NamedTextColor primaryChatColor;
+    public NamedTextColor secondaryChatColor;
+
+    //Prevents players from spawning at their bed when they sleep in a bad.
+    @EventHandler
+    public void onEnterBed(PlayerBedEnterEvent event) {
+        Player player = event.getPlayer();
+        event.useBed();
+        if (this.hasPlayer(event.getPlayer().getUniqueId())) {
+            player.addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 120, 6)));
+            player.setRespawnLocation(this.lobby.spawnPoint, true);
+        }
+    }
 
     /**
      * Creates a new team
@@ -35,6 +52,7 @@ public class Team {
     public Team(String name) {
         this.name = name;
         players = new ArrayList<>();
+        Bukkit.getPluginManager().registerEvents(this, Main.plugin);
     }
 
 
@@ -72,7 +90,7 @@ public class Team {
         assert player != null;
         if (lobby.spawnPoint.getWorld() == null)
             lobby.spawnPoint.setWorld(Bukkit.getWorld(MapController.getCurrentMap().worldName));
-        player.setBedSpawnLocation(lobby.spawnPoint, true);
+        player.setRespawnLocation(lobby.spawnPoint, true);
         NameTag.give(player);
     }
 

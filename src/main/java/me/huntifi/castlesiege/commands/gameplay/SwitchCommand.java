@@ -12,8 +12,9 @@ import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -38,7 +39,6 @@ public class SwitchCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 			// Force switch command was used
 			if (cmd.getName().equals("ForceSwitch"))
 				forceSwitch(sender, args);
@@ -46,7 +46,6 @@ public class SwitchCommand implements CommandExecutor {
 			// Regular switch command was used
 			if (cmd.getName().equals("Switch"))
 				switchTeam(sender, args);
-		});
 
 		return true;
 	}
@@ -64,10 +63,10 @@ public class SwitchCommand implements CommandExecutor {
 
 		Player p = Bukkit.getPlayer(args[0]);
 		if (p == null) {
-			Messenger.sendError("Could not find player: " + ChatColor.RED + args[0], sender);
+			Messenger.sendError("Could not find player: <red>" + args[0], sender);
 			return;
-		} else if (MapController.isSpectator((p).getUniqueId())) {
-			Messenger.sendError("Spectators don't have a team! Remove them from spectator first!", sender);
+		} else if (!MapController.getPlayers().contains(p.getUniqueId())) {
+			Messenger.sendError("You must be on a team to swap!", sender);
 			return;
 		}
 
@@ -90,8 +89,8 @@ public class SwitchCommand implements CommandExecutor {
 		} else if (!(sender instanceof Player)) {
 			Messenger.sendError("Console cannot join a team!", sender);
 			return;
-		} else if (MapController.isSpectator(((Player) sender).getUniqueId())) {
-			Messenger.sendError("Spectators don't have a team!", sender);
+		} else if (!MapController.getPlayers().contains(((Player) sender).getUniqueId())) {
+			Messenger.sendError("Must be on a team to switch!", sender);
 			return;
 		}
 
@@ -147,18 +146,20 @@ public class SwitchCommand implements CommandExecutor {
 
 		if (deaths > 0 && MapController.isOngoing()) {
 			// Regular switch on the battlefield during a game
-			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name +
-					ChatColor.DARK_AQUA + " (+" + deaths + " deaths)", p);
-			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1, true);
+			Messenger.sendInfo(Component.text("You switched to ")
+							.append(Component.text(team.name, team.primaryChatColor))
+							.append(Component.text(" (+" + deaths + " deaths)", NamedTextColor.DARK_AQUA)),
+					p);
+			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
 
 		} else if (deaths == 0 || !MapController.isOngoing()){
 			// Regular switch outside the battlefield or not during a game
-			Messenger.sendInfo("You switched to " + team.primaryChatColor + team.name, p);
+			Messenger.sendInfo(Component.text("You switched to ").append(Component.text(team.name, team.primaryChatColor)), p);
 			InCombat.playerDied(p.getUniqueId());
 
 		} else {
 			// Forced switch
-			Messenger.sendInfo("You were forcefully switched to " + team.primaryChatColor + team.name, p);
+			Messenger.sendInfo(Component.text("You forcefully switched to ").append(Component.text(team.name, team.primaryChatColor)), p);
 			InCombat.playerDied(p.getUniqueId());
 		}
 
@@ -211,7 +212,7 @@ public class SwitchCommand implements CommandExecutor {
 		}
 
 		// The team is invalid
-		Messenger.sendError(ChatColor.DARK_AQUA + String.join(" ", args) + ChatColor.RED + " isn't a valid team name!", p);
+		Messenger.sendError("<aqua>" + String.join(" ", args) + "<red> isn't a valid team name!", p);
 		return true;
 	}
 }

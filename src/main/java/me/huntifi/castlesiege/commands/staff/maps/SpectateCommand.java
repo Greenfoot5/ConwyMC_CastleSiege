@@ -1,15 +1,17 @@
 package me.huntifi.castlesiege.commands.staff.maps;
 
+import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,12 +36,12 @@ public class SpectateCommand implements CommandExecutor {
         }
 
         if (player == null) {
-            sender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "Could not find player: " + ChatColor.RED + args[0]);
+            Messenger.sendError("Could not find player: <red>" + args[0], sender);
             return true;
         }
 
         if (InCombat.isPlayerInCombat(player.getUniqueId())) {
-            sender.sendMessage(ChatColor.GOLD + "[!] " + ChatColor.DARK_RED + "That player is currently in combat!");
+            Messenger.sendError("That player is currently in combat!", sender);
             return true;
         }
 
@@ -52,10 +54,10 @@ public class SpectateCommand implements CommandExecutor {
 
             // Assign stored kit
             Kit kit = Kit.getKit(ActiveData.getData(player.getUniqueId()).getKit());
-            if (kit != null && kit.canSelect(player, true, false))
-                kit.addPlayer(player.getUniqueId());
+            if (kit != null && kit.canSelect(player, true, true, false))
+                kit.addPlayer(player.getUniqueId(), true);
             else
-                Kit.getKit("Swordsman").addPlayer(player.getUniqueId());
+                Kit.getKit("Swordsman").addPlayer(player.getUniqueId(), true);
 
         } else {
             Team team = TeamController.getTeam(player.getUniqueId());
@@ -63,8 +65,14 @@ public class SpectateCommand implements CommandExecutor {
             VoteSkipCommand.removePlayer(player.getUniqueId());
             spectators.add(player.getUniqueId());
             player.setGameMode(GameMode.SPECTATOR);
+            TeamChat.removePlayer(player.getUniqueId());
             if (InCombat.isPlayerInLobby(player.getUniqueId())) {
-                player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
+                if (MapController.getCurrentMap() instanceof CoreMap) {
+                    CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+                    player.teleport(coreMap.getCore(1).getSpawnPoint());
+                } else {
+                    player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
+                }
             }
             NameTag.give(player);
         }

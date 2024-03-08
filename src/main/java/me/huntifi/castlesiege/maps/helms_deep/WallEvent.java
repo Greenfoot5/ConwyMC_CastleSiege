@@ -4,11 +4,15 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,14 +34,14 @@ public class WallEvent implements Listener {
 	private int tnt_counter = 0;
 	private UUID carrier;
 
-	private final static Location PICKUP_LOCATION = new Location(Bukkit.getWorld("HelmsDeep"), 1168, 35, 1125);
-	private final static Location PLACE_LOCATION = new Location(Bukkit.getWorld("HelmsDeep"), 1026, 34, 1124);
-	private final static Location[] TNT_LOCATIONS = new Location[] {
+	private static final Location PICKUP_LOCATION = new Location(Bukkit.getWorld("HelmsDeep"), 1168, 35, 1125);
+	private static final Location PLACE_LOCATION = new Location(Bukkit.getWorld("HelmsDeep"), 1026, 34, 1124);
+	private static final Location[] TNT_LOCATIONS = new Location[] {
 			new Location(Bukkit.getWorld("HelmsDeep"), 1026, 34, 1124),
 			new Location(Bukkit.getWorld("HelmsDeep"), 1026, 34, 1123),
 			new Location(Bukkit.getWorld("HelmsDeep"), 1027, 34, 1123)};
 
-	private final static int DEATH_RADIUS = 15;
+	private static final int DEATH_RADIUS = 15;
 
 	/**
 	 * Called when the player picks up the TNT on Helms Deep
@@ -64,12 +68,11 @@ public class WallEvent implements Listener {
 						ItemStack tnt = new ItemStack(Material.TNT);
 						ItemMeta tntMeta = tnt.getItemMeta();
 						assert tntMeta != null;
-						tntMeta.setDisplayName(ChatColor.GREEN + "Tnt-head");
+						tntMeta.displayName(Component.text("TNT-Head", NamedTextColor.GREEN));
 						player.getInventory().setHelmet(tnt);
 
 						// Notify the player
-						player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA
-								+ "You picked up the explosives!"));
+						Messenger.sendActionInfo("You picked up the explosives!", player);
 						carrier = player.getUniqueId();
 
 					// The player clicked on the torch
@@ -83,13 +86,12 @@ public class WallEvent implements Listener {
 						ItemStack tnt = new ItemStack(Material.GLOWSTONE);
 						ItemMeta tntMeta = tnt.getItemMeta();
 						assert tntMeta != null;
-						tntMeta.setDisplayName(ChatColor.GREEN + "Glowstone-head");
+						tntMeta.displayName(Component.text("Glowstone Head", NamedTextColor.GREEN));
 						player.getInventory().setHelmet(tnt);
 
 						// Notify the player(s)
-						player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA
-								+ "You picked up the torch!"));
-						Messenger.broadcastWarning(player.getName() + " has picked up the torch!");
+						Messenger.sendInfo("You picked up the torch!", player);
+						Messenger.broadcastWarning(NameTag.mmUsername(player) + " has picked up the torch!");
 						carrier = player.getUniqueId();
 					}
 				}
@@ -123,13 +125,12 @@ public class WallEvent implements Listener {
 						tnt_counter++;
 
 						// Inform the player and grant stats
-						p.spigot().sendMessage(ChatMessageType.ACTION_BAR,TextComponent.fromLegacyText(ChatColor.DARK_AQUA
-								+ "You placed the explosive down. (" + tnt_counter + "/" + TNT_LOCATIONS.length + ")"));
+						Messenger.sendInfo("You placed the explosive down. (" + tnt_counter + "/" + TNT_LOCATIONS.length + ")", p);
 						UpdateStats.addSupports(p.getUniqueId(), 30);
 
 						// Spawn either the torch or tnt next
 						if (tnt_counter == 3) {
-							p.sendMessage(ChatColor.DARK_AQUA + "Now get the torch!");
+							Messenger.sendInfo("Now get the torch!", p);
 							PICKUP_LOCATION.getBlock().setType(Material.TORCH);
 						} else {
 							PICKUP_LOCATION.getBlock().setType(Material.TNT);

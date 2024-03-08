@@ -1,10 +1,13 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.*;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.data_types.Booster;
+import me.huntifi.castlesiege.data_types.CoinBooster;
+import me.huntifi.castlesiege.data_types.KitBooster;
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.MapController;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +32,7 @@ public class LoadData {
         try {
 
             // Unlock achievements data
-            ArrayList<String> unlockedAchievements = getUnlockedAchievements(uuid);
+            //ArrayList<String> unlockedAchievements = getUnlockedAchievements(uuid);
 
             // Unlock kits data
             ArrayList<String> unlockedKits = getUnlockedKits(uuid);
@@ -58,8 +61,8 @@ public class LoadData {
             ArrayList<Booster> boosters = getBoosters(uuid);
 
             // Collect data and release resources
-            PlayerData data = new PlayerData(unlockedAchievements, unlockedKits, foundSecrets, prMute.getSecond(),
-                    prStats.getSecond(), prRank.getSecond(), votes, settings, MapController.isMatch, boosters);
+            PlayerData data = new PlayerData(unlockedKits, foundSecrets, prMute.getSecond(),
+                    prStats.getSecond(), prRank.getSecond(), votes, settings, boosters);
             prMute.getFirst().close();
             prStats.getFirst().close();
             prRank.getFirst().close();
@@ -69,6 +72,30 @@ public class LoadData {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Should be called async.
+     * @return returns the amount of actual premium/elite kits this player has.
+     * Is used to determine the price of the next elite kit bought.
+     */
+    public static int returnPremiumKits(UUID uuid) {
+        int amount = 0;
+        for (String kits : getUnlockedKits(uuid)) {
+           if (CoinKit.donatorKits.contains(kits)) {
+                amount++;
+           }
+        }
+        return amount;
+    }
+
+    /**
+     * @return returns the price of the next elite kit.
+     */
+    public static int returnPremiumKitPrice(UUID uuid) {
+        final int basicPrice = 5000;
+        final int addon = 2500;
+        return basicPrice + (addon * returnPremiumKits(uuid));
     }
 
     /**
@@ -88,7 +115,7 @@ public class LoadData {
 
             while (rs.next()) {
                 String kit = rs.getString("unlocked_kits");
-                if (DonatorKit.getKits().contains(kit)) {
+                if (CoinKit.getKits().contains(kit)) {
                     unlockedKits.add(kit);
                 }
             }
@@ -250,7 +277,7 @@ public class LoadData {
     }
 
     /**
-     * Get a players kit from the database
+     * Get a player's kit from the database
      * @param uuid The unique ID of the player whose data to get
      * @param kitName The type of kit to get from the database
      * @return A tuple of the prepared statement (to close later) and the query's result
@@ -326,31 +353,6 @@ public class LoadData {
         return foundSecrets;
     }
 
-    /**
-     * Get all currently unlocked achievements from the database
-     * @param uuid The unique id of the player whose data to get
-     * @return A list of all currently unlocked achievements
-     */
-    private static ArrayList<String> getUnlockedAchievements(UUID uuid) {
-        ArrayList<String> unlockedAchievements = new ArrayList<>();
-
-        try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT achievement FROM player_achievements WHERE uuid = ?")) {
-            ps.setString(1, uuid.toString());
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                String gadget = rs.getString("achievement");
-                unlockedAchievements.add(gadget);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return unlockedAchievements;
-    }
-
     private static ArrayList<Booster> getBoosters(UUID uuid) {
         ArrayList<Booster> boosters = new ArrayList<>();
 
@@ -381,22 +383,6 @@ public class LoadData {
                             Main.instance.getLogger().warning("Booster id: " + boostId + " has a malformed double multiplier!");
                         }
                         break;
-                    case "BATTLEPOINT":
-                    case "BP":
-                        if (other == null) {
-                            booster = new BattlepointBooster(duration);
-                            booster.id = boostId;
-                            boosters.add(booster);
-                            break;
-                        }
-                        try {
-                            multiplier = Double.parseDouble(other);
-                            booster = new BattlepointBooster(duration, multiplier);
-                            booster.id = boostId;
-                            boosters.add(booster);
-                        } catch (NumberFormatException ignored) {
-                            Main.instance.getLogger().warning("Booster id: " + boostId + " has a malformed double multiplier!");
-                        }
                     case "KIT":
                     case "K":
                         if (Kit.getKit(other) == null

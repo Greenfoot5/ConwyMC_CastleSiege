@@ -4,11 +4,17 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
-import org.bukkit.*;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Powerable;
+import org.bukkit.block.sign.Side;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -16,7 +22,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.*;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -184,7 +190,7 @@ public class Catapult implements Listener {
      * Tension the catapult and start the timer for it being refilled
      */
     private void tension() {
-        // Animate the tensioning and play the tensioning sound
+        // Animate the tightening and play the tightening sound
         SchematicSpawner.spawnSchematic(schematicLocation, schematicReloading);
         world.playSound(sound, Sound.BLOCK_DISPENSER_DISPENSE, 5, 1);
         canRefill = true;
@@ -240,7 +246,7 @@ public class Catapult implements Listener {
 
             // Update the sign
             Sign sign = (Sign) target.getState();
-            sign.setLine(2, aimVertical + "");
+            sign.getSide(Side.FRONT).line(2, Component.text(aimVertical));
             sign.update();
         }
     }
@@ -268,7 +274,7 @@ public class Catapult implements Listener {
 
             // Update the sign
             Sign sign = (Sign) target.getState();
-            sign.setLine(2, aimHorizontal + "");
+            sign.getSide(Side.FRONT).line(2, Component.text(aimHorizontal));
             sign.update();
         }
     }

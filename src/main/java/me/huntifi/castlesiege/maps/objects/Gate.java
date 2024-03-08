@@ -1,14 +1,16 @@
 package me.huntifi.castlesiege.maps.objects;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.maps.events.RamEvent;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +22,6 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -86,6 +87,13 @@ public class Gate implements Listener {
     }
 
     /**
+     * @return The current health of the gate
+     */
+    public int getHealth() {
+        return this.health;
+    }
+
+    /**
      * @param health The current health of the gate
      */
     public void setHealth(int health) {
@@ -119,8 +127,13 @@ public class Gate implements Listener {
             return;
 
         SchematicSpawner.spawnSchematic(schematicLocation.toLocation(world), schematicName);
-        world.playSound(breachSoundLocation.toLocation(world),
-                Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR , 5, 1 );
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                world.playSound(breachSoundLocation.toLocation(world),
+                        Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR , 5, 1 );
+            }
+        }.runTask(Main.plugin);
         isBreached = true;
     }
 
@@ -141,20 +154,30 @@ public class Gate implements Listener {
 
             // Check the player is left-clicking and the gate isn't friendly
             Player player = event.getPlayer();
+            if (DuelCommand.isDueling(player))
+                return;
             if (canBreach(player.getUniqueId()) && event.getAction() == Action.LEFT_CLICK_BLOCK) {
                 assert event.getClickedBlock() != null;
                 if (isGateBlock(event.getClickedBlock())) {
                     if (!player.isSprinting()) {
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                                TextComponent.fromLegacyText(ChatColor.DARK_RED + "" + ChatColor.BOLD + "You need to sprint in order to bash the gate!"));
+                        Messenger.sendError("You need to sprint in order to bash the gate!", player);
                         return;
                     }
 
                     if (!recentHitters.contains(player.getUniqueId())) {
                         recentHitters.add(player.getUniqueId());
 
-                        dealDamage(Collections.singletonList(player.getUniqueId()), getDamage(player.getUniqueId()));
-                        UpdateStats.addSupports(player.getUniqueId(), 1);
+                        RamEvent ramEvent = new RamEvent(getName(), getDamage(player.getUniqueId()), getHealth(), player.getUniqueId());
+                        Bukkit.getPluginManager().callEvent(ramEvent);
+                        if (ramEvent.isCancelled()) {
+                            return;
+                        }
+
+                        dealDamage(ramEvent.getPlayerUUIDs(), ramEvent.getDamageDealt());
+                        for (UUID uuid : ramEvent.getPlayerUUIDs()) {
+                            UpdateStats.addSupports(uuid, 1);
+                        }
+
 
                         new BukkitRunnable() {
                             @Override
@@ -182,14 +205,18 @@ public class Gate implements Listener {
                 Player player = Bukkit.getPlayer(uuid);
                 if (player == null)
                     continue;
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                        String.format("%s%sGate Health: %d", ChatColor.GRAY, ChatColor.BOLD, health)));
+                Messenger.sendAction(String.format("<gray><b>Gate Health: %d", health), player);
             }
 
-            // Play an explosion sound for hitting the gate
-            World world = Bukkit.getWorld(MapController.getCurrentMap().worldName);
-            assert world != null;
-            world.playSound(breachSoundLocation.toLocation(world), Sound.ENTITY_GENERIC_EXPLODE, 2, 1 );
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    // Play an explosion sound for hitting the gate
+                    World world = Bukkit.getWorld(MapController.getCurrentMap().worldName);
+                    assert world != null;
+                    world.playSound(breachSoundLocation.toLocation(world), Sound.ENTITY_GENERIC_EXPLODE, 2, 1);
+                }
+            }.runTask(Main.plugin);
 
         } else {
             gateBreached();

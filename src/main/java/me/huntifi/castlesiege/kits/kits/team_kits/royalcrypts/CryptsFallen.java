@@ -7,7 +7,8 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -18,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -27,7 +29,7 @@ public class CryptsFallen extends TeamKit implements Listener {
      */
     public CryptsFallen() {
         super("Fallen", 360, 23, "Royal Crypts", "Tomb Guardians",
-                3500, Material.WITHER_SKELETON_SKULL);
+                2000, Material.WITHER_SKELETON_SKULL, "royalcryptsfallen");
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;
@@ -38,12 +40,12 @@ public class CryptsFallen extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                ChatColor.GRAY + "Fallen Sword", null, null, 37);
+                Component.text("Fallen Sword", NamedTextColor.GRAY), null, null, 37);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        ChatColor.GRAY + "Fallen Sword",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Fallen Sword", NamedTextColor.GRAY),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 39),
                 0);
 
@@ -94,5 +96,12 @@ public class CryptsFallen extends TeamKit implements Listener {
                     p.addPotionEffect((new PotionEffect(PotionEffectType.WITHER, 180, 1)));
             }
         }
+    }
+
+    @Override
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
+        return description;
     }
 }

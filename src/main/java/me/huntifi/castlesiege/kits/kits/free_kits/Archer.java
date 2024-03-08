@@ -4,23 +4,25 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 /**
  * The archer kit
  */
 public class Archer extends FreeKit {
-	private static final int health = 215;
+	private static final int health = 210;
 	private static final double regen = 10.5;
 	private static final double meleeDamage = 34;
 	private static final int ladderCount = 4;
 	private static final int arrowCount = 35;
-	private static final int bowPowerLevel = 32;
+	private static final int bowPowerLevel = 36;
 
 	/**
 	 * Set the equipment and attributes of this kit
@@ -34,29 +36,29 @@ public class Archer extends FreeKit {
 
 		// Weapon
 		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
-				ChatColor.GREEN + "Dagger", null, null, meleeDamage);
+				Component.text("Dagger", NamedTextColor.GREEN), null, null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-						ChatColor.GREEN + "Dagger",
-						Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+						Component.text("Dagger", NamedTextColor.GREEN),
+						Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
 						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
 
 		// Chestplate
 		es.chest = ItemCreator.item(new ItemStack(Material.LEATHER_CHESTPLATE),
-				ChatColor.GREEN + "Leather Tunic", null, null);
+				Component.text("Leather Tunic", NamedTextColor.GREEN), null, null);
 
 		// Leggings
 		es.legs = ItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
-				ChatColor.GREEN + "Leather Leggings", null, null);
+				Component.text("Leather Leggings", NamedTextColor.GREEN), null, null);
 
 		// Boots
 		es.feet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
-				ChatColor.GREEN + "Leather Boots", null, null);
+				Component.text("Leather Boots", NamedTextColor.GREEN), null, null);
 		// Voted Boots
 		es.votedFeet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
-				ChatColor.GREEN + "Leather Boots",
-				Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+				Component.text("Leather Boots", NamedTextColor.GREEN),
+				Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders
@@ -68,9 +70,20 @@ public class Archer extends FreeKit {
 
 		// Bow
 		es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
-				ChatColor.GREEN + "Bow", null,
+				Component.text("Bow", NamedTextColor.GREEN), null,
 				Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, bowPowerLevel)));
 
 		super.equipment = es;
+	}
+
+	/**
+	 * @return The lore to add to the kit gui item
+	 */
+	@Override
+    public ArrayList<Component> getGuiDescription() {
+		ArrayList<Component> kitLore = new ArrayList<>();
+		kitLore.add(Component.text("Standard ranged kit", NamedTextColor.GRAY));
+		kitLore.addAll(getBaseStats(health, regen, meleeDamage, 45, ladderCount, arrowCount));
+		return kitLore;
 	}
 }

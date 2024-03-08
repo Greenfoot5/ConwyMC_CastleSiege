@@ -142,4 +142,36 @@ public class Map {
     public MapBorder getMapBorder() {
         return mapBorder;
     }
+
+    /**
+     * Checks if the current map has ended
+     * @return If all the flags belong to the same team or if the enemy cores are destroyed.
+     */
+    public Boolean hasMapEnded() {
+        if (MapController.timer.state == TimerState.ENDED) {
+            return true;
+        }
+
+        if (MapController.getCurrentMap() instanceof CoreMap) {
+            CoreMap map = (CoreMap) MapController.getCurrentMap();
+            for (Core core : map.getCores()) {
+                if (core.health <= 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        String startingTeam = MapController.getCurrentMap().flags[0].getCurrentOwners();
+        if (startingTeam == null) {
+            return false;
+        }
+        for (Flag flag : flags) {
+            if (!startingTeam.equalsIgnoreCase(flag.getCurrentOwners()) && flag.isActive()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

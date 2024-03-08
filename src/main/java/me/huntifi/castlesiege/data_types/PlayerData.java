@@ -4,7 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 import org.bukkit.Bukkit;
@@ -22,14 +22,6 @@ import java.util.UUID;
  * Represents a player's data
  */
 public class PlayerData {
-
-    // BattlePoints amounts
-    public final static double bpKillAmount = 0.25;
-    public final static double bpAssistAmount = 0.5;
-    public final static double bpFlagFullCapAmount = 1;
-    public final static double bpTakeFlagControlAmount = 1;
-    public final static double bpDeathAmount = 1;
-    public final static double bpCasualGameStartAmount = 10;
 
     private ArrayList<String> unlockedKits;
 
@@ -58,15 +50,10 @@ public class PlayerData {
     private HashMap<String, Long> votes;
     private double coins;
 
-    private double battlepoints;
-
     private HashMap<String, String> settings;
     private ArrayList<Booster> boosters;
 
-    //private ArrayList<String> ownedAchievements;
-
     private static double coinMultiplier = 1;
-    private static double battlepointMultiplier = 1;
 
     /**
      * Initialize the player's data for active data
@@ -74,10 +61,9 @@ public class PlayerData {
      * @param rankData The data retrieved from player_rank
      * @throws SQLException If the columns don't match up
      */
-    public PlayerData(ArrayList<String> achievements, ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
-                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, boolean isMatch, ArrayList<Booster> boosters) throws SQLException {
+    public PlayerData(ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
+                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, ArrayList<Booster> boosters) throws SQLException {
 
-        //this.ownedAchievements = achievements;
         this.unlockedKits = unlockedKits;
         this.foundSecrets = foundSecrets;
         this.mute = mute.next() ? new Tuple<>(mute.getString("reason"), mute.getTimestamp("end")) : null;
@@ -94,7 +80,6 @@ public class PlayerData {
         this.mvps = statsData.getInt("mvps");
         this.secrets = statsData.getInt("secrets");
         this.killStreak = 0;
-        this.battlepoints = isMatch ? 0 : bpCasualGameStartAmount;
         this.maxKillStreak = statsData.getInt("kill_streak");
         this.kit = statsData.getString("kit");
 
@@ -122,7 +107,6 @@ public class PlayerData {
         this.assists = 0;
         this.killStreak = 0;
         this.coins = 0;
-        this.battlepoints = 0;
     }
 
     /**
@@ -143,57 +127,6 @@ public class PlayerData {
             mute = null;
         else
             mute = new Tuple<>(reason, end);
-    }
-
-    /**
-     * Get the player's current battlepoints
-     * @return The player's score
-     */
-    public double getBattlepoints() {
-        return battlepoints;
-    }
-
-    /**
-     * Add to the player's battlepoints
-     * @param bp The battlepoints to add
-     */
-    public void addBattlepoints(double bp) {
-        this.battlepoints += bp * getBattlepointMultiplier();
-    }
-
-
-    /**
-     * Add to the player's battlepoints without worrying about the multiplier
-     * @param bp The battlepoints to add
-     */
-    public void addBattlepointsClean(double bp) {
-        this.battlepoints += bp;
-    }
-
-    /**
-     * Take from the player's battlepoints
-     * @param bp The battlepoints to add
-     */
-    public boolean takeBattlepoints(double bp) {
-        if (this.battlepoints < bp)
-            return false;
-        this.battlepoints -= bp;
-        return true;
-    }
-
-    /**
-     * Take from the player's battlepoints regardless of their current balance
-     * @param bp The amount of battlepoints to take
-     */
-    public void takeBattlepointsForce(double bp) {
-        this.battlepoints -= bp;
-    }
-
-    /**
-     * Set the player's current battlepoints
-     */
-    public void setBattlepoints(double bp) {
-        battlepoints = bp;
     }
 
     /**
@@ -229,7 +162,6 @@ public class PlayerData {
         kills += 1;
         addScore(2);
         addCoins(2);
-        addBattlepoints(bpKillAmount);
         addKillStreak();
     }
 
@@ -327,7 +259,6 @@ public class PlayerData {
     public void addAssist() {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             assists += 1;
-            addBattlepoints(bpAssistAmount);
             addScore(1);
             addCoins(1);
         });
@@ -592,7 +523,7 @@ public class PlayerData {
      * @return Whether the player has access to the kit
      */
     public boolean hasKit(String kitName) {
-        return unlockedKits.contains(kitName) || DonatorKit.boostedKits.contains(kitName);
+        return unlockedKits.contains(kitName) || CoinKit.boostedKits.contains(kitName);
     }
 
     /**
@@ -676,25 +607,6 @@ public class PlayerData {
     }
 
     /**
-     * Get the active battlepoint multiplier or 0 if it's negative
-     * @return The active multiplier
-     */
-    public static double getBattlepointMultiplier() {
-        if (battlepointMultiplier < 0) {
-            return 0;
-        }
-        return battlepointMultiplier;
-    }
-
-    /**
-     * Sets the battlepoint multiplier
-     * @param multiplier The multiplier to set
-     */
-    public static void setBattlepointMultiplier(double multiplier) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> battlepointMultiplier = multiplier);
-    }
-
-    /**
      * Check if the player has found a specified secret
      * @param secretName The name of a secret
      * @return true if they found it, false if they haven't found it.
@@ -749,30 +661,16 @@ public class PlayerData {
                 Messenger.broadcastInfo("The total coin multiplier is now " + getCoinMultiplier() + ".");
             }, booster.duration * 20L);
 
-        // Battlepoint Booster
-        } else if (booster instanceof BattlepointBooster) {
-            BattlepointBooster bpBooster = (BattlepointBooster) booster;
-            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                battlepointMultiplier += bpBooster.multiplier;
-                Messenger.broadcastInfo(player.getName() + " has activated a " + bpBooster.getPercentage() + "% battlepoint booster " +
-                        "for " + booster.getDurationAsString() + "!");
-                Messenger.broadcastInfo("The total bp multiplier is now " + getBattlepointMultiplier() + ".");
-            });
-            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                battlepointMultiplier -= bpBooster.multiplier;
-                Messenger.broadcastWarning(player.getName() + "'s " + bpBooster.getPercentage() + "% battlepoint booster has expired! ");
-                Messenger.broadcastInfo("The total battlepoint multiplier is now " + getBattlepointMultiplier() + ".");
-            }, booster.duration * 20L);
-
+        // Kit booster
         } else if (booster instanceof KitBooster) {
             KitBooster kitBooster = (KitBooster) booster;
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                DonatorKit.boostedKits.add(kitBooster.kitName);
+                CoinKit.boostedKits.add(kitBooster.kitName);
                 Messenger.broadcastInfo(player.getName() + " has activated a " + kitBooster.kitName + " kit booster " +
                         "for " + booster.getDurationAsString() + "!");
             });
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                DonatorKit.boostedKits.remove(kitBooster.kitName);
+                CoinKit.boostedKits.remove(kitBooster.kitName);
                 Messenger.broadcastWarning(player.getName() + "'s " + kitBooster.kitName + " kit booster has expired! ");
             }, booster.duration * 20L);
         } else {

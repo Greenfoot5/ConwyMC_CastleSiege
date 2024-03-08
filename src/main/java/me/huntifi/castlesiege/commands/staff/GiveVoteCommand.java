@@ -3,20 +3,24 @@ package me.huntifi.castlesiege.commands.staff;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.StoreData;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
  * Gives a player vote rewards
  */
-public class GiveVoteCommand implements CommandExecutor {
+public class GiveVoteCommand implements TabExecutor {
 
     /**
      * Give the specified votes to the specified player
@@ -35,17 +39,15 @@ public class GiveVoteCommand implements CommandExecutor {
         // Get the target player
         Player p = Bukkit.getPlayer(args[0]);
         if (p == null) {
-            sender.sendMessage(ChatColor.DARK_RED + "Could not find player: " + ChatColor.RED + args[0]);
+            Messenger.sendError("Could not find player: <red>" + args[0], sender);
             return true;
         }
 
         // Set the player's vote
         if (setVote(p.getUniqueId(), args[1])) {
-            sender.sendMessage(ChatColor.GREEN + "Vote " + ChatColor.YELLOW + args[1] +
-                    ChatColor.GREEN + " was given to " + ChatColor.YELLOW + p.getName());
+            Messenger.sendSuccess("Vote <yellow>" + args[1] + "</yellow> was given to <yellow>" + p.getName(), sender);
         } else {
-            sender.sendMessage(ChatColor.DARK_RED + "Vote " + ChatColor.RED + args[1] +
-                    ChatColor.DARK_RED + " is invalid!");
+            Messenger.sendError("Vote <red>" + args[1] + "</red> is invalid", sender);
             return true;
         }
 
@@ -55,6 +57,29 @@ public class GiveVoteCommand implements CommandExecutor {
         }
 
         return true;
+    }
+
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        List<String> options = new ArrayList<>();
+        // Command needs a player and a message
+        if (args.length < 2) {
+            return null;
+        }
+
+        if (args.length == 2) {
+            List<String> values = new ArrayList<>();
+            values.add("all");
+            values.add("sword");
+            values.add("boots");
+            values.add("ladders");
+            values.add("kits");
+            values.add("remove");
+            StringUtil.copyPartialMatches(args[1], values, options);
+        }
+
+        return options;
     }
 
     /**
@@ -83,14 +108,17 @@ public class GiveVoteCommand implements CommandExecutor {
                 break;
             case "2":
             case "boots":
+            case "boot":
                 data.setVote("boots");
                 break;
             case "3":
             case "ladders":
+            case "ladder":
                 data.setVote("ladders");
                 break;
             case "4":
             case "kits":
+            case "kit":
                 data.setVote("kits");
                 break;
             default:

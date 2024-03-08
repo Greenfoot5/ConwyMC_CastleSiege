@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
 /**
@@ -19,8 +20,13 @@ public class InventoryProtection implements Listener {
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
-		if (p.getGameMode() != GameMode.CREATIVE) {
+
+		if (e.getClickedInventory() == null) { return; }
+
+		if (p.getGameMode() != GameMode.CREATIVE && e.getSlotType() == InventoryType.SlotType.ARMOR) {
 			e.setCancelled(true);
+		} else if (e.getClickedInventory().getType() == InventoryType.PLAYER) {
+			e.setCancelled(false);
 		}
 	}
 

@@ -15,34 +15,94 @@ import me.huntifi.castlesiege.commands.chat.GlobalChat;
 import me.huntifi.castlesiege.commands.chat.PrivateMessage;
 import me.huntifi.castlesiege.commands.chat.ReplyMessage;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.commands.donator.FireworkCommand;
 import me.huntifi.castlesiege.commands.donator.JoinMessage;
 import me.huntifi.castlesiege.commands.donator.LeaveMessage;
-import me.huntifi.castlesiege.commands.gameplay.*;
-import me.huntifi.castlesiege.commands.info.*;
+import me.huntifi.castlesiege.commands.donator.duels.AcceptDuel;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
+import me.huntifi.castlesiege.commands.gameplay.BoosterCommand;
+import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
+import me.huntifi.castlesiege.commands.gameplay.BuyKitCommand;
+import me.huntifi.castlesiege.commands.gameplay.CoinShopCommand;
+import me.huntifi.castlesiege.commands.gameplay.KitCommand;
+import me.huntifi.castlesiege.commands.gameplay.RandomKitCommand;
+import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
+import me.huntifi.castlesiege.commands.gameplay.SuicideCommand;
+import me.huntifi.castlesiege.commands.gameplay.SwitchCommand;
+import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
+import me.huntifi.castlesiege.commands.info.CoinMultiplier;
+import me.huntifi.castlesiege.commands.info.CoinsCommand;
+import me.huntifi.castlesiege.commands.info.DiscordCommand;
+import me.huntifi.castlesiege.commands.info.MapsCommand;
+import me.huntifi.castlesiege.commands.info.MyStatsCommand;
+import me.huntifi.castlesiege.commands.info.PingCommand;
+import me.huntifi.castlesiege.commands.info.RulesCommand;
+import me.huntifi.castlesiege.commands.info.SecretsCommand;
+import me.huntifi.castlesiege.commands.info.TeamsCommand;
+import me.huntifi.castlesiege.commands.info.WebshopCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.Donators;
 import me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
 import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
-import me.huntifi.castlesiege.commands.staff.*;
+import me.huntifi.castlesiege.commands.staff.BroadcastCommand;
+import me.huntifi.castlesiege.commands.staff.FlyCommand;
+import me.huntifi.castlesiege.commands.staff.GiveVoteCommand;
+import me.huntifi.castlesiege.commands.staff.ReloadCommand;
+import me.huntifi.castlesiege.commands.staff.SetStaffRank;
+import me.huntifi.castlesiege.commands.staff.StaffChat;
+import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.boosters.GrantBooster;
-import me.huntifi.castlesiege.commands.staff.currencies.*;
+import me.huntifi.castlesiege.commands.staff.currencies.AddCoins;
+import me.huntifi.castlesiege.commands.staff.currencies.SetCoinMultiplier;
+import me.huntifi.castlesiege.commands.staff.currencies.SetCoins;
+import me.huntifi.castlesiege.commands.staff.currencies.TakeCoins;
 import me.huntifi.castlesiege.commands.staff.donations.RankPoints;
 import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
-import me.huntifi.castlesiege.commands.staff.maps.*;
-import me.huntifi.castlesiege.commands.staff.punishments.*;
-import me.huntifi.castlesiege.data_types.*;
+import me.huntifi.castlesiege.commands.staff.maps.NextMapCommand;
+import me.huntifi.castlesiege.commands.staff.maps.SetKitLimit;
+import me.huntifi.castlesiege.commands.staff.maps.SetMapCommand;
+import me.huntifi.castlesiege.commands.staff.maps.SetTimerCommand;
+import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
+import me.huntifi.castlesiege.commands.staff.maps.StartCommand;
+import me.huntifi.castlesiege.commands.staff.maps.ToggleAllKitsFree;
+import me.huntifi.castlesiege.commands.staff.maps.ToggleForcedRandom;
+import me.huntifi.castlesiege.commands.staff.maps.ToggleSwitching;
+import me.huntifi.castlesiege.commands.staff.punishments.Ban;
+import me.huntifi.castlesiege.commands.staff.punishments.Kick;
+import me.huntifi.castlesiege.commands.staff.punishments.KickAll;
+import me.huntifi.castlesiege.commands.staff.punishments.Mute;
+import me.huntifi.castlesiege.commands.staff.punishments.Unban;
+import me.huntifi.castlesiege.commands.staff.punishments.Unmute;
+import me.huntifi.castlesiege.commands.staff.punishments.Warn;
+import me.huntifi.castlesiege.data_types.Booster;
+import me.huntifi.castlesiege.data_types.LocationFrame;
+import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.SchematicFrame;
+import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
-import me.huntifi.castlesiege.events.combat.*;
+import me.huntifi.castlesiege.events.combat.ArrowCollision;
+import me.huntifi.castlesiege.events.combat.ArrowRemoval;
+import me.huntifi.castlesiege.events.combat.AssistKill;
+import me.huntifi.castlesiege.events.combat.DamageBalance;
+import me.huntifi.castlesiege.events.combat.EatCake;
+import me.huntifi.castlesiege.events.combat.FallDamage;
+import me.huntifi.castlesiege.events.combat.HitMessage;
+import me.huntifi.castlesiege.events.combat.HurtAnimation;
+import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.combat.LobbyCombat;
+import me.huntifi.castlesiege.events.combat.TeamCombat;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
 import me.huntifi.castlesiege.events.connection.PlayerDisconnect;
+import me.huntifi.castlesiege.events.curses.CurseCommand;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.death.VoidLocation;
+import me.huntifi.castlesiege.events.gameplay.CamelHandler;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.events.gameplay.LeaveMapBorder;
@@ -54,17 +114,41 @@ import me.huntifi.castlesiege.events.timed.ApplyRegeneration;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
-import me.huntifi.castlesiege.gui.Gui;
-import me.huntifi.castlesiege.gui.GuiController;
 import me.huntifi.castlesiege.kits.items.Enderchest;
-import me.huntifi.castlesiege.kits.kits.DonatorKit;
+import me.huntifi.castlesiege.kits.items.WoolHat;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.donator_kits.*;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Alchemist;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Barbarian;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Berserker;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Cavalry;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Crossbowman;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Engineer;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Executioner;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Halberdier;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Maceman;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Medic;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Paladin;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Priest;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Ranger;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Rogue;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Sorcerer;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Vanguard;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Viking;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
+import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
+import me.huntifi.castlesiege.kits.kits.free_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.kits.kits.in_development.Chef;
-import me.huntifi.castlesiege.kits.kits.in_development.Warbear;
+import me.huntifi.castlesiege.kits.kits.in_development.Armorer;
+import me.huntifi.castlesiege.kits.kits.in_development.Bannerman;
+import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
+import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
+import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
+import me.huntifi.castlesiege.kits.kits.map_kits.CamelRider;
+import me.huntifi.castlesiege.kits.kits.map_kits.Constructor;
+import me.huntifi.castlesiege.kits.kits.staff_kits.Warbear;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyArbalester;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyLongbowman;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyRoyalKnight;
@@ -75,25 +159,63 @@ import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepLancer;
 import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepRangedCavalry;
 import me.huntifi.castlesiege.kits.kits.team_kits.hommet.HommetAxeman;
 import me.huntifi.castlesiege.kits.kits.team_kits.hommet.HommetLongbowarcher;
-import me.huntifi.castlesiege.kits.kits.team_kits.moria.*;
+import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaAxeThrower;
+import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaBonecrusher;
+import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaCaveTroll;
+import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaGuardian;
+import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaOrc;
+import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaWindlancer;
 import me.huntifi.castlesiege.kits.kits.team_kits.royalcrypts.CryptsFallen;
 import me.huntifi.castlesiege.kits.kits.team_kits.thunderstone.ThunderstoneElytrier;
-import me.huntifi.castlesiege.kits.kits.voter_kits.*;
+import me.huntifi.castlesiege.kits.kits.voter_kits.FireArcher;
+import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
+import me.huntifi.castlesiege.kits.kits.voter_kits.Scout;
+import me.huntifi.castlesiege.kits.kits.voter_kits.Skirmisher;
+import me.huntifi.castlesiege.maps.CoreMap;
+import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.Hommet.CollapseEvent;
+import me.huntifi.castlesiege.maps.Lobby;
 import me.huntifi.castlesiege.maps.Map;
-import me.huntifi.castlesiege.maps.*;
+import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.maps.Scoreboard;
+import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.maps.WoolMap;
+import me.huntifi.castlesiege.maps.WoolMapBlock;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
-import me.huntifi.castlesiege.maps.objects.*;
+import me.huntifi.castlesiege.maps.objects.ButtonDoor;
+import me.huntifi.castlesiege.maps.objects.Catapult;
+import me.huntifi.castlesiege.maps.objects.ChargeFlag;
+import me.huntifi.castlesiege.maps.objects.Core;
+import me.huntifi.castlesiege.maps.objects.Door;
+import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.maps.objects.LeverDoor;
+import me.huntifi.castlesiege.maps.objects.PressurePlateDoor;
+import me.huntifi.castlesiege.maps.objects.Ram;
+import me.huntifi.castlesiege.maps.objects.RegionHandler;
+import me.huntifi.castlesiege.misc.mythic.MythicListener;
 import me.huntifi.castlesiege.secrets.Abrakhan.AbrakhanSecretDoor;
 import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
 import me.huntifi.castlesiege.secrets.SecretBlocks;
 import me.huntifi.castlesiege.secrets.SecretItems;
 import me.huntifi.castlesiege.secrets.SecretSigns;
-import me.huntifi.castlesiege.secrets.Skyhold.Doors;
+import me.huntifi.castlesiege.secrets.Skyhold.SkyholdDoors;
 import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
+import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.megavex.scoreboardlibrary.api.ScoreboardLibrary;
+import net.megavex.scoreboardlibrary.api.exception.NoPacketAdapterAvailableException;
+import net.megavex.scoreboardlibrary.api.noop.NoopScoreboardLibrary;
 import org.apache.commons.io.FileUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -108,12 +230,36 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.BLACK;
+import static net.kyori.adventure.text.format.NamedTextColor.BLUE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_BLUE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_PURPLE;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_RED;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 public class Main extends JavaPlugin implements Listener {
 
     public static Plugin plugin;
     public static Main instance;
+    public static ScoreboardLibrary scoreboardLibrary;
 
     public static MySQL SQL;
 
@@ -122,9 +268,19 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument[] doorsConfigs;
     private YamlDocument[] gatesConfigs;
     private YamlDocument[] catapultsConfigs;
+    private YamlDocument[] coreConfigs;
 
     private YamlDocument gameConfig;
-    private YamlDocument kitsConfig;
+
+//    @Override
+//    public void onLoad() {
+//        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
+//        //Are all listeners read only?
+//        PacketEvents.getAPI().getSettings().reEncodeByDefault(false)
+//                .checkForUpdates(true)
+//                .bStats(true);
+//        PacketEvents.getAPI().load();
+//    }
 
 
     @Override
@@ -159,6 +315,18 @@ public class Main extends JavaPlugin implements Listener {
                 // second param allows for ordering of handlers - see the JavaDocs
                 sessionManager.registerHandler(RegionHandler.FACTORY, null);
 
+                //Scoreboard
+                //PacketEvents.getAPI().getEventManager().registerListener(new PacketEventsListener());
+                //PacketEvents.getAPI().init();
+                try {
+                    assert plugin != null;
+                    scoreboardLibrary = ScoreboardLibrary.loadScoreboardLibrary(plugin);
+                } catch (NoPacketAdapterAvailableException e) {
+                    // If no packet adapter was found, you can fallback to the no-op implementation:
+                    scoreboardLibrary = new NoopScoreboardLibrary();
+                    plugin.getLogger().warning("No scoreboard packet adapter available!");
+                }
+
                 // Tips
                 new Tips().runTaskTimer(plugin, Tips.TIME_BETWEEN_TIPS * 20L, Tips.TIME_BETWEEN_TIPS * 20L);
 
@@ -166,32 +334,37 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
                 getServer().getPluginManager().registerEvents(new BoosterCommand(), plugin);
+                getServer().getPluginManager().registerEvents(new TeamChat(), plugin);
 
                 // Connection
                 getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerDisconnect(), plugin);
 
                 //Secrets
+                getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretDoor(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretItems(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretSigns(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretBlocks(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretPortal(), plugin);
-                getServer().getPluginManager().registerEvents(new Doors(), plugin);
+                getServer().getPluginManager().registerEvents(new SkyholdDoors(), plugin);
                 getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
 
+                //Duels
+                getServer().getPluginManager().registerEvents(new AcceptDuel(), plugin);
 
                 // Combat
+                getServer().getPluginManager().registerEvents(new ArrowCollision(), plugin);
                 getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
                 getServer().getPluginManager().registerEvents(new AssistKill(), plugin);
+                getServer().getPluginManager().registerEvents(new DamageBalance(), plugin);
+                getServer().getPluginManager().registerEvents(new EatCake(), plugin);
                 getServer().getPluginManager().registerEvents(new FallDamage(), plugin);
                 getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
                 getServer().getPluginManager().registerEvents(new HurtAnimation(), plugin);
                 getServer().getPluginManager().registerEvents(new InCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new LobbyCombat(), plugin);
                 getServer().getPluginManager().registerEvents(new TeamCombat(), plugin);
-                getServer().getPluginManager().registerEvents(new DamageBalance(), plugin);
-                getServer().getPluginManager().registerEvents(new EatCake(), plugin);
 
                 // Death
                 getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
@@ -200,8 +373,9 @@ public class Main extends JavaPlugin implements Listener {
                 // Gameplay
                 //getServer().getPluginManager().registerEvents(new ArcaneTower(), plugin);
                 getServer().getPluginManager().registerEvents(new CollapseEvent(), plugin);
-                getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new Explosion(), plugin);
+                getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
+                getServer().getPluginManager().registerEvents(new CamelHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new LeaveMapBorder(), plugin);
                 getServer().getPluginManager().registerEvents(new Movement(), plugin);
 
@@ -212,10 +386,16 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Kits
                 getServer().getPluginManager().registerEvents(new Alchemist(), plugin);
+                getServer().getPluginManager().registerEvents(new Armorer(), plugin);
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
+                getServer().getPluginManager().registerEvents(new Barbarian(), plugin);
+                getServer().getPluginManager().registerEvents(new Bannerman(), plugin);
+                getServer().getPluginManager().registerEvents(new BattleMedic(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
-                getServer().getPluginManager().registerEvents(new Chef(), plugin);
+                getServer().getPluginManager().registerEvents(new CamelRider(), plugin);
+                getServer().getPluginManager().registerEvents(new Constructor(), plugin);
+                //getServer().getPluginManager().registerEvents(new Chef(), plugin);
                 getServer().getPluginManager().registerEvents(new CryptsFallen(), plugin);
                 getServer().getPluginManager().registerEvents(new ConwyArbalester(), plugin);
                 getServer().getPluginManager().registerEvents(new ConwyLongbowman(), plugin);
@@ -225,6 +405,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
                 getServer().getPluginManager().registerEvents(new FirelandsAbyssal(), plugin);
                 getServer().getPluginManager().registerEvents(new FirelandsHellsteed(), plugin);
+                getServer().getPluginManager().registerEvents(new Hypaspist(), plugin);
                 getServer().getPluginManager().registerEvents(new HommetAxeman(), plugin);
                 getServer().getPluginManager().registerEvents(new HommetLongbowarcher(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
@@ -240,14 +421,26 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new MoriaCaveTroll(), plugin);
                 getServer().getPluginManager().registerEvents(new MoriaGuardian(), plugin);
                 getServer().getPluginManager().registerEvents(new MoriaOrc(), plugin);
+                getServer().getPluginManager().registerEvents(new Priest(), plugin);
+                getServer().getPluginManager().registerEvents(new Paladin(), plugin);
                 getServer().getPluginManager().registerEvents(new Rogue(), plugin);
                 getServer().getPluginManager().registerEvents(new Ranger(), plugin);
+                getServer().getPluginManager().registerEvents(new SpearKnight(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
+                getServer().getPluginManager().registerEvents(new Sorcerer(), plugin);
                 getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
                 getServer().getPluginManager().registerEvents(new Warbear(), plugin);
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
+                getServer().getPluginManager().registerEvents(new Warlock(), plugin);
 
+                //mythic stuff
+                getServer().getPluginManager().registerEvents(new MythicListener(), plugin);
+
+                // Misc
+                getServer().getPluginManager().registerEvents(new RandomKitCommand(), plugin);
+                getServer().getPluginManager().registerEvents(new NameTag(), plugin);
+                getServer().getPluginManager().registerEvents(new WoolHat(), plugin);
 
                 // Chat
                 Objects.requireNonNull(getCommand("GlobalChat")).setExecutor(new GlobalChat());
@@ -256,8 +449,13 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
 
                 // Donator
+                Objects.requireNonNull(getCommand("Firework")).setExecutor(new FireworkCommand());
                 Objects.requireNonNull(getCommand("LeaveMessage")).setExecutor(new LeaveMessage());
                 Objects.requireNonNull(getCommand("JoinMessage")).setExecutor(new JoinMessage());
+
+                //duels
+                Objects.requireNonNull(getCommand("DuelAccept")).setExecutor(new AcceptDuel());
+                Objects.requireNonNull(getCommand("Duel")).setExecutor(new DuelCommand());
 
                 // Gameplay
                 Objects.requireNonNull(getCommand("Bounties")).setExecutor(new BountyCommand());
@@ -271,8 +469,6 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("VoteSkip")).setExecutor(new VoteSkipCommand());
 
                 // Info
-                Objects.requireNonNull(getCommand("Battlepoints")).setExecutor(new BattlepointsCommand());
-                Objects.requireNonNull(getCommand("BattlepointMultiplier")).setExecutor(new BattlepointMultiplier());
                 Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
                 Objects.requireNonNull(getCommand("Coins")).setExecutor(new CoinsCommand());
                 Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
@@ -304,10 +500,6 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("SetCoins")).setExecutor(new SetCoins());
                 Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
                 Objects.requireNonNull(getCommand("TakeCoins")).setExecutor(new TakeCoins());
-                Objects.requireNonNull(getCommand("AddBattlepoints")).setExecutor(new AddBattlepoints());
-                Objects.requireNonNull(getCommand("SetBattlepoints")).setExecutor(new SetBattlepoints());
-                Objects.requireNonNull(getCommand("SetBattlepointMultiplier")).setExecutor(new SetBattlepointMultiplier());
-                Objects.requireNonNull(getCommand("TakeBattlepoints")).setExecutor(new TakeBattlepoints());
 
                 // Staff - Boosters
                 Objects.requireNonNull(getCommand("GrantBooster")).setExecutor(new GrantBooster());
@@ -322,8 +514,9 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Warn")).setExecutor(new Warn());
 
                 // Staff
-                Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastMessage());
+                Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastCommand());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
+                Objects.requireNonNull(getCommand("Curse")).setExecutor(new CurseCommand());
                 Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
                 Objects.requireNonNull(getCommand("SetStaffRank")).setExecutor(new SetStaffRank());
                 Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
@@ -349,13 +542,20 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Random")).setExecutor(new RandomKitCommand());
                 Objects.requireNonNull(getCommand("Alchemist")).setExecutor(new Alchemist());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
+                Objects.requireNonNull(getCommand("Armorer")).setExecutor(new Armorer());
+                Objects.requireNonNull(getCommand("Battlemedic")).setExecutor(new BattleMedic());
+                Objects.requireNonNull(getCommand("Bannerman")).setExecutor(new Bannerman());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
+                Objects.requireNonNull(getCommand("Barbarian")).setExecutor(new Barbarian());
+                Objects.requireNonNull(getCommand("Constructor")).setExecutor(new Constructor());
                 Objects.requireNonNull(getCommand("ConwyArbalester")).setExecutor(new ConwyArbalester());
                 Objects.requireNonNull(getCommand("ConwyLongbowman")).setExecutor(new ConwyLongbowman());
                 Objects.requireNonNull(getCommand("ConwyRoyalKnight")).setExecutor(new ConwyRoyalKnight());
                 Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
-                Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
-                Objects.requireNonNull(getCommand("CryptsFallen")).setExecutor(new CryptsFallen());
+                Objects.requireNonNull(getCommand("Camelrider")).setExecutor(new CamelRider());
+                //Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
+                Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
+                Objects.requireNonNull(getCommand("RoyalCryptsFallen")).setExecutor(new CryptsFallen());
                 Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
                 Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
                 Objects.requireNonNull(getCommand("ThunderstoneElytrier")).setExecutor(new ThunderstoneElytrier());
@@ -364,7 +564,8 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("FirelandsAbyssal")).setExecutor(new FirelandsAbyssal());
                 Objects.requireNonNull(getCommand("FirelandsHellsteed")).setExecutor(new FirelandsHellsteed());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
-                Objects.requireNonNull(getCommand("HelmsDeepBerserker")).setExecutor(new HelmsDeepBerserker());
+                Objects.requireNonNull(getCommand("Hypaspist")).setExecutor(new Hypaspist());
+                Objects.requireNonNull(getCommand("HelmsDeepUrukBerserker")).setExecutor(new HelmsDeepBerserker());
                 Objects.requireNonNull(getCommand("HelmsDeepLancer")).setExecutor(new HelmsDeepLancer());
                 Objects.requireNonNull(getCommand("HelmsDeepRangedCavalry")).setExecutor(new HelmsDeepRangedCavalry());
                 Objects.requireNonNull(getCommand("HommetLongbowman")).setExecutor(new HommetLongbowarcher());
@@ -378,20 +579,22 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("MoriaBonecrusher")).setExecutor(new MoriaBonecrusher());
                 Objects.requireNonNull(getCommand("MoriaAxeThrower")).setExecutor(new MoriaAxeThrower());
                 Objects.requireNonNull(getCommand("MoriaOrc")).setExecutor(new MoriaOrc());
+                Objects.requireNonNull(getCommand("Paladin")).setExecutor(new Paladin());
+                Objects.requireNonNull(getCommand("Priest")).setExecutor(new Priest());
                 Objects.requireNonNull(getCommand("Ranger")).setExecutor(new Ranger());
                 Objects.requireNonNull(getCommand("Rogue")).setExecutor(new Rogue());
-                Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
                 Objects.requireNonNull(getCommand("Shieldman")).setExecutor(new Shieldman());
                 Objects.requireNonNull(getCommand("Skirmisher")).setExecutor(new Skirmisher());
                 Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
+                Objects.requireNonNull(getCommand("Spearknight")).setExecutor(new SpearKnight());
+                Objects.requireNonNull(getCommand("Sorcerer")).setExecutor(new Sorcerer());
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
                 Objects.requireNonNull(getCommand("Vanguard")).setExecutor(new Vanguard());
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
                 Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
-                loadKits();
+                Objects.requireNonNull(getCommand("Warlock")).setExecutor(new Warlock());
                 applyKitLimits();
-                registerCoinShop();
 
                 // Map Specific
                 // Helms Deep Only
@@ -403,7 +606,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Timed
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);
-                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 20);
+                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 5);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75);
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
                 Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
@@ -418,6 +621,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 //This registers the secret items
                 SecretItems.registerSecretItems();
+
             }
         }.runTaskLater(plugin, 1);
     }
@@ -428,10 +632,12 @@ public class Main extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         getLogger().info("Disabling plugin...");
+        //PacketEvents.getAPI().terminate();
         // Unregister all listeners
         HandlerList.unregisterAll(plugin);
         // Unload all worlds
         for (World world:Bukkit.getWorlds()) {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all flush");
             Bukkit.unloadWorld(world, false);
         }
         // Reload the original world - HelmsDeep
@@ -445,6 +651,8 @@ public class Main extends JavaPlugin implements Listener {
         } catch (NullPointerException ex) {
             getLogger().warning("SQL could not disconnect, it doesn't exist!");
         }
+        scoreboardLibrary.close();
+
         getLogger().info("Plugin has been disabled!");
     }
 
@@ -533,6 +741,15 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
         return null;}
+
+    public YamlDocument getCoreConfig(Route corePath) {
+        for (YamlDocument document : coreConfigs) {
+            if (document.contains(corePath)) {
+                return document;
+            }
+        }
+        return null;
+    }
 
     public YamlDocument getDoorsConfig(Route mapPath) {
         for (YamlDocument document : doorsConfigs) {
@@ -629,6 +846,9 @@ public class Main extends JavaPlugin implements Listener {
         gatesConfigs = loadYMLs("gates");
         getLogger().info("Loaded gates");
 
+        coreConfigs = loadYMLs("cores");
+        getLogger().info("Loaded cores");
+
         catapultsConfigs = loadYMLs("catapults");
         getLogger().info("Loaded catapults");
 
@@ -644,16 +864,6 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         getLogger().info("Loaded config.yml");
-
-        // Load kits.yml with BoostedYAML
-        try {
-            kitsConfig = YamlDocument.create(new File(getDataFolder(), "kits.yml"),
-                    getClass().getResourceAsStream("kits.yml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        getLogger().info("Loaded kits.yml");
     }
 
     private YamlDocument[] loadYMLs(String folderName) {
@@ -677,35 +887,6 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         return configs.toArray(new YamlDocument[configs.size()]);
-    }
-
-    /**
-     * Create the inventories corresponding to the GUIs in kits.yml
-     */
-    private void loadKits() {
-        String[] guiPaths = getPaths(kitsConfig, null);
-        for (String guiPath : guiPaths) {
-            Route guiRoute = Route.from(guiPath);
-            Gui gui = new Gui(kitsConfig.getString(guiRoute.add("name")), 6);
-
-            String[] itemPaths = getPaths(kitsConfig, guiRoute.add("items"));
-            for (String itemPath : itemPaths) {
-                Route itemRoute = guiRoute.add("items").add(itemPath);
-                String itemName = kitsConfig.getString(itemRoute.add("name"));
-                String command = kitsConfig.getString(itemRoute.add("command"));
-                Material material;
-                if (kitsConfig.contains(itemRoute.add("kit"))) {
-                    material = Kit.getMaterial(kitsConfig.getString(itemRoute.add("kit")));
-                } else {
-                    material = Material.getMaterial(kitsConfig.getString(itemRoute.add("material")));
-                }
-                List<String> lore = kitsConfig.getStringList(itemRoute.add("lore"));
-                int location = kitsConfig.getInt(itemRoute.add("location"));
-                gui.addItem(itemName, material, lore, location, command, true);
-            }
-
-            GuiController.add(kitsConfig.getString(guiRoute.add("key")), gui);
-        }
     }
 
     /**
@@ -766,59 +947,6 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
-    /**
-     * Register the coin shop as set in [TODO: yml to be created]
-     * Not included in [TODO: loading GUIs from yml] because the kits must be registered first
-     */
-    private void registerCoinShop() {
-        Gui gui = new Gui(ChatColor.DARK_GREEN + "Coin Shop", 5);
-
-        gui.addCoinShopItem("Alchemist", Kit.getMaterial("Alchemist"), 0);
-        gui.addCoinShopItem("Berserker", Kit.getMaterial("Berserker"), 1);
-        gui.addCoinShopItem("Cavalry", Kit.getMaterial("Cavalry"), 2);
-        gui.addCoinShopItem("Chef", Kit.getMaterial("Chef"), 3);
-        gui.addCoinShopItem("Crossbowman", Kit.getMaterial("Crossbowman"), 4);
-        gui.addCoinShopItem("Engineer", Kit.getMaterial("Engineer"), 5);
-        gui.addCoinShopItem("Executioner", Kit.getMaterial("Executioner"), 6);
-        gui.addCoinShopItem("Halberdier", Kit.getMaterial("Halberdier"), 7);
-        gui.addCoinShopItem("Maceman", Kit.getMaterial("Maceman"), 8);
-        gui.addCoinShopItem("Medic", Kit.getMaterial("Medic"), 9);
-        gui.addCoinShopItem("Ranger", Kit.getMaterial("Ranger"), 10);
-        gui.addCoinShopItem("Rogue", Kit.getMaterial("Rogue"), 11);
-        gui.addCoinShopItem("Vanguard", Kit.getMaterial("Vanguard"), 12);
-        gui.addCoinShopItem("Viking", Kit.getMaterial("Viking"), 13);
-        gui.addCoinShopItem("Warhound", Kit.getMaterial("Warhound"), 14);
-
-        List<String> lore = new ArrayList<>();
-        lore.add("/\\ Elite Kits /\\");
-        lore.add(" ");
-        lore.add("\\/ Team Kits \\/");
-        for (int i = 18; i < 27; i++) {
-            gui.addItem("-", Material.GRAY_STAINED_GLASS_PANE, lore, i, "", false);
-        }
-
-        gui.addCoinShopItem("Elytrier", Kit.getMaterial("Elytrier"), 27);
-        gui.addCoinShopItem("Fallen", Kit.getMaterial("Fallen"), 28);
-        gui.addCoinShopItem("MoriaOrc", Kit.getMaterial("MoriaOrc"), 29);
-        gui.addCoinShopItem("DwarvenAxeThrower", Kit.getMaterial("DwarvenAxeThrower"), 30);
-        gui.addCoinShopItem("DwarvenGuardian", Kit.getMaterial("DwarvenGuardian"), 31);
-        gui.addCoinShopItem("MoriaCaveTroll", Kit.getMaterial("MoriaCaveTroll"), 32);
-        gui.addCoinShopItem("MoriaBonecrusher", Kit.getMaterial("MoriaBonecrusher"), 33);
-        gui.addCoinShopItem("DwarvenWindlancer", Kit.getMaterial("DwarvenWindlancer"), 34);
-        gui.addCoinShopItem("UrukBerserker", Kit.getMaterial("UrukBerserker"), 35);
-        gui.addCoinShopItem("Lancer", Kit.getMaterial("Lancer"), 36);
-        gui.addCoinShopItem("RangedCavalry", Kit.getMaterial("RangedCavalry"), 37);
-        gui.addCoinShopItem("RoyalKnight", Kit.getMaterial("RoyalKnight"), 38);
-        gui.addCoinShopItem("Arbalester", Kit.getMaterial("Arbalester"), 39);
-        gui.addCoinShopItem("ConwyLongbowman", Kit.getMaterial("ConwyLongbowman"), 40);
-        gui.addCoinShopItem("Longbowman", Kit.getMaterial("Longbowman"), 41);
-        gui.addCoinShopItem("Axeman", Kit.getMaterial("Axeman"), 42);
-
-        //gui.addItem("§4§lGo Back", Material.BARRIER, Collections.singletonList("§cReturn to the previous interface."), 45, "kit shop", true);
-
-        GuiController.add("coin shop", gui);
-    }
-
     private void loadMaps() {
         // Load the maps
         for (YamlDocument config : mapConfigs) {
@@ -831,6 +959,9 @@ public class Main extends JavaPlugin implements Listener {
                 // Basic Map Details
                 Map map = new Map();
                 Route mapRoute = Route.from(mapPath);
+                if (getCoreConfig(mapRoute) != null) {
+                    map = new CoreMap();
+                }
                 map.name = config.getString(mapRoute.add("name"));
                 map.worldName = config.getString(mapRoute.add("world"));
                 map.gamemode = Gamemode.valueOf(config.getString(mapRoute.add("gamemode")));
@@ -848,9 +979,19 @@ public class Main extends JavaPlugin implements Listener {
 
                 // World Data
                 createWorld(map.worldName);
+                //duels map
+                createWorld("DuelsMap");
+
+                //Core Data
+                if (getCoreConfig(mapRoute) != null) {
+                    loadCores(mapRoute, map);
+                }
 
                 // Flag Data
-                loadFlags(mapRoute, map);
+                if (getFlagsConfig(mapRoute) != null) {
+                    loadFlags(mapRoute, map);
+                }
+
                 // Doors
                 loadDoors(mapRoute, map);
                 // Gates
@@ -876,6 +1017,32 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
+    private void loadCores(Route mapRoute, Map map) {
+        YamlDocument coreConfig = getCoreConfig(mapRoute);
+        String[] corePaths = getPaths(coreConfig, mapRoute);
+
+            // create new coremap
+        ((CoreMap) map).setCores(new Core[corePaths.length]);
+            for (int i = 0; i < corePaths.length; i++) {
+                Route coreRoute = mapRoute.add(corePaths[i]);
+                double coreHealth = coreConfig.getDouble(coreRoute.add("core_health"));
+                Core core;
+                core = new Core(coreConfig.getString(coreRoute.add("name")),
+                        coreConfig.getString(coreRoute.add("owners")), coreHealth);
+                // Set the spawn point
+                core.setSpawnPoint(getLocation(coreRoute.add("spawn_point"), map.worldName, coreConfig));
+                // Set the capture area and animations
+                Route captureRoute = coreRoute.add("core_area");
+                if (coreConfig.contains(captureRoute) && coreConfig.getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
+                    core.region = getRegion(coreConfig, captureRoute, core.name.replace(' ', '_'));
+                }
+                core.materials = coreConfig.getStringList(coreRoute.add("materials"));
+                core.scoreboard = coreConfig.getInt(coreRoute.add("scoreboard"));
+
+                ((CoreMap) map).setCore(i, core);
+            }
+    }
+
     private void loadFlags(Route mapRoute, Map map) {
         YamlDocument flagConfig = getFlagsConfig(mapRoute);
         String[] flagPaths = getPaths(flagConfig, mapRoute);
@@ -898,10 +1065,11 @@ public class Main extends JavaPlugin implements Listener {
                     ).setChargeValues(
                             getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig),
                             getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig),
-                            flagConfig.getInt(flagRoute.add("add_secs"), 0),
-                            flagConfig.getInt(flagRoute.add("add_mins"), 0)
+                            flagConfig.getInt(flagRoute.add("add_mins"), 0),
+                            flagConfig.getInt(flagRoute.add("add_secs"), 0)
                     );
                     break;
+                case Assault:
                 default:
                     flag = new Flag(
                             flagConfig.getString(flagRoute.add("name")),
@@ -987,7 +1155,7 @@ public class Main extends JavaPlugin implements Listener {
         Team team = new Team(name);
 
         // Colours
-        Tuple<Material, ChatColor> colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("primary_color")).toLowerCase()));
+        Tuple<Material, NamedTextColor> colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("primary_color")).toLowerCase()));
         team.primaryWool = colors.getFirst();
         team.primaryChatColor = colors.getSecond();
         colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("secondary_color")).toLowerCase()));
@@ -1017,6 +1185,10 @@ public class Main extends JavaPlugin implements Listener {
             Route mapFlagRoute = woolMapPath.add(mapFlags[i]);
 
             block.flagName = config.getString(mapFlagRoute.add("flag_name"));
+            if (map instanceof CoreMap) {
+                block.coreName = config.getString(mapFlagRoute.add("core_name"));
+            }
+
             block.blockLocation = getLocation(mapFlagRoute.add("wool_position"), map.worldName, config);
             block.signLocation = block.blockLocation.clone();
 
@@ -1244,114 +1416,153 @@ public class Main extends JavaPlugin implements Listener {
         return new Location(Bukkit.getServer().getWorld(worldName), x, y, z, yaw, pitch);
     }
 
-    private Tuple<Material, ChatColor> getColors(String color) {
-        Tuple<Material, ChatColor> colors = new Tuple<>(Material.WHITE_WOOL, ChatColor.WHITE);
+    private Tuple<Material, NamedTextColor> getColors(String color) {
+        Tuple<Material, NamedTextColor> colors = new Tuple<>(Material.WHITE_WOOL, NamedTextColor.WHITE);
         switch (color) {
             case "black":
                 colors.setFirst(Material.BLACK_WOOL);
-                colors.setSecond(ChatColor.DARK_GRAY);
+                colors.setSecond(NamedTextColor.DARK_GRAY);
                 break;
             case "dark_blue":
+            case "darkblue":
                 colors.setFirst(Material.BLUE_WOOL);
-                colors.setSecond(ChatColor.DARK_BLUE);
+                colors.setSecond(NamedTextColor.DARK_BLUE);
                 break;
             case "dark_green":
+            case "darkgreen":
             case "green":
                 colors.setFirst(Material.GREEN_WOOL);
-                colors.setSecond(ChatColor.DARK_GREEN);
+                colors.setSecond(NamedTextColor.DARK_GREEN);
                 break;
             case "cyan":
             case "dark_aqua":
+            case "darkaqua":
                 colors.setFirst(Material.CYAN_WOOL);
-                colors.setSecond(ChatColor.DARK_AQUA);
+                colors.setSecond(NamedTextColor.DARK_AQUA);
                 break;
             case "dark_red":
+            case "darkred":
             case "red":
                 colors.setFirst(Material.RED_WOOL);
-                colors.setSecond(ChatColor.DARK_RED);
+                colors.setSecond(NamedTextColor.DARK_RED);
                 break;
             case "brown":
                 colors.setFirst(Material.BROWN_WOOL);
-                colors.setSecond(ChatColor.DARK_RED);
+                colors.setSecond(NamedTextColor.GOLD);
                 break;
             case "dark_purple":
+            case "darkpurple":
             case "purple":
                 colors.setFirst(Material.PURPLE_WOOL);
-                colors.setSecond(ChatColor.DARK_PURPLE);
+                colors.setSecond(NamedTextColor.DARK_PURPLE);
                 break;
             case "gold":
             case "dark_gold":
+            case "darkgold":
             case "dark_yellow":
+            case "darkyellow":
             case "orange":
                 colors.setFirst(Material.ORANGE_WOOL);
-                colors.setSecond(ChatColor.GOLD);
+                colors.setSecond(NamedTextColor.GOLD);
                 break;
             case "light_gold":
+            case "lightgold":
                 colors.setFirst(Material.YELLOW_WOOL);
-                colors.setSecond(ChatColor.GOLD);
+                colors.setSecond(NamedTextColor.GOLD);
                 break;
             case "light_gray":
+            case "lightgray":
             case "light_grey":
+            case "lightgrey":
             case "gray":
+            case "grey":
                 colors.setFirst(Material.LIGHT_GRAY_WOOL);
-                colors.setSecond(ChatColor.GRAY);
+                colors.setSecond(NamedTextColor.GRAY);
                 break;
             case "dark_grey":
             case "dark_gray":
             case "darkgrey":
             case "darkgray":
                 colors.setFirst(Material.GRAY_WOOL);
-                colors.setSecond(ChatColor.DARK_GRAY);
+                colors.setSecond(NamedTextColor.DARK_GRAY);
                 break;
             case "blue":
                 colors.setFirst(Material.BLUE_WOOL);
-                colors.setSecond(ChatColor.BLUE);
+                colors.setSecond(NamedTextColor.BLUE);
                 break;
             case "light_blue":
+            case "lightblue":
                 colors.setFirst(Material.LIGHT_BLUE_WOOL);
-                colors.setSecond(ChatColor.BLUE);
+                colors.setSecond(NamedTextColor.BLUE);
                 break;
             case "light_green":
+            case "lightgreen":
             case "lime":
                 colors.setFirst(Material.LIME_WOOL);
-                colors.setSecond(ChatColor.GREEN);
+                colors.setSecond(NamedTextColor.GREEN);
                 break;
             case "aqua":
                 colors.setFirst(Material.LIGHT_BLUE_WOOL);
-                colors.setSecond(ChatColor.AQUA);
+                colors.setSecond(NamedTextColor.AQUA);
                 break;
             case "light_red":
+            case "lightred":
                 colors.setFirst(Material.PINK_WOOL);
-                colors.setSecond(ChatColor.RED);
+                colors.setSecond(NamedTextColor.RED);
                 break;
             case "light_purple":
+            case "lightpurple":
             case "magenta":
                 colors.setFirst(Material.MAGENTA_WOOL);
-                colors.setSecond(ChatColor.LIGHT_PURPLE);
+                colors.setSecond(NamedTextColor.LIGHT_PURPLE);
                 break;
             case "pink":
                 colors.setFirst(Material.PINK_WOOL);
-                colors.setSecond(ChatColor.LIGHT_PURPLE);
+                colors.setSecond(NamedTextColor.LIGHT_PURPLE);
                 break;
             case "light_yellow":
+            case "lightyellow":
             case "yellow":
                 colors.setFirst(Material.YELLOW_WOOL);
-                colors.setSecond(ChatColor.YELLOW);
+                colors.setSecond(NamedTextColor.YELLOW);
                 break;
             case "white":
             default:
                 colors.setFirst(Material.WHITE_WOOL);
-                colors.setSecond(ChatColor.WHITE);
+                colors.setSecond(NamedTextColor.WHITE);
         }
-
         return colors;
     }
 
+    /**
+     *
+     * @param color the chat colour to use to pick boss colour
+     * @return the bossbar colour to use
+     */
+    public static BossBar.Color getBarColour(NamedTextColor color) {
+        if (color.equals(BLUE) || color.equals(DARK_AQUA) || color.equals(DARK_BLUE) || color.equals(AQUA)) {
+            return BossBar.Color.BLUE;
+        } else if (color.equals(GRAY) || color.equals(WHITE)) {
+            return BossBar.Color.WHITE;
+        } else if (color.equals(DARK_GREEN) || color.equals(GREEN)) {
+            return BossBar.Color.GREEN;
+        } else if (color.equals(LIGHT_PURPLE)) {
+            return BossBar.Color.PINK;
+        } else if (color.equals(BLACK) || color.equals(DARK_GRAY) || color.equals(DARK_PURPLE)) {
+            return BossBar.Color.PURPLE;
+        } else if (color.equals(DARK_RED) || color.equals(RED)) {
+            return BossBar.Color.RED;
+        } else if (color.equals(YELLOW) || color.equals(GOLD)) {
+            return BossBar.Color.YELLOW;
+        }
+        return null;
+    }
+
     public void reload() {
-        plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Reloading plugin...");
+        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Reloading plugin...", GOLD)));
         onDisable();
         onEnable();
-        plugin.getServer().broadcastMessage(ChatColor.DARK_AQUA + "[CastleSiege] " + ChatColor.GOLD + "Plugin Reloaded!");
+        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Plugin Reloaded!", GOLD)));
     }
 
     public void activateBoosters() {
@@ -1377,7 +1588,7 @@ public class Main extends JavaPlugin implements Listener {
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                             PlayerData.setCoinMultiplier(PlayerData.getCoinMultiplier() + multiplier);
                             Messenger.broadcastInfo(" A " + percentage + "% coin booster " +
-                                    "for " + Booster.durationToString((int) remaining_duration) + " has been activated!");
+                                    "for " + getTimeString((int) remaining_duration) + " has been activated!");
                             Messenger.broadcastInfo("The total coin multiplier is now " + PlayerData.getCoinMultiplier() + ".");
                         });
                         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
@@ -1387,30 +1598,15 @@ public class Main extends JavaPlugin implements Listener {
                         }, remaining_duration * 20L);
                         break;
                     case "BATTLEPOINT":
-                    case "BP":
-                        multiplier = Double.parseDouble(other);
-                        percentage = (int)(multiplier * 100);
-                        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                            PlayerData.setBattlepointMultiplier(PlayerData.getBattlepointMultiplier() + multiplier);
-                            Messenger.broadcastInfo(" A " + percentage + "% battlepoint booster " +
-                                    "for " + Booster.durationToString((int) remaining_duration) + " has been activated!");
-                            Messenger.broadcastInfo("The total battlepoint multiplier is now " + PlayerData.getBattlepointMultiplier() + ".");
-                        });
-                        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                            PlayerData.setBattlepointMultiplier(PlayerData.getBattlepointMultiplier() - multiplier);
-                            Messenger.broadcastWarning("A " + percentage + "% battlepoint booster has expired!");
-                            Messenger.broadcastInfo("The total battlepoint multiplier is now " + PlayerData.getBattlepointMultiplier() + ".");
-                        }, remaining_duration * 20L);
-                        break;
                     case "KIT":
                     case "K":
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                            DonatorKit.boostedKits.add(other);
+                            CoinKit.boostedKits.add(other);
                             Messenger.broadcastInfo("A " + other + " kit booster " +
-                                    "for " + Booster.durationToString((int) remaining_duration) + "!");
+                                    "for " + getTimeString((int) remaining_duration) + "!");
                         });
                         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                            DonatorKit.boostedKits.remove(other);
+                            CoinKit.boostedKits.remove(other);
                             Messenger.broadcastWarning("A " + other + " kit booster has expired! ");
                         }, remaining_duration * 20L);
                 }
@@ -1418,5 +1614,26 @@ public class Main extends JavaPlugin implements Listener {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String getTimeString(long duration) {
+        long days, hours, minutes, seconds, remainder;
+        days = duration / 86400;
+        remainder = duration % 86400;
+        hours = remainder / 3600;
+        remainder = remainder % 3600;
+        minutes = remainder / 60;
+        seconds = remainder % 60;
+
+        if (days == 0) {
+            if (hours == 0) {
+                if (minutes == 0) {
+                    return seconds + "s";
+                }
+                return minutes + " mins " + seconds + "s";
+            }
+            return hours + " hr " + minutes + " mins " + seconds + "s";
+        }
+        return days + "d " + hours + "h " + minutes + "m " + seconds + "s";
     }
 }

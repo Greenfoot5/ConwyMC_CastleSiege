@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.staff;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,17 +29,17 @@ public class ToggleRankCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (sender instanceof ConsoleCommandSender) {
-			sender.sendMessage("Console cannot toggle their rank!");
+			Messenger.sendError("Console cannot toggle their rank!", sender);
 			return true;
 		}
 
 		Player p = (Player) sender;
 		if (showDonator.contains(p)) {
 			showDonator.remove(p);
-			p.sendMessage(ChatColor.RED + "Staff rank toggled on");
+			Messenger.sendWarning("Staff rank toggled on", p);
 		} else {
 			showDonator.add(p);
-			p.sendMessage(ChatColor.RED + "Staff rank toggled off");
+			Messenger.sendWarning("Staff rank toggled off", p);
 		}
 
 		NameTag.give(p);

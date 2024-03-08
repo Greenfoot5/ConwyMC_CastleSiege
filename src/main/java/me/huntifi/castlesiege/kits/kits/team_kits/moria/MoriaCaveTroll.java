@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
@@ -12,10 +13,9 @@ import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -38,8 +38,8 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
     public final ArrayList<Player> grabbed = new ArrayList<>();
 
     public MoriaCaveTroll() {
-        super("Moria Cave Troll", 800, 20, "Moria",
-                "The Orcs", 7500, Material.POPPY);
+        super("Cave Troll", 800, 20, "Moria",
+                "The Orcs", 7500, Material.POPPY, "moriacavetroll");
         super.canClimb = false;
         super.kbResistance = 0.8;
 
@@ -49,22 +49,22 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
 
         // Weapon
         es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SHOVEL),
-                ChatColor.GREEN + "Troll Fist", null, null, 43);
+                Component.text("Troll Fist", NamedTextColor.GREEN), null, null, 43);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 ItemCreator.weapon(new ItemStack(Material.STONE_SHOVEL),
-                        ChatColor.GREEN + "Troll Fist",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                        Component.text("Troll Fist", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 45),
                 0);
 
         // Ability
         es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.DEAD_BRAIN_CORAL_FAN),
-                ChatColor.GREEN + "Grab", null, null, 1);
+                Component.text("Grab", NamedTextColor.GREEN), null, null, 1);
 
         // Ability
         es.hotbar[2] = ItemCreator.weapon(new ItemStack(Material.DEAD_BUBBLE_CORAL_FAN),
-                ChatColor.GREEN + "Throw", null, null, 1);
+                Component.text("Throw", NamedTextColor.GREEN), null, null, 1);
 
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 2));
         super.potionEffects.add(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999, 0));
@@ -113,24 +113,21 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
             if (stick.getType().equals(Material.DEAD_BUBBLE_CORAL_FAN)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
-                        if (grabbed.size() == 0) { return; }
+                        if (grabbed.isEmpty()) { return; }
                         for (Player passengers : grabbed) {
                             throwPlayer(p, passengers);
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                    ChatColor.AQUA + "You threw the enemy!"));
+                            Messenger.sendActionSuccess("You threw the enemy!", p);
                         }
 
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't throw a player yet."));
+                        Messenger.sendActionError("You can't throw a player yet!", p);
                     }
                 }
             } else if (stick.getType().equals(Material.DEAD_BRAIN_CORAL_FAN)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown2 == 0) {
-                        if (p.getPassengers().size() > 0) { return;}
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.AQUA + "You grabbed the enemy!"));
+                        if (!p.getPassengers().isEmpty()) { return;}
+                        Messenger.sendActionInfo("You grabbed the enemy!", p);
                         for (Player all : Bukkit.getOnlinePlayers()) {
                             if (TeamController.getTeam(p.getUniqueId())
                                     != TeamController.getTeam(all.getUniqueId())
@@ -139,8 +136,7 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
                             }
                         }
                     } else {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                ChatColor.DARK_RED + "" + ChatColor.BOLD + "You can't grab a player yet."));
+                        Messenger.sendActionError("You can't grab a player yet!", p);
                     }
                 }
             }
@@ -180,5 +176,12 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
                 grabbed.remove(player);
             }
         }.runTaskLaterAsynchronously(Main.plugin, 20);
+    }
+
+    @Override
+    public ArrayList<Component> getGuiDescription() {
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
+        return description;
     }
 }

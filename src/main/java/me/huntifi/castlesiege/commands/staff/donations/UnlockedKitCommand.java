@@ -7,21 +7,27 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
-public class UnlockedKitCommand implements CommandExecutor {
+public class UnlockedKitCommand implements TabExecutor {
 
     /**
      * Add / Remove a kit from a player.
@@ -151,5 +157,32 @@ public class UnlockedKitCommand implements CommandExecutor {
         }.runTaskAsynchronously(Main.plugin);
 
         return true;
+    }
+
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        // Use: /unlockkit <Name> <add/remove> <Kit name> <Time> <true/false>
+        List<String> options = new ArrayList<>();
+        if (args.length == 1 || args.length == 4) {
+            return null;
+        }
+
+        if (args.length == 2) {
+            List<String> values = List.of("add", "remove");
+            StringUtil.copyPartialMatches(args[args.length - 1], values, options);
+        }
+
+        if (args.length == 3) {
+            Collection<String> values = CoinKit.getKits();
+            StringUtil.copyPartialMatches(args[args.length - 1], values, options);
+        }
+
+        if (args.length == 5) {
+            List<String> values = List.of("true", "false");
+            StringUtil.copyPartialMatches(args[args.length - 1], values, options);
+        }
+
+        return options;
     }
 }

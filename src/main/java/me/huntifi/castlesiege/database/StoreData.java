@@ -86,21 +86,6 @@ public class StoreData {
     }
 
     /**
-     * Store a player's achievements
-     * @param uuid player's UUID
-     * @param achievementName name of the secret to determine found
-     */
-    private static void addAchievement(UUID uuid, String achievementName) throws SQLException {
-        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "INSERT IGNORE INTO player_achievements VALUES (?, ?, ?)");
-        ps.setString(1, Bukkit.getOfflinePlayer(uuid).getName());
-        ps.setString(2, uuid.toString());
-        ps.setString(3, achievementName);
-        ps.executeUpdate();
-        ps.close();
-    }
-
-    /**
      * Store the data of all players who are in active storage
      * Should only be called when shutting down the server
      */

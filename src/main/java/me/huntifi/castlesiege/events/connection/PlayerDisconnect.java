@@ -14,8 +14,8 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,15 +43,15 @@ public class PlayerDisconnect implements Listener {
 
         // Set the leave message
         if (!data.getLeaveMessage().isEmpty()) {
-            e.setQuitMessage(ChatColor.YELLOW + data.getLeaveMessage());
+            e.quitMessage(MiniMessage.miniMessage().deserialize(data.getLeaveMessage()));
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             // Award deaths for logging out on the battlefield
             if (InCombat.isPlayerInCombat(uuid) && MapController.isOngoing()) {
-                UpdateStats.addDeaths(uuid, 2, true);
+                UpdateStats.addDeaths(uuid, 2);
             } else if (!InCombat.isPlayerInLobby(uuid) && MapController.isOngoing()) {
-                UpdateStats.addDeaths(uuid, 1, true);
+                UpdateStats.addDeaths(uuid, 1);
             }
             InCombat.playerDied(uuid);
 

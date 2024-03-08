@@ -6,7 +6,8 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -61,27 +62,27 @@ public class Donators implements CommandExecutor {
 
                     // Prepare data used for the message
                     Tuple<PreparedStatement, ResultSet> donators = LoadData.getDonators(offset);
-                    StringBuilder message = new StringBuilder();
                     DecimalFormat num = new DecimalFormat("0");
                     int pos = offset;
 
                     // Create the message
-                    message.append(ChatColor.AQUA).append("#. Player Rank Points");
+                    Component message = Component.text("#. Player Rank Points", NamedTextColor.AQUA);
                     while (donators.getSecond().next()) {
                         pos++;
-                        ChatColor color = pos == requested ? ChatColor.AQUA : ChatColor.DARK_AQUA;
+                        NamedTextColor color = pos == requested ? NamedTextColor.AQUA : NamedTextColor.DARK_AQUA;
                         String name = donators.getSecond().getString("name");
                         int points = donators.getSecond().getInt("rank_points");
 
-                        message.append("\n");
-                        message.append(ChatColor.GRAY).append(num.format(pos)).append(". ");
-                        message.append(color).append(name).append(" ");
-                        message.append(getRank(pos, points)).append(" ");
-                        message.append(ChatColor.WHITE).append(num.format(points));
+                        message = message.append(Component.newline())
+                                .append(Component.text(num.format(pos) + ". ")
+                                        .append(Component.text(name + " ", color))
+                                        .append(Component.text(getRank(pos, points) + " "))
+                                        .color(NamedTextColor.GRAY))
+                                .append(Component.text(num.format(points), NamedTextColor.WHITE));
                     }
 
                     // Send the message
-                    sender.sendMessage(message.toString());
+                    Messenger.send(message, sender);
                     donators.getFirst().close();
 
                 } catch (SQLException e) {
@@ -105,6 +106,6 @@ public class Donators implements CommandExecutor {
         } else {
             rank = RankPoints.getRank(points);
         }
-        return NameTag.convertRank(rank);
+        return NameTag.convertRank(rank).toString();
     }
 }

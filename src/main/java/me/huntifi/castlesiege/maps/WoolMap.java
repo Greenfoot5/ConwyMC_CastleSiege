@@ -1,17 +1,28 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Shulker;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -59,5 +70,56 @@ public class WoolMap implements Listener {
 				}
 			}
 		});
+	}
+
+	@EventHandler
+	public void lookAtWoolmap(PlayerMoveEvent e) {
+		if (DuelCommand.challenging.containsValue(e.getPlayer()) || DuelCommand.challenging.containsKey(e.getPlayer())) {
+			return;
+		}
+        if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
+			Block target = e.getPlayer().getTargetBlockExact(50);
+			for (WoolMapBlock block : woolMapBlocks) {
+				assert target != null;
+				if (target.getLocation().distance(block.blockLocation) == 0) {
+					spawnGlower(e.getPlayer(), block.blockLocation);
+				}
+			}
+		}
+	}
+
+
+	public static final HashMap<Player, Shulker> shulkers = new HashMap<>();
+	public void spawnGlower(Player p, Location loc) {
+      if ((!shulkers.containsKey(p)) || shulkers.get(p).getLocation() != loc) {
+
+		  Shulker shulker = (Shulker) Objects.requireNonNull(loc.getWorld()).spawnEntity(loc, EntityType.SHULKER);
+          shulkers.put(p, shulker);
+		  shulker.setAI(false);
+		  shulker.setInvulnerable(true);
+		  shulker.setInvisible(true);
+		  shulker.customName(Component.text(shulker.getUniqueId().toString()));
+		  p.showEntity(Main.plugin, shulker);
+
+		  shulker.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 8000, 0, false, false));
+          keepShulkerAlive(p, shulker, loc.getBlock());
+	  }
+	}
+
+	public void keepShulkerAlive(Player p, Shulker shulker, Block b) {
+
+		Block target = p.getTargetBlockExact(50);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				assert target != null;
+				if (target.equals(b)) {
+					shulkers.remove(p, shulker);
+					shulker.remove();
+				} else {
+					this.cancel();
+				}
+			}
+		}.runTaskTimer(Main.plugin, 20, 20);
 	}
 }

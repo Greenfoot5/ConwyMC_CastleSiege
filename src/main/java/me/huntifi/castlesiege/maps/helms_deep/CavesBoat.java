@@ -46,7 +46,7 @@ public class CavesBoat implements Listener, Runnable {
 	 * Does not check if there are any boats already
 	 */
 	public void spawnBoat() {
-		if (boats.size() == 0) {
+		if (boats.isEmpty()) {
 			Boat boat = (Boat) Objects.requireNonNull(SPAWN_LOCATION.getWorld()).spawnEntity(SPAWN_LOCATION, EntityType.BOAT);
 			boats.add(boat.getEntityId());
 		}
@@ -87,7 +87,7 @@ public class CavesBoat implements Listener, Runnable {
 			}
 		}
 
-		if (boats.size() == 0)
+		if (boats.isEmpty())
 			spawnNextBoat();
 	}
 

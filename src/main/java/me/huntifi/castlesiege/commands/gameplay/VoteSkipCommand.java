@@ -3,23 +3,25 @@ package me.huntifi.castlesiege.commands.gameplay;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.Team;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
 /**
  * Allows regular players to skip a map
  */
-public class VoteSkipCommand implements CommandExecutor {
+public class VoteSkipCommand implements TabExecutor {
 
     public static final double requiredVotePercentage = 0.6;
     private static final HashSet<UUID> votedPlayers = new HashSet<>();
@@ -41,12 +43,12 @@ public class VoteSkipCommand implements CommandExecutor {
             }
 
             Player player = (Player) sender;
-            if (MapController.isSpectator(player.getUniqueId())) {
-                Messenger.sendError("Spectators cannot vote to skip a map!", sender);
+            if (!MapController.getPlayers().contains(player.getUniqueId())) {
+                Messenger.sendError("You must be playing to vote to skip!", sender);
                 return;
             }
 
-            if (MapController.hasMapEnded()) {
+            if (MapController.getCurrentMap().hasMapEnded()) {
                 Messenger.sendError("The current map has already ended!", sender);
                 return;
             }
@@ -61,6 +63,20 @@ public class VoteSkipCommand implements CommandExecutor {
         return true;
     }
 
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        List<String> options = new ArrayList<>();
+        if (args.length == 1) {
+            List<String> values = new ArrayList<>();
+            values.add("cancel");
+            StringUtil.copyPartialMatches(args[0], values, options);
+            return options;
+        }
+
+        return null;
+    }
+
     /**
      * Add a player's vote.
      * @param player The player
@@ -68,14 +84,15 @@ public class VoteSkipCommand implements CommandExecutor {
     private void vote(Player player) {
         if (votedPlayers.add(player.getUniqueId())) {
             int requiredVotes = getRequiredVotes();
-            Messenger.broadcastInfo(String.format("%s has voted to skip the current map! %s(%d/%d)",
-                    player.getName(), ChatColor.YELLOW, votedPlayers.size(), requiredVotes));
+            Messenger.broadcastInfo(String.format("%s has voted to skip the current map! <yellow>(%d/%d)</yellow>" +
+                            "<br>Use <yellow><click:suggest_command:/voteskip>/voteskip</click></yellow> to cast your vote",
+                    player.getName(), votedPlayers.size(), requiredVotes));
             if (votedPlayers.size() >= requiredVotes)
                 MapController.endMap();
             else
-                Messenger.sendInfo("Changed your mind? You can cancel your vote with /voteskip cancel", player);
+                Messenger.sendInfo("Changed your mind? You can cancel your vote with <yellow><insert:/voteskip cancel>/voteskip cancel</click>", player);
         } else {
-            Messenger.sendError("You have already voted! To cancel, use /voteskip cancel", player);
+            Messenger.sendError("You have already voted! To cancel, use <yellow><insert:/voteskip cancel>/voteckip cancel</click>", player);
         }
     }
 
@@ -119,12 +136,6 @@ public class VoteSkipCommand implements CommandExecutor {
      * @return The amount of required votes
      */
     private static int getRequiredVotes() {
-        int playerCount = 0;
-
-        for (Team team : MapController.getCurrentMap().teams) {
-            playerCount += team.getTeamSize();
-        }
-
-        return (int) Math.ceil(playerCount * requiredVotePercentage);
+        return (int) Math.ceil(MapController.getPlayers().size() * requiredVotePercentage);
     }
 }

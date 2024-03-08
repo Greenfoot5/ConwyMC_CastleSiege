@@ -4,8 +4,8 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
 import java.util.Objects;
@@ -127,9 +127,12 @@ public class ChargeFlag extends Flag{
         }
         super.captureFlag();
         if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam)) {
-            Messenger.broadcastInfo(MapController.getCurrentMap().getTeam(currentOwners).primaryChatColor + name + ChatColor.BLUE + " has been fully captured and can no longer be retaken by " + MapController.getCurrentMap().getTeam(startingTeam).primaryChatColor + startingTeam);
+            Messenger.broadcastInfo(Component.text(name, MapController.getCurrentMap().getTeam(currentOwners).primaryChatColor)
+                            .append(Component.text(" has been fully captured and can no longer be retaken by "))
+                                            .append(Component.text(startingTeam, MapController.getCurrentMap().getTeam(startingTeam).primaryChatColor)));
             if (additionalMinutes > 0 || additionalSeconds > 0) {
-                Messenger.broadcastInfo(additionalMinutes + " minutes and " + additionalSeconds + " seconds have been added to the clock!");
+                Messenger.broadcastInfo("<light_blue>" + additionalMinutes + "</light_blue> minutes and <light_blue>" +
+                        additionalSeconds + "</light_blue> seconds have been added to the clock!");
                 MapController.timer.seconds += additionalSeconds;
                 MapController.timer.minutes += additionalMinutes;
             }
