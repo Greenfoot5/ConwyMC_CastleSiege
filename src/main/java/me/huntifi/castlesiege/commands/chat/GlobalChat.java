@@ -1,22 +1,12 @@
 package me.huntifi.castlesiege.commands.chat;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.StaffChat;
-import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Allows the user to switch to global chat
@@ -43,7 +33,7 @@ public class GlobalChat implements CommandExecutor {
                 Player p = (Player) sender;
                 TeamChat.removePlayer(p.getUniqueId());
                 StaffChat.removePlayer(p.getUniqueId());
-                p.sendMessage(Component.text("You are now talking in global-chat!").color(NamedTextColor.DARK_AQUA));
+                Messenger.sendInfo("You are now talking in global-chat!", p);
             } else {
                 return false;
             }

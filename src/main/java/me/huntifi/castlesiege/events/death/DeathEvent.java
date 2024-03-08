@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
@@ -15,8 +16,10 @@ import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,6 +30,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -115,30 +119,43 @@ public class DeathEvent implements Listener {
      * @param p the player to display the counter to
      */
     private void respawnCounter(Player p) {
-        if (!p.isOnline()) {return;}
+        if (!p.isOnline()) return;
+
+        Title.Times times = Title.Times.times(Duration.ZERO, Duration.ofMillis(1000), Duration.ofMillis(750));
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 3, 0, 20, 15);
+                Title title = Title.title(Component.empty(), Component.text("You're able to spawn in ", NamedTextColor.DARK_GREEN)
+                        .append(Component.text(3, NamedTextColor.DARK_RED)),
+                        times);
+                p.showTitle(title);
                }
             }.runTaskLater(Main.plugin, 20);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 2, 0, 20, 15);
+                Title title = Title.title(Component.empty(), Component.text("You're able to spawn in ", NamedTextColor.DARK_GREEN)
+                                .append(Component.text(2, NamedTextColor.DARK_RED)),
+                        times);
+                p.showTitle(title);
 
             }
         }.runTaskLater(Main.plugin, 40);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You're able to spawn in " + ChatColor.DARK_RED + 1, 0, 20, 15);
+                Title title = Title.title(Component.empty(), Component.text("You're able to spawn in ", NamedTextColor.DARK_GREEN)
+                                .append(Component.text(1, NamedTextColor.DARK_RED)),
+                        times);
+                p.showTitle(title);
             }
         }.runTaskLater(Main.plugin, 60);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendTitle("", ChatColor.DARK_GREEN + "You can now spawn!", 0, 20, 15);
+                Title title = Title.title(Component.empty(), Component.text("You can now spawn!", NamedTextColor.DARK_GREEN),
+                        times);
+                p.showTitle(title);
                 onCooldown.remove(p);
             }
         }.runTaskLater(Main.plugin, 80);
@@ -224,20 +241,19 @@ public class DeathEvent implements Listener {
      * @param messages The messages sent to the killer and target
      */
     private void killDeathMessage(Player killer, Player target, Tuple<String[], String[]> messages) {
-        killer.sendMessage("You" + messages.getFirst()[0] + NameTag.username(target)
-                + ChatColor.RESET + messages.getFirst()[1] + ChatColor.GRAY +
-                " (" + (ActiveData.getData(killer.getUniqueId()).getKillStreak()) + ")");
+        Messenger.send(Component.text("You" + messages.getFirst()[0]
+                                + NameTag.mmUsername(target) + messages.getFirst()[1])
+                .append(Component.text(" (" + (ActiveData.getData(killer.getUniqueId()).getKillStreak()) + ")", NamedTextColor.GRAY)),
+                killer);
 
-        target.sendMessage(messages.getSecond()[0] + NameTag.username(killer)
-                + ChatColor.RESET + messages.getSecond()[1]);
+        Messenger.send(Component.text(messages.getSecond()[0] + NameTag.mmUsername(killer) + messages.getSecond()[1]), target);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player == killer || player == target
-                    || ActiveData.getData(player.getUniqueId()).getSetting("deathMessages").equals("false"))
-                continue;
-            player.sendMessage(NameTag.username(killer) + ChatColor.RESET.toString()
-                    + messages.getFirst()[0] + NameTag.username(target)
-                    + ChatColor.RESET + messages.getFirst()[1]);
+            if (player != killer && player != target
+                    && !ActiveData.getData(player.getUniqueId()).getSetting("deathMessages").equals("false")) {
+                Messenger.send(NameTag.mmUsername(killer) + messages.getFirst()[0]
+                        + NameTag.mmUsername(target) + messages.getFirst()[1], player);
+            }
         }
     }
 
@@ -249,7 +265,7 @@ public class DeathEvent implements Listener {
     private void assistMessage(UUID uuid, Player target) {
         Player assist = Bukkit.getPlayer(uuid);
         if (assist != null) {
-            assist.sendMessage("You assisted in killing " + NameTag.username(target));
+            Messenger.send("You assisted in killing " + NameTag.mmUsername(target), assist);
         }
     }
 

@@ -33,7 +33,7 @@ public class LeaveMessage implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage("Console cannot set their leave message!");
+            Messenger.sendError("Console cannot set their leave message!", sender);
             return true;
         }
 

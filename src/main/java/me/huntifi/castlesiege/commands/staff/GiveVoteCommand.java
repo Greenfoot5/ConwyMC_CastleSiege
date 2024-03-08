@@ -5,7 +5,6 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -46,11 +45,9 @@ public class GiveVoteCommand implements TabExecutor {
 
         // Set the player's vote
         if (setVote(p.getUniqueId(), args[1])) {
-            sender.sendMessage(ChatColor.GREEN + "Vote " + ChatColor.YELLOW + args[1] +
-                    ChatColor.GREEN + " was given to " + ChatColor.YELLOW + p.getName());
+            Messenger.sendSuccess("Vote <yellow>" + args[1] + "</yellow> was given to <yellow>" + p.getName(), sender);
         } else {
-            sender.sendMessage(ChatColor.DARK_RED + "Vote " + ChatColor.RED + args[1] +
-                    ChatColor.DARK_RED + " is invalid!");
+            Messenger.sendError("Vote <red>" + args[1] + "</red> is invalid", sender);
             return true;
         }
 

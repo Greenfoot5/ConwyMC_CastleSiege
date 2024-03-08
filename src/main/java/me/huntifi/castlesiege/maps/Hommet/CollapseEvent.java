@@ -5,6 +5,8 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,6 +18,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.time.Duration;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -41,7 +44,9 @@ public class CollapseEvent implements Listener {
                     for (UUID all : MapController.getCurrentMap().teams[1].getPlayers()) {
                         Player near = Bukkit.getPlayer(all);
                         if (near.getLocation().distance(CENTRAL) <= 10) {
-                            near.sendTitle("", "Run the tunnel is about to collapse!", 10, 80, 10);
+                            Title.Times times = Title.Times.times(Duration.ofMillis(500), Duration.ofMillis(4000), Duration.ofMillis(10));
+                            Title title = Title.title(Component.text("RUN"), Component.text("The tunnel is about to collapse!"), times);
+                            near.showTitle(title);
                         }
                     }
 

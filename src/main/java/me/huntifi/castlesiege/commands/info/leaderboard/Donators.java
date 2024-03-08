@@ -82,7 +82,7 @@ public class Donators implements CommandExecutor {
                     }
 
                     // Send the message
-                    sender.sendMessage(message.toString());
+                    Messenger.send(message, sender);
                     donators.getFirst().close();
 
                 } catch (SQLException e) {

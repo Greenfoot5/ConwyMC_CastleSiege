@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.commands.info;
 
 import me.huntifi.castlesiege.events.chat.Messenger;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -42,7 +41,7 @@ public class PingCommand implements CommandExecutor {
 		}
 
 		String innerMessage = args.length == 0 ? "Your ": t.getName() + "'s ";
-		Messenger.sendInfo(innerMessage + "ping is <aqua>" + getPing(t) + ChatColor.DARK_AQUA + "</aqua>ms.", sender);
+		Messenger.sendInfo(innerMessage + "ping is <aqua>" + getPing(t) + "</aqua>ms.", sender);
 		return true;
 	}
 

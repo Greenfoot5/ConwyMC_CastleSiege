@@ -7,7 +7,6 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -46,7 +45,7 @@ public class WoolMapBlock {
                             return;
                         } else if (kit == null) {
                             Messenger.sendError("You can't join the battlefield without a kit/class!", player);
-                            Messenger.sendError("Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!", player);
+                            Messenger.sendError("Choose a kit/class with the command <red>/kit</red>!", player);
                             return;
                         } else {
                             Bukkit.getScheduler().runTask(Main.plugin, () -> {
@@ -78,7 +77,7 @@ public class WoolMapBlock {
                         Messenger.sendActionError("You can't spawn here. This flag is under attack!", player);
                     } else if (kit == null) {
                         Messenger.sendError("You can't join the battlefield without a kit/class!", player);
-                        Messenger.sendError("Choose a kit/class with the command " + ChatColor.RED + "/kit" + ChatColor.DARK_RED + "!", player);
+                        Messenger.sendError("Choose a kit/class with the command <red>/kit</red>!", player);
                     } else {
                         Bukkit.getScheduler().runTask(Main.plugin, () -> {
                             // Remove mount

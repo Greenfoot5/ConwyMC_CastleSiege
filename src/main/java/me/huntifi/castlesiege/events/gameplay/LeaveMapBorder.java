@@ -5,8 +5,10 @@ import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.data_types.MapBorder;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -14,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -85,8 +88,10 @@ public class LeaveMapBorder implements Listener {
         UUID uuid = player.getUniqueId();
         if (!onCooldown.contains(uuid)) {
             onCooldown.add(uuid);
-            player.sendTitle(ChatColor.DARK_RED + "Deserters will be beheaded!",
-                    ChatColor.RED + "Turn back now!", 20, 40, 10);
+            Title.Times times = Title.Times.times(Duration.ofMillis(1000), Duration.ofMillis(2000), Duration.ofMillis(500));
+            Title title = Title.title(Component.text("Deserters will be beheaded!", NamedTextColor.DARK_RED),
+                    Component.text("Turn back now!", NamedTextColor.RED), times);
+            player.showTitle(title);
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> onCooldown.remove(uuid), 70);
         }
     }

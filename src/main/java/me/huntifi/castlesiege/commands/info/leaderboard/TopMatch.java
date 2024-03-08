@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard.gradient;
+
 /**
  * Shows the player the leaderboard for this match
  */
@@ -113,14 +115,14 @@ public class TopMatch implements CommandExecutor {
         // Create the message header
         Component message = MiniMessage.miniMessage().deserialize(
                 "<color:#CCCCCC>#. Player " +
-                        "<transition:#13DB5D:#05B6D9:#F907FC:0>S</transition>core " +
-                        "<transition:#13DB5D:#05B6D9:#F907FC:0.15>K</transition>ills " +
-                        "<transition:#13DB5D:#05B6D9:#F907FC:0.4>D</transition>eaths " +
-                        "<transition:#13DB5D:#05B6D9:#F907FC:0.6>K</transition>DR " +
-                        "<transition:#13DB5D:#05B6D9:#F907FC:0.7>A</transition>ssits " +
-                        "<transition:#13DB5D:#05B6D9:#F907FC:0.8>C</transition>aptures " +
-                        "<transition:#13DB5D:#05B6D9:#F907FC:0.9>H</transition>eals " +
-                        "<transition:#13DB5D:#05B6D9:#F907FC:1>S</transition>upports"
+                        "<transition:" + gradient + ":0>S</transition>core " +
+                        "<transition:" + gradient + ":0.15>K</transition>ills " +
+                        "<transition:" + gradient + ":0.4>D</transition>eaths " +
+                        "<transition:" + gradient + ":0.6>K</transition>DR " +
+                        "<transition:" + gradient + ":0.7>A</transition>ssits " +
+                        "<transition:" + gradient + ":0.8>C</transition>aptures " +
+                        "<transition:" + gradient + ":0.9>H</transition>eals " +
+                        "<transition:" + gradient + ":1>S</transition>upports"
         );
 
         // Add the stat entries

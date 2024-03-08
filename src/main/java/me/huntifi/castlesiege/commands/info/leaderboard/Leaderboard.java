@@ -21,6 +21,8 @@ import java.text.DecimalFormat;
  * Shows the player the leaderboard
  */
 public class Leaderboard implements CommandExecutor {
+    
+    public static final String gradient = "#13DB5D:#05B6D9:#F907FC";
 
     /**
      * Print the score leaderboard to the player
@@ -94,14 +96,14 @@ public class Leaderboard implements CommandExecutor {
                     // Create the message header
                     Component message = MiniMessage.miniMessage().deserialize(
                             "<color:#CCCCCC>#. Player <yellow>L</yellow>evel " +
-                                    "<transition:#13DB5D:#05B6D9:#F907FC:0>S</transition>core " +
-                                    "<transition:#13DB5D:#05B6D9:#F907FC:0.15>K</transition>ills " +
-                                    "<transition:#13DB5D:#05B6D9:#F907FC:0.4>D</transition>eaths " +
-                                    "<transition:#13DB5D:#05B6D9:#F907FC:0.6>K</transition>DR " +
-                                    "<transition:#13DB5D:#05B6D9:#F907FC:0.7>A</transition>ssits " +
-                                    "<transition:#13DB5D:#05B6D9:#F907FC:0.8>C</transition>aptures " +
-                                    "<transition:#13DB5D:#05B6D9:#F907FC:0.9>H</transition>eals " +
-                                    "<transition:#13DB5D:#05B6D9:#F907FC:1>S</transition>upports"
+                                    "<transition:" + gradient + ":0>S</transition>core " +
+                                    "<transition:" + gradient + ":0.15>K</transition>ills " +
+                                    "<transition:" + gradient + ":0.4>D</transition>eaths " +
+                                    "<transition:" + gradient + ":0.6>K</transition>DR " +
+                                    "<transition:" + gradient + ":0.7>A</transition>ssits " +
+                                    "<transition:" + gradient + ":0.8>C</transition>aptures " +
+                                    "<transition:" + gradient + ":0.9>H</transition>eals " +
+                                    "<transition:" + gradient + ":1>S</transition>upports"
                     );
 
                     int pos = offset;
@@ -132,13 +134,13 @@ public class Leaderboard implements CommandExecutor {
         return MiniMessage.miniMessage().deserialize("<br>" +
                 "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
                 + " <yellow>" + r.getInt("level") + "</yellow> "
-                + "<transition:#13DB5D:#05B6D9:#F907FC:0>" + num.format(r.getInt("score")) + "</transition> "
-                + "<transition:#13DB5D:#05B6D9:#F907FC:0.15>" + num.format(r.getDouble("kills")) + "</transition> "
-                + "<transition:#13DB5D:#05B6D9:#F907FC:0.4>" + num.format(r.getDouble("deaths")) + "</transition> "
-                + "<transition:#13DB5D:#05B6D9:#F907FC:0.6>" + dec.format(r.getDouble("kdr")) + "</transition> "
-                + "<transition:#13DB5D:#05B6D9:#F907FC:0.7>" + num.format(r.getDouble("assists")) + "</transition> "
-                + "<transition:#13DB5D:#05B6D9:#F907FC:0.8>" + num.format(r.getDouble("captures")) + "</transition> "
-                + "<transition:#13DB5D:#05B6D9:#F907FC:0.9>" + num.format(r.getDouble("heals")) + "</transition> "
-                + "<transition:#13DB5D:#05B6D9:#F907FC:1>" + num.format(r.getDouble("supports")) + "</transition>");
+                + "<transition:" + gradient + ":0>" + num.format(r.getInt("score")) + "</transition> "
+                + "<transition:" + gradient + ":0.15>" + num.format(r.getDouble("kills")) + "</transition> "
+                + "<transition:" + gradient + ":0.4>" + num.format(r.getDouble("deaths")) + "</transition> "
+                + "<transition:" + gradient + ":0.6>" + dec.format(r.getDouble("kdr")) + "</transition> "
+                + "<transition:" + gradient + ":0.7>" + num.format(r.getDouble("assists")) + "</transition> "
+                + "<transition:" + gradient + ":0.8>" + num.format(r.getDouble("captures")) + "</transition> "
+                + "<transition:" + gradient + ":0.9>" + num.format(r.getDouble("heals")) + "</transition> "
+                + "<transition:" + gradient + ":1>" + num.format(r.getDouble("supports")) + "</transition>");
     }
 }

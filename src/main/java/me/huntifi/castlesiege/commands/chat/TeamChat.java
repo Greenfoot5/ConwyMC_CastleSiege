@@ -19,7 +19,6 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -138,7 +137,8 @@ public class TeamChat implements CommandExecutor, Listener, ChatRenderer {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 			for (UUID uuid : t.getPlayers()) {
 				Player viewer = Bukkit.getPlayer(uuid);
-				((Audience) viewer).sendMessage(Component.text()
+                assert viewer != null;
+                viewer.sendMessage(Component.text()
 						.append(NameTag.chatName(p, viewer))
 						.append(Component.text(" TEAM: ")
 								.color(NamedTextColor.DARK_AQUA))
@@ -166,11 +166,11 @@ public class TeamChat implements CommandExecutor, Listener, ChatRenderer {
 		UUID uuid = p.getUniqueId();
 		if (teamChatters.contains(uuid)) {
 			teamChatters.remove(uuid);
-			p.sendMessage(ChatColor.DARK_AQUA + "You are no longer talking in team-chat!");
+			Messenger.sendInfo("You are no longer talking in team-chat", p);
 		} else {
 			StaffChat.removePlayer(uuid);
 			teamChatters.add(uuid);
-			p.sendMessage(ChatColor.DARK_AQUA + "You are now talking in team-chat!");
+			Messenger.sendInfo("You are now talking in team-chat", p);
 		}
 	}
 

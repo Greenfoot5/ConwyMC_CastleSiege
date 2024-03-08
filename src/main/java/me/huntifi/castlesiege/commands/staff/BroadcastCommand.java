@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.commands.staff;
 
+import me.huntifi.castlesiege.events.chat.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,7 +27,7 @@ public class BroadcastCommand implements CommandExecutor {
         if (args.length == 0)
             return false;
 
-        Bukkit.getServer().sendMessage(broadcastPrefix.append(MiniMessage.miniMessage().deserialize(
+        Messenger.broadcast(broadcastPrefix.append(MiniMessage.miniMessage().deserialize(
                 "<gradient:#EC9F05:#FF4E00>" + String.join(" ", args))));
         return true;
     }

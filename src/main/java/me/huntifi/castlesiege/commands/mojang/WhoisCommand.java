@@ -86,7 +86,7 @@ public class WhoisCommand implements CommandExecutor {
 
             // Add the message footer and send the name history message
             message.append("<dark_purple> ----------------------------------- ");
-            sender.sendMessage(message.toString());
+            Messenger.send(message.toString(), sender);
 
         } catch (IOException e) {
             Messenger.sendError("An error occurred while performing the command! " +

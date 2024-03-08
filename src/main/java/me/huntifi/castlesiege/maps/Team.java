@@ -6,7 +6,6 @@ import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MVPStats;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -42,7 +41,7 @@ public class Team implements Listener {
         event.useBed();
         if (this.hasPlayer(event.getPlayer().getUniqueId())) {
             player.addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 120, 6)));
-            player.setBedSpawnLocation(this.lobby.spawnPoint, true);
+            player.setRespawnLocation(this.lobby.spawnPoint, true);
         }
     }
 
@@ -91,7 +90,7 @@ public class Team implements Listener {
         assert player != null;
         if (lobby.spawnPoint.getWorld() == null)
             lobby.spawnPoint.setWorld(Bukkit.getWorld(MapController.getCurrentMap().worldName));
-        player.setBedSpawnLocation(lobby.spawnPoint, true);
+        player.setRespawnLocation(lobby.spawnPoint, true);
         NameTag.give(player);
     }
 

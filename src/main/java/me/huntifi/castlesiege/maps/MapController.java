@@ -260,7 +260,7 @@ public class MapController {
 					Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has lost!~~~~~~~~", team.primaryChatColor));
 				}
 
-				Bukkit.getServer().sendMessage(MVPCommand.getMVPMessage(team));
+				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 
 				if (team.name.equals(winners)) {
 					giveCoinReward(team);
@@ -272,7 +272,7 @@ public class MapController {
 			for (Team team : getCurrentMap().teams) {
 				Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has drawn!~~~~~~~~", team.primaryChatColor));
 
-				Bukkit.getServer().sendMessage(MVPCommand.getMVPMessage(team));
+				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 			}
 		}
 		VoteSkipCommand.clearVotes();

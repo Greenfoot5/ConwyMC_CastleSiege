@@ -47,7 +47,7 @@ public class MVPCommand implements CommandExecutor {
                 if (label.equalsIgnoreCase("MVPs")) {
                     // Print the MVP of each team
                     for (Team team : MapController.getCurrentMap().teams) {
-                        sender.sendMessage(getMVPMessage(team));
+                        Messenger.send(getMVPMessage(team), sender);
                     }
 
                 } else if (!(sender instanceof ConsoleCommandSender)) {
@@ -61,9 +61,9 @@ public class MVPCommand implements CommandExecutor {
 
                     UUID uuid = p.getUniqueId();
                     Team t = TeamController.getTeam(uuid);
-                    sender.sendMessage(getMVPMessage(t));
+                    Messenger.send(getMVPMessage(t), sender);
                     if (t.getMVP().getFirst() != uuid) { // Only print sender stats if sender is not MVP
-                        sender.sendMessage(getPlayerMessage(uuid));
+                        Messenger.send(getPlayerMessage(uuid), sender);
                     }
 
                 } else {

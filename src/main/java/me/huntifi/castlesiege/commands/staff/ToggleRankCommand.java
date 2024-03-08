@@ -29,7 +29,7 @@ public class ToggleRankCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		if (sender instanceof ConsoleCommandSender) {
-			sender.sendMessage("Console cannot toggle their rank!");
+			Messenger.sendError("Console cannot toggle their rank!", sender);
 			return true;
 		}
 
