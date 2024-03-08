@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -41,7 +42,7 @@ public class WoolHat implements Listener {
 			wool = new ItemStack(team.primaryWool);
 		ItemMeta woolMeta = wool.getItemMeta();
 		assert woolMeta != null;
-		woolMeta.displayName(Component.text("WoolHat", NamedTextColor.GREEN));
+		woolMeta.displayName(Component.text("WoolHat", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
 		wool.setItemMeta(woolMeta);
 		player.getInventory().setHelmet(wool);
 	}

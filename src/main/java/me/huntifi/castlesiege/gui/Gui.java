@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static net.kyori.adventure.text.format.TextDecoration.State.FALSE;
+
 /**
  * A GUI made with a minecraft inventory
  */
@@ -76,7 +78,9 @@ public class Gui implements Listener {
      * @param shouldClose Whether the GUI should close after performing the command
      */
     public void addItem(Component name, Material material, List<Component> lore, int location, String command, boolean shouldClose) {
-        inventory.setItem(location, ItemCreator.item(new ItemStack(material), name, lore, null));
+        List<Component> loreI = removeItalics(lore);
+        inventory.setItem(location, ItemCreator.item(new ItemStack(material),
+                name.decorationIfAbsent(TextDecoration.ITALIC, FALSE), loreI, null));
         locationToItem.put(location, new GuiItem(command, shouldClose));
     }
 
@@ -87,7 +91,9 @@ public class Gui implements Listener {
     public void addBackItem(int location, String command) {
         ItemStack item = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
                 Component.text("Go back", NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD),
-                Collections.singletonList(Component.text("Return to the previous interface.", NamedTextColor.RED)), null);
+                Collections.singletonList(
+                        Component.text("Return to the previous interface.", NamedTextColor.RED)
+                                .decorationIfAbsent(TextDecoration.ITALIC, FALSE)), null);
         PotionMeta potionMeta = (PotionMeta) item.getItemMeta();
         assert potionMeta != null;
         potionMeta.setColor(Color.RED);
@@ -109,7 +115,9 @@ public class Gui implements Listener {
                     getKitDisplayName(kit), kit.getGuiDescription(), null));
             locationToItem.put(location, new GuiItem(command, true));
         } else {
-            ArrayList<Component> lore = kit.getGuiDescription();
+            ArrayList<Component> desc = kit.getGuiDescription();
+            List<Component> lore = removeItalics(desc);
+            assert lore != null;
             lore.addAll(kit.getGuiCostText());
             inventory.setItem(location, ItemCreator.item(new ItemStack(Material.BLACK_STAINED_GLASS_PANE),
                     getKitDisplayName(kit), lore, null));
@@ -144,7 +152,7 @@ public class Gui implements Listener {
                     .append(Component.text(CoinKit.getPrice(uuid), NamedTextColor.YELLOW));
             Component duration = Component.text("Duration: permanent", NamedTextColor.GREEN);
 
-            ArrayList<Component> lore = getKitLore(price, duration, kit);
+            List<Component> lore = removeItalics(getKitLore(price, duration, kit));
             Bukkit.getScheduler().runTask(Main.plugin, () ->
                         addItem(itemName, material, lore, location, "buykit " + kitName, false)
                     );
@@ -158,7 +166,7 @@ public class Gui implements Listener {
      * @return The lore for an item of this kit
      */
     @NotNull
-    private static ArrayList<Component> getKitLore(Component price, Component duration, Kit kit) {
+    private static List<Component> getKitLore(Component price, Component duration, Kit kit) {
         ArrayList<Component> lore = new ArrayList<>();
         lore.add(price);
         lore.add(duration);
@@ -175,7 +183,7 @@ public class Gui implements Listener {
                         .append(Component.text("OUT OF ROTATION").decorate(TextDecoration.BOLD)));
         }
         lore.add(Component.text("Click here to buy!", NamedTextColor.YELLOW));
-        return lore;
+        return Objects.requireNonNull(removeItalics(lore));
     }
 
     /**
@@ -213,5 +221,24 @@ public class Gui implements Listener {
     public void onCloseGui(InventoryCloseEvent event) {
         if (Objects.equals(event.getInventory(), inventory) && shouldUnregister)
             HandlerList.unregisterAll(this);
+    }
+
+    /**
+     * @param components The components to affect
+     * @return The list with each root component removing Italics if not already set
+     */
+    public static List<Component> removeItalics(List<Component> components) {
+        if (components == null) {
+            return null;
+        }
+
+        ArrayList<Component> list = new ArrayList<>();
+        for (Component c : components) {
+            if (c != null) {
+                c = c.decorationIfAbsent(TextDecoration.ITALIC, FALSE);
+                list.add(c);
+            }
+        }
+        return list;
     }
 }
