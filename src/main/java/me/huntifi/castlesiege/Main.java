@@ -33,6 +33,7 @@ import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.commands.info.CoinMultiplier;
 import me.huntifi.castlesiege.commands.info.CoinsCommand;
 import me.huntifi.castlesiege.commands.info.DiscordCommand;
+import me.huntifi.castlesiege.commands.info.FlagsCommand;
 import me.huntifi.castlesiege.commands.info.MapsCommand;
 import me.huntifi.castlesiege.commands.info.MyStatsCommand;
 import me.huntifi.castlesiege.commands.info.PingCommand;
@@ -472,6 +473,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
                 Objects.requireNonNull(getCommand("Coins")).setExecutor(new CoinsCommand());
                 Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
+                Objects.requireNonNull(getCommand("Flags")).setExecutor(new FlagsCommand());
                 Objects.requireNonNull(getCommand("Maps")).setExecutor(new MapsCommand());
                 Objects.requireNonNull(getCommand("MVP")).setExecutor(new MVPCommand());
                 Objects.requireNonNull(getCommand("MyStats")).setExecutor(new MyStatsCommand());

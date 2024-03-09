@@ -182,6 +182,9 @@ commands:
   Discord:
     description: Gives the link to our discord
     usage: /discord
+  Flags:
+    description: Displays the flags for all teams
+    usage: /flags
   Maps:
     description: Shows all maps in rotation
     usage: /maps
