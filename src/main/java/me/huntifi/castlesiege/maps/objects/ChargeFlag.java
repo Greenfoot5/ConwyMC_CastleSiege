@@ -131,8 +131,8 @@ public class ChargeFlag extends Flag{
                             .append(Component.text(" has been fully captured and can no longer be retaken by "))
                                             .append(Component.text(startingTeam, MapController.getCurrentMap().getTeam(startingTeam).primaryChatColor)));
             if (additionalMinutes > 0 || additionalSeconds > 0) {
-                Messenger.broadcastInfo("<light_blue>" + additionalMinutes + "</light_blue> minutes and <light_blue>" +
-                        additionalSeconds + "</light_blue> seconds have been added to the clock!");
+                Messenger.broadcastInfo("<aqua>" + additionalMinutes + "</aqua> minutes and <aqua>" +
+                        additionalSeconds + "</aqua> seconds have been added to the clock!");
                 MapController.timer.seconds += additionalSeconds;
                 MapController.timer.minutes += additionalMinutes;
             }
