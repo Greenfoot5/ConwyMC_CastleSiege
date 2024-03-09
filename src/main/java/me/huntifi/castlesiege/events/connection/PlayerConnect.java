@@ -65,7 +65,7 @@ public class PlayerConnect implements Listener {
 
         // Set the join message
         if (!data.getJoinMessage().isEmpty()) {
-            e.joinMessage(MiniMessage.miniMessage().deserialize(data.getJoinMessage()));
+            e.joinMessage(MiniMessage.miniMessage().deserialize(data.getJoinMessage()).color(NamedTextColor.YELLOW));
         }
 
         // Assign the player's staff and donator permissions

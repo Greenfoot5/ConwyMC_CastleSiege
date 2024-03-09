@@ -29,11 +29,11 @@ public class TeamsCommand implements CommandExecutor {
 		Component c = Component.text("Team Counts: ");
 
 		for (Team t : teams) {
-			c = c.append(Component.newline()
+			c = c.append(Component.newline())
 					.append(Component.text("Team ", NamedTextColor.GREEN))
 					.append(Component.text(t.name, t.primaryChatColor))
 					.append(Component.text(": ", NamedTextColor.GREEN))
-					.append(Component.text(t.getTeamSize(), NamedTextColor.WHITE)));
+					.append(Component.text(t.getTeamSize(), NamedTextColor.WHITE));
 		}
 
 		Messenger.sendInfo(c, sender);

@@ -242,11 +242,11 @@ public class DeathEvent implements Listener {
      */
     private void killDeathMessage(Player killer, Player target, Tuple<String[], String[]> messages) {
         Messenger.send(Component.text("You" + messages.getFirst()[0]
-                                + NameTag.mmUsername(target) + messages.getFirst()[1])
+                                + NameTag.username(target) + messages.getFirst()[1])
                 .append(Component.text(" (" + (ActiveData.getData(killer.getUniqueId()).getKillStreak()) + ")", NamedTextColor.GRAY)),
                 killer);
 
-        Messenger.send(Component.text(messages.getSecond()[0] + NameTag.mmUsername(killer) + messages.getSecond()[1]), target);
+        Messenger.send(Component.text(messages.getSecond()[0] + NameTag.username(killer) + messages.getSecond()[1]), target);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player != killer && player != target
