@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -564,11 +565,11 @@ public class PlayerData {
 
     /**
      * Get the player's value of a setting
-     * @param setting The setting
+     * @param name The name or key of a setting
      * @return The player's value of a setting or default
      */
-    public String getSetting(String setting) {
-        return settings.get(setting) == null ? SettingsCommand.defaultSettings.get(setting)[0] : settings.get(setting);
+    public String getSetting(String name) {
+        return settings.get(name) == null ? Objects.requireNonNull(SettingsCommand.getSetting(name)).values[0] : settings.get(name);
     }
 
     /**

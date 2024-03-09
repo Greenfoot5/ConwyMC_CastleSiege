@@ -1,17 +1,16 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.Setting;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.maps.Scoreboard;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Material;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
@@ -22,20 +21,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class SettingsCommand implements TabExecutor {
-    public static final HashMap<String, String[]> defaultSettings = new HashMap<String, String[]>(){{
-        put("randomDeath", new String[]{"false", "true"});
-        put("deathMessages", new String[]{"false", "true"});
-        // TODO: put("language", new String[]{"EnglishUK", "Pirate"});
-        put("joinPing", new String[]{"false", "true"});
-        put("statsBoard", new String[]{"false", "true"});
-        put("woolmapTitleMessage", new String[]{"true", "false"});
-        put("alwaysInfo", new String[]{"false", "true"});
-    }};
+    private static final HashMap<UUID, Gui> guis = new HashMap<>();
+    public static final Setting[] SETTINGS = Setting.generateSettings();
 
-    private static final HashMap<HumanEntity, Gui> guis = new HashMap<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -48,55 +40,46 @@ public class SettingsCommand implements TabExecutor {
 
         if (args.length < 1) {
             // Register and open a settings GUI for the player
-            Gui gui = new Gui(Component.text("Settings", NamedTextColor.GOLD), 1, true);
-            guis.put(player, gui);
+            Gui gui = new Gui(Component.text("Settings"), 1, true);
+            guis.put(player.getUniqueId(), gui);
 
-            for (String setting : defaultSettings.keySet())
-                setGuiItem(player, setting);
+            setGuiItems(player.getUniqueId());
 
             gui.open(player);
             return true;
         }
 
-        String setting = args[0];
-        if (defaultSettings.get(setting) == null) {
-            Messenger.sendError("<aqua>" + setting + "</aqua> isn't a setting.", sender);
-            Messenger.sendInfo("Valid settings are: <br>" +
-                            "<gold>randomDeath (true/false) - <blue>Each time you die, runs /random to give you a new random class<br>" +
-                            "<gold>deathMessages (true/false) - <blue>View all death messages, not just your own<br>" +
-                            "<gold>joinPing (true/false) - <blue>Get a ping sound when another player joins the server<br>" +
-                            "<gold>woolmapTitleMessage (true/false) - <blue>Shows the title message related to the wool map<br>" +
-                            "<gold>statsBoard (true/false) - <blue>The scoreboard will show your current game stats instead of flag names<br>" +
-                            "<gold>alwaysInfo (false/true) - <blue>Shows info messages after you've reached the level required to hide them",
-                    sender);
+        Setting setting = getSetting(args[0]);
+        if (setting == null) {
+            Messenger.sendError("<aqua>" + args[0] + "</aqua> isn't a setting.", sender);
             return true;
         }
 
         UUID uuid = player.getUniqueId();
         PlayerData data = ActiveData.getData(uuid);
         if (args.length == 1) {
-            String currentValue = data.getSetting(setting);
-            Messenger.sendInfo("Current value is " + currentValue + ". All possible values: " + Arrays.toString(defaultSettings.get(setting)), sender);
+            Messenger.sendInfo("Current value is <dark_aqua>" + data.getSetting(setting.key) + "</dark_aqua>. " +
+                    "All possible values: <dark_aqua>" + Arrays.toString(setting.values), sender);
             return true;
         }
 
         String value = args[1];
-        if (Arrays.asList(defaultSettings.get(setting)).contains(value)) {
-            data.setSetting(uuid, setting, value);
+        if (Arrays.asList(setting.values).contains(value)) {
+            data.setSetting(uuid, setting.key, value);
 
-            if (args[0].equalsIgnoreCase("statsBoard"))
+            if (args[0].equalsIgnoreCase("scoreboard"))
                 Scoreboard.clearScoreboard(player);
 
-            if (guis.containsKey(player))
-                setGuiItem(player, setting);
+            if (guis.containsKey(player.getUniqueId()))
+                setGuiItems(player.getUniqueId());
             else
                 Messenger.sendInfo("Setting Updated", player);
 
         } else if (value.equals("reset")) {
-            data.setSetting(uuid, setting, defaultSettings.get(setting)[0]);
-            Messenger.sendInfo(setting + " reset to " + defaultSettings.get(setting)[0], sender);
+            data.setSetting(uuid, setting.key, setting.values[0]);
+            Messenger.sendInfo(setting + " reset to " + setting.values[0], sender);
         } else {
-            Messenger.sendError("Invalid Value. Possible values: " + Arrays.toString(defaultSettings.get(setting)), sender);
+            Messenger.sendError("Invalid Value. Possible values: " + Arrays.toString(setting.values), sender);
         }
 
         return true;
@@ -108,13 +91,13 @@ public class SettingsCommand implements TabExecutor {
         List<String> options = new ArrayList<>();
 
         if (args.length == 1) {
-            List<String> values = new ArrayList<>(defaultSettings.keySet());
+            List<String> values = new ArrayList<>(getKeys());
             StringUtil.copyPartialMatches(args[0], values, options);
         }
 
         if (args.length == 2) {
             ArrayList<String> values = new ArrayList<>();
-            Collections.addAll(values, defaultSettings.get(args[0]));
+            Collections.addAll(values, Objects.requireNonNull(getSetting(args[0])).values);
             values.add("reset");
             StringUtil.copyPartialMatches(args[1], values, options);
         }
@@ -123,51 +106,72 @@ public class SettingsCommand implements TabExecutor {
     }
 
     /**
-     * Set an item in a player's settings GUI.
-     * @param player The player for whom to set an item
-     * @param setting The setting which the item represents
+     * Creates the GUI
+     * @param player The player for whom to create the GUI
      */
-    private void setGuiItem(Player player, String setting) {
+    private void setGuiItems(UUID player) {
         Gui gui = guis.get(player);
 
-        String currentValue = ActiveData.getData(player.getUniqueId()).getSetting(setting);
-        Component itemName = Component.text(String.format("%s: %s", setting, currentValue), NamedTextColor.GOLD);
+        for (int i = 0; i < SETTINGS.length; i++) {
+            Setting setting = new Setting(SETTINGS[i]);
+            String currentValue = ActiveData.getData(player).getSetting(setting.key);
+            String nextValue = setting.values[(Arrays.asList(setting.values).indexOf(currentValue) + 1) % setting.values.length];
+            String command = String.format("settings %s %s", setting.key, nextValue);
+            List<Component> lore = new ArrayList<>(setting.itemLore);
+            lore.add(MiniMessage.miniMessage().deserialize("<color:#87cbf8>Current Value:</color> <dark_aqua>" + currentValue + "</dark_aqua>"));
 
-        String[] options = defaultSettings.get(setting);
-        String nextValue = options[(Arrays.asList(options).indexOf(currentValue) + 1) % options.length];
-        String command = String.format("settings %s %s", setting, nextValue);
-
-        switch (setting) {
-            case "randomDeath":
-                gui.addItem(itemName, Material.COOKIE, Collections.singletonList(
-                        Component.text("Each time you die, runs /random to give you a new random class", NamedTextColor.BLUE)),
-                        0, command, false);
-                break;
-            case "deathMessages":
-                gui.addItem(itemName, Material.OAK_SIGN, Collections.singletonList(
-                        Component.text("View all death messages, not just your own", NamedTextColor.BLUE)),
-                        1, command, false);
-                break;
-            case "joinPing":
-                gui.addItem(itemName, Material.NOTE_BLOCK, Collections.singletonList(
-                        Component.text("Get a ping sound when another player joins the server", NamedTextColor.BLUE)),
-                        2, command, false);
-                break;
-            case "statsBoard":
-                gui.addItem(itemName, Material.DIAMOND, Collections.singletonList(
-                        Component.text("The scoreboard will show your current game stats instead of flag names", NamedTextColor.BLUE)),
-                        3, command, false);
-                break;
-            case "woolmapTitleMessage":
-                gui.addItem(itemName, Material.PAPER, Collections.singletonList(
-                        Component.text("Displays a title message reminding you of the woolmap", NamedTextColor.BLUE)),
-                        4, command, false);
-                break;
-            case "alwaysInfo":
-                gui.addItem(itemName, Material.BLUE_WOOL, Collections.singletonList(
-                        Component.text("Always display level dependent info messages", NamedTextColor.BLUE)),
-                        6, command, false);
-                break;
+            gui.addItem(setting.displayName, setting.material, lore, i, command, false);
         }
+//
+//
+//
+//        switch (setting.key) {
+//            case "randomDeath":
+//                gui.addItem(itemName, Material.COOKIE, Collections.singletonList(
+//                        Component.text("Each time you die, runs /random to give you a new random class", NamedTextColor.BLUE)),
+//                        0, command, false);
+//                break;
+//            case "deathMessages":
+//                gui.addItem(itemName, Material.OAK_SIGN, Collections.singletonList(
+//                        Component.text("View all death messages, not just your own", NamedTextColor.BLUE)),
+//                        1, command, false);
+//                break;
+//            case "joinPing":
+//                gui.addItem(itemName, Material.NOTE_BLOCK, Collections.singletonList(
+//                        Component.text("Get a ping sound when another player joins the server", NamedTextColor.BLUE)),
+//                        2, command, false);
+//                break;
+//            case "statsBoard":
+//                gui.addItem(itemName, Material.DIAMOND, Collections.singletonList(
+//                        Component.text("The scoreboard will show your current game stats instead of flag names", NamedTextColor.BLUE)),
+//                        3, command, false);
+//                break;
+//            case "woolmapTitleMessage":
+//                gui.addItem(itemName, Material.PAPER, Collections.singletonList(
+//                        Component.text("Displays a title message reminding you of the woolmap", NamedTextColor.BLUE)),
+//                        4, command, false);
+//                break;
+//            case "alwaysInfo":
+//                gui.addItem(itemName, Material.BLUE_WOOL, Collections.singletonList(
+//                        Component.text("Always display level dependent info messages", NamedTextColor.BLUE)),
+//                        6, command, false);
+//                break;
+//        }
+    }
+
+    private static List<String> getKeys() {
+        List<String> keys = new ArrayList<>();
+        for (Setting setting : SETTINGS) {
+            keys.add(setting.key);
+        }
+        return keys;
+    }
+
+    public static Setting getSetting(String name) {
+        for (Setting setting : SETTINGS) {
+            if (setting.displayName.content().equals(name) || Objects.equals(setting.key, name))
+                return setting;
+        }
+        return null;
     }
 }

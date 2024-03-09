@@ -125,11 +125,12 @@ public class PlayerConnect implements Listener {
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (ActiveData.getData(player.getUniqueId()).getSetting("joinPing").equals("true")) {
+            if (data.getSetting("joinPing").equals("true")) {
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 0.1f);
             }
         }
-        if (ActiveData.getData(p.getUniqueId()).getSetting("woolmapTitleMessage").equals("true")) {
+
+        if (data.getSetting("alwaysInfo").equals("false") || data.getLevel() <= 5) {
             sendTitlebarMessages(p);
         }
     }

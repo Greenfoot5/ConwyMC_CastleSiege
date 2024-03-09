@@ -197,7 +197,7 @@ public class Ranger extends CoinKit implements Listener {
      * @param force The force of the original arrow
      */
     private void burstAbility(Player p, float force) {
-        Messenger.sendInfo("You shot your burst bow!", p);
+        Messenger.sendActionInfo("You shot your burst bow!", p);
         p.setCooldown(Material.BOW, 100);
         burstArrow(p, force, 11);
         burstArrow(p, force, 21);

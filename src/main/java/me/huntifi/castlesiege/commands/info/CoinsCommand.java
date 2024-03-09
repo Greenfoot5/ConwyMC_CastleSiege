@@ -33,7 +33,7 @@ public class CoinsCommand implements CommandExecutor {
             double coins = ActiveData.getData(player.getUniqueId()).getCoins();
             Messenger.sendInfo("<gold>Coins: </gold><yellow>" + new DecimalFormat("0").format(coins), sender);
             Messenger.sendInfo("You can use coins to purchase kits from the <yellow><click:suggest_command:/coinshop>/coinshop</click></yellow>" +
-                    " or adding a <yellow><click:suggest_command:/bounty>/bounty</click></yellow> to someone", sender);
+                    " or adding a <yellow><click:suggest_command:/bounty>/bounty</click></yellow> to someone", player, 15);
         }
 
         return true;

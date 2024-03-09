@@ -60,107 +60,64 @@ public class StatsSidebar {
         PlayerData totalData = ActiveData.getData(uuid);
         PlayerData mapData = MVPStats.getStats(uuid);
 
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<yellow>Level</yellow> ")
-//                                .append(Component.text(totalData.getLevel(), NamedTextColor.WHITE)));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0>Score</transition> ")
-//                        .append(Component.text(num.format(mapData.getScore()), NamedTextColor.WHITE)));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.15>Kills</transition> ")
-//                        .append(Component.text(num.format(mapData.getKills()), NamedTextColor.WHITE)));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.4>Deaths</transition> ")
-//                        .append(Component.text(num.format(mapData.getDeaths()), NamedTextColor.WHITE)));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.6>KDR</transition> ")
-//                        .append(Component.text(dec.format(mapData.getKills() / mapData.getDeaths()), NamedTextColor.WHITE)));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.7>Assists</transition> ")
-//                        .append(Component.text(num.format(mapData.getAssists()), NamedTextColor.WHITE)));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.8>Captures</transition> ")
-//                        .append(Component.text(num.format(mapData.getCaptures()), NamedTextColor.WHITE)));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.9>Heals</transition> ")
-//                        .append(Component.text(num.format(mapData.getHeals()), NamedTextColor.WHITE)));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":1>Supports</transition> ")
-//                        .append(Component.text(num.format(mapData.getSupports()), NamedTextColor.WHITE)));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<red>Kill Streak</red> ")
-//                        .append(Component.text(num.format(mapData.getKillStreak()), NamedTextColor.WHITE)));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<gold>Coins</gold> ")
-//                        .append(Component.text(num.format(totalData.getCoins()))));
-
-        lines.addDynamicLine(() ->
-                MiniMessage.miniMessage().deserialize("<yellow>" + totalData.getLevel() + "</yellow> ")
-                        .append(MiniMessage.miniMessage().deserialize("<font:uniform>Level</font>")));
-        lines.addDynamicLine(() ->
-                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0>" + num.format(mapData.getScore()) + "</transition> ")
-                        .append(MiniMessage.miniMessage().deserialize("<font:uniform>Score</font>")));
-        lines.addDynamicLine(() ->
-                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.15>" + num.format(mapData.getKills()) + "</transition> ")
-                        .append(MiniMessage.miniMessage().deserialize("<font:uniform>Kills</font>")));
-        lines.addDynamicLine(() ->
-                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.4>" + num.format(mapData.getDeaths()) + "</transition> ")
-                        .append(MiniMessage.miniMessage().deserialize("<font:uniform>Deaths</font>")));
-        lines.addDynamicLine(() ->
-                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.6>" + dec.format(mapData.getKills() / mapData.getDeaths()) + "</transition> ")
-                        .append(MiniMessage.miniMessage().deserialize("<font:uniform>KDR</font>")));
-        lines.addDynamicLine(() ->
-                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.7>" + num.format(mapData.getAssists()) + "</transition> ")
-                        .append(MiniMessage.miniMessage().deserialize("<font:uniform>Assists</font>")));
-        lines.addDynamicLine(() ->
-                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.8>" + num.format(mapData.getCaptures()) + "</transition> ")
-                        .append(MiniMessage.miniMessage().deserialize("<font:uniform>Captures</font>")));
-        lines.addDynamicLine(() ->
-                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.9>" + num.format(mapData.getHeals()) + "</transition> ")
-                        .append(MiniMessage.miniMessage().deserialize("<font:uniform>Heals</font>")));
-        lines.addDynamicLine(() ->
-                MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":1>" + num.format(mapData.getSupports()) + "</transition> ")
-                        .append(MiniMessage.miniMessage().deserialize("<font:uniform>Supports</font>")));
-        lines.addDynamicLine(() ->
-                MiniMessage.miniMessage().deserialize("<red>" + num.format(mapData.getKillStreak()) + "</red> ")
-                        .append(MiniMessage.miniMessage().deserialize("<font:uniform>Kill Streak</font>")));
-        lines.addDynamicLine(() ->
-                MiniMessage.miniMessage().deserialize("<gold>" + num.format(totalData.getCoins()) + "</gold> ")
-                        .append(MiniMessage.miniMessage().deserialize("<font:uniform>Coins</font>")));
-
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<white>" + totalData.getLevel() + "</white> ")
-//                        .append(MiniMessage.miniMessage().deserialize("<yellow><font:uniform>Level</font></yellow>")));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<color:#cccccc>" + num.format(mapData.getScore()) + "</color> ")
-//                        .append(MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0><font:uniform>Score</font></transition>")));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<white>" + num.format(mapData.getKills()) + "</white> ")
-//                        .append(MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.15><font:uniform>Kills</font></transition>")));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<color:#cccccc>" + num.format(mapData.getDeaths()) + "</color> ")
-//                        .append(MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.4><font:uniform>Deaths</font></transition>")));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<white>" + dec.format(mapData.getKills() / mapData.getDeaths()) + "</white> ")
-//                        .append(MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.6><font:uniform>KDR</font></transition>")));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<color:#cccccc>" + num.format(mapData.getAssists()) + "</color> ")
-//                        .append(MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.7><font:uniform>Assists</font></transition>")));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<white>" + num.format(mapData.getCaptures()) + "</white> ")
-//                        .append(MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.8><font:uniform>Captures</font></transition>")));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<color:#cccccc>" + num.format(mapData.getHeals()) + "</color> ")
-//                        .append(MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.9><font:uniform>Heals</font></transition>")));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<white>" + num.format(mapData.getSupports()) + "</white> ")
-//                        .append(MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":1><font:uniform>Supports</font></transition>")));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<color:#cccccc>" + num.format(mapData.getKillStreak()) + "</color> ")
-//                        .append(MiniMessage.miniMessage().deserialize("<red><font:uniform>Kill Streak</font></red>")));
-//        lines.addDynamicLine(() ->
-//                MiniMessage.miniMessage().deserialize("<white>" + num.format(totalData.getCoins()) + "</white> ")
-//                        .append(MiniMessage.miniMessage().deserialize("<gold><font:uniform>Coins</font></gold>")));
+        if (totalData.getSetting("scoreboard").equals("stats_icons")) {
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<yellow>" + totalData.getLevel() + " ⭐</yellow> "));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0>" + num.format(mapData.getScore()) + " \uD83D\uDCAE</transition> "));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.15>" + num.format(mapData.getKills()) + " \uD83D\uDDE1</transition> "));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.4>" + num.format(mapData.getDeaths()) + " ☠</transition> "));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.6>" + dec.format(mapData.getKills() / mapData.getDeaths()) + " ⚔</transition> "));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.7>" + num.format(mapData.getAssists()) + " ➕</transition> "));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.8>" + num.format(mapData.getCaptures()) + " \uD83C\uDFF4</transition> "));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.9>" + num.format(mapData.getHeals()) + " ❤</transition> "));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":1>" + num.format(mapData.getSupports()) + " \uD83D\uDD28</transition> "));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<red>" + num.format(mapData.getKillStreak()) + " \uD83D\uDD2A</red> "));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<gold>" + num.format(totalData.getCoins()) + " ⛃</gold> "));
+        } else {
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<yellow>Level</yellow> ")
+                            .append(Component.text(totalData.getLevel(), NamedTextColor.WHITE)));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0>Score</transition> ")
+                            .append(Component.text(num.format(mapData.getScore()), NamedTextColor.WHITE)));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.15>Kills</transition> ")
+                            .append(Component.text(num.format(mapData.getKills()), NamedTextColor.WHITE)));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.4>Deaths</transition> ")
+                            .append(Component.text(num.format(mapData.getDeaths()), NamedTextColor.WHITE)));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.6>KDR</transition> ")
+                            .append(Component.text(dec.format(mapData.getKills() / mapData.getDeaths()), NamedTextColor.WHITE)));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.7>Assists</transition> ")
+                            .append(Component.text(num.format(mapData.getAssists()), NamedTextColor.WHITE)));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.8>Captures</transition> ")
+                            .append(Component.text(num.format(mapData.getCaptures()), NamedTextColor.WHITE)));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":0.9>Heals</transition> ")
+                            .append(Component.text(num.format(mapData.getHeals()), NamedTextColor.WHITE)));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<transition:" + gradient + ":1>Supports</transition> ")
+                            .append(Component.text(num.format(mapData.getSupports()), NamedTextColor.WHITE)));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<red>Kill Streak</red> ")
+                            .append(Component.text(num.format(mapData.getKillStreak()), NamedTextColor.WHITE)));
+            lines.addDynamicLine(() ->
+                    MiniMessage.miniMessage().deserialize("<gold>Coins</gold> ")
+                            .append(Component.text(num.format(totalData.getCoins()))));
+        }
 
         this.componentSidebar = new ComponentSidebarLayout(title, lines.build());
     }

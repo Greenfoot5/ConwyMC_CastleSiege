@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
 
 import static me.huntifi.castlesiege.Main.scoreboardLibrary;
@@ -106,7 +105,7 @@ public class Scoreboard implements Runnable {
 		for (Player online : Bukkit.getOnlinePlayers()) {
 			UUID uuid = online.getUniqueId();
 			PlayerData data = ActiveData.getData(uuid);
-			if (!Objects.equals(data.getSetting("statsBoard"), "true")) {
+			if (data.getSetting("scoreboard").startsWith("flag")) {
 				flagSidebar.addPlayer(online);
 				return;
 			}
