@@ -11,6 +11,7 @@ import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -127,13 +128,13 @@ public class StaffChat implements CommandExecutor, Listener, ChatRenderer {
 	 * @param m The message to send
 	 */
 	public static void sendMessage(Player p, String m) {
-		String s = "<white>" + NameTag.mmUsername(p) + "<aqua>STAFF:</aqua>" + m;
+		String s = "<white>" + NameTag.mmUsername(p) + " <aqua>STAFF:</aqua> " + m;
 
 		// Send the message to all staff members
 		System.out.println(s);
 		for (Player receiver : Bukkit.getOnlinePlayers()) {
 			if (receiver.hasPermission("castlesiege.chatmod")) {
-				receiver.sendMessage(s);
+				receiver.sendMessage(MiniMessage.miniMessage().deserialize(s));
 			}
 		}
 	}
