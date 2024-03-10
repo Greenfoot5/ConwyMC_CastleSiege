@@ -942,7 +942,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 Kit kit = Kit.getKit(path);
                 if (kit == null)
-                    System.out.println("Could not find the kit: " + path);
+                    Main.plugin.getLogger().warning("Could not find the kit for a limit: " + path);
                 else
                     kit.setLimit(gameConfig.getInt(route.add(path)));
             }
