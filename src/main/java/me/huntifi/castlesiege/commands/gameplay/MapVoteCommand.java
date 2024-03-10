@@ -38,9 +38,13 @@ public class MapVoteCommand implements Listener, TabExecutor {
             ResultSet rs = get.executeQuery();
             int yes;
             int no;
+            int aYes = 0;
+            int aNo = 0;
             if (rs.next()) {
                 yes = rs.getInt("yes");
                 no = rs.getInt("no");
+                aYes = rs.getInt("alltime_yes");
+                aNo = rs.getInt("alltime_no");
             } else {
                 yes = 0;
                 no = 0;
@@ -54,12 +58,16 @@ public class MapVoteCommand implements Listener, TabExecutor {
 
             yes += votedYes.size();
             no += votedNo.size();
+            aYes += votedYes.size();
+            aNo += votedNo.size();
 
             PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                    "UPDATE map_votes SET yes = ?, no = ? WHERE map_name = ?");
+                    "UPDATE map_votes SET yes = ?, no = ?, alltime_yes = ?, alltime_no = ? WHERE map_name = ?");
             ps.setInt(1, yes);
             ps.setInt(2, no);
-            ps.setString(3, event.previousMap);
+            ps.setInt(3, aYes);
+            ps.setInt(4, aNo);
+            ps.setString(5, event.previousMap);
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
