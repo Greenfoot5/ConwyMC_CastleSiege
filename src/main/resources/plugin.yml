@@ -171,6 +171,9 @@ commands:
   VoteSkip:
     description: Vote to skip the current map
     usage: /voteskip [cancel]
+  MapVote:
+    description: Vote if you liked/dislike the map
+    usage: /mapvote <yes/no>
 
   # Info
   CoinMultiplier:

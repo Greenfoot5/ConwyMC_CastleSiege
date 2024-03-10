@@ -54,6 +54,11 @@ public class Messenger {
         receiver.sendMessage(mm.deserialize("<gold>[!]</gold> ").append(msg));
     }
 
+    public static void broadcastError(String message) {
+        Component msg = mm.deserialize(message).color(DARK_RED);
+        Bukkit.getServer().sendMessage(mm.deserialize("<gold>[!]</gold> ").append(msg));
+    }
+
     public static void sendActionError(String message, @NotNull Player receiver) {
         Component msg = mm.deserialize(message).color(DARK_RED);
         receiver.sendActionBar(mm.deserialize("<gold>[!]</gold> ").append(msg));

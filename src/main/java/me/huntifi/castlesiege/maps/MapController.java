@@ -19,11 +19,13 @@ import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
+import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
+import me.huntifi.castlesiege.maps.events.NextMapEvent;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Door;
@@ -35,6 +37,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -275,6 +278,13 @@ public class MapController {
 				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 			}
 		}
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				beginVote();
+			}
+		}.runTask(Main.plugin);
+
 		VoteSkipCommand.clearVotes();
 		AssistKill.reset();
 		Explosion.reset();
@@ -286,7 +296,7 @@ public class MapController {
 			public void run() {
 				nextMap();
 			}
-		}.runTaskLater(Main.plugin, 150);
+		}.runTaskLater(Main.plugin, 200);
 
 	}
 
@@ -375,13 +385,27 @@ public class MapController {
 	 * starts the loading of the next map
 	 */
 	private static void nextMap() {
-		MVPStats.reset();
-
 		Map oldMap = maps.get(mapIndex);
 		if (finalMap()) {
-			Main.instance.getLogger().info("Completed map cycle! Restarting server...");
-			getServer().spigot().restart();
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					NextMapEvent event = new NextMapEvent(oldMap.name, false);
+					Bukkit.getPluginManager().callEvent(event);
+
+					Main.instance.getLogger().info("Completed map cycle! Restarting server...");
+					getServer().spigot().restart();
+				}
+			}.runTask(Main.plugin);
 		} else {
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					NextMapEvent event = new NextMapEvent(oldMap.name, true);
+					Bukkit.getPluginManager().callEvent(event);
+				}
+			}.runTaskAsynchronously(Main.plugin);
+
 			mapIndex++;
 			Main.instance.getLogger().info("Loading next map: " + maps.get(mapIndex).name);
 			unloadMap(oldMap);
@@ -395,7 +419,6 @@ public class MapController {
 	public static void loadMap() {
 		// Clear the scoreboard & reset stats
 		Scoreboard.clearScoreboard();
-		MVPStats.reset();
 
 		// Register doors
 		for (Door door : maps.get(mapIndex).doors) {
@@ -788,5 +811,28 @@ public class MapController {
 	 */
 	public static boolean isOngoing() {
 		return timer.state == TimerState.ONGOING;
+	}
+
+	public static void beginVote() {
+		if (getPlayers().size() < 4) {
+			Messenger.broadcastError("Not enough players for a fair vote. Map votes will not be recorded.");
+			return;
+		}
+
+		for (UUID uuid : getPlayers()) {
+			Player p = Bukkit.getPlayer(uuid);
+			if (p == null) continue;
+
+			Gui gui = new Gui(Component.text("Did you enjoy the map?"), 1, true);
+
+			gui.addItem(Component.text("Vote: Yes", NamedTextColor.DARK_GREEN), Material.EMERALD_BLOCK,
+					Collections.singletonList(Component.text("Click here if you liked this map", NamedTextColor.DARK_GREEN)),
+					3, "mapvote yes", true);
+			gui.addItem(Component.text("Vote: No", NamedTextColor.RED), Material.REDSTONE_BLOCK,
+					Collections.singletonList(Component.text("Click here if you didn't like this map", NamedTextColor.RED)),
+					5, "mapvote no", true);
+
+            gui.open(p);
+		}
 	}
 }

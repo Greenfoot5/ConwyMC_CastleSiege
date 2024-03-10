@@ -1,0 +1,114 @@
+package me.huntifi.castlesiege.commands.gameplay;
+
+import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.events.NextMapEvent;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+public class MapVoteCommand implements Listener, TabExecutor {
+    private static List<UUID> votedNo = new ArrayList<>();
+    private static List<UUID> votedYes = new ArrayList<>();
+
+    @EventHandler
+    public void onNextMap(NextMapEvent event) {
+        if (MapController.getPlayers().size() < 4) {
+            Main.plugin.getLogger().info("Not enough players for a fair map vote. Votes will be ignored.");
+            return;
+        }
+
+        try {
+            PreparedStatement get = Main.SQL.getConnection().prepareStatement(
+                    "SELECT * FROM map_votes WHERE map_name = ?");
+            get.setString(1, event.previousMap);
+            ResultSet rs = get.executeQuery();
+            int yes;
+            int no;
+            if (rs.next()) {
+                yes = rs.getInt("yes");
+                no = rs.getInt("no");
+            } else {
+                yes = 0;
+                no = 0;
+                PreparedStatement add = Main.SQL.getConnection().prepareStatement(
+                        "INSERT INTO map_votes (map_name, yes, no)\n" +
+                                "VALUES (?, 0, 0)");
+                add.setString(1, event.previousMap);
+                add.executeUpdate();
+            }
+            get.close();
+
+            yes += votedYes.size();
+            no += votedNo.size();
+
+            PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
+                    "UPDATE map_votes SET yes = ?, no = ? WHERE map_name = ?");
+            ps.setInt(1, yes);
+            ps.setInt(2, no);
+            ps.setString(3, event.previousMap);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Reset counts
+        votedNo = new ArrayList<>();
+        votedYes = new ArrayList<>();
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        if (args[0] == null || !(args[0].equals("no") || args[0].equals("yes"))) {
+            Messenger.sendError("Must either vote <red>no</red> or <red>yes</red>", sender);
+            return false;
+        }
+
+        if (!(sender instanceof Player)) {
+            Messenger.sendError("Only players can vote!", sender);
+            return true;
+        }
+
+        Player p = (Player) sender;
+        if (args[0].equals("no")) {
+            if (votedNo.contains(p.getUniqueId())) {
+                Messenger.sendWarning("You already voted <dark_aqua>no</dark_aqua>! Only one vote is counted per player.", sender);
+                return true;
+            }
+            votedYes.remove(p.getUniqueId());
+            votedNo.add(p.getUniqueId());
+            Messenger.sendSuccess("Voted <dark_aqua>no</dark_aqua> for the map.", sender);
+            return true;
+        }
+
+        if (votedYes.contains(p.getUniqueId())) {
+            Messenger.sendWarning("You already voted <dark_aqua>yes</dark_aqua>! Only one vote is counted per player.", sender);
+            return true;
+        }
+        votedNo.remove(p.getUniqueId());
+        votedYes.add(p.getUniqueId());
+        Messenger.sendSuccess("Voted <dark_aqua>yes</dark_aqua> for the map.", sender);
+        return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        if (args.length <= 1)
+            return List.of("yes", "no");
+        return null;
+    }
+}

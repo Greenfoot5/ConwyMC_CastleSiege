@@ -2,8 +2,10 @@ package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.maps.events.NextMapEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -11,7 +13,7 @@ import java.util.UUID;
 /**
  * Tracks the stats of players during a game
  */
-public class MVPStats {
+public class MVPStats implements Listener {
 
     private static final HashMap<UUID, PlayerData> stats = new HashMap<>();
 
@@ -44,7 +46,7 @@ public class MVPStats {
      * Reset the tracked players
      * Should only be used at the end of a game
      */
-    public static void reset() {
+    public static void reset(NextMapEvent event) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
         stats.clear();
         for (Player p : Bukkit.getOnlinePlayers()) {

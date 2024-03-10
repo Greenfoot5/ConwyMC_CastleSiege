@@ -25,6 +25,7 @@ import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
 import me.huntifi.castlesiege.commands.gameplay.BuyKitCommand;
 import me.huntifi.castlesiege.commands.gameplay.CoinShopCommand;
 import me.huntifi.castlesiege.commands.gameplay.KitCommand;
+import me.huntifi.castlesiege.commands.gameplay.MapVoteCommand;
 import me.huntifi.castlesiege.commands.gameplay.RandomKitCommand;
 import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
 import me.huntifi.castlesiege.commands.gameplay.SuicideCommand;
@@ -83,6 +84,7 @@ import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.KeepAlive;
+import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.Messenger;
@@ -317,8 +319,6 @@ public class Main extends JavaPlugin implements Listener {
                 sessionManager.registerHandler(RegionHandler.FACTORY, null);
 
                 //Scoreboard
-                //PacketEvents.getAPI().getEventManager().registerListener(new PacketEventsListener());
-                //PacketEvents.getAPI().init();
                 try {
                     assert plugin != null;
                     scoreboardLibrary = ScoreboardLibrary.loadScoreboardLibrary(plugin);
@@ -341,7 +341,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);
                 getServer().getPluginManager().registerEvents(new PlayerDisconnect(), plugin);
 
-                //Secrets
+                // Secrets
                 getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretDoor(), plugin);
                 getServer().getPluginManager().registerEvents(new SecretItems(), plugin);
@@ -351,7 +351,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new SkyholdDoors(), plugin);
                 getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
 
-                //Duels
+                // Duels
                 getServer().getPluginManager().registerEvents(new AcceptDuel(), plugin);
 
                 // Combat
@@ -379,6 +379,8 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new CamelHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new LeaveMapBorder(), plugin);
                 getServer().getPluginManager().registerEvents(new Movement(), plugin);
+                getServer().getPluginManager().registerEvents(new MVPStats(), plugin);
+                getServer().getPluginManager().registerEvents(new MapVoteCommand(), plugin);
 
                 // Security
                 getServer().getPluginManager().registerEvents(new InteractContainer(), plugin);
@@ -468,6 +470,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Switch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("Boosters")).setExecutor(new BoosterCommand());
                 Objects.requireNonNull(getCommand("VoteSkip")).setExecutor(new VoteSkipCommand());
+                Objects.requireNonNull(getCommand("MapVote")).setExecutor(new MapVoteCommand());
 
                 // Info
                 Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
