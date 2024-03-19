@@ -11,13 +11,8 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import me.huntifi.castlesiege.commands.chat.GlobalChat;
-import me.huntifi.castlesiege.commands.chat.PrivateMessage;
-import me.huntifi.castlesiege.commands.chat.ReplyMessage;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.donator.FireworkCommand;
-import me.huntifi.castlesiege.commands.donator.JoinMessage;
-import me.huntifi.castlesiege.commands.donator.LeaveMessage;
 import me.huntifi.castlesiege.commands.donator.duels.AcceptDuel;
 import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.BoosterCommand;
@@ -31,35 +26,17 @@ import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
 import me.huntifi.castlesiege.commands.gameplay.SuicideCommand;
 import me.huntifi.castlesiege.commands.gameplay.SwitchCommand;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
-import me.huntifi.castlesiege.commands.info.CoinMultiplier;
-import me.huntifi.castlesiege.commands.info.CoinsCommand;
-import me.huntifi.castlesiege.commands.info.DiscordCommand;
 import me.huntifi.castlesiege.commands.info.FlagsCommand;
 import me.huntifi.castlesiege.commands.info.MapsCommand;
 import me.huntifi.castlesiege.commands.info.MyStatsCommand;
-import me.huntifi.castlesiege.commands.info.PingCommand;
-import me.huntifi.castlesiege.commands.info.RulesCommand;
 import me.huntifi.castlesiege.commands.info.SecretsCommand;
 import me.huntifi.castlesiege.commands.info.TeamsCommand;
-import me.huntifi.castlesiege.commands.info.WebshopCommand;
-import me.huntifi.castlesiege.commands.info.leaderboard.Donators;
 import me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
-import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
-import me.huntifi.castlesiege.commands.staff.BroadcastCommand;
-import me.huntifi.castlesiege.commands.staff.FlyCommand;
 import me.huntifi.castlesiege.commands.staff.GiveVoteCommand;
 import me.huntifi.castlesiege.commands.staff.ReloadCommand;
-import me.huntifi.castlesiege.commands.staff.SetStaffRank;
-import me.huntifi.castlesiege.commands.staff.StaffChat;
-import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
 import me.huntifi.castlesiege.commands.staff.boosters.GrantBooster;
-import me.huntifi.castlesiege.commands.staff.currencies.AddCoins;
-import me.huntifi.castlesiege.commands.staff.currencies.SetCoinMultiplier;
-import me.huntifi.castlesiege.commands.staff.currencies.SetCoins;
-import me.huntifi.castlesiege.commands.staff.currencies.TakeCoins;
-import me.huntifi.castlesiege.commands.staff.donations.RankPoints;
 import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.maps.NextMapCommand;
@@ -71,13 +48,6 @@ import me.huntifi.castlesiege.commands.staff.maps.StartCommand;
 import me.huntifi.castlesiege.commands.staff.maps.ToggleAllKitsFree;
 import me.huntifi.castlesiege.commands.staff.maps.ToggleForcedRandom;
 import me.huntifi.castlesiege.commands.staff.maps.ToggleSwitching;
-import me.huntifi.castlesiege.commands.staff.punishments.Ban;
-import me.huntifi.castlesiege.commands.staff.punishments.Kick;
-import me.huntifi.castlesiege.commands.staff.punishments.KickAll;
-import me.huntifi.castlesiege.commands.staff.punishments.Mute;
-import me.huntifi.castlesiege.commands.staff.punishments.Unban;
-import me.huntifi.castlesiege.commands.staff.punishments.Unmute;
-import me.huntifi.castlesiege.commands.staff.punishments.Warn;
 import me.huntifi.castlesiege.data_types.Booster;
 import me.huntifi.castlesiege.data_types.LocationFrame;
 import me.huntifi.castlesiege.data_types.PlayerData;
@@ -287,7 +257,7 @@ public class Main extends JavaPlugin implements Listener {
 
 
     @Override
-    public void onEnable() {
+    public void onEnable()  {
 
         getLogger().info("Enabling Plugin...");
 
@@ -446,15 +416,15 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new WoolHat(), plugin);
 
                 // Chat
-                Objects.requireNonNull(getCommand("GlobalChat")).setExecutor(new GlobalChat());
-                Objects.requireNonNull(getCommand("Message")).setExecutor(new PrivateMessage());
-                Objects.requireNonNull(getCommand("Reply")).setExecutor(new ReplyMessage());
+                //Objects.requireNonNull(getCommand("GlobalChat")).setExecutor(new GlobalChat());
+//                Objects.requireNonNull(getCommand("Message")).setExecutor(new PrivateMessage());
+//                Objects.requireNonNull(getCommand("Reply")).setExecutor(new ReplyMessage());
                 Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
 
                 // Donator
                 Objects.requireNonNull(getCommand("Firework")).setExecutor(new FireworkCommand());
-                Objects.requireNonNull(getCommand("LeaveMessage")).setExecutor(new LeaveMessage());
-                Objects.requireNonNull(getCommand("JoinMessage")).setExecutor(new JoinMessage());
+//                Objects.requireNonNull(getCommand("LeaveMessage")).setExecutor(new LeaveMessage());
+//                Objects.requireNonNull(getCommand("JoinMessage")).setExecutor(new JoinMessage());
 
                 //duels
                 Objects.requireNonNull(getCommand("DuelAccept")).setExecutor(new AcceptDuel());
@@ -473,19 +443,19 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("MapVote")).setExecutor(new MapVoteCommand());
 
                 // Info
-                Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
-                Objects.requireNonNull(getCommand("Coins")).setExecutor(new CoinsCommand());
-                Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
+//                Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
+//                Objects.requireNonNull(getCommand("Coins")).setExecutor(new CoinsCommand());
+//                Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
                 Objects.requireNonNull(getCommand("Flags")).setExecutor(new FlagsCommand());
                 Objects.requireNonNull(getCommand("Maps")).setExecutor(new MapsCommand());
                 Objects.requireNonNull(getCommand("MVP")).setExecutor(new MVPCommand());
                 Objects.requireNonNull(getCommand("MyStats")).setExecutor(new MyStatsCommand());
-                Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
-                Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
+//                Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
+//                Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
                 Objects.requireNonNull(getCommand("Secrets")).setExecutor(new SecretsCommand());
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
-                Objects.requireNonNull(getCommand("webshop")).setExecutor(new WebshopCommand());
-                Objects.requireNonNull(getCommand("whois")).setExecutor(new WhoisCommand());
+//                Objects.requireNonNull(getCommand("webshop")).setExecutor(new WebshopCommand());
+//                Objects.requireNonNull(getCommand("whois")).setExecutor(new WhoisCommand());
 
                 // Leaderboards
                 Objects.requireNonNull(getCommand("Top")).setExecutor(new Leaderboard());
@@ -496,44 +466,44 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopKDR")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopKills")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopSupports")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopDonators")).setExecutor(new Donators());
+//                Objects.requireNonNull(getCommand("TopDonators")).setExecutor(new Donators());
                 Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatch());
                 Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatch());
 
                 // Staff - Currencies
-                Objects.requireNonNull(getCommand("AddCoins")).setExecutor(new AddCoins());
-                Objects.requireNonNull(getCommand("SetCoins")).setExecutor(new SetCoins());
-                Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
-                Objects.requireNonNull(getCommand("TakeCoins")).setExecutor(new TakeCoins());
+//                Objects.requireNonNull(getCommand("AddCoins")).setExecutor(new AddCoins());
+//                Objects.requireNonNull(getCommand("SetCoins")).setExecutor(new SetCoins());
+//                Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
+//                Objects.requireNonNull(getCommand("TakeCoins")).setExecutor(new TakeCoins());
 
                 // Staff - Boosters
                 Objects.requireNonNull(getCommand("GrantBooster")).setExecutor(new GrantBooster());
 
                 // Staff - Punishments
-                Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());
-                Objects.requireNonNull(getCommand("Kick")).setExecutor(new Kick());
-                Objects.requireNonNull(getCommand("KickAll")).setExecutor(new KickAll());
-                Objects.requireNonNull(getCommand("Mute")).setExecutor(new Mute());
-                Objects.requireNonNull(getCommand("Unban")).setExecutor(new Unban());
-                Objects.requireNonNull(getCommand("Unmute")).setExecutor(new Unmute());
-                Objects.requireNonNull(getCommand("Warn")).setExecutor(new Warn());
+//                Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());
+//                Objects.requireNonNull(getCommand("Kick")).setExecutor(new Kick());
+//                Objects.requireNonNull(getCommand("KickAll")).setExecutor(new KickAll());
+//                Objects.requireNonNull(getCommand("Mute")).setExecutor(new Mute());
+//                Objects.requireNonNull(getCommand("Unban")).setExecutor(new Unban());
+//                Objects.requireNonNull(getCommand("Unmute")).setExecutor(new Unmute());
+//                Objects.requireNonNull(getCommand("Warn")).setExecutor(new Warn());
 
                 // Staff
-                Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastCommand());
+//                Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastCommand());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("Curse")).setExecutor(new CurseCommand());
-                Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
-                Objects.requireNonNull(getCommand("SetStaffRank")).setExecutor(new SetStaffRank());
+//                Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
+//                Objects.requireNonNull(getCommand("SetStaffRank")).setExecutor(new SetStaffRank());
                 Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
-                Objects.requireNonNull(getCommand("RankPoints")).setExecutor(new RankPoints());
+//                Objects.requireNonNull(getCommand("RankPoints")).setExecutor(new RankPoints());
                 Objects.requireNonNull(getCommand("SetKit")).setExecutor(new SetKitCommand());
                 Objects.requireNonNull(getCommand("SetKitLimit")).setExecutor(new SetKitLimit());
                 Objects.requireNonNull(getCommand("SetMap")).setExecutor(new SetMapCommand());
                 Objects.requireNonNull(getCommand("SetTimer")).setExecutor(new SetTimerCommand());
-                Objects.requireNonNull(getCommand("StaffChat")).setExecutor(new StaffChat());
+                //Objects.requireNonNull(getCommand("StaffChat")).setExecutor(new StaffChat());
                 Objects.requireNonNull(getCommand("Spectate")).setExecutor(new SpectateCommand());
-                Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());
+//                Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());
                 Objects.requireNonNull(getCommand("Unlockkit")).setExecutor(new UnlockedKitCommand());
                 Objects.requireNonNull(getCommand("ForceSwitch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new ToggleSwitching());
