@@ -52,7 +52,7 @@ public class CSSetting extends Setting {
                                 Component.text("Once you reach that level, the messages will no longer appear unless "),
                                 Component.text("this setting is enabled.")))
         };
-        System.arraycopy(castleSiege, global.length, total, global.length, castleSiege.length);
+        System.arraycopy(castleSiege, 0, total, global.length, castleSiege.length);
         return total;
     }
 }

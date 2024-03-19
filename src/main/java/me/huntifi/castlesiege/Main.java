@@ -52,13 +52,10 @@ import me.huntifi.castlesiege.data_types.Booster;
 import me.huntifi.castlesiege.data_types.LocationFrame;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
-import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
-import me.huntifi.conwymc.util.Messenger;
-import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.ArrowCollision;
 import me.huntifi.castlesiege.events.combat.ArrowRemoval;
 import me.huntifi.castlesiege.events.combat.AssistKill;
@@ -176,6 +173,8 @@ import me.huntifi.castlesiege.secrets.SecretItems;
 import me.huntifi.castlesiege.secrets.SecretSigns;
 import me.huntifi.castlesiege.secrets.Skyhold.SkyholdDoors;
 import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -303,7 +302,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
-                getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
+                //getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
                 getServer().getPluginManager().registerEvents(new BoosterCommand(), plugin);
                 getServer().getPluginManager().registerEvents(new TeamChat(), plugin);
 

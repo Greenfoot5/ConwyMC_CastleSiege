@@ -99,7 +99,7 @@
     <dependency>
       <groupId>com.github.AdminHuntifi</groupId>
       <artifactId>conwymc-global</artifactId>
-      <version>0.0.16</version>
+      <version>0.0.17</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
