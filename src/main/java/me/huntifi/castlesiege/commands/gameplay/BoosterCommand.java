@@ -8,7 +8,7 @@ import me.huntifi.castlesiege.data_types.KitBooster;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.conwymc.util.Messenger;
-import me.huntifi.castlesiege.gui.Gui;
+import me.huntifi.conwymc.gui.Gui;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;

@@ -19,7 +19,7 @@ import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
-import me.huntifi.castlesiege.gui.Gui;
+import me.huntifi.conwymc.gui.Gui;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.MapKit;

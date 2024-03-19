@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.castlesiege.gui.Gui;
+import me.huntifi.conwymc.gui.Gui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Color;
