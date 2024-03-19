@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.secrets.Thunderstone;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;

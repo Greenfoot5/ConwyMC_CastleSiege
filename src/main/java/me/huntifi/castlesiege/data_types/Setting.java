@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.data_types;
 
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
@@ -80,7 +80,7 @@ public class Setting {
                         Component.text("Stats Scoreboard"),
                         List.of(Component.text("Changes which scoreboard will be displayed"),
                                 Component.empty(),
-                                MiniMessage.miniMessage().deserialize("Types: <dark_aqua>flag</dark_aqua>, <dark_aqua>stats</dark_aqua>, <dark_aqua>stats_icons</dark_aqua>")),
+                                Messenger.mm.deserialize("Types: <dark_aqua>flag</dark_aqua>, <dark_aqua>stats</dark_aqua>, <dark_aqua>stats_icons</dark_aqua>")),
                         new String[]{"flag", "stats", "stats_icons"}),
 
                 new Setting("alwaysInfo", Material.BLUE_DYE,

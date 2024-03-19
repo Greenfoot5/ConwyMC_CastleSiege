@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.donator;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.format.NamedTextColor;

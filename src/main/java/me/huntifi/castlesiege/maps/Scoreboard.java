@@ -4,8 +4,8 @@ import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.maps.objects.FlagSidebar;
 import me.huntifi.castlesiege.maps.objects.StatsSidebar;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -62,7 +62,7 @@ public class Scoreboard implements Runnable {
 		String name;
 
 		if (MapController.timer == null)
-			return MiniMessage.miniMessage().deserialize("Time: <reset>N/A");
+			return Messenger.mm.deserialize("Time: <reset>N/A");
 		
 		switch (MapController.timer.state) {
 			case PREGAME:
@@ -78,18 +78,18 @@ public class Scoreboard implements Runnable {
 				name = "Play: ";
 				break;
 			case ENDED:
-				return MiniMessage.miniMessage().deserialize("MAP ENDED");
+				return Messenger.mm.deserialize("MAP ENDED");
 			default:
-				return MiniMessage.miniMessage().deserialize("Time: <reset>N/A");
+				return Messenger.mm.deserialize("Time: <reset>N/A");
 		}
 
 		if (MapController.timer.seconds < 0 || MapController.timer.minutes < 0)
-			return MiniMessage.miniMessage().deserialize(name + "<reset>--:--");
+			return Messenger.mm.deserialize(name + "<reset>--:--");
 		else if (MapController.timer.seconds < 10)
-			return MiniMessage.miniMessage().deserialize(name + "<reset>" + MapController.timer.minutes
+			return Messenger.mm.deserialize(name + "<reset>" + MapController.timer.minutes
 					+ ":0" + MapController.timer.seconds);
 		else
-			return MiniMessage.miniMessage().deserialize(name + "<reset>" + MapController.timer.minutes
+			return Messenger.mm.deserialize(name + "<reset>" + MapController.timer.minutes
 					+ ":" + MapController.timer.seconds);
 	}
 

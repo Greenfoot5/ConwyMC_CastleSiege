@@ -4,11 +4,11 @@ import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Scoreboard;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.megavex.scoreboardlibrary.api.sidebar.Sidebar;
@@ -100,7 +100,7 @@ public class FlagSidebar {
 
         float phase = -1f;
         while (phase < 1) {
-            frames.add(MiniMessage.miniMessage().deserialize("<gradient:#e9455e:#2e3468:" + phase + "><text>", textPlaceholder));
+            frames.add(Messenger.mm.deserialize("<gradient:#e9455e:#2e3468:" + phase + "><text>", textPlaceholder));
             phase += step;
         }
 

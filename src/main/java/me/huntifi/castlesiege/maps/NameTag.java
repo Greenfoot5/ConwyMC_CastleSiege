@@ -9,6 +9,7 @@ import me.huntifi.castlesiege.events.curses.BlindnessCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.events.curses.GreaterBlindnessCurse;
 import me.huntifi.castlesiege.events.curses.TrueBlindnessCurse;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -58,7 +59,7 @@ public class NameTag implements CommandExecutor, Listener {
         // Only set name tag color if data has not been loaded yet
         PlayerData data = ActiveData.getData(p.getUniqueId());
         if (data == null) {
-            Bukkit.getScheduler().runTask(Main.plugin, () -> NametagEdit.getApi().setPrefix(p, MiniMessage.miniMessage().serialize(username(p))));
+            Bukkit.getScheduler().runTask(Main.plugin, () -> NametagEdit.getApi().setPrefix(p, Messenger.mm.serialize(username(p))));
             return;
         }
 
@@ -107,7 +108,7 @@ public class NameTag implements CommandExecutor, Listener {
      * @return The player's username with minimessage colour
      */
     public static String mmUsername(Player p) {
-        String name = MiniMessage.miniMessage().serialize(getName(p));
+        String name = Messenger.mm.serialize(getName(p));
         if (MapController.getPlayers().contains(p.getUniqueId())) {
             if (hideTeamColour || hideBoth)
                 return "<white>" + name + "</white>";
@@ -189,7 +190,7 @@ public class NameTag implements CommandExecutor, Listener {
         } else {
             rank = convertRank(senderData.getRank());
         }
-        MiniMessage mm = MiniMessage.miniMessage();
+        MiniMessage mm = Messenger.mm;
 
         if (hidePlayerName || hideBoth)
             return mm.deserialize(mmUsername(sender));
@@ -211,38 +212,38 @@ public class NameTag implements CommandExecutor, Listener {
         switch (rank) {
             // Staff Ranks
             case "builder":
-                return MiniMessage.miniMessage().deserialize("<b><gradient:#80CED7:#007EA7>Builder</gradient></b> ");
+                return Messenger.mm.deserialize("<b><gradient:#80CED7:#007EA7>Builder</gradient></b> ");
             case "chatmod":
-                return MiniMessage.miniMessage().deserialize("<b><gradient:#08C8F6:#4D5DFB>ChatMod</gradient></b> ");
+                return Messenger.mm.deserialize("<b><gradient:#08C8F6:#4D5DFB>ChatMod</gradient></b> ");
             case "chatmod+":
-                return MiniMessage.miniMessage().deserialize("<b><gradient:#2876F9:#6D17CB>ChatMod+</gradient></b>  ");
+                return Messenger.mm.deserialize("<b><gradient:#2876F9:#6D17CB>ChatMod+</gradient></b>  ");
             case "moderator":
-                return MiniMessage.miniMessage().deserialize("<b><gradient:#2db379:#1c8c70>Mod</gradient></b> ");
+                return Messenger.mm.deserialize("<b><gradient:#2db379:#1c8c70>Mod</gradient></b> ");
             case "developer":
-                return MiniMessage.miniMessage().deserialize("<b><gradient:#00BF00:#1A913E>Dev</gradient></b> ");
+                return Messenger.mm.deserialize("<b><gradient:#00BF00:#1A913E>Dev</gradient></b> ");
             case "communitymanager":
-                return MiniMessage.miniMessage().deserialize("<b><gradient:#a422e6:#7830bf>Comm Man</gradient></b> ");
+                return Messenger.mm.deserialize("<b><gradient:#a422e6:#7830bf>Comm Man</gradient></b> ");
             case "admin":
-                return MiniMessage.miniMessage().deserialize("<b><gradient:#A82533:#EF4848>Admin</gradient></b> ");
+                return Messenger.mm.deserialize("<b><gradient:#A82533:#EF4848>Admin</gradient></b> ");
             case "owner":
-                return MiniMessage.miniMessage().deserialize("<b><dark_red><obf><st>!</dark_red><gradient:#FFAA00:#FF5500>Owner</gradient><dark_red><obf><st>!</dark_red></b> ");
+                return Messenger.mm.deserialize("<b><dark_red><obf><st>!</dark_red><gradient:#FFAA00:#FF5500>Owner</gradient><dark_red><obf><st>!</dark_red></b> ");
             // Donator Ranks
             case "esquire":
-                return MiniMessage.miniMessage().deserialize("<dark_aqua>Esquire</dark_aqua> ");
+                return Messenger.mm.deserialize("<dark_aqua>Esquire</dark_aqua> ");
             case "noble":
-                return MiniMessage.miniMessage().deserialize("<green>Noble</green> ");
+                return Messenger.mm.deserialize("<green>Noble</green> ");
             case "baron":
-                return MiniMessage.miniMessage().deserialize("<dark_purple>Baron</dark_purple> ");
+                return Messenger.mm.deserialize("<dark_purple>Baron</dark_purple> ");
             case "count":
-                return MiniMessage.miniMessage().deserialize("<gold>Count</gold> ");
+                return Messenger.mm.deserialize("<gold>Count</gold> ");
             case "duke":
-                return MiniMessage.miniMessage().deserialize("<dark_red>Duke</dark_red> ");
+                return Messenger.mm.deserialize("<dark_red>Duke</dark_red> ");
             case "viceroy":
-                return MiniMessage.miniMessage().deserialize("<gradient:#be1fcc:#d94cd9>Viceroy</gradient> ");
+                return Messenger.mm.deserialize("<gradient:#be1fcc:#d94cd9>Viceroy</gradient> ");
             case "king":
-                return MiniMessage.miniMessage().deserialize("<gradient:#F07654:#F5DF2E:#F07654>⚜King⚜</gradient> ");
+                return Messenger.mm.deserialize("<gradient:#F07654:#F5DF2E:#F07654>⚜King⚜</gradient> ");
             case "high_king":
-                return MiniMessage.miniMessage().deserialize("<gradient:#FFED00:#FF0000>👑High King👑</gradient> ");
+                return Messenger.mm.deserialize("<gradient:#FFED00:#FF0000>👑High King👑</gradient> ");
             default:
                 return Component.empty();
         }
@@ -263,7 +264,7 @@ public class NameTag implements CommandExecutor, Listener {
         }
 
         String rank = Arrays.toString(args).replace('&', '§');
-        Component mmRank = MiniMessage.miniMessage().deserialize(rank);
+        Component mmRank = Messenger.mm.deserialize(rank);
 
         // Set the player's tags
         p.displayName(Component.text(data.getLevel()).color(NamedTextColor.YELLOW).append(mmRank).append(username(p)));

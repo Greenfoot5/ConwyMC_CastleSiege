@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.gui;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Alchemist;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Barbarian;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Berserker;

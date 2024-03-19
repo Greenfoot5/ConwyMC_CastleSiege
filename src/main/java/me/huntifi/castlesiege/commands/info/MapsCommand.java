@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.commands.info;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import net.kyori.adventure.text.Component;
@@ -42,7 +42,7 @@ public class MapsCommand implements CommandExecutor {
                 c = c.append(Component.text(map.name, NamedTextColor.GRAY));
             }
 			float phase = ((float)i + 1f) / ((float)maps.size());
-            c = c.append(MiniMessage.miniMessage().deserialize("<transition:#3EADCF:#ABE9CD:" + phase + "> > </transition>"));
+            c = c.append(Messenger.mm.deserialize("<transition:#3EADCF:#ABE9CD:" + phase + "> > </transition>"));
         }
 		c = c.append(Component.text("Restart", NamedTextColor.GRAY));
 

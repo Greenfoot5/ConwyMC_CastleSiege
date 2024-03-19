@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;
@@ -113,7 +113,7 @@ public class TopMatch implements CommandExecutor {
         Collections.reverse(stats);
 
         // Create the message header
-        Component message = MiniMessage.miniMessage().deserialize(
+        Component message = Messenger.mm.deserialize(
                 "<color:#CCCCCC>#. Player " +
                         "<transition:" + gradient + ":0>S</transition>core " +
                         "<transition:" + gradient + ":0.15>K</transition>ills " +
@@ -142,7 +142,7 @@ public class TopMatch implements CommandExecutor {
         DecimalFormat dec = new DecimalFormat("0.00");
         DecimalFormat num = new DecimalFormat("0");
 
-        return MiniMessage.miniMessage().deserialize("<br>" +
+        return Messenger.mm.deserialize("<br>" +
                 "<gray>" + (pos + 1) + ". <" + color + name + " </" + color
                 + "<transition:#13DB5D:#05B6D9:#F907FC:0>" + num.format(d.getScore()) + "</transition> "
                 + "<transition:#13DB5D:#05B6D9:#F907FC:0.15>" + num.format(d.getKills()) + "</transition> "

@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.donator;
 
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -81,7 +81,7 @@ public class JoinMessage implements TabExecutor {
         }
 
         // Remove any MM formatting
-        Component c = MiniMessage.miniMessage().deserialize(message);
+        Component c = Messenger.mm.deserialize(message);
         message = PlainTextComponentSerializer.plainText().serialize(c);
 
         ActiveData.getData(p.getUniqueId()).setJoinMessage(message);

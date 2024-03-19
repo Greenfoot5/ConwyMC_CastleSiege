@@ -14,8 +14,8 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,7 +44,7 @@ public class PlayerDisconnect implements Listener {
 
         // Set the leave message
         if (!data.getLeaveMessage().isEmpty()) {
-            e.quitMessage(MiniMessage.miniMessage().deserialize(data.getLeaveMessage()).color(NamedTextColor.YELLOW));
+            e.quitMessage(Messenger.mm.deserialize(data.getLeaveMessage()).color(NamedTextColor.YELLOW));
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {

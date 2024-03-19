@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.data_types.LocationFrame;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Scoreboard;
 import me.huntifi.castlesiege.maps.Team;
@@ -573,11 +573,11 @@ public class Flag {
         hologram.setInvulnerable(true);
         hologram.setCustomNameVisible(true);
         hologram.setSmall(true);
-        hologram.customName(MiniMessage.miniMessage().deserialize("<b>Flag:</b> ").append(Component.text(name, getColor())));
+        hologram.customName(Messenger.mm.deserialize("<b>Flag:</b> ").append(Component.text(name, getColor())));
     }
 
     public void updateHologram(NamedTextColor teamColor) {
-        hologram.customName(MiniMessage.miniMessage().deserialize("<b>Flag:</b> ").append(Component.text(name, teamColor)));
+        hologram.customName(Messenger.mm.deserialize("<b>Flag:</b> ").append(Component.text(name, teamColor)));
         hologram.setCustomNameVisible(true);
     }
 

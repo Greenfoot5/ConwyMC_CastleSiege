@@ -13,7 +13,7 @@ import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.Permissions;
 import me.huntifi.castlesiege.database.Punishments;
 import me.huntifi.castlesiege.database.StoreData;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -65,7 +65,7 @@ public class PlayerConnect implements Listener {
 
         // Set the join message
         if (!data.getJoinMessage().isEmpty()) {
-            e.joinMessage(MiniMessage.miniMessage().deserialize(data.getJoinMessage()).color(NamedTextColor.YELLOW));
+            e.joinMessage(Messenger.mm.deserialize(data.getJoinMessage()).color(NamedTextColor.YELLOW));
         }
 
         // Assign the player's staff and donator permissions
@@ -103,7 +103,7 @@ public class PlayerConnect implements Listener {
         if (!p.hasPlayedBefore()) {
 
             Messenger.broadcast(BroadcastCommand.broadcastPrefix
-                    .append(MiniMessage.miniMessage().deserialize("<gradient:#663dff:#cc4499:#663dff><st>━━━━━</st> " +
+                    .append(Messenger.mm.deserialize("<gradient:#663dff:#cc4499:#663dff><st>━━━━━</st> " +
                             "Welcome <color:#cc4499>" + p.getName() + "</color> to Castle Siege! <st>━━━━━</st>")));
             Messenger.send(Component.text("If you encounter a problem or need help, contact us on " +
                             "<yellow><click:suggest_command:/discord>/discord</click></yellow> or " +

@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.commands.info;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -41,11 +41,11 @@ public class RulesCommand implements CommandExecutor {
 			color = (i % 2 == 0) ? NamedTextColor.WHITE: NamedTextColor.GRAY;
 			c = c.append(Component.newline()
 					.append(Component.text((i + 1) + ") ", NamedTextColor.YELLOW))
-					.append(MiniMessage.miniMessage().deserialize(s)).color(color));
+					.append(Messenger.mm.deserialize(s)).color(color));
 			i++;
 		}
 		c = c.append(Component.newline().append(border).append(Component.newline()).decoration(TextDecoration.STRIKETHROUGH, false)
-				.append(MiniMessage.miniMessage().deserialize("<yellow><click:open_url:https://conwymc.alchemix.dev>See our website for more info</click></yellow>")));
+				.append(Messenger.mm.deserialize("<yellow><click:open_url:https://conwymc.alchemix.dev>See our website for more info</click></yellow>")));
 		Messenger.send(c, p);
 		return true;
 	}

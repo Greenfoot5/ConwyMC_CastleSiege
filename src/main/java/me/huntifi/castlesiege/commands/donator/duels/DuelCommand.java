@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.donator.duels;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

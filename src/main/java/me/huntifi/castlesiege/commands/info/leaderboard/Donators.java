@@ -4,7 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.donations.RankPoints;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.LoadData;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

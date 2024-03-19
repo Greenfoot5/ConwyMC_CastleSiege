@@ -7,12 +7,12 @@ import me.huntifi.castlesiege.events.curses.BlindnessCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.events.curses.TrueBlindnessCurse;
 import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -73,7 +73,7 @@ public class PlayerChat implements Listener, ChatRenderer {
 		if (content.contains("@" + viewer.get(Identity.NAME))) {
 			playTagSound(viewer);
 		}
-		message = MiniMessage.miniMessage().deserialize(color + content);
+		message = Messenger.mm.deserialize(color + content);
 
 		// Console
 		if (viewer.get(Identity.NAME).isEmpty()) {

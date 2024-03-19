@@ -4,7 +4,6 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.curses.BindingCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
@@ -16,6 +15,7 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.util.Messenger;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -284,7 +284,7 @@ public abstract class Kit implements CommandExecutor, Listener {
             }
         }
         else {
-            disguise.getWatcher().setCustomName(MiniMessage.miniMessage().serialize(NameTag.username(p)));
+            disguise.getWatcher().setCustomName(Messenger.mm.serialize(NameTag.username(p)));
             disguise.setCustomDisguiseName(true);
             disguise.setHearSelfDisguise(true);
             disguise.setSelfDisguiseVisible(false);

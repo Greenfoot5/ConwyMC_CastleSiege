@@ -98,7 +98,7 @@
     <dependency>
       <groupId>com.github.AdminHuntifi</groupId>
       <artifactId>conwymc-global</artifactId>
-      <version>0.0.14-fix</version>
+      <version>0.0.15</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.commands.info.leaderboard;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.LoadData;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
@@ -94,7 +94,7 @@ public class Leaderboard implements CommandExecutor {
                     Tuple<PreparedStatement, ResultSet> top = LoadData.getTop(category, offset);
 
                     // Create the message header
-                    Component message = MiniMessage.miniMessage().deserialize(
+                    Component message = Messenger.mm.deserialize(
                             "<color:#CCCCCC>#. Player <yellow>L</yellow>evel " +
                                     "<transition:" + gradient + ":0>S</transition>core " +
                                     "<transition:" + gradient + ":0.15>K</transition>ills " +
@@ -131,7 +131,7 @@ public class Leaderboard implements CommandExecutor {
         DecimalFormat dec = new DecimalFormat("0.00");
         DecimalFormat num = new DecimalFormat("0");
 
-        return MiniMessage.miniMessage().deserialize("<br>" +
+        return Messenger.mm.deserialize("<br>" +
                 "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
                 + " <yellow>" + r.getInt("level") + "</yellow> "
                 + "<transition:" + gradient + ":0>" + num.format(r.getInt("score")) + "</transition> "

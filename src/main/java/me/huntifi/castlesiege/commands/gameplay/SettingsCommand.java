@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.commands.gameplay;
 import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.Setting;
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.gui.Gui;
 import me.huntifi.castlesiege.maps.Scoreboard;
 import net.kyori.adventure.text.Component;
@@ -118,7 +118,7 @@ public class SettingsCommand implements TabExecutor {
             String nextValue = setting.values[(Arrays.asList(setting.values).indexOf(currentValue) + 1) % setting.values.length];
             String command = String.format("settings %s %s", setting.key, nextValue);
             List<Component> lore = new ArrayList<>(setting.itemLore);
-            lore.add(MiniMessage.miniMessage().deserialize("<color:#87cbf8>Current Value:</color> <dark_aqua>" + currentValue + "</dark_aqua>"));
+            lore.add(Messenger.mm.deserialize("<color:#87cbf8>Current Value:</color> <dark_aqua>" + currentValue + "</dark_aqua>"));
 
             gui.addItem(setting.displayName, setting.material, lore, i, command, false);
         }

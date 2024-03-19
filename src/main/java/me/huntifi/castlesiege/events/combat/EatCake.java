@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Medic;
 import me.huntifi.castlesiege.maps.NameTag;

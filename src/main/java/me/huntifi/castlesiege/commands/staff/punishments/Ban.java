@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.commands.staff.punishments;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.Punishments;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -109,7 +109,7 @@ public class Ban implements CommandExecutor {
             public void run() {
                 Player p = Bukkit.getPlayer(uuid);
                 if (p != null) {
-                    p.kick(MiniMessage.miniMessage().deserialize("<dark_red>[BAN] </dark_red><red>" +
+                    p.kick(Messenger.mm.deserialize("<dark_red>[BAN] </dark_red><red>" +
                             reason + "<dark_red>[EXPIRES IN]</dark_red>" + PunishmentTime.getExpire(duration)));
                 }
             }

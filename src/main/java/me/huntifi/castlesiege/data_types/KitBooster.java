@@ -2,10 +2,10 @@ package me.huntifi.castlesiege.data_types;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class KitBooster extends Booster {
             return Component.text("Wild", NamedTextColor.GREEN).decorate(TextDecoration.ITALIC)
                     .append(Component.text("kit booster - ID " + id).decoration(TextDecoration.ITALIC, false));
         } else if (kitName.equalsIgnoreCase("random")) {
-            return MiniMessage.miniMessage().deserialize("<green><obf>!</obf>Random<obf>!</obf> kit booster - ID " + id);
+            return Messenger.mm.deserialize("<green><obf>!</obf>Random<obf>!</obf> kit booster - ID " + id);
         }
         return Component.text(kitName + " kit booster - ID " + id, NamedTextColor.GREEN);
     }

@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.staff.currencies;
 
 import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

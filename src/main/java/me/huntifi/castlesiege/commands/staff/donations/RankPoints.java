@@ -7,7 +7,7 @@ import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.Permissions;
 import me.huntifi.castlesiege.database.StoreData;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

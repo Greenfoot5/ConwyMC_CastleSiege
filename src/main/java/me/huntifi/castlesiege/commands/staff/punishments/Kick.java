@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.commands.staff.punishments;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -38,7 +38,7 @@ public class Kick implements CommandExecutor {
 		if (args.length > 1) {
 			message = " for: " + String.join(" ", args).split(" ", 2)[1];
 		}
-		p.kick(MiniMessage.miniMessage().deserialize("<red>You were kicked by <white>" + sender.getName()
+		p.kick(Messenger.mm.deserialize("<red>You were kicked by <white>" + sender.getName()
 				+ "</white>" + message));
 
 		return true;

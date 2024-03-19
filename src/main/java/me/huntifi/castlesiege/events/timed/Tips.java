@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.events.timed;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;

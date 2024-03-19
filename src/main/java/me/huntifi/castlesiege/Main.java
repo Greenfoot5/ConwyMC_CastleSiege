@@ -57,7 +57,7 @@ import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.events.combat.ArrowCollision;
 import me.huntifi.castlesiege.events.combat.ArrowRemoval;

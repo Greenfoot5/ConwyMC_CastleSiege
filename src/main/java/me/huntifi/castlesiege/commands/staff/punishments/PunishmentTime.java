@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.commands.staff.punishments;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.command.CommandSender;
 
 import java.sql.Timestamp;

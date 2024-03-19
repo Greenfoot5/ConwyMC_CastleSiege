@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.info;
 
 import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;

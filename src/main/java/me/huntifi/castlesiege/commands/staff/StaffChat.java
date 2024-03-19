@@ -4,7 +4,7 @@ import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.chat.TeamChat;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.chat.PlayerChat;
 import me.huntifi.castlesiege.maps.NameTag;
 import net.kyori.adventure.audience.Audience;
@@ -135,7 +135,7 @@ public class StaffChat implements CommandExecutor, Listener, ChatRenderer {
 		Main.plugin.getLogger().info(s);
 		for (Player receiver : Bukkit.getOnlinePlayers()) {
 			if (receiver.hasPermission("castlesiege.chatmod")) {
-				receiver.sendMessage(MiniMessage.miniMessage().deserialize(s));
+				receiver.sendMessage(Messenger.mm.deserialize(s));
 			}
 		}
 	}

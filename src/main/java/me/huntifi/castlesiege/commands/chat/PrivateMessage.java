@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.commands.chat;
 
 import me.huntifi.castlesiege.commands.staff.punishments.Mute;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;

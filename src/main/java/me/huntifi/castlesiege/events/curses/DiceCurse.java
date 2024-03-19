@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.commands.staff.StaffChat;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;

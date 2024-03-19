@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.commands.staff.punishments;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.Punishments;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
