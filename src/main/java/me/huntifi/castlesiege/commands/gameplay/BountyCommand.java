@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;

@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.commands.staff.donations;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.punishments.PunishmentTime;
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.StoreData;

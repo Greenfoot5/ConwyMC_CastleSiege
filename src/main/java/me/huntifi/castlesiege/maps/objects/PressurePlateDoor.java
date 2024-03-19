@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.maps.objects;
 
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.conwymc.data_types.Tuple;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;

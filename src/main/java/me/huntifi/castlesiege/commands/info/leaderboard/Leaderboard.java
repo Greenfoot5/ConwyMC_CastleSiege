@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.info.leaderboard;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;

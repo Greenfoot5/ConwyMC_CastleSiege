@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.database.MVPStats;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;

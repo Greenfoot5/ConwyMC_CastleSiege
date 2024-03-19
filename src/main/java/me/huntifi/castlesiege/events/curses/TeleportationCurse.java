@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.commands.staff.StaffChat;
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
