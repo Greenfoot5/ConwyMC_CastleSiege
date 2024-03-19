@@ -1,13 +1,13 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
+import me.huntifi.castlesiege.data_types.CSSetting;
 import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.data_types.Setting;
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.conwymc.util.Messenger;
-import me.huntifi.conwymc.gui.Gui;
 import me.huntifi.castlesiege.maps.Scoreboard;
+import me.huntifi.conwymc.data_types.Setting;
+import me.huntifi.conwymc.gui.Gui;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -26,7 +26,7 @@ import java.util.UUID;
 
 public class SettingsCommand implements TabExecutor {
     private static final HashMap<UUID, Gui> guis = new HashMap<>();
-    public static final Setting[] SETTINGS = Setting.generateSettings();
+    public static final Setting[] CS_SETTINGS = CSSetting.generateSettings();
 
 
     @Override
@@ -112,8 +112,8 @@ public class SettingsCommand implements TabExecutor {
     private void setGuiItems(UUID player) {
         Gui gui = guis.get(player);
 
-        for (int i = 0; i < SETTINGS.length; i++) {
-            Setting setting = new Setting(SETTINGS[i]);
+        for (int i = 0; i < CS_SETTINGS.length; i++) {
+            Setting setting = new Setting(CS_SETTINGS[i]);
             String currentValue = ActiveData.getData(player).getSetting(setting.key);
             String nextValue = setting.values[(Arrays.asList(setting.values).indexOf(currentValue) + 1) % setting.values.length];
             String command = String.format("settings %s %s", setting.key, nextValue);
@@ -161,14 +161,14 @@ public class SettingsCommand implements TabExecutor {
 
     private static List<String> getKeys() {
         List<String> keys = new ArrayList<>();
-        for (Setting setting : SETTINGS) {
+        for (Setting setting : CS_SETTINGS) {
             keys.add(setting.key);
         }
         return keys;
     }
 
     public static Setting getSetting(String name) {
-        for (Setting setting : SETTINGS) {
+        for (Setting setting : CS_SETTINGS) {
             if (setting.displayName.content().equals(name) || Objects.equals(setting.key, name))
                 return setting;
         }

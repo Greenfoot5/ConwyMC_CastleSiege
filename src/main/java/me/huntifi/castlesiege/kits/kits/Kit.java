@@ -421,7 +421,7 @@ public abstract class Kit implements CommandExecutor, Listener {
 
     /**
      * Set a limit to the amount of players that can use this kit at the same time.
-     * Setting a negative limit disables the limit.
+     * setting a negative limit disables the limit.
      * @param limit The limit to set
      */
     public void setLimit(int limit) {

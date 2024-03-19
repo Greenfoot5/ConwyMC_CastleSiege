@@ -8,34 +8,25 @@ import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.castlesiege.database.Permissions;
-import me.huntifi.castlesiege.database.Punishments;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
-import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
-import me.huntifi.conwymc.util.PunishmentTime;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.net.InetAddress;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.UUID;
 
@@ -62,16 +53,6 @@ public class PlayerConnect implements Listener {
             return;
         }
 
-        // Set the join message
-        if (!data.getJoinMessage().isEmpty()) {
-            e.joinMessage(Messenger.mm.deserialize(data.getJoinMessage()).color(NamedTextColor.YELLOW));
-        }
-
-        // Assign the player's staff and donator permissions
-        Permissions.addPlayer(uuid);
-        Permissions.setStaffPermission(uuid, data.getStaffRank());
-        Permissions.setDonatorPermission(uuid, data.getRank());
-
         // Assign the player to a team or spectator
         InCombat.playerDied(uuid);
         if (MapController.isMatch) {
@@ -96,7 +77,6 @@ public class PlayerConnect implements Listener {
 
         // Update the names stored in the database
         StoreData.updateName(uuid, "player_stats");
-        StoreData.updateName(uuid, "player_rank");
 
         //Welcomes new players!
         if (!p.hasPlayedBefore()) {
@@ -123,12 +103,6 @@ public class PlayerConnect implements Listener {
             Messenger.broadcastInfo("It's Friday! All coin and team kits are <b>UNLOCKED!</b>");
         }
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (data.getSetting("joinPing").equals("true")) {
-                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 0.1f);
-            }
-        }
-
         if (data.getSetting("alwaysInfo").equals("false") || data.getLevel() <= 5) {
             sendTitlebarMessages(p);
         }
@@ -142,55 +116,8 @@ public class PlayerConnect implements Listener {
      */
     @EventHandler
     public void preLogin(AsyncPlayerPreLoginEvent e) throws SQLException {
-        Tuple<String, Timestamp> banned = getBan(e.getUniqueId(), e.getAddress());
-        if (banned != null) {
-            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
-                    Component.newline().append(Component.text("[BAN] ", NamedTextColor.DARK_RED)
-                            .append(Component.text(banned.getFirst(), NamedTextColor.RED)))
-                            .append(Component.newline())
-                            .append(Component.text("[EXPIRES IN]", NamedTextColor.DARK_RED))
-                            .append(Component.text(PunishmentTime.getExpire(banned.getSecond()))));
-            return;
-        }
-
         // The player is allowed to join, so we can start loading their data if we haven't already
         loadData(e.getUniqueId());
-    }
-
-    /**
-     * Get the player's active ban
-     * @param uuid The unique ID of the player
-     * @param ip The IP-address of the player
-     * @return The reason and end of an active ban, null if no active ban was found
-     * @throws SQLException If something goes wrong executing the query
-     */
-    private Tuple<String, Timestamp> getBan(UUID uuid, InetAddress ip) throws SQLException {
-        // Check all ban records for this uuid to see if one is still active
-        Tuple<PreparedStatement, ResultSet> prUUID = Punishments.getActive(uuid, "ban");
-        Tuple<String, Timestamp> uuidBan = checkBan(prUUID.getSecond());
-        prUUID.getFirst().close();
-        if (uuidBan != null) {
-            return uuidBan;
-        }
-
-        // Check all ban records for this IP to see if one is still active
-        Tuple<PreparedStatement, ResultSet> prIP = Punishments.getIPBan(ip);
-        Tuple<String, Timestamp> ipBan = checkBan(prIP.getSecond());
-        prIP.getFirst().close();
-        return ipBan;
-    }
-
-    /**
-     * Check if the query result contains an active ban
-     * @param rs The result of a query
-     * @return The reason and end of an active ban, null if no active ban was found
-     * @throws SQLException If something goes wrong getting data from the query
-     */
-    private Tuple<String, Timestamp> checkBan(ResultSet rs) throws SQLException {
-        if (rs.next()) {
-            return new Tuple<>(rs.getString("reason"), rs.getTimestamp("end"));
-        }
-        return null;
     }
 
     /**

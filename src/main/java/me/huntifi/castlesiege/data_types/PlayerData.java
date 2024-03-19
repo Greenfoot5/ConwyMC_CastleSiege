@@ -1,15 +1,14 @@
 package me.huntifi.castlesiege.data_types;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
+import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import me.huntifi.conwymc.data_types.Tuple;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -109,26 +108,6 @@ public class PlayerData {
         this.assists = 0;
         this.killStreak = 0;
         this.coins = 0;
-    }
-
-    /**
-     * Get the player's current mute
-     * @return The player's mute reason and expire timestamp, null if not muted
-     */
-    public Tuple<String, Timestamp> getMute() {
-        return mute;
-    }
-
-    /**
-     * Set the player's mute
-     * @param reason The reason for the mute
-     * @param end The end of the mute
-     */
-    public void setMute(String reason, Timestamp end) {
-        if (reason == null || end == null)
-            mute = null;
-        else
-            mute = new Tuple<>(reason, end);
     }
 
     /**
@@ -378,14 +357,6 @@ public class PlayerData {
     }
 
     /**
-     * Set the player's staff rank
-     * @param staffRank The rank to set
-     */
-    public void setStaffRank(String staffRank) {
-        this.staffRank = staffRank;
-    }
-
-    /**
      * Get the player's rank
      * @return The player's rank
      */
@@ -410,28 +381,12 @@ public class PlayerData {
     }
 
     /**
-     * Set the player's custom join message
-     * @param joinMessage The custom join message
-     */
-    public void setJoinMessage(String joinMessage) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.joinMessage = joinMessage);
-    }
-
-    /**
      * Get the player's custom leave message
      * @return The player's custom leave message
      */
     public String getLeaveMessage() {
 
         return leaveMessage;
-    }
-
-    /**
-     * Set the player's custom leave message
-     * @param leaveMessage The custom leave message
-     */
-    public void setLeaveMessage(String leaveMessage) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.leaveMessage = leaveMessage);
     }
 
     /**
@@ -570,7 +525,7 @@ public class PlayerData {
      * @return The player's value of a setting or default
      */
     public String getSetting(String name) {
-        return settings.get(name) == null ? Objects.requireNonNull(SettingsCommand.getSetting(name)).values[0] : settings.get(name);
+        return settings.get(name) == null ? Objects.requireNonNull(CSSetting.getDefault(name)) : settings.get(name);
     }
 
     /**
