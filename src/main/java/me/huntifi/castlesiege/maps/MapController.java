@@ -14,7 +14,7 @@ import me.huntifi.castlesiege.data_types.CSStats;
 import me.huntifi.castlesiege.data_types.CoinBooster;
 import me.huntifi.castlesiege.data_types.KitBooster;
 import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
@@ -313,7 +313,7 @@ public class MapController {
 			double score = MVPStats.getStats(p.getUniqueId()).getScore();
 
 			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
-				ActiveData.getData(p.getUniqueId()).addCoins(50 * CSPlayerData.getCoinMultiplier());
+				CSActiveData.getData(p.getUniqueId()).addCoins(50 * CSPlayerData.getCoinMultiplier());
 				Messenger.sendSuccess("<gold>+" + (50 * CSPlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
 			}
 		}
@@ -341,7 +341,7 @@ public class MapController {
 			if (mvp == null)
 				continue; // Continue to the next team if this one doesn't have an MVP
 			UUID uuid = mvp.getFirst();
-			CSPlayerData data = ActiveData.getData(uuid);
+			CSPlayerData data = CSActiveData.getData(uuid);
 			data.addMVP();
 
 			// Find out if boosters should be awarded
@@ -612,7 +612,7 @@ public class MapController {
 
 		if (kit instanceof TeamKit || kit instanceof MapKit) {
 			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
-			ActiveData.getData(player.getUniqueId()).setKit("swordsman");
+			CSActiveData.getData(player.getUniqueId()).setKit("swordsman");
 		}
 
 		Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), true);

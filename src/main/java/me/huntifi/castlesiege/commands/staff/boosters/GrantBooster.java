@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.data_types.Booster;
 import me.huntifi.castlesiege.data_types.CoinBooster;
 import me.huntifi.castlesiege.data_types.KitBooster;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -36,7 +36,7 @@ public class GrantBooster implements CommandExecutor {
 
         UUID uuid = getUUID(args[0]);
         assert uuid != null;
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
         if (data != null) {
             if (!giveBooster(data, uuid, booster)) {
                 Messenger.sendError("Failed to add booster to database. Try again?", sender);

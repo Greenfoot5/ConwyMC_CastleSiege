@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
@@ -68,7 +68,7 @@ public class DeathEvent implements Listener {
             return;
         }
 
-        if (Objects.equals(ActiveData.getData(player.getUniqueId()).getSetting("randomDeath"), "true") ||
+        if (Objects.equals(CSActiveData.getData(player.getUniqueId()).getSetting("randomDeath"), "true") ||
         MapController.forcedRandom)
             player.performCommand("random");
         else
@@ -76,7 +76,7 @@ public class DeathEvent implements Listener {
 
         player.setWalkSpeed(0.2f);
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> respawnCounter(player), 10);
-        CSPlayerData data = ActiveData.getData(player.getUniqueId());
+        CSPlayerData data = CSActiveData.getData(player.getUniqueId());
         if (data.getSetting("alwaysInfo").equals("true") || data.getLevel() <= 5) {
             PlayerConnect.sendTitlebarMessages(player);
         }
@@ -245,14 +245,14 @@ public class DeathEvent implements Listener {
     private void killDeathMessage(Player killer, Player target, Tuple<String[], String[]> messages) {
         Messenger.send(Component.text("You" + messages.getFirst()[0]
                                 + NameTag.username(target) + messages.getFirst()[1])
-                .append(Component.text(" (" + (ActiveData.getData(killer.getUniqueId()).getKillStreak()) + ")", NamedTextColor.GRAY)),
+                .append(Component.text(" (" + (CSActiveData.getData(killer.getUniqueId()).getKillStreak()) + ")", NamedTextColor.GRAY)),
                 killer);
 
         Messenger.send(Component.text(messages.getSecond()[0] + NameTag.username(killer) + messages.getSecond()[1]), target);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player != killer && player != target
-                    && !ActiveData.getData(player.getUniqueId()).getSetting("deathMessages").equals("false")) {
+                    && !CSActiveData.getData(player.getUniqueId()).getSetting("deathMessages").equals("false")) {
                 Messenger.send(NameTag.mmUsername(killer) + messages.getFirst()[0]
                         + NameTag.mmUsername(target) + messages.getFirst()[1], player);
             }

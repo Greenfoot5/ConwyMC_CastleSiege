@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.data_types.CSPlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.objects.FlagSidebar;
 import me.huntifi.castlesiege.maps.objects.StatsSidebar;
 import me.huntifi.conwymc.util.Messenger;
@@ -104,7 +104,7 @@ public class Scoreboard implements Runnable {
 		// TODO - Allow players to select which scoreboard they want
 		for (Player online : Bukkit.getOnlinePlayers()) {
 			UUID uuid = online.getUniqueId();
-			CSPlayerData data = ActiveData.getData(uuid);
+			CSPlayerData data = CSActiveData.getData(uuid);
 			if (data.getSetting("scoreboard").startsWith("flag")) {
 				flagSidebar.addPlayer(online);
 				return;

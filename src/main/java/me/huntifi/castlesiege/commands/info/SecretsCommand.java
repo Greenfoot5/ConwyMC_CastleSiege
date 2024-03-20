@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.info;
 
 import me.huntifi.castlesiege.data_types.CSPlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -52,7 +52,7 @@ public class SecretsCommand implements CommandExecutor {
     public String getThunderstoneSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
 
         int foundAmount = 0;
 
@@ -81,7 +81,7 @@ public class SecretsCommand implements CommandExecutor {
     public String getHelmsdeepSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
 
                 int foundAmount = 0;
 
@@ -101,7 +101,7 @@ public class SecretsCommand implements CommandExecutor {
     public String getLakeboroughSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
 
         int foundAmount = 0;
 
@@ -124,7 +124,7 @@ public class SecretsCommand implements CommandExecutor {
     public String getAbrakhanSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
 
         int foundAmount = 0;
 
@@ -148,7 +148,7 @@ public class SecretsCommand implements CommandExecutor {
     public String getElwynnSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
         int foundAmount = 0;
 
         if (data.hasSecret("Elwynn_Abbey")) {
@@ -191,7 +191,7 @@ public class SecretsCommand implements CommandExecutor {
     public String getSkyholdSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
 
         int foundAmount = 0;
 
@@ -232,7 +232,7 @@ public class SecretsCommand implements CommandExecutor {
     public String getHallOfHerculesSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
 
         int foundAmount = 0;
         String[] secrets = {"HallOfHercules_Waterfall", "HallOfHercules_Pillar", "HallOfHercules_Sewers",

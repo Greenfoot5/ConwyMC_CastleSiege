@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.conwymc.util.Messenger;
@@ -266,7 +266,7 @@ public class Alchemist extends CoinKit implements Listener {
                     PlayerInventory inv = destroyer.getInventory();
                     if (inv.getItemInOffHand().getType() != Material.BREWING_STAND &&
                             !inv.contains(Material.BREWING_STAND)) {
-                        if (!ActiveData.getData(destroyer.getUniqueId()).hasVote("sword")) {
+                        if (!CSActiveData.getData(destroyer.getUniqueId()).hasVote("sword")) {
                             destroyer.getInventory().addItem(stand);
                         } else {
                             destroyer.getInventory().addItem(standVoted);

@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -46,7 +46,7 @@ public abstract class VoterKit extends Kit {
             return false;
 
         UUID uuid = ((Player) sender).getUniqueId();
-        if (!ActiveData.getData(uuid).hasVote("kits")) {
+        if (!CSActiveData.getData(uuid).hasVote("kits")) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null)
                     Messenger.sendError(String.format("You need to vote to use %s again!", name), sender);

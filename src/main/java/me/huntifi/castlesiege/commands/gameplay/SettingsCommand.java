@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.data_types.CSSetting;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.Scoreboard;
 import me.huntifi.conwymc.data_types.Setting;
 import me.huntifi.conwymc.gui.Gui;
@@ -56,7 +56,7 @@ public class SettingsCommand implements TabExecutor {
         }
 
         UUID uuid = player.getUniqueId();
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
         if (args.length == 1) {
             Messenger.sendInfo("Current value is <dark_aqua>" + data.getSetting(setting.key) + "</dark_aqua>. " +
                     "All possible values: <dark_aqua>" + Arrays.toString(setting.values), sender);
@@ -114,7 +114,7 @@ public class SettingsCommand implements TabExecutor {
 
         for (int i = 0; i < CS_SETTINGS.length; i++) {
             Setting setting = new Setting(CS_SETTINGS[i]);
-            String currentValue = ActiveData.getData(player).getSetting(setting.key);
+            String currentValue = CSActiveData.getData(player).getSetting(setting.key);
             String nextValue = setting.values[(Arrays.asList(setting.values).indexOf(currentValue) + 1) % setting.values.length];
             String command = String.format("settings %s %s", setting.key, nextValue);
             List<Component> lore = new ArrayList<>(setting.itemLore);

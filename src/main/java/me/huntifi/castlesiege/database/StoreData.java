@@ -26,7 +26,7 @@ public class StoreData {
      * @throws SQLException If something goes wrong executing the update
      */
     public static void store(UUID uuid) throws SQLException {
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
 
         storeStats(uuid, data);
         storeRank(uuid, data);
@@ -91,7 +91,7 @@ public class StoreData {
      */
     public static void storeAll() {
         try {
-            Collection<UUID> players = ActiveData.getPlayers();
+            Collection<UUID> players = CSActiveData.getPlayers();
             for (UUID uuid : players) {
                 store(uuid);
             }
@@ -204,7 +204,7 @@ public class StoreData {
             public void run() {
                 try {
                     // Create the votes string
-                    HashMap<String, Long> votes = ActiveData.getData(uuid).getVotes();
+                    HashMap<String, Long> votes = CSActiveData.getData(uuid).getVotes();
                     StringBuilder sb = new StringBuilder();
                     votes.forEach((key, value) -> {
                         if (sb.length() > 0) {

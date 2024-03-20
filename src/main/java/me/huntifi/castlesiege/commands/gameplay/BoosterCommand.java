@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.data_types.Booster;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.data_types.CoinBooster;
 import me.huntifi.castlesiege.data_types.KitBooster;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.conwymc.gui.Gui;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
@@ -59,7 +59,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
     private void showBoosters(@NotNull CommandSender sender) {
         Player player = (Player) sender;
         UUID uuid = player.getUniqueId();
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
 
         Gui gui = createGUI(data.getBoosters());
         gui.open(player);
@@ -82,7 +82,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
     private void useBooster(@NotNull CommandSender sender, @NotNull String[] args) {
         Player player = (Player) sender;
         UUID uuid = player.getUniqueId();
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
         int id = Integer.parseInt(args[1]);
         for (Booster booster : data.getBoosters()) {
             if (booster.id == id) {
@@ -160,7 +160,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
         if (kit instanceof CoinKit) {
             KitBooster booster = waitingForWildKit.get(uuid);
             booster.kitName = message;
-            CSPlayerData data = ActiveData.getData(uuid);
+            CSPlayerData data = CSActiveData.getData(uuid);
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 data.useBooster(uuid, booster);
                 removeBooster(booster.id, uuid);

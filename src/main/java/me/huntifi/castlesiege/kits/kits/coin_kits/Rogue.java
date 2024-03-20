@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
@@ -370,7 +370,7 @@ public class Rogue extends CoinKit implements Listener {
             return;
 
         // Give new sword
-        if (ActiveData.getData(player.getUniqueId()).hasVote("sword"))
+        if (CSActiveData.getData(player.getUniqueId()).hasVote("sword"))
             inventory.addItem(swordVoted);
         else
             inventory.setItem(0, sword);

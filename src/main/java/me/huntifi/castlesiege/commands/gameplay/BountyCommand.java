@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.commands.gameplay;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
@@ -69,7 +69,7 @@ public class BountyCommand implements CommandExecutor {
         }
 
         Player payee = (Player) sender;
-        if (!ActiveData.getData(payee.getUniqueId()).takeCoins(amount)) {
+        if (!CSActiveData.getData(payee.getUniqueId()).takeCoins(amount)) {
             Messenger.sendError("You don't have enough coins to do that!", sender);
             return true;
         }
@@ -117,7 +117,7 @@ public class BountyCommand implements CommandExecutor {
             return;
         }
 
-        ActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty);
+        CSActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty);
 
         if (bounty >= MIN_CLAIM) {
             Messenger.broadcastBountyClaimed(NameTag.mmUsername(bountied),
@@ -140,8 +140,8 @@ public class BountyCommand implements CommandExecutor {
         }
 
         int assistAmount = bounty / 3;
-       ActiveData.getData(assist.getUniqueId()).addCoinsClean(assistAmount);
-       ActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty - assistAmount);
+       CSActiveData.getData(assist.getUniqueId()).addCoinsClean(assistAmount);
+       CSActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty - assistAmount);
 
         if (bounty >= MIN_CLAIM) {
             Messenger.broadcastBountyClaimed(NameTag.mmUsername(bountied),
@@ -156,7 +156,7 @@ public class BountyCommand implements CommandExecutor {
 
     public static void killStreak(Player killer) {
         int amount = 0;
-        switch (ActiveData.getData(killer.getUniqueId()).getKillStreak()) {
+        switch (CSActiveData.getData(killer.getUniqueId()).getKillStreak()) {
             case 5:
                 amount = 20;
                 break;
@@ -176,7 +176,7 @@ public class BountyCommand implements CommandExecutor {
         if (amount > 0) {
             int total = getAndAddBounty(killer.getUniqueId(), (int) (amount * CSPlayerData.getCoinMultiplier()));
             Messenger.broadcastKillStreakBounty(NameTag.mmUsername(killer),
-                    ActiveData.getData(killer.getUniqueId()).getKillStreak(), total);
+                    CSActiveData.getData(killer.getUniqueId()).getKillStreak(), total);
         }
     }
 
@@ -240,7 +240,7 @@ public class BountyCommand implements CommandExecutor {
     }
 
     public static void saveBounties(){
-        for (UUID uuid : ActiveData.getPlayers()) {
+        for (UUID uuid : CSActiveData.getPlayers()) {
             Tuple<UUID, Integer> bounty = new Tuple<>(uuid, getBounty(uuid));
             PreparedStatement ps;
             try {

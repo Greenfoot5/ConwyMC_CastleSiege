@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -59,7 +59,7 @@ public class BuyKitCommand implements TabExecutor {
             }
 
             // Only unowned kits can be unlocked
-            if (ActiveData.getData(receiver.getUniqueId()).hasKit(kitName)) {
+            if (CSActiveData.getData(receiver.getUniqueId()).hasKit(kitName)) {
                 Messenger.sendError("This kit is already unlocked!", sender);
                 return ;
             }
@@ -72,7 +72,7 @@ public class BuyKitCommand implements TabExecutor {
             }
 
             // Charge the player for buying the kit
-            if (!ActiveData.getData(buyer.getUniqueId()).takeCoins(coinPrice)) {
+            if (!CSActiveData.getData(buyer.getUniqueId()).takeCoins(coinPrice)) {
                 Messenger.sendError("You don't have enough coins to buy this kit!", sender);
                 return;
             }
@@ -118,7 +118,7 @@ public class BuyKitCommand implements TabExecutor {
         List<String> options = new ArrayList<>();
         if (args.length == 1) {
             Stream<String> values = new ArrayList<>(CoinKit.getKits()).stream();
-            values = values.filter(name -> !ActiveData.getData(finalReceiver.getUniqueId()).hasKit(args[0]));
+            values = values.filter(name -> !CSActiveData.getData(finalReceiver.getUniqueId()).hasKit(args[0]));
             StringUtil.copyPartialMatches(args[0], Arrays.asList(values.toArray(String[]::new)), options);
             return options;
         }

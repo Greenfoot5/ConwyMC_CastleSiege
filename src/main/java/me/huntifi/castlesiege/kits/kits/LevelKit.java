@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -51,7 +51,7 @@ public abstract class LevelKit extends Kit {
             return false;
 
         UUID uuid = ((Player) sender).getUniqueId();
-        int level = ActiveData.getData(uuid).getLevel();
+        int level = CSActiveData.getData(uuid).getLevel();
         boolean unlocked = level >= levelRequired;
         if (!unlocked) {
             if (verbose) {

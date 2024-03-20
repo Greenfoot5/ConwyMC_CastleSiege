@@ -54,7 +54,6 @@ import me.huntifi.castlesiege.data_types.LocationFrame;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.combat.ArrowCollision;
 import me.huntifi.castlesiege.events.combat.ArrowRemoval;
@@ -174,6 +173,7 @@ import me.huntifi.castlesiege.secrets.SecretSigns;
 import me.huntifi.castlesiege.secrets.Skyhold.SkyholdDoors;
 import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
 import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.database.MySQL;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
@@ -280,7 +280,11 @@ public class Main extends JavaPlugin implements Listener {
 
                 getLogger().info("Connecting to database...");
                 // SQL Stuff
-                sqlConnect();
+                try {
+                    sqlConnect();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
 
                 // World Guard
                 SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
@@ -622,7 +626,7 @@ public class Main extends JavaPlugin implements Listener {
         StoreData.storeAll();
         try {
             SQL.disconnect();
-        } catch (NullPointerException ex) {
+        } catch (NullPointerException | SQLException ex) {
             getLogger().warning("SQL could not disconnect, it doesn't exist!");
         }
         scoreboardLibrary.close();
@@ -668,7 +672,7 @@ public class Main extends JavaPlugin implements Listener {
     /**
      * Connects to the SQL database
      */
-    private void sqlConnect() {
+    private void sqlConnect() throws SQLException {
         try {
             YamlDocument dbConfig = YamlDocument.create(new File(getDataFolder(), "database.yml"),
                     getClass().getResourceAsStream("database.yml"));

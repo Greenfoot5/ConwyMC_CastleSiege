@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
@@ -45,7 +45,7 @@ public abstract class CoinKit extends Kit {
             return false;
 
         UUID uuid = ((Player) sender).getUniqueId();
-        boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
+        boolean hasKit = CSActiveData.getData(uuid).hasKit(getSpacelessName());
         if (!hasKit && !isFree()) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null) {

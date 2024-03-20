@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import net.kyori.adventure.text.Component;
@@ -44,7 +44,7 @@ public abstract class StaffKit extends Kit {
             return false;
 
         UUID uuid = ((Player) sender).getUniqueId();
-        boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
+        boolean hasKit = CSActiveData.getData(uuid).hasKit(getSpacelessName());
         boolean allKitsFree = MapController.allKitsFree;
         if (!hasKit && !allKitsFree) {
             if (verbose) {

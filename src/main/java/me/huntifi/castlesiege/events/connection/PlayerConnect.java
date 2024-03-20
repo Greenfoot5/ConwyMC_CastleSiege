@@ -2,10 +2,9 @@ package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.BroadcastCommand;
-import me.huntifi.castlesiege.commands.staff.donations.RankPoints;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.StoreData;
@@ -22,11 +21,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.sql.SQLException;
 import java.time.Duration;
 import java.util.UUID;
 
@@ -44,7 +43,7 @@ public class PlayerConnect implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
-        CSPlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
 
         // Ensure the player's data was loaded correctly
         if (data == null) {
@@ -73,7 +72,7 @@ public class PlayerConnect implements Listener {
 
         // Reset player xp and level
         p.setExp(0);
-        p.setLevel(ActiveData.getData(p.getUniqueId()).getLevel());
+        p.setLevel(CSActiveData.getData(p.getUniqueId()).getLevel());
 
         // Update the names stored in the database
         StoreData.updateName(uuid, "player_stats");
@@ -112,10 +111,9 @@ public class PlayerConnect implements Listener {
      * Check if the player is allowed to join the game
      * Load the player's data
      * @param e The event called when a player attempts to join the server
-     * @throws SQLException If something goes wrong executing a query
      */
-    @EventHandler
-    public void preLogin(AsyncPlayerPreLoginEvent e) throws SQLException {
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void preLogin(AsyncPlayerPreLoginEvent e) {
         // The player is allowed to join, so we can start loading their data if we haven't already
         loadData(e.getUniqueId());
     }
@@ -127,21 +125,12 @@ public class PlayerConnect implements Listener {
      */
     private void loadData(UUID uuid) {
         // Load the player's data
-        CSPlayerData data = ActiveData.hasPlayer(uuid) ? ActiveData.getData(uuid) : LoadData.load(uuid);
+        CSPlayerData data = CSActiveData.hasPlayer(uuid) ? CSActiveData.getData(uuid) : LoadData.load(uuid);
         assert data != null;
 
         // Actively store data
-        ActiveData.addPlayer(uuid, data);
+        CSActiveData.addPlayer(uuid, data);
         MVPStats.addPlayer(uuid);
-
-        // Set the player's donator top rank
-        data.setRank(RankPoints.getRank(data.getRankPoints()));
-        if (data.getRankPoints() > 0) {
-            String rank = RankPoints.getTopRank(uuid);
-            if (!rank.isEmpty()) {
-                data.setRank(rank);
-            }
-        }
     }
 
     /**

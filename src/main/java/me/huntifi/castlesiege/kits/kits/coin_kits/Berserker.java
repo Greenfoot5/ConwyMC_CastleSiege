@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.ItemCreator;
@@ -172,7 +172,7 @@ public class Berserker extends CoinKit implements Listener {
             return;
 
         // Give new sword
-        if (ActiveData.getData(player.getUniqueId()).hasVote("sword"))
+        if (CSActiveData.getData(player.getUniqueId()).hasVote("sword"))
             inventory.addItem(swordVoted);
         else
             inventory.addItem(sword);

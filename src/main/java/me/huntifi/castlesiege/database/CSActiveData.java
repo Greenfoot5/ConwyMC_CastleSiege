@@ -1,17 +1,15 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.conwymc.data_types.PlayerData;
+import me.huntifi.conwymc.database.ActiveData;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.UUID;
 
 /**
  * Stores the data of online players
  */
-public class ActiveData {
-
-    private static final HashMap<UUID, CSPlayerData> playerData = new HashMap<>();
+public class CSActiveData extends ActiveData {
 
     /**
      * Add a player's data to the active storage
@@ -28,15 +26,8 @@ public class ActiveData {
      * @return Whether there is data stored for the player
      */
     public static boolean hasPlayer(UUID uuid) {
-        return playerData.containsKey(uuid);
-    }
-
-    /**
-     * Get the unique ID of all players whose stats are actively stored
-     * @return All keys in playerData
-     */
-    public static Collection<UUID> getPlayers() {
-        return playerData.keySet();
+        PlayerData data = playerData.get(uuid);
+        return data instanceof CSPlayerData;
     }
 
     /**
@@ -45,6 +36,9 @@ public class ActiveData {
      * @return The player's data
      */
     public static CSPlayerData getData(UUID uuid) {
-        return playerData.get(uuid);
+        PlayerData data = playerData.get(uuid);
+        if (data instanceof CSPlayerData)
+            return (CSPlayerData) playerData.get(uuid);
+        return null;
     }
 }

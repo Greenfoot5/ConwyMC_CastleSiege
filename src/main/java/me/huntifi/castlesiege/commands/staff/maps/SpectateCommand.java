@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.staff.maps;
 
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.CoreMap;
@@ -53,7 +53,7 @@ public class SpectateCommand implements CommandExecutor {
             InCombat.playerDied(player.getUniqueId());
 
             // Assign stored kit
-            Kit kit = Kit.getKit(ActiveData.getData(player.getUniqueId()).getKit());
+            Kit kit = Kit.getKit(CSActiveData.getData(player.getUniqueId()).getKit());
             if (kit != null && kit.canSelect(player, true, true, false))
                 kit.addPlayer(player.getUniqueId(), true);
             else
@@ -65,7 +65,7 @@ public class SpectateCommand implements CommandExecutor {
             VoteSkipCommand.removePlayer(player.getUniqueId());
             spectators.add(player.getUniqueId());
             player.setGameMode(GameMode.SPECTATOR);
-            ActiveData.getData(player.getUniqueId()).setChatMode(GlobalChatCommand.CHAT_MODE);
+            CSActiveData.getData(player.getUniqueId()).setChatMode(GlobalChatCommand.CHAT_MODE);
             if (InCombat.isPlayerInLobby(player.getUniqueId())) {
                 if (MapController.getCurrentMap() instanceof CoreMap) {
                     CoreMap coreMap = (CoreMap) MapController.getCurrentMap();

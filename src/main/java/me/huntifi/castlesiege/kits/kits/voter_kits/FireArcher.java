@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.kits.kits.voter_kits;
 
 import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -209,7 +209,7 @@ public class FireArcher extends VoterKit implements Listener {
                 PlayerInventory inv = p.getInventory();
                 if (inv.getItemInOffHand().getType() != Material.CAULDRON &&
                         !inv.contains(Material.CAULDRON)) {
-                    if (!ActiveData.getData(p.getUniqueId()).hasVote("sword")) {
+                    if (!CSActiveData.getData(p.getUniqueId()).hasVote("sword")) {
                         p.getInventory().addItem(firepit);
                     } else {
                         p.getInventory().addItem(firepitVoted);
