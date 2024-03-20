@@ -4,7 +4,6 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.database.Permissions;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -14,8 +13,6 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
-import me.huntifi.conwymc.util.Messenger;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -42,11 +39,6 @@ public class PlayerDisconnect implements Listener {
             return;
         }
 
-        // Set the leave message
-        if (!data.getLeaveMessage().isEmpty()) {
-            e.quitMessage(Messenger.mm.deserialize(data.getLeaveMessage()).color(NamedTextColor.YELLOW));
-        }
-
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             // Award deaths for logging out on the battlefield
             if (InCombat.isPlayerInCombat(uuid) && MapController.isOngoing()) {
@@ -63,7 +55,6 @@ public class PlayerDisconnect implements Listener {
             Kit.equippedKits.remove(uuid);
             storeData(uuid);
             MapController.leaveTeam(uuid);
-            Permissions.removePlayer(uuid);
             BarCooldown.remove(uuid);
             VoteSkipCommand.removePlayer(uuid);
         });
