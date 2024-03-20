@@ -112,9 +112,10 @@ public class StoreData {
             public void run() {
                 try {
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                            "UPDATE " + table + " SET name = ? WHERE uuid = ?");
-                    ps.setString(1, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName());
-                    ps.setString(2, uuid.toString());
+                            "UPDATE ? SET name = ? WHERE uuid = ?");
+                    ps.setString(1, table);
+                    ps.setString(2, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName());
+                    ps.setString(3, uuid.toString());
                     ps.executeUpdate();
                     ps.close();
                 } catch (SQLException e) {
