@@ -1,113 +1,84 @@
 package me.huntifi.castlesiege.data_types;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
-import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.data_types.PlayerData;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
  * Represents a player's data
  */
-public class PlayerData {
+public class CSPlayerData extends PlayerData {
 
-    private ArrayList<String> unlockedKits;
+    /** All kits the player has unlocked */
+    private final ArrayList<String> unlockedKits;
 
-    private ArrayList<String> foundSecrets;
+    /** The secrets a player has collected */
+    private final ArrayList<String> foundSecrets;
 
-    private Tuple<String, Timestamp> mute;
+    /** All-time stats */
+    private final CSStats stats;
 
-    private double score;
-    private double kills;
-    private double deaths;
-    private double captures;
-    private double heals;
-    private double supports;
-    private double assists;
-    private int killStreak;
-    private int maxKillStreak;
+    /** Current kill streak tracker to update all-time */
+    private int currentKillStreak;
+    /** Player's all-time MVPs */
     private int mvps;
+    /** Amount of secrets collected */
     private int secrets;
+    /** Kit the player has selected */
     private String kit;
+    /** Player's current level */
     private int level;
-    private double rankPoints;
-    private String staffRank;
-    private String rank;
-    private String joinMessage;
-    private String leaveMessage;
+    /** Votes player has collected and when */
     private HashMap<String, Long> votes;
-    private double coins;
 
-    private HashMap<String, String> settings;
-    private ArrayList<Booster> boosters;
-
-    private static double coinMultiplier = 1;
+    /** Any boosters the player owns */
+    private final ArrayList<Booster> boosters;
 
     /**
      * Initialize the player's data for active data
+     * @param unlockedKits The list of kit names the player has unlocked
+     * @param foundSecrets A list of the keys for found secrets
+     * @param mute If a player has been muted
      * @param statsData The data retrieved from player_stats
      * @param rankData The data retrieved from player_rank
+     * @param votes The votes a player has made
+     * @param settings The settings a player has
+     * @param boosters Any boosters the player owns
      * @throws SQLException If the columns don't match up
      */
-    public PlayerData(ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
-                      ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, ArrayList<Booster> boosters) throws SQLException {
+    public CSPlayerData(ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
+                        ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, ArrayList<Booster> boosters) throws SQLException {
+        super(statsData.getDouble("coins"), rankData, mute, settings);
 
         this.unlockedKits = unlockedKits;
         this.foundSecrets = foundSecrets;
-        this.mute = mute.next() ? new Tuple<>(mute.getString("reason"), mute.getTimestamp("end")) : null;
 
-        this.score = statsData.getDouble("score");
-        this.kills = statsData.getDouble("kills");
-        this.deaths = statsData.getDouble("deaths");
-        this.captures = statsData.getDouble("captures");
-        this.assists = statsData.getDouble("assists");
-        this.heals = statsData.getDouble("heals");
-        this.supports = statsData.getDouble("supports");
-        this.coins = statsData.getDouble("coins");
+        this.stats = new CSStats(statsData.getDouble("score"), statsData.getDouble("kills"),
+                statsData.getDouble("deaths"), statsData.getDouble("captures"),
+                statsData.getDouble("heals"), statsData.getDouble("supports"),
+                statsData.getDouble("assists"), statsData.getInt("kill_streak"));
+
         this.level = statsData.getInt("level");
         this.mvps = statsData.getInt("mvps");
         this.secrets = statsData.getInt("secrets");
-        this.killStreak = 0;
-        this.maxKillStreak = statsData.getInt("kill_streak");
         this.kit = statsData.getString("kit");
+        this.currentKillStreak = 0;
 
-        this.staffRank = rankData.getString("staff_rank").toLowerCase();
-        this.rankPoints = rankData.getDouble("rank_points");
-        this.joinMessage = rankData.getString("join_message");
-        this.leaveMessage = rankData.getString("leave_message");
-
-        this.settings = settings;
         this.boosters = boosters;
 
         this.votes = votes;
-    }
-
-    /**
-     * Initialize the player's data for MVP stats
-     */
-    public PlayerData() {
-        this.score = 0;
-        this.kills = 0;
-        this.deaths = 0;
-        this.captures = 0;
-        this.heals = 0;
-        this.supports = 0;
-        this.assists = 0;
-        this.killStreak = 0;
-        this.coins = 0;
     }
 
     /**
@@ -115,15 +86,7 @@ public class PlayerData {
      * @return The player's score
      */
     public double getScore() {
-        return score;
-    }
-
-    /**
-     * Add to the player's score
-     * @param score The score to add
-     */
-    private void addScore(double score) {
-        this.score += score;
+        return stats.getScore();
     }
 
     /**
@@ -131,7 +94,7 @@ public class PlayerData {
      * @return The player's kills
      */
     public double getKills() {
-        return kills;
+        return this.stats.getKills();
     }
 
     /**
@@ -140,8 +103,7 @@ public class PlayerData {
      * Update the current kill streak
      */
     public void addKill() {
-        kills += 1;
-        addScore(2);
+        this.stats.addKill();
         addCoins(2);
         addKillStreak();
     }
@@ -151,7 +113,7 @@ public class PlayerData {
      * @return The player's deaths
      */
     public double getDeaths() {
-        return deaths;
+        return this.stats.getDeaths();
     }
 
     /**
@@ -161,9 +123,8 @@ public class PlayerData {
      * @param deaths The deaths to add
      */
     public void addDeaths(double deaths) {
-        this.deaths += deaths;
-        addScore(-deaths);
-        killStreak = 0;
+        this.stats.addDeaths(deaths);
+        resetKillStreak();
     }
 
     /**
@@ -171,7 +132,7 @@ public class PlayerData {
      * @return The player's captures
      */
     public double getCaptures() {
-        return captures;
+        return this.stats.getCaptures();
     }
 
     /**
@@ -180,8 +141,7 @@ public class PlayerData {
      * @param captures The captures to add
      */
     public void addCaptures(double captures) {
-        this.captures += captures;
-        addScore(captures);
+        this.stats.addCaptures(captures);
         addCoins(captures);
     }
 
@@ -190,7 +150,7 @@ public class PlayerData {
      * @return The player's heals
      */
     public double getHeals() {
-        return heals;
+        return this.stats.getHeals();
     }
 
     /**
@@ -199,9 +159,8 @@ public class PlayerData {
      * @param heals The amount of heals to add
      */
     public void addHeals(double heals) {
-        this.heals += (heals);
-        addScore(0.5 * heals);
-        addCoins(0.5 * heals);
+        this.stats.addHeals(heals);
+        addCoins(CSStats.HEAL_MULTIPLIER * heals);
     }
 
     /**
@@ -209,7 +168,7 @@ public class PlayerData {
      * @return The player's supports
      */
     public double getSupports() {
-        return supports;
+        return this.stats.getSupports();
     }
 
     /**
@@ -218,11 +177,8 @@ public class PlayerData {
      * @param supports The supports to add
      */
     public void addSupports(double supports) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            this.supports += supports;
-            addScore(supports / 6);
-            addCoins(supports / 6);
-        });
+        this.stats.addSupports(supports);
+        addCoins(CSStats.SUPPORT_MULTIPLIER * supports);
     }
 
     /**
@@ -230,7 +186,7 @@ public class PlayerData {
      * @return The player's assists
      */
     public double getAssists() {
-        return assists;
+        return this.stats.getAssists();
     }
 
     /**
@@ -238,11 +194,8 @@ public class PlayerData {
      * Add 1 point and coin per assist
      */
     public void addAssist() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            assists += 1;
-            addScore(1);
-            addCoins(1);
-        });
+        this.stats.addAssist();
+        addCoins(1);
     }
 
     /**
@@ -250,7 +203,7 @@ public class PlayerData {
      * @return The player's kill streak
      */
     public int getKillStreak() {
-        return killStreak;
+        return currentKillStreak;
     }
 
     /**
@@ -258,9 +211,17 @@ public class PlayerData {
      * Update max kill streak when surpassed
      */
     private void addKillStreak() {
-        killStreak += 1;
-        if (maxKillStreak < killStreak)
-            maxKillStreak = killStreak;
+        currentKillStreak += 1;
+        if (this.stats.getKillStreak() < currentKillStreak)
+            this.stats.setKillStreak(currentKillStreak);
+    }
+
+    /**
+     * Increase the player's kill streak by 1
+     * Update max kill streak when surpassed
+     */
+    private void resetKillStreak() {
+        currentKillStreak = 0;
     }
 
     /**
@@ -268,7 +229,7 @@ public class PlayerData {
      * @return The player's highest kill streak
      */
     public int getMaxKillStreak() {
-        return this.maxKillStreak;
+        return this.stats.getKillStreak();
     }
 
     /**
@@ -332,62 +293,6 @@ public class PlayerData {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> level += 1);
     }
 
-    /**
-     * Get the player's rank points
-     * @return The player's rank points
-     */
-    public double getRankPoints() {
-        return rankPoints;
-    }
-
-    /**
-     * Add to the player's rank points
-     * @param rankPoints The rank points to add
-     */
-    public void setRankPoints(double rankPoints) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.rankPoints = rankPoints);
-    }
-
-    /**
-     * Get the player's staff rank
-     * @return The player's staff rank
-     */
-    public String getStaffRank() {
-        return staffRank;
-    }
-
-    /**
-     * Get the player's rank
-     * @return The player's rank
-     */
-    public String getRank() {
-        return rank;
-    }
-
-    /**
-     * Set the player's rank
-     * @param rank The rank to set
-     */
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
-
-    /**
-     * Get the player's custom join message
-     * @return The player's custom join message
-     */
-    public String getJoinMessage() {
-        return joinMessage;
-    }
-
-    /**
-     * Get the player's custom leave message
-     * @return The player's custom leave message
-     */
-    public String getLeaveMessage() {
-
-        return leaveMessage;
-    }
 
     /**
      * Get the player's votes
@@ -419,59 +324,6 @@ public class PlayerData {
      */
     public void setVote(String vote) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> votes.put(vote, System.currentTimeMillis()));
-    }
-
-    /**
-     * Get the player's coins
-     * @return The player's coins
-     */
-    public double getCoins() {
-        return coins;
-    }
-
-    /**
-     * Set the player's coins
-     * @param coins The coins to set
-     */
-    public void setCoins(double coins) {
-        this.coins = coins;
-    }
-
-    /**
-     * Add to the player's coins
-     * @param coins The amount of coins to add
-     */
-    public void addCoins(double coins) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.coins += coins * coinMultiplier);
-    }
-
-    /**
-     * Add to the player's coins without taking the multiplier into account
-     * @param coins The amount of coins to add
-     */
-    public void addCoinsClean(double coins) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> this.coins += coins);
-    }
-
-    /**
-     * Take from the player's coins if they have enough
-     * @param amount The amount of coins to take
-     * @return Whether the player had enough coins to take
-     */
-    public boolean takeCoins(double amount) {
-        if (this.coins < amount) {
-            return false;
-        }
-        this.coins -= amount;
-        return true;
-    }
-
-    /**
-     * Take from the player's coins regardless of their current balance
-     * @param amount The amount of coins to take
-     */
-    public void takeCoinsForce(double amount) {
-        this.coins -= amount;
     }
 
     /**
@@ -520,50 +372,6 @@ public class PlayerData {
     }
 
     /**
-     * Get the player's value of a setting
-     * @param name The name or key of a setting
-     * @return The player's value of a setting or default
-     */
-    public String getSetting(String name) {
-        return settings.get(name) == null ? Objects.requireNonNull(CSSetting.getDefault(name)) : settings.get(name);
-    }
-
-    /**
-     * Set the player's value of a setting
-     * @param uuid The player's unique ID
-     * @param setting The setting
-     * @param value The value
-     */
-    public void setSetting(UUID uuid, String setting, String value) {
-        boolean isNewSetting = settings.get(setting) == null;
-        settings.put(setting, value);
-
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            if (isNewSetting) {
-                StoreData.addSetting(uuid, setting, value);
-            } else {
-                StoreData.updateSetting(uuid, setting, value);
-            }
-        });
-    }
-
-    /**
-     * Get the active coin multiplier
-     * @return The active coin multiplier
-     */
-    public static double getCoinMultiplier() {
-        return coinMultiplier;
-    }
-
-    /**
-     * Sets the coin multiplier
-     * @param multiplier The multiplier to set
-     */
-    public static void setCoinMultiplier(double multiplier) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> coinMultiplier = multiplier);
-    }
-
-    /**
      * Check if the player has found a specified secret
      * @param secretName The name of a secret
      * @return true if they found it, false if they haven't found it.
@@ -591,14 +399,25 @@ public class PlayerData {
         });
     }
 
+    /**
+     * @return A list of boosters the player currently owns
+     */
     public List<Booster> getBoosters() {
         return boosters;
     }
 
+    /**
+     * Adds a booster to the player's booster inventory
+     * @param booster The booster to add to the player
+     */
     public void addBooster(Booster booster) {
         boosters.add(booster);
     }
 
+    /**
+     * @param uuid The UUID of the player activating the booster
+     * @param booster The booster to activate
+     */
     public void useBooster(UUID uuid, Booster booster) {
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;

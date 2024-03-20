@@ -9,9 +9,10 @@ import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.boosters.GrantBooster;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.data_types.Booster;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.castlesiege.data_types.CSStats;
 import me.huntifi.castlesiege.data_types.CoinBooster;
 import me.huntifi.castlesiege.data_types.KitBooster;
-import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
@@ -312,8 +313,8 @@ public class MapController {
 			double score = MVPStats.getStats(p.getUniqueId()).getScore();
 
 			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
-				ActiveData.getData(p.getUniqueId()).addCoins(50 * PlayerData.getCoinMultiplier());
-				Messenger.sendSuccess("<gold>+" + (50 * PlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
+				ActiveData.getData(p.getUniqueId()).addCoins(50 * CSPlayerData.getCoinMultiplier());
+				Messenger.sendSuccess("<gold>+" + (50 * CSPlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
 			}
 		}
 	}
@@ -325,7 +326,7 @@ public class MapController {
 	private static void awardMVPs() {
 		// Check if the map has enough activity
 		int minimumCount = 0;
-		for (PlayerData data : MVPStats.getStats().values()) {
+		for (CSStats data : MVPStats.getStats().values()) {
 			if (data.getScore() >= 20) {
 				minimumCount++;
 			}
@@ -336,11 +337,11 @@ public class MapController {
 
 		Random random = new Random();
 		for (Team team : getCurrentMap().teams) {
-			Tuple<UUID, PlayerData> mvp = team.getMVP();
+			Tuple<UUID, CSStats> mvp = team.getMVP();
 			if (mvp == null)
 				continue; // Continue to the next team if this one doesn't have an MVP
 			UUID uuid = mvp.getFirst();
-			PlayerData data = ActiveData.getData(uuid);
+			CSPlayerData data = ActiveData.getData(uuid);
 			data.addMVP();
 
 			// Find out if boosters should be awarded

@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.Permissions;
 import me.huntifi.castlesiege.database.StoreData;
@@ -37,7 +37,7 @@ public class PlayerDisconnect implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         UUID uuid = e.getPlayer().getUniqueId();
-        PlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = ActiveData.getData(uuid);
         if (data == null) {
             return;
         }

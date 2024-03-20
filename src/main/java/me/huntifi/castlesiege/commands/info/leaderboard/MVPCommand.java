@@ -2,13 +2,13 @@ package me.huntifi.castlesiege.commands.info.leaderboard;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.castlesiege.data_types.CSStats;
 import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -80,7 +80,7 @@ public class MVPCommand implements CommandExecutor {
      * @param uuid The unique ID of the player
      */
     private Component getPlayerMessage(UUID uuid) {
-        PlayerData data = MVPStats.getStats(uuid);
+        CSStats data = MVPStats.getStats(uuid);
         Team team = TeamController.getTeam(uuid);
         return getMessage(uuid, data, team, false);
     }
@@ -91,7 +91,7 @@ public class MVPCommand implements CommandExecutor {
      * @return The component message
      */
     public static Component getMVPMessage(Team t) {
-        Tuple<UUID, PlayerData> mvp = t.getMVP();
+        Tuple<UUID, CSStats> mvp = t.getMVP();
         if (mvp == null || mvp.getSecond() == null) {
             return Component.text(t.name, t.primaryChatColor)
                     .append(Component.text(" MVP: ", DARK_AQUA))
@@ -106,7 +106,7 @@ public class MVPCommand implements CommandExecutor {
      * @param t The team that the player is part of
      * @param mvp Whether the player is their team's MVP
      */
-    private static Component getMessage(UUID uuid, PlayerData data, Team t, boolean mvp) {
+    private static Component getMessage(UUID uuid, CSStats data, Team t, boolean mvp) {
         Component c;
         // Header
         if (mvp) {

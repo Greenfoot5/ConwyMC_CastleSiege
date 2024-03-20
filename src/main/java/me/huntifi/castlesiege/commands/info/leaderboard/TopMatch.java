@@ -2,14 +2,13 @@ package me.huntifi.castlesiege.commands.info.leaderboard;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.castlesiege.data_types.CSStats;
 import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -71,7 +70,7 @@ public class TopMatch implements CommandExecutor {
                 }
 
                 // Print the requested leaderboard to the player
-                List<Tuple<UUID, PlayerData>> stats = getStats(isTeam, team);
+                List<Tuple<UUID, CSStats>> stats = getStats(isTeam, team);
                 display(sender, stats, category, position);
             }
         }.runTaskAsynchronously(Main.plugin);
@@ -85,8 +84,8 @@ public class TopMatch implements CommandExecutor {
      * @param team The player's team
      * @return All player data that is allowed to be shown to the player and the corresponding UUID
      */
-    private List<Tuple<UUID, PlayerData>> getStats(boolean isTeam, @Nullable Team team) {
-        List<Tuple<UUID, PlayerData>> stats = new ArrayList<>();
+    private List<Tuple<UUID, CSStats>> getStats(boolean isTeam, @Nullable Team team) {
+        List<Tuple<UUID, CSStats>> stats = new ArrayList<>();
 
         MVPStats.getStats().forEach(((uuid, playerData) -> {
             // Filter out players from other teams when required
@@ -106,7 +105,7 @@ public class TopMatch implements CommandExecutor {
      * @param category The category to sort the stats on
      * @param requested The requested position
      */
-    private void display(CommandSender sender, List<Tuple<UUID, PlayerData>> stats, String category, int requested) {
+    private void display(CommandSender sender, List<Tuple<UUID, CSStats>> stats, String category, int requested) {
         // Sort if a valid category was supplied
         if (!sortStats(sender, stats, category))
             return;
@@ -129,7 +128,7 @@ public class TopMatch implements CommandExecutor {
         int first = requested < 6 ? 0 : requested - 5;
         for (int pos = first; pos < first + 10 && pos < stats.size(); pos++) {
             String name = Bukkit.getOfflinePlayer(stats.get(pos).getFirst()).getName();
-            PlayerData data = stats.get(pos).getSecond();
+            CSStats data = stats.get(pos).getSecond();
             String color = pos == requested ? "aqua>" : "dark_aqua>";
             message = message.append(addPlayer(name, data, pos, color));
         }
@@ -138,7 +137,7 @@ public class TopMatch implements CommandExecutor {
         Messenger.send(message, sender);
     }
 
-    private Component addPlayer(String name, PlayerData d, int pos, String color) {
+    private Component addPlayer(String name, CSStats d, int pos, String color) {
         DecimalFormat dec = new DecimalFormat("0.00");
         DecimalFormat num = new DecimalFormat("0");
 
@@ -161,7 +160,7 @@ public class TopMatch implements CommandExecutor {
      * @param category The category to sort the stats on
      * @return Whether a valid category was supplied
      */
-    private boolean sortStats(CommandSender sender, List<Tuple<UUID, PlayerData>> stats, String category) {
+    private boolean sortStats(CommandSender sender, List<Tuple<UUID, CSStats>> stats, String category) {
         switch (category.toLowerCase()) {
             case "score":
                 stats.sort(Comparator.comparingDouble(t -> t.getSecond().getScore()));

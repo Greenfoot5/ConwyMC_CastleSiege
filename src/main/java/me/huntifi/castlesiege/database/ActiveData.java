@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.database;
 
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,14 +11,14 @@ import java.util.UUID;
  */
 public class ActiveData {
 
-    private static final HashMap<UUID, PlayerData> playerData = new HashMap<>();
+    private static final HashMap<UUID, CSPlayerData> playerData = new HashMap<>();
 
     /**
      * Add a player's data to the active storage
      * @param uuid The unique ID of the player
      * @param data The player's data
      */
-    public static void addPlayer(UUID uuid, PlayerData data) {
+    public static void addPlayer(UUID uuid, CSPlayerData data) {
         playerData.put(uuid, data);
     }
 
@@ -44,7 +44,7 @@ public class ActiveData {
      * @param uuid The unique ID of the player
      * @return The player's data
      */
-    public static PlayerData getData(UUID uuid) {
+    public static CSPlayerData getData(UUID uuid) {
         return playerData.get(uuid);
     }
 }

@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
 import org.bukkit.Bukkit;
@@ -91,7 +91,7 @@ public class UpdateStats {
         new BukkitRunnable() {
             @Override
             public void run() {
-                PlayerData data = ActiveData.getData(uuid);
+                CSPlayerData data = ActiveData.getData(uuid);
                 int level = data.getLevel() + 1;
                 if (data.getScore() >= levelScore(level)) {
                     data.addLevel();

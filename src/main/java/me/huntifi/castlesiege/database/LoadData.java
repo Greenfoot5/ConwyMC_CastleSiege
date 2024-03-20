@@ -2,9 +2,9 @@ package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Booster;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.data_types.CoinBooster;
 import me.huntifi.castlesiege.data_types.KitBooster;
-import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -26,9 +26,9 @@ public class LoadData {
     /**
      * Load a player's stats and rank data
      * @param uuid The unique ID of the player
-     * @return The PlayerData of the uuid
+     * @return The CSPlayerData of the uuid
      */
-    public static PlayerData load(UUID uuid) {
+    public static CSPlayerData load(UUID uuid) {
         try {
 
             // Unlock achievements data
@@ -61,7 +61,7 @@ public class LoadData {
             ArrayList<Booster> boosters = getBoosters(uuid);
 
             // Collect data and release resources
-            PlayerData data = new PlayerData(unlockedKits, foundSecrets, prMute.getSecond(),
+            CSPlayerData data = new CSPlayerData(unlockedKits, foundSecrets, prMute.getSecond(),
                     prStats.getSecond(), prRank.getSecond(), votes, settings, boosters);
             prMute.getFirst().close();
             prStats.getFirst().close();

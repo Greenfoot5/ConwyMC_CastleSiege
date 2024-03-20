@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.events.death;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
@@ -76,7 +76,7 @@ public class DeathEvent implements Listener {
 
         player.setWalkSpeed(0.2f);
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> respawnCounter(player), 10);
-        PlayerData data = ActiveData.getData(player.getUniqueId());
+        CSPlayerData data = ActiveData.getData(player.getUniqueId());
         if (data.getSetting("alwaysInfo").equals("true") || data.getLevel() <= 5) {
             PlayerConnect.sendTitlebarMessages(player);
         }

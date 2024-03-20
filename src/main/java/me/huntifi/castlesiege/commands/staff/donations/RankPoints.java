@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.staff.donations;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
@@ -112,7 +112,7 @@ public class RankPoints implements CommandExecutor {
 
                 // Ensure the player is actively being tracked
                 UUID uuid = p.getUniqueId();
-                PlayerData data = ActiveData.getData(uuid);
+                CSPlayerData data = ActiveData.getData(uuid);
                 if (data == null) {
                     return;
                 }

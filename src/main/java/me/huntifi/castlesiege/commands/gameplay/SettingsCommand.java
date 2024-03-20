@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.data_types.CSSetting;
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.maps.Scoreboard;
 import me.huntifi.conwymc.data_types.Setting;
@@ -56,7 +56,7 @@ public class SettingsCommand implements TabExecutor {
         }
 
         UUID uuid = player.getUniqueId();
-        PlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = ActiveData.getData(uuid);
         if (args.length == 1) {
             Messenger.sendInfo("Current value is <dark_aqua>" + data.getSetting(setting.key) + "</dark_aqua>. " +
                     "All possible values: <dark_aqua>" + Arrays.toString(setting.values), sender);

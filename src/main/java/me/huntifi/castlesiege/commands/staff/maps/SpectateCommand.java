@@ -1,9 +1,7 @@
 package me.huntifi.castlesiege.commands.staff.maps;
 
-import me.huntifi.castlesiege.commands.chat.TeamChat;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.CoreMap;
@@ -11,6 +9,8 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.commands.chat.GlobalChatCommand;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -65,7 +65,7 @@ public class SpectateCommand implements CommandExecutor {
             VoteSkipCommand.removePlayer(player.getUniqueId());
             spectators.add(player.getUniqueId());
             player.setGameMode(GameMode.SPECTATOR);
-            TeamChat.removePlayer(player.getUniqueId());
+            ActiveData.getData(player.getUniqueId()).setChatMode(GlobalChatCommand.CHAT_MODE);
             if (InCombat.isPlayerInLobby(player.getUniqueId())) {
                 if (MapController.getCurrentMap() instanceof CoreMap) {
                     CoreMap coreMap = (CoreMap) MapController.getCurrentMap();

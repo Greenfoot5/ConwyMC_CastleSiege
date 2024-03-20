@@ -8,7 +8,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class KitBooster extends Booster {
@@ -34,19 +33,16 @@ public class KitBooster extends Booster {
     public Component getName() {
         if (kitName.equalsIgnoreCase("wild")) {
             return Component.text("Wild", NamedTextColor.GREEN).decorate(TextDecoration.ITALIC)
-                    .append(Component.text("kit booster - ID " + id).decoration(TextDecoration.ITALIC, false));
+                    .append(Component.text("kit booster").decoration(TextDecoration.ITALIC, false));
         } else if (kitName.equalsIgnoreCase("random")) {
-            return Messenger.mm.deserialize("<green><obf>!</obf>Random<obf>!</obf> kit booster - ID " + id);
+            return Messenger.mm.deserialize("<green><obf>!</obf>Random<obf>!</obf> kit booster");
         }
-        return Component.text(kitName + " kit booster - ID " + id, NamedTextColor.GREEN);
+        return Component.text(kitName + " kit booster", NamedTextColor.GREEN);
     }
 
     @Override
     public List<Component> getLore() {
-        List<Component> lore = new ArrayList<>();
-        lore.add(Component.text("Duration: ", NamedTextColor.DARK_AQUA)
-                .append(Component.text(getDurationAsString()).decorate(TextDecoration.BOLD)));
-        lore.add(Component.empty());
+        List<Component> lore = super.getLore();
         if (kitName.equalsIgnoreCase("wild")) {
             lore.add(Component.text("Choose which elite kit gets boosted!", NamedTextColor.GREEN));
         } else if (kitName.equalsIgnoreCase("random")) {

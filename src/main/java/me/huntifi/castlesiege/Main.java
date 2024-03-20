@@ -49,8 +49,8 @@ import me.huntifi.castlesiege.commands.staff.maps.ToggleAllKitsFree;
 import me.huntifi.castlesiege.commands.staff.maps.ToggleForcedRandom;
 import me.huntifi.castlesiege.commands.staff.maps.ToggleSwitching;
 import me.huntifi.castlesiege.data_types.Booster;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.data_types.LocationFrame;
-import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MVPStats;
@@ -872,7 +872,7 @@ public class Main extends JavaPlugin implements Listener {
         MapController.mapCount = gameConfig.getInt(Route.from("map_count"), MapController.mapCount);
 
         // Coin multiplier
-        PlayerData.setCoinMultiplier(gameConfig.getDouble(Route.from("coin_multiplier"), 1.0));
+        CSPlayerData.setCoinMultiplier(gameConfig.getDouble(Route.from("coin_multiplier"), 1.0));
 
         // All Kits are FREE
         MapController.allKitsFree = gameConfig.getBoolean(Route.from("free_kits"), MapController.allKitsFree);
@@ -1560,15 +1560,15 @@ public class Main extends JavaPlugin implements Listener {
                         multiplier = Double.parseDouble(other);
                         percentage = (int)(multiplier * 100);
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                            PlayerData.setCoinMultiplier(PlayerData.getCoinMultiplier() + multiplier);
+                            CSPlayerData.setCoinMultiplier(CSPlayerData.getCoinMultiplier() + multiplier);
                             Messenger.broadcastInfo(" A " + percentage + "% coin booster " +
                                     "for " + getTimeString((int) remaining_duration) + " has been activated!");
-                            Messenger.broadcastInfo("The total coin multiplier is now " + PlayerData.getCoinMultiplier() + ".");
+                            Messenger.broadcastInfo("The total coin multiplier is now " + CSPlayerData.getCoinMultiplier() + ".");
                         });
                         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                            PlayerData.setCoinMultiplier(PlayerData.getCoinMultiplier() - multiplier);
+                            CSPlayerData.setCoinMultiplier(CSPlayerData.getCoinMultiplier() - multiplier);
                             Messenger.broadcastWarning("A " + percentage + "% coin booster has expired!");
-                            Messenger.broadcastInfo("The total coin multiplier is now " + PlayerData.getCoinMultiplier() + ".");
+                            Messenger.broadcastInfo("The total coin multiplier is now " + CSPlayerData.getCoinMultiplier() + ".");
                         }, remaining_duration * 20L);
                         break;
                     case "BATTLEPOINT":

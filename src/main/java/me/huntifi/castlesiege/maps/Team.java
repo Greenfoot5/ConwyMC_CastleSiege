@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.castlesiege.data_types.CSStats;
 import me.huntifi.castlesiege.database.MVPStats;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -123,11 +123,11 @@ public class Team implements Listener {
      * Gets the MVP for the current team
      * @return The unique ID and stats of the MVP, null if team is empty
      */
-    public Tuple<UUID, PlayerData> getMVP() {
-        Tuple<UUID, PlayerData> mvp = null;
+    public Tuple<UUID, CSStats> getMVP() {
+        Tuple<UUID, CSStats> mvp = null;
 
         for (UUID uuid : players) {
-            PlayerData data = MVPStats.getStats(uuid);
+            CSStats data = MVPStats.getStats(uuid);
             if (mvp == null || data.getScore() > mvp.getSecond().getScore()) {
                 mvp = new Tuple<>(uuid, data);
             }

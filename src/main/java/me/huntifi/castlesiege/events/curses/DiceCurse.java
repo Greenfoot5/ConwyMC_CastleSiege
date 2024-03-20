@@ -1,10 +1,10 @@
 package me.huntifi.castlesiege.events.curses;
 
-import me.huntifi.castlesiege.commands.staff.StaffChat;
-import me.huntifi.conwymc.util.Messenger;
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -27,7 +27,7 @@ public class DiceCurse extends CurseCast {
     @Override
     protected void cast() {
         if (MapController.getCurrentMap().smallestTeam().getTeamSize() < MIN_SIZE_TO_SWAP) {
-            StaffChat.sendMessage("Failed to activate Curse of the Dice: Not Enough Players");
+            Main.plugin.getLogger().warning("Failed to activate Curse of the Dice: Not Enough Players");
             return;
         }
 

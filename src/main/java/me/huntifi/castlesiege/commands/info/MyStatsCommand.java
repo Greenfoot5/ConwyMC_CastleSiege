@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.info;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.conwymc.util.Messenger;
@@ -68,7 +68,7 @@ public class MyStatsCommand implements CommandExecutor {
                 .append(Component.text("'s Stats", NamedTextColor.WHITE)));
         meta.author(Component.text("Hunt von Huntington", NamedTextColor.RED));
 
-        PlayerData data = ActiveData.getData(p.getUniqueId());
+        CSPlayerData data = ActiveData.getData(p.getUniqueId());
         DecimalFormat dec = new DecimalFormat("0.00");
         DecimalFormat num = new DecimalFormat("0");
         MiniMessage mm = Messenger.mm;

@@ -1,9 +1,13 @@
 package me.huntifi.castlesiege.data_types;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,7 +51,14 @@ public abstract class Booster implements Comparable<Booster> {
     /**
      * @return The lore used when displaying the booster in a gui
      */
-    public abstract List<Component> getLore();
+    public List<Component> getLore() {
+        List<Component> lore = new ArrayList<>();
+        lore.add(Messenger.mm.deserialize("<dark_aqua>ID: <aqua>" + id + "</aqua></dark_aqua"));
+        lore.add(Component.text("Duration: ", NamedTextColor.DARK_AQUA)
+                .append(Component.text(getDurationAsString()).decorate(TextDecoration.BOLD)));
+        lore.add(Component.empty());
+        return lore;
+    }
 
     /**
      * @return Get the duration in a nice day, hour, min, sec format

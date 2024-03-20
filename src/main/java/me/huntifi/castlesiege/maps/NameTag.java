@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.maps;
 import com.nametagedit.plugin.NametagEdit;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.events.curses.BlindnessCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
@@ -57,7 +57,7 @@ public class NameTag implements CommandExecutor, Listener {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 
         // Only set name tag color if data has not been loaded yet
-        PlayerData data = ActiveData.getData(p.getUniqueId());
+        CSPlayerData data = ActiveData.getData(p.getUniqueId());
         if (data == null) {
             Bukkit.getScheduler().runTask(Main.plugin, () -> NametagEdit.getApi().setPrefix(p, Messenger.mm.serialize(username(p))));
             return;
@@ -180,8 +180,8 @@ public class NameTag implements CommandExecutor, Listener {
     }
 
     public static Component getChatName(Player sender, UUID viewer) {
-        PlayerData senderData = ActiveData.getData(sender.getUniqueId());
-        PlayerData viewerData = ActiveData.getData(viewer);
+        CSPlayerData senderData = ActiveData.getData(sender.getUniqueId());
+        CSPlayerData viewerData = ActiveData.getData(viewer);
 
         // Get the player's rank
         Component rank;
@@ -257,7 +257,7 @@ public class NameTag implements CommandExecutor, Listener {
 
         Player p = (Player) sender;
         // Only set name tag color if data has not been loaded yet
-        PlayerData data = ActiveData.getData(p.getUniqueId());
+        CSPlayerData data = ActiveData.getData(p.getUniqueId());
         if (data == null) {
             NametagEdit.getApi().setPrefix(p, legacyColor(p));
             return true;

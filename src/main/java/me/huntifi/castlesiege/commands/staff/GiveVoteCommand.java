@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.commands.staff;
 
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.conwymc.util.Messenger;
@@ -88,7 +88,7 @@ public class GiveVoteCommand implements TabExecutor {
      * @param vote The vote to set
      */
     private boolean setVote(UUID uuid, String vote) {
-        PlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = ActiveData.getData(uuid);
 
         switch (vote.toLowerCase()) {
             case "-1":

@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.events.curses;
 
-import me.huntifi.castlesiege.commands.staff.StaffChat;
+import me.huntifi.castlesiege.Main;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
@@ -31,7 +31,7 @@ public class TeleportationCurse extends CurseCast {
 
 
         if (totalPlayers.size() < MIN_SIZE_TO_SWAP) {
-            StaffChat.sendMessage("Failed to activate Curse of Teleportation: Not Enough Players");
+            Main.plugin.getLogger().warning("Failed to activate Curse of Teleportation: Not Enough Players");
             return;
         }
 

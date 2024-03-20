@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.maps.objects;
 
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.castlesiege.data_types.CSStats;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.maps.MapController;
@@ -57,8 +58,8 @@ public class StatsSidebar {
         // Display the stats scoreboard
         DecimalFormat dec = new DecimalFormat("0.00");
         DecimalFormat num = new DecimalFormat("0");
-        PlayerData totalData = ActiveData.getData(uuid);
-        PlayerData mapData = MVPStats.getStats(uuid);
+        CSPlayerData totalData = ActiveData.getData(uuid);
+        CSStats mapData = MVPStats.getStats(uuid);
 
         if (totalData.getSetting("scoreboard").equals("stats_icons")) {
             lines.addDynamicLine(() ->

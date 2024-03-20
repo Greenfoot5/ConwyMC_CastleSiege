@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -26,7 +26,7 @@ public class StoreData {
      * @throws SQLException If something goes wrong executing the update
      */
     public static void store(UUID uuid) throws SQLException {
-        PlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = ActiveData.getData(uuid);
 
         storeStats(uuid, data);
         storeRank(uuid, data);
@@ -36,7 +36,7 @@ public class StoreData {
         }
     }
 
-    private static void storeStats(UUID uuid, PlayerData data) throws SQLException {
+    private static void storeStats(UUID uuid, CSPlayerData data) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "UPDATE player_stats SET score = ?, kills = ?, deaths = ?, assists = ?, captures = ?, heals = ?, "
                         + "supports = ?, coins = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ? WHERE uuid = ?");
@@ -58,7 +58,7 @@ public class StoreData {
         ps.close();
     }
 
-    private static void storeRank(UUID uuid, PlayerData data) throws SQLException {
+    private static void storeRank(UUID uuid, CSPlayerData data) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "UPDATE player_rank SET staff_rank = ?, rank_points = ?, join_message = ?, leave_message = ? WHERE uuid = ?");
         ps.setString(1, data.getStaffRank());
@@ -222,56 +222,6 @@ public class StoreData {
                         ps.setNull(1, Types.VARCHAR);
                     }
                     ps.setString(2, uuid.toString());
-                    ps.executeUpdate();
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.runTaskAsynchronously(Main.plugin);
-    }
-
-    /**
-     * Used to update a player's existing setting
-     * @param uuid The uuid of the player
-     * @param setting The setting to set
-     * @param value The value of the setting
-     */
-    public static void updateSetting(UUID uuid, String setting, String value) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                            "UPDATE player_settings SET value = ? WHERE uuid = ? AND setting = ?");
-                    ps.setString(1, value);
-                    ps.setString(2, uuid.toString());
-                    ps.setString(3, setting);
-                    ps.executeUpdate();
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.runTaskAsynchronously(Main.plugin);
-    }
-
-    /**
-     * Used to add a player's setting to the database
-     * @param uuid The uuid of the player
-     * @param setting The setting to set
-     * @param value The value of the setting
-     */
-    public static void addSetting(UUID uuid, String setting, String value) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                            "INSERT INTO player_settings VALUES (?, ?, ?)");
-                    ps.setString(1, uuid.toString());
-                    ps.setString(2, setting);
-                    ps.setString(3, value);
                     ps.executeUpdate();
                     ps.close();
                 } catch (SQLException e) {

@@ -4,7 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.staff.BroadcastCommand;
 import me.huntifi.castlesiege.commands.staff.donations.RankPoints;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.ActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.database.MVPStats;
@@ -44,7 +44,7 @@ public class PlayerConnect implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
-        PlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = ActiveData.getData(uuid);
 
         // Ensure the player's data was loaded correctly
         if (data == null) {
@@ -127,7 +127,7 @@ public class PlayerConnect implements Listener {
      */
     private void loadData(UUID uuid) {
         // Load the player's data
-        PlayerData data = ActiveData.hasPlayer(uuid) ? ActiveData.getData(uuid) : LoadData.load(uuid);
+        CSPlayerData data = ActiveData.hasPlayer(uuid) ? ActiveData.getData(uuid) : LoadData.load(uuid);
         assert data != null;
 
         // Actively store data
