@@ -1,10 +1,10 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
-import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
+import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.Objects;
 
 /**
- *
+ * A kit that deals more damage as it gains more health
  */
 public class Barbarian extends CoinKit implements Listener {
 
@@ -38,12 +38,14 @@ public class Barbarian extends CoinKit implements Listener {
     private static final double meleeDamage = 36;
     private static final int ladderCount = 4;
 
+    /**
+     * Creates a new barbarian
+     */
     public Barbarian() {
         super("Barbarian", health, regen, Material.NETHERITE_AXE);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),

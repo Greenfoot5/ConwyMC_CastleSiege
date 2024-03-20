@@ -78,11 +78,17 @@ public class HealingCurse extends CurseCast {
         }
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new Healing Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
         public float multiplier;
 
+        /**
+         * Creates a new CurseBuilder for Healing
+         * @param duration The duration of the curse
+         */
         public CurseBuilder(int duration) {
             super(name, activateMessage, expireMessage);
             if (duration < MIN_DURATION)
@@ -94,14 +100,17 @@ public class HealingCurse extends CurseCast {
             this.multiplier =  2 - rando.nextFloat() * 2;
         }
 
-        public HealingCurse cast() {
+        public void cast() {
             HealingCurse curse = new HealingCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
 
+        /**
+         * @param multiplier The multiplier to health
+         * @return the curse builder
+         */
         public CurseBuilder setMultiplier(float multiplier) {
             this.multiplier = multiplier;
             return this;

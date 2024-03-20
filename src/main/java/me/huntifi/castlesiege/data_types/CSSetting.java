@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A data holder for a setting
+ * A data holder for a castle siege setting
  */
 public class CSSetting extends Setting {
 
@@ -22,6 +22,10 @@ public class CSSetting extends Setting {
         super(setting);
     }
 
+    /**
+     * Generates a full array of settings for Castle Siege
+     * @return Global settings + Castle Siege settings
+     */
     public static Setting[] generateSettings() {
         Setting[] global = me.huntifi.conwymc.data_types.Setting.generateSettings();
         Setting[] total = new Setting[global.length + 4];

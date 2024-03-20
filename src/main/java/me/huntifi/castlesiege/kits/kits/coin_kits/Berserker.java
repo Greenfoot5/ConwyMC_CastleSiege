@@ -54,7 +54,6 @@ public class Berserker extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         regularSword = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),

@@ -80,7 +80,6 @@ public class Rogue extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         netheriteSword = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
                 Component.text("Dagger", NamedTextColor.GREEN), null, null, 32);

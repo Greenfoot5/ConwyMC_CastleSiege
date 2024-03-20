@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A curse that prevents players from changing kits
+ */
 public class BindingCurse extends CurseCast {
     public final static String name = "Curse of Binding";
     private final static String activateMessage = "You can no longer switch kits";
@@ -51,9 +54,15 @@ public class BindingCurse extends CurseCast {
 
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new Binding Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
+        /**
+         * Creates a new CurseBuilder for Binding
+         * @param duration The duration of the curse
+         */
         public CurseBuilder(int duration) {
             super(name, activateMessage, expireMessage);
             if (duration < MIN_DURATION)
@@ -62,14 +71,17 @@ public class BindingCurse extends CurseCast {
             this.options = OPTIONS;
         }
 
-        public BindingCurse cast() {
+        public void cast() {
             BindingCurse curse = new BindingCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
 
+        /**
+         * @param player The uuid of the player to curse. Use {@code null} if it should target everyone
+         * @return The CurseBuilder
+         */
         public CurseCast.CurseBuilder setPlayer(UUID player) {
             this.player = player;
             return this;

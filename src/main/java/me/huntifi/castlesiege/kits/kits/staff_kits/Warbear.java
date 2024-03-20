@@ -48,7 +48,6 @@ public class Warbear extends StaffKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),

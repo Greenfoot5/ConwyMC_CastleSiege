@@ -20,6 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * Purchases a kit for a player
+ */
 public class BuyKitCommand implements TabExecutor {
 
     @Override

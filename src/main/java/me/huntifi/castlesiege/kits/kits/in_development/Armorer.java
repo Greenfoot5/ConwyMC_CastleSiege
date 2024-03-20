@@ -40,6 +40,9 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * A kit that can improve teammates armour
+ */
 public class Armorer extends CoinKit implements Listener {
 
     private static final int health = 230;
@@ -50,12 +53,14 @@ public class Armorer extends CoinKit implements Listener {
 
     public static final ArrayList<Player> cooldown = new ArrayList<>();
 
+    /**
+     * Creates a new armorer
+     */
     public Armorer() {
         super("Armorer", health, regen, Material.ANVIL);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SHOVEL),
@@ -150,8 +155,10 @@ public class Armorer extends CoinKit implements Listener {
 
     /**
      *
-     * @param item the item to reinforce, it should be the chestplate of a player.
-     * @return a modified item
+     * @param item The armour to reinforce, it should be the chestplate of a player.
+     * @param smith Who is improving the amour
+     * @param target The player whose armour is being reinforced
+     * @return The reinforced item
      */
     public ItemStack addDefence(ItemStack item, Player smith, Player target) {
         ItemMeta meta = item.getItemMeta();
@@ -177,7 +184,11 @@ public class Armorer extends CoinKit implements Listener {
         return item;
     }
 
-    public int level (double armor) {
+    /**
+     * @param armor The armour to improve
+     * @return The level of improvement to provide
+     */
+    private int level (double armor) {
         switch ((int) armor) {
             case 2: return 0;
             case 4: return 1;

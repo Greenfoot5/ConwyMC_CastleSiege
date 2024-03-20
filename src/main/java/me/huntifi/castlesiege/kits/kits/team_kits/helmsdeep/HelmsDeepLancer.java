@@ -38,7 +38,6 @@ public class HelmsDeepLancer extends TeamKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),

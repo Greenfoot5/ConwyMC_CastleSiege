@@ -15,6 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Displays the coin shop for players when requested
+ */
 public class CoinShopCommand implements CommandExecutor {
 
     /**

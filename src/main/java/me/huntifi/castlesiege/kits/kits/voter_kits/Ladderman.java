@@ -42,7 +42,6 @@ public class Ladderman extends VoterKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_AXE),

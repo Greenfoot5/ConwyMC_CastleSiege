@@ -82,11 +82,16 @@ public class PossessionCurse extends CurseCast {
         throw new AssertionError();
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new Possession Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
         private String kitName;
 
+        /**
+         * Creates a new CurseBuilder for Possession
+         */
         public CurseBuilder() {
             super(name, activateMessage, expireMessage);
             kitName = null;
@@ -97,19 +102,26 @@ public class PossessionCurse extends CurseCast {
             this.options.add(List.of("[player]"));
         }
 
-        public PossessionCurse cast() {
+        public void cast() {
             PossessionCurse curse = new PossessionCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
 
+        /**
+         * @param player The uuid of the player to curse. Use {@code null} if it should target everyone
+         * @return The CurseBuilder
+         */
         public CurseBuilder setPlayer(UUID player) {
             this.player = player;
             return this;
         }
 
+        /**
+         * @param kitName The name of the kit to possess the player. Use {@code null} or {@code random} if it should give a random kit
+         * @return The CurseBuilder
+         */
         public CurseBuilder setKit(String kitName) {
             if (kitName.equalsIgnoreCase("random")) {
                 kitName = null;

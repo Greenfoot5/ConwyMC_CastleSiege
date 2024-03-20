@@ -36,6 +36,9 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Like a normal medic, but a better fighter
+ */
 public class BattleMedic extends LevelKit implements Listener {
 
     private static final int health = 300;
@@ -49,6 +52,9 @@ public class BattleMedic extends LevelKit implements Listener {
 
     public static final ArrayList<Player> cooldown = new ArrayList<>();
 
+    /**
+     * Creates a new battle medic
+     */
     public BattleMedic() {
         super("Battle Medic", health, regen, Material.PAPER, level);
 
@@ -56,7 +62,6 @@ public class BattleMedic extends LevelKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),

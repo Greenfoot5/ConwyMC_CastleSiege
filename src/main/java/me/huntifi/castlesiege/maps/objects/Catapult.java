@@ -32,6 +32,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 
+/**
+ * A catapult that fires explosive rocks
+ */
 public class Catapult implements Listener {
 
     // General variables used by the catapult

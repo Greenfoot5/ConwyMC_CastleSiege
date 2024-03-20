@@ -56,6 +56,9 @@ public class AcceptDuel implements CommandExecutor, Listener {
 
     private static final Location[] schematicLocations = new Location[ARENA_COUNT];
 
+    /**
+     * Populates the variables used for running duels
+     */
     public AcceptDuel() {
         for (int i = 0; i < ARENA_COUNT; i++) {
             arenaPlayers.add(new Tuple<>(null, null));
@@ -305,6 +308,9 @@ public class AcceptDuel implements CommandExecutor, Listener {
         }
     }
 
+    /**
+     * @return The index of an empty arena
+     */
     public static int getEmptyArena() {
         for (int i = 0; i < ARENA_COUNT; i++) {
             if (arenaPlayers.get(i).getFirst() == null) {

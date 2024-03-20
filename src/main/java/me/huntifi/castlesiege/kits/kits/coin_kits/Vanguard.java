@@ -52,7 +52,6 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),

@@ -16,6 +16,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A kit that can be purchased with coins
+ */
 public abstract class CoinKit extends Kit {
 
     // Kit Tracking
@@ -23,6 +26,12 @@ public abstract class CoinKit extends Kit {
     public static final List<String> boostedKits = new ArrayList<>();
     public static final List<String> donatorKits = new ArrayList<>();
 
+    /**
+     * @param name The name of the kit
+     * @param baseHealth The baseHealth of the kit
+     * @param regenAmount The regenAmount of the kit
+     * @param material The material to use in GUIs to represent the kit
+     */
     public CoinKit(String name, int baseHealth, double regenAmount, Material material) {
         super(name, baseHealth, regenAmount, material, NamedTextColor.YELLOW);
 
@@ -62,6 +71,7 @@ public abstract class CoinKit extends Kit {
 
     /**
      * Get this kit's price
+     * @param uuid The uuid of the player to get the price for
      * @return The price to unlock this kit
      */
     public static double getPrice(UUID uuid) {

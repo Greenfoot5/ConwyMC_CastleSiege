@@ -22,6 +22,9 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * A man with a banner
+ */
 public class Bannerman extends FreeKit implements Listener {
 
     private static final int health = 200;
@@ -29,13 +32,15 @@ public class Bannerman extends FreeKit implements Listener {
     private static final double meleeDamage = 30;
     private static final int ladderCount = 4;
 
+    /**
+     * Creates a new Bannerman
+     */
     public Bannerman() {
         super("Bannerman", health, regen, Material.ENDER_CHEST);
         super.canSeeHealth = true;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),

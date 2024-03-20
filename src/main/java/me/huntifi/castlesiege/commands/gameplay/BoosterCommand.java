@@ -143,6 +143,10 @@ public class BoosterCommand implements CommandExecutor, Listener {
         Messenger.sendError("You don't own a booster with that id!", sender);
     }
 
+    /**
+     * Called when a player sends a message for input
+     * @param e The chat event
+     */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChat(AsyncChatEvent e) {
 

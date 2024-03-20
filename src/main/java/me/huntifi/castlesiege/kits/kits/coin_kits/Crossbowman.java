@@ -1,12 +1,12 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
-import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
+import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -34,7 +34,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * The crossbowman kit
+ * A kit that can fire arrows that don't fall
  */
 public class Crossbowman extends CoinKit implements Listener {
 
@@ -55,12 +55,14 @@ public class Crossbowman extends CoinKit implements Listener {
     private final ItemStack mobilitySwitchActive;
     private final ItemStack sniperSwitchActive;
 
+    /**
+     * Creates a new crossbowman
+     */
     public Crossbowman() {
         super("Crossbowman", health, regen, Material.CROSSBOW);
         super.kbResistance = 1;
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Crossbow
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.CROSSBOW),
@@ -218,6 +220,10 @@ public class Crossbowman extends CoinKit implements Listener {
     }
 
 
+    /**
+     * Handles clicking the green dye
+     * @param p The player clicking the dye
+     */
     public void onClickGreenDye(Player p) {
         // mode switch button
         int cooldown = p.getCooldown(Material.LIME_DYE);
@@ -238,6 +244,10 @@ public class Crossbowman extends CoinKit implements Listener {
         }
     }
 
+    /**
+     * Handles clicking the yellow dye
+     * @param p The player clicking the dye
+     */
     public void onClickYellowDye(Player p) {
         int cooldown = p.getCooldown(Material.YELLOW_DYE);
         if (cooldown == 0 && !isInSnipingMode(p.getUniqueId())) {

@@ -39,9 +39,15 @@ public class GreaterBlindnessCurse extends CurseCast {
 
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new Greater Blindness Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
+        /**
+         * Creates a new CurseBuilder for Greater Blindness
+         * @param duration The duration of the curse
+         */
         public CurseBuilder(int duration) {
             super(name, activateMessage, expireMessage);
             if (duration < MIN_DURATION)
@@ -50,12 +56,11 @@ public class GreaterBlindnessCurse extends CurseCast {
             this.options = OPTIONS;
         }
 
-        public GreaterBlindnessCurse cast() {
+        public void cast() {
             GreaterBlindnessCurse curse = new GreaterBlindnessCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
     }
 }

@@ -18,8 +18,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+/**
+ * A kit that has a royal horse
+ */
 public class ConwyRoyalKnight extends TeamKit {
 
+    /**
+     * Creates a new Royal Knight
+     */
     public ConwyRoyalKnight() {
         super("Royal Knight", 600, 5, "Conwy", "The English",
                 5000, Material.DIAMOND_HORSE_ARMOR, "conwyroyalknight");
@@ -27,7 +33,6 @@ public class ConwyRoyalKnight extends TeamKit {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),

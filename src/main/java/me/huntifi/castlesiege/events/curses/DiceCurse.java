@@ -78,20 +78,24 @@ public class DiceCurse extends CurseCast {
         Messenger.sendCurse("You have been affected by <dark_red>" + name + "</dark_red>! You have swapped teams.", player);
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new Dice Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
+        /**
+         * Creates a new CurseBuilder for Dice
+         */
         public CurseBuilder() {
             super(name, activateMessage, expireMessage);
             this.options = OPTIONS;
         }
 
-        public DiceCurse cast() {
+        public void cast() {
             DiceCurse curse = new DiceCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
     }
 }

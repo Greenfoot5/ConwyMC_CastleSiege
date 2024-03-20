@@ -71,7 +71,6 @@ public class Alchemist extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Brewing Stand
         stand = CSItemCreator.weapon(new ItemStack(Material.BREWING_STAND),

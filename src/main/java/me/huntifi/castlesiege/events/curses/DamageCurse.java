@@ -55,11 +55,17 @@ public class DamageCurse extends CurseCast {
 
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new Damage Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
         public float multiplier;
 
+        /**
+         * Creates a new CurseBuilder for Damage
+         * @param duration The duration of the curse
+         */
         public CurseBuilder(int duration) {
             super(name, activateMessage, expireMessage);
             if (duration < MIN_DURATION)
@@ -71,12 +77,11 @@ public class DamageCurse extends CurseCast {
             this.multiplier =  2 - rando.nextFloat() * 2;
         }
 
-        public DamageCurse cast() {
+        public void cast() {
             DamageCurse curse = new DamageCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
 
         public CurseBuilder setMultiplier(float multiplier) {

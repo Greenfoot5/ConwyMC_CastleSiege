@@ -52,7 +52,6 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
         super.canSeeHealth = true;
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),

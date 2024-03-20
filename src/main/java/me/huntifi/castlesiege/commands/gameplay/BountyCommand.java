@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * When a player runs the bounty command, either using or viewing the top bounties
+ */
 public class BountyCommand implements CommandExecutor {
 
     private static final ArrayList<Tuple<UUID, Integer>> bounties = new ArrayList<>();
@@ -111,6 +114,11 @@ public class BountyCommand implements CommandExecutor {
         }.runTaskAsynchronously(Main.plugin);
     }
 
+    /**
+     * Grants the bounty to their killer
+     * @param bountied The player who had the bounty
+     * @param killer The player who killed the bountied player
+     */
     public static void grantRewards(Player bountied, Player killer) {
         int bounty = getBountyAndClear(bountied.getUniqueId());
         if (bounty <= 0) {
@@ -128,6 +136,12 @@ public class BountyCommand implements CommandExecutor {
         }
     }
 
+    /**
+     * Splits a player's bounty between the killer & assistant
+     * @param bountied The player who had a bounty
+     * @param killer The player who dealt the final blow
+     * @param assist The player who dealt the most damage
+     */
     public static void grantRewards(Player bountied, Player killer, Player assist) {
         if (assist == null || assist.getName().equals(killer.getName())) {
             grantRewards(bountied, killer);
@@ -154,6 +168,10 @@ public class BountyCommand implements CommandExecutor {
         }
     }
 
+    /**
+     * Checks a player's kill streak and adds a bounty
+     * @param killer The player whose kill streak needs checking
+     */
     public static void killStreak(Player killer) {
         int amount = 0;
         switch (CSActiveData.getData(killer.getUniqueId()).getKillStreak()) {
@@ -223,6 +241,9 @@ public class BountyCommand implements CommandExecutor {
         return amount;
     }
 
+    /**
+     * Loads all bounties from the database
+     */
     public static void loadBounties() {
         PreparedStatement ps;
         try {
@@ -239,7 +260,10 @@ public class BountyCommand implements CommandExecutor {
         } catch (SQLException ignored) {}
     }
 
-    public static void saveBounties(){
+    /**
+     * Save all bounties to the database
+     */
+    public static void saveBounties() {
         for (UUID uuid : CSActiveData.getPlayers()) {
             Tuple<UUID, Integer> bounty = new Tuple<>(uuid, getBounty(uuid));
             PreparedStatement ps;

@@ -23,9 +23,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * Royal Crypts specific kit that can apply wither
+ */
 public class CryptsFallen extends TeamKit implements Listener {
+
     /**
-     * Create a kit with basic settings
+     * Creates a new Fallen
      */
     public CryptsFallen() {
         super("Fallen", 360, 23, "Royal Crypts", "Tomb Guardians",
@@ -36,7 +40,6 @@ public class CryptsFallen extends TeamKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),

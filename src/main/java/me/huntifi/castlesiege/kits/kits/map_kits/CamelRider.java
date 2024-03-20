@@ -17,6 +17,9 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * A kit that can summon and ride a camel
+ */
 public class CamelRider extends MapKit implements Listener {
 
     private static final int health = 360;
@@ -24,13 +27,15 @@ public class CamelRider extends MapKit implements Listener {
     private static final double meleeDamage = 43;
     private static final int ladderCount = 4;
     private static final int camelHealth = 440;
-    
+
+    /**
+     * Creates a new camel rider
+     */
     public CamelRider() {
         super("CamelRider", health, regen, Material.SAND, "Abrakhan", "Camel Rider");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),

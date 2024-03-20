@@ -29,6 +29,9 @@ import java.util.UUID;
 import static me.huntifi.castlesiege.Main.getBarColour;
 import static net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
 
+/**
+ * A core to destory for DTC maps
+ */
 public class Core implements Listener {
 
 
@@ -49,6 +52,12 @@ public class Core implements Listener {
     protected boolean active;
     public List<String> materials;
 
+    /**
+     * Creates a new core
+     * @param name The name of the core
+     * @param team The team name that owns the core
+     * @param health The starting health of the core
+     */
     public Core(String name, String team, double health) {
         this.name = name;
         this.owners = team;

@@ -1,5 +1,8 @@
 package me.huntifi.castlesiege.data_types;
 
+/**
+ * Contains a player's stats for Castle Siege
+ */
 public class CSStats {
 
     public static final double HEAL_MULTIPLIER = 0.5;
@@ -14,6 +17,9 @@ public class CSStats {
     private double assists;
     private int killStreak;
 
+    /**
+     * Create a new set of stats at 0
+     */
     public CSStats() {
         this.score = 0;
         this.kills = 0;
@@ -25,6 +31,17 @@ public class CSStats {
         this.killStreak = 0;
     }
 
+    /**
+     * Creates and populates a set of CS stats
+     * @param score The player's score
+     * @param kills The player's kill count
+     * @param deaths The player's death count
+     * @param captures The players capture count
+     * @param heals The player's heal count
+     * @param supports The player's support count
+     * @param assists The player's assist count
+     * @param killStreak The player's kill streak
+     */
     public CSStats(double score, double kills, double deaths, double captures, double heals, double supports, double assists, int killStreak) {
         this.score = score;
         this.kills = kills;

@@ -74,7 +74,6 @@ public class FireArcher extends VoterKit implements Listener {
 
         // Equipment stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),

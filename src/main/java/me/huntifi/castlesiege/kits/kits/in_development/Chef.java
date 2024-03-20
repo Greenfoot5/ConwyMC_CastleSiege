@@ -50,7 +50,7 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
- * Creates the Chef kit
+ * A chef is someone who can cook food to buff their allies or place a campfire for better healing
  */
 public class Chef extends CoinKit implements Listener {
 
@@ -81,13 +81,15 @@ public class Chef extends CoinKit implements Listener {
     public static final HashMap<Player, Block> campfires = new HashMap<>();
     public static final ArrayList<Location> activeLocations = new ArrayList<>();
 
+    /**
+     * Creates a new chef
+     */
     public Chef() {
         super("Chef", baseHealth, regenAmount, material);
         super.canSeeHealth = true;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         fryingPan = CSItemCreator.weapon(new ItemStack(Material.IRON_SHOVEL),
                 Component.text("Frying Pan", NamedTextColor.GREEN),

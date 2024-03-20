@@ -24,6 +24,9 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Handles players using/interacting with camels
+ */
 public class CamelHandler implements Listener {
 
     // Kit specific camel information
