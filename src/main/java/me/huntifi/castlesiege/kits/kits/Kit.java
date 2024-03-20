@@ -69,7 +69,6 @@ public abstract class Kit implements CommandExecutor, Listener {
 
     // Equipment
     protected EquipmentSet equipment;
-    protected int heldItemSlot = 0;
     protected final ArrayList<PotionEffect> potionEffects;
 
     // Messages

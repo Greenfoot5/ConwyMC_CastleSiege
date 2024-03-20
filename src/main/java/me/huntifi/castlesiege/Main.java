@@ -244,17 +244,6 @@ public class Main extends JavaPlugin implements Listener {
 
     private YamlDocument gameConfig;
 
-//    @Override
-//    public void onLoad() {
-//        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
-//        //Are all listeners read only?
-//        PacketEvents.getAPI().getSettings().reEncodeByDefault(false)
-//                .checkForUpdates(true)
-//                .bStats(true);
-//        PacketEvents.getAPI().load();
-//    }
-
-
     @Override
     public void onEnable()  {
 
@@ -296,7 +285,7 @@ public class Main extends JavaPlugin implements Listener {
                     assert plugin != null;
                     scoreboardLibrary = ScoreboardLibrary.loadScoreboardLibrary(plugin);
                 } catch (NoPacketAdapterAvailableException e) {
-                    // If no packet adapter was found, you can fallback to the no-op implementation:
+                    // If no packet adapter was found, you can fall back to the no-op implementation:
                     scoreboardLibrary = new NoopScoreboardLibrary();
                     plugin.getLogger().warning("No scoreboard packet adapter available!");
                 }
@@ -306,7 +295,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
-                //getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
                 getServer().getPluginManager().registerEvents(new BoosterCommand(), plugin);
                 getServer().getPluginManager().registerEvents(new TeamChat(), plugin);
 
@@ -345,7 +333,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new VoidLocation(), plugin);
 
                 // Gameplay
-                //getServer().getPluginManager().registerEvents(new ArcaneTower(), plugin);
                 getServer().getPluginManager().registerEvents(new CollapseEvent(), plugin);
                 getServer().getPluginManager().registerEvents(new Explosion(), plugin);
                 getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
@@ -419,15 +406,10 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new WoolHat(), plugin);
 
                 // Chat
-                //Objects.requireNonNull(getCommand("GlobalChat")).setExecutor(new GlobalChat());
-//                Objects.requireNonNull(getCommand("Message")).setExecutor(new PrivateMessage());
-//                Objects.requireNonNull(getCommand("Reply")).setExecutor(new ReplyMessage());
                 Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
 
                 // Donator
                 Objects.requireNonNull(getCommand("Firework")).setExecutor(new FireworkCommand());
-//                Objects.requireNonNull(getCommand("LeaveMessage")).setExecutor(new LeaveMessage());
-//                Objects.requireNonNull(getCommand("JoinMessage")).setExecutor(new JoinMessage());
 
                 //duels
                 Objects.requireNonNull(getCommand("DuelAccept")).setExecutor(new AcceptDuel());
@@ -446,19 +428,12 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("MapVote")).setExecutor(new MapVoteCommand());
 
                 // Info
-//                Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
-//                Objects.requireNonNull(getCommand("Coins")).setExecutor(new CoinsCommand());
-//                Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
                 Objects.requireNonNull(getCommand("Flags")).setExecutor(new FlagsCommand());
                 Objects.requireNonNull(getCommand("Maps")).setExecutor(new MapsCommand());
                 Objects.requireNonNull(getCommand("MVP")).setExecutor(new MVPCommand());
                 Objects.requireNonNull(getCommand("MyStats")).setExecutor(new MyStatsCommand());
-//                Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
-//                Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
                 Objects.requireNonNull(getCommand("Secrets")).setExecutor(new SecretsCommand());
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
-//                Objects.requireNonNull(getCommand("webshop")).setExecutor(new WebshopCommand());
-//                Objects.requireNonNull(getCommand("whois")).setExecutor(new WhoisCommand());
 
                 // Leaderboards
                 Objects.requireNonNull(getCommand("Top")).setExecutor(new Leaderboard());
@@ -469,44 +444,22 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopKDR")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopKills")).setExecutor(new Leaderboard());
                 Objects.requireNonNull(getCommand("TopSupports")).setExecutor(new Leaderboard());
-//                Objects.requireNonNull(getCommand("TopDonators")).setExecutor(new Donators());
                 Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatch());
                 Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatch());
-
-                // Staff - Currencies
-//                Objects.requireNonNull(getCommand("AddCoins")).setExecutor(new AddCoins());
-//                Objects.requireNonNull(getCommand("SetCoins")).setExecutor(new SetCoins());
-//                Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
-//                Objects.requireNonNull(getCommand("TakeCoins")).setExecutor(new TakeCoins());
 
                 // Staff - Boosters
                 Objects.requireNonNull(getCommand("GrantBooster")).setExecutor(new GrantBooster());
 
-                // Staff - Punishments
-//                Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());
-//                Objects.requireNonNull(getCommand("Kick")).setExecutor(new Kick());
-//                Objects.requireNonNull(getCommand("KickAll")).setExecutor(new KickAll());
-//                Objects.requireNonNull(getCommand("Mute")).setExecutor(new Mute());
-//                Objects.requireNonNull(getCommand("Unban")).setExecutor(new Unban());
-//                Objects.requireNonNull(getCommand("Unmute")).setExecutor(new Unmute());
-//                Objects.requireNonNull(getCommand("Warn")).setExecutor(new Warn());
-
                 // Staff
-//                Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastCommand());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("Curse")).setExecutor(new CurseCommand());
-//                Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
-//                Objects.requireNonNull(getCommand("SetStaffRank")).setExecutor(new SetStaffRank());
                 Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
-//                Objects.requireNonNull(getCommand("RankPoints")).setExecutor(new RankPoints());
                 Objects.requireNonNull(getCommand("SetKit")).setExecutor(new SetKitCommand());
                 Objects.requireNonNull(getCommand("SetKitLimit")).setExecutor(new SetKitLimit());
                 Objects.requireNonNull(getCommand("SetMap")).setExecutor(new SetMapCommand());
                 Objects.requireNonNull(getCommand("SetTimer")).setExecutor(new SetTimerCommand());
-                //Objects.requireNonNull(getCommand("StaffChat")).setExecutor(new StaffChat());
                 Objects.requireNonNull(getCommand("Spectate")).setExecutor(new SpectateCommand());
-//                Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());
                 Objects.requireNonNull(getCommand("Unlockkit")).setExecutor(new UnlockedKitCommand());
                 Objects.requireNonNull(getCommand("ForceSwitch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new ToggleSwitching());
@@ -530,7 +483,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("ConwyLongbowman")).setExecutor(new ConwyLongbowman());
                 Objects.requireNonNull(getCommand("ConwyRoyalKnight")).setExecutor(new ConwyRoyalKnight());
                 Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
-                Objects.requireNonNull(getCommand("Camelrider")).setExecutor(new CamelRider());
+                Objects.requireNonNull(getCommand("CamelRider")).setExecutor(new CamelRider());
                 //Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
                 Objects.requireNonNull(getCommand("RoyalCryptsFallen")).setExecutor(new CryptsFallen());
@@ -999,7 +952,7 @@ public class Main extends JavaPlugin implements Listener {
         YamlDocument coreConfig = getCoreConfig(mapRoute);
         String[] corePaths = getPaths(coreConfig, mapRoute);
 
-            // create new coremap
+            // Create new core map
         ((CoreMap) map).setCores(new Core[corePaths.length]);
             for (int i = 0; i < corePaths.length; i++) {
                 Route coreRoute = mapRoute.add(corePaths[i]);

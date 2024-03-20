@@ -54,7 +54,7 @@ public class Hunter extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Hunter's Chestpiece", NamedTextColor.GREEN), null, null,
+                Component.text("Hunter's Chest Piece", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(54, 154, 42));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;

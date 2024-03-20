@@ -115,7 +115,7 @@ public class Rogue extends CoinKit implements Listener {
                         Component.text("your target.", NamedTextColor.AQUA),
                         Component.empty(),
                         Component.text("More combo points means more damage and", NamedTextColor.AQUA),
-                        Component.text("self healing on a succesful gouge.", NamedTextColor.AQUA),
+                        Component.text("self healing on a successful gouge.", NamedTextColor.AQUA),
                         Component.text("Can be performed whilst shadow-stepping.", NamedTextColor.BLUE)),
                 null, 1);
         es.hotbar[1] = gouge;
@@ -285,7 +285,7 @@ public class Rogue extends CoinKit implements Listener {
         if (p.getCooldown(shadowStep.getType()) == 0) {
             p.setCooldown(shadowStep.getType(), 420);
             isShadow.add(p.getUniqueId());
-            //invis is there for show
+            // invisibility is there for show
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 0));
             p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, 4));
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2));

@@ -82,15 +82,6 @@ public class DuelCommand implements CommandExecutor {
     }
 
     /**
-     * Get the last person who challenged the specified person to a duel
-     * @param s The receiving individual
-     * @return The last sender, null if no previous invite received
-     */
-    public CommandSender getLastInviter(CommandSender s) {
-        return inviter.get(s);
-    }
-
-    /**
      * simple method returning true or false to determine whether someone is dueling.
      * @param p The player to check if they're dueling
      * @return If the player is dueling

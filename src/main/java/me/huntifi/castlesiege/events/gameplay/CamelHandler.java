@@ -77,7 +77,7 @@ public class CamelHandler implements Listener {
 
     /**
      * Remove the camel when its rider dismounts and apply cooldown
-     * @param e The event called when dismounting a cazmel
+     * @param e The event called when dismounting a camel
      */
     @EventHandler
     public void onDismount(EntityDismountEvent e) {
@@ -139,9 +139,9 @@ public class CamelHandler implements Listener {
      */
     private void removeCamel(Entity camel, Player rider) {
         if (camel instanceof Camel) {
-            Camel kameel = (Camel) camel;
+            Camel c = (Camel) camel;
             if (rider.equals(((Camel) camel).getOwner())) {
-                kameel.remove();
+                c.remove();
             }
         }
     }

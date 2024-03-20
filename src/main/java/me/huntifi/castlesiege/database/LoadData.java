@@ -196,8 +196,9 @@ public class LoadData {
      */
     public static Tuple<PreparedStatement, ResultSet> getTop(String order, int offset) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT * FROM vw_toplist ORDER BY " + order + " DESC LIMIT 10 OFFSET ?");
-        ps.setInt(1, offset);
+                "SELECT * FROM vw_toplist ORDER BY ? DESC LIMIT 10 OFFSET ?");
+        ps.setString(1, order);
+        ps.setInt(2, offset);
 
         ResultSet rs = ps.executeQuery();
         return new Tuple<>(ps, rs);
@@ -224,57 +225,6 @@ public class LoadData {
 
         ps.close();
         return uuid;
-    }
-
-    /**
-     * Get the rank points of a player from our database
-     * @param name The name of the player
-     * @return The player's rank points, or -1 if the name is not in the database
-     * @throws SQLException If something goes wrong executing the query
-     */
-    public static double getRankPoints(String name) throws SQLException {
-        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT rank_points FROM player_rank WHERE name=?");
-        ps.setString(1, name);
-        ResultSet rs = ps.executeQuery();
-
-        double rankPoints;
-        if (rs.next()) {
-            rankPoints = rs.getDouble(1);
-        } else {
-            rankPoints = -1;
-        }
-
-        ps.close();
-        return rankPoints;
-    }
-
-    /**
-     * Get the top 10 donators
-     * @return A tuple of the prepared statement (to close later) and the query's result
-     * @throws SQLException If something goes wrong executing the query
-     */
-    public static Tuple<PreparedStatement, ResultSet> getTopDonators() throws SQLException {
-        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT * FROM player_rank ORDER BY rank_points DESC LIMIT 10");
-
-        ResultSet rs = ps.executeQuery();
-        return new Tuple<>(ps, rs);
-    }
-
-    /**
-     * Get 10 donators from the database
-     * @param offset The amount of donators to skip
-     * @return A tuple of the prepared statement (to close later) and the query's result
-     * @throws SQLException If something goes wrong executing the query
-     */
-    public static Tuple<PreparedStatement, ResultSet> getDonators(int offset) throws SQLException {
-        PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT * FROM vw_donator LIMIT 10 OFFSET ?");
-        ps.setInt(1, offset);
-
-        ResultSet rs = ps.executeQuery();
-        return new Tuple<>(ps, rs);
     }
 
     /**

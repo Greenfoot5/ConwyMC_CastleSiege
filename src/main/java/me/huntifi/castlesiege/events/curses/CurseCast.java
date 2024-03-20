@@ -128,6 +128,6 @@ public abstract class CurseCast extends Event implements Cancellable {
             return options.size();
         }
 
-        public abstract CurseCast cast();
+        public abstract void cast();
     }
 }

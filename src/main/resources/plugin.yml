@@ -491,7 +491,7 @@ commands:
   Cavalry:
     description: Selects the cavalry kit
     usage: /cavalry
-  Camelrider:
+  CamelRider:
     description: Selects the camel rider kit
     usage: /camelrider
   Chef:

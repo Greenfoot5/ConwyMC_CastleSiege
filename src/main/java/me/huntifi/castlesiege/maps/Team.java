@@ -15,7 +15,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -101,14 +100,6 @@ public class Team implements Listener {
     public void removePlayer(UUID uuid) {
         players.remove(uuid);
         TeamController.leaveTeam(uuid);
-    }
-
-    /**
-     * Gets a random player on the team
-     * @return the uuid of a random player
-     */
-    public UUID getRandomUUID() {
-        return players.get(new Random().nextInt(players.size()));
     }
 
     /**

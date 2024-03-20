@@ -148,7 +148,7 @@ public class Ram {
 
 
             // Deal damage to the gate
-            //gate.dealDamage(contenders.getFirst(), damage);
+            // {@code gate.dealDamage(contenders.getFirst(), damage);}
             gate.dealDamage(ramEvent.getPlayerUUIDs(), ramEvent.getDamageDealt());
 
             // Award supports to attacking players

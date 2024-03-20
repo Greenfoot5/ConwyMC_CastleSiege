@@ -54,22 +54,6 @@ public class ChargeFlag extends Flag{
     }
 
     /**
-     * Sets the spawn point for the attackers
-     * @param location The new spawn point
-     */
-    public void setAttackersSpawnPoint(Location location){
-        attackersSpawnPoint = location;
-    }
-
-    /**
-     * Sets the spawn point for the defenders
-     * @param location The new spawn point
-     */
-    public void setDefendersSpawnPoint(Location location){
-        defendersSpawnPoint = location;
-    }
-
-    /**
      * Gets the spawn point for the flag
      * @param teamName The team to get the spawn point for
      * @return The spawn location for the team

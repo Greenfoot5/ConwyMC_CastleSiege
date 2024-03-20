@@ -33,7 +33,7 @@ public class Core implements Listener {
 
 
     public final String name;
-    protected String owners;
+    protected final String owners;
     public double health;
     public boolean isDestroyed = false;
 

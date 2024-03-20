@@ -122,41 +122,6 @@ public class SettingsCommand implements TabExecutor {
 
             gui.addItem(setting.displayName, setting.material, lore, i, command, false);
         }
-//
-//
-//
-//        switch (setting.key) {
-//            case "randomDeath":
-//                gui.addItem(itemName, Material.COOKIE, Collections.singletonList(
-//                        Component.text("Each time you die, runs /random to give you a new random class", NamedTextColor.BLUE)),
-//                        0, command, false);
-//                break;
-//            case "deathMessages":
-//                gui.addItem(itemName, Material.OAK_SIGN, Collections.singletonList(
-//                        Component.text("View all death messages, not just your own", NamedTextColor.BLUE)),
-//                        1, command, false);
-//                break;
-//            case "joinPing":
-//                gui.addItem(itemName, Material.NOTE_BLOCK, Collections.singletonList(
-//                        Component.text("Get a ping sound when another player joins the server", NamedTextColor.BLUE)),
-//                        2, command, false);
-//                break;
-//            case "statsBoard":
-//                gui.addItem(itemName, Material.DIAMOND, Collections.singletonList(
-//                        Component.text("The scoreboard will show your current game stats instead of flag names", NamedTextColor.BLUE)),
-//                        3, command, false);
-//                break;
-//            case "woolmapTitleMessage":
-//                gui.addItem(itemName, Material.PAPER, Collections.singletonList(
-//                        Component.text("Displays a title message reminding you of the woolmap", NamedTextColor.BLUE)),
-//                        4, command, false);
-//                break;
-//            case "alwaysInfo":
-//                gui.addItem(itemName, Material.BLUE_WOOL, Collections.singletonList(
-//                        Component.text("Always display level dependent info messages", NamedTextColor.BLUE)),
-//                        6, command, false);
-//                break;
-//        }
     }
 
     private static List<String> getKeys() {

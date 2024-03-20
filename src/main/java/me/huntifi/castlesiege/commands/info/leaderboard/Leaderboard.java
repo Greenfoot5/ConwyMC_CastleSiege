@@ -1,11 +1,10 @@
 package me.huntifi.castlesiege.commands.info.leaderboard;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.database.LoadData;
+import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

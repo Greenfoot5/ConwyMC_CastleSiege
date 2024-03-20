@@ -51,10 +51,10 @@ public class AcceptDuel implements CommandExecutor, Listener {
     private static final List<Tuple<UUID, UUID>> arenaPlayers = new ArrayList<>();
 
     //The locations to spawn the challenger and the contender at, when a duel is initiated.
-    Location[] arenaChallengers = new Location[ARENA_COUNT];
-    Location[] arenaContenders = new Location[ARENA_COUNT];
+    private static final Location[] arenaChallengers = new Location[ARENA_COUNT];
+    private static final Location[] arenaContenders = new Location[ARENA_COUNT];
 
-    Location[] schematicLocations = new Location[ARENA_COUNT];
+    private static final Location[] schematicLocations = new Location[ARENA_COUNT];
 
     public AcceptDuel() {
         for (int i = 0; i < ARENA_COUNT; i++) {

@@ -1,8 +1,7 @@
 package me.huntifi.castlesiege.commands.staff.maps;
 
-import me.huntifi.conwymc.util.Messenger;
-import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

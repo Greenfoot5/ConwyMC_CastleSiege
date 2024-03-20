@@ -171,10 +171,6 @@ public class NameTag implements CommandExecutor, Listener {
         }
     }
 
-    public static Component chatName(Player sender, Player viewer) {
-        return getChatName(sender, viewer.getUniqueId());
-    }
-
     public static Component chatName(Player sender, Audience viewer) {
         return getChatName(sender, viewer.getOrDefault(Identity.UUID, UUID.randomUUID()));
     }

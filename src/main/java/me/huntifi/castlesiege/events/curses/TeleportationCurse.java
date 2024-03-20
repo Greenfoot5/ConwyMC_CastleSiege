@@ -38,9 +38,8 @@ public class TeleportationCurse extends CurseCast {
         this.setStartTime();
 
 
-        //Random random = new Random();
-        //int amountToSwap = random.nextInt(MIN_SIZE_TO_SWAP, totalPlayers.size() + 1);
-        int amountToSwap = new Random().nextInt((totalPlayers.size() - MIN_SIZE_TO_SWAP) + 1) + MIN_SIZE_TO_SWAP;
+        Random random = new Random();
+        int amountToSwap = random.nextInt((totalPlayers.size() - MIN_SIZE_TO_SWAP) + 1) + MIN_SIZE_TO_SWAP;
         Collections.shuffle(totalPlayers);
 
         Player[] playersToSwap = new Player[amountToSwap];
