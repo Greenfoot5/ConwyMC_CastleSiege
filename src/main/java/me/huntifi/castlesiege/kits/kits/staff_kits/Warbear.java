@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.kits.kits.staff_kits;
 
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.StaffKit;
 import me.huntifi.castlesiege.maps.events.RamEvent;
@@ -51,22 +51,22 @@ public class Warbear extends StaffKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
                 Component.text("Claws", NamedTextColor.RED), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
+                CSItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
                         Component.text("Claws", NamedTextColor.RED),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Claws
-        es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
+        es.hotbar[1] = CSItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
                 Component.text("Fangs", NamedTextColor.RED), null, null, 12);
 
         // Paw
-        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.RABBIT_FOOT),
+        es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.RABBIT_FOOT),
                 Component.text("Paw", NamedTextColor.GREEN), null, null);
 
         super.equipment = es;

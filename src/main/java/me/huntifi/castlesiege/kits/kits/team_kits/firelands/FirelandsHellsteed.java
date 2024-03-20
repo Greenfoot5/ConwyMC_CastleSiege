@@ -4,7 +4,7 @@ import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.NameTag;
@@ -55,22 +55,22 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GRAY_DYE),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.GRAY_DYE),
                 Component.text("Horseshoe", NamedTextColor.RED), null, null, 20);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.GRAY_DYE),
+                CSItemCreator.weapon(new ItemStack(Material.GRAY_DYE),
                         Component.text("Horseshoe", NamedTextColor.RED),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 22),
                 0);
 
         // stomp
-        es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.ANVIL),
+        es.hotbar[1] = CSItemCreator.weapon(new ItemStack(Material.ANVIL),
                 Component.text("Stomp", NamedTextColor.GREEN), null, null, 20);
 
         // stomp
-        es.hotbar[7] = ItemCreator.weapon(new ItemStack(Material.BARRIER),
+        es.hotbar[7] = CSItemCreator.weapon(new ItemStack(Material.BARRIER),
                 Component.text("Eject", NamedTextColor.RED), null, null, 0);
 
 
@@ -96,7 +96,7 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
     @Override
     protected void setDisguise(Player p) {
 
-        ItemStack horseArmor = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_HORSE_ARMOR),
+        ItemStack horseArmor = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_HORSE_ARMOR),
                 Component.text("Leather Armor", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(40, 2, 2));
 

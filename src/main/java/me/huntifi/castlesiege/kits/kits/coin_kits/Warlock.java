@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
@@ -61,7 +61,7 @@ public class Warlock extends CoinKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WITHER_SKELETON_SKULL),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.WITHER_SKELETON_SKULL),
                 Component.text("Cursed Skull", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right click to shoot a bolt of shadows, ", NamedTextColor.AQUA),
@@ -71,7 +71,7 @@ public class Warlock extends CoinKit implements Listener {
                 Component.text("a 10% chance to give a health stone.", NamedTextColor.AQUA)), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.WITHER_SKELETON_SKULL),
+                CSItemCreator.weapon(new ItemStack(Material.WITHER_SKELETON_SKULL),
                         Component.text("Cursed Skull", NamedTextColor.GREEN),
                         Arrays.asList(Component.empty(),
                                 Component.text("Right click to shoot a bolt of shadows, ", NamedTextColor.AQUA),
@@ -84,7 +84,7 @@ public class Warlock extends CoinKit implements Listener {
                 0);
 
         // 1st ability
-        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POISONOUS_POTATO),
+        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.POISONOUS_POTATO),
                 Component.text("Curse", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right click to give negative damage to all ", NamedTextColor.AQUA),
@@ -93,7 +93,7 @@ public class Warlock extends CoinKit implements Listener {
                         Component.text("Has a cooldown of 13 seconds.", NamedTextColor.AQUA)), null);
 
         // 2nd ability
-        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.SCUTE),
+        es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.SCUTE),
                 Component.text("Drain life", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Fire a beam of life draining energy that deals", NamedTextColor.AQUA),
@@ -102,7 +102,7 @@ public class Warlock extends CoinKit implements Listener {
                         Component.text("Has a cooldown of 20 seconds.", NamedTextColor.AQUA)), null);
 
         // 3rd ability
-        es.hotbar[3] = ItemCreator.item(new ItemStack(Material.REDSTONE),
+        es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.REDSTONE),
                 Component.text("Health Funnel", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Sacrifice 25% of your health to heal", NamedTextColor.AQUA),
@@ -111,7 +111,7 @@ public class Warlock extends CoinKit implements Listener {
                         Component.text("Has a cooldown of 5 seconds.", NamedTextColor.AQUA)), null);
 
         // 4th ability
-        es.hotbar[4] = ItemCreator.item(new ItemStack(Material.BLAZE_POWDER),
+        es.hotbar[4] = CSItemCreator.item(new ItemStack(Material.BLAZE_POWDER),
                 Component.text("Hellfire", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Requires 5 soul shards to cast.", NamedTextColor.DARK_GRAY),
@@ -121,7 +121,7 @@ public class Warlock extends CoinKit implements Listener {
                         Component.text("Has no cooldown.", NamedTextColor.AQUA)), null);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Warlock's Robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(85, 30, 127));
         ItemMeta chest = es.chest.getItemMeta();
@@ -132,7 +132,7 @@ public class Warlock extends CoinKit implements Listener {
         es.chest.setItemMeta(chestMeta);
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Warlock's Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(85, 30, 127));
         ItemMeta legs = es.legs.getItemMeta();
@@ -143,11 +143,11 @@ public class Warlock extends CoinKit implements Listener {
         es.legs.setItemMeta(legsMeta);
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Warlock's Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(85, 30, 127));
         // Voted Boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Warlock's Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),

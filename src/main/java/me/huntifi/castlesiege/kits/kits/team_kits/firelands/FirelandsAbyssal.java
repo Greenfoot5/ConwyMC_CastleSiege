@@ -6,7 +6,7 @@ import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -63,13 +63,13 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
                 Component.text("Fist", NamedTextColor.RED),
                 Collections.singletonList(Component.text("Right-click to start spawning a magma projectile", NamedTextColor.AQUA)),
                 null, 30.5);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
+                CSItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
                         Component.text("Fist", NamedTextColor.RED),
                         Arrays.asList(Component.text("Right-click to start spawning a magma projectile!", NamedTextColor.AQUA),
                                 Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
@@ -77,7 +77,7 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
                 0);
 
         // Weapon
-        es.offhand = ItemCreator.item(new ItemStack(Material.GREEN_DYE),
+        es.offhand = CSItemCreator.item(new ItemStack(Material.GREEN_DYE),
                 Component.text("Fist", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("Right-click to start spawning a magma projectile!", NamedTextColor.AQUA)), null);
 

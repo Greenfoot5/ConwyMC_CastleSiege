@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.gui;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
@@ -56,7 +56,7 @@ public class Gui extends me.huntifi.conwymc.gui.Gui implements Listener {
      */
     public void addKitItem(Player player, Kit kit, int location, String command) {
         if (kit.canSelect(player, false, false, false)) {
-            inventory.setItem(location, ItemCreator.item(new ItemStack(kit.material),
+            inventory.setItem(location, CSItemCreator.item(new ItemStack(kit.material),
                     getKitDisplayName(kit), kit.getGuiDescription(), null));
             locationToItem.put(location, new GuiItem(command, true));
         } else {
@@ -64,7 +64,7 @@ public class Gui extends me.huntifi.conwymc.gui.Gui implements Listener {
             List<Component> lore = removeItalics(desc);
             assert lore != null;
             lore.addAll(kit.getGuiCostText());
-            inventory.setItem(location, ItemCreator.item(new ItemStack(Material.BLACK_STAINED_GLASS_PANE),
+            inventory.setItem(location, CSItemCreator.item(new ItemStack(Material.BLACK_STAINED_GLASS_PANE),
                     getKitDisplayName(kit), lore, null));
             locationToItem.put(location, new GuiItem(command, false));
         }

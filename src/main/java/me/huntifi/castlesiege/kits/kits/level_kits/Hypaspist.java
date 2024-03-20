@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.kits.kits.level_kits;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.LevelKit;
 import net.kyori.adventure.text.Component;
@@ -52,28 +52,28 @@ public class Hypaspist extends LevelKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Short-sword", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Short-sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Weapon
-        es.offhand = ItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
+        es.offhand = CSItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
                 Component.text("Concave Shield", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("Right-click to block.", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)) , 10);
 
         // Weapon
-        es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.TRIDENT),
+        es.hotbar[1] = CSItemCreator.weapon(new ItemStack(Material.TRIDENT),
                 Component.text("Sarissa", NamedTextColor.GREEN), null, null, meleeDamage);
 
         // Chestplate + trim
-        es.chest = ItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
+        es.chest = CSItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
                 Component.text("Copper Chestplate", NamedTextColor.GREEN), null, null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -83,12 +83,12 @@ public class Hypaspist extends LevelKit implements Listener {
         es.chest.setItemMeta(chestMeta);
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(183, 12, 12));
 
         // Boots + trim
-        es.feet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 Component.text("Copper Boots", NamedTextColor.GREEN), null, null);
         ItemMeta boots = es.feet.getItemMeta();
         ArmorMeta bootsMeta = (ArmorMeta) boots;
@@ -98,7 +98,7 @@ public class Hypaspist extends LevelKit implements Listener {
         es.feet.setItemMeta(bootsMeta);
 
         // Voted Boots + trim
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 Component.text("Copper Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));

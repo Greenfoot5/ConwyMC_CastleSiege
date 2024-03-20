@@ -1,15 +1,13 @@
 package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.conwymc.gui.Gui;
+import me.huntifi.conwymc.util.ItemCreator;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Color;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -20,40 +18,20 @@ import java.util.UUID;
 /**
  * Serves as a tool to easily create items for kits
  */
-public class ItemCreator {
+public class CSItemCreator extends ItemCreator {
 
     /**
-     * Create a specified item
+     * Create a specified weapon
      * @param item The item to apply all flags and parameters to
-     * @param name The name for the item
-     * @param lore The lore for the item
-     * @param enchants The enchantments for the item
-     * @return The item with all flags and parameters applied
+     * @param name The name for the weapon
+     * @param lore The lore for the weapon
+     * @param enchants The enchantments for the weapon
+     * @param damage The weapon's damage
+     * @return The weapon with all flags and parameters applied
      */
-    public static ItemStack item(ItemStack item, Component name, List<Component> lore,
-                                 List<Tuple<Enchantment, Integer>> enchants) {
-        ItemMeta itemMeta = item.getItemMeta();
-        assert itemMeta != null;
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemMeta.setUnbreakable(true);
-        itemMeta.displayName(name.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        itemMeta.lore(Gui.removeItalics(lore));
-        if (enchants != null) {
-            for (Tuple<Enchantment, Integer> e : enchants) {
-                itemMeta.addEnchant(e.getFirst(), e.getSecond(), true);
-            }
-        }
-        item.setItemMeta(itemMeta);
-        return item;
-    }
-
     public static ItemStack weapon(ItemStack item, Component name, List<Component> lore,
                                    List<Tuple<Enchantment, Integer>> enchants, double damage) {
         return setDamage(item(item, name, lore, enchants), damage);
-
     }
 
     /**
@@ -75,6 +53,12 @@ public class ItemCreator {
         return leatherItem;
     }
 
+    /**
+     * Sets the damage the item deals
+     * @param item The item to set the damage for
+     * @param damage The damage value to set
+     * @return The item with the damage set
+     */
     private static ItemStack setDamage(ItemStack item, double damage) {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;

@@ -11,7 +11,7 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
@@ -82,27 +82,27 @@ public class Rogue extends CoinKit implements Listener {
         EquipmentSet es = new EquipmentSet();
         super.heldItemSlot = 0;
 
-        netheriteSword = ItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
+        netheriteSword = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
                 Component.text("Dagger", NamedTextColor.GREEN), null, null, 32);
         // Weapon
         es.hotbar[0] = netheriteSword;
 
         // Voted weapon
-        netheriteSwordVoted = ItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
+        netheriteSwordVoted = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
                 Component.text("Dagger", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 34);
         es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
 
         // Voted weapon
-        poisonSwordVoted = ItemCreator.weapon(new ItemStack(Material.GOLDEN_SWORD),
+        poisonSwordVoted = CSItemCreator.weapon(new ItemStack(Material.GOLDEN_SWORD),
                 Component.text("Poison Dagger", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- special: +2 damage", NamedTextColor.GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 34);
         es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
 
         // Gouge
-        gouge = ItemCreator.weapon(new ItemStack(Material.NETHERITE_INGOT),
+        gouge = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_INGOT),
                 Component.text("Gouge", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Sneak + Right Click behind target", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
@@ -123,7 +123,7 @@ public class Rogue extends CoinKit implements Listener {
         ItemStack poison = poisonPotion();
         es.hotbar[2] = poison;
 
-        shadowStep = ItemCreator.item(new ItemStack(Material.DRIED_KELP),
+        shadowStep = CSItemCreator.item(new ItemStack(Material.DRIED_KELP),
                 Component.text("Shadowstep", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right click to activate.", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
@@ -134,7 +134,7 @@ public class Rogue extends CoinKit implements Listener {
                 null);
         es.hotbar[3] = shadowStep;
 
-        ItemStack trackArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
+        ItemStack trackArrow = CSItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
                 Component.text("Track Arrow", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Left click/Right click to throw!", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
@@ -155,7 +155,7 @@ public class Rogue extends CoinKit implements Listener {
 
         es.hotbar[4] = trackArrow;
 
-        comboPoint = ItemCreator.item(new ItemStack(Material.GLOWSTONE_DUST),
+        comboPoint = CSItemCreator.item(new ItemStack(Material.GLOWSTONE_DUST),
                 Component.text("Combo Point", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Ability Power Currency", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
@@ -166,7 +166,7 @@ public class Rogue extends CoinKit implements Listener {
                 null);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(15, 15, 15));
         ItemMeta chest = es.chest.getItemMeta();
@@ -177,17 +177,17 @@ public class Rogue extends CoinKit implements Listener {
         es.chest.setItemMeta(chestMeta);
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(19, 19, 19));
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Rogue Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- Feather Falling XV", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_FALL, 15)));
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Rogue Boots", NamedTextColor.GREEN),
                 Arrays.asList(Component.text("- Feather Falling XV", NamedTextColor.AQUA),
                         Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),

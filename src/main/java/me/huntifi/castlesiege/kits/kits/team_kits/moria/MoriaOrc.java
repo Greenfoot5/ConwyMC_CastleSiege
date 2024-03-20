@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import net.kyori.adventure.text.Component;
@@ -37,39 +37,39 @@ public class MoriaOrc extends TeamKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                 Component.text("Dagger", NamedTextColor.GREEN), null, null, 29);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         Component.text("Dagger", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(21, 51, 10));
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(68, 65, 12));
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(68, 65, 16));
         // Voted Boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(68, 65, 16));
 
         // Regular Bow
-        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
+        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.BOW),
                 Component.text("Bow", NamedTextColor.GREEN), null, null);
 
         // Ladders
@@ -80,7 +80,7 @@ public class MoriaOrc extends TeamKit implements Listener {
         es.hotbar[4] = new ItemStack(Material.ARROW, 8);
 
         // Fire Arrows
-        ItemStack poisonArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW, 16),
+        ItemStack poisonArrow = CSItemCreator.item(new ItemStack(Material.TIPPED_ARROW, 16),
                 Component.text("Poison Arrow", NamedTextColor.GREEN), null, null);
         PotionMeta potionMeta = (PotionMeta) poisonArrow.getItemMeta();
         assert potionMeta != null;

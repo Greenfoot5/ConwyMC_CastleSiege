@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
@@ -63,7 +63,7 @@ public class Warhound extends CoinKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
                 Component.text("Fangs ", NamedTextColor.GREEN).append(Component.text("(Right Click)", NamedTextColor.GRAY)),
                         Arrays.asList(Component.empty(),
                         Component.text("Immobilise your enemies, making them", NamedTextColor.AQUA),
@@ -72,7 +72,7 @@ public class Warhound extends CoinKit implements Listener {
                         Component.text("Has a 12 second cooldown.", NamedTextColor.AQUA)), null, 20);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
+                CSItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
                         Component.text("Fangs ", NamedTextColor.GREEN).append(Component.text("(Right Click)", NamedTextColor.GRAY)),
                         Arrays.asList(Component.empty(),
                                 Component.text("Immobilise your enemies, making them", NamedTextColor.AQUA),

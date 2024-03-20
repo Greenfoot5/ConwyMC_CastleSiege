@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -55,50 +55,50 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Sword", NamedTextColor.GREEN), null, null, 30);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.ELYTRA),
+        es.chest = CSItemCreator.item(new ItemStack(Material.ELYTRA),
                 Component.text("Elytra", NamedTextColor.GOLD), null, null);
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(236, 173, 91));
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(236, 173, 91));
         // Voted boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(236, 173, 91));
 
         // Weapon
-        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.SNOWBALL, 3),
+        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.SNOWBALL, 3),
                 Component.text("Small Bomb", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("Right-click to drop a bomb which explodes after 5 seconds",
                         NamedTextColor.AQUA)), null);
 
         // Ability
-        es.hotbar[3] = ItemCreator.item(new ItemStack(Material.FIREWORK_ROCKET),
+        es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.FIREWORK_ROCKET),
                 Component.text("Small Boost", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("Right-click to go a little faster",
                         NamedTextColor.AQUA)), null);
 
         // Support Ability
-        es.hotbar[4] = ItemCreator.item(new ItemStack(Material.RED_DYE),
+        es.hotbar[4] = CSItemCreator.item(new ItemStack(Material.RED_DYE),
                 Component.text("Support Potion", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("Right-click to drop a health/speed potion",
                         NamedTextColor.AQUA)), null);

@@ -7,7 +7,7 @@ import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -48,22 +48,22 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SHOVEL),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STONE_SHOVEL),
                 Component.text("Troll Fist", NamedTextColor.GREEN), null, null, 43);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.STONE_SHOVEL),
+                CSItemCreator.weapon(new ItemStack(Material.STONE_SHOVEL),
                         Component.text("Troll Fist", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 45),
                 0);
 
         // Ability
-        es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.DEAD_BRAIN_CORAL_FAN),
+        es.hotbar[1] = CSItemCreator.weapon(new ItemStack(Material.DEAD_BRAIN_CORAL_FAN),
                 Component.text("Grab", NamedTextColor.GREEN), null, null, 1);
 
         // Ability
-        es.hotbar[2] = ItemCreator.weapon(new ItemStack(Material.DEAD_BUBBLE_CORAL_FAN),
+        es.hotbar[2] = CSItemCreator.weapon(new ItemStack(Material.DEAD_BUBBLE_CORAL_FAN),
                 Component.text("Throw", NamedTextColor.GREEN), null, null, 1);
 
         super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 999999, 2));

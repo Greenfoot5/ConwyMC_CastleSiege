@@ -9,7 +9,7 @@ import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.NameTag;
@@ -74,7 +74,7 @@ public class Alchemist extends CoinKit implements Listener {
         super.heldItemSlot = 0;
 
         // Brewing Stand
-        stand = ItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
+        stand = CSItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
                 Component.text("Brewing Stand", NamedTextColor.LIGHT_PURPLE),
                 Arrays.asList(Component.empty(),
                         Component.text("Place the brewing stand down, then", NamedTextColor.AQUA),
@@ -86,7 +86,7 @@ public class Alchemist extends CoinKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.LOYALTY, 1)), meleeDamage);
         es.hotbar[0] = stand;
         // Voted Brewing Stand
-        standVoted = ItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
+        standVoted = CSItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
                 Component.text("Brewing Stand", NamedTextColor.LIGHT_PURPLE),
                 Arrays.asList(Component.text(""),
                         Component.text("Place the brewing stand down, then", NamedTextColor.AQUA),
@@ -99,20 +99,20 @@ public class Alchemist extends CoinKit implements Listener {
         es.votedWeapon = new Tuple<>(standVoted, 0);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(226, 165, 43));
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(226, 173, 65));
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 Component.text("Golden Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 Component.text("Golden Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));

@@ -5,7 +5,7 @@ import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.kyori.adventure.text.Component;
@@ -57,12 +57,12 @@ public class Berserker extends CoinKit implements Listener {
         super.heldItemSlot = 0;
 
         // Weapon
-        regularSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        regularSword = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Iron Sword", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage);
         es.hotbar[0] = regularSword;
         // Voted Weapon
-        regularSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        regularSwordVoted = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Iron Sword", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2);
@@ -73,15 +73,15 @@ public class Berserker extends CoinKit implements Listener {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 2);
 
         // Potion Item
-        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POTION, 1),
+        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.POTION, 1),
                 Component.text("Berserker Potion", NamedTextColor.GOLD), null, null);
 
         // Berserk Weapon
-        berserkSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        berserkSword = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Berserker Sword", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamageZerk);
         // Voted Berserk Weapon
-        berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        berserkSwordVoted = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Berserker Sword", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),

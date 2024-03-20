@@ -6,7 +6,7 @@ import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import net.kyori.adventure.text.Component;
@@ -64,12 +64,12 @@ public class Spearman extends FreeKit implements Listener {
 		super.heldItemSlot = 0;
 
 		// Weapon
-		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, spearCount),
+		es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STICK, spearCount),
 				Component.text("Spear", NamedTextColor.GREEN),
 				Collections.singletonList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA)), null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				ItemCreator.weapon(new ItemStack(Material.STICK, 4),
+				CSItemCreator.weapon(new ItemStack(Material.STICK, 4),
 						Component.text("Spear", NamedTextColor.GREEN),
 						Arrays.asList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA),
 								Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
@@ -77,18 +77,18 @@ public class Spearman extends FreeKit implements Listener {
 				0);
 
 		// Chestplate
-		es.chest = ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
+		es.chest = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
 				Component.text("Chainmail Chestplate", NamedTextColor.GREEN), null, null);
 
 		// Leggings
-		es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+		es.legs = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
 				Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
 		// Boots
-		es.feet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
+		es.feet = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
 				Component.text("Chainmail Boots", NamedTextColor.GREEN), null, null);
 		// Voted Boots
-		es.votedFeet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
+		es.votedFeet = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
 				Component.text("Chainmail Boots", NamedTextColor.GREEN),
 				Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));

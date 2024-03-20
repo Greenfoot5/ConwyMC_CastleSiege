@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
 import me.huntifi.castlesiege.maps.NameTag;
@@ -77,21 +77,21 @@ public class FireArcher extends VoterKit implements Listener {
         super.heldItemSlot = 0;
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(204, 0, 0));
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 128, 0));
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(204, 0, 0));
         // Voted Boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
@@ -102,12 +102,12 @@ public class FireArcher extends VoterKit implements Listener {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 2);
 
         // Bow
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.BOW),
+        es.hotbar[0] = CSItemCreator.item(new ItemStack(Material.BOW),
                 Component.text("Bow", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, bowPowerLevel)));
 
         // Firepit
-        firepit = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
+        firepit = CSItemCreator.weapon(new ItemStack(Material.CAULDRON),
                 Component.text("Firepit", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Place the firepit down, then", NamedTextColor.AQUA),
@@ -118,7 +118,7 @@ public class FireArcher extends VoterKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, knockbackLevel)), meleeDamage);
         es.hotbar[1] = firepit;
         // Voted Firepit
-        firepitVoted = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
+        firepitVoted = CSItemCreator.weapon(new ItemStack(Material.CAULDRON),
                 Component.text("Firepit", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Place the firepit down, then", NamedTextColor.AQUA),
@@ -132,7 +132,7 @@ public class FireArcher extends VoterKit implements Listener {
         es.votedWeapon = new Tuple<>(firepitVoted, 1);
 
         // Fire Arrows
-        fireArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
+        fireArrow = CSItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
                 Component.text("Fire Arrow", NamedTextColor.GOLD), null, null);
         PotionMeta potionMeta = (PotionMeta) fireArrow.getItemMeta();
         assert potionMeta != null;
