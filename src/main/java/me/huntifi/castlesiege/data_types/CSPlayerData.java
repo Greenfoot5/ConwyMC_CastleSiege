@@ -27,11 +27,12 @@ public class CSPlayerData extends PlayerData {
     /** The secrets a player has collected */
     private final ArrayList<String> foundSecrets;
 
-    /** All-time stats */
+    /** All-time stats
+     * kill streak is a temporary stat to see if max needs updating */
     private final CSStats stats;
 
-    /** Current kill streak tracker to update all-time */
-    private int currentKillStreak;
+    /** Max all-time kill streak */
+    private int maxKillStreak;
     /** Player's all-time MVPs */
     private int mvps;
     /** Amount of secrets collected */
@@ -68,13 +69,13 @@ public class CSPlayerData extends PlayerData {
         this.stats = new CSStats(statsData.getDouble("score"), statsData.getDouble("kills"),
                 statsData.getDouble("deaths"), statsData.getDouble("captures"),
                 statsData.getDouble("heals"), statsData.getDouble("supports"),
-                statsData.getDouble("assists"), statsData.getInt("kill_streak"));
+                statsData.getDouble("assists"));
 
         this.level = statsData.getInt("level");
         this.mvps = statsData.getInt("mvps");
         this.secrets = statsData.getInt("secrets");
         this.kit = statsData.getString("kit");
-        this.currentKillStreak = 0;
+        this.maxKillStreak = statsData.getInt("kill_streak");
 
         this.boosters = boosters;
 
@@ -203,7 +204,7 @@ public class CSPlayerData extends PlayerData {
      * @return The player's kill streak
      */
     public int getKillStreak() {
-        return currentKillStreak;
+        return maxKillStreak;
     }
 
     /**
@@ -211,9 +212,9 @@ public class CSPlayerData extends PlayerData {
      * Update max kill streak when surpassed
      */
     private void addKillStreak() {
-        currentKillStreak += 1;
-        if (this.stats.getKillStreak() < currentKillStreak)
-            this.stats.setKillStreak(currentKillStreak);
+        maxKillStreak += 1;
+        if (this.stats.getKillStreak() < maxKillStreak)
+            this.stats.setKillStreak(maxKillStreak);
     }
 
     /**
@@ -221,7 +222,7 @@ public class CSPlayerData extends PlayerData {
      * Update max kill streak when surpassed
      */
     private void resetKillStreak() {
-        currentKillStreak = 0;
+        maxKillStreak = 0;
     }
 
     /**

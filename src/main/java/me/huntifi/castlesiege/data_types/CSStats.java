@@ -40,9 +40,8 @@ public class CSStats {
      * @param heals The player's heal count
      * @param supports The player's support count
      * @param assists The player's assist count
-     * @param killStreak The player's kill streak
      */
-    public CSStats(double score, double kills, double deaths, double captures, double heals, double supports, double assists, int killStreak) {
+    public CSStats(double score, double kills, double deaths, double captures, double heals, double supports, double assists) {
         this.score = score;
         this.kills = kills;
         this.deaths = deaths;
@@ -50,7 +49,6 @@ public class CSStats {
         this.heals = heals;
         this.supports = supports;
         this.assists = assists;
-        this.killStreak = killStreak;
     }
 
     /**
@@ -105,7 +103,7 @@ public class CSStats {
     public void addDeaths(double deaths) {
         this.deaths += deaths;
         addScore(-deaths);
-        killStreak = 0;
+        resetKillStreak();
     }
 
     /**
@@ -124,7 +122,6 @@ public class CSStats {
     public void addCaptures(double captures) {
         this.captures += captures;
         addScore(captures);
-        //addCoins(captures);
     }
 
     /**
@@ -141,7 +138,7 @@ public class CSStats {
      * @param heals The amount of heals to add
      */
     public void addHeals(double heals) {
-        this.heals += (heals);
+        this.heals += heals;
         addScore(HEAL_MULTIPLIER * heals);
     }
 
@@ -202,5 +199,9 @@ public class CSStats {
      */
     public void setKillStreak(int killStreak) {
         this.killStreak = killStreak;
+    }
+
+    private void resetKillStreak() {
+        killStreak = 0;
     }
 }

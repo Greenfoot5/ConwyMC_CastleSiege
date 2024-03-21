@@ -44,6 +44,5 @@ public class ToggleRankCommand implements CommandExecutor {
 
 		NameTag.give(p);
 		return true;
-
 	}
 }

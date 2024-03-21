@@ -96,40 +96,12 @@ commands:
     usage: /Vanish
 
   # Chat
-#  GlobalChat:
-#    description: Talk in global-chat
-#    usage: /g <message>
-#    aliases: g
-#  Message:
-#    description: Privately message a player
-#    usage: /msg <player> <message>
-#    aliases:
-#      - msg
-#      - m
-#      - whisper
-#      - w
-#  Reply:
-#    description: Reply to the last player that sent you a private message
-#    usage: /r <message>
-#    aliases: r
   TeamChat:
     description: Talk in team-chat
     usage: /t <message>
     aliases: t
 
   # Donator
-#  JoinMessage:
-#    description: Sets your custom join message
-#    usage: /joinmsg <set | reset> [message]
-#    aliases: joinmsg
-#    permission: castlesiege.esquire
-#    permission-message: Only donators are permitted to use this command!
-#  LeaveMessage:
-#    description: Sets your custom leave message
-#    usage: /leavemsg <set | reset> [message]
-#    aliases: leavemsg
-#    permission: castlesiege.esquire
-#    permission-message: Only donators are permitted to use this command!
   Firework:
     description: Shoots a firework with your teams colour into the sky!
     usage: /firework
@@ -176,15 +148,6 @@ commands:
     usage: /mapvote <yes/no>
 
   # Info
-#  CoinMultiplier:
-#    description: Shows the active coin multiplier
-#    usage: /coinmultiplier
-#  Coins:
-#    description: Shows the player's coins
-#    usage: /coins
-#  Discord:
-#    description: Gives the link to our discord
-#    usage: /discord
   Flags:
     description: Displays the flags for all teams
     usage: /flags
@@ -198,21 +161,12 @@ commands:
   MyStats:
     description: Opens a book that shows your stats
     usage: /mystats
-#  Ping:
-#    description: Shows your current ping
-#    usage: /ping
-#  Rules:
-#    description: Shows the rules
-#    usage: /rules
   Secrets:
     description: Shows the secrets
     usage: /secrets
   Teams:
     description: Shows the size and name of all teams on the current map
     usage: /teams
-#  Whois:
-#    description: Returns all previous names of a player!
-#    usage: /whois
 
   # Leaderboards
   Top:
@@ -243,9 +197,6 @@ commands:
   TopHeals:
     description: Shows the heals leaderboard
     usage: /topheals [position]
-#  TopDonators:
-#    description: Shows the donator leaderboard
-#    usage: /topdonators [position]
   TopMatch:
     description: Shows the leaderboard for the current game
     usage: /topmatch [category] [position]
@@ -260,27 +211,6 @@ commands:
     aliases:
       - topbounty
 
-  # Staff - Currencies
-#  AddCoins:
-#    description: Add to a player's coins
-#    usage: /addcoins <player> <amount> [verbose]
-#    permission: castlesiege.moderator
-#    permission-message: You are not permitted to use this command!
-#  SetCoins:
-#    description: Sets a player's coins
-#    usage: /setcoins <player> <amount> [verbose]
-#    permission: castlesiege.moderator
-#    permission-message: You are not permitted to use this command!
-#  SetCoinMultiplier:
-#    description: Sets the active coin multiplier
-#    usage: /setcoinmultiplier <multiplier>
-#    permission: castlesiege.moderator
-#    permission-message: You are not permitted to use this command!
-#  TakeCoins:
-#    description: Take from a player's coins
-#    usage: /takecoins <player> <amount> [verbose]
-#    permission: castlesiege.moderator
-#    permission-message: You are not permitted to use this command!
   # Staff - Boosters
   GrantBooster:
     description: Grants a booster to a player
@@ -290,49 +220,8 @@ commands:
     aliases:
       - grantboost
 
-  # Staff - Punishments
-#  Ban:
-#    description: Ban a player
-#    usage: /ban <player> <time> <reason>
-#    permission: castlesiege.chatmod+
-#    permission-message: You are not permitted to use this command!
-#  Kick:
-#    description: Kick a player from the server
-#    usage: /kick <player> <reason>
-#    permission: castlesiege.chatmod+
-#    permission-message: You are not permitted to use this command!
-#  KickAll:
-#    description: Kick all players from the server
-#    usage: /kickall <reason>
-#    permission: castlesiege.chatmod+
-#    permission-message: You are not permitted to use this command!
-#  Mute:
-#    description: Mute a player
-#    usage: /mute <player> <time> <reason>
-#    permission: castlesiege.chatmod
-#    permission-message: You are not permitted to use this command!
-#  Unban:
-#    description: Unban a banned player
-#    usage: /unban <player>
-#    permission: castlesiege.chatmod+
-#    permission-message: You are not permitted to use this command!
-#  Unmute:
-#    description: Unmute a muted player
-#    usage: /unmute <player>
-#    permission: castlesiege.chatmod
-#    permission-message: You are not permitted to use this command!
-#  Warn:
-#    description: Warn a player
-#    usage: /warn <player> <reason>
-#    permission: castlesiege.chatmod
-#    permission-message: You are not permitted to use this command!
 
-  # Staff - ...
-#  Broadcast:
-#    description: Send a special message to everyone on the server
-#    usage: /broadcast <message>
-#    permission: castlesiege.moderator
-#    permission-message: You are not permitted to use this command!
+  # Staff - Misc
   CSReload:
     description: Reloads the Castle Siege Plugin
     usage: /csreload
@@ -343,16 +232,6 @@ commands:
     usage: /curse [curse]
     permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
-#  Fly:
-#    description: Toggle flight
-#    usage: /fly
-#    permission: castlesiege.chatmod+
-#    permission-message: You are not permitted to use this command!
-#  SetStaffRank:
-#    description: Set a staff rank for a player
-#    usage: /setstaffrank <player> <rank>
-#    permission: castlesiege.admin
-#    permission-message: You are not permitted to use this command!
   GiveVote:
     description: Give a player vote rewards
     usage: /givevote <player> <vote>
@@ -363,11 +242,6 @@ commands:
     usage: /nextmap
     permission: castlesiege.chatmod+
     permission-message: You are not permitted to use this command!
-#  RankPoints:
-#    description: Manages a player's rank points
-#    usage: /rankpoints <player> <set | add | remove> <amount>
-#    permission: castlesiege.moderator
-#    permission-message: You are not permitted to use this command!
   SetKit:
     description: Sets the kit for a player
     usage: /setkit <player> [kit]
@@ -388,17 +262,6 @@ commands:
     usage: /settimer <mins> [seconds]
     permission: castlesiege.moderator
     permission-message: You are not permitted to use this command!
-#  StaffChat:
-#    description: Talk in staff-chat
-#    usage: /s <message>
-#    aliases: s
-#    permission: castlesiege.chatmod
-#    permission-message: You are not permitted to use this command!
-#  ToggleRank:
-#    description: Switch between staff and donator rank
-#    usage: /togglerank
-#    permission: castlesiege.chatmod
-#    permission-message: You are not permitted to use this command!
   ToggleFree:
     description: Disables/Enables free kits
     usage: /togglefree [true/false]
@@ -444,15 +307,6 @@ commands:
     usage: /unlockkit <Player Name> <add/remove> <Kit Name> <Time> <IsDonated:true/false>
     permission: castlesiege.developer
     permission-message: Try /buykit instead
-#  Webshop:
-#    description: Displays the link to support the server.
-#    usage: /Webshop
-#    aliases:
-#      - donate
-#      - kofi
-#      - ko-fi
-#      - support
-#      - shop
   Coinshop:
     description: Open the coinshop for the player.
     usage: /coinshop

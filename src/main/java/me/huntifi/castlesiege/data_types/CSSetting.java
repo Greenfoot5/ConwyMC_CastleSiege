@@ -28,8 +28,6 @@ public class CSSetting extends Setting {
      */
     public static Setting[] generateSettings() {
         Setting[] global = me.huntifi.conwymc.data_types.Setting.generateSettings();
-        Setting[] total = new Setting[global.length + 4];
-        System.arraycopy(global, 0, total, 0, global.length);
 
         Setting[] castleSiege =  new Setting[] {
                 new Setting("randomDeath", Material.SUSPICIOUS_STEW,
@@ -56,6 +54,8 @@ public class CSSetting extends Setting {
                                 Component.text("Once you reach that level, the messages will no longer appear unless "),
                                 Component.text("this setting is enabled.")))
         };
+        Setting[] total = new Setting[global.length + castleSiege.length];
+        System.arraycopy(global, 0, total, 0, global.length);
         System.arraycopy(castleSiege, 0, total, global.length, castleSiege.length);
         return total;
     }

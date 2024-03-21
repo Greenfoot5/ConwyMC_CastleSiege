@@ -143,7 +143,7 @@ public class CamelHandler implements Listener {
     private void removeCamel(Entity camel, Player rider) {
         if (camel instanceof Camel) {
             Camel c = (Camel) camel;
-            if (rider.equals(((Camel) camel).getOwner())) {
+            if (rider.equals(c.getOwner())) {
                 c.remove();
             }
         }
