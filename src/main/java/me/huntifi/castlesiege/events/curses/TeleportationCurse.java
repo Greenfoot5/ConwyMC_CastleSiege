@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
-import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -90,12 +90,11 @@ public class TeleportationCurse extends CurseCast {
             this.options = OPTIONS;
         }
 
-        public TeleportationCurse cast() {
+        public void cast() {
             TeleportationCurse curse = new TeleportationCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
     }
 }

@@ -1,11 +1,11 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

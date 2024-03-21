@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.staff;
 
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

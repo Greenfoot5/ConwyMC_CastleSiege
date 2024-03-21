@@ -3,11 +3,11 @@ package me.huntifi.castlesiege.maps.objects;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -30,7 +30,7 @@ import static me.huntifi.castlesiege.Main.getBarColour;
 import static net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
 
 /**
- * A core to destory for DTC maps
+ * A core to destroy for DTC maps
  */
 public class Core implements Listener {
 

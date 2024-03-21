@@ -2,8 +2,8 @@ package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.EnderchestEvent;
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

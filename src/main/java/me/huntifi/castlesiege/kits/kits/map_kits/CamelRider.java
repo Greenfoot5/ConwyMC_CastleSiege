@@ -1,10 +1,10 @@
 package me.huntifi.castlesiege.kits.kits.map_kits;
 
-import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.events.gameplay.CamelHandler;
-import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
+import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.MapKit;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;

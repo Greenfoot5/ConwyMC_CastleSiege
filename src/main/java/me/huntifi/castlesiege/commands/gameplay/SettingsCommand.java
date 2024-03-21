@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
-import me.huntifi.castlesiege.data_types.CSSetting;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.castlesiege.data_types.CSSetting;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.Scoreboard;
 import me.huntifi.conwymc.data_types.Setting;

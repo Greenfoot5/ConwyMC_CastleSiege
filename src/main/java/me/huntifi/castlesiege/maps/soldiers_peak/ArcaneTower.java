@@ -6,7 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 
-@SuppressWarnings("MissingJavadoc")
 public class ArcaneTower implements Listener {
 
     @EventHandler

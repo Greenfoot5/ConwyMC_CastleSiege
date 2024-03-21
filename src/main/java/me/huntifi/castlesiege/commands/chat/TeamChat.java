@@ -43,10 +43,10 @@ public class TeamChat extends ToggleChatCommand {
 		PlayerData data = ActiveData.getData(player.getUniqueId());
 		if (data.getChatMode().equals(CHAT_MODE)) {
 			data.setChatMode(GlobalChatCommand.CHAT_MODE);
-			me.huntifi.conwymc.util.Messenger.sendInfo("You are no longer talking in team-chat!", player);
+			Messenger.sendInfo("You are no longer talking in team-chat!", player);
 		} else {
 			data.setChatMode(CHAT_MODE);
-			me.huntifi.conwymc.util.Messenger.sendInfo("You are now talking in team-chat!", player);
+			Messenger.sendInfo("You are now talking in team-chat!", player);
 		}
 	}
 

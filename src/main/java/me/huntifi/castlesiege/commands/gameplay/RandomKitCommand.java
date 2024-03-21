@@ -2,12 +2,12 @@ package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.CSActiveData;
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.curses.BindingCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

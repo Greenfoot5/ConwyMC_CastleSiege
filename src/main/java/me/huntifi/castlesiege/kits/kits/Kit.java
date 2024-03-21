@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.curses.BindingCurse;
@@ -14,7 +15,6 @@ import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.conwymc.util.Messenger;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.DisguiseConfig;

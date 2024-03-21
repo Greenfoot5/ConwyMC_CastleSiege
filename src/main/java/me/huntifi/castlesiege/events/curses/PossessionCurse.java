@@ -1,10 +1,10 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;

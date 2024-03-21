@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.Objects;
 
 /**
- * An slight difference from the classic crossbow kit but for Conwy
+ * A slight difference from the classic crossbow kit but for Conwy
  */
 public class ConwyArbalester extends TeamKit implements Listener {
 

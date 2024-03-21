@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Animals;
@@ -20,7 +20,8 @@ public class HitMessage implements Listener {
 
 	/**
 	 * Notifies the shooter when they hit a player or animal
-	 */
+     * @param e The ProjectileHitEvent
+     */
 	@EventHandler (ignoreCancelled = true)
 	public void onHit(ProjectileHitEvent e) {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {

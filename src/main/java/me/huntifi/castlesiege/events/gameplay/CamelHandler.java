@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.events.gameplay;
 
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Material;
 import org.bukkit.entity.Camel;
 import org.bukkit.entity.Entity;

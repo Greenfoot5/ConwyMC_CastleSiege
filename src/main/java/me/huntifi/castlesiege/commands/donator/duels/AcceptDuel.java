@@ -1,12 +1,12 @@
 package me.huntifi.castlesiege.commands.donator.duels;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;

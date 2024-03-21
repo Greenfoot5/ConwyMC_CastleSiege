@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.secrets;
 
 import me.huntifi.castlesiege.events.EnderchestEvent;
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;

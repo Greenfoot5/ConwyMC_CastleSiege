@@ -3,13 +3,13 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.MapBorder;
-import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Door;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
+import me.huntifi.conwymc.data_types.Tuple;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;

@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -50,12 +50,11 @@ public class TrueBlindnessCurse extends CurseCast {
             this.options = OPTIONS;
         }
 
-        public TrueBlindnessCurse cast() {
+        public void cast() {
             TrueBlindnessCurse curse = new TrueBlindnessCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
     }
 }

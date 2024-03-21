@@ -1075,8 +1075,6 @@ public class Main extends JavaPlugin implements Listener {
                 }
             }
 
-            flag.scoreboard = flagConfig.getInt(flagRoute.add("scoreboard"));
-
             map.flags[i] = flag;
         }
     }
