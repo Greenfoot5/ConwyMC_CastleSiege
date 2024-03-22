@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -456,5 +457,10 @@ public class CSPlayerData extends PlayerData {
         }
 
         boosters.remove(booster);
+    }
+
+    @Override
+    public String getSetting(String name) {
+        return super.getSetting(name) == null ? Objects.requireNonNull(CSSetting.getDefault(name)) : super.getSetting(name);
     }
 }

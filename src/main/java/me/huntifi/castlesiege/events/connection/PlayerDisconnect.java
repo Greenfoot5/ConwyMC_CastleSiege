@@ -10,6 +10,7 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.castlesiege.maps.Scoreboard;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
@@ -54,7 +55,8 @@ public class PlayerDisconnect implements Listener {
             stopRamming(e.getPlayer());
 
             Kit.equippedKits.remove(uuid);
-            storeData(uuid);
+            storeData(uuid, data);
+            Scoreboard.clearScoreboard(e.getPlayer());
             MapController.leaveTeam(uuid);
             BarCooldown.remove(uuid);
             VoteSkipCommand.removePlayer(uuid);
@@ -88,9 +90,9 @@ public class PlayerDisconnect implements Listener {
      * Remove the player from active storage
      * @param uuid The unique ID of the player
      */
-    private void storeData(UUID uuid) {
+    private void storeData(UUID uuid, CSPlayerData data) {
         try {
-            StoreData.store(uuid);
+            StoreData.store(uuid, data);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -32,7 +32,22 @@ public class StoreData {
         storeRank(uuid, data);
 
         for (String secret : data.getFoundSecrets()) {
-                    addFoundSecret(uuid, secret);
+            addFoundSecret(uuid, secret);
+        }
+    }
+
+    /**
+     * Store the player's data in the database
+     * @param uuid The unique ID of the player
+     * @param data The data to store
+     * @throws SQLException If something goes wrong executing the update
+     */
+    public static void store(UUID uuid, CSPlayerData data) throws SQLException {
+        storeStats(uuid, data);
+        storeRank(uuid, data);
+
+        for (String secret : data.getFoundSecrets()) {
+            addFoundSecret(uuid, secret);
         }
     }
 
@@ -112,10 +127,9 @@ public class StoreData {
             public void run() {
                 try {
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                            "UPDATE ? SET name = ? WHERE uuid = ?");
-                    ps.setString(1, table);
-                    ps.setString(2, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName());
-                    ps.setString(3, uuid.toString());
+                            "UPDATE " + table + " SET name = ? WHERE uuid = ?");
+                    ps.setString(1, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName());
+                    ps.setString(2, uuid.toString());
                     ps.executeUpdate();
                     ps.close();
                 } catch (SQLException e) {
