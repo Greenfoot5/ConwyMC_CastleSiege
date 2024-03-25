@@ -728,7 +728,6 @@ public class MapController {
 		team.addPlayer(uuid);
 
 		player.teleport(team.lobby.spawnPoint);
-		NameTag.give(player);
 
 		player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_2, 1f, 1f);
 

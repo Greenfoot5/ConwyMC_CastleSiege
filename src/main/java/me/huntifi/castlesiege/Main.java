@@ -54,6 +54,8 @@ import me.huntifi.castlesiege.data_types.LocationFrame;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.StoreData;
+import me.huntifi.castlesiege.events.chat.CSGlobalChat;
+import me.huntifi.castlesiege.events.chat.CSNameTag;
 import me.huntifi.castlesiege.events.combat.ArrowCollision;
 import me.huntifi.castlesiege.events.combat.ArrowRemoval;
 import me.huntifi.castlesiege.events.combat.AssistKill;
@@ -297,6 +299,8 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new BoosterCommand(), plugin);
                 getServer().getPluginManager().registerEvents(new TeamChat(), plugin);
+                getServer().getPluginManager().registerEvents(new CSNameTag(), plugin);
+                getServer().getPluginManager().registerEvents(new CSGlobalChat(), plugin);
 
                 // Connection
                 getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);
@@ -464,7 +468,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("ForceSwitch")).setExecutor(new SwitchCommand());
                 Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new ToggleSwitching());
                 Objects.requireNonNull(getCommand("Start")).setExecutor(new StartCommand());
-                Objects.requireNonNull(getCommand("SetTag")).setExecutor(new NameTag());
+                //Objects.requireNonNull(getCommand("SetTag")).setExecutor(new NameTag());
                 Objects.requireNonNull(getCommand("ToggleFree")).setExecutor(new ToggleAllKitsFree());
                 Objects.requireNonNull(getCommand("ToggleForcedRandom")).setExecutor(new ToggleForcedRandom());
 

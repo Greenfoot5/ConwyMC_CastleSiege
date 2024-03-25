@@ -6,10 +6,10 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.commands.chat.GlobalChatCommand;
+import me.huntifi.conwymc.events.nametag.UpdateNameTagEvent;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -74,7 +74,7 @@ public class SpectateCommand implements CommandExecutor {
                     player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
                 }
             }
-            NameTag.give(player);
+            Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(player));
         }
         return true;
     }

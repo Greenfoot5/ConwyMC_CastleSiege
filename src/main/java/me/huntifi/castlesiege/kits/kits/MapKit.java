@@ -66,8 +66,8 @@ public abstract class MapKit extends Kit implements Listener {
     }
 
     /**
-     * Get all level kit names
-     * @return All level kit names without spaces
+     * Get all map kit names
+     * @return All map kit names without spaces
      */
     public static Collection<String> getKits() {
         return kits;

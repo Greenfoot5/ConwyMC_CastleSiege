@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.conwymc.events.nametag.UpdateNameTagEvent;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -101,7 +101,7 @@ public class UpdateStats {
                     Messenger.sendCongrats("Congratulations, you leveled up to level: <yellow>" + level, p);
                     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                     p.setLevel(level);
-                    NameTag.give(p);
+                    Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(p));
 
                     // Announce every 5th level
                     if (level % 5 == 0) {

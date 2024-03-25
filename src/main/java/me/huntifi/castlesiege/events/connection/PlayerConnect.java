@@ -11,7 +11,6 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.conwymc.commands.staff.chat.BroadcastCommand;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -58,7 +57,6 @@ public class PlayerConnect implements Listener {
             SpectateCommand.spectators.add(uuid);
             p.setGameMode(GameMode.SPECTATOR);
             p.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
-            NameTag.give(p);
         } else {
             MapController.joinATeam(p.getUniqueId());
 

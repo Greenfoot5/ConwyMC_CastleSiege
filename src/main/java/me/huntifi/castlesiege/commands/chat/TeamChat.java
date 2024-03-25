@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.chat;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import me.huntifi.castlesiege.events.chat.CSNameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.commands.chat.GlobalChatCommand;
 import me.huntifi.conwymc.commands.chat.ToggleChatCommand;
@@ -29,7 +30,7 @@ public class TeamChat extends ToggleChatCommand {
 	/** The string representing team chat mode */
 	public static final String CHAT_MODE = "team";
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onChat(AsyncChatEvent e) {
 
 		PlayerData data = ActiveData.getData(e.getPlayer().getUniqueId());
@@ -63,6 +64,7 @@ public class TeamChat extends ToggleChatCommand {
 		Component prefix = Messenger.mm
 				.deserialize("<white>[<dark_aqua>TEAM</dark_aqua>]</white> ");
 
+		sourceDisplayName = CSNameTag.level(source, viewer).append(sourceDisplayName);
 		Component content = Messenger.mm.deserialize(color + Messenger.clean(message));
 		return prefix.append(sourceDisplayName).append(Component.text(": ", NamedTextColor.AQUA))
 				.append(content);

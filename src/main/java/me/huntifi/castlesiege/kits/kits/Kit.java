@@ -15,6 +15,7 @@ import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.events.nametag.UpdateNameTagEvent;
 import me.huntifi.conwymc.util.Messenger;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.DisguiseConfig;
@@ -278,7 +279,7 @@ public abstract class Kit implements CommandExecutor, Listener {
         if (disguise == null) {
             if (DisguiseAPI.isDisguised(p)) {
                 DisguiseAPI.undisguiseToAll(p);
-                NameTag.give(p);
+                Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(p));
             }
         }
         else {
@@ -290,7 +291,7 @@ public abstract class Kit implements CommandExecutor, Listener {
 
             disguise.setEntity(p);
             disguise.startDisguise();
-            NameTag.give(p);
+            Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(p));
         }
     }
 

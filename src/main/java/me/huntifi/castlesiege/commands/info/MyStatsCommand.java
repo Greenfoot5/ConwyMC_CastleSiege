@@ -4,8 +4,8 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.conwymc.util.Messenger;
+import me.huntifi.conwymc.util.NameTag;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -74,7 +74,7 @@ public class MyStatsCommand implements CommandExecutor {
         MiniMessage mm = Messenger.mm;
 
         meta.addPages(Component.text("Name: ", NamedTextColor.BLACK)
-                .append(mm.deserialize(NameTag.mmUsername(p)))
+                .append(data.getDisplayRank())
                 .append(Component.newline()).append(Component.newline())
                 .append(Component.text("Rank: ")).append(NameTag.convertRank(data.getStaffRank()))
                 .append(Component.newline())

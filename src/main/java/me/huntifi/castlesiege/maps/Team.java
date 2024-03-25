@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.CSStats;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.events.nametag.UpdateNameTagEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -90,7 +91,7 @@ public class Team implements Listener {
         if (lobby.spawnPoint.getWorld() == null)
             lobby.spawnPoint.setWorld(Bukkit.getWorld(MapController.getCurrentMap().worldName));
         player.setRespawnLocation(lobby.spawnPoint, true);
-        NameTag.give(player);
+        Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(player));
     }
 
     /**
