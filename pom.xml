@@ -6,14 +6,25 @@
 
     <groupId>com.github.AdminHuntif</groupId>
     <artifactId>CastleSiege</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
+    <name>ConwyMC_CastleSiege</name>
+
+    <description>The Castle Siege plugin for ConwyMC</description>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/AdminHuntifi/ConwyMC_CastleSiege</url>
+        </repository>
+    </distributionManagement>
 
     <repositories>
         <repository>
@@ -209,6 +220,26 @@
                     <target>11</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadoc</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 </project>

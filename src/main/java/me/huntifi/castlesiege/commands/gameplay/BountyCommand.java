@@ -137,7 +137,7 @@ public class BountyCommand implements CommandExecutor {
     }
 
     /**
-     * Splits a player's bounty between the killer & assistant
+     * Splits a player's bounty between the killer &amp; assistant
      * @param bountied The player who had a bounty
      * @param killer The player who dealt the final blow
      * @param assist The player who dealt the most damage

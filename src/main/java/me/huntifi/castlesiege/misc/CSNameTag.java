@@ -85,7 +85,7 @@ public class CSNameTag implements Listener {
     /**
      * Get the player's username as a component
      * @param p The player
-     * @return The player's username & colour
+     * @return The player's username &amp; colour
      */
     public static Component username(Player p) {
         if (MapController.getPlayers().contains(p.getUniqueId())) {

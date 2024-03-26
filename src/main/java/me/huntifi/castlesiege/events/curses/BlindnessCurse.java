@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 
 /**
- * A curse that hides player's names & other identifying features in tablist/chat
+ * A curse that hides player's names &amp; other identifying features in tablist/chat
  */
 public class BlindnessCurse extends CurseCast {
     public final static String name = "Curse of Blindness";
