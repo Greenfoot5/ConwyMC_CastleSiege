@@ -80,7 +80,7 @@ public class SettingsCommand implements TabExecutor {
 
         } else if (value.equals("reset")) {
             data.setSetting(uuid, setting.key, setting.values[0]);
-            Messenger.sendInfo(setting + " reset to " + setting.values[0], sender);
+            Messenger.sendInfo(setting.displayName + " reset to " + setting.values[0], sender);
         } else {
             Messenger.sendError("Invalid Value. Possible values: " + Arrays.toString(setting.values), sender);
         }
