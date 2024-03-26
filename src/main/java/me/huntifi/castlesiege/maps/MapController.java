@@ -798,6 +798,19 @@ public class MapController {
 	}
 
 	/**
+	 * @return All the players and spectators
+	 */
+	public static List<UUID> getEveryone() {
+		List<UUID> players = new ArrayList<>();
+		for (Team t : getCurrentMap().teams) {
+			players.addAll(t.getPlayers());
+		}
+		players.addAll(SpectateCommand.spectators);
+
+		return players;
+	}
+
+	/**
 	 * Checks if a player is a spectator
 	 * @param uuid The uuid of the player to check
      * @return If the player is a spectator

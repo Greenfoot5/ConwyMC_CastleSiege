@@ -3,8 +3,8 @@ package me.huntifi.castlesiege.maps.helms_deep;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -91,7 +91,7 @@ public class WallEvent implements Listener {
 
 						// Notify the player(s)
 						Messenger.sendInfo("You picked up the torch!", player);
-						Messenger.broadcastWarning(NameTag.mmUsername(player) + " has picked up the torch!");
+						Messenger.broadcastWarning(CSNameTag.mmUsername(player) + " has picked up the torch!");
 						carrier = player.getUniqueId();
 					}
 				}

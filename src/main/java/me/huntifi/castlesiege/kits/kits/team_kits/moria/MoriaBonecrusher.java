@@ -4,7 +4,7 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -101,14 +101,14 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    Messenger.sendWarning(NameTag.mmUsername(p) + " blocked your crushing stun!", q);
-                    Messenger.sendSuccess("You blocked " + NameTag.mmUsername(q) + "'s crushing stun!", p);
+                    Messenger.sendWarning(CSNameTag.mmUsername(p) + " blocked your crushing stun!", q);
+                    Messenger.sendSuccess("You blocked " + CSNameTag.mmUsername(q) + "'s crushing stun!", p);
                 } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    Messenger.sendWarning(NameTag.mmUsername(p) + " dodged your crushing stun!", q);
-                    Messenger.sendSuccess("You dodged " + NameTag.mmUsername(q) + "'s crushing stun!", p);
+                    Messenger.sendWarning(CSNameTag.mmUsername(p) + " dodged your crushing stun!", q);
+                    Messenger.sendSuccess("You dodged " + CSNameTag.mmUsername(q) + "'s crushing stun!", p);
                 } else {
-                    Messenger.sendSuccess("You have crushed " + NameTag.mmUsername(p), q);
-                    Messenger.sendWarning("You have been crushed by " + NameTag.mmUsername(q) + "!", p);
+                    Messenger.sendSuccess("You have crushed " + CSNameTag.mmUsername(p), q);
+                    Messenger.sendWarning("You have been crushed by " + CSNameTag.mmUsername(q) + "!", p);
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BONE_BLOCK_BREAK , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 50, 6)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 5)));

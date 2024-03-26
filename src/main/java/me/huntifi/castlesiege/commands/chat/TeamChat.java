@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.commands.chat;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
-import me.huntifi.castlesiege.events.chat.CSNameTag;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.commands.chat.GlobalChatCommand;
 import me.huntifi.conwymc.commands.chat.ToggleChatCommand;

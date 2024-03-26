@@ -4,8 +4,8 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -102,7 +102,7 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
 
                 // Enemy blocks cleave
                 if (hit.isBlocking()) {
-                    Messenger.sendActionInfo("You blocked " + NameTag.mmUsername(damager) + "'s cleave", hit);
+                    Messenger.sendActionInfo("You blocked " + CSNameTag.mmUsername(damager) + "'s cleave", hit);
                 } else {
                     hit.getWorld().playSound(hit.getLocation(), Sound.ENTITY_PLAYER_BIG_FALL, 1, 1);
                     event.setDamage(event.getDamage() * 2);

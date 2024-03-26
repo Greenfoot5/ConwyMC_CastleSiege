@@ -4,6 +4,7 @@ import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.CSActiveData;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.commands.chat.GlobalChatCommand;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;

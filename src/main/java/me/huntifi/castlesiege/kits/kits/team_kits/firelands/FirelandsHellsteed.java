@@ -5,8 +5,8 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import me.libraryaddict.disguise.DisguiseConfig;
@@ -133,7 +133,7 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    Messenger.sendSuccess("You blocked " + NameTag.username(q) + "'s stomp", p);
+                    Messenger.sendSuccess("You blocked " + CSNameTag.username(q) + "'s stomp", p);
                 } else {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY , 1, (float) 0.8);
                     e.setDamage(e.getDamage() * 1.5);

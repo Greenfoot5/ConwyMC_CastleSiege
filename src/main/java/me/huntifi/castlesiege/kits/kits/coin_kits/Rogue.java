@@ -12,8 +12,8 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -574,8 +574,8 @@ public class Rogue extends CoinKit implements Listener {
                         p.setCooldown(gouge.getType(), 100);
 
                         ed.setCancelled(true);
-                        Messenger.sendWarning("You were gouged by " + NameTag.mmUsername(p), hit);
-                        Messenger.sendSuccess("You gouged " + NameTag.mmUsername(hit), p);
+                        Messenger.sendWarning("You were gouged by " + CSNameTag.mmUsername(p), hit);
+                        Messenger.sendSuccess("You gouged " + CSNameTag.mmUsername(hit), p);
                         if (p.getInventory().contains(Material.GLOWSTONE_DUST)) {
                             for (ItemStack item : p.getInventory().getContents()) {
                                 if (item == null) {

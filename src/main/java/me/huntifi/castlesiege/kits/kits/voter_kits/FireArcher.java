@@ -7,8 +7,8 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -220,7 +220,7 @@ public class FireArcher extends VoterKit implements Listener {
                     TeamController.getTeam(p.getUniqueId()) != TeamController.getTeam(q.getUniqueId())){
                 destroyFirepit(q);
                 p.playSound(e.getClickedBlock().getLocation(), Sound.ENTITY_ZOMBIE_INFECT , 5, 1);
-                Messenger.sendActionSuccess("You kicked over " + NameTag.mmUsername(q) + "'s Firepit!", p);
+                Messenger.sendActionSuccess("You kicked over " + CSNameTag.mmUsername(q) + "'s Firepit!", p);
             }
         }
     }

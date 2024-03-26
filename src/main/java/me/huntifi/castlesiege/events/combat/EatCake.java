@@ -4,8 +4,8 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Medic;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -51,8 +51,8 @@ public class EatCake implements Listener {
             if (canEatCake(eater, placer)) {
                 // Send messages and award heal
                 if (placer != null && !Objects.equals(eater, placer)) {
-                    Messenger.sendActionInfo(NameTag.mmUsername(placer) + "'s cake is healing you!", eater);
-                    Messenger.sendActionSuccess("Your cake is healing " + NameTag.mmUsername(eater), placer);
+                    Messenger.sendActionInfo(CSNameTag.mmUsername(placer) + "'s cake is healing you!", eater);
+                    Messenger.sendActionSuccess("Your cake is healing " + CSNameTag.mmUsername(eater), placer);
                     UpdateStats.addHeals(placer.getUniqueId(), 1);
 
                 } else {

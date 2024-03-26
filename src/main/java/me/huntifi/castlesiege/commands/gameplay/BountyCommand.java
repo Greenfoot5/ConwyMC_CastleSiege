@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.commands.gameplay;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.CSActiveData;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
@@ -52,7 +52,7 @@ public class BountyCommand implements CommandExecutor {
 
         if (args.length == 1) {
             int amount = getBounty(bountied.getUniqueId());
-            Messenger.sendBounty(NameTag.username(bountied) + " has a bounty of <gold>" + amount + "</gold> coins on their head.", sender);
+            Messenger.sendBounty(CSNameTag.username(bountied) + " has a bounty of <gold>" + amount + "</gold> coins on their head.", sender);
             return true;
         }
 
@@ -65,7 +65,7 @@ public class BountyCommand implements CommandExecutor {
         if (sender instanceof ConsoleCommandSender) {
             int totalBounty = getAndAddBounty(bountied.getUniqueId(), amount);
             Messenger.broadcastPaidBounty("<dark_aqua>CONSOLE</dark_aqua>",
-                    NameTag.mmUsername(bountied), amount, totalBounty);
+                    CSNameTag.mmUsername(bountied), amount, totalBounty);
             return true;
         } else if (!(sender instanceof Player)) {
             return true;
@@ -77,8 +77,8 @@ public class BountyCommand implements CommandExecutor {
             return true;
         }
         int totalBounty = getAndAddBounty(bountied.getUniqueId(), amount);
-        Messenger.broadcastPaidBounty(NameTag.mmUsername(payee),
-                NameTag.mmUsername(bountied), amount, totalBounty);
+        Messenger.broadcastPaidBounty(CSNameTag.mmUsername(payee),
+                CSNameTag.mmUsername(bountied), amount, totalBounty);
         return true;
     }
 
@@ -128,10 +128,10 @@ public class BountyCommand implements CommandExecutor {
         CSActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty);
 
         if (bounty >= MIN_CLAIM) {
-            Messenger.broadcastBountyClaimed(NameTag.mmUsername(bountied),
-                    NameTag.mmUsername(killer), bounty);
+            Messenger.broadcastBountyClaimed(CSNameTag.mmUsername(bountied),
+                    CSNameTag.mmUsername(killer), bounty);
         } else {
-            Messenger.sendBounty("You killed " + NameTag.mmUsername(bountied) + " and claimed <gold>"
+            Messenger.sendBounty("You killed " + CSNameTag.mmUsername(bountied) + " and claimed <gold>"
                     + bounty + "</gold> coins!", killer);
         }
     }
@@ -158,8 +158,8 @@ public class BountyCommand implements CommandExecutor {
        CSActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty - assistAmount);
 
         if (bounty >= MIN_CLAIM) {
-            Messenger.broadcastBountyClaimed(NameTag.mmUsername(bountied),
-                    NameTag.mmUsername(killer), NameTag.mmUsername(assist), bounty);
+            Messenger.broadcastBountyClaimed(CSNameTag.mmUsername(bountied),
+                    CSNameTag.mmUsername(killer), CSNameTag.mmUsername(assist), bounty);
         } else {
             Messenger.sendBounty("You killed " + bountied.getName() + " and claimed <gold>"
                     + (bounty - assistAmount) + "</gold> coins!", killer);
@@ -193,7 +193,7 @@ public class BountyCommand implements CommandExecutor {
         }
         if (amount > 0) {
             int total = getAndAddBounty(killer.getUniqueId(), (int) (amount * CSPlayerData.getCoinMultiplier()));
-            Messenger.broadcastKillStreakBounty(NameTag.mmUsername(killer),
+            Messenger.broadcastKillStreakBounty(CSNameTag.mmUsername(killer),
                     CSActiveData.getData(killer.getUniqueId()).getKillStreak(), total);
         }
     }

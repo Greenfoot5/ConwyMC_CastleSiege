@@ -11,7 +11,6 @@ import me.huntifi.castlesiege.events.curses.VulnerabilityCurse;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.data_types.Tuple;
@@ -283,7 +282,7 @@ public abstract class Kit implements CommandExecutor, Listener {
             }
         }
         else {
-            disguise.getWatcher().setCustomName(Messenger.mm.serialize(NameTag.username(p)));
+            disguise.getWatcher().setCustomName(Messenger.mm.serialize(p.displayName()));
             disguise.setCustomDisguiseName(true);
             disguise.setHearSelfDisguise(true);
             disguise.setSelfDisguiseVisible(false);

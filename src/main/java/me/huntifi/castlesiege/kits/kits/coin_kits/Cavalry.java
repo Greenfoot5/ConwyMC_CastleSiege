@@ -6,8 +6,8 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -149,7 +149,7 @@ public class Cavalry extends CoinKit implements Listener {
 
                             // The stomp can be blocked using a shield
                             if (hit.isBlocking()) {
-                                Messenger.sendActionSuccess("You blocked " + NameTag.mmUsername(p) + "'s horse stomp", hit);
+                                Messenger.sendActionSuccess("You blocked " + CSNameTag.mmUsername(p) + "'s horse stomp", hit);
                             } else {
                                 hit.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
                                 hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));

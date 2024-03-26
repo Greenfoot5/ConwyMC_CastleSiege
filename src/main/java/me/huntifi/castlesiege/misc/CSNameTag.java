@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.events.chat;
+package me.huntifi.castlesiege.misc;
 
 import com.nametagedit.plugin.NametagEdit;
 import me.huntifi.castlesiege.Main;
@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.events.nametag.UpdateNameTagEvent;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
@@ -20,6 +21,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+/**
+ * Handles Names for Castle Siege
+ */
+@SuppressWarnings("deprecation")
 public class CSNameTag implements Listener {
 
     /**
@@ -28,15 +33,14 @@ public class CSNameTag implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onUpdateNameTag(UpdateNameTagEvent event) {
-        Player player = event.getPlayer();
-        CSPlayerData data = CSActiveData.getData(player.getUniqueId());
-
-        // Don't do anything if the player hasn't been loaded into CSActiveData or MapController
-        if (data == null) {
+        // Don't do anything if the player isn't on CastleSiege
+        if (!MapController.getEveryone().contains(event.getPlayer().getUniqueId())) {
             return;
         }
 
-        // Get the player's wanted rank
+        Player player = event.getPlayer();
+        CSPlayerData data = CSActiveData.getData(player.getUniqueId());
+        assert data != null;
         Component rank = data.getDisplayRank();
         String legacyRank = LegacyComponentSerializer.legacySection().serialize(rank);
 
@@ -54,7 +58,7 @@ public class CSNameTag implements Listener {
         });
     }
 
-    public static String legacyColor(Player p) {
+    private static String legacyColor(Player p) {
         if (MapController.getPlayers().contains(p.getUniqueId())) {
             Component c = Component.text(" ").color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
             return LegacyComponentSerializer.legacySection().serialize(c);
@@ -63,6 +67,39 @@ public class CSNameTag implements Listener {
         }
     }
 
+    /**
+     * Get the player's username with minimessage
+     * @param p The player
+     * @return The player's username with minimessage colour
+     */
+    public static String mmUsername(Player p) {
+        String name = Messenger.mm.serialize(p.name());
+        if (MapController.getPlayers().contains(p.getUniqueId())) {
+            String tag = "color:" + TeamController.getTeam(p.getUniqueId()).primaryChatColor.asHexString();
+            return "<" + tag + ">" + name + "</" + tag + ">";
+        } else {
+            return "<gray><i>" + name + "</gray>";
+        }
+    }
+
+    /**
+     * Get the player's username as a component
+     * @param p The player
+     * @return The player's username & colour
+     */
+    public static Component username(Player p) {
+        if (MapController.getPlayers().contains(p.getUniqueId())) {
+            return p.name().color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
+        } else {
+            return p.name().color(NamedTextColor.GRAY).decorate(TextDecoration.ITALIC);
+        }
+    }
+
+    /**
+     * @param sender The player whose level is being displayed
+     * @param viewer The player viewing the level
+     * @return The level with the correct colour
+     */
     public static Component level(Player sender, Audience viewer) {
         CSPlayerData senderData = CSActiveData.getData(sender.getUniqueId());
         assert senderData != null;

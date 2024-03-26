@@ -9,8 +9,8 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -221,7 +221,7 @@ public class Priest extends CoinKit implements Listener {
                                         if (Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getHealth() != healthAttribute.getBaseValue()) {
                                             UpdateStats.addHeals(p.getUniqueId(), 1);
                                         }
-                                        Messenger.sendActionInfo("Your blessing is currently affecting: " + NameTag.mmUsername(Bukkit.getPlayer(blessings.get(p))), p);
+                                        Messenger.sendActionInfo("Your blessing is currently affecting: " + CSNameTag.mmUsername(Bukkit.getPlayer(blessings.get(p))), p);
                                     } else {
                                         this.cancel();
                                     }

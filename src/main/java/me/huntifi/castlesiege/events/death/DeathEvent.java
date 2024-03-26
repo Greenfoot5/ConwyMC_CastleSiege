@@ -11,10 +11,10 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.connection.PlayerConnect;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -244,17 +244,17 @@ public class DeathEvent implements Listener {
      */
     private void killDeathMessage(Player killer, Player target, Tuple<String[], String[]> messages) {
         Messenger.send(Component.text("You" + messages.getFirst()[0]
-                                + NameTag.username(target) + messages.getFirst()[1])
+                                + CSNameTag.username(target) + messages.getFirst()[1])
                 .append(Component.text(" (" + (CSActiveData.getData(killer.getUniqueId()).getKillStreak()) + ")", NamedTextColor.GRAY)),
                 killer);
 
-        Messenger.send(Component.text(messages.getSecond()[0] + NameTag.username(killer) + messages.getSecond()[1]), target);
+        Messenger.send(Component.text(messages.getSecond()[0] + CSNameTag.username(killer) + messages.getSecond()[1]), target);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player != killer && player != target
                     && !CSActiveData.getData(player.getUniqueId()).getSetting("deathMessages").equals("false")) {
-                Messenger.send(NameTag.mmUsername(killer) + messages.getFirst()[0]
-                        + NameTag.mmUsername(target) + messages.getFirst()[1], player);
+                Messenger.send(CSNameTag.mmUsername(killer) + messages.getFirst()[0]
+                        + CSNameTag.mmUsername(target) + messages.getFirst()[1], player);
             }
         }
     }
@@ -267,7 +267,7 @@ public class DeathEvent implements Listener {
     private void assistMessage(UUID uuid, Player target) {
         Player assist = Bukkit.getPlayer(uuid);
         if (assist != null) {
-            Messenger.send("You assisted in killing " + NameTag.mmUsername(target), assist);
+            Messenger.send("You assisted in killing " + CSNameTag.mmUsername(target), assist);
         }
     }
 

@@ -7,8 +7,8 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
@@ -194,8 +194,8 @@ public class Warhound extends CoinKit implements Listener {
 
             // Activate stun
             q.setCooldown(Material.GHAST_TEAR, 240);
-            Messenger.sendSuccess("You immobilised " + NameTag.mmUsername(p) + ".", q);
-            Messenger.sendWarning("You have been immobilised by " + NameTag.mmUsername(q) + "!", p);
+            Messenger.sendSuccess("You immobilised " + CSNameTag.mmUsername(p) + ".", q);
+            Messenger.sendWarning("You have been immobilised by " + CSNameTag.mmUsername(q) + "!", p);
             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 1 );
 
             // Apply potion effects

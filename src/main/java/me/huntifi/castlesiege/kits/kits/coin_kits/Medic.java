@@ -7,8 +7,8 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -189,7 +189,7 @@ public class Medic extends CoinKit implements Listener {
                 destroyCake(q);
                 cakeType = TeamController.getTeam(p.getUniqueId())
                         == TeamController.getTeam(q.getUniqueId()) ? " friendly" : "n enemy";
-                Messenger.sendWarning("Your cake was destroyed by " + NameTag.mmUsername(p), q);
+                Messenger.sendWarning("Your cake was destroyed by " + CSNameTag.mmUsername(p), q);
             } else {
                 cake.setType(Material.AIR);
                 cakeType = " neutral";
@@ -230,8 +230,8 @@ public class Medic extends CoinKit implements Listener {
                 // Heal
                 addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
                 addPotionEffect(player, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
-                Messenger.sendHealing(NameTag.mmUsername(player) + " is healing you", r);
-                Messenger.sendHealing("You are healing " + NameTag.mmUsername(r), player);
+                Messenger.sendHealing(CSNameTag.mmUsername(player) + " is healing you", r);
+                Messenger.sendHealing("You are healing " + CSNameTag.mmUsername(r), player);
                 UpdateStats.addHeals(uuid, 1);
             }
         });

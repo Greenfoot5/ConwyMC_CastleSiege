@@ -7,8 +7,8 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -172,8 +172,8 @@ public class Armorer extends CoinKit implements Listener {
             meta.lore(Collections.singletonList(Component.text("- Reinforced", NamedTextColor.AQUA)));
             meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, level(armor), false);
             item.setItemMeta(meta);
-            Messenger.sendActionInfo(NameTag.mmUsername(smith) + " has reinforced your armor", target);
-            Messenger.sendActionInfo("You are reinforcing " + NameTag.mmUsername(target) + "'s armor", smith);
+            Messenger.sendActionInfo(CSNameTag.mmUsername(smith) + " has reinforced your armor", target);
+            Messenger.sendActionInfo("You are reinforcing " + CSNameTag.mmUsername(target) + "'s armor", smith);
             addPotionEffect(smith, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () ->
                     UpdateStats.addSupports(smith.getUniqueId(), 2), cooldownTicks);

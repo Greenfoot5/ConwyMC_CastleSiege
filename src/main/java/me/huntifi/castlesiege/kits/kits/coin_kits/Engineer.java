@@ -12,9 +12,9 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -194,8 +194,8 @@ public class Engineer extends CoinKit implements Listener {
                 e.setCancelled(true);
                 traps.get(t).remove(trap);
                 trap.setType(Material.AIR);
-                Messenger.sendWarning("You stepped on " + NameTag.mmUsername(t) + "'s trap.", p);
-                Messenger.sendSuccess(NameTag.mmUsername(p) + " stepped on your trap.", t);
+                Messenger.sendWarning("You stepped on " + CSNameTag.mmUsername(t) + "'s trap.", p);
+                Messenger.sendSuccess(CSNameTag.mmUsername(p) + " stepped on your trap.", t);
 
                 // Deal damage
                 double damage = Math.min(p.getHealth(), 60);
@@ -232,8 +232,8 @@ public class Engineer extends CoinKit implements Listener {
                 e.setCancelled(true);
                 traps.get(t).remove(trap);
                 trap.setType(Material.AIR);
-                Messenger.sendWarning("Your horse on " + NameTag.mmUsername(t) + "'s trap.", p);
-                Messenger.sendSuccess(NameTag.mmUsername(p) + "'s horse stepped on your trap.", t);
+                Messenger.sendWarning("Your horse on " + CSNameTag.mmUsername(t) + "'s trap.", p);
+                Messenger.sendSuccess(CSNameTag.mmUsername(p) + "'s horse stepped on your trap.", t);
                 h.damage(60);
             }
         }

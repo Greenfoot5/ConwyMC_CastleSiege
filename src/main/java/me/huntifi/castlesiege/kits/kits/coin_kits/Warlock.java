@@ -7,8 +7,8 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -322,8 +322,8 @@ public class Warlock extends CoinKit implements Listener {
                 caster.setHealth(caster.getHealth() - healthTransferred);
 
 
-                Messenger.sendSuccess(NameTag.mmUsername(caster) + " has sacrificed health for you", healed);
-                Messenger.sendInfo("You have sacrificed your health for " + NameTag.mmUsername(healed), caster);
+                Messenger.sendSuccess(CSNameTag.mmUsername(caster) + " has sacrificed health for you", healed);
+                Messenger.sendInfo("You have sacrificed your health for " + CSNameTag.mmUsername(healed), caster);
 
                 mythicMobsApi.castSkill(healed,"WarlockHealthFunnelEffect");
             }

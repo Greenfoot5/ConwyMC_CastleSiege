@@ -7,8 +7,8 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.LevelKit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -143,8 +143,8 @@ public class BattleMedic extends LevelKit implements Listener {
                 Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(r), 39);
                 player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
                 addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
-                Messenger.sendActionInfo(NameTag.username(player) + "§r is healing you", r);
-                Messenger.sendActionInfo("You are healing " + NameTag.username(r), player);
+                Messenger.sendActionInfo(CSNameTag.username(player) + "§r is healing you", r);
+                Messenger.sendActionInfo("You are healing " + CSNameTag.username(r), player);
                 UpdateStats.addHeals(uuid, 1);
             }
         });

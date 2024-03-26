@@ -55,7 +55,6 @@ import me.huntifi.castlesiege.data_types.SchematicFrame;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.chat.CSGlobalChat;
-import me.huntifi.castlesiege.events.chat.CSNameTag;
 import me.huntifi.castlesiege.events.combat.ArrowCollision;
 import me.huntifi.castlesiege.events.combat.ArrowRemoval;
 import me.huntifi.castlesiege.events.combat.AssistKill;
@@ -147,7 +146,6 @@ import me.huntifi.castlesiege.maps.Hommet.CollapseEvent;
 import me.huntifi.castlesiege.maps.Lobby;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Scoreboard;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.WoolMap;
@@ -165,6 +163,7 @@ import me.huntifi.castlesiege.maps.objects.LeverDoor;
 import me.huntifi.castlesiege.maps.objects.PressurePlateDoor;
 import me.huntifi.castlesiege.maps.objects.Ram;
 import me.huntifi.castlesiege.maps.objects.RegionHandler;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.castlesiege.misc.mythic.MythicListener;
 import me.huntifi.castlesiege.secrets.Abrakhan.AbrakhanSecretDoor;
 import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
@@ -299,7 +298,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new BoosterCommand(), plugin);
                 getServer().getPluginManager().registerEvents(new TeamChat(), plugin);
-                getServer().getPluginManager().registerEvents(new CSNameTag(), plugin);
                 getServer().getPluginManager().registerEvents(new CSGlobalChat(), plugin);
 
                 // Connection
@@ -405,8 +403,8 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new MythicListener(), plugin);
 
                 // Misc
+                getServer().getPluginManager().registerEvents(new CSNameTag(), plugin);
                 getServer().getPluginManager().registerEvents(new RandomKitCommand(), plugin);
-                getServer().getPluginManager().registerEvents(new NameTag(), plugin);
                 getServer().getPluginManager().registerEvents(new WoolHat(), plugin);
 
                 // Chat

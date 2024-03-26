@@ -9,7 +9,7 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -266,8 +266,8 @@ public class Ranger extends CoinKit implements Listener {
                         && canBackstab) {
 
                     ed.setCancelled(true);
-                    Messenger.sendWarning("You got backstabbed by " + NameTag.mmUsername(p), hit);
-                    Messenger.sendSuccess("You backstabbed " + NameTag.mmUsername(hit), p);
+                    Messenger.sendWarning("You got backstabbed by " + CSNameTag.mmUsername(p), hit);
+                    Messenger.sendSuccess("You backstabbed " + CSNameTag.mmUsername(hit), p);
                     AssistKill.addDamager(hit.getUniqueId(), p.getUniqueId(), hit.getHealth());
                     DeathEvent.setKiller(hit, p);
                     hit.setHealth(0);
