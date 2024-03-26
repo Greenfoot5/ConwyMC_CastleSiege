@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.maps.objects;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
@@ -27,7 +26,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static me.huntifi.castlesiege.Main.getBarColour;
-import static net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
 
 /**
  * A core to destroy for DTC maps
@@ -136,22 +134,19 @@ public class Core implements Listener {
         if (MapController.getCurrentMap() instanceof CoreMap) {
             CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
             for (Core core : coreMap.getCores()) {
-                createFlagBossbar(core, getBarColour(core.getColor()), BossBar.Overlay.PROGRESS, core.name, (float) core.health);
+                createFlagBossbar(core, getBarColour(core.getColor()), core.name, (float) core.health);
             }
         }
     }
 
     /**
-     *
-     * @param core the core to create the bossbar for
+     * @param core      the core to create the bossbar for
      * @param barColour the colour of the bar, should be the team colour.
-     * @param barStyle the style to put the bossbar in
-     * @param text this is actually just the flag name
-     * @param progress the amount of progress done on the bossbar, should be (index / max caps)
+     * @param text      this is actually just the flag name
+     * @param progress  the amount of progress done on the bossbar, should be (index / max caps)
      */
-    private static void createFlagBossbar(Core core, BossBar.Color barColour, BossBar.Overlay barStyle, String text, float progress) {
-        Main.plugin.getComponentLogger().info(Component.text(core.name + " Bossbar creation initialised", DARK_GREEN));
-        BossBar bar = BossBar.bossBar(Component.text(text), progress, barColour, barStyle);
+    private static void createFlagBossbar(Core core, BossBar.Color barColour, String text, float progress) {
+        BossBar bar = BossBar.bossBar(Component.text(text), progress, barColour, BossBar.Overlay.PROGRESS);
         bars.putIfAbsent(core, bar);
     }
 

@@ -598,16 +598,13 @@ public class Flag {
     }
 
     /**
-     *
-     * @param flag the flag to create the bossbar for
+     * @param flag      the flag to create the bossbar for
      * @param barColour the colour of the bar, should be the team colour.
-     * @param barStyle the style to put the bossbar in
-     * @param text this is actually just the flag name
-     * @param progress the amount of progress done on the bossbar, should be (index / max caps)
+     * @param text      this is actually just the flag name
+     * @param progress  the amount of progress done on the bossbar, should be (index / max caps)
      */
-    private static void createFlagBossbar(Flag flag, BossBar.Color barColour, BossBar.Overlay barStyle, String text, float progress) {
-        Main.plugin.getComponentLogger().info(Component.text(flag.name + " Bossbar creation initialised", NamedTextColor.DARK_GREEN));
-        BossBar bar = BossBar.bossBar(Component.text(text), progress, barColour, barStyle);
+    private static void createFlagBossbar(Flag flag, BossBar.Color barColour, String text, float progress) {
+        BossBar bar = BossBar.bossBar(Component.text(text), progress, barColour, BossBar.Overlay.PROGRESS);
         bars.putIfAbsent(flag, bar);
     }
 
@@ -656,7 +653,7 @@ public class Flag {
      */
     public static void registerBossbars() {
         for (Flag flag : MapController.getCurrentMap().flags) {
-            createFlagBossbar(flag, getBarColour(flag.getColor()), BossBar.Overlay.PROGRESS, flag.name, (float) flag.animationIndex/flag.maxCap);
+            createFlagBossbar(flag, getBarColour(flag.getColor()), flag.name, (float) flag.animationIndex/flag.maxCap);
         }
     }
 }
