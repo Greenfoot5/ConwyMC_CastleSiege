@@ -28,10 +28,13 @@ public abstract class MapKit extends Kit implements Listener {
     private final String sign;
 
     /**
-     * Create a map specific kit, which are kits that can only be played on a specific map but are not bound by teams.
-     *
-     * @param name        This kit's name
-     * @param baseHealth  This kit's base health
+     * Create a Map Kit
+     * @param name       This kit's name
+     * @param baseHealth This kit's base health
+     * @param regenAmount The amount to regen every regen tick
+     * @param material The material to display in GUIS
+     * @param mapName The name of the map the kit can be used in
+     * @param signName The name to check on the sign
      */
     public MapKit(String name, int baseHealth, double regenAmount, Material material, String mapName, String signName) {
         super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_AQUA);

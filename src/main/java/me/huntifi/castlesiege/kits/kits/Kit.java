@@ -263,7 +263,9 @@ public abstract class Kit implements CommandExecutor, Listener {
     }
 
     /**
-     * Sets a disguise
+     * Sets the kit's disguise (overridable)
+     * By default it removes any disguise a player had
+     * @param p The player to set the disguise for
      */
     protected void setDisguise(Player p) {
         disguise(p, null);
@@ -482,8 +484,10 @@ public abstract class Kit implements CommandExecutor, Listener {
     /**
      * @param health The health of the kit
      * @param meleeDamage The melee damage the kit deals
+     * @param rangedDamage The ranged damage the kit deals
      * @param regen The regen of the kit
      * @param ladders The number of ladders the kit starts with
+     * @param ammo The total ammo a kit starts with
      * @return A simple display with these stats listed
      */
     protected ArrayList<Component> getBaseStats(int health, double regen, double meleeDamage, double rangedDamage,

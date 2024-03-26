@@ -90,6 +90,7 @@ public class Core implements Listener {
     /**
      * Plays the capturing ping sound to a player
      * @param player The player to play the sound to
+     * @param isDestroyed Is the core has been fully destroyed
      */
     protected void playDamageSound(Player player, boolean isDestroyed) {
         Location location = player.getLocation();

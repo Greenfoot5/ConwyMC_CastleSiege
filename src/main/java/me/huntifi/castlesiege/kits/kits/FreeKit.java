@@ -14,10 +14,11 @@ public abstract class FreeKit extends Kit {
     private static final Collection<String> kits = new ArrayList<>();
 
     /**
-     * Create a kit with basic settings
-     *
+     * Create a Free Kit
      * @param name       This kit's name
      * @param baseHealth This kit's base health
+     * @param regenAmount The amount to regen every regen tick
+     * @param material The material to display in GUIS
      */
     public FreeKit(String name, int baseHealth, double regenAmount, Material material) {
         super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_GREEN);

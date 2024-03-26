@@ -21,6 +21,13 @@ public abstract class StaffKit extends Kit {
     private static final Collection<String> kits = new ArrayList<>();
     public static final List<String> donatorKits = new ArrayList<>();
 
+    /**
+     * Create a Staff Kit
+     * @param name       This kit's name
+     * @param baseHealth This kit's base health
+     * @param regenAmount The amount to regen every regen tick
+     * @param material The material to display in GUIS
+     */
     public StaffKit(String name, int baseHealth, double regenAmount, Material material) {
         super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_AQUA);
 

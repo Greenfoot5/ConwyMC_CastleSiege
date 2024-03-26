@@ -34,13 +34,14 @@ public abstract class TeamKit extends CoinKit implements Listener {
 
     /**
      * Create a kit with basic settings
-     *
      * @param name         This kit's name
      * @param baseHealth   This kit's base health
      * @param regenAmount  The kit's regeneration
      * @param playableMap  The map the kit can be played on
      * @param playableTeam The team the kit can be played on
      * @param coins the amount of coins this kit costs
+     * @param material The material to display in GUIs
+     * @param commandName The name of the command players run to equip the kit
      */
     public TeamKit(String name, int baseHealth, double regenAmount, String playableMap, String playableTeam, double coins
                    ,Material material, String commandName) {

@@ -418,6 +418,7 @@ public class Flag {
     /**
      * Plays the capturing ping sound to a player
      * @param player The player to play the sound to
+     * @param fullyCapped true if the flag has been fully captured
      */
     protected void playCapSound(Player player, boolean fullyCapped) {
         Location location = player.getLocation();
