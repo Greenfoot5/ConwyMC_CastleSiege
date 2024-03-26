@@ -35,7 +35,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -330,6 +329,9 @@ public abstract class Kit implements CommandExecutor, Listener {
         return new Tuple<>(projectileKillMessage, projectileDeathMessage);
     }
 
+    /**
+     * @return The regen per tick for the kit
+     */
     public double getRegen() {
         return regenAmount;
     }
@@ -443,19 +445,17 @@ public abstract class Kit implements CommandExecutor, Listener {
         return limit <= count.get();
     }
 
+    /**
+     * Gets the GUI material for a kit
+     * @param kitName The name of the kit
+     * @return The material to use
+     */
     public static Material getMaterial(String kitName) {
         Kit kit = getKit(kitName);
         if (kit != null) {
             return kit.material;
         }
         return null;
-    }
-
-    public static int getStrengthDamage(Player p) {
-        if (p.hasPotionEffect(PotionEffectType.INCREASE_DAMAGE)) {
-            return 3 * (Objects.requireNonNull(p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE)).getAmplifier() + 1);
-        }
-        return 0;
     }
 
     /**
@@ -471,14 +471,7 @@ public abstract class Kit implements CommandExecutor, Listener {
      * @return A simple display with these stats listed
      */
     protected ArrayList<Component> getBaseStats(int health, double regen, double meleeDamage,  int ladders) {
-        ArrayList<Component> baseStats = new ArrayList<>();
-        baseStats.add(Component.empty());
-        baseStats.add(Component.text(health, color).append(Component.text(" HP", NamedTextColor.GRAY)));
-        baseStats.add(Component.text(regen, color).append(Component.text(" Regen", NamedTextColor.GRAY)));
-        baseStats.add(Component.text(meleeDamage, color).append(Component.text(" Melee DMG", NamedTextColor.GRAY)));
-        if (ladders > 0)
-            baseStats.add(Component.text(ladders, color).append(Component.text(" Ladders", NamedTextColor.GRAY)));
-        return baseStats;
+        return getBaseStats(health, regen, meleeDamage, -1, ladders, -1);
     }
 
     /**
@@ -497,7 +490,8 @@ public abstract class Kit implements CommandExecutor, Listener {
         baseStats.add(Component.text(health, color).append(Component.text(" HP", NamedTextColor.GRAY)));
         baseStats.add(Component.text(regen, color).append(Component.text(" Regen", NamedTextColor.GRAY)));
         baseStats.add(Component.text(meleeDamage, color).append(Component.text(" Melee DMG", NamedTextColor.GRAY)));
-        baseStats.add(Component.text(rangedDamage + "+", color).append(Component.text(" Ranged DMG", NamedTextColor.GRAY)));
+        if (rangedDamage > 0)
+            baseStats.add(Component.text(rangedDamage + "+", color).append(Component.text(" Ranged DMG", NamedTextColor.GRAY)));
         if (ladders > 0)
             baseStats.add(Component.text(ladders, color).append(Component.text(" Ladders", NamedTextColor.GRAY)));
         if (ammo > 0)
@@ -505,6 +499,9 @@ public abstract class Kit implements CommandExecutor, Listener {
         return baseStats;
     }
 
+    /**
+     * @return Text displaying cost to unlock the kit
+     */
     public ArrayList<Component> getGuiCostText() {
         ArrayList<Component> text = new ArrayList<>();
         text.add(Component.empty());

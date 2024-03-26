@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
+/**
+ * A kit that's unlocked by voting
+ */
 public abstract class VoterKit extends Kit {
 
     // Kit Tracking

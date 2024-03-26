@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
+/**
+ * A kit that's unlocked by levelling up
+ */
 public abstract class LevelKit extends Kit {
 
 

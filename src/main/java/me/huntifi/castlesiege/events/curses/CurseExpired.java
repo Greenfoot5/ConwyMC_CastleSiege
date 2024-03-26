@@ -7,9 +7,11 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Type;
 import java.util.UUID;
 
+/**
+ * Called when a curse expires
+ */
 public class CurseExpired extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
-    private boolean isCancelled;
     private final String displayName;
     private final String expireMessage;
     private final long startTime;
@@ -19,6 +21,9 @@ public class CurseExpired extends Event {
 
     private final Type castCurse;
 
+    /**
+     * @param curse The curse that expired
+     */
     public CurseExpired(CurseCast curse) {
         this.displayName = curse.getDisplayName();
         this.expireMessage = curse.getExpireMessage();
@@ -29,26 +34,38 @@ public class CurseExpired extends Event {
         this.castCurse = curse.getClass();
     }
 
+    /**
+     * @return The display name of the curse
+     */
     public String getDisplayName() {
         return displayName;
     }
 
+    /**
+     * @return The message to display when the curse expires
+     */
     public String getExpireMessage() {
         return expireMessage;
     }
 
+    /**
+     * @return The time the curse was activated
+     */
     public long getStartTime() {
         return startTime;
     }
 
+    /**
+     * @return How long the curse lasted
+     */
     public int getDuration() {
         return duration;
     }
 
-    public long getEndTime() {
-        return startTime + duration;
-    }
-
+    /**
+     * The player affected by the curse, {@code null} if all players are affected
+     * @return The player affected
+     */
     public UUID getPlayer() {
         return player;
     }
@@ -58,6 +75,9 @@ public class CurseExpired extends Event {
         return HANDLERS;
     }
 
+    /**
+     * @return The list of handlers
+     */
     @SuppressWarnings("unused")
     public static HandlerList getHandlerList() {
         return HANDLERS;

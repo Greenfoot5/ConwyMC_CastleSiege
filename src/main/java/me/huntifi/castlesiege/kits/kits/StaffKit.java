@@ -15,6 +15,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A kit that's unlocked by becoming a staff member
+ */
 public abstract class StaffKit extends Kit {
 
     // Kit Tracking

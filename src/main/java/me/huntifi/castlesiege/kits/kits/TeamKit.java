@@ -20,6 +20,9 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * A kit that's only available for a specific team
+ */
 public abstract class TeamKit extends CoinKit implements Listener {
 
     //map for the map specific kits and the team

@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Casts a new curse
+ */
 public class CurseCommand implements TabExecutor {
 
 //    /** The curses GUI */

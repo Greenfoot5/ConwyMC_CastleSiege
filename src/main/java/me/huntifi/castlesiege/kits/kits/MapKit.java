@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * A kit that's only available on a specific map
+ */
 public abstract class MapKit extends Kit implements Listener {
 
     // Kit Tracking

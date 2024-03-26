@@ -8,6 +8,9 @@ import org.bukkit.Material;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * A kit that's automatically unlocked
+ */
 public abstract class FreeKit extends Kit {
 
     // Kit Tracking

@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * The curse to increase damage
+ */
 public class DamageCurse extends CurseCast {
     public final static String name = "Curse of Damage";
     private final static String activateMessage = "Your melee damage has been modified by ";

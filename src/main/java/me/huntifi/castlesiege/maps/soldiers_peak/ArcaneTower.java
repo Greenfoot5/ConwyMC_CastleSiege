@@ -6,8 +6,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 
+/**
+ * Attempts to reduce lag on Soldier's Peak
+ */
 public class ArcaneTower implements Listener {
 
+    /**
+     * @param e The ChunkLoadEvent for Soldier's Peak
+     */
     @EventHandler
     public void onChunk(ChunkLoadEvent e) {
 

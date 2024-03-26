@@ -14,6 +14,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Handles adding a level prefix to player's names when chatting
+ */
 public class CSGlobalChat implements Listener, ChatRenderer {
     /**
      * Used to set the renderer for when a player chats in global
