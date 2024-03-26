@@ -11,16 +11,22 @@ import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-public class GrantBoosterCommand implements CommandExecutor {
+/**
+ * Create a new booster and grant it to a player
+ */
+public class GrantBoosterCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
@@ -48,6 +54,20 @@ public class GrantBoosterCommand implements CommandExecutor {
         }
 
         sendConfirmMessage(sender);
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        if (args.length <= 1) {
+            return null;
+        }
+        if (args.length == 2) {
+            return List.of("coin", "kit");
+        }
+        if (args.length == 3) {
+            return new ArrayList<>(Kit.getKits());
+        }
+        return null;
     }
 
     private Booster createBooster(CommandSender sender, String[] args) {
