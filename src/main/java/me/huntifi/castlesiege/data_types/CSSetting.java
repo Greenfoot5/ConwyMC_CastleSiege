@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A data holder for a castle siege setting
@@ -58,5 +59,20 @@ public class CSSetting extends Setting {
         System.arraycopy(global, 0, total, 0, global.length);
         System.arraycopy(castleSiege, 0, total, global.length, castleSiege.length);
         return total;
+    }
+
+    /**
+     * Gets the default value for setting
+     * @param setting The key of the setting
+     * @return The default value for that setting or null if one isn't found
+     */
+    public static String getDefault(String setting) {
+        Setting[] settings = generateSettings();
+        for (Setting s : settings) {
+            if (Objects.equals(s.key, setting)) {
+                return s.values[0];
+            }
+        }
+        return null;
     }
 }
