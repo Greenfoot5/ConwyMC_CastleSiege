@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard.gradient;
+import static me.huntifi.castlesiege.commands.info.leaderboard.LeaderboardCommand.gradient;
 
 public class StatsSidebar {
     private final Sidebar sidebar;

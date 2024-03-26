@@ -35,7 +35,7 @@ import java.util.UUID;
  * This class's main function is to initiate a duel when the command /acceptduel is being executed
  * and afterward also properly reset the arenas but at the same time manage them.
  */
-public class AcceptDuel implements CommandExecutor, Listener {
+public class AcceptDuelCommand implements CommandExecutor, Listener {
 
     private final static String MAP = "DuelsMap";
     private final static String GATE = "DuelingOpen";
@@ -59,7 +59,7 @@ public class AcceptDuel implements CommandExecutor, Listener {
     /**
      * Populates the variables used for running duels
      */
-    public AcceptDuel() {
+    public AcceptDuelCommand() {
         for (int i = 0; i < ARENA_COUNT; i++) {
             arenaPlayers.add(new Tuple<>(null, null));
 

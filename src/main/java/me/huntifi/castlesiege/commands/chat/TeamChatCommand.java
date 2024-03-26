@@ -25,7 +25,7 @@ import java.util.UUID;
 /**
  * Toggles team-chat and sends a message to all teammates
  */
-public class TeamChat extends ToggleChatCommand {
+public class TeamChatCommand extends ToggleChatCommand {
 
 	/** The string representing team chat mode */
 	public static final String CHAT_MODE = "team";

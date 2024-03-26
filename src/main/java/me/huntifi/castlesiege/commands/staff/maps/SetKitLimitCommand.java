@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Sets the player limit per team for a kit
  */
-public class SetKitLimit implements CommandExecutor {
+public class SetKitLimitCommand implements CommandExecutor {
 
     /**
      * Set the player limit per team for a kit asynchronously

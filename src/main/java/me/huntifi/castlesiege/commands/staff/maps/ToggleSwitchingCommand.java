@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Changes whether players are allowed to switch teams
  */
-public class ToggleAllKitsFree implements CommandExecutor {
+public class ToggleSwitchingCommand implements CommandExecutor {
 
     /**
      * Toggle regular switching between teams
@@ -24,26 +24,26 @@ public class ToggleAllKitsFree implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> toggle(sender, args));
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> toggleSwitching(sender, args));
         return true;
     }
 
     /**
-     * Enable/disable all kits free if a correct amount of arguments is supplied
+     * Enable/disable switching if a correct amount of arguments is supplied
      * @param sender Source of the command
      * @param args Passed command arguments
      */
-    private void toggle(CommandSender sender, String[] args) {
+    private void toggleSwitching(CommandSender sender, String[] args) {
         if (args.length > 1) {
-            Messenger.sendError("Use: /togglenolimits [true/false]", sender);
+            Messenger.sendError("Use: /toggleswitching [true/false]", sender);
             return;
         }
 
         if (args.length == 1)
-            MapController.allKitsFree = Boolean.parseBoolean(args[0]);
+            MapController.disableSwitching = Boolean.parseBoolean(args[0]);
         else
-            MapController.allKitsFree = !MapController.allKitsFree;
+            MapController.disableSwitching = !MapController.disableSwitching;
 
-        Messenger.broadcastInfo("All donator & team kits are " + (MapController.allKitsFree ? "now temporarily free!" : "no longer free."));
+        Messenger.broadcastInfo("Switching is now " + (MapController.disableSwitching ? "disabled." : "enabled."));
     }
 }

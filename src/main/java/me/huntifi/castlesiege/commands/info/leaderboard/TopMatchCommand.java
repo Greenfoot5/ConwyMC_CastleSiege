@@ -26,12 +26,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard.gradient;
+import static me.huntifi.castlesiege.commands.info.leaderboard.LeaderboardCommand.gradient;
 
 /**
  * Shows the player the leaderboard for this match
  */
-public class TopMatch implements CommandExecutor {
+public class TopMatchCommand implements CommandExecutor {
 
     /**
      * Print the score leaderboard to the player

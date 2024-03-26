@@ -11,9 +11,9 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.commands.chat.TeamChatCommand;
 import me.huntifi.castlesiege.commands.donator.FireworkCommand;
-import me.huntifi.castlesiege.commands.donator.duels.AcceptDuel;
+import me.huntifi.castlesiege.commands.donator.duels.AcceptDuelCommand;
 import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.BoosterCommand;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
@@ -31,23 +31,23 @@ import me.huntifi.castlesiege.commands.info.MapsCommand;
 import me.huntifi.castlesiege.commands.info.MyStatsCommand;
 import me.huntifi.castlesiege.commands.info.SecretsCommand;
 import me.huntifi.castlesiege.commands.info.TeamsCommand;
-import me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard;
+import me.huntifi.castlesiege.commands.info.leaderboard.LeaderboardCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
-import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
+import me.huntifi.castlesiege.commands.info.leaderboard.TopMatchCommand;
 import me.huntifi.castlesiege.commands.staff.GiveVoteCommand;
 import me.huntifi.castlesiege.commands.staff.ReloadCommand;
-import me.huntifi.castlesiege.commands.staff.boosters.GrantBooster;
+import me.huntifi.castlesiege.commands.staff.boosters.GrantBoosterCommand;
 import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.maps.NextMapCommand;
-import me.huntifi.castlesiege.commands.staff.maps.SetKitLimit;
+import me.huntifi.castlesiege.commands.staff.maps.SetKitLimitCommand;
 import me.huntifi.castlesiege.commands.staff.maps.SetMapCommand;
 import me.huntifi.castlesiege.commands.staff.maps.SetTimerCommand;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.commands.staff.maps.StartCommand;
-import me.huntifi.castlesiege.commands.staff.maps.ToggleAllKitsFree;
+import me.huntifi.castlesiege.commands.staff.maps.ToggleAllKitsFreeCommand;
 import me.huntifi.castlesiege.commands.staff.maps.ToggleForcedRandom;
-import me.huntifi.castlesiege.commands.staff.maps.ToggleSwitching;
+import me.huntifi.castlesiege.commands.staff.maps.ToggleSwitchingCommand;
 import me.huntifi.castlesiege.data_types.Booster;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.data_types.LocationFrame;
@@ -297,7 +297,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
                 getServer().getPluginManager().registerEvents(new BoosterCommand(), plugin);
-                getServer().getPluginManager().registerEvents(new TeamChat(), plugin);
+                getServer().getPluginManager().registerEvents(new TeamChatCommand(), plugin);
                 getServer().getPluginManager().registerEvents(new CSGlobalChat(), plugin);
 
                 // Connection
@@ -315,7 +315,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
 
                 // Duels
-                getServer().getPluginManager().registerEvents(new AcceptDuel(), plugin);
+                getServer().getPluginManager().registerEvents(new AcceptDuelCommand(), plugin);
 
                 // Combat
                 getServer().getPluginManager().registerEvents(new ArrowCollision(), plugin);
@@ -408,13 +408,13 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new WoolHat(), plugin);
 
                 // Chat
-                Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
+                Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChatCommand());
 
                 // Donator
                 Objects.requireNonNull(getCommand("Firework")).setExecutor(new FireworkCommand());
 
                 //duels
-                Objects.requireNonNull(getCommand("DuelAccept")).setExecutor(new AcceptDuel());
+                Objects.requireNonNull(getCommand("DuelAccept")).setExecutor(new AcceptDuelCommand());
                 Objects.requireNonNull(getCommand("Duel")).setExecutor(new DuelCommand());
 
                 // Gameplay
@@ -438,19 +438,19 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
 
                 // Leaderboards
-                Objects.requireNonNull(getCommand("Top")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopAssists")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopCaptures")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopDeaths")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopHeals")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopKDR")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopKills")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopSupports")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatch());
-                Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatch());
+                Objects.requireNonNull(getCommand("Top")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopAssists")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopCaptures")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopDeaths")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopHeals")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopKDR")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopKills")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopSupports")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatchCommand());
+                Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatchCommand());
 
                 // Staff - Boosters
-                Objects.requireNonNull(getCommand("GrantBooster")).setExecutor(new GrantBooster());
+                Objects.requireNonNull(getCommand("GrantBooster")).setExecutor(new GrantBoosterCommand());
 
                 // Staff
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
@@ -458,16 +458,16 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
                 Objects.requireNonNull(getCommand("SetKit")).setExecutor(new SetKitCommand());
-                Objects.requireNonNull(getCommand("SetKitLimit")).setExecutor(new SetKitLimit());
+                Objects.requireNonNull(getCommand("SetKitLimit")).setExecutor(new SetKitLimitCommand());
                 Objects.requireNonNull(getCommand("SetMap")).setExecutor(new SetMapCommand());
                 Objects.requireNonNull(getCommand("SetTimer")).setExecutor(new SetTimerCommand());
                 Objects.requireNonNull(getCommand("Spectate")).setExecutor(new SpectateCommand());
                 Objects.requireNonNull(getCommand("Unlockkit")).setExecutor(new UnlockedKitCommand());
                 Objects.requireNonNull(getCommand("ForceSwitch")).setExecutor(new SwitchCommand());
-                Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new ToggleSwitching());
+                Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new ToggleSwitchingCommand());
                 Objects.requireNonNull(getCommand("Start")).setExecutor(new StartCommand());
                 //Objects.requireNonNull(getCommand("SetTag")).setExecutor(new NameTag());
-                Objects.requireNonNull(getCommand("ToggleFree")).setExecutor(new ToggleAllKitsFree());
+                Objects.requireNonNull(getCommand("ToggleFree")).setExecutor(new ToggleAllKitsFreeCommand());
                 Objects.requireNonNull(getCommand("ToggleForcedRandom")).setExecutor(new ToggleForcedRandom());
 
                 // Kits

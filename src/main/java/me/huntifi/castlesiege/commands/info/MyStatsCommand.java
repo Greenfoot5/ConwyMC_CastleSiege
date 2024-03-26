@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 
-import static me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard.gradient;
+import static me.huntifi.castlesiege.commands.info.leaderboard.LeaderboardCommand.gradient;
 
 /**
  * Shows the player's stats

@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
-import me.huntifi.castlesiege.commands.staff.boosters.GrantBooster;
+import me.huntifi.castlesiege.commands.staff.boosters.GrantBoosterCommand;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.data_types.Booster;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
@@ -371,7 +371,7 @@ public class MapController {
 					booster = new KitBooster(duration, kit);
 				}
 
-				GrantBooster.updateDatabase(uuid, booster);
+				GrantBoosterCommand.updateDatabase(uuid, booster);
 				data.addBooster(booster);
 				Player player = getPlayer(uuid);
 				if (player != null) {

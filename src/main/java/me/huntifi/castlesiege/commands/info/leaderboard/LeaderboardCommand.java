@@ -19,7 +19,7 @@ import java.text.DecimalFormat;
 /**
  * Shows the player the leaderboard
  */
-public class Leaderboard implements CommandExecutor {
+public class LeaderboardCommand implements CommandExecutor {
     
     public static final String gradient = "#13DB5D:#05B6D9:#F907FC";
 
