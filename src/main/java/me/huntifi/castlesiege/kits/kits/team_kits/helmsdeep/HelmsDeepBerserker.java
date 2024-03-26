@@ -33,6 +33,9 @@ import java.util.Objects;
 public class HelmsDeepBerserker extends TeamKit implements Listener {
 
 
+    /**
+     * Creates a new Helms Deep Berserker
+     */
     public HelmsDeepBerserker() {
         super("Uruk Berserker", 220, 6, "Helm's Deep", "Uruk-hai",
                 2500, Material.REDSTONE, "helmsdeepurukberserker");

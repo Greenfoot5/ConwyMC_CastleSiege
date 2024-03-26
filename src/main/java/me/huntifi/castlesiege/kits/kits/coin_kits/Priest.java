@@ -57,6 +57,11 @@ public class Priest extends CoinKit implements Listener {
     private final ItemStack holyBook;
     public static final HashMap<Player, UUID> blessings = new HashMap<>();
 
+    private final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
+
+    /**
+     * Creates a new priest
+     */
     public Priest() {
         super("Priest", health, regen, Material.SPECTRAL_ARROW);
 
@@ -149,11 +154,6 @@ public class Priest extends CoinKit implements Listener {
         super.killMessage[1] = " to heaven";
     }
 
-    public void shootSmiteBolt(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p ,"PriestSmite", p.getLocation());
-    }
-
 
     /**
      * Activate the priest's ability of shooting holy stuff
@@ -176,7 +176,7 @@ public class Priest extends CoinKit implements Listener {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         p.setCooldown(Material.SPECTRAL_ARROW, staffCooldown);
-                            shootSmiteBolt(p);
+                        mythicMobsApi.castSkill(p ,"PriestSmite", p.getLocation());
                     }
                 }
             }
@@ -200,41 +200,48 @@ public class Priest extends CoinKit implements Listener {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (book.getType().equals(Material.BOOK)) {
-                if (e.getRightClicked() instanceof Player &&
-                        TeamController.getTeam(e.getRightClicked().getUniqueId()) == TeamController.getTeam(p.getUniqueId())) {
-                    if (cooldown == 0) {
-                        p.setCooldown(Material.BOOK, blessingCooldown);
-                        blessings.put(p, e.getRightClicked().getUniqueId());
-                        assignBook(p, book);
-
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    if (blessings.containsKey(p)) {
-                                        Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 200, 3)));
-
-                                        AttributeInstance healthAttribute = Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getAttribute(Attribute.GENERIC_MAX_HEALTH);
-                                        assert healthAttribute != null;
-                                        //Priest doesn't get a heal for blessing someone who is full health.
-                                        if (Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getHealth() != healthAttribute.getBaseValue()) {
-                                            UpdateStats.addHeals(p.getUniqueId(), 1);
-                                        }
-                                        Messenger.sendActionInfo("Your blessing is currently affecting: " + CSNameTag.mmUsername(Bukkit.getPlayer(blessings.get(p))), p);
-                                    } else {
-                                        this.cancel();
-                                    }
-                                }
-                            }.runTaskTimer(Main.plugin, 10, 200);
-
-                    }
-                }
-            }
-
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            return;
         }
+        if (!book.getType().equals(Material.BOOK)) {
+            return;
+        }
+        if (!(e.getRightClicked() instanceof Player) ||
+                TeamController.getTeam(e.getRightClicked().getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
+            return;
+        }
+        if (cooldown != 0) {
+            return;
+        }
+        p.setCooldown(Material.BOOK, blessingCooldown);
+        blessings.put(p, e.getRightClicked().getUniqueId());
+        assignBook(p, book);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!blessings.containsKey(p)) {
+                    this.cancel();
+                    return;
+                }
+
+                Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 200, 3)));
+
+                AttributeInstance healthAttribute = Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                assert healthAttribute != null;
+                //Priest doesn't get a heal for blessing someone who is full health.
+                if (Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getHealth() != healthAttribute.getBaseValue()) {
+                    UpdateStats.addHeals(p.getUniqueId(), 1);
+                }
+                Messenger.sendActionInfo("Your blessing is currently affecting: " + CSNameTag.mmUsername(Bukkit.getPlayer(blessings.get(p))), p);
+            }
+        }.runTaskTimer(Main.plugin, 10, 200);
+
     }
 
+    /**
+     * @param event When a player clicks an enderchest
+     */
     @EventHandler
     public void onClickEnderchest(EnderchestEvent event) {
         if (blessings.containsKey(event.getPlayer())) {
@@ -244,6 +251,10 @@ public class Priest extends CoinKit implements Listener {
     }
 
 
+    /**
+     * @param priest The priest using the book
+     * @param book The book being used
+     */
     public void assignBook(Player priest, ItemStack book) {
         if (blessings.containsKey(priest)) {
             ItemMeta bootMeta = book.getItemMeta();
@@ -256,7 +267,6 @@ public class Priest extends CoinKit implements Listener {
     }
 
     /**
-     *
      * @param e if a player dies remove them from the blessings list.
      */
     @EventHandler
@@ -265,7 +275,6 @@ public class Priest extends CoinKit implements Listener {
     }
 
     /**
-     *
      * @param e if a player quits remove them from the blessings list.
      */
     @EventHandler

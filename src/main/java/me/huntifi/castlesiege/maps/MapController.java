@@ -826,6 +826,9 @@ public class MapController {
 		return timer.state == TimerState.ONGOING;
 	}
 
+	/**
+	 * Displays the GUI allowing players to vote if they liked/disliked a map
+	 */
 	public static void beginVote() {
 		if (getPlayers().size() < 4) {
 			Messenger.broadcastError("Not enough players for a fair vote. Map votes will not be recorded.");

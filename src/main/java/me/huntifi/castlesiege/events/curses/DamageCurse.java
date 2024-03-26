@@ -87,6 +87,10 @@ public class DamageCurse extends CurseCast {
                 curse.cast();
         }
 
+        /**
+         * @param multiplier The new damage multiplier
+         * @return The curse builder
+         */
         public CurseBuilder setMultiplier(float multiplier) {
             this.multiplier = multiplier;
             return this;

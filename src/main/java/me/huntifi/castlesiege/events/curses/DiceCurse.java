@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * Swaps some players on teams
+ */
 public class DiceCurse extends CurseCast {
     public final static String name = "Curse of the Dice";
     private final static String activateMessage = "Some players have swapped teams!";

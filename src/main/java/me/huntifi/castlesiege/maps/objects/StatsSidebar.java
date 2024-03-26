@@ -11,32 +11,34 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.megavex.scoreboardlibrary.api.sidebar.Sidebar;
 import net.megavex.scoreboardlibrary.api.sidebar.component.ComponentSidebarLayout;
 import net.megavex.scoreboardlibrary.api.sidebar.component.SidebarComponent;
-import net.megavex.scoreboardlibrary.api.sidebar.component.animation.CollectionSidebarAnimation;
 import net.megavex.scoreboardlibrary.api.sidebar.component.animation.SidebarAnimation;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static me.huntifi.castlesiege.commands.info.leaderboard.LeaderboardCommand.gradient;
 
+/**
+ * A stats scoreboard for the current game
+ */
 public class StatsSidebar {
     private final Sidebar sidebar;
     private final ComponentSidebarLayout componentSidebar;
     private final SidebarAnimation<Component> titleAnimation;
 
+    /**
+     * @param sidebar The sidebar to use the stats for
+     * @param uuid The UUID of the player's stats to display
+     */
     public StatsSidebar(@NotNull Sidebar sidebar, @NotNull UUID uuid) {
         this.sidebar = sidebar;
 
-        this.titleAnimation = createGradientAnimation(Component.text("Mode: ")
+        this.titleAnimation = Scoreboard.createGradientAnimation(Component.text("Mode: ")
                 .append(Component.text(MapController.getCurrentMap().gamemode.toString(),
                         Style.style(TextDecoration.BOLD))));
 
@@ -123,7 +125,9 @@ public class StatsSidebar {
         this.componentSidebar = new ComponentSidebarLayout(title, lines.build());
     }
 
-    // Called every tick
+    /**
+     * Moves the animation on a tick
+     */
     public void tick() {
         // Advance title animation to the next frame
         titleAnimation.nextFrame();
@@ -132,25 +136,16 @@ public class StatsSidebar {
         componentSidebar.apply(sidebar);
     }
 
-    private @NotNull SidebarAnimation<Component> createGradientAnimation(@NotNull Component text) {
-        float step = 1f / 16f;
-
-        TagResolver.Single textPlaceholder = Placeholder.component("text", text);
-        List<Component> frames = new ArrayList<>((int) (2f / step));
-
-        float phase = -1f;
-        while (phase < 1) {
-            frames.add(Messenger.mm.deserialize("<gradient:#e9455e:#2e3468:" + phase + "><text>", textPlaceholder));
-            phase += step;
-        }
-
-        return new CollectionSidebarAnimation<>(frames);
-    }
-
+    /**
+     * @param player The player to display the sidebar for
+     */
     public void addPlayer(Player player) {
         sidebar.addPlayer(player);
     }
 
+    /**
+     * Closes the sidebar
+     */
     public void close() {
         sidebar.close();
     }

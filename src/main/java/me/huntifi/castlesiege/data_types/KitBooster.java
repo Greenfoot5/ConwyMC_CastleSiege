@@ -10,10 +10,17 @@ import org.bukkit.Material;
 
 import java.util.List;
 
+/**
+ * A booster that unlocks a kit for everyone for the duration
+ */
 public class KitBooster extends Booster {
 
     public String kitName;
 
+    /**
+     * @param duration How long the booster lasts for
+     * @param kitName The kit to unlock
+     */
     public KitBooster(int duration, String kitName) {
         super(duration, getMaterial(kitName));
         this.kitName = kitName;

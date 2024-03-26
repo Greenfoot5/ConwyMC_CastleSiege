@@ -126,6 +126,9 @@ public class Medic extends CoinKit implements Listener {
         super.deathMessage[0] = "You had your insides examined by ";
     }
 
+    /**
+     * @return The medic's health potion
+     */
     public ItemStack healthPotion() {
         ItemStack itemStack = new ItemStack(Material.POTION);
         PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();

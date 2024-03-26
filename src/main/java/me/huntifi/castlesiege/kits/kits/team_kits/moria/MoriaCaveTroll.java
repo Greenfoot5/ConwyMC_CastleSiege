@@ -37,6 +37,9 @@ public class MoriaCaveTroll extends TeamKit implements Listener {
 
     public final ArrayList<Player> grabbed = new ArrayList<>();
 
+    /**
+     * Creates a new Moria Cave Troll
+     */
     public MoriaCaveTroll() {
         super("Cave Troll", 800, 20, "Moria",
                 "The Orcs", 7500, Material.POPPY, "moriacavetroll");

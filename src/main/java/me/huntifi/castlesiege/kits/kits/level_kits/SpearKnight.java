@@ -53,6 +53,9 @@ public class SpearKnight extends LevelKit implements Listener {
     // Damage multiplier when hitting horses
     private static final double HORSE_MULTIPLIER = 1.5;
 
+    /**
+     * Creates a new Spear Knight
+     */
     public SpearKnight() {
         super("Spear Knight", health, regen, Material.BLAZE_ROD, level);
         // Equipment Stuff
@@ -175,6 +178,9 @@ public class SpearKnight extends LevelKit implements Listener {
         }
     }
 
+    /**
+     * @param e When a player hits a horse, grants bonus damage
+     */
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player && e.getEntity() instanceof Horse) {

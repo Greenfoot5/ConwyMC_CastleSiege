@@ -6,6 +6,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Handles players opening an enderchest
+ */
 public class EnderchestEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS_LIST = new HandlerList();
@@ -13,6 +16,9 @@ public class EnderchestEvent extends Event implements Cancellable {
 
     private final Player player;
 
+    /**
+     * @param player The player opening the enderchest
+     */
     public EnderchestEvent(Player player){
         this.player = player;
         this.isCancelled = false;

@@ -28,6 +28,9 @@ import java.util.Random;
 
 public class MoriaBonecrusher extends TeamKit implements Listener {
 
+    /**
+     * Creates a new Moria Bonecrusher
+     */
     public MoriaBonecrusher() {
         super("Bonecrusher", 300, 8, "Moria",
                 "The Orcs", 4000, Material.BONE, "moriabonecrusher");

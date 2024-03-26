@@ -28,6 +28,9 @@ public class NextMapEvent extends Event {
         return HANDLERS;
     }
 
+    /**
+     * @return Gets the list of handlers
+     */
     @SuppressWarnings("unused")
     public static HandlerList getHandlerList() {
         return HANDLERS;

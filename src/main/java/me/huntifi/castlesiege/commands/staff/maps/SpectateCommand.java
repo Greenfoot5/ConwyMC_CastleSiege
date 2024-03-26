@@ -22,6 +22,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * Allows players to spectate a match
+ */
 public class SpectateCommand implements CommandExecutor {
 
     public static final ArrayList<UUID> spectators = new ArrayList<>();

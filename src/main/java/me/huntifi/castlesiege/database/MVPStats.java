@@ -2,7 +2,6 @@ package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.CSStats;
-import me.huntifi.castlesiege.maps.events.NextMapEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -46,12 +45,12 @@ public class MVPStats implements Listener {
      * Reset the tracked players
      * Should only be used at the end of a game
      */
-    public static void reset(NextMapEvent event) {
+    public static void reset() {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-        stats.clear();
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            Bukkit.getScheduler().runTask(Main.plugin, () -> addPlayer(p.getUniqueId()));
-         }
-       });
+            stats.clear();
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                Bukkit.getScheduler().runTask(Main.plugin, () -> addPlayer(p.getUniqueId()));
+            }
+        });
     }
 }

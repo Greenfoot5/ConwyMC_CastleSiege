@@ -30,6 +30,9 @@ public class TeamChatCommand extends ToggleChatCommand {
 	/** The string representing team chat mode */
 	public static final String CHAT_MODE = "team";
 
+	/**
+	 * @param e Sets the renderer if the player is chatting in team chat
+	 */
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onChat(AsyncChatEvent e) {
 

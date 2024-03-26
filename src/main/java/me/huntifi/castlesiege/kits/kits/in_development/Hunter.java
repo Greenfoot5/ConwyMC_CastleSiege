@@ -32,6 +32,9 @@ public class Hunter extends CoinKit implements Listener {
     private static final int trapCount = 4;
     private static final int cooldownTicks = 50;
 
+    /**
+     * Creates a new Hunter
+     */
     public Hunter() {
         super("hunter", health, regen, Material.LEATHER);
 

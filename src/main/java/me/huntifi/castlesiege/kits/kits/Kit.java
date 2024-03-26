@@ -509,21 +509,33 @@ public abstract class Kit implements CommandExecutor, Listener {
         return text;
     }
 
+    /**
+     * @param curse The blinding curse that's been activated
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void bindingActive(BindingCurse curse) {
         activeBindings.add(curse.getPlayer());
     }
 
+    /**
+     * @param curse The healing curse that's been activated
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void healingActive(HealingCurse curse) {
         healthMultiplier = curse.multiplier;
     }
 
+    /**
+     * @param curse The vulnerability curse that's been activated
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void vulnerabilityActive(VulnerabilityCurse curse) {
         vulnerable = true;
     }
 
+    /**
+     * @param curse The binding curse that's been activated
+     */
     @EventHandler(priority = EventPriority.MONITOR)
     public void bindingExpired(CurseExpired curse) {
         if (Objects.equals(curse.getDisplayName(), BindingCurse.name))

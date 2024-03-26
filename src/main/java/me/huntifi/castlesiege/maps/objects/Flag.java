@@ -561,6 +561,9 @@ public class Flag {
         return team.secondaryWool;
     }
 
+    /**
+     * Creates the hologram for the flag
+     */
     public void createHologram() {
         assert holoLoc.getWorld() != null;
         hologram = (ArmorStand) holoLoc.getWorld().spawnEntity(holoLoc, EntityType.ARMOR_STAND);
@@ -573,6 +576,9 @@ public class Flag {
         hologram.customName(Messenger.mm.deserialize("<b>Flag:</b> ").append(Component.text(name, getColor())));
     }
 
+    /**
+     * @param teamColor Updated the hologram for the flag
+     */
     public void updateHologram(NamedTextColor teamColor) {
         hologram.customName(Messenger.mm.deserialize("<b>Flag:</b> ").append(Component.text(name, teamColor)));
         hologram.setCustomNameVisible(true);

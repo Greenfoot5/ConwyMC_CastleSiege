@@ -127,7 +127,7 @@ import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepBerserker;
 import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepLancer;
 import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepRangedCavalry;
 import me.huntifi.castlesiege.kits.kits.team_kits.hommet.HommetAxeman;
-import me.huntifi.castlesiege.kits.kits.team_kits.hommet.HommetLongbowarcher;
+import me.huntifi.castlesiege.kits.kits.team_kits.hommet.HommetLongbowman;
 import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaAxeThrower;
 import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaBonecrusher;
 import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaCaveTroll;
@@ -228,6 +228,9 @@ import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
+/**
+ * The main class for Castle Siege
+ */
 public class Main extends JavaPlugin implements Listener {
 
     public static Plugin plugin;
@@ -372,7 +375,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new FirelandsHellsteed(), plugin);
                 getServer().getPluginManager().registerEvents(new Hypaspist(), plugin);
                 getServer().getPluginManager().registerEvents(new HommetAxeman(), plugin);
-                getServer().getPluginManager().registerEvents(new HommetLongbowarcher(), plugin);
+                getServer().getPluginManager().registerEvents(new HommetLongbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
                 getServer().getPluginManager().registerEvents(new HelmsDeepBerserker(), plugin);
                 getServer().getPluginManager().registerEvents(new HelmsDeepLancer(), plugin);
@@ -501,7 +504,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("HelmsDeepUrukBerserker")).setExecutor(new HelmsDeepBerserker());
                 Objects.requireNonNull(getCommand("HelmsDeepLancer")).setExecutor(new HelmsDeepLancer());
                 Objects.requireNonNull(getCommand("HelmsDeepRangedCavalry")).setExecutor(new HelmsDeepRangedCavalry());
-                Objects.requireNonNull(getCommand("HommetLongbowman")).setExecutor(new HommetLongbowarcher());
+                Objects.requireNonNull(getCommand("HommetLongbowman")).setExecutor(new HommetLongbowman());
                 Objects.requireNonNull(getCommand("HommetAxeman")).setExecutor(new HommetAxeman());
                 Objects.requireNonNull(getCommand("Ladderman")).setExecutor(new Ladderman());
                 Objects.requireNonNull(getCommand("Maceman")).setExecutor(new Maceman());
@@ -658,6 +661,10 @@ public class Main extends JavaPlugin implements Listener {
         BountyCommand.loadBounties();
     }
 
+    /**
+     * @param flagPath The flag to find the config for
+     * @return The YamlDocument containing the flag's config
+     */
     public YamlDocument getFlagsConfig(Route flagPath) {
         for (YamlDocument document : flagsConfigs) {
             if (document.contains(flagPath)) {
@@ -667,14 +674,23 @@ public class Main extends JavaPlugin implements Listener {
         return null;
     }
 
+    /**
+     * @param cataPath The catapult to find the config for
+     * @return The YamlDocument containing the catapult's config
+     */
     public YamlDocument getCatapultsConfig(Route cataPath) {
         for (YamlDocument document : catapultsConfigs) {
-        if (document.contains(cataPath)) {
-            return document;
+            if (document.contains(cataPath)) {
+                return document;
+            }
         }
+        return null;
     }
-        return null;}
 
+    /**
+     * @param corePath The core to find the config for
+     * @return The YamlDocument containing the core's config
+     */
     public YamlDocument getCoreConfig(Route corePath) {
         for (YamlDocument document : coreConfigs) {
             if (document.contains(corePath)) {
@@ -684,6 +700,10 @@ public class Main extends JavaPlugin implements Listener {
         return null;
     }
 
+    /**
+     * @param mapPath The door to find the config for
+     * @return The YamlDocument containing the door's config
+     */
     public YamlDocument getDoorsConfig(Route mapPath) {
         for (YamlDocument document : doorsConfigs) {
             if (document.contains(mapPath)) {
@@ -693,6 +713,10 @@ public class Main extends JavaPlugin implements Listener {
         return null;
     }
 
+    /**
+     * @param gatePath The gate to find the config for
+     * @return The YamlDocument containing the gate's config
+     */
     public YamlDocument getGatesConfig(Route gatePath) {
         for (YamlDocument document : gatesConfigs) {
             if (document.contains(gatePath)) {
@@ -1489,6 +1513,9 @@ public class Main extends JavaPlugin implements Listener {
         return null;
     }
 
+    /**
+     * Reloads the plugin
+     */
     public void reload() {
         Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Reloading plugin...", GOLD)));
         onDisable();
@@ -1496,6 +1523,9 @@ public class Main extends JavaPlugin implements Listener {
         Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Plugin Reloaded!", GOLD)));
     }
 
+    /**
+     * Activates all the boosters again that are still active
+     */
     public void activateBoosters() {
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "SELECT booster_id, booster_type, expire_time, boost_value FROM active_boosters WHERE expire_time > ?")) {
@@ -1547,6 +1577,10 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
+    /**
+     * @param duration The time in seconds
+     * @return The time in string format
+     */
     public static String getTimeString(long duration) {
         long days, hours, minutes, seconds, remainder;
         days = duration / 86400;

@@ -13,6 +13,9 @@ public class SchematicFrame extends Frame{
 
     public final List<Tuple<String, Vector>> schematics;
 
+    /**
+     * Creates a new Schematic Frame
+     */
     public SchematicFrame() {
         super();
         schematics = new ArrayList<>();

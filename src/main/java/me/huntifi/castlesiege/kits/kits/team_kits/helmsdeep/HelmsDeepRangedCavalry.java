@@ -26,7 +26,10 @@ import java.util.Collections;
 import java.util.Objects;
 
 public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
-    
+
+    /**
+     * Creates a new Helms Deep Ranged Cavalry
+     */
     public HelmsDeepRangedCavalry() {
         super("Ranged Cavalry", 230, 9, "Helm's Deep",
                 "Rohan", 2500, Material.BOW, "helmsdeeprangedcavalry");

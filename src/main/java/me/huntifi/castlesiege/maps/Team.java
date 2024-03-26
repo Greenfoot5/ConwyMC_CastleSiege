@@ -34,7 +34,9 @@ public class Team implements Listener {
     public NamedTextColor primaryChatColor;
     public NamedTextColor secondaryChatColor;
 
-    //Prevents players from spawning at their bed when they sleep in a bad.
+    /**
+     * @param event Prevents players from spawning at their bed when they sleep in a bad.
+     */
     @EventHandler
     public void onEnterBed(PlayerBedEnterEvent event) {
         Player player = event.getPlayer();

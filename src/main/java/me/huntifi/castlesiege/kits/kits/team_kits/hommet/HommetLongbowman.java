@@ -23,9 +23,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-public class HommetLongbowarcher extends TeamKit implements Listener {
+public class HommetLongbowman extends TeamKit implements Listener {
 
-    public HommetLongbowarcher() {
+    /**
+     * Creates a new Hommet Longbowman
+     */
+    public HommetLongbowman() {
         super("Longbowman", 220, 10, "Hommet",
                 "Normans", 2500, Material.BOW, "hommetlongbowman");
 

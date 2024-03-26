@@ -24,6 +24,9 @@ import java.util.Objects;
 
 public class MoriaGuardian extends TeamKit implements Listener {
 
+    /**
+     * Creates a new Moria Guardian
+     */
     public MoriaGuardian() {
         super("Guardian", 620, 15, "Moria",
                 "The Dwarves", 5000, Material.SHIELD,

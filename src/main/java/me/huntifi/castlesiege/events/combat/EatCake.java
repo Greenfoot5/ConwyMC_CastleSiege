@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Medic;
@@ -22,6 +23,9 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.Objects;
 
+/**
+ * Handles cake buffs
+ */
 public class EatCake implements Listener {
 
     public static final int CAKE_DURATION = 160;
@@ -33,6 +37,9 @@ public class EatCake implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEatCake(PlayerInteractEvent event) {
+        if (!CSActiveData.hasPlayer(event.getPlayer().getUniqueId()))
+            return;
+
         // Check if the player attempts to eat a cake
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK || !Objects.requireNonNull(event.getClickedBlock()).getType().equals(Material.CAKE))
             return;

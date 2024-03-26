@@ -179,6 +179,9 @@ public class Spearman extends FreeKit implements Listener {
 		}
 	}
 
+	/**
+	 * @param e When a player hits a horse, grants bonus damage
+	 */
 	@EventHandler
 	public void onDamage(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Player && e.getEntity() instanceof Horse) {

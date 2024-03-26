@@ -80,11 +80,17 @@ public class RandomKitCommand implements CommandExecutor, Listener {
         kits.get(new Random().nextInt(kits.size())).addPlayer(uuid, true);
     }
 
+    /**
+     * @param curse When the binding curse is activated
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void bindingActive(BindingCurse curse) {
         activeBindings.add(curse.getPlayer());
     }
 
+    /**
+     * @param curse When a curse expires
+     */
     @EventHandler(ignoreCancelled = true)
     public void bindingExpired(CurseExpired curse) {
         if (Objects.equals(curse.getDisplayName(), BindingCurse.name))

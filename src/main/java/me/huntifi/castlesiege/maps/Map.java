@@ -34,6 +34,9 @@ public class Map {
     public Gamemode gamemode;
     public Tuple<Integer, Integer> duration = new Tuple<>(20, 0);
 
+    /**
+     * Creates a new map
+     */
     public Map() {
         teams = new Team[0];
         flags = new Flag[0];

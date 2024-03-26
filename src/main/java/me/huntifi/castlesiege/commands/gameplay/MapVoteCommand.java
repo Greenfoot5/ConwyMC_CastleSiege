@@ -20,10 +20,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A command to vote if a player liked/disliked a map
+ */
 public class MapVoteCommand implements Listener, TabExecutor {
     private static List<UUID> votedNo = new ArrayList<>();
     private static List<UUID> votedYes = new ArrayList<>();
 
+    /**
+     * Ends the vote and records the votes
+     * @param event The event when another map starts
+     */
     @EventHandler
     public void onNextMap(NextMapEvent event) {
         if (MapController.getPlayers().size() < 4) {

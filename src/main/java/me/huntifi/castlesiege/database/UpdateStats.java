@@ -11,6 +11,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
+/**
+ * Updated a player's stats for both current game and all-time
+ */
 public class UpdateStats {
 
     /**

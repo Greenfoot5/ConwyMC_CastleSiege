@@ -45,6 +45,11 @@ public class Paladin extends CoinKit implements Listener {
     private static final int ladderCount = 4;
     private static final int blessingCooldown = 500;
 
+    private final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
+
+    /**
+     * Creates a new Paladin
+     */
     public Paladin() {
         super("Paladin", health, regen, Material.GOLDEN_AXE);
 
@@ -130,11 +135,15 @@ public class Paladin extends CoinKit implements Listener {
 
     }
 
+    /**
+     * @param blesser The player performing the blessing
+     * @param blessed The player being blessed
+     */
     public void bless(Player blesser, Player blessed) {
 
         blesser.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
         Messenger.sendActionInfo("You blessed your surroundings!", blesser);
-        mythicParticle(blesser);
+        mythicMobsApi.castSkill(blesser,"PaladinBlessingEffect");
 
         if (TeamController.getTeam(blesser.getUniqueId()) == TeamController.getTeam(blessed.getUniqueId())
                 && blesser.getLocation().distance(blessed.getLocation()) <= 5 && blesser != blessed) {
@@ -179,11 +188,6 @@ public class Paladin extends CoinKit implements Listener {
                 }
             }
         }
-    }
-
-    public void mythicParticle(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p,"PaladinBlessingEffect");
     }
 
     /**

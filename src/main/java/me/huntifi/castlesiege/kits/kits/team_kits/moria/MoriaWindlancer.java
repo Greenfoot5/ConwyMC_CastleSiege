@@ -33,6 +33,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class MoriaWindlancer extends TeamKit implements Listener {
+
+    /**
+     * Creates a new Moria Windlancer
+     */
     public MoriaWindlancer() {
         super("Windlancer", 300, 9 , "Moria",
                 "The Dwarves", 5000, Material.STICK,
@@ -134,8 +138,7 @@ public class MoriaWindlancer extends TeamKit implements Listener {
         }
     }
 
-
-    public void shootSpearBurst(Player p) {
+    private void shootSpearBurst(Player p) {
         p.setCooldown(Material.STICK, 60);
         burstSpear(p,  9);
         burstSpear(p,  18);

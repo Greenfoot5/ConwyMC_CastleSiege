@@ -32,6 +32,9 @@ import java.util.UUID;
 
 public class HelmsDeepLancer extends TeamKit implements Listener {
 
+    /**
+     * Creates a new Helms Deep Lancer
+     */
     public HelmsDeepLancer() {
         super("Lancer", 270, 9, "Helm's Deep", "Rohan", 5000,
                 Material.STICK, "helmsdeeplancer");

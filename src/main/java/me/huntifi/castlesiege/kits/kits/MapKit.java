@@ -89,6 +89,10 @@ public abstract class MapKit extends Kit implements Listener {
         return text;
     }
 
+    /**
+     * Selects the kit if the player clicks the sign
+     * @param e When a player clicks a sign
+     */
     @EventHandler
     public void onClickSign(PlayerInteractEvent e) {
         // Prevent using in lobby

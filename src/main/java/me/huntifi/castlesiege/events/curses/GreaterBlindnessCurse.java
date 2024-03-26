@@ -8,6 +8,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
+/**
+ * A curse that removed player's names and team colours
+ */
 public class GreaterBlindnessCurse extends CurseCast {
     public final static String name = "Curse of Greater Blindness";
     private final static String activateMessage = "Your team colour has been hidden";

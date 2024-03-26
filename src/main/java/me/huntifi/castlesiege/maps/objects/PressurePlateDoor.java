@@ -9,6 +9,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Objects;
 
+/**
+ * A door that's opened with a pressure plate
+ */
 public class PressurePlateDoor extends Door {
 
     /** The default closed sound */

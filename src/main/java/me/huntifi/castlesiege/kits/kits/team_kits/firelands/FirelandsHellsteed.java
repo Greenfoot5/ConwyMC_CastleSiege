@@ -38,9 +38,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class FirelandsHellsteed extends TeamKit implements Listener {
+
     /**
-     * Create a kit with basic settings
-     * **/
+     * Creates a new Firelands Hellsteed
+     */
     public FirelandsHellsteed() {
         super("Hellsteed", 500, 10, "Firelands",
                 "Hellfire Guards", 2500, Material.LEATHER_HORSE_ARMOR,
@@ -119,68 +120,76 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
      * Activate the Hellsteed stomp ability
      * @param e The event called when hitting another player
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onStomp(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-            Player p = (Player) e.getEntity();
-            Player q = (Player) e.getDamager();
+        if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
+            return;
+        }
+        Player p = (Player) e.getEntity();
+        Player q = (Player) e.getDamager();
 
-            // Hellsteed tries to stomp every nearby enemy
-            if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    q.getInventory().getItemInMainHand().getType() == Material.ANVIL &&
-                    q.getCooldown(Material.ANVIL) == 0) {
-                q.setCooldown(Material.ANVIL, 400);
+        // Hellsteed tries to stomp every nearby enemy
+        if (!Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) ||
+                q.getInventory().getItemInMainHand().getType() != Material.ANVIL ||
+                q.getCooldown(Material.ANVIL) != 0) {
+            return;
+        }
+        q.setCooldown(Material.ANVIL, 400);
 
-                // Enemy blocks stun
-                if (p.isBlocking()) {
-                    Messenger.sendSuccess("You blocked " + CSNameTag.username(q) + "'s stomp", p);
-                } else {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY , 1, (float) 0.8);
-                    e.setDamage(e.getDamage() * 1.5);
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 50, 1)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 50, 2)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 50, 4)));
-                    for (Player all : Bukkit.getOnlinePlayers()) {
-                        if (p.getWorld() != all.getWorld()) { return; }
-                        if (all == p) { return; }
-                        if (all == q) { return; }
-                        if (all.getLocation().distance(p.getLocation()) < 2.1) {
-                            all.damage(e.getDamage(), p);
-                            // Players that weren't the one directly hit are affected less
-                            all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 1)));
-                            all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 40, 1)));
-                            all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 40, 3)));
-                        }
-                    }
+        // Enemy blocks stun
+        if (p.isBlocking()) {
+            Messenger.sendSuccess("You blocked " + CSNameTag.username(q) + "'s stomp", p);
+        } else {
+            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY , 1, (float) 0.8);
+            e.setDamage(e.getDamage() * 1.5);
+            p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 50, 1)));
+            p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 50, 2)));
+            p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 50, 4)));
+            for (Player all : Bukkit.getOnlinePlayers()) {
+                if (p.getWorld() != all.getWorld() || all == p || all == q)
+                    return;
+                if (all.getLocation().distance(p.getLocation()) < 2.1) {
+                    all.damage(e.getDamage(), p);
+                    // Players that weren't the one directly hit are affected less
+                    all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 1)));
+                    all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 40, 1)));
+                    all.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 40, 3)));
                 }
             }
         }
     }
 
+    /**
+     * @param event When a player attempts to ride the hellsteed
+     */
     @EventHandler
     public void onPlayerInteractAtEntity(PlayerInteractEntityEvent event) {
 
-        if (event.getRightClicked() instanceof Player && (!(event.getRightClicked() instanceof NPC))) {
-            Player p = event.getPlayer();
-            Player clicked = (Player) event.getRightClicked();
+        if (!(event.getRightClicked() instanceof Player) || (event.getRightClicked() instanceof NPC)) {
+            return;
+        }
+        Player p = event.getPlayer();
+        Player clicked = (Player) event.getRightClicked();
 
-            if (InCombat.isPlayerInLobby(p.getUniqueId())) {
-                return;
-            }
+        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+            return;
+        }
 
-            if (Kit.equippedKits.get(clicked.getUniqueId()).name == null) {
-                return;
-            }
-            if (Objects.equals(Kit.equippedKits.get(clicked.getUniqueId()).name, name)
-                    && TeamController.getTeam(clicked.getUniqueId())
-                    == TeamController.getTeam(p.getUniqueId())) {
+        if (Kit.equippedKits.get(clicked.getUniqueId()).name == null) {
+            return;
+        }
+        if (Objects.equals(Kit.equippedKits.get(clicked.getUniqueId()).name, name)
+                && TeamController.getTeam(clicked.getUniqueId())
+                == TeamController.getTeam(p.getUniqueId())) {
 
-                clicked.addPassenger(p);
-            }
+            clicked.addPassenger(p);
         }
     }
 
 
+    /**
+     * @param e When a player dismounts the hellsteed
+     */
     @EventHandler
     public void onEject(PlayerInteractEvent e) {
         Player p = e.getPlayer();
@@ -191,15 +200,16 @@ public class FirelandsHellsteed extends TeamKit implements Listener {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-                e.getItem() != null && e.getItem().getType() == Material.BARRIER) {
-            int cooldown = p.getCooldown(Material.BARRIER);
-            if (cooldown == 0) {
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name) ||
+                e.getItem() == null || e.getItem().getType() != Material.BARRIER) {
+            return;
+        }
+        int cooldown = p.getCooldown(Material.BARRIER);
+        if (cooldown == 0) {
 
-                p.getPassengers();
-                p.setCooldown(Material.BARRIER, 20);
-                p.eject();
-            }
+            p.getPassengers();
+            p.setCooldown(Material.BARRIER, 20);
+            p.eject();
         }
     }
 

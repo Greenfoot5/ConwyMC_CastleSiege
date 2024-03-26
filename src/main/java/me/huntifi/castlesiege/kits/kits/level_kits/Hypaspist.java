@@ -44,6 +44,9 @@ public class Hypaspist extends LevelKit implements Listener {
     private static final int ladderCount = 4;
     private static final int level = 20;
 
+    /**
+     * Creates a new Hypaspist
+     */
     public Hypaspist() {
         super("Hypaspist", health, regen, Material.GOLDEN_CHESTPLATE, level);
 

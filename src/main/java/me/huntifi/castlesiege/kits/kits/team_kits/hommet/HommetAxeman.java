@@ -32,6 +32,9 @@ import java.util.UUID;
 
 public class HommetAxeman extends TeamKit implements Listener {
 
+    /**
+     * Creates a new Hommet Axeman
+     */
     public HommetAxeman() {
         super("Axeman", 300, 10, "Hommet",
                 "Saxons", 2500, Material.STONE_AXE, "hommetaxeman");

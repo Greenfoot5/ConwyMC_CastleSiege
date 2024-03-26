@@ -32,6 +32,7 @@ public class RegionHandler extends Handler {
 
     /**
      * Creates a new Region Handler
+     * @param session The current session
      */
     public RegionHandler(Session session) {
         super(session);

@@ -17,6 +17,9 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * A curse that gives a player a random kit
+ */
 public class PossessionCurse extends CurseCast {
     public final static String name = "Curse of Possession";
     private final static String activateMessage = "Random kits have possessed player(s)!";
@@ -51,6 +54,9 @@ public class PossessionCurse extends CurseCast {
         }
     }
 
+    /**
+     * @return The kit's name
+     */
     public String getKit() {
         return kitName;
     }

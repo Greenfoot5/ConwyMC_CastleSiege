@@ -9,6 +9,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Sets the kit for a player
+ */
 public class SetKitCommand implements CommandExecutor {
 
     /**

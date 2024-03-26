@@ -43,8 +43,19 @@ public class Ram {
     private final String schematicNameActiveHit;
     private final Vector schematicLocation;
 
+    /**
+     * Creates a new ram
+     * @param gate The gate the ram is ramming
+     * @param region The area players stand to use the ram
+     * @param damage How much damage the ram deals
+     * @param progressAmount The speed the ram is used
+     * @param schematicLocation Where to paste the schematic
+     * @param schematicNameIdle The name of the idle schematic
+     * @param schematicNameActive The name of the active rest schematic
+     * @param schematicNameHit The name of the active hit schematic
+     */
     public Ram(Gate gate, ProtectedRegion region, int damage, int progressAmount, Vector schematicLocation,
-               String schematicNameIdle, String schematicNameActiveRest, String schematicNameActiveHit) {
+               String schematicNameIdle, String schematicNameActive, String schematicNameHit) {
         this.gate = gate;
         this.region = region;
 
@@ -57,8 +68,8 @@ public class Ram {
         this.isActive = false;
 
         this.schematicNameIdle = schematicNameIdle;
-        this.schematicNameActiveRest = schematicNameActiveRest;
-        this.schematicNameActiveHit = schematicNameActiveHit;
+        this.schematicNameActiveRest = schematicNameActive;
+        this.schematicNameActiveHit = schematicNameHit;
         this.schematicLocation = schematicLocation;
     }
 

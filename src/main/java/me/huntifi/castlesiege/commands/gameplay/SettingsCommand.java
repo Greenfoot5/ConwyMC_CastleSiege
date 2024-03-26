@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Allows players to view and edit their Castle Siege settings
+ */
 public class SettingsCommand implements TabExecutor {
     private static final HashMap<UUID, Gui> guis = new HashMap<>();
     public static final Setting[] CS_SETTINGS = CSSetting.generateSettings();
@@ -132,6 +135,10 @@ public class SettingsCommand implements TabExecutor {
         return keys;
     }
 
+    /**
+     * @param name The setting to get
+     * @return The player's value, or the default if not set, or null if no setting exists
+     */
     public static Setting getSetting(String name) {
         for (Setting setting : CS_SETTINGS) {
             if (setting.displayName.content().equals(name) || Objects.equals(setting.key, name))

@@ -28,6 +28,9 @@ import java.util.Objects;
 public class MoriaOrc extends TeamKit implements Listener {
 
 
+    /**
+     * Creates a new Moria Orc
+     */
     public MoriaOrc() {
         super("Moria Orc", 230, 7, "Moria",
                 "The Orcs", 2500, Material.BOW, "moriaorc");

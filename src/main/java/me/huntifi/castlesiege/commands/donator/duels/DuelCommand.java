@@ -15,6 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * Sends a duel request to a player
+ */
 public class DuelCommand implements CommandExecutor {
 
     public static final HashMap<CommandSender, CommandSender> inviter = new HashMap<>();

@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * A curse that modifies a player's max health
+ */
 public class HealingCurse extends CurseCast {
     public final static String name = "Curse of Healing";
     private final static String activateMessage = "Your maximum health has been modified by ";

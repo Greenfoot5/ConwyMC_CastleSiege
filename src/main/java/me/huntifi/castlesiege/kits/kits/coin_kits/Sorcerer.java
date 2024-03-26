@@ -45,6 +45,9 @@ public class Sorcerer extends CoinKit implements Listener {
 
     private static final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
 
+    /**
+     * Creates a new Sorcerer
+     */
     public Sorcerer() {
         super("Sorcerer", health, regen, Material.BOOK);
 

@@ -49,6 +49,9 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
     private Fireball ball;
     private Player shooter;
 
+    /**
+     * Creates a new Firelands Abyssal
+     */
     public FirelandsAbyssal() {
         super("Abyssal", 600, 9, "Firelands",
                 "Burning Legion", 5000, Material.MAGMA_BLOCK,
@@ -106,6 +109,9 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
         disguise(p, playerDisguise);
     }
 
+    /**
+     * @param p The player spawning the magma projectile
+     */
     public void spawnMagmaProjectile(Player p) {
 
         if (InCombat.isPlayerInLobby(p.getUniqueId())) {
@@ -131,6 +137,9 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
 
     }
 
+    /**
+     * @param p The player launching the projectile
+     */
     public void launchProjectile(Player p) {
 
         //Location above = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 2, p.getLocation().getZ());
@@ -156,6 +165,9 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
         }.runTaskLater(Main.plugin, 60);
     }
 
+    /**
+     * @param event When the magma projectile hits something
+     */
     @EventHandler
     public void onImpact(ProjectileHitEvent event) {
         if (Objects.equals(ball, event.getEntity())) {

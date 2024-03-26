@@ -4,34 +4,33 @@ import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Scoreboard;
 import me.huntifi.castlesiege.maps.Team;
-import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.megavex.scoreboardlibrary.api.sidebar.Sidebar;
 import net.megavex.scoreboardlibrary.api.sidebar.component.ComponentSidebarLayout;
 import net.megavex.scoreboardlibrary.api.sidebar.component.SidebarComponent;
-import net.megavex.scoreboardlibrary.api.sidebar.component.animation.CollectionSidebarAnimation;
 import net.megavex.scoreboardlibrary.api.sidebar.component.animation.SidebarAnimation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * The scoreboard displaying all the flags and their capture status
+ */
 public class FlagSidebar {
     private final Sidebar sidebar;
     private final ComponentSidebarLayout componentSidebar;
     private final SidebarAnimation<Component> titleAnimation;
 
+    /**
+     * @param sidebar The sidebar to create the flags scoreboard on
+     */
     public FlagSidebar(@NotNull Sidebar sidebar) {
         this.sidebar = sidebar;
 
-        this.titleAnimation = createGradientAnimation(Component.text("Mode: ")
+        this.titleAnimation = Scoreboard.createGradientAnimation(Component.text("Mode: ")
                 .append(Component.text(MapController.getCurrentMap().gamemode.toString(),
                         Style.style(TextDecoration.BOLD))));
 
@@ -83,7 +82,9 @@ public class FlagSidebar {
         this.componentSidebar = new ComponentSidebarLayout(title, lines.build());
     }
 
-    // Called every tick
+    /**
+     * Calls the next tick of the animation
+     */
     public void tick() {
         // Advance title animation to the next frame
         titleAnimation.nextFrame();
@@ -92,29 +93,23 @@ public class FlagSidebar {
         componentSidebar.apply(sidebar);
     }
 
-    private @NotNull SidebarAnimation<Component> createGradientAnimation(@NotNull Component text) {
-        float step = 1f / 16f;
-
-        TagResolver.Single textPlaceholder = Placeholder.component("text", text);
-        List<Component> frames = new ArrayList<>((int) (2f / step));
-
-        float phase = -1f;
-        while (phase < 1) {
-            frames.add(Messenger.mm.deserialize("<gradient:#e9455e:#2e3468:" + phase + "><text>", textPlaceholder));
-            phase += step;
-        }
-
-        return new CollectionSidebarAnimation<>(frames);
-    }
-
+    /**
+     * @param player The player to add to the scoreboard
+     */
     public void addPlayer(Player player) {
         sidebar.addPlayer(player);
     }
 
+    /**
+     * @param player The player to remove
+     */
     public void removePlayer(Player player) {
         sidebar.removePlayer(player);
     }
 
+    /**
+     * Closes the sidebar
+     */
     public void close() {
         sidebar.close();
     }

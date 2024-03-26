@@ -31,10 +31,6 @@ public class LoadData {
      */
     public static CSPlayerData load(UUID uuid) {
         try {
-
-            // Unlock achievements data
-            //ArrayList<String> unlockedAchievements = getUnlockedAchievements(uuid);
-
             // Unlock kits data
             ArrayList<String> unlockedKits = getUnlockedKits(uuid);
 
@@ -77,6 +73,7 @@ public class LoadData {
 
     /**
      * Should be called async.
+     * @param uuid The uuid of the player
      * @return returns the amount of actual premium/elite kits this player has.
      * Is used to determine the price of the next elite kit bought.
      */
@@ -91,6 +88,7 @@ public class LoadData {
     }
 
     /**
+     * @param uuid The uuid of the player
      * @return returns the price of the next elite kit.
      */
     public static int returnPremiumKitPrice(UUID uuid) {
@@ -191,6 +189,7 @@ public class LoadData {
     /**
      * Get the top players from the database
      * @param order The category to order by
+     * @param offset The offset of the leaderboard
      * @return A tuple of the prepared statement (to close later) and the query's result
      * @throws SQLException If something goes wrong executing the query
      */
@@ -259,6 +258,10 @@ public class LoadData {
         return new Timestamp(0);
     }
 
+    /**
+     * @param uuid The player to get the settings for
+     * @return The settings for a player
+     */
     public static HashMap<String, String> getSettings(UUID uuid) {
         HashMap<String, String> loadedSettings = new HashMap<>();
 
