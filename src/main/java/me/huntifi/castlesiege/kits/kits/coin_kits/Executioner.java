@@ -98,7 +98,7 @@ public class Executioner extends CoinKit implements Listener {
 	 * Decapitate an enemy if their hp is below 37%
 	 * @param e The event called when hitting another player
 	 */
-	@EventHandler (ignoreCancelled = true)
+	@EventHandler(ignoreCancelled = true)
 	public void onExecute(EntityDamageByEntityEvent e) {
 		// Both are players
 		if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player) {

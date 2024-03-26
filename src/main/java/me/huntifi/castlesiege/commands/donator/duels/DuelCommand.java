@@ -21,7 +21,6 @@ import java.util.Objects;
 public class DuelCommand implements CommandExecutor {
 
     public static final HashMap<CommandSender, CommandSender> inviter = new HashMap<>();
-
     public static final HashMap<Player, Player> challenging = new HashMap<>();
 
     @Override

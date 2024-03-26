@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.events.gameplay;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.data_types.MapBorder;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import net.kyori.adventure.text.Component;
@@ -38,6 +39,9 @@ public class LeaveMapBorder implements Listener {
      */
     @EventHandler
     public void onLeaveBorder(PlayerMoveEvent e) {
+        if (!CSActiveData.hasPlayer(e.getPlayer().getUniqueId()))
+            return;
+
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             // Check if the player should be held accountable
             Player player = e.getPlayer();

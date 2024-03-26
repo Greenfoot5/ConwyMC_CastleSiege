@@ -42,8 +42,6 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
 
     private static final int POTION_COOLDOWN = 300;
 
-    public ThrownPotion potion;
-
     public ThunderstoneElytrier() {
         super("Elytrier", 170, 7, "Thunderstone",
                 "Thunderstone Guard", 2000, Material.ELYTRA,
@@ -213,7 +211,7 @@ public class ThunderstoneElytrier extends TeamKit implements Listener {
                         potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 1, 5), true);
                         potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 60, 0), true);
                         itemStack.setItemMeta(potionMeta);
-                        potion = (ThrownPotion) p.getWorld().spawnEntity(loc, EntityType.SPLASH_POTION);
+                        ThrownPotion potion = (ThrownPotion) p.getWorld().spawnEntity(loc, EntityType.SPLASH_POTION);
                         potion.setItem(itemStack);
                         potion.setShooter(p);
 

@@ -93,7 +93,7 @@ public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
      * Set the arrow-damage of a ranged cavalry's arrows
      * @param e The event called when a player is hit by an arrow
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&

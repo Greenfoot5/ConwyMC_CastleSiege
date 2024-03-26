@@ -124,7 +124,7 @@ public class MoriaAxeThrower extends TeamKit implements Listener {
      * Set the thrown axe's damage
      * @param e The event called when an arrow hits a player
      */
-    @EventHandler (priority = EventPriority.LOW, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void changeAxeDamage(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Snowball) {
             Snowball ball = (Snowball) e.getEntity();

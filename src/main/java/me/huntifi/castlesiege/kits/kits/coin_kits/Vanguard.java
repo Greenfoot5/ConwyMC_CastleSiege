@@ -141,7 +141,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
     /**
      * @param ed remove the potion effects on hit.
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void chargeHit(EntityDamageByEntityEvent ed) {
         if (ed.getDamager() instanceof Player) {
             Player player = (Player) ed.getDamager();

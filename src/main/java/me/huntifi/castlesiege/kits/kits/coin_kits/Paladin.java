@@ -139,7 +139,7 @@ public class Paladin extends CoinKit implements Listener {
      * @param blesser The player performing the blessing
      * @param blessed The player being blessed
      */
-    public void bless(Player blesser, Player blessed) {
+    private void bless(Player blesser, Player blessed) {
 
         blesser.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
         Messenger.sendActionInfo("You blessed your surroundings!", blesser);

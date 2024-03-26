@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 
 /**
- * A curse that removed player's names and team colours
+ * A curse that removed player's team colours
  */
 public class GreaterBlindnessCurse extends CurseCast {
     public final static String name = "Curse of Greater Blindness";

@@ -95,7 +95,7 @@ public class Warbear extends StaffKit implements Listener {
      * Cause withering damage to the bitten opponent and try to activate the stun ability
      * @param e The event called when hitting another player
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onAttack(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof Player && e.getDamager() instanceof Player)) {
             return;

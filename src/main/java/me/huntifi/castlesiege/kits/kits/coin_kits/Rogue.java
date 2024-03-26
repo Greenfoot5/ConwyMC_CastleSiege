@@ -284,7 +284,7 @@ public class Rogue extends CoinKit implements Listener {
      * Hide the player from everyone.
      * @param p The player to make invisible
      */
-    public void shadowstepAbility(Player p) {
+    private void shadowstepAbility(Player p) {
         int duration = 160;
         if (InCombat.isPlayerInCombat(p.getUniqueId())) {
             Messenger.sendActionError("You can't shadow-step whilst in combat!", p);
@@ -376,7 +376,7 @@ public class Rogue extends CoinKit implements Listener {
      * Cause poison damage to opponents and horses when the poison ability is activated.
      * @param e The event called when hitting another player
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onAttack(EntityDamageByEntityEvent e) {
         if (!(e.getDamager() instanceof Player))
             return;
@@ -644,7 +644,7 @@ public class Rogue extends CoinKit implements Listener {
      * Rogue becomes visible again.
      * @param event The event called when an off-cooldown player interacts with an enderchest
      */
-    @EventHandler (priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onClickEnderchest(EnderchestEvent event) {
         if (Objects.equals(Kit.equippedKits.get(event.getPlayer().getUniqueId()).name, name)) {
             event.setCancelled(true);

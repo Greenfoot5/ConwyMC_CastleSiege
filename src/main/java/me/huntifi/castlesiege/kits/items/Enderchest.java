@@ -72,7 +72,7 @@ public class Enderchest implements Listener {
 	 * Resupply a players items when an enderchest is used.
 	 * @param event The event called when an off-cooldown player interacts with an enderchest
 	 */
-	@EventHandler (priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onClickEnderchest(EnderchestEvent event) {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();

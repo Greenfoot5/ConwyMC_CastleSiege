@@ -139,7 +139,7 @@ public class SettingsCommand implements TabExecutor {
      * @param name The setting to get
      * @return The player's value, or the default if not set, or null if no setting exists
      */
-    public static Setting getSetting(String name) {
+    private static Setting getSetting(String name) {
         for (Setting setting : CS_SETTINGS) {
             if (setting.displayName.content().equals(name) || Objects.equals(setting.key, name))
                 return setting;

@@ -994,7 +994,6 @@ public class Main extends JavaPlugin implements Listener {
                     core.region = getRegion(coreConfig, captureRoute, core.name.replace(' ', '_'));
                 }
                 core.materials = coreConfig.getStringList(coreRoute.add("materials"));
-                core.scoreboard = coreConfig.getInt(coreRoute.add("scoreboard"));
 
                 ((CoreMap) map).setCore(i, core);
             }

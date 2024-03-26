@@ -126,7 +126,7 @@ public class GrantBoosterCommand implements TabExecutor {
      * @param playerName The name of the player
      * @return The player's UUID if found, null otherwise
      */
-    protected UUID getUUID(String playerName) {
+    private UUID getUUID(String playerName) {
         // Player is online
         Player player = Bukkit.getPlayer(playerName);
         if (player != null)

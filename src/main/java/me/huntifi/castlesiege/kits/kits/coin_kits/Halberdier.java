@@ -89,7 +89,7 @@ public class Halberdier extends CoinKit implements Listener {
      * Activate the halberdier ability of dealing +50% damage to cavalry
      * @param e The event called when dealing damage to another player
      */
-    @EventHandler (priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH)
     public void antiCav(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player cav = (Player) e.getEntity();
@@ -106,7 +106,7 @@ public class Halberdier extends CoinKit implements Listener {
      * The cooldown event for halberdier.
      * @param e The event called when dealing damage to another player
      */
-    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void halbCooldown(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
@@ -126,7 +126,7 @@ public class Halberdier extends CoinKit implements Listener {
      * Activate the halberdier ability of taking +50% damage from arrows
      * @param e The event called when taking damage from an arrow
      */
-    @EventHandler (priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH)
     public void weakToArrows(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Arrow &&
                 Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {

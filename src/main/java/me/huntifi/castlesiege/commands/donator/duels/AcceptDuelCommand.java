@@ -139,7 +139,7 @@ public class AcceptDuelCommand implements CommandExecutor, Listener {
      * @param challenger the person who challenged the contender
      * @param contender the person who accepted the challenge from the challenger
      */
-    public void onDuelInitiation(Player challenger, Player contender) {
+    private void onDuelInitiation(Player challenger, Player contender) {
           teleportContestants(challenger, contender);
           InCombat.playerSpawned(challenger.getUniqueId());
           InCombat.playerSpawned(contender.getUniqueId());
@@ -153,7 +153,7 @@ public class AcceptDuelCommand implements CommandExecutor, Listener {
      * @param challenger the player to clear from the lists
      *        this is the person that requested the duel.
      */
-    public void onDuelEndChallenger(Player challenger) {
+    private void onDuelEndChallenger(Player challenger) {
         clearPlayerFromArenaList(challenger);
         MapController.rejoinAfterDuel(challenger.getUniqueId());
     }
@@ -163,7 +163,7 @@ public class AcceptDuelCommand implements CommandExecutor, Listener {
      * @param contender the player to clear from the lists
      *                  This is the person that accepted the duel
      */
-    public void onDuelEndContender(Player contender) {
+    private void onDuelEndContender(Player contender) {
         clearPlayerFromArenaList(contender);
         MapController.rejoinAfterDuel(contender.getUniqueId());
         DuelCommand.challenging.remove(contender);
@@ -174,7 +174,7 @@ public class AcceptDuelCommand implements CommandExecutor, Listener {
      * @param challenger the person who challenged the contender
      * @param contender the person who accepted the challenge from the challenger
      */
-    public void teleportContestants(Player challenger, Player contender) {
+    private void teleportContestants(Player challenger, Player contender) {
         for (int i = 0; i < ARENA_COUNT; i++) {
             if (arenaPlayers.get(i).getFirst() != null) {
                 challenger.teleport(arenaChallengers[i]);
@@ -189,7 +189,7 @@ public class AcceptDuelCommand implements CommandExecutor, Listener {
      * Also repairs the arena
      * @param challenger the player to clear from the list.
      */
-    public void clearPlayerFromArenaList(Player challenger) {
+    private void clearPlayerFromArenaList(Player challenger) {
         for (int i = 0; i < ARENA_COUNT; i++) {
             if (arenaPlayers.get(i).getFirst() == challenger.getUniqueId()) {
                 arenaPlayers.set(i, new Tuple<>(null, null));
@@ -203,7 +203,7 @@ public class AcceptDuelCommand implements CommandExecutor, Listener {
      * But only if they are in the spawn room still.
      * @param p The player
      */
-    public void sendCountdownMessages(Player p) {
+    private void sendCountdownMessages(Player p) {
         for (int i = 3; i >= 0; i--) {
             int finalI = i;
             int delay = 80 - (20 * i);
@@ -289,7 +289,7 @@ public class AcceptDuelCommand implements CommandExecutor, Listener {
      * Spawns a schematic where the gate has to be opened for this specific player.
      * @param contender the player to check the location for
      */
-    public void openGate(Player contender) {
+    private void openGate(Player contender) {
         if (contender == null) { return; }
         Location ploc = contender.getLocation();
 
@@ -311,7 +311,7 @@ public class AcceptDuelCommand implements CommandExecutor, Listener {
     /**
      * @return The index of an empty arena
      */
-    public static int getEmptyArena() {
+    private static int getEmptyArena() {
         for (int i = 0; i < ARENA_COUNT; i++) {
             if (arenaPlayers.get(i).getFirst() == null) {
                 return i;

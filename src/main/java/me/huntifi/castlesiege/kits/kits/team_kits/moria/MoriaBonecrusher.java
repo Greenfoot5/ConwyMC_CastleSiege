@@ -90,7 +90,7 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
      * Activate the Bonecrusher ability
      * @param e The event called when hitting another player
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onCrush(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player p = (Player) e.getEntity();

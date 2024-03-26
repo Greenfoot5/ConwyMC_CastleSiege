@@ -147,7 +147,7 @@ public class Spearman extends FreeKit implements Listener {
 	 * Set the thrown spear's damage
 	 * @param e The event called when an arrow hits a player
 	 */
-	@EventHandler (priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.LOW)
 	public void changeSpearDamage(ProjectileHitEvent e) {
 		if (e.getEntity() instanceof Arrow) {
 			Arrow arrow = (Arrow) e.getEntity();
@@ -166,7 +166,7 @@ public class Spearman extends FreeKit implements Listener {
 	 * Activate the spearman ability of destroying all ladders directly below the broken one
 	 * @param e The event called when breaking a ladder
 	 */
-	@EventHandler (priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onBreakLadder(BlockBreakEvent e) {
 		Player p = e.getPlayer();
 		if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {

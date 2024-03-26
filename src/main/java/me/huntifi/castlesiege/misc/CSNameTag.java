@@ -24,7 +24,6 @@ import org.bukkit.event.Listener;
 /**
  * Handles Names for Castle Siege
  */
-@SuppressWarnings("deprecation")
 public class CSNameTag implements Listener {
 
     /**
@@ -58,6 +57,7 @@ public class CSNameTag implements Listener {
         });
     }
 
+    @SuppressWarnings("deprecation")
     private static String legacyColor(Player p) {
         if (MapController.getPlayers().contains(p.getUniqueId())) {
             Component c = Component.text(" ").color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);

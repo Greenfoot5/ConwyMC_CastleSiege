@@ -69,7 +69,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
      * @param boosters The boosters to add to the gui
      * @return The Gui with the boosters in
      */
-    public static Gui createGUI(List<Booster> boosters) {
+    private static Gui createGUI(List<Booster> boosters) {
         Gui gui = new Gui(Component.text("Booster Selection"), (boosters.size() / 9 + 1), true);
         boosters.sort(Booster::compareTo);
         for (int i = 0; i < boosters.size(); i++) {
@@ -129,7 +129,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
                         });
                         return;
                     }
-                } 
+                }
 
                 // Activate the booster
                 Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {

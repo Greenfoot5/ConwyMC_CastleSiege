@@ -129,7 +129,7 @@ public class Medic extends CoinKit implements Listener {
     /**
      * @return The medic's health potion
      */
-    public ItemStack healthPotion() {
+    private ItemStack healthPotion() {
         ItemStack itemStack = new ItemStack(Material.POTION);
         PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
         assert potionMeta != null;
@@ -146,7 +146,7 @@ public class Medic extends CoinKit implements Listener {
      * Place a cake
      * @param event The event called when placing a cake
      */
-    @EventHandler (priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
 
@@ -174,7 +174,7 @@ public class Medic extends CoinKit implements Listener {
      * Break a cake
      * @param e The event called when breaking a cake
      */
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBreakCake(BlockBreakEvent e) {
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {

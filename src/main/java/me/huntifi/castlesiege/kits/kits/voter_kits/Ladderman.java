@@ -85,7 +85,7 @@ public class Ladderman extends VoterKit implements Listener {
      * Activate the ladderman ability of retrieving broken ladders
      * @param e The event called when breaking ladders
      */
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBreakLadder(BlockBreakEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();

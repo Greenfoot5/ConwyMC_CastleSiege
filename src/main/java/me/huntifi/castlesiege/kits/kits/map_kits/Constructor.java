@@ -136,7 +136,7 @@ public class Constructor extends MapKit implements Listener {
      * @param player the player to send the error message to.
      * @return Whether they can place this block here or not. True/false
      */
-    public boolean checkPlaces(Location placerLoc, Player player) {
+    private boolean checkPlaces(Location placerLoc, Player player) {
         for (Flag flag : MapController.getCurrentMap().flags) {
             if (placerLoc.distance(flag.getSpawnPoint()) <= 6 ||
                     flag.region.contains((int) placerLoc.getX(), (int) placerLoc.getY(), (int) placerLoc.getZ())) {

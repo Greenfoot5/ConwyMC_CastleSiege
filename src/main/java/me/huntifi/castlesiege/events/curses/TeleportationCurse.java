@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * A curse the swaps some player's positions
+ */
 public class TeleportationCurse extends CurseCast {
     public final static String name = "Curse of Teleportation";
     private final static String activateMessage = "Some players have swapped positions!";
@@ -82,9 +85,14 @@ public class TeleportationCurse extends CurseCast {
         return Bukkit.getPlayer(pos.getFirst());
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new Teleportation Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
+        /**
+         * Creates a new CurseBuilder for Teleportation
+         */
         public CurseBuilder() {
             super(name, activateMessage, expireMessage);
             this.options = OPTIONS;

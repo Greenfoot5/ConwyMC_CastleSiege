@@ -55,7 +55,7 @@ public class Ranger extends CoinKit implements Listener {
     private BukkitRunnable br = null;
 
     /**
-     * Set the equipment and attributes of this kit
+     * Create a new Ranger
      */
     public Ranger() {
         super("Ranger", health, regen, Material.LIME_DYE);
@@ -132,7 +132,7 @@ public class Ranger extends CoinKit implements Listener {
      * Set the arrow-damage of a ranger's arrows
      * @param e The event called when a player is hit by an arrow
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&
@@ -250,7 +250,7 @@ public class Ranger extends CoinKit implements Listener {
      * Instantly kills players when hit in the back by a sneaking ranger
      * @param ed The event called when a player attacks another player
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void backStabDamage(EntityDamageByEntityEvent ed) {
         if (ed.getDamager() instanceof Player && ed.getEntity() instanceof Player) {
             Player p = (Player) ed.getDamager();

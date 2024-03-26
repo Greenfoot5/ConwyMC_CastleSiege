@@ -285,7 +285,7 @@ public class Catapult implements Listener {
     /**
      * Launch the catapult's projectile
      */
-    public void launchProjectile() {
+    private void launchProjectile() {
         // Spawn a falling cobblestone block riding a snowball
         BlockData blockData = Bukkit.createBlockData(Material.COBBLESTONE);
         FallingBlock cobblestone = world.spawnFallingBlock(projectile, blockData);

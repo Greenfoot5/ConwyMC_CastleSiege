@@ -116,7 +116,7 @@ public class FireworkCommand implements CommandExecutor {
      *
      * @param p the player to launch the rocket at.
      */
-    public void spawnFirework(Player p) {
+    private void spawnFirework(Player p) {
         Firework firework = Objects.requireNonNull(p.getLocation().getWorld()).spawn(p.getLocation(), Firework.class);
         FireworkMeta meta = firework.getFireworkMeta();
 

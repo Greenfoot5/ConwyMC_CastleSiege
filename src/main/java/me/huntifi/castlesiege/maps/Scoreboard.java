@@ -59,7 +59,7 @@ public class Scoreboard implements Runnable {
 	}
 
 	/**
-	 * @return The text of the current time & state
+	 * @return The text of the current time &amp; state
 	 */
 	public static Component getTimeText() {
 		String name;

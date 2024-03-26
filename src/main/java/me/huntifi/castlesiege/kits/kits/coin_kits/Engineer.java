@@ -145,7 +145,7 @@ public class Engineer extends CoinKit implements Listener {
      * Activate the engineer ability for placing traps, cobwebs, wood, or stone
      * @param e The event called when placing a block
      */
-    @EventHandler (priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
@@ -335,7 +335,7 @@ public class Engineer extends CoinKit implements Listener {
      * Damage all enemy players within a 1 block radius
      * @param e The event called when an arrow hits a block or entity
      */
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onHitBallista(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player
                 && ballista.containsKey((Player) e.getEntity().getShooter())) {

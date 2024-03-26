@@ -55,7 +55,7 @@ public class CavesBoat implements Listener, Runnable {
 	/**
 	 * Spawns the next boat if there isn't one already
 	 */
-	public void spawnNextBoat() {
+	private void spawnNextBoat() {
 
 		int i = 0;
 
@@ -79,7 +79,7 @@ public class CavesBoat implements Listener, Runnable {
 	 * Removes any boats that don't exist anymore.
 	 * Probably not needed, but here in case we don't need something to clear it
 	 */
-	public void cleanBoats() {
+	private void cleanBoats() {
 		boats.clear();
 		for(Entity entity : Objects.requireNonNull(SPAWN_LOCATION.getWorld()).getEntities()){
 			if (entity instanceof Boat) {

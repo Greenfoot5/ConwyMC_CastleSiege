@@ -134,7 +134,7 @@ public class Alchemist extends CoinKit implements Listener {
      * Only applies the correct potion effect to the correct players
      * @param e Called when a player throws a potion
      */
-    @EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onThrownPotion(PotionSplashEvent e) {
         // Is the potion thrown by an alchemist?
         if (!(e.getPotion().getShooter() instanceof Player)) {
@@ -217,7 +217,7 @@ public class Alchemist extends CoinKit implements Listener {
      * Place a brewing stand
      * @param e The event called when placing a brewing stand
      */
-    @EventHandler (priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
 
@@ -433,12 +433,12 @@ public class Alchemist extends CoinKit implements Listener {
     }
        //------------------------------------------------Potions------------------------------------------------\\
 
-    final java.util.Random rand = new java.util.Random();
+    private final java.util.Random rand = new java.util.Random();
 
     /**
      * @return The item stack for a positive potion
      */
-    public ItemStack randomPositivePotion() {
+    private ItemStack randomPositivePotion() {
 
         int types = rand.nextInt(16);
         int amount = rand.nextInt(2);
@@ -575,7 +575,7 @@ public class Alchemist extends CoinKit implements Listener {
     /**
      * @return The ItemStack for a random negative potion
      */
-    public ItemStack randomNegativePotion() {
+    private ItemStack randomNegativePotion() {
 
         int types = rand.nextInt(12);
         int amount = rand.nextInt(2);

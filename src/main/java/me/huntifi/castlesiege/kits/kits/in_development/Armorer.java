@@ -160,7 +160,7 @@ public class Armorer extends CoinKit implements Listener {
      * @param target The player whose armour is being reinforced
      * @return The reinforced item
      */
-    public ItemStack addDefence(ItemStack item, Player smith, Player target) {
+    private ItemStack addDefence(ItemStack item, Player smith, Player target) {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         AttributeModifier modifier = new AttributeModifier("generic.armor", 2.0, AttributeModifier.Operation.ADD_NUMBER);
@@ -204,7 +204,7 @@ public class Armorer extends CoinKit implements Listener {
      * @param target the player to reinforce
      * @param self the smith/armorer that is reinforcing
      */
-    public void reinforceArmor(Player target, Player self) {
+    private void reinforceArmor(Player target, Player self) {
         if (target.getInventory().getChestplate() == null) {
             return;
         }

@@ -232,7 +232,7 @@ public class Warlock extends CoinKit implements Listener {
      * @param caster The user casting the curse
      * @param cursed The user cursed
      */
-    public void cursePlayer(Player caster, Player cursed) {
+    private void cursePlayer(Player caster, Player cursed) {
 
         if (TeamController.getTeam(caster.getUniqueId()) == TeamController.getTeam(cursed.getUniqueId())) {
             return;

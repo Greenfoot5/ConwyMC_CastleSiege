@@ -198,7 +198,7 @@ public class Crossbowman extends CoinKit implements Listener {
      * @param uuid the uuid of the player to check
      * @return true if the player is in snipe mode, false if they aren't.
      */
-    public boolean isInSnipingMode(UUID uuid) {
+    private boolean isInSnipingMode(UUID uuid) {
         if (snipers.get(uuid) == null) {
             return false;
         } else return snipers.get(uuid);
@@ -208,7 +208,7 @@ public class Crossbowman extends CoinKit implements Listener {
      * Set the arrow-damage of a ranger's arrows
      * @param e The event called when a player is hit by an arrow
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&
@@ -224,7 +224,7 @@ public class Crossbowman extends CoinKit implements Listener {
      * Handles clicking the green dye
      * @param p The player clicking the dye
      */
-    public void onClickGreenDye(Player p) {
+    private void onClickGreenDye(Player p) {
         // mode switch button
         int cooldown = p.getCooldown(Material.LIME_DYE);
         if (cooldown == 0 && isInSnipingMode(p.getUniqueId())) {
@@ -248,7 +248,7 @@ public class Crossbowman extends CoinKit implements Listener {
      * Handles clicking the yellow dye
      * @param p The player clicking the dye
      */
-    public void onClickYellowDye(Player p) {
+    private void onClickYellowDye(Player p) {
         int cooldown = p.getCooldown(Material.YELLOW_DYE);
         if (cooldown == 0 && !isInSnipingMode(p.getUniqueId())) {
             p.setCooldown(Material.LIME_DYE, 200);

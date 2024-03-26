@@ -31,6 +31,7 @@ import java.util.Objects;
 public class WoolMap implements Listener {
 
 	public WoolMapBlock[] woolMapBlocks;
+	private static final HashMap<Player, Shulker> shulkers = new HashMap<>();
 
 	/**
 	 * Used to measure when a player clicks on a WoolMap sign
@@ -89,8 +90,7 @@ public class WoolMap implements Listener {
 	}
 
 
-	public static final HashMap<Player, Shulker> shulkers = new HashMap<>();
-	public void spawnGlower(Player p, Location loc) {
+	private void spawnGlower(Player p, Location loc) {
       if ((!shulkers.containsKey(p)) || shulkers.get(p).getLocation() != loc) {
 
 		  Shulker shulker = (Shulker) Objects.requireNonNull(loc.getWorld()).spawnEntity(loc, EntityType.SHULKER);
@@ -106,7 +106,7 @@ public class WoolMap implements Listener {
 	  }
 	}
 
-	public void keepShulkerAlive(Player p, Shulker shulker, Block b) {
+	private void keepShulkerAlive(Player p, Shulker shulker, Block b) {
 
 		Block target = p.getTargetBlockExact(50);
 		new BukkitRunnable() {

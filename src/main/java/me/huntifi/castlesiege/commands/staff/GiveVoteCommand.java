@@ -104,6 +104,7 @@ public class GiveVoteCommand implements TabExecutor {
                 break;
             case "1":
             case "sword":
+            case "damage":
                 data.setVote("sword");
                 break;
             case "2":

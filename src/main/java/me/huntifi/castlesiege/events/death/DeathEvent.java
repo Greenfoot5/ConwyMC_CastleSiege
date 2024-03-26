@@ -107,7 +107,7 @@ public class DeathEvent implements Listener {
      * Placed in separate function to allow performing after mythic mobs.
      * @param event The event called when a player dies
      */
-    @EventHandler (priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void disableDeathMessage(PlayerDeathEvent event) {
         event.deathMessage(null);
     }

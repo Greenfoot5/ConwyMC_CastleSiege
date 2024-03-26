@@ -255,7 +255,7 @@ public class Priest extends CoinKit implements Listener {
      * @param priest The priest using the book
      * @param book The book being used
      */
-    public void assignBook(Player priest, ItemStack book) {
+    private void assignBook(Player priest, ItemStack book) {
         if (blessings.containsKey(priest)) {
             ItemMeta bootMeta = book.getItemMeta();
             assert bootMeta != null;

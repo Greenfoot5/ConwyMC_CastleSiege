@@ -91,7 +91,7 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
      * Activate the Uruk Berserker cleave ability
      * @param event The event called when hitting another player
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onCleave(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
             Player damager = (Player) event.getDamager();

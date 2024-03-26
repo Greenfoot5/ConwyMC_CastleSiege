@@ -49,7 +49,7 @@ public class SecretsCommand implements CommandExecutor {
      * @param p the player to check the secrets for
      * @return a string returning the amount of secrets one has and can find.
      */
-    public String getThunderstoneSecrets(Player p) {
+    private String getThunderstoneSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
         CSPlayerData data = CSActiveData.getData(uuid);
@@ -78,7 +78,7 @@ public class SecretsCommand implements CommandExecutor {
         return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/6)";
     }
 
-    public String getHelmsdeepSecrets(Player p) {
+    private String getHelmsdeepSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
         CSPlayerData data = CSActiveData.getData(uuid);
@@ -98,7 +98,7 @@ public class SecretsCommand implements CommandExecutor {
         return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/3)";
     }
 
-    public String getLakeboroughSecrets(Player p) {
+    private String getLakeboroughSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
         CSPlayerData data = CSActiveData.getData(uuid);
@@ -121,7 +121,7 @@ public class SecretsCommand implements CommandExecutor {
         return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/4)";
     }
 
-    public String getAbrakhanSecrets(Player p) {
+    private String getAbrakhanSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
         CSPlayerData data = CSActiveData.getData(uuid);
@@ -145,7 +145,7 @@ public class SecretsCommand implements CommandExecutor {
     }
 
 
-    public String getElwynnSecrets(Player p) {
+    private String getElwynnSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
         CSPlayerData data = CSActiveData.getData(uuid);
@@ -188,7 +188,7 @@ public class SecretsCommand implements CommandExecutor {
         return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/11)";
     }
 
-    public String getSkyholdSecrets(Player p) {
+    private String getSkyholdSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
         CSPlayerData data = CSActiveData.getData(uuid);
@@ -229,7 +229,7 @@ public class SecretsCommand implements CommandExecutor {
         return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/10)";
     }
 
-    public String getHallOfHerculesSecrets(Player p) {
+    private String getHallOfHerculesSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
         CSPlayerData data = CSActiveData.getData(uuid);
