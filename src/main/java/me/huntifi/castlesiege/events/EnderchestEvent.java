@@ -61,6 +61,7 @@ public class EnderchestEvent extends Event implements Cancellable {
      *
      * @return The handlers of this event
      */
+    @SuppressWarnings("unused")
     public static HandlerList getHandlerList() {
         return HANDLERS_LIST;
     }

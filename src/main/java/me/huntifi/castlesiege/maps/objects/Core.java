@@ -45,9 +45,6 @@ public class Core implements Listener {
     public ProtectedRegion region;
     public static final HashMap<Core, BossBar> bars = new HashMap<>();
 
-    // Scoreboard value
-    public int scoreboard;
-
     // Game Data
     protected boolean active;
     public List<String> materials;

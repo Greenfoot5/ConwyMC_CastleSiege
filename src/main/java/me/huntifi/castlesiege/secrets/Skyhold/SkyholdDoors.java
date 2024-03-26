@@ -3,9 +3,7 @@ package me.huntifi.castlesiege.secrets.Skyhold;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.secrets.SecretItems;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -45,7 +43,7 @@ public class SkyholdDoors implements Listener {
                     Player p = event.getPlayer();
                     p.getInventory().remove(SecretItems.skyholdKeyDoor());
 
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened this door...!"));
+                    Messenger.sendSecret("You have opened this door...!", p);
 
                     new BukkitRunnable() {
 
@@ -76,7 +74,7 @@ public class SkyholdDoors implements Listener {
                     Player p = event.getPlayer();
                     p.getInventory().remove(SecretItems.skyholdKeyInquisitor());
 
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened the vault...!"));
+                    Messenger.sendSecret("You have opened the vault...", p);
 
                     new BukkitRunnable() {
 
@@ -104,7 +102,7 @@ public class SkyholdDoors implements Listener {
 
                     Player p = event.getPlayer();
 
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "You have opened a secret passage...!"));
+                    Messenger.sendSecret("You have opened a secret passage...!", p);
 
                     new BukkitRunnable() {
 
