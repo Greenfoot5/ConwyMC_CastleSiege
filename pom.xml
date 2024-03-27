@@ -61,7 +61,7 @@
             <url>https://repo.codemc.io/repository/maven-releases/</url>
         </repository>
         <repository>
-            <id>github</id>
+            <id>github-global</id>
             <url>https://maven.pkg.github.com/AdminHuntifi/ConwyMC-global</url>
         </repository>
         <repository>
