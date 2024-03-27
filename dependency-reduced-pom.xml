@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.AdminHuntif</groupId>
-  <artifactId>CastleSiege</artifactId>
-  <name>ConwyMC_CastleSiege</name>
-  <version>1.0</version>
+  <artifactId>conwymc-castlesiege</artifactId>
+  <name>CastleSiege</name>
+  <version>1.0.17</version>
   <description>The Castle Siege plugin for ConwyMC</description>
   <build>
     <resources>
@@ -78,10 +78,6 @@
   </build>
   <repositories>
     <repository>
-      <id>jitpack</id>
-      <url>https://jitpack.io</url>
-    </repository>
-    <repository>
       <id>everything</id>
       <url>https://repo.citizensnpcs.co/</url>
     </repository>
@@ -113,6 +109,14 @@
     <repository>
       <id>codemc-releases</id>
       <url>https://repo.codemc.io/repository/maven-releases/</url>
+    </repository>
+    <repository>
+      <id>github-global</id>
+      <url>https://maven.pkg.github.com/AdminHuntifi/ConwyMC-global</url>
+    </repository>
+    <repository>
+      <id>jitpack</id>
+      <url>https://jitpack.io</url>
     </repository>
   </repositories>
   <dependencies>
@@ -197,8 +201,8 @@
   </dependencies>
   <distributionManagement>
     <repository>
-      <id>github</id>
-      <name>GitHub Packages</name>
+      <id>github-global</id>
+      <name>Github Packages</name>
       <url>https://maven.pkg.github.com/AdminHuntifi/ConwyMC_CastleSiege</url>
     </repository>
   </distributionManagement>
