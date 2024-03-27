@@ -9,7 +9,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,6 +27,28 @@ jobs:
         server-username: Greenfoot5
         server-password: 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
         settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+    - name: Create custom settings.xml
+      uses: whelk-io/maven-settings-xml-action@v22
+      with:
+        repositories: >
+          [
+            {
+              "id": "github-global",
+              "url": "https://maven.pkg.github.com/AdminHuntifi/ConwyMC-global",
+              "snapshots": {
+                "enabled": "true"
+              }
+            }
+          ]
+        servers: >
+          [
+            {
+              "id":"github-global",
+              "username":"Greenfoot5",
+              "password":"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"
+            }
+          ]
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
