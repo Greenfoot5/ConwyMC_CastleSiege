@@ -119,6 +119,10 @@ public class Scoreboard implements Runnable {
 				}
 				statsSidebars.get(uuid).tick();
 			}
+
+			if (MapController.isSpectator(uuid)) {
+				flagSidebar.addPlayer(online);
+			}
 		}
 	}
 

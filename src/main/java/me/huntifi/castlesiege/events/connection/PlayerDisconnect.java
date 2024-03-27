@@ -1,27 +1,17 @@
 package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.CSActiveData;
-import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.events.timed.BarCooldown;
-import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.Scoreboard;
-import me.huntifi.castlesiege.maps.objects.Flag;
-import me.huntifi.castlesiege.maps.objects.Gate;
-import me.huntifi.castlesiege.maps.objects.Ram;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.sql.SQLException;
 import java.util.UUID;
 
 /**
@@ -48,53 +38,9 @@ public class PlayerDisconnect implements Listener {
             } else if (!InCombat.isPlayerInLobby(uuid) && MapController.isOngoing()) {
                 UpdateStats.addDeaths(uuid, 1);
             }
-            InCombat.playerDied(uuid);
 
-            // Remove player from gameplay elements
-            stopCapping(e.getPlayer());
-            stopRamming(e.getPlayer());
-
-            Kit.equippedKits.remove(uuid);
-            storeData(uuid, data);
-            Scoreboard.clearScoreboard(e.getPlayer());
-            MapController.leaveTeam(uuid);
-            BarCooldown.remove(uuid);
-            VoteSkipCommand.removePlayer(uuid);
+            // Removes a player from castle siege
+            MapController.removePlayer(e.getPlayer());
         });
-    }
-
-    /**
-     * Remove the player from all capping zones
-     * @param p The player
-     */
-    private void stopCapping(Player p) {
-        for (Flag flag : MapController.getCurrentMap().flags) {
-            flag.playerExit(p);
-        }
-    }
-
-    /**
-     * Remove the player from all rams
-     * @param p The player
-     */
-    private void stopRamming(Player p) {
-        for (Gate gate : MapController.getCurrentMap().gates) {
-            Ram ram = gate.getRam();
-            if (ram != null)
-                ram.playerExit(p);
-        }
-    }
-
-    /**
-     * Store the player's data in the database
-     * Remove the player from active storage
-     * @param uuid The unique ID of the player
-     */
-    private void storeData(UUID uuid, CSPlayerData data) {
-        try {
-            StoreData.store(uuid, data);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

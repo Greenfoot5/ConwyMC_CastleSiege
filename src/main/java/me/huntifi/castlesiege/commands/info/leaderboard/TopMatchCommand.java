@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.commands.info.leaderboard;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.data_types.CSStats;
 import me.huntifi.castlesiege.database.MVPStats;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.data_types.Tuple;
@@ -52,7 +52,7 @@ public class TopMatchCommand implements CommandExecutor {
                 if (isTeam && !(sender instanceof Player)) {
                     Messenger.sendError("Console is not in a team!", sender);
                     return;
-                } else if (isTeam && SpectateCommand.spectators.contains(((Player) sender).getUniqueId())) {
+                } else if (isTeam && MapController.isSpectator(((Player) sender).getUniqueId())) {
                     Messenger.sendError("You are not in a team!", sender);
                     return;
                 }

@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.events.connection;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.LoadData;
@@ -17,7 +16,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -54,8 +52,7 @@ public class PlayerConnect implements Listener {
         // Assign the player to a team or spectator
         InCombat.playerDied(uuid);
         if (MapController.isMatch) {
-            SpectateCommand.spectators.add(uuid);
-            p.setGameMode(GameMode.SPECTATOR);
+            MapController.addSpectator(e.getPlayer());
             p.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
         } else {
             MapController.joinATeam(p.getUniqueId());

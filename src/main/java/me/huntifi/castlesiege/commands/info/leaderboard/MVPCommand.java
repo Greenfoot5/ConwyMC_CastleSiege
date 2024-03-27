@@ -54,7 +54,7 @@ public class MVPCommand implements CommandExecutor {
                     // Print the MVP of the player's team and their own stats
                     Player p = (Player) sender;
 
-                    if (SpectateCommand.spectators.contains(p.getUniqueId())) {
+                    if (MapController.isSpectator(p.getUniqueId())) {
                         Messenger.sendError("You aren't on a team!", sender);
                         return;
                     }

@@ -7,7 +7,6 @@ import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.boosters.GrantBoosterCommand;
-import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.data_types.Booster;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.data_types.CSStats;
@@ -15,9 +14,11 @@ import me.huntifi.castlesiege.data_types.CoinBooster;
 import me.huntifi.castlesiege.data_types.KitBooster;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
+import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
+import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.MapKit;
@@ -31,12 +32,16 @@ import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
 import me.huntifi.castlesiege.secrets.SecretItems;
+import me.huntifi.conwymc.data_types.PlayerData;
 import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.database.ActiveData;
+import me.huntifi.conwymc.database.LoadData;
 import me.huntifi.conwymc.gui.Gui;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -45,6 +50,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -95,6 +101,8 @@ public class MapController {
 	public static boolean disableSwitching = false;
 	public static boolean allKitsFree = false;
 	public static boolean forcedRandom = false;
+
+	private static final ArrayList<UUID> spectators = new ArrayList<>();
 
 	/**
 	 * Begins the map loop
@@ -434,7 +442,7 @@ public class MapController {
 		// Move all players to the new map and team
 		if (!keepTeams || maps.get(mapIndex).teams.length < teams.size()) {
 			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
-				if (!SpectateCommand.spectators.contains(player.getUniqueId()) && !DuelCommand.isDueling(player))
+				if (!isSpectator(player.getUniqueId()) && !DuelCommand.isDueling(player))
 					joinATeam(player.getUniqueId());
 			}
 		} else {
@@ -451,7 +459,7 @@ public class MapController {
 		Main.plugin.getComponentLogger().info(Component.text("Spawning secret items if there are any.", NamedTextColor.DARK_GREEN));
 
 		// Teleport Spectators
-		for (UUID spectator : SpectateCommand.spectators) {
+		for (UUID spectator : spectators) {
 			Player player = getPlayer(spectator);
 			if (player != null && player.isOnline()) {
 				if (MapController.getCurrentMap() instanceof CoreMap) {
@@ -726,11 +734,8 @@ public class MapController {
 		assert player != null;
 
 		team.addPlayer(uuid);
-
 		player.teleport(team.lobby.spawnPoint);
-
 		player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_2, 1f, 1f);
-
 		Messenger.send(Component.text("You joined ").append(Component.text(team.name, team.primaryChatColor)), player);
 
 		checkTeamKit(player);
@@ -767,7 +772,7 @@ public class MapController {
 		if (team != null)
 			team.removePlayer(uuid);
 		else if (isSpectator(uuid))
-			SpectateCommand.spectators.remove(uuid);
+			spectators.remove(uuid);
 	}
 
 	/**
@@ -805,7 +810,7 @@ public class MapController {
 		for (Team t : getCurrentMap().teams) {
 			players.addAll(t.getPlayers());
 		}
-		players.addAll(SpectateCommand.spectators);
+		players.addAll(spectators);
 
 		return players;
 	}
@@ -816,7 +821,7 @@ public class MapController {
      * @return If the player is a spectator
 	 */
 	public static boolean isSpectator(UUID uuid) {
-		return SpectateCommand.spectators.contains(uuid);
+		return spectators.contains(uuid);
 	}
 
 	/**
@@ -850,5 +855,57 @@ public class MapController {
 
             gui.open(p);
 		}
+	}
+
+	/**
+	 * Completely removes a player from Castle Siege
+	 * @param player The player to remove
+	 */
+	public static void removePlayer(Player player) {
+		Team team = TeamController.getTeam(player.getUniqueId());
+		team.removePlayer(player.getUniqueId());
+
+		// Remove player from gameplay
+		for (Flag flag : MapController.getCurrentMap().flags) {
+			flag.playerExit(player);
+		}
+		for (Gate gate : MapController.getCurrentMap().gates) {
+			Ram ram = gate.getRam();
+			if (ram != null)
+				ram.playerExit(player);
+		}
+
+		// Remove from events/commands
+		BarCooldown.remove(player.getUniqueId());
+		VoteSkipCommand.removePlayer(player.getUniqueId());
+		Scoreboard.clearScoreboard(player);
+		InCombat.playerDied(player.getUniqueId());
+		Kit.equippedKits.remove(player.getUniqueId());
+
+		// Clean the player's inventory
+		player.getInventory().clear();
+		player.setExp(0);
+
+        try {
+			// Save a player's data and reset their current data into PlayerData from CSPlayerData
+            StoreData.store(player.getUniqueId(), CSActiveData.getData(player.getUniqueId()));
+			PlayerData data = LoadData.load(player.getUniqueId());
+			ActiveData.addPlayer(player.getUniqueId(), data);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+	public static void addSpectator(Player player) {
+		spectators.add(player.getUniqueId());
+		player.setGameMode(GameMode.SPECTATOR);
+		removePlayer(player);
+	}
+
+	public static void removeSpectator(Player player) {
+		MapController.joinATeam(player.getUniqueId());
+		player.setGameMode(GameMode.SURVIVAL);
+		InCombat.playerDied(player.getUniqueId());
+		Scoreboard.clearScoreboard(player);
 	}
 }

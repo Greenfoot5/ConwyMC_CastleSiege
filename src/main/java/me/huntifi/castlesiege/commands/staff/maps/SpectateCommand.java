@@ -1,33 +1,24 @@
 package me.huntifi.castlesiege.commands.staff.maps;
 
-import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.Team;
-import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.commands.chat.GlobalChatCommand;
 import me.huntifi.conwymc.events.nametag.UpdateNameTagEvent;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
 /**
  * Allows players to spectate a match
  */
 public class SpectateCommand implements CommandExecutor {
-
-    public static final ArrayList<UUID> spectators = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -49,11 +40,8 @@ public class SpectateCommand implements CommandExecutor {
         }
 
         // If the player is a spectator, add them to a team
-        if (spectators.contains(player.getUniqueId())) {
-            spectators.remove(player.getUniqueId());
-            MapController.joinATeam(player.getUniqueId());
-            player.setGameMode(GameMode.SURVIVAL);
-            InCombat.playerDied(player.getUniqueId());
+        if (MapController.isSpectator(player.getUniqueId())) {
+            MapController.removeSpectator(player);
 
             // Assign stored kit
             Kit kit = Kit.getKit(CSActiveData.getData(player.getUniqueId()).getKit());
@@ -63,12 +51,10 @@ public class SpectateCommand implements CommandExecutor {
                 Kit.getKit("Swordsman").addPlayer(player.getUniqueId(), true);
 
         } else {
-            Team team = TeamController.getTeam(player.getUniqueId());
-            team.removePlayer(player.getUniqueId());
-            VoteSkipCommand.removePlayer(player.getUniqueId());
-            spectators.add(player.getUniqueId());
-            player.setGameMode(GameMode.SPECTATOR);
             CSActiveData.getData(player.getUniqueId()).setChatMode(GlobalChatCommand.CHAT_MODE);
+            MapController.addSpectator(player);
+
+            // Teleport the player
             if (InCombat.isPlayerInLobby(player.getUniqueId())) {
                 if (MapController.getCurrentMap() instanceof CoreMap) {
                     CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
