@@ -28,10 +28,6 @@
 
     <repositories>
         <repository>
-            <id>jitpack</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
             <id>everything</id>
             <url>https://repo.citizensnpcs.co/</url>
         </repository>
@@ -67,6 +63,10 @@
         <repository>
             <id>github</id>
             <url>https://maven.pkg.github.com/AdminHuntifi/ConwyMC-global</url>
+        </repository>
+        <repository>
+            <id>jitpack</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
