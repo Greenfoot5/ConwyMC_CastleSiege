@@ -24,7 +24,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: $GITHUB_WORKSPACE/upload # location for the settings.xml file
+        settings-path: ${{ github.workspace }}/upload # location for the settings.xml file
 
     - name: Create custom settings.xml
       uses: whelk-io/maven-settings-xml-action@v22
