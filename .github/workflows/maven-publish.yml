@@ -24,9 +24,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        server-username: Greenfoot5
-        server-password: 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
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
+        #settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Create custom settings.xml
       uses: whelk-io/maven-settings-xml-action@v22
