@@ -6,7 +6,7 @@
 
     <groupId>com.github.AdminHuntif</groupId>
     <artifactId>CastleSiege</artifactId>
-    <version>1.0</version>
+    <version>1.0.17</version>
     <packaging>jar</packaging>
 
     <name>ConwyMC_CastleSiege</name>
