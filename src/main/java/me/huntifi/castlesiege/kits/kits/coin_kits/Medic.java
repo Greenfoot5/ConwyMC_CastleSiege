@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
@@ -299,26 +300,29 @@ public class Medic extends CoinKit implements Listener {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
 
-
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (e.getItem() != null && e.getItem().getType() == Material.POTION) {
-                if (e.getHand() == EquipmentSlot.HAND) {
-                    p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
-                } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                    p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
-                }
-
-                // Prevent using in lobby
-                if (InCombat.isPlayerInLobby(uuid)) {
-                    e.setCancelled(true);
-                    return;
-                }
-
-                // Potion effects
-                p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 6));
-
-            }
+        if (!MapController.getPlayers().contains(uuid))
+            return;
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            return;
         }
+        if (e.getItem() == null || e.getItem().getType() != Material.POTION) {
+            return;
+        }
+        if (e.getHand() == EquipmentSlot.HAND) {
+            p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
+        } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+            p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
+        }
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            e.setCancelled(true);
+            return;
+        }
+
+        // Potion effects
+        p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 6));
+
     }
 
     /**

@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -106,49 +107,52 @@ public class Berserker extends CoinKit implements Listener {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
 
-
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (e.getItem() != null && e.getItem().getType() == Material.POTION) {
-                if (e.getHand() == EquipmentSlot.HAND) {
-                    p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
-                } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                    p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
-                }
-
-                p.getInventory().remove(Material.GLASS_BOTTLE);
-                if (p.getInventory().getItemInOffHand().getType() == Material.GLASS_BOTTLE)
-                    p.getInventory().setItemInOffHand(null);
-
-                // Prevent using in lobby
-                if (InCombat.isPlayerInLobby(uuid)) {
-                    e.setCancelled(true);
-                    return;
-                }
-
-                // Potion effects
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-                                p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) != null) {
-                            p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 380, 1)));
-                        }
-                    }
-                }.runTaskLater(Main.plugin, 20);
-                p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 400, 1)));
-                p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 0)));
-
-                // Sword
-                changeSword(p, regularSword.getType(), berserkSword, berserkSwordVoted);
-
-                // Revert sword
-                Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
-                    if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-                            p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) == null)
-                        changeSword(p, berserkSword.getType(), regularSword, regularSwordVoted);
-                }, 401);
-            }
+        if (!MapController.getPlayers().contains(uuid))
+            return;
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            return;
         }
+        if (e.getItem() == null || e.getItem().getType() != Material.POTION) {
+            return;
+        }
+        if (e.getHand() == EquipmentSlot.HAND) {
+            p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
+        } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+            p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
+        }
+
+        p.getInventory().remove(Material.GLASS_BOTTLE);
+        if (p.getInventory().getItemInOffHand().getType() == Material.GLASS_BOTTLE)
+            p.getInventory().setItemInOffHand(null);
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            e.setCancelled(true);
+            return;
+        }
+
+        // Potion effects
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
+                        p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) != null) {
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 380, 1)));
+                }
+            }
+        }.runTaskLater(Main.plugin, 20);
+        p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 400, 1)));
+        p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 0)));
+
+        // Sword
+        changeSword(p, regularSword.getType(), berserkSword, berserkSwordVoted);
+
+        // Revert sword
+        Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
+            if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
+                    p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) == null)
+                changeSword(p, berserkSword.getType(), regularSword, regularSwordVoted);
+        }, 401);
     }
 
     /**

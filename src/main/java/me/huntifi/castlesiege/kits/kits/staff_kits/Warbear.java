@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.StaffKit;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.events.RamEvent;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
@@ -151,6 +152,8 @@ public class Warbear extends StaffKit implements Listener {
     @EventHandler
     public void onFlee(PlayerInteractEvent e) {
         Player player = e.getPlayer();
+        if (!MapController.getPlayers().contains(player.getUniqueId()))
+            return;
         if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name)
                 && (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
                 && player.getInventory().getItemInMainHand().getType() == Material.RABBIT_FOOT

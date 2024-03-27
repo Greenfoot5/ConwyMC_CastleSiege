@@ -4,7 +4,7 @@
   <groupId>com.github.AdminHuntif</groupId>
   <artifactId>conwymc-castlesiege</artifactId>
   <name>CastleSiege</name>
-  <version>1.0.17</version>
+  <version>1.1</version>
   <description>The Castle Siege plugin for ConwyMC</description>
   <build>
     <resources>
@@ -201,7 +201,7 @@
   </dependencies>
   <distributionManagement>
     <repository>
-      <id>github-global</id>
+      <id>github</id>
       <name>Github Packages</name>
       <url>https://maven.pkg.github.com/AdminHuntifi/ConwyMC_CastleSiege</url>
     </repository>
