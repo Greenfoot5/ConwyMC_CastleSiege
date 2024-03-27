@@ -6,7 +6,7 @@
 
     <groupId>com.github.AdminHuntif</groupId>
     <artifactId>conwymc-castlesiege</artifactId>
-    <version>1.0.17</version>
+    <version>1.0.18</version>
     <packaging>jar</packaging>
 
     <name>CastleSiege</name>
@@ -21,7 +21,7 @@
 
     <distributionManagement>
         <repository>
-            <id>github-global</id>
+            <id>github</id>
             <name>Github Packages</name>
             <url>https://maven.pkg.github.com/AdminHuntifi/ConwyMC_CastleSiege</url>
         </repository>
