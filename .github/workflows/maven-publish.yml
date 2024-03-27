@@ -24,8 +24,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        overwrite-settings: false
-        settings-path: $GITHUB_WORKSPACE/settings.xml # location for the settings.xml file
+        settings-path: $GITHUB_WORKSPACE/upload.xml # location for the settings.xml file
 
     - name: Create custom settings.xml
       uses: whelk-io/maven-settings-xml-action@v22
@@ -54,6 +53,6 @@ jobs:
       run: mvn -B package --file pom.xml -s $GITHUB_WORKSPACE/settings.xml
 
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn deploy -s $GITHUB_WORKSPACE/upload.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
