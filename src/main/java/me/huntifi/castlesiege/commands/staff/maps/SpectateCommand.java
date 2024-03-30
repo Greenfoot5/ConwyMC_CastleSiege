@@ -48,7 +48,7 @@ public class SpectateCommand implements CommandExecutor {
             if (kit != null && kit.canSelect(player, true, true, false))
                 kit.addPlayer(player.getUniqueId(), true);
             else
-                Kit.getKit("Swordsman").addPlayer(player.getUniqueId(), true);
+                Kit.getKit("Fisherman").addPlayer(player.getUniqueId(), true);
 
         } else {
             CSActiveData.getData(player.getUniqueId()).setChatMode(GlobalChatCommand.CHAT_MODE);

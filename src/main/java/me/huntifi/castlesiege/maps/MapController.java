@@ -20,10 +20,10 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
+import me.huntifi.castlesiege.kits.kits.Fisherman;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.events.NextMapEvent;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Core;
@@ -619,8 +619,8 @@ public class MapController {
 			return;
 
 		if (kit instanceof TeamKit || kit instanceof MapKit) {
-			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
-			CSActiveData.getData(player.getUniqueId()).setKit("swordsman");
+			Kit.equippedKits.put(player.getUniqueId(), new Fisherman());
+			CSActiveData.getData(player.getUniqueId()).setKit("fisherman");
 		}
 
 		Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), true);
@@ -862,6 +862,7 @@ public class MapController {
 	 * @param player The player to remove
 	 */
 	public static void removePlayer(Player player) {
+		PlayerData data = LoadData.load(player.getUniqueId());
 		Team team = TeamController.getTeam(player.getUniqueId());
 		team.removePlayer(player.getUniqueId());
 
@@ -886,14 +887,15 @@ public class MapController {
 		player.getInventory().clear();
 		player.setExp(0);
 
-        try {
-			// Save a player's data and reset their current data into PlayerData from CSPlayerData
-            StoreData.store(player.getUniqueId(), CSActiveData.getData(player.getUniqueId()));
-			PlayerData data = LoadData.load(player.getUniqueId());
-			ActiveData.addPlayer(player.getUniqueId(), data);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+			try {
+				// Save a player's data and reset their current data into PlayerData from CSPlayerData
+				StoreData.store(player.getUniqueId(), CSActiveData.getData(player.getUniqueId()));
+				ActiveData.addPlayer(player.getUniqueId(), data);
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+		});
     }
 
 	public static void addSpectator(Player player) {

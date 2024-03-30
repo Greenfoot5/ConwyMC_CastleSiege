@@ -31,6 +31,7 @@ public class PlayerDisconnect implements Listener {
             return;
         }
 
+        MapController.removePlayer(e.getPlayer());
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             // Award deaths for logging out on the battlefield
             if (InCombat.isPlayerInCombat(uuid) && MapController.isOngoing()) {
@@ -38,9 +39,6 @@ public class PlayerDisconnect implements Listener {
             } else if (!InCombat.isPlayerInLobby(uuid) && MapController.isOngoing()) {
                 UpdateStats.addDeaths(uuid, 1);
             }
-
-            // Removes a player from castle siege
-            MapController.removePlayer(e.getPlayer());
         });
     }
 }

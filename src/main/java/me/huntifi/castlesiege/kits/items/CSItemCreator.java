@@ -1,14 +1,18 @@
 package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.gui.Gui;
 import me.huntifi.conwymc.util.ItemCreator;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Color;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
@@ -51,6 +55,20 @@ public class CSItemCreator extends ItemCreator {
         itemMeta.setColor(color);
         leatherItem.setItemMeta(itemMeta);
         return leatherItem;
+    }
+
+    public static ItemStack fish(ItemStack item, Component name, List<Component> lore, double damage, int durability) {
+        Damageable itemMeta = (Damageable) item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
+        itemMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
+                new AttributeModifier(UUID.randomUUID(), "SetHandDamage", damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+        itemMeta.displayName(name.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
+        itemMeta.lore(Gui.removeItalics(lore));
+        itemMeta.setDamage(durability);
+        item.setItemMeta(itemMeta);
+        return item;
     }
 
     /**

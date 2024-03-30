@@ -142,7 +142,7 @@ public class Flag {
         players.add(player.getUniqueId());
         addPlayerToFlagBar(this, player);
         activate();
-        capturing();
+        //capturing();
     }
 
     /**
@@ -191,7 +191,7 @@ public class Flag {
                 @Override
                 public void run() {
                     // Calculate capture progress made on the flag
-                    captureProgress();
+                    //captureProgress();
 
                     // If we need to move to a different frame
                     if (progress / progressMultiplier != animationIndex || progress < progressMultiplier)
@@ -213,21 +213,19 @@ public class Flag {
     /**
      * Called when a player makes progress capturing a flag
      */
-    protected synchronized void captureProgress() {
+    public void captureProgress(Player p, double fishLength) {
+        if (!players.contains(p.getUniqueId()))
+            return;
+
         if (progress == 0) {
-            currentOwners = getLargestTeam();
+            currentOwners = TeamController.getTeam(p.getUniqueId()).name;
         }
 
-        Tuple<Integer, Integer> counts = getPlayerCounts();
-
-        // Calculate the amount of progressed based on how many more players the defenders have than the attackers, or vice versa
-        int amount;
-        if (counts.getFirst() > counts.getSecond()) {
-            amount = (int) (progressAmount * Math.pow(capMultiplier, counts.getFirst() - counts.getSecond() - 1));
-            progress += Math.min(amount, 25);
-        } else if (counts.getSecond() > counts.getFirst()) {
-            amount = (int) (progressAmount * Math.pow(capMultiplier, counts.getSecond() - counts.getFirst() - 1));
-            progress -= Math.min(amount, 25);
+        int amount = (int) ((fishLength - 25) * 0.5);
+        if (Objects.equals(TeamController.getTeam(p.getUniqueId()).name, currentOwners)) {
+            progress += amount;
+        } else {
+            progress -= amount;
         }
 
         // Make sure the progress doesn't go too high or too low
@@ -236,6 +234,9 @@ public class Flag {
         } else if (progress > maxCap * progressMultiplier) {
             progress = maxCap * progressMultiplier;
         }
+
+        if (progress / progressMultiplier != animationIndex || progress < progressMultiplier)
+            captureFlag();
     }
 
     /**

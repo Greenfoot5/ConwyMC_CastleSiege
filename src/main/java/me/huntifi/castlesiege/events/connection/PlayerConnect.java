@@ -62,7 +62,7 @@ public class PlayerConnect implements Listener {
             if (kit != null && kit.canSelect(p, true, true, false))
                 kit.addPlayer(uuid, true);
             else
-                Kit.getKit("Swordsman").addPlayer(uuid, true);
+                Kit.getKit("Fisherman").addPlayer(uuid, true);
         }
 
         // Reset player xp and level

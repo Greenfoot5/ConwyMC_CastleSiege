@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
+import org.bukkit.Material;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
@@ -13,10 +14,20 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import java.util.Arrays;
+
 /**
  * Makes sure a player can't hurt a team member or their horse/boat
  */
 public class TeamCombat implements Listener {
+
+	Material[] allowedItems = new Material[]{
+			Material.PUFFERFISH,
+			Material.COD,
+			Material.SALMON,
+			Material.TROPICAL_FISH,
+			Material.NAUTILUS_SHELL
+	};
 
 	/**
 	 * Player has attempted to attack a player, horse, or boat.
@@ -36,6 +47,7 @@ public class TeamCombat implements Listener {
 		// A player was hurt
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
+			withFish(event);
 			sameTeam(event, player);
 		}
 
@@ -43,6 +55,7 @@ public class TeamCombat implements Listener {
 		else if (event.getEntity() instanceof Horse &&
 				((Horse) event.getEntity()).getOwner() instanceof Player) {
 			Player player = (Player) ((Horse) event.getEntity()).getOwner();
+			withFish(event);
 			sameTeam(event, player);
 		}
 
@@ -51,6 +64,7 @@ public class TeamCombat implements Listener {
 				!event.getEntity().getPassengers().isEmpty() &&
 				event.getEntity().getPassengers().get(0) instanceof Player) {
 			Player player = (Player) event.getEntity().getPassengers().get(0);
+			withFish(event);
 			sameTeam(event, player);
 		}
 	}
@@ -88,4 +102,15 @@ public class TeamCombat implements Listener {
 			e.setCancelled(true);
 		}
 	}
+
+	private void withFish(EntityDamageByEntityEvent e) {
+        if (!(e.getDamager() instanceof Player)) {
+            return;
+        }
+
+		Player atk = (Player) e.getDamager();
+		Material item = atk.getInventory().getItemInMainHand().getType();
+		if (!Arrays.asList(allowedItems).contains(item))
+			e.setCancelled(true);
+    }
 }
