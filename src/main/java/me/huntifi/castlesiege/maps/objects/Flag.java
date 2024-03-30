@@ -221,7 +221,7 @@ public class Flag {
             currentOwners = TeamController.getTeam(p.getUniqueId()).name;
         }
 
-        int amount = (int) ((fishLength - 25) * 0.5);
+        int amount = (int) ((fishLength - 25));
         if (Objects.equals(TeamController.getTeam(p.getUniqueId()).name, currentOwners)) {
             progress += amount;
         } else {

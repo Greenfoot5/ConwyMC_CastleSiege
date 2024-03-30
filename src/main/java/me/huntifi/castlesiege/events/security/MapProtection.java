@@ -74,6 +74,8 @@ public class MapProtection implements Listener {
 			case LADDER:
 			case VINE:
 
+			case LILY_PAD:
+
 			case BEETROOTS:
 			case CARROTS:
 			case POTATOES:
