@@ -863,6 +863,7 @@ public class MapController {
 	 */
 	public static void removePlayer(Player player) {
 		PlayerData data = LoadData.load(player.getUniqueId());
+		CSPlayerData csData = CSActiveData.getData(player.getUniqueId());
 		Team team = TeamController.getTeam(player.getUniqueId());
 		team.removePlayer(player.getUniqueId());
 
@@ -890,7 +891,7 @@ public class MapController {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 			try {
 				// Save a player's data and reset their current data into PlayerData from CSPlayerData
-				StoreData.store(player.getUniqueId(), CSActiveData.getData(player.getUniqueId()));
+				StoreData.store(player.getUniqueId(), csData);
 				ActiveData.addPlayer(player.getUniqueId(), data);
 			} catch (SQLException e) {
 				throw new RuntimeException(e);
