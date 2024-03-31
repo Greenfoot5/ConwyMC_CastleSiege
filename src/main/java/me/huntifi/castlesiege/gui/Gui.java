@@ -70,6 +70,12 @@ public class Gui extends me.huntifi.conwymc.gui.Gui implements Listener {
         }
     }
 
+    public void addKitItem(Kit kit, int location, String command) {
+        inventory.setItem(location, CSItemCreator.item(new ItemStack(kit.material),
+                getKitDisplayName(kit), kit.getGuiDescription(), null));
+        locationToItem.put(location, new GuiItem(command, true));
+    }
+
     /**
      * @param kit The kit to display the name of
      * @return A string displaying in for them [Color]CLASS: kit.name

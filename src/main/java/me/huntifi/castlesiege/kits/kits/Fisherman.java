@@ -36,7 +36,7 @@ public class Fisherman extends FreeKit {
     private static final List<UUID> balls = new ArrayList<>();
 
     public Fisherman() {
-        super("Fisherman", 400, 5, Material.BOW);
+        super("Fisherman", 400, 5, Material.FISHING_ROD);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -68,7 +68,7 @@ public class Fisherman extends FreeKit {
                 Color.fromRGB(254, 208, 0));
         // Voted Boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                Component.text("Leather Boots", NamedTextColor.GREEN),
+                Component.text("Wellies", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(254, 208, 0));
@@ -108,13 +108,13 @@ public class Fisherman extends FreeKit {
         double result = Math.random();
         PlayerInventory inv = p.getInventory();
         ItemStack fish;
-        if (result < 0.60) {
+        if (result < 0.40) {
             fish = CSItemCreator.fish(new ItemStack(Material.STONE_AXE), Component.text("Cod", NamedTextColor.BLUE),
-                    null, 30, 126); // 5 remaining
+                    null, 30, 128); // 3 remaining
             Messenger.send("<gradient:#58D9FF:#AFDFFF>[\uD83C\uDFA3]</gradient> <color:#DAB997>You caught Cod of length <color:#FFDBBB>" + y + "</color>cm</color>", p);
-        } else if (result < (0.6 + 0.25)) {
+        } else if (result < (0.4 + 0.15)) {
             fish = CSItemCreator.fish(new ItemStack(Material.IRON_AXE), Component.text("Salmon", NamedTextColor.RED),
-                    null, 45, 247); // 3 remaining
+                    null, 45, 248); // 2 remaining
             Messenger.send("<gradient:#58D9FF:#AFDFFF>[\uD83C\uDFA3]</gradient> <color:#FFDBEA>You caught Salmon of length <color:#FFA4A3>" + y + "</color>cm</color>", p);
         } else {
             fish = CSItemCreator.item(new ItemStack(Material.SNOWBALL), Component.text("Pufferfish", NamedTextColor.YELLOW),
@@ -165,7 +165,7 @@ public class Fisherman extends FreeKit {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("Standard ranged kit", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Standard Fishing Kit", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(400, 5, 0, 4));
         return kitLore;
     }

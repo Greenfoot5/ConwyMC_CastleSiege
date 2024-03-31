@@ -46,13 +46,13 @@ public class KitCommand implements TabExecutor {
             return true;
         }
 
-        Gui gui;
-        if (args.length == 0) {
-            // No arguments passed -> open kit selector GUI
-            gui = KitGUIs.getGUI(null, p);
-        } else {
-            gui = KitGUIs.getGUI(args[0], p);
-        }
+        Gui gui = KitGUIs.getGUI();
+//        if (args.length == 0) {
+//            // No arguments passed -> open kit selector GUI
+//            gui = KitGUIs.getGUI(null, p);
+//        } else {
+//            gui = KitGUIs.getGUI(args[0], p);
+//        }
 
         if (gui != null)
         {

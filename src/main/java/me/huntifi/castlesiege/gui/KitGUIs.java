@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.gui;
 
+import me.huntifi.castlesiege.kits.kits.Fisherman;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Alchemist;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Barbarian;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Berserker;
@@ -46,6 +47,13 @@ import java.util.Collections;
 public class KitGUIs {
 
     public final static String[] OPTIONS = {"damage", "tank", "support", "debuff", "movement", "ranged"};
+
+    public static Gui getGUI() {
+        Gui gui = new Gui(Component.text("Kits"), 1);
+        // Fisherman
+        gui.addKitItem(new Fisherman(), 0, "fisherman");
+        return gui;
+    }
 
     /**
      * Displays the kit gui for a category or category selection

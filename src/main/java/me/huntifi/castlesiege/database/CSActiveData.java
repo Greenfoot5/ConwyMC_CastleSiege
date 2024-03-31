@@ -4,6 +4,9 @@ import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.conwymc.data_types.PlayerData;
 import me.huntifi.conwymc.database.ActiveData;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -40,5 +43,15 @@ public class CSActiveData extends ActiveData {
         if (data instanceof CSPlayerData)
             return (CSPlayerData) playerData.get(uuid);
         return null;
+    }
+
+    public static Collection<UUID> getPlayers() {
+        List<UUID> uuids = new ArrayList<>();
+        for (UUID uuid : playerData.keySet()) {
+            if (playerData.get(uuid) instanceof CSPlayerData) {
+                uuids.add(uuid);
+            }
+        }
+        return uuids;
     }
 }
