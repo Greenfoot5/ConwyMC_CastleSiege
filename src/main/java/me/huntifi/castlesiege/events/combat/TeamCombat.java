@@ -22,11 +22,8 @@ import java.util.Arrays;
 public class TeamCombat implements Listener {
 
 	Material[] allowedItems = new Material[]{
-			Material.PUFFERFISH,
-			Material.COD,
-			Material.SALMON,
-			Material.TROPICAL_FISH,
-			Material.NAUTILUS_SHELL
+			Material.IRON_AXE,
+			Material.STONE_AXE,
 	};
 
 	/**

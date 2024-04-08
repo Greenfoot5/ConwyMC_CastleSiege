@@ -221,7 +221,7 @@ public class Flag {
             currentOwners = TeamController.getTeam(p.getUniqueId()).name;
         }
 
-        int amount = (int) ((fishLength - 25));
+        int amount = (int) (fishLength);
         if (Objects.equals(TeamController.getTeam(p.getUniqueId()).name, currentOwners)) {
             progress += amount;
         } else {
@@ -245,71 +245,73 @@ public class Flag {
     protected void captureFlag() {
         int capProgress = progress / progressMultiplier;
 
-        // Flag has gone low enough to announce neutral, and animate neutral
-        // However, the current owners still have partial ownership
-        if (capProgress == 0 && animationIndex != capProgress) {
-            animationIndex = 0;
+        while (capProgress != animationIndex) {
+            // Flag has gone low enough to announce neutral, and animate neutral
+            // However, the current owners still have partial ownership
+            if (capProgress == 0 && animationIndex != capProgress) {
+                animationIndex = 0;
 
-            // Notify current capping players
-            notifyPlayers(false);
+                // Notify current capping players
+                notifyPlayers(false);
 
-            // Bossbar change
-            setFlagBarValue(this, (float) animationIndex /maxCap);
-            setFlagBarColour(this, BossBar.Color.WHITE);
+                // Bossbar change
+                setFlagBarValue(this, (float) animationIndex / maxCap);
+                setFlagBarColour(this, BossBar.Color.WHITE);
 
-            if (!Objects.equals(currentOwners, "neutral")) {
-                broadcastTeam("neutral");
-            }
+                if (!Objects.equals(currentOwners, "neutral")) {
+                    broadcastTeam("neutral");
+                }
 
-            animate(false, "neutral");
+                animate(false, "neutral");
 
-        // Owners have capped enough to publicly take control
-        } else if (capProgress == 1 && animationIndex == 0) {
-            animationIndex += 1;
-            broadcastTeam(currentOwners);
-            notifyPlayers(true);
-            setFlagBarValue(this, (float) animationIndex /maxCap);
-            setFlagBarColour(this, getBarColour(this.getColor()));
-            animate(true, currentOwners);
-        // Players have increased the capture
-        } else if (capProgress > animationIndex) {
-            if (animationIndex >= maxCap) {
-                return;
-            }
+                // Owners have capped enough to publicly take control
+            } else if (capProgress >= 1 && animationIndex == 0) {
+                animationIndex += 1;
+                broadcastTeam(currentOwners);
+                notifyPlayers(true);
+                setFlagBarValue(this, (float) animationIndex / maxCap);
+                setFlagBarColour(this, getBarColour(this.getColor()));
+                animate(true, currentOwners);
+                // Players have increased the capture
+            } else if (capProgress > animationIndex) {
+                if (animationIndex >= maxCap) {
+                    return;
+                }
 
-            animationIndex += 1;
-            setFlagBarValue(this, (float) animationIndex /maxCap);
-            notifyPlayers(true);
+                animationIndex += 1;
+                setFlagBarValue(this, (float) animationIndex / maxCap);
+                notifyPlayers(true);
 
-            animate(true, currentOwners);
+                animate(true, currentOwners);
 
-            // Players have fully captured the flag, and we should let them know
-            if (animationIndex == maxCap) {
-                setFlagBarValue(this, (float) animationIndex /maxCap);
-                for (UUID uuid : players) {
-                    Player player = Bukkit.getPlayer(uuid);
-                    // Check they're a player
-                    if (player != null) {
-                        // Make sure they're on the capping team
-                        if (TeamController.getTeam(uuid).name.equals(currentOwners)) {
-                            Messenger.sendAction("<gold>Flag fully captured! <aqua>Flag: " + name, player);
-                        } else {
-                            Messenger.sendActionError("Enemies have fully captured the flag!", player);
+                // Players have fully captured the flag, and we should let them know
+                if (animationIndex == maxCap) {
+                    setFlagBarValue(this, (float) animationIndex / maxCap);
+                    for (UUID uuid : players) {
+                        Player player = Bukkit.getPlayer(uuid);
+                        // Check they're a player
+                        if (player != null) {
+                            // Make sure they're on the capping team
+                            if (TeamController.getTeam(uuid).name.equals(currentOwners)) {
+                                Messenger.sendAction("<gold>Flag fully captured! <aqua>Flag: " + name, player);
+                            } else {
+                                Messenger.sendActionError("Enemies have fully captured the flag!", player);
+                            }
+                            playCapSound(player, true);
                         }
-                        playCapSound(player, true);
                     }
                 }
+
+                // Players have decreased the capture
+            } else if (capProgress < animationIndex) {
+                animationIndex -= 1;
+                setFlagBarValue(this, (float) animationIndex / maxCap);
+
+                // Notify current capping players
+                notifyPlayers(false);
+
+                animate(false, currentOwners);
             }
-
-        // Players have decreased the capture
-        } else if (capProgress < animationIndex) {
-            animationIndex -= 1;
-            setFlagBarValue(this, (float) animationIndex /maxCap);
-
-            // Notify current capping players
-            notifyPlayers(false);
-
-            animate(false, currentOwners);
         }
     }
 

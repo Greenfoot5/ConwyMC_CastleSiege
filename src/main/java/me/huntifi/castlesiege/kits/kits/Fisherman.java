@@ -36,7 +36,9 @@ public class Fisherman extends FreeKit {
     private static final List<UUID> balls = new ArrayList<>();
 
     public Fisherman() {
-        super("Fisherman", 400, 5, Material.FISHING_ROD);
+        super("Fisherman", 160, 4, Material.FISHING_ROD);
+
+        this.canSeeHealth = true;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -75,7 +77,7 @@ public class Fisherman extends FreeKit {
 
         // Ladders
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 4 + 2), 2);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 5 + 2), 2);
 
         super.equipment = es;
     }
@@ -110,11 +112,11 @@ public class Fisherman extends FreeKit {
         ItemStack fish;
         if (result < 0.40) {
             fish = CSItemCreator.fish(new ItemStack(Material.STONE_AXE), Component.text("Cod", NamedTextColor.BLUE),
-                    null, 30, 128); // 3 remaining
+                    null, 20, 127); // 3 remaining
             Messenger.send("<gradient:#58D9FF:#AFDFFF>[\uD83C\uDFA3]</gradient> <color:#DAB997>You caught Cod of length <color:#FFDBBB>" + y + "</color>cm</color>", p);
         } else if (result < (0.4 + 0.15)) {
             fish = CSItemCreator.fish(new ItemStack(Material.IRON_AXE), Component.text("Salmon", NamedTextColor.RED),
-                    null, 45, 248); // 2 remaining
+                    null, 30, 247); // 2 remaining
             Messenger.send("<gradient:#58D9FF:#AFDFFF>[\uD83C\uDFA3]</gradient> <color:#FFDBEA>You caught Salmon of length <color:#FFA4A3>" + y + "</color>cm</color>", p);
         } else {
             fish = CSItemCreator.item(new ItemStack(Material.SNOWBALL), Component.text("Pufferfish", NamedTextColor.YELLOW),
@@ -155,8 +157,8 @@ public class Fisherman extends FreeKit {
             return;
 
         LivingEntity entity = (LivingEntity) e.getHitEntity();
-        entity.damage(30);
-        entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 0));
+        entity.damage(40);
+        entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 80, 0));
     }
 
     /**
@@ -166,7 +168,7 @@ public class Fisherman extends FreeKit {
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
         kitLore.add(Component.text("Standard Fishing Kit", NamedTextColor.GRAY));
-        kitLore.addAll(getBaseStats(400, 5, 0, 4));
+        kitLore.addAll(getBaseStats(250, 5, 0, 4));
         return kitLore;
     }
 }

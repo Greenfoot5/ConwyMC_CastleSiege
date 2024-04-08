@@ -75,9 +75,9 @@ public class WoolMap implements Listener {
 
 	@EventHandler
 	public void lookAtWoolmap(PlayerMoveEvent e) {
-		if (DuelCommand.challenging.containsValue(e.getPlayer()) || DuelCommand.challenging.containsKey(e.getPlayer())) {
-			return;
-		}
+//		if (DuelCommand.challenging.containsValue(e.getPlayer()) || DuelCommand.challenging.containsKey(e.getPlayer())) {
+//			return;
+//		}
         if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
 			Block target = e.getPlayer().getTargetBlockExact(50);
 			for (WoolMapBlock block : woolMapBlocks) {
