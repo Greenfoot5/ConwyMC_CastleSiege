@@ -104,7 +104,8 @@ public class UpdateStats {
                     Messenger.sendCongrats("Congratulations, you leveled up to level: <yellow>" + level, p);
                     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                     p.setLevel(level);
-                    Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(p));
+                    Bukkit.getScheduler().runTask(Main.plugin,
+                            () -> Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(p)));
 
                     // Announce every 5th level
                     if (level % 5 == 0) {

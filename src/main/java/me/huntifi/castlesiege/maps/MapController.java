@@ -402,6 +402,9 @@ public class MapController {
 					NextMapEvent event = new NextMapEvent(oldMap.name, false);
 					Bukkit.getPluginManager().callEvent(event);
 
+					// Save all data
+					StoreData.storeAll();
+
 					Main.instance.getLogger().info("Completed map cycle! Restarting server...");
 					getServer().spigot().restart();
 				}

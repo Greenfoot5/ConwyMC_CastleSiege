@@ -8,6 +8,7 @@ depend:
   - WorldGuard
   - NametagEdit
   - MythicMobs
+  - ConwyMC
 softdepend:
   - LibsDisguises
   - WorldEdit

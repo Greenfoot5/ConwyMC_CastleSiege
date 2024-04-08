@@ -568,9 +568,13 @@ public class Main extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         getLogger().info("Disabling plugin...");
-        //PacketEvents.getAPI().terminate();
+        // Save data and disconnect the SQL
+        StoreData.storeAll();
+
         // Unregister all listeners
         HandlerList.unregisterAll(plugin);
+        scoreboardLibrary.close();
+
         // Unload all worlds
         for (World world:Bukkit.getWorlds()) {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all flush");
@@ -580,14 +584,12 @@ public class Main extends JavaPlugin implements Listener {
         WorldCreator worldCreator = new WorldCreator("HelmsDeep");
         worldCreator.generateStructures(false);
         worldCreator.createWorld();
-        // Save data and disconnect the SQL
-        StoreData.storeAll();
+
         try {
             SQL.disconnect();
         } catch (NullPointerException | SQLException ex) {
             getLogger().warning("SQL could not disconnect, it doesn't exist!");
         }
-        scoreboardLibrary.close();
 
         getLogger().info("Plugin has been disabled!");
     }
