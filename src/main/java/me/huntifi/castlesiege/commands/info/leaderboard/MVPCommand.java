@@ -1,7 +1,6 @@
 package me.huntifi.castlesiege.commands.info.leaderboard;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.data_types.CSStats;
 import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.maps.MapController;
@@ -137,7 +136,7 @@ public class MVPCommand implements CommandExecutor {
                 .append(Component.text(" | Captures ", DARK_AQUA))
                 .append(Component.text(num.format(data.getCaptures()), WHITE))
                 .append(Component.text(" | Heals ", DARK_AQUA))
-                .append(Component.text(num.format(data.getCaptures()), WHITE))
+                .append(Component.text(num.format(data.getHeals()), WHITE))
                 .append(Component.text(" | Supports ", DARK_AQUA))
                 .append(Component.text(num.format(data.getSupports()), WHITE));
 
