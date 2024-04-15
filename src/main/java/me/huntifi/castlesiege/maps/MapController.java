@@ -383,7 +383,10 @@ public class MapController {
 				data.addBooster(booster);
 				Player player = getPlayer(uuid);
 				if (player != null) {
-					Messenger.broadcastSuccess(player.displayName().append(Component.text(" gained a " + booster.getName() + " for being MVP!")));
+					Messenger.broadcastSuccess(player.displayName()
+							.append(Component.text(" gained a "))
+							.append(booster.getName())
+							.append(Component.text(" for being MVP!")));
 				}
 			}
 		}
