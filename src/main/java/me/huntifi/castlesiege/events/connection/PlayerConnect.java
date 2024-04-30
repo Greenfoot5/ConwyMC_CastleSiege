@@ -70,7 +70,7 @@ public class PlayerConnect implements Listener {
         p.setLevel(CSActiveData.getData(p.getUniqueId()).getLevel());
 
         // Update the names stored in the database
-        StoreData.updateName(uuid, "player_stats");
+        StoreData.updateName(uuid);
 
         //Welcomes new players!
         if (!p.hasPlayedBefore()) {

@@ -53,8 +53,8 @@ public class StoreData {
 
     private static void storeStats(UUID uuid, CSPlayerData data) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE player_stats SET score = ?, kills = ?, deaths = ?, assists = ?, captures = ?, heals = ?, "
-                        + "supports = ?, coins = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ? WHERE uuid = ?");
+                "UPDATE cs_stats SET score = ?, kills = ?, deaths = ?, assists = ?, captures = ?, heals = ?, "
+                        + "supports = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ? WHERE uuid = ?");
         ps.setDouble(1, data.getScore());
         ps.setDouble(2, data.getKills());
         ps.setDouble(3, data.getDeaths());
@@ -62,7 +62,6 @@ public class StoreData {
         ps.setDouble(5, data.getCaptures());
         ps.setDouble(6, data.getHeals());
         ps.setDouble(7, data.getSupports());
-        ps.setDouble(8, data.getCoins());
         ps.setInt(9, data.getMVPs());
         ps.setInt(10, data.getSecrets());
         ps.setInt(11, data.getLevel());
@@ -75,12 +74,13 @@ public class StoreData {
 
     private static void storeRank(UUID uuid, CSPlayerData data) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE player_rank SET staff_rank = ?, rank_points = ?, join_message = ?, leave_message = ? WHERE uuid = ?");
+                "UPDATE player_rank SET staff_rank = ?, rank_points = ?, join_message = ?, leave_message = ?, coins = ? WHERE uuid = ?");
         ps.setString(1, data.getStaffRank());
         ps.setDouble(2, data.getRankPoints());
         ps.setString(3, data.getJoinMessage());
         ps.setString(4, data.getLeaveMessage());
-        ps.setString(5, uuid.toString());
+        ps.setDouble(5, data.getCoins());
+        ps.setString(6, uuid.toString());
         ps.executeUpdate();
         ps.close();
     }
@@ -92,8 +92,7 @@ public class StoreData {
      */
     private static void addFoundSecret(UUID uuid, String secretName) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "INSERT IGNORE INTO player_secrets VALUES (?, ?, ?)");
-        ps.setString(1, Bukkit.getOfflinePlayer(uuid).getName());
+                "INSERT IGNORE INTO cs_secrets VALUES (?, ?)");
         ps.setString(2, uuid.toString());
         ps.setString(3, secretName);
         ps.executeUpdate();
@@ -121,13 +120,13 @@ public class StoreData {
      * @param uuid The unique ID of the player
      * @param table The table to update
      */
-    public static void updateName(UUID uuid, String table) {
+    public static void updateName(UUID uuid) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 try {
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                            "UPDATE " + table + " SET name = ? WHERE uuid = ?");
+                            "UPDATE player_rank SET username = ? WHERE uuid = ?");
                     ps.setString(1, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName());
                     ps.setString(2, uuid.toString());
                     ps.executeUpdate();
@@ -153,8 +152,7 @@ public class StoreData {
             public void run() {
                 try {
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                            "INSERT INTO player_unlocks VALUES (?, ?, ?, ?, ?, ?)");
-                    ps.setString(1, Bukkit.getOfflinePlayer(uuid).getName());
+                            "INSERT INTO cs_unlocks VALUES (?, ?, ?, ?, ?)");
                     ps.setString(2, uuid.toString());
                     ps.setString(3, kitName);
                     ps.setTimestamp(4, new Timestamp(duration));
@@ -177,7 +175,7 @@ public class StoreData {
      */
     public static void endUnlockedKit(UUID uuid, String kitName) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE player_unlocks SET unlocked_until = ? WHERE unlocked_until > ? AND uuid = ? AND unlocked_kits = ?");
+                "UPDATE cs_unlocks SET unlocked_until = ? WHERE unlocked_until > ? AND uuid = ? AND unlocked_kits = ?");
         ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
         ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
         ps.setString(3, uuid.toString());

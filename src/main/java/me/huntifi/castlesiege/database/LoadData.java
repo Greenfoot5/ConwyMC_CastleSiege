@@ -40,8 +40,8 @@ public class LoadData {
             Tuple<PreparedStatement, ResultSet> prMute = Punishments.getActive(uuid, "mute");
 
             // Stats data
-            createEntry(uuid, "player_stats");
-            Tuple<PreparedStatement, ResultSet> prStats = getData(uuid, "player_stats");
+            createEntry(uuid, "cs_stats");
+            Tuple<PreparedStatement, ResultSet> prStats = getData(uuid, "cs_stats");
 
             // Rank data
             createEntry(uuid, "player_rank");
@@ -106,7 +106,7 @@ public class LoadData {
         ArrayList<String> unlockedKits = new ArrayList<>();
 
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT unlocked_kits FROM player_unlocks WHERE uuid = ? AND unlocked_until > ?")) {
+                "SELECT unlocked_kits FROM cs_unlocks WHERE uuid = ? AND unlocked_until > ?")) {
             ps.setString(1, uuid.toString());
             ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
 
@@ -211,7 +211,7 @@ public class LoadData {
      */
     public static UUID getUUID(String name) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT uuid FROM player_rank WHERE name=?");
+                "SELECT uuid FROM player_rank WHERE username = ?");
         ps.setString(1, name);
         ResultSet rs = ps.executeQuery();
 
@@ -235,7 +235,7 @@ public class LoadData {
      */
     public static Tuple<PreparedStatement, ResultSet> getActiveKit(UUID uuid, String kitName) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT unlocked_kits, unlocked_until FROM player_unlocks WHERE uuid = ? AND unlocked_kits = ? AND unlocked_until > ?"
+                "SELECT unlocked_kits, unlocked_until FROM cs_unlocks WHERE uuid = ? AND unlocked_kits = ? AND unlocked_until > ?"
                         + " ORDER BY unlocked_until DESC LIMIT 1");
         ps.setString(1, uuid.toString());
         ps.setString(2, kitName);
@@ -292,7 +292,7 @@ public class LoadData {
         ArrayList<String> foundSecrets = new ArrayList<>();
 
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT secret FROM player_secrets WHERE uuid = ?")) {
+                "SELECT secret FROM cs_secrets WHERE uuid = ?")) {
             ps.setString(1, uuid.toString());
 
             ResultSet rs = ps.executeQuery();
