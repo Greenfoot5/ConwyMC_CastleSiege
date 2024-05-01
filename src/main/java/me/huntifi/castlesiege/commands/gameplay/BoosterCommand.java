@@ -180,7 +180,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
         PreparedStatement ps;
         try {
             ps = Main.SQL.getConnection().prepareStatement(
-                    "DELETE FROM player_boosters WHERE booster_id = ? AND uuid = ?");
+                    "DELETE FROM player_boosters WHERE ID = ? AND uuid = ?");
             ps.setInt(1, boostId);
             ps.setString(2, uuid.toString());
             ps.executeUpdate();

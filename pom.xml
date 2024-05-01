@@ -75,7 +75,7 @@
         <dependency>
             <groupId>com.github.AdminHuntifi</groupId>
             <artifactId>conwymc-global</artifactId>
-            <version>0.0.21</version>
+            <version>0.0.23</version>
         </dependency>
         <dependency>
             <groupId>io.lumine</groupId>

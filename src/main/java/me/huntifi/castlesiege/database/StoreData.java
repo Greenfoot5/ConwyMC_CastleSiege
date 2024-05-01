@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.database;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.conwymc.data_types.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -28,12 +29,7 @@ public class StoreData {
     public static void store(UUID uuid) throws SQLException {
         CSPlayerData data = CSActiveData.getData(uuid);
 
-        storeStats(uuid, data);
-        storeRank(uuid, data);
-
-        for (String secret : data.getFoundSecrets()) {
-            addFoundSecret(uuid, secret);
-        }
+        store(uuid, data);
     }
 
     /**
@@ -54,7 +50,7 @@ public class StoreData {
     private static void storeStats(UUID uuid, CSPlayerData data) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "UPDATE cs_stats SET score = ?, kills = ?, deaths = ?, assists = ?, captures = ?, heals = ?, "
-                        + "supports = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ? WHERE uuid = ?");
+                        + "supports = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ? WHERE UUID = ?");
         ps.setDouble(1, data.getScore());
         ps.setDouble(2, data.getKills());
         ps.setDouble(3, data.getDeaths());
@@ -72,9 +68,9 @@ public class StoreData {
         ps.close();
     }
 
-    private static void storeRank(UUID uuid, CSPlayerData data) throws SQLException {
+    private static void storeRank(UUID uuid, PlayerData data) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE player_rank SET staff_rank = ?, rank_points = ?, join_message = ?, leave_message = ?, coins = ? WHERE uuid = ?");
+                "UPDATE player_rank SET staff_rank = ?, rank_points = ?, join_message = ?, leave_message = ?, coins = ? WHERE UUID = ?");
         ps.setString(1, data.getStaffRank());
         ps.setDouble(2, data.getRankPoints());
         ps.setString(3, data.getJoinMessage());
@@ -118,7 +114,6 @@ public class StoreData {
     /**
      * Update the player name saved in the database
      * @param uuid The unique ID of the player
-     * @param table The table to update
      */
     public static void updateName(UUID uuid) {
         new BukkitRunnable() {
@@ -126,7 +121,7 @@ public class StoreData {
             public void run() {
                 try {
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                            "UPDATE player_rank SET username = ? WHERE uuid = ?");
+                            "UPDATE player_rank SET username = ? WHERE UUID = ?");
                     ps.setString(1, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName());
                     ps.setString(2, uuid.toString());
                     ps.executeUpdate();
@@ -175,7 +170,7 @@ public class StoreData {
      */
     public static void endUnlockedKit(UUID uuid, String kitName) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE cs_unlocks SET unlocked_until = ? WHERE unlocked_until > ? AND uuid = ? AND unlocked_kits = ?");
+                "UPDATE cs_unlocks SET unlocked_until = ? WHERE unlocked_until > ? AND uuid = ? AND unlocked_kit = ?");
         ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
         ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
         ps.setString(3, uuid.toString());
@@ -206,7 +201,7 @@ public class StoreData {
 
                     // Update the votes in the database
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                            "UPDATE VotingPlugin_Users SET LastVotes = ? WHERE uuid = ?");
+                            "UPDATE VotingPlugin_Users SET LastVotes = ? WHERE UUID = ?");
                     if (sb.length() > 0) {
                         ps.setString(1, sb.toString());
                     } else {

@@ -174,7 +174,7 @@ public class GrantBoosterCommand implements TabExecutor {
     }
 
     private static String getQuery() {
-        return "INSERT INTO player_boosters (uuid, booster_type, duration, boost_value, booster_id)\n" +
+        return "INSERT INTO player_boosters (uuid, booster_type, duration, boost_value, ID)\n" +
                 "VALUES (?, ?, ?, ?, ?);";
     }
 

@@ -8,7 +8,7 @@ import me.huntifi.castlesiege.data_types.KitBooster;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.conwymc.data_types.Tuple;
-import me.huntifi.conwymc.database.Punishments;
+import me.huntifi.conwymc.database.ActiveData;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,33 +36,21 @@ public class LoadData {
 
             ArrayList<String> foundSecrets = getFoundSecrets(uuid);
 
-            // Mute data
-            Tuple<PreparedStatement, ResultSet> prMute = Punishments.getActive(uuid, "mute");
-
             // Stats data
             createEntry(uuid, "cs_stats");
-            Tuple<PreparedStatement, ResultSet> prStats = getData(uuid, "cs_stats");
-
-            // Rank data
-            createEntry(uuid, "player_rank");
-            Tuple<PreparedStatement, ResultSet> prRank = getData(uuid, "player_rank");
+            Tuple<PreparedStatement, ResultSet> prStats = getData(uuid);
 
             // Votes data
             createEntry(uuid, "VotingPlugin_Users");
             HashMap<String, Long> votes = getVotes(uuid);
 
-            // Settings data
-            HashMap<String, String> settings = getSettings(uuid);
-
             // Boosters
             ArrayList<Booster> boosters = getBoosters(uuid);
 
             // Collect data and release resources
-            CSPlayerData data = new CSPlayerData(unlockedKits, foundSecrets, prMute.getSecond(),
-                    prStats.getSecond(), prRank.getSecond(), votes, settings, boosters);
-            prMute.getFirst().close();
+            CSPlayerData data = new CSPlayerData(ActiveData.getData(uuid), unlockedKits, foundSecrets,
+                    prStats.getSecond(), votes, boosters);
             prStats.getFirst().close();
-            prRank.getFirst().close();
 
             return data;
         } catch (SQLException e) {
@@ -106,14 +94,14 @@ public class LoadData {
         ArrayList<String> unlockedKits = new ArrayList<>();
 
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT unlocked_kits FROM cs_unlocks WHERE uuid = ? AND unlocked_until > ?")) {
+                "SELECT unlocked_kit FROM cs_unlocks WHERE uuid = ? AND unlocked_until > ?")) {
             ps.setString(1, uuid.toString());
             ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                String kit = rs.getString("unlocked_kits");
+                String kit = rs.getString("unlocked_kit");
                 if (CoinKit.getKits().contains(kit)) {
                     unlockedKits.add(kit);
                 }
@@ -128,14 +116,13 @@ public class LoadData {
     /**
      * Get a user's data from a table in the database
      * @param uuid The unique id of the player whose data to get
-     * @param table The table to get the data from
      * @return A tuple of the prepared statement (to close later) and the query's result
      * @throws SQLException If something goes wrong executing the query
      */
-    private static Tuple<PreparedStatement, ResultSet> getData(UUID uuid, String table) throws SQLException {
+    private static Tuple<PreparedStatement, ResultSet> getData(UUID uuid) throws SQLException {
         // Get player stats from the database
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT * FROM " + table + " WHERE uuid=?");
+                "SELECT * FROM cs_stats WHERE UUID = ?");
         ps.setString(1, uuid.toString());
         ResultSet rs = ps.executeQuery();
 
@@ -153,7 +140,7 @@ public class LoadData {
     private static HashMap<String, Long> getVotes(UUID uuid) throws SQLException {
         // Get votes from the database
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT LastVotes FROM VotingPlugin_Users WHERE uuid=?");
+                "SELECT LastVotes FROM VotingPlugin_Users WHERE uuid = ?");
         ps.setString(1, uuid.toString());
         ResultSet rs = ps.executeQuery();
 
@@ -180,7 +167,7 @@ public class LoadData {
      */
     private static void createEntry(UUID uuid, String table) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "INSERT IGNORE INTO " + table + " (uuid) VALUES (?)");
+                "INSERT IGNORE INTO " + table + " (UUID) VALUES (?)");
         ps.setString(1, uuid.toString());
         ps.executeUpdate();
         ps.close();
@@ -195,7 +182,7 @@ public class LoadData {
      */
     public static Tuple<PreparedStatement, ResultSet> getTop(String order, int offset) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT * FROM vw_toplist ORDER BY ? DESC LIMIT 10 OFFSET ?");
+                "SELECT * FROM vw_top_list ORDER BY ? DESC LIMIT 10 OFFSET ?");
         ps.setString(1, order);
         ps.setInt(2, offset);
 
@@ -211,7 +198,7 @@ public class LoadData {
      */
     public static UUID getUUID(String name) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT uuid FROM player_rank WHERE username = ?");
+                "SELECT UUID FROM player_rank WHERE username = ?");
         ps.setString(1, name);
         ResultSet rs = ps.executeQuery();
 
@@ -235,7 +222,7 @@ public class LoadData {
      */
     public static Tuple<PreparedStatement, ResultSet> getActiveKit(UUID uuid, String kitName) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT unlocked_kits, unlocked_until FROM cs_unlocks WHERE uuid = ? AND unlocked_kits = ? AND unlocked_until > ?"
+                "SELECT unlocked_kit, unlocked_until FROM cs_unlocks WHERE uuid = ? AND unlocked_kit = ? AND unlocked_until > ?"
                         + " ORDER BY unlocked_until DESC LIMIT 1");
         ps.setString(1, uuid.toString());
         ps.setString(2, kitName);
@@ -266,7 +253,7 @@ public class LoadData {
         HashMap<String, String> loadedSettings = new HashMap<>();
 
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT setting, value FROM player_settings WHERE uuid = ?")) {
+                "SELECT setting, value FROM player_settings WHERE UUID = ?")) {
             ps.setString(1, uuid.toString());
 
             ResultSet rs = ps.executeQuery();
@@ -311,13 +298,13 @@ public class LoadData {
         ArrayList<Booster> boosters = new ArrayList<>();
 
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT booster_id, booster_type, duration, boost_value FROM player_boosters WHERE uuid = ?")) {
+                "SELECT ID, booster_type, duration, boost_value FROM player_boosters WHERE uuid = ?")) {
             ps.setString(1, uuid.toString());
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                int boostId = rs.getInt("booster_id");
+                int boostId = rs.getInt("ID");
                 String type = rs.getString("booster_type");
                 int duration = rs.getInt("duration");
                 String other = rs.getString("boost_value");

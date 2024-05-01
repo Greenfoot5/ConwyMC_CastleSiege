@@ -50,19 +50,17 @@ public class CSPlayerData extends PlayerData {
 
     /**
      * Initialize the player's data for active data
+     * @param playerData The player's data
      * @param unlockedKits The list of kit names the player has unlocked
      * @param foundSecrets A list of the keys for found secrets
-     * @param mute If a player has been muted
      * @param statsData The data retrieved from player_stats
-     * @param rankData The data retrieved from player_rank
      * @param votes The votes a player has made
-     * @param settings The settings a player has
      * @param boosters Any boosters the player owns
      * @throws SQLException If the columns don't match up
      */
-    public CSPlayerData(ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet mute, ResultSet statsData,
-                        ResultSet rankData, HashMap<String, Long> votes, HashMap<String, String> settings, ArrayList<Booster> boosters) throws SQLException {
-        super(statsData.getDouble("coins"), rankData, mute, settings);
+    public CSPlayerData(PlayerData playerData, ArrayList<String> unlockedKits, ArrayList<String> foundSecrets, ResultSet statsData,
+                        HashMap<String, Long> votes, ArrayList<Booster> boosters) throws SQLException {
+        super(playerData);
 
         this.unlockedKits = unlockedKits;
         this.foundSecrets = foundSecrets;
@@ -74,7 +72,7 @@ public class CSPlayerData extends PlayerData {
 
         this.level = statsData.getInt("level");
         this.mvps = statsData.getInt("mvps");
-        this.secrets = statsData.getInt("secrets");
+        this.secrets = foundSecrets.size();
         this.kit = statsData.getString("kit");
         this.maxKillStreak = statsData.getInt("kill_streak");
 
