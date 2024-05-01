@@ -73,15 +73,22 @@ public class WoolMap implements Listener {
 		});
 	}
 
-	@EventHandler
+	/**
+	 * Handles block glows when a player is looking at the woolmap
+	 * @param e A player move event
+	 */
+	//@EventHandler
 	public void lookAtWoolmap(PlayerMoveEvent e) {
 		if (DuelCommand.challenging.containsValue(e.getPlayer()) || DuelCommand.challenging.containsKey(e.getPlayer())) {
 			return;
 		}
         if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
 			Block target = e.getPlayer().getTargetBlockExact(50);
+			if (target == null) {
+				return;
+			}
+
 			for (WoolMapBlock block : woolMapBlocks) {
-				assert target != null;
 				if (target.getLocation().distance(block.blockLocation) == 0) {
 					spawnGlower(e.getPlayer(), block.blockLocation);
 				}
