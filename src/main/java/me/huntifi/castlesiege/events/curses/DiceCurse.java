@@ -1,10 +1,10 @@
 package me.huntifi.castlesiege.events.curses;
 
-import me.huntifi.castlesiege.commands.staff.StaffChat;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * Swaps some players on teams
+ */
 public class DiceCurse extends CurseCast {
     public final static String name = "Curse of the Dice";
     private final static String activateMessage = "Some players have swapped teams!";
@@ -27,7 +30,7 @@ public class DiceCurse extends CurseCast {
     @Override
     protected void cast() {
         if (MapController.getCurrentMap().smallestTeam().getTeamSize() < MIN_SIZE_TO_SWAP) {
-            StaffChat.sendMessage("Failed to activate Curse of the Dice: Not Enough Players");
+            Main.plugin.getLogger().warning("Failed to activate Curse of the Dice: Not Enough Players");
             return;
         }
 
@@ -78,20 +81,24 @@ public class DiceCurse extends CurseCast {
         Messenger.sendCurse("You have been affected by <dark_red>" + name + "</dark_red>! You have swapped teams.", player);
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new Dice Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
+        /**
+         * Creates a new CurseBuilder for Dice
+         */
         public CurseBuilder() {
             super(name, activateMessage, expireMessage);
             this.options = OPTIONS;
         }
 
-        public DiceCurse cast() {
+        public void cast() {
             DiceCurse curse = new DiceCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
     }
 }

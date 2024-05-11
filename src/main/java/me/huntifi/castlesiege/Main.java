@@ -11,14 +11,9 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import me.huntifi.castlesiege.commands.chat.GlobalChat;
-import me.huntifi.castlesiege.commands.chat.PrivateMessage;
-import me.huntifi.castlesiege.commands.chat.ReplyMessage;
-import me.huntifi.castlesiege.commands.chat.TeamChat;
+import me.huntifi.castlesiege.commands.chat.TeamChatCommand;
 import me.huntifi.castlesiege.commands.donator.FireworkCommand;
-import me.huntifi.castlesiege.commands.donator.JoinMessage;
-import me.huntifi.castlesiege.commands.donator.LeaveMessage;
-import me.huntifi.castlesiege.commands.donator.duels.AcceptDuel;
+import me.huntifi.castlesiege.commands.donator.duels.AcceptDuelCommand;
 import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.BoosterCommand;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
@@ -31,64 +26,35 @@ import me.huntifi.castlesiege.commands.gameplay.SettingsCommand;
 import me.huntifi.castlesiege.commands.gameplay.SuicideCommand;
 import me.huntifi.castlesiege.commands.gameplay.SwitchCommand;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
-import me.huntifi.castlesiege.commands.info.CoinMultiplier;
-import me.huntifi.castlesiege.commands.info.CoinsCommand;
-import me.huntifi.castlesiege.commands.info.DiscordCommand;
 import me.huntifi.castlesiege.commands.info.FlagsCommand;
 import me.huntifi.castlesiege.commands.info.MapsCommand;
 import me.huntifi.castlesiege.commands.info.MyStatsCommand;
-import me.huntifi.castlesiege.commands.info.PingCommand;
-import me.huntifi.castlesiege.commands.info.RulesCommand;
 import me.huntifi.castlesiege.commands.info.SecretsCommand;
 import me.huntifi.castlesiege.commands.info.TeamsCommand;
-import me.huntifi.castlesiege.commands.info.WebshopCommand;
-import me.huntifi.castlesiege.commands.info.leaderboard.Donators;
-import me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard;
+import me.huntifi.castlesiege.commands.info.leaderboard.LeaderboardCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
-import me.huntifi.castlesiege.commands.info.leaderboard.TopMatch;
-import me.huntifi.castlesiege.commands.mojang.WhoisCommand;
-import me.huntifi.castlesiege.commands.staff.BroadcastCommand;
-import me.huntifi.castlesiege.commands.staff.FlyCommand;
+import me.huntifi.castlesiege.commands.info.leaderboard.TopMatchCommand;
 import me.huntifi.castlesiege.commands.staff.GiveVoteCommand;
 import me.huntifi.castlesiege.commands.staff.ReloadCommand;
-import me.huntifi.castlesiege.commands.staff.SetStaffRank;
-import me.huntifi.castlesiege.commands.staff.StaffChat;
-import me.huntifi.castlesiege.commands.staff.ToggleRankCommand;
-import me.huntifi.castlesiege.commands.staff.boosters.GrantBooster;
-import me.huntifi.castlesiege.commands.staff.currencies.AddCoins;
-import me.huntifi.castlesiege.commands.staff.currencies.SetCoinMultiplier;
-import me.huntifi.castlesiege.commands.staff.currencies.SetCoins;
-import me.huntifi.castlesiege.commands.staff.currencies.TakeCoins;
-import me.huntifi.castlesiege.commands.staff.donations.RankPoints;
+import me.huntifi.castlesiege.commands.staff.boosters.GrantBoosterCommand;
 import me.huntifi.castlesiege.commands.staff.donations.SetKitCommand;
 import me.huntifi.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.huntifi.castlesiege.commands.staff.maps.NextMapCommand;
-import me.huntifi.castlesiege.commands.staff.maps.SetKitLimit;
+import me.huntifi.castlesiege.commands.staff.maps.SetKitLimitCommand;
 import me.huntifi.castlesiege.commands.staff.maps.SetMapCommand;
 import me.huntifi.castlesiege.commands.staff.maps.SetTimerCommand;
 import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
 import me.huntifi.castlesiege.commands.staff.maps.StartCommand;
-import me.huntifi.castlesiege.commands.staff.maps.ToggleAllKitsFree;
+import me.huntifi.castlesiege.commands.staff.maps.ToggleAllKitsFreeCommand;
 import me.huntifi.castlesiege.commands.staff.maps.ToggleForcedRandom;
-import me.huntifi.castlesiege.commands.staff.maps.ToggleSwitching;
-import me.huntifi.castlesiege.commands.staff.punishments.Ban;
-import me.huntifi.castlesiege.commands.staff.punishments.Kick;
-import me.huntifi.castlesiege.commands.staff.punishments.KickAll;
-import me.huntifi.castlesiege.commands.staff.punishments.Mute;
-import me.huntifi.castlesiege.commands.staff.punishments.Unban;
-import me.huntifi.castlesiege.commands.staff.punishments.Unmute;
-import me.huntifi.castlesiege.commands.staff.punishments.Warn;
+import me.huntifi.castlesiege.commands.staff.maps.ToggleSwitchingCommand;
 import me.huntifi.castlesiege.data_types.Booster;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.data_types.LocationFrame;
-import me.huntifi.castlesiege.data_types.PlayerData;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.database.KeepAlive;
 import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.castlesiege.database.MySQL;
 import me.huntifi.castlesiege.database.StoreData;
-import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.events.chat.PlayerChat;
+import me.huntifi.castlesiege.events.chat.CSGlobalChat;
 import me.huntifi.castlesiege.events.combat.ArrowCollision;
 import me.huntifi.castlesiege.events.combat.ArrowRemoval;
 import me.huntifi.castlesiege.events.combat.AssistKill;
@@ -161,7 +127,7 @@ import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepBerserker;
 import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepLancer;
 import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepRangedCavalry;
 import me.huntifi.castlesiege.kits.kits.team_kits.hommet.HommetAxeman;
-import me.huntifi.castlesiege.kits.kits.team_kits.hommet.HommetLongbowarcher;
+import me.huntifi.castlesiege.kits.kits.team_kits.hommet.HommetLongbowman;
 import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaAxeThrower;
 import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaBonecrusher;
 import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaCaveTroll;
@@ -180,7 +146,6 @@ import me.huntifi.castlesiege.maps.Hommet.CollapseEvent;
 import me.huntifi.castlesiege.maps.Lobby;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Scoreboard;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.WoolMap;
@@ -198,6 +163,7 @@ import me.huntifi.castlesiege.maps.objects.LeverDoor;
 import me.huntifi.castlesiege.maps.objects.PressurePlateDoor;
 import me.huntifi.castlesiege.maps.objects.Ram;
 import me.huntifi.castlesiege.maps.objects.RegionHandler;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.castlesiege.misc.mythic.MythicListener;
 import me.huntifi.castlesiege.secrets.Abrakhan.AbrakhanSecretDoor;
 import me.huntifi.castlesiege.secrets.Helmsdeep.SecretDoor;
@@ -206,6 +172,10 @@ import me.huntifi.castlesiege.secrets.SecretItems;
 import me.huntifi.castlesiege.secrets.SecretSigns;
 import me.huntifi.castlesiege.secrets.Skyhold.SkyholdDoors;
 import me.huntifi.castlesiege.secrets.Thunderstone.SecretPortal;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.database.KeepAlive;
+import me.huntifi.conwymc.database.MySQL;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -258,6 +228,9 @@ import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
+/**
+ * The main class for Castle Siege
+ */
 public class Main extends JavaPlugin implements Listener {
 
     public static Plugin plugin;
@@ -275,19 +248,8 @@ public class Main extends JavaPlugin implements Listener {
 
     private YamlDocument gameConfig;
 
-//    @Override
-//    public void onLoad() {
-//        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
-//        //Are all listeners read only?
-//        PacketEvents.getAPI().getSettings().reEncodeByDefault(false)
-//                .checkForUpdates(true)
-//                .bStats(true);
-//        PacketEvents.getAPI().load();
-//    }
-
-
     @Override
-    public void onEnable() {
+    public void onEnable()  {
 
         getLogger().info("Enabling Plugin...");
 
@@ -311,7 +273,11 @@ public class Main extends JavaPlugin implements Listener {
 
                 getLogger().info("Connecting to database...");
                 // SQL Stuff
-                sqlConnect();
+                try {
+                    sqlConnect();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
 
                 // World Guard
                 SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
@@ -323,7 +289,7 @@ public class Main extends JavaPlugin implements Listener {
                     assert plugin != null;
                     scoreboardLibrary = ScoreboardLibrary.loadScoreboardLibrary(plugin);
                 } catch (NoPacketAdapterAvailableException e) {
-                    // If no packet adapter was found, you can fallback to the no-op implementation:
+                    // If no packet adapter was found, you can fall back to the no-op implementation:
                     scoreboardLibrary = new NoopScoreboardLibrary();
                     plugin.getLogger().warning("No scoreboard packet adapter available!");
                 }
@@ -333,9 +299,9 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Rewrite Events
                 getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
-                getServer().getPluginManager().registerEvents(new PlayerChat(), plugin);
                 getServer().getPluginManager().registerEvents(new BoosterCommand(), plugin);
-                getServer().getPluginManager().registerEvents(new TeamChat(), plugin);
+                getServer().getPluginManager().registerEvents(new TeamChatCommand(), plugin);
+                getServer().getPluginManager().registerEvents(new CSGlobalChat(), plugin);
 
                 // Connection
                 getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);
@@ -352,7 +318,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
 
                 // Duels
-                getServer().getPluginManager().registerEvents(new AcceptDuel(), plugin);
+                getServer().getPluginManager().registerEvents(new AcceptDuelCommand(), plugin);
 
                 // Combat
                 getServer().getPluginManager().registerEvents(new ArrowCollision(), plugin);
@@ -372,7 +338,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new VoidLocation(), plugin);
 
                 // Gameplay
-                //getServer().getPluginManager().registerEvents(new ArcaneTower(), plugin);
                 getServer().getPluginManager().registerEvents(new CollapseEvent(), plugin);
                 getServer().getPluginManager().registerEvents(new Explosion(), plugin);
                 getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
@@ -410,7 +375,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new FirelandsHellsteed(), plugin);
                 getServer().getPluginManager().registerEvents(new Hypaspist(), plugin);
                 getServer().getPluginManager().registerEvents(new HommetAxeman(), plugin);
-                getServer().getPluginManager().registerEvents(new HommetLongbowarcher(), plugin);
+                getServer().getPluginManager().registerEvents(new HommetLongbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
                 getServer().getPluginManager().registerEvents(new HelmsDeepBerserker(), plugin);
                 getServer().getPluginManager().registerEvents(new HelmsDeepLancer(), plugin);
@@ -441,23 +406,18 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new MythicListener(), plugin);
 
                 // Misc
+                getServer().getPluginManager().registerEvents(new CSNameTag(), plugin);
                 getServer().getPluginManager().registerEvents(new RandomKitCommand(), plugin);
-                getServer().getPluginManager().registerEvents(new NameTag(), plugin);
                 getServer().getPluginManager().registerEvents(new WoolHat(), plugin);
 
                 // Chat
-                Objects.requireNonNull(getCommand("GlobalChat")).setExecutor(new GlobalChat());
-                Objects.requireNonNull(getCommand("Message")).setExecutor(new PrivateMessage());
-                Objects.requireNonNull(getCommand("Reply")).setExecutor(new ReplyMessage());
-                Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChat());
+                Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChatCommand());
 
                 // Donator
                 Objects.requireNonNull(getCommand("Firework")).setExecutor(new FireworkCommand());
-                Objects.requireNonNull(getCommand("LeaveMessage")).setExecutor(new LeaveMessage());
-                Objects.requireNonNull(getCommand("JoinMessage")).setExecutor(new JoinMessage());
 
                 //duels
-                Objects.requireNonNull(getCommand("DuelAccept")).setExecutor(new AcceptDuel());
+                Objects.requireNonNull(getCommand("DuelAccept")).setExecutor(new AcceptDuelCommand());
                 Objects.requireNonNull(getCommand("Duel")).setExecutor(new DuelCommand());
 
                 // Gameplay
@@ -473,73 +433,44 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("MapVote")).setExecutor(new MapVoteCommand());
 
                 // Info
-                Objects.requireNonNull(getCommand("CoinMultiplier")).setExecutor(new CoinMultiplier());
-                Objects.requireNonNull(getCommand("Coins")).setExecutor(new CoinsCommand());
-                Objects.requireNonNull(getCommand("Discord")).setExecutor(new DiscordCommand());
                 Objects.requireNonNull(getCommand("Flags")).setExecutor(new FlagsCommand());
                 Objects.requireNonNull(getCommand("Maps")).setExecutor(new MapsCommand());
                 Objects.requireNonNull(getCommand("MVP")).setExecutor(new MVPCommand());
                 Objects.requireNonNull(getCommand("MyStats")).setExecutor(new MyStatsCommand());
-                Objects.requireNonNull(getCommand("Ping")).setExecutor(new PingCommand());
-                Objects.requireNonNull(getCommand("Rules")).setExecutor(new RulesCommand());
                 Objects.requireNonNull(getCommand("Secrets")).setExecutor(new SecretsCommand());
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
-                Objects.requireNonNull(getCommand("webshop")).setExecutor(new WebshopCommand());
-                Objects.requireNonNull(getCommand("whois")).setExecutor(new WhoisCommand());
 
                 // Leaderboards
-                Objects.requireNonNull(getCommand("Top")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopAssists")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopCaptures")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopDeaths")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopHeals")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopKDR")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopKills")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopSupports")).setExecutor(new Leaderboard());
-                Objects.requireNonNull(getCommand("TopDonators")).setExecutor(new Donators());
-                Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatch());
-                Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatch());
-
-                // Staff - Currencies
-                Objects.requireNonNull(getCommand("AddCoins")).setExecutor(new AddCoins());
-                Objects.requireNonNull(getCommand("SetCoins")).setExecutor(new SetCoins());
-                Objects.requireNonNull(getCommand("SetCoinMultiplier")).setExecutor(new SetCoinMultiplier());
-                Objects.requireNonNull(getCommand("TakeCoins")).setExecutor(new TakeCoins());
+                Objects.requireNonNull(getCommand("Top")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopAssists")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopCaptures")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopDeaths")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopHeals")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopKDR")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopKills")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopSupports")).setExecutor(new LeaderboardCommand());
+                Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatchCommand());
+                Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatchCommand());
 
                 // Staff - Boosters
-                Objects.requireNonNull(getCommand("GrantBooster")).setExecutor(new GrantBooster());
-
-                // Staff - Punishments
-                Objects.requireNonNull(getCommand("Ban")).setExecutor(new Ban());
-                Objects.requireNonNull(getCommand("Kick")).setExecutor(new Kick());
-                Objects.requireNonNull(getCommand("KickAll")).setExecutor(new KickAll());
-                Objects.requireNonNull(getCommand("Mute")).setExecutor(new Mute());
-                Objects.requireNonNull(getCommand("Unban")).setExecutor(new Unban());
-                Objects.requireNonNull(getCommand("Unmute")).setExecutor(new Unmute());
-                Objects.requireNonNull(getCommand("Warn")).setExecutor(new Warn());
+                Objects.requireNonNull(getCommand("GrantBooster")).setExecutor(new GrantBoosterCommand());
 
                 // Staff
-                Objects.requireNonNull(getCommand("Broadcast")).setExecutor(new BroadcastCommand());
                 Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("Curse")).setExecutor(new CurseCommand());
-                Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
-                Objects.requireNonNull(getCommand("SetStaffRank")).setExecutor(new SetStaffRank());
                 Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
-                Objects.requireNonNull(getCommand("RankPoints")).setExecutor(new RankPoints());
                 Objects.requireNonNull(getCommand("SetKit")).setExecutor(new SetKitCommand());
-                Objects.requireNonNull(getCommand("SetKitLimit")).setExecutor(new SetKitLimit());
+                Objects.requireNonNull(getCommand("SetKitLimit")).setExecutor(new SetKitLimitCommand());
                 Objects.requireNonNull(getCommand("SetMap")).setExecutor(new SetMapCommand());
                 Objects.requireNonNull(getCommand("SetTimer")).setExecutor(new SetTimerCommand());
-                Objects.requireNonNull(getCommand("StaffChat")).setExecutor(new StaffChat());
                 Objects.requireNonNull(getCommand("Spectate")).setExecutor(new SpectateCommand());
-                Objects.requireNonNull(getCommand("ToggleRank")).setExecutor(new ToggleRankCommand());
                 Objects.requireNonNull(getCommand("Unlockkit")).setExecutor(new UnlockedKitCommand());
                 Objects.requireNonNull(getCommand("ForceSwitch")).setExecutor(new SwitchCommand());
-                Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new ToggleSwitching());
+                Objects.requireNonNull(getCommand("ToggleSwitching")).setExecutor(new ToggleSwitchingCommand());
                 Objects.requireNonNull(getCommand("Start")).setExecutor(new StartCommand());
-                Objects.requireNonNull(getCommand("SetTag")).setExecutor(new NameTag());
-                Objects.requireNonNull(getCommand("ToggleFree")).setExecutor(new ToggleAllKitsFree());
+                //Objects.requireNonNull(getCommand("SetTag")).setExecutor(new NameTag());
+                Objects.requireNonNull(getCommand("ToggleFree")).setExecutor(new ToggleAllKitsFreeCommand());
                 Objects.requireNonNull(getCommand("ToggleForcedRandom")).setExecutor(new ToggleForcedRandom());
 
                 // Kits
@@ -557,7 +488,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("ConwyLongbowman")).setExecutor(new ConwyLongbowman());
                 Objects.requireNonNull(getCommand("ConwyRoyalKnight")).setExecutor(new ConwyRoyalKnight());
                 Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
-                Objects.requireNonNull(getCommand("Camelrider")).setExecutor(new CamelRider());
+                Objects.requireNonNull(getCommand("CamelRider")).setExecutor(new CamelRider());
                 //Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
                 Objects.requireNonNull(getCommand("RoyalCryptsFallen")).setExecutor(new CryptsFallen());
@@ -573,7 +504,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("HelmsDeepUrukBerserker")).setExecutor(new HelmsDeepBerserker());
                 Objects.requireNonNull(getCommand("HelmsDeepLancer")).setExecutor(new HelmsDeepLancer());
                 Objects.requireNonNull(getCommand("HelmsDeepRangedCavalry")).setExecutor(new HelmsDeepRangedCavalry());
-                Objects.requireNonNull(getCommand("HommetLongbowman")).setExecutor(new HommetLongbowarcher());
+                Objects.requireNonNull(getCommand("HommetLongbowman")).setExecutor(new HommetLongbowman());
                 Objects.requireNonNull(getCommand("HommetAxeman")).setExecutor(new HommetAxeman());
                 Objects.requireNonNull(getCommand("Ladderman")).setExecutor(new Ladderman());
                 Objects.requireNonNull(getCommand("Maceman")).setExecutor(new Maceman());
@@ -637,9 +568,13 @@ public class Main extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         getLogger().info("Disabling plugin...");
-        //PacketEvents.getAPI().terminate();
+        // Save data and disconnect the SQL
+        StoreData.storeAll();
+
         // Unregister all listeners
         HandlerList.unregisterAll(plugin);
+        scoreboardLibrary.close();
+
         // Unload all worlds
         for (World world:Bukkit.getWorlds()) {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all flush");
@@ -649,14 +584,12 @@ public class Main extends JavaPlugin implements Listener {
         WorldCreator worldCreator = new WorldCreator("HelmsDeep");
         worldCreator.generateStructures(false);
         worldCreator.createWorld();
-        // Save data and disconnect the SQL
-        StoreData.storeAll();
+
         try {
             SQL.disconnect();
-        } catch (NullPointerException ex) {
+        } catch (NullPointerException | SQLException ex) {
             getLogger().warning("SQL could not disconnect, it doesn't exist!");
         }
-        scoreboardLibrary.close();
 
         getLogger().info("Plugin has been disabled!");
     }
@@ -699,7 +632,7 @@ public class Main extends JavaPlugin implements Listener {
     /**
      * Connects to the SQL database
      */
-    private void sqlConnect() {
+    private void sqlConnect() throws SQLException {
         try {
             YamlDocument dbConfig = YamlDocument.create(new File(getDataFolder(), "database.yml"),
                     getClass().getResourceAsStream("database.yml"));
@@ -730,6 +663,10 @@ public class Main extends JavaPlugin implements Listener {
         BountyCommand.loadBounties();
     }
 
+    /**
+     * @param flagPath The flag to find the config for
+     * @return The YamlDocument containing the flag's config
+     */
     public YamlDocument getFlagsConfig(Route flagPath) {
         for (YamlDocument document : flagsConfigs) {
             if (document.contains(flagPath)) {
@@ -739,14 +676,23 @@ public class Main extends JavaPlugin implements Listener {
         return null;
     }
 
+    /**
+     * @param cataPath The catapult to find the config for
+     * @return The YamlDocument containing the catapult's config
+     */
     public YamlDocument getCatapultsConfig(Route cataPath) {
         for (YamlDocument document : catapultsConfigs) {
-        if (document.contains(cataPath)) {
-            return document;
+            if (document.contains(cataPath)) {
+                return document;
+            }
         }
+        return null;
     }
-        return null;}
 
+    /**
+     * @param corePath The core to find the config for
+     * @return The YamlDocument containing the core's config
+     */
     public YamlDocument getCoreConfig(Route corePath) {
         for (YamlDocument document : coreConfigs) {
             if (document.contains(corePath)) {
@@ -756,6 +702,10 @@ public class Main extends JavaPlugin implements Listener {
         return null;
     }
 
+    /**
+     * @param mapPath The door to find the config for
+     * @return The YamlDocument containing the door's config
+     */
     public YamlDocument getDoorsConfig(Route mapPath) {
         for (YamlDocument document : doorsConfigs) {
             if (document.contains(mapPath)) {
@@ -765,6 +715,10 @@ public class Main extends JavaPlugin implements Listener {
         return null;
     }
 
+    /**
+     * @param gatePath The gate to find the config for
+     * @return The YamlDocument containing the gate's config
+     */
     public YamlDocument getGatesConfig(Route gatePath) {
         for (YamlDocument document : gatesConfigs) {
             if (document.contains(gatePath)) {
@@ -903,7 +857,7 @@ public class Main extends JavaPlugin implements Listener {
         MapController.mapCount = gameConfig.getInt(Route.from("map_count"), MapController.mapCount);
 
         // Coin multiplier
-        PlayerData.setCoinMultiplier(gameConfig.getDouble(Route.from("coin_multiplier"), 1.0));
+        CSPlayerData.setCoinMultiplier(gameConfig.getDouble(Route.from("coin_multiplier"), 1.0));
 
         // All Kits are FREE
         MapController.allKitsFree = gameConfig.getBoolean(Route.from("free_kits"), MapController.allKitsFree);
@@ -1026,7 +980,7 @@ public class Main extends JavaPlugin implements Listener {
         YamlDocument coreConfig = getCoreConfig(mapRoute);
         String[] corePaths = getPaths(coreConfig, mapRoute);
 
-            // create new coremap
+            // Create new core map
         ((CoreMap) map).setCores(new Core[corePaths.length]);
             for (int i = 0; i < corePaths.length; i++) {
                 Route coreRoute = mapRoute.add(corePaths[i]);
@@ -1042,7 +996,6 @@ public class Main extends JavaPlugin implements Listener {
                     core.region = getRegion(coreConfig, captureRoute, core.name.replace(' ', '_'));
                 }
                 core.materials = coreConfig.getStringList(coreRoute.add("materials"));
-                core.scoreboard = coreConfig.getInt(coreRoute.add("scoreboard"));
 
                 ((CoreMap) map).setCore(i, core);
             }
@@ -1148,8 +1101,6 @@ public class Main extends JavaPlugin implements Listener {
                     }
                 }
             }
-
-            flag.scoreboard = flagConfig.getInt(flagRoute.add("scoreboard"));
 
             map.flags[i] = flag;
         }
@@ -1563,6 +1514,9 @@ public class Main extends JavaPlugin implements Listener {
         return null;
     }
 
+    /**
+     * Reloads the plugin
+     */
     public void reload() {
         Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Reloading plugin...", GOLD)));
         onDisable();
@@ -1570,6 +1524,9 @@ public class Main extends JavaPlugin implements Listener {
         Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Plugin Reloaded!", GOLD)));
     }
 
+    /**
+     * Activates all the boosters again that are still active
+     */
     public void activateBoosters() {
         try (PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "SELECT booster_id, booster_type, expire_time, boost_value FROM active_boosters WHERE expire_time > ?")) {
@@ -1591,15 +1548,15 @@ public class Main extends JavaPlugin implements Listener {
                         multiplier = Double.parseDouble(other);
                         percentage = (int)(multiplier * 100);
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                            PlayerData.setCoinMultiplier(PlayerData.getCoinMultiplier() + multiplier);
+                            CSPlayerData.setCoinMultiplier(CSPlayerData.getCoinMultiplier() + multiplier);
                             Messenger.broadcastInfo(" A " + percentage + "% coin booster " +
                                     "for " + getTimeString((int) remaining_duration) + " has been activated!");
-                            Messenger.broadcastInfo("The total coin multiplier is now " + PlayerData.getCoinMultiplier() + ".");
+                            Messenger.broadcastInfo("The total coin multiplier is now " + CSPlayerData.getCoinMultiplier() + ".");
                         });
                         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
-                            PlayerData.setCoinMultiplier(PlayerData.getCoinMultiplier() - multiplier);
+                            CSPlayerData.setCoinMultiplier(CSPlayerData.getCoinMultiplier() - multiplier);
                             Messenger.broadcastWarning("A " + percentage + "% coin booster has expired!");
-                            Messenger.broadcastInfo("The total coin multiplier is now " + PlayerData.getCoinMultiplier() + ".");
+                            Messenger.broadcastInfo("The total coin multiplier is now " + CSPlayerData.getCoinMultiplier() + ".");
                         }, remaining_duration * 20L);
                         break;
                     case "BATTLEPOINT":
@@ -1621,6 +1578,10 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
+    /**
+     * @param duration The time in seconds
+     * @return The time in string format
+     */
     public static String getTimeString(long duration) {
         long days, hours, minutes, seconds, remainder;
         days = duration / 86400;

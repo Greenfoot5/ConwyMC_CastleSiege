@@ -8,16 +8,20 @@ import org.bukkit.Material;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * A kit that's automatically unlocked
+ */
 public abstract class FreeKit extends Kit {
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
 
     /**
-     * Create a kit with basic settings
-     *
+     * Create a Free Kit
      * @param name       This kit's name
      * @param baseHealth This kit's base health
+     * @param regenAmount The amount to regen every regen tick
+     * @param material The material to display in GUIS
      */
     public FreeKit(String name, int baseHealth, double regenAmount, Material material) {
         super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_GREEN);

@@ -1,11 +1,12 @@
 package me.huntifi.castlesiege.kits.kits.staff_kits;
 
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.StaffKit;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.events.RamEvent;
+import me.huntifi.conwymc.data_types.Tuple;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import net.kyori.adventure.text.Component;
@@ -48,25 +49,24 @@ public class Warbear extends StaffKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
                 Component.text("Claws", NamedTextColor.RED), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
+                CSItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
                         Component.text("Claws", NamedTextColor.RED),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Claws
-        es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
+        es.hotbar[1] = CSItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
                 Component.text("Fangs", NamedTextColor.RED), null, null, 12);
 
         // Paw
-        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.RABBIT_FOOT),
+        es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.RABBIT_FOOT),
                 Component.text("Paw", NamedTextColor.GREEN), null, null);
 
         super.equipment = es;
@@ -96,7 +96,7 @@ public class Warbear extends StaffKit implements Listener {
      * Cause withering damage to the bitten opponent and try to activate the stun ability
      * @param e The event called when hitting another player
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onAttack(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof Player && e.getDamager() instanceof Player)) {
             return;
@@ -152,6 +152,8 @@ public class Warbear extends StaffKit implements Listener {
     @EventHandler
     public void onFlee(PlayerInteractEvent e) {
         Player player = e.getPlayer();
+        if (!MapController.getPlayers().contains(player.getUniqueId()))
+            return;
         if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name)
                 && (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
                 && player.getInventory().getItemInMainHand().getType() == Material.RABBIT_FOOT

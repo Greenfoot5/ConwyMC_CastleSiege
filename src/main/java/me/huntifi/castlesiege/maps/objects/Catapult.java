@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.maps.objects;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -32,6 +32,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 
+/**
+ * A catapult that fires explosive rocks
+ */
 public class Catapult implements Listener {
 
     // General variables used by the catapult
@@ -282,7 +285,7 @@ public class Catapult implements Listener {
     /**
      * Launch the catapult's projectile
      */
-    public void launchProjectile() {
+    private void launchProjectile() {
         // Spawn a falling cobblestone block riding a snowball
         BlockData blockData = Bukkit.createBlockData(Material.COBBLESTONE);
         FallingBlock cobblestone = world.spawnFallingBlock(projectile, blockData);

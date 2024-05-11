@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.events.security;
 
+import me.huntifi.castlesiege.database.CSActiveData;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
@@ -32,7 +33,7 @@ public class InteractContainer implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         // Allow interacting in creative mode
-        if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
+        if (e.getPlayer().getGameMode() == GameMode.CREATIVE || !CSActiveData.hasPlayer(e.getPlayer().getUniqueId())) {
             return;
         }
 

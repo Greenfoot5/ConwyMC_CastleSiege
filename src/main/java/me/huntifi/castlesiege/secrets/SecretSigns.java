@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.secrets;
 
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -231,7 +231,7 @@ public class SecretSigns implements Listener {
     public void registerFoundSecret(Player player, String secretName, int coins) {
                 UUID uuid = player.getUniqueId();
 
-                PlayerData data = ActiveData.getData(uuid);
+                CSPlayerData data = CSActiveData.getData(uuid);
 
                 if (!data.hasSecret(secretName)) {
 

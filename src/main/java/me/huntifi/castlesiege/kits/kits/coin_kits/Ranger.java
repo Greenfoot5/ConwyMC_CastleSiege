@@ -1,17 +1,17 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -55,58 +55,57 @@ public class Ranger extends CoinKit implements Listener {
     private BukkitRunnable br = null;
 
     /**
-     * Set the equipment and attributes of this kit
+     * Create a new Ranger
      */
     public Ranger() {
         super("Ranger", health, regen, Material.LIME_DYE);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                 Component.text("Dagger", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         Component.text("Dagger", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(28, 165, 33));
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(32, 183, 37));
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(28, 165, 33));
         // Voted Boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(28, 165, 33));
 
         // Regular Bow
-        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
+        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.BOW),
                 Component.text("Bow", NamedTextColor.GREEN), null, null);
 
         // Volley Bow
-        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.BOW),
+        es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.BOW),
                 Component.text("Volley Bow", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("Shoot 5 arrows at once", NamedTextColor.AQUA)), null);
 
         // Burst Bow
-        es.hotbar[3] = ItemCreator.item(new ItemStack(Material.BOW),
+        es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.BOW),
                 Component.text("Burst Bow", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("Shoot 4 consecutive arrows", NamedTextColor.AQUA)), null);
 
@@ -133,7 +132,7 @@ public class Ranger extends CoinKit implements Listener {
      * Set the arrow-damage of a ranger's arrows
      * @param e The event called when a player is hit by an arrow
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&
@@ -251,7 +250,7 @@ public class Ranger extends CoinKit implements Listener {
      * Instantly kills players when hit in the back by a sneaking ranger
      * @param ed The event called when a player attacks another player
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void backStabDamage(EntityDamageByEntityEvent ed) {
         if (ed.getDamager() instanceof Player && ed.getEntity() instanceof Player) {
             Player p = (Player) ed.getDamager();
@@ -267,8 +266,8 @@ public class Ranger extends CoinKit implements Listener {
                         && canBackstab) {
 
                     ed.setCancelled(true);
-                    Messenger.sendWarning("You got backstabbed by " + NameTag.mmUsername(p), hit);
-                    Messenger.sendSuccess("You backstabbed " + NameTag.mmUsername(hit), p);
+                    Messenger.sendWarning("You got backstabbed by " + CSNameTag.mmUsername(p), hit);
+                    Messenger.sendSuccess("You backstabbed " + CSNameTag.mmUsername(hit), p);
                     AssistKill.addDamager(hit.getUniqueId(), p.getUniqueId(), hit.getHealth());
                     DeathEvent.setKiller(hit, p);
                     hit.setHealth(0);

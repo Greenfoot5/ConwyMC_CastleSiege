@@ -1,9 +1,10 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.data_types.CSStats;
 import me.huntifi.castlesiege.database.MVPStats;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.events.nametag.UpdateNameTagEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,7 +16,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -34,7 +34,9 @@ public class Team implements Listener {
     public NamedTextColor primaryChatColor;
     public NamedTextColor secondaryChatColor;
 
-    //Prevents players from spawning at their bed when they sleep in a bad.
+    /**
+     * @param event Prevents players from spawning at their bed when they sleep in a bad.
+     */
     @EventHandler
     public void onEnterBed(PlayerBedEnterEvent event) {
         Player player = event.getPlayer();
@@ -91,7 +93,7 @@ public class Team implements Listener {
         if (lobby.spawnPoint.getWorld() == null)
             lobby.spawnPoint.setWorld(Bukkit.getWorld(MapController.getCurrentMap().worldName));
         player.setRespawnLocation(lobby.spawnPoint, true);
-        NameTag.give(player);
+        Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(player));
     }
 
     /**
@@ -101,14 +103,6 @@ public class Team implements Listener {
     public void removePlayer(UUID uuid) {
         players.remove(uuid);
         TeamController.leaveTeam(uuid);
-    }
-
-    /**
-     * Gets a random player on the team
-     * @return the uuid of a random player
-     */
-    public UUID getRandomUUID() {
-        return players.get(new Random().nextInt(players.size()));
     }
 
     /**
@@ -123,11 +117,11 @@ public class Team implements Listener {
      * Gets the MVP for the current team
      * @return The unique ID and stats of the MVP, null if team is empty
      */
-    public Tuple<UUID, PlayerData> getMVP() {
-        Tuple<UUID, PlayerData> mvp = null;
+    public Tuple<UUID, CSStats> getMVP() {
+        Tuple<UUID, CSStats> mvp = null;
 
         for (UUID uuid : players) {
-            PlayerData data = MVPStats.getStats(uuid);
+            CSStats data = MVPStats.getStats(uuid);
             if (mvp == null || data.getScore() > mvp.getSecond().getScore()) {
                 mvp = new Tuple<>(uuid, data);
             }

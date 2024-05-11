@@ -22,17 +22,25 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Handles the collapsing of the stables in Hommet
+ */
 public class CollapseEvent implements Listener {
 
     private static final Location CENTRAL = new Location(Bukkit.getWorld("Hommet"), -34, 84, -59);
 
     private static final Location SCHEMATIC = new Location(Bukkit.getWorld("Hommet"), -34, 83, -46);
+
+    /**
+     * Begins the collapse when a player clicks the button
+     * @param e The PlayerInteractEvent the class is listening for
+     */
     @EventHandler
     public void wallClickEvent(PlayerInteractEvent e) {
 
         Player player = e.getPlayer();
 
-        // Check we're on HelmsDeep
+        // Check we're on Hommet
         if(MapController.getCurrentMap().worldName.equals("Hommet") && MapController.isOngoing()) {
             // Check the player has right-clicked a SPRUCE BUTTON while standing within 5 blocks of the CENTRE
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.getLocation().distance(CENTRAL) <= 5

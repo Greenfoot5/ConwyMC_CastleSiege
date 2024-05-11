@@ -1,9 +1,10 @@
 package me.huntifi.castlesiege.kits.items;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.EnderchestEvent;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -33,19 +34,24 @@ public class Enderchest implements Listener {
 	 */
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e){
-		if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK) &&
-				Objects.requireNonNull(e.getClickedBlock()).getType() == Material.ENDER_CHEST){
-			Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-				Player player = e.getPlayer();
+		if (!CSActiveData.hasPlayer(e.getPlayer().getUniqueId()))
+			return;
 
-				if (checkAndApplyCooldown(player.getUniqueId()))
-					Bukkit.getScheduler().runTask(Main.plugin, () ->
-							Bukkit.getPluginManager().callEvent(new EnderchestEvent(player)));
-				else
-					Messenger.sendActionError("The enderchest is currently on cooldown", player);
-			});
-		}
-	}
+        if ((e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK) ||
+                Objects.requireNonNull(e.getClickedBlock()).getType() != Material.ENDER_CHEST) {
+            return;
+        }
+
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            Player player = e.getPlayer();
+
+            if (checkAndApplyCooldown(player.getUniqueId()))
+                Bukkit.getScheduler().runTask(Main.plugin, () ->
+                        Bukkit.getPluginManager().callEvent(new EnderchestEvent(player)));
+            else
+                Messenger.sendActionError("The enderchest is currently on cooldown", player);
+        });
+    }
 
 	/**
 	 * Check whether a player is currently on cooldown.
@@ -66,7 +72,7 @@ public class Enderchest implements Listener {
 	 * Resupply a players items when an enderchest is used.
 	 * @param event The event called when an off-cooldown player interacts with an enderchest
 	 */
-	@EventHandler (priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onClickEnderchest(EnderchestEvent event) {
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();

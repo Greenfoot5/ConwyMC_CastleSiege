@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.events.gameplay;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Material;
 import org.bukkit.entity.Camel;
 import org.bukkit.entity.Entity;
@@ -24,6 +24,9 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Handles players using/interacting with camels
+ */
 public class CamelHandler implements Listener {
 
     // Kit specific camel information
@@ -77,7 +80,7 @@ public class CamelHandler implements Listener {
 
     /**
      * Remove the camel when its rider dismounts and apply cooldown
-     * @param e The event called when dismounting a cazmel
+     * @param e The event called when dismounting a camel
      */
     @EventHandler
     public void onDismount(EntityDismountEvent e) {
@@ -139,9 +142,9 @@ public class CamelHandler implements Listener {
      */
     private void removeCamel(Entity camel, Player rider) {
         if (camel instanceof Camel) {
-            Camel kameel = (Camel) camel;
-            if (rider.equals(((Camel) camel).getOwner())) {
-                kameel.remove();
+            Camel c = (Camel) camel;
+            if (rider.equals(c.getOwner())) {
+                c.remove();
             }
         }
     }

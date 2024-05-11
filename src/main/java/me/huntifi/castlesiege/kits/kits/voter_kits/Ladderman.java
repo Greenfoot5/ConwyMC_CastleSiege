@@ -1,11 +1,11 @@
 package me.huntifi.castlesiege.kits.kits.voter_kits;
 
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -42,32 +42,31 @@ public class Ladderman extends VoterKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                 Component.text("Short Axe", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_AXE),
+                CSItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                         Component.text("Short Axe", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.item(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Tunic", NamedTextColor.GREEN), null, null);
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
                 Component.text("Iron Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -86,7 +85,7 @@ public class Ladderman extends VoterKit implements Listener {
      * Activate the ladderman ability of retrieving broken ladders
      * @param e The event called when breaking ladders
      */
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBreakLadder(BlockBreakEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();

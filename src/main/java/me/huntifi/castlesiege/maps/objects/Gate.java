@@ -3,11 +3,11 @@ package me.huntifi.castlesiege.maps.objects;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.maps.events.RamEvent;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -56,12 +56,16 @@ public class Gate implements Listener {
         isBreached = false;
     }
 
+    /**
+     * @return The name of the gate
+     */
     public String getName() {
         return name;
     }
 
     /**
      * @param flagName The name of the flag the gate belongs to. Stops friendlies from breaking the gate
+     * @param mapName The map the gate is on
      */
     public void setFlagName(String flagName, String mapName) {
         this.flagName = flagName;
@@ -137,16 +141,26 @@ public class Gate implements Listener {
         isBreached = true;
     }
 
+    /**
+     * @return {@code true} if the gate has been breached
+     */
     public boolean isBreached() {
         return isBreached;
     }
 
+    /**
+     * @param uuid The uuid of the player trying to breach the gate
+     * @return {@code true} if a player can breach the gate
+     */
     public boolean canBreach(UUID uuid) {
         Flag flag = MapController.getCurrentMap().getFlag(flagName);
         return flagName.isEmpty() || (flag != null
                 && !Objects.equals(TeamController.getTeam(uuid).name, flag.getCurrentOwners()));
     }
 
+    /**
+     * @param event An event for a player attempting to damage the gate
+     */
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         // Make sure the gate is on the correct map and has not been breached yet

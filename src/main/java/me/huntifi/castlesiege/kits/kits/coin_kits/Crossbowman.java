@@ -1,12 +1,12 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.EnderchestEvent;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -34,7 +34,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * The crossbowman kit
+ * A kit that can fire arrows that don't fall
  */
 public class Crossbowman extends CoinKit implements Listener {
 
@@ -55,36 +55,38 @@ public class Crossbowman extends CoinKit implements Listener {
     private final ItemStack mobilitySwitchActive;
     private final ItemStack sniperSwitchActive;
 
+    /**
+     * Creates a new crossbowman
+     */
     public Crossbowman() {
         super("Crossbowman", health, regen, Material.CROSSBOW);
         super.kbResistance = 1;
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Crossbow
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.CROSSBOW),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.CROSSBOW),
                 Component.text("Crossbow", NamedTextColor.GREEN), null, null, 1);
-        es.votedWeapon = new Tuple<>(ItemCreator.weapon(new ItemStack(Material.CROSSBOW),
+        es.votedWeapon = new Tuple<>(CSItemCreator.weapon(new ItemStack(Material.CROSSBOW),
                 Component.text("Crossbow", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 3), 0);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
+        es.chest = CSItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
                 Component.text("Iron Chestplate", NamedTextColor.GREEN), null, null);
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 255, 51));
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 255, 51));
         // Voted boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
@@ -95,7 +97,7 @@ public class Crossbowman extends CoinKit implements Listener {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         // mode switch button
-        mobilitySwitchInactive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
+        mobilitySwitchInactive = CSItemCreator.weapon(new ItemStack(Material.LIME_DYE),
                 Component.text("Mobility Mode", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right-click to enable Mobility Mode", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
@@ -106,7 +108,7 @@ public class Crossbowman extends CoinKit implements Listener {
                         Component.text("crossbow.", NamedTextColor.AQUA)),
                 null, 0);
 
-        sniperSwitchInactive = ItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
+        sniperSwitchInactive = CSItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
                 Component.text("Sniper Mode", NamedTextColor.YELLOW),
                 Arrays.asList(Component.empty(),
                         Component.text("Right-click to enable Sniper Mode", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
@@ -117,7 +119,7 @@ public class Crossbowman extends CoinKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 0);
 
         // mode switch button
-        mobilitySwitchActive = ItemCreator.weapon(new ItemStack(Material.LIME_DYE),
+        mobilitySwitchActive = CSItemCreator.weapon(new ItemStack(Material.LIME_DYE),
                 Component.text("Mobility Mode", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right-click to enable Mobility Mode", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
@@ -128,7 +130,7 @@ public class Crossbowman extends CoinKit implements Listener {
                         Component.text("crossbow.", NamedTextColor.AQUA)),
                 null, 0);
 
-        sniperSwitchActive = ItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
+        sniperSwitchActive = CSItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
                 Component.text("Sniper Mode", NamedTextColor.YELLOW),
                 Arrays.asList(Component.empty(),
                         Component.text("Right-click to enable Sniper Mode", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
@@ -196,7 +198,7 @@ public class Crossbowman extends CoinKit implements Listener {
      * @param uuid the uuid of the player to check
      * @return true if the player is in snipe mode, false if they aren't.
      */
-    public boolean isInSnipingMode(UUID uuid) {
+    private boolean isInSnipingMode(UUID uuid) {
         if (snipers.get(uuid) == null) {
             return false;
         } else return snipers.get(uuid);
@@ -206,7 +208,7 @@ public class Crossbowman extends CoinKit implements Listener {
      * Set the arrow-damage of a ranger's arrows
      * @param e The event called when a player is hit by an arrow
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&
@@ -218,7 +220,11 @@ public class Crossbowman extends CoinKit implements Listener {
     }
 
 
-    public void onClickGreenDye(Player p) {
+    /**
+     * Handles clicking the green dye
+     * @param p The player clicking the dye
+     */
+    private void onClickGreenDye(Player p) {
         // mode switch button
         int cooldown = p.getCooldown(Material.LIME_DYE);
         if (cooldown == 0 && isInSnipingMode(p.getUniqueId())) {
@@ -238,7 +244,11 @@ public class Crossbowman extends CoinKit implements Listener {
         }
     }
 
-    public void onClickYellowDye(Player p) {
+    /**
+     * Handles clicking the yellow dye
+     * @param p The player clicking the dye
+     */
+    private void onClickYellowDye(Player p) {
         int cooldown = p.getCooldown(Material.YELLOW_DYE);
         if (cooldown == 0 && !isInSnipingMode(p.getUniqueId())) {
             p.setCooldown(Material.LIME_DYE, 200);

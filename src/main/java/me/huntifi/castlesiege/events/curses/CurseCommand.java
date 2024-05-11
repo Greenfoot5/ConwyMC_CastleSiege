@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.events.curses;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Casts a new curse
+ */
 public class CurseCommand implements TabExecutor {
 
 //    /** The curses GUI */

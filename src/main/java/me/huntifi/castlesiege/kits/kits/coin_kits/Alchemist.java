@@ -1,19 +1,19 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.EnderchestEvent;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
@@ -71,10 +71,9 @@ public class Alchemist extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Brewing Stand
-        stand = ItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
+        stand = CSItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
                 Component.text("Brewing Stand", NamedTextColor.LIGHT_PURPLE),
                 Arrays.asList(Component.empty(),
                         Component.text("Place the brewing stand down, then", NamedTextColor.AQUA),
@@ -86,7 +85,7 @@ public class Alchemist extends CoinKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.LOYALTY, 1)), meleeDamage);
         es.hotbar[0] = stand;
         // Voted Brewing Stand
-        standVoted = ItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
+        standVoted = CSItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
                 Component.text("Brewing Stand", NamedTextColor.LIGHT_PURPLE),
                 Arrays.asList(Component.text(""),
                         Component.text("Place the brewing stand down, then", NamedTextColor.AQUA),
@@ -99,20 +98,20 @@ public class Alchemist extends CoinKit implements Listener {
         es.votedWeapon = new Tuple<>(standVoted, 0);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(226, 165, 43));
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(226, 173, 65));
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 Component.text("Golden Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 Component.text("Golden Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -135,7 +134,7 @@ public class Alchemist extends CoinKit implements Listener {
      * Only applies the correct potion effect to the correct players
      * @param e Called when a player throws a potion
      */
-    @EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onThrownPotion(PotionSplashEvent e) {
         // Is the potion thrown by an alchemist?
         if (!(e.getPotion().getShooter() instanceof Player)) {
@@ -218,7 +217,7 @@ public class Alchemist extends CoinKit implements Listener {
      * Place a brewing stand
      * @param e The event called when placing a brewing stand
      */
-    @EventHandler (priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
 
@@ -266,7 +265,7 @@ public class Alchemist extends CoinKit implements Listener {
                     PlayerInventory inv = destroyer.getInventory();
                     if (inv.getItemInOffHand().getType() != Material.BREWING_STAND &&
                             !inv.contains(Material.BREWING_STAND)) {
-                        if (!ActiveData.getData(destroyer.getUniqueId()).hasVote("sword")) {
+                        if (!CSActiveData.getData(destroyer.getUniqueId()).hasVote("sword")) {
                             destroyer.getInventory().addItem(stand);
                         } else {
                             destroyer.getInventory().addItem(standVoted);
@@ -280,7 +279,7 @@ public class Alchemist extends CoinKit implements Listener {
                             != TeamController.getTeam(placer.getUniqueId())){
                 destroyStand(placer);
                 destroyer.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER , 5, 1);
-                Messenger.sendActionWarning("You destroyed " + NameTag.mmUsername(placer) + "'s brewing stand!", destroyer);
+                Messenger.sendActionWarning("You destroyed " + CSNameTag.mmUsername(placer) + "'s brewing stand!", destroyer);
             }
         }
     }
@@ -434,12 +433,12 @@ public class Alchemist extends CoinKit implements Listener {
     }
        //------------------------------------------------Potions------------------------------------------------\\
 
-    final java.util.Random rand = new java.util.Random();
+    private final java.util.Random rand = new java.util.Random();
 
     /**
      * @return The item stack for a positive potion
      */
-    public ItemStack randomPositivePotion() {
+    private ItemStack randomPositivePotion() {
 
         int types = rand.nextInt(16);
         int amount = rand.nextInt(2);
@@ -576,7 +575,7 @@ public class Alchemist extends CoinKit implements Listener {
     /**
      * @return The ItemStack for a random negative potion
      */
-    public ItemStack randomNegativePotion() {
+    private ItemStack randomNegativePotion() {
 
         int types = rand.nextInt(12);
         int amount = rand.nextInt(2);
@@ -585,8 +584,6 @@ public class Alchemist extends CoinKit implements Listener {
         int mediumTime = rand.nextInt(341) + 100;
         int amplifier = rand.nextInt(2);
         int bigAmplifier = rand.nextInt(5);
-        //int amplifierRegen = rand.nextInt(9);
-        //int harmingAmplifier = rand.nextInt(3);
 
 
         ItemStack itemStack = new ItemStack(Material.SPLASH_POTION);

@@ -1,15 +1,15 @@
 package me.huntifi.castlesiege.kits.kits.in_development;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.EnderchestEvent;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -50,7 +50,7 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
- * Creates the Chef kit
+ * A chef is someone who can cook food to buff their allies or place a campfire for better healing
  */
 public class Chef extends CoinKit implements Listener {
 
@@ -81,15 +81,17 @@ public class Chef extends CoinKit implements Listener {
     public static final HashMap<Player, Block> campfires = new HashMap<>();
     public static final ArrayList<Location> activeLocations = new ArrayList<>();
 
+    /**
+     * Creates a new chef
+     */
     public Chef() {
         super("Chef", baseHealth, regenAmount, material);
         super.canSeeHealth = true;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
-        fryingPan = ItemCreator.weapon(new ItemStack(Material.IRON_SHOVEL),
+        fryingPan = CSItemCreator.weapon(new ItemStack(Material.IRON_SHOVEL),
                 Component.text("Frying Pan", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Knock enemies away with the back of a pan", NamedTextColor.AQUA),
@@ -99,7 +101,7 @@ public class Chef extends CoinKit implements Listener {
         // Weapon
         es.hotbar[0] = fryingPan;
 
-        fryingPanVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SHOVEL),
+        fryingPanVoted = CSItemCreator.weapon(new ItemStack(Material.IRON_SHOVEL),
                 Component.text("Frying Pan", NamedTextColor.GREEN), Arrays.asList(
                         Component.empty(),
                         Component.text("Knock enemies away with the back of a pan", NamedTextColor.AQUA),
@@ -109,7 +111,7 @@ public class Chef extends CoinKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), 22);
         es.votedWeapon = new Tuple<>(fryingPanVoted, 0);
 
-        ItemStack kitchenKnives = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW, knifeCount),
+        ItemStack kitchenKnives = CSItemCreator.item(new ItemStack(Material.TIPPED_ARROW, knifeCount),
                 Component.text("Kitchen Knife", NamedTextColor.GREEN),
                 Arrays.asList(Component.text("Right click to throw!", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
                         Component.empty(),
@@ -126,7 +128,7 @@ public class Chef extends CoinKit implements Listener {
 
         es.hotbar[1] = kitchenKnives;
 
-        campfire = ItemCreator.item(new ItemStack(Material.CAMPFIRE),
+        campfire = CSItemCreator.item(new ItemStack(Material.CAMPFIRE),
                 Component.text("Campfire", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Can be placed down on the ground", NamedTextColor.AQUA),
@@ -135,7 +137,7 @@ public class Chef extends CoinKit implements Listener {
 
         es.hotbar[2] = campfire;
 
-        ItemStack egg = ItemCreator.item(new ItemStack(Material.EGG, eggCount),
+        ItemStack egg = CSItemCreator.item(new ItemStack(Material.EGG, eggCount),
                 Component.text("Mystery Egg", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right click to prepare food", NamedTextColor.AQUA),
@@ -145,21 +147,21 @@ public class Chef extends CoinKit implements Listener {
 
         es.hotbar[3] = egg;
 
-        steak = ItemCreator.item(new ItemStack(Material.COOKED_BEEF),
+        steak = CSItemCreator.item(new ItemStack(Material.COOKED_BEEF),
                 Component.text("Strength Steak", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right click on a teammate to feed them", NamedTextColor.AQUA),
                         Component.text("Grants strength to fed player", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)));
 
-        goldenCarrot = ItemCreator.item(new ItemStack(Material.GOLDEN_CARROT),
+        goldenCarrot = CSItemCreator.item(new ItemStack(Material.GOLDEN_CARROT),
                 Component.text("Golden Carrot", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right click a teammate to feed them", NamedTextColor.AQUA),
                         Component.text("Grants night vision to the player", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)));
 
-        pie = ItemCreator.item(new ItemStack(Material.PUMPKIN_PIE),
+        pie = CSItemCreator.item(new ItemStack(Material.PUMPKIN_PIE),
                 Component.text("Filling Pie", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right click a teammate to feed them", NamedTextColor.AQUA),
@@ -168,20 +170,20 @@ public class Chef extends CoinKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)));
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Apron Top", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 255, 255));
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Apron Bottom", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 255, 255));
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Kitchen Soles", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Kitchen Soles", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3)));
@@ -366,7 +368,7 @@ public class Chef extends CoinKit implements Listener {
      * Set the thrown knife's damage
      * @param e The event called when an arrow hits a player
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void changeKnifeDamage(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow) {
             Arrow arrow = (Arrow) e.getEntity();

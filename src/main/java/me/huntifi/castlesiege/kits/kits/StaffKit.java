@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -15,12 +15,22 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A kit that's unlocked by becoming a staff member
+ */
 public abstract class StaffKit extends Kit {
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
     public static final List<String> donatorKits = new ArrayList<>();
 
+    /**
+     * Create a Staff Kit
+     * @param name       This kit's name
+     * @param baseHealth This kit's base health
+     * @param regenAmount The amount to regen every regen tick
+     * @param material The material to display in GUIS
+     */
     public StaffKit(String name, int baseHealth, double regenAmount, Material material) {
         super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_AQUA);
 
@@ -44,7 +54,7 @@ public abstract class StaffKit extends Kit {
             return false;
 
         UUID uuid = ((Player) sender).getUniqueId();
-        boolean hasKit = ActiveData.getData(uuid).hasKit(getSpacelessName());
+        boolean hasKit = CSActiveData.getData(uuid).hasKit(getSpacelessName());
         boolean allKitsFree = MapController.allKitsFree;
         if (!hasKit && !allKitsFree) {
             if (verbose) {

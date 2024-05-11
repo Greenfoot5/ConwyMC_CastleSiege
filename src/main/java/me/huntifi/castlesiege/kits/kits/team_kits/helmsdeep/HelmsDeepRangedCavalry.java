@@ -1,11 +1,11 @@
 package me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep;
 
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.gameplay.HorseHandler;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -26,43 +26,45 @@ import java.util.Collections;
 import java.util.Objects;
 
 public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
-    
+
+    /**
+     * Creates a new Helms Deep Ranged Cavalry
+     */
     public HelmsDeepRangedCavalry() {
         super("Ranged Cavalry", 230, 9, "Helm's Deep",
                 "Rohan", 2500, Material.BOW, "helmsdeeprangedcavalry");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Longsword", NamedTextColor.GREEN), null, null, 29.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Longsword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31.5),
                 0);
 
         // Regular Bow
-        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
+        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.BOW),
                 Component.text("Bow", NamedTextColor.GREEN), null, null);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
+        es.chest = CSItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
                 Component.text("Bronze Chestplate", NamedTextColor.GREEN), null, null);
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -72,7 +74,7 @@ public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
         // Horse
-        es.hotbar[3] = ItemCreator.item(new ItemStack(Material.WHEAT),
+        es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.WHEAT),
                 Component.text("Spawn Horse", NamedTextColor.GREEN), null, null);
         HorseHandler.add(name, 800, 100, 1, 0.2025, 0.8,
                 Material.LEATHER_HORSE_ARMOR, Arrays.asList(
@@ -91,7 +93,7 @@ public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
      * Set the arrow-damage of a ranged cavalry's arrows
      * @param e The event called when a player is hit by an arrow
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&

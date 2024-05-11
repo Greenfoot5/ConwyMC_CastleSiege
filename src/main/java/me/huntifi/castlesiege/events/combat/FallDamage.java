@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.events.combat;
 
+import me.huntifi.castlesiege.database.CSActiveData;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,10 +21,10 @@ public class FallDamage implements Listener {
      * Cancels damage when landed on hay bales
      * @param e The event called when a player takes falling damage
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onFallDamage(EntityDamageEvent e) {
-        if (e.isCancelled() || e.getCause() != EntityDamageEvent.DamageCause.FALL ||
-                !(e.getEntity() instanceof Player)) {
+        if (e.getCause() != EntityDamageEvent.DamageCause.FALL || !(e.getEntity() instanceof Player)
+        || CSActiveData.hasPlayer(e.getEntity().getUniqueId())) {
             return;
         }
 

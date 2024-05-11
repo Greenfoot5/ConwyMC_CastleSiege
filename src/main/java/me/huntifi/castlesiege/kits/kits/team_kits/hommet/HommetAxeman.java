@@ -1,12 +1,12 @@
 package me.huntifi.castlesiege.kits.kits.team_kits.hommet;
 
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -32,48 +32,50 @@ import java.util.UUID;
 
 public class HommetAxeman extends TeamKit implements Listener {
 
+    /**
+     * Creates a new Hommet Axeman
+     */
     public HommetAxeman() {
         super("Axeman", 300, 10, "Hommet",
                 "Saxons", 2500, Material.STONE_AXE, "hommetaxeman");
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Iron Sword", NamedTextColor.GREEN), null, null, 40);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Iron Sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 42),
                 0);
         // Weapon
-        es.hotbar[1] = ItemCreator.weapon(new ItemStack(Material.STONE_AXE, 2),
+        es.hotbar[1] = CSItemCreator.weapon(new ItemStack(Material.STONE_AXE, 2),
                 Component.text("Throwable Axe", NamedTextColor.GREEN), null, null, 40);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.STONE_AXE, 3),
+                CSItemCreator.weapon(new ItemStack(Material.STONE_AXE, 3),
                         Component.text("Throwable Axe", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 42),
                 1);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(51, 198, 46));
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.NETHERITE_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.NETHERITE_LEGGINGS),
                 Component.text("Reinforced Steel Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -129,7 +131,7 @@ public class HommetAxeman extends TeamKit implements Listener {
      * Set the thrown axe's damage
      * @param e The event called when an arrow hits a player
      */
-    @EventHandler (priority = EventPriority.LOW, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void changeAxeDamage(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Snowball) {
             Snowball ball = (Snowball) e.getEntity();

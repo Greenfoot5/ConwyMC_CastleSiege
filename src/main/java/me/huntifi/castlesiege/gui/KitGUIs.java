@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.gui;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Alchemist;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Barbarian;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Berserker;
@@ -33,6 +32,7 @@ import me.huntifi.castlesiege.kits.kits.voter_kits.FireArcher;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Scout;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Skirmisher;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;

@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.kits.kits.in_development;
 
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -32,29 +32,31 @@ public class Hunter extends CoinKit implements Listener {
     private static final int trapCount = 4;
     private static final int cooldownTicks = 50;
 
+    /**
+     * Creates a new Hunter
+     */
     public Hunter() {
         super("hunter", health, regen, Material.LEATHER);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Hunter's Knife", NamedTextColor.DARK_PURPLE), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Hunter's Knife", NamedTextColor.DARK_PURPLE), null,
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2), 0);
 
         // Regular Bow
-        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.BOW),
+        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.BOW),
                 Component.text("Bow", NamedTextColor.GREEN), null, null);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Hunter's Chestpiece", NamedTextColor.GREEN), null, null,
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+                Component.text("Hunter's Chest Piece", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(54, 154, 42));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -64,15 +66,15 @@ public class Hunter extends CoinKit implements Listener {
         es.chest.setItemMeta(chestMeta);
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Hunter's Slacks", NamedTextColor.GREEN), null, null);
 
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Hunter's Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Hunter's Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -85,7 +87,7 @@ public class Hunter extends CoinKit implements Listener {
         es.hotbar[3] = new ItemStack(Material.STONE_PRESSURE_PLATE, trapCount);
 
         // control hound
-        es.hotbar[4] = ItemCreator.item(new ItemStack(Material.BONE),
+        es.hotbar[4] = CSItemCreator.item(new ItemStack(Material.BONE),
                 Component.text("Control Companion", NamedTextColor.GOLD),
                 Arrays.asList(Component.empty(),
                         Component.text("Left click: ", NamedTextColor.DARK_GRAY),

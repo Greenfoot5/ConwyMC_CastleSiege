@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.events.timed;
 
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,11 +19,15 @@ public class Hunger implements Runnable {
 	@Override
 	public void run() {
 		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (!CSActiveData.hasPlayer(p.getUniqueId()))
+				continue;
+
 			Kit kit = Kit.equippedKits.get(p.getUniqueId());
 			if (kit == null) {
 				continue;
 			}
 
+			// Slow kits
 			if (Objects.equals(kit.name, "Halberdier") || Objects.equals(kit.name, "Abyssal") ||
 					Objects.equals(kit.name, "Arbalester") || Objects.equals(kit.name, "Moria Cave Troll")) {
 				p.setFoodLevel(4);
@@ -30,7 +35,5 @@ public class Hunger implements Runnable {
 				p.setFoodLevel(p.getFoodLevel() + 1);
 			}
 		}
-		
 	}
-
 }

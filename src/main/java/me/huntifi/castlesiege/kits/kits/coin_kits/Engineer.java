@@ -1,22 +1,22 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.HurtAnimation;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -84,35 +84,34 @@ public class Engineer extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                 Component.text("Short-sword", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         Component.text("Short-sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(128, 129, 129));
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(129, 129, 129));
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(129, 129, 129));
         // Voted Boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
@@ -146,7 +145,7 @@ public class Engineer extends CoinKit implements Listener {
      * Activate the engineer ability for placing traps, cobwebs, wood, or stone
      * @param e The event called when placing a block
      */
-    @EventHandler (priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
@@ -195,8 +194,8 @@ public class Engineer extends CoinKit implements Listener {
                 e.setCancelled(true);
                 traps.get(t).remove(trap);
                 trap.setType(Material.AIR);
-                Messenger.sendWarning("You stepped on " + NameTag.mmUsername(t) + "'s trap.", p);
-                Messenger.sendSuccess(NameTag.mmUsername(p) + " stepped on your trap.", t);
+                Messenger.sendWarning("You stepped on " + CSNameTag.mmUsername(t) + "'s trap.", p);
+                Messenger.sendSuccess(CSNameTag.mmUsername(p) + " stepped on your trap.", t);
 
                 // Deal damage
                 double damage = Math.min(p.getHealth(), 60);
@@ -233,8 +232,8 @@ public class Engineer extends CoinKit implements Listener {
                 e.setCancelled(true);
                 traps.get(t).remove(trap);
                 trap.setType(Material.AIR);
-                Messenger.sendWarning("Your horse on " + NameTag.mmUsername(t) + "'s trap.", p);
-                Messenger.sendSuccess(NameTag.mmUsername(p) + "'s horse stepped on your trap.", t);
+                Messenger.sendWarning("Your horse on " + CSNameTag.mmUsername(t) + "'s trap.", p);
+                Messenger.sendSuccess(CSNameTag.mmUsername(p) + "'s horse stepped on your trap.", t);
                 h.damage(60);
             }
         }
@@ -336,7 +335,7 @@ public class Engineer extends CoinKit implements Listener {
      * Damage all enemy players within a 1 block radius
      * @param e The event called when an arrow hits a block or entity
      */
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onHitBallista(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player
                 && ballista.containsKey((Player) e.getEntity().getShooter())) {

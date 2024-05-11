@@ -1,14 +1,14 @@
 package me.huntifi.castlesiege.kits.kits.free_kits;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
@@ -61,15 +61,14 @@ public class Spearman extends FreeKit implements Listener {
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
-		super.heldItemSlot = 0;
 
 		// Weapon
-		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, spearCount),
+		es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STICK, spearCount),
 				Component.text("Spear", NamedTextColor.GREEN),
 				Collections.singletonList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA)), null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				ItemCreator.weapon(new ItemStack(Material.STICK, 4),
+				CSItemCreator.weapon(new ItemStack(Material.STICK, 4),
 						Component.text("Spear", NamedTextColor.GREEN),
 						Arrays.asList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA),
 								Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
@@ -77,18 +76,18 @@ public class Spearman extends FreeKit implements Listener {
 				0);
 
 		// Chestplate
-		es.chest = ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
+		es.chest = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
 				Component.text("Chainmail Chestplate", NamedTextColor.GREEN), null, null);
 
 		// Leggings
-		es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+		es.legs = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
 				Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
 		// Boots
-		es.feet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
+		es.feet = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
 				Component.text("Chainmail Boots", NamedTextColor.GREEN), null, null);
 		// Voted Boots
-		es.votedFeet = ItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
+		es.votedFeet = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
 				Component.text("Chainmail Boots", NamedTextColor.GREEN),
 				Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -148,7 +147,7 @@ public class Spearman extends FreeKit implements Listener {
 	 * Set the thrown spear's damage
 	 * @param e The event called when an arrow hits a player
 	 */
-	@EventHandler (priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.LOW)
 	public void changeSpearDamage(ProjectileHitEvent e) {
 		if (e.getEntity() instanceof Arrow) {
 			Arrow arrow = (Arrow) e.getEntity();
@@ -167,7 +166,7 @@ public class Spearman extends FreeKit implements Listener {
 	 * Activate the spearman ability of destroying all ladders directly below the broken one
 	 * @param e The event called when breaking a ladder
 	 */
-	@EventHandler (priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onBreakLadder(BlockBreakEvent e) {
 		Player p = e.getPlayer();
 		if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
@@ -180,6 +179,9 @@ public class Spearman extends FreeKit implements Listener {
 		}
 	}
 
+	/**
+	 * @param e When a player hits a horse, grants bonus damage
+	 */
 	@EventHandler
 	public void onDamage(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Player && e.getEntity() instanceof Horse) {

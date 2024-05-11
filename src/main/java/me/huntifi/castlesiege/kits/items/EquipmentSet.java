@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.kits.items;
 
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
+import me.huntifi.conwymc.data_types.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -60,7 +60,7 @@ public class EquipmentSet {
         if (feet != null && feet.getAmount() > 0) {
             inv.setBoots(clearDefence(feet));
             // Voted boots
-            if (ActiveData.getData(uuid).hasVote("boots") && votedFeet != null && votedFeet.getAmount() > 0) {
+            if (CSActiveData.getData(uuid).hasVote("boots") && votedFeet != null && votedFeet.getAmount() > 0) {
                 inv.setBoots(clearDefence(votedFeet));
             }
         }
@@ -76,7 +76,7 @@ public class EquipmentSet {
         }
 
         // Votes Weapon
-        if (ActiveData.getData(uuid).hasVote("sword") &&
+        if (CSActiveData.getData(uuid).hasVote("sword") &&
                 votedWeapon != null && votedWeapon.getFirst().getAmount() > 0) {
             if (votedWeapon.getSecond() == -1) {
                 inv.setItemInOffHand(votedWeapon.getFirst());
@@ -86,7 +86,7 @@ public class EquipmentSet {
         }
 
         // Votes Ladders
-        if (ActiveData.getData(uuid).hasVote("ladders") &&
+        if (CSActiveData.getData(uuid).hasVote("ladders") &&
                 votedLadders != null && votedLadders.getFirst().getAmount() > 0) {
             if (votedLadders.getSecond() == -1) {
                 inv.setItemInOffHand(votedLadders.getFirst());

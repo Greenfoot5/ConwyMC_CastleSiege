@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.events.combat;
 
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +20,9 @@ public class DamageBalance implements Listener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof Player))
+            return;
+
+        if (!CSActiveData.hasPlayer(e.getEntity().getUniqueId()))
             return;
 
         // Removes all damage if the map isn't ongoing

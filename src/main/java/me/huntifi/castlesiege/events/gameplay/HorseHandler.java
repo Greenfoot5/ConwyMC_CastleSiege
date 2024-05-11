@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.events.gameplay;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;

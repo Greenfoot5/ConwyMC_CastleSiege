@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.maps.objects;
 
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.conwymc.data_types.Tuple;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -11,6 +11,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Objects;
 
+/**
+ * A door that's opened with a lever
+ */
 public class LeverDoor extends Door {
 
     /** The default closed sound */

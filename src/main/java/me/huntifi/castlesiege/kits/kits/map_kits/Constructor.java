@@ -1,16 +1,16 @@
 package me.huntifi.castlesiege.kits.kits.map_kits;
 
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -38,6 +38,9 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * A kit that can build wooden defenses to help block off defenders
+ */
 public class Constructor extends MapKit implements Listener {
 
     private static final int health = 260;
@@ -46,27 +49,29 @@ public class Constructor extends MapKit implements Listener {
     private static final int ladderCount = 4;
     private static final int planksCount = 48;
     private static final ArrayList<Block> placedPlanks = new ArrayList<>();
-    
+
+    /**
+     * Creates a new Constructor kit
+     */
     public Constructor() {
         super("Constructor", health, regen, Material.OAK_PLANKS, "MoriaCore", "Constructor");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_AXE),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STONE_AXE),
                 Component.text("Constructor's Axe", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.STONE_AXE),
+                CSItemCreator.weapon(new ItemStack(Material.STONE_AXE),
                         Component.text("Constructor's Axe", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.NETHERITE_CHESTPLATE),
+        es.chest = CSItemCreator.item(new ItemStack(Material.NETHERITE_CHESTPLATE),
                 Component.text("Reinforced Iron Chestplate", NamedTextColor.GREEN), null, null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -76,15 +81,15 @@ public class Constructor extends MapKit implements Listener {
         es.chest.setItemMeta(chestMeta);
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(20, 19, 19));
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN), null, null, Color.fromRGB(20, 19, 19));
         // Voted Boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)), Color.fromRGB(20, 19, 19));
@@ -131,7 +136,7 @@ public class Constructor extends MapKit implements Listener {
      * @param player the player to send the error message to.
      * @return Whether they can place this block here or not. True/false
      */
-    public boolean checkPlaces(Location placerLoc, Player player) {
+    private boolean checkPlaces(Location placerLoc, Player player) {
         for (Flag flag : MapController.getCurrentMap().flags) {
             if (placerLoc.distance(flag.getSpawnPoint()) <= 6 ||
                     flag.region.contains((int) placerLoc.getX(), (int) placerLoc.getY(), (int) placerLoc.getZ())) {

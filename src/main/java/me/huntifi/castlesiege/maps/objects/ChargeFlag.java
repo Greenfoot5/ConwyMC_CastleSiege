@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.maps.objects;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -51,22 +51,6 @@ public class ChargeFlag extends Flag{
         this.additionalMinutes = additionalMinutes;
         this.additionalSeconds = additionalSeconds;
         return this;
-    }
-
-    /**
-     * Sets the spawn point for the attackers
-     * @param location The new spawn point
-     */
-    public void setAttackersSpawnPoint(Location location){
-        attackersSpawnPoint = location;
-    }
-
-    /**
-     * Sets the spawn point for the defenders
-     * @param location The new spawn point
-     */
-    public void setDefendersSpawnPoint(Location location){
-        defendersSpawnPoint = location;
     }
 
     /**

@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.commands.donator;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -116,7 +116,7 @@ public class FireworkCommand implements CommandExecutor {
      *
      * @param p the player to launch the rocket at.
      */
-    public void spawnFirework(Player p) {
+    private void spawnFirework(Player p) {
         Firework firework = Objects.requireNonNull(p.getLocation().getWorld()).spawn(p.getLocation(), Firework.class);
         FireworkMeta meta = firework.getFireworkMeta();
 

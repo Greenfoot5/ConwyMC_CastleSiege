@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.kits.kits;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * A kit that's only available on a specific map
+ */
 public abstract class MapKit extends Kit implements Listener {
 
     // Kit Tracking
@@ -28,10 +31,13 @@ public abstract class MapKit extends Kit implements Listener {
     private final String sign;
 
     /**
-     * Create a map specific kit, which are kits that can only be played on a specific map but are not bound by teams.
-     *
-     * @param name        This kit's name
-     * @param baseHealth  This kit's base health
+     * Create a Map Kit
+     * @param name       This kit's name
+     * @param baseHealth This kit's base health
+     * @param regenAmount The amount to regen every regen tick
+     * @param material The material to display in GUIS
+     * @param mapName The name of the map the kit can be used in
+     * @param signName The name to check on the sign
      */
     public MapKit(String name, int baseHealth, double regenAmount, Material material, String mapName, String signName) {
         super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_AQUA);
@@ -66,8 +72,8 @@ public abstract class MapKit extends Kit implements Listener {
     }
 
     /**
-     * Get all level kit names
-     * @return All level kit names without spaces
+     * Get all map kit names
+     * @return All map kit names without spaces
      */
     public static Collection<String> getKits() {
         return kits;
@@ -83,6 +89,10 @@ public abstract class MapKit extends Kit implements Listener {
         return text;
     }
 
+    /**
+     * Selects the kit if the player clicks the sign
+     * @param e When a player clicks a sign
+     */
     @EventHandler
     public void onClickSign(PlayerInteractEvent e) {
         // Prevent using in lobby

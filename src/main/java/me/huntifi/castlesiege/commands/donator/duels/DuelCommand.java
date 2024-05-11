@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.commands.donator.duels;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,10 +15,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * Sends a duel request to a player
+ */
 public class DuelCommand implements CommandExecutor {
 
     public static final HashMap<CommandSender, CommandSender> inviter = new HashMap<>();
-
     public static final HashMap<Player, Player> challenging = new HashMap<>();
 
     @Override
@@ -79,15 +81,6 @@ public class DuelCommand implements CommandExecutor {
         }.runTaskLater(Main.plugin, 300);
 
         return true;
-    }
-
-    /**
-     * Get the last person who challenged the specified person to a duel
-     * @param s The receiving individual
-     * @return The last sender, null if no previous invite received
-     */
-    public CommandSender getLastInviter(CommandSender s) {
-        return inviter.get(s);
     }
 
     /**

@@ -1,12 +1,12 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.death.DeathEvent;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -49,34 +49,33 @@ public class Executioner extends CoinKit implements Listener {
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
-		super.heldItemSlot = 0;
                 
 		// Weapon
-		es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
+		es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
 				Component.text("Diamond Axe", NamedTextColor.GREEN), null, null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
+				CSItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
 						Component.text("Diamond Axe", NamedTextColor.GREEN),
 						Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
 						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
                 
 		// Chestplate
-		es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+		es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
 				Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
 				Color.fromRGB(32, 32, 32));
                 
 		// Leggings
-		es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+		es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
 				Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
 				Color.fromRGB(32, 32, 32));
                 
 		// Boots
-		es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+		es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
 				Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
 		// Voted Boots
-		es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+		es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
 				Component.text("Iron Boots", NamedTextColor.GREEN),
 				Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -99,7 +98,7 @@ public class Executioner extends CoinKit implements Listener {
 	 * Decapitate an enemy if their hp is below 37%
 	 * @param e The event called when hitting another player
 	 */
-	@EventHandler (ignoreCancelled = true)
+	@EventHandler(ignoreCancelled = true)
 	public void onExecute(EntityDamageByEntityEvent e) {
 		// Both are players
 		if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player) {

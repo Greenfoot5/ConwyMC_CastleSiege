@@ -1,14 +1,14 @@
 package me.huntifi.castlesiege.kits.kits.level_kits;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.LevelKit;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -53,31 +53,33 @@ public class SpearKnight extends LevelKit implements Listener {
     // Damage multiplier when hitting horses
     private static final double HORSE_MULTIPLIER = 1.5;
 
+    /**
+     * Creates a new Spear Knight
+     */
     public SpearKnight() {
         super("Spear Knight", health, regen, Material.BLAZE_ROD, level);
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Iron Sword", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Iron Sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Weapon
-        es.offhand = ItemCreator.weapon(new ItemStack(Material.STICK, 1),
+        es.offhand = CSItemCreator.weapon(new ItemStack(Material.STICK, 1),
                 Component.text("Spear", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA)),
                 null, meleeDamage);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
+        es.chest = CSItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
                 Component.text("Iron Chestplate", NamedTextColor.GREEN), null, null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -87,14 +89,14 @@ public class SpearKnight extends LevelKit implements Listener {
         es.chest.setItemMeta(chestMeta);
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
                 Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -161,7 +163,7 @@ public class SpearKnight extends LevelKit implements Listener {
      * Set the thrown spear's damage
      * @param e The event called when an arrow hits a player
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void changeSpearDamage(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow) {
             Arrow arrow = (Arrow) e.getEntity();
@@ -176,6 +178,9 @@ public class SpearKnight extends LevelKit implements Listener {
         }
     }
 
+    /**
+     * @param e When a player hits a horse, grants bonus damage
+     */
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player && e.getEntity() instanceof Horse) {

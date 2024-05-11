@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.events.security;
 
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.maps.MapController;
 import org.bukkit.GameMode;
@@ -34,11 +35,11 @@ public class MapProtection implements Listener {
 	 * Cancels event when player places block
 	 * @param e The event called when a player places a block
 	 */
-	@EventHandler (priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.LOW)
 	 public void onBlockPlace(BlockPlaceEvent e) {
 		// Allow building in creative mode
 		Player p = e.getPlayer();
-		if (p.getGameMode() == GameMode.CREATIVE) {
+		if (p.getGameMode() == GameMode.CREATIVE || !CSActiveData.hasPlayer(p.getUniqueId())) {
 			return;
 		}
 
@@ -53,11 +54,11 @@ public class MapProtection implements Listener {
 	 * Cancels event when player destroys a block
 	 * @param e The event called when a player breaks a block
 	 */
-	@EventHandler (ignoreCancelled = true, priority = EventPriority.LOW)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
 	public void onBlockBreak(BlockBreakEvent e) {
 		// Allow breaking in creative mode
 		Player p = e.getPlayer();
-		if (p.getGameMode() == GameMode.CREATIVE) {
+		if (p.getGameMode() == GameMode.CREATIVE || !CSActiveData.hasPlayer(p.getUniqueId())) {
 			return;
 		}
 
@@ -123,7 +124,7 @@ public class MapProtection implements Listener {
 	@EventHandler
 	public void onInteractItemFrame(PlayerInteractEntityEvent e) {
 		// Allow interacting in creative mode
-		if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
+		if (e.getPlayer().getGameMode() == GameMode.CREATIVE || !CSActiveData.hasPlayer(e.getPlayer().getUniqueId())) {
 			return;
 		}
 
@@ -138,6 +139,9 @@ public class MapProtection implements Listener {
 	 */
 	@EventHandler
 	public void onDamageEntity(EntityDamageByEntityEvent e) {
+		if (!CSActiveData.hasPlayer(e.getDamager().getUniqueId()))
+			return;
+
 		// Allow breaking in creative mode
 		if (e.getDamager() instanceof Player && ((Player) e.getDamager()).getGameMode() == GameMode.CREATIVE) {
 			return;
@@ -157,7 +161,7 @@ public class MapProtection implements Listener {
 	@EventHandler
 	public void onInteractArmorStand(PlayerInteractAtEntityEvent e) {
 		// Allow interacting in creative mode
-		if (e.getPlayer().getGameMode() == GameMode.CREATIVE) {
+		if (e.getPlayer().getGameMode() == GameMode.CREATIVE || !CSActiveData.hasPlayer(e.getPlayer().getUniqueId())) {
 			return;
 		}
 
@@ -172,6 +176,9 @@ public class MapProtection implements Listener {
 	 */
 	@EventHandler
 	public void onDestroyMinecart(VehicleDestroyEvent e) {
+		if (e.getAttacker() != null && !CSActiveData.hasPlayer(e.getAttacker().getUniqueId()))
+			return;
+		
 		// Allow breaking in creative mode
 		if (e.getAttacker() instanceof Player && ((Player) e.getAttacker()).getGameMode() == GameMode.CREATIVE) {
 			return;
@@ -190,7 +197,7 @@ public class MapProtection implements Listener {
 	public void onTrample(PlayerInteractEvent e) {
 		// Allow trampling in creative mode
 		Player p = e.getPlayer();
-		if (p.getGameMode() == GameMode.CREATIVE) {
+		if (p.getGameMode() == GameMode.CREATIVE || !CSActiveData.hasPlayer(p.getUniqueId())) {
 			return;
 		}
 
@@ -206,7 +213,10 @@ public class MapProtection implements Listener {
 	 */
 	@EventHandler
 	public void onPickBerries(PlayerInteractEvent e) {
-		// Allow trampling in creative mode
+		if (!CSActiveData.hasPlayer(e.getPlayer().getUniqueId()))
+			return;
+		
+		// Allow picking in creative mode
 		Player p = e.getPlayer();
 		if (p.getGameMode() == GameMode.CREATIVE || e.getAction() != Action.RIGHT_CLICK_BLOCK) {
 			return;

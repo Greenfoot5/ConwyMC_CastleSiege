@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.events.security;
 
+import me.huntifi.castlesiege.database.CSActiveData;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +21,8 @@ public class InventoryProtection implements Listener {
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
-
+		if (!CSActiveData.hasPlayer(p.getUniqueId()))
+			return;
 		if (e.getClickedInventory() == null) { return; }
 
 		if (p.getGameMode() != GameMode.CREATIVE && e.getSlotType() == InventoryType.SlotType.ARMOR) {
@@ -37,6 +39,9 @@ public class InventoryProtection implements Listener {
 	@EventHandler
 	public void onDrop(PlayerDropItemEvent e) {
 		Player p = e.getPlayer();
+		if (!CSActiveData.hasPlayer(p.getUniqueId()))
+			return;
+
 		if (p.getGameMode() != GameMode.CREATIVE) {
 			e.setCancelled(true);
 		}

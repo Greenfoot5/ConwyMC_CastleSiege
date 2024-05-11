@@ -1,16 +1,16 @@
 package me.huntifi.castlesiege.kits.kits.in_development;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -40,6 +40,9 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * A kit that can improve teammates armour
+ */
 public class Armorer extends CoinKit implements Listener {
 
     private static final int health = 230;
@@ -50,26 +53,28 @@ public class Armorer extends CoinKit implements Listener {
 
     public static final ArrayList<Player> cooldown = new ArrayList<>();
 
+    /**
+     * Creates a new armorer
+     */
     public Armorer() {
         super("Armorer", health, regen, Material.ANVIL);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.NETHERITE_SHOVEL),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SHOVEL),
                 Component.text("Smith's Hammer", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.NETHERITE_SHOVEL),
+                CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SHOVEL),
                         Component.text("Smith's Hammer", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Armorer's Robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(50, 54, 57));
         ItemMeta chest = es.chest.getItemMeta();
@@ -80,7 +85,7 @@ public class Armorer extends CoinKit implements Listener {
         es.chest.setItemMeta(chestMeta);
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
                 Component.text("Armorer's Leggings", NamedTextColor.GREEN), null, null);
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
@@ -90,10 +95,10 @@ public class Armorer extends CoinKit implements Listener {
         es.legs.setItemMeta(legsMeta);
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Armorer's Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Armorer's Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -150,10 +155,12 @@ public class Armorer extends CoinKit implements Listener {
 
     /**
      *
-     * @param item the item to reinforce, it should be the chestplate of a player.
-     * @return a modified item
+     * @param item The armour to reinforce, it should be the chestplate of a player.
+     * @param smith Who is improving the amour
+     * @param target The player whose armour is being reinforced
+     * @return The reinforced item
      */
-    public ItemStack addDefence(ItemStack item, Player smith, Player target) {
+    private ItemStack addDefence(ItemStack item, Player smith, Player target) {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         AttributeModifier modifier = new AttributeModifier("generic.armor", 2.0, AttributeModifier.Operation.ADD_NUMBER);
@@ -165,8 +172,8 @@ public class Armorer extends CoinKit implements Listener {
             meta.lore(Collections.singletonList(Component.text("- Reinforced", NamedTextColor.AQUA)));
             meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, level(armor), false);
             item.setItemMeta(meta);
-            Messenger.sendActionInfo(NameTag.mmUsername(smith) + " has reinforced your armor", target);
-            Messenger.sendActionInfo("You are reinforcing " + NameTag.mmUsername(target) + "'s armor", smith);
+            Messenger.sendActionInfo(CSNameTag.mmUsername(smith) + " has reinforced your armor", target);
+            Messenger.sendActionInfo("You are reinforcing " + CSNameTag.mmUsername(target) + "'s armor", smith);
             addPotionEffect(smith, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () ->
                     UpdateStats.addSupports(smith.getUniqueId(), 2), cooldownTicks);
@@ -177,7 +184,11 @@ public class Armorer extends CoinKit implements Listener {
         return item;
     }
 
-    public int level (double armor) {
+    /**
+     * @param armor The armour to improve
+     * @return The level of improvement to provide
+     */
+    private int level (double armor) {
         switch ((int) armor) {
             case 2: return 0;
             case 4: return 1;
@@ -193,7 +204,7 @@ public class Armorer extends CoinKit implements Listener {
      * @param target the player to reinforce
      * @param self the smith/armorer that is reinforcing
      */
-    public void reinforceArmor(Player target, Player self) {
+    private void reinforceArmor(Player target, Player self) {
         if (target.getInventory().getChestplate() == null) {
             return;
         }

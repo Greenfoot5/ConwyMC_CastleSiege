@@ -1,10 +1,10 @@
 package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -24,6 +24,9 @@ import java.util.Objects;
 
 public class MoriaGuardian extends TeamKit implements Listener {
 
+    /**
+     * Creates a new Moria Guardian
+     */
     public MoriaGuardian() {
         super("Guardian", 620, 15, "Moria",
                 "The Dwarves", 5000, Material.SHIELD,
@@ -31,37 +34,36 @@ public class MoriaGuardian extends TeamKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                 Component.text("Sword", NamedTextColor.GREEN), null, null, 41);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         Component.text("Sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 43),
                 0);
 
         // Shield
-        es.offhand = ItemCreator.item(new ItemStack(Material.SHIELD),
+        es.offhand = CSItemCreator.item(new ItemStack(Material.SHIELD),
                 Component.text("Shield", NamedTextColor.GREEN), null, null);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
+        es.chest = CSItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
                 Component.text("Iron Chestplate", NamedTextColor.GREEN), null, Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_PROJECTILE, 2)));
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.NETHERITE_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.NETHERITE_LEGGINGS),
                 Component.text("Reinforced Iron Leggings", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_PROJECTILE, 2)));
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));

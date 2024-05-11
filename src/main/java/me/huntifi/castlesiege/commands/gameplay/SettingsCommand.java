@@ -1,13 +1,13 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.data_types.Setting;
-import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.gui.Gui;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.castlesiege.data_types.CSSetting;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.Scoreboard;
+import me.huntifi.conwymc.data_types.Setting;
+import me.huntifi.conwymc.gui.Gui;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -24,9 +24,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Allows players to view and edit their Castle Siege settings
+ */
 public class SettingsCommand implements TabExecutor {
     private static final HashMap<UUID, Gui> guis = new HashMap<>();
-    public static final Setting[] SETTINGS = Setting.generateSettings();
+    public static final Setting[] CS_SETTINGS = CSSetting.generateSettings();
 
 
     @Override
@@ -56,7 +59,7 @@ public class SettingsCommand implements TabExecutor {
         }
 
         UUID uuid = player.getUniqueId();
-        PlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
         if (args.length == 1) {
             Messenger.sendInfo("Current value is <dark_aqua>" + data.getSetting(setting.key) + "</dark_aqua>. " +
                     "All possible values: <dark_aqua>" + Arrays.toString(setting.values), sender);
@@ -77,9 +80,12 @@ public class SettingsCommand implements TabExecutor {
 
         } else if (value.equals("reset")) {
             data.setSetting(uuid, setting.key, setting.values[0]);
-            Messenger.sendInfo(setting + " reset to " + setting.values[0], sender);
+            Messenger.sendInfo("<dark_aqua>" + Messenger.mm.serialize(setting.displayName) + "</dark_aqua> reset to <dark_aqua>" + setting.values[0], sender);
+
+            if (args[0].equalsIgnoreCase("scoreboard"))
+                Scoreboard.clearScoreboard(player);
         } else {
-            Messenger.sendError("Invalid Value. Possible values: " + Arrays.toString(setting.values), sender);
+            Messenger.sendError("Invalid Value. Possible values: <red>" + Arrays.toString(setting.values), sender);
         }
 
         return true;
@@ -112,63 +118,32 @@ public class SettingsCommand implements TabExecutor {
     private void setGuiItems(UUID player) {
         Gui gui = guis.get(player);
 
-        for (int i = 0; i < SETTINGS.length; i++) {
-            Setting setting = new Setting(SETTINGS[i]);
-            String currentValue = ActiveData.getData(player).getSetting(setting.key);
+        for (int i = 0; i < CS_SETTINGS.length; i++) {
+            Setting setting = new Setting(CS_SETTINGS[i]);
+            String currentValue = CSActiveData.getData(player).getSetting(setting.key);
             String nextValue = setting.values[(Arrays.asList(setting.values).indexOf(currentValue) + 1) % setting.values.length];
             String command = String.format("settings %s %s", setting.key, nextValue);
             List<Component> lore = new ArrayList<>(setting.itemLore);
-            lore.add(MiniMessage.miniMessage().deserialize("<color:#87cbf8>Current Value:</color> <dark_aqua>" + currentValue + "</dark_aqua>"));
+            lore.add(Messenger.mm.deserialize("<color:#87cbf8>Current Value:</color> <dark_aqua>" + currentValue + "</dark_aqua>"));
 
             gui.addItem(setting.displayName, setting.material, lore, i, command, false);
         }
-//
-//
-//
-//        switch (setting.key) {
-//            case "randomDeath":
-//                gui.addItem(itemName, Material.COOKIE, Collections.singletonList(
-//                        Component.text("Each time you die, runs /random to give you a new random class", NamedTextColor.BLUE)),
-//                        0, command, false);
-//                break;
-//            case "deathMessages":
-//                gui.addItem(itemName, Material.OAK_SIGN, Collections.singletonList(
-//                        Component.text("View all death messages, not just your own", NamedTextColor.BLUE)),
-//                        1, command, false);
-//                break;
-//            case "joinPing":
-//                gui.addItem(itemName, Material.NOTE_BLOCK, Collections.singletonList(
-//                        Component.text("Get a ping sound when another player joins the server", NamedTextColor.BLUE)),
-//                        2, command, false);
-//                break;
-//            case "statsBoard":
-//                gui.addItem(itemName, Material.DIAMOND, Collections.singletonList(
-//                        Component.text("The scoreboard will show your current game stats instead of flag names", NamedTextColor.BLUE)),
-//                        3, command, false);
-//                break;
-//            case "woolmapTitleMessage":
-//                gui.addItem(itemName, Material.PAPER, Collections.singletonList(
-//                        Component.text("Displays a title message reminding you of the woolmap", NamedTextColor.BLUE)),
-//                        4, command, false);
-//                break;
-//            case "alwaysInfo":
-//                gui.addItem(itemName, Material.BLUE_WOOL, Collections.singletonList(
-//                        Component.text("Always display level dependent info messages", NamedTextColor.BLUE)),
-//                        6, command, false);
-//                break;
-//        }
     }
 
     private static List<String> getKeys() {
         List<String> keys = new ArrayList<>();
-        for (Setting setting : SETTINGS) {
+        for (Setting setting : CS_SETTINGS) {
             keys.add(setting.key);
         }
         return keys;
     }
 
-    public static Setting getSetting(String name) {
-        for (Setting setting : SETTINGS) {
+    /**
+     * @param name The setting to get
+     * @return The player's value, or the default if not set, or null if no setting exists
+     */
+    private static Setting getSetting(String name) {
+        for (Setting setting : CS_SETTINGS) {
             if (setting.displayName.content().equals(name) || Objects.equals(setting.key, name))
                 return setting;
         }

@@ -3,15 +3,15 @@ package me.huntifi.castlesiege.commands.gameplay;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.Booster;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.data_types.CoinBooster;
 import me.huntifi.castlesiege.data_types.KitBooster;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.gui.Gui;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.conwymc.gui.Gui;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
@@ -59,7 +59,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
     private void showBoosters(@NotNull CommandSender sender) {
         Player player = (Player) sender;
         UUID uuid = player.getUniqueId();
-        PlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
 
         Gui gui = createGUI(data.getBoosters());
         gui.open(player);
@@ -69,7 +69,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
      * @param boosters The boosters to add to the gui
      * @return The Gui with the boosters in
      */
-    public static Gui createGUI(List<Booster> boosters) {
+    private static Gui createGUI(List<Booster> boosters) {
         Gui gui = new Gui(Component.text("Booster Selection"), (boosters.size() / 9 + 1), true);
         boosters.sort(Booster::compareTo);
         for (int i = 0; i < boosters.size(); i++) {
@@ -82,7 +82,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
     private void useBooster(@NotNull CommandSender sender, @NotNull String[] args) {
         Player player = (Player) sender;
         UUID uuid = player.getUniqueId();
-        PlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
         int id = Integer.parseInt(args[1]);
         for (Booster booster : data.getBoosters()) {
             if (booster.id == id) {
@@ -129,7 +129,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
                         });
                         return;
                     }
-                } 
+                }
 
                 // Activate the booster
                 Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
@@ -143,6 +143,10 @@ public class BoosterCommand implements CommandExecutor, Listener {
         Messenger.sendError("You don't own a booster with that id!", sender);
     }
 
+    /**
+     * Called when a player sends a message for input
+     * @param e The chat event
+     */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChat(AsyncChatEvent e) {
 
@@ -160,7 +164,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
         if (kit instanceof CoinKit) {
             KitBooster booster = waitingForWildKit.get(uuid);
             booster.kitName = message;
-            PlayerData data = ActiveData.getData(uuid);
+            CSPlayerData data = CSActiveData.getData(uuid);
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 data.useBooster(uuid, booster);
                 removeBooster(booster.id, uuid);
@@ -176,7 +180,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
         PreparedStatement ps;
         try {
             ps = Main.SQL.getConnection().prepareStatement(
-                    "DELETE FROM player_boosters WHERE booster_id = ? AND uuid = ?");
+                    "DELETE FROM player_boosters WHERE ID = ? AND uuid = ?");
             ps.setInt(1, boostId);
             ps.setString(2, uuid.toString());
             ps.executeUpdate();

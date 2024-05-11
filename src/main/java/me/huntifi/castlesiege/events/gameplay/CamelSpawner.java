@@ -13,6 +13,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Handles spawning of camels
+ */
 public class CamelSpawner {
 
     // Camel attributes

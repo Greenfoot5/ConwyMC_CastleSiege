@@ -1,13 +1,13 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.curses.BindingCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -66,7 +66,7 @@ public class RandomKitCommand implements CommandExecutor, Listener {
         }
 
         // Get unlocked kits, or all if it's Friday
-        Collection<String> unlockedKits = CoinKit.isFree() ? Kit.getKits() : ActiveData.getData(uuid).getUnlockedKits();
+        Collection<String> unlockedKits = CoinKit.isFree() ? Kit.getKits() : CSActiveData.getData(uuid).getUnlockedKits();
         ArrayList<Kit> kits = new ArrayList<>();
 
         unlockedKits.forEach((kitName) -> {
@@ -80,11 +80,17 @@ public class RandomKitCommand implements CommandExecutor, Listener {
         kits.get(new Random().nextInt(kits.size())).addPlayer(uuid, true);
     }
 
+    /**
+     * @param curse When the binding curse is activated
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void bindingActive(BindingCurse curse) {
         activeBindings.add(curse.getPlayer());
     }
 
+    /**
+     * @param curse When a curse expires
+     */
     @EventHandler(ignoreCancelled = true)
     public void bindingExpired(CurseExpired curse) {
         if (Objects.equals(curse.getDisplayName(), BindingCurse.name))
