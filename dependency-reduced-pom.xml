@@ -115,6 +115,10 @@
       <url>https://maven.pkg.github.com/AdminHuntifi/ConwyMC-global</url>
     </repository>
     <repository>
+      <id>fren_gor</id>
+      <url>https://nexus.frengor.com/repository/public/</url>
+    </repository>
+    <repository>
       <id>jitpack</id>
       <url>https://jitpack.io</url>
     </repository>
@@ -123,7 +127,7 @@
     <dependency>
       <groupId>com.github.AdminHuntifi</groupId>
       <artifactId>conwymc-global</artifactId>
-      <version>0.0.23</version>
+      <version>0.0.24-fix</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -197,6 +201,12 @@
       <artifactId>gson</artifactId>
       <version>2.9.0</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.frengor</groupId>
+      <artifactId>ultimateadvancementapi</artifactId>
+      <version>2.2.8</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <distributionManagement>

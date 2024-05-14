@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.castlesiege.events.LevelUpEvent;
 import me.huntifi.conwymc.events.nametag.UpdateNameTagEvent;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
@@ -105,12 +106,10 @@ public class UpdateStats {
                     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                     p.setLevel(level);
                     Bukkit.getScheduler().runTask(Main.plugin,
-                            () -> Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(p)));
-
-                    // Announce every 5th level
-                    if (level % 5 == 0) {
-                        Messenger.broadcastCongrats(p.getName() + " has reached level " + level + "!");
-                    }
+                            () -> {
+                                Bukkit.getPluginManager().callEvent(new LevelUpEvent(p, level));
+                                Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(p));
+                            });
                 }
             }
         }.runTaskAsynchronously(Main.plugin);

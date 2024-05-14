@@ -11,6 +11,7 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
+import me.huntifi.castlesiege.advancements.CSAdvancementController;
 import me.huntifi.castlesiege.commands.chat.TeamChatCommand;
 import me.huntifi.castlesiege.commands.donator.FireworkCommand;
 import me.huntifi.castlesiege.commands.donator.duels.AcceptDuelCommand;
@@ -409,6 +410,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new CSNameTag(), plugin);
                 getServer().getPluginManager().registerEvents(new RandomKitCommand(), plugin);
                 getServer().getPluginManager().registerEvents(new WoolHat(), plugin);
+                getServer().getPluginManager().registerEvents(new CSAdvancementController(), plugin);
 
                 // Chat
                 Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChatCommand());
