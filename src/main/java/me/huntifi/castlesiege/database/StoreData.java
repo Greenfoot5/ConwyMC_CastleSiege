@@ -50,7 +50,7 @@ public class StoreData {
     private static void storeStats(UUID uuid, CSPlayerData data) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "UPDATE cs_stats SET score = ?, kills = ?, deaths = ?, assists = ?, captures = ?, heals = ?, "
-                        + "supports = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ? WHERE UUID = ?");
+                        + "supports = ?, mvps = ?, level = ?, kill_streak = ?, kit = ? WHERE UUID = ?");
         ps.setDouble(1, data.getScore());
         ps.setDouble(2, data.getKills());
         ps.setDouble(3, data.getDeaths());
@@ -58,12 +58,11 @@ public class StoreData {
         ps.setDouble(5, data.getCaptures());
         ps.setDouble(6, data.getHeals());
         ps.setDouble(7, data.getSupports());
-        ps.setInt(9, data.getMVPs());
-        ps.setInt(10, data.getSecrets());
-        ps.setInt(11, data.getLevel());
-        ps.setInt(12, data.getMaxKillStreak());
-        ps.setString(13, data.getKit());
-        ps.setString(14, uuid.toString());
+        ps.setInt(8, data.getMVPs());
+        ps.setInt(9, data.getLevel());
+        ps.setInt(10, data.getMaxKillStreak());
+        ps.setString(11, data.getKit());
+        ps.setString(12, uuid.toString());
         ps.executeUpdate();
         ps.close();
     }

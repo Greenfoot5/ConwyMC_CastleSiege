@@ -13,6 +13,8 @@ public class CSAdvancementController implements Listener {
     public CSAdvancementController() {
         api = UltimateAdvancementAPI.getInstance(ConwyMC.plugin);
         ConwyMC.plugin.getServer().getPluginManager().registerEvents(new LevelAdvancements(), ConwyMC.plugin);
+
+        ConwyMC.plugin.getServer().getPluginManager().registerEvents(new TutorialAdvancements(), ConwyMC.plugin);
     }
 
     @EventHandler
@@ -22,5 +24,8 @@ public class CSAdvancementController implements Listener {
         // Here you can show tabs to players
         LevelAdvancements.advancementTab.showTab(p);
         LevelAdvancements.advancementTab.grantRootAdvancement(p);
+        // Here you can show tabs to players
+        TutorialAdvancements.tab.showTab(p);
+        TutorialAdvancements.tab.grantRootAdvancement(p);
     }
 }
