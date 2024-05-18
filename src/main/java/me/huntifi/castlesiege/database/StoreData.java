@@ -48,7 +48,6 @@ public class StoreData {
     }
 
     private static void storeStats(UUID uuid, CSPlayerData data) throws SQLException {
-        System.out.println("Saving data for " + uuid);
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "UPDATE cs_stats SET score = ?, kills = ?, deaths = ?, assists = ?, captures = ?, heals = ?, "
                         + "supports = ?, mvps = ?, level = ?, kill_streak = ?, kit = ? WHERE UUID = ?");
