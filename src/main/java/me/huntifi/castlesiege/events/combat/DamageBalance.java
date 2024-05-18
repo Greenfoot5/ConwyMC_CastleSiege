@@ -62,6 +62,9 @@ public class DamageBalance implements Listener {
             case ENTITY_EXPLOSION:
                 e.setDamage(e.getDamage() * 15);
                 break;
+            case VOID:
+                e.setDamage(e.getDamage() * 30);
+                break;
         }
     }
 }
