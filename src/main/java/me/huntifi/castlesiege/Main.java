@@ -185,6 +185,7 @@ import net.megavex.scoreboardlibrary.api.exception.NoPacketAdapterAvailableExcep
 import net.megavex.scoreboardlibrary.api.noop.NoopScoreboardLibrary;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -578,7 +579,7 @@ public class Main extends JavaPlugin implements Listener {
         scoreboardLibrary.close();
 
         // Unload all worlds
-        for (World world:Bukkit.getWorlds()) {
+        for (World world : Bukkit.getWorlds()) {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all flush");
             Bukkit.unloadWorld(world, false);
         }
@@ -628,6 +629,7 @@ public class Main extends JavaPlugin implements Listener {
         worldCreator.generateStructures(false);
         World world = worldCreator.createWorld();
         assert world != null;
+        world.setGameRule(GameRule.KEEP_INVENTORY, true);
         world.setAutoSave(false);
     }
 
