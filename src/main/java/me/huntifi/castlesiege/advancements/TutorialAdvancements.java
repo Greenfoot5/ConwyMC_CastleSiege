@@ -23,7 +23,7 @@ public class TutorialAdvancements implements Listener {
         // Cannons?
         rootNode.addChild(new AdvancementNode(Material.BLACK_CONCRETE, AdvancementFrameType.TASK,
                 "Shooting Cannons", "Fire a cannon", "Castle Siege"));
-        rootNode.addChild(new AdvancementNode(Material.OAK_BOAT, AdvancementFrameType.TASK,
+        rootNode.addChild(new AdvancementNode(Material.OAK_BOAT, AdvancementFrameType.CHALLENGE,
                 "You sunk my battleship", "Kill a player with a cannon", "Shooting Cannons"));
 
         // Catapults
@@ -32,7 +32,7 @@ public class TutorialAdvancements implements Listener {
                 "Castle Siege"));
         rootNode.addChild(new AdvancementNode(Material.TARGET, AdvancementFrameType.TASK,
                 "Aim carefully", "Adjust pitch & yaw for a catapult and then fire", "Firing Catapults"));
-        rootNode.addChild(new AdvancementNode(Material.SKELETON_SKULL, AdvancementFrameType.TASK,
+        rootNode.addChild(new AdvancementNode(Material.SKELETON_SKULL, AdvancementFrameType.CHALLENGE,
                 "Master catapulteer", "Kill a player with a catapult", "Aim carefully"));
 
         // Rams
@@ -50,7 +50,7 @@ public class TutorialAdvancements implements Listener {
         rootNode.addChild(new AdvancementNode(Material.RED_WOOL, AdvancementFrameType.TASK,
                 "Capturing Flags", "Help capture a flag", "Castle Siege"));
         rootNode.addChild(new AdvancementNode(Material.BLACK_WOOL, AdvancementFrameType.TASK,
-                "Shh, it's a secret!", "Discover a secret flag", "Capturing Flags"));
+                "Shh, it's a secret...", "Discover a secret flag", "Capturing Flags"));
         rootNode.addChild(new AdvancementNode(Material.BLUE_WOOL, AdvancementFrameType.GOAL,
                 "A finger in every pie", "Help capture every capturable flag on a map",
                 "Capturing Flags"));
