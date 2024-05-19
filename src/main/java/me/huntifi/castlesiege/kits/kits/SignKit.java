@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -114,11 +115,12 @@ public abstract class SignKit extends Kit implements Listener {
      */
     @EventHandler
     public void onClickSign(PlayerInteractEvent e) {
-        // Prevent using in lobby
-        if (!InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
+        // Only allow use in lobby
+        if (!InCombat.isPlayerInLobby(e.getPlayer().getUniqueId()) || e.getHand() != EquipmentSlot.HAND) {
             return;
         }
-        if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
+
+        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK) &&
                 Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
             Sign sign = (Sign) e.getClickedBlock().getState();
             StringBuilder content = new StringBuilder();
@@ -128,7 +130,14 @@ public abstract class SignKit extends Kit implements Listener {
             {
                 content.append(" ").append(PlainTextComponentSerializer.plainText().serialize(line).toLowerCase());
                 if (content.toString().contains(this.name.toLowerCase()) || content.toString().contains(getSpacelessName().toLowerCase())) {
-                    e.getPlayer().performCommand(name.toLowerCase());
+                    // TODO - Work out why it's triggered twice
+                    if (e.isCancelled()) {
+                        System.out.println("Cancelled");
+                        return;
+                    }
+
+                    e.setCancelled(true);
+                    e.getPlayer().performCommand(getSpacelessName());
                 }
             }
         }
