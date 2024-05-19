@@ -1350,10 +1350,12 @@ public class Main extends JavaPlugin implements Listener {
      */
     private String[] getPaths(YamlDocument file, Route route) {
         Set<String> set;
-        if (route != null) {
-            set = file.getSection(route).getRoutesAsStrings(false);
-        } else {
+        if (route == null) {
             set = file.getRoutesAsStrings(false);
+        } else if (file.getOptionalSection(route).isEmpty()) {
+            return new String[0];
+        } else {
+            set = file.getSection(route).getRoutesAsStrings(false);
         }
         String[] paths = new String[set.size()];
         int index = 0;
