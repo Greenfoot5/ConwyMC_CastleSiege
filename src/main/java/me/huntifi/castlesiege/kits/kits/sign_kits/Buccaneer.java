@@ -1,10 +1,11 @@
-package me.huntifi.castlesiege.kits.kits.map_kits;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
-import me.huntifi.castlesiege.kits.kits.MapKit;
-import org.bukkit.ChatColor;
+import me.huntifi.castlesiege.kits.kits.SignKit;
+import me.huntifi.conwymc.data_types.Tuple;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -20,7 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Buccaneer extends MapKit {
+public class Buccaneer extends SignKit {
 
     private static final int health = 360;
     private static final double regen = 10.5;
@@ -28,26 +29,25 @@ public class Buccaneer extends MapKit {
     private static final int ladderCount = 4;
 
     public Buccaneer() {
-        super("Buccaneer", health, regen, Material.OAK_BOAT, "Rumrage", "Buccaneer");
+        super("Buccaneer", health, regen, Material.OAK_BOAT, "Buccaneer");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STONE_AXE),
-                ChatColor.GREEN + "Constructor's Axe", null, null, meleeDamage);
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STONE_AXE),
+                Component.text("Constructor's Axe", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.STONE_AXE),
-                        ChatColor.GREEN + "Constructor's Axe",
-                        Collections.singletonList(ChatColor.AQUA + "- voted: +2 damage"),
+                CSItemCreator.weapon(new ItemStack(Material.STONE_AXE),
+                        Component.text("Constructor's Axe", NamedTextColor.GREEN),
+                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.NETHERITE_CHESTPLATE),
-                ChatColor.GREEN + "Reinforced-iron Chestplate", null, null);
+        es.chest = CSItemCreator.item(new ItemStack(Material.NETHERITE_CHESTPLATE),
+                Component.text("Reinforced-iron Chestplate", NamedTextColor.GREEN), null, null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
@@ -56,17 +56,17 @@ public class Buccaneer extends MapKit {
         es.chest.setItemMeta(chestMeta);
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                ChatColor.GREEN + "Leather Leggings", null, null,
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(20, 19, 19));
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Iron Boots", null, null, Color.fromRGB(20, 19, 19));
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+                Component.text("Iron Boots", NamedTextColor.GREEN), null, null, Color.fromRGB(20, 19, 19));
         // Voted Boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                ChatColor.GREEN + "Iron Boots",
-                Collections.singletonList(ChatColor.AQUA + "- voted: Depth Strider II"),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)), Color.fromRGB(20, 19, 19));
 
         // Ladders
@@ -81,7 +81,7 @@ public class Buccaneer extends MapKit {
     }
 
     @Override
-    public ArrayList<String> getGuiDescription() {
+    public ArrayList<Component> getGuiDescription() {
         return null;
     }
 }

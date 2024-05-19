@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.MapBorder;
+import me.huntifi.castlesiege.maps.objects.Cannon;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Door;

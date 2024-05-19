@@ -1,10 +1,10 @@
-package me.huntifi.castlesiege.kits.kits.map_kits;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.MapKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.maps.CoreMap;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.objects.Core;
@@ -41,7 +41,7 @@ import java.util.UUID;
 /**
  * A kit that can build wooden defenses to help block off defenders
  */
-public class Constructor extends MapKit implements Listener {
+public class Constructor extends SignKit implements Listener {
 
     private static final int health = 260;
     private static final double regen = 10.5;
@@ -54,7 +54,7 @@ public class Constructor extends MapKit implements Listener {
      * Creates a new Constructor kit
      */
     public Constructor() {
-        super("Constructor", health, regen, Material.OAK_PLANKS, "MoriaCore", "Constructor");
+        super("Constructor", health, regen, Material.OAK_PLANKS, "Constructor");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

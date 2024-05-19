@@ -21,10 +21,11 @@ import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.MapKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.events.NextMapEvent;
+import me.huntifi.castlesiege.maps.objects.Cannon;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Door;
@@ -558,7 +559,7 @@ public class MapController {
 					Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
 				}
 
-				// Register catapults
+				// Register cannons
 				for (Cannon cannon : maps.get(mapIndex).cannons) {
 					Main.plugin.getServer().getPluginManager().registerEvents(cannon, Main.plugin);
 				}
@@ -629,7 +630,7 @@ public class MapController {
 		if (kit == null)
 			return;
 
-		if (kit instanceof TeamKit || kit instanceof MapKit) {
+		if (kit instanceof TeamKit || kit instanceof SignKit) {
 			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
 			CSActiveData.getData(player.getUniqueId()).setKit("swordsman");
 		}

@@ -110,18 +110,16 @@ import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.free_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.kits.kits.map_kits.Artillerist;
-import me.huntifi.castlesiege.kits.kits.map_kits.CamelRider;
-import me.huntifi.castlesiege.kits.kits.map_kits.Constructor;
 import me.huntifi.castlesiege.kits.kits.in_development.Armorer;
 import me.huntifi.castlesiege.kits.kits.in_development.Bannerman;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
-import me.huntifi.castlesiege.kits.kits.map_kits.CamelRider;
-import me.huntifi.castlesiege.kits.kits.map_kits.Constructor;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Artillerist;
+import me.huntifi.castlesiege.kits.kits.sign_kits.CamelRider;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Constructor;
 import me.huntifi.castlesiege.kits.kits.staff_kits.Warbear;
-import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyArbalester;
+import me.huntifi.castlesiege.kits.kits.sign_kits.ConwyArbalester;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyLongbowman;
 import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyRoyalKnight;
 import me.huntifi.castlesiege.kits.kits.team_kits.firelands.FirelandsAbyssal;
@@ -156,6 +154,7 @@ import me.huntifi.castlesiege.maps.WoolMapBlock;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.maps.objects.ButtonDoor;
+import me.huntifi.castlesiege.maps.objects.Cannon;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.ChargeFlag;
 import me.huntifi.castlesiege.maps.objects.Core;
@@ -358,6 +357,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Kits
                 getServer().getPluginManager().registerEvents(new Alchemist(), plugin);
+                getServer().getPluginManager().registerEvents(new Artillerist(), plugin);
                 getServer().getPluginManager().registerEvents(new Armorer(), plugin);
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Barbarian(), plugin);
@@ -1321,13 +1321,12 @@ public class Main extends JavaPlugin implements Listener {
         for (int i = 0; i < cannonPaths.length; i++) {
 
             Route cannonRoute = mapRoute.add(cannonPaths[i]);
-                String world = cannonConfig.getString(cannonRoute.add("world"));
             String direction = cannonConfig.getString(cannonRoute.add("direction"));
-            Vector location = cannonConfig.getAs(cannonRoute.add("location"), Vector.class);
-            double horizontal = cannonConfig.getDouble(cannonRoute.add("horizontal_angle"));
+            Location location = getLocation(cannonRoute.add("location"), map.worldName, cannonConfig);
+            double horizontal = cannonConfig.getDouble(cannonRoute.add("yaw"));
             double vertical = cannonConfig.getDouble(cannonRoute.add("power"));
 
-            Cannon cannon = new Cannon(world, direction, location, horizontal, vertical);
+            Cannon cannon = new Cannon(direction, location, horizontal, vertical);
             map.cannons[i] = cannon;
         }
 

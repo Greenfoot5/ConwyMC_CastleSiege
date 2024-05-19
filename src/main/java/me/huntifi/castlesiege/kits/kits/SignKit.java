@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.kits.kits;
 
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
-import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -19,16 +20,37 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A kit that's only available on a specific map
  */
-public abstract class MapKit extends Kit implements Listener {
+public abstract class SignKit extends Kit implements Listener {
+
+    private final int cost;
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
-    private final String map;
-    private final String sign;
+    private final String signName;
+
+    /**
+     * Create a Sign Kit
+     * @param name       This kit's name
+     * @param baseHealth This kit's base health
+     * @param regenAmount The amount to regen every regen tick
+     * @param material The material to display in GUIS
+     * @param signName The name to check on the signName
+     * @param cost The cost of the kit
+     */
+    public SignKit(String name, int baseHealth, double regenAmount, Material material, String signName, int cost) {
+        super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_AQUA);
+
+        if (!kits.contains(getSpacelessName()))
+            kits.add(getSpacelessName());
+        this.signName = signName.toLowerCase();
+
+        this.cost = cost;
+    }
 
     /**
      * Create a Map Kit
@@ -36,16 +58,16 @@ public abstract class MapKit extends Kit implements Listener {
      * @param baseHealth This kit's base health
      * @param regenAmount The amount to regen every regen tick
      * @param material The material to display in GUIS
-     * @param mapName The name of the map the kit can be used in
-     * @param signName The name to check on the sign
+     * @param signName The name to check on the signName
      */
-    public MapKit(String name, int baseHealth, double regenAmount, Material material, String mapName, String signName) {
+    public SignKit(String name, int baseHealth, double regenAmount, Material material, String signName) {
         super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_AQUA);
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
-        map = mapName;
-        sign = signName;
+        this.signName = signName;
+
+        this.cost = -1;
     }
 
     /**
@@ -57,18 +79,20 @@ public abstract class MapKit extends Kit implements Listener {
      */
     @Override
     public boolean canSelect(CommandSender sender, boolean applyLimit, boolean verbose, boolean isRandom) {
-        if (!super.canSelect(sender, applyLimit, verbose, isRandom))
-            return false;
-
-        boolean canPlay = MapController.getCurrentMap().worldName.equalsIgnoreCase(map);
-        if (!canPlay) {
+        UUID uuid = ((Player) sender).getUniqueId();
+        boolean hasKit = CSActiveData.getData(uuid).hasKit(getSpacelessName());
+        if (!hasKit && cost > 0) {
             if (verbose) {
-                Messenger.sendError(String.format("You can't use %s on this map!", name), sender);
+                if (Kit.equippedKits.get(uuid) == null) {
+                    Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
+                } else {
+                    Messenger.sendError(String.format("You don't own %s!", name), sender);
+                }
             }
             return false;
         }
 
-        return true;
+        return super.canSelect(sender, applyLimit, verbose, isRandom);
     }
 
     /**
@@ -85,13 +109,13 @@ public abstract class MapKit extends Kit implements Listener {
     public ArrayList<Component> getGuiCostText() {
         ArrayList<Component> text = new ArrayList<>();
         text.add(Component.empty());
-        text.add(Component.text("Can be played on " + map + "!", color).decorate(TextDecoration.BOLD));
+        text.add(Component.text("Can be played via signs in map lobbies", color).decorate(TextDecoration.BOLD));
         return text;
     }
 
     /**
-     * Selects the kit if the player clicks the sign
-     * @param e When a player clicks a sign
+     * Selects the kit if the player clicks the signName
+     * @param e When a player clicks a signName
      */
     @EventHandler
     public void onClickSign(PlayerInteractEvent e) {
@@ -101,11 +125,15 @@ public abstract class MapKit extends Kit implements Listener {
         }
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
                 Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
-            Sign asign = (Sign) e.getClickedBlock().getState();
-            String mapKit = PlainTextComponentSerializer.plainText().serialize(asign.getSide(Side.FRONT).line(0));
-            String kitName = PlainTextComponentSerializer.plainText().serialize(asign.getSide(Side.FRONT).line(2));
-            if (mapKit.contains("Map Kit") && kitName.contains(sign)) {
-                e.getPlayer().performCommand(name.toLowerCase());
+            Sign sign = (Sign) e.getClickedBlock().getState();
+
+            // Check if sign has sign name
+            for (Component line : sign.getSide(Side.FRONT).lines())
+            {
+                String content = PlainTextComponentSerializer.plainText().serialize(line).toLowerCase();
+                if (content.contains(this.signName)) {
+                    e.getPlayer().performCommand(name.toLowerCase());
+                }
             }
         }
     }

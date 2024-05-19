@@ -3,7 +3,7 @@ package me.huntifi.castlesiege.maps.objects;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.map_kits.Artillerist;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Artillerist;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
