@@ -1,10 +1,10 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -25,14 +25,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
-public class HelmsDeepRangedCavalry extends TeamKit implements Listener {
+public class RangedCavalry extends SignKit implements Listener {
 
     /**
      * Creates a new Helms Deep Ranged Cavalry
      */
-    public HelmsDeepRangedCavalry() {
-        super("Ranged Cavalry", 230, 9, "Helm's Deep",
-                "Rohan", 2500, Material.BOW, "helmsdeeprangedcavalry");
+    public RangedCavalry() {
+        super("Ranged Cavalry", 230, 9, Material.BOW, 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

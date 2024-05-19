@@ -54,7 +54,7 @@ public class Constructor extends SignKit implements Listener {
      * Creates a new Constructor kit
      */
     public Constructor() {
-        super("Constructor", health, regen, Material.OAK_PLANKS, "Constructor");
+        super("Constructor", health, regen, Material.OAK_PLANKS);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

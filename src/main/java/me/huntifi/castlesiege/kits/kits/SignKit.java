@@ -31,7 +31,6 @@ public abstract class SignKit extends Kit implements Listener {
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
-    private final String signName;
 
     /**
      * Create a Sign Kit
@@ -39,15 +38,13 @@ public abstract class SignKit extends Kit implements Listener {
      * @param baseHealth This kit's base health
      * @param regenAmount The amount to regen every regen tick
      * @param material The material to display in GUIS
-     * @param signName The name to check on the signName
      * @param cost The cost of the kit
      */
-    public SignKit(String name, int baseHealth, double regenAmount, Material material, String signName, int cost) {
+    public SignKit(String name, int baseHealth, double regenAmount, Material material, int cost) {
         super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_AQUA);
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
-        this.signName = signName.toLowerCase();
 
         this.cost = cost;
     }
@@ -58,14 +55,12 @@ public abstract class SignKit extends Kit implements Listener {
      * @param baseHealth This kit's base health
      * @param regenAmount The amount to regen every regen tick
      * @param material The material to display in GUIS
-     * @param signName The name to check on the signName
      */
-    public SignKit(String name, int baseHealth, double regenAmount, Material material, String signName) {
+    public SignKit(String name, int baseHealth, double regenAmount, Material material) {
         super(name, baseHealth, regenAmount, material, NamedTextColor.DARK_AQUA);
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
-        this.signName = signName;
 
         this.cost = -1;
     }
@@ -126,12 +121,13 @@ public abstract class SignKit extends Kit implements Listener {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK &&
                 Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
             Sign sign = (Sign) e.getClickedBlock().getState();
+            StringBuilder content = new StringBuilder();
 
             // Check if sign has sign name
             for (Component line : sign.getSide(Side.FRONT).lines())
             {
-                String content = PlainTextComponentSerializer.plainText().serialize(line).toLowerCase();
-                if (content.contains(this.signName)) {
+                content.append(" ").append(PlainTextComponentSerializer.plainText().serialize(line).toLowerCase());
+                if (content.toString().contains(this.name.toLowerCase()) || content.toString().contains(getSpacelessName().toLowerCase())) {
                     e.getPlayer().performCommand(name.toLowerCase());
                 }
             }

@@ -33,7 +33,7 @@ public class Arbalester extends SignKit implements Listener {
      * Creates a new Conwy Arbalester
      */
     public Arbalester() {
-        super("Arbalester", 260, 3, Material.CROSSBOW, "Arbalester", 5000);
+        super("Arbalester", 260, 3, Material.CROSSBOW, 5000);
 
 
         // Equipment Stuff

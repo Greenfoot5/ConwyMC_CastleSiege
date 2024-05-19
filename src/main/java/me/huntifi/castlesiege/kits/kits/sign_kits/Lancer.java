@@ -1,11 +1,11 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -30,14 +30,13 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class HelmsDeepLancer extends TeamKit implements Listener {
+public class Lancer extends SignKit implements Listener {
 
     /**
      * Creates a new Helms Deep Lancer
      */
-    public HelmsDeepLancer() {
-        super("Lancer", 270, 9, "Helm's Deep", "Rohan", 5000,
-                Material.STICK, "helmsdeeplancer");
+    public Lancer() {
+        super("Lancer", 270, 9, Material.STICK, 5000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

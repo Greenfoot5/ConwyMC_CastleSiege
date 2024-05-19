@@ -53,8 +53,7 @@ public class Abyssal extends SignKit implements Listener {
      * Creates a new Firelands Abyssal
      */
     public Abyssal() {
-        super("Abyssal", 600, 9, Material.MAGMA_BLOCK,
-                "firelandsabyssal", 5000);
+        super("Abyssal", 600, 9, Material.MAGMA_BLOCK, 5000);
         super.canCap = true;
         super.canClimb = false;
         super.canSeeHealth = true;

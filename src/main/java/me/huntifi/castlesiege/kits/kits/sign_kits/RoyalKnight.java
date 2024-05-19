@@ -28,7 +28,7 @@ public class RoyalKnight extends SignKit {
      */
     public RoyalKnight() {
         super("Royal Knight", 600, 5,
-                Material.DIAMOND_HORSE_ARMOR, "conwyroyalknight", 5000);
+                Material.DIAMOND_HORSE_ARMOR, 5000);
 
 
         // Equipment Stuff

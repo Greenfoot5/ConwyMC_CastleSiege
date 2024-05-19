@@ -32,7 +32,7 @@ public class Artillerist extends SignKit {
     private static final int powderCount = 56;
 
     public Artillerist() {
-        super("Artillerist", health, regen, Material.FIREWORK_STAR, "Artillerist");
+        super("Artillerist", health, regen, Material.FIREWORK_STAR);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

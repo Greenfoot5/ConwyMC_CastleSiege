@@ -43,8 +43,7 @@ public class Hellsteed extends SignKit implements Listener {
      * Creates a new Firelands Hellsteed
      */
     public Hellsteed() {
-        super("Hellsteed", 500, 10, Material.LEATHER_HORSE_ARMOR,
-                "firelandshellsteed", 2500);
+        super("Hellsteed", 500, 10, Material.LEATHER_HORSE_ARMOR, 2500);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;

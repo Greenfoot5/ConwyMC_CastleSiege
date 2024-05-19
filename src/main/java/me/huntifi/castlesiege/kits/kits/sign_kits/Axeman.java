@@ -1,10 +1,10 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.hommet;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -30,14 +30,13 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class HommetAxeman extends TeamKit implements Listener {
+public class Axeman extends SignKit implements Listener {
 
     /**
      * Creates a new Hommet Axeman
      */
-    public HommetAxeman() {
-        super("Axeman", 300, 10, "Hommet",
-                "Saxons", 2500, Material.STONE_AXE, "hommetaxeman");
+    public Axeman() {
+        super("Axeman", 300, 10, Material.STONE_AXE, 2500);
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
 

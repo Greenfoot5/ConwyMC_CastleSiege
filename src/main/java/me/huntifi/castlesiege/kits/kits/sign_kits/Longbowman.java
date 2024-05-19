@@ -33,7 +33,7 @@ public class Longbowman extends SignKit implements Listener {
      * Creates a new Conwy longbowman
      */
     public Longbowman() {
-        super("Conwy Longbowman", 220, 10, Material.BOW, "longbowman", 2500);
+        super("Longbowman", 220, 10, Material.BOW, 2500);
 
 
         // Equipment Stuff

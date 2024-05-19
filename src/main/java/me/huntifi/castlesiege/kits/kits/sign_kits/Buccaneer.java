@@ -29,7 +29,7 @@ public class Buccaneer extends SignKit {
     private static final int ladderCount = 4;
 
     public Buccaneer() {
-        super("Buccaneer", health, regen, Material.OAK_BOAT, "Buccaneer");
+        super("Buccaneer", health, regen, Material.OAK_BOAT);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
