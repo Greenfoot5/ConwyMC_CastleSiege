@@ -12,6 +12,11 @@ public class Timer {
 	public Integer minutes;
 	public Integer seconds;
 
+	/**
+	 * @param startMinutes The minutes left on the time
+	 * @param startSeconds The seconds left on the time
+	 * @param startState The state of the timer
+	 */
 	public Timer(int startMinutes, int startSeconds, TimerState startState) {
 		minutes = startMinutes;
 		seconds = startSeconds;
@@ -20,12 +25,19 @@ public class Timer {
 			startTimer();
 	}
 
+	/**
+	 * @param startMinutes The minutes left on the time
+	 * @param startSeconds The seconds left on the time
+	 */
 	public void restartTimer(int startMinutes, int startSeconds) {
 		minutes = startMinutes;
 		seconds = startSeconds;
 		startTimer();
 	}
-	
+
+	/**
+	 * Begins the timer
+	 */
 	public void startTimer() {
 		new BukkitRunnable() {
 

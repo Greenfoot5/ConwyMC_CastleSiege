@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.commands.staff.maps;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,7 +28,7 @@ public class NextMapCommand implements CommandExecutor {
 		if(sender instanceof Player) {
 			Player p = (Player) sender;
 			if (!MapController.getCurrentMap().hasMapEnded()) {
-				Messenger.broadcastWarning(NameTag.mmUsername(p) + " has skipped to the next map!");
+				Messenger.broadcastWarning(CSNameTag.mmUsername(p) + " has skipped to the next map!");
 				MapController.endMap();
 			} else {
 				Messenger.sendError("Map has already ended!", p);

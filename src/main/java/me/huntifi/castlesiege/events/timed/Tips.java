@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.events.timed;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
@@ -49,7 +49,7 @@ public class Tips extends BukkitRunnable {
             "Found a bug or exploit? Report it on the <yellow><click:suggest_command:/discord>/discord</click></yellow> server.",
             "Never have enough ladders? You can get two more by voting!",
             "Cheating or the use of hacks is strictly forbidden on this server, when seen using these you will be banned instantly.",
-            "Need a refresher on the rules? You can view them with <yellow><click:suggest_command:/rules>/rules</rules></yellow>!",
+            "Need a refresher on the rules? You can view them with <yellow><click:suggest_command:/rules>/rules</click></yellow>!",
             "If you're having a hard time getting to a flag, there's often more than one way to get there...",
             "Have you found all the secrets yet? Use <yellow><click:suggest_command:/secrets>/secrets</click></yellow> to check your progress! Don't forget to right-click to collect them!",
             "Being shot at by archers? Try to find some cover!",

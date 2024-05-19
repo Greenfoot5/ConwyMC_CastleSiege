@@ -2,8 +2,8 @@ package me.huntifi.castlesiege.maps.objects;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.LocalPlayer;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.session.MoveType;
 import com.sk89q.worldguard.session.Session;
@@ -32,6 +32,7 @@ public class RegionHandler extends Handler {
 
     /**
      * Creates a new Region Handler
+     * @param session The current session
      */
     public RegionHandler(Session session) {
         super(session);

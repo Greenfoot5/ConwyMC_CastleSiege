@@ -1,10 +1,8 @@
 package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.curses.BindingCurse;
 import me.huntifi.castlesiege.events.curses.CurseExpired;
@@ -13,16 +11,17 @@ import me.huntifi.castlesiege.events.curses.VulnerabilityCurse;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.events.nametag.UpdateNameTagEvent;
+import me.huntifi.conwymc.util.Messenger;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -36,7 +35,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -70,7 +68,6 @@ public abstract class Kit implements CommandExecutor, Listener {
 
     // Equipment
     protected EquipmentSet equipment;
-    protected int heldItemSlot = 0;
     protected final ArrayList<PotionEffect> potionEffects;
 
     // Messages
@@ -242,7 +239,7 @@ public abstract class Kit implements CommandExecutor, Listener {
             players.add(uuid);
             equippedKits.put(uuid, this);
             setItems(uuid, true);
-            ActiveData.getData(uuid).setKit(getSpacelessName());
+            CSActiveData.getData(uuid).setKit(getSpacelessName());
             Messenger.sendInfo("Selected Kit: " + this.name, player);
 
             // Kills the player if they have spawned this life, otherwise heal them
@@ -265,7 +262,9 @@ public abstract class Kit implements CommandExecutor, Listener {
     }
 
     /**
-     * Sets a disguise
+     * Sets the kit's disguise (overridable)
+     * By default it removes any disguise a player had
+     * @param p The player to set the disguise for
      */
     protected void setDisguise(Player p) {
         disguise(p, null);
@@ -280,11 +279,11 @@ public abstract class Kit implements CommandExecutor, Listener {
         if (disguise == null) {
             if (DisguiseAPI.isDisguised(p)) {
                 DisguiseAPI.undisguiseToAll(p);
-                NameTag.give(p);
+                Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(p));
             }
         }
         else {
-            disguise.getWatcher().setCustomName(MiniMessage.miniMessage().serialize(NameTag.username(p)));
+            disguise.getWatcher().setCustomName(Messenger.mm.serialize(p.displayName()));
             disguise.setCustomDisguiseName(true);
             disguise.setHearSelfDisguise(true);
             disguise.setSelfDisguiseVisible(false);
@@ -292,7 +291,7 @@ public abstract class Kit implements CommandExecutor, Listener {
 
             disguise.setEntity(p);
             disguise.startDisguise();
-            NameTag.give(p);
+            Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(p));
         }
     }
 
@@ -330,6 +329,9 @@ public abstract class Kit implements CommandExecutor, Listener {
         return new Tuple<>(projectileKillMessage, projectileDeathMessage);
     }
 
+    /**
+     * @return The regen per tick for the kit
+     */
     public double getRegen() {
         return regenAmount;
     }
@@ -421,7 +423,7 @@ public abstract class Kit implements CommandExecutor, Listener {
 
     /**
      * Set a limit to the amount of players that can use this kit at the same time.
-     * Setting a negative limit disables the limit.
+     * setting a negative limit disables the limit.
      * @param limit The limit to set
      */
     public void setLimit(int limit) {
@@ -443,19 +445,17 @@ public abstract class Kit implements CommandExecutor, Listener {
         return limit <= count.get();
     }
 
+    /**
+     * Gets the GUI material for a kit
+     * @param kitName The name of the kit
+     * @return The material to use
+     */
     public static Material getMaterial(String kitName) {
         Kit kit = getKit(kitName);
         if (kit != null) {
             return kit.material;
         }
         return null;
-    }
-
-    public static int getStrengthDamage(Player p) {
-        if (p.hasPotionEffect(PotionEffectType.INCREASE_DAMAGE)) {
-            return 3 * (Objects.requireNonNull(p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE)).getAmplifier() + 1);
-        }
-        return 0;
     }
 
     /**
@@ -471,21 +471,16 @@ public abstract class Kit implements CommandExecutor, Listener {
      * @return A simple display with these stats listed
      */
     protected ArrayList<Component> getBaseStats(int health, double regen, double meleeDamage,  int ladders) {
-        ArrayList<Component> baseStats = new ArrayList<>();
-        baseStats.add(Component.empty());
-        baseStats.add(Component.text(health, color).append(Component.text(" HP", NamedTextColor.GRAY)));
-        baseStats.add(Component.text(regen, color).append(Component.text(" Regen", NamedTextColor.GRAY)));
-        baseStats.add(Component.text(meleeDamage, color).append(Component.text(" Melee DMG", NamedTextColor.GRAY)));
-        if (ladders > 0)
-            baseStats.add(Component.text(ladders, color).append(Component.text(" Ladders", NamedTextColor.GRAY)));
-        return baseStats;
+        return getBaseStats(health, regen, meleeDamage, -1, ladders, -1);
     }
 
     /**
      * @param health The health of the kit
      * @param meleeDamage The melee damage the kit deals
+     * @param rangedDamage The ranged damage the kit deals
      * @param regen The regen of the kit
      * @param ladders The number of ladders the kit starts with
+     * @param ammo The total ammo a kit starts with
      * @return A simple display with these stats listed
      */
     protected ArrayList<Component> getBaseStats(int health, double regen, double meleeDamage, double rangedDamage,
@@ -495,7 +490,8 @@ public abstract class Kit implements CommandExecutor, Listener {
         baseStats.add(Component.text(health, color).append(Component.text(" HP", NamedTextColor.GRAY)));
         baseStats.add(Component.text(regen, color).append(Component.text(" Regen", NamedTextColor.GRAY)));
         baseStats.add(Component.text(meleeDamage, color).append(Component.text(" Melee DMG", NamedTextColor.GRAY)));
-        baseStats.add(Component.text(rangedDamage + "+", color).append(Component.text(" Ranged DMG", NamedTextColor.GRAY)));
+        if (rangedDamage > 0)
+            baseStats.add(Component.text(rangedDamage + "+", color).append(Component.text(" Ranged DMG", NamedTextColor.GRAY)));
         if (ladders > 0)
             baseStats.add(Component.text(ladders, color).append(Component.text(" Ladders", NamedTextColor.GRAY)));
         if (ammo > 0)
@@ -503,6 +499,9 @@ public abstract class Kit implements CommandExecutor, Listener {
         return baseStats;
     }
 
+    /**
+     * @return Text displaying cost to unlock the kit
+     */
     public ArrayList<Component> getGuiCostText() {
         ArrayList<Component> text = new ArrayList<>();
         text.add(Component.empty());
@@ -510,21 +509,33 @@ public abstract class Kit implements CommandExecutor, Listener {
         return text;
     }
 
+    /**
+     * @param curse The blinding curse that's been activated
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void bindingActive(BindingCurse curse) {
         activeBindings.add(curse.getPlayer());
     }
 
+    /**
+     * @param curse The healing curse that's been activated
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void healingActive(HealingCurse curse) {
         healthMultiplier = curse.multiplier;
     }
 
+    /**
+     * @param curse The vulnerability curse that's been activated
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void vulnerabilityActive(VulnerabilityCurse curse) {
         vulnerable = true;
     }
 
+    /**
+     * @param curse The binding curse that's been activated
+     */
     @EventHandler(priority = EventPriority.MONITOR)
     public void bindingExpired(CurseExpired curse) {
         if (Objects.equals(curse.getDisplayName(), BindingCurse.name))

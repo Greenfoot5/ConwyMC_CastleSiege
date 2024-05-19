@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.CSActiveData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -28,10 +29,10 @@ public class AssistKill implements Listener {
      * Track the attacker and amount of damage when a player takes damages
      * @param e The event called when a player is hit by an entity
      */
-    @EventHandler (ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onDamage(EntityDamageByEntityEvent e) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            if (!(e.getEntity() instanceof Player)) {
+            if (!(e.getEntity() instanceof Player) || !CSActiveData.hasPlayer(e.getEntity().getUniqueId())) {
                 return;
             }
 

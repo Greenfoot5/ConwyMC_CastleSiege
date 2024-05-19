@@ -3,8 +3,13 @@ package me.huntifi.castlesiege.maps;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.MapBorder;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.maps.objects.*;
+import me.huntifi.castlesiege.maps.objects.Catapult;
+import me.huntifi.castlesiege.maps.objects.Core;
+import me.huntifi.castlesiege.maps.objects.Door;
+import me.huntifi.castlesiege.maps.objects.Flag;
+import me.huntifi.castlesiege.maps.objects.Gate;
+import me.huntifi.castlesiege.maps.objects.Ram;
+import me.huntifi.conwymc.data_types.Tuple;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
@@ -30,6 +35,9 @@ public class Map {
     public Gamemode gamemode;
     public Tuple<Integer, Integer> duration = new Tuple<>(20, 0);
 
+    /**
+     * Creates a new map
+     */
     public Map() {
         teams = new Team[0];
         flags = new Flag[0];

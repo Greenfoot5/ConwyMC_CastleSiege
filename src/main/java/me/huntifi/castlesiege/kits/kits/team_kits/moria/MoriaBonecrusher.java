@@ -1,12 +1,12 @@
 package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -28,6 +28,9 @@ import java.util.Random;
 
 public class MoriaBonecrusher extends TeamKit implements Listener {
 
+    /**
+     * Creates a new Moria Bonecrusher
+     */
     public MoriaBonecrusher() {
         super("Bonecrusher", 300, 8, "Moria",
                 "The Orcs", 4000, Material.BONE, "moriabonecrusher");
@@ -35,36 +38,35 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.BONE),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.BONE),
                 Component.text("Crushing Bone", NamedTextColor.GREEN), null, null, 38);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.BONE),
+                CSItemCreator.weapon(new ItemStack(Material.BONE),
                         Component.text("Crushing Bone", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 40),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(21, 51, 10));
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(68, 65, 12));
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- Depth Strider I", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 1)));
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider III", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3)));
@@ -88,7 +90,7 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
      * Activate the Bonecrusher ability
      * @param e The event called when hitting another player
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onCrush(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player p = (Player) e.getEntity();
@@ -102,14 +104,14 @@ public class MoriaBonecrusher extends TeamKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    Messenger.sendWarning(NameTag.mmUsername(p) + " blocked your crushing stun!", q);
-                    Messenger.sendSuccess("You blocked " + NameTag.mmUsername(q) + "'s crushing stun!", p);
+                    Messenger.sendWarning(CSNameTag.mmUsername(p) + " blocked your crushing stun!", q);
+                    Messenger.sendSuccess("You blocked " + CSNameTag.mmUsername(q) + "'s crushing stun!", p);
                 } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    Messenger.sendWarning(NameTag.mmUsername(p) + " dodged your crushing stun!", q);
-                    Messenger.sendSuccess("You dodged " + NameTag.mmUsername(q) + "'s crushing stun!", p);
+                    Messenger.sendWarning(CSNameTag.mmUsername(p) + " dodged your crushing stun!", q);
+                    Messenger.sendSuccess("You dodged " + CSNameTag.mmUsername(q) + "'s crushing stun!", p);
                 } else {
-                    Messenger.sendSuccess("You have crushed " + NameTag.mmUsername(p), q);
-                    Messenger.sendWarning("You have been crushed by " + NameTag.mmUsername(q) + "!", p);
+                    Messenger.sendSuccess("You have crushed " + CSNameTag.mmUsername(p), q);
+                    Messenger.sendWarning("You have been crushed by " + CSNameTag.mmUsername(q) + "!", p);
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BONE_BLOCK_BREAK , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 50, 6)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 5)));

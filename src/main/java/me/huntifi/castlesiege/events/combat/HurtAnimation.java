@@ -8,6 +8,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.CSActiveData;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -35,8 +36,14 @@ public class HurtAnimation implements Listener {
     }
 
 
-    @EventHandler (ignoreCancelled = true)
+    /**
+     * @param e Creates and displays the damage particles
+     */
+    @EventHandler(ignoreCancelled = true)
     public void doDamageParticle(EntityDamageByEntityEvent e) {
+        if (!CSActiveData.hasPlayer(e.getDamager().getUniqueId()))
+            return;
+
         // Both are players
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player whoWasHit = (Player) e.getEntity();
@@ -49,24 +56,21 @@ public class HurtAnimation implements Listener {
         }
     }
 
-    public void removeParticle() {
+    /**
+     * Removes the particles
+     */
+    private void removeParticle() {
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-        onRemoveParticle(manager);
+        manager.addPacketListener(new PacketAdapter(Main.plugin, ListenerPriority.HIGH, PacketType.Play.Server.WORLD_PARTICLES) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                PacketContainer packet = event.getPacket();
+                if (event.getPacketType() != PacketType.Play.Server.WORLD_PARTICLES)
+                    return;
+
+                if (packet.getNewParticles().read(0).getParticle() == Particle.DAMAGE_INDICATOR)
+                    event.setCancelled(true);
+            }
+        });
     }
-
-
-    public void onRemoveParticle(ProtocolManager manager) {
-    manager.addPacketListener(new PacketAdapter(Main.plugin, ListenerPriority.HIGH, PacketType.Play.Server.WORLD_PARTICLES) {
-    @Override
-    public void onPacketSending(PacketEvent event) {
-        PacketContainer packet = event.getPacket();
-        if (event.getPacketType() != PacketType.Play.Server.WORLD_PARTICLES)
-            return;
-
-        if (packet.getNewParticles().read(0).getParticle() == Particle.DAMAGE_INDICATOR)
-            event.setCancelled(true);
-
-       }
-     });
-   }
 }

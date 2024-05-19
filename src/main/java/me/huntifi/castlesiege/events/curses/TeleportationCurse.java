@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.events.curses;
 
-import me.huntifi.castlesiege.commands.staff.StaffChat;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * A curse the swaps some player's positions
+ */
 public class TeleportationCurse extends CurseCast {
     public final static String name = "Curse of Teleportation";
     private final static String activateMessage = "Some players have swapped positions!";
@@ -31,16 +34,15 @@ public class TeleportationCurse extends CurseCast {
 
 
         if (totalPlayers.size() < MIN_SIZE_TO_SWAP) {
-            StaffChat.sendMessage("Failed to activate Curse of Teleportation: Not Enough Players");
+            Main.plugin.getLogger().warning("Failed to activate Curse of Teleportation: Not Enough Players");
             return;
         }
 
         this.setStartTime();
 
 
-        //Random random = new Random();
-        //int amountToSwap = random.nextInt(MIN_SIZE_TO_SWAP, totalPlayers.size() + 1);
-        int amountToSwap = new Random().nextInt((totalPlayers.size() - MIN_SIZE_TO_SWAP) + 1) + MIN_SIZE_TO_SWAP;
+        Random random = new Random();
+        int amountToSwap = random.nextInt((totalPlayers.size() - MIN_SIZE_TO_SWAP) + 1) + MIN_SIZE_TO_SWAP;
         Collections.shuffle(totalPlayers);
 
         Player[] playersToSwap = new Player[amountToSwap];
@@ -83,20 +85,24 @@ public class TeleportationCurse extends CurseCast {
         return Bukkit.getPlayer(pos.getFirst());
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new Teleportation Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
+        /**
+         * Creates a new CurseBuilder for Teleportation
+         */
         public CurseBuilder() {
             super(name, activateMessage, expireMessage);
             this.options = OPTIONS;
         }
 
-        public TeleportationCurse cast() {
+        public void cast() {
             TeleportationCurse curse = new TeleportationCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
     }
 }

@@ -1,9 +1,10 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.PlayerData;
+import me.huntifi.castlesiege.data_types.CSStats;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -11,23 +12,23 @@ import java.util.UUID;
 /**
  * Tracks the stats of players during a game
  */
-public class MVPStats {
+public class MVPStats implements Listener {
 
-    private static final HashMap<UUID, PlayerData> stats = new HashMap<>();
+    private static final HashMap<UUID, CSStats> stats = new HashMap<>();
 
     /**
      * Start tracking a player if they are not being tracked yet
      * @param uuid The unique ID of the player
      */
     public static void addPlayer(UUID uuid) {
-        stats.putIfAbsent(uuid, new PlayerData());
+        stats.putIfAbsent(uuid, new CSStats());
     }
 
     /**
      * Get all MVP stats
      * @return All player data for the current game
      */
-    public static HashMap<UUID, PlayerData> getStats() {
+    public static HashMap<UUID, CSStats> getStats() {
         return stats;
     }
 
@@ -36,7 +37,7 @@ public class MVPStats {
      * @param uuid The unique ID of the player
      * @return The player's MVP player data
      */
-    public static PlayerData getStats(UUID uuid) {
+    public static CSStats getStats(UUID uuid) {
         return stats.get(uuid);
     }
 
@@ -46,10 +47,10 @@ public class MVPStats {
      */
     public static void reset() {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-        stats.clear();
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            Bukkit.getScheduler().runTask(Main.plugin, () -> addPlayer(p.getUniqueId()));
-         }
-       });
+            stats.clear();
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                Bukkit.getScheduler().runTask(Main.plugin, () -> addPlayer(p.getUniqueId()));
+            }
+        });
     }
 }

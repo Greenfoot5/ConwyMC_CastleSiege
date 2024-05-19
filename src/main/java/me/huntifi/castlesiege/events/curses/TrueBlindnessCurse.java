@@ -1,13 +1,16 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
+/**
+ * A curse that hides a player's name and team colour
+ */
 public class TrueBlindnessCurse extends CurseCast {
     public final static String name = "Curse of True Blindness";
     private final static String activateMessage = "Your name & team have been hidden!";
@@ -39,9 +42,15 @@ public class TrueBlindnessCurse extends CurseCast {
 
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new True Blindness Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
+        /**
+         * Creates a new CurseBuilder for True Blindness
+         * @param duration The duration of the curse
+         */
         public CurseBuilder(int duration) {
             super(name, activateMessage, expireMessage);
             if (duration < MIN_DURATION)
@@ -50,12 +59,11 @@ public class TrueBlindnessCurse extends CurseCast {
             this.options = OPTIONS;
         }
 
-        public TrueBlindnessCurse cast() {
+        public void cast() {
             TrueBlindnessCurse curse = new TrueBlindnessCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
     }
 }

@@ -1,15 +1,16 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.HorseHandler;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -50,32 +51,31 @@ public class Cavalry extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Sabre", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Sabre", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.SWEEPING_EDGE, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
+        es.chest = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
                 Component.text("Chainmail Chestplate", NamedTextColor.GREEN), null, null);
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
                 Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -85,7 +85,7 @@ public class Cavalry extends CoinKit implements Listener {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         // Horse
-        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.WHEAT),
+        es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.WHEAT),
                 Component.text("Spawn Horse", NamedTextColor.GREEN), null, null);
         HorseHandler.add(name, 600, horseHealth, 2, 0.2425, 0.8,
                 Material.IRON_HORSE_ARMOR, Arrays.asList(
@@ -96,7 +96,7 @@ public class Cavalry extends CoinKit implements Listener {
         );
 
         // stomp
-        es.hotbar[3] = ItemCreator.weapon(new ItemStack(Material.ANVIL),
+        es.hotbar[3] = CSItemCreator.weapon(new ItemStack(Material.ANVIL),
                 Component.text("Horse Kick", NamedTextColor.GREEN), null, null, 0);
 
         super.equipment = es;
@@ -113,61 +113,66 @@ public class Cavalry extends CoinKit implements Listener {
         UUID uuid = p.getUniqueId();
         ItemStack stomp = p.getInventory().getItemInMainHand();
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+        if (!MapController.getPlayers().contains(uuid))
+            return;
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            return;
+        }
 
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
-            if (stomp.getType().equals(Material.ANVIL)) {
+        if (!stomp.getType().equals(Material.ANVIL)) {
+            return;
+        }
 
-                //prevent from using it when not on a horse
-                if (p.getVehicle() == null) {
-                    Messenger.sendActionError("You can't use this when not on your horse", p);
-                    return;
+        //prevent from using it when not on a horse
+        if (p.getVehicle() == null) {
+            Messenger.sendActionError("You can't use this when not on your horse", p);
+            return;
+        }
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+
+        if (p.getCooldown(Material.ANVIL) != 0) {
+            Messenger.sendActionError("Your horse's ability to stomp is still recharging!", p);
+            return;
+        }
+
+        boolean hasEnemyInRange = false;
+        for (Player hit : Bukkit.getOnlinePlayers()) {
+
+            //if the player is not in the same world ignore them.
+            if (p.getWorld() != hit.getWorld())
+                continue;
+
+            //the player executing the ability should have enemy players in range.
+            if (p.getLocation().distance(hit.getLocation()) <= 2.3 &&
+                    TeamController.getTeam(hit.getUniqueId())
+                            != TeamController.getTeam(p.getUniqueId())) {
+
+                hasEnemyInRange = true;
+
+                // The stomp can be blocked using a shield
+                if (hit.isBlocking()) {
+                    Messenger.sendActionSuccess("You blocked " + CSNameTag.mmUsername(p) + "'s horse stomp", hit);
+                } else {
+                    hit.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
+                    hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));
+                    hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
+                    hit.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 20, 0)));
+                    hit.damage(100, p);
                 }
+            }
 
-                if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-
-                    if (p.getCooldown(Material.ANVIL) != 0) {
-                        Messenger.sendActionError("Your horse's ability to stomp is still recharging!", p);
-                        return;
-                    }
-
-                    boolean hasEnemyInRange = false;
-                    for (Player hit : Bukkit.getOnlinePlayers()) {
-
-                        //if the player is not in the same world ignore them.
-                        if (p.getWorld() != hit.getWorld())
-                            continue;
-
-                        //the player executing the ability should have enemy players in range.
-                        if (p.getLocation().distance(hit.getLocation()) <= 2.3 &&
-                                TeamController.getTeam(hit.getUniqueId())
-                                != TeamController.getTeam(p.getUniqueId())) {
-
-                            hasEnemyInRange = true;
-
-                            // The stomp can be blocked using a shield
-                            if (hit.isBlocking()) {
-                                Messenger.sendActionSuccess("You blocked " + NameTag.mmUsername(p) + "'s horse stomp", hit);
-                            } else {
-                                hit.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 80, 4)));
-                                hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 80, 1)));
-                                hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 3)));
-                                hit.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 20, 0)));
-                                hit.damage(100, p);
-                            }
-                        }
-
-                        if (hasEnemyInRange) {
-                            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY, 1, (float) 0.8);
-                            p.setCooldown(Material.ANVIL, 200);
-                        } else {
-                            Messenger.sendActionError("No enemy players close enough!", p);
-                        }
-                    }
-                }
+            if (hasEnemyInRange) {
+                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY, 1, (float) 0.8);
+                p.setCooldown(Material.ANVIL, 200);
+            } else {
+                Messenger.sendActionError("No enemy players close enough!", p);
             }
         }
     }

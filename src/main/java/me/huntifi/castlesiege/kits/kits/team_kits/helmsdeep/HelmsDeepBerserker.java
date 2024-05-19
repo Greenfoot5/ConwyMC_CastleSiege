@@ -1,13 +1,13 @@
 package me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep;
 
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -33,22 +33,24 @@ import java.util.Objects;
 public class HelmsDeepBerserker extends TeamKit implements Listener {
 
 
+    /**
+     * Creates a new Helms Deep Berserker
+     */
     public HelmsDeepBerserker() {
         super("Uruk Berserker", 220, 6, "Helm's Deep", "Uruk-hai",
                 2500, Material.REDSTONE, "helmsdeepurukberserker");
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Cleaver", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("Deals AOE damage but has a cooldown.", NamedTextColor.AQUA)),
                 null, 50.0);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Cleaver", NamedTextColor.GREEN),
                         Arrays.asList(Component.text("Deals AOE damage but has a cooldown.", NamedTextColor.AQUA),
                                 Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
@@ -56,15 +58,15 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
                 0);
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(95, 69, 6));
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -89,7 +91,7 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
      * Activate the Uruk Berserker cleave ability
      * @param event The event called when hitting another player
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onCleave(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
             Player damager = (Player) event.getDamager();
@@ -103,7 +105,7 @@ public class HelmsDeepBerserker extends TeamKit implements Listener {
 
                 // Enemy blocks cleave
                 if (hit.isBlocking()) {
-                    Messenger.sendActionInfo("You blocked " + NameTag.mmUsername(damager) + "'s cleave", hit);
+                    Messenger.sendActionInfo("You blocked " + CSNameTag.mmUsername(damager) + "'s cleave", hit);
                 } else {
                     hit.getWorld().playSound(hit.getLocation(), Sound.ENTITY_PLAYER_BIG_FALL, 1, 1);
                     event.setDamage(event.getDamage() * 2);

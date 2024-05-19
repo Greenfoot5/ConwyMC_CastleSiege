@@ -1,8 +1,9 @@
 package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Animals;
@@ -20,9 +21,13 @@ public class HitMessage implements Listener {
 
 	/**
 	 * Notifies the shooter when they hit a player or animal
-	 */
-	@EventHandler (ignoreCancelled = true)
+     * @param e The ProjectileHitEvent
+     */
+	@EventHandler(ignoreCancelled = true)
 	public void onHit(ProjectileHitEvent e) {
+		if (!CSActiveData.hasPlayer(e.getEntity().getOwnerUniqueId()))
+			return;
+
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 			// Check it was a player that fired an arrow
 			if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player) {

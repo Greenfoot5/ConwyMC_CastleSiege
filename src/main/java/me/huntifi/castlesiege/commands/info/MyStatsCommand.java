@@ -1,11 +1,11 @@
 package me.huntifi.castlesiege.commands.info;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.conwymc.util.Messenger;
+import me.huntifi.conwymc.util.NameTag;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 
-import static me.huntifi.castlesiege.commands.info.leaderboard.Leaderboard.gradient;
+import static me.huntifi.castlesiege.commands.info.leaderboard.LeaderboardCommand.gradient;
 
 /**
  * Shows the player's stats
@@ -68,13 +68,13 @@ public class MyStatsCommand implements CommandExecutor {
                 .append(Component.text("'s Stats", NamedTextColor.WHITE)));
         meta.author(Component.text("Hunt von Huntington", NamedTextColor.RED));
 
-        PlayerData data = ActiveData.getData(p.getUniqueId());
+        CSPlayerData data = CSActiveData.getData(p.getUniqueId());
         DecimalFormat dec = new DecimalFormat("0.00");
         DecimalFormat num = new DecimalFormat("0");
-        MiniMessage mm = MiniMessage.miniMessage();
+        MiniMessage mm = Messenger.mm;
 
         meta.addPages(Component.text("Name: ", NamedTextColor.BLACK)
-                .append(mm.deserialize(NameTag.mmUsername(p)))
+                .append(data.getDisplayRank())
                 .append(Component.newline()).append(Component.newline())
                 .append(Component.text("Rank: ")).append(NameTag.convertRank(data.getStaffRank()))
                 .append(Component.newline())

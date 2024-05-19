@@ -1,13 +1,13 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -52,16 +52,15 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("Right-click to activate charge ability.", NamedTextColor.AQUA)),
                 null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                         Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
                         List.of(Component.text("Right-click to activate charge ability.", NamedTextColor.AQUA),
                                 Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
@@ -69,20 +68,20 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Tunic", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(99, 179, 101));
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
                 Component.text("Iron Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(99, 179, 101));
         // Voted boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
@@ -142,7 +141,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
     /**
      * @param ed remove the potion effects on hit.
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void chargeHit(EntityDamageByEntityEvent ed) {
         if (ed.getDamager() instanceof Player) {
             Player player = (Player) ed.getDamager();

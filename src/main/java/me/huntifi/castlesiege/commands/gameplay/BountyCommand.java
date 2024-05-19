@@ -1,11 +1,11 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
-import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.castlesiege.database.CSActiveData;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * When a player runs the bounty command, either using or viewing the top bounties
+ */
 public class BountyCommand implements CommandExecutor {
 
     private static final ArrayList<Tuple<UUID, Integer>> bounties = new ArrayList<>();
@@ -49,7 +52,7 @@ public class BountyCommand implements CommandExecutor {
 
         if (args.length == 1) {
             int amount = getBounty(bountied.getUniqueId());
-            Messenger.sendBounty(NameTag.username(bountied) + " has a bounty of <gold>" + amount + "</gold> coins on their head.", sender);
+            Messenger.sendBounty(CSNameTag.username(bountied) + " has a bounty of <gold>" + amount + "</gold> coins on their head.", sender);
             return true;
         }
 
@@ -62,20 +65,20 @@ public class BountyCommand implements CommandExecutor {
         if (sender instanceof ConsoleCommandSender) {
             int totalBounty = getAndAddBounty(bountied.getUniqueId(), amount);
             Messenger.broadcastPaidBounty("<dark_aqua>CONSOLE</dark_aqua>",
-                    NameTag.mmUsername(bountied), amount, totalBounty);
+                    CSNameTag.mmUsername(bountied), amount, totalBounty);
             return true;
         } else if (!(sender instanceof Player)) {
             return true;
         }
 
         Player payee = (Player) sender;
-        if (!ActiveData.getData(payee.getUniqueId()).takeCoins(amount)) {
+        if (!CSActiveData.getData(payee.getUniqueId()).takeCoins(amount)) {
             Messenger.sendError("You don't have enough coins to do that!", sender);
             return true;
         }
         int totalBounty = getAndAddBounty(bountied.getUniqueId(), amount);
-        Messenger.broadcastPaidBounty(NameTag.mmUsername(payee),
-                NameTag.mmUsername(bountied), amount, totalBounty);
+        Messenger.broadcastPaidBounty(CSNameTag.mmUsername(payee),
+                CSNameTag.mmUsername(bountied), amount, totalBounty);
         return true;
     }
 
@@ -111,23 +114,34 @@ public class BountyCommand implements CommandExecutor {
         }.runTaskAsynchronously(Main.plugin);
     }
 
+    /**
+     * Grants the bounty to their killer
+     * @param bountied The player who had the bounty
+     * @param killer The player who killed the bountied player
+     */
     public static void grantRewards(Player bountied, Player killer) {
         int bounty = getBountyAndClear(bountied.getUniqueId());
         if (bounty <= 0) {
             return;
         }
 
-        ActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty);
+        CSActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty);
 
         if (bounty >= MIN_CLAIM) {
-            Messenger.broadcastBountyClaimed(NameTag.mmUsername(bountied),
-                    NameTag.mmUsername(killer), bounty);
+            Messenger.broadcastBountyClaimed(CSNameTag.mmUsername(bountied),
+                    CSNameTag.mmUsername(killer), bounty);
         } else {
-            Messenger.sendBounty("You killed " + NameTag.mmUsername(bountied) + " and claimed <gold>"
+            Messenger.sendBounty("You killed " + CSNameTag.mmUsername(bountied) + " and claimed <gold>"
                     + bounty + "</gold> coins!", killer);
         }
     }
 
+    /**
+     * Splits a player's bounty between the killer &amp; assistant
+     * @param bountied The player who had a bounty
+     * @param killer The player who dealt the final blow
+     * @param assist The player who dealt the most damage
+     */
     public static void grantRewards(Player bountied, Player killer, Player assist) {
         if (assist == null || assist.getName().equals(killer.getName())) {
             grantRewards(bountied, killer);
@@ -140,12 +154,12 @@ public class BountyCommand implements CommandExecutor {
         }
 
         int assistAmount = bounty / 3;
-       ActiveData.getData(assist.getUniqueId()).addCoinsClean(assistAmount);
-       ActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty - assistAmount);
+       CSActiveData.getData(assist.getUniqueId()).addCoinsClean(assistAmount);
+       CSActiveData.getData(killer.getUniqueId()).addCoinsClean(bounty - assistAmount);
 
         if (bounty >= MIN_CLAIM) {
-            Messenger.broadcastBountyClaimed(NameTag.mmUsername(bountied),
-                    NameTag.mmUsername(killer), NameTag.mmUsername(assist), bounty);
+            Messenger.broadcastBountyClaimed(CSNameTag.mmUsername(bountied),
+                    CSNameTag.mmUsername(killer), CSNameTag.mmUsername(assist), bounty);
         } else {
             Messenger.sendBounty("You killed " + bountied.getName() + " and claimed <gold>"
                     + (bounty - assistAmount) + "</gold> coins!", killer);
@@ -154,9 +168,13 @@ public class BountyCommand implements CommandExecutor {
         }
     }
 
+    /**
+     * Checks a player's kill streak and adds a bounty
+     * @param killer The player whose kill streak needs checking
+     */
     public static void killStreak(Player killer) {
         int amount = 0;
-        switch (ActiveData.getData(killer.getUniqueId()).getKillStreak()) {
+        switch (CSActiveData.getData(killer.getUniqueId()).getKillStreak()) {
             case 5:
                 amount = 20;
                 break;
@@ -174,9 +192,9 @@ public class BountyCommand implements CommandExecutor {
                 break;
         }
         if (amount > 0) {
-            int total = getAndAddBounty(killer.getUniqueId(), (int) (amount * PlayerData.getCoinMultiplier()));
-            Messenger.broadcastKillStreakBounty(NameTag.mmUsername(killer),
-                    ActiveData.getData(killer.getUniqueId()).getKillStreak(), total);
+            int total = getAndAddBounty(killer.getUniqueId(), (int) (amount * CSPlayerData.getCoinMultiplier()));
+            Messenger.broadcastKillStreakBounty(CSNameTag.mmUsername(killer),
+                    CSActiveData.getData(killer.getUniqueId()).getKillStreak(), total);
         }
     }
 
@@ -223,6 +241,9 @@ public class BountyCommand implements CommandExecutor {
         return amount;
     }
 
+    /**
+     * Loads all bounties from the database
+     */
     public static void loadBounties() {
         PreparedStatement ps;
         try {
@@ -239,8 +260,11 @@ public class BountyCommand implements CommandExecutor {
         } catch (SQLException ignored) {}
     }
 
-    public static void saveBounties(){
-        for (UUID uuid : ActiveData.getPlayers()) {
+    /**
+     * Save all bounties to the database
+     */
+    public static void saveBounties() {
+        for (UUID uuid : CSActiveData.getPlayers()) {
             Tuple<UUID, Integer> bounty = new Tuple<>(uuid, getBounty(uuid));
             PreparedStatement ps;
             try {

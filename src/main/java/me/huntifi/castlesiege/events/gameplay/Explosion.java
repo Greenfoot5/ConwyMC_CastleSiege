@@ -55,8 +55,9 @@ public class Explosion implements Listener {
 
     /**
      * Get all blocks that were blown up and register them
+     * @param e The explosion event
      */
-    @EventHandler (priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onExplode(EntityExplodeEvent e) {
         for (Block block : e.blockList()) {
             register(block);

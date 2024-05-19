@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import org.bukkit.entity.Boat;
@@ -22,8 +23,11 @@ public class TeamCombat implements Listener {
 	 * Cancels event if the corresponding players are on the same team.
 	 * @param event The event called when a player attacks another entity
 	 */
-	@EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onHurt(EntityDamageByEntityEvent event) {
+		if (!CSActiveData.hasPlayer(event.getEntity().getUniqueId()))
+			return;
+
 		if (!MapController.isOngoing()) {
 			event.setCancelled(true);
 			return;

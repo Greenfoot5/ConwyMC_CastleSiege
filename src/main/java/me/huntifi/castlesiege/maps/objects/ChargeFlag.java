@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.maps.objects;
 
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.Gamemode;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -51,22 +51,6 @@ public class ChargeFlag extends Flag{
         this.additionalMinutes = additionalMinutes;
         this.additionalSeconds = additionalSeconds;
         return this;
-    }
-
-    /**
-     * Sets the spawn point for the attackers
-     * @param location The new spawn point
-     */
-    public void setAttackersSpawnPoint(Location location){
-        attackersSpawnPoint = location;
-    }
-
-    /**
-     * Sets the spawn point for the defenders
-     * @param location The new spawn point
-     */
-    public void setDefendersSpawnPoint(Location location){
-        defendersSpawnPoint = location;
     }
 
     /**
@@ -131,8 +115,8 @@ public class ChargeFlag extends Flag{
                             .append(Component.text(" has been fully captured and can no longer be retaken by "))
                                             .append(Component.text(startingTeam, MapController.getCurrentMap().getTeam(startingTeam).primaryChatColor)));
             if (additionalMinutes > 0 || additionalSeconds > 0) {
-                Messenger.broadcastInfo("<light_blue>" + additionalMinutes + "</light_blue> minutes and <light_blue>" +
-                        additionalSeconds + "</light_blue> seconds have been added to the clock!");
+                Messenger.broadcastInfo("<aqua>" + additionalMinutes + "</aqua> minutes and <aqua>" +
+                        additionalSeconds + "</aqua> seconds have been added to the clock!");
                 MapController.timer.seconds += additionalSeconds;
                 MapController.timer.minutes += additionalMinutes;
             }

@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * The curse to increase damage
+ */
 public class DamageCurse extends CurseCast {
     public final static String name = "Curse of Damage";
     private final static String activateMessage = "Your melee damage has been modified by ";
@@ -55,11 +58,17 @@ public class DamageCurse extends CurseCast {
 
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new Damage Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
         public float multiplier;
 
+        /**
+         * Creates a new CurseBuilder for Damage
+         * @param duration The duration of the curse
+         */
         public CurseBuilder(int duration) {
             super(name, activateMessage, expireMessage);
             if (duration < MIN_DURATION)
@@ -71,14 +80,17 @@ public class DamageCurse extends CurseCast {
             this.multiplier =  2 - rando.nextFloat() * 2;
         }
 
-        public DamageCurse cast() {
+        public void cast() {
             DamageCurse curse = new DamageCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
 
+        /**
+         * @param multiplier The new damage multiplier
+         * @return The curse builder
+         */
         public CurseBuilder setMultiplier(float multiplier) {
             this.multiplier = multiplier;
             return this;

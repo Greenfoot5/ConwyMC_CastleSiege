@@ -4,18 +4,17 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.LocationFrame;
 import me.huntifi.castlesiege.data_types.SchematicFrame;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Scoreboard;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -69,9 +68,6 @@ public class Flag {
     public boolean animationAir = false;
     public HashMap<String, SchematicFrame[]> schematicAnimation;
     public boolean useSchematics = false;
-
-    // Scoreboard value
-    public int scoreboard;
 
     public static final HashMap<Flag, BossBar> bars = new HashMap<>();
 
@@ -422,6 +418,7 @@ public class Flag {
     /**
      * Plays the capturing ping sound to a player
      * @param player The player to play the sound to
+     * @param fullyCapped true if the flag has been fully captured
      */
     protected void playCapSound(Player player, boolean fullyCapped) {
         Location location = player.getLocation();
@@ -527,7 +524,7 @@ public class Flag {
     /**
      * Activate this flag
      */
-    public void activate() {
+    private void activate() {
         if (!active) {
             active = true;
             createHologram();
@@ -564,6 +561,9 @@ public class Flag {
         return team.secondaryWool;
     }
 
+    /**
+     * Creates the hologram for the flag
+     */
     public void createHologram() {
         assert holoLoc.getWorld() != null;
         hologram = (ArmorStand) holoLoc.getWorld().spawnEntity(holoLoc, EntityType.ARMOR_STAND);
@@ -573,11 +573,14 @@ public class Flag {
         hologram.setInvulnerable(true);
         hologram.setCustomNameVisible(true);
         hologram.setSmall(true);
-        hologram.customName(MiniMessage.miniMessage().deserialize("<b>Flag:</b> ").append(Component.text(name, getColor())));
+        hologram.customName(Messenger.mm.deserialize("<b>Flag:</b> ").append(Component.text(name, getColor())));
     }
 
-    public void updateHologram(NamedTextColor teamColor) {
-        hologram.customName(MiniMessage.miniMessage().deserialize("<b>Flag:</b> ").append(Component.text(name, teamColor)));
+    /**
+     * @param teamColor Updated the hologram for the flag
+     */
+    private void updateHologram(NamedTextColor teamColor) {
+        hologram.customName(Messenger.mm.deserialize("<b>Flag:</b> ").append(Component.text(name, teamColor)));
         hologram.setCustomNameVisible(true);
     }
 
@@ -585,7 +588,7 @@ public class Flag {
      * Get the flag's color.
      * @return The primary chat color of the flag's owners, gray if neutral
      */
-    public NamedTextColor getColor() {
+    private NamedTextColor getColor() {
         String currentOwners = getCurrentOwners();
         if (currentOwners.equals("neutral"))
             return GRAY;
@@ -595,16 +598,13 @@ public class Flag {
     }
 
     /**
-     *
-     * @param flag the flag to create the bossbar for
+     * @param flag      the flag to create the bossbar for
      * @param barColour the colour of the bar, should be the team colour.
-     * @param barStyle the style to put the bossbar in
-     * @param text this is actually just the flag name
-     * @param progress the amount of progress done on the bossbar, should be (index / max caps)
+     * @param text      this is actually just the flag name
+     * @param progress  the amount of progress done on the bossbar, should be (index / max caps)
      */
-    public static void createFlagBossbar(Flag flag, BossBar.Color barColour, BossBar.Overlay barStyle, String text, float progress) {
-        Main.plugin.getComponentLogger().info(Component.text(flag.name + " Bossbar creation initialised", NamedTextColor.DARK_GREEN));
-        BossBar bar = BossBar.bossBar(Component.text(text), progress, barColour, barStyle);
+    private static void createFlagBossbar(Flag flag, BossBar.Color barColour, String text, float progress) {
+        BossBar bar = BossBar.bossBar(Component.text(text), progress, barColour, BossBar.Overlay.PROGRESS);
         bars.putIfAbsent(flag, bar);
     }
 
@@ -613,7 +613,7 @@ public class Flag {
      * @param flag the flag which this bossbar belongs to
      * @param p the player to display the bossbar to
      */
-    public void addPlayerToFlagBar(Flag flag, Player p) {
+    private void addPlayerToFlagBar(Flag flag, Player p) {
         if (bars.containsKey(flag)) {
             bars.get(flag).addViewer(p);
         }
@@ -624,7 +624,7 @@ public class Flag {
      * @param flag the flag which this bossbar belongs to
      * @param p the player to remove the bossbar from
      */
-    public void removePlayerFromFlagBar(Flag flag, Player p) {
+    private void removePlayerFromFlagBar(Flag flag, Player p) {
         if (bars.containsKey(flag)) {
             bars.get(flag).removeViewer(p);
         }
@@ -635,7 +635,7 @@ public class Flag {
      * @param flag the flag which the bossbar belongs to
      * @param value the amount of progress on the bossbar to display, should be the flag's progress or capture index/max caps
      */
-    public void setFlagBarValue(Flag flag, float value) {
+    private void setFlagBarValue(Flag flag, float value) {
         bars.get(flag).progress(value);
     }
 
@@ -644,7 +644,7 @@ public class Flag {
      * @param flag the flag which the bossbar belongs to
      * @param color the colour to put the bossbar to
      */
-    public void setFlagBarColour(Flag flag, BossBar.Color color) {
+    private void setFlagBarColour(Flag flag, BossBar.Color color) {
         bars.get(flag).color(color);
     }
 
@@ -653,7 +653,7 @@ public class Flag {
      */
     public static void registerBossbars() {
         for (Flag flag : MapController.getCurrentMap().flags) {
-            createFlagBossbar(flag, getBarColour(flag.getColor()), BossBar.Overlay.PROGRESS, flag.name, (float) flag.animationIndex/flag.maxCap);
+            createFlagBossbar(flag, getBarColour(flag.getColor()), flag.name, (float) flag.animationIndex/flag.maxCap);
         }
     }
 }

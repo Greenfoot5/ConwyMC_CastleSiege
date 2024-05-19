@@ -1,10 +1,10 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -17,6 +17,9 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * A curse that gives a player a random kit
+ */
 public class PossessionCurse extends CurseCast {
     public final static String name = "Curse of Possession";
     private final static String activateMessage = "Random kits have possessed player(s)!";
@@ -32,7 +35,7 @@ public class PossessionCurse extends CurseCast {
     }
 
     @Override
-    public void cast() {
+    protected void cast() {
         Messenger.broadcastCurse("<dark_red>" + name + "</dark_red> has been activated! " + activateMessage);
         playSound(MapController.getPlayers());
 
@@ -51,6 +54,9 @@ public class PossessionCurse extends CurseCast {
         }
     }
 
+    /**
+     * @return The kit's name
+     */
     public String getKit() {
         return kitName;
     }
@@ -82,11 +88,16 @@ public class PossessionCurse extends CurseCast {
         throw new AssertionError();
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new Possession Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
         private String kitName;
 
+        /**
+         * Creates a new CurseBuilder for Possession
+         */
         public CurseBuilder() {
             super(name, activateMessage, expireMessage);
             kitName = null;
@@ -97,19 +108,26 @@ public class PossessionCurse extends CurseCast {
             this.options.add(List.of("[player]"));
         }
 
-        public PossessionCurse cast() {
+        public void cast() {
             PossessionCurse curse = new PossessionCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
 
+        /**
+         * @param player The uuid of the player to curse. Use {@code null} if it should target everyone
+         * @return The CurseBuilder
+         */
         public CurseBuilder setPlayer(UUID player) {
             this.player = player;
             return this;
         }
 
+        /**
+         * @param kitName The name of the kit to possess the player. Use {@code null} or {@code random} if it should give a random kit
+         * @return The CurseBuilder
+         */
         public CurseBuilder setKit(String kitName) {
             if (kitName.equalsIgnoreCase("random")) {
                 kitName = null;

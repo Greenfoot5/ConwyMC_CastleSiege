@@ -65,6 +65,9 @@ public class RamEvent extends Event implements Cancellable {
         return HANDLERS;
     }
 
+    /**
+     * @return The list of handlers
+     */
     @SuppressWarnings("unused")
     public static HandlerList getHandlerList() {
         return HANDLERS;

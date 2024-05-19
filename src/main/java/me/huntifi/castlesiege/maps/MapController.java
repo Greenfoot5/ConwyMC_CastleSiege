@@ -6,24 +6,25 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
-import me.huntifi.castlesiege.commands.staff.boosters.GrantBooster;
-import me.huntifi.castlesiege.commands.staff.maps.SpectateCommand;
+import me.huntifi.castlesiege.commands.staff.boosters.GrantBoosterCommand;
 import me.huntifi.castlesiege.data_types.Booster;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.castlesiege.data_types.CSStats;
 import me.huntifi.castlesiege.data_types.CoinBooster;
 import me.huntifi.castlesiege.data_types.KitBooster;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.MVPStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
+import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.MapKit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
+import me.huntifi.castlesiege.maps.events.NextMapEvent;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Door;
@@ -31,16 +32,25 @@ import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.castlesiege.maps.objects.Gate;
 import me.huntifi.castlesiege.maps.objects.Ram;
 import me.huntifi.castlesiege.secrets.SecretItems;
+import me.huntifi.conwymc.data_types.PlayerData;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.database.ActiveData;
+import me.huntifi.conwymc.database.LoadData;
+import me.huntifi.conwymc.gui.Gui;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.GameRule;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -91,6 +101,8 @@ public class MapController {
 	public static boolean disableSwitching = false;
 	public static boolean allKitsFree = false;
 	public static boolean forcedRandom = false;
+
+	private static final ArrayList<UUID> spectators = new ArrayList<>();
 
 	/**
 	 * Begins the map loop
@@ -275,6 +287,13 @@ public class MapController {
 				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 			}
 		}
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				beginVote();
+			}
+		}.runTask(Main.plugin);
+
 		VoteSkipCommand.clearVotes();
 		AssistKill.reset();
 		Explosion.reset();
@@ -286,7 +305,7 @@ public class MapController {
 			public void run() {
 				nextMap();
 			}
-		}.runTaskLater(Main.plugin, 150);
+		}.runTaskLater(Main.plugin, 200);
 
 	}
 
@@ -302,8 +321,8 @@ public class MapController {
 			double score = MVPStats.getStats(p.getUniqueId()).getScore();
 
 			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
-				ActiveData.getData(p.getUniqueId()).addCoins(50 * PlayerData.getCoinMultiplier());
-				Messenger.sendSuccess("<gold>+" + (50 * PlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
+				CSActiveData.getData(p.getUniqueId()).addCoins(50 * CSPlayerData.getCoinMultiplier());
+				Messenger.sendSuccess("<gold>+" + (50 * CSPlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
 			}
 		}
 	}
@@ -315,7 +334,7 @@ public class MapController {
 	private static void awardMVPs() {
 		// Check if the map has enough activity
 		int minimumCount = 0;
-		for (PlayerData data : MVPStats.getStats().values()) {
+		for (CSStats data : MVPStats.getStats().values()) {
 			if (data.getScore() >= 20) {
 				minimumCount++;
 			}
@@ -326,11 +345,11 @@ public class MapController {
 
 		Random random = new Random();
 		for (Team team : getCurrentMap().teams) {
-			Tuple<UUID, PlayerData> mvp = team.getMVP();
+			Tuple<UUID, CSStats> mvp = team.getMVP();
 			if (mvp == null)
 				continue; // Continue to the next team if this one doesn't have an MVP
 			UUID uuid = mvp.getFirst();
-			PlayerData data = ActiveData.getData(uuid);
+			CSPlayerData data = CSActiveData.getData(uuid);
 			data.addMVP();
 
 			// Find out if boosters should be awarded
@@ -360,11 +379,14 @@ public class MapController {
 					booster = new KitBooster(duration, kit);
 				}
 
-				GrantBooster.updateDatabase(uuid, booster);
+				GrantBoosterCommand.updateDatabase(uuid, booster);
 				data.addBooster(booster);
 				Player player = getPlayer(uuid);
 				if (player != null) {
-					Messenger.broadcastSuccess(player.displayName().append(Component.text(" gained a " + booster.getName() + " for being MVP!")));
+					Messenger.broadcastSuccess(player.displayName()
+							.append(Component.text(" gained a "))
+							.append(booster.getName())
+							.append(Component.text(" for being MVP!")));
 				}
 			}
 		}
@@ -375,13 +397,30 @@ public class MapController {
 	 * starts the loading of the next map
 	 */
 	private static void nextMap() {
-		MVPStats.reset();
-
 		Map oldMap = maps.get(mapIndex);
 		if (finalMap()) {
-			Main.instance.getLogger().info("Completed map cycle! Restarting server...");
-			getServer().spigot().restart();
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					NextMapEvent event = new NextMapEvent(oldMap.name, false);
+					Bukkit.getPluginManager().callEvent(event);
+
+					// Save all data
+					StoreData.storeAll();
+
+					Main.instance.getLogger().info("Completed map cycle! Restarting server...");
+					getServer().spigot().restart();
+				}
+			}.runTask(Main.plugin);
 		} else {
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					NextMapEvent event = new NextMapEvent(oldMap.name, true);
+					Bukkit.getPluginManager().callEvent(event);
+				}
+			}.runTaskAsynchronously(Main.plugin);
+
 			mapIndex++;
 			Main.instance.getLogger().info("Loading next map: " + maps.get(mapIndex).name);
 			unloadMap(oldMap);
@@ -395,7 +434,6 @@ public class MapController {
 	public static void loadMap() {
 		// Clear the scoreboard & reset stats
 		Scoreboard.clearScoreboard();
-		MVPStats.reset();
 
 		// Register doors
 		for (Door door : maps.get(mapIndex).doors) {
@@ -410,7 +448,7 @@ public class MapController {
 		// Move all players to the new map and team
 		if (!keepTeams || maps.get(mapIndex).teams.length < teams.size()) {
 			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
-				if (!SpectateCommand.spectators.contains(player.getUniqueId()) && !DuelCommand.isDueling(player))
+				if (!isSpectator(player.getUniqueId()) && !DuelCommand.isDueling(player))
 					joinATeam(player.getUniqueId());
 			}
 		} else {
@@ -427,7 +465,7 @@ public class MapController {
 		Main.plugin.getComponentLogger().info(Component.text("Spawning secret items if there are any.", NamedTextColor.DARK_GREEN));
 
 		// Teleport Spectators
-		for (UUID spectator : SpectateCommand.spectators) {
+		for (UUID spectator : spectators) {
 			Player player = getPlayer(spectator);
 			if (player != null && player.isOnline()) {
 				if (MapController.getCurrentMap() instanceof CoreMap) {
@@ -593,7 +631,7 @@ public class MapController {
 
 		if (kit instanceof TeamKit || kit instanceof MapKit) {
 			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
-			ActiveData.getData(player.getUniqueId()).setKit("swordsman");
+			CSActiveData.getData(player.getUniqueId()).setKit("swordsman");
 		}
 
 		Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), true);
@@ -712,12 +750,8 @@ public class MapController {
 		assert player != null;
 
 		team.addPlayer(uuid);
-
 		player.teleport(team.lobby.spawnPoint);
-		NameTag.give(player);
-
 		player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_2, 1f, 1f);
-
 		Messenger.send(Component.text("You joined ").append(Component.text(team.name, team.primaryChatColor)), player);
 
 		checkTeamKit(player);
@@ -754,7 +788,7 @@ public class MapController {
 		if (team != null)
 			team.removePlayer(uuid);
 		else if (isSpectator(uuid))
-			SpectateCommand.spectators.remove(uuid);
+			spectators.remove(uuid);
 	}
 
 	/**
@@ -785,12 +819,25 @@ public class MapController {
 	}
 
 	/**
+	 * @return All the players and spectators
+	 */
+	public static List<UUID> getEveryone() {
+		List<UUID> players = new ArrayList<>();
+		for (Team t : getCurrentMap().teams) {
+			players.addAll(t.getPlayers());
+		}
+		players.addAll(spectators);
+
+		return players;
+	}
+
+	/**
 	 * Checks if a player is a spectator
 	 * @param uuid The uuid of the player to check
      * @return If the player is a spectator
 	 */
 	public static boolean isSpectator(UUID uuid) {
-		return SpectateCommand.spectators.contains(uuid);
+		return spectators.contains(uuid);
 	}
 
 	/**
@@ -798,5 +845,83 @@ public class MapController {
 	 */
 	public static boolean isOngoing() {
 		return timer.state == TimerState.ONGOING;
+	}
+
+	/**
+	 * Displays the GUI allowing players to vote if they liked/disliked a map
+	 */
+	public static void beginVote() {
+		if (getPlayers().size() < 4) {
+			Messenger.broadcastError("Not enough players for a fair vote. Map votes will not be recorded.");
+			return;
+		}
+
+		for (UUID uuid : getPlayers()) {
+			Player p = Bukkit.getPlayer(uuid);
+			if (p == null) continue;
+
+			Gui gui = new Gui(Component.text("Did you enjoy the map?"), 1, true);
+
+			gui.addItem(Component.text("Vote: Yes", NamedTextColor.DARK_GREEN), Material.EMERALD_BLOCK,
+					Collections.singletonList(Component.text("Click here if you liked this map", NamedTextColor.DARK_GREEN)),
+					3, "mapvote yes", true);
+			gui.addItem(Component.text("Vote: No", NamedTextColor.RED), Material.REDSTONE_BLOCK,
+					Collections.singletonList(Component.text("Click here if you didn't like this map", NamedTextColor.RED)),
+					5, "mapvote no", true);
+
+            gui.open(p);
+		}
+	}
+
+	/**
+	 * Completely removes a player from Castle Siege
+	 * @param player The player to remove
+	 */
+	public static void removePlayer(Player player) {
+		Team team = TeamController.getTeam(player.getUniqueId());
+		team.removePlayer(player.getUniqueId());
+
+		// Remove player from gameplay
+		for (Flag flag : MapController.getCurrentMap().flags) {
+			flag.playerExit(player);
+		}
+		for (Gate gate : MapController.getCurrentMap().gates) {
+			Ram ram = gate.getRam();
+			if (ram != null)
+				ram.playerExit(player);
+		}
+
+		// Remove from events/commands
+		BarCooldown.remove(player.getUniqueId());
+		VoteSkipCommand.removePlayer(player.getUniqueId());
+		Scoreboard.clearScoreboard(player);
+		InCombat.playerDied(player.getUniqueId());
+		Kit.equippedKits.remove(player.getUniqueId());
+
+		// Clean the player's inventory
+		player.getInventory().clear();
+		player.setExp(0);
+
+        try {
+			// Save a player's data and reset their current data into PlayerData from CSPlayerData
+            StoreData.store(player.getUniqueId(), CSActiveData.getData(player.getUniqueId()));
+			PlayerData data = LoadData.load(player.getUniqueId());
+			ActiveData.addPlayer(player.getUniqueId(), data);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+	public static void addSpectator(Player player) {
+		spectators.add(player.getUniqueId());
+		player.setGameMode(GameMode.SPECTATOR);
+		removePlayer(player);
+	}
+
+	public static void removeSpectator(Player player) {
+		MapController.joinATeam(player.getUniqueId());
+		player.setGameMode(GameMode.SURVIVAL);
+		InCombat.playerDied(player.getUniqueId());
+		Scoreboard.clearScoreboard(player);
 	}
 }

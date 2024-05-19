@@ -23,7 +23,7 @@ public class ArrowRemoval implements Listener {
 
 		if (e.getEntity() instanceof Arrow) {
 			Arrow arrow = (Arrow) e.getEntity();
-				arrow.remove();
+			arrow.remove();
 		}
 	}
 }

@@ -1,15 +1,15 @@
 package me.huntifi.castlesiege.kits.kits.team_kits.firelands;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -49,6 +49,9 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
     private Fireball ball;
     private Player shooter;
 
+    /**
+     * Creates a new Firelands Abyssal
+     */
     public FirelandsAbyssal() {
         super("Abyssal", 600, 9, "Firelands",
                 "Burning Legion", 5000, Material.MAGMA_BLOCK,
@@ -60,16 +63,15 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
                 Component.text("Fist", NamedTextColor.RED),
                 Collections.singletonList(Component.text("Right-click to start spawning a magma projectile", NamedTextColor.AQUA)),
                 null, 30.5);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
+                CSItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
                         Component.text("Fist", NamedTextColor.RED),
                         Arrays.asList(Component.text("Right-click to start spawning a magma projectile!", NamedTextColor.AQUA),
                                 Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
@@ -77,7 +79,7 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
                 0);
 
         // Weapon
-        es.offhand = ItemCreator.item(new ItemStack(Material.GREEN_DYE),
+        es.offhand = CSItemCreator.item(new ItemStack(Material.GREEN_DYE),
                 Component.text("Fist", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("Right-click to start spawning a magma projectile!", NamedTextColor.AQUA)), null);
 
@@ -107,6 +109,9 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
         disguise(p, playerDisguise);
     }
 
+    /**
+     * @param p The player spawning the magma projectile
+     */
     public void spawnMagmaProjectile(Player p) {
 
         if (InCombat.isPlayerInLobby(p.getUniqueId())) {
@@ -132,6 +137,9 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
 
     }
 
+    /**
+     * @param p The player launching the projectile
+     */
     public void launchProjectile(Player p) {
 
         //Location above = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 2, p.getLocation().getZ());
@@ -157,6 +165,9 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
         }.runTaskLater(Main.plugin, 60);
     }
 
+    /**
+     * @param event When the magma projectile hits something
+     */
     @EventHandler
     public void onImpact(ProjectileHitEvent event) {
         if (Objects.equals(ball, event.getEntity())) {

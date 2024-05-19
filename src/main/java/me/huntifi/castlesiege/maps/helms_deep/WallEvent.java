@@ -1,12 +1,12 @@
 package me.huntifi.castlesiege.maps.helms_deep;
 
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -45,130 +45,141 @@ public class WallEvent implements Listener {
 
 	/**
 	 * Called when the player picks up the TNT on Helms Deep
-	 */
+     * @param e When a player tries to grab the tnt
+     */
 	@EventHandler
 	public void onPickupTake(PlayerInteractEvent e) {
 
 		Player player = e.getPlayer();
 
 		// Check we're on HelmsDeep
-		if(MapController.getCurrentMap().worldName.equals("HelmsDeep") && MapController.isOngoing()) {
-			// Check the player has right-clicked a block while standing within 5 blocks of the spawner
-			if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.getLocation().distance(PICKUP_LOCATION) <= 5) {
-				// If the player clicks on some TNT
-				if(!Objects.equals(TeamController.getTeam(player.getUniqueId()).name,
-						MapController.getCurrentMap().teams[0].name)) {
-					// Check the player isn't on the defending team
-					if (Objects.requireNonNull(e.getClickedBlock()).getType() == Material.TNT && tnt_counter < TNT_LOCATIONS.length) {
+        if (!MapController.getCurrentMap().worldName.equals("HelmsDeep") || !MapController.isOngoing()) {
+            return;
+        }
+        // Check the player has right-clicked a block while standing within 5 blocks of the spawner
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK || !(player.getLocation().distance(PICKUP_LOCATION) <= 5)) {
+            return;
+        }
+        // If the player clicks on some TNT
+        if (Objects.equals(TeamController.getTeam(player.getUniqueId()).name,
+                MapController.getCurrentMap().teams[0].name)) {
+            return;
+        }
+        // Check the player isn't on the defending team
+        if (Objects.requireNonNull(e.getClickedBlock()).getType() == Material.TNT && tnt_counter < TNT_LOCATIONS.length) {
 
-						// Replace the block with air
-						e.getClickedBlock().setType(Material.AIR);
+            // Replace the block with air
+            e.getClickedBlock().setType(Material.AIR);
 
-						// Set the player's hat to be the TNT
-						ItemStack tnt = new ItemStack(Material.TNT);
-						ItemMeta tntMeta = tnt.getItemMeta();
-						assert tntMeta != null;
-						tntMeta.displayName(Component.text("TNT-Head", NamedTextColor.GREEN));
-						player.getInventory().setHelmet(tnt);
+            // Set the player's hat to be the TNT
+            ItemStack tnt = new ItemStack(Material.TNT);
+            ItemMeta tntMeta = tnt.getItemMeta();
+            assert tntMeta != null;
+            tntMeta.displayName(Component.text("TNT-Head", NamedTextColor.GREEN));
+            player.getInventory().setHelmet(tnt);
 
-						// Notify the player
-						Messenger.sendActionInfo("You picked up the explosives!", player);
-						carrier = player.getUniqueId();
+            // Notify the player
+            Messenger.sendActionInfo("You picked up the explosives!", player);
+            carrier = player.getUniqueId();
 
-					// The player clicked on the torch
-					} else if (Objects.requireNonNull(e.getClickedBlock()).getType() == Material.TORCH
-							&& tnt_counter == TNT_LOCATIONS.length) {
+        // The player clicked on the torch
+        } else if (Objects.requireNonNull(e.getClickedBlock()).getType() == Material.TORCH
+                && tnt_counter == TNT_LOCATIONS.length) {
 
-						// Replace the block with air
-						e.getClickedBlock().setType(Material.AIR);
+            // Replace the block with air
+            e.getClickedBlock().setType(Material.AIR);
 
-						// Set the player's hat to be the TNT
-						ItemStack tnt = new ItemStack(Material.GLOWSTONE);
-						ItemMeta tntMeta = tnt.getItemMeta();
-						assert tntMeta != null;
-						tntMeta.displayName(Component.text("Glowstone Head", NamedTextColor.GREEN));
-						player.getInventory().setHelmet(tnt);
+            // Set the player's hat to be the TNT
+            ItemStack tnt = new ItemStack(Material.GLOWSTONE);
+            ItemMeta tntMeta = tnt.getItemMeta();
+            assert tntMeta != null;
+            tntMeta.displayName(Component.text("Glowstone Head", NamedTextColor.GREEN));
+            player.getInventory().setHelmet(tnt);
 
-						// Notify the player(s)
-						Messenger.sendInfo("You picked up the torch!", player);
-						Messenger.broadcastWarning(NameTag.mmUsername(player) + " has picked up the torch!");
-						carrier = player.getUniqueId();
-					}
-				}
-			}
-		}
-	}
+            // Notify the player(s)
+            Messenger.sendInfo("You picked up the torch!", player);
+            Messenger.broadcastWarning(CSNameTag.mmUsername(player) + " has picked up the torch!");
+            carrier = player.getUniqueId();
+        }
+    }
 
 	/**
 	 * Called when the player places a block
-	 */
+     * @param e When the player tries to place the tnt
+     */
 	@EventHandler
 	public void onPickupPlace(PlayerInteractEvent e) {
 
 		Player p = e.getPlayer();
 
 		// Check we're playing on Helms Deep
-		if(MapController.getCurrentMap().worldName.equals("HelmsDeep")) {
-			// Check the player is currently carrying the tnt
-			if (p.getUniqueId() == carrier && e.getClickedBlock() != null) {
+        if (!MapController.getCurrentMap().worldName.equals("HelmsDeep")) {
+            return;
+        }
+        // Check the player is currently carrying the tnt
+        if (p.getUniqueId() != carrier || e.getClickedBlock() == null) {
+            return;
+        }
 
-				if (e.getClickedBlock().getLocation().distance(PLACE_LOCATION) <= 5) {
+        if (!(e.getClickedBlock().getLocation().distance(PLACE_LOCATION) <= 5)) {
+            return;
+        }
 
-					// Reset stuff
-					WoolHat.setHead(p);
-					carrier = null;
+        // Reset stuff
+        WoolHat.setHead(p);
+        carrier = null;
 
-					// The player is trying to place tnt
-					if (tnt_counter < TNT_LOCATIONS.length) {
-						// Place the tnt
-						TNT_LOCATIONS[tnt_counter].getBlock().setType(Material.TNT);
-						tnt_counter++;
+        // The player is trying to place tnt
+        if (tnt_counter < TNT_LOCATIONS.length) {
+            // Place the tnt
+            TNT_LOCATIONS[tnt_counter].getBlock().setType(Material.TNT);
+            tnt_counter++;
 
-						// Inform the player and grant stats
-						Messenger.sendInfo("You placed the explosive down. (" + tnt_counter + "/" + TNT_LOCATIONS.length + ")", p);
-						UpdateStats.addSupports(p.getUniqueId(), 30);
+            // Inform the player and grant stats
+            Messenger.sendInfo("You placed the explosive down. (" + tnt_counter + "/" + TNT_LOCATIONS.length + ")", p);
+            UpdateStats.addSupports(p.getUniqueId(), 30);
 
-						// Spawn either the torch or tnt next
-						if (tnt_counter == 3) {
-							Messenger.sendInfo("Now get the torch!", p);
-							PICKUP_LOCATION.getBlock().setType(Material.TORCH);
-						} else {
-							PICKUP_LOCATION.getBlock().setType(Material.TNT);
-						}
+            // Spawn either the torch or tnt next
+            if (tnt_counter == 3) {
+                Messenger.sendInfo("Now get the torch!", p);
+                PICKUP_LOCATION.getBlock().setType(Material.TORCH);
+            } else {
+                PICKUP_LOCATION.getBlock().setType(Material.TNT);
+            }
 
-					// The player is placing the torch
-					} else if (tnt_counter == 3) {
+        // The player is placing the torch
+        } else if (tnt_counter == 3) {
 
-						// Paste the wall in the correct location
-						final Location wallLoc = new Location(Bukkit.getWorld("HelmsDeep"), 1040, 34, 1140);
-						SchematicSpawner.spawnSchematic(wallLoc, "HelmsdeepWallBroken");
+            // Paste the wall in the correct location
+            final Location wallLoc = new Location(Bukkit.getWorld("HelmsDeep"), 1040, 34, 1140);
+            SchematicSpawner.spawnSchematic(wallLoc, "HelmsdeepWallBroken");
 
-						// Kill any players within DEATH_RADIUS blocks
-						for (Player close : Bukkit.getOnlinePlayers()) {
-							double closeDistance = close.getLocation().distance(PLACE_LOCATION);
-							if (closeDistance < DEATH_RADIUS) { close.setHealth(0); }
-						}
+            // Kill any players within DEATH_RADIUS blocks
+            for (Player close : Bukkit.getOnlinePlayers()) {
+                double closeDistance = close.getLocation().distance(PLACE_LOCATION);
+                if (closeDistance < DEATH_RADIUS) { close.setHealth(0); }
+            }
 
-						// Create our explosion
-						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).createExplosion(TNT_LOCATIONS[0], 15, false, false, p);
-						UpdateStats.addSupports(p.getUniqueId(), 60);
+            // Create our explosion
+            Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).createExplosion(TNT_LOCATIONS[0], 15, false, false, p);
+            UpdateStats.addSupports(p.getUniqueId(), 60);
 
-						// Play various sound effects to make it sound like a massive explosion
-						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[0], Sound.ENTITY_GENERIC_EXPLODE , 10000, 2 );
-						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[1], Sound.ENTITY_FIREWORK_ROCKET_BLAST_FAR , 10000, 2 );
-						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[2], Sound.ENTITY_FIREWORK_ROCKET_BLAST , 10000, 2 );
-						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[0], Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST , 10000, 2 );
-						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[1], Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 10000, 2 );
-						Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[2], Sound.ENTITY_DRAGON_FIREBALL_EXPLODE , 10000, 2 );
-						Messenger.broadcastWarning("The Deeping Wall has been blown up!");
+            // Play various sound effects to make it sound like a massive explosion
+            Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[0], Sound.ENTITY_GENERIC_EXPLODE , 10000, 2 );
+            Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[1], Sound.ENTITY_FIREWORK_ROCKET_BLAST_FAR , 10000, 2 );
+            Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[2], Sound.ENTITY_FIREWORK_ROCKET_BLAST , 10000, 2 );
+            Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[0], Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST , 10000, 2 );
+            Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[1], Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 10000, 2 );
+            Objects.requireNonNull(Bukkit.getWorld("HelmsDeep")).playSound(TNT_LOCATIONS[2], Sound.ENTITY_DRAGON_FIREBALL_EXPLODE , 10000, 2 );
+            Messenger.broadcastWarning("The Deeping Wall has been blown up!");
 
-						tnt_counter++;
-					}
-				}
-			}
-		}
-	}
+            tnt_counter++;
+        }
+    }
 
+	/**
+	 * @param e The carrier of the tnt/torch dies
+	 */
 	@EventHandler
 	public void onCarrierDeath(PlayerDeathEvent e) {
 
@@ -178,11 +189,17 @@ public class WallEvent implements Listener {
 		}
 	}
 
+	/**
+	 * @param e The carrier of the tnt/torch leaves the game
+	 */
 	@EventHandler
 	public void onCarrierQuit(PlayerQuitEvent e) {
 		nullCarrier(e.getPlayer());
 	}
 
+	/**
+	 * @param e The carrier of the tnt/torch changes world
+	 */
 	@EventHandler
 	public void onCarrierLeave(PlayerChangedWorldEvent e) {
 		nullCarrier(e.getPlayer());

@@ -1,6 +1,5 @@
 package me.huntifi.castlesiege.events.curses;
 
-import me.huntifi.castlesiege.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -12,6 +11,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * An event for when a curse is cast
+ */
 public abstract class CurseCast extends Event implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
     private boolean isCancelled;
@@ -34,30 +36,45 @@ public abstract class CurseCast extends Event implements Cancellable {
 
     protected abstract void cast();
 
+    /**
+     * @return The display name for the curse
+     */
     public String getDisplayName() {
         return displayName;
     }
 
+    /**
+     * @return The message to display when the curse is activated
+     */
     public String getActivateMessage() {
         return activateMessage;
     }
 
+    /**
+     * @return The message to display when the curse is deactivated
+     */
     public String getExpireMessage() {
         return expireMessage;
     }
 
+    /**
+     * @return The time the curse began
+     */
     public long getStartTime() {
         return startTime;
     }
 
+    /**
+     * @return How long the curse lasts
+     */
     public int getDuration() {
         return duration;
     }
 
-    public long getEndTime() {
-        return startTime + duration;
-    }
-
+    /**
+     * The player affected by the curse, {@code null} if all players are affected
+     * @return The player affected
+     */
     public UUID getPlayer() {
         return player;
     }
@@ -66,15 +83,14 @@ public abstract class CurseCast extends Event implements Cancellable {
         this.startTime = System.currentTimeMillis() / 1000;
     }
 
-    public String getRemainingTime() {
-        return Main.getTimeString(getEndTime() - (System.currentTimeMillis() / 1000));
-    }
-
     @Override
     public @NotNull HandlerList getHandlers() {
         return HANDLERS;
     }
 
+    /**
+     * @return The list of handlers
+     */
     @SuppressWarnings("unused")
     public static HandlerList getHandlerList() {
         return HANDLERS;
@@ -98,6 +114,9 @@ public abstract class CurseCast extends Event implements Cancellable {
         }
     }
 
+    /**
+     * The builder to create a new curse
+     */
     //Builder Class
     public abstract static class CurseBuilder {
 
@@ -112,6 +131,11 @@ public abstract class CurseCast extends Event implements Cancellable {
 
         public UUID player;
 
+        /**
+         * @param name The name of the curse
+         * @param activateMessage The message to display when the curse is activated
+         * @param expireMessage The message to display when the curse expires
+         */
         public CurseBuilder(String name, String activateMessage, String expireMessage){
             this.displayName = name;
             this.activateMessage = activateMessage;
@@ -121,13 +145,24 @@ public abstract class CurseCast extends Event implements Cancellable {
             this.duration = -1;
         }
 
+        /**
+         * @param index The index of the options to display
+         * @return The options a player could use
+         */
         public List<String> getCommandOptions(int index) {
             return options.get(index);
         }
+
+        /**
+         * @return The maximum number of arguments
+         */
         public int getCommandOptionsLength() {
             return options.size();
         }
 
-        public abstract CurseCast cast();
+        /**
+         * Activates the curse
+         */
+        public abstract void cast();
     }
 }

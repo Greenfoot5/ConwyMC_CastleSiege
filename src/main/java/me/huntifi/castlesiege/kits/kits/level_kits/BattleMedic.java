@@ -1,16 +1,16 @@
 package me.huntifi.castlesiege.kits.kits.level_kits;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.LevelKit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -36,6 +36,9 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Like a normal medic, but a better fighter
+ */
 public class BattleMedic extends LevelKit implements Listener {
 
     private static final int health = 300;
@@ -49,6 +52,9 @@ public class BattleMedic extends LevelKit implements Listener {
 
     public static final ArrayList<Player> cooldown = new ArrayList<>();
 
+    /**
+     * Creates a new battle medic
+     */
     public BattleMedic() {
         super("Battle Medic", health, regen, Material.PAPER, level);
 
@@ -56,21 +62,20 @@ public class BattleMedic extends LevelKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Short-sword", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Short-sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
+        es.chest = CSItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
                 Component.text("Iron Chestplate", NamedTextColor.GREEN), null, null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -80,20 +85,20 @@ public class BattleMedic extends LevelKit implements Listener {
         es.chest.setItemMeta(chestMeta);
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
                 Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Bandages
-        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.PAPER, bandageCount),
+        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.PAPER, bandageCount),
                 Component.text("Bandages", NamedTextColor.DARK_AQUA),
                 Collections.singletonList(Component.text("Right click teammates to heal.", NamedTextColor.AQUA)), null);
 
@@ -138,8 +143,8 @@ public class BattleMedic extends LevelKit implements Listener {
                 Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(r), 39);
                 player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
                 addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
-                Messenger.sendActionInfo(NameTag.username(player) + "§r is healing you", r);
-                Messenger.sendActionInfo("You are healing " + NameTag.username(r), player);
+                Messenger.sendActionInfo(CSNameTag.username(player) + "§r is healing you", r);
+                Messenger.sendActionInfo("You are healing " + CSNameTag.username(r), player);
                 UpdateStats.addHeals(uuid, 1);
             }
         });

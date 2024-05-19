@@ -1,12 +1,12 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -43,32 +43,31 @@ public class Maceman extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
                 Component.text("Mace", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
+                CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
                         Component.text("Mace", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
+        es.chest = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
                 Component.text("Chainmail Chestplate", NamedTextColor.GREEN), null, null);
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -91,7 +90,7 @@ public class Maceman extends CoinKit implements Listener {
      * Activate the maceman stun ability
      * @param e The event called when hitting another player
      */
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onStun(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player p = (Player) e.getEntity();
@@ -105,8 +104,8 @@ public class Maceman extends CoinKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    Messenger.sendActionInfo(NameTag.username(p) + "§r blocked your stun", q);
-                    Messenger.sendActionInfo("Your shield broke whilst blocking " + NameTag.username(q) + "§r's stun", p);
+                    Messenger.sendActionInfo(CSNameTag.username(p) + "§r blocked your stun", q);
+                    Messenger.sendActionInfo("Your shield broke whilst blocking " + CSNameTag.username(q) + "§r's stun", p);
                     if (p.getInventory().getItemInMainHand().getType().equals(Material.SHIELD)) {
                         p.getInventory().getItemInMainHand().setAmount(0);
                     } else if (p.getInventory().getItemInOffHand().getType().equals(Material.SHIELD)) {
@@ -114,11 +113,11 @@ public class Maceman extends CoinKit implements Listener {
                     }
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK , 1, 1 );
                 } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    Messenger.sendActionInfo(NameTag.username(p) + "§r dodged your stun", q);
-                    Messenger.sendActionInfo("You dodged " + NameTag.username(q) + "§r's stun", p);
+                    Messenger.sendActionInfo(CSNameTag.username(p) + "§r dodged your stun", q);
+                    Messenger.sendActionInfo("You dodged " + CSNameTag.username(q) + "§r's stun", p);
                 } else {
-                    Messenger.sendActionInfo("You have stunned " + NameTag.username(q), p);
-                    Messenger.sendActionWarning("You have been stunned by " + NameTag.username(p) + "§r!", q);
+                    Messenger.sendActionInfo("You have stunned " + CSNameTag.username(q), p);
+                    Messenger.sendActionWarning("You have been stunned by " + CSNameTag.username(p) + "§r!", q);
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 60, 1)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 60, 2)));

@@ -1,15 +1,15 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -45,6 +45,11 @@ public class Paladin extends CoinKit implements Listener {
     private static final int ladderCount = 4;
     private static final int blessingCooldown = 500;
 
+    private final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
+
+    /**
+     * Creates a new Paladin
+     */
     public Paladin() {
         super("Paladin", health, regen, Material.GOLDEN_AXE);
 
@@ -53,27 +58,26 @@ public class Paladin extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GOLDEN_AXE),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.GOLDEN_AXE),
                 Component.text("Holy Hammer", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.GOLDEN_AXE),
+                CSItemCreator.weapon(new ItemStack(Material.GOLDEN_AXE),
                         Component.text("Holy Hammer", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_UNDEAD, 5)), meleeDamage + 2),
                 0);
 
         // Weapon
-        es.offhand = ItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
+        es.offhand = CSItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
                 Component.text("Blessed Shield", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("Right-click block.", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)) , 10);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
+        es.chest = CSItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
                 Component.text("Blessed Chestplate", NamedTextColor.GREEN), null, null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -83,7 +87,7 @@ public class Paladin extends CoinKit implements Listener {
         es.chest.setItemMeta(chestMeta);
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
                 Component.text("Blessed Iron Leggings", NamedTextColor.GREEN), null, null);
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
@@ -93,10 +97,10 @@ public class Paladin extends CoinKit implements Listener {
         es.legs.setItemMeta(legsMeta);
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
                 Component.text("Paladin Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
                 Component.text("Paladin Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -109,7 +113,7 @@ public class Paladin extends CoinKit implements Listener {
         es.votedFeet.setItemMeta(bootsMeta);
 
         // divine blessing
-        ItemStack divine = ItemCreator.weapon(new ItemStack(Material.BOOK, 3),
+        ItemStack divine = CSItemCreator.weapon(new ItemStack(Material.BOOK, 3),
                 Component.text("Divine Blessing", NamedTextColor.GOLD),
                 Arrays.asList(Component.empty(),
                         Component.text("Give yourself regeneration VI and give", NamedTextColor.AQUA),
@@ -131,11 +135,15 @@ public class Paladin extends CoinKit implements Listener {
 
     }
 
-    public void bless(Player blesser, Player blessed) {
+    /**
+     * @param blesser The player performing the blessing
+     * @param blessed The player being blessed
+     */
+    private void bless(Player blesser, Player blessed) {
 
         blesser.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
         Messenger.sendActionInfo("You blessed your surroundings!", blesser);
-        mythicParticle(blesser);
+        mythicMobsApi.castSkill(blesser,"PaladinBlessingEffect");
 
         if (TeamController.getTeam(blesser.getUniqueId()) == TeamController.getTeam(blessed.getUniqueId())
                 && blesser.getLocation().distance(blessed.getLocation()) <= 5 && blesser != blessed) {
@@ -180,11 +188,6 @@ public class Paladin extends CoinKit implements Listener {
                 }
             }
         }
-    }
-
-    public void mythicParticle(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p,"PaladinBlessingEffect");
     }
 
     /**

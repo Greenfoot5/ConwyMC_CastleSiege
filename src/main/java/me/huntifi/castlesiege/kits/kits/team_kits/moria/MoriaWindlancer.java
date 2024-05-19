@@ -1,13 +1,13 @@
 package me.huntifi.castlesiege.kits.kits.team_kits.moria;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -33,6 +33,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class MoriaWindlancer extends TeamKit implements Listener {
+
+    /**
+     * Creates a new Moria Windlancer
+     */
     public MoriaWindlancer() {
         super("Windlancer", 300, 9 , "Moria",
                 "The Dwarves", 5000, Material.STICK,
@@ -40,34 +44,33 @@ public class MoriaWindlancer extends TeamKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK, 20),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STICK, 20),
                 Component.text("Small Hand-Windlass Spear", NamedTextColor.GREEN), null, null, 29);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.STICK, 20),
+                CSItemCreator.weapon(new ItemStack(Material.STICK, 20),
                         Component.text("Small Hand-Windlass Spear", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(218, 211, 183));
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(218, 183, 183));
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -120,7 +123,7 @@ public class MoriaWindlancer extends TeamKit implements Listener {
      * Set the thrown spear's damage
      * @param e The event called when an arrow hits a player
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void changeSpearDamage(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow) {
             Arrow arrow = (Arrow) e.getEntity();
@@ -135,8 +138,7 @@ public class MoriaWindlancer extends TeamKit implements Listener {
         }
     }
 
-
-    public void shootSpearBurst(Player p) {
+    private void shootSpearBurst(Player p) {
         p.setCooldown(Material.STICK, 60);
         burstSpear(p,  9);
         burstSpear(p,  18);

@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.database;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.events.chat.Messenger;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.conwymc.events.nametag.UpdateNameTagEvent;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -11,6 +11,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
+/**
+ * Updated a player's stats for both current game and all-time
+ */
 public class UpdateStats {
 
     /**
@@ -18,7 +21,7 @@ public class UpdateStats {
      * @param uuid The unique ID of the player
      */
     public static void addKill(UUID uuid) {
-        ActiveData.getData(uuid).addKill();
+        CSActiveData.getData(uuid).addKill();
         MVPStats.getStats(uuid).addKill();
         level(uuid);
     }
@@ -29,10 +32,10 @@ public class UpdateStats {
      * @param deaths The amount of deaths to add
      */
     public static void addDeaths(UUID uuid, double deaths) {
-        if (uuid == null || ActiveData.getData(uuid) == null)
+        if (uuid == null || CSActiveData.getData(uuid) == null)
             return;
 
-        ActiveData.getData(uuid).addDeaths(deaths);
+        CSActiveData.getData(uuid).addDeaths(deaths);
         MVPStats.getStats(uuid).addDeaths(deaths);
     }
 
@@ -42,10 +45,10 @@ public class UpdateStats {
      */
     public static void addAssist(UUID uuid) {
         // Return if the player is offline
-        if (ActiveData.getData(uuid) == null)
+        if (CSActiveData.getData(uuid) == null)
             return;
 
-        ActiveData.getData(uuid).addAssist();
+        CSActiveData.getData(uuid).addAssist();
         MVPStats.getStats(uuid).addAssist();
         level(uuid);
     }
@@ -56,7 +59,7 @@ public class UpdateStats {
      * @param captures The amount of captures to add
      */
     public static void addCaptures(UUID uuid, double captures) {
-        ActiveData.getData(uuid).addCaptures(captures);
+        CSActiveData.getData(uuid).addCaptures(captures);
         MVPStats.getStats(uuid).addCaptures(captures);
         level(uuid);
     }
@@ -67,7 +70,7 @@ public class UpdateStats {
      * @param heals The amount of heal to add
      */
     public static void addHeals(UUID uuid, double heals) {
-        ActiveData.getData(uuid).addHeals(heals);
+        CSActiveData.getData(uuid).addHeals(heals);
         MVPStats.getStats(uuid).addHeals(heals);
         level(uuid);
     }
@@ -78,7 +81,7 @@ public class UpdateStats {
      * @param supports The amount of supports to add
      */
     public static void addSupports(UUID uuid, double supports) {
-        ActiveData.getData(uuid).addSupports(supports);
+        CSActiveData.getData(uuid).addSupports(supports);
         MVPStats.getStats(uuid).addSupports(supports);
         level(uuid);
     }
@@ -91,7 +94,7 @@ public class UpdateStats {
         new BukkitRunnable() {
             @Override
             public void run() {
-                PlayerData data = ActiveData.getData(uuid);
+                CSPlayerData data = CSActiveData.getData(uuid);
                 int level = data.getLevel() + 1;
                 if (data.getScore() >= levelScore(level)) {
                     data.addLevel();
@@ -101,7 +104,8 @@ public class UpdateStats {
                     Messenger.sendCongrats("Congratulations, you leveled up to level: <yellow>" + level, p);
                     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                     p.setLevel(level);
-                    NameTag.give(p);
+                    Bukkit.getScheduler().runTask(Main.plugin,
+                            () -> Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(p)));
 
                     // Announce every 5th level
                     if (level % 5 == 0) {

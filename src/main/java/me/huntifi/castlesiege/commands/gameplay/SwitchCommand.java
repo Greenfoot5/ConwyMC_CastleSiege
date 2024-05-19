@@ -1,9 +1,8 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.TeamKit;
@@ -12,6 +11,7 @@ import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -167,7 +167,7 @@ public class SwitchCommand implements CommandExecutor {
 		Kit kit = Kit.equippedKits.get(p.getUniqueId());
 		if (kit instanceof TeamKit && !Objects.equals(((TeamKit) kit).getTeamName(), team.name)) {
 			Kit.equippedKits.put(p.getUniqueId(), new Swordsman());
-			ActiveData.getData(p.getUniqueId()).setKit("swordsman");
+			CSActiveData.getData(p.getUniqueId()).setKit("swordsman");
 		}
 
 		// Respawn the player

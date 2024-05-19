@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.commands.staff;
 
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.StoreData;
-import me.huntifi.castlesiege.events.chat.Messenger;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -88,7 +88,7 @@ public class GiveVoteCommand implements TabExecutor {
      * @param vote The vote to set
      */
     private boolean setVote(UUID uuid, String vote) {
-        PlayerData data = ActiveData.getData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
 
         switch (vote.toLowerCase()) {
             case "-1":
@@ -104,6 +104,7 @@ public class GiveVoteCommand implements TabExecutor {
                 break;
             case "1":
             case "sword":
+            case "damage":
                 data.setVote("sword");
                 break;
             case "2":

@@ -2,9 +2,9 @@ package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -31,6 +31,7 @@ import java.util.Objects;
 public class WoolMap implements Listener {
 
 	public WoolMapBlock[] woolMapBlocks;
+	private static final HashMap<Player, Shulker> shulkers = new HashMap<>();
 
 	/**
 	 * Used to measure when a player clicks on a WoolMap sign
@@ -72,15 +73,22 @@ public class WoolMap implements Listener {
 		});
 	}
 
-	@EventHandler
+	/**
+	 * Handles block glows when a player is looking at the woolmap
+	 * @param e A player move event
+	 */
+	//@EventHandler
 	public void lookAtWoolmap(PlayerMoveEvent e) {
 		if (DuelCommand.challenging.containsValue(e.getPlayer()) || DuelCommand.challenging.containsKey(e.getPlayer())) {
 			return;
 		}
         if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
 			Block target = e.getPlayer().getTargetBlockExact(50);
+			if (target == null) {
+				return;
+			}
+
 			for (WoolMapBlock block : woolMapBlocks) {
-				assert target != null;
 				if (target.getLocation().distance(block.blockLocation) == 0) {
 					spawnGlower(e.getPlayer(), block.blockLocation);
 				}
@@ -89,8 +97,7 @@ public class WoolMap implements Listener {
 	}
 
 
-	public static final HashMap<Player, Shulker> shulkers = new HashMap<>();
-	public void spawnGlower(Player p, Location loc) {
+	private void spawnGlower(Player p, Location loc) {
       if ((!shulkers.containsKey(p)) || shulkers.get(p).getLocation() != loc) {
 
 		  Shulker shulker = (Shulker) Objects.requireNonNull(loc.getWorld()).spawnEntity(loc, EntityType.SHULKER);
@@ -106,7 +113,7 @@ public class WoolMap implements Listener {
 	  }
 	}
 
-	public void keepShulkerAlive(Player p, Shulker shulker, Block b) {
+	private void keepShulkerAlive(Player p, Shulker shulker, Block b) {
 
 		Block target = p.getTargetBlockExact(50);
 		new BukkitRunnable() {

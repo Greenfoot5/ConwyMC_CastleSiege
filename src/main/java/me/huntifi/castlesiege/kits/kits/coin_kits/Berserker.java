@@ -1,13 +1,14 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -54,15 +55,14 @@ public class Berserker extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        regularSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        regularSword = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Iron Sword", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage);
         es.hotbar[0] = regularSword;
         // Voted Weapon
-        regularSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        regularSwordVoted = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Iron Sword", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2);
@@ -73,15 +73,15 @@ public class Berserker extends CoinKit implements Listener {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 2);
 
         // Potion Item
-        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.POTION, 1),
+        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.POTION, 1),
                 Component.text("Berserker Potion", NamedTextColor.GOLD), null, null);
 
         // Berserk Weapon
-        berserkSword = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        berserkSword = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Berserker Sword", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamageZerk);
         // Voted Berserk Weapon
-        berserkSwordVoted = ItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
+        berserkSwordVoted = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Berserker Sword", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
@@ -107,49 +107,52 @@ public class Berserker extends CoinKit implements Listener {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
 
-
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (e.getItem() != null && e.getItem().getType() == Material.POTION) {
-                if (e.getHand() == EquipmentSlot.HAND) {
-                    p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
-                } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                    p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
-                }
-
-                p.getInventory().remove(Material.GLASS_BOTTLE);
-                if (p.getInventory().getItemInOffHand().getType() == Material.GLASS_BOTTLE)
-                    p.getInventory().setItemInOffHand(null);
-
-                // Prevent using in lobby
-                if (InCombat.isPlayerInLobby(uuid)) {
-                    e.setCancelled(true);
-                    return;
-                }
-
-                // Potion effects
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-                                p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) != null) {
-                            p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 380, 1)));
-                        }
-                    }
-                }.runTaskLater(Main.plugin, 20);
-                p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 400, 1)));
-                p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 0)));
-
-                // Sword
-                changeSword(p, regularSword.getType(), berserkSword, berserkSwordVoted);
-
-                // Revert sword
-                Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
-                    if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-                            p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) == null)
-                        changeSword(p, berserkSword.getType(), regularSword, regularSwordVoted);
-                }, 401);
-            }
+        if (!MapController.getPlayers().contains(uuid))
+            return;
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            return;
         }
+        if (e.getItem() == null || e.getItem().getType() != Material.POTION) {
+            return;
+        }
+        if (e.getHand() == EquipmentSlot.HAND) {
+            p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
+        } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+            p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
+        }
+
+        p.getInventory().remove(Material.GLASS_BOTTLE);
+        if (p.getInventory().getItemInOffHand().getType() == Material.GLASS_BOTTLE)
+            p.getInventory().setItemInOffHand(null);
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            e.setCancelled(true);
+            return;
+        }
+
+        // Potion effects
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
+                        p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) != null) {
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.CONFUSION, 380, 1)));
+                }
+            }
+        }.runTaskLater(Main.plugin, 20);
+        p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 400, 1)));
+        p.addPotionEffect((new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 0)));
+
+        // Sword
+        changeSword(p, regularSword.getType(), berserkSword, berserkSwordVoted);
+
+        // Revert sword
+        Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
+            if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
+                    p.getPotionEffect(PotionEffectType.INCREASE_DAMAGE) == null)
+                changeSword(p, berserkSword.getType(), regularSword, regularSwordVoted);
+        }, 401);
     }
 
     /**
@@ -172,7 +175,7 @@ public class Berserker extends CoinKit implements Listener {
             return;
 
         // Give new sword
-        if (ActiveData.getData(player.getUniqueId()).hasVote("sword"))
+        if (CSActiveData.getData(player.getUniqueId()).hasVote("sword"))
             inventory.addItem(swordVoted);
         else
             inventory.addItem(sword);

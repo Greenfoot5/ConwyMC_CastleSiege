@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.database.CSActiveData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,9 +25,13 @@ public class InCombat implements Listener {
 
 	/**
 	 * When a player attacks another player, they have interacted
-	 */
-	@EventHandler (ignoreCancelled = true)
+     * @param ed The event
+     */
+	@EventHandler(ignoreCancelled = true)
 	public void battles(EntityDamageByEntityEvent ed) {
+		if (!CSActiveData.hasPlayer(ed.getEntity().getUniqueId()))
+			return;
+
 		// Both are players
 		if (ed.getEntity() instanceof Player && ed.getDamager() instanceof Player)
 			addPlayerToCombat(ed.getDamager().getUniqueId());
@@ -34,9 +39,13 @@ public class InCombat implements Listener {
 
 	/**
 	 * When a player takes any damage, they are placed in combat
-	 */
-	@EventHandler (ignoreCancelled = true)
+     * @param event The event
+     */
+	@EventHandler(ignoreCancelled = true)
 	public void playerTakesDamage(EntityDamageEvent event) {
+		if (!CSActiveData.hasPlayer(event.getEntity().getUniqueId()))
+			return;
+
 		if (!(event.getEntity() instanceof Player))
 			return;
 
@@ -62,7 +71,8 @@ public class InCombat implements Listener {
 
 	/**
 	 * Removes a player's uuid from all combat lists
-	 */
+     * @param uuid The uuid that died
+     */
 	public static void playerDied(UUID uuid) {
 		inCombat.put(uuid, 0);
 		if (!isPlayerInLobby(uuid)) {
@@ -73,21 +83,26 @@ public class InCombat implements Listener {
 	/**
 	 * Adds a player to the list of those that interacted when alive.
 	 * Means they die when changing kit or team
-	 */
+     * @param uuid The uuid that spawned in
+     */
 	public static void playerSpawned(UUID uuid) {
 		inLobby.remove(uuid);
 	}
 
 	/**
 	 * Returns true if the player is still in the lobby
-	 */
+     * @param uuid The uuid of the player to check
+     * @return true if the player is in the lobby
+     */
 	public static boolean isPlayerInLobby(UUID uuid) {
 		return inLobby.contains(uuid);
 	}
 
 	/**
 	 * Returns true if the player has taken damage in the last 8s
- 	 */
+     * @param uuid The uuid to check
+     * @return true if the uuid has recently fought someone
+     */
 	public static boolean isPlayerInCombat(UUID uuid) {
 		return inCombat.get(uuid) != null && inCombat.get(uuid) > 0;
 	}

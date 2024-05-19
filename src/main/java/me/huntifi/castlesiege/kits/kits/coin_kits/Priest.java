@@ -2,17 +2,17 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.EnderchestEvent;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -57,6 +57,11 @@ public class Priest extends CoinKit implements Listener {
     private final ItemStack holyBook;
     public static final HashMap<Player, UUID> blessings = new HashMap<>();
 
+    private final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
+
+    /**
+     * Creates a new priest
+     */
     public Priest() {
         super("Priest", health, regen, Material.SPECTRAL_ARROW);
 
@@ -64,17 +69,16 @@ public class Priest extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
                 Component.text("Holy Staff", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right click to shoot a bolt of light, ", NamedTextColor.AQUA),
                         Component.text("which does damage to enemies", NamedTextColor.AQUA)), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
+                CSItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
                         Component.text("Holy Staff", NamedTextColor.GREEN),
                         Arrays.asList(Component.empty(),
                                 Component.text("Right click to shoot a bolt of light, ", NamedTextColor.AQUA),
@@ -85,7 +89,7 @@ public class Priest extends CoinKit implements Listener {
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Priest's robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(20, 0, 24));
         ItemMeta chest = es.chest.getItemMeta();
@@ -96,7 +100,7 @@ public class Priest extends CoinKit implements Listener {
         es.chest.setItemMeta(chestMeta);
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Priest's Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(20, 0, 24));
         ItemMeta legs = es.legs.getItemMeta();
@@ -107,11 +111,11 @@ public class Priest extends CoinKit implements Listener {
         es.legs.setItemMeta(legsMeta);
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Priest's Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(20, 0, 24));
         // Voted Boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Priest's Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
@@ -125,7 +129,7 @@ public class Priest extends CoinKit implements Listener {
         es.votedFeet.setItemMeta(bootsMeta);
 
         // Gouge
-        holyBook = ItemCreator.weapon(new ItemStack(Material.BOOK),
+        holyBook = CSItemCreator.weapon(new ItemStack(Material.BOOK),
                 Component.text("Holy Bible", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Select an ally with this holy book.", NamedTextColor.AQUA),
@@ -150,11 +154,6 @@ public class Priest extends CoinKit implements Listener {
         super.killMessage[1] = " to heaven";
     }
 
-    public void shootSmiteBolt(Player p) {
-        BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
-        mythicMobsApi.castSkill(p ,"PriestSmite", p.getLocation());
-    }
-
 
     /**
      * Activate the priest's ability of shooting holy stuff
@@ -177,7 +176,7 @@ public class Priest extends CoinKit implements Listener {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0) {
                         p.setCooldown(Material.SPECTRAL_ARROW, staffCooldown);
-                            shootSmiteBolt(p);
+                        mythicMobsApi.castSkill(p ,"PriestSmite", p.getLocation());
                     }
                 }
             }
@@ -201,41 +200,48 @@ public class Priest extends CoinKit implements Listener {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (book.getType().equals(Material.BOOK)) {
-                if (e.getRightClicked() instanceof Player &&
-                        TeamController.getTeam(e.getRightClicked().getUniqueId()) == TeamController.getTeam(p.getUniqueId())) {
-                    if (cooldown == 0) {
-                        p.setCooldown(Material.BOOK, blessingCooldown);
-                        blessings.put(p, e.getRightClicked().getUniqueId());
-                        assignBook(p, book);
-
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    if (blessings.containsKey(p)) {
-                                        Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 200, 3)));
-
-                                        AttributeInstance healthAttribute = Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getAttribute(Attribute.GENERIC_MAX_HEALTH);
-                                        assert healthAttribute != null;
-                                        //Priest doesn't get a heal for blessing someone who is full health.
-                                        if (Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getHealth() != healthAttribute.getBaseValue()) {
-                                            UpdateStats.addHeals(p.getUniqueId(), 1);
-                                        }
-                                        Messenger.sendActionInfo("Your blessing is currently affecting: " + NameTag.mmUsername(Bukkit.getPlayer(blessings.get(p))), p);
-                                    } else {
-                                        this.cancel();
-                                    }
-                                }
-                            }.runTaskTimer(Main.plugin, 10, 200);
-
-                    }
-                }
-            }
-
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            return;
         }
+        if (!book.getType().equals(Material.BOOK)) {
+            return;
+        }
+        if (!(e.getRightClicked() instanceof Player) ||
+                TeamController.getTeam(e.getRightClicked().getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
+            return;
+        }
+        if (cooldown != 0) {
+            return;
+        }
+        p.setCooldown(Material.BOOK, blessingCooldown);
+        blessings.put(p, e.getRightClicked().getUniqueId());
+        assignBook(p, book);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!blessings.containsKey(p)) {
+                    this.cancel();
+                    return;
+                }
+
+                Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 200, 3)));
+
+                AttributeInstance healthAttribute = Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                assert healthAttribute != null;
+                //Priest doesn't get a heal for blessing someone who is full health.
+                if (Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getHealth() != healthAttribute.getBaseValue()) {
+                    UpdateStats.addHeals(p.getUniqueId(), 1);
+                }
+                Messenger.sendActionInfo("Your blessing is currently affecting: " + CSNameTag.mmUsername(Bukkit.getPlayer(blessings.get(p))), p);
+            }
+        }.runTaskTimer(Main.plugin, 10, 200);
+
     }
 
+    /**
+     * @param event When a player clicks an enderchest
+     */
     @EventHandler
     public void onClickEnderchest(EnderchestEvent event) {
         if (blessings.containsKey(event.getPlayer())) {
@@ -245,7 +251,11 @@ public class Priest extends CoinKit implements Listener {
     }
 
 
-    public void assignBook(Player priest, ItemStack book) {
+    /**
+     * @param priest The priest using the book
+     * @param book The book being used
+     */
+    private void assignBook(Player priest, ItemStack book) {
         if (blessings.containsKey(priest)) {
             ItemMeta bootMeta = book.getItemMeta();
             assert bootMeta != null;
@@ -257,7 +267,6 @@ public class Priest extends CoinKit implements Listener {
     }
 
     /**
-     *
      * @param e if a player dies remove them from the blessings list.
      */
     @EventHandler
@@ -266,7 +275,6 @@ public class Priest extends CoinKit implements Listener {
     }
 
     /**
-     *
      * @param e if a player quits remove them from the blessings list.
      */
     @EventHandler

@@ -1,10 +1,10 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
-import me.huntifi.castlesiege.data_types.Tuple;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -42,33 +42,32 @@ public class Halberdier extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
                 Component.text("Halberd", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
+                CSItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
                         Component.text("Halberd", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.item(new ItemStack(Material.NETHERITE_CHESTPLATE),
+        es.chest = CSItemCreator.item(new ItemStack(Material.NETHERITE_CHESTPLATE),
                 Component.text("Indestructible Chestplate", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_ENVIRONMENTAL, 2)));
 
         // Leggings
-        es.legs = ItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
+        es.legs = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
                 Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
@@ -90,7 +89,7 @@ public class Halberdier extends CoinKit implements Listener {
      * Activate the halberdier ability of dealing +50% damage to cavalry
      * @param e The event called when dealing damage to another player
      */
-    @EventHandler (priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH)
     public void antiCav(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
             Player cav = (Player) e.getEntity();
@@ -107,7 +106,7 @@ public class Halberdier extends CoinKit implements Listener {
      * The cooldown event for halberdier.
      * @param e The event called when dealing damage to another player
      */
-    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void halbCooldown(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
@@ -127,7 +126,7 @@ public class Halberdier extends CoinKit implements Listener {
      * Activate the halberdier ability of taking +50% damage from arrows
      * @param e The event called when taking damage from an arrow
      */
-    @EventHandler (priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH)
     public void weakToArrows(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Arrow &&
                 Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {

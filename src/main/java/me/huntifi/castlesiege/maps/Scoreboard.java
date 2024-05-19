@@ -1,16 +1,22 @@
 package me.huntifi.castlesiege.maps;
 
-import me.huntifi.castlesiege.data_types.PlayerData;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.data_types.CSPlayerData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.objects.FlagSidebar;
 import me.huntifi.castlesiege.maps.objects.StatsSidebar;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.megavex.scoreboardlibrary.api.sidebar.component.animation.CollectionSidebarAnimation;
+import net.megavex.scoreboardlibrary.api.sidebar.component.animation.SidebarAnimation;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
+import java.util.List;
 import java.util.UUID;
 
 import static me.huntifi.castlesiege.Main.scoreboardLibrary;
@@ -39,13 +45,6 @@ public class Scoreboard implements Runnable {
 		flagSidebar = null;
 	}
 
-//	public static void createScoreboard() {
-//		flagSidebar = Main.scoreboardLibrary.createSidebar();
-//		flagSidebar.https://conwymc.alchemix.dev/contact(Component.text("Mode: ", NamedTextColor.DARK_RED, TextDecoration.BOLD)
-//				.append(Component.text(MapController.getCurrentMap().gamemode.toString(), NamedTextColor.RED, TextDecoration.BOLD)));
-//
-//	}
-
 	/**
 	 * Clears the scoreboard for one player
 	 * @param player The player to clear the scoreboard for
@@ -59,11 +58,14 @@ public class Scoreboard implements Runnable {
 		}
 	}
 
+	/**
+	 * @return The text of the current time &amp; state
+	 */
 	public static Component getTimeText() {
 		String name;
 
 		if (MapController.timer == null)
-			return MiniMessage.miniMessage().deserialize("Time: <reset>N/A");
+			return Messenger.mm.deserialize("Time: <reset>N/A");
 		
 		switch (MapController.timer.state) {
 			case PREGAME:
@@ -79,18 +81,18 @@ public class Scoreboard implements Runnable {
 				name = "Play: ";
 				break;
 			case ENDED:
-				return MiniMessage.miniMessage().deserialize("MAP ENDED");
+				return Messenger.mm.deserialize("MAP ENDED");
 			default:
-				return MiniMessage.miniMessage().deserialize("Time: <reset>N/A");
+				return Messenger.mm.deserialize("Time: <reset>N/A");
 		}
 
 		if (MapController.timer.seconds < 0 || MapController.timer.minutes < 0)
-			return MiniMessage.miniMessage().deserialize(name + "<reset>--:--");
+			return Messenger.mm.deserialize(name + "<reset>--:--");
 		else if (MapController.timer.seconds < 10)
-			return MiniMessage.miniMessage().deserialize(name + "<reset>" + MapController.timer.minutes
+			return Messenger.mm.deserialize(name + "<reset>" + MapController.timer.minutes
 					+ ":0" + MapController.timer.seconds);
 		else
-			return MiniMessage.miniMessage().deserialize(name + "<reset>" + MapController.timer.minutes
+			return Messenger.mm.deserialize(name + "<reset>" + MapController.timer.minutes
 					+ ":" + MapController.timer.seconds);
 	}
 
@@ -102,20 +104,45 @@ public class Scoreboard implements Runnable {
 		}
 		flagSidebar.tick();
 
-		// TODO - Allow players to select which scoreboard they want
 		for (Player online : Bukkit.getOnlinePlayers()) {
 			UUID uuid = online.getUniqueId();
-			PlayerData data = ActiveData.getData(uuid);
-			if (!Objects.equals(data.getSetting("statsBoard"), "true")) {
-				flagSidebar.addPlayer(online);
-				return;
+			CSPlayerData data = CSActiveData.getData(uuid);
+			if (data != null) {
+				if (data.getSetting("scoreboard").startsWith("flag")) {
+					flagSidebar.addPlayer(online);
+					return;
+				}
+
+				if (!statsSidebars.containsKey(uuid)) {
+					statsSidebars.put(uuid, new StatsSidebar(scoreboardLibrary.createSidebar(), uuid));
+					statsSidebars.get(uuid).addPlayer(online);
+				}
+				statsSidebars.get(uuid).tick();
 			}
 
-            if (!statsSidebars.containsKey(uuid)) {
-                statsSidebars.put(uuid, new StatsSidebar(scoreboardLibrary.createSidebar(), uuid));
-				statsSidebars.get(uuid).addPlayer(online);
-            }
-            statsSidebars.get(uuid).tick();
+			if (MapController.isSpectator(uuid)) {
+				flagSidebar.addPlayer(online);
+			}
 		}
+	}
+
+	/**
+	 * Creates a set of frames for some text
+	 * @param text The text to animate
+	 * @return The set of frames to animate
+	 */
+	public static @NotNull SidebarAnimation<Component> createGradientAnimation(@NotNull Component text) {
+		float step = 1f / 16f;
+
+		TagResolver.Single textPlaceholder = Placeholder.component("text", text);
+		List<Component> frames = new ArrayList<>((int) (2f / step));
+
+		float phase = -1f;
+		while (phase < 1) {
+			frames.add(Messenger.mm.deserialize("<gradient:#e9455e:#2e3468:" + phase + "><text>", textPlaceholder));
+			phase += step;
+		}
+
+		return new CollectionSidebarAnimation<>(frames);
 	}
 }

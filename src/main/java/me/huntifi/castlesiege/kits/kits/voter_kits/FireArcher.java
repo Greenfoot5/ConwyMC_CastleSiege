@@ -1,16 +1,16 @@
 package me.huntifi.castlesiege.kits.kits.voter_kits;
 
-import me.huntifi.castlesiege.data_types.Tuple;
-import me.huntifi.castlesiege.database.ActiveData;
+import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.EnderchestEvent;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.VoterKit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -74,24 +74,23 @@ public class FireArcher extends VoterKit implements Listener {
 
         // Equipment stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(204, 0, 0));
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 128, 0));
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(204, 0, 0));
         // Voted Boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
@@ -102,12 +101,12 @@ public class FireArcher extends VoterKit implements Listener {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 2);
 
         // Bow
-        es.hotbar[0] = ItemCreator.item(new ItemStack(Material.BOW),
+        es.hotbar[0] = CSItemCreator.item(new ItemStack(Material.BOW),
                 Component.text("Bow", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.ARROW_DAMAGE, bowPowerLevel)));
 
         // Firepit
-        firepit = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
+        firepit = CSItemCreator.weapon(new ItemStack(Material.CAULDRON),
                 Component.text("Firepit", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Place the firepit down, then", NamedTextColor.AQUA),
@@ -118,7 +117,7 @@ public class FireArcher extends VoterKit implements Listener {
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, knockbackLevel)), meleeDamage);
         es.hotbar[1] = firepit;
         // Voted Firepit
-        firepitVoted = ItemCreator.weapon(new ItemStack(Material.CAULDRON),
+        firepitVoted = CSItemCreator.weapon(new ItemStack(Material.CAULDRON),
                 Component.text("Firepit", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Place the firepit down, then", NamedTextColor.AQUA),
@@ -132,7 +131,7 @@ public class FireArcher extends VoterKit implements Listener {
         es.votedWeapon = new Tuple<>(firepitVoted, 1);
 
         // Fire Arrows
-        fireArrow = ItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
+        fireArrow = CSItemCreator.item(new ItemStack(Material.TIPPED_ARROW),
                 Component.text("Fire Arrow", NamedTextColor.GOLD), null, null);
         PotionMeta potionMeta = (PotionMeta) fireArrow.getItemMeta();
         assert potionMeta != null;
@@ -155,7 +154,7 @@ public class FireArcher extends VoterKit implements Listener {
      * Place a firepit
      * @param e The event called when placing a cauldron
      */
-    @EventHandler (priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
 
@@ -209,7 +208,7 @@ public class FireArcher extends VoterKit implements Listener {
                 PlayerInventory inv = p.getInventory();
                 if (inv.getItemInOffHand().getType() != Material.CAULDRON &&
                         !inv.contains(Material.CAULDRON)) {
-                    if (!ActiveData.getData(p.getUniqueId()).hasVote("sword")) {
+                    if (!CSActiveData.getData(p.getUniqueId()).hasVote("sword")) {
                         p.getInventory().addItem(firepit);
                     } else {
                         p.getInventory().addItem(firepitVoted);
@@ -221,7 +220,7 @@ public class FireArcher extends VoterKit implements Listener {
                     TeamController.getTeam(p.getUniqueId()) != TeamController.getTeam(q.getUniqueId())){
                 destroyFirepit(q);
                 p.playSound(e.getClickedBlock().getLocation(), Sound.ENTITY_ZOMBIE_INFECT , 5, 1);
-                Messenger.sendActionSuccess("You kicked over " + NameTag.mmUsername(q) + "'s Firepit!", p);
+                Messenger.sendActionSuccess("You kicked over " + CSNameTag.mmUsername(q) + "'s Firepit!", p);
             }
         }
     }
@@ -302,7 +301,7 @@ public class FireArcher extends VoterKit implements Listener {
      * Set the arrow-damage of a Fire Archer's arrows
      * @param e The event called when a player is hit by an arrow
      */
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&

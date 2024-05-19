@@ -1,16 +1,17 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
+import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -68,45 +69,44 @@ public class Medic extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
                 Component.text("Scalpel", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
                         Component.text("Scalpel", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage),
                 0);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 255, 255));
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(255, 255, 255));
 
         // Boots
-        es.feet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 Component.text("Golden Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
-        es.votedFeet = ItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 Component.text("Golden Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Bandages
-        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.PAPER),
+        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.PAPER),
                 Component.text("Bandages", NamedTextColor.DARK_AQUA),
                 Collections.singletonList(Component.text("Right click teammates to heal.", NamedTextColor.AQUA)), null);
 
         // Cake
-        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.CAKE, cakeCount),
+        es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.CAKE, cakeCount),
                 Component.text("Healing Cake", NamedTextColor.DARK_AQUA),
                 List.of(Component.text("Place the cake down, then", NamedTextColor.AQUA),
                         Component.text("teammates can heal from it.", NamedTextColor.AQUA)), null);
@@ -127,7 +127,10 @@ public class Medic extends CoinKit implements Listener {
         super.deathMessage[0] = "You had your insides examined by ";
     }
 
-    public ItemStack healthPotion() {
+    /**
+     * @return The medic's health potion
+     */
+    private ItemStack healthPotion() {
         ItemStack itemStack = new ItemStack(Material.POTION);
         PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
         assert potionMeta != null;
@@ -144,7 +147,7 @@ public class Medic extends CoinKit implements Listener {
      * Place a cake
      * @param event The event called when placing a cake
      */
-    @EventHandler (priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
 
@@ -172,7 +175,7 @@ public class Medic extends CoinKit implements Listener {
      * Break a cake
      * @param e The event called when breaking a cake
      */
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBreakCake(BlockBreakEvent e) {
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
@@ -190,7 +193,7 @@ public class Medic extends CoinKit implements Listener {
                 destroyCake(q);
                 cakeType = TeamController.getTeam(p.getUniqueId())
                         == TeamController.getTeam(q.getUniqueId()) ? " friendly" : "n enemy";
-                Messenger.sendWarning("Your cake was destroyed by " + NameTag.mmUsername(p), q);
+                Messenger.sendWarning("Your cake was destroyed by " + CSNameTag.mmUsername(p), q);
             } else {
                 cake.setType(Material.AIR);
                 cakeType = " neutral";
@@ -231,8 +234,8 @@ public class Medic extends CoinKit implements Listener {
                 // Heal
                 addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
                 addPotionEffect(player, new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 0));
-                Messenger.sendHealing(NameTag.mmUsername(player) + " is healing you", r);
-                Messenger.sendHealing("You are healing " + NameTag.mmUsername(r), player);
+                Messenger.sendHealing(CSNameTag.mmUsername(player) + " is healing you", r);
+                Messenger.sendHealing("You are healing " + CSNameTag.mmUsername(r), player);
                 UpdateStats.addHeals(uuid, 1);
             }
         });
@@ -297,26 +300,29 @@ public class Medic extends CoinKit implements Listener {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
 
-
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (e.getItem() != null && e.getItem().getType() == Material.POTION) {
-                if (e.getHand() == EquipmentSlot.HAND) {
-                    p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
-                } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                    p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
-                }
-
-                // Prevent using in lobby
-                if (InCombat.isPlayerInLobby(uuid)) {
-                    e.setCancelled(true);
-                    return;
-                }
-
-                // Potion effects
-                p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 6));
-
-            }
+        if (!MapController.getPlayers().contains(uuid))
+            return;
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            return;
         }
+        if (e.getItem() == null || e.getItem().getType() != Material.POTION) {
+            return;
+        }
+        if (e.getHand() == EquipmentSlot.HAND) {
+            p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
+        } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+            p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
+        }
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            e.setCancelled(true);
+            return;
+        }
+
+        // Potion effects
+        p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 6));
+
     }
 
     /**

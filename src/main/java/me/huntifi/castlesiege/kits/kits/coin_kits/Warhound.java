@@ -1,16 +1,16 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.database.UpdateStats;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.maps.NameTag;
 import me.huntifi.castlesiege.maps.TeamController;
+import me.huntifi.castlesiege.misc.CSNameTag;
+import me.huntifi.conwymc.data_types.Tuple;
+import me.huntifi.conwymc.util.Messenger;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
@@ -60,10 +60,9 @@ public class Warhound extends CoinKit implements Listener {
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
                 Component.text("Fangs ", NamedTextColor.GREEN).append(Component.text("(Right Click)", NamedTextColor.GRAY)),
                         Arrays.asList(Component.empty(),
                         Component.text("Immobilise your enemies, making them", NamedTextColor.AQUA),
@@ -72,7 +71,7 @@ public class Warhound extends CoinKit implements Listener {
                         Component.text("Has a 12 second cooldown.", NamedTextColor.AQUA)), null, 20);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
+                CSItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
                         Component.text("Fangs ", NamedTextColor.GREEN).append(Component.text("(Right Click)", NamedTextColor.GRAY)),
                         Arrays.asList(Component.empty(),
                                 Component.text("Immobilise your enemies, making them", NamedTextColor.AQUA),
@@ -195,8 +194,8 @@ public class Warhound extends CoinKit implements Listener {
 
             // Activate stun
             q.setCooldown(Material.GHAST_TEAR, 240);
-            Messenger.sendSuccess("You immobilised " + NameTag.mmUsername(p) + ".", q);
-            Messenger.sendWarning("You have been immobilised by " + NameTag.mmUsername(q) + "!", p);
+            Messenger.sendSuccess("You immobilised " + CSNameTag.mmUsername(p) + ".", q);
+            Messenger.sendWarning("You have been immobilised by " + CSNameTag.mmUsername(q) + "!", p);
             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 1 );
 
             // Apply potion effects

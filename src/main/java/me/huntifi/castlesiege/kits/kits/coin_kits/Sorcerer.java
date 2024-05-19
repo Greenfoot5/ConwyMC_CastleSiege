@@ -1,12 +1,12 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
-import me.huntifi.castlesiege.data_types.Tuple;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.items.ItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -45,15 +45,17 @@ public class Sorcerer extends CoinKit implements Listener {
 
     private static final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
 
+    /**
+     * Creates a new Sorcerer
+     */
     public Sorcerer() {
         super("Sorcerer", health, regen, Material.BOOK);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
-        super.heldItemSlot = 0;
 
         // Weapon
-        es.hotbar[0] = ItemCreator.weapon(new ItemStack(Material.STICK),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STICK),
                 Component.text("Sorcerer's Wand", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right click to shoot an arcanebolt which", NamedTextColor.AQUA),
@@ -62,7 +64,7 @@ public class Sorcerer extends CoinKit implements Listener {
                         Component.text("Has a cooldown of " + arcaneBoltCooldown /20 + " seconds.", NamedTextColor.AQUA)), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                ItemCreator.weapon(new ItemStack(Material.STICK),
+                CSItemCreator.weapon(new ItemStack(Material.STICK),
                         Component.text("Sorcerer's Wand", NamedTextColor.GREEN),
                         Arrays.asList(Component.empty(),
                                 Component.text("Right click to shoot an arcane bolt which", NamedTextColor.AQUA),
@@ -74,7 +76,7 @@ public class Sorcerer extends CoinKit implements Listener {
                 0);
 
         // 1st ability
-        es.hotbar[1] = ItemCreator.item(new ItemStack(Material.DIAMOND),
+        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.DIAMOND),
                 Component.text("Frost nova", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right click to send a freezing shockwave out ", NamedTextColor.AQUA),
@@ -84,7 +86,7 @@ public class Sorcerer extends CoinKit implements Listener {
                         Component.text("Has a cooldown of " + frostNovaCooldown /20 + " seconds.", NamedTextColor.AQUA)), null);
 
         // 2nd ability
-        es.hotbar[2] = ItemCreator.item(new ItemStack(Material.AMETHYST_SHARD),
+        es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.AMETHYST_SHARD),
                 Component.text("Arcane Barrage", NamedTextColor.GREEN),
                         Arrays.asList(Component.empty(),
                         Component.text("Fire 3 arcane bolts at a target.", NamedTextColor.AQUA),
@@ -92,7 +94,7 @@ public class Sorcerer extends CoinKit implements Listener {
                         Component.text("Has a cooldown of " + arcaneBarrageCooldown/20 + " seconds.", NamedTextColor.AQUA)), null);
 
         // 3rd ability
-        es.hotbar[3] = ItemCreator.item(new ItemStack(Material.FEATHER),
+        es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.FEATHER),
                 Component.text("Slow Falling", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right click to give yourself slow falling", NamedTextColor.AQUA),
@@ -101,7 +103,7 @@ public class Sorcerer extends CoinKit implements Listener {
                         Component.text("Has a cooldown of " + slowFallingCooldown/20 + " seconds.", NamedTextColor.AQUA)), null);
 
         // Chestplate
-        es.chest = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
+        es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
                 Component.text("Sorcerer's Robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(75, 60, 63));
         ItemMeta chest = es.chest.getItemMeta();
@@ -112,7 +114,7 @@ public class Sorcerer extends CoinKit implements Listener {
         es.chest.setItemMeta(chestMeta);
 
         // Leggings
-        es.legs = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
+        es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
                 Component.text("Sorcerer's Leggings", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(106, 62, 156));
         ItemMeta legs = es.legs.getItemMeta();
@@ -123,11 +125,11 @@ public class Sorcerer extends CoinKit implements Listener {
         es.legs.setItemMeta(legsMeta);
 
         // Boots
-        es.feet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Sorcerer's Boots", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(106, 62, 156));
         // Voted Boots
-        es.votedFeet = ItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
+        es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Sorcerer's Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),

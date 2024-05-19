@@ -1,9 +1,9 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * A curse that modifies a player's max health
+ */
 public class HealingCurse extends CurseCast {
     public final static String name = "Curse of Healing";
     private final static String activateMessage = "Your maximum health has been modified by ";
@@ -78,11 +81,17 @@ public class HealingCurse extends CurseCast {
         }
     }
 
-    //Builder Class
+    /**
+     * Builder class to create a new Healing Curse
+     */
     public static class CurseBuilder extends CurseCast.CurseBuilder {
 
         public float multiplier;
 
+        /**
+         * Creates a new CurseBuilder for Healing
+         * @param duration The duration of the curse
+         */
         public CurseBuilder(int duration) {
             super(name, activateMessage, expireMessage);
             if (duration < MIN_DURATION)
@@ -94,14 +103,17 @@ public class HealingCurse extends CurseCast {
             this.multiplier =  2 - rando.nextFloat() * 2;
         }
 
-        public HealingCurse cast() {
+        public void cast() {
             HealingCurse curse = new HealingCurse(this);
             Bukkit.getPluginManager().callEvent(curse);
             if (!curse.isCancelled())
                 curse.cast();
-            return curse;
         }
 
+        /**
+         * @param multiplier The multiplier to health
+         * @return the curse builder
+         */
         public CurseBuilder setMultiplier(float multiplier) {
             this.multiplier = multiplier;
             return this;

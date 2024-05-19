@@ -1,8 +1,8 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.events.chat.Messenger;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -92,7 +92,7 @@ public class VoteSkipCommand implements TabExecutor {
             else
                 Messenger.sendInfo("Changed your mind? You can cancel your vote with <yellow><insert:/voteskip cancel>/voteskip cancel</click>", player);
         } else {
-            Messenger.sendError("You have already voted! To cancel, use <yellow><insert:/voteskip cancel>/voteckip cancel</click>", player);
+            Messenger.sendError("You have already voted! To cancel, use <yellow><insert:/voteskip cancel>/voteskip cancel</click>", player);
         }
     }
 
