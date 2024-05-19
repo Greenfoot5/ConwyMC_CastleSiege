@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.sign_kits;
+package me.huntifi.castlesiege.kits.kits.in_development;
 
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;

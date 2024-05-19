@@ -123,7 +123,7 @@ import me.huntifi.castlesiege.kits.kits.sign_kits.Longbowman;
 import me.huntifi.castlesiege.kits.kits.sign_kits.RoyalKnight;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Abyssal;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Hellsteed;
-import me.huntifi.castlesiege.kits.kits.sign_kits.Berserker;
+import me.huntifi.castlesiege.kits.kits.sign_kits.UrukBerserker;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Lancer;
 import me.huntifi.castlesiege.kits.kits.sign_kits.RangedCavalry;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Axeman;
@@ -378,7 +378,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Hypaspist(), plugin);
                 getServer().getPluginManager().registerEvents(new Axeman(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
-                getServer().getPluginManager().registerEvents(new Berserker(), plugin);
+                getServer().getPluginManager().registerEvents(new UrukBerserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Lancer(), plugin);
                 getServer().getPluginManager().registerEvents(new RangedCavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new Ladderman(), plugin);
@@ -503,7 +503,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("FirelandsHellsteed")).setExecutor(new Hellsteed());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
                 Objects.requireNonNull(getCommand("Hypaspist")).setExecutor(new Hypaspist());
-                Objects.requireNonNull(getCommand("HelmsDeepUrukBerserker")).setExecutor(new Berserker());
+                Objects.requireNonNull(getCommand("HelmsDeepUrukBerserker")).setExecutor(new UrukBerserker());
                 Objects.requireNonNull(getCommand("HelmsDeepLancer")).setExecutor(new Lancer());
                 Objects.requireNonNull(getCommand("HelmsDeepRangedCavalry")).setExecutor(new RangedCavalry());
                 Objects.requireNonNull(getCommand("HommetAxeman")).setExecutor(new Axeman());

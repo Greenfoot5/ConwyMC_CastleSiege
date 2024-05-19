@@ -30,13 +30,13 @@ import java.util.Collections;
 import java.util.Objects;
 
 
-public class Berserker extends SignKit implements Listener {
+public class UrukBerserker extends SignKit implements Listener {
 
 
     /**
      * Creates a new Helms Deep Berserker
      */
-    public Berserker() {
+    public UrukBerserker() {
         super("Uruk Berserker", 220, 6, Material.REDSTONE, 2500);
 
         // Equipment Stuff
