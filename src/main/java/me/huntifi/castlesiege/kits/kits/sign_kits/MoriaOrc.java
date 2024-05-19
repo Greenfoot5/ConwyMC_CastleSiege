@@ -1,9 +1,9 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.moria;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -25,15 +25,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-public class MoriaOrc extends TeamKit implements Listener {
+public class MoriaOrc extends SignKit implements Listener {
 
 
     /**
      * Creates a new Moria Orc
      */
     public MoriaOrc() {
-        super("Moria Orc", 230, 7, "Moria",
-                "The Orcs", 2500, Material.BOW, "moriaorc");
+        super("Moria Orc", 230, 7, Material.BOW, 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

@@ -9,7 +9,6 @@ import me.huntifi.castlesiege.data_types.KitBooster;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.conwymc.gui.Gui;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
