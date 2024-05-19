@@ -81,7 +81,7 @@ public abstract class SignKit extends Kit implements Listener {
     public boolean canSelect(CommandSender sender, boolean applyLimit, boolean verbose, boolean isRandom) {
         UUID uuid = ((Player) sender).getUniqueId();
         boolean hasKit = CSActiveData.getData(uuid).hasKit(getSpacelessName());
-        if (!hasKit && cost > 0) {
+        if (!hasKit && cost > 0 && !CoinKit.isFree()) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null) {
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);

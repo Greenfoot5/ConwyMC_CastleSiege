@@ -1,9 +1,9 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.conwy;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -27,14 +27,13 @@ import java.util.Objects;
 /**
  * A kit that deals more damage the further away a target is
  */
-public class ConwyLongbowman extends TeamKit implements Listener {
+public class Longbowman extends SignKit implements Listener {
 
     /**
      * Creates a new Conwy longbowman
      */
-    public ConwyLongbowman() {
-        super("Conwy Longbowman", 220, 10, "Conwy",
-                "The Rebellion", 2500, Material.BOW, "conwylongbowman");
+    public Longbowman() {
+        super("Conwy Longbowman", 220, 10, Material.BOW, "longbowman", 2500);
 
 
         // Equipment Stuff

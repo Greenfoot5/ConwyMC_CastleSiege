@@ -30,7 +30,6 @@ public abstract class TeamKit extends CoinKit implements Listener {
     protected final String team;
     // Might seem odd to add, but it's cause map names vary, and it isn't exactly helpful to get the exact kit name
     // out of map name and name of the kit. Like this would work for Elytrier but not for any of the Helm's Deep kits.
-    protected final String commandName;
 
     // Kit Tracking
     private static final Collection<String> kits = new ArrayList<>();
@@ -54,7 +53,6 @@ public abstract class TeamKit extends CoinKit implements Listener {
 
         if (!kits.contains(getSpacelessName()))
             kits.add(getSpacelessName());
-        this.commandName = commandName;
     }
 
     public String getMapName() {

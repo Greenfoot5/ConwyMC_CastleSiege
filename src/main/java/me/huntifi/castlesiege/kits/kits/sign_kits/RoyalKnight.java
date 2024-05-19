@@ -1,9 +1,9 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.conwy;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -21,14 +21,14 @@ import java.util.Collections;
 /**
  * A kit that has a royal horse
  */
-public class ConwyRoyalKnight extends TeamKit {
+public class RoyalKnight extends SignKit {
 
     /**
      * Creates a new Royal Knight
      */
-    public ConwyRoyalKnight() {
-        super("Royal Knight", 600, 5, "Conwy", "The English",
-                5000, Material.DIAMOND_HORSE_ARMOR, "conwyroyalknight");
+    public RoyalKnight() {
+        super("Royal Knight", 600, 5,
+                Material.DIAMOND_HORSE_ARMOR, "conwyroyalknight", 5000);
 
 
         // Equipment Stuff
