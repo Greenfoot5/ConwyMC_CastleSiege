@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.firelands;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
@@ -43,7 +43,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class FirelandsAbyssal extends TeamKit implements Listener {
+public class Abyssal extends SignKit implements Listener {
 
     private FallingBlock magma;
     private Fireball ball;
@@ -52,10 +52,9 @@ public class FirelandsAbyssal extends TeamKit implements Listener {
     /**
      * Creates a new Firelands Abyssal
      */
-    public FirelandsAbyssal() {
-        super("Abyssal", 600, 9, "Firelands",
-                "Burning Legion", 5000, Material.MAGMA_BLOCK,
-                "firelandsabyssal");
+    public Abyssal() {
+        super("Abyssal", 600, 9, Material.MAGMA_BLOCK,
+                "firelandsabyssal", 5000);
         super.canCap = true;
         super.canClimb = false;
         super.canSeeHealth = true;
