@@ -132,7 +132,6 @@ public abstract class SignKit extends Kit implements Listener {
                 if (content.toString().contains(this.name.toLowerCase()) || content.toString().contains(getSpacelessName().toLowerCase())) {
                     // TODO - Work out why it's triggered twice
                     if (e.isCancelled()) {
-                        System.out.println("Cancelled");
                         return;
                     }
 
