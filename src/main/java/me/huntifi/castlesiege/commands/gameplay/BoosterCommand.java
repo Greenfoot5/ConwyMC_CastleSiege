@@ -119,9 +119,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
                     if (kBooster.kitName.equalsIgnoreCase("RANDOM")) {
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                             ArrayList<String> dKits = (ArrayList<String>) CoinKit.getKits();
-                            do {
-                                kBooster.kitName = dKits.get(new Random().nextInt(dKits.size()));
-                            } while (Kit.getKit(kBooster.kitName) instanceof TeamKit);
+                            kBooster.kitName = dKits.get(new Random().nextInt(dKits.size()));
                             data.useBooster(uuid, kBooster);
                             removeBooster(kBooster.id, uuid);
                             activateBooster(kBooster, uuid);

@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
@@ -68,8 +68,8 @@ public class PossessionCurse extends CurseCast {
     private Kit randomKit() {
         // Create a copy of kits
         Collection<String> kits = new ArrayList<>(Kit.getKits());
-        Collection<String> teamKits = TeamKit.getKits();
-        kits.removeAll(teamKits);
+        Collection<String> signKits = SignKit.getKits();
+        kits.removeAll(signKits);
 
         // Team kits only have a 10% chance of appearing
         if (ThreadLocalRandom.current().nextFloat() > TEAM_KIT_CHANCE) {
@@ -77,8 +77,8 @@ public class PossessionCurse extends CurseCast {
             for (String kit : kits) if (--num < 0) return Kit.getKit(kit);
         }
         else {
-            int num = ThreadLocalRandom.current().nextInt(0, teamKits.size());
-            for (String kit : teamKits) {
+            int num = ThreadLocalRandom.current().nextInt(0, signKits.size());
+            for (String kit : signKits) {
                 if (--num < 0) {
                     return Kit.getKit(kit);
                 }

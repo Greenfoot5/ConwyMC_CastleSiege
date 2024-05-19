@@ -22,7 +22,6 @@ import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.SignKit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.events.NextMapEvent;
 import me.huntifi.castlesiege.maps.objects.Cannon;
@@ -373,9 +372,7 @@ public class MapController {
 						kit = "wild";
 					} else {
 						ArrayList<String> dKits = (ArrayList<String>) CoinKit.getKits();
-						do {
-							kit = dKits.get(new Random().nextInt(dKits.size()));
-						} while (Kit.getKit(kit) instanceof TeamKit);
+						kit = dKits.get(new Random().nextInt(dKits.size()));
 					}
 					booster = new KitBooster(duration, kit);
 				}
@@ -630,7 +627,7 @@ public class MapController {
 		if (kit == null)
 			return;
 
-		if (kit instanceof TeamKit || kit instanceof SignKit) {
+		if (kit instanceof SignKit) {
 			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
 			CSActiveData.getData(player.getUniqueId()).setKit("swordsman");
 		}
@@ -823,10 +820,7 @@ public class MapController {
 	 * @return All the players and spectators
 	 */
 	public static List<UUID> getEveryone() {
-		List<UUID> players = new ArrayList<>();
-		for (Team t : getCurrentMap().teams) {
-			players.addAll(t.getPlayers());
-		}
+        List<UUID> players = getPlayers();
 		players.addAll(spectators);
 
 		return players;
