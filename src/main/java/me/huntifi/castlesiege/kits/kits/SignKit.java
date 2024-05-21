@@ -1,5 +1,6 @@
 package me.huntifi.castlesiege.kits.kits;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.conwymc.util.Messenger;
@@ -7,8 +8,12 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,7 +25,6 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -115,30 +119,40 @@ public abstract class SignKit extends Kit implements Listener {
      */
     @EventHandler
     public void onClickSign(PlayerInteractEvent e) {
+        // Prevent spawning by physical actions, e.g. stepping on a pressure plate
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)
+            return;
+
+        Player player = e.getPlayer();
+        Block target = player.getTargetBlockExact(50);
+
+        if (target == null || !(target.getState() instanceof Sign))
+            return;
+
+        if (!InCombat.isPlayerInLobby(e.getPlayer().getUniqueId()))
+            return;
+
         // Only allow use in lobby
-        if (!InCombat.isPlayerInLobby(e.getPlayer().getUniqueId()) || e.getHand() != EquipmentSlot.HAND) {
+        if (e.getHand() != EquipmentSlot.HAND) {
             return;
         }
 
-        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK) &&
-                Objects.requireNonNull(e.getClickedBlock()).getState() instanceof Sign) {
-            Sign sign = (Sign) e.getClickedBlock().getState();
-            StringBuilder content = new StringBuilder();
+        Sign sign = (Sign) target.getState();
+        WallSign signData  = (WallSign) sign.getBlockData();
+        BlockFace attached  = signData.getFacing().getOppositeFace();
+        Block blockAttached = target.getRelative(attached);
+        blockAttached.getBlockData().getMaterial(); // TODO - Make Free/Coin/Deny based on block
 
+        Bukkit.getScheduler().runTask(Main.plugin, () -> {
             // Check if sign has sign name
-            for (Component line : sign.getSide(Side.FRONT).lines())
-            {
+            StringBuilder content = new StringBuilder();
+            for (Component line : sign.getSide(Side.FRONT).lines()) {
                 content.append(" ").append(PlainTextComponentSerializer.plainText().serialize(line).toLowerCase());
-                if (content.toString().contains(this.name.toLowerCase()) || content.toString().contains(getSpacelessName().toLowerCase())) {
-                    // TODO - Work out why it's triggered twice
-                    if (e.isCancelled()) {
-                        return;
-                    }
-
-                    e.setCancelled(true);
-                    e.getPlayer().performCommand(getSpacelessName());
-                }
             }
-        }
+
+            if (content.toString().contains(this.name.toLowerCase()) || content.toString().contains(getSpacelessName().toLowerCase())) {
+                Bukkit.getScheduler().runTask(Main.plugin, () -> e.getPlayer().performCommand(getSpacelessName()));
+            }
+        });
     }
 }
