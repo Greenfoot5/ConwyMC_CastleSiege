@@ -874,7 +874,8 @@ public class MapController {
 	 */
 	public static void removePlayer(Player player) {
 		Team team = TeamController.getTeam(player.getUniqueId());
-		team.removePlayer(player.getUniqueId());
+		if (team != null)
+			team.removePlayer(player.getUniqueId());
 
 		// Remove player from gameplay
 		for (Flag flag : MapController.getCurrentMap().flags) {

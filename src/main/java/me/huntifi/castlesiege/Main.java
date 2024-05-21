@@ -1142,13 +1142,14 @@ public class Main extends JavaPlugin implements Listener {
         // Add team/map kits
         if (config.contains(teamPath.add("kits"))) {
             List<java.util.Map<?, ?>> kits = config.getMapList(teamPath.add("kits"));
-            String kitName = (String) kits.get(0).get("name");
-            String cost = (String) kits.get(0).get("cost");
-            if (cost == null || (!cost.equals("coins") && !cost.equals("free")))
-                getLogger().warning(kitName + " has an invalid cost for " + team.name);
-            else
-                team.kits.put(kitName.toLowerCase(), SignKit.CostType.valueOf(cost.toLowerCase()));
-
+            for (java.util.Map<?, ?> kit : kits) {
+                String kitName = (String) kit.get("name");
+                String cost = (String) kit.get("cost");
+                if (cost == null || (!cost.equals("coins") && !cost.equals("free")))
+                    getLogger().warning(kitName + " has an invalid cost for " + team.name);
+                else
+                    team.kits.put(kitName.toLowerCase(), SignKit.CostType.valueOf(cost.toLowerCase()));
+            }
         }
 
         // Setup lobby

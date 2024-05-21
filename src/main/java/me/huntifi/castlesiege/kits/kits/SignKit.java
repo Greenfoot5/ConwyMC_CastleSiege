@@ -12,9 +12,7 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
-import org.bukkit.block.data.type.WallSign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -83,15 +81,16 @@ public abstract class SignKit extends Kit implements Listener {
         UUID uuid = ((Player) sender).getUniqueId();
 
         // Check the kit is valid for this map
-        CostType costType = TeamController.getTeam(uuid).kits.get(getSpacelessName());
-        costType = costType == null ? TeamController.getTeam(uuid).kits.get(name) : costType;
+        CostType costType = TeamController.getTeam(uuid).kits.get(getSpacelessName().toLowerCase());
+        costType = costType == null ? TeamController.getTeam(uuid).kits.get(name.toLowerCase()) : costType;
         if (costType == null) {
             Messenger.sendError("This kit isn't available on this map!", sender);
             return false;
         }
 
+        // If it costs on the current map, has the player unlocked the kit?
         boolean hasKit = CSActiveData.getData(uuid).hasKit(getSpacelessName());
-        if (!hasKit && costType == CostType.COINS && !CoinKit.isFree()) {
+        if (costType == CostType.coins && !hasKit && !CoinKit.isFree()) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null) {
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
@@ -148,26 +147,20 @@ public abstract class SignKit extends Kit implements Listener {
         }
 
         Sign sign = (Sign) target.getState();
-        WallSign signData  = (WallSign) sign.getBlockData();
-        BlockFace attached  = signData.getFacing().getOppositeFace();
-        Block blockAttached = target.getRelative(attached);
-        blockAttached.getBlockData().getMaterial(); // TODO - Make Free/Coin/Deny based on block
 
-        Bukkit.getScheduler().runTask(Main.plugin, () -> {
-            // Check if sign has sign name
-            StringBuilder content = new StringBuilder();
-            for (Component line : sign.getSide(Side.FRONT).lines()) {
-                content.append(" ").append(PlainTextComponentSerializer.plainText().serialize(line).toLowerCase());
-            }
+        // Check if sign has sign name
+        StringBuilder content = new StringBuilder();
+        for (Component line : sign.getSide(Side.FRONT).lines()) {
+            content.append(" ").append(PlainTextComponentSerializer.plainText().serialize(line).toLowerCase());
+        }
 
-            if (content.toString().contains(this.name.toLowerCase()) || content.toString().contains(getSpacelessName().toLowerCase())) {
-                Bukkit.getScheduler().runTask(Main.plugin, () -> e.getPlayer().performCommand(getSpacelessName()));
-            }
-        });
+        if (content.toString().contains(this.name.toLowerCase()) || content.toString().contains(getSpacelessName().toLowerCase())) {
+            Bukkit.getScheduler().runTask(Main.plugin, () -> e.getPlayer().performCommand(getSpacelessName()));
+        }
     }
 
     public enum CostType {
-        FREE,
-        COINS,
+        free,
+        coins,
     }
 }
