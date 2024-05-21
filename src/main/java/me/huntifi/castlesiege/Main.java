@@ -87,6 +87,7 @@ import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Alchemist;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Barbarian;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Berserker;
@@ -115,27 +116,27 @@ import me.huntifi.castlesiege.kits.kits.in_development.Bannerman;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
-import me.huntifi.castlesiege.kits.kits.sign_kits.Artillerist;
-import me.huntifi.castlesiege.kits.kits.sign_kits.CamelRider;
-import me.huntifi.castlesiege.kits.kits.sign_kits.Constructor;
-import me.huntifi.castlesiege.kits.kits.staff_kits.Warbear;
-import me.huntifi.castlesiege.kits.kits.sign_kits.Arbalester;
-import me.huntifi.castlesiege.kits.kits.sign_kits.Longbowman;
-import me.huntifi.castlesiege.kits.kits.sign_kits.RoyalKnight;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Abyssal;
-import me.huntifi.castlesiege.kits.kits.sign_kits.Hellsteed;
-import me.huntifi.castlesiege.kits.kits.sign_kits.UrukBerserker;
-import me.huntifi.castlesiege.kits.kits.sign_kits.Lancer;
-import me.huntifi.castlesiege.kits.kits.sign_kits.RangedCavalry;
-import me.huntifi.castlesiege.kits.kits.sign_kits.Axeman;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Arbalester;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Artillerist;
 import me.huntifi.castlesiege.kits.kits.sign_kits.AxeThrower;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Axeman;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Bonecrusher;
+import me.huntifi.castlesiege.kits.kits.sign_kits.CamelRider;
 import me.huntifi.castlesiege.kits.kits.sign_kits.CaveTroll;
-import me.huntifi.castlesiege.kits.kits.sign_kits.Guardian;
-import me.huntifi.castlesiege.kits.kits.sign_kits.MoriaOrc;
-import me.huntifi.castlesiege.kits.kits.sign_kits.Windlancer;
-import me.huntifi.castlesiege.kits.kits.sign_kits.Fallen;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Constructor;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Elytrier;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Fallen;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Guardian;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Hellsteed;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Lancer;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Longbowman;
+import me.huntifi.castlesiege.kits.kits.sign_kits.MoriaOrc;
+import me.huntifi.castlesiege.kits.kits.sign_kits.RangedCavalry;
+import me.huntifi.castlesiege.kits.kits.sign_kits.RoyalKnight;
+import me.huntifi.castlesiege.kits.kits.sign_kits.UrukBerserker;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Windlancer;
+import me.huntifi.castlesiege.kits.kits.staff_kits.Warbear;
 import me.huntifi.castlesiege.kits.kits.voter_kits.FireArcher;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Scout;
@@ -1137,6 +1138,18 @@ public class Main extends JavaPlugin implements Listener {
         colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("secondary_color")).toLowerCase()));
         team.secondaryWool = colors.getFirst();
         team.secondaryChatColor = colors.getSecond();
+
+        // Add team/map kits
+        if (config.contains(teamPath.add("kits"))) {
+            List<java.util.Map<?, ?>> kits = config.getMapList(teamPath.add("kits"));
+            String kitName = (String) kits.get(0).get("name");
+            String cost = (String) kits.get(0).get("cost");
+            if (cost == null || (!cost.equals("coins") && !cost.equals("free")))
+                getLogger().warning(kitName + " has an invalid cost for " + team.name);
+            else
+                team.kits.put(kitName.toLowerCase(), SignKit.CostType.valueOf(cost.toLowerCase()));
+
+        }
 
         // Setup lobby
         team.lobby = loadLobby(teamPath.add("lobby"), map, config);

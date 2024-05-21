@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -80,8 +81,17 @@ public abstract class SignKit extends Kit implements Listener {
     @Override
     public boolean canSelect(CommandSender sender, boolean applyLimit, boolean verbose, boolean isRandom) {
         UUID uuid = ((Player) sender).getUniqueId();
+
+        // Check the kit is valid for this map
+        CostType costType = TeamController.getTeam(uuid).kits.get(getSpacelessName());
+        costType = costType == null ? TeamController.getTeam(uuid).kits.get(name) : costType;
+        if (costType == null) {
+            Messenger.sendError("This kit isn't available on this map!", sender);
+            return false;
+        }
+
         boolean hasKit = CSActiveData.getData(uuid).hasKit(getSpacelessName());
-        if (!hasKit && cost > 0 && !CoinKit.isFree()) {
+        if (!hasKit && costType == CostType.COINS && !CoinKit.isFree()) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null) {
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
@@ -154,5 +164,10 @@ public abstract class SignKit extends Kit implements Listener {
                 Bukkit.getScheduler().runTask(Main.plugin, () -> e.getPlayer().performCommand(getSpacelessName()));
             }
         });
+    }
+
+    public enum CostType {
+        FREE,
+        COINS,
     }
 }
