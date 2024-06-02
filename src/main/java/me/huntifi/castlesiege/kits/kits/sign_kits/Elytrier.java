@@ -106,7 +106,7 @@ public class Elytrier extends SignKit implements Listener {
 
         super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_FALLING, 999999, 0));
+        //super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_FALLING, 999999, 0));
     }
 
     /**
@@ -167,7 +167,7 @@ public class Elytrier extends SignKit implements Listener {
             if (fist.getType().equals(Material.FIREWORK_ROCKET)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0 && p.isGliding()) {
-                        p.setCooldown(Material.FIREWORK_ROCKET, 40);
+                        p.setCooldown(Material.FIREWORK_ROCKET, 30);
                         p.setVelocity(p.getVelocity().multiply(3.5));
                     } else if (!p.isGliding()){
                         Messenger.sendActionError("You can't launch yourself whilst not gliding!", p);
