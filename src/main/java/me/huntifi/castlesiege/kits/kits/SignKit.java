@@ -151,7 +151,7 @@ public abstract class SignKit extends Kit implements Listener {
         // Check if sign has sign name
         StringBuilder content = new StringBuilder();
         for (Component line : sign.getSide(Side.FRONT).lines()) {
-            content.append(" ").append(PlainTextComponentSerializer.plainText().serialize(line).toLowerCase());
+            content.append(PlainTextComponentSerializer.plainText().serialize(line).toLowerCase().replace(" ", ""));
         }
 
         if (content.toString().contains(this.name.toLowerCase()) || content.toString().contains(getSpacelessName().toLowerCase())) {
