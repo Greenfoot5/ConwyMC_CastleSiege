@@ -54,7 +54,6 @@ public class Tips extends BukkitRunnable {
             "Have you found all the secrets yet? Use <yellow><click:suggest_command:/secrets>/secrets</click></yellow> to check your progress! Don't forget to right-click to collect them!",
             "Being shot at by archers? Try to find some cover!",
             "Rams only need one person to work, but more people means a bigger impact!",
-            "Got lag? Get Optifine!",
             "Donators can set an unique leave and join message with <yellow><click:suggest_command:/joinmsg>/joinmsg</click:suggest_command></yellow> and <yellow><click:suggest_command:/leavemsg>/leavemsg</click:suggest_command></yellow>!",
             "Donators can switch teams whenever they want, no matter the amount of players!",
             "Looking for a change in pace? Try <yellow><click:suggest_command:/random>/random</click:suggest_command></yellow>!",
