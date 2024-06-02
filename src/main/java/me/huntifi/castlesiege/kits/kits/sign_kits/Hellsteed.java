@@ -1,10 +1,10 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.firelands;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
@@ -37,15 +37,13 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class FirelandsHellsteed extends TeamKit implements Listener {
+public class Hellsteed extends SignKit implements Listener {
 
     /**
      * Creates a new Firelands Hellsteed
      */
-    public FirelandsHellsteed() {
-        super("Hellsteed", 500, 10, "Firelands",
-                "Hellfire Guards", 2500, Material.LEATHER_HORSE_ARMOR,
-                "firelandshellsteed");
+    public Hellsteed() {
+        super("Hellsteed", 500, 10, Material.LEATHER_HORSE_ARMOR, 2500);
         super.canCap = false;
         super.canClimb = false;
         super.canSeeHealth = true;

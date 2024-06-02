@@ -319,7 +319,7 @@ public class Catapult implements Listener {
     public void onImpact(ProjectileHitEvent event) {
         if (Objects.equals(snowball, event.getEntity())) {
             snowball.getPassengers().get(0).remove();
-            world.createExplosion(snowball.getLocation(), 4F, false, true, shooter);
+            world.createExplosion(snowball.getLocation(), 5F, false, true, shooter);
         }
     }
 

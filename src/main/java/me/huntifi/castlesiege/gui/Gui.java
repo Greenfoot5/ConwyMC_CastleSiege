@@ -4,10 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
-import me.huntifi.castlesiege.maps.Map;
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.Team;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.gui.GuiItem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -91,7 +88,7 @@ public class Gui extends me.huntifi.conwymc.gui.Gui implements Listener {
         if (!(kit instanceof CoinKit))
             throw new IllegalArgumentException(kitName + " is not a donator kit, it's " + kit.getClass());
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            NamedTextColor color = kit instanceof TeamKit ? NamedTextColor.BLUE : NamedTextColor.GOLD;
+            NamedTextColor color = kit instanceof SignKit ? NamedTextColor.BLUE : NamedTextColor.GOLD;
             Component itemName = Component.text(kit.name, color).decorate(TextDecoration.BOLD);
             Component price = Component.text("Coins: ", NamedTextColor.GREEN)
                     .append(Component.text(CoinKit.getPrice(uuid), NamedTextColor.YELLOW));
@@ -115,18 +112,6 @@ public class Gui extends me.huntifi.conwymc.gui.Gui implements Listener {
         ArrayList<Component> lore = new ArrayList<>();
         lore.add(price);
         lore.add(duration);
-        if (kit instanceof TeamKit) {
-            Map map = MapController.getMap(((TeamKit) kit).getMapName());
-            if (map != null) {
-                Team team = map.getTeam(((TeamKit) kit).getTeamName());
-                lore.add(Component.text("Map: ", NamedTextColor.GREEN)
-                        .append(Component.text(map.name).decorate(TextDecoration.BOLD)));
-                lore.add(Component.text("Team: ", NamedTextColor.GREEN)
-                        .append(Component.text(team.name, team.primaryChatColor)));
-            } else
-                lore.add(Component.text("Map: ", NamedTextColor.GREEN)
-                        .append(Component.text("OUT OF ROTATION").decorate(TextDecoration.BOLD)));
-        }
         lore.add(Component.text("Click here to buy!", NamedTextColor.YELLOW));
         return Objects.requireNonNull(removeItalics(lore));
     }

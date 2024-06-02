@@ -21,10 +21,10 @@ import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.MapKit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.events.NextMapEvent;
+import me.huntifi.castlesiege.maps.objects.Cannon;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Core;
 import me.huntifi.castlesiege.maps.objects.Door;
@@ -372,9 +372,7 @@ public class MapController {
 						kit = "wild";
 					} else {
 						ArrayList<String> dKits = (ArrayList<String>) CoinKit.getKits();
-						do {
-							kit = dKits.get(new Random().nextInt(dKits.size()));
-						} while (Kit.getKit(kit) instanceof TeamKit);
+						kit = dKits.get(new Random().nextInt(dKits.size()));
 					}
 					booster = new KitBooster(duration, kit);
 				}
@@ -558,6 +556,11 @@ public class MapController {
 					Main.plugin.getServer().getPluginManager().registerEvents(catapult, Main.plugin);
 				}
 
+				// Register cannons
+				for (Cannon cannon : maps.get(mapIndex).cannons) {
+					Main.plugin.getServer().getPluginManager().registerEvents(cannon, Main.plugin);
+				}
+
 				// Register cores and regions
 				if (maps.get(mapIndex) instanceof CoreMap) {
 					CoreMap coreMap = (CoreMap) maps.get(mapIndex);
@@ -624,7 +627,7 @@ public class MapController {
 		if (kit == null)
 			return;
 
-		if (kit instanceof TeamKit || kit instanceof MapKit) {
+		if (kit instanceof SignKit) {
 			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
 			CSActiveData.getData(player.getUniqueId()).setKit("swordsman");
 		}
@@ -671,6 +674,11 @@ public class MapController {
 		for (Catapult catapult : oldMap.catapults) {
 			HandlerList.unregisterAll(catapult);
 		}
+
+			// Unregister cannon listeners
+			for (Cannon cannon : oldMap.cannons) {
+				HandlerList.unregisterAll(cannon);
+			}
 
 		// Unregister flag regions
 		for (Flag flag : oldMap.flags) {
@@ -812,10 +820,7 @@ public class MapController {
 	 * @return All the players and spectators
 	 */
 	public static List<UUID> getEveryone() {
-		List<UUID> players = new ArrayList<>();
-		for (Team t : getCurrentMap().teams) {
-			players.addAll(t.getPlayers());
-		}
+        List<UUID> players = getPlayers();
 		players.addAll(spectators);
 
 		return players;
@@ -869,7 +874,8 @@ public class MapController {
 	 */
 	public static void removePlayer(Player player) {
 		Team team = TeamController.getTeam(player.getUniqueId());
-		team.removePlayer(player.getUniqueId());
+		if (team != null)
+			team.removePlayer(player.getUniqueId());
 
 		// Remove player from gameplay
 		for (Flag flag : MapController.getCurrentMap().flags) {

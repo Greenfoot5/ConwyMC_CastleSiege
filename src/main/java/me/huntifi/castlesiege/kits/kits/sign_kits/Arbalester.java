@@ -1,10 +1,10 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.conwy;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -25,16 +25,15 @@ import java.util.Collections;
 import java.util.Objects;
 
 /**
- * A slight difference from the classic crossbow kit but for Conwy
+ * A slight difference from the classic crossbow kit
  */
-public class ConwyArbalester extends TeamKit implements Listener {
+public class Arbalester extends SignKit implements Listener {
 
     /**
      * Creates a new Conwy Arbalester
      */
-    public ConwyArbalester() {
-        super("Arbalester", 260, 3, "Conwy", "The English",
-                5000, Material.CROSSBOW, "conwyarbalester");
+    public Arbalester() {
+        super("Arbalester", 260, 3, Material.CROSSBOW, 5000);
 
 
         // Equipment Stuff

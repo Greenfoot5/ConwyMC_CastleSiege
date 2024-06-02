@@ -224,7 +224,7 @@ public class MapProtection implements Listener {
 
 		Material block = Objects.requireNonNull(e.getClickedBlock()).getType();
 
-		if(block == Material.SWEET_BERRY_BUSH || block == Material.CAVE_VINES_PLANT) {
+		if (block == Material.SWEET_BERRY_BUSH || block == Material.CAVE_VINES_PLANT) {
 			e.setCancelled(true);
 		}
 	}

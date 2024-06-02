@@ -87,6 +87,7 @@ import me.huntifi.castlesiege.kits.items.Enderchest;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Alchemist;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Barbarian;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Berserker;
@@ -115,27 +116,27 @@ import me.huntifi.castlesiege.kits.kits.in_development.Bannerman;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
-import me.huntifi.castlesiege.kits.kits.map_kits.CamelRider;
-import me.huntifi.castlesiege.kits.kits.map_kits.Constructor;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Abyssal;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Arbalester;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Artillerist;
+import me.huntifi.castlesiege.kits.kits.sign_kits.AxeThrower;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Axeman;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Bonecrusher;
+import me.huntifi.castlesiege.kits.kits.sign_kits.CamelRider;
+import me.huntifi.castlesiege.kits.kits.sign_kits.CaveTroll;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Constructor;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Elytrier;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Fallen;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Guardian;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Hellsteed;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Lancer;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Longbowman;
+import me.huntifi.castlesiege.kits.kits.sign_kits.MoriaOrc;
+import me.huntifi.castlesiege.kits.kits.sign_kits.RangedCavalry;
+import me.huntifi.castlesiege.kits.kits.sign_kits.RoyalKnight;
+import me.huntifi.castlesiege.kits.kits.sign_kits.UrukBerserker;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Windlancer;
 import me.huntifi.castlesiege.kits.kits.staff_kits.Warbear;
-import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyArbalester;
-import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyLongbowman;
-import me.huntifi.castlesiege.kits.kits.team_kits.conwy.ConwyRoyalKnight;
-import me.huntifi.castlesiege.kits.kits.team_kits.firelands.FirelandsAbyssal;
-import me.huntifi.castlesiege.kits.kits.team_kits.firelands.FirelandsHellsteed;
-import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepBerserker;
-import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepLancer;
-import me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep.HelmsDeepRangedCavalry;
-import me.huntifi.castlesiege.kits.kits.team_kits.hommet.HommetAxeman;
-import me.huntifi.castlesiege.kits.kits.team_kits.hommet.HommetLongbowman;
-import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaAxeThrower;
-import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaBonecrusher;
-import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaCaveTroll;
-import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaGuardian;
-import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaOrc;
-import me.huntifi.castlesiege.kits.kits.team_kits.moria.MoriaWindlancer;
-import me.huntifi.castlesiege.kits.kits.team_kits.royalcrypts.CryptsFallen;
-import me.huntifi.castlesiege.kits.kits.team_kits.thunderstone.ThunderstoneElytrier;
 import me.huntifi.castlesiege.kits.kits.voter_kits.FireArcher;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Scout;
@@ -153,6 +154,7 @@ import me.huntifi.castlesiege.maps.WoolMapBlock;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.maps.objects.ButtonDoor;
+import me.huntifi.castlesiege.maps.objects.Cannon;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.ChargeFlag;
 import me.huntifi.castlesiege.maps.objects.Core;
@@ -244,6 +246,7 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument[] doorsConfigs;
     private YamlDocument[] gatesConfigs;
     private YamlDocument[] catapultsConfigs;
+    private YamlDocument[] cannonConfigs;
     private YamlDocument[] coreConfigs;
 
     private YamlDocument gameConfig;
@@ -354,6 +357,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Kits
                 getServer().getPluginManager().registerEvents(new Alchemist(), plugin);
+                getServer().getPluginManager().registerEvents(new Artillerist(), plugin);
                 getServer().getPluginManager().registerEvents(new Armorer(), plugin);
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Barbarian(), plugin);
@@ -364,30 +368,29 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new CamelRider(), plugin);
                 getServer().getPluginManager().registerEvents(new Constructor(), plugin);
                 //getServer().getPluginManager().registerEvents(new Chef(), plugin);
-                getServer().getPluginManager().registerEvents(new CryptsFallen(), plugin);
-                getServer().getPluginManager().registerEvents(new ConwyArbalester(), plugin);
-                getServer().getPluginManager().registerEvents(new ConwyLongbowman(), plugin);
+                getServer().getPluginManager().registerEvents(new Fallen(), plugin);
+                getServer().getPluginManager().registerEvents(new Arbalester(), plugin);
+                getServer().getPluginManager().registerEvents(new Longbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Engineer(), plugin);
-                getServer().getPluginManager().registerEvents(new ThunderstoneElytrier(), plugin);
+                getServer().getPluginManager().registerEvents(new Elytrier(), plugin);
                 getServer().getPluginManager().registerEvents(new Executioner(), plugin);
                 getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
-                getServer().getPluginManager().registerEvents(new FirelandsAbyssal(), plugin);
-                getServer().getPluginManager().registerEvents(new FirelandsHellsteed(), plugin);
+                getServer().getPluginManager().registerEvents(new Abyssal(), plugin);
+                getServer().getPluginManager().registerEvents(new Hellsteed(), plugin);
                 getServer().getPluginManager().registerEvents(new Hypaspist(), plugin);
-                getServer().getPluginManager().registerEvents(new HommetAxeman(), plugin);
-                getServer().getPluginManager().registerEvents(new HommetLongbowman(), plugin);
+                getServer().getPluginManager().registerEvents(new Axeman(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
-                getServer().getPluginManager().registerEvents(new HelmsDeepBerserker(), plugin);
-                getServer().getPluginManager().registerEvents(new HelmsDeepLancer(), plugin);
-                getServer().getPluginManager().registerEvents(new HelmsDeepRangedCavalry(), plugin);
+                getServer().getPluginManager().registerEvents(new UrukBerserker(), plugin);
+                getServer().getPluginManager().registerEvents(new Lancer(), plugin);
+                getServer().getPluginManager().registerEvents(new RangedCavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new Ladderman(), plugin);
                 getServer().getPluginManager().registerEvents(new Maceman(), plugin);
                 getServer().getPluginManager().registerEvents(new Medic(), plugin);
-                getServer().getPluginManager().registerEvents(new MoriaWindlancer(), plugin);
-                getServer().getPluginManager().registerEvents(new MoriaAxeThrower(), plugin);
-                getServer().getPluginManager().registerEvents(new MoriaBonecrusher(), plugin);
-                getServer().getPluginManager().registerEvents(new MoriaCaveTroll(), plugin);
-                getServer().getPluginManager().registerEvents(new MoriaGuardian(), plugin);
+                getServer().getPluginManager().registerEvents(new Windlancer(), plugin);
+                getServer().getPluginManager().registerEvents(new AxeThrower(), plugin);
+                getServer().getPluginManager().registerEvents(new Bonecrusher(), plugin);
+                getServer().getPluginManager().registerEvents(new CaveTroll(), plugin);
+                getServer().getPluginManager().registerEvents(new Guardian(), plugin);
                 getServer().getPluginManager().registerEvents(new MoriaOrc(), plugin);
                 getServer().getPluginManager().registerEvents(new Priest(), plugin);
                 getServer().getPluginManager().registerEvents(new Paladin(), plugin);
@@ -478,42 +481,42 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Random")).setExecutor(new RandomKitCommand());
                 Objects.requireNonNull(getCommand("Alchemist")).setExecutor(new Alchemist());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
+                Objects.requireNonNull(getCommand("Artillerist")).setExecutor(new Artillerist());
                 Objects.requireNonNull(getCommand("Armorer")).setExecutor(new Armorer());
                 Objects.requireNonNull(getCommand("Battlemedic")).setExecutor(new BattleMedic());
                 Objects.requireNonNull(getCommand("Bannerman")).setExecutor(new Bannerman());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
                 Objects.requireNonNull(getCommand("Barbarian")).setExecutor(new Barbarian());
                 Objects.requireNonNull(getCommand("Constructor")).setExecutor(new Constructor());
-                Objects.requireNonNull(getCommand("ConwyArbalester")).setExecutor(new ConwyArbalester());
-                Objects.requireNonNull(getCommand("ConwyLongbowman")).setExecutor(new ConwyLongbowman());
-                Objects.requireNonNull(getCommand("ConwyRoyalKnight")).setExecutor(new ConwyRoyalKnight());
+                Objects.requireNonNull(getCommand("Arbalester")).setExecutor(new Arbalester());
+                Objects.requireNonNull(getCommand("Longbowman")).setExecutor(new Longbowman());
+                Objects.requireNonNull(getCommand("RoyalKnight")).setExecutor(new RoyalKnight());
                 Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
                 Objects.requireNonNull(getCommand("CamelRider")).setExecutor(new CamelRider());
                 //Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
-                Objects.requireNonNull(getCommand("RoyalCryptsFallen")).setExecutor(new CryptsFallen());
+                Objects.requireNonNull(getCommand("Fallen")).setExecutor(new Fallen());
                 Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
                 Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
-                Objects.requireNonNull(getCommand("ThunderstoneElytrier")).setExecutor(new ThunderstoneElytrier());
+                Objects.requireNonNull(getCommand("Elytrier")).setExecutor(new Elytrier());
                 Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
                 Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
-                Objects.requireNonNull(getCommand("FirelandsAbyssal")).setExecutor(new FirelandsAbyssal());
-                Objects.requireNonNull(getCommand("FirelandsHellsteed")).setExecutor(new FirelandsHellsteed());
+                Objects.requireNonNull(getCommand("Abyssal")).setExecutor(new Abyssal());
+                Objects.requireNonNull(getCommand("Hellsteed")).setExecutor(new Hellsteed());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
                 Objects.requireNonNull(getCommand("Hypaspist")).setExecutor(new Hypaspist());
-                Objects.requireNonNull(getCommand("HelmsDeepUrukBerserker")).setExecutor(new HelmsDeepBerserker());
-                Objects.requireNonNull(getCommand("HelmsDeepLancer")).setExecutor(new HelmsDeepLancer());
-                Objects.requireNonNull(getCommand("HelmsDeepRangedCavalry")).setExecutor(new HelmsDeepRangedCavalry());
-                Objects.requireNonNull(getCommand("HommetLongbowman")).setExecutor(new HommetLongbowman());
-                Objects.requireNonNull(getCommand("HommetAxeman")).setExecutor(new HommetAxeman());
+                Objects.requireNonNull(getCommand("UrukBerserker")).setExecutor(new UrukBerserker());
+                Objects.requireNonNull(getCommand("Lancer")).setExecutor(new Lancer());
+                Objects.requireNonNull(getCommand("RangedCavalry")).setExecutor(new RangedCavalry());
+                Objects.requireNonNull(getCommand("Axeman")).setExecutor(new Axeman());
                 Objects.requireNonNull(getCommand("Ladderman")).setExecutor(new Ladderman());
                 Objects.requireNonNull(getCommand("Maceman")).setExecutor(new Maceman());
                 Objects.requireNonNull(getCommand("Medic")).setExecutor(new Medic());
-                Objects.requireNonNull(getCommand("MoriaWindlancer")).setExecutor(new MoriaWindlancer());
-                Objects.requireNonNull(getCommand("MoriaGuardian")).setExecutor(new MoriaGuardian());
-                Objects.requireNonNull(getCommand("MoriaCaveTroll")).setExecutor(new MoriaCaveTroll());
-                Objects.requireNonNull(getCommand("MoriaBonecrusher")).setExecutor(new MoriaBonecrusher());
-                Objects.requireNonNull(getCommand("MoriaAxeThrower")).setExecutor(new MoriaAxeThrower());
+                Objects.requireNonNull(getCommand("Windlancer")).setExecutor(new Windlancer());
+                Objects.requireNonNull(getCommand("Guardian")).setExecutor(new Guardian());
+                Objects.requireNonNull(getCommand("CaveTroll")).setExecutor(new CaveTroll());
+                Objects.requireNonNull(getCommand("Bonecrusher")).setExecutor(new Bonecrusher());
+                Objects.requireNonNull(getCommand("AxeThrower")).setExecutor(new AxeThrower());
                 Objects.requireNonNull(getCommand("MoriaOrc")).setExecutor(new MoriaOrc());
                 Objects.requireNonNull(getCommand("Paladin")).setExecutor(new Paladin());
                 Objects.requireNonNull(getCommand("Priest")).setExecutor(new Priest());
@@ -690,6 +693,19 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     /**
+     * @param cannonPath The cannon to find the config for
+     * @return The YamlDocument containing the cannon's config
+     */
+    public YamlDocument getCannonConfig(Route cannonPath) {
+        for (YamlDocument document : cannonConfigs) {
+            if (document.contains(cannonPath)) {
+                return document;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param corePath The core to find the config for
      * @return The YamlDocument containing the core's config
      */
@@ -810,6 +826,9 @@ public class Main extends JavaPlugin implements Listener {
 
         catapultsConfigs = loadYMLs("catapults");
         getLogger().info("Loaded catapults");
+
+        cannonConfigs = loadYMLs("cannons");
+        getLogger().info("Loaded cannons");
 
         mapConfigs = loadYMLs("maps");
         getLogger().info("Loaded maps");
@@ -957,6 +976,8 @@ public class Main extends JavaPlugin implements Listener {
                 loadGates(mapRoute, map);
                 // Catapults
                 loadCatapults(mapRoute, map);
+                //cannons
+                loadCannons(mapRoute, map);
 
                 // Team Data
                 String[] teamPaths = getPaths(config, Route.from(mapPath).add("teams"));
@@ -1117,6 +1138,19 @@ public class Main extends JavaPlugin implements Listener {
         colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("secondary_color")).toLowerCase()));
         team.secondaryWool = colors.getFirst();
         team.secondaryChatColor = colors.getSecond();
+
+        // Add team/map kits
+        if (config.contains(teamPath.add("kits"))) {
+            List<java.util.Map<?, ?>> kits = config.getMapList(teamPath.add("kits"));
+            for (java.util.Map<?, ?> kit : kits) {
+                String kitName = (String) kit.get("name");
+                String cost = (String) kit.get("cost");
+                if (cost == null || (!cost.equals("coins") && !cost.equals("free")))
+                    getLogger().warning(kitName + " has an invalid cost for " + team.name);
+                else
+                    team.kits.put(kitName.toLowerCase(), SignKit.CostType.valueOf(cost.toLowerCase()));
+            }
+        }
 
         // Setup lobby
         team.lobby = loadLobby(teamPath.add("lobby"), map, config);
@@ -1282,6 +1316,31 @@ public class Main extends JavaPlugin implements Listener {
 
             map.gates[i] = gate;
         }
+    }
+
+    private void loadCannons(Route mapRoute, Map map) {
+        YamlDocument cannonConfig = getCannonConfig(mapRoute);
+        if (!Objects.nonNull(cannonConfig)) {
+            map.cannons = new Cannon[0];
+            return;
+        }
+
+        String[] cannonPaths = getPaths(cannonConfig, mapRoute);
+
+        map.cannons = new Cannon[cannonPaths.length];
+
+        for (int i = 0; i < cannonPaths.length; i++) {
+
+            Route cannonRoute = mapRoute.add(cannonPaths[i]);
+            String direction = cannonConfig.getString(cannonRoute.add("direction"));
+            Location location = getLocation(cannonRoute.add("location"), map.worldName, cannonConfig);
+            double horizontal = cannonConfig.getDouble(cannonRoute.add("yaw"));
+            double vertical = cannonConfig.getDouble(cannonRoute.add("power"));
+
+            Cannon cannon = new Cannon(direction, location, horizontal, vertical);
+            map.cannons[i] = cannon;
+        }
+
     }
 
     private void loadCatapults(Route mapRoute, Map map) {

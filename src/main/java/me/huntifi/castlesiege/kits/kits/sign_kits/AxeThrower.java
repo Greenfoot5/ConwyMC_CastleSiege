@@ -1,10 +1,10 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.moria;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -30,15 +30,13 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class MoriaAxeThrower extends TeamKit implements Listener {
+public class AxeThrower extends SignKit implements Listener {
 
     /**
      * Creates a new Moria Axe Thrower
      */
-    public MoriaAxeThrower() {
-        super("Axe Thrower", 300, 10, "Moria",
-                "The Dwarves", 5000, Material.STONE_AXE,
-                "moriaaxethrower");
+    public AxeThrower() {
+        super("Axe Thrower", 300, 10, Material.STONE_AXE, 5000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
