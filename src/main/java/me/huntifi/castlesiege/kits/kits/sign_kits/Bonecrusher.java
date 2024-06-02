@@ -1,9 +1,9 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.moria;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
@@ -26,14 +26,13 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Random;
 
-public class MoriaBonecrusher extends TeamKit implements Listener {
+public class Bonecrusher extends SignKit implements Listener {
 
     /**
      * Creates a new Moria Bonecrusher
      */
-    public MoriaBonecrusher() {
-        super("Bonecrusher", 300, 8, "Moria",
-                "The Orcs", 4000, Material.BONE, "moriabonecrusher");
+    public Bonecrusher() {
+        super("Bonecrusher", 300, 8, Material.BONE, 4000);
 
 
         // Equipment Stuff

@@ -39,35 +39,41 @@ public class WoolMap implements Listener {
 	 */
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
+		// Prevent spawning by physical actions, e.g. stepping on a pressure plate
+		if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)
+			return;
+
+		Player player = e.getPlayer();
+		Block target = player.getTargetBlockExact(50);
+
+		if (target == null || !(target.getState() instanceof Sign))
+			return;
+
+		if (!MapController.isOngoing() && MapController.timer.state != TimerState.EXPLORATION)
+			return;
+
+		if (!InCombat.isPlayerInLobby(e.getPlayer().getUniqueId()))
+			return;
+
 		Bukkit.getScheduler().runTask(Main.plugin, () -> {
-			// Prevent spawning by physical actions, e.g. stepping on a pressure plate
-			if (e.getAction() == Action.PHYSICAL)
-				return;
+			for (WoolMapBlock block : woolMapBlocks) {
 
-			Player player = e.getPlayer();
-			Block target = player.getTargetBlockExact(50);
+				if (Objects.equals(Objects.requireNonNull(block.blockLocation.getWorld()).getName(), MapController.getCurrentMap().worldName)) {
+					if (target.getLocation().distance(block.signLocation) == 0) {
+                        if (DeathEvent.onCooldown.contains(player)) {
+                            Messenger.sendError("You can't spawn in yet!", e.getPlayer());
+                        } else {
+                            // Remove mount
+                            if (player.isInsideVehicle()) {
+                                Objects.requireNonNull(player.getVehicle()).remove();
+                            }
 
-			if (target != null && target.getState() instanceof Sign) {
-				for (WoolMapBlock block : woolMapBlocks) {
-					if (Objects.equals(Objects.requireNonNull(block.blockLocation.getWorld()).getName(), MapController.getCurrentMap().worldName)) {
-						if (target.getLocation().distance(block.signLocation) == 0
-								&& (MapController.isOngoing() || MapController.timer.state == TimerState.EXPLORATION)
-						&& !DeathEvent.onCooldown.contains(player)) {
-							// Remove mount
-							if (player.isInsideVehicle()) {
-								Objects.requireNonNull(player.getVehicle()).remove();
-							}
+                            // Spawn player with kit
+                            block.spawnPlayer(player.getUniqueId());
+                        }
 
-							// Spawn player with kit
-							block.spawnPlayer(player.getUniqueId());
-
-						}
-						else if (target.getLocation().distance(block.signLocation) == 0)
-						{
-							Messenger.sendError("You can't spawn in yet!", e.getPlayer());
-							return;
-						}
-					}
+						return;
+                    }
 				}
 			}
 		});

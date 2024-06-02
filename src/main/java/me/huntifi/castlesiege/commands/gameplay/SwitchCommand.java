@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.maps.Map;
 import me.huntifi.castlesiege.maps.MapController;
@@ -22,7 +22,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * Allows the player to swap teams
@@ -165,7 +164,7 @@ public class SwitchCommand implements CommandExecutor {
 
 		// Remove any team specific kits
 		Kit kit = Kit.equippedKits.get(p.getUniqueId());
-		if (kit instanceof TeamKit && !Objects.equals(((TeamKit) kit).getTeamName(), team.name)) {
+		if (kit instanceof SignKit) {
 			Kit.equippedKits.put(p.getUniqueId(), new Swordsman());
 			CSActiveData.getData(p.getUniqueId()).setKit("swordsman");
 		}

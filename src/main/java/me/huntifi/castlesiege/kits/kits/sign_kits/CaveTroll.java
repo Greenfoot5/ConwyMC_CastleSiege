@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.moria;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.AssistKill;
@@ -7,7 +7,7 @@ import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
@@ -33,16 +33,15 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class MoriaCaveTroll extends TeamKit implements Listener {
+public class CaveTroll extends SignKit implements Listener {
 
     public final ArrayList<Player> grabbed = new ArrayList<>();
 
     /**
      * Creates a new Moria Cave Troll
      */
-    public MoriaCaveTroll() {
-        super("Cave Troll", 800, 20, "Moria",
-                "The Orcs", 7500, Material.POPPY, "moriacavetroll");
+    public CaveTroll() {
+        super("Cave Troll", 800, 20, Material.POPPY, 7500);
         super.canClimb = false;
         super.kbResistance = 0.8;
 

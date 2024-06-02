@@ -1,9 +1,9 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.helmsdeep;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.misc.CSNameTag;
 import me.huntifi.conwymc.data_types.Tuple;
@@ -30,15 +30,14 @@ import java.util.Collections;
 import java.util.Objects;
 
 
-public class HelmsDeepBerserker extends TeamKit implements Listener {
+public class UrukBerserker extends SignKit implements Listener {
 
 
     /**
      * Creates a new Helms Deep Berserker
      */
-    public HelmsDeepBerserker() {
-        super("Uruk Berserker", 220, 6, "Helm's Deep", "Uruk-hai",
-                2500, Material.REDSTONE, "helmsdeepurukberserker");
+    public UrukBerserker() {
+        super("Uruk Berserker", 220, 6, Material.REDSTONE, 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

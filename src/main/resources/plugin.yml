@@ -322,150 +322,53 @@ commands:
   Kit:
     description: Open the GUI for selecting kits
     usage: /kit <category>
+
+  # Coin Kits
   Alchemist:
     description: Selects the alchemist kit
     usage: /alchemist
-  Archer:
-    description: Selects the archer kit
-    usage: /archer
   Armorer:
     description: Selects the armorer kit
     usage: /armorer
-  Berserker:
-    description: Selects the berserker kit
-    usage: /berserker
-  BattleMedic:
-    description: Selects the battle medic kit
-    usage: /battlemedic
   Barbarian:
     description: Selects the barbarian kit
     usage: /barbarian
-  Bannerman:
-    description: Selects the bannerman kit
-    usage: /bannerman
+  Berserker:
+    description: Selects the berserker kit
+    usage: /berserker
   Cavalry:
     description: Selects the cavalry kit
     usage: /cavalry
-  CamelRider:
-    description: Selects the camel rider kit
-    usage: /camelrider
-  Chef:
-    description: Selects the chef kit
-    usage: /chef
-  Constructor:
-    description: Selects the constructor kit
-    usage: /constructor
-  RoyalCryptsFallen:
-    description: Selects the Fallen kit for Royal Crypts as Fallen
-    usage: /royalcryptsfallen
   Crossbowman:
     description: Selects the crossbowman kit
     usage: /crossbowman
-  ConwyLongbowman:
-    description: Selects the Conwy longbowman kit for the Rebellion
-    usage: /ConwyLongbowman
-  ConwyRoyalKnight:
-    description: Selects the Conwy royal knight kit for the English
-    usage: /conwyroyalknight
-  ConwyArbalester:
-    description: Selects the Conwy arbalester kit for the English
-    usage: /conwyarbalester
   Engineer:
     description: Selects the engineer kit
     usage: /engineer
-  ThunderstoneElytrier:
-    description: Selects the Elytrier kit for Thunderstone Guard
-    usage: /thunderstoneelytrier
   Executioner:
     description: Selects the executioner kit
     usage: /executioner
-  FireArcher:
-    description: Selects the firearcher kit
-    usage: /firearcher
-  FirelandsAbyssal:
-    description: Selects the Abyssal kit from firelands for the Burning Legion
-    usage: /firelandsabyssal
-  FirelandsHellsteed:
-    description: Selects the Hellsteed kit from firelands for the Burning Legion
-    usage: /firelandshellsteed
   Halberdier:
     description: Selects the halberdier kit
     usage: /halberdier
-  Hypaspist:
-    description: Selects the hypaspist kit
-    usage: /hypaspist
-  HelmsDeepUrukBerserker:
-    description: Selects the Berserker kit on Helm's Deep
-    usage: /helmsdeepberserker
-  HelmsdeepLancer:
-    description: Selects the Lancer kit on Helm's Deep
-    usage: /helmsdeeplancer
-  HommetLongbowman:
-    description: Selects the Longbowman kit on Hommet
-    usage: /HommetLongbowman
-  HommetAxeman:
-    description: Selects the Axeman kit on Hommet
-    usage: /HommetAxeman
-  HelmsdeepRangedCavalry:
-    description: Selects the Ranged Cavalry kit on Helm's Deep
-    usage: /helmsdeeprangedcavalry
-  Ladderman:
-    description: Selects the ladderman kit
-    usage: /ladderman
   Maceman:
     description: Selects the maceman kit
     usage: /maceman
   Medic:
     description: Selects the medic kit
     usage: /medic
-  Moriabonecrusher:
-    description: Selects the Bonecrusher kit for Moria
-    usage: /moriabonecrusher
-  MoriaWindlancer:
-    description: Selects the Windlancer kit for Moria
-    usage: /moriawindlancer
-  Moriaguardian:
-    description: Selects the Guardian kit for Moria
-    usage: /moriaguardian
-  Moriacavetroll:
-    description: Selects the Cave Troll kit for Moria
-    usage: /moriacavetroll
-  Moriaaxethrower:
-    description: Selects the Axe Thrower kit for Moria
-    usage: /moriaaxethrower
-  Moriaorc:
-    description: Selects the Moria Orc kit for Moria
-    usage: /moriaorc
-  Priest:
-    description: Selects the Priest kit
-    usage: /priest
   Paladin:
     description: Selects the Paladin kit
     usage: /paladin
+  Priest:
+    description: Selects the Priest kit
+    usage: /priest
   Ranger:
     description: Selects the ranger kit
     usage: /ranger
   Rogue:
     description: Selects the rogue kit
     usage: /rogue
-  Scout:
-    description: Selects the scout kit
-    usage: /scout
-  Shieldman:
-    description: Selects the shieldman kit
-    usage: /shieldman
-  Skirmisher:
-    description: Selects the skirmisher kit
-    usage: /skirmisher
-  Spearman:
-    description: Selects the spearman kit
-    usage: /spearman
-  Spearknight:
-    description: Selects the spearknight kit
-    usage: /spearknight
-  Swordsman:
-    description: Selects the swordsman kit
-    usage: /swordsman
   Sorcerer:
     description: Selects the sorcerer kit
     usage: /sorcerer
@@ -475,12 +378,123 @@ commands:
   Viking:
     description: Selects the viking kit
     usage: /viking
-  Warbear:
-    description: Selects the warbear kit
-    usage: /warbear
   Warhound:
     description: Selects the warhound kit
     usage: /warhound
   Warlock:
     description: Selects the warlock kit
     usage: /warlock
+
+  # Free Kits
+  Archer:
+    description: Selects the archer kit
+    usage: /archer
+  Shieldman:
+    description: Selects the shieldman kit
+    usage: /shieldman
+  Spearman:
+    description: Selects the spearman kit
+    usage: /spearman
+  Swordsman:
+    description: Selects the swordsman kit
+    usage: /swordsman
+
+  # Level Kits
+  BattleMedic:
+    description: Selects the battle medic kit
+    usage: /battlemedic
+  Hypaspist:
+    description: Selects the hypaspist kit
+    usage: /hypaspist
+  Spearknight:
+    description: Selects the spearknight kit
+    usage: /spearknight
+
+  # Sign Kits
+  Abyssal:
+    description: Selects the Abyssal kit
+    usage: /abyssal
+  Arbalester:
+    description: Selects the Arbalester kit
+    usage: /arbalester
+  Artillerist:
+    description: Selects the Arillerist kit
+    usage: /artillerist
+  Axeman:
+    description: Selects the Axeman kit
+    usage: /Axeman
+  AxeThrower:
+    description: Selects the Axe Thrower kit
+    usage: /axethrower
+  Bonecrusher:
+    description: Selects the Bonecrusher kit
+    usage: /Bonecrusher
+  CamelRider:
+    description: Selects the camel rider kit
+    usage: /camelrider
+  CaveTroll:
+    description: Selects the Cave Troll kit
+    usage: /cavetroll
+  Constructor:
+    description: Selects the constructor kit
+    usage: /constructor
+  Elytrier:
+    description: Selects the Elytrier kit
+    usage: /thunderstoneelytrier
+  Fallen:
+    description: Selects the Fallen kit
+    usage: /fallen
+  Guardian:
+    description: Selects the Guardian kit
+    usage: /guardian
+  Hellsteed:
+    description: Selects the Hellsteed kit
+    usage: /hellsteed
+  Lancer:
+    description: Selects the Lancer kit
+    usage: /lancer
+  Longbowman:
+    description: Selects the Longbowman kit
+    usage: /Longbowman
+  MoriaOrc:
+    description: Selects the Moria Orc kit
+    usage: /moriaorc
+  RangedCavalry:
+    description: Selects the Ranged Cavalry kit
+    usage: /rangedcavalry
+  RoyalKnight:
+    description: Selects the Royal Knight kit
+    usage: /royalknight
+  UrukBerserker:
+    description: Selects the Uruk Berserker kit
+    usage: /urukberserker
+  Windlancer:
+    description: Selects the Windlancer kit
+    usage: /windlancer
+
+  # Staff Kits
+  Warbear:
+    description: Selects the warbear kit
+    usage: /warbear
+
+  # Voter Kits
+  FireArcher:
+    description: Selects the firearcher kit
+    usage: /firearcher
+  Ladderman:
+    description: Selects the ladderman kit
+    usage: /ladderman
+  Scout:
+    description: Selects the scout kit
+    usage: /scout
+  Skirmisher:
+    description: Selects the skirmisher kit
+    usage: /skirmisher
+
+  # Dev Kits
+  Bannerman:
+    description: Selects the bannerman kit
+    usage: /bannerman
+  Chef:
+    description: Selects the chef kit
+    usage: /chef

@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.maps;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.data_types.CSStats;
 import me.huntifi.castlesiege.database.MVPStats;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.events.nametag.UpdateNameTagEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -16,6 +17,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -27,6 +29,7 @@ public class Team implements Listener {
     private ArrayList<UUID> players;
 
     public Lobby lobby;
+    public HashMap<String, SignKit.CostType> kits = new HashMap<>();
 
     // Colours
     public Material primaryWool;

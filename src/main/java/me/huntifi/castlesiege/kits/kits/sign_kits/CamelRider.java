@@ -1,9 +1,9 @@
-package me.huntifi.castlesiege.kits.kits.map_kits;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.events.gameplay.CamelHandler;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.kits.MapKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -20,7 +20,7 @@ import java.util.Collections;
 /**
  * A kit that can summon and ride a camel
  */
-public class CamelRider extends MapKit implements Listener {
+public class CamelRider extends SignKit implements Listener {
 
     private static final int health = 360;
     private static final double regen = 10.5;
@@ -32,7 +32,7 @@ public class CamelRider extends MapKit implements Listener {
      * Creates a new camel rider
      */
     public CamelRider() {
-        super("CamelRider", health, regen, Material.SAND, "Abrakhan", "Camel Rider");
+        super("Camel Rider", health, regen, Material.SAND);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

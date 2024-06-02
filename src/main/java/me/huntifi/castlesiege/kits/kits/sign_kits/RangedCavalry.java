@@ -1,48 +1,48 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.hommet;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
+import me.huntifi.castlesiege.events.gameplay.HorseHandler;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
-public class HommetLongbowman extends TeamKit implements Listener {
+public class RangedCavalry extends SignKit implements Listener {
 
     /**
-     * Creates a new Hommet Longbowman
+     * Creates a new Helms Deep Ranged Cavalry
      */
-    public HommetLongbowman() {
-        super("Longbowman", 220, 10, "Hommet",
-                "Normans", 2500, Material.BOW, "hommetlongbowman");
-
+    public RangedCavalry() {
+        super("Ranged Cavalry", 230, 9, Material.BOW, 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                Component.text("Dagger", NamedTextColor.GREEN), null, null, 29.5);
+                Component.text("Longsword", NamedTextColor.GREEN), null, null, 29.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        Component.text("Dagger", NamedTextColor.GREEN),
+                        Component.text("Longsword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31.5),
                 0);
@@ -72,6 +72,16 @@ public class HommetLongbowman extends TeamKit implements Listener {
         es.hotbar[2] = new ItemStack(Material.LADDER, 4);
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
 
+        // Horse
+        es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.WHEAT),
+                Component.text("Spawn Horse", NamedTextColor.GREEN), null, null);
+        HorseHandler.add(name, 800, 100, 1, 0.2025, 0.8,
+                Material.LEATHER_HORSE_ARMOR, Arrays.asList(
+                        new PotionEffect(PotionEffectType.JUMP, 999999, 1),
+                        new PotionEffect(PotionEffectType.REGENERATION, 999999, 0)
+                )
+        );
+
         // Arrows
         es.hotbar[4] = new ItemStack(Material.ARROW, 20);
 
@@ -79,7 +89,7 @@ public class HommetLongbowman extends TeamKit implements Listener {
     }
 
     /**
-     * Set the arrow-damage of an arrow
+     * Set the arrow-damage of a ranged cavalry's arrows
      * @param e The event called when a player is hit by an arrow
      */
     @EventHandler(priority = EventPriority.LOW)
@@ -87,55 +97,7 @@ public class HommetLongbowman extends TeamKit implements Listener {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-
-            Player p = (Player) e.getEntity().getShooter();
-            if (e.getHitEntity() == null) { return; }
-
-            Entity hit = e.getHitEntity();
-
-            Location shooterLoc = p.getLocation();
-            Location hitLoc = hit.getLocation();
-
-            double distance = shooterLoc.distance(hitLoc);
-
-            //default value
-            ((Arrow) e.getEntity()).setDamage(14);
-
-            if (distance <= 15 && distance >= 10) {
-                ((Arrow) e.getEntity()).setDamage(15);
-            }
-
-            if (distance <= 20 && distance >= 15) {
-                ((Arrow) e.getEntity()).setDamage(16);
-            }
-
-            if (distance <= 25 && distance >= 20) {
-                ((Arrow) e.getEntity()).setDamage(18);
-            }
-
-            if (distance <= 30 && distance >= 25) {
-                ((Arrow) e.getEntity()).setDamage(20);
-            }
-
-            if (distance <= 35 && distance >= 30) {
-                ((Arrow) e.getEntity()).setDamage(22);
-            }
-
-            if (distance <= 40 && distance >= 35) {
-                ((Arrow) e.getEntity()).setDamage(26);
-            }
-
-            if (distance <= 50 && distance >= 40) {
-                ((Arrow) e.getEntity()).setDamage(30);
-            }
-
-            if (distance <= 60 && distance >= 50) {
-                ((Arrow) e.getEntity()).setDamage(34);
-            }
-
-            if (distance >= 70) {
-                ((Arrow) e.getEntity()).setDamage(40);
-            }
+            ((Arrow) e.getEntity()).setDamage(16);
         }
     }
 

@@ -1,9 +1,9 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.royalcrypts;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
@@ -26,14 +26,13 @@ import java.util.Objects;
 /**
  * Royal Crypts specific kit that can apply wither
  */
-public class CryptsFallen extends TeamKit implements Listener {
+public class Fallen extends SignKit implements Listener {
 
     /**
      * Creates a new Fallen
      */
-    public CryptsFallen() {
-        super("Fallen", 360, 23, "Royal Crypts", "Tomb Guardians",
-                2000, Material.WITHER_SKELETON_SKULL, "royalcryptsfallen");
+    public Fallen() {
+        super("Fallen", 360, 23, Material.WITHER_SKELETON_SKULL, 2000);
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;

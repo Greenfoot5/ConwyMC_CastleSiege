@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.team_kits.thunderstone;
+package me.huntifi.castlesiege.kits.kits.sign_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
@@ -6,7 +6,7 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
-import me.huntifi.castlesiege.kits.kits.TeamKit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
@@ -38,14 +38,12 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-public class ThunderstoneElytrier extends TeamKit implements Listener {
+public class Elytrier extends SignKit implements Listener {
 
     private static final int POTION_COOLDOWN = 300;
 
-    public ThunderstoneElytrier() {
-        super("Elytrier", 170, 7, "Thunderstone",
-                "Thunderstone Guard", 2000, Material.ELYTRA,
-                "thunderstoneelytrier");
+    public Elytrier() {
+        super("Elytrier", 170, 7, Material.ELYTRA, 2000);
         super.canCap = false;
         super.canSeeHealth = true;
         // Equipment Stuff
