@@ -14,7 +14,7 @@ public class CSAdvancementController implements Listener {
         api = UltimateAdvancementAPI.getInstance(ConwyMC.plugin);
         ConwyMC.plugin.getServer().getPluginManager().registerEvents(new LevelAdvancements(), ConwyMC.plugin);
 
-        ConwyMC.plugin.getServer().getPluginManager().registerEvents(new TutorialAdvancements(), ConwyMC.plugin);
+        TutorialAdvancements tutorial = new TutorialAdvancements();
     }
 
     @EventHandler

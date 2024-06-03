@@ -126,6 +126,13 @@ public class RamEvent extends Event implements Cancellable {
     }
 
     /**
+     * @return If the gate was breached with this ram
+     */
+    public boolean wasGateBreached() {
+        return getCurrentHealth() <= getDamageDealt();
+    }
+
+    /**
      * The source of the damage to the gate
      */
     public enum RamType {

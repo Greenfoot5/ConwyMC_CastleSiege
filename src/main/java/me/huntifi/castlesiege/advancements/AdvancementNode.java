@@ -131,7 +131,7 @@ public class AdvancementNode {
      * @param input The key to clean
      * @return A cleaned key allowing [a-zA-Z0-9|._\-\/]
      */
-    private String cleanKey(String input) {
+    public static String cleanKey(String input) {
         if (input == null) return null;
         // Remove MiniMessage
         input = input.toLowerCase().replaceAll("<.*?>", "");
