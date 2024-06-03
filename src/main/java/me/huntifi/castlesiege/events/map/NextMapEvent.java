@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.maps.events;
+package me.huntifi.castlesiege.events.map;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

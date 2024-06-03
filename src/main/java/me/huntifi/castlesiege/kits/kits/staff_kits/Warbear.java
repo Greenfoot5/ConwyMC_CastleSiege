@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.StaffKit;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.events.RamEvent;
+import me.huntifi.castlesiege.events.map.RamEvent;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
