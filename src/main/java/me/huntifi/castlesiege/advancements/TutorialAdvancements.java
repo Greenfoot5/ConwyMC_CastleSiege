@@ -6,6 +6,7 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
 import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
+import me.huntifi.castlesiege.events.map.CannonEvent;
 import me.huntifi.castlesiege.events.map.RamEvent;
 import me.huntifi.conwymc.data_types.Tuple;
 import org.bukkit.Bukkit;
@@ -32,7 +33,7 @@ public class TutorialAdvancements{
         AdvancementNode rootNode = new AdvancementNode(Material.BOOK, AdvancementFrameType.TASK,
                 "<white>Castle Siege", "<dark_green>Learn how to play Castle Siege");
 
-        // Cannons?
+        // Cannons
         rootNode.addChild(new AdvancementNode(Material.BLACK_CONCRETE, AdvancementFrameType.TASK,
                 "Shooting Cannons", "Fire a cannon", "Castle Siege"));
         rootNode.addChild(new AdvancementNode(Material.OAK_BOAT, AdvancementFrameType.CHALLENGE,
@@ -91,46 +92,51 @@ public class TutorialAdvancements{
         tab.registerAdvancements(advs.getFirst(), advancements);
 
         // Events
-        // Ram Events
+        tab.getEventManager().register(this, CannonEvent.class, this::onCannonEvent);
         tab.getEventManager().register(this, RamEvent.class, this::onRamEvent);
     }
 
+    private void onCannonEvent(CannonEvent event) {
+        System.out.println("Cannon Event");
+        if (event.isCancelled()) return;
+
+        tab.getAdvancement(new AdvancementKey("siege_tutorial", AdvancementNode.cleanKey("Shooting Cannons"))).grant(event.getShooter());
+    }
+
     private void onRamEvent(RamEvent event) {
-        {
-            if (event.isCancelled()) return;
+        if (event.isCancelled()) return;
 
-            for (UUID uuid : event.getPlayerUUIDs()) {
-                // Update Tracking
-                if (!ramAttackers.containsKey(event.getGateName())) {
-                    ramAttackers.put(event.getGateName(), new HashSet<>());
+        for (UUID uuid : event.getPlayerUUIDs()) {
+            // Update Tracking
+            if (!ramAttackers.containsKey(event.getGateName())) {
+                ramAttackers.put(event.getGateName(), new HashSet<>());
 
-                }
-                ramAttackers.get(event.getGateName()).add(uuid);
-
-                Player p = Bukkit.getPlayer(uuid);
-                tab.getAdvancement(new AdvancementKey("siege_tutorial", AdvancementNode.cleanKey("Ramming Gates"))).grant(p);
-
-                if (event.getPlayerUUIDs().size() >= 4) {
-                    tab.getAdvancement(new AdvancementKey("siege_tutorial", AdvancementNode.cleanKey("Lift with your back"))).grant(p);
-                }
             }
+            ramAttackers.get(event.getGateName()).add(uuid);
 
-            // Ram has been destroyed
-            if (!event.wasGateBreached()) {
-                return;
+            Player p = Bukkit.getPlayer(uuid);
+            tab.getAdvancement(new AdvancementKey("siege_tutorial", AdvancementNode.cleanKey("Ramming Gates"))).grant(p);
+
+            if (event.getPlayerUUIDs().size() >= 4) {
+                tab.getAdvancement(new AdvancementKey("siege_tutorial", AdvancementNode.cleanKey("Lift with your back"))).grant(p);
             }
-
-            if (ramAttackers.get(event.getGateName()).size() > 1) {
-                Advancement breachAdv = tab.getAdvancement(new AdvancementKey("siege_tutorial", AdvancementNode.cleanKey("Ramming Gates")));
-                for (UUID uuid : ramAttackers.get(event.getGateName())) {
-                    Player contributor = Bukkit.getPlayer(uuid);
-                    if (contributor != null) {
-                        breachAdv.grant(contributor);
-                    }
-                }
-            }
-
-            ramAttackers.remove(event.getGateName());
         }
+
+        // Ram has been destroyed
+        if (!event.wasGateBreached()) {
+            return;
+        }
+
+        if (ramAttackers.get(event.getGateName()).size() > 1) {
+            Advancement breachAdv = tab.getAdvancement(new AdvancementKey("siege_tutorial", AdvancementNode.cleanKey("Ramming Gates")));
+            for (UUID uuid : ramAttackers.get(event.getGateName())) {
+                Player contributor = Bukkit.getPlayer(uuid);
+                if (contributor != null) {
+                    breachAdv.grant(contributor);
+                }
+            }
+        }
+
+        ramAttackers.remove(event.getGateName());
     }
 }

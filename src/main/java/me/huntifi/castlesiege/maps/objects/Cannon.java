@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.maps.objects;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.map.CannonEvent;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Artillerist;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
@@ -65,20 +66,20 @@ public class Cannon implements Listener {
         switch (this.direction) {
             case "north":
                 // Locations
-                this.barrel = location.add(0, 0, -4);
-                this.recoil = location.add(0, 0, 1);
+                this.barrel = location.clone().add(0, 0, -4);
+                this.recoil = location.clone().add(0, 0, 1);
                 break;
 
             case "east":
                 // Locations
-                this.barrel = location.add(4, 0, 0);
-                this.recoil = location.add(-1, 0, 0);
+                this.barrel = location.clone().add(4, 0, 0);
+                this.recoil = location.clone().add(-1, 0, 0);
                 break;
 
             case "south":
                 // Locations
-                this.barrel = location.add(0, 0, 4);
-                this.recoil = location.add(0, 0, -1);
+                this.barrel = location.clone().add(0, 0, 4);
+                this.recoil = location.clone().add(0, 0, -1);
                 break;
 
             case "west":
@@ -119,6 +120,12 @@ public class Cannon implements Listener {
      * Shoot the catapult and start the timer for it coming back down again
      */
     private void shoot() {
+        CannonEvent shootEvent = new CannonEvent(shooter);
+        Bukkit.getPluginManager().callEvent(shootEvent);
+        if (shootEvent.isCancelled()) {
+            return;
+        }
+
         // Animate the shot and play the shooting sound
         SchematicSpawner.spawnSchematic(recoil, "Cannon_Shot_" + direction);
         barrel.getWorld().playSound(barrel, Sound.ENTITY_GENERIC_EXPLODE, 5, 1);
