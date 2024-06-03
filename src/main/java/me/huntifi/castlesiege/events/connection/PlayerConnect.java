@@ -49,6 +49,27 @@ public class PlayerConnect implements Listener {
             return;
         }
 
+        //Welcomes new players!
+        if (!p.hasPlayedBefore()) {
+
+            Messenger.broadcast(BroadcastCommand.broadcastPrefix
+                    .append(Messenger.mm.deserialize("<gradient:#663dff:#cc4499:#663dff><st>━━━━━</st> " +
+                            "Welcome <color:#cc4499>" + p.getName() + "</color> to Castle Siege! <st>━━━━━</st>")));
+            Messenger.send(Component.text("If you encounter a problem or need help, contact us on " +
+                            "<yellow><click:suggest_command:/discord>/discord</click></yellow> or " +
+                            "<yellow><click:open_url:https://conwymc.alchemix.dev/contact>email us</click></yellow>!",
+                    NamedTextColor.GREEN), p);
+
+        } else {
+            Messenger.send(Component.text("Hello ", NamedTextColor.DARK_RED)
+                    .append(Component.text(p.getName()))
+                    .append(Component.newline())
+                    .append(Component.text("Welcome to Castle Siege", NamedTextColor.DARK_RED))
+                    .append(Component.newline())
+                    .append(Component.text("There are currently " + Bukkit.getOnlinePlayers().size() +
+                            " player(s) online.", NamedTextColor.DARK_PURPLE)), p);
+        }
+
         // Assign the player to a team or spectator
         InCombat.playerDied(uuid);
         if (MapController.isMatch) {
@@ -71,27 +92,6 @@ public class PlayerConnect implements Listener {
 
         // Update the names stored in the database
         StoreData.updateName(uuid);
-
-        //Welcomes new players!
-        if (!p.hasPlayedBefore()) {
-
-            Messenger.broadcast(BroadcastCommand.broadcastPrefix
-                    .append(Messenger.mm.deserialize("<gradient:#663dff:#cc4499:#663dff><st>━━━━━</st> " +
-                            "Welcome <color:#cc4499>" + p.getName() + "</color> to Castle Siege! <st>━━━━━</st>")));
-            Messenger.send(Component.text("If you encounter a problem or need help, contact us on " +
-                            "<yellow><click:suggest_command:/discord>/discord</click></yellow> or " +
-                            "<yellow><click:open_url:https://conwymc.alchemix.dev/contact>email us</click></yellow>!",
-                    NamedTextColor.GREEN), p);
-
-        } else {
-            Messenger.send(Component.text("Hello ", NamedTextColor.DARK_RED)
-                    .append(Component.text(p.getName()))
-                    .append(Component.newline())
-                    .append(Component.text("Welcome to Castle Siege", NamedTextColor.DARK_RED))
-                    .append(Component.newline())
-                    .append(Component.text("There are currently " + Bukkit.getOnlinePlayers().size() +
-                            " player(s) online.", NamedTextColor.DARK_PURPLE)), p);
-        }
 
         if (CoinKit.isFree()) {
             Messenger.broadcastInfo("It's Friday! All coin and team kits are <b>UNLOCKED!</b>");
