@@ -40,8 +40,9 @@ public class CSNameTag implements Listener {
         Player player = event.getPlayer();
         CSPlayerData data = CSActiveData.getData(player.getUniqueId());
         assert data != null;
+        Component title = event.getTitle() == null ? Component.empty() : event.getTitle().append(Component.text(" "));
         Component rank = data.getDisplayRank();
-        String legacyRank = LegacyComponentSerializer.legacySection().serialize(rank);
+        String legacyRank = LegacyComponentSerializer.legacySection().serialize(title.append(rank));
 
         Component username;
         if (MapController.getPlayers().contains(player.getUniqueId())) {
@@ -52,7 +53,7 @@ public class CSNameTag implements Listener {
 
         Bukkit.getScheduler().runTask(Main.plugin, () -> {
             // Set the display name
-            player.displayName(rank.append(username));
+            player.displayName(title.append(rank).append(username));
             NametagEdit.getApi().setPrefix(player, legacyRank.substring(0, legacyRank.length() - 1) + legacyColor(player));
         });
     }

@@ -69,11 +69,9 @@ public class StoreData {
 
     private static void storeRank(UUID uuid, PlayerData data) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE player_rank SET staff_rank = ?, rank_points = ?, join_message = ?, leave_message = ?, coins = ? WHERE UUID = ?");
+                "UPDATE player_rank SET staff_rank = ?, rank_points = ?, coins = ? WHERE UUID = ?");
         ps.setString(1, data.getStaffRank());
         ps.setDouble(2, data.getRankPoints());
-        ps.setString(3, data.getJoinMessage());
-        ps.setString(4, data.getLeaveMessage());
         ps.setDouble(5, data.getCoins());
         ps.setString(6, uuid.toString());
         ps.executeUpdate();

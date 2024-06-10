@@ -127,7 +127,7 @@
     <dependency>
       <groupId>com.github.AdminHuntifi</groupId>
       <artifactId>conwymc-global</artifactId>
-      <version>0.0.24-fix</version>
+      <version>0.0.25-fix</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
