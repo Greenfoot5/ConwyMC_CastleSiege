@@ -72,8 +72,8 @@ public class StoreData {
                 "UPDATE player_rank SET staff_rank = ?, rank_points = ?, coins = ? WHERE UUID = ?");
         ps.setString(1, data.getStaffRank());
         ps.setDouble(2, data.getRankPoints());
-        ps.setDouble(5, data.getCoins());
-        ps.setString(6, uuid.toString());
+        ps.setDouble(3, data.getCoins());
+        ps.setString(4, uuid.toString());
         ps.executeUpdate();
         ps.close();
     }
