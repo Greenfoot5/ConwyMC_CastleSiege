@@ -96,7 +96,7 @@ public class SwitchCommand implements CommandExecutor {
 		Player p = (Player) sender;
 
 		// If the player is a donator
-		if (p.hasPermission("castlesiege.esquire")) {
+		if (p.hasPermission("conwymc.esquire")) {
 			// If the player hasn't specified a team, swap to the next one
 			if (args.length == 0) {
 				switchToNextTeam(p);
@@ -108,7 +108,7 @@ public class SwitchCommand implements CommandExecutor {
 			// Spawn the player in their new lobby
 			if (InCombat.isPlayerInLobby(p.getUniqueId())) {
 				spawnPlayer(p, 0);
-		    } else if (p.hasPermission("castlesiege.baron")) {
+		    } else if (p.hasPermission("conwymc.baron")) {
 				spawnPlayer(p, 1);
 			} else {
 				spawnPlayer(p, 2);
