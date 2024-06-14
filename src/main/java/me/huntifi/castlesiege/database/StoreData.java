@@ -29,6 +29,8 @@ public class StoreData {
     public static void store(UUID uuid) throws SQLException {
         CSPlayerData data = CSActiveData.getData(uuid);
 
+        // TODO - Actually upload a player's data properly
+        if (data == null) return;
         store(uuid, data);
     }
 
