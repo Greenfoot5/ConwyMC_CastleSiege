@@ -6,6 +6,7 @@ import me.huntifi.castlesiege.database.MVPStats;
 import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.events.nametag.UpdateNameTagEvent;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -25,7 +26,7 @@ import java.util.UUID;
  */
 public class Team implements Listener {
     // Basic Details
-    public final String name;
+    private final String name;
     private ArrayList<UUID> players;
 
     public Lobby lobby;
@@ -58,6 +59,14 @@ public class Team implements Listener {
         this.name = name;
         players = new ArrayList<>();
         Bukkit.getPluginManager().registerEvents(this, Main.plugin);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Component getDisplayName() {
+        return Component.text(name, primaryChatColor);
     }
 
 

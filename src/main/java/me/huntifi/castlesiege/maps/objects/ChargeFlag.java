@@ -86,7 +86,7 @@ public class ChargeFlag extends Flag{
                     // Get the previous flag
                     Flag previousFlag;
                     // If the largest team are the defenders
-                    if (Objects.equals(getLargestTeam(), MapController.getCurrentMap().teams[0].name)) {
+                    if (Objects.equals(getLargestTeam(), MapController.getCurrentMap().teams[0].getName())) {
                         // The defenders can always cap the last flag
                         if (i + 1 < flags.length)
                             previousFlag = flags[i + 1];
@@ -99,7 +99,7 @@ public class ChargeFlag extends Flag{
                     if (!Objects.equals(previousFlag.getCurrentOwners(), getLargestTeam())) {
                         for (UUID uuid : players)
                         {
-                            if (!Objects.equals(TeamController.getTeam(uuid).name, currentOwners)) {
+                            if (!Objects.equals(TeamController.getTeam(uuid).getName(), currentOwners)) {
                                 Messenger.sendActionError("You must capture flags in order on this map, and the previous one doesn't belong to your team!",
                                         Objects.requireNonNull(Bukkit.getPlayer(uuid)));
                             }
@@ -111,9 +111,10 @@ public class ChargeFlag extends Flag{
         }
         super.captureFlag();
         if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam)) {
-            Messenger.broadcastInfo(Component.text(name, MapController.getCurrentMap().getTeam(currentOwners).primaryChatColor)
-                            .append(Component.text(" has been fully captured and can no longer be retaken by "))
-                                            .append(Component.text(startingTeam, MapController.getCurrentMap().getTeam(startingTeam).primaryChatColor)));
+            Messenger.broadcastInfo(Component.empty()
+                    .append(getDisplayName())
+                    .append(Component.text(" has been fully captured and can no longer be retaken by "))
+                    .append(MapController.getCurrentMap().getTeam(startingTeam).getDisplayName()));
             if (additionalMinutes > 0 || additionalSeconds > 0) {
                 Messenger.broadcastInfo("<aqua>" + additionalMinutes + "</aqua> minutes and <aqua>" +
                         additionalSeconds + "</aqua> seconds have been added to the clock!");

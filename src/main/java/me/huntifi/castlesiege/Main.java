@@ -1075,7 +1075,7 @@ public class Main extends JavaPlugin implements Listener {
             Route captureRoute = flagRoute.add("capture_area");
             if (flagConfig.contains(captureRoute)
                     && flagConfig.getString(captureRoute.add("type")).equalsIgnoreCase("cuboid")) {
-                flag.region = getRegion(flagConfig, captureRoute, flag.name.replace(' ', '_'));
+                flag.region = getRegion(flagConfig, captureRoute, flag.getName().replace(' ', '_'));
 
                 // Use block animation
                 if (!flagConfig.getBoolean(flagRoute.add("use_schematics"), false)) {
@@ -1150,7 +1150,7 @@ public class Main extends JavaPlugin implements Listener {
                 String kitName = (String) kit.get("name");
                 String cost = (String) kit.get("cost");
                 if (cost == null || (!cost.equals("coins") && !cost.equals("free")))
-                    getLogger().warning(kitName + " has an invalid cost for " + team.name);
+                    getLogger().warning(kitName + " has an invalid cost for " + team.getDisplayName());
                 else
                     team.kits.put(kitName.toLowerCase(), SignKit.CostType.valueOf(cost.toLowerCase()));
             }

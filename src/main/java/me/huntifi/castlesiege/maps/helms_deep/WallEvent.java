@@ -61,8 +61,8 @@ public class WallEvent implements Listener {
             return;
         }
         // If the player clicks on some TNT
-        if (Objects.equals(TeamController.getTeam(player.getUniqueId()).name,
-                MapController.getCurrentMap().teams[0].name)) {
+        if (Objects.equals(TeamController.getTeam(player.getUniqueId()).getName(),
+                MapController.getCurrentMap().teams[0].getName())) {
             return;
         }
         // Check the player isn't on the defending team

@@ -59,7 +59,7 @@ public class Map {
         }
 
         for (Team team : teams) {
-            if (team.name.equals(teamName)) {
+            if (team.getName().equals(teamName)) {
                 return team;
             }
         }
@@ -93,7 +93,7 @@ public class Map {
     {
         for (Flag flag : flags)
         {
-            if (flag.name.equalsIgnoreCase(name))
+            if (flag.getName().equalsIgnoreCase(name))
             {
                 return flag;
             }

@@ -197,10 +197,10 @@ public class MapController {
 					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
 					// Check if the defenders have won
 					for (Core core : coreMap.getCores()) {
-						if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].name)) {
-							winners = getCurrentMap().teams[0].name;
-						} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].name)) {
-							winners = getCurrentMap().teams[1].name;
+						if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].getName())) {
+							winners = getCurrentMap().teams[0].getName();
+						} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].getName())) {
+							winners = getCurrentMap().teams[1].getName();
 						}
 					}
 				}
@@ -211,10 +211,10 @@ public class MapController {
 			case Charge:
 				// Check if the defenders have won
 				for (Flag flag : getCurrentMap().flags) {
-					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].name)) {
-                        winners = getCurrentMap().teams[0].name;
+					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].getName())) {
+                        winners = getCurrentMap().teams[0].getName();
                     } else {
-                        winners = getCurrentMap().teams[1].name;
+                        winners = getCurrentMap().teams[1].getName();
                     }
 				}
 				break;
@@ -266,15 +266,15 @@ public class MapController {
 		// Broadcast the winners
 		if (winners != null) {
 			for (Team team : getCurrentMap().teams) {
-				if (team.name.equals(winners)) {
-					Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has won!~~~~~~~~", team.primaryChatColor));
+				if (team.getName().equals(winners)) {
+					Messenger.broadcast(Component.text("~~~~~~~~" + team.getName() + " has won!~~~~~~~~", team.primaryChatColor));
 				} else {
-					Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has lost!~~~~~~~~", team.primaryChatColor));
+					Messenger.broadcast(Component.text("~~~~~~~~" + team.getName() + " has lost!~~~~~~~~", team.primaryChatColor));
 				}
 
 				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 
-				if (team.name.equals(winners)) {
+				if (team.getName().equals(winners)) {
 					giveCoinReward(team);
 				}
 
@@ -282,7 +282,7 @@ public class MapController {
 		// The map was a draw
 		} else {
 			for (Team team : getCurrentMap().teams) {
-				Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has drawn!~~~~~~~~", team.primaryChatColor));
+				Messenger.broadcast(Component.text("~~~~~~~~" + team.getName() + " has drawn!~~~~~~~~", team.primaryChatColor));
 
 				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 			}
@@ -686,7 +686,7 @@ public class MapController {
 				Bukkit.getScheduler().runTask(Main.plugin, () ->
 						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
 								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
-						.removeRegion(flag.name.replace(' ', '_')));
+						.removeRegion(flag.getName().replace(' ', '_')));
 			}
 		}
 
@@ -750,7 +750,7 @@ public class MapController {
 		team.addPlayer(uuid);
 		player.teleport(team.lobby.spawnPoint);
 		player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_2, 1f, 1f);
-		Messenger.send(Component.text("You joined ").append(Component.text(team.name, team.primaryChatColor)), player);
+		Messenger.send(Component.text("You joined ").append(team.getDisplayName()), player);
 
 		checkTeamKit(player);
 	}

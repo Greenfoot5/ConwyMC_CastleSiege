@@ -31,7 +31,7 @@ public class TeamsCommand implements CommandExecutor {
 		for (Team t : teams) {
 			c = c.append(Component.newline())
 					.append(Component.text("Team ", NamedTextColor.GREEN))
-					.append(Component.text(t.name, t.primaryChatColor))
+					.append(t.getDisplayName())
 					.append(Component.text(": ", NamedTextColor.GREEN))
 					.append(Component.text(t.getTeamSize(), NamedTextColor.WHITE));
 		}

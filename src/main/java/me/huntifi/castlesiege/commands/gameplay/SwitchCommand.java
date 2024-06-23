@@ -146,19 +146,19 @@ public class SwitchCommand implements CommandExecutor {
 		if (deaths > 0 && MapController.isOngoing()) {
 			// Regular switch on the battlefield during a game
 			Messenger.sendInfo(Component.text("You switched to ")
-							.append(Component.text(team.name, team.primaryChatColor))
+							.append(team.getDisplayName())
 							.append(Component.text(" (+" + deaths + " deaths)", NamedTextColor.DARK_AQUA)),
 					p);
 			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
 
 		} else if (deaths == 0 || !MapController.isOngoing()){
 			// Regular switch outside the battlefield or not during a game
-			Messenger.sendInfo(Component.text("You switched to ").append(Component.text(team.name, team.primaryChatColor)), p);
+			Messenger.sendInfo(Component.text("You switched to ").append(team.getDisplayName()), p);
 			InCombat.playerDied(p.getUniqueId());
 
 		} else {
 			// Forced switch
-			Messenger.sendInfo(Component.text("You forcefully switched to ").append(Component.text(team.name, team.primaryChatColor)), p);
+			Messenger.sendInfo(Component.text("You forcefully switched to ").append(team.getDisplayName()), p);
 			InCombat.playerDied(p.getUniqueId());
 		}
 

@@ -155,7 +155,7 @@ public class Gate implements Listener {
     public boolean canBreach(UUID uuid) {
         Flag flag = MapController.getCurrentMap().getFlag(flagName);
         return flagName.isEmpty() || (flag != null
-                && !Objects.equals(TeamController.getTeam(uuid).name, flag.getCurrentOwners()));
+                && !Objects.equals(TeamController.getTeam(uuid).getName(), flag.getCurrentOwners()));
     }
 
     /**
