@@ -120,4 +120,8 @@ public class DuelCommand implements CommandExecutor {
         return uuid.equals(arena.getGreenPlayer()) ||
                 uuid.equals(arena.getCyanPlayer());
     }
+
+    public static boolean isChallenging(UUID uuid) {
+        return challenges.containsKey(uuid);
+    }
 }

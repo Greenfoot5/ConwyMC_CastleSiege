@@ -321,9 +321,6 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new SkyholdDoors(), plugin);
                 getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
 
-                // Duels
-                getServer().getPluginManager().registerEvents(new AcceptDuelCommand(), plugin);
-
                 // Combat
                 getServer().getPluginManager().registerEvents(new ArrowCollision(), plugin);
                 getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
