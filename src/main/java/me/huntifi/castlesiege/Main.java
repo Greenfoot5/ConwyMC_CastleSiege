@@ -14,8 +14,7 @@ import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import me.huntifi.castlesiege.advancements.CSAdvancementController;
 import me.huntifi.castlesiege.commands.chat.TeamChatCommand;
 import me.huntifi.castlesiege.commands.donator.FireworkCommand;
-import me.huntifi.castlesiege.commands.donator.duels.AcceptDuelCommand;
-import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
+import me.huntifi.castlesiege.commands.donator.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.BoosterCommand;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
 import me.huntifi.castlesiege.commands.gameplay.BuyKitCommand;
@@ -423,7 +422,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Firework")).setExecutor(new FireworkCommand());
 
                 //duels
-                Objects.requireNonNull(getCommand("DuelAccept")).setExecutor(new AcceptDuelCommand());
+                //Objects.requireNonNull(getCommand("DuelAccept")).setExecutor(new AcceptDuelCommand());
                 Objects.requireNonNull(getCommand("Duel")).setExecutor(new DuelCommand());
 
                 // Gameplay

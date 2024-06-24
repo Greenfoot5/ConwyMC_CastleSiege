@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.events.death;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
+import me.huntifi.castlesiege.commands.donator.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.CSActiveData;
@@ -199,7 +199,7 @@ public class DeathEvent implements Listener {
         // Kill
         Player killer = killerMap.getOrDefault(target, target.getKiller());
         killerMap.remove(target);
-        if (killer != null && !DuelCommand.isDueling(killer)) {
+        if (killer != null && !DuelCommand.isDueling(killer.getUniqueId())) {
             UpdateStats.addKill(killer.getUniqueId());
             AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
 

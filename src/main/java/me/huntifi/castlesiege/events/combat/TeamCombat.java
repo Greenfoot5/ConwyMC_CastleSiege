@@ -1,6 +1,6 @@
 package me.huntifi.castlesiege.events.combat;
 
-import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
+import me.huntifi.castlesiege.commands.donator.DuelCommand;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
@@ -60,19 +60,8 @@ public class TeamCombat implements Listener {
 	 */
 	private void sameTeam(EntityDamageByEntityEvent e, Player p) {
 
-		//if dueling this shouldn't count
-		if (e.getDamager() instanceof Player) {
-			if (DuelCommand.isDueling((Player) e.getDamager()) && DuelCommand.isDueling(p)) {
-				e.setCancelled(false);
-				return;
-			}
-		} else if (e.getDamager() instanceof Projectile &&
-				((Projectile) e.getDamager()).getShooter() instanceof Player) {
-			if (DuelCommand.isDueling((Player) ((Projectile) e.getDamager()).getShooter()) && DuelCommand.isDueling(p)) {
-				e.setCancelled(false);
-				return;
-			}
-		}
+		if (DuelCommand.isDueling(p.getUniqueId()))
+			return;
 
 		// Hurt by teammate
 		if (e.getDamager() instanceof Player &&
