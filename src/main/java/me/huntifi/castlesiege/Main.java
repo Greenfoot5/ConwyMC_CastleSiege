@@ -614,6 +614,7 @@ public class Main extends JavaPlugin implements Listener {
             if (content.endsWith("_save")) {
                 String worldName = content.substring(0, content.length() - 5);
                 try {
+                    FileUtils.deleteDirectory(new File(Bukkit.getWorldContainer(), worldName));
                     FileUtils.copyDirectory(new File(Bukkit.getWorldContainer(), worldName + "_save"),
                             new File(Bukkit.getWorldContainer(), worldName));
                 } catch (IOException e) {
