@@ -53,9 +53,9 @@ public abstract class Booster implements Comparable<Booster> {
      */
     public List<Component> getLore() {
         List<Component> lore = new ArrayList<>();
-        lore.add(Messenger.mm.deserialize("<dark_aqua>ID: <aqua>" + id + "</aqua></dark_aqua"));
+        lore.add(Messenger.mm.deserialize("<dark_aqua>ID: <aqua>" + id + "</aqua></dark_aqua>"));
         lore.add(Component.text("Duration: ", NamedTextColor.DARK_AQUA)
-                .append(Component.text(getDurationAsString()).decorate(TextDecoration.BOLD)));
+                .append(Component.text(getDurationAsString(), NamedTextColor.AQUA).decorate(TextDecoration.BOLD)));
         lore.add(Component.empty());
         return lore;
     }

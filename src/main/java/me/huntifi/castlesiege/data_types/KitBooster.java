@@ -58,7 +58,7 @@ public class KitBooster extends Booster {
             lore.add(Component.text(kitName + " gets boosted!", NamedTextColor.GREEN));
         }
         lore.add(Component.text("A boosted kit is unlocked for all players", NamedTextColor.DARK_AQUA));
-        lore.add(Component.text("    for the booster's duration!", NamedTextColor.DARK_AQUA));
+        lore.add(Component.text("for the booster's duration!", NamedTextColor.DARK_AQUA));
         return lore;
     }
 
