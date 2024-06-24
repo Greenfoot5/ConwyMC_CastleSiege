@@ -10,7 +10,6 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.conwymc.commands.staff.chat.BroadcastCommand;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -52,13 +51,11 @@ public class PlayerConnect implements Listener {
         //Welcomes new players!
         if (!p.hasPlayedBefore()) {
 
-            Messenger.broadcast(BroadcastCommand.broadcastPrefix
-                    .append(Messenger.mm.deserialize("<gradient:#663dff:#cc4499:#663dff><st>━━━━━</st> " +
-                            "Welcome <color:#cc4499>" + p.getName() + "</color> to Castle Siege! <st>━━━━━</st>")));
-            Messenger.send(Component.text("If you encounter a problem or need help, contact us on " +
+            Messenger.broadcast(Messenger.mm.deserialize("<gradient:#663dff:#cc4499:#663dff><st>━━━━━</st> " +
+                            "Welcome <color:#cc4499>" + p.getName() + "</color> to Castle Siege! <st>━━━━━</st>"));
+            Messenger.send(Messenger.mm.deserialize("<green>If you encounter a problem or need help, contact us on " +
                             "<yellow><click:suggest_command:/discord>/discord</click></yellow> or " +
-                            "<yellow><click:open_url:https://conwymc.alchemix.dev/contact>email us</click></yellow>!",
-                    NamedTextColor.GREEN), p);
+                            "<yellow><click:open_url:https://conwymc.alchemix.dev/contact>email us</click></yellow>!</green>"), p);
 
         } else {
             Messenger.send(Component.text("Hello ", NamedTextColor.DARK_RED)
