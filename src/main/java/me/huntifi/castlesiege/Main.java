@@ -536,11 +536,13 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Map Specific
                 // Helms Deep Only
-                getServer().getPluginManager().registerEvents(new WallEvent(), plugin);
-                CavesBoat boatEvent = new CavesBoat();
-                getServer().getPluginManager().registerEvents(boatEvent, plugin);
-                getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
-                boatEvent.spawnBoat();
+                if (MapController.getMap("HelmsDeep") != null) {
+                    getServer().getPluginManager().registerEvents(new WallEvent(), plugin);
+                    CavesBoat boatEvent = new CavesBoat();
+                    getServer().getPluginManager().registerEvents(boatEvent, plugin);
+                    getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
+                    boatEvent.spawnBoat();
+                }
 
                 // Timed
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);
@@ -579,6 +581,8 @@ public class Main extends JavaPlugin implements Listener {
 
         // Unload all worlds
         for (World world : Bukkit.getWorlds()) {
+            if (world.getName().equals("world"))
+                continue;
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all flush");
             Bukkit.unloadWorld(world, false);
         }
