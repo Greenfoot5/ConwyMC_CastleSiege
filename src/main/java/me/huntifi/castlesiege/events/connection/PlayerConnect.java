@@ -10,6 +10,11 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
+import me.huntifi.conwymc.ConwyMC;
+import me.huntifi.conwymc.data_types.Cosmetic;
+import me.huntifi.conwymc.data_types.PlayerCosmetics;
+import me.huntifi.conwymc.data_types.PlayerData;
+import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -22,8 +27,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.util.UUID;
+
+import static me.huntifi.conwymc.data_types.Cosmetic.CosmeticType.TITLE;
 
 /**
  * Handles what happens when someone logs in
@@ -47,6 +57,8 @@ public class PlayerConnect implements Listener {
                     .append(Component.newline()).append(Component.text("Please try joining again or contact staff if this issue persists.")));
             return;
         }
+
+        checkCosmetics(data, uuid);
 
         //Welcomes new players!
         if (!p.hasPlayedBefore()) {
@@ -145,5 +157,17 @@ public class PlayerConnect implements Listener {
             }
         }, 600);
 
+    }
+
+    public static void checkCosmetics(PlayerData data, UUID uuid) {
+        try {
+            Cosmetic benevolent = new Cosmetic(TITLE, "Reaper", "<color:#3B3B3B>☠<b><gradient:#592E31:#92191E>Reaper</b>☠");
+            Tuple<PreparedStatement, ResultSet> allTimeBoosters = LoadData.getTop("kills", 0);
+            PlayerCosmetics.isTop(data, uuid, allTimeBoosters.getSecond(), 3, benevolent);
+            allTimeBoosters.getFirst().close();
+        } catch (SQLException e) {
+            ConwyMC.plugin.getLogger().severe("Error in checkTopCosmetics for " + uuid);
+            ConwyMC.plugin.getLogger().severe(e.getMessage());
+        }
     }
 }
