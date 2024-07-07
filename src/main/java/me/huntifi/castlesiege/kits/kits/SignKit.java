@@ -129,7 +129,8 @@ public abstract class SignKit extends Kit implements Listener {
     @EventHandler
     public void onClickSign(PlayerInteractEvent e) {
         // Prevent spawning by physical actions, e.g. stepping on a pressure plate
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK
+        && e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_AIR )
             return;
 
         Player player = e.getPlayer();

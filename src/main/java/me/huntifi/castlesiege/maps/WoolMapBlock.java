@@ -66,9 +66,11 @@ public class WoolMapBlock {
                         }
                     }
                 }
+
                 if (MapController.getCurrentMap().getFlag(flagName) == null) {
                     return;
                 }
+
                 Flag flag = MapController.getCurrentMap().getFlag(flagName);
                 if (team != null && team.hasPlayer(uuid)) {
                     if (!Objects.equals(flag.getCurrentOwners(), team.getName())) {
