@@ -23,22 +23,19 @@ import static java.lang.String.join;
 import static java.util.Collections.nCopies;
 
 public class BuyKitGui {
-    private Kit kit;
-    private int cost;
-    private Gui gui;
+    private final Gui gui;
 
     public BuyKitGui(Kit kit, int cost, Player player) {
-        this.kit = kit;
-        this.cost = cost;
         this.gui = new Gui(Component.text(kit.name), 6);
 
         // Buy blocks
         for (int loc = 45; loc < (54); loc++) {
             int balance = (int) ActiveData.getData(player.getUniqueId()).getCoins();
             gui.addItem(Component.text("Purchase Kit", NamedTextColor.GOLD, TextDecoration.BOLD), Material.GOLD_BLOCK,
-                    List.of(Component.text(" "), Messenger.mm.deserialize("<blue>Cost: <gold><b>" + cost + "</b>⛃"),
-                    Messenger.mm.deserialize("<dark_aqua>Balance: " + (balance < cost ? "<red>" : "<green>") + balance + "⛃")), loc,
-                    "broadcast Test", true);
+                    List.of(Component.text(" "),
+                            Messenger.mm.deserialize("<blue>Cost: <gold><b>" + cost + "</b>⛃"),
+                            Messenger.mm.deserialize("<dark_aqua>Balance: " + (balance < cost ? "<red>" : "<green>") + balance + "⛃")),
+                    loc, "buykit " + kit.getSpacelessName() + " " + player.getName(), true);
         }
 
         // Equipment
@@ -75,9 +72,7 @@ public class BuyKitGui {
         }
 
         // Display
-        Bukkit.getScheduler().runTask(Main.plugin, () -> {
-            gui.open(player);
-        });
+        Bukkit.getScheduler().runTask(Main.plugin, () -> gui.open(player));
     }
 
     private void setItem(ItemStack item, int location, String slotName) {
