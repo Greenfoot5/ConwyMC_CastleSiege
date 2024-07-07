@@ -509,6 +509,14 @@ public abstract class Kit implements CommandExecutor, Listener {
         return text;
     }
 
+    public EquipmentSet getEquipment() {
+        return equipment;
+    }
+
+    public ArrayList<PotionEffect> getEffects() {
+        return potionEffects;
+    }
+
     /**
      * @param curse The blinding curse that's been activated
      */

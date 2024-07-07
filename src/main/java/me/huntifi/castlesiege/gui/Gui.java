@@ -44,6 +44,11 @@ public class Gui extends me.huntifi.conwymc.gui.Gui implements Listener {
         super(name, rows, shouldUnregister);
     }
 
+    public void setItem(ItemStack item, int location, String command, boolean shouldClose) {
+        super.inventory.setItem(location, item);
+        locationToItem.put(location, new GuiItem(command, shouldClose));
+    }
+
     /**
      * Add an item to the inventory only if the user can select it
      * @param player The player opening the GUI

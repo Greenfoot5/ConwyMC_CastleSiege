@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.gui.BuyKitGui;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -95,6 +96,7 @@ public abstract class SignKit extends Kit implements Listener {
                 if (Kit.equippedKits.get(uuid) == null) {
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
                 } else {
+                    new BuyKitGui(this, 50, (Player) sender);
                     Messenger.sendError(String.format("You don't own %s!", name), sender);
                 }
             }
