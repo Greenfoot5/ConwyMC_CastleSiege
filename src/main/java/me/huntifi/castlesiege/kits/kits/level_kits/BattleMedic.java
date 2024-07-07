@@ -48,7 +48,7 @@ public class BattleMedic extends LevelKit implements Listener {
 
     private static final int bandageCount = 16;
 
-    private static final int level = 10;
+    private static final int level = 15;
 
     public static final ArrayList<Player> cooldown = new ArrayList<>();
 

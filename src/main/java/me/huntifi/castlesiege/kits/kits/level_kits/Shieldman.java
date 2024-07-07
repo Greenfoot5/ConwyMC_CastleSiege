@@ -1,8 +1,8 @@
-package me.huntifi.castlesiege.kits.kits.free_kits;
+package me.huntifi.castlesiege.kits.kits.level_kits;
 
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.kits.FreeKit;
+import me.huntifi.castlesiege.kits.kits.LevelKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -18,7 +18,7 @@ import java.util.Collections;
 /**
  * The shieldman kit
  */
-public class Shieldman extends FreeKit {
+public class Shieldman extends LevelKit {
 
     private static final int health = 400;
     private static final double regen = 14;
@@ -29,7 +29,7 @@ public class Shieldman extends FreeKit {
      * Set the equipment and attributes of this kit
      */
     public Shieldman() {
-        super("Shieldman", health, regen, Material.SHIELD);
+        super("Shieldman", health, regen, Material.SHIELD, 2);
         super.kbResistance = 0.5;
 
         // Equipment Stuff

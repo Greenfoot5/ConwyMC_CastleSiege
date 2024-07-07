@@ -42,7 +42,7 @@ public class SpearKnight extends LevelKit implements Listener {
     private static final double regen = 10.5;
     private static final double meleeDamage = 35;
     private static final int ladderCount = 4;
-    private static final int level = 5;
+    private static final int level = 10;
 
     // Spear Throw
     private static final int throwCooldown = 160;

@@ -1,12 +1,12 @@
-package me.huntifi.castlesiege.kits.kits.free_kits;
+package me.huntifi.castlesiege.kits.kits.level_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.LevelKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -37,7 +37,7 @@ import java.util.UUID;
 /**
  * The spearman kit
  */
-public class Spearman extends FreeKit implements Listener {
+public class Spearman extends LevelKit implements Listener {
 	private static final int health = 300;
 	private static final double regen = 10.5;
 	private static final int spearCount = 4;
@@ -57,7 +57,7 @@ public class Spearman extends FreeKit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Spearman() {
-		super("Spearman", health, regen, Material.STICK);
+		super("Spearman", health, regen, Material.STICK, 5);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
