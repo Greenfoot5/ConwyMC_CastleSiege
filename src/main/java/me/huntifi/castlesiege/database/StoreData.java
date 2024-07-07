@@ -147,11 +147,11 @@ public class StoreData {
                 try {
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                             "INSERT INTO cs_unlocks VALUES (?, ?, ?, ?, ?)");
-                    ps.setString(2, uuid.toString());
-                    ps.setString(3, kitName);
-                    ps.setTimestamp(4, new Timestamp(duration));
-                    ps.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-                    ps.setBoolean(6, isDonation);
+                    ps.setString(1, uuid.toString());
+                    ps.setString(2, kitName);
+                    ps.setTimestamp(3, new Timestamp(duration));
+                    ps.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+                    ps.setBoolean(5, isDonation);
                     ps.executeUpdate();
                     ps.close();
                 } catch (SQLException e) {
