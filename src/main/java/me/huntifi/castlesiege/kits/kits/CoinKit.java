@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.kits.kits;
 
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.LoadData;
+import me.huntifi.castlesiege.gui.BuyKitGui;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -60,7 +61,7 @@ public abstract class CoinKit extends Kit {
                 if (Kit.equippedKits.get(uuid) == null) {
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
                 } else {
-                    Messenger.sendError(String.format("You don't own %s!", name), sender);
+                    new BuyKitGui(this, (int) getPrice(uuid), (Player) sender);
                 }
             }
             return false;
