@@ -97,7 +97,6 @@ public abstract class SignKit extends Kit implements Listener {
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
                 } else {
                     new BuyKitGui(this, this.cost, (Player) sender);
-                    Messenger.sendError(String.format("You don't own %s!", name), sender);
                 }
             }
             return false;
@@ -112,6 +111,10 @@ public abstract class SignKit extends Kit implements Listener {
      */
     public static Collection<String> getKits() {
         return kits;
+    }
+
+    public int getCost() {
+        return cost;
     }
 
     /**
