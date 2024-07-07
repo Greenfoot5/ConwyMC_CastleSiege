@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.events.curses;
 
 import me.huntifi.conwymc.util.Messenger;
+import me.huntifi.conwymc.util.PunishmentTime;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -110,9 +111,9 @@ public class CurseCommand implements TabExecutor {
                     return new BindingCurse.CurseBuilder(300);
                 if (args.length == 2)
                     // Can throw NumberFormatException
-                    return new BindingCurse.CurseBuilder(Integer.parseInt(args[1]));
+                    return new BindingCurse.CurseBuilder((int) PunishmentTime.getDuration(args[1]));
                 if (args.length == 3)
-                    return new BindingCurse.CurseBuilder(Integer.parseInt(args[1])).setPlayer(UUID.fromString(args[2]));
+                    return new BindingCurse.CurseBuilder((int) PunishmentTime.getDuration(args[1])).setPlayer(UUID.fromString(args[2]));
             case "dice":
                 return new DiceCurse.CurseBuilder();
             case "possession":
@@ -128,27 +129,27 @@ public class CurseCommand implements TabExecutor {
             case "blindness":
                 if (args.length == 1)
                     return new BlindnessCurse.CurseBuilder(300);
-                return new BlindnessCurse.CurseBuilder(Integer.parseInt(args[1]));
+                return new BlindnessCurse.CurseBuilder((int) PunishmentTime.getDuration(args[1]));
             case "blindness_greater":
                 if (args.length == 1)
                     return new GreaterBlindnessCurse.CurseBuilder(300);
-                return new GreaterBlindnessCurse.CurseBuilder(Integer.parseInt(args[1]));
+                return new GreaterBlindnessCurse.CurseBuilder((int) PunishmentTime.getDuration(args[1]));
             case "blindness_true":
                 if (args.length == 1)
                     return new TrueBlindnessCurse.CurseBuilder(300);
-                return new TrueBlindnessCurse.CurseBuilder(Integer.parseInt(args[1]));
+                return new TrueBlindnessCurse.CurseBuilder((int) PunishmentTime.getDuration(args[1]));
             case "healing":
                 if (args.length == 1)
                     return new HealingCurse.CurseBuilder(300);
                 if (args.length == 2)
-                    return new HealingCurse.CurseBuilder(Integer.parseInt(args[1]));
+                    return new HealingCurse.CurseBuilder((int) PunishmentTime.getDuration(args[1]));
                 if (args.length == 3)
-                    return new HealingCurse.CurseBuilder(Integer.parseInt(args[1])).setMultiplier(Float.parseFloat(args[2]));
+                    return new HealingCurse.CurseBuilder((int) PunishmentTime.getDuration(args[1])).setMultiplier(Float.parseFloat(args[2]));
             case "vulnerable":
             case "vulnerability":
                 if (args.length == 1)
                     return new VulnerabilityCurse.CurseBuilder(300);
-                return new VulnerabilityCurse.CurseBuilder(Integer.parseInt(args[1]));
+                return new VulnerabilityCurse.CurseBuilder((int) PunishmentTime.getDuration(args[1]));
             default:
                 throw new IllegalArgumentException();
         }

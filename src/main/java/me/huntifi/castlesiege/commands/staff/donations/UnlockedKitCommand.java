@@ -98,31 +98,14 @@ public class UnlockedKitCommand implements TabExecutor {
 
                             //If true then this means the player donated, usually only the console will do this.
                             if (args[4].equalsIgnoreCase("true")) {
-
                                 StoreData.addUnlockedKit(uuid, args[2], duration, true);
                                 CSActiveData.getData(uuid).addKit(args[2]);
-
-                                Messenger.sendInfo("Successfully added " + args[2] + " to "
-                                        + Bukkit.getOfflinePlayer(uuid).getName() + " for " + duration, sender);
-
-                                //If false then this means the player got it without donating.
-                            } else if (args[4].equalsIgnoreCase("false")) {
-
-                                StoreData.addUnlockedKit(uuid, args[2], duration, false);
-                                CSActiveData.getData(uuid).addKit(args[2]);
-
-                                Messenger.sendInfo("Successfully added " + args[2] + " to "
-                                        + Bukkit.getOfflinePlayer(uuid).getName() + " for " + duration, sender);
-
-                                //If an illegal argument will be given, it will be set to false by default.
                             } else {
                                 StoreData.addUnlockedKit(uuid, args[2], duration, false);
                                 CSActiveData.getData(uuid).addKit(args[2]);
-
-                                Messenger.sendInfo("Successfully added " + args[2] + " to "
-                                        + Bukkit.getOfflinePlayer(uuid).getName() + " for " + duration, sender);
-
                             }
+                            Messenger.sendInfo("Successfully added " + args[2] + " to "
+                                    + Bukkit.getOfflinePlayer(uuid).getName() + " for " + PunishmentTime.getDuration(duration), sender);
 
                             break;
                         case "remove":

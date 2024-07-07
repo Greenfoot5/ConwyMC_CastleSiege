@@ -158,7 +158,7 @@ commands:
   CSReload:
     description: Reloads the Castle Siege Plugin
     usage: /csreload
-    permission: conwymc.moderator
+    permission: conwymc.developer
     permission-message: You are not permitted to use this command!
   Curse:
     description: Manages the active curses
@@ -237,7 +237,7 @@ commands:
   # Donations
   Unlockkit:
     description: Unlocks a kit for a player.
-    usage: /unlockkit <Player Name> <add/remove> <Kit Name> <Time> <IsDonated:true/false>
+    usage: /unlockkit <Player Name> <add/remove> <Kit Name> <Time> <wasDonation>
     permission: conwymc.developer
     permission-message: Try /buykit instead
   Coinshop:

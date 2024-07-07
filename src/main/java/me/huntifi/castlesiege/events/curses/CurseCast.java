@@ -136,7 +136,7 @@ public abstract class CurseCast extends Event implements Cancellable {
          * @param activateMessage The message to display when the curse is activated
          * @param expireMessage The message to display when the curse expires
          */
-        public CurseBuilder(String name, String activateMessage, String expireMessage){
+        public CurseBuilder(String name, String activateMessage, String expireMessage) {
             this.displayName = name;
             this.activateMessage = activateMessage;
             this.expireMessage = expireMessage;
