@@ -3,7 +3,9 @@ package me.huntifi.castlesiege.gui;
 import io.lumine.mythic.bukkit.utils.lib.lang3.text.WordUtils;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.conwymc.database.ActiveData;
 import me.huntifi.conwymc.util.ItemCreator;
+import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
@@ -28,11 +30,14 @@ public class BuyKitGui {
     public BuyKitGui(Kit kit, int cost, Player player) {
         this.kit = kit;
         this.cost = cost;
-        this.gui = new Gui(Component.text(kit.getSpacelessName()), 6);
+        this.gui = new Gui(Component.text(kit.name), 6);
 
         // Buy blocks
         for (int loc = 45; loc < (54); loc++) {
-            gui.addItem(Component.text("Purchase Kit"), Material.GOLD_BLOCK, new ArrayList<>(), loc,
+            int balance = (int) ActiveData.getData(player.getUniqueId()).getCoins();
+            gui.addItem(Component.text("Purchase Kit", NamedTextColor.GOLD, TextDecoration.BOLD), Material.GOLD_BLOCK,
+                    List.of(Component.text(" "), Messenger.mm.deserialize("<blue>Cost: <gold><b>" + cost + "</b>⛃"),
+                    Messenger.mm.deserialize("<dark_aqua>Balance: " + (balance < cost ? "<red>" : "<green>") + balance + "⛃")), loc,
                     "broadcast Test", true);
         }
 
@@ -68,7 +73,6 @@ public class BuyKitGui {
             gui.addItem(Component.text("Potion Effects", NamedTextColor.GOLD, TextDecoration.BOLD),
                     Material.POTION, effects, 16, null, false);
         }
-
 
         // Display
         Bukkit.getScheduler().runTask(Main.plugin, () -> {

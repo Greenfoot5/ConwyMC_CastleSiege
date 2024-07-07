@@ -96,7 +96,7 @@ public abstract class SignKit extends Kit implements Listener {
                 if (Kit.equippedKits.get(uuid) == null) {
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
                 } else {
-                    new BuyKitGui(this, 50, (Player) sender);
+                    new BuyKitGui(this, this.cost, (Player) sender);
                     Messenger.sendError(String.format("You don't own %s!", name), sender);
                 }
             }
