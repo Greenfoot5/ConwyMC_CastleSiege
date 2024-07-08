@@ -101,6 +101,13 @@ commands:
     description: Shows the size and name of all teams on the current map
     usage: /teams
 
+  Help:
+    description: Test
+    usage: This *should* take you to the tutorial arena, sadly that's a WIP :(
+    aliases:
+      - tutorial
+      - "?"
+
   # Leaderboards
   Top:
     description: Shows the score leaderboard
