@@ -41,8 +41,7 @@ public class UnlockedKitCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (args.length < 3) {
-            Messenger.sendError("Use: /unlockkit <Name> <add/remove> <Kit name> <Time> <true/false>", sender);
-            return true;
+            return false;
         }
         new BukkitRunnable() {
             @Override

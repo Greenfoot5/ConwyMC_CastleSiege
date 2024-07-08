@@ -161,9 +161,9 @@ public class PlayerConnect implements Listener {
 
     public static void checkCosmetics(PlayerData data, UUID uuid) {
         try {
-            Cosmetic benevolent = new Cosmetic(TITLE, "Reaper", "<color:#3B3B3B>☠<b><gradient:#592E31:#92191E>Reaper</b>☠");
+            Cosmetic reaper = new Cosmetic(TITLE, "Reaper", "<color:#3B3B3B>☠<b><gradient:#592E31:#92191E>Reaper</b>☠");
             Tuple<PreparedStatement, ResultSet> allTimeBoosters = LoadData.getTop("kills", 0);
-            PlayerCosmetics.isTop(data, uuid, allTimeBoosters.getSecond(), 3, benevolent);
+            PlayerCosmetics.isTop(data, uuid, allTimeBoosters.getSecond(), 3, reaper);
             allTimeBoosters.getFirst().close();
         } catch (SQLException e) {
             ConwyMC.plugin.getLogger().severe("Error in checkTopCosmetics for " + uuid);

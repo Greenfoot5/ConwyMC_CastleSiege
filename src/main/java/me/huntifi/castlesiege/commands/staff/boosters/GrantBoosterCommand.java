@@ -9,6 +9,7 @@ import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.LoadData;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.conwymc.util.Messenger;
+import me.huntifi.conwymc.util.PunishmentTime;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -65,7 +67,10 @@ public class GrantBoosterCommand implements TabExecutor {
             return List.of("coin", "kit");
         }
         if (args.length == 3) {
-            return new ArrayList<>(Kit.getKits());
+            if (Objects.equals(args[2], "kit"))
+                return new ArrayList<>(Kit.getKits());
+            else
+                return List.of("<duration>");
         }
         return null;
     }
@@ -78,7 +83,7 @@ public class GrantBoosterCommand implements TabExecutor {
         String type = args[1];
         int duration;
         try {
-            duration = Integer.parseInt(args[2]);
+            duration = (int) PunishmentTime.getDuration(args[2]);
         } catch (NumberFormatException ex) {
             Messenger.sendError("Duration not a valid number! It should be an amount of seconds", sender);
             return null;
