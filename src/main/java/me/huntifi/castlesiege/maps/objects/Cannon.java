@@ -60,7 +60,7 @@ public class Cannon implements Listener {
         this.direction = direction.toLowerCase();
         this.schematicLocation = location;
         this.yaw = yaw;
-        this.pitch = pitch;
+        this.pitch = pitch == 0 ? 1 : pitch;
 
         // Set direction dependent variables
         switch (this.direction) {
@@ -247,8 +247,8 @@ public class Cannon implements Listener {
                 && powderCooldown == 0) {
             if (vertical_multiplier == 0)
                 vertical_multiplier = 1;
-            else if (vertical_multiplier < 3)
-                vertical_multiplier += 0.2;
+            else if (vertical_multiplier < 11)
+                vertical_multiplier += 0.75;
             else {
                 Messenger.sendActionError("Cannon is full of gunpowder!", player);
                 return;
@@ -256,7 +256,7 @@ public class Cannon implements Listener {
 
             player.setCooldown(Material.GUNPOWDER, 5);
             item.setAmount(item.getAmount() - 1);
-            Messenger.sendActionInfo("Contains " + new DecimalFormat("0.0").format(vertical_multiplier) + "/3.0 gunpowder", player);
+            Messenger.sendActionInfo("Contains " + new DecimalFormat("0.0").format(vertical_multiplier) + "/11.5 gunpowder", player);
         }
     }
 

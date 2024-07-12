@@ -97,7 +97,6 @@ public class TutorialAdvancements{
     }
 
     private void onCannonEvent(CannonEvent event) {
-        System.out.println("Cannon Event");
         if (event.isCancelled()) return;
 
         tab.getAdvancement(new AdvancementKey("siege_tutorial", AdvancementNode.cleanKey("Shooting Cannons"))).grant(event.getShooter());
