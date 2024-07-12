@@ -104,7 +104,7 @@ public class Cannon implements Listener {
     public void onPressButton(PlayerInteractEvent event) {
         Block clickedBlock = event.getClickedBlock();
         if (clickedBlock == null || clickedBlock.getType() != Material.POLISHED_BLACKSTONE_BUTTON
-                || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+                || (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.LEFT_CLICK_BLOCK)) {
             return;
         }
 
@@ -213,7 +213,7 @@ public class Cannon implements Listener {
         // If the player isn't clicking on the right thing, we don't care
         if (block == null || InCombat.isPlayerInLobby(uuid)
         || block.getLocation().distance(schematicLocation) != 0
-        || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        || (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.LEFT_CLICK_BLOCK)) {
             return;
         }
 
