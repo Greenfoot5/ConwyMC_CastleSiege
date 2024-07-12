@@ -53,7 +53,7 @@ public class CSNameTag implements Listener {
 
         Bukkit.getScheduler().runTask(Main.plugin, () -> {
             // Set the display name
-            player.displayName(title.append(rank.append(username)));
+            player.displayName(Component.empty().append(title).append(rank).append(username));
             if (!legacyRank.isEmpty())
                 NametagEdit.getApi().setPrefix(player, legacyRank.substring(0, legacyRank.length() - 1) + legacyColor(player, true));
             else
