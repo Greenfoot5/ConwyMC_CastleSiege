@@ -63,22 +63,26 @@ public class Warlock extends CoinKit implements Listener {
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.WITHER_SKELETON_SKULL),
                 Component.text("Cursed Skull", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
-                        Component.text("Right click to shoot a bolt of shadows, ", NamedTextColor.AQUA),
-                        Component.text("which does damage to enemies and inflicts", NamedTextColor.AQUA),
-                        Component.text("slowness I for 5 seconds and 70 DMG to them.", NamedTextColor.AQUA),
-                        Component.text("Direct hits give a soul shard and have", NamedTextColor.AQUA),
-                Component.text("a 10% chance to give a health stone.", NamedTextColor.AQUA)), null, meleeDamage);
+                        Component.text("Right click to shoot a bolt of shadows, ", NamedTextColor.BLUE),
+                        Component.text("which does damage to enemies and inflicts", NamedTextColor.BLUE),
+                        Component.text("slowness I for 5 seconds and 70 DMG to them.", NamedTextColor.BLUE),
+                        Component.text("Direct hits give a soul shard and have", NamedTextColor.BLUE),
+                        Component.text("a 10% chance to give a health stone.", NamedTextColor.BLUE),
+                        Component.empty(),
+                        Component.text("20 Melee Damage", NamedTextColor.DARK_GREEN)), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.WITHER_SKELETON_SKULL),
                         Component.text("Cursed Skull", NamedTextColor.GREEN),
                         Arrays.asList(Component.empty(),
-                                Component.text("Right click to shoot a bolt of shadows, ", NamedTextColor.AQUA),
-                                Component.text("which does damage to enemies and inflicts", NamedTextColor.AQUA),
-                                Component.text("slowness I for 5 seconds and 70 to them.", NamedTextColor.AQUA),
-                                Component.text("Direct hits give a soul shard and have", NamedTextColor.AQUA),
-                                Component.text("a 10% chance to give a health stone.", NamedTextColor.AQUA),
-                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                                Component.text("Right click to shoot a bolt of shadows, ", NamedTextColor.BLUE),
+                                Component.text("which does damage to enemies and inflicts", NamedTextColor.BLUE),
+                                Component.text("slowness I for 5 seconds and 70 to them.", NamedTextColor.BLUE),
+                                Component.text("Direct hits give a soul shard and have", NamedTextColor.BLUE),
+                                Component.text("a 10% chance to give a health stone.", NamedTextColor.BLUE),
+                                Component.empty(),
+                                Component.text("22 Melee Damage", NamedTextColor.DARK_GREEN)
+                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
                 0);
 

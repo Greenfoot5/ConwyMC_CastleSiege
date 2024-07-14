@@ -29,6 +29,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -57,22 +58,27 @@ public class Sorcerer extends CoinKit implements Listener {
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STICK),
                 Component.text("Sorcerer's Wand", NamedTextColor.GREEN),
-                Arrays.asList(Component.empty(),
-                        Component.text("Right click to shoot an arcanebolt which", NamedTextColor.AQUA),
-                        Component.text("does 60 DMG on hit.", NamedTextColor.AQUA),
+                List.of(Component.empty(),
+                        Component.text("Right click to shoot an arcanebolt which", NamedTextColor.BLUE),
+                        Component.text("does 60 DMG on hit.", NamedTextColor.BLUE),
                         Component.empty(),
-                        Component.text("Has a cooldown of " + arcaneBoltCooldown /20 + " seconds.", NamedTextColor.AQUA)), null, meleeDamage);
+                        Component.text("Has a cooldown of " + arcaneBoltCooldown /20 + " seconds.", NamedTextColor.BLUE),
+                        Component.empty(),
+                        Component.text("26 Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.STICK),
                         Component.text("Sorcerer's Wand", NamedTextColor.GREEN),
-                        Arrays.asList(Component.empty(),
-                                Component.text("Right click to shoot an arcane bolt which", NamedTextColor.AQUA),
-                                Component.text("does 60 DMG on hit.", NamedTextColor.AQUA),
+                        List.of(Component.empty(),
+                                Component.text("Right click to shoot an arcane bolt which", NamedTextColor.BLUE),
+                                Component.text("does 60 DMG on hit.", NamedTextColor.BLUE),
                                 Component.empty(),
-                                Component.text("Has a cooldown of " + arcaneBoltCooldown /20 + " seconds.", NamedTextColor.AQUA),
-                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
+                                Component.text("Has a cooldown of " + arcaneBoltCooldown /20 + " seconds.", NamedTextColor.BLUE),
+                                Component.empty(),
+                                Component.text("55 Melee Damage", NamedTextColor.DARK_GREEN)
+                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // 1st ability

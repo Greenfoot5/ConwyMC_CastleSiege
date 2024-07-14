@@ -55,6 +55,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -87,12 +88,17 @@ public class Engineer extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                Component.text("Short-sword", NamedTextColor.GREEN), null, null, meleeDamage);
+                Component.text("Short-sword", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("38 Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         Component.text("Short-sword", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        List.of(Component.empty(),
+                                Component.text("40 Melee Damage", NamedTextColor.DARK_GREEN)
+                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 

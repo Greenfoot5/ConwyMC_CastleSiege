@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -66,10 +67,15 @@ public class Crossbowman extends CoinKit implements Listener {
 
         // Crossbow
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.CROSSBOW),
-                Component.text("Crossbow", NamedTextColor.GREEN), null, null, 1);
+                Component.text("Crossbow", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("1 Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, 1);
         es.votedWeapon = new Tuple<>(CSItemCreator.weapon(new ItemStack(Material.CROSSBOW),
                 Component.text("Crossbow", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text("3 Melee Damage", NamedTextColor.DARK_GREEN)
+                                .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 3), 0);
 
         // Chestplate

@@ -22,6 +22,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -47,12 +48,17 @@ public class Viking extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_AXE),
-                Component.text("Giant Battle Axe", NamedTextColor.GREEN), null, null, meleeDamage);
+                Component.text("Giant Battle Axe", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("16 Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                         Component.text("Giant Battle Axe", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        List.of(Component.empty(),
+                                Component.text("18 Melee Damage", NamedTextColor.DARK_GREEN)
+                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 

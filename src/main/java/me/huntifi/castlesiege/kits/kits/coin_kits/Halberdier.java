@@ -22,6 +22,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -44,13 +45,18 @@ public class Halberdier extends CoinKit implements Listener {
         EquipmentSet es = new EquipmentSet();
 
         // Weapon
-        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-                Component.text("Halberd", NamedTextColor.GREEN), null, null, meleeDamage);
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
+                Component.text("Halberd", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("90 Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                CSItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
+                CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
                         Component.text("Halberd", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        List.of(Component.empty(),
+                                Component.text("92 Melee Damage", NamedTextColor.DARK_GREEN)
+                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 

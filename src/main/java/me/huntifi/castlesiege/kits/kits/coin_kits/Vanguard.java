@@ -56,14 +56,17 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("Right-click to activate charge ability.", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text("57 Melee Damage", NamedTextColor.DARK_GREEN)
+                                .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
                 null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                         Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
-                        List.of(Component.text("Right-click to activate charge ability.", NamedTextColor.AQUA),
-                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        List.of(Component.empty(),
+                                Component.text("59 Melee Damage", NamedTextColor.DARK_GREEN)
+                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 

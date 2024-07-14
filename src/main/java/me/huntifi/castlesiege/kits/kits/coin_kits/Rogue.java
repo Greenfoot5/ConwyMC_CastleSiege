@@ -53,6 +53,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -86,14 +87,19 @@ public class Rogue extends CoinKit implements Listener {
         EquipmentSet es = new EquipmentSet();
 
         netheriteSword = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
-                Component.text("Dagger", NamedTextColor.GREEN), null, null, 32);
+                Component.text("Dagger", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("32 Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, 32);
         // Weapon
         es.hotbar[0] = netheriteSword;
 
         // Voted weapon
         netheriteSwordVoted = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
                 Component.text("Dagger", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text("34 Melee Damage", NamedTextColor.DARK_GREEN)
+                                .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 34);
         es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
 

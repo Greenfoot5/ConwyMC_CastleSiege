@@ -72,13 +72,18 @@ public class Medic extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
-                Component.text("Scalpel", NamedTextColor.GREEN), null, null, meleeDamage);
+                Component.text("Scalpel", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("30 Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.WOODEN_SWORD),
                         Component.text("Scalpel", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage),
+                        List.of(Component.empty(),
+                                Component.text("32 Melee Damage", NamedTextColor.DARK_GREEN)
+                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate

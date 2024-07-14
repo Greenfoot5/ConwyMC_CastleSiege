@@ -45,6 +45,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -60,7 +61,7 @@ public class Alchemist extends CoinKit implements Listener {
     private static final int health = 210;
     private static final double regen = 10.5;
     private static final double meleeDamage = 26;
-    private static final int ladderCount = 5;
+    private static final int bottleCount = 5;
 
     /**
      * Creates the basics for Alchemist
@@ -74,27 +75,30 @@ public class Alchemist extends CoinKit implements Listener {
 
         // Brewing Stand
         stand = CSItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
-                Component.text("Brewing Stand", NamedTextColor.LIGHT_PURPLE),
+                Component.text("Brewing Stand", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
-                        Component.text("Place the brewing stand down, then", NamedTextColor.AQUA),
-                        Component.text("right click it to get a positive potion.", NamedTextColor.AQUA),
+                        Component.text("Place to begin brewing.", NamedTextColor.BLUE),
                         Component.empty(),
-                        Component.text("left click it to get a negative potion.", NamedTextColor.AQUA),
-                        Component.text("(tip): This brewing stand is a weapon, so you", NamedTextColor.AQUA),
-                        Component.text("can beat your enemies to death with it.", NamedTextColor.AQUA)),
-                Collections.singletonList(new Tuple<>(Enchantment.LOYALTY, 1)), meleeDamage);
+                        Component.text("Once placed, interact with a potion to brew.", NamedTextColor.BLUE),
+                        Component.keybind("key.use").append(Component.text(" to brew a positive potion.", NamedTextColor.BLUE)),
+                        Component.keybind("key.attack").append(Component.text(" to brew a negative potion.", NamedTextColor.BLUE)),
+                        Component.empty(),
+                        Component.text("26 Melee Damage", NamedTextColor.DARK_GREEN)),
+                new ArrayList<>(), meleeDamage);
         es.hotbar[0] = stand;
         // Voted Brewing Stand
         standVoted = CSItemCreator.weapon(new ItemStack(Material.BREWING_STAND),
-                Component.text("Brewing Stand", NamedTextColor.LIGHT_PURPLE),
-                Arrays.asList(Component.text(""),
-                        Component.text("Place the brewing stand down, then", NamedTextColor.AQUA),
-                        Component.text("right click it to get a potion.", NamedTextColor.AQUA),
-                                Component.text(""),
-                        Component.text("(tip): This brewing stand is a weapon, so you", NamedTextColor.AQUA),
-                        Component.text("can beat your enemies to death with it.", NamedTextColor.AQUA)),
-                Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
-                        new Tuple<>(Enchantment.LOYALTY, 1)), meleeDamage + 2);
+                Component.text("Brewing Stand", NamedTextColor.GREEN),
+                Arrays.asList(Component.empty(),
+                        Component.text("Place to begin brewing.", NamedTextColor.BLUE),
+                        Component.empty(),
+                        Component.text("Once placed, interact with a bottle to brew.", NamedTextColor.BLUE),
+                        Component.keybind("key.use").append(Component.text(" to brew a positive potion.", NamedTextColor.BLUE)),
+                        Component.keybind("key.attack").append(Component.text(" to brew a negative potion.", NamedTextColor.BLUE)),
+                        Component.empty(),
+                        Component.text("28 Melee Damage", NamedTextColor.DARK_GREEN)
+                                .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                List.of(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(standVoted, 0);
 
         // Chestplate
@@ -116,8 +120,23 @@ public class Alchemist extends CoinKit implements Listener {
                 Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
-        es.hotbar[1] = new ItemStack(Material.GLASS_BOTTLE, ladderCount);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.GLASS_BOTTLE, ladderCount + 1), 1);
+        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.GLASS_BOTTLE, bottleCount),
+                Component.text("Glass Bottle", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("Use on a brewing stand to brew.", NamedTextColor.BLUE),
+                        Component.keybind("key.use").append(Component.text(" to brew a positive potion.", NamedTextColor.BLUE)),
+                        Component.keybind("key.attack").append(Component.text(" to brew a negative potion.", NamedTextColor.BLUE))),
+        null);
+
+        es.votedLadders = new Tuple<>(CSItemCreator.item(new ItemStack(Material.GLASS_BOTTLE, bottleCount + 1),
+                Component.text("Glass Bottle", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("Use on a brewing stand to brew.", NamedTextColor.BLUE),
+                        Component.keybind("key.use").append(Component.text(" to brew a positive potion.", NamedTextColor.BLUE)),
+                        Component.keybind("key.attack").append(Component.text(" to brew a negative potion.", NamedTextColor.BLUE)),
+                        Component.empty(),
+                        Component.text("+1 from voting", NamedTextColor.DARK_AQUA)),
+                null), 1);
 
         super.equipment = es;
 
@@ -689,7 +708,7 @@ public class Alchemist extends CoinKit implements Listener {
         ArrayList<Component> kitLore = new ArrayList<>();
         kitLore.add(Component.text("A support kit that makes use", NamedTextColor.GRAY));
         kitLore.add(Component.text("of many different kinds of potions", NamedTextColor.GRAY));
-        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, bottleCount));
         kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));

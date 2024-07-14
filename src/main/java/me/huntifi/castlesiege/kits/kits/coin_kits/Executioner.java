@@ -28,6 +28,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -44,20 +45,24 @@ public class Executioner extends CoinKit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Executioner() {
-		super("Executioner", health, regen, Material.DIAMOND_AXE);
+		super("Executioner", health, regen, Material.IRON_AXE);
 		super.canSeeHealth = true;
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
                 
 		// Weapon
-		es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-				Component.text("Diamond Axe", NamedTextColor.GREEN), null, null, meleeDamage);
+		es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_AXE),
+				Component.text("Execution Axe", NamedTextColor.GREEN),
+				List.of(Component.empty(),
+						Component.text("48 Melee Damage", NamedTextColor.DARK_GREEN)), null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
-				CSItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-						Component.text("Diamond Axe", NamedTextColor.GREEN),
-						Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+				CSItemCreator.weapon(new ItemStack(Material.IRON_AXE),
+						Component.text("Execution Axe", NamedTextColor.GREEN),
+						List.of(Component.empty(),
+								Component.text("50 Melee Damage", NamedTextColor.DARK_GREEN)
+										.append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
 						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
                 

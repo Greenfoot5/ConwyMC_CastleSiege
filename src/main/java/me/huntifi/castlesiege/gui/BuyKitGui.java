@@ -52,7 +52,7 @@ public class BuyKitGui {
         }
 
         // Stats
-        gui.addItem(Component.text("Description", NamedTextColor.GRAY, TextDecoration.BOLD),
+        gui.addItem(Component.text("Description", NamedTextColor.BLUE, TextDecoration.BOLD),
                 Material.PAPER, kit.getGuiDescription(), 15, null, false);
 
         // Potion Effects

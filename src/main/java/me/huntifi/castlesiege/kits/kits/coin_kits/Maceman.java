@@ -22,6 +22,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -46,12 +47,17 @@ public class Maceman extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
-                Component.text("Mace", NamedTextColor.GREEN), null, null, meleeDamage);
+                Component.text("Mace", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("37 Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
                         Component.text("Mace", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        List.of(Component.empty(),
+                                Component.text("39 Melee Damage", NamedTextColor.DARK_GREEN)
+                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 

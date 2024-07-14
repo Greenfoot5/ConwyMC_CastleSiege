@@ -74,17 +74,20 @@ public class Priest extends CoinKit implements Listener {
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
                 Component.text("Holy Staff", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
-                        Component.text("Right click to shoot a bolt of light, ", NamedTextColor.AQUA),
-                        Component.text("which does damage to enemies", NamedTextColor.AQUA)), null, meleeDamage);
+                        Component.text("Right click to shoot a bolt of light, ", NamedTextColor.BLUE),
+                        Component.text("which does damage to enemies", NamedTextColor.BLUE),
+                        Component.empty(),
+                        Component.text("55 Melee Damage", NamedTextColor.DARK_GREEN)), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
                         Component.text("Holy Staff", NamedTextColor.GREEN),
                         Arrays.asList(Component.empty(),
-                                Component.text("Right click to shoot a bolt of light, ", NamedTextColor.AQUA),
-                                Component.text("which does damage to enemies", NamedTextColor.AQUA),
+                                Component.text("Right click to shoot a bolt of light, ", NamedTextColor.BLUE),
+                                Component.text("which does damage to enemies", NamedTextColor.BLUE),
                                 Component.empty(),
-                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                                Component.text("55 Melee Damage", NamedTextColor.DARK_GREEN)
+                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_UNDEAD, 5)), meleeDamage + 2),
                 0);
 
