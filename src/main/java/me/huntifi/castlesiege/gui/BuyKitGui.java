@@ -51,6 +51,10 @@ public class BuyKitGui {
             setItem(kit.getEquipment().hotbar[i], i + 36, "Hotbar");
         }
 
+        // Stats
+        gui.addItem(Component.text("Description", NamedTextColor.GRAY, TextDecoration.BOLD),
+                Material.PAPER, kit.getGuiDescription(), 15, null, false);
+
         // Potion Effects
         if (kit.getEffects().isEmpty()) {
             gui.addItem(Component.text("Potion Effects", NamedTextColor.GRAY, TextDecoration.BOLD),
