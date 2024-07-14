@@ -68,8 +68,8 @@ public class Berserker extends CoinKit implements Listener {
         regularSwordVoted = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Iron Sword", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text("55 Melee Damage", NamedTextColor.DARK_GREEN)
-                                .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                        Component.text("55 Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
@@ -83,12 +83,16 @@ public class Berserker extends CoinKit implements Listener {
 
         // Berserk Weapon
         berserkSword = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                Component.text("Berserker Sword", NamedTextColor.GREEN), null,
+                Component.text("Berserker Sword", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("105.5 Melee Damage", NamedTextColor.DARK_GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamageZerk);
         // Voted Berserk Weapon
         berserkSwordVoted = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Berserker Sword", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text("107.5 Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),
                         new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamageZerk + 2);
 

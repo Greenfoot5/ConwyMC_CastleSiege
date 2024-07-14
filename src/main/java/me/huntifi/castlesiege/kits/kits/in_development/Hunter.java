@@ -76,7 +76,7 @@ public class Hunter extends CoinKit implements Listener {
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Hunter's Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders

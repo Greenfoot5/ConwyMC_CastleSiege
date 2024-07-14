@@ -57,7 +57,7 @@ public class Warbear extends StaffKit implements Listener {
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.DEAD_HORN_CORAL_FAN),
                         Component.text("Claws", NamedTextColor.RED),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 

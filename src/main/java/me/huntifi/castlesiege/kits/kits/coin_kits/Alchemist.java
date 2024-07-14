@@ -96,8 +96,8 @@ public class Alchemist extends CoinKit implements Listener {
                         Component.keybind("key.use").append(Component.text(" to brew a positive potion.", NamedTextColor.BLUE)),
                         Component.keybind("key.attack").append(Component.text(" to brew a negative potion.", NamedTextColor.BLUE)),
                         Component.empty(),
-                        Component.text("28 Melee Damage", NamedTextColor.DARK_GREEN)
-                                .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                        Component.text("28 Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                 List.of(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(standVoted, 0);
 
@@ -117,7 +117,7 @@ public class Alchemist extends CoinKit implements Listener {
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 Component.text("Golden Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.GLASS_BOTTLE, bottleCount),

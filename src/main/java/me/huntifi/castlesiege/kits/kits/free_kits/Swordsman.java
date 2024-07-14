@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * The swordsman kit
@@ -33,12 +34,17 @@ public class Swordsman extends FreeKit {
 
 		// Weapon
 		es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-				Component.text("Iron Sword", NamedTextColor.GREEN), null, null, meleeDamage);
+				Component.text("Iron Sword", NamedTextColor.GREEN),
+				List.of(Component.empty(),
+						Component.text("43 Melee Damage", NamedTextColor.DARK_GREEN)),
+				null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
 						Component.text("Iron Sword", NamedTextColor.GREEN),
-						Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+						List.of(Component.empty(),
+								Component.text("45 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
 						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
 
@@ -56,7 +62,7 @@ public class Swordsman extends FreeKit {
 		// Voted Boots
 		es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
 				Component.text("Iron Boots", NamedTextColor.GREEN),
-				Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+				Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders

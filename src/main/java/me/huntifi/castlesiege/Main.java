@@ -355,6 +355,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 // Kits
                 getServer().getPluginManager().registerEvents(new Alchemist(), plugin);
+                getServer().getPluginManager().registerEvents(new Archer(), plugin);
                 getServer().getPluginManager().registerEvents(new Artillerist(), plugin);
                 getServer().getPluginManager().registerEvents(new Armorer(), plugin);
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);

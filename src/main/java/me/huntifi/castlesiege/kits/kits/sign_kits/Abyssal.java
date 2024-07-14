@@ -72,7 +72,7 @@ public class Abyssal extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.GREEN_DYE),
                         Component.text("Fist", NamedTextColor.RED),
                         Arrays.asList(Component.text("Right-click to start spawning a magma projectile!", NamedTextColor.AQUA),
-                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                                Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32.5),
                 0);
 

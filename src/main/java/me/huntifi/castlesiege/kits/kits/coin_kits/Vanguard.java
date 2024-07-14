@@ -57,16 +57,15 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text("57 Melee Damage", NamedTextColor.DARK_GREEN)
-                                .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                        Component.text("57 Melee Damage", NamedTextColor.DARK_GREEN)),
                 null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                         Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
                         List.of(Component.empty(),
-                                Component.text("59 Melee Damage", NamedTextColor.DARK_GREEN)
-                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                                Component.text("59 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
@@ -86,7 +85,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
         // Voted boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(99, 179, 101));
 

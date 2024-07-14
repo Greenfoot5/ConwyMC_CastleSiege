@@ -42,7 +42,7 @@ public class Shieldman extends LevelKit {
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         Component.text("Longsword", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
@@ -65,7 +65,7 @@ public class Shieldman extends LevelKit {
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
                 Component.text("Diamond Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders

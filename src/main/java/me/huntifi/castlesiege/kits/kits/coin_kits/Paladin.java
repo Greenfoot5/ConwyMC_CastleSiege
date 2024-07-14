@@ -71,8 +71,8 @@ public class Paladin extends CoinKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.GOLDEN_AXE),
                         Component.text("Holy Hammer", NamedTextColor.GREEN),
                         List.of(Component.empty(),
-                                Component.text("35 Melee Damage", NamedTextColor.DARK_GREEN)
-                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                                Component.text("35 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_UNDEAD, 5)), meleeDamage + 2),
                 0);
 
@@ -108,7 +108,7 @@ public class Paladin extends CoinKit implements Listener {
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
                 Component.text("Paladin Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
         ItemMeta boots = es.feet.getItemMeta();
         ArmorMeta bootsMeta = (ArmorMeta) boots;

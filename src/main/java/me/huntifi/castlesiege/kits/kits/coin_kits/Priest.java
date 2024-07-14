@@ -86,8 +86,8 @@ public class Priest extends CoinKit implements Listener {
                                 Component.text("Right click to shoot a bolt of light, ", NamedTextColor.BLUE),
                                 Component.text("which does damage to enemies", NamedTextColor.BLUE),
                                 Component.empty(),
-                                Component.text("55 Melee Damage", NamedTextColor.DARK_GREEN)
-                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                                Component.text("55 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_UNDEAD, 5)), meleeDamage + 2),
                 0);
 
@@ -120,7 +120,7 @@ public class Priest extends CoinKit implements Listener {
         // Voted Boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Priest's Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(20, 0, 24));
         ItemMeta boots = es.feet.getItemMeta();

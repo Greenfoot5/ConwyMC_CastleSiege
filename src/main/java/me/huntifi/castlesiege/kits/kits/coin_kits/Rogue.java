@@ -98,15 +98,15 @@ public class Rogue extends CoinKit implements Listener {
         netheriteSwordVoted = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
                 Component.text("Dagger", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text("34 Melee Damage", NamedTextColor.DARK_GREEN)
-                                .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                        Component.text("34 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 34);
         es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
 
         // Voted weapon
         poisonSwordVoted = CSItemCreator.weapon(new ItemStack(Material.GOLDEN_SWORD),
                 Component.text("Poison Dagger", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- special: +2 damage", NamedTextColor.GREEN)),
+                Collections.singletonList(Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 34);
         es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
 
@@ -193,13 +193,13 @@ public class Rogue extends CoinKit implements Listener {
         // Boots
         es.feet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Rogue Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- Feather Falling XV", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Feather Falling XV", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_FALL, 15)));
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Rogue Boots", NamedTextColor.GREEN),
-                Arrays.asList(Component.text("- Feather Falling XV", NamedTextColor.AQUA),
-                        Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Arrays.asList(Component.text("⁎ Feather Falling XV", NamedTextColor.AQUA),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Arrays.asList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3), new Tuple<>(Enchantment.PROTECTION_FALL, 15)));
 
 

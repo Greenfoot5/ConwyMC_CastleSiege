@@ -50,7 +50,7 @@ public class Windlancer extends SignKit implements Listener {
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.STICK, 20),
                         Component.text("Small Hand-Windlass Spear", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31),
                 0);
 
@@ -70,7 +70,7 @@ public class Windlancer extends SignKit implements Listener {
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders

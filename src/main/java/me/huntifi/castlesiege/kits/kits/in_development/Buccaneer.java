@@ -41,7 +41,7 @@ public class Buccaneer extends SignKit {
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.STONE_AXE),
                         Component.text("Constructor's Axe", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
@@ -66,7 +66,7 @@ public class Buccaneer extends SignKit {
         // Voted Boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)), Color.fromRGB(20, 19, 19));
 
         // Ladders

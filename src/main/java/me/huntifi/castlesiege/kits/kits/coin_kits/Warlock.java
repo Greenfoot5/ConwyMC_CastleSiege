@@ -81,8 +81,8 @@ public class Warlock extends CoinKit implements Listener {
                                 Component.text("Direct hits give a soul shard and have", NamedTextColor.BLUE),
                                 Component.text("a 10% chance to give a health stone.", NamedTextColor.BLUE),
                                 Component.empty(),
-                                Component.text("22 Melee Damage", NamedTextColor.DARK_GREEN)
-                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                                Component.text("22 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
                 0);
 
@@ -152,7 +152,7 @@ public class Warlock extends CoinKit implements Listener {
         // Voted Boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Warlock's Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(85, 30, 127));
         ItemMeta boots = es.feet.getItemMeta();

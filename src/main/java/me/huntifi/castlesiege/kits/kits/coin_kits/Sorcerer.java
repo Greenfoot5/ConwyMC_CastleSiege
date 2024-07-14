@@ -76,8 +76,8 @@ public class Sorcerer extends CoinKit implements Listener {
                                 Component.empty(),
                                 Component.text("Has a cooldown of " + arcaneBoltCooldown /20 + " seconds.", NamedTextColor.BLUE),
                                 Component.empty(),
-                                Component.text("55 Melee Damage", NamedTextColor.DARK_GREEN)
-                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                                Component.text("55 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
@@ -137,7 +137,7 @@ public class Sorcerer extends CoinKit implements Listener {
         // Voted Boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Sorcerer's Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(106, 62, 156));
         ItemMeta boots = es.feet.getItemMeta();

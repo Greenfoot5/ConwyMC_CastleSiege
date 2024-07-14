@@ -92,7 +92,7 @@ public class FireArcher extends VoterKit implements Listener {
         // Voted Boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(204, 0, 0));
 
@@ -123,7 +123,7 @@ public class FireArcher extends VoterKit implements Listener {
                         Component.text("Place the firepit down, then", NamedTextColor.AQUA),
                         Component.text( "right click it with an arrow.", NamedTextColor.AQUA),
                         Component.empty(),
-                        Component.text( "- voted: + 2 damage.", NamedTextColor.AQUA),
+                        Component.text( "⁎ Voted: + 2 damage.", NamedTextColor.AQUA),
                         Component.text( "(tip): This firepit is very hard, so you", NamedTextColor.AQUA),
                         Component.text( "can beat your enemies to death with it.", NamedTextColor.AQUA)),
                 Arrays.asList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0),

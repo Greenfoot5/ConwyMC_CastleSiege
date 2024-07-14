@@ -45,7 +45,7 @@ public class Arbalester extends SignKit implements Listener {
                 , 3);
         es.votedWeapon = new Tuple<>(CSItemCreator.weapon(new ItemStack(Material.CROSSBOW),
                 Component.text("Crossbow", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.ARROW_KNOCKBACK, 2)), 5), 0);
 
         // Chestplate
@@ -64,7 +64,7 @@ public class Arbalester extends SignKit implements Listener {
         // Voted boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(174, 26, 26));
 

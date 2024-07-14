@@ -48,7 +48,7 @@ public class Lancer extends SignKit implements Listener {
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Sword", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37.5),
                 0);
 
@@ -61,7 +61,7 @@ public class Lancer extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.STICK, 3),
                         Component.text("Spear", NamedTextColor.GREEN),
                         Arrays.asList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA),
-                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                                Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32.5),
                 1);
 
@@ -79,7 +79,7 @@ public class Lancer extends SignKit implements Listener {
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders

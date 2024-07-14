@@ -81,8 +81,8 @@ public class Warhound extends CoinKit implements Listener {
                                 Component.text("you can also slow down horses.", NamedTextColor.BLUE),
                                 Component.text("Has a 12 second cooldown.", NamedTextColor.BLUE),
                                 Component.empty(),
-                                Component.text("22 Melee Damage", NamedTextColor.DARK_GREEN)
-                                        .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                                Component.text("22 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 22),
                 0);
 

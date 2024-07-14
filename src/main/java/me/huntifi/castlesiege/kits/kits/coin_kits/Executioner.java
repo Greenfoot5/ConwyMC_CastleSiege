@@ -61,8 +61,8 @@ public class Executioner extends CoinKit implements Listener {
 				CSItemCreator.weapon(new ItemStack(Material.IRON_AXE),
 						Component.text("Execution Axe", NamedTextColor.GREEN),
 						List.of(Component.empty(),
-								Component.text("50 Melee Damage", NamedTextColor.DARK_GREEN)
-										.append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+								Component.text("50 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
 						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
                 
@@ -82,7 +82,7 @@ public class Executioner extends CoinKit implements Listener {
 		// Voted Boots
 		es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
 				Component.text("Iron Boots", NamedTextColor.GREEN),
-				Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+				Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
                 
 		// Ladders

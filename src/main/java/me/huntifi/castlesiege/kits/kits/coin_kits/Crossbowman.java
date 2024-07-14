@@ -74,8 +74,8 @@ public class Crossbowman extends CoinKit implements Listener {
         es.votedWeapon = new Tuple<>(CSItemCreator.weapon(new ItemStack(Material.CROSSBOW),
                 Component.text("Crossbow", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text("3 Melee Damage", NamedTextColor.DARK_GREEN)
-                                .append(Component.text(" (+2 from voting)", NamedTextColor.DARK_AQUA))),
+                        Component.text("3 Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 3), 0);
 
         // Chestplate
@@ -94,7 +94,7 @@ public class Crossbowman extends CoinKit implements Listener {
         // Voted boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(255, 255, 51));
 
