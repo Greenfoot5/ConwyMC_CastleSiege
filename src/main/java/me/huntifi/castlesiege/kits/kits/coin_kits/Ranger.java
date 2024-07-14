@@ -103,17 +103,25 @@ public class Ranger extends CoinKit implements Listener {
 
         // Regular Bow
         es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.BOW),
-                Component.text("Bow", NamedTextColor.GREEN), null, null);
+                Component.text("Bow", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("18 Ranged Damage", NamedTextColor.DARK_GREEN)), null);
 
         // Volley Bow
         es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.BOW),
                 Component.text("Volley Bow", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("Shoot 5 arrows at once", NamedTextColor.AQUA)), null);
+                List.of(Component.empty(),
+                        Component.text("Shoot 5 arrows in a spread", NamedTextColor.BLUE),
+                        Component.empty(),
+                        Component.text("18 Ranged Damage", NamedTextColor.DARK_GREEN)), null);
 
         // Burst Bow
         es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.BOW),
-                Component.text("Burst Bow", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("Shoot 4 consecutive arrows", NamedTextColor.AQUA)), null);
+                Component.text("Rapid Fire Bow", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("Shoot 5 arrows consecutively", NamedTextColor.BLUE),
+                        Component.empty(),
+                        Component.text("18 Ranged Damage", NamedTextColor.DARK_GREEN)),null);
 
         // Ladders
         es.hotbar[4] = new ItemStack(Material.LADDER, ladderCount);

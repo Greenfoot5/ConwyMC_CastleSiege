@@ -90,6 +90,12 @@ public class Archer extends FreeKit implements Listener {
 		super.equipment = es;
 	}
 
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void showDamage(ProjectileHitEvent e) {
+		System.out.println(((AbstractArrow) e.getEntity()).getDamage());
+		System.out.println(e.getHitEntity().getLastDamageCause().getDamage());
+	}
+
 	/**
 	 * Set the arrow-damage of a ranger's arrows
 	 * @param e The event called when a player is hit by an arrow
