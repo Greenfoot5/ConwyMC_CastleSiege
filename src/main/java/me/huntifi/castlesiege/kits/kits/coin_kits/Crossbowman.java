@@ -222,7 +222,6 @@ public class Crossbowman extends CoinKit implements Listener {
                 e.getEntity().getShooter() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
             if (!isInSnipingMode(((Player) e.getEntity().getShooter()).getUniqueId())) {
-                System.out.println("Setting Damage");
                 ((Arrow) e.getEntity()).setDamage(18);
             }
         }

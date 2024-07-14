@@ -172,7 +172,6 @@ public class PlayerConnect implements Listener {
 
         try {
             Cosmetic foolish = new Cosmetic(TITLE, "Foolish", "<gradient:#7F7FD5:#86A8E7:#91EAE4><font:illageralt>7..cL2k</font>");
-            System.out.println(foolish);
             Tuple<PreparedStatement, ResultSet> leaderboard = LoadData.getTop("deaths", 0);
             PlayerCosmetics.isTop(data, uuid, leaderboard.getSecond(), 3, foolish);
             leaderboard.getFirst().close();
