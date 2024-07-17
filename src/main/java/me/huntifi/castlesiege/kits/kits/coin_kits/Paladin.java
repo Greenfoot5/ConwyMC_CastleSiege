@@ -84,7 +84,11 @@ public class Paladin extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = CSItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
-                Component.text("Blessed Chestplate", NamedTextColor.GREEN), null, null);
+                Component.text("Blessed Chestplate", NamedTextColor.GREEN),
+                List.of(Component.text("» Diamond Dune Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
@@ -94,7 +98,11 @@ public class Paladin extends CoinKit implements Listener {
 
         // Leggings
         es.legs = CSItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
-                Component.text("Blessed Iron Leggings", NamedTextColor.GREEN), null, null);
+                Component.text("Blessed Iron Leggings", NamedTextColor.GREEN),
+                List.of(Component.text("» Gold Eye Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
         assert legs != null;
@@ -104,11 +112,20 @@ public class Paladin extends CoinKit implements Listener {
 
         // Boots
         es.feet = CSItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
-                Component.text("Paladin Boots", NamedTextColor.GREEN), null, null);
+                Component.text("Paladin Boots", NamedTextColor.GREEN),
+                List.of(Component.text("» Gold Coast Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
                 Component.text("Paladin Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
+                List.of(Component.text("» Gold Coast Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
         ItemMeta boots = es.feet.getItemMeta();
         ArmorMeta bootsMeta = (ArmorMeta) boots;

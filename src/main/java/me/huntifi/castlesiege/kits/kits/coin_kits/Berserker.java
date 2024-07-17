@@ -11,6 +11,7 @@ import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -79,7 +80,15 @@ public class Berserker extends CoinKit implements Listener {
 
         // Potion Item
         es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.POTION, 1),
-                Component.text("Berserker Potion", NamedTextColor.GOLD), null, null);
+                Component.text("Berserker Potion", NamedTextColor.GOLD),
+                List.of(Component.empty(),
+                        Component.text("Drink to enter berserk mode", NamedTextColor.BLUE),
+                        Component.empty(),
+                        Component.text("+ 54.5 Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text("○ Strength I (0:10)", TextColor.color(40, 169, 255)),
+                        Component.text("○ Speed II (0:10)", TextColor.color(40, 169, 255)),
+                        Component.text("○ Nausea II (0:10)", NamedTextColor.RED)),
+                        null);
 
         // Berserk Weapon
         berserkSword = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
@@ -205,7 +214,7 @@ public class Berserker extends CoinKit implements Listener {
         kitLore.add(Component.text(" ", NamedTextColor.GRAY));
         kitLore.add(Component.text("Berserk Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Speed II", NamedTextColor.GRAY));
-        kitLore.add(Component.text("- Confusion II", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Nausea II", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Strength I", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Melee hits deal 105+ damage", NamedTextColor.GRAY));
         return kitLore;

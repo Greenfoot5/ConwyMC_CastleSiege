@@ -40,9 +40,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -73,7 +73,7 @@ public class Priest extends CoinKit implements Listener {
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
                 Component.text("Holy Staff", NamedTextColor.GREEN),
-                Arrays.asList(Component.empty(),
+                List.of(Component.empty(),
                         Component.text("Right click to shoot a bolt of light, ", NamedTextColor.BLUE),
                         Component.text("which does damage to enemies", NamedTextColor.BLUE),
                         Component.empty(),
@@ -82,7 +82,7 @@ public class Priest extends CoinKit implements Listener {
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.SPECTRAL_ARROW),
                         Component.text("Holy Staff", NamedTextColor.GREEN),
-                        Arrays.asList(Component.empty(),
+                        List.of(Component.empty(),
                                 Component.text("Right click to shoot a bolt of light, ", NamedTextColor.BLUE),
                                 Component.text("which does damage to enemies", NamedTextColor.BLUE),
                                 Component.empty(),
@@ -93,7 +93,11 @@ public class Priest extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Priest's robe", NamedTextColor.GREEN), null, null,
+                Component.text("Priest's robe", NamedTextColor.GREEN),
+                List.of(Component.text("» Gold Vex Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(20, 0, 24));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -104,7 +108,11 @@ public class Priest extends CoinKit implements Listener {
 
         // Leggings
         es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Priest's Leggings", NamedTextColor.GREEN), null, null,
+                Component.text("Priest's Leggings", NamedTextColor.GREEN),
+                List.of(Component.text("» Gold Vex Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(20, 0, 24));
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
@@ -115,12 +123,21 @@ public class Priest extends CoinKit implements Listener {
 
         // Boots
         es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                Component.text("Priest's Boots", NamedTextColor.GREEN), null, null,
+                Component.text("Priest's Boots", NamedTextColor.GREEN),
+                List.of(Component.text("» Gold Vex Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(20, 0, 24));
         // Voted Boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Priest's Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
+                List.of(Component.text("» Gold Vex Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(20, 0, 24));
         ItemMeta boots = es.feet.getItemMeta();
@@ -134,7 +151,7 @@ public class Priest extends CoinKit implements Listener {
         // Gouge
         holyBook = CSItemCreator.weapon(new ItemStack(Material.BOOK),
                 Component.text("Holy Bible", NamedTextColor.GREEN),
-                Arrays.asList(Component.empty(),
+                List.of(Component.empty(),
                         Component.text("Select an ally with this holy book.", NamedTextColor.AQUA),
                         Component.text("This ally will receive regeneration III", NamedTextColor.AQUA),
                         Component.text("until you select a different ally.", NamedTextColor.AQUA)),

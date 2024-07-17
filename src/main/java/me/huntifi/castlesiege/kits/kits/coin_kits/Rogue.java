@@ -176,7 +176,12 @@ public class Rogue extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN),
+                List.of(Component.text("» Netherite Coast Trim", NamedTextColor.DARK_GRAY),
+                        //Component.text("\uD800\uDF4A Netherite Coast Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(15, 15, 15));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -187,20 +192,31 @@ public class Rogue extends CoinKit implements Listener {
 
         // Leggings
         es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(19, 19, 19));
 
         // Boots
         es.feet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Rogue Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("⁎ Feather Falling XV", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("◆ Feather Falling XV", NamedTextColor.DARK_PURPLE)),
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_FALL, 15)));
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Rogue Boots", NamedTextColor.GREEN),
-                Arrays.asList(Component.text("⁎ Feather Falling XV", NamedTextColor.AQUA),
-                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
-                Arrays.asList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3), new Tuple<>(Enchantment.PROTECTION_FALL, 15)));
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("◆ Feather Falling XV", NamedTextColor.DARK_PURPLE),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
+                Arrays.asList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2), new Tuple<>(Enchantment.PROTECTION_FALL, 15)));
 
 
 

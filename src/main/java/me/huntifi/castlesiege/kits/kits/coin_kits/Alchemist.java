@@ -79,7 +79,7 @@ public class Alchemist extends CoinKit implements Listener {
                 Arrays.asList(Component.empty(),
                         Component.text("Place to begin brewing.", NamedTextColor.BLUE),
                         Component.empty(),
-                        Component.text("Once placed, interact with a potion to brew.", NamedTextColor.BLUE),
+                        Component.text("Once placed, interact with a bottle to brew.", NamedTextColor.BLUE),
                         Component.keybind("key.use").append(Component.text(" to brew a positive potion.", NamedTextColor.BLUE)),
                         Component.keybind("key.attack").append(Component.text(" to brew a negative potion.", NamedTextColor.BLUE)),
                         Component.empty(),
@@ -103,21 +103,34 @@ public class Alchemist extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(226, 165, 43));
 
         // Leggings
         es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(226, 173, 65));
 
         // Boots
         es.feet = CSItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
-                Component.text("Golden Boots", NamedTextColor.GREEN), null, null);
+                Component.text("Golden Boots", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.GOLDEN_BOOTS),
                 Component.text("Golden Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.GLASS_BOTTLE, bottleCount),
@@ -207,6 +220,7 @@ public class Alchemist extends CoinKit implements Listener {
                         Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
                         if (hit.getPlayer() != damager && !isEnemy)
                             UpdateStats.addHeals(damager.getUniqueId(), 2);
+
                     // Friendly Potions
                     } else if (potionType.equals(PotionEffectType.SPEED)
                             || potionType.equals(PotionEffectType.JUMP)
@@ -265,41 +279,40 @@ public class Alchemist extends CoinKit implements Listener {
     @EventHandler
     public void onRemove(PlayerInteractEvent e) {
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
+        if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId()))
             return;
-        }
+        if (e.getAction() != Action.LEFT_CLICK_BLOCK)
+            return;
+        if (Objects.requireNonNull(e.getClickedBlock()).getType() != Material.BREWING_STAND)
+            return;
 
-        if (e.getAction() == Action.LEFT_CLICK_BLOCK &&
-                Objects.requireNonNull(e.getClickedBlock()).getType() == Material.BREWING_STAND) {
-            Player destroyer = e.getPlayer();
-            Player placer = getPlacer(e.getClickedBlock());
+        Player destroyer = e.getPlayer();
+        Player placer = getPlacer(e.getClickedBlock());
 
-            // Pick up own brewing stand
-            if (Objects.equals(destroyer, placer)) {
-                if (!placer.getInventory().getItemInMainHand().getType().equals(Material.GLASS_BOTTLE)) {
-                    destroyStand(placer);
-                    Messenger.sendActionInfo("You took back your brewing stand!", placer);
-                    destroyer.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER, 3, 1);
-                    // Can only hold 1 brewing stand at a time
-                    PlayerInventory inv = destroyer.getInventory();
-                    if (inv.getItemInOffHand().getType() != Material.BREWING_STAND &&
-                            !inv.contains(Material.BREWING_STAND)) {
-                        if (!CSActiveData.getData(destroyer.getUniqueId()).hasVote("sword")) {
-                            destroyer.getInventory().addItem(stand);
-                        } else {
-                            destroyer.getInventory().addItem(standVoted);
-                        }
+        // Pick up own brewing stand
+        if (Objects.equals(destroyer, placer)) {
+            if (!placer.getInventory().getItemInMainHand().getType().equals(Material.GLASS_BOTTLE)) {
+                destroyStand(placer);
+                Messenger.sendActionInfo("You took back your brewing stand!", placer);
+                destroyer.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER, 3, 1);
+                // Can only hold 1 brewing stand at a time
+                PlayerInventory inv = destroyer.getInventory();
+                if (inv.getItemInOffHand().getType() != Material.BREWING_STAND &&
+                        !inv.contains(Material.BREWING_STAND)) {
+                    if (!CSActiveData.getData(destroyer.getUniqueId()).hasVote("sword")) {
+                        destroyer.getInventory().addItem(stand);
+                    } else {
+                        destroyer.getInventory().addItem(standVoted);
                     }
                 }
-
-                // Destroy enemy brewing stand
-            } else if (placer != null &&
-                    TeamController.getTeam(destroyer.getUniqueId())
-                            != TeamController.getTeam(placer.getUniqueId())){
-                destroyStand(placer);
-                destroyer.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER , 5, 1);
-                Messenger.sendActionWarning("You destroyed " + CSNameTag.mmUsername(placer) + "'s brewing stand!", destroyer);
             }
+
+        // Destroy enemy brewing stand
+        } else if (placer != null &&
+                TeamController.getTeam(destroyer.getUniqueId()) != TeamController.getTeam(placer.getUniqueId())) {
+            destroyStand(placer);
+            destroyer.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER , 5, 1);
+            Messenger.sendActionWarning("You destroyed " + CSNameTag.mmUsername(placer) + "'s brewing stand!", destroyer);
         }
     }
 

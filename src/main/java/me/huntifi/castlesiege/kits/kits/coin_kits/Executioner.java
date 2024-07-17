@@ -68,21 +68,33 @@ public class Executioner extends CoinKit implements Listener {
                 
 		// Chestplate
 		es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-				Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
+				Component.text("Leather Chestplate", NamedTextColor.GREEN),
+				List.of(Component.empty(),
+						Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+						Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
 				Color.fromRGB(32, 32, 32));
                 
 		// Leggings
 		es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-				Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
+				Component.text("Leather Leggings", NamedTextColor.GREEN),
+				List.of(Component.empty(),
+						Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+						Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
 				Color.fromRGB(32, 32, 32));
                 
 		// Boots
 		es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-				Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
+				Component.text("Iron Boots", NamedTextColor.GREEN),
+				List.of(Component.empty(),
+						Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+						Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 		// Voted Boots
 		es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
 				Component.text("Iron Boots", NamedTextColor.GREEN),
-				Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
+				List.of(Component.empty(),
+						Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+						Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+						Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
                 
 		// Ladders

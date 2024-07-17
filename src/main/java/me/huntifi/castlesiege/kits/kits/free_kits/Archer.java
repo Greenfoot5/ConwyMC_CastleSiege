@@ -58,19 +58,32 @@ public class Archer extends FreeKit implements Listener {
 
 		// Chestplate
 		es.chest = CSItemCreator.item(new ItemStack(Material.LEATHER_CHESTPLATE),
-				Component.text("Leather Tunic", NamedTextColor.GREEN), null, null);
+				Component.text("Leather Tunic", NamedTextColor.GREEN),
+				List.of(Component.empty(),
+						Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+						Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 
 		// Leggings
 		es.legs = CSItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
-				Component.text("Leather Leggings", NamedTextColor.GREEN), null, null);
+				Component.text("Leather Leggings", NamedTextColor.GREEN),
+				List.of(Component.empty(),
+						Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+						Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 
 		// Boots
 		es.feet = CSItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
-				Component.text("Leather Boots", NamedTextColor.GREEN), null, null);
+				Component.text("Leather Boots", NamedTextColor.GREEN),
+				List.of(Component.empty(),
+						Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+						Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 		// Voted Boots
 		es.votedFeet = CSItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
 				Component.text("Leather Boots", NamedTextColor.GREEN),
-				Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
+				List.of(Component.empty(),
+						Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+						Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+						Component.empty(),
+						Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders
