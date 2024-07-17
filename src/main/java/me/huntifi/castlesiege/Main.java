@@ -29,6 +29,7 @@ import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.commands.info.FlagsCommand;
 import me.huntifi.castlesiege.commands.info.MapsCommand;
 import me.huntifi.castlesiege.commands.info.MyStatsCommand;
+import me.huntifi.castlesiege.commands.info.PreviewCommand;
 import me.huntifi.castlesiege.commands.info.SecretsCommand;
 import me.huntifi.castlesiege.commands.info.TeamsCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.LeaderboardCommand;
@@ -442,6 +443,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("MyStats")).setExecutor(new MyStatsCommand());
                 Objects.requireNonNull(getCommand("Secrets")).setExecutor(new SecretsCommand());
                 Objects.requireNonNull(getCommand("Teams")).setExecutor(new TeamsCommand());
+                Objects.requireNonNull(getCommand("Preview")).setExecutor(new PreviewCommand());
 
                 // Leaderboards
                 Objects.requireNonNull(getCommand("Top")).setExecutor(new LeaderboardCommand());

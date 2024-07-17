@@ -100,6 +100,9 @@ commands:
   Teams:
     description: Shows the size and name of all teams on the current map
     usage: /teams
+  Preview:
+    description: Shows a GUI detailing the kit's items and abilities
+    usage: /preview <kit>
 
   Help:
     description: Test

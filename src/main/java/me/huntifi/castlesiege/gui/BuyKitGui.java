@@ -26,16 +26,18 @@ public class BuyKitGui {
     private final Gui gui;
 
     public BuyKitGui(Kit kit, int cost, Player player) {
-        this.gui = new Gui(Component.text(kit.name), 6);
+        this.gui = new Gui(Component.text(kit.name), cost > 0 ? 6 : 5);
 
-        // Buy blocks
-        for (int loc = 45; loc < (54); loc++) {
-            int balance = (int) ActiveData.getData(player.getUniqueId()).getCoins();
-            gui.addItem(Component.text("Purchase Kit", NamedTextColor.GOLD, TextDecoration.BOLD), Material.GOLD_BLOCK,
-                    List.of(Component.text(" "),
-                            Messenger.mm.deserialize("<blue>Cost: <gold><b>" + cost + "</b>⛃"),
-                            Messenger.mm.deserialize("<dark_aqua>Balance: " + (balance < cost ? "<red>" : "<green>") + balance + "⛃")),
-                    loc, "buykit " + kit.getSpacelessName() + " " + player.getName(), true);
+        if (cost > 0) {
+            // Buy blocks
+            for (int loc = 45; loc < (54); loc++) {
+                int balance = (int) ActiveData.getData(player.getUniqueId()).getCoins();
+                gui.addItem(Component.text("Purchase Kit", NamedTextColor.GOLD, TextDecoration.BOLD), Material.GOLD_BLOCK,
+                        List.of(Component.text(" "),
+                                Messenger.mm.deserialize("<blue>Cost: <gold><b>" + cost + "</b>⛃"),
+                                Messenger.mm.deserialize("<dark_aqua>Balance: " + (balance < cost ? "<red>" : "<green>") + balance + "⛃")),
+                        loc, "buykit " + kit.getSpacelessName() + " " + player.getName(), true);
+            }
         }
 
         // Equipment
