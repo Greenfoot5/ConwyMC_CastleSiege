@@ -457,13 +457,14 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatchCommand());
                 Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatchCommand());
 
-                // Staff - Boosters
+                // Debug
                 Objects.requireNonNull(getCommand("GrantBooster")).setExecutor(new GrantBoosterCommand());
+                Objects.requireNonNull(getCommand("Tip")).setExecutor(new Tips());
+                Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
+                Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
 
                 // Staff
-                Objects.requireNonNull(getCommand("CSReload")).setExecutor(new ReloadCommand());
                 Objects.requireNonNull(getCommand("Curse")).setExecutor(new CurseCommand());
-                Objects.requireNonNull(getCommand("GiveVote")).setExecutor(new GiveVoteCommand());
                 Objects.requireNonNull(getCommand("NextMap")).setExecutor(new NextMapCommand());
                 Objects.requireNonNull(getCommand("SetKit")).setExecutor(new SetKitCommand());
                 Objects.requireNonNull(getCommand("SetKitLimit")).setExecutor(new SetKitLimitCommand());

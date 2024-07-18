@@ -154,30 +154,43 @@ commands:
     aliases:
       - topbounty
 
-  # Staff - Boosters
+  # Debug
   GrantBooster:
     description: Grants a booster to a player
     usage: /grantbooster <player> <type> <duration> [other_args]
-    permission: conwymc.moderator
+    permission: conwymc.developer
     permission-message: You are now permitted to use this command!
     aliases:
       - grantboost
-
-
-  # Staff - Misc
   CSReload:
     description: Reloads the Castle Siege Plugin
     usage: /csreload
     permission: conwymc.developer
     permission-message: You are not permitted to use this command!
-  Curse:
-    description: Manages the active curses
-    usage: /curse [curse]
-    permission: conwymc.chatmod+
+  Tip:
+    description: Broadcasts a new tip
+    usage: /tip
+    permission: conwymc.developer
+  SetMap:
+    description: Skips to the specified map in the rotation
+    usage: /setmap <map name>
+    permission: conwymc.developer
     permission-message: You are not permitted to use this command!
   GiveVote:
     description: Give a player vote rewards
     usage: /givevote <player> <vote>
+    permission: conwymc.chatmod+
+    permission-message: You are not permitted to use this command!
+#  SetTag:
+#    description: Set a nametag prefix
+#    usage: /settag <tag>
+#    permission: conwymc.developer
+
+
+  # Staff - Misc
+  Curse:
+    description: Manages the active curses
+    usage: /curse [curse]
     permission: conwymc.chatmod+
     permission-message: You are not permitted to use this command!
   NextMap:
@@ -188,17 +201,12 @@ commands:
   SetKit:
     description: Sets the kit for a player
     usage: /setkit <player> [kit]
-    permission: conwymc.developer
+    permission: conwymc.moderator
     permission-message: You are not permitted to use this command!
   SetKitLimit:
     description: Sets the player limit per team for a kit
     usage: /setkitlimit <kit> <limit>
     permission: conwymc.chatmod+
-    permission-message: You are not permitted to use this command!
-  SetMap:
-    description: Skips to the specified map in the rotation
-    usage: /setmap <map name>
-    permission: conwymc.developer
     permission-message: You are not permitted to use this command!
   SetTimer:
     description: Sets the time left on the map to the specified time
@@ -232,10 +240,6 @@ commands:
     usage: /start
     permission: conwymc.chatmod+
     permission-message: You are not permitted to use this command!
-  SetTag:
-    description: Set a nametag prefix
-    usage: /settag <tag>
-    permission: conwymc.developer
   ToggleForcedRandom:
     description: Disables/Enables forced randomDeath setting
     usage: /toggleforcedrandom [true/false]
