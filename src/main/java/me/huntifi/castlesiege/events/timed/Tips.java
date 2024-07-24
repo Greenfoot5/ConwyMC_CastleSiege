@@ -130,8 +130,6 @@ public class Tips extends BukkitRunnable implements CommandExecutor {
     private Tag cmd(final ArgumentQueue args, final Context ctx) {
         final String command = args.popOr("The <cmd> tag requires exactly one argument, the command to suggest").value();
 
-        System.out.println("Command is " + command);
-
         return Tag.styling(
                 NamedTextColor.YELLOW,
                 ClickEvent.suggestCommand(command)
