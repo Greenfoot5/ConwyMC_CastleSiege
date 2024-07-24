@@ -109,7 +109,7 @@ public class Archer extends FreeKit implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.LOW)
 	public void onArrowHit(ProjectileHitEvent e) {
-		if (!(e.getEntity() instanceof AbstractArrow) &&
+		if (!(e.getEntity() instanceof AbstractArrow) ||
 				!(e.getEntity().getShooter() instanceof Player))
 			return;
 
