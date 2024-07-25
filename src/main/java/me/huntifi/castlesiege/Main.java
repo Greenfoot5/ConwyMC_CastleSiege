@@ -12,6 +12,7 @@ import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
 import me.huntifi.castlesiege.advancements.CSAdvancementController;
+import io.lumine.mythic.bukkit.MythicBukkit;
 import me.huntifi.castlesiege.commands.chat.TeamChatCommand;
 import me.huntifi.castlesiege.commands.donator.FireworkCommand;
 import me.huntifi.castlesiege.commands.donator.DuelCommand;
@@ -142,16 +143,8 @@ import me.huntifi.castlesiege.kits.kits.voter_kits.FireArcher;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Scout;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Skirmisher;
-import me.huntifi.castlesiege.maps.CoreMap;
-import me.huntifi.castlesiege.maps.Gamemode;
+import me.huntifi.castlesiege.maps.*;
 import me.huntifi.castlesiege.maps.Hommet.CollapseEvent;
-import me.huntifi.castlesiege.maps.Lobby;
-import me.huntifi.castlesiege.maps.Map;
-import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.Scoreboard;
-import me.huntifi.castlesiege.maps.Team;
-import me.huntifi.castlesiege.maps.WoolMap;
-import me.huntifi.castlesiege.maps.WoolMapBlock;
 import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.maps.objects.ButtonDoor;
@@ -407,6 +400,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 //mythic stuff
                 getServer().getPluginManager().registerEvents(new MythicListener(), plugin);
+                MythicBukkit.inst().getPlayerManager().registerFactionProvider(new TeamController());
 
                 // Misc
                 getServer().getPluginManager().registerEvents(new CSNameTag(), plugin);

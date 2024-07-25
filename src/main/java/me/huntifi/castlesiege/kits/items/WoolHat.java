@@ -34,7 +34,10 @@ public class WoolHat implements Listener {
 	 */
 	public static void setHead(Player player) {
 		Team team = TeamController.getTeam(player.getUniqueId());
+		player.getInventory().setHelmet(getWool(team));
+	}
 
+	public static ItemStack getWool(Team team) {
 		ItemStack wool;
 		if (hideTeamColour || trueHideTeamColour)
 			wool = new ItemStack(Material.WHITE_WOOL);
@@ -44,7 +47,7 @@ public class WoolHat implements Listener {
 		assert woolMeta != null;
 		woolMeta.displayName(Component.text("WoolHat", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
 		wool.setItemMeta(woolMeta);
-		player.getInventory().setHelmet(wool);
+		return wool;
 	}
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)

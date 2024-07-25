@@ -2,6 +2,10 @@ package me.huntifi.castlesiege.maps;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
+import io.lumine.mythic.api.mobs.MythicMob;
+import io.lumine.mythic.api.skills.placeholders.PlaceholderString;
+import io.lumine.mythic.bukkit.MythicBukkit;
+import io.lumine.mythic.core.mobs.ActiveMob;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.commands.donator.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
@@ -19,6 +23,7 @@ import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
+import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.SignKit;
@@ -40,14 +45,12 @@ import me.huntifi.conwymc.gui.Gui;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.GameRule;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.SQLException;
@@ -593,8 +596,24 @@ public class MapController {
 								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(maps.get(mapIndex).worldName)))))
 								.addRegion(flag.region);
 
-						if (flag.isActive())
+						if (flag.isActive()) {
 							flag.createHologram();
+							MythicMob mob = MythicBukkit.inst().getMobManager().getMythicMob("Scout").orElse(null);
+							Location spawnLocation = flag.getSpawnPoint();
+							if(mob != null){
+								mob.setFaction(flag.getCurrentOwners());
+								Team team = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
+								mob.setDisplayName(PlaceholderString.of("<" + team.primaryChatColor.toString() + ">Minion"));
+
+								// spawns mob
+								ActiveMob knight = mob.spawn(io.lumine.mythic.bukkit.BukkitAdapter.adapt(spawnLocation),1);
+
+								// get mob as bukkit entity
+								Entity entity = knight.getEntity().getBukkitEntity();
+								LivingEntity le = (LivingEntity) entity;
+								le.getEquipment().setHelmet(WoolHat.getWool(MapController.getCurrentMap().getTeam(flag.getCurrentOwners())), true);
+							}
+						}
 					}
 				}
 
