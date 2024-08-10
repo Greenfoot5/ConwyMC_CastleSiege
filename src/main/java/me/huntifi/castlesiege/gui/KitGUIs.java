@@ -20,13 +20,13 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Viking;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
-import me.huntifi.castlesiege.kits.kits.level_kits.Shieldman;
-import me.huntifi.castlesiege.kits.kits.level_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.kits.kits.in_development.Armorer;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.huntifi.castlesiege.kits.kits.level_kits.Hypaspist;
+import me.huntifi.castlesiege.kits.kits.level_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.level_kits.SpearKnight;
+import me.huntifi.castlesiege.kits.kits.level_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.staff_kits.Warbear;
 import me.huntifi.castlesiege.kits.kits.voter_kits.FireArcher;
 import me.huntifi.castlesiege.kits.kits.voter_kits.Ladderman;
@@ -37,6 +37,9 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 
 import java.util.Collections;
 
@@ -83,7 +86,17 @@ public class KitGUIs {
      */
     // TODO - Maybe list how many of the total have been collected?
     private static Gui selector() {
-        Gui gui = new Gui(Component.text("Categories"), 6);
+        Gui gui = new Gui(Component.text("Select a category"), 6);
+
+        ItemStack background = new ItemStack(Material.CARROT_ON_A_STICK);
+        Damageable bGMeta = (Damageable) background.getItemMeta();
+        bGMeta.setDamage(1);
+        bGMeta.setUnbreakable(true);
+        bGMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ATTRIBUTES);
+        bGMeta.displayName(Component.text(" "));
+        background.setItemMeta(bGMeta);
+        gui.setItem(background, 0, null, false);
+
         gui.addItem(Component.text("Damager", NamedTextColor.GREEN), Material.IRON_SWORD,
                 Collections.singletonList(Component.text("Select a damager kit here!", NamedTextColor.DARK_GREEN)),
                         11, "kit damage", true);
