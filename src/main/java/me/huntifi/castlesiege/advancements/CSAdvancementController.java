@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.advancements;
 
 import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
+import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement;
 import com.fren_gor.ultimateAdvancementAPI.events.PlayerLoadingCompletedEvent;
 import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
 import me.huntifi.castlesiege.advancements.displays.NodeDisplay;
@@ -39,10 +40,13 @@ public class CSAdvancementController implements Listener {
         // Events
         EventsAdvancements.tab.showTab(p);
         EventsAdvancements.tab.grantRootAdvancement(p);
-        // There's only one advancement
-        EventsAdvancements.tab.getAdvancement(new AdvancementKey("v4_beta", NodeDisplay.cleanKey("V4 Tester"))).grant(p);
-        Cosmetic V4Tester = new Cosmetic(TITLE, "V4 Tester", "<color:#1ECDD5>⁎⁑<b><color:#00C3EE>V4</b>⁑⁎");
-        PlayerData data = ActiveData.getData(p.getUniqueId());
-        data.addCosmetic(V4Tester);
+        // Grant the V4Tester advancement
+        Advancement V4TAdv = EventsAdvancements.tab.getAdvancement(new AdvancementKey("v4_beta", NodeDisplay.cleanKey("V4 Tester")));
+        if (!V4TAdv.isGranted(p)) {
+            V4TAdv.grant(p);
+            Cosmetic V4Tester = new Cosmetic(TITLE, "V4 Tester", "<color:#1ECDD5>⁎⁑<b><color:#00C3EE>V4</b>⁑⁎");
+            PlayerData data = ActiveData.getData(p.getUniqueId());
+            data.addCosmetic(V4Tester);
+        }
     }
 }

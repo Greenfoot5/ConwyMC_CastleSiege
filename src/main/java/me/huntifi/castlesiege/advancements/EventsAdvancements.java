@@ -18,17 +18,20 @@ public class EventsAdvancements {
         tab = CSAdvancementController.api.createAdvancementTab("v4_beta");
 
         AdvancementNode rootNode = new AdvancementNode(Material.GOAT_HORN, AdvancementFrameType.TASK,
-                "<white>V4 Beta", "<dark_green>Join the game during the event period",
+                "<white>ConwyMC V4", "<dark_green>Celebrate the release of ConwyMC V4!",
                 NodeDisplayTypes.ParentGranted);
 
         // Cannons
-        rootNode.addChild(new AdvancementNode(Material.WARPED_BUTTON, AdvancementFrameType.TASK,
+        rootNode.addChild(new AdvancementNode(Material.WARPED_FUNGUS, AdvancementFrameType.TASK,
                 "V4 Tester",
-                "Join the game before V4's release<br><br><gold><b>Reward: </gold><br><green>V4 Tester Title<br>" +
-                        "<gold><b>Preview: </gold><blue>⁎⁑<b>V4</b>⁑⁎",
-                "V4 Beta"));
+                "Join the game before V4's release<br><br><gold><b>Reward: </gold><br><green>V4 Tester Title<br>",
+                "ConwyMC V4"));
+        rootNode.addChild(new AdvancementNode(Material.CRIMSON_FUNGUS, AdvancementFrameType.TASK,
+                "V4 Release",
+                "Donate to the server in the first month after V4's release<br><br><gold><b>Reward: </gold><br><green>V4 Release Title<br>",
+                "ConwyMC V4"));
 
-        Tuple<RootAdvancement, BaseAdvancement[]> advs = rootNode.asAdvancementList(tab, "textures/block/warped_stem.png");
+        Tuple<RootAdvancement, BaseAdvancement[]> advs = rootNode.asAdvancementList(tab, "textures/block/stripped_warped_stem_top.png");
         advancements = advs.getSecond();
 
         tab.registerAdvancements(advs.getFirst(), advancements);
