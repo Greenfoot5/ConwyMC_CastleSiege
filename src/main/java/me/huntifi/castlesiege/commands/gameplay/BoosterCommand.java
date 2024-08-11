@@ -98,11 +98,11 @@ public class BoosterCommand implements CommandExecutor, Listener {
                     // Allow the user to input a kit
                     if (kBooster.kitName.equalsIgnoreCase("WILD")) {
                         if (waitingForWildKit.containsKey(uuid)) {
-                            Messenger.sendError("You're already trying to input an elite kit!", sender);
+                            Messenger.sendError("You're already trying to input an coin kit!", sender);
                             return;
                         }
 
-                        Messenger.requestInput("Enter the elite kit (one word, capitalise names) to boost in chat: (" + inputWaitDuration + "s)", sender);
+                        Messenger.requestInput("Enter the coin kit (one word, capitalise names) to boost in chat: (" + inputWaitDuration + "s)", sender);
                         waitingForWildKit.put(player.getUniqueId(), kBooster);
                         new BukkitRunnable() {
                             @Override
@@ -119,6 +119,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
                     if (kBooster.kitName.equalsIgnoreCase("RANDOM")) {
                         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                             ArrayList<String> dKits = (ArrayList<String>) CoinKit.getKits();
+                            dKits.remove(CoinKit.boostedKits);
                             kBooster.kitName = dKits.get(new Random().nextInt(dKits.size()));
                             data.useBooster(uuid, kBooster);
                             removeBooster(kBooster.id, uuid);
@@ -158,7 +159,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
         e.setCancelled(true);
 
         Kit kit = Kit.getKit(message.trim());
-        if (kit instanceof CoinKit) {
+        if (kit instanceof CoinKit && !CoinKit.boostedKits.contains(kit.getSpacelessName())) {
             KitBooster booster = waitingForWildKit.get(uuid);
             booster.kitName = message;
             CSPlayerData data = CSActiveData.getData(uuid);
@@ -168,7 +169,12 @@ public class BoosterCommand implements CommandExecutor, Listener {
                 activateBooster(booster, uuid);
             });
         } else {
-            Messenger.sendError("Invalid kit name!", player);
+            if (kit instanceof CoinKit) {
+                Messenger.sendError("That kit is already being boosted!", player);
+            }
+            else {
+                Messenger.sendError("Invalid coin kit name!", player);
+            }
         }
         waitingForWildKit.remove(uuid);
     }

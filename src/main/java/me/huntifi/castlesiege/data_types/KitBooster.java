@@ -51,9 +51,9 @@ public class KitBooster extends Booster {
     public List<Component> getLore() {
         List<Component> lore = super.getLore();
         if (kitName.equalsIgnoreCase("wild")) {
-            lore.add(Component.text("Choose which elite kit gets boosted!", NamedTextColor.GREEN));
+            lore.add(Component.text("Choose which coin kit gets boosted!", NamedTextColor.GREEN));
         } else if (kitName.equalsIgnoreCase("random")) {
-            lore.add(Component.text("A random elite kit gets boosted!", NamedTextColor.YELLOW));
+            lore.add(Component.text("A random coin kit gets boosted!", NamedTextColor.YELLOW));
         } else {
             lore.add(Component.text(kitName + " gets boosted!", NamedTextColor.GREEN));
         }

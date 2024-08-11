@@ -7,7 +7,9 @@ import me.huntifi.castlesiege.data_types.CoinBooster;
 import me.huntifi.castlesiege.data_types.KitBooster;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.database.LoadData;
+import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.StaffKit;
 import me.huntifi.conwymc.util.Messenger;
 import me.huntifi.conwymc.util.PunishmentTime;
 import org.bukkit.Bukkit;
@@ -113,7 +115,8 @@ public class GrantBoosterCommand implements TabExecutor {
                 }
 
                 String kitName = args[3];
-                if (Kit.getKit(kitName) == null
+                if (CoinKit.getKit(kitName) == null
+                        && StaffKit.getKit(kitName) == null
                         && !kitName.equalsIgnoreCase("WILD")
                         && !kitName.equalsIgnoreCase("RANDOM")) {
                     Messenger.sendError("Invalid kit name, nor \"wild\" nor \"random\"!", sender);
@@ -169,7 +172,6 @@ public class GrantBoosterCommand implements TabExecutor {
             ps.setString(2, booster.getBoostType());
             ps.setInt(3, booster.duration);
             ps.setString(4, booster.getValue());
-            ps.setInt(5, booster.id);
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -179,8 +181,8 @@ public class GrantBoosterCommand implements TabExecutor {
     }
 
     private static String getQuery() {
-        return "INSERT INTO player_boosters (uuid, booster_type, duration, boost_value, ID)\n" +
-                "VALUES (?, ?, ?, ?, ?);";
+        return "INSERT INTO player_boosters (uuid, booster_type, duration, boost_value)\n" +
+                "VALUES (?, ?, ?, ?);";
     }
 
     private void sendConfirmMessage(CommandSender sender) {
