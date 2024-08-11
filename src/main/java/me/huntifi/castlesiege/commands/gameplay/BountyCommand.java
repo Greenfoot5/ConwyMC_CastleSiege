@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.advancements.LevelAdvancements;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.misc.CSNameTag;
@@ -40,20 +41,39 @@ public class BountyCommand implements CommandExecutor {
             return true;
         }
 
+        // Check args count
         if (args.length != 2 && args.length != 1) {
             return false;
         }
 
+        // Get player
         Player bountied = Bukkit.getPlayer(args[0]);
         if (bountied == null) {
             Messenger.sendError("That's not a valid player!", sender);
             return true;
         }
+        CSPlayerData bountiedData = CSActiveData.getData(bountied.getUniqueId());
+        if (bountiedData != null && bountiedData.getLevel() >= MIN_BOUNTY) {
+            Messenger.sendError(bountied.getName() + " must be at least <green>level " + LevelAdvancements.BOUNTY_LEVEL + "</green> to gain a player-set bounty.", sender);
+        }
+
 
         if (args.length == 1) {
             int amount = getBounty(bountied.getUniqueId());
-            Messenger.sendBounty(CSNameTag.username(bountied) + " has a bounty of <gold>" + amount + "</gold> coins on their head.", sender);
+            Messenger.sendBounty(CSNameTag.mmUsername(bountied) + " has a bounty of <gold>" + amount + "</gold> coins on their head.", sender);
             return true;
+        }
+
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            CSPlayerData data = CSActiveData.getData(p.getUniqueId());
+            if (data != null) {
+                int level = data.getLevel();
+                if (level < LevelAdvancements.BOUNTY_LEVEL) {
+                    Messenger.sendError("You need to be <green>level " + LevelAdvancements.BOUNTY_LEVEL + "</green> to add bounties to players.", sender);
+                    return true;
+                }
+            }
         }
 
         int amount = Integer.parseInt(args[1]);
@@ -72,10 +92,12 @@ public class BountyCommand implements CommandExecutor {
         }
 
         Player payee = (Player) sender;
+
         if (!CSActiveData.getData(payee.getUniqueId()).takeCoins(amount)) {
             Messenger.sendError("You don't have enough coins to do that!", sender);
             return true;
         }
+
         int totalBounty = getAndAddBounty(bountied.getUniqueId(), amount);
         Messenger.broadcastPaidBounty(CSNameTag.mmUsername(payee),
                 CSNameTag.mmUsername(bountied), amount, totalBounty);
