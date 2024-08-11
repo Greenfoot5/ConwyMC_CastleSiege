@@ -6,6 +6,8 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
 import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
+import me.huntifi.castlesiege.advancements.displays.NodeDisplay;
+import me.huntifi.castlesiege.advancements.displays.NodeDisplayTypes;
 import me.huntifi.castlesiege.events.map.CannonEvent;
 import me.huntifi.castlesiege.events.map.RamEvent;
 import me.huntifi.conwymc.data_types.Tuple;
@@ -31,7 +33,8 @@ public class TutorialAdvancements{
         tab = CSAdvancementController.api.createAdvancementTab("siege_tutorial");
 
         AdvancementNode rootNode = new AdvancementNode(Material.BOOK, AdvancementFrameType.TASK,
-                "<white>Castle Siege", "<dark_green>Learn how to play Castle Siege");
+                "<white>Castle Siege", "<dark_green>Learn how to play Castle Siege",
+                NodeDisplayTypes.Vanilla);
 
         // Cannons
         rootNode.addChild(new AdvancementNode(Material.BLACK_CONCRETE, AdvancementFrameType.TASK,
@@ -99,7 +102,7 @@ public class TutorialAdvancements{
     private void onCannonEvent(CannonEvent event) {
         if (event.isCancelled()) return;
 
-        tab.getAdvancement(new AdvancementKey("siege_tutorial", AdvancementNode.cleanKey("Shooting Cannons"))).grant(event.getShooter());
+        tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Shooting Cannons"))).grant(event.getShooter());
     }
 
     private void onRamEvent(RamEvent event) {
@@ -114,10 +117,10 @@ public class TutorialAdvancements{
             ramAttackers.get(event.getGateName()).add(uuid);
 
             Player p = Bukkit.getPlayer(uuid);
-            tab.getAdvancement(new AdvancementKey("siege_tutorial", AdvancementNode.cleanKey("Ramming Gates"))).grant(p);
+            tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Ramming Gates"))).grant(p);
 
             if (event.getPlayerUUIDs().size() >= 4) {
-                tab.getAdvancement(new AdvancementKey("siege_tutorial", AdvancementNode.cleanKey("Lift with your back"))).grant(p);
+                tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Lift with your back"))).grant(p);
             }
         }
 
@@ -127,7 +130,7 @@ public class TutorialAdvancements{
         }
 
         if (ramAttackers.get(event.getGateName()).size() > 1) {
-            Advancement breachAdv = tab.getAdvancement(new AdvancementKey("siege_tutorial", AdvancementNode.cleanKey("Ramming Gates")));
+            Advancement breachAdv = tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Ramming Gates")));
             for (UUID uuid : ramAttackers.get(event.getGateName())) {
                 Player contributor = Bukkit.getPlayer(uuid);
                 if (contributor != null) {

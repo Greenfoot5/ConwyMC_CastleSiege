@@ -4,10 +4,14 @@ import com.fren_gor.ultimateAdvancementAPI.AdvancementTab;
 import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
-import me.huntifi.conwymc.advancements.AdventureAdvancementDisplay;
+import me.huntifi.castlesiege.advancements.displays.HiddenNodeDisplay;
+import me.huntifi.castlesiege.advancements.displays.NodeDisplay;
+import me.huntifi.castlesiege.advancements.displays.NodeDisplayTypes;
+import me.huntifi.castlesiege.advancements.displays.ParentGrantedNodeDisplay;
+import me.huntifi.castlesiege.advancements.displays.ShownNodeDisplay;
+import me.huntifi.castlesiege.advancements.displays.VanillaNodeDisplay;
 import me.huntifi.conwymc.data_types.Tuple;
 import org.bukkit.Material;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,10 +27,12 @@ public class AdvancementNode {
     // DAG Node
     private final String parent;
     private final List<AdvancementNode> children;
+    // Display Type
+    private NodeDisplayTypes displayType;
 
     // New root node
-    public AdvancementNode(Material icon, AdvancementFrameType frameType, String title, String description) {
-        this(icon, frameType, title, description, null);
+    public AdvancementNode(Material icon, AdvancementFrameType frameType, String title, String description, NodeDisplayTypes displayType) {
+        this(icon, frameType, title, description, null, displayType);
     }
 
     // New node with parent
@@ -34,24 +40,44 @@ public class AdvancementNode {
         this.icon = icon;
         this.frameType = frameType;
         this.title = title;
-        this.key = cleanKey(title);
+        this.key = NodeDisplay.cleanKey(title);
         this.description = description;
 
-        this.parent = cleanKey(parent);
+        this.parent = NodeDisplay.cleanKey(parent);
         this.children = new ArrayList<>();
+
+        this.displayType = null;
+    }
+
+    // New node with parent
+    public AdvancementNode(Material icon, AdvancementFrameType frameType, String title, String description, String parent, NodeDisplayTypes displayType) {
+        this.icon = icon;
+        this.frameType = frameType;
+        this.title = title;
+        this.key = NodeDisplay.cleanKey(title);
+        this.description = description;
+
+        this.parent = NodeDisplay.cleanKey(parent);
+        this.children = new ArrayList<>();
+
+        this.displayType = displayType;
     }
 
     // Adds a child based on their parent
     public void addChild(AdvancementNode child) {
-        if (child.parent.equalsIgnoreCase(key))
+        if (child.parent.equalsIgnoreCase(key)) {
+            if (child.displayType == null) {
+                child.displayType = displayType;
+            }
             this.children.add(child);
-        else
+        } else {
             find(child.parent).addChild(child);
+        }
     }
 
     // Gets a node (either itself or child) based on key
     public AdvancementNode find(String key) {
-        key = cleanKey(key);
+        key = NodeDisplay.cleanKey(key);
         if (this.key.equalsIgnoreCase(key)) {
             return this;
         }
@@ -89,8 +115,23 @@ public class AdvancementNode {
             }
             y = (int) Math.round(min_y + (y_size - 1.0) / 2);
         }
-        NodeDisplay display = new NodeDisplay(icon, frameType, true,
-                frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
+        NodeDisplay display;
+        switch (displayType) {
+            case Hidden:
+                display = new HiddenNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
+                break;
+            case ParentGranted:
+                display = new ParentGrantedNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
+                break;
+            case Vanilla:
+                display = new VanillaNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
+                break;
+            case Shown:
+                display = new ShownNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
+                break;
+            default:
+                throw new RuntimeException("Unknown advancement display type for " + title);
+        }
         displays.put(key, display);
         return new Tuple<>(displays, y_size);
     }
@@ -108,12 +149,12 @@ public class AdvancementNode {
             // Add the advancements
             for (String key : displays.keySet()) {
                 // Parent is root
-                if (displays.get(key).parentKey.equals(this.key)) {
+                if (displays.get(key).getParentKey().equals(this.key)) {
                     advancements.put(key, new BaseAdvancement(key, displays.get(key), root));
                 }
                 // Parent is an existing advancement
-                else if (advancements.containsKey(displays.get(key).parentKey)) {
-                    advancements.put(key, new BaseAdvancement(key, displays.get(key), advancements.get(displays.get(key).parentKey)));
+                else if (advancements.containsKey(displays.get(key).getParentKey())) {
+                    advancements.put(key, new BaseAdvancement(key, displays.get(key), advancements.get(displays.get(key).getParentKey())));
                 }
                 // Parent doesn't exist yet
                 else {
@@ -124,27 +165,5 @@ public class AdvancementNode {
             i++;
         }
         return new Tuple<>(root, advancements.values().toArray(new BaseAdvancement[0]));
-    }
-
-    /**
-     * Remove invalid characters for a key
-     * @param input The key to clean
-     * @return A cleaned key allowing [a-zA-Z0-9|._\-\/]
-     */
-    public static String cleanKey(String input) {
-        if (input == null) return null;
-        // Remove MiniMessage
-        input = input.toLowerCase().replaceAll("<.*?>", "");
-        // Remove illegal characters
-        return input.toLowerCase().replaceAll("[^a-zA-Z0-9|._\\-/]","");
-    }
-
-    private class NodeDisplay extends AdventureAdvancementDisplay {
-        public String parentKey;
-
-        public NodeDisplay(@NotNull Material icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y, @NotNull String title, @NotNull String description, String parent) {
-            super(icon, frame, showToast, announceChat, x, y, title, description);
-            this.parentKey = cleanKey(parent);
-        }
     }
 }
