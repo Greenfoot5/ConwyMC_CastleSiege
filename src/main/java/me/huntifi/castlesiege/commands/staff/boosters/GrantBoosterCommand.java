@@ -83,7 +83,7 @@ public class GrantBoosterCommand implements TabExecutor {
         String type = args[1];
         int duration;
         try {
-            duration = (int) PunishmentTime.getDuration(args[2]);
+            duration = (int) PunishmentTime.getDuration(args[2]) / 1000;
         } catch (NumberFormatException ex) {
             Messenger.sendError("Duration not a valid number! It should be an amount of seconds", sender);
             return null;
