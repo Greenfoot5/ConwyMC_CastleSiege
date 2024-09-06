@@ -1,8 +1,11 @@
 package me.huntifi.castlesiege.maps;
 
+import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
+import me.huntifi.castlesiege.advancements.TutorialAdvancements;
+import me.huntifi.castlesiege.advancements.displays.NodeDisplay;
 import me.huntifi.castlesiege.commands.donator.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
@@ -18,12 +21,12 @@ import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
+import me.huntifi.castlesiege.events.map.NextMapEvent;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.events.map.NextMapEvent;
 import me.huntifi.castlesiege.maps.objects.Cannon;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Core;
@@ -276,6 +279,14 @@ public class MapController {
 
 				if (team.getName().equals(winners)) {
 					giveCoinReward(team);
+					Tuple<UUID, CSStats> mvp = team.getMVP();
+					if (mvp != null) {
+						Player player = Bukkit.getPlayer(mvp.getFirst());
+						if (player == null) {
+							player = Bukkit.getOfflinePlayer(mvp.getFirst()).getPlayer();
+						}
+						TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Simply the best"))).grant(player);
+					}
 				}
 
 			}
@@ -323,6 +334,7 @@ public class MapController {
 			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
 				CSActiveData.getData(p.getUniqueId()).addCoins(50 * CSPlayerData.getCoinMultiplier());
 				Messenger.sendSuccess("<gold>+" + (50 * CSPlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
+				TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Winner Winner Chicken Dinner"))).grant(p);
 			}
 		}
 	}
