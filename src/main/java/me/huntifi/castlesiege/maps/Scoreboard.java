@@ -110,7 +110,7 @@ public class Scoreboard implements Runnable {
 			if (data != null) {
 				if (data.getSetting("scoreboard").startsWith("flag")) {
 					flagSidebar.addPlayer(online);
-					return;
+					continue;
 				}
 
 				if (!statsSidebars.containsKey(uuid)) {
