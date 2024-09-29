@@ -35,13 +35,13 @@ public class Guardian extends SignKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                Component.text("Sword", NamedTextColor.GREEN), null, null, 41);
+                Component.text("Sword", NamedTextColor.GREEN), null, null, 36);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         Component.text("Sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 43),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 38),
                 0);
 
         // Shield

@@ -18,9 +18,9 @@ import java.util.List;
  * The swordsman kit
  */
 public class Swordsman extends FreeKit {
-	private static final int health = 390;
+	private static final int health = 430;
 	private static final double regen = 10.5;
-	private static final double meleeDamage = 43;
+	private static final double meleeDamage = 40.5;
 	private static final int ladderCount = 4;
 
 	/**

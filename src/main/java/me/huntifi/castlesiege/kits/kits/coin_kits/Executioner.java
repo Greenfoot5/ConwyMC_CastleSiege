@@ -36,9 +36,9 @@ import java.util.Objects;
  */
 public class Executioner extends CoinKit implements Listener {
 
-	private static final int health = 210;
-	private static final double regen = 15;
-	private static final double meleeDamage = 48;
+	private static final int health = 248;
+	private static final double regen = 12.5;
+	private static final double meleeDamage = 42.5;
 	private static final int ladderCount = 4;
 
 	/**

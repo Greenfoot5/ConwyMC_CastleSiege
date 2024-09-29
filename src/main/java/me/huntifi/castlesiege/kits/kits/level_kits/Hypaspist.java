@@ -40,7 +40,7 @@ public class Hypaspist extends LevelKit implements Listener {
     private static final int health = 460;
     private static final double regen = 10.5;
     private static final double meleeDamage = 30;
-    private static final double throwDamage = 45;
+    private static final double throwDamage = 72;
     private static final int ladderCount = 4;
     private static final int level = 20;
 

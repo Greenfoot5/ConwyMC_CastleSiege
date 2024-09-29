@@ -24,7 +24,7 @@ public class CamelRider extends SignKit implements Listener {
 
     private static final int health = 360;
     private static final double regen = 10.5;
-    private static final double meleeDamage = 43;
+    private static final double meleeDamage = 40.5;
     private static final int ladderCount = 4;
     private static final int camelHealth = 440;
 

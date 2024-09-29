@@ -43,13 +43,13 @@ public class Lancer extends SignKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                Component.text("Sword", NamedTextColor.GREEN), null, null, 35.5);
+                Component.text("Sword", NamedTextColor.GREEN), null, null, 40.5);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37.5),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 42.5),
                 0);
 
         // Weapon

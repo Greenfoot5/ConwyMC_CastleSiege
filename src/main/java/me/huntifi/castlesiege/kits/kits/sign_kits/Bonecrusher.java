@@ -32,7 +32,7 @@ public class Bonecrusher extends SignKit implements Listener {
      * Creates a new Moria Bonecrusher
      */
     public Bonecrusher() {
-        super("Bonecrusher", 300, 8, Material.BONE, 4000);
+        super("Bonecrusher", 300, 8, Material.BONE, 2500);
 
 
         // Equipment Stuff

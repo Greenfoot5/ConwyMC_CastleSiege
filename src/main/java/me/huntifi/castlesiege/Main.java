@@ -109,6 +109,9 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Viking;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
+import me.huntifi.castlesiege.kits.kits.in_development.Buccaneer;
+import me.huntifi.castlesiege.kits.kits.in_development.Gunner;
+import me.huntifi.castlesiege.kits.kits.in_development.Pirate;
 import me.huntifi.castlesiege.kits.kits.level_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.level_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
@@ -355,6 +358,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new MapProtection(), plugin);
 
                 // Kits
+                getServer().getPluginManager().registerEvents(new Abyssal(), plugin);
                 getServer().getPluginManager().registerEvents(new Alchemist(), plugin);
                 getServer().getPluginManager().registerEvents(new Archer(), plugin);
                 getServer().getPluginManager().registerEvents(new Artillerist(), plugin);
@@ -363,6 +367,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Barbarian(), plugin);
                 getServer().getPluginManager().registerEvents(new Bannerman(), plugin);
                 getServer().getPluginManager().registerEvents(new BattleMedic(), plugin);
+                getServer().getPluginManager().registerEvents(new Buccaneer(), plugin);
                 getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new CamelRider(), plugin);
@@ -375,7 +380,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Elytrier(), plugin);
                 getServer().getPluginManager().registerEvents(new Executioner(), plugin);
                 getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
-                getServer().getPluginManager().registerEvents(new Abyssal(), plugin);
+                getServer().getPluginManager().registerEvents(new Gunner(), plugin);
                 getServer().getPluginManager().registerEvents(new Hellsteed(), plugin);
                 getServer().getPluginManager().registerEvents(new Hypaspist(), plugin);
                 getServer().getPluginManager().registerEvents(new Axeman(), plugin);
@@ -392,8 +397,9 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new CaveTroll(), plugin);
                 getServer().getPluginManager().registerEvents(new Guardian(), plugin);
                 getServer().getPluginManager().registerEvents(new MoriaOrc(), plugin);
-                getServer().getPluginManager().registerEvents(new Priest(), plugin);
                 getServer().getPluginManager().registerEvents(new Paladin(), plugin);
+                getServer().getPluginManager().registerEvents(new Pirate(), plugin);
+                getServer().getPluginManager().registerEvents(new Priest(), plugin);
                 getServer().getPluginManager().registerEvents(new Rogue(), plugin);
                 getServer().getPluginManager().registerEvents(new Ranger(), plugin);
                 getServer().getPluginManager().registerEvents(new SpearKnight(), plugin);
@@ -490,6 +496,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Bannerman")).setExecutor(new Bannerman());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
                 Objects.requireNonNull(getCommand("Barbarian")).setExecutor(new Barbarian());
+                Objects.requireNonNull(getCommand("Buccaneer")).setExecutor(new Buccaneer());
                 Objects.requireNonNull(getCommand("Constructor")).setExecutor(new Constructor());
                 Objects.requireNonNull(getCommand("Arbalester")).setExecutor(new Arbalester());
                 Objects.requireNonNull(getCommand("Longbowman")).setExecutor(new Longbowman());
@@ -504,6 +511,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Elytrier")).setExecutor(new Elytrier());
                 Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
                 Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
+                Objects.requireNonNull(getCommand("Gunner")).setExecutor(new Gunner());
                 Objects.requireNonNull(getCommand("Abyssal")).setExecutor(new Abyssal());
                 Objects.requireNonNull(getCommand("Hellsteed")).setExecutor(new Hellsteed());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
@@ -522,6 +530,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("AxeThrower")).setExecutor(new AxeThrower());
                 Objects.requireNonNull(getCommand("MoriaOrc")).setExecutor(new MoriaOrc());
                 Objects.requireNonNull(getCommand("Paladin")).setExecutor(new Paladin());
+                Objects.requireNonNull(getCommand("Pirate")).setExecutor(new Pirate());
                 Objects.requireNonNull(getCommand("Priest")).setExecutor(new Priest());
                 Objects.requireNonNull(getCommand("Ranger")).setExecutor(new Ranger());
                 Objects.requireNonNull(getCommand("Rogue")).setExecutor(new Rogue());

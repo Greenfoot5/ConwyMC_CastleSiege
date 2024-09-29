@@ -39,7 +39,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
     private static final int health = 270;
     private static final double regen = 10.5;
-    private static final double meleeDamage = 57;
+    private static final double meleeDamage = 50;
     private static final int ladderAmount = 4;
 
     private static final ArrayList<UUID> vanguards = new ArrayList<>();
