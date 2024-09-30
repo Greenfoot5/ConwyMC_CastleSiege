@@ -9,6 +9,7 @@ import me.huntifi.castlesiege.events.curses.CurseExpired;
 import me.huntifi.castlesiege.events.curses.HealingCurse;
 import me.huntifi.castlesiege.events.curses.VulnerabilityCurse;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
+import me.huntifi.castlesiege.kits.items.MenuItem;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.Team;
@@ -190,6 +191,9 @@ public abstract class Kit implements CommandExecutor, Listener {
 
         // Wool hat
         WoolHat.setHead(player);
+
+        // Menu Item -> 8Th slot is reserved for this always! (9th slot in reality)
+        MenuItem.giveMenuItem(player);
 
         // Potion effects
         applyPotionEffects(uuid);

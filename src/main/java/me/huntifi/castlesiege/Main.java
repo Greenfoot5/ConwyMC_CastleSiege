@@ -85,6 +85,7 @@ import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.events.timed.Hunger;
 import me.huntifi.castlesiege.events.timed.Tips;
 import me.huntifi.castlesiege.kits.items.Enderchest;
+import me.huntifi.castlesiege.kits.items.MenuItem;
 import me.huntifi.castlesiege.kits.items.WoolHat;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -348,6 +349,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new CamelHandler(), plugin);
                 getServer().getPluginManager().registerEvents(new LeaveMapBorder(), plugin);
+                getServer().getPluginManager().registerEvents(new MenuItem(), plugin);
                 getServer().getPluginManager().registerEvents(new Movement(), plugin);
                 getServer().getPluginManager().registerEvents(new MVPStats(), plugin);
                 getServer().getPluginManager().registerEvents(new MapVoteCommand(), plugin);
