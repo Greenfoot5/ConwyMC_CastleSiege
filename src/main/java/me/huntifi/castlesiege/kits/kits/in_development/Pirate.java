@@ -89,6 +89,7 @@ public class Pirate extends SignKit {
                         Component.text("Uses bullets as ammo to shoot.", NamedTextColor.BLUE),
                         Component.empty(),
                         Component.text("60 DMG per shot", NamedTextColor.DARK_GREEN),
+                        Component.text("40m max range", NamedTextColor.DARK_GREEN),
                         Component.text("7s cooldown", TextColor.color(49, 171, 189)),
                         Component.text("○ Speed I (0:03) after shooting", TextColor.color(40, 169, 255))),
                 null);
