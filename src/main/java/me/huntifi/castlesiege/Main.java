@@ -549,15 +549,13 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Warlock")).setExecutor(new Warlock());
                 applyKitLimits();
 
-                // Map Specific
-                // Helms Deep Only
-                if (MapController.getMap("HelmsDeep") != null) {
-                    getServer().getPluginManager().registerEvents(new WallEvent(), plugin);
-                    CavesBoat boatEvent = new CavesBoat();
-                    getServer().getPluginManager().registerEvents(boatEvent, plugin);
-                    getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
-                    boatEvent.spawnBoat();
-                }
+                //Helm's Deep
+                getServer().getPluginManager().registerEvents(new WallEvent(), plugin);
+
+                //CavesBoat boatEvent = new CavesBoat();
+                //getServer().getPluginManager().registerEvents(boatEvent, plugin);
+                //getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
+                //boatEvent.spawnBoat();
 
                 // Timed
                 Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);

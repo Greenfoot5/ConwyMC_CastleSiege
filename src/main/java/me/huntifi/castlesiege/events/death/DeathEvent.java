@@ -76,10 +76,7 @@ public class DeathEvent implements Listener {
 
         player.setWalkSpeed(0.2f);
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> respawnCounter(player), 10);
-        CSPlayerData data = CSActiveData.getData(player.getUniqueId());
-        if (data.getSetting("alwaysInfo").equals("true") || data.getLevel() <= 5) {
-            PlayerConnect.sendTitlebarMessages(player);
-        }
+
     }
 
     /**

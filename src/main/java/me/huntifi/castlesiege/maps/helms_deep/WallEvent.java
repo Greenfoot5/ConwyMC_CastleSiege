@@ -60,7 +60,7 @@ public class WallEvent implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK || !(player.getLocation().distance(PICKUP_LOCATION) <= 5)) {
             return;
         }
-        // If the player clicks on some TNT
+        // If the player is on Rohan do nothing.
         if (Objects.equals(TeamController.getTeam(player.getUniqueId()).getName(),
                 MapController.getCurrentMap().teams[0].getName())) {
             return;
