@@ -12,8 +12,6 @@ import java.util.Collections;
 
 public class MenuGUI {
 
-    public final static String[] OPTIONS = {"mystats", "secrets", "voting", "rp_timeline", "level_timeline", "settings", "respawn", "coinshop"};
-
     /**
      * Displays the kit gui for a category or category selection
      * @return The menu to show the player
@@ -46,15 +44,11 @@ public class MenuGUI {
 
         gui.addItem(Component.text("Daily Reward", NamedTextColor.GREEN), Material.EMERALD,
                 Collections.singletonList(Component.text("Open your daily reward.", NamedTextColor.DARK_GREEN)),
-                22, "Daily", true);
+                30, "Daily", true);
 
         gui.addItem(Component.text("Rankpoint Rewards", NamedTextColor.GREEN), Material.ENCHANTED_GOLDEN_APPLE,
                 Collections.singletonList(Component.text("See your rankpoint rewards", NamedTextColor.DARK_GREEN)),
                 28, "rprewards", true);
-
-        gui.addItem(Component.text("Level Rewards", NamedTextColor.DARK_PURPLE), Material.EXPERIENCE_BOTTLE,
-                Collections.singletonList(Component.text("See your level rewards", NamedTextColor.LIGHT_PURPLE)),
-                30, "levelrewards", true);
 
         gui.addItem(Component.text("Settings", NamedTextColor.DARK_PURPLE), Material.IRON_HORSE_ARMOR,
                 Collections.singletonList(Component.text("Open your Castle Siege settings", NamedTextColor.LIGHT_PURPLE)),
