@@ -42,6 +42,10 @@ public class MenuGUI {
                 Collections.singletonList(Component.text("Enter the Coin-Shop", NamedTextColor.DARK_GREEN)),
                 16, "Coinshop", true);
 
+        gui.addItem(Component.text("Kits", NamedTextColor.DARK_RED), Material.IRON_SWORD,
+                Collections.singletonList(Component.text("Choose a kit to play!", NamedTextColor.RED)),
+                22, "kit", true);
+
         gui.addItem(Component.text("Daily Reward", NamedTextColor.GREEN), Material.EMERALD,
                 Collections.singletonList(Component.text("Open your daily reward.", NamedTextColor.DARK_GREEN)),
                 30, "Daily", true);
