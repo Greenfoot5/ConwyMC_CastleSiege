@@ -281,11 +281,14 @@ public class MapController {
 					giveCoinReward(team);
 					Tuple<UUID, CSStats> mvp = team.getMVP();
 					if (mvp != null) {
-						Player player = Bukkit.getPlayer(mvp.getFirst());
-						if (player == null) {
-							player = Bukkit.getOfflinePlayer(mvp.getFirst()).getPlayer();
-						}
-						TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Simply the best"))).grant(player);
+						Bukkit.getScheduler().runTask(Main.plugin, () -> {
+							Player player = Bukkit.getPlayer(mvp.getFirst());
+							if (player == null) {
+								player = Bukkit.getOfflinePlayer(mvp.getFirst()).getPlayer();
+							}
+							assert player != null;
+							TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Simply the best"))).grant(player);
+						});
 					}
 				}
 
