@@ -129,32 +129,27 @@ public class Cavalry extends CoinKit implements Listener {
     public void onStomp(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
-        ItemStack stomp = p.getInventory().getItemInMainHand();
 
         if (!MapController.getPlayers().contains(uuid))
             return;
         if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             return;
         }
-
-        // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+        ItemStack stomp = p.getInventory().getItemInMainHand();
+        //prevent from using it when not on a horse
+        if (p.getVehicle() == null && stomp.getType().equals(Material.ANVIL)) {
+            Messenger.sendActionError("You can't use this when not on your horse", p);
             return;
         }
         if (!stomp.getType().equals(Material.ANVIL)) {
             return;
         }
-
-        //prevent from using it when not on a horse
-        if (p.getVehicle() == null) {
-            Messenger.sendActionError("You can't use this when not on your horse", p);
-            return;
-        }
-
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
-
         if (p.getCooldown(Material.ANVIL) != 0) {
             Messenger.sendActionError("Your horse's ability to stomp is still recharging!", p);
             return;

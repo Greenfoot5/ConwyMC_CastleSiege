@@ -423,17 +423,18 @@ public class Alchemist extends CoinKit implements Listener {
         ItemStack usedItem = e.getItem();
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(player.getUniqueId())) {
+        if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) || InCombat.isPlayerInLobby(player.getUniqueId())) {
             return;
         }
-
-        if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) &&
-                Objects.requireNonNull(e.getClickedBlock()).getType() == Material.BREWING_STAND) {
+        if ((e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getAction() != Action.LEFT_CLICK_BLOCK)) {
+            return;
+        }
+        if (Objects.requireNonNull(e.getClickedBlock()).getType() == Material.BREWING_STAND) {
             return;
         }
 
         // Check if an alchemist tries to brew a potion, while off-cooldown
-        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK) &&
+        if (Objects.requireNonNull(e.getClickedBlock()).getType() == Material.BREWING_STAND &&
                 usedItem != null && usedItem.getType() == Material.GLASS_BOTTLE &&
                 player.getCooldown(Material.GLASS_BOTTLE) == 0) {
 

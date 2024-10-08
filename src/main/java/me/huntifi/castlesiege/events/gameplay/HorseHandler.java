@@ -134,6 +134,9 @@ public class HorseHandler implements Listener {
     private void setCooldown(Entity player, Entity horse) {
         if (player instanceof Player && horse instanceof Horse) {
             Player p = (Player) player;
+            if (Kit.equippedKits.get(p.getUniqueId()) == null) {
+                return;
+            }
             Integer cooldown = cooldowns.get(Kit.equippedKits.get(p.getUniqueId()).name);
             if (cooldown != null) {
                 p.setCooldown(Material.WHEAT, cooldown);
