@@ -427,7 +427,7 @@ public class Alchemist extends CoinKit implements Listener {
             return;
         }
 
-        if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) ||
+        if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) &&
                 Objects.requireNonNull(e.getClickedBlock()).getType() == Material.BREWING_STAND) {
             return;
         }
@@ -440,6 +440,7 @@ public class Alchemist extends CoinKit implements Listener {
             // Check if the player may brew potions
             Player placer = getPlacer(e.getClickedBlock());
             if (placer != null && placer == player) {
+
 
                 if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
