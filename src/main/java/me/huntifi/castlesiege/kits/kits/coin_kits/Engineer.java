@@ -166,19 +166,15 @@ public class Engineer extends CoinKit implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-
+        UUID uuid = e.getPlayer().getUniqueId();
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
-
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-
             Material block = e.getBlockPlaced().getType();
             if (block == Material.STONE_PRESSURE_PLATE) {
-                placeTrap(e, p);
+                placeTrap(e, e.getPlayer());
             } else if (block == Material.OAK_PLANKS) {
                 placeWood(e);
             } else if (block == Material.COBBLESTONE) {

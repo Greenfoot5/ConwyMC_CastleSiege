@@ -118,7 +118,7 @@ public class DeathEvent implements Listener {
      * @param p the player to display the counter to
      */
     private void respawnCounter(Player p) {
-        if (!p.isOnline()) return;
+        if (!p.isOnline() || p.getHealth() <= 0) return;
 
         Title.Times times = Title.Times.times(Duration.ZERO, Duration.ofMillis(1000), Duration.ofMillis(750));
         new BukkitRunnable() {

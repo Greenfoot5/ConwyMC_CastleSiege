@@ -120,19 +120,16 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
      */
     @EventHandler
     public void charge(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        int cooldown = p.getCooldown(Material.DIAMOND_SWORD);
-
+        UUID uuid = e.getPlayer().getUniqueId();
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
-
+        Player p = e.getPlayer();
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             if (p.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_SWORD)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-
+                    int cooldown = p.getCooldown(Material.DIAMOND_SWORD);
                     if (cooldown == 0) {
                         p.setCooldown(Material.DIAMOND_SWORD, 300);
                         Messenger.sendActionInfo("You are charging forward", p);
@@ -159,13 +156,11 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
     @EventHandler(ignoreCancelled = true)
     public void chargeHit(EntityDamageByEntityEvent ed) {
         if (ed.getDamager() instanceof Player) {
-            Player player = (Player) ed.getDamager();
-            UUID uuid = player.getUniqueId();
-
+            UUID uuid = ed.getDamager().getUniqueId();
             // Prevent using in lobby
             if (InCombat.isPlayerInLobby(uuid))
                 return;
-
+            Player player = (Player) ed.getDamager();
             if (vanguards.contains(uuid)) {
                 for (PotionEffect effect : player.getActivePotionEffects()) {
                     if ((effect.getType().equals(PotionEffectType.SPEED) && effect.getAmplifier() == 4)

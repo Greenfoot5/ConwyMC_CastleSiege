@@ -150,11 +150,9 @@ public class Warhound extends CoinKit implements Listener {
      */
     @EventHandler
     public void onImmobilise(PlayerInteractEntityEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-
+        UUID uuid = e.getPlayer().getUniqueId();
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-
+            Player p = e.getPlayer();
             //Stuns the horse which the warhound hits.
             if (e.getRightClicked() instanceof Horse) {
                 Horse h = (Horse) e.getRightClicked();
