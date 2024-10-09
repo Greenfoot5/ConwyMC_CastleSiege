@@ -80,6 +80,7 @@ public class Gunner extends SignKit {
                         Component.empty(),
                         Component.text(meleeDamage + " melee DMG", NamedTextColor.DARK_GREEN),
                         Component.text("80 DMG per shot", NamedTextColor.DARK_GREEN),
+                        Component.text("60m max range", NamedTextColor.DARK_GREEN),
                         Component.text("9s cool down", TextColor.color(49, 171, 189))),
                 null, meleeDamage);
         // Voted Weapon
