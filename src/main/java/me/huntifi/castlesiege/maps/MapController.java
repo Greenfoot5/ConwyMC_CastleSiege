@@ -894,6 +894,7 @@ public class MapController {
 	 * @param player The player to remove
 	 */
 	public static void removePlayer(Player player) {
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 		Team team = TeamController.getTeam(player.getUniqueId());
 		if (team != null)
 			team.removePlayer(player.getUniqueId());
@@ -915,10 +916,6 @@ public class MapController {
 		InCombat.playerDied(player.getUniqueId());
 		Kit.equippedKits.remove(player.getUniqueId());
 
-		// Clean the player's inventory
-		player.getInventory().clear();
-		player.setExp(0);
-
         try {
 			// Save a player's data and reset their current data into PlayerData from CSPlayerData
             StoreData.store(player.getUniqueId(), CSActiveData.getData(player.getUniqueId()));
@@ -927,6 +924,7 @@ public class MapController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+	  });
     }
 
 	public static void addSpectator(Player player) {
