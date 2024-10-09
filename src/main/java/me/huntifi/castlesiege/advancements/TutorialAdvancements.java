@@ -6,6 +6,7 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
 import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.advancements.displays.NodeDisplay;
 import me.huntifi.castlesiege.advancements.displays.NodeDisplayTypes;
 import me.huntifi.castlesiege.events.map.CannonEvent;
@@ -14,6 +15,7 @@ import me.huntifi.conwymc.data_types.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -115,13 +117,17 @@ public class TutorialAdvancements{
 
             }
             ramAttackers.get(event.getGateName()).add(uuid);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    Player p = Bukkit.getPlayer(uuid);
+                    tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Ramming Gates"))).grant(p);
 
-            Player p = Bukkit.getPlayer(uuid);
-            tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Ramming Gates"))).grant(p);
-
-            if (event.getPlayerUUIDs().size() >= 4) {
-                tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Lift with your back"))).grant(p);
-            }
+                    if (event.getPlayerUUIDs().size() >= 4) {
+                        tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Lift with your back"))).grant(p);
+                    }
+                }
+            }.runTask(Main.plugin);
         }
 
         // Ram has been destroyed

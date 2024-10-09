@@ -337,7 +337,12 @@ public class MapController {
 			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
 				CSActiveData.getData(p.getUniqueId()).addCoins(50 * CSPlayerData.getCoinMultiplier());
 				Messenger.sendSuccess("<gold>+" + (50 * CSPlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
-				TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Winner Winner Chicken Dinner"))).grant(p);
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Winner Winner Chicken Dinner"))).grant(p);
+					}
+				}.runTask(Main.plugin);
 			}
 		}
 	}
