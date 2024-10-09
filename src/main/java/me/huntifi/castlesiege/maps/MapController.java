@@ -423,7 +423,7 @@ public class MapController {
 					NextMapEvent event = new NextMapEvent(oldMap.name, false);
 					Bukkit.getPluginManager().callEvent(event);
 
-					// Save all data
+					// Save all data + reset mvp stats
 					StoreData.storeAll();
 
 					Main.instance.getLogger().info("Completed map cycle! Restarting server...");
@@ -452,6 +452,7 @@ public class MapController {
 	public static void loadMap() {
 		// Clear the scoreboard & reset stats
 		Scoreboard.clearScoreboard();
+		MVPStats.reset();
 
 		// Register doors
 		for (Door door : maps.get(mapIndex).doors) {
