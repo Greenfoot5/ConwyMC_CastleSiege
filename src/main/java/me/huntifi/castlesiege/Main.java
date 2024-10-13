@@ -110,9 +110,9 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Viking;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
-import me.huntifi.castlesiege.kits.kits.in_development.Buccaneer;
-import me.huntifi.castlesiege.kits.kits.in_development.Gunner;
-import me.huntifi.castlesiege.kits.kits.in_development.Pirate;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Buccaneer;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Gunner;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Pirate;
 import me.huntifi.castlesiege.kits.kits.level_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.level_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
@@ -156,7 +156,6 @@ import me.huntifi.castlesiege.maps.Scoreboard;
 import me.huntifi.castlesiege.maps.Team;
 import me.huntifi.castlesiege.maps.WoolMap;
 import me.huntifi.castlesiege.maps.WoolMapBlock;
-import me.huntifi.castlesiege.maps.helms_deep.CavesBoat;
 import me.huntifi.castlesiege.maps.helms_deep.WallEvent;
 import me.huntifi.castlesiege.maps.objects.ButtonDoor;
 import me.huntifi.castlesiege.maps.objects.Cannon;
@@ -647,6 +646,8 @@ public class Main extends JavaPlugin implements Listener {
         World world = worldCreator.createWorld();
         assert world != null;
         world.setGameRule(GameRule.KEEP_INVENTORY, true);
+        world.setGameRule(GameRule.DO_MOB_LOOT, false);
+        world.setGameRule(GameRule.DO_TILE_DROPS, false);
         world.setAutoSave(false);
     }
 
@@ -977,6 +978,7 @@ public class Main extends JavaPlugin implements Listener {
                 createWorld(map.worldName);
                 //duels map
                 createWorld("DuelsMap");
+                createWorld("ShopDraft");
 
                 //Core Data
                 if (getCoreConfig(mapRoute) != null) {
