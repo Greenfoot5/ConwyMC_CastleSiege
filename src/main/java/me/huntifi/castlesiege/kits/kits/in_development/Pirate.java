@@ -103,7 +103,7 @@ public class Pirate extends SignKit {
 
         // Ladders
         es.hotbar[2] = new ItemStack(Material.LADDER, ladderCount);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 2);
 
         super.equipment = es;
     }

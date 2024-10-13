@@ -426,10 +426,10 @@ public class Alchemist extends CoinKit implements Listener {
         if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) || InCombat.isPlayerInLobby(player.getUniqueId())) {
             return;
         }
-        if ((e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getAction() != Action.LEFT_CLICK_BLOCK)) {
+        if ((e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)) {
             return;
         }
-        if (Objects.requireNonNull(e.getClickedBlock()).getType() == Material.BREWING_STAND) {
+        if (Objects.requireNonNull(e.getClickedBlock()).getType() != Material.BREWING_STAND) {
             return;
         }
 
@@ -441,7 +441,6 @@ public class Alchemist extends CoinKit implements Listener {
             // Check if the player may brew potions
             Player placer = getPlacer(e.getClickedBlock());
             if (placer != null && placer == player) {
-
 
                 if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
@@ -576,7 +575,7 @@ public class Alchemist extends CoinKit implements Listener {
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 13:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 220, 3), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 220, 1), true);
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 220, 1), true);
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.JUMP, 220, 0), true);
                     potionMeta.setColor(Color.fromRGB(0, 255, 34));
@@ -584,7 +583,7 @@ public class Alchemist extends CoinKit implements Listener {
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 14:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 160, 5), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2), true);
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 160, 2), true);
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.JUMP, 160, 1), true);
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 3), true);
