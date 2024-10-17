@@ -84,7 +84,7 @@ public class AxeThrower extends SignKit implements Listener {
         ArmorMeta legsMeta = (ArmorMeta) legs;
         assert legs != null;
         ArmorTrim legsTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.HOST);
-        ((ArmorMeta) chest).setTrim(legsTrim);
+        ((ArmorMeta) legs).setTrim(legsTrim);
         es.legs.setItemMeta(legsMeta);
 
         // Boots
@@ -94,7 +94,7 @@ public class AxeThrower extends SignKit implements Listener {
         ArmorMeta feetMeta = (ArmorMeta) feet;
         assert feet != null;
         ArmorTrim feetTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.HOST);
-        ((ArmorMeta) chest).setTrim(feetTrim);
+        ((ArmorMeta) feet).setTrim(feetTrim);
         es.feet.setItemMeta(feetMeta);
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
@@ -105,7 +105,7 @@ public class AxeThrower extends SignKit implements Listener {
         ArmorMeta votedFeetMeta = (ArmorMeta) votedFeet;
         assert votedFeet != null;
         ArmorTrim votedFeetTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.HOST);
-        ((ArmorMeta) chest).setTrim(votedFeetTrim);
+        ((ArmorMeta) votedFeet).setTrim(votedFeetTrim);
         es.votedFeet.setItemMeta(votedFeetMeta);
 
         // Ladders

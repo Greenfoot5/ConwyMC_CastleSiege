@@ -15,6 +15,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ArmorMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
+import org.bukkit.inventory.meta.trim.TrimMaterial;
+import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -28,17 +33,17 @@ public class Guardian extends SignKit implements Listener {
      * Creates a new Moria Guardian
      */
     public Guardian() {
-        super("Guardian", 620, 15, Material.SHIELD, 5000);
+        super("Guardian", 380, 15, Material.SHIELD, 2000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
 
         // Weapon
-        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
                 Component.text("Sword", NamedTextColor.GREEN), null, null, 36);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
-                CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
+                CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
                         Component.text("Sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 38),
@@ -49,22 +54,46 @@ public class Guardian extends SignKit implements Listener {
                 Component.text("Shield", NamedTextColor.GREEN), null, null);
 
         // Chestplate
-        es.chest = CSItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
-                Component.text("Iron Chestplate", NamedTextColor.GREEN), null, Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_PROJECTILE, 2)));
+        es.chest = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
+                Component.text("Mithril Chestplate", NamedTextColor.GREEN), null, null);
+        ItemMeta chest = es.chest.getItemMeta();
+        ArmorMeta chestMeta = (ArmorMeta) chest;
+        assert chest != null;
+        ArmorTrim chestTrim = new ArmorTrim(TrimMaterial.IRON, TrimPattern.SILENCE);
+        ((ArmorMeta) chest).setTrim(chestTrim);
+        es.chest.setItemMeta(chestMeta);
 
         // Leggings
         es.legs = CSItemCreator.item(new ItemStack(Material.NETHERITE_LEGGINGS),
                 Component.text("Reinforced Iron Leggings", NamedTextColor.GREEN), null,
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_PROJECTILE, 2)));
+        ItemMeta legs = es.legs.getItemMeta();
+        ArmorMeta legsMeta = (ArmorMeta) legs;
+        assert legs != null;
+        ArmorTrim legsTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.HOST);
+        ((ArmorMeta) legs).setTrim(legsTrim);
+        es.legs.setItemMeta(legsMeta);
 
         // Boots
-        es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
+        es.feet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+                Component.text("Reinforced Iron Boots", NamedTextColor.GREEN), null, null);
+        ItemMeta feet = es.feet.getItemMeta();
+        ArmorMeta feetMeta = (ArmorMeta) feet;
+        assert feet != null;
+        ArmorTrim feetTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.HOST);
+        ((ArmorMeta) feet).setTrim(feetTrim);
+        es.feet.setItemMeta(feetMeta);
         // Voted Boots
-        es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                Component.text("Iron Boots", NamedTextColor.GREEN),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+                Component.text("Reinforced Iron Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
+        ItemMeta votedFeet = es.votedFeet.getItemMeta();
+        ArmorMeta votedFeetMeta = (ArmorMeta) votedFeet;
+        assert votedFeet != null;
+        ArmorTrim votedFeetTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.HOST);
+        ((ArmorMeta) votedFeet).setTrim(votedFeetTrim);
+        es.votedFeet.setItemMeta(votedFeetMeta);
 
         // Ladders
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);
@@ -74,16 +103,15 @@ public class Guardian extends SignKit implements Listener {
         super.potionEffects.add(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 999999, 0));
 
         // Death Messages
-        super.deathMessage[0] = "You were beaten to death by ";
-        super.killMessage[0] = " beat ";
+        super.deathMessage[0] = "You were sliced to death by ";
+        super.killMessage[0] = " sliced ";
         super.killMessage[1] = " to death";
 
         super.equipment = es;
     }
 
     /**
-     * Whilst a guardian is blocking they get speed when they are hit by an arrow.
-     * If they are not blocking and hit by an arrow they get damage resistance.
+     * Passive ability, when hit by an arrow gain resistance and speed for 4 seconds.
      * @param e The event called when a guardian is hit by an arrow whilst blocking
      */
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -91,8 +119,8 @@ public class Guardian extends SignKit implements Listener {
         if (e.getHitEntity() instanceof Player && e.getEntity().getShooter() instanceof Player) {
             Player hit = (Player) e.getHitEntity();
             if (Objects.equals(Kit.equippedKits.get(hit.getUniqueId()).name, name)) {
-                hit.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 0));
-                hit.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30, 1));
+                hit.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 0));
+                hit.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 80, 1));
             }
         }
     }

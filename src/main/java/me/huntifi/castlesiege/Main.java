@@ -112,6 +112,7 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Buccaneer;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Gunner;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Moria.Hammerguard;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Pirate;
 import me.huntifi.castlesiege.kits.kits.level_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.level_kits.Spearman;
@@ -364,6 +365,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Archer(), plugin);
                 getServer().getPluginManager().registerEvents(new Artillerist(), plugin);
                 getServer().getPluginManager().registerEvents(new Armorer(), plugin);
+                getServer().getPluginManager().registerEvents(new Axeman(), plugin);
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Barbarian(), plugin);
                 getServer().getPluginManager().registerEvents(new Bannerman(), plugin);
@@ -384,7 +386,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Gunner(), plugin);
                 getServer().getPluginManager().registerEvents(new Hellsteed(), plugin);
                 getServer().getPluginManager().registerEvents(new Hypaspist(), plugin);
-                getServer().getPluginManager().registerEvents(new Axeman(), plugin);
+                getServer().getPluginManager().registerEvents(new Hammerguard(), plugin);
                 getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
                 getServer().getPluginManager().registerEvents(new UrukBerserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Lancer(), plugin);
@@ -513,6 +515,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
                 Objects.requireNonNull(getCommand("Gunner")).setExecutor(new Gunner());
                 Objects.requireNonNull(getCommand("Abyssal")).setExecutor(new Abyssal());
+                Objects.requireNonNull(getCommand("Hammerguard")).setExecutor(new Hammerguard());
                 Objects.requireNonNull(getCommand("Hellsteed")).setExecutor(new Hellsteed());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
                 Objects.requireNonNull(getCommand("Hypaspist")).setExecutor(new Hypaspist());

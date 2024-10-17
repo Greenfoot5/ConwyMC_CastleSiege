@@ -41,7 +41,7 @@ public class Pirate extends SignKit {
     private static final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
 
     public Pirate() {
-        super("Pirate", health, regen, Material.WOODEN_HOE);
+        super("Pirate", health, regen, Material.WOODEN_HOE, 2000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

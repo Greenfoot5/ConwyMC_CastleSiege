@@ -399,6 +399,9 @@ commands:
   Guardian:
     description: Selects the Guardian kit
     usage: /guardian
+  Hammerguard:
+    description: Selects the Hammerguard kit for Moria
+    usage: /Hammerguard
   Hellsteed:
     description: Selects the Hellsteed kit
     usage: /hellsteed
