@@ -35,7 +35,7 @@ public class DwarvenXbow extends SignKit implements Listener {
      * Creates a new Dwarven Xbow
      */
     public DwarvenXbow() {
-        super("Dwarven Xbow", 280, 10, Material.CROSSBOW, 2000);
+        super("Dwarven X-bow", 280, 10, Material.CROSSBOW, 2000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

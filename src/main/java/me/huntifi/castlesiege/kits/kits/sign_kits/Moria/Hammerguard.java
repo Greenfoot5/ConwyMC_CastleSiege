@@ -9,7 +9,6 @@ import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -125,12 +124,17 @@ public class Hammerguard extends SignKit implements Listener {
                     q.getCooldown(Material.IRON_AXE) == 0) {
                 q.setCooldown(Material.IRON_AXE, 180);
 
+                // Enemy blocks stun
+                if (p.isBlocking()) {
+                    Messenger.sendWarning(CSNameTag.mmUsername(p) + " blocked your stun!", q);
+                    Messenger.sendSuccess("You blocked " + CSNameTag.mmUsername(q) + "'s stun!", p);
+                }
                 if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    Messenger.sendActionInfo(CSNameTag.username(p) + " dodged your stun", q);
-                    Messenger.sendActionInfo("You dodged " + CSNameTag.username(q) + "'s stun", p);
+                    Messenger.sendWarning(CSNameTag.mmUsername(p) + " dodged your stun!", q);
+                    Messenger.sendSuccess("You dodged " + CSNameTag.mmUsername(q) + "'s stun!", p);
                 } else {
-                    Messenger.sendActionInfo("You have stunned " + CSNameTag.username(q), p);
-                    Messenger.sendActionWarning("You have been stunned by " + CSNameTag.username(p) + "!", q);
+                    Messenger.sendSuccess("You have stunned " + CSNameTag.mmUsername(p), q);
+                    Messenger.sendWarning("You have been stunned by " + CSNameTag.mmUsername(q) + "!", p);
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 1)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 40, 2)));

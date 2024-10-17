@@ -141,7 +141,7 @@ public class Bonecrusher extends SignKit implements Listener {
                     Messenger.sendSuccess("You have crushed " + CSNameTag.mmUsername(p), q);
                     Messenger.sendWarning("You have been crushed by " + CSNameTag.mmUsername(q) + "!", p);
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BONE_BLOCK_BREAK , 1, 1 );
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 50, 6)));
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 70, 6)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 5)));
                 }
             }

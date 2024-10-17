@@ -133,7 +133,7 @@ public class MoriaOrc extends SignKit implements Listener {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            ((Arrow) e.getEntity()).setDamage(27);
+            ((Arrow) e.getEntity()).setDamage(20);
         }
     }
 
