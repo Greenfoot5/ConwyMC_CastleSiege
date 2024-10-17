@@ -27,6 +27,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Door;
+import org.bukkit.block.data.type.TrapDoor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,6 +38,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.material.PressureSensor;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Criteria;
@@ -556,5 +560,68 @@ public abstract class Kit implements CommandExecutor, Listener {
             healthMultiplier = 1f;
         if (Objects.equals(curse.getDisplayName(), VulnerabilityCurse.name))
             vulnerable = false;
+    }
+
+    /**
+     * @param block The block to check for, if this is interactable then:
+     * @return return true for interactable and return false if it is not.
+     * The reason this exists is for a check to see if a right click ability should activate or not,
+     * when clicking interactables.
+     */
+    public boolean interactableBlock(Block block) {
+        switch (block.getType()) {
+            case OAK_BUTTON:
+            case STONE_BUTTON:
+            case POLISHED_BLACKSTONE_BUTTON:
+            case BIRCH_BUTTON:
+            case SPRUCE_BUTTON:
+            case JUNGLE_BUTTON:
+            case ACACIA_BUTTON:
+            case DARK_OAK_BUTTON:
+            case MANGROVE_BUTTON:
+            case WARPED_BUTTON:
+            case CRIMSON_BUTTON:
+            case BAMBOO_BUTTON:
+            case CHERRY_BUTTON:
+            case OAK_DOOR:
+            case BIRCH_DOOR:
+            case SPRUCE_DOOR:
+            case JUNGLE_DOOR:
+            case ACACIA_DOOR:
+            case DARK_OAK_DOOR:
+            case MANGROVE_DOOR:
+            case WARPED_DOOR:
+            case CRIMSON_DOOR:
+            case BAMBOO_DOOR:
+            case CHERRY_DOOR:
+            case OAK_TRAPDOOR:
+            case BIRCH_TRAPDOOR:
+            case SPRUCE_TRAPDOOR:
+            case JUNGLE_TRAPDOOR:
+            case ACACIA_TRAPDOOR:
+            case DARK_OAK_TRAPDOOR:
+            case MANGROVE_TRAPDOOR:
+            case WARPED_TRAPDOOR:
+            case CRIMSON_TRAPDOOR:
+            case BAMBOO_TRAPDOOR:
+            case CHERRY_TRAPDOOR:
+            case OAK_FENCE_GATE:
+            case BIRCH_FENCE_GATE:
+            case SPRUCE_FENCE_GATE:
+            case JUNGLE_FENCE_GATE:
+            case ACACIA_FENCE_GATE:
+            case DARK_OAK_FENCE_GATE:
+            case MANGROVE_FENCE_GATE:
+            case WARPED_FENCE_GATE:
+            case CRIMSON_FENCE_GATE:
+            case BAMBOO_FENCE_GATE:
+            case CHERRY_FENCE_GATE:
+            case CHEST:
+            case LEVER:
+            case CAKE:
+            case ENDER_CHEST: return true;
+            default:
+                return false;
+        }
     }
 }

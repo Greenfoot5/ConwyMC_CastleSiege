@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.sign_kits;
+package me.huntifi.castlesiege.kits.kits.sign_kits.Moria;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.AssistKill;

@@ -423,9 +423,6 @@ commands:
   Pirate:
     description: Selects the pirate kit
     usage: /pirate
-  Windlancer:
-    description: Selects the Windlancer kit
-    usage: /windlancer
 
   # Staff Kits
   Warbear:
