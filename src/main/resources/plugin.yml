@@ -417,6 +417,9 @@ commands:
   MoriaOrc:
     description: Selects the Moria Orc kit
     usage: /moriaorc
+  MoriaOverseer:
+    description: Selects the Moria Overseer kit
+    usage: /MoriaOverseer
   RangedCavalry:
     description: Selects the Ranged Cavalry kit
     usage: /rangedcavalry

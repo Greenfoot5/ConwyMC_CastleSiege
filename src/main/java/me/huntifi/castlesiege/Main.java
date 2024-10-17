@@ -114,6 +114,7 @@ import me.huntifi.castlesiege.kits.kits.sign_kits.Buccaneer;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Gunner;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Moria.DwarvenXbow;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Moria.Hammerguard;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Moria.Overseer;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Pirate;
 import me.huntifi.castlesiege.kits.kits.level_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.level_kits.Spearman;
@@ -401,6 +402,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new CaveTroll(), plugin);
                 getServer().getPluginManager().registerEvents(new Guardian(), plugin);
                 getServer().getPluginManager().registerEvents(new MoriaOrc(), plugin);
+                getServer().getPluginManager().registerEvents(new Overseer(), plugin);
                 getServer().getPluginManager().registerEvents(new Paladin(), plugin);
                 getServer().getPluginManager().registerEvents(new Pirate(), plugin);
                 getServer().getPluginManager().registerEvents(new Priest(), plugin);
@@ -534,6 +536,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Bonecrusher")).setExecutor(new Bonecrusher());
                 Objects.requireNonNull(getCommand("AxeThrower")).setExecutor(new AxeThrower());
                 Objects.requireNonNull(getCommand("MoriaOrc")).setExecutor(new MoriaOrc());
+                Objects.requireNonNull(getCommand("MoriaOverseer")).setExecutor(new Overseer());
                 Objects.requireNonNull(getCommand("Paladin")).setExecutor(new Paladin());
                 Objects.requireNonNull(getCommand("Pirate")).setExecutor(new Pirate());
                 Objects.requireNonNull(getCommand("Priest")).setExecutor(new Priest());
