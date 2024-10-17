@@ -112,6 +112,7 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Buccaneer;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Gunner;
+import me.huntifi.castlesiege.kits.kits.sign_kits.Moria.DwarvenXbow;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Moria.Hammerguard;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Pirate;
 import me.huntifi.castlesiege.kits.kits.level_kits.Shieldman;
@@ -375,6 +376,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
                 getServer().getPluginManager().registerEvents(new CamelRider(), plugin);
                 getServer().getPluginManager().registerEvents(new Constructor(), plugin);
+                getServer().getPluginManager().registerEvents(new DwarvenXbow(), plugin);
                 //getServer().getPluginManager().registerEvents(new Chef(), plugin);
                 getServer().getPluginManager().registerEvents(new Fallen(), plugin);
                 getServer().getPluginManager().registerEvents(new Arbalester(), plugin);
@@ -507,6 +509,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("CamelRider")).setExecutor(new CamelRider());
                 //Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
+                Objects.requireNonNull(getCommand("DwarvenXbow")).setExecutor(new DwarvenXbow());
                 Objects.requireNonNull(getCommand("Fallen")).setExecutor(new Fallen());
                 Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
                 Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());

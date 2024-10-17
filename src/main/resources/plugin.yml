@@ -387,6 +387,9 @@ commands:
   Constructor:
     description: Selects the constructor kit
     usage: /constructor
+  DwarvenXbow:
+    description: Selects the Dwarven Xbow kit on Moria
+    usage: /DwarvenXbow
   Elytrier:
     description: Selects the Elytrier kit
     usage: /thunderstoneelytrier
