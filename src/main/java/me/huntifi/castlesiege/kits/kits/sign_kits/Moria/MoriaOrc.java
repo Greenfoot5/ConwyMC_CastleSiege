@@ -37,7 +37,7 @@ public class MoriaOrc extends SignKit implements Listener {
      * Creates a new Moria Orc
      */
     public MoriaOrc() {
-        super("Moria Orc", 230, 7, Material.BOW, 2500);
+        super("Moria Orc", 230, 7, Material.BOW, 2000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
