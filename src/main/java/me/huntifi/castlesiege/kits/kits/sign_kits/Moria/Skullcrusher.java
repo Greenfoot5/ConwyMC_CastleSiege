@@ -112,7 +112,7 @@ public class Skullcrusher extends SignKit implements Listener {
         // Death Messages
         super.deathMessage[0] = "You were crushed to death by ";
         super.killMessage[0] = " crushed ";
-        super.killMessage[1] = " to death ";
+        super.killMessage[1] = " to death";
 
         super.equipment = es;
     }
@@ -135,9 +135,9 @@ public class Skullcrusher extends SignKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    Messenger.sendActionInfo(CSNameTag.username(p) + " blocked your stun", q);
+                    Messenger.sendWarning(CSNameTag.username(p) + " blocked your stun", q);
                     if (new Random().nextInt(10) == 0) {
-                        Messenger.sendActionInfo("Your shield broke whilst blocking " + CSNameTag.username(q) + "'s stun", p);
+                        Messenger.sendWarning("Your shield broke whilst blocking " + CSNameTag.username(q) + "'s stun", p);
                         if (p.getInventory().getItemInMainHand().getType().equals(Material.SHIELD)) {
                             p.getInventory().getItemInMainHand().setAmount(0);
                         } else if (p.getInventory().getItemInOffHand().getType().equals(Material.SHIELD)) {
@@ -146,11 +146,11 @@ public class Skullcrusher extends SignKit implements Listener {
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK , 1, 1 );
                     }
                 } else if (p.isSneaking() && new Random().nextInt(6) == 0) {
-                    Messenger.sendActionInfo(CSNameTag.username(p) + " dodged your stun", q);
-                    Messenger.sendActionInfo("You dodged " + CSNameTag.username(q) + "'s stun", p);
+                    Messenger.sendWarning(CSNameTag.username(p) + " dodged your stun", q);
+                    Messenger.sendSuccess("You dodged " + CSNameTag.username(q) + "'s stun", p);
                 } else {
-                    Messenger.sendActionInfo("You have stunned " + CSNameTag.username(q), p);
-                    Messenger.sendActionWarning("You have been stunned by " + CSNameTag.username(p) + "!", q);
+                    Messenger.sendSuccess("You have stunned " + CSNameTag.username(q), p);
+                    Messenger.sendWarning("You have been stunned by " + CSNameTag.username(p) + "!", q);
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_FALL , 1, 1.5F);
                     p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 0)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 40, 2)));

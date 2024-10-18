@@ -11,6 +11,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +31,8 @@ import java.util.Objects;
 
 public class OrcPikeman extends SignKit implements Listener {
 
+    // Damage multiplier when hitting horses
+    private static final double HORSE_MULTIPLIER = 1.5;
 
     /**
      * Creates a new Moria Orc Pikeman
@@ -104,7 +107,7 @@ public class OrcPikeman extends SignKit implements Listener {
         // Death Messages
         super.deathMessage[0] = "You were impaled by ";
         super.killMessage[0] = " impaled ";
-        super.killMessage[1] = " without mercy ";
+        super.killMessage[1] = " without mercy";
 
         super.equipment = es;
     }
@@ -132,6 +135,18 @@ public class OrcPikeman extends SignKit implements Listener {
                     p.setVelocity(p.getLocation().getDirection().multiply(-1.5).setY(p.getY() + 1));
                     e.setDamage(e.getDamage() * 1.5);
                 }
+            }
+        }
+    }
+
+    /**
+     * @param e When a player hits a horse, grants bonus damage
+     */
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent e) {
+        if (e.getDamager() instanceof Player && e.getEntity() instanceof Horse) {
+            if (Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
+                e.setDamage(e.getDamage() * HORSE_MULTIPLIER);
             }
         }
     }
