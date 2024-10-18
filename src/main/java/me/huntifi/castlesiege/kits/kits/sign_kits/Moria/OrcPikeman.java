@@ -24,6 +24,7 @@ import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -132,7 +133,8 @@ public class OrcPikeman extends SignKit implements Listener {
                 if (!p.isBlocking()) {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PHANTOM_FLAP , 1, 1.8f);
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 30, 2)));
-                    p.setVelocity(p.getLocation().getDirection().multiply(-1.5).setY(p.getY() + 1));
+                    Vector unitVector = p.getLocation().toVector().subtract(q.getLocation().toVector()).normalize();
+                    p.setVelocity(unitVector.multiply(2.2).setY(unitVector.getY() + 0.3));
                     e.setDamage(e.getDamage() * 1.5);
                 }
             }

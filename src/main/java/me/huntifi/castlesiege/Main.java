@@ -515,7 +515,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("CamelRider")).setExecutor(new CamelRider());
                 //Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
                 Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
-                Objects.requireNonNull(getCommand("DwarvenXbow")).setExecutor(new DwarvenXbow());
+                Objects.requireNonNull(getCommand("DwarvenX-bow")).setExecutor(new DwarvenXbow());
                 Objects.requireNonNull(getCommand("Fallen")).setExecutor(new Fallen());
                 Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
                 Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
