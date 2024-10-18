@@ -57,7 +57,7 @@ public class Overseer extends SignKit implements Listener {
                 0);
 
         es.offhand = CSItemCreator.weapon(new ItemStack(Material.GOAT_HORN),
-                Component.text("Dwarven Horn", NamedTextColor.GREEN), null, null, 40);
+                Component.text("Dwarven Horn", NamedTextColor.GREEN), null, null, 1);
 
         // Chestplate
         es.chest = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),

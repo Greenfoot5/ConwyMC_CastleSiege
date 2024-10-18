@@ -129,17 +129,18 @@ public class Hammerguard extends SignKit implements Listener {
                     Messenger.sendWarning(CSNameTag.mmUsername(p) + " blocked your stun!", q);
                     Messenger.sendSuccess("You blocked " + CSNameTag.mmUsername(q) + "'s stun!", p);
                 }
-                if (p.isSneaking() && new Random().nextInt(4) == 0) {
+                if (p.isSneaking() && new Random().nextInt(6) == 0) {
                     Messenger.sendWarning(CSNameTag.mmUsername(p) + " dodged your stun!", q);
                     Messenger.sendSuccess("You dodged " + CSNameTag.mmUsername(q) + "'s stun!", p);
                 } else {
                     Messenger.sendSuccess("You have stunned " + CSNameTag.mmUsername(p), q);
                     Messenger.sendWarning("You have been stunned by " + CSNameTag.mmUsername(q) + "!", p);
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 1)));
+                    p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_BREAK , 1, 2F);
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 0)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 40, 2)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 100, 0)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 2)));
+                    e.setDamage(e.getDamage() * 2);
                 }
             }
         }

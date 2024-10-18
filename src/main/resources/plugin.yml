@@ -417,9 +417,15 @@ commands:
   MoriaOrc:
     description: Selects the Moria Orc kit
     usage: /moriaorc
+  OrcPikeman:
+    description: Selects the Orc Pikeman kit
+    usage: /OrcPikeman
   MoriaOverseer:
     description: Selects the Moria Overseer kit
     usage: /MoriaOverseer
+  Skullcrusher:
+    description: Selects the Skullcrusher kit for Moria
+    usage: /Skullcrusher
   RangedCavalry:
     description: Selects the Ranged Cavalry kit
     usage: /rangedcavalry

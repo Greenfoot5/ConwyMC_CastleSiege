@@ -123,8 +123,8 @@ public class Maceman extends CoinKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    Messenger.sendActionInfo(CSNameTag.username(p) + "§r blocked your stun", q);
-                    Messenger.sendActionInfo("Your shield broke whilst blocking " + CSNameTag.username(q) + "§r's stun", p);
+                    Messenger.sendActionInfo(CSNameTag.username(p) + " blocked your stun", q);
+                    Messenger.sendActionInfo("Your shield broke whilst blocking " + CSNameTag.username(q) + "'s stun", p);
                     if (p.getInventory().getItemInMainHand().getType().equals(Material.SHIELD)) {
                         p.getInventory().getItemInMainHand().setAmount(0);
                     } else if (p.getInventory().getItemInOffHand().getType().equals(Material.SHIELD)) {
@@ -132,11 +132,11 @@ public class Maceman extends CoinKit implements Listener {
                     }
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK , 1, 1 );
                 } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    Messenger.sendActionInfo(CSNameTag.username(p) + "§r dodged your stun", q);
-                    Messenger.sendActionInfo("You dodged " + CSNameTag.username(q) + "§r's stun", p);
+                    Messenger.sendActionInfo(CSNameTag.username(p) + "dodged your stun", q);
+                    Messenger.sendActionInfo("You dodged " + CSNameTag.username(q) + "'s stun", p);
                 } else {
                     Messenger.sendActionInfo("You have stunned " + CSNameTag.username(q), p);
-                    Messenger.sendActionWarning("You have been stunned by " + CSNameTag.username(p) + "§r!", q);
+                    Messenger.sendActionWarning("You have been stunned by " + CSNameTag.username(p) + "!", q);
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 60, 1)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 60, 2)));

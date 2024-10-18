@@ -51,7 +51,7 @@ public class Guardian extends SignKit implements Listener {
 
         // Shield
         es.offhand = CSItemCreator.item(new ItemStack(Material.SHIELD),
-                Component.text("Shield", NamedTextColor.GREEN), null, null);
+                Component.text("Dwarven Shield", NamedTextColor.GREEN), null, null);
 
         // Chestplate
         es.chest = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
