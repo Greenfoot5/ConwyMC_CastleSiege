@@ -135,8 +135,8 @@ public class Maceman extends CoinKit implements Listener {
                     Messenger.sendWarning(CSNameTag.username(p) + "dodged your stun", q);
                     Messenger.sendSuccess("You dodged " + CSNameTag.username(q) + "'s stun", p);
                 } else {
-                    Messenger.sendSuccess("You have stunned " + CSNameTag.username(q), p);
-                    Messenger.sendWarning("You have been stunned by " + CSNameTag.username(p) + "!", q);
+                    Messenger.sendSuccess("You have stunned " + CSNameTag.username(q), q);
+                    Messenger.sendWarning("You have been stunned by " + CSNameTag.username(p) + "!", p);
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 60, 1)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 60, 2)));
