@@ -501,7 +501,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Alchemist")).setExecutor(new Alchemist());
                 Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
                 Objects.requireNonNull(getCommand("Artillerist")).setExecutor(new Artillerist());
-                Objects.requireNonNull(getCommand("Armorer")).setExecutor(new Armorer());
+                //Objects.requireNonNull(getCommand("Armorer")).setExecutor(new Armorer());
                 Objects.requireNonNull(getCommand("Battlemedic")).setExecutor(new BattleMedic());
                 Objects.requireNonNull(getCommand("Bannerman")).setExecutor(new Bannerman());
                 Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
@@ -542,7 +542,7 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("MoriaOrc")).setExecutor(new MoriaOrc());
                 Objects.requireNonNull(getCommand("MoriaOverseer")).setExecutor(new Overseer());
                 Objects.requireNonNull(getCommand("OrcPikeman")).setExecutor(new OrcPikeman());
-                Objects.requireNonNull(getCommand("Paladin")).setExecutor(new Paladin());
+                //Objects.requireNonNull(getCommand("Paladin")).setExecutor(new Paladin());
                 Objects.requireNonNull(getCommand("Pirate")).setExecutor(new Pirate());
                 Objects.requireNonNull(getCommand("Priest")).setExecutor(new Priest());
                 Objects.requireNonNull(getCommand("Ranger")).setExecutor(new Ranger());
@@ -552,13 +552,13 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Skirmisher")).setExecutor(new Skirmisher());
                 Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
                 Objects.requireNonNull(getCommand("Spearknight")).setExecutor(new SpearKnight());
-                Objects.requireNonNull(getCommand("Sorcerer")).setExecutor(new Sorcerer());
+                //Objects.requireNonNull(getCommand("Sorcerer")).setExecutor(new Sorcerer());
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
                 Objects.requireNonNull(getCommand("Vanguard")).setExecutor(new Vanguard());
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
                 Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
-                Objects.requireNonNull(getCommand("Warlock")).setExecutor(new Warlock());
+                //Objects.requireNonNull(getCommand("Warlock")).setExecutor(new Warlock());
                 applyKitLimits();
 
                 //Helm's Deep

@@ -59,6 +59,10 @@ public class WoolMap implements Listener {
 		Bukkit.getScheduler().runTask(Main.plugin, () -> {
 			for (WoolMapBlock block : woolMapBlocks) {
 
+				if (target.getWorld() != block.blockLocation.getWorld()) {
+					return;
+				}
+
 				if (Objects.equals(Objects.requireNonNull(block.blockLocation.getWorld()).getName(), MapController.getCurrentMap().worldName)) {
 					if (target.getLocation().distance(block.signLocation) == 0) {
                         if (DeathEvent.onCooldown.contains(player)) {

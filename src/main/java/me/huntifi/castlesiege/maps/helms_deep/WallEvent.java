@@ -49,11 +49,13 @@ public class WallEvent implements Listener {
      */
 	@EventHandler
 	public void onPickupTake(PlayerInteractEvent e) {
-
-		Player player = e.getPlayer();
-
 		// Check we're on HelmsDeep
         if (!MapController.getCurrentMap().worldName.equals("HelmsDeep") || !MapController.isOngoing()) {
+            return;
+        }
+        Player player = e.getPlayer();
+        // Check if the player is even in the same world (this was in addition to duels and coinshop)!
+        if (player.getWorld() != PICKUP_LOCATION.getWorld()) {
             return;
         }
         // Check the player has right-clicked a block while standing within 5 blocks of the spawner
