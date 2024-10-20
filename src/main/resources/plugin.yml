@@ -444,6 +444,11 @@ commands:
     description: Selects the warbear kit
     usage: /warbear
 
+  # Event Kits
+  Vampire:
+    description: Selects the vampire kit
+    usage: /vampire
+
   # Voter Kits
   FireArcher:
     description: Selects the firearcher kit

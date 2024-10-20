@@ -109,6 +109,7 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Vanguard;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Viking;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
+import me.huntifi.castlesiege.kits.kits.event_kits.Vampire;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Buccaneer;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Gunner;
@@ -416,6 +417,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
                 getServer().getPluginManager().registerEvents(new Sorcerer(), plugin);
                 getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
+                getServer().getPluginManager().registerEvents(new Vampire(), plugin);
                 getServer().getPluginManager().registerEvents(new Viking(), plugin);
                 getServer().getPluginManager().registerEvents(new Warbear(), plugin);
                 getServer().getPluginManager().registerEvents(new Warhound(), plugin);
@@ -555,6 +557,7 @@ public class Main extends JavaPlugin implements Listener {
                 //Objects.requireNonNull(getCommand("Sorcerer")).setExecutor(new Sorcerer());
                 Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
                 Objects.requireNonNull(getCommand("Vanguard")).setExecutor(new Vanguard());
+                Objects.requireNonNull(getCommand("Vampire")).setExecutor(new Vampire());
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
                 Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
