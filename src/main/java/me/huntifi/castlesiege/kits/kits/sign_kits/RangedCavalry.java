@@ -79,7 +79,7 @@ public class RangedCavalry extends SignKit implements Listener {
                 Material.LEATHER_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
                         new PotionEffect(PotionEffectType.REGENERATION, 999999, 0)
-                )
+                ), "regular"
         );
 
         // Arrows

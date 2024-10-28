@@ -85,9 +85,9 @@ public class Berserker extends CoinKit implements Listener {
                         Component.text("Drink to enter berserk mode", NamedTextColor.BLUE),
                         Component.empty(),
                         Component.text("+ 54.5 Melee Damage", NamedTextColor.DARK_GREEN),
-                        Component.text("○ Strength I (0:10)", TextColor.color(40, 169, 255)),
-                        Component.text("○ Speed II (0:10)", TextColor.color(40, 169, 255)),
-                        Component.text("○ Nausea II (0:10)", NamedTextColor.RED)),
+                        Component.text("○ Strength I (0:20)", TextColor.color(40, 169, 255)),
+                        Component.text("○ Speed II (0:20)", TextColor.color(40, 169, 255)),
+                        Component.text("○ Nausea II (0:20)", NamedTextColor.RED)),
                         null);
 
         // Berserk Weapon

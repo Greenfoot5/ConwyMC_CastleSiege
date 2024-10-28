@@ -19,7 +19,9 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Vanguard;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Viking;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
+import me.huntifi.castlesiege.kits.kits.event_kits.HallowedHorseman;
 import me.huntifi.castlesiege.kits.kits.event_kits.Vampire;
+import me.huntifi.castlesiege.kits.kits.event_kits.Werewolf;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
 import me.huntifi.castlesiege.kits.kits.level_kits.Shieldman;
 import me.huntifi.castlesiege.kits.kits.level_kits.Spearman;
@@ -271,6 +273,8 @@ public class KitGUIs {
     private static Gui event(Player player) {
         Gui gui = new Gui(Component.text("Event Kits"), 2);
         gui.addKitItem(player, new Vampire(), 0, "Vampire");
+        gui.addKitItem(player, new HallowedHorseman(), 1, "HallowedHorseman");
+        gui.addKitItem(player, new Werewolf(), 2, "Werewolf");
         gui.addBackItem(13, "kit");
         return gui;
     }

@@ -43,7 +43,7 @@ public class Vampire extends EventKit implements Listener {
     private static final int ladderCount = 4;
 
     public Vampire() {
-        super("Vampire", health, regen, Material.GHAST_TEAR,  NamedTextColor.GOLD, LocalDate.ofYearDay(LocalDate.now().getYear(), 288), LocalDate.ofYearDay(LocalDate.now().getYear(), 300));
+        super("Vampire", health, regen, Material.GHAST_TEAR,  NamedTextColor.GOLD, LocalDate.ofYearDay(LocalDate.now().getYear(), 291), LocalDate.ofYearDay(LocalDate.now().getYear(), 304));
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -135,6 +135,12 @@ public class Vampire extends EventKit implements Listener {
         super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 1));
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
+
+        // Death Messages
+        super.deathMessage[0] = "";
+        super.deathMessage[1] = " drained you of all your blood!";
+        super.killMessage[0] = " has drained all of ";
+        super.killMessage[1] = " 's blood!";
 
         super.equipment = es;
 

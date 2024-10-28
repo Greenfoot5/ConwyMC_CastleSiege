@@ -79,7 +79,7 @@ public class RoyalKnight extends SignKit {
                 Material.DIAMOND_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 0),
                         new PotionEffect(PotionEffectType.REGENERATION, 999999, 4)
-                )
+                ), "regular"
         );
 
         super.equipment = es;

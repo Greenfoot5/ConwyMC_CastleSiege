@@ -110,7 +110,7 @@ public class Cavalry extends CoinKit implements Listener {
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
                         new PotionEffect(PotionEffectType.REGENERATION, 999999, 0),
                         new PotionEffect(PotionEffectType.SPEED, 999999, 1)
-                )
+                ), "regular"
         );
 
         // stomp

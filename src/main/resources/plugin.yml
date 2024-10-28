@@ -448,6 +448,12 @@ commands:
   Vampire:
     description: Selects the vampire kit
     usage: /vampire
+  HallowedHorseman:
+    description: Selects the Hallowed Horseman kit for Halloween
+    usage: /HallowedHorseman
+  Werewolf:
+    description: Selects the werewolf kit
+    usage: /werewolf
 
   # Voter Kits
   FireArcher:
