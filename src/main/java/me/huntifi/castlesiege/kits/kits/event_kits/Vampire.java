@@ -1,6 +1,8 @@
 package me.huntifi.castlesiege.kits.kits.event_kits;
 
+import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.EventKit;
@@ -201,7 +203,11 @@ public class Vampire extends EventKit implements Listener {
             vampire.setCooldown(Material.GHAST_TEAR, 100);
             victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 2.5f);
             victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_WOLF_HOWL , 1, 3f);
+            if (50 >= victim.getHealth()) {
+                DeathEvent.setKiller(victim, vampire);
+            }
             victim.damage(50);
+            AssistKill.addDamager(victim.getUniqueId(), vampire.getUniqueId(), 50);
             if (vampire.getHealth() + 50 <= health) {
                 vampire.setHealth(vampire.getHealth() + 50);
             } else {
