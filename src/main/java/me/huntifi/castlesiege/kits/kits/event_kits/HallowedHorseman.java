@@ -200,7 +200,7 @@ public class HallowedHorseman extends EventKit implements Listener {
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
         kitLore.add(Component.text("Halloween Only Kit!", NamedTextColor.GOLD));
-        kitLore.add(Component.text("A dark night that can summon its undead steed", NamedTextColor.GRAY));
+        kitLore.add(Component.text("A dark knight that can summon its undead steed", NamedTextColor.GRAY));
         kitLore.add(Component.text("and execute enemies below 20% HP.", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(Component.empty());
