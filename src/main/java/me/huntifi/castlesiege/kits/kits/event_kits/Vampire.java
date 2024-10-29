@@ -45,7 +45,7 @@ public class Vampire extends EventKit implements Listener {
     private static final int ladderCount = 4;
 
     public Vampire() {
-        super("Vampire", health, regen, Material.GHAST_TEAR,  NamedTextColor.GOLD, LocalDate.ofYearDay(LocalDate.now().getYear(), 291), LocalDate.ofYearDay(LocalDate.now().getYear(), 304));
+        super("Vampire", health, regen, Material.GHAST_TEAR,  NamedTextColor.GOLD, LocalDate.ofYearDay(LocalDate.now().getYear(), 291), LocalDate.ofYearDay(LocalDate.now().getYear(), 305));
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

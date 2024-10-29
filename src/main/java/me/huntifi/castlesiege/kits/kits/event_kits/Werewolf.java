@@ -62,7 +62,7 @@ public class Werewolf extends EventKit implements Listener {
     private final ItemStack werewolfSwordVoted;
 
     public Werewolf() {
-        super("Werewolf", health, regen, Material.RABBIT_HIDE,  NamedTextColor.GOLD, LocalDate.ofYearDay(LocalDate.now().getYear(), 291), LocalDate.ofYearDay(LocalDate.now().getYear(), 304));
+        super("Werewolf", health, regen, Material.RABBIT_HIDE,  NamedTextColor.GOLD, LocalDate.ofYearDay(LocalDate.now().getYear(), 291), LocalDate.ofYearDay(LocalDate.now().getYear(), 305));
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

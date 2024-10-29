@@ -46,9 +46,9 @@ public class MenuGUI {
                 Collections.singletonList(Component.text("Choose a kit to play!", NamedTextColor.RED)),
                 22, "kit", true);
 
-        gui.addItem(Component.text("Daily Reward", NamedTextColor.GREEN), Material.EMERALD,
-                Collections.singletonList(Component.text("Open your daily reward.", NamedTextColor.DARK_GREEN)),
-                30, "Daily", true);
+        gui.addItem(Component.text("Cosmetics", NamedTextColor.GREEN), Material.EMERALD,
+                Collections.singletonList(Component.text("Open your cosmetics menu.", NamedTextColor.DARK_GREEN)),
+                30, "Cosmetics", true);
 
         gui.addItem(Component.text("Rankpoint Rewards", NamedTextColor.GREEN), Material.ENCHANTED_GOLDEN_APPLE,
                 Collections.singletonList(Component.text("See your rankpoint rewards", NamedTextColor.DARK_GREEN)),

@@ -48,7 +48,7 @@ public class HallowedHorseman extends EventKit implements Listener {
     private static final int horseHealth = 500;
 
     public HallowedHorseman() {
-        super("Hallowed Horseman", health, regen, Material.SKELETON_HORSE_SPAWN_EGG,  NamedTextColor.GOLD, LocalDate.ofYearDay(LocalDate.now().getYear(), 291), LocalDate.ofYearDay(LocalDate.now().getYear(), 304));
+        super("Hallowed Horseman", health, regen, Material.SKELETON_HORSE_SPAWN_EGG,  NamedTextColor.GOLD, LocalDate.ofYearDay(LocalDate.now().getYear(), 291), LocalDate.ofYearDay(LocalDate.now().getYear(), 305));
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
