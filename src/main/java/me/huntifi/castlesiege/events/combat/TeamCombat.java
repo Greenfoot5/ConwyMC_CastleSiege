@@ -25,9 +25,6 @@ public class TeamCombat implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onHurt(EntityDamageByEntityEvent event) {
-		if (!CSActiveData.hasPlayer(event.getEntity().getUniqueId()))
-			return;
-
 		if (!MapController.isOngoing()) {
 			event.setCancelled(true);
 			return;

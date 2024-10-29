@@ -37,8 +37,9 @@ public class EatCake implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEatCake(PlayerInteractEvent event) {
-        if (!CSActiveData.hasPlayer(event.getPlayer().getUniqueId()))
+        if (InCombat.isPlayerInLobby((event.getPlayer().getUniqueId()))) {
             return;
+        }
 
         // Check if the player attempts to eat a cake
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK || !Objects.requireNonNull(event.getClickedBlock()).getType().equals(Material.CAKE))
