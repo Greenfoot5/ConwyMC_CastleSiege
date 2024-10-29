@@ -416,6 +416,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Rogue(), plugin);
                 getServer().getPluginManager().registerEvents(new Ranger(), plugin);
                 getServer().getPluginManager().registerEvents(new Skullcrusher(), plugin);
+                getServer().getPluginManager().registerEvents(new Shieldman(), plugin);
                 getServer().getPluginManager().registerEvents(new SpearKnight(), plugin);
                 getServer().getPluginManager().registerEvents(new Spearman(), plugin);
                 getServer().getPluginManager().registerEvents(new Sorcerer(), plugin);
