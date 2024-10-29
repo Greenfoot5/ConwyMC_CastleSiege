@@ -24,7 +24,7 @@ public class FallDamage implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onFallDamage(EntityDamageEvent e) {
         if (e.getCause() != EntityDamageEvent.DamageCause.FALL || !(e.getEntity() instanceof Player)
-        || CSActiveData.hasPlayer(e.getEntity().getUniqueId())) {
+        || InCombat.isPlayerInLobby((e.getEntity().getUniqueId()))) {
             return;
         }
 
