@@ -172,6 +172,11 @@ public class Paladin extends CoinKit implements Listener {
 
     }
 
+    /**
+     * @param paladin the paladin to remove and give back the shield to.
+     * This is to stop the paladin from blocking even when the cooldown is active.
+     * Don't bother trying to change this or find another way, there is no other way provided by spigot.
+     */
     public void tempRemoveShield(Player paladin) {
         paladin.getInventory().setItemInOffHand(null);
         new BukkitRunnable() {
@@ -182,40 +187,51 @@ public class Paladin extends CoinKit implements Listener {
         }.runTaskLater(Main.plugin, 10);
     }
 
+    /**
+     * This is basically a shield cool-down mechanism/method.
+     * @param shielder the paladin holding the shield.
+     */
+    public void shieldMechanism(Player shielder) {
+        if (Objects.equals(Kit.equippedKits.get(shielder.getUniqueId()).name, name)) {
+            if (shielder.isBlocking() && blockAmount != 0) {
+                blockAmount--;
+            } else if (shielder.isBlocking() && blockAmount <= 1) {
+                shielder.setCooldown(Material.SHIELD, 300);
+                tempRemoveShield(shielder);
+                blockAmount = 8;
+                for (Player near : Bukkit.getOnlinePlayers()) {
+                    bless(shielder, near);
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param e when a paladin gets hit whilst blocking.
+     */
     @EventHandler
     public void combatShielding(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
-            if (p.isBlocking() && blockAmount != 0) {
-                blockAmount--;
-            } else if (p.isBlocking() && blockAmount <= 1) {
-                p.setCooldown(Material.SHIELD, 300);
-                tempRemoveShield(p);
-                blockAmount = 8;
-                for (Player near : Bukkit.getOnlinePlayers()) {
-                    bless(p, near);
-                }
-            }
+            shieldMechanism(p);
         }
     }
-
+    /**
+     *
+     * @param e when a paladin gets hit by projectiles whilst blocking.
+     */
     @EventHandler
     public void combatShielding2(ProjectileHitEvent e) {
         if (e.getHitEntity() instanceof Player) {
             Player p = (Player) e.getHitEntity();
-            if (p.isBlocking() && blockAmount != 0) {
-                blockAmount--;
-            } else if (p.isBlocking() && blockAmount <= 1) {
-                p.setCooldown(Material.SHIELD, 300);
-                tempRemoveShield(p);
-                blockAmount = 8;
-                for (Player near : Bukkit.getOnlinePlayers()) {
-                    bless(p, near);
-                }
-            }
+            shieldMechanism(p);
         }
     }
-
+    /**
+     *
+     * @param e Paladin tries to block whilst the cooldown is active.
+     */
     @EventHandler
     public void shielding(PlayerInteractEvent e) {
         UUID uuid = e.getPlayer().getUniqueId();
