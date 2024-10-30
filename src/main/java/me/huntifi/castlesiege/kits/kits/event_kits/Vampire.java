@@ -64,7 +64,7 @@ public class Vampire extends EventKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
                         Component.text("Vampire Fang", NamedTextColor.DARK_RED),
                         List.of(Component.empty(),
-                                Component.text("40 Melee Damage", NamedTextColor.RED),
+                                Component.text("42 Melee Damage", NamedTextColor.RED),
                                 Component.text("5s cooldown", NamedTextColor.RED),
                                 Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GOLD),
                                 Component.text("<< Right Click An Enemy >>", NamedTextColor.DARK_GRAY),
