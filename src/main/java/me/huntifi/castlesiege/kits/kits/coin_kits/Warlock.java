@@ -2,7 +2,9 @@ package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.huntifi.castlesiege.database.UpdateStats;
+import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
@@ -16,6 +18,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -43,12 +46,12 @@ import java.util.UUID;
 public class Warlock extends CoinKit implements Listener {
 
     // Abilities mentioned for this kit are configured / handled through mythic mobs.
-    private static final int health = 210;
+    private static final int health = 240;
     private static final double regen = 10.5;
     private static final double meleeDamage = 20;
     private static final int curseCooldown = 260;
     private static final int staffCooldown = 80;
-    private static final int lifeDrainCooldown = 400;
+    private static final int siphonCooldown = 400;
     private static final int healthFunnelCooldown = 100;
 
     private static final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
@@ -62,71 +65,75 @@ public class Warlock extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.WITHER_SKELETON_SKULL),
-                Component.text("Cursed Skull", NamedTextColor.GREEN),
+                Component.text("Cursed Skull", NamedTextColor.LIGHT_PURPLE),
                 Arrays.asList(Component.empty(),
-                        Component.text("Right click to shoot a bolt of shadows, ", NamedTextColor.BLUE),
-                        Component.text("which does damage to enemies and inflicts", NamedTextColor.BLUE),
-                        Component.text("slowness I for 5 seconds and 70 DMG to them.", NamedTextColor.BLUE),
-                        Component.text("Direct hits give a soul shard and have", NamedTextColor.BLUE),
-                        Component.text("a 10% chance to give a health stone.", NamedTextColor.BLUE),
-                        Component.empty(),
-                        Component.text("20 Melee Damage", NamedTextColor.DARK_GREEN)), null, meleeDamage);
+                        Component.text("- 20 Melee Damage", NamedTextColor.LIGHT_PURPLE),
+                        Component.text("<< Right Click To Shoot >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Projectiles deal 70 DMG & inflict", NamedTextColor.GRAY),
+                        Component.text("slowness I for 5 seconds.", NamedTextColor.GRAY),
+                        Component.text("Direct hits give a soul shard and have", NamedTextColor.GRAY),
+                        Component.text("a 10% chance to give a health stone.", NamedTextColor.GRAY)), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.WITHER_SKELETON_SKULL),
-                        Component.text("Cursed Skull", NamedTextColor.GREEN),
+                        Component.text("Cursed Skull", NamedTextColor.LIGHT_PURPLE),
                         Arrays.asList(Component.empty(),
-                                Component.text("Right click to shoot a bolt of shadows, ", NamedTextColor.BLUE),
-                                Component.text("which does damage to enemies and inflicts", NamedTextColor.BLUE),
-                                Component.text("slowness I for 5 seconds and 70 to them.", NamedTextColor.BLUE),
-                                Component.text("Direct hits give a soul shard and have", NamedTextColor.BLUE),
-                                Component.text("a 10% chance to give a health stone.", NamedTextColor.BLUE),
-                                Component.empty(),
-                                Component.text("22 Melee Damage", NamedTextColor.DARK_GREEN),
-								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
+                                Component.text("- 22 Melee Damage", NamedTextColor.LIGHT_PURPLE),
+                                Component.text("- Voted: +2 Melee Damage", NamedTextColor.DARK_PURPLE),
+                                Component.text("<< Right Click To Shoot >>", NamedTextColor.DARK_GRAY),
+                                Component.text("Projectiles deal 70 DMG & inflict", NamedTextColor.GRAY),
+                                Component.text("slowness I for 5 seconds.", NamedTextColor.GRAY),
+                                Component.text("Direct hits give a soul shard and have", NamedTextColor.GRAY),
+                                Component.text("a 10% chance to give a health stone.", NamedTextColor.GRAY)),
                         Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
                 0);
 
         // 1st ability
         es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.POISONOUS_POTATO),
-                Component.text("Curse", NamedTextColor.GREEN),
+                Component.text("Curse", NamedTextColor.LIGHT_PURPLE),
                 Arrays.asList(Component.empty(),
-                        Component.text("Right click to give negative damage to all ", NamedTextColor.AQUA),
-                        Component.text("enemies in a 7 block radius of you for 6s.", NamedTextColor.AQUA),
+                        Component.text("<< Right Click Near Enemies >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Right click to give negative damage to all", NamedTextColor.GRAY),
+                        Component.text("enemies in a 7 block radius of you for 6s.", NamedTextColor.GRAY),
                         Component.empty(),
-                        Component.text("Has a cooldown of 13 seconds.", NamedTextColor.AQUA)), null);
+                        Component.text("13s Cooldown", NamedTextColor.LIGHT_PURPLE)), null);
 
         // 2nd ability
         es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.SCUTE),
-                Component.text("Drain life", NamedTextColor.GREEN),
+                Component.text("Soul Siphon", NamedTextColor.LIGHT_PURPLE),
                 Arrays.asList(Component.empty(),
-                        Component.text("Fire a beam of life draining energy that deals", NamedTextColor.AQUA),
-                        Component.text("10 DMG/hit and heals you for 10 HP/hit.", NamedTextColor.AQUA),
+                        Component.text("<< Right Click Near Enemies >>", NamedTextColor.DARK_GRAY),
+                        Component.text("All enemies in a 10 block radius", NamedTextColor.GRAY),
+                        Component.text("take 50 DMG & allies receive 50 HP.", NamedTextColor.GRAY),
                         Component.empty(),
-                        Component.text("Has a cooldown of 20 seconds.", NamedTextColor.AQUA)), null);
+                        Component.text("20s Cooldown", NamedTextColor.LIGHT_PURPLE)), null);
 
         // 3rd ability
         es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.REDSTONE),
-                Component.text("Health Funnel", NamedTextColor.GREEN),
+                Component.text("Health Funnel", NamedTextColor.LIGHT_PURPLE),
                 Arrays.asList(Component.empty(),
-                        Component.text("Sacrifice 25% of your health to heal", NamedTextColor.AQUA),
-                        Component.text("your ally for 25% of your max health.", NamedTextColor.AQUA),
+                        Component.text("<< Right Click A Teammate >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Sacrifice 25% of your health to heal", NamedTextColor.GRAY),
+                        Component.text("your ally for 25% of your max health.", NamedTextColor.GRAY),
                         Component.empty(),
-                        Component.text("Has a cooldown of 5 seconds.", NamedTextColor.AQUA)), null);
+                        Component.text("5s Cooldown", NamedTextColor.LIGHT_PURPLE)), null);
 
         // 4th ability
         es.hotbar[4] = CSItemCreator.item(new ItemStack(Material.BLAZE_POWDER),
-                Component.text("Hellfire", NamedTextColor.GREEN),
+                Component.text("Hellfire Ring", NamedTextColor.GOLD),
                 Arrays.asList(Component.empty(),
-                        Component.text("Requires 5 soul shards to cast.", NamedTextColor.DARK_GRAY),
-                        Component.text("Shoot a large burst of hellfire in", NamedTextColor.AQUA),
-                        Component.text("front of you, burning anything on its path.", NamedTextColor.AQUA),
+                        Component.text("<< Right Click A Teammate >>", NamedTextColor.DARK_GRAY),
+                        Component.text("- Requires 5 soul shards.", NamedTextColor.DARK_GRAY),
+                        Component.text("Creates a ring around you with a", NamedTextColor.GRAY),
+                        Component.text("max range of 10 blocks.", NamedTextColor.GRAY),
+                        Component.text("All enemies in that ring are", NamedTextColor.GRAY),
+                        Component.text("put on fire for 12s.", NamedTextColor.GRAY),
                         Component.empty(),
-                        Component.text("Has no cooldown.", NamedTextColor.AQUA)), null);
+                        Component.text("No Cooldown.", NamedTextColor.GOLD)), null);
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Warlock's Robe", NamedTextColor.GREEN),
+                Component.text("Warlock's Robe", NamedTextColor.LIGHT_PURPLE),
                 List.of(Component.text("» Emerald Eye Trim", NamedTextColor.DARK_GRAY),
                         Component.empty(),
                         Component.text(health + " HP", NamedTextColor.DARK_GREEN),
@@ -141,7 +148,7 @@ public class Warlock extends CoinKit implements Listener {
 
         // Leggings
         es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Warlock's Leggings", NamedTextColor.GREEN),
+                Component.text("Warlock's Leggings", NamedTextColor.LIGHT_PURPLE),
                 List.of(Component.text("» Emerald Dune Trim", NamedTextColor.DARK_GRAY),
                         Component.empty(),
                         Component.text(health + " HP", NamedTextColor.DARK_GREEN),
@@ -156,14 +163,14 @@ public class Warlock extends CoinKit implements Listener {
 
         // Boots
         es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                Component.text("Warlock's Boots", NamedTextColor.GREEN),
+                Component.text("Warlock's Boots", NamedTextColor.LIGHT_PURPLE),
                 List.of(Component.empty(),
                         Component.text(health + " HP", NamedTextColor.DARK_GREEN),
                         Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(85, 30, 127));
         // Voted Boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                Component.text("Warlock's Boots", NamedTextColor.GREEN),
+                Component.text("Warlock's Boots", NamedTextColor.LIGHT_PURPLE),
                 List.of(Component.empty(),
                         Component.text(health + " HP", NamedTextColor.DARK_GREEN),
                         Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
@@ -217,7 +224,7 @@ public class Warlock extends CoinKit implements Listener {
 
     /**
      * Activate the warlock ability of cursing the area
-     * @param e The event called when right-clicking with a stick
+     * @param e The event called when right-clicking with a poisonous potato
      */
     @EventHandler
     public void castCurse(PlayerInteractEvent e) {
@@ -274,24 +281,65 @@ public class Warlock extends CoinKit implements Listener {
      */
     @EventHandler
     public void castLifeDrain(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack staff = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.SCUTE);
-
+        UUID uuid = e.getPlayer().getUniqueId();
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
-
+        Player p = e.getPlayer();
+        ItemStack staff = p.getInventory().getItemInMainHand();
         if (!Objects.equals(Kit.equippedKits.get(uuid).name, name) || !staff.getType().equals(Material.SCUTE)) {
             return;
         }
-
         if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            int cooldown = p.getCooldown(Material.SCUTE);
             if (cooldown == 0) {
-                p.setCooldown(Material.SCUTE, lifeDrainCooldown);
-                mythicMobsApi.castSkill(p ,"WarlockLifedrain", p.getLocation());
+                for (Player hit : Bukkit.getOnlinePlayers()) {
+                    //if the player is not in the same world ignore them.
+                    if (p.getWorld() != hit.getWorld())
+                        continue;
+                    //the player executing the ability should have enemy players in range.
+                    if (p.getLocation().distance(hit.getLocation()) <= 10) {
+                        siphonHealthMechanism(p, hit);
+                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ALLAY_DEATH, 1, (float) 0.4);
+                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ALLAY_ITEM_THROWN, 1, (float) 0.4);
+                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ALLAY_ITEM_GIVEN, 1, (float) 0.4);
+                        p.setCooldown(Material.SCUTE, siphonCooldown);
+                    }
+                }
+            }
+        }
+    }
+    /**
+     * Siphon ability logic
+     * @param warlock The warlock who is performing the ability.
+     * @param affected The players affected by this ability.
+     */
+    public void siphonHealthMechanism(Player warlock, Player affected) {
+        boolean hasEnemyInRange = false;
+        if (TeamController.getTeam(warlock.getUniqueId())
+                != TeamController.getTeam(affected.getUniqueId())) {
+            if (50 >= affected.getHealth()) {
+                DeathEvent.setKiller(affected, warlock);
+            }
+            affected.damage(50);
+            AssistKill.addDamager(affected.getUniqueId(), warlock.getUniqueId(), 50);
+            hasEnemyInRange = true;
+            warlock.setCooldown(Material.SCUTE, siphonCooldown);
+        }
+        if (hasEnemyInRange) {
+            if (TeamController.getTeam(warlock.getUniqueId())
+                    == TeamController.getTeam(affected.getUniqueId())) {
+                if (affected.getHealth() + 50 <= health) {
+                    affected.setHealth(affected.getHealth() + 50);
+                } else {
+                    affected.setHealth(health);
+                }
+            }
+            if (warlock.getHealth() + 50 <= health) {
+                warlock.setHealth(warlock.getHealth() + 50);
+            } else {
+                warlock.setHealth(health);
             }
         }
     }
@@ -356,15 +404,13 @@ public class Warlock extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickHellfire(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack staff = p.getInventory().getItemInMainHand();
-
+        UUID uuid = e.getPlayer().getUniqueId();
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
-
+        Player p = e.getPlayer();
+        ItemStack staff = p.getInventory().getItemInMainHand();
         if (!Objects.equals(Kit.equippedKits.get(uuid).name, name) || !staff.getType().equals(Material.BLAZE_POWDER)) {
             return;
         }
@@ -373,9 +419,21 @@ public class Warlock extends CoinKit implements Listener {
                 Messenger.sendActionError("You require 5 soul shards to perform this spell!", p);
                 return;
             }
-
+            mythicMobsApi.castSkill(p ,"Hellfire", p.getLocation());
+            for (Player hit : Bukkit.getOnlinePlayers()) {
+                //if the player is not in the same world ignore them.
+                if (p.getWorld() != hit.getWorld())
+                    continue;
+                //the player executing the ability should have enemy players in range.
+                if (p.getLocation().distance(hit.getLocation()) <= 10) {
+                    if (TeamController.getTeam(p.getUniqueId())
+                            != TeamController.getTeam(hit.getUniqueId())) {
+                        hit.setFireTicks(240);
+                        AssistKill.addDamager(hit.getUniqueId(), p.getUniqueId(), 60);
+                    }
+                }
+            }
             for (ItemStack item : p.getInventory().getContents()) {
-                mythicMobsApi.castSkill(p ,"Hellfire", p.getLocation());
                 if (item == null) { return; }
                 if (item.getType().equals(Material.AMETHYST_SHARD)) {
                     item.setAmount(item.getAmount() - 5);
@@ -426,16 +484,14 @@ public class Warlock extends CoinKit implements Listener {
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
         kitLore.add(Component.text("A debuff kit that can curse enemies, ", NamedTextColor.GRAY));
-        kitLore.add(Component.text("sacrifice its own health to heal teammates", NamedTextColor.GRAY));
-        kitLore.add(Component.text("and obliterate enemies with hellfire", NamedTextColor.GRAY));
+        kitLore.add(Component.text("sacrifice its own health & steal enemy", NamedTextColor.GRAY));
+        kitLore.add(Component.text("health to heal teammates.", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, 0));
         // TODO - Externalise values
         kitLore.add(Component.text("70", color)
                 .append(Component.text(" shadow bolt DMG", NamedTextColor.GRAY)));
-        kitLore.add(Component.text("15", color)
-                .append(Component.text(" life-drain DPS", NamedTextColor.GRAY)));
-        kitLore.add(Component.text("70", color)
-                .append(Component.text(" hellfire DPS", NamedTextColor.GRAY)));
+        kitLore.add(Component.text("50", color)
+                .append(Component.text(" Siphon DPS", NamedTextColor.GRAY)));
         kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Slowness II", NamedTextColor.GRAY));
@@ -445,11 +501,12 @@ public class Warlock extends CoinKit implements Listener {
         kitLore.add(Component.text("to damage them and give them slowness I", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Can curse all enemies in a 7 block radius", NamedTextColor.GRAY));
         kitLore.add(Component.text("giving them negative damage for 4 seconds", NamedTextColor.GRAY));
-        kitLore.add(Component.text("- Can drain life from targets for 5 seconds", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can drain life from enemies nearby and", NamedTextColor.GRAY));
+        kitLore.add(Component.text("gift this life to nearby teammates.", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Has the possibility to sacrifice 25% of their HP", NamedTextColor.GRAY));
         kitLore.add(Component.text("to heal a teammate for 25% of the warlock's max health", NamedTextColor.GRAY));
-        kitLore.add(Component.text("- Can pay hell with 5 soul shards to summon devastating", NamedTextColor.GRAY));
-        kitLore.add(Component.text("hellfire that incinerates all enemy players it comes across", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Can pay hell with 5 soul shards to summon a devastating", NamedTextColor.GRAY));
+        kitLore.add(Component.text("hellfire ring that puts all enemies on fire in it.", NamedTextColor.GRAY));
         kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
