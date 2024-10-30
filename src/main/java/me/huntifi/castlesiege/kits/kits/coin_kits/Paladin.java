@@ -84,8 +84,9 @@ public class Paladin extends CoinKit implements Listener {
 
         // Weapon
         shield = CSItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
-                Component.text("Blessed Shield", NamedTextColor.GREEN),
+                Component.text("Blessed Shield", NamedTextColor.GOLD),
                 List.of(Component.empty(),
+                        Component.text("- 10 DMG", NamedTextColor.GOLD),
                         Component.text("- Knockback I", NamedTextColor.GOLD),
                         Component.text("<< Right Click To Block >>", NamedTextColor.DARK_GRAY),
                         Component.text("Can block up to 8 times before", NamedTextColor.GRAY),
@@ -97,11 +98,11 @@ public class Paladin extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = CSItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
-                Component.text("Blessed Chestplate", NamedTextColor.GREEN),
+                Component.text("Blessed Chestplate", NamedTextColor.GOLD),
                 List.of(Component.text("» Diamond Dune Trim", NamedTextColor.DARK_GRAY),
                         Component.empty(),
-                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
-                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
+                        Component.text(health + " HP", NamedTextColor.YELLOW),
+                        Component.text(regen + " Regen", NamedTextColor.YELLOW)), null);
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
         assert chest != null;
@@ -111,11 +112,11 @@ public class Paladin extends CoinKit implements Listener {
 
         // Leggings
         es.legs = CSItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
-                Component.text("Blessed Iron Leggings", NamedTextColor.GREEN),
+                Component.text("Blessed Iron Leggings", NamedTextColor.GOLD),
                 List.of(Component.text("» Gold Eye Trim", NamedTextColor.DARK_GRAY),
                         Component.empty(),
-                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
-                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
+                        Component.text(health + " HP", NamedTextColor.YELLOW),
+                        Component.text(regen + " Regen", NamedTextColor.YELLOW)), null);
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
         assert legs != null;
@@ -125,20 +126,20 @@ public class Paladin extends CoinKit implements Listener {
 
         // Boots
         es.feet = CSItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
-                Component.text("Paladin Boots", NamedTextColor.GREEN),
+                Component.text("Paladin Boots", NamedTextColor.GOLD),
                 List.of(Component.text("» Gold Coast Trim", NamedTextColor.DARK_GRAY),
                         Component.empty(),
-                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
-                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
+                        Component.text(health + " HP", NamedTextColor.YELLOW),
+                        Component.text(regen + " Regen", NamedTextColor.YELLOW)), null);
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.DIAMOND_BOOTS),
-                Component.text("Paladin Boots", NamedTextColor.GREEN),
+                Component.text("Paladin Boots", NamedTextColor.GOLD),
                 List.of(Component.text("» Gold Coast Trim", NamedTextColor.DARK_GRAY),
                         Component.empty(),
-                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
-                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.text(health + " HP", NamedTextColor.YELLOW),
+                        Component.text(regen + " Regen", NamedTextColor.YELLOW),
                         Component.empty(),
-                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.GOLD)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
         ItemMeta boots = es.feet.getItemMeta();
         ArmorMeta bootsMeta = (ArmorMeta) boots;
@@ -213,8 +214,10 @@ public class Paladin extends CoinKit implements Listener {
     @EventHandler
     public void combatShielding(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
-            shieldMechanism(p);
+            if (Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
+                Player p = (Player) e.getEntity();
+                shieldMechanism(p);
+            }
         }
     }
     /**
@@ -224,8 +227,10 @@ public class Paladin extends CoinKit implements Listener {
     @EventHandler
     public void combatShielding2(ProjectileHitEvent e) {
         if (e.getHitEntity() instanceof Player) {
-            Player p = (Player) e.getHitEntity();
-            shieldMechanism(p);
+            if (Objects.equals(Kit.equippedKits.get(e.getHitEntity().getUniqueId()).name, name)) {
+                Player p = (Player) e.getHitEntity();
+                shieldMechanism(p);
+            }
         }
     }
     /**
@@ -345,6 +350,8 @@ public class Paladin extends CoinKit implements Listener {
         kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
+        kitLore.add(Component.text("On Shield Cooldown:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Bless the paladin and nearby teammates.", NamedTextColor.GRAY));
         return kitLore;
     }
 }

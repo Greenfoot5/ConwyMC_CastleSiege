@@ -1,6 +1,8 @@
 package me.huntifi.castlesiege.kits.kits.level_kits;
 
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.EnderchestEvent;
+import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
 import me.huntifi.castlesiege.kits.kits.Kit;
@@ -17,7 +19,9 @@ import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -28,11 +32,14 @@ import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Hypaspist extends LevelKit implements Listener {
 
@@ -43,6 +50,8 @@ public class Hypaspist extends LevelKit implements Listener {
     private static final double throwDamage = 72;
     private static final int ladderCount = 4;
     private static final int level = 20;
+    private static int blockAmount = 10;
+    private final ItemStack shield;
 
     /**
      * Creates a new Hypaspist
@@ -55,20 +64,29 @@ public class Hypaspist extends LevelKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                Component.text("Short-sword", NamedTextColor.GREEN), null, null, meleeDamage);
+                Component.text("Short-sword", NamedTextColor.GREEN), List.of(Component.empty(),
+                        Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN)), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Short-sword", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
+                        List.of(Component.empty(),
+                                Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
+                                Component.text("⁎ Voted: +2 damage", NamedTextColor.GREEN)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
-        // Weapon
-        es.offhand = CSItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
+        // Shield
+        shield = CSItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
                 Component.text("Concave Shield", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("Right-click to block.", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text("- 10 DMG", NamedTextColor.DARK_GREEN),
+                        Component.text("- Knockback I", NamedTextColor.DARK_GREEN),
+                        Component.text("<< Right Click To Block >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Can block up to 10 times before", NamedTextColor.GRAY),
+                        Component.text("the cooldown activates.", NamedTextColor.GRAY)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)) , 10);
+        es.offhand = shield;
 
         // Weapon
         es.hotbar[1] = CSItemCreator.weapon(new ItemStack(Material.TRIDENT),
@@ -123,6 +141,83 @@ public class Hypaspist extends LevelKit implements Listener {
         // Death Messages
         super.projectileDeathMessage[0] = "You were impaled by ";
         super.projectileKillMessage[0] = " impaled ";
+    }
+
+    /**
+     * @param hypaspist the hypaspist to remove and give back the shield to.
+     * This is to stop the hypaspist from blocking even when the cooldown is active.
+     * Don't bother trying to change this or find another way, there is no other way provided by spigot.
+     */
+    public void tempRemoveShield(Player hypaspist) {
+        hypaspist.getInventory().setItemInOffHand(null);
+        hypaspist.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 1));
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                hypaspist.getInventory().setItemInOffHand(shield);
+            }
+        }.runTaskLater(Main.plugin, 10);
+    }
+
+    /**
+     * This is basically a shield cool-down mechanism/method.
+     * @param shielder the hypaspist holding the shield.
+     */
+    public void shieldMechanism(Player shielder) {
+        if (Objects.equals(Kit.equippedKits.get(shielder.getUniqueId()).name, name)) {
+            if (shielder.isBlocking() && blockAmount != 0) {
+                blockAmount--;
+            } else if (shielder.isBlocking() && blockAmount <= 1) {
+                shielder.setCooldown(Material.SHIELD, 300);
+                tempRemoveShield(shielder);
+                blockAmount = 10;
+            }
+        }
+    }
+
+    /**
+     *
+     * @param e when a hypaspist gets hit whilst blocking.
+     */
+    @EventHandler
+    public void combatShielding(EntityDamageByEntityEvent e) {
+            if (e.getEntity() instanceof Player) {
+                if (Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
+                Player p = (Player) e.getEntity();
+                shieldMechanism(p);
+            }
+        }
+    }
+    /**
+     *
+     * @param e when a hypaspist gets hit by projectiles whilst blocking.
+     */
+    @EventHandler
+    public void combatShielding2(ProjectileHitEvent e) {
+        if (e.getHitEntity() instanceof Player) {
+            if (Objects.equals(Kit.equippedKits.get(e.getHitEntity().getUniqueId()).name, name)) {
+                Player p = (Player) e.getHitEntity();
+                shieldMechanism(p);
+            }
+        }
+    }
+    /**
+     *
+     * @param e hypaspist tries to block whilst the cooldown is active.
+     */
+    @EventHandler
+    public void shielding(PlayerInteractEvent e) {
+        UUID uuid = e.getPlayer().getUniqueId();
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) && e.getPlayer().getInventory().getItemInMainHand().getType() != Material.TRIDENT) {
+            Player p = e.getPlayer();
+            if (p.getCooldown(Material.SHIELD) != 0 &&
+                    (p.getInventory().getItemInMainHand().getType() == Material.SHIELD || p.getInventory().getItemInOffHand().getType() == Material.SHIELD)) {
+                e.setCancelled(true);
+            }
+            if (!InCombat.isPlayerInCombat(e.getPlayer().getUniqueId())) {
+                blockAmount = 12;
+            }
+        }
     }
 
     /**
@@ -199,6 +294,8 @@ public class Hypaspist extends LevelKit implements Listener {
         kitLore.add(Component.text("- Trident-throw inflicts confusion IV,", NamedTextColor.GRAY));
         kitLore.add(Component.text("Mining Fatigue III and Slowness II", NamedTextColor.GRAY));
         kitLore.add(Component.text("on hit opponents", NamedTextColor.GRAY));
+        kitLore.add(Component.text("On Shield Cooldown:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Speed II (0:08)", NamedTextColor.GRAY));
         return kitLore;
     }
 }
