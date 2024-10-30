@@ -1,6 +1,7 @@
 package me.huntifi.castlesiege.kits.kits.coin_kits;
 
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
+import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
@@ -21,6 +22,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
@@ -30,6 +33,7 @@ import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +49,8 @@ public class Paladin extends CoinKit implements Listener {
     private static final double meleeDamage = 33;
     private static final int ladderCount = 4;
     private static final int blessingCooldown = 500;
+    private static int blockAmount = 8;
+    private final ItemStack shield;
 
     private final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
 
@@ -62,25 +68,32 @@ public class Paladin extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.GOLDEN_AXE),
-                Component.text("Holy Hammer", NamedTextColor.GREEN),
+                Component.text("Holy Hammer", NamedTextColor.GOLD),
                 List.of(Component.empty(),
-                        Component.text("33 Melee Damage", NamedTextColor.DARK_GREEN)),
+                        Component.text("33 Melee Damage", NamedTextColor.YELLOW)),
                 null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.GOLDEN_AXE),
-                        Component.text("Holy Hammer", NamedTextColor.GREEN),
+                        Component.text("Holy Hammer", NamedTextColor.GOLD),
                         List.of(Component.empty(),
-                                Component.text("35 Melee Damage", NamedTextColor.DARK_GREEN),
-								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
+                                Component.text("35 Melee Damage", NamedTextColor.YELLOW),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GOLD)),
                         Collections.singletonList(new Tuple<>(Enchantment.DAMAGE_UNDEAD, 5)), meleeDamage + 2),
                 0);
 
         // Weapon
-        es.offhand = CSItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
+        shield = CSItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
                 Component.text("Blessed Shield", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("Right-click block.", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text("- Knockback I", NamedTextColor.GOLD),
+                        Component.text("<< Right Click To Block >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Can block up to 8 times before", NamedTextColor.GRAY),
+                        Component.text("the cooldown activates.", NamedTextColor.GRAY),
+                        Component.text("Blesses you and your nearby", NamedTextColor.GRAY),
+                        Component.text("allies, when the cooldown activates.", NamedTextColor.GRAY)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)) , 10);
+        es.offhand = shield;
 
         // Chestplate
         es.chest = CSItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
@@ -139,11 +152,12 @@ public class Paladin extends CoinKit implements Listener {
         ItemStack divine = CSItemCreator.weapon(new ItemStack(Material.BOOK, 3),
                 Component.text("Divine Blessing", NamedTextColor.GOLD),
                 Arrays.asList(Component.empty(),
-                        Component.text("Give yourself regeneration VI and give", NamedTextColor.AQUA),
-                        Component.text("your allies in a 5 block radius of you", NamedTextColor.AQUA),
-                        Component.text("regeneration V.", NamedTextColor.AQUA),
-                        Component.text("This effect lasts 8 seconds, ", NamedTextColor.AQUA),
-                        Component.text("has a cooldown of 25 seconds.", NamedTextColor.AQUA)),
+                        Component.text("<< Right Click To Activate >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Give yourself regeneration VI and give", NamedTextColor.GRAY),
+                        Component.text("your allies in a 5 block radius of you", NamedTextColor.GRAY),
+                        Component.text("regeneration V.", NamedTextColor.GRAY),
+                        Component.text("This effect lasts 8 seconds,", NamedTextColor.GRAY),
+                        Component.text("25s Cooldown", NamedTextColor.GOLD)),
                 null, 1);
         es.hotbar[1] = divine;
 
@@ -158,28 +172,89 @@ public class Paladin extends CoinKit implements Listener {
 
     }
 
+    public void tempRemoveShield(Player paladin) {
+        paladin.getInventory().setItemInOffHand(null);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                paladin.getInventory().setItemInOffHand(shield);
+            }
+        }.runTaskLater(Main.plugin, 10);
+    }
+
+    @EventHandler
+    public void combatShielding(EntityDamageByEntityEvent e) {
+        if (e.getEntity() instanceof Player) {
+            Player p = (Player) e.getEntity();
+            if (p.isBlocking() && blockAmount != 0) {
+                blockAmount--;
+            } else if (p.isBlocking() && blockAmount <= 1) {
+                p.setCooldown(Material.SHIELD, 300);
+                tempRemoveShield(p);
+                blockAmount = 8;
+                for (Player near : Bukkit.getOnlinePlayers()) {
+                    bless(p, near);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void combatShielding2(ProjectileHitEvent e) {
+        if (e.getHitEntity() instanceof Player) {
+            Player p = (Player) e.getHitEntity();
+            if (p.isBlocking() && blockAmount != 0) {
+                blockAmount--;
+            } else if (p.isBlocking() && blockAmount <= 1) {
+                p.setCooldown(Material.SHIELD, 300);
+                tempRemoveShield(p);
+                blockAmount = 8;
+                for (Player near : Bukkit.getOnlinePlayers()) {
+                    bless(p, near);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void shielding(PlayerInteractEvent e) {
+        UUID uuid = e.getPlayer().getUniqueId();
+        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            Player p = e.getPlayer();
+            if (p.getCooldown(Material.SHIELD) != 0 &&
+                    (p.getInventory().getItemInMainHand().getType() == Material.SHIELD || p.getInventory().getItemInOffHand().getType() == Material.SHIELD)) {
+                e.setCancelled(true);
+            }
+            if (!InCombat.isPlayerInCombat(e.getPlayer().getUniqueId())) {
+                blockAmount = 8;
+            }
+        }
+    }
+
     /**
      * @param blesser The player performing the blessing
      * @param blessed The player being blessed
      */
     private void bless(Player blesser, Player blessed) {
-
-        blesser.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
-        Messenger.sendActionInfo("You blessed your surroundings!", blesser);
-        mythicMobsApi.castSkill(blesser,"PaladinBlessingEffect");
-
-        if (TeamController.getTeam(blesser.getUniqueId()) == TeamController.getTeam(blessed.getUniqueId())
-                && blesser.getLocation().distance(blessed.getLocation()) <= 5 && blesser != blessed) {
-
-            AttributeInstance healthAttribute = blessed.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-            assert healthAttribute != null;
-            //Paladin doesn't get a heal for blessing someone who is full health.
-            if (blessed.getHealth() != healthAttribute.getBaseValue()) {
-                UpdateStats.addHeals(blesser.getUniqueId(), 1);
+            Messenger.sendActionInfo("You blessed your surroundings!", blesser);
+            Bukkit.getScheduler().runTask(Main.plugin, () -> {
+            blesser.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
+            mythicMobsApi.castSkill(blesser, "PaladinBlessingEffect");
+            });
+            if (TeamController.getTeam(blesser.getUniqueId()) == TeamController.getTeam(blessed.getUniqueId())
+                    && blesser.getLocation().distance(blessed.getLocation()) <= 5 && blesser != blessed) {
+                AttributeInstance healthAttribute = blessed.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                assert healthAttribute != null;
+                //Paladin doesn't get a heal for blessing someone who is full health.
+                if (blessed.getHealth() != healthAttribute.getBaseValue()) {
+                    Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> UpdateStats.addHeals(blesser.getUniqueId(), 1));
+                }
+                Bukkit.getScheduler().runTask(Main.plugin, () -> {
+                    blessed.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 4, true, false));
+                });
             }
-            blessed.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 4, true, false));
-        }
     }
+
 
 
     /**
@@ -188,29 +263,50 @@ public class Paladin extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickBlessing(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack book = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.BOOK);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            Player p = e.getPlayer();
+            UUID uuid = p.getUniqueId();
+            ItemStack book = p.getInventory().getItemInMainHand();
+            int cooldown = p.getCooldown(Material.BOOK);
 
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
-            return;
-        }
+            // Prevent using in lobby
+            if (InCombat.isPlayerInLobby(uuid)) {
+                return;
+            }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (book.getType().equals(Material.BOOK)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0) {
-                        book.setAmount(book.getAmount() - 1);
-                        p.setCooldown(Material.BOOK, blessingCooldown);
-                        for (Player near : Bukkit.getOnlinePlayers()) {
-                            bless(p, near);
+            if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+                if (book.getType().equals(Material.BOOK)) {
+                    if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                        if (cooldown == 0) {
+                            Bukkit.getScheduler().runTask(Main.plugin, () -> {
+                                book.setAmount(bookRemover(book.getAmount()));
+                                p.setCooldown(Material.BOOK, blessingCooldown);
+                            });
+                            for (Player near : Bukkit.getOnlinePlayers()) {
+                                bless(p, near);
+                            }
                         }
                     }
                 }
             }
+        });
+    }
+
+    /**
+     * Ok so this might be strange, why does this exist?
+     * Well because a runTask inside an async runs book.getAmount() - 1 twice for some reason.
+     */
+    public int bookRemover(int bookAmount) {
+        if (bookAmount == 3) {
+            return 2;
         }
+        if (bookAmount == 2) {
+            return 1;
+        }
+        if (bookAmount == 1) {
+            return 0;
+        }
+        return 3;
     }
 
     /**
