@@ -58,8 +58,9 @@ public class HallowedHorseman extends EventKit implements Listener {
                 Component.text("Hallowed Sword", NamedTextColor.DARK_RED),
                 List.of(Component.empty(),
                         Component.text("40 Melee Damage", NamedTextColor.RED),
-                        Component.text("<< Hitting an enemy with less than", NamedTextColor.DARK_GRAY),
-                        Component.text("20% HP, instantly kills them. >>", NamedTextColor.GRAY)),
+                        Component.text("<< Passive Ability >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Hitting an enemy with less than", NamedTextColor.GRAY),
+                        Component.text("20% HP, instantly kills them.", NamedTextColor.GRAY)),
                 null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
@@ -68,8 +69,9 @@ public class HallowedHorseman extends EventKit implements Listener {
                         List.of(Component.empty(),
                                 Component.text("40 Melee Damage", NamedTextColor.RED),
                                 Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GOLD),
-                                Component.text("<< Hitting an enemy with less than", NamedTextColor.DARK_GRAY),
-                                Component.text("20% HP, instantly kills them. >>", NamedTextColor.GRAY)),
+                                Component.text("<< Passive Ability >>", NamedTextColor.DARK_GRAY),
+                                Component.text("Hitting an enemy with less than", NamedTextColor.GRAY),
+                                Component.text("20% HP, instantly kills them.", NamedTextColor.GRAY)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
@@ -148,7 +150,7 @@ public class HallowedHorseman extends EventKit implements Listener {
         // Death Messages
         super.deathMessage[0] = "";
         super.deathMessage[1] = " has ended you!";
-        super.killMessage[0] = " has ended ";
+        super.killMessage[0] = " have ended ";
 
         super.equipment = es;
 

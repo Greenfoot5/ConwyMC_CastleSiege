@@ -62,15 +62,15 @@ public class Berserker extends CoinKit implements Listener {
         regularSword = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Iron Sword", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text("53 Melee Damage", NamedTextColor.DARK_GREEN)),
+                        Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage);
         es.hotbar[0] = regularSword;
         // Voted Weapon
         regularSwordVoted = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Iron Sword", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text("55 Melee Damage", NamedTextColor.DARK_GREEN),
-                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
+                        Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
@@ -82,7 +82,8 @@ public class Berserker extends CoinKit implements Listener {
         es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.POTION, 1),
                 Component.text("Berserker Potion", NamedTextColor.GOLD),
                 List.of(Component.empty(),
-                        Component.text("Drink to enter berserk mode", NamedTextColor.BLUE),
+                        Component.text("<< Right Click To Use >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Drink to enter berserk mode", NamedTextColor.GRAY),
                         Component.empty(),
                         Component.text("+ 54.5 Melee Damage", NamedTextColor.DARK_GREEN),
                         Component.text("○ Strength I (0:20)", TextColor.color(40, 169, 255)),
