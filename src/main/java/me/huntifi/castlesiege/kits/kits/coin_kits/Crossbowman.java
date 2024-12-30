@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -66,29 +67,49 @@ public class Crossbowman extends CoinKit implements Listener {
 
         // Crossbow
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.CROSSBOW),
-                Component.text("Crossbow", NamedTextColor.GREEN), null, null, 1);
+                Component.text("Crossbow", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("1 Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text("18 Ranged Damage", NamedTextColor.DARK_GREEN)),
+                null, 1);
         es.votedWeapon = new Tuple<>(CSItemCreator.weapon(new ItemStack(Material.CROSSBOW),
                 Component.text("Crossbow", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text("3 Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA),
+                        Component.text("18 Ranged Damage", NamedTextColor.DARK_GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 3), 0);
 
         // Chestplate
         es.chest = CSItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
-                Component.text("Iron Chestplate", NamedTextColor.GREEN), null, null);
+                Component.text("Iron Chestplate", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 
         // Leggings
         es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(255, 255, 51));
 
         // Boots
         es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(255, 255, 51));
         // Voted boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(255, 255, 51));
 
@@ -300,7 +321,7 @@ public class Crossbowman extends CoinKit implements Listener {
         ArrayList<Component> kitLore = new ArrayList<>();
         kitLore.add(Component.text("A ranged kit that can function", NamedTextColor.GRAY));
         kitLore.add(Component.text("like a sniper", NamedTextColor.GRAY));
-        kitLore.addAll(getBaseStats(health, regen, 1, 36, ladderCount, arrowCount));
+        kitLore.addAll(getBaseStats(health, regen, 1, 18, ladderCount, arrowCount));
         kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Slowness III ", NamedTextColor.GRAY)

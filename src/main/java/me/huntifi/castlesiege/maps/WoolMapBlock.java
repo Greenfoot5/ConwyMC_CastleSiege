@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
@@ -40,7 +41,7 @@ public class WoolMapBlock {
                     CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
                     Core core = coreMap.getCore(coreName);
                     if (team != null && team.hasPlayer(uuid)) {
-                        if (!Objects.equals(core.getOwners(), team.name)) {
+                        if (!Objects.equals(core.getOwners(), team.getName())) {
                             Messenger.sendActionError("Your team does not own this core.", player);
                             return;
                         } else if (kit == null) {
@@ -66,12 +67,14 @@ public class WoolMapBlock {
                         }
                     }
                 }
+
                 if (MapController.getCurrentMap().getFlag(flagName) == null) {
                     return;
                 }
+
                 Flag flag = MapController.getCurrentMap().getFlag(flagName);
                 if (team != null && team.hasPlayer(uuid)) {
-                    if (!Objects.equals(flag.getCurrentOwners(), team.name)) {
+                    if (!Objects.equals(flag.getCurrentOwners(), team.getName())) {
                         Messenger.sendActionError("Your team does not own this flag at the moment.", player);
                     } else if (flag.underAttack()) {
                         Messenger.sendActionError("You can't spawn here. This flag is under attack!", player);
@@ -86,12 +89,13 @@ public class WoolMapBlock {
                             // Set kit items
                             Kit.equippedKits.get(uuid).setItems(uuid, true);
                             // Spawn player
-                            player.teleport(flag.getSpawnPoint(team.name));
+                            player.teleport(flag.getSpawnPoint(team.getName()));
                             // Remove mount
                             if (player.isInsideVehicle()) {
                                 Objects.requireNonNull(player.getVehicle()).remove();
                             }
                             InCombat.playerSpawned(uuid);
+                            player.getWorld().playSound(flag.getSpawnPoint(team.getName()), Sound.BLOCK_ENCHANTMENT_TABLE_USE , 1, 1.1f);
                         });
                         Messenger.sendActionSpawn(flagName, team.primaryChatColor, team.secondaryChatColor, player);
                     }

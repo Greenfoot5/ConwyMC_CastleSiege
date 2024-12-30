@@ -1,9 +1,12 @@
 package me.huntifi.castlesiege.maps;
 
+import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
+import me.huntifi.castlesiege.advancements.TutorialAdvancements;
+import me.huntifi.castlesiege.advancements.displays.NodeDisplay;
+import me.huntifi.castlesiege.commands.donator.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.huntifi.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.huntifi.castlesiege.commands.staff.boosters.GrantBoosterCommand;
@@ -18,12 +21,12 @@ import me.huntifi.castlesiege.database.StoreData;
 import me.huntifi.castlesiege.events.combat.AssistKill;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.gameplay.Explosion;
+import me.huntifi.castlesiege.events.map.NextMapEvent;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
-import me.huntifi.castlesiege.maps.events.NextMapEvent;
 import me.huntifi.castlesiege.maps.objects.Cannon;
 import me.huntifi.castlesiege.maps.objects.Catapult;
 import me.huntifi.castlesiege.maps.objects.Core;
@@ -197,10 +200,10 @@ public class MapController {
 					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
 					// Check if the defenders have won
 					for (Core core : coreMap.getCores()) {
-						if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].name)) {
-							winners = getCurrentMap().teams[0].name;
-						} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].name)) {
-							winners = getCurrentMap().teams[1].name;
+						if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].getName())) {
+							winners = getCurrentMap().teams[0].getName();
+						} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].getName())) {
+							winners = getCurrentMap().teams[1].getName();
 						}
 					}
 				}
@@ -211,10 +214,10 @@ public class MapController {
 			case Charge:
 				// Check if the defenders have won
 				for (Flag flag : getCurrentMap().flags) {
-					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].name)) {
-                        winners = getCurrentMap().teams[0].name;
+					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].getName())) {
+                        winners = getCurrentMap().teams[0].getName();
                     } else {
-                        winners = getCurrentMap().teams[1].name;
+                        winners = getCurrentMap().teams[1].getName();
                     }
 				}
 				break;
@@ -266,23 +269,34 @@ public class MapController {
 		// Broadcast the winners
 		if (winners != null) {
 			for (Team team : getCurrentMap().teams) {
-				if (team.name.equals(winners)) {
-					Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has won!~~~~~~~~", team.primaryChatColor));
+				if (team.getName().equals(winners)) {
+					Messenger.broadcast(Component.text("~~~~~~~~" + team.getName() + " has won!~~~~~~~~", team.primaryChatColor));
 				} else {
-					Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has lost!~~~~~~~~", team.primaryChatColor));
+					Messenger.broadcast(Component.text("~~~~~~~~" + team.getName() + " has lost!~~~~~~~~", team.primaryChatColor));
 				}
 
 				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 
-				if (team.name.equals(winners)) {
+				if (team.getName().equals(winners)) {
 					giveCoinReward(team);
+					Tuple<UUID, CSStats> mvp = team.getMVP();
+					if (mvp != null) {
+						Bukkit.getScheduler().runTask(Main.plugin, () -> {
+							Player player = Bukkit.getPlayer(mvp.getFirst());
+							if (player == null) {
+								player = Bukkit.getOfflinePlayer(mvp.getFirst()).getPlayer();
+							}
+							assert player != null;
+							TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Simply the best"))).grant(player);
+						});
+					}
 				}
 
 			}
 		// The map was a draw
 		} else {
 			for (Team team : getCurrentMap().teams) {
-				Messenger.broadcast(Component.text("~~~~~~~~" + team.name + " has drawn!~~~~~~~~", team.primaryChatColor));
+				Messenger.broadcast(Component.text("~~~~~~~~" + team.getName() + " has drawn!~~~~~~~~", team.primaryChatColor));
 
 				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 			}
@@ -323,6 +337,12 @@ public class MapController {
 			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
 				CSActiveData.getData(p.getUniqueId()).addCoins(50 * CSPlayerData.getCoinMultiplier());
 				Messenger.sendSuccess("<gold>+" + (50 * CSPlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Winner Winner Chicken Dinner"))).grant(p);
+					}
+				}.runTask(Main.plugin);
 			}
 		}
 	}
@@ -403,7 +423,7 @@ public class MapController {
 					NextMapEvent event = new NextMapEvent(oldMap.name, false);
 					Bukkit.getPluginManager().callEvent(event);
 
-					// Save all data
+					// Save all data + reset mvp stats
 					StoreData.storeAll();
 
 					Main.instance.getLogger().info("Completed map cycle! Restarting server...");
@@ -432,6 +452,7 @@ public class MapController {
 	public static void loadMap() {
 		// Clear the scoreboard & reset stats
 		Scoreboard.clearScoreboard();
+		MVPStats.reset();
 
 		// Register doors
 		for (Door door : maps.get(mapIndex).doors) {
@@ -446,7 +467,7 @@ public class MapController {
 		// Move all players to the new map and team
 		if (!keepTeams || maps.get(mapIndex).teams.length < teams.size()) {
 			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
-				if (!isSpectator(player.getUniqueId()) && !DuelCommand.isDueling(player))
+				if (!isSpectator(player.getUniqueId()) && !DuelCommand.isDueling(player.getUniqueId()))
 					joinATeam(player.getUniqueId());
 			}
 		} else {
@@ -686,7 +707,7 @@ public class MapController {
 				Bukkit.getScheduler().runTask(Main.plugin, () ->
 						Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
 								BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
-						.removeRegion(flag.name.replace(' ', '_')));
+						.removeRegion(flag.getName().replace(' ', '_')));
 			}
 		}
 
@@ -750,7 +771,7 @@ public class MapController {
 		team.addPlayer(uuid);
 		player.teleport(team.lobby.spawnPoint);
 		player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_2, 1f, 1f);
-		Messenger.send(Component.text("You joined ").append(Component.text(team.name, team.primaryChatColor)), player);
+		Messenger.send(Component.text("You joined ").append(team.getDisplayName()), player);
 
 		checkTeamKit(player);
 	}
@@ -873,6 +894,7 @@ public class MapController {
 	 * @param player The player to remove
 	 */
 	public static void removePlayer(Player player) {
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 		Team team = TeamController.getTeam(player.getUniqueId());
 		if (team != null)
 			team.removePlayer(player.getUniqueId());
@@ -894,10 +916,6 @@ public class MapController {
 		InCombat.playerDied(player.getUniqueId());
 		Kit.equippedKits.remove(player.getUniqueId());
 
-		// Clean the player's inventory
-		player.getInventory().clear();
-		player.setExp(0);
-
         try {
 			// Save a player's data and reset their current data into PlayerData from CSPlayerData
             StoreData.store(player.getUniqueId(), CSActiveData.getData(player.getUniqueId()));
@@ -906,6 +924,7 @@ public class MapController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+	  });
     }
 
 	public static void addSpectator(Player player) {

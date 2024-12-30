@@ -22,7 +22,7 @@ public class Skirmisher extends VoterKit {
 
     private static final int health = 280;
     private static final double regen = 10;
-    private static final double meleeDamage = 43;
+    private static final double meleeDamage = 40.5;
     private static final int ladderCount = 8;
 
     /**
@@ -41,7 +41,7 @@ public class Skirmisher extends VoterKit {
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Iron Sword", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
@@ -59,7 +59,7 @@ public class Skirmisher extends VoterKit {
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders

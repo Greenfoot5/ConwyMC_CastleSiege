@@ -40,15 +40,15 @@ public class SpearKnight extends LevelKit implements Listener {
 
     private static final int health = 330;
     private static final double regen = 10.5;
-    private static final double meleeDamage = 35;
+    private static final double meleeDamage = 40.5;
     private static final int ladderCount = 4;
-    private static final int level = 5;
+    private static final int level = 10;
 
     // Spear Throw
     private static final int throwCooldown = 160;
     private static final double throwVelocity = 2.2;
     private static final int throwDelay = 5;
-    private static final double throwDamage = 80;
+    private static final double throwDamage = 65;
 
     // Damage multiplier when hitting horses
     private static final double HORSE_MULTIPLIER = 1.5;
@@ -68,7 +68,7 @@ public class SpearKnight extends LevelKit implements Listener {
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Iron Sword", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
@@ -98,7 +98,7 @@ public class SpearKnight extends LevelKit implements Listener {
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders

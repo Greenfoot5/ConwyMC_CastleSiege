@@ -12,14 +12,15 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * The swordsman kit
  */
 public class Swordsman extends FreeKit {
-	private static final int health = 390;
+	private static final int health = 430;
 	private static final double regen = 10.5;
-	private static final double meleeDamage = 43;
+	private static final double meleeDamage = 40.5;
 	private static final int ladderCount = 4;
 
 	/**
@@ -33,30 +34,47 @@ public class Swordsman extends FreeKit {
 
 		// Weapon
 		es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-				Component.text("Iron Sword", NamedTextColor.GREEN), null, null, meleeDamage);
+				Component.text("Iron Sword", NamedTextColor.GREEN),
+				List.of(Component.empty(),
+						Component.text("43 Melee Damage", NamedTextColor.DARK_GREEN)),
+				null, meleeDamage);
 		// Voted Weapon
 		es.votedWeapon = new Tuple<>(
 				CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
 						Component.text("Iron Sword", NamedTextColor.GREEN),
-						Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+						List.of(Component.empty(),
+								Component.text("45 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
 						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
 
 		// Chestplate
 		es.chest = CSItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),
-				Component.text("Iron Chestplate", NamedTextColor.GREEN), null, null);
+				Component.text("Iron Chestplate", NamedTextColor.GREEN),
+				List.of(Component.empty(),
+						Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+						Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 
 		// Leggings
 		es.legs = CSItemCreator.item(new ItemStack(Material.IRON_LEGGINGS),
-				Component.text("Iron Leggings", NamedTextColor.GREEN), null, null);
+				Component.text("Iron Leggings", NamedTextColor.GREEN),
+				List.of(Component.empty(),
+						Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+						Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 
 		// Boots
 		es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-				Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
+				Component.text("Iron Boots", NamedTextColor.GREEN),
+				List.of(Component.empty(),
+						Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+						Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 		// Voted Boots
 		es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
 				Component.text("Iron Boots", NamedTextColor.GREEN),
-				Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+				List.of(Component.empty(),
+						Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+						Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+						Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders

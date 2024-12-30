@@ -2,8 +2,12 @@ package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.TeamController;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Camel;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.SkeletonHorse;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -21,9 +25,9 @@ public class ArrowCollision implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void projectileCollision(ProjectileHitEvent e) {
-        if (!CSActiveData.hasPlayer(e.getEntity().getUniqueId()))
+        if (InCombat.isPlayerInLobby((e.getEntity().getUniqueId()))) {
             return;
-
+        }
         if (e.getEntity().getShooter() instanceof Player && e.getHitEntity() instanceof Player) {
             Player attacker = (Player) e.getEntity().getShooter();
             Player defender = (Player) e.getHitEntity();

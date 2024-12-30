@@ -5,7 +5,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.events.RamEvent;
+import me.huntifi.castlesiege.events.map.RamEvent;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
 import me.huntifi.conwymc.data_types.Tuple;
 import org.bukkit.Bukkit;

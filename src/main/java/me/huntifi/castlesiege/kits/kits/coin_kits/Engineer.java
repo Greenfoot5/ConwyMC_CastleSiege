@@ -55,6 +55,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -87,33 +88,51 @@ public class Engineer extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                Component.text("Short-sword", NamedTextColor.GREEN), null, null, meleeDamage);
+                Component.text("Short-sword", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("38 Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         Component.text("Short-sword", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        List.of(Component.empty(),
+                                Component.text("40 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(128, 129, 129));
 
         // Leggings
         es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(129, 129, 129));
 
         // Boots
         es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(129, 129, 129));
         // Voted Boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(129, 129, 129));
 
@@ -147,19 +166,18 @@ public class Engineer extends CoinKit implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-
+        UUID uuid = e.getPlayer().getUniqueId();
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
-
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-
             Material block = e.getBlockPlaced().getType();
-            if (block == Material.STONE_PRESSURE_PLATE) {
-                placeTrap(e, p);
+            if (block == Material.STONE_PRESSURE_PLATE && e.getPlayer().getCooldown(Material.STONE_PRESSURE_PLATE) == 0) {
+                placeTrap(e, e.getPlayer());
+                if (InCombat.isPlayerInCombat(e.getPlayer().getUniqueId())) {
+                    e.getPlayer().setCooldown(Material.STONE_PRESSURE_PLATE, 60);
+                }
             } else if (block == Material.OAK_PLANKS) {
                 placeWood(e);
             } else if (block == Material.COBBLESTONE) {

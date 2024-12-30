@@ -2,7 +2,7 @@ package me.huntifi.castlesiege.commands.gameplay;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.castlesiege.maps.events.NextMapEvent;
+import me.huntifi.castlesiege.events.map.NextMapEvent;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -123,7 +123,8 @@ public class MapVoteCommand implements Listener, TabExecutor {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (args.length <= 1)
-            return List.of("yes", "no");
+            return List.of("");
+            //return List.of("no", "yes");
         return null;
     }
 }

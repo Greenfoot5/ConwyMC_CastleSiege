@@ -46,8 +46,8 @@ public class CollapseEvent implements Listener {
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.getLocation().distance(CENTRAL) <= 5
                     && e.getClickedBlock().getType() == Material.SPRUCE_BUTTON) {
 
-                if(!Objects.equals(TeamController.getTeam(player.getUniqueId()).name,
-                        MapController.getCurrentMap().teams[0].name)) {
+                if(!Objects.equals(TeamController.getTeam(player.getUniqueId()).getName(),
+                        MapController.getCurrentMap().teams[0].getName())) {
 
                     for (UUID all : MapController.getCurrentMap().teams[1].getPlayers()) {
                         Player near = Bukkit.getPlayer(all);

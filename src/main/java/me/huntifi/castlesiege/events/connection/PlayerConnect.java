@@ -10,7 +10,11 @@ import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
-import me.huntifi.conwymc.commands.staff.chat.BroadcastCommand;
+import me.huntifi.conwymc.ConwyMC;
+import me.huntifi.conwymc.data_types.Cosmetic;
+import me.huntifi.conwymc.data_types.PlayerCosmetics;
+import me.huntifi.conwymc.data_types.PlayerData;
+import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -23,8 +27,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.util.UUID;
+
+import static me.huntifi.conwymc.data_types.Cosmetic.CosmeticType.TITLE;
 
 /**
  * Handles what happens when someone logs in
@@ -49,6 +58,27 @@ public class PlayerConnect implements Listener {
             return;
         }
 
+        checkCosmetics(data, uuid);
+
+        //Welcomes new players!
+        if (!p.hasPlayedBefore()) {
+
+            Messenger.broadcast(Messenger.mm.deserialize("<gradient:#663dff:#cc4499:#663dff><st>━━━━━</st> " +
+                            "Welcome <color:#cc4499>" + p.getName() + "</color> to Castle Siege! <st>━━━━━</st>"));
+            Messenger.send(Messenger.mm.deserialize("<green>If you encounter a problem or need help, contact us on " +
+                            "<yellow><click:suggest_command:/discord>/discord</click></yellow> or " +
+                            "<yellow><click:open_url:https://conwymc.alchemix.dev/contact>email us</click></yellow>!</green>"), p);
+
+        } else {
+            Messenger.send(Component.text("Hello ", NamedTextColor.DARK_RED)
+                    .append(Component.text(p.getName()))
+                    .append(Component.newline())
+                    .append(Component.text("Welcome to Castle Siege", NamedTextColor.DARK_RED))
+                    .append(Component.newline())
+                    .append(Component.text("There are currently " + Bukkit.getOnlinePlayers().size() +
+                            " player(s) online.", NamedTextColor.DARK_PURPLE)), p);
+        }
+
         // Assign the player to a team or spectator
         InCombat.playerDied(uuid);
         if (MapController.isMatch) {
@@ -71,27 +101,6 @@ public class PlayerConnect implements Listener {
 
         // Update the names stored in the database
         StoreData.updateName(uuid);
-
-        //Welcomes new players!
-        if (!p.hasPlayedBefore()) {
-
-            Messenger.broadcast(BroadcastCommand.broadcastPrefix
-                    .append(Messenger.mm.deserialize("<gradient:#663dff:#cc4499:#663dff><st>━━━━━</st> " +
-                            "Welcome <color:#cc4499>" + p.getName() + "</color> to Castle Siege! <st>━━━━━</st>")));
-            Messenger.send(Component.text("If you encounter a problem or need help, contact us on " +
-                            "<yellow><click:suggest_command:/discord>/discord</click></yellow> or " +
-                            "<yellow><click:open_url:https://conwymc.alchemix.dev/contact>email us</click></yellow>!",
-                    NamedTextColor.GREEN), p);
-
-        } else {
-            Messenger.send(Component.text("Hello ", NamedTextColor.DARK_RED)
-                    .append(Component.text(p.getName()))
-                    .append(Component.newline())
-                    .append(Component.text("Welcome to Castle Siege", NamedTextColor.DARK_RED))
-                    .append(Component.newline())
-                    .append(Component.text("There are currently " + Bukkit.getOnlinePlayers().size() +
-                            " player(s) online.", NamedTextColor.DARK_PURPLE)), p);
-        }
 
         if (CoinKit.isFree()) {
             Messenger.broadcastInfo("It's Friday! All coin and team kits are <b>UNLOCKED!</b>");
@@ -148,5 +157,27 @@ public class PlayerConnect implements Listener {
             }
         }, 600);
 
+    }
+
+    public static void checkCosmetics(PlayerData data, UUID uuid) {
+        try {
+            Cosmetic reaper = new Cosmetic(TITLE, "Reaper", "<color:#3B3B3B>☠<b><gradient:#592E31:#92191E>Reaper</b>☠");
+            Tuple<PreparedStatement, ResultSet> leaderboard = LoadData.getTop("kills", 0);
+            PlayerCosmetics.isTop(data, uuid, leaderboard.getSecond(), 3, reaper);
+            leaderboard.getFirst().close();
+        } catch (SQLException e) {
+            ConwyMC.plugin.getLogger().severe("Error in checkTopCosmetics for " + uuid);
+            ConwyMC.plugin.getLogger().severe(e.getMessage());
+        }
+
+        try {
+            Cosmetic foolish = new Cosmetic(TITLE, "Foolish", "<gradient:#7F7FD5:#86A8E7:#91EAE4><font:illageralt>7..cL2k</font>");
+            Tuple<PreparedStatement, ResultSet> leaderboard = LoadData.getTop("deaths", 0);
+            PlayerCosmetics.isTop(data, uuid, leaderboard.getSecond(), 3, foolish);
+            leaderboard.getFirst().close();
+        } catch (SQLException e) {
+            ConwyMC.plugin.getLogger().severe("Error in checkTopCosmetics for " + uuid);
+            ConwyMC.plugin.getLogger().severe(e.getMessage());
+        }
     }
 }

@@ -41,7 +41,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
  * Stores all details and handles all flag actions.
  */
 public class Flag {
-    public final String name;
+    protected final String name;
 
     // Location Data
     protected Location spawnPoint;
@@ -96,6 +96,14 @@ public class Flag {
         this.players = new ArrayList<>();
         progress = progressMultiplier * startAmount;
         isRunning = new AtomicInteger(0);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Component getDisplayName() {
+        return Component.text(name, getColor());
     }
 
     /**
@@ -290,7 +298,7 @@ public class Flag {
                     // Check they're a player
                     if (player != null) {
                         // Make sure they're on the capping team
-                        if (TeamController.getTeam(uuid).name.equals(currentOwners)) {
+                        if (TeamController.getTeam(uuid).getName().equals(currentOwners)) {
                             Messenger.sendAction("<gold>Flag fully captured! <aqua>Flag: " + name, player);
                         } else {
                             Messenger.sendActionError("Enemies have fully captured the flag!", player);
@@ -331,7 +339,7 @@ public class Flag {
             // Check they're a player
             if (player != null) {
                 // Make sure they're on the capping team
-                if (TeamController.getTeam(uuid).name.equals(currentOwners) == areOwnersCapping) {
+                if (TeamController.getTeam(uuid).getName().equals(currentOwners) == areOwnersCapping) {
                     Messenger.sendActionInfo("+" + count + " flag-capping point(s) <aqua>Flag: " + name, player);
                     UpdateStats.addCaptures(player.getUniqueId(), count);
                 } else {
@@ -350,7 +358,7 @@ public class Flag {
         if (!newTeam.equals("neutral"))
         {
             Team team = MapController.getCurrentMap().getTeam(newTeam);
-            Messenger.broadcast(Component.text("~~~ " + newTeam + " has captured " + name + "! ~~~", team.primaryChatColor));
+            Messenger.broadcast(Component.text("~~~ " + newTeam + " have captured " + name + "! ~~~", team.primaryChatColor));
 
             //Hologram
             if (hologram == null) { return; }
@@ -376,7 +384,7 @@ public class Flag {
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
-                String team = TeamController.getTeam(uuid).name;
+                String team = TeamController.getTeam(uuid).getName();
                 if (team.equals(currentOwners)) {
                     counts.setFirst(counts.getFirst() + 1);
                 } else {
@@ -400,7 +408,7 @@ public class Flag {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
                 // Add the player to the team counts
-                String team = TeamController.getTeam(uuid).name;
+                String team = TeamController.getTeam(uuid).getName();
                 teamCounts.merge(team, 1, Integer::sum);
 
                 // Get the largest team
@@ -573,7 +581,7 @@ public class Flag {
         hologram.setInvulnerable(true);
         hologram.setCustomNameVisible(true);
         hologram.setSmall(true);
-        hologram.customName(Messenger.mm.deserialize("<b>Flag:</b> ").append(Component.text(name, getColor())));
+        hologram.customName(Messenger.mm.deserialize("<b>Flag:</b> ").append(getDisplayName()));
     }
 
     /**
@@ -604,7 +612,7 @@ public class Flag {
      * @param progress  the amount of progress done on the bossbar, should be (index / max caps)
      */
     private static void createFlagBossbar(Flag flag, BossBar.Color barColour, String text, float progress) {
-        BossBar bar = BossBar.bossBar(Component.text(text), progress, barColour, BossBar.Overlay.PROGRESS);
+        BossBar bar = BossBar.bossBar(Component.text(flag.getName()), progress, barColour, BossBar.Overlay.PROGRESS);
         bars.putIfAbsent(flag, bar);
     }
 

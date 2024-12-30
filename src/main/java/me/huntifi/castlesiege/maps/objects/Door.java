@@ -113,7 +113,7 @@ public abstract class Door implements Listener {
         // The door belongs to a flag
         Flag flag = MapController.getCurrentMap().getFlag(flagName);
         Player player = event.getPlayer();
-        if (!Objects.equals(flag.getCurrentOwners(), TeamController.getTeam(player.getUniqueId()).name)) {
+        if (!Objects.equals(flag.getCurrentOwners(), TeamController.getTeam(player.getUniqueId()).getName())) {
             Messenger.sendActionError(
                     "Your team does not control this door. You need to capture " + flagName + " first!",
                     player

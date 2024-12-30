@@ -18,5 +18,4 @@ public class MythicListener implements Listener {
             e.register(new SameTeam());
         }
     }
-
 }

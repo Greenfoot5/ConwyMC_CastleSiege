@@ -31,8 +31,8 @@ public class DamageBalance implements Listener {
             return;
         }
 
+        // All damage types are listed, but can be changed later
         switch (e.getCause()) {
-            // All damage types are listed, but can be changed later
             case POISON:
                 e.setDamage(e.getDamage() * 8);
                 if (((Player) e.getEntity()).getHealth() <= e.getDamage())
@@ -44,6 +44,7 @@ public class DamageBalance implements Listener {
             case DRAGON_BREATH:
             case DROWNING:
             case DRYOUT:
+            case FALL:
             case FALLING_BLOCK:
             case HOT_FLOOR:
             case LIGHTNING:
@@ -61,6 +62,9 @@ public class DamageBalance implements Listener {
                 break;
             case ENTITY_EXPLOSION:
                 e.setDamage(e.getDamage() * 15);
+                break;
+            case VOID:
+                e.setDamage(e.getDamage() * 30);
                 break;
         }
     }

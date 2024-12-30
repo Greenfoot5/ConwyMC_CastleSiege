@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.events.death;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
+import me.huntifi.castlesiege.commands.donator.DuelCommand;
 import me.huntifi.castlesiege.commands.gameplay.BountyCommand;
 import me.huntifi.castlesiege.data_types.CSPlayerData;
 import me.huntifi.castlesiege.database.CSActiveData;
@@ -76,10 +76,7 @@ public class DeathEvent implements Listener {
 
         player.setWalkSpeed(0.2f);
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> respawnCounter(player), 10);
-        CSPlayerData data = CSActiveData.getData(player.getUniqueId());
-        if (data.getSetting("alwaysInfo").equals("true") || data.getLevel() <= 5) {
-            PlayerConnect.sendTitlebarMessages(player);
-        }
+
     }
 
     /**
@@ -121,7 +118,7 @@ public class DeathEvent implements Listener {
      * @param p the player to display the counter to
      */
     private void respawnCounter(Player p) {
-        if (!p.isOnline()) return;
+        if (!p.isOnline() || p.getHealth() <= 0) return;
 
         Title.Times times = Title.Times.times(Duration.ZERO, Duration.ofMillis(1000), Duration.ofMillis(750));
         new BukkitRunnable() {
@@ -199,7 +196,7 @@ public class DeathEvent implements Listener {
         // Kill
         Player killer = killerMap.getOrDefault(target, target.getKiller());
         killerMap.remove(target);
-        if (killer != null && !DuelCommand.isDueling(killer)) {
+        if (killer != null && !DuelCommand.isDueling(killer.getUniqueId())) {
             UpdateStats.addKill(killer.getUniqueId());
             AssistKill.removeDamager(target.getUniqueId(), killer.getUniqueId());
 
@@ -243,12 +240,12 @@ public class DeathEvent implements Listener {
      * @param messages The messages sent to the killer and target
      */
     private void killDeathMessage(Player killer, Player target, Tuple<String[], String[]> messages) {
-        Messenger.send(Component.text("You" + messages.getFirst()[0]
-                                + CSNameTag.username(target) + messages.getFirst()[1])
+        Messenger.send(Messenger.mm.deserialize("You" + messages.getFirst()[0]
+                                + CSNameTag.mmUsername(target) + messages.getFirst()[1])
                 .append(Component.text(" (" + (CSActiveData.getData(killer.getUniqueId()).getKillStreak()) + ")", NamedTextColor.GRAY)),
                 killer);
 
-        Messenger.send(Component.text(messages.getSecond()[0] + CSNameTag.username(killer) + messages.getSecond()[1]), target);
+        Messenger.send(messages.getSecond()[0] + CSNameTag.mmUsername(killer) + messages.getSecond()[1], target);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player != killer && player != target

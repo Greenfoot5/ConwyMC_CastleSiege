@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.events.combat;
 import me.huntifi.castlesiege.database.CSActiveData;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Modifies the fall damage taken by players
@@ -24,7 +26,7 @@ public class FallDamage implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onFallDamage(EntityDamageEvent e) {
         if (e.getCause() != EntityDamageEvent.DamageCause.FALL || !(e.getEntity() instanceof Player)
-        || CSActiveData.hasPlayer(e.getEntity().getUniqueId())) {
+        || InCombat.isPlayerInLobby((e.getEntity().getUniqueId()))) {
             return;
         }
 
@@ -34,7 +36,13 @@ public class FallDamage implements Listener {
         if (landedOn.contains(Material.HAY_BLOCK)) {
             e.setCancelled(true);
         } else {
-            e.setDamage(e.getDamage() * 12);
+            e.setDamage(e.getDamage() * 1.25);
+        }
+
+        for (Material materie : softBlock()) {
+            if (landedOn.contains(materie)) {
+                e.setDamage(e.getDamage() / 2.5);
+            }
         }
     }
 
@@ -70,5 +78,23 @@ public class FallDamage implements Listener {
         landedOn.add(l.getBlock().getType());
 
         return landedOn;
+    }
+
+    public ArrayList<Material> softBlock() {
+        ArrayList<Material> leaves = new ArrayList<>();
+        leaves.add(Material.OAK_LEAVES);
+        leaves.add(Material.DARK_OAK_LEAVES);
+        leaves.add(Material.SPRUCE_LEAVES);
+        leaves.add(Material.JUNGLE_LEAVES);
+        leaves.add(Material.ACACIA_LEAVES);
+        leaves.add(Material.MANGROVE_LEAVES);
+        leaves.add(Material.BIRCH_LEAVES);
+        leaves.add(Material.CHERRY_LEAVES);
+        leaves.add(Material.AZALEA_LEAVES);
+        leaves.add(Material.FLOWERING_AZALEA_LEAVES);
+        leaves.add(Material.MOSS_BLOCK);
+        leaves.add(Material.KELP);
+        leaves.add(Material.SNOW_BLOCK);
+        return leaves;
     }
 }

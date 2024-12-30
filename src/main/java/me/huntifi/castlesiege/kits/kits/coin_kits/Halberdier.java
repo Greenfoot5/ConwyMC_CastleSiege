@@ -22,6 +22,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -44,32 +45,50 @@ public class Halberdier extends CoinKit implements Listener {
         EquipmentSet es = new EquipmentSet();
 
         // Weapon
-        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
-                Component.text("Halberd", NamedTextColor.GREEN), null, null, meleeDamage);
+        es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
+                Component.text("Halberd", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("90 Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
-                CSItemCreator.weapon(new ItemStack(Material.DIAMOND_AXE),
+                CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
                         Component.text("Halberd", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        List.of(Component.empty(),
+                                Component.text("92 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = CSItemCreator.item(new ItemStack(Material.NETHERITE_CHESTPLATE),
-                Component.text("Indestructible Chestplate", NamedTextColor.GREEN), null,
+                Component.text("Indestructible Chestplate", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION_ENVIRONMENTAL, 2)));
 
         // Leggings
         es.legs = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
+                Component.text("Chainmail Leggings", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 
         // Boots
         es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         super.equipment = es;

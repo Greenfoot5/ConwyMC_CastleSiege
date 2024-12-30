@@ -26,6 +26,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -49,18 +50,33 @@ public class Barbarian extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
-                Component.text("Battle Axe", NamedTextColor.GREEN), null, null, meleeDamage);
+                Component.text("Battle Axe", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text(meleeDamage * 3 + "Maximum Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text("<< Passive Ability >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Damage done increases with lower health.", NamedTextColor.GRAY)
+                ), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
                         Component.text("Battle Axe", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        List.of(Component.empty(),
+                                Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
+                                Component.text(meleeDamage * 3 + "Maximum Melee Damage", NamedTextColor.DARK_GREEN),
+                                Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN),
+                                Component.text("<< Passive Ability >>", NamedTextColor.DARK_GRAY),
+                                Component.text("Damage done increases with lower health.", NamedTextColor.GRAY)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN),
+                List.of(Component.text("» Copper Tide Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(209, 112, 0));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -71,7 +87,11 @@ public class Barbarian extends CoinKit implements Listener {
 
         // Leggings
         es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN),
+                List.of(Component.text("» Copper Tide Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(209, 112, 0));
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
@@ -82,11 +102,20 @@ public class Barbarian extends CoinKit implements Listener {
 
         // Boots
         es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                List.of(Component.text("» Netherite Rib Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                List.of(Component.text("» Netherite Rib Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
         ItemMeta boots = es.feet.getItemMeta();
         ArmorMeta bootsMeta = (ArmorMeta) boots;
@@ -117,12 +146,9 @@ public class Barbarian extends CoinKit implements Listener {
         // Both are players
         if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player) {
             Player attacker = (Player) e.getDamager();
-
-
-            double potentialDamage = health / attacker.getHealth();
-
             // Barbarian increased damage
             if (Objects.equals(Kit.equippedKits.get(attacker.getUniqueId()).name, name)) {
+                double potentialDamage = health / attacker.getHealth();
                 if (potentialDamage < 3) {
                     e.setDamage(meleeDamage * potentialDamage);
                 } else {

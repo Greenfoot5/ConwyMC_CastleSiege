@@ -7,6 +7,7 @@ import me.huntifi.castlesiege.data_types.CoinBooster;
 import me.huntifi.castlesiege.data_types.KitBooster;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.database.ActiveData;
 
@@ -102,7 +103,7 @@ public class LoadData {
 
             while (rs.next()) {
                 String kit = rs.getString("unlocked_kit");
-                if (CoinKit.getKits().contains(kit)) {
+                if (CoinKit.getKits().contains(kit) || SignKit.getKits().contains(kit)) {
                     unlockedKits.add(kit);
                 }
             }
@@ -182,9 +183,8 @@ public class LoadData {
      */
     public static Tuple<PreparedStatement, ResultSet> getTop(String order, int offset) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT * FROM vw_top_list ORDER BY ? DESC LIMIT 10 OFFSET ?");
-        ps.setString(1, order);
-        ps.setInt(2, offset);
+                "SELECT * FROM vw_top_list ORDER BY " + order + " DESC LIMIT 10 OFFSET ?");
+        ps.setInt(1, offset);
 
         ResultSet rs = ps.executeQuery();
         return new Tuple<>(ps, rs);

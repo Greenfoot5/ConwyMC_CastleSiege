@@ -96,7 +96,7 @@ public class SwitchCommand implements CommandExecutor {
 		Player p = (Player) sender;
 
 		// If the player is a donator
-		if (p.hasPermission("castlesiege.esquire")) {
+		if (p.hasPermission("conwymc.esquire")) {
 			// If the player hasn't specified a team, swap to the next one
 			if (args.length == 0) {
 				switchToNextTeam(p);
@@ -108,7 +108,7 @@ public class SwitchCommand implements CommandExecutor {
 			// Spawn the player in their new lobby
 			if (InCombat.isPlayerInLobby(p.getUniqueId())) {
 				spawnPlayer(p, 0);
-		    } else if (p.hasPermission("castlesiege.baron")) {
+		    } else if (p.hasPermission("conwymc.baron")) {
 				spawnPlayer(p, 1);
 			} else {
 				spawnPlayer(p, 2);
@@ -146,19 +146,19 @@ public class SwitchCommand implements CommandExecutor {
 		if (deaths > 0 && MapController.isOngoing()) {
 			// Regular switch on the battlefield during a game
 			Messenger.sendInfo(Component.text("You switched to ")
-							.append(Component.text(team.name, team.primaryChatColor))
+							.append(team.getDisplayName())
 							.append(Component.text(" (+" + deaths + " deaths)", NamedTextColor.DARK_AQUA)),
 					p);
 			UpdateStats.addDeaths(p.getUniqueId(), deaths - 1);
 
 		} else if (deaths == 0 || !MapController.isOngoing()){
 			// Regular switch outside the battlefield or not during a game
-			Messenger.sendInfo(Component.text("You switched to ").append(Component.text(team.name, team.primaryChatColor)), p);
+			Messenger.sendInfo(Component.text("You switched to ").append(team.getDisplayName()), p);
 			InCombat.playerDied(p.getUniqueId());
 
 		} else {
 			// Forced switch
-			Messenger.sendInfo(Component.text("You forcefully switched to ").append(Component.text(team.name, team.primaryChatColor)), p);
+			Messenger.sendInfo(Component.text("You forcefully switched to ").append(team.getDisplayName()), p);
 			InCombat.playerDied(p.getUniqueId());
 		}
 

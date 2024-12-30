@@ -3,6 +3,7 @@ package me.huntifi.castlesiege.kits.kits;
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.gui.BuyKitGui;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -95,7 +96,7 @@ public abstract class SignKit extends Kit implements Listener {
                 if (Kit.equippedKits.get(uuid) == null) {
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
                 } else {
-                    Messenger.sendError(String.format("You don't own %s!", name), sender);
+                    new BuyKitGui(this, this.cost, (Player) sender);
                 }
             }
             return false;
@@ -110,6 +111,10 @@ public abstract class SignKit extends Kit implements Listener {
      */
     public static Collection<String> getKits() {
         return kits;
+    }
+
+    public int getCost() {
+        return cost;
     }
 
     /**
@@ -129,7 +134,8 @@ public abstract class SignKit extends Kit implements Listener {
     @EventHandler
     public void onClickSign(PlayerInteractEvent e) {
         // Prevent spawning by physical actions, e.g. stepping on a pressure plate
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK
+        && e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_AIR )
             return;
 
         Player player = e.getPlayer();
@@ -151,7 +157,7 @@ public abstract class SignKit extends Kit implements Listener {
         // Check if sign has sign name
         StringBuilder content = new StringBuilder();
         for (Component line : sign.getSide(Side.FRONT).lines()) {
-            content.append(" ").append(PlainTextComponentSerializer.plainText().serialize(line).toLowerCase());
+            content.append(PlainTextComponentSerializer.plainText().serialize(line).toLowerCase().replace(" ", ""));
         }
 
         if (content.toString().contains(this.name.toLowerCase()) || content.toString().contains(getSpacelessName().toLowerCase())) {

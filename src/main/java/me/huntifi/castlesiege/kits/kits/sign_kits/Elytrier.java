@@ -56,7 +56,7 @@ public class Elytrier extends SignKit implements Listener {
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Sword", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32),
                 0);
 
@@ -76,7 +76,7 @@ public class Elytrier extends SignKit implements Listener {
         // Voted boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(236, 173, 91));
 
@@ -106,7 +106,7 @@ public class Elytrier extends SignKit implements Listener {
 
         super.potionEffects.add(new PotionEffect(PotionEffectType.FAST_DIGGING, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_FALLING, 999999, 0));
+        //super.potionEffects.add(new PotionEffect(PotionEffectType.SLOW_FALLING, 999999, 0));
     }
 
     /**
@@ -167,7 +167,7 @@ public class Elytrier extends SignKit implements Listener {
             if (fist.getType().equals(Material.FIREWORK_ROCKET)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (cooldown == 0 && p.isGliding()) {
-                        p.setCooldown(Material.FIREWORK_ROCKET, 40);
+                        p.setCooldown(Material.FIREWORK_ROCKET, 30);
                         p.setVelocity(p.getVelocity().multiply(3.5));
                     } else if (!p.isGliding()){
                         Messenger.sendActionError("You can't launch yourself whilst not gliding!", p);

@@ -36,7 +36,7 @@ public class CoinBooster extends Booster {
     public List<Component> getLore() {
         List<Component> lore = super.getLore();
         lore.add(Component.text("Increase all coins earnt by " + multiplier * 100 + "%", NamedTextColor.GOLD));
-        lore.add(Component.text("    for the booster's duration!", NamedTextColor.GOLD));
+        lore.add(Component.text("for the booster's duration!", NamedTextColor.GOLD));
         return lore;
     }
 

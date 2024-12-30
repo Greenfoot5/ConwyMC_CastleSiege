@@ -107,7 +107,7 @@ public class Chef extends CoinKit implements Listener {
                         Component.text("Knock enemies away with the back of a pan", NamedTextColor.AQUA),
                         Component.text("Also halves bow damage while in the main hand", NamedTextColor.AQUA),
                         Component.text("Crossbow damage is 75%", NamedTextColor.AQUA),
-                        Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), 22);
         es.votedWeapon = new Tuple<>(fryingPanVoted, 0);
 
@@ -185,7 +185,7 @@ public class Chef extends CoinKit implements Listener {
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
                 Component.text("Kitchen Soles", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3)));
 
         super.equipment = es;

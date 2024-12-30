@@ -209,7 +209,7 @@ public class Core implements Listener {
 
         if (isInRegion(clickedBlock) && isCorrectMaterial(clickedBlock)) {
 
-            if (this.getOwners().equalsIgnoreCase(TeamController.getTeam(event.getPlayer().getUniqueId()).name)) {
+            if (this.getOwners().equalsIgnoreCase(TeamController.getTeam(event.getPlayer().getUniqueId()).getName())) {
                 Messenger.sendError("You cannot damage your own core!", event.getPlayer());
                 event.setCancelled(true);
                 return;

@@ -32,7 +32,7 @@ public class Fallen extends SignKit implements Listener {
      * Creates a new Fallen
      */
     public Fallen() {
-        super("Fallen", 360, 23, Material.WITHER_SKELETON_SKULL, 2000);
+        super("Fallen", 350, 23, Material.WITHER_SKELETON_SKULL, 2000);
         super.canCap = true;
         super.canClimb = true;
         super.canSeeHealth = false;
@@ -42,12 +42,12 @@ public class Fallen extends SignKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                Component.text("Fallen Sword", NamedTextColor.GRAY), null, null, 37);
+                Component.text("Fallen Sword", NamedTextColor.GRAY), null, null, 40.5);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Fallen Sword", NamedTextColor.GRAY),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 39),
                 0);
 

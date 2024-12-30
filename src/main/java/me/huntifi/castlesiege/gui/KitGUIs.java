@@ -19,9 +19,12 @@ import me.huntifi.castlesiege.kits.kits.coin_kits.Vanguard;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Viking;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warhound;
 import me.huntifi.castlesiege.kits.kits.coin_kits.Warlock;
+import me.huntifi.castlesiege.kits.kits.event_kits.HallowedHorseman;
+import me.huntifi.castlesiege.kits.kits.event_kits.Vampire;
+import me.huntifi.castlesiege.kits.kits.event_kits.Werewolf;
 import me.huntifi.castlesiege.kits.kits.free_kits.Archer;
-import me.huntifi.castlesiege.kits.kits.free_kits.Shieldman;
-import me.huntifi.castlesiege.kits.kits.free_kits.Spearman;
+import me.huntifi.castlesiege.kits.kits.level_kits.Shieldman;
+import me.huntifi.castlesiege.kits.kits.level_kits.Spearman;
 import me.huntifi.castlesiege.kits.kits.free_kits.Swordsman;
 import me.huntifi.castlesiege.kits.kits.in_development.Armorer;
 import me.huntifi.castlesiege.kits.kits.level_kits.BattleMedic;
@@ -35,6 +38,8 @@ import me.huntifi.castlesiege.kits.kits.voter_kits.Skirmisher;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -45,7 +50,7 @@ import java.util.Collections;
  */
 public class KitGUIs {
 
-    public final static String[] OPTIONS = {"damage", "tank", "support", "debuff", "movement", "ranged"};
+    public final static String[] OPTIONS = {"damage", "tank", "support", "debuff", "movement", "ranged", "event", "secret"};
 
     /**
      * Displays the kit gui for a category or category selection
@@ -71,6 +76,10 @@ public class KitGUIs {
                 return movement(p);
             case "ranged":
                 return ranged(p);
+            case "event":
+                return event(p);
+            case "secret":
+                return secret(p);
             default:
                 Messenger.sendError("Unknown category: <red>" + category, p);
                 return null;
@@ -86,27 +95,35 @@ public class KitGUIs {
         Gui gui = new Gui(Component.text("Categories"), 6);
         gui.addItem(Component.text("Damager", NamedTextColor.GREEN), Material.IRON_SWORD,
                 Collections.singletonList(Component.text("Select a damager kit here!", NamedTextColor.DARK_GREEN)),
-                        11, "kit damage", true);
+                        10, "kit damage", true);
 
         gui.addItem(Component.text("Tank", NamedTextColor.GREEN), Material.DIAMOND_CHESTPLATE,
                 Collections.singletonList(Component.text("Select a tank kit here!", NamedTextColor.DARK_GREEN)),
-                13, "kit tank", true);
+                12, "kit tank", true);
 
         gui.addItem(Component.text("Ranged", NamedTextColor.GREEN), Material.BOW,
                 Collections.singletonList(Component.text("Select a ranged kit here!", NamedTextColor.DARK_GREEN)),
-                15, "kit ranged", true);
+                14, "kit ranged", true);
 
         gui.addItem(Component.text("Movement", NamedTextColor.GREEN), Material.IRON_BOOTS,
                 Collections.singletonList(Component.text("Select a movement kit here!", NamedTextColor.DARK_GREEN)),
-                29, "kit movement", true);
+                16, "kit movement", true);
 
         gui.addItem(Component.text("Support", NamedTextColor.GREEN), Material.GOLDEN_APPLE,
                 Collections.singletonList(Component.text("Select a support kit here!", NamedTextColor.DARK_GREEN)),
-                31, "kit support", true);
+                28, "kit support", true);
 
         gui.addItem(Component.text("Debuff", NamedTextColor.GREEN), Material.REDSTONE,
                 Collections.singletonList(Component.text("Select a debuff kit here!", NamedTextColor.DARK_GREEN)),
-                33, "kit debuff", true);
+                30, "kit debuff", true);
+
+        gui.addItem(Component.text("Event", NamedTextColor.GOLD), Material.CLOCK,
+                Collections.singletonList(Component.text("Select an event kit here!", NamedTextColor.YELLOW)),
+                32, "kit event", true);
+
+        gui.addItem(Component.text("Secret", NamedTextColor.DARK_RED), Material.END_CRYSTAL,
+                Collections.singletonList(Component.text("Select a secret kit here!", NamedTextColor.RED)),
+                34, "kit secret", true);
 
         gui.addItem(Component.text("The Shop", NamedTextColor.DARK_PURPLE), Material.SUNFLOWER,
                 Collections.singletonList(Component.text("Get teleported to the shop!", NamedTextColor.LIGHT_PURPLE)),
@@ -248,4 +265,29 @@ public class KitGUIs {
         gui.addBackItem(13, "kit");
         return gui;
     }
+
+    /**
+     * A GUI for the kit category of events
+     * @return The generated GUI
+     */
+    private static Gui event(Player player) {
+        Gui gui = new Gui(Component.text("Event Kits"), 2);
+        gui.addKitItem(player, new Vampire(), 0, "Vampire");
+        gui.addKitItem(player, new HallowedHorseman(), 1, "HallowedHorseman");
+        gui.addKitItem(player, new Werewolf(), 2, "Werewolf");
+        gui.addBackItem(13, "kit");
+        return gui;
+    }
+
+    /**
+     * A GUI for the kit category of secret
+     * @return The generated GUI
+     */
+    private static Gui secret(Player player) {
+        Gui gui = new Gui(Component.text("Secret Kits", TextColor.color(198, 0, 0)), 2);
+        gui.addBackItem(13, "kit");
+        return gui;
+    }
+
+
 }

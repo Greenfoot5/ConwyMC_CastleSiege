@@ -29,6 +29,8 @@ public class StoreData {
     public static void store(UUID uuid) throws SQLException {
         CSPlayerData data = CSActiveData.getData(uuid);
 
+        // TODO - Actually upload a player's data properly
+        if (data == null) return;
         store(uuid, data);
     }
 
@@ -50,7 +52,7 @@ public class StoreData {
     private static void storeStats(UUID uuid, CSPlayerData data) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "UPDATE cs_stats SET score = ?, kills = ?, deaths = ?, assists = ?, captures = ?, heals = ?, "
-                        + "supports = ?, mvps = ?, secrets = ?, level = ?, kill_streak = ?, kit = ? WHERE UUID = ?");
+                        + "supports = ?, mvps = ?, level = ?, kill_streak = ?, kit = ? WHERE UUID = ?");
         ps.setDouble(1, data.getScore());
         ps.setDouble(2, data.getKills());
         ps.setDouble(3, data.getDeaths());
@@ -58,25 +60,22 @@ public class StoreData {
         ps.setDouble(5, data.getCaptures());
         ps.setDouble(6, data.getHeals());
         ps.setDouble(7, data.getSupports());
-        ps.setInt(9, data.getMVPs());
-        ps.setInt(10, data.getSecrets());
-        ps.setInt(11, data.getLevel());
-        ps.setInt(12, data.getMaxKillStreak());
-        ps.setString(13, data.getKit());
-        ps.setString(14, uuid.toString());
+        ps.setInt(8, data.getMVPs());
+        ps.setInt(9, data.getLevel());
+        ps.setInt(10, data.getMaxKillStreak());
+        ps.setString(11, data.getKit());
+        ps.setString(12, uuid.toString());
         ps.executeUpdate();
         ps.close();
     }
 
     private static void storeRank(UUID uuid, PlayerData data) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "UPDATE player_rank SET staff_rank = ?, rank_points = ?, join_message = ?, leave_message = ?, coins = ? WHERE UUID = ?");
+                "UPDATE player_rank SET staff_rank = ?, rank_points = ?, coins = ? WHERE UUID = ?");
         ps.setString(1, data.getStaffRank());
         ps.setDouble(2, data.getRankPoints());
-        ps.setString(3, data.getJoinMessage());
-        ps.setString(4, data.getLeaveMessage());
-        ps.setDouble(5, data.getCoins());
-        ps.setString(6, uuid.toString());
+        ps.setDouble(3, data.getCoins());
+        ps.setString(4, uuid.toString());
         ps.executeUpdate();
         ps.close();
     }
@@ -89,8 +88,8 @@ public class StoreData {
     private static void addFoundSecret(UUID uuid, String secretName) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                 "INSERT IGNORE INTO cs_secrets VALUES (?, ?)");
-        ps.setString(2, uuid.toString());
-        ps.setString(3, secretName);
+        ps.setString(1, uuid.toString());
+        ps.setString(2, secretName);
         ps.executeUpdate();
         ps.close();
     }
@@ -148,11 +147,11 @@ public class StoreData {
                 try {
                     PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
                             "INSERT INTO cs_unlocks VALUES (?, ?, ?, ?, ?)");
-                    ps.setString(2, uuid.toString());
-                    ps.setString(3, kitName);
-                    ps.setTimestamp(4, new Timestamp(duration));
-                    ps.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-                    ps.setBoolean(6, isDonation);
+                    ps.setString(1, uuid.toString());
+                    ps.setString(2, kitName);
+                    ps.setTimestamp(3, new Timestamp(duration));
+                    ps.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+                    ps.setBoolean(5, isDonation);
                     ps.executeUpdate();
                     ps.close();
                 } catch (SQLException e) {

@@ -37,6 +37,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -65,49 +66,75 @@ public class Ranger extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
-                Component.text("Dagger", NamedTextColor.GREEN), null, null, meleeDamage);
+                Component.text("Dagger", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("36 Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         Component.text("Dagger", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        List.of(Component.empty(),
+                                Component.text("38 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Chestplate", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(28, 165, 33));
 
         // Leggings
         es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Leggings", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(32, 183, 37));
 
         // Boots
         es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
+                Component.text("Leather Boots", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null,
                 Color.fromRGB(28, 165, 33));
         // Voted Boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
                 Component.text("Leather Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(28, 165, 33));
 
         // Regular Bow
         es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.BOW),
-                Component.text("Bow", NamedTextColor.GREEN), null, null);
+                Component.text("Bow", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("18 Ranged Damage", NamedTextColor.DARK_GREEN)), null);
 
         // Volley Bow
         es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.BOW),
                 Component.text("Volley Bow", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("Shoot 5 arrows at once", NamedTextColor.AQUA)), null);
+                List.of(Component.empty(),
+                        Component.text("Shoot 5 arrows in a spread", NamedTextColor.BLUE),
+                        Component.empty(),
+                        Component.text("18 Ranged Damage", NamedTextColor.DARK_GREEN)), null);
 
         // Burst Bow
         es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.BOW),
-                Component.text("Burst Bow", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("Shoot 4 consecutive arrows", NamedTextColor.AQUA)), null);
+                Component.text("Rapid Fire Bow", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("Shoot 5 arrows consecutively", NamedTextColor.BLUE),
+                        Component.empty(),
+                        Component.text("18 Ranged Damage", NamedTextColor.DARK_GREEN)),null);
 
         // Ladders
         es.hotbar[4] = new ItemStack(Material.LADDER, ladderCount);
@@ -160,7 +187,7 @@ public class Ranger extends CoinKit implements Listener {
             if (Objects.equals(bowName, "Volley Bow")) {
                 Vector v = e.getProjectile().getVelocity();
                 volleyAbility(p, v);
-            } else if (Objects.equals(bowName, "Burst Bow")) {
+            } else if (Objects.equals(bowName, "Rapid Fire Bow")) {
                 burstAbility(p, e.getForce());
             }
         }
@@ -196,7 +223,7 @@ public class Ranger extends CoinKit implements Listener {
      * @param force The force of the original arrow
      */
     private void burstAbility(Player p, float force) {
-        Messenger.sendActionInfo("You shot your burst bow!", p);
+        Messenger.sendActionInfo("You shot your rapid fire bow!", p);
         p.setCooldown(Material.BOW, 100);
         burstArrow(p, force, 11);
         burstArrow(p, force, 21);

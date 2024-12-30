@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.maps.objects;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.InCombat;
+import me.huntifi.castlesiege.events.map.CannonEvent;
 import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.kits.kits.sign_kits.Artillerist;
 import me.huntifi.castlesiege.structures.SchematicSpawner;
@@ -59,26 +60,26 @@ public class Cannon implements Listener {
         this.direction = direction.toLowerCase();
         this.schematicLocation = location;
         this.yaw = yaw;
-        this.pitch = pitch;
+        this.pitch = pitch == 0 ? 1 : pitch;
 
         // Set direction dependent variables
         switch (this.direction) {
             case "north":
                 // Locations
-                this.barrel = location.add(0, 0, -4);
-                this.recoil = location.add(0, 0, 1);
+                this.barrel = location.clone().add(0, 0, -4);
+                this.recoil = location.clone().add(0, 0, 1);
                 break;
 
             case "east":
                 // Locations
-                this.barrel = location.add(4, 0, 0);
-                this.recoil = location.add(-1, 0, 0);
+                this.barrel = location.clone().add(4, 0, 0);
+                this.recoil = location.clone().add(-1, 0, 0);
                 break;
 
             case "south":
                 // Locations
-                this.barrel = location.add(0, 0, 4);
-                this.recoil = location.add(0, 0, -1);
+                this.barrel = location.clone().add(0, 0, 4);
+                this.recoil = location.clone().add(0, 0, -1);
                 break;
 
             case "west":
@@ -103,7 +104,7 @@ public class Cannon implements Listener {
     public void onPressButton(PlayerInteractEvent event) {
         Block clickedBlock = event.getClickedBlock();
         if (clickedBlock == null || clickedBlock.getType() != Material.POLISHED_BLACKSTONE_BUTTON
-                || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+                || (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.LEFT_CLICK_BLOCK)) {
             return;
         }
 
@@ -119,6 +120,12 @@ public class Cannon implements Listener {
      * Shoot the catapult and start the timer for it coming back down again
      */
     private void shoot() {
+        CannonEvent shootEvent = new CannonEvent(shooter);
+        Bukkit.getPluginManager().callEvent(shootEvent);
+        if (shootEvent.isCancelled()) {
+            return;
+        }
+
         // Animate the shot and play the shooting sound
         SchematicSpawner.spawnSchematic(recoil, "Cannon_Shot_" + direction);
         barrel.getWorld().playSound(barrel, Sound.ENTITY_GENERIC_EXPLODE, 5, 1);
@@ -206,7 +213,7 @@ public class Cannon implements Listener {
         // If the player isn't clicking on the right thing, we don't care
         if (block == null || InCombat.isPlayerInLobby(uuid)
         || block.getLocation().distance(schematicLocation) != 0
-        || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        || (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.LEFT_CLICK_BLOCK)) {
             return;
         }
 
@@ -240,8 +247,8 @@ public class Cannon implements Listener {
                 && powderCooldown == 0) {
             if (vertical_multiplier == 0)
                 vertical_multiplier = 1;
-            else if (vertical_multiplier < 3)
-                vertical_multiplier += 0.2;
+            else if (vertical_multiplier < 11)
+                vertical_multiplier += 0.75;
             else {
                 Messenger.sendActionError("Cannon is full of gunpowder!", player);
                 return;
@@ -249,7 +256,7 @@ public class Cannon implements Listener {
 
             player.setCooldown(Material.GUNPOWDER, 5);
             item.setAmount(item.getAmount() - 1);
-            Messenger.sendActionInfo("Contains " + new DecimalFormat("0.0").format(vertical_multiplier) + "/3.0 gunpowder", player);
+            Messenger.sendActionInfo("Contains " + new DecimalFormat("0.0").format(vertical_multiplier) + "/11.5 gunpowder", player);
         }
     }
 

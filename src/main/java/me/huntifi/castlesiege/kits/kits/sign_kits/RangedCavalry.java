@@ -23,67 +23,100 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class RangedCavalry extends SignKit implements Listener {
+
+    private static final int health = 230;
+    private static final double regen = 9;
+    private static final double meleeDamage = 29.5;
+    private static final int ladderCount = 4;
+    private static final int horseHealth = 200;
+    private static final int arrowDamage = 16;
 
     /**
      * Creates a new Helms Deep Ranged Cavalry
      */
     public RangedCavalry() {
-        super("Ranged Cavalry", 230, 9, Material.BOW, 2500);
+        super("Ranged Cavalry", health, regen, Material.BOW, 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                Component.text("Longsword", NamedTextColor.GREEN), null, null, 29.5);
+                Component.text("Sword", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                        Component.text("Longsword", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31.5),
+                        Component.text("Sword", NamedTextColor.GREEN),
+                        List.of(Component.empty(),
+                                Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
+                                Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN)),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Regular Bow
-        es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.BOW),
-                Component.text("Bow", NamedTextColor.GREEN), null, null);
+        es.offhand = CSItemCreator.item(new ItemStack(Material.BOW),
+                Component.text("Bow", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                Component.text("Arrow Damage: " + arrowDamage + "+", NamedTextColor.DARK_GREEN)), null);
 
         // Chestplate
         es.chest = CSItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
-                Component.text("Bronze Chestplate", NamedTextColor.GREEN), null, null);
+                Component.text("Bronze Chestplate", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 
         // Leggings
         es.legs = CSItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null);
+                Component.text("Leather Leggings", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 
         // Boots
-        es.feet = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
-                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
-        // Voted Boots
-        es.votedFeet = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
+        es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
+        // Voted Boots
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
-        es.hotbar[2] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
+        es.hotbar[1] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount), 2);
 
         // Horse
-        es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.WHEAT),
-                Component.text("Spawn Horse", NamedTextColor.GREEN), null, null);
-        HorseHandler.add(name, 800, 100, 1, 0.2025, 0.8,
-                Material.LEATHER_HORSE_ARMOR, Arrays.asList(
+        es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.WHEAT),
+                Component.text("Spawn Horse", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("<< Right Click To Summon >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Summons your horse, with stats:", NamedTextColor.GRAY),
+                        Component.text("- HP: " + horseHealth , NamedTextColor.GRAY),
+                        Component.text("- Speed: 0.2225", NamedTextColor.GRAY),
+                        Component.text("- Jump Strength: 0.7", NamedTextColor.GRAY)), null);
+        HorseHandler.add(name, 600, horseHealth, 1, 0.2225, 0.7,
+                Material.GOLDEN_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
                         new PotionEffect(PotionEffectType.REGENERATION, 999999, 0)
-                )
-        );
+                ), "regular");
 
         // Arrows
-        es.hotbar[4] = new ItemStack(Material.ARROW, 20);
+        es.hotbar[4] = new ItemStack(Material.ARROW, 32);
 
         super.equipment = es;
     }
@@ -97,7 +130,7 @@ public class RangedCavalry extends SignKit implements Listener {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            ((Arrow) e.getEntity()).setDamage(16);
+            ((Arrow) e.getEntity()).setDamage(arrowDamage);
         }
     }
 

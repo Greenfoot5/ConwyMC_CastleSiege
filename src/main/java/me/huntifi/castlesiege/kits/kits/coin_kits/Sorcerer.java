@@ -29,6 +29,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -56,55 +57,66 @@ public class Sorcerer extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.STICK),
-                Component.text("Sorcerer's Wand", NamedTextColor.GREEN),
-                Arrays.asList(Component.empty(),
-                        Component.text("Right click to shoot an arcanebolt which", NamedTextColor.AQUA),
-                        Component.text("does 60 DMG on hit.", NamedTextColor.AQUA),
-                        Component.empty(),
-                        Component.text("Has a cooldown of " + arcaneBoltCooldown /20 + " seconds.", NamedTextColor.AQUA)), null, meleeDamage);
+                Component.text("Sorcerer's Wand", NamedTextColor.LIGHT_PURPLE),
+                List.of(Component.empty(),
+                        Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_PURPLE),
+                        Component.text(arcaneBoltCooldown /20 + "s cooldown", NamedTextColor.DARK_PURPLE),
+                        Component.text("<< Right Click To Shoot >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Right click to shoot an arcane bolt.", NamedTextColor.GRAY),
+                        Component.text("- 60 Projectile DMG", NamedTextColor.GRAY),
+                        Component.text("- 60m Max Range", NamedTextColor.GRAY)),
+                null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.STICK),
-                        Component.text("Sorcerer's Wand", NamedTextColor.GREEN),
-                        Arrays.asList(Component.empty(),
-                                Component.text("Right click to shoot an arcane bolt which", NamedTextColor.AQUA),
-                                Component.text("does 60 DMG on hit.", NamedTextColor.AQUA),
-                                Component.empty(),
-                                Component.text("Has a cooldown of " + arcaneBoltCooldown /20 + " seconds.", NamedTextColor.AQUA),
-                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
+                        Component.text("Sorcerer's Wand", NamedTextColor.LIGHT_PURPLE),
+                        List.of(Component.empty(),
+                                Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_PURPLE),
+                                Component.text(arcaneBoltCooldown /20 + "s cooldown", NamedTextColor.DARK_PURPLE),
+                                Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.LIGHT_PURPLE),
+                                Component.text("<< Right Click To Shoot >>", NamedTextColor.DARK_GRAY),
+                                Component.text("Right click to shoot an arcane bolt.", NamedTextColor.GRAY),
+                                Component.text("- 60 Projectile DMG", NamedTextColor.GRAY),
+                                Component.text("- 60m Max Range", NamedTextColor.GRAY)),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // 1st ability
         es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.DIAMOND),
-                Component.text("Frost nova", NamedTextColor.GREEN),
+                Component.text("Frost nova", NamedTextColor.LIGHT_PURPLE),
                 Arrays.asList(Component.empty(),
-                        Component.text("Right click to send a freezing shockwave out ", NamedTextColor.AQUA),
-                        Component.text("of yourself, slowing every enemy in a 4 block radius", NamedTextColor.AQUA),
-                        Component.text("around you and dealing 30 DMG to them.", NamedTextColor.AQUA),
-                        Component.empty(),
-                        Component.text("Has a cooldown of " + frostNovaCooldown /20 + " seconds.", NamedTextColor.AQUA)), null);
+                        Component.text("<< Right Click To Use >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Unleash a freezing shockwave out of yourself,", NamedTextColor.GRAY),
+                        Component.text("slowing every enemy in a 4 block radius", NamedTextColor.GRAY),
+                        Component.text("around you and dealing 20 - 40 DMG to them.", NamedTextColor.GRAY),
+                        Component.text(frostNovaCooldown /20 + "s Cooldown", NamedTextColor.LIGHT_PURPLE)), null);
 
         // 2nd ability
         es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.AMETHYST_SHARD),
-                Component.text("Arcane Barrage", NamedTextColor.GREEN),
+                Component.text("Arcane Barrage", NamedTextColor.LIGHT_PURPLE),
                         Arrays.asList(Component.empty(),
-                        Component.text("Fire 3 arcane bolts at a target.", NamedTextColor.AQUA),
-                        Component.text(" "),
-                        Component.text("Has a cooldown of " + arcaneBarrageCooldown/20 + " seconds.", NamedTextColor.AQUA)), null);
+                        Component.text("<< Right Click To Shoot >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Fires 3 arcane bolts.", NamedTextColor.GRAY),
+                        Component.text("- 60 Projectile DMG", NamedTextColor.GRAY),
+                        Component.text("- 60m Max Range", NamedTextColor.GRAY),
+                        Component.text(arcaneBarrageCooldown /20 + "s Cooldown", NamedTextColor.LIGHT_PURPLE)), null);
 
         // 3rd ability
         es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.FEATHER),
-                Component.text("Slow Falling", NamedTextColor.GREEN),
+                Component.text("Slow Falling", NamedTextColor.LIGHT_PURPLE),
                 Arrays.asList(Component.empty(),
-                        Component.text("Right click to give yourself slow falling", NamedTextColor.AQUA),
-                        Component.text("for 5 seconds.", NamedTextColor.AQUA),
-                        Component.text(" "),
-                        Component.text("Has a cooldown of " + slowFallingCooldown/20 + " seconds.", NamedTextColor.AQUA)), null);
+                        Component.text("<< Right Click To Use >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Right click to give yourself slow falling", NamedTextColor.GRAY),
+                        Component.text("for 5 seconds.", NamedTextColor.GRAY),
+                        Component.text(slowFallingCooldown/20 + "s Cooldown", NamedTextColor.LIGHT_PURPLE)), null);
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Sorcerer's Robe", NamedTextColor.GREEN), null, null,
+                Component.text("Sorcerer's Robe", NamedTextColor.LIGHT_PURPLE),
+                List.of(Component.text("» Netherite Dune Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_PURPLE),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_PURPLE)), null,
                 Color.fromRGB(75, 60, 63));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -115,7 +127,11 @@ public class Sorcerer extends CoinKit implements Listener {
 
         // Leggings
         es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Sorcerer's Leggings", NamedTextColor.GREEN), null, null,
+                Component.text("Sorcerer's Leggings", NamedTextColor.LIGHT_PURPLE),
+                List.of(Component.text("» Netherite Tide Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_PURPLE),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_PURPLE)), null,
                 Color.fromRGB(106, 62, 156));
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
@@ -126,12 +142,21 @@ public class Sorcerer extends CoinKit implements Listener {
 
         // Boots
         es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                Component.text("Sorcerer's Boots", NamedTextColor.GREEN), null, null,
+                Component.text("Sorcerer's Boots", NamedTextColor.LIGHT_PURPLE),
+                List.of(Component.text("» Netherite Tide Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_PURPLE),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_PURPLE)), null,
                 Color.fromRGB(106, 62, 156));
         // Voted Boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                Component.text("Sorcerer's Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Component.text("Sorcerer's Boots", NamedTextColor.LIGHT_PURPLE),
+                List.of(Component.text("» Netherite Tide Trim", NamedTextColor.DARK_GRAY),
+                        Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_PURPLE),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_PURPLE),
+                        Component.empty(),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.LIGHT_PURPLE)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
                 Color.fromRGB(106, 62, 156));
         ItemMeta boots = es.feet.getItemMeta();
@@ -158,19 +183,17 @@ public class Sorcerer extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickStaff(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack staff = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.STICK);
-
+        UUID uuid = e.getPlayer().getUniqueId();
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
-
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            Player p = e.getPlayer();
+            ItemStack staff = p.getInventory().getItemInMainHand();
             if (staff.getType().equals(Material.STICK)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    int cooldown = p.getCooldown(Material.STICK);
                     if (cooldown == 0) {
                         p.setCooldown(Material.STICK, arcaneBoltCooldown);
                         mythicMobsApi.castSkill(p ,"SorcererArcanebolt", p.getLocation());
@@ -186,19 +209,17 @@ public class Sorcerer extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickFrostNova(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack pItem = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.DIAMOND);
-
+        UUID uuid = e.getPlayer().getUniqueId();
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
-
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            Player p = e.getPlayer();
+            ItemStack pItem = p.getInventory().getItemInMainHand();
             if (pItem.getType().equals(Material.DIAMOND)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    int cooldown = p.getCooldown(Material.DIAMOND);
                     if (cooldown == 0) {
                         p.setCooldown(Material.DIAMOND, frostNovaCooldown);
                         mythicMobsApi.castSkill(p ,"SorcererFrostnova", p.getLocation());
@@ -214,19 +235,17 @@ public class Sorcerer extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickBarrage(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack staff = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.AMETHYST_SHARD);
-
+        UUID uuid = e.getPlayer().getUniqueId();
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
-
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            Player p = e.getPlayer();
+            ItemStack staff = p.getInventory().getItemInMainHand();
             if (staff.getType().equals(Material.AMETHYST_SHARD)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    int cooldown = p.getCooldown(Material.AMETHYST_SHARD);
                     if (cooldown == 0) {
                         p.setCooldown(Material.AMETHYST_SHARD, arcaneBarrageCooldown);
                         mythicMobsApi.castSkill(p ,"SorcererArcaneboltBarrage", p.getLocation());
@@ -242,19 +261,17 @@ public class Sorcerer extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickSlowFalling(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack staff = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.FEATHER);
-
+        UUID uuid = e.getPlayer().getUniqueId();
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
-
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            Player p = e.getPlayer();
+            ItemStack staff = p.getInventory().getItemInMainHand();
             if (staff.getType().equals(Material.FEATHER)) {
                 if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    int cooldown = p.getCooldown(Material.FEATHER);
                     if (cooldown == 0) {
                         p.setCooldown(Material.FEATHER, slowFallingCooldown);
                         mythicMobsApi.castSkill(p ,"SorcererSlowfalling", p.getLocation());
@@ -271,12 +288,12 @@ public class Sorcerer extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A sorcerer specialised in the arcane arts, ", NamedTextColor.GRAY));
-        kitLore.add(Component.text("can also slow down enemies with ice", NamedTextColor.GRAY));
+        kitLore.add(Component.text("A sorcerer specialised in the arcane arts,", NamedTextColor.GRAY));
+        kitLore.add(Component.text("can also slow down enemies with ice.", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
         kitLore.add(Component.text("60", color)
                         .append(Component.text(" arcane-bolt DMG", NamedTextColor.GRAY)));
-        kitLore.add(Component.text("30", color)
+        kitLore.add(Component.text("20 - 40", color)
                         .append(Component.text(" frost nova DMG", NamedTextColor.GRAY)));
         kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));

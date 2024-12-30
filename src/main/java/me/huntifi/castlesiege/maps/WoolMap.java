@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.maps;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
+import me.huntifi.castlesiege.commands.donator.DuelCommand;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.death.DeathEvent;
 import me.huntifi.conwymc.util.Messenger;
@@ -40,7 +40,8 @@ public class WoolMap implements Listener {
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 		// Prevent spawning by physical actions, e.g. stepping on a pressure plate
-		if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)
+		if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK
+		&& e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_AIR)
 			return;
 
 		Player player = e.getPlayer();
@@ -57,6 +58,10 @@ public class WoolMap implements Listener {
 
 		Bukkit.getScheduler().runTask(Main.plugin, () -> {
 			for (WoolMapBlock block : woolMapBlocks) {
+
+				if (target.getWorld() != block.blockLocation.getWorld()) {
+					return;
+				}
 
 				if (Objects.equals(Objects.requireNonNull(block.blockLocation.getWorld()).getName(), MapController.getCurrentMap().worldName)) {
 					if (target.getLocation().distance(block.signLocation) == 0) {
@@ -85,7 +90,7 @@ public class WoolMap implements Listener {
 	 */
 	//@EventHandler
 	public void lookAtWoolmap(PlayerMoveEvent e) {
-		if (DuelCommand.challenging.containsValue(e.getPlayer()) || DuelCommand.challenging.containsKey(e.getPlayer())) {
+		if (DuelCommand.isChallenging(e.getPlayer().getUniqueId())) {
 			return;
 		}
         if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {

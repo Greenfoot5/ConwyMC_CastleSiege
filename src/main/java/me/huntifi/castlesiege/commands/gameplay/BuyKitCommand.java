@@ -4,6 +4,7 @@ import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.kits.kits.CoinKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.SignKit;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -43,8 +44,8 @@ public class BuyKitCommand implements TabExecutor {
             // Get the kit
             String kitName = args[0];
             Kit kit = Kit.getKit(kitName);
-            if (!(kit instanceof CoinKit)) {
-                Messenger.sendError(kitName + " is not a donator kit", sender);
+            if (!(kit instanceof CoinKit) && !(kit instanceof SignKit)) {
+                Messenger.sendError(kitName + " is not a donator or sign kit", sender);
                 return;
             }
 
@@ -68,7 +69,13 @@ public class BuyKitCommand implements TabExecutor {
             }
 
             // Get the kit's price
-            double coinPrice = CoinKit.getPrice(buyer.getUniqueId());
+            double coinPrice;
+            if (kit instanceof CoinKit) {
+                coinPrice = CoinKit.getPrice(buyer.getUniqueId());
+            } else {
+                coinPrice = ((SignKit) kit).getCost();
+            }
+
             if (coinPrice <= 0) {
                 Messenger.sendError("The coinPrice is " + coinPrice + ", report this!", sender);
                 return;
@@ -121,6 +128,7 @@ public class BuyKitCommand implements TabExecutor {
         List<String> options = new ArrayList<>();
         if (args.length == 1) {
             Stream<String> values = new ArrayList<>(CoinKit.getKits()).stream();
+            values = Stream.concat(values, new ArrayList<>(SignKit.getKits()).stream());
             values = values.filter(name -> !CSActiveData.getData(finalReceiver.getUniqueId()).hasKit(args[0]));
             StringUtil.copyPartialMatches(args[0], Arrays.asList(values.toArray(String[]::new)), options);
             return options;

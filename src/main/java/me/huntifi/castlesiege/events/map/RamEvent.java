@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.maps.events;
+package me.huntifi.castlesiege.events.map;
 
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -123,6 +123,13 @@ public class RamEvent extends Event implements Cancellable {
      */
     public ArrayList<UUID> getPlayerUUIDs() {
         return uuids;
+    }
+
+    /**
+     * @return If the gate was breached with this ram
+     */
+    public boolean wasGateBreached() {
+        return getCurrentHealth() <= getDamageDealt();
     }
 
     /**

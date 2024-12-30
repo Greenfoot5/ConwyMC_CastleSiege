@@ -22,74 +22,6 @@ softdepend:
   # End Packets Stuff
 load: STARTUP
 
-permissions:
-  # Staff
-  castlesiege.owner:
-    description: Gives access to all CastleSiege Owner commands
-    children:
-      castlesiege.admin: true
-  castlesiege.admin:
-    description: Gives access to all CastleSiege Admin commands
-    children:
-      castlesiege.communitymanager: true
-  castlesiege.communitymanager:
-    description: Gives access to all the CastleSiege CommunityManager commands
-    children:
-      castlesiege.developer: true
-  castlesiege.developer:
-    description: Gives access to all CastleSiege Developer commands
-    children:
-      castlesiege.moderator: true
-  castlesiege.moderator:
-    description: Gives access to all CastleSiege Moderator commands
-    children:
-      castlesiege.chatmod+: true
-      minecraft.command.gamemode: true
-  castlesiege.chatmod+:
-    description: Gives access to all CastleSiege Chatmod+ commands
-    children:
-      castlesiege.chatmod: true
-  castlesiege.chatmod:
-    description: Gives access to all CastleSiege Chatmod commands
-    children:
-      castlesiege.builder: true
-  castlesiege.builder:
-    description: Gives access to all CastleSiege builder commands
-
-  # Donator
-  castlesiege.high_king:
-    description: Gives access to all CastleSiege High King commands
-    children:
-      castlesiege.king: true
-  castlesiege.king:
-    description: Gives access to all CastleSiege King commands
-    children:
-      castlesiege.viceroy: true
-  castlesiege.viceroy:
-    description: Gives access to all CastleSiege Viceroy commands
-    children:
-      castlesiege.duke: true
-  castlesiege.duke:
-    description: Gives access to all CastleSiege Duke commands
-    children:
-      castlesiege.count: true
-  castlesiege.count:
-    description: Gives access to all CastleSiege Count commands
-    children:
-      castlesiege.baron: true
-  castlesiege.baron:
-    description: Gives access to all CastleSiege Baron commands
-    children:
-      castlesiege.noble: true
-  castlesiege.noble:
-    description: Gives access to all CastleSiege Noble commands
-    children:
-      castlesiege.esquire: true
-  castlesiege.esquire:
-    description: Gives access to all CastleSiege Esquire commands
-  castlesiege.vip:
-    description: Gives access to all CastleSiege VIP commands
-
 commands:
   # TODO - These command have yet to be reimplemented
   Vanish:
@@ -107,7 +39,7 @@ commands:
     description: Shoots a firework with your teams colour into the sky!
     usage: /firework
     aliases: fw
-    permission: castlesiege.esquire
+    permission: conwymc.esquire
     permission-message: Only donators are permitted to use this command!
 
   # Duels
@@ -115,7 +47,7 @@ commands:
     description: Challenge a specified player to a duel
     usage: /duel <player>
     aliases: duel
-    permission: castlesiege.noble
+    permission: conwymc.noble
     permission-message: Only donators, noble or above can use this command!
   DuelAccept:
     description: Accept a duel from someone
@@ -168,6 +100,16 @@ commands:
   Teams:
     description: Shows the size and name of all teams on the current map
     usage: /teams
+  Preview:
+    description: Shows a GUI detailing the kit's items and abilities
+    usage: /preview <kit>
+
+  Help:
+    description: Test
+    usage: This *should* take you to the tutorial arena, sadly that's a WIP :(
+    aliases:
+      - tutorial
+      - "?"
 
   # Leaderboards
   Top:
@@ -212,92 +154,96 @@ commands:
     aliases:
       - topbounty
 
-  # Staff - Boosters
+  # Debug
   GrantBooster:
     description: Grants a booster to a player
     usage: /grantbooster <player> <type> <duration> [other_args]
-    permission: castlesiege.moderator
+    permission: conwymc.developer
     permission-message: You are now permitted to use this command!
     aliases:
       - grantboost
-
-
-  # Staff - Misc
   CSReload:
     description: Reloads the Castle Siege Plugin
     usage: /csreload
-    permission: castlesiege.moderator
+    permission: conwymc.developer
     permission-message: You are not permitted to use this command!
-  Curse:
-    description: Manages the active curses
-    usage: /curse [curse]
-    permission: castlesiege.chatmod+
+  Tip:
+    description: Broadcasts a new tip
+    usage: /tip
+    permission: conwymc.developer
+  SetMap:
+    description: Skips to the specified map in the rotation
+    usage: /setmap <map name>
+    permission: conwymc.developer
     permission-message: You are not permitted to use this command!
   GiveVote:
     description: Give a player vote rewards
     usage: /givevote <player> <vote>
-    permission: castlesiege.chatmod+
+    permission: conwymc.chatmod+
+    permission-message: You are not permitted to use this command!
+#  SetTag:
+#    description: Set a nametag prefix
+#    usage: /settag <tag>
+#    permission: conwymc.developer
+
+
+  # Staff - Misc
+  Curse:
+    description: Manages the active curses
+    usage: /curse [curse]
+    permission: conwymc.chatmod+
     permission-message: You are not permitted to use this command!
   NextMap:
     description: Skips the current map and goes directly to the next one
     usage: /nextmap
-    permission: castlesiege.chatmod+
+    permission: conwymc.chatmod+
     permission-message: You are not permitted to use this command!
   SetKit:
     description: Sets the kit for a player
     usage: /setkit <player> [kit]
-    permission: castlesiege.developer
+    permission: conwymc.moderator
     permission-message: You are not permitted to use this command!
   SetKitLimit:
     description: Sets the player limit per team for a kit
     usage: /setkitlimit <kit> <limit>
-    permission: castlesiege.chatmod+
-    permission-message: You are not permitted to use this command!
-  SetMap:
-    description: Skips to the specified map in the rotation
-    usage: /setmap <map name>
-    permission: castlesiege.developer
+    permission: conwymc.chatmod+
     permission-message: You are not permitted to use this command!
   SetTimer:
     description: Sets the time left on the map to the specified time
     usage: /settimer <mins> [seconds]
-    permission: castlesiege.moderator
+    permission: conwymc.moderator
     permission-message: You are not permitted to use this command!
   ToggleFree:
     description: Disables/Enables free kits
     usage: /togglefree [true/false]
-    permission: castlesiege.moderator
+    permission: conwymc.moderator
     permission-message: You are not permitted to use this command!
     aliases:
     - togglenolimits
   Spectate:
     description: Makes you, or another player, a spectator.
     usage: /spectate [player]
-    permission: castlesiege.chatmod+
+    permission: conwymc.chatmod+
     permission-message: You are not permitted to use this command!
   ForceSwitch:
     description: Forefully switches a player to a different team
     usage: /forceswitch <player> [team name]
-    permission: castlesiege.chatmod+
+    permission: conwymc.chatmod+
     permission-message: You are not permitted to use this command!
   ToggleSwitching:
     description: Disables/Enables non-forceful switching
     usage: /toggleswitching [true/false]
-    permission: castlesiege.chatmod+
+    permission: conwymc.chatmod+
     permission-message: You are not permitted to use this command!
   Start:
     description: Ends the current timer phase
     usage: /start
-    permission: castlesiege.chatmod+
+    permission: conwymc.chatmod+
     permission-message: You are not permitted to use this command!
-  SetTag:
-    description: Set a nametag prefix
-    usage: /settag <tag>
-    permission: castlesiege.developer
   ToggleForcedRandom:
     description: Disables/Enables forced randomDeath setting
     usage: /toggleforcedrandom [true/false]
-    permission: castlesiege.chatmod+
+    permission: conwymc.chatmod+
     permission-message: You are not permitted to use this command!
     aliases:
       - togglerandom
@@ -305,8 +251,8 @@ commands:
   # Donations
   Unlockkit:
     description: Unlocks a kit for a player.
-    usage: /unlockkit <Player Name> <add/remove> <Kit Name> <Time> <IsDonated:true/false>
-    permission: castlesiege.developer
+    usage: /unlockkit <Player Name> <add/remove> <Kit Name> <Time> <wasDonation>
+    permission: conwymc.developer
     permission-message: Try /buykit instead
   Coinshop:
     description: Open the coinshop for the player.
@@ -429,6 +375,9 @@ commands:
   Bonecrusher:
     description: Selects the Bonecrusher kit
     usage: /Bonecrusher
+  Buccaneer:
+    description: Selects the buccaneer kit
+    usage: /buccaneer
   CamelRider:
     description: Selects the camel rider kit
     usage: /camelrider
@@ -438,15 +387,24 @@ commands:
   Constructor:
     description: Selects the constructor kit
     usage: /constructor
+  DwarvenX-bow:
+    description: Selects the Dwarven Xbow kit on Moria
+    usage: /DwarvenX-bow
   Elytrier:
     description: Selects the Elytrier kit
     usage: /thunderstoneelytrier
   Fallen:
     description: Selects the Fallen kit
     usage: /fallen
+  Gunner:
+    description: Selects the gunner kit
+    usage: /gunner
   Guardian:
     description: Selects the Guardian kit
     usage: /guardian
+  Hammerguard:
+    description: Selects the Hammerguard kit for Moria
+    usage: /Hammerguard
   Hellsteed:
     description: Selects the Hellsteed kit
     usage: /hellsteed
@@ -459,6 +417,15 @@ commands:
   MoriaOrc:
     description: Selects the Moria Orc kit
     usage: /moriaorc
+  OrcPikeman:
+    description: Selects the Orc Pikeman kit
+    usage: /OrcPikeman
+  MoriaOverseer:
+    description: Selects the Moria Overseer kit
+    usage: /MoriaOverseer
+  Skullcrusher:
+    description: Selects the Skullcrusher kit for Moria
+    usage: /Skullcrusher
   RangedCavalry:
     description: Selects the Ranged Cavalry kit
     usage: /rangedcavalry
@@ -468,14 +435,25 @@ commands:
   UrukBerserker:
     description: Selects the Uruk Berserker kit
     usage: /urukberserker
-  Windlancer:
-    description: Selects the Windlancer kit
-    usage: /windlancer
+  Pirate:
+    description: Selects the pirate kit
+    usage: /pirate
 
   # Staff Kits
   Warbear:
     description: Selects the warbear kit
     usage: /warbear
+
+  # Event Kits
+  Vampire:
+    description: Selects the vampire kit
+    usage: /vampire
+  HallowedHorseman:
+    description: Selects the Hallowed Horseman kit for Halloween
+    usage: /HallowedHorseman
+  Werewolf:
+    description: Selects the werewolf kit
+    usage: /werewolf
 
   # Voter Kits
   FireArcher:

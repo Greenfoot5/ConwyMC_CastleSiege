@@ -40,6 +40,7 @@ public class CSNameTag implements Listener {
         Player player = event.getPlayer();
         CSPlayerData data = CSActiveData.getData(player.getUniqueId());
         assert data != null;
+        Component title = event.getTitle() == null ? Component.empty() : event.getTitle().append(Component.text(" "));
         Component rank = data.getDisplayRank();
         String legacyRank = LegacyComponentSerializer.legacySection().serialize(rank);
 
@@ -52,16 +53,22 @@ public class CSNameTag implements Listener {
 
         Bukkit.getScheduler().runTask(Main.plugin, () -> {
             // Set the display name
-            player.displayName(rank.append(username));
-            NametagEdit.getApi().setPrefix(player, legacyRank.substring(0, legacyRank.length() - 1) + legacyColor(player));
+            player.displayName(Component.empty().append(title).append(rank).append(username));
+            if (!legacyRank.isEmpty())
+                NametagEdit.getApi().setPrefix(player, legacyRank.substring(0, legacyRank.length() - 1) + legacyColor(player, true));
+            else
+                NametagEdit.getApi().setPrefix(player, legacyColor(player, false));
         });
     }
 
     @SuppressWarnings("deprecation")
-    private static String legacyColor(Player p) {
+    private static String legacyColor(Player p, boolean addSpace) {
         if (MapController.getPlayers().contains(p.getUniqueId())) {
             Component c = Component.text(" ").color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
-            return LegacyComponentSerializer.legacySection().serialize(c);
+            if (addSpace)
+                return LegacyComponentSerializer.legacySection().serialize(c);
+            else
+                return LegacyComponentSerializer.legacySection().serialize(c).substring(0, 2);
         } else {
             return ChatColor.GRAY.toString() + ChatColor.ITALIC;
         }

@@ -33,17 +33,17 @@ public class FlagsCommand implements CommandExecutor {
 		Component c = Component.empty();
 
 		for (Team t : teams) {
-			c = c.append(Component.text(t.name, t.primaryChatColor).decorate(TextDecoration.BOLD))
+			c = c.append(t.getDisplayName().decorate(TextDecoration.BOLD))
 					.append(Component.text("'s Flags: ", t.primaryChatColor).decorate(TextDecoration.BOLD))
 					.append(Component.newline());
 			boolean hasAny = false;
 			Component fc = Component.empty().color(t.primaryChatColor);
 			for (Flag f : MapController.getCurrentMap().flags) {
-				if (Objects.equals(f.getCurrentOwners(), t.name) && f.isActive()) {
+				if (Objects.equals(f.getCurrentOwners(), t.getName()) && f.isActive()) {
 					if (hasAny) {
 						fc = fc.append(Component.text(", "));
 					}
-					fc = fc.append(Component.text(f.name));
+					fc = fc.append(Component.text(f.getName()));
 					hasAny = true;
 				}
 			}
@@ -63,7 +63,7 @@ public class FlagsCommand implements CommandExecutor {
 				if (hasAny) {
 					fc = fc.append(Component.text(", "));
 				}
-				fc = fc.append(Component.text(f.name));
+				fc = fc.append(f.getDisplayName());
 				hasAny = true;
 			}
 		}

@@ -63,24 +63,27 @@ public class Warhound extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
-                Component.text("Fangs ", NamedTextColor.GREEN).append(Component.text("(Right Click)", NamedTextColor.GRAY)),
+                Component.text("Fangs ", NamedTextColor.GREEN),
                         Arrays.asList(Component.empty(),
-                        Component.text("Immobilise your enemies, making them", NamedTextColor.AQUA),
-                        Component.text("slow and also you for a short period of time and", NamedTextColor.AQUA),
-                        Component.text("you can also slow down horses.", NamedTextColor.AQUA),
-                        Component.text("Has a 12 second cooldown.", NamedTextColor.AQUA)), null, 20);
+                                Component.text("Immobilise your enemies, making them", NamedTextColor.BLUE),
+                                Component.text("slow and also you for a short period of time and", NamedTextColor.BLUE),
+                                Component.text("you can also slow down horses.", NamedTextColor.BLUE),
+                                Component.text("Has a 12 second cooldown.", NamedTextColor.BLUE),
+                                Component.empty(),
+                                Component.text("20 Melee Damage", NamedTextColor.DARK_GREEN)), null, 20);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.GHAST_TEAR),
                         Component.text("Fangs ", NamedTextColor.GREEN).append(Component.text("(Right Click)", NamedTextColor.GRAY)),
                         Arrays.asList(Component.empty(),
-                                Component.text("Immobilise your enemies, making them", NamedTextColor.AQUA),
-                                Component.text("slow and also you for a short period of time and", NamedTextColor.AQUA),
-                                Component.text("you can also slow down horses.", NamedTextColor.AQUA),
-                                Component.text("Has a 12 second cooldown.", NamedTextColor.AQUA),
+                                Component.text("Immobilise your enemies, making them", NamedTextColor.BLUE),
+                                Component.text("slow and also you for a short period of time and", NamedTextColor.BLUE),
+                                Component.text("you can also slow down horses.", NamedTextColor.BLUE),
+                                Component.text("Has a 12 second cooldown.", NamedTextColor.BLUE),
                                 Component.empty(),
-                                Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 30),
+                                Component.text("22 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 22),
                 0);
 
         super.equipment = es;
@@ -147,11 +150,9 @@ public class Warhound extends CoinKit implements Listener {
      */
     @EventHandler
     public void onImmobilise(PlayerInteractEntityEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-
+        UUID uuid = e.getPlayer().getUniqueId();
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-
+            Player p = e.getPlayer();
             //Stuns the horse which the warhound hits.
             if (e.getRightClicked() instanceof Horse) {
                 Horse h = (Horse) e.getRightClicked();
@@ -291,7 +292,8 @@ public class Warhound extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A quick a ferocious hound. Hard to hit and bites hard", NamedTextColor.GRAY));
+        kitLore.add(Component.text("A quick and ferocious hound.", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Hard to hit and bites hard!", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
         kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));

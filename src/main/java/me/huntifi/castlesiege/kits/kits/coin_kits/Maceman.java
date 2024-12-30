@@ -22,6 +22,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -46,30 +47,48 @@ public class Maceman extends CoinKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
-                Component.text("Mace", NamedTextColor.GREEN), null, null, meleeDamage);
+                Component.text("Mace", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("37 Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SHOVEL),
                         Component.text("Mace", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        List.of(Component.empty(),
+                                Component.text("39 Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Chestplate
         es.chest = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
-                Component.text("Chainmail Chestplate", NamedTextColor.GREEN), null, null);
+                Component.text("Chainmail Chestplate", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 
         // Leggings
         es.legs = CSItemCreator.item(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null);
+                Component.text("Leather Leggings", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 
         // Boots
         es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
@@ -104,8 +123,8 @@ public class Maceman extends CoinKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    Messenger.sendActionInfo(CSNameTag.username(p) + "§r blocked your stun", q);
-                    Messenger.sendActionInfo("Your shield broke whilst blocking " + CSNameTag.username(q) + "§r's stun", p);
+                    Messenger.sendWarning(CSNameTag.username(p) + " blocked your stun", q);
+                    Messenger.sendSuccess("Your shield broke whilst blocking " + CSNameTag.username(q) + "'s stun", p);
                     if (p.getInventory().getItemInMainHand().getType().equals(Material.SHIELD)) {
                         p.getInventory().getItemInMainHand().setAmount(0);
                     } else if (p.getInventory().getItemInOffHand().getType().equals(Material.SHIELD)) {
@@ -113,11 +132,11 @@ public class Maceman extends CoinKit implements Listener {
                     }
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK , 1, 1 );
                 } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    Messenger.sendActionInfo(CSNameTag.username(p) + "§r dodged your stun", q);
-                    Messenger.sendActionInfo("You dodged " + CSNameTag.username(q) + "§r's stun", p);
+                    Messenger.sendWarning(CSNameTag.username(p) + "dodged your stun", q);
+                    Messenger.sendSuccess("You dodged " + CSNameTag.username(q) + "'s stun", p);
                 } else {
-                    Messenger.sendActionInfo("You have stunned " + CSNameTag.username(q), p);
-                    Messenger.sendActionWarning("You have been stunned by " + CSNameTag.username(p) + "§r!", q);
+                    Messenger.sendSuccess("You have stunned " + CSNameTag.username(q), q);
+                    Messenger.sendWarning("You have been stunned by " + CSNameTag.username(p) + "!", p);
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 60, 1)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW, 60, 2)));

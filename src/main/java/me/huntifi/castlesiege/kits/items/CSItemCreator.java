@@ -8,6 +8,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -48,6 +49,8 @@ public class CSItemCreator extends ItemCreator {
         ItemStack leatherItem = item(item, name, lore, enchants);
         LeatherArmorMeta itemMeta = (LeatherArmorMeta) leatherItem.getItemMeta();
         assert itemMeta != null;
+        itemMeta.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+        itemMeta.addItemFlags(ItemFlag.HIDE_DYE);
         itemMeta.setColor(color);
         leatherItem.setItemMeta(itemMeta);
         return leatherItem;

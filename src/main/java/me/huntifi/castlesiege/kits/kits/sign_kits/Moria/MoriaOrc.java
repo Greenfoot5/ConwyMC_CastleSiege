@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.sign_kits;
+package me.huntifi.castlesiege.kits.kits.sign_kits.Moria;
 
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -17,7 +17,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ArmorMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
+import org.bukkit.inventory.meta.trim.TrimMaterial;
+import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -32,7 +37,7 @@ public class MoriaOrc extends SignKit implements Listener {
      * Creates a new Moria Orc
      */
     public MoriaOrc() {
-        super("Moria Orc", 230, 7, Material.BOW, 2500);
+        super("Moria Orc", 230, 7, Material.BOW, 2000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -44,30 +49,54 @@ public class MoriaOrc extends SignKit implements Listener {
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         Component.text("Dagger", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 31),
                 0);
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
+                Component.text("Orcish Chestplate", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(21, 51, 10));
+        ItemMeta chest = es.chest.getItemMeta();
+        ArmorMeta chestMeta = (ArmorMeta) chest;
+        assert chest != null;
+        ArmorTrim chestTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.COAST);
+        ((ArmorMeta) chest).setTrim(chestTrim);
+        es.chest.setItemMeta(chestMeta);
 
         // Leggings
         es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
+                Component.text("Orcish Legplates", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(68, 65, 12));
+        ItemMeta legs = es.legs.getItemMeta();
+        ArmorMeta legsMeta = (ArmorMeta) legs;
+        assert legs != null;
+        ArmorTrim legsTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.WILD);
+        ((ArmorMeta) legs).setTrim(legsTrim);
+        es.legs.setItemMeta(legsMeta);
 
         // Boots
         es.feet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                Component.text("Leather Boots", NamedTextColor.GREEN), null, null,
-                Color.fromRGB(68, 65, 16));
+                Component.text("Orcish Boots", NamedTextColor.GREEN), null, null,
+                Color.fromRGB(68, 65, 12));
+        ItemMeta feet = es.feet.getItemMeta();
+        ArmorMeta feetMeta = (ArmorMeta) feet;
+        assert feet != null;
+        ArmorTrim feetTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.DUNE);
+        ((ArmorMeta) feet).setTrim(feetTrim);
+        es.feet.setItemMeta(feetMeta);
         // Voted Boots
         es.votedFeet = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_BOOTS),
-                Component.text("Leather Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+                Component.text("Orcish Boots", NamedTextColor.GREEN),
+                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)),
-                Color.fromRGB(68, 65, 16));
+                Color.fromRGB(68, 65, 12));
+        ItemMeta votedFeet = es.votedFeet.getItemMeta();
+        ArmorMeta votedFeetMeta = (ArmorMeta) votedFeet;
+        assert votedFeet != null;
+        ArmorTrim votedFeetTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.DUNE);
+        ((ArmorMeta) votedFeet).setTrim(votedFeetTrim);
+        es.votedFeet.setItemMeta(votedFeetMeta);
 
         // Regular Bow
         es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.BOW),
@@ -104,7 +133,7 @@ public class MoriaOrc extends SignKit implements Listener {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player &&
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            ((Arrow) e.getEntity()).setDamage(13);
+            ((Arrow) e.getEntity()).setDamage(20);
         }
     }
 

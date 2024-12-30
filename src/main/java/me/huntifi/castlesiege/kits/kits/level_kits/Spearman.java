@@ -1,12 +1,12 @@
-package me.huntifi.castlesiege.kits.kits.free_kits;
+package me.huntifi.castlesiege.kits.kits.level_kits;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.InCombat;
 import me.huntifi.castlesiege.events.timed.BarCooldown;
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
-import me.huntifi.castlesiege.kits.kits.FreeKit;
 import me.huntifi.castlesiege.kits.kits.Kit;
+import me.huntifi.castlesiege.kits.kits.LevelKit;
 import me.huntifi.conwymc.data_types.Tuple;
 import me.huntifi.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -37,18 +37,18 @@ import java.util.UUID;
 /**
  * The spearman kit
  */
-public class Spearman extends FreeKit implements Listener {
+public class Spearman extends LevelKit implements Listener {
 	private static final int health = 300;
 	private static final double regen = 10.5;
 	private static final int spearCount = 4;
-	private static final double meleeDamage = 35;
+	private static final double meleeDamage = 36;
 	private static final int ladderCount = 4;
 
 	// Spear Throw
 	private static final int throwCooldown = 160;
 	private static final double throwVelocity = 2.0;
 	private static final int throwDelay = 5;
-	private static final double throwDamage = 60;
+	private static final double throwDamage = 65;
 
 	// Damage multiplier when hitting horses
 	private static final double HORSE_MULTIPLIER = 1.5;
@@ -57,7 +57,7 @@ public class Spearman extends FreeKit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Spearman() {
-		super("Spearman", health, regen, Material.STICK);
+		super("Spearman", health, regen, Material.STICK, 5);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();
@@ -71,7 +71,7 @@ public class Spearman extends FreeKit implements Listener {
 				CSItemCreator.weapon(new ItemStack(Material.STICK, 4),
 						Component.text("Spear", NamedTextColor.GREEN),
 						Arrays.asList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA),
-								Component.text("- voted: +2 damage", NamedTextColor.AQUA)),
+								Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
 						Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
 				0);
 
@@ -89,7 +89,7 @@ public class Spearman extends FreeKit implements Listener {
 		// Voted Boots
 		es.votedFeet = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_BOOTS),
 				Component.text("Chainmail Boots", NamedTextColor.GREEN),
-				Collections.singletonList(Component.text("- voted: Depth Strider II", NamedTextColor.AQUA)),
+				Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
 				Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
 		// Ladders

@@ -39,7 +39,7 @@ public class KitBooster extends Booster {
     @Override
     public Component getName() {
         if (kitName.equalsIgnoreCase("wild")) {
-            return Component.text("Wild", NamedTextColor.GREEN).decorate(TextDecoration.ITALIC)
+            return Component.text("⁎Wild⁎", NamedTextColor.GREEN)
                     .append(Component.text("kit booster").decoration(TextDecoration.ITALIC, false));
         } else if (kitName.equalsIgnoreCase("random")) {
             return Messenger.mm.deserialize("<green><obf>!</obf>Random<obf>!</obf> kit booster");
@@ -51,14 +51,14 @@ public class KitBooster extends Booster {
     public List<Component> getLore() {
         List<Component> lore = super.getLore();
         if (kitName.equalsIgnoreCase("wild")) {
-            lore.add(Component.text("Choose which elite kit gets boosted!", NamedTextColor.GREEN));
+            lore.add(Component.text("Choose which coin kit gets boosted!", NamedTextColor.GREEN));
         } else if (kitName.equalsIgnoreCase("random")) {
-            lore.add(Component.text("A random elite kit gets boosted!", NamedTextColor.YELLOW));
+            lore.add(Component.text("A random coin kit gets boosted!", NamedTextColor.YELLOW));
         } else {
             lore.add(Component.text(kitName + " gets boosted!", NamedTextColor.GREEN));
         }
         lore.add(Component.text("A boosted kit is unlocked for all players", NamedTextColor.DARK_AQUA));
-        lore.add(Component.text("    for the booster's duration!", NamedTextColor.DARK_AQUA));
+        lore.add(Component.text("for the booster's duration!", NamedTextColor.DARK_AQUA));
         return lore;
     }
 
@@ -66,7 +66,7 @@ public class KitBooster extends Booster {
         if (kitName.equalsIgnoreCase("wild")) {
             return Material.SHORT_GRASS;
         } else if (kitName.equalsIgnoreCase("random")) {
-            return Material.COOKIE;
+            return Material.SUSPICIOUS_STEW;
         }
         Material material = Kit.getMaterial(kitName);
         if (material == null) {

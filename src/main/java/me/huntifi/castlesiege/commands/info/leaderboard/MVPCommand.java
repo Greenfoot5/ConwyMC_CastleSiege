@@ -92,7 +92,7 @@ public class MVPCommand implements CommandExecutor {
     public static Component getMVPMessage(Team t) {
         Tuple<UUID, CSStats> mvp = t.getMVP();
         if (mvp == null || mvp.getSecond() == null) {
-            return Component.text(t.name, t.primaryChatColor)
+            return t.getDisplayName()
                     .append(Component.text(" MVP: ", DARK_AQUA))
                     .append(Component.text("N/A", NamedTextColor.WHITE));
         }
@@ -109,11 +109,11 @@ public class MVPCommand implements CommandExecutor {
         Component c;
         // Header
         if (mvp) {
-            c = Component.text(t.name, t.primaryChatColor)
+            c = t.getDisplayName()
                     .append(Component.text(" MVP ", DARK_AQUA))
                     .append(Component.text(Bukkit.getOfflinePlayer(uuid).getName(), WHITE));
         } else {
-            c = Component.text(t.name, t.primaryChatColor)
+            c = t.getDisplayName()
                     .append(Component.text(" You:", DARK_AQUA));
         }
 

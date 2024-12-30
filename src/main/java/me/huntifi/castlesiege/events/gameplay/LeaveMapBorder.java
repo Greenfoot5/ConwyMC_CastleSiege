@@ -1,7 +1,7 @@
 package me.huntifi.castlesiege.events.gameplay;
 
 import me.huntifi.castlesiege.Main;
-import me.huntifi.castlesiege.commands.donator.duels.DuelCommand;
+import me.huntifi.castlesiege.commands.donator.DuelCommand;
 import me.huntifi.castlesiege.data_types.MapBorder;
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -46,7 +46,7 @@ public class LeaveMapBorder implements Listener {
             // Check if the player should be held accountable
             Player player = e.getPlayer();
             if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR
-                    || InCombat.isPlayerInLobby(player.getUniqueId()) || DuelCommand.isDueling(player))
+                    || InCombat.isPlayerInLobby(player.getUniqueId()) || DuelCommand.isDueling(player.getUniqueId()))
                 return;
 
             // Check if a map border has been set
