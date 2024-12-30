@@ -94,7 +94,7 @@ public class Tips extends BukkitRunnable implements CommandExecutor {
             // Other
             "Is the server empty or are you all by yourself? Mention the <color:#E67E23>@Fighter</color> role on our <a:https://conwymc.alchemix.dev/discord>Discord</a> server!",
             "Found a suspicious player? Make a report on our <a:https://conwymc.alchemix.dev/discord>Discord</a> server or <cmd:/msg >/msg</cmd> a staff member",
-            "Found a bug or exploit? Report it on our <a:https://conwymc.alchemix.dev/discord>Discord</a server.",
+            "Found a bug or exploit? Report it on our <a:https://conwymc.alchemix.dev/discord>Discord</a> server.",
             "Did you know you can click the <cmd:/help>yellow</cmd> text to auto-fill commands?",
             "Want to try a kit before buying? Play on Fridays for free or use a kit booster!",
             "Don't like using Discord? You can always email us at <a:https://conwymc.alchemix.dev/contact>conwymc@alchemix.dev!</a>",
