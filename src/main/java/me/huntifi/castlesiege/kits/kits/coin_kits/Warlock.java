@@ -421,7 +421,6 @@ public class Warlock extends CoinKit implements Listener {
                 Messenger.sendActionError("You require 5 soul shards to perform this spell!", p);
                 return;
             }
-            mythicMobsApi.castSkill(p ,"Hellfire", p.getLocation());
             for (Player hit : Bukkit.getOnlinePlayers()) {
                 //if the player is not in the same world ignore them.
                 if (p.getWorld() != hit.getWorld())
@@ -431,6 +430,7 @@ public class Warlock extends CoinKit implements Listener {
                     if (TeamController.getTeam(p.getUniqueId())
                             != TeamController.getTeam(hit.getUniqueId())) {
                         hit.setFireTicks(240);
+                        mythicMobsApi.castSkill(p ,"Hellfire", p.getLocation());
                         AssistKill.addDamager(hit.getUniqueId(), p.getUniqueId(), 60);
                     }
                 }

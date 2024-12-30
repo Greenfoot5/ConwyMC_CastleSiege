@@ -97,7 +97,7 @@ public class Alchemist extends CoinKit implements Listener {
                         Component.keybind("key.attack").append(Component.text(" to brew a negative potion.", NamedTextColor.BLUE)),
                         Component.empty(),
                         Component.text("28 Melee Damage", NamedTextColor.DARK_GREEN),
-                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
+                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN)),
                 List.of(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(standVoted, 0);
 

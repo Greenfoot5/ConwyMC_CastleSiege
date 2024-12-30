@@ -52,14 +52,21 @@ public class Barbarian extends CoinKit implements Listener {
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
                 Component.text("Battle Axe", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text("36 Melee Damage", NamedTextColor.DARK_GREEN)), null, meleeDamage);
+                        Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text(meleeDamage * 3 + "Maximum Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text("<< Passive Ability >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Damage done increases with lower health.", NamedTextColor.GRAY)
+                ), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
                         Component.text("Battle Axe", NamedTextColor.GREEN),
                         List.of(Component.empty(),
-                                Component.text("38 Melee Damage", NamedTextColor.DARK_GREEN),
-								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
+                                Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
+                                Component.text(meleeDamage * 3 + "Maximum Melee Damage", NamedTextColor.DARK_GREEN),
+                                Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN),
+                                Component.text("<< Passive Ability >>", NamedTextColor.DARK_GRAY),
+                                Component.text("Damage done increases with lower health.", NamedTextColor.GRAY)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
