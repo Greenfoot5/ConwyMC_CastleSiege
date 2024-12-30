@@ -148,7 +148,7 @@ public class TopMatchCommand implements CommandExecutor {
                 + "<transition:#13DB5D:#05B6D9:#F907FC:0.4>" + num.format(d.getDeaths()) + "</transition> "
                 + "<transition:#13DB5D:#05B6D9:#F907FC:0.6>" + dec.format(d.getKills() / d.getDeaths()) + "</transition> "
                 + "<transition:#13DB5D:#05B6D9:#F907FC:0.7>" + num.format(d.getAssists()) + "</transition> "
-                + "<transition:#13DB5D:#05B6D9:#F907FC:0.8>" + num.format(d.getAssists()) + "</transition> "
+                + "<transition:#13DB5D:#05B6D9:#F907FC:0.8>" + num.format(d.getCaptures()) + "</transition> "
                 + "<transition:#13DB5D:#05B6D9:#F907FC:0.9>" + num.format(d.getHeals()) + "</transition> "
                 + "<transition:#13DB5D:#05B6D9:#F907FC:1>" + num.format(d.getSupports()) + "</transition>");
     }
