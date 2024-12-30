@@ -76,10 +76,7 @@ public class DeathEvent implements Listener {
 
         player.setWalkSpeed(0.2f);
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> respawnCounter(player), 10);
-        CSPlayerData data = CSActiveData.getData(player.getUniqueId());
-        if (data.getSetting("alwaysInfo").equals("true") || data.getLevel() <= 5) {
-            PlayerConnect.sendTitlebarMessages(player);
-        }
+
     }
 
     /**
@@ -121,7 +118,7 @@ public class DeathEvent implements Listener {
      * @param p the player to display the counter to
      */
     private void respawnCounter(Player p) {
-        if (!p.isOnline()) return;
+        if (!p.isOnline() || p.getHealth() <= 0) return;
 
         Title.Times times = Title.Times.times(Duration.ZERO, Duration.ofMillis(1000), Duration.ofMillis(750));
         new BukkitRunnable() {

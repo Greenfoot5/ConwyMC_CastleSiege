@@ -281,11 +281,14 @@ public class MapController {
 					giveCoinReward(team);
 					Tuple<UUID, CSStats> mvp = team.getMVP();
 					if (mvp != null) {
-						Player player = Bukkit.getPlayer(mvp.getFirst());
-						if (player == null) {
-							player = Bukkit.getOfflinePlayer(mvp.getFirst()).getPlayer();
-						}
-						TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Simply the best"))).grant(player);
+						Bukkit.getScheduler().runTask(Main.plugin, () -> {
+							Player player = Bukkit.getPlayer(mvp.getFirst());
+							if (player == null) {
+								player = Bukkit.getOfflinePlayer(mvp.getFirst()).getPlayer();
+							}
+							assert player != null;
+							TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Simply the best"))).grant(player);
+						});
 					}
 				}
 
@@ -334,7 +337,12 @@ public class MapController {
 			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
 				CSActiveData.getData(p.getUniqueId()).addCoins(50 * CSPlayerData.getCoinMultiplier());
 				Messenger.sendSuccess("<gold>+" + (50 * CSPlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
-				TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Winner Winner Chicken Dinner"))).grant(p);
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Winner Winner Chicken Dinner"))).grant(p);
+					}
+				}.runTask(Main.plugin);
 			}
 		}
 	}
@@ -415,7 +423,7 @@ public class MapController {
 					NextMapEvent event = new NextMapEvent(oldMap.name, false);
 					Bukkit.getPluginManager().callEvent(event);
 
-					// Save all data
+					// Save all data + reset mvp stats
 					StoreData.storeAll();
 
 					Main.instance.getLogger().info("Completed map cycle! Restarting server...");
@@ -444,6 +452,7 @@ public class MapController {
 	public static void loadMap() {
 		// Clear the scoreboard & reset stats
 		Scoreboard.clearScoreboard();
+		MVPStats.reset();
 
 		// Register doors
 		for (Door door : maps.get(mapIndex).doors) {
@@ -885,6 +894,7 @@ public class MapController {
 	 * @param player The player to remove
 	 */
 	public static void removePlayer(Player player) {
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 		Team team = TeamController.getTeam(player.getUniqueId());
 		if (team != null)
 			team.removePlayer(player.getUniqueId());
@@ -906,10 +916,6 @@ public class MapController {
 		InCombat.playerDied(player.getUniqueId());
 		Kit.equippedKits.remove(player.getUniqueId());
 
-		// Clean the player's inventory
-		player.getInventory().clear();
-		player.setExp(0);
-
         try {
 			// Save a player's data and reset their current data into PlayerData from CSPlayerData
             StoreData.store(player.getUniqueId(), CSActiveData.getData(player.getUniqueId()));
@@ -918,6 +924,7 @@ public class MapController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+	  });
     }
 
 	public static void addSpectator(Player player) {

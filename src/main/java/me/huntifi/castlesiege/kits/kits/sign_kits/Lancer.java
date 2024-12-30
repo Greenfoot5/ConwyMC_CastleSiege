@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -27,75 +28,105 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Lancer extends SignKit implements Listener {
 
+    private static final int health = 270;
+    private static final double regen = 9;
+    private static final double meleeDamage = 40.5;
+    private static final double throwDamage = 50;
+    private static final double horseThrowDamage = 70;
+    private static final int ladderCount = 4;
+    private static final int horseHealth = 200;
+
     /**
      * Creates a new Helms Deep Lancer
      */
     public Lancer() {
-        super("Lancer", 270, 9, Material.STICK, 5000);
+        super("Lancer", health, regen, Material.STICK, 2500);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                Component.text("Sword", NamedTextColor.GREEN), null, null, 35.5);
+                Component.text("Sword", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Sword", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 37.5),
+                        List.of(Component.empty(),
+                        Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN)),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
         // Weapon
         es.hotbar[1] = CSItemCreator.weapon(new ItemStack(Material.STICK, 3),
                 Component.text("Spear", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA)), null, 30.5);
-        // Voted Weapon
-        es.votedWeapon = new Tuple<>(
-                CSItemCreator.weapon(new ItemStack(Material.STICK, 3),
-                        Component.text("Spear", NamedTextColor.GREEN),
-                        Arrays.asList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA),
-                                Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), 32.5),
-                1);
+                List.of(Component.empty(),
+                Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN),
+                Component.text(throwDamage + " Throw Damage", NamedTextColor.DARK_GREEN),
+                Component.text(horseThrowDamage + " Mounted Throw Damage", NamedTextColor.DARK_GREEN),
+                Component.text("<< Right Click To Throw >>", NamedTextColor.DARK_GRAY),
+                Component.text("Throws a regular spear in front of you.", NamedTextColor.GRAY),
+                Component.text("Will throw a stronger spear when mounted.", NamedTextColor.GRAY)), null, meleeDamage);
 
         // Chestplate
         es.chest = CSItemCreator.item(new ItemStack(Material.GOLDEN_CHESTPLATE),
-                Component.text("Bronze Chestplate", NamedTextColor.GREEN), null, null);
+                Component.text("Bronze Chestplate", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 
         // Leggings
         es.legs = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                Component.text("Chainmail Leggings", NamedTextColor.GREEN), null, null);
+                Component.text("Chainmail Leggings", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
 
         // Boots
         es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                Component.text("Iron Boots", NamedTextColor.GREEN), null, null);
+                Component.text("Iron Boots", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)), null);
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
                 Component.text("Iron Boots", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
+                List.of(Component.empty(),
+                        Component.text(health + " HP", NamedTextColor.DARK_GREEN),
+                        Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
+                        Component.empty(),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
-        es.hotbar[2] = new ItemStack(Material.LADDER, 4);
-        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, 6), 2);
+        es.hotbar[2] = new ItemStack(Material.LADDER, ladderCount);
+        es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount), 2);
 
         // Horse
         es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.WHEAT),
-                Component.text("Spawn Horse", NamedTextColor.GREEN), null, null);
-        HorseHandler.add(name, 600, 125, 1, 0.2425, 0.8,
+                Component.text("Spawn Horse", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("<< Right Click To Summon >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Summons your horse, with stats:", NamedTextColor.GRAY),
+                        Component.text("- HP: " + horseHealth , NamedTextColor.GRAY),
+                        Component.text("- Speed: 0.2425", NamedTextColor.GRAY),
+                        Component.text("- Jump Strength: 0.8", NamedTextColor.GRAY)), null);
+        HorseHandler.add(name, 600, horseHealth, 1, 0.2425, 0.8,
                 Material.GOLDEN_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
                         new PotionEffect(PotionEffectType.REGENERATION, 999999, 0),
                         new PotionEffect(PotionEffectType.SPEED, 999999, 0)
-                )
-        );
+                ), "regular");
 
         super.equipment = es;
 
@@ -105,32 +136,36 @@ public class Lancer extends SignKit implements Listener {
     }
 
     /**
-     * Activate the Lancer ability of throwing a spear
+     * Activate the lancer's ability of throwing a spear
      * @param e The event called when right-clicking with a stick
      */
     @EventHandler
     public void throwSpear(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack stick = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.STICK);
-
+        UUID uuid = e.getPlayer().getUniqueId();
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
             return;
         }
-
+        Player p = e.getPlayer();
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+            ItemStack stick = p.getInventory().getItemInMainHand();
             if (stick.getType().equals(Material.STICK)) {
-                if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    //Not allowed to throw whilst clicking on enderchests or cakes.
+                    if (e.getClickedBlock() != null) {
+                        if (interactableBlock(e.getClickedBlock()) || p.getInventory().getItemInMainHand().getType() == Material.LADDER
+                                || p.getInventory().getItemInMainHand().getType() == Material.WHEAT) {
+                            return;
+                        }
+                    }
+                    if (p.getInventory().getItemInMainHand().getType() == Material.WHEAT && p.getInventory().getItemInMainHand().getType() == Material.LADDER) {
+                            return;
+                    }
+                    int cooldown = p.getCooldown(Material.STICK);
                     if (cooldown == 0) {
-                        p.setCooldown(Material.STICK, 200);
                         stick.setAmount(stick.getAmount() - 1);
-                        Messenger.sendActionInfo("You threw your spear!", p);
+                        p.setCooldown(Material.STICK, 200);
                         p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.5));
-
-                    } else {
-                        Messenger.sendActionError("You can't throw your spear yet.", p);
                     }
                 }
             }
@@ -152,9 +187,9 @@ public class Lancer extends SignKit implements Listener {
 
                 if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
                     if (damages.isInsideVehicle()) {
-                        arrow.setDamage(80);
+                        arrow.setDamage(horseThrowDamage);
                     } else {
-                        arrow.setDamage(50);
+                        arrow.setDamage(throwDamage);
                     }
                 }
             }

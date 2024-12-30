@@ -150,11 +150,9 @@ public class Warhound extends CoinKit implements Listener {
      */
     @EventHandler
     public void onImmobilise(PlayerInteractEntityEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-
+        UUID uuid = e.getPlayer().getUniqueId();
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-
+            Player p = e.getPlayer();
             //Stuns the horse which the warhound hits.
             if (e.getRightClicked() instanceof Horse) {
                 Horse h = (Horse) e.getRightClicked();
@@ -294,7 +292,8 @@ public class Warhound extends CoinKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A quick a ferocious hound. Hard to hit and bites hard", NamedTextColor.GRAY));
+        kitLore.add(Component.text("A quick and ferocious hound.", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Hard to hit and bites hard!", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
         kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));

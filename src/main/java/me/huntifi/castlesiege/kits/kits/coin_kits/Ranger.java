@@ -187,7 +187,7 @@ public class Ranger extends CoinKit implements Listener {
             if (Objects.equals(bowName, "Volley Bow")) {
                 Vector v = e.getProjectile().getVelocity();
                 volleyAbility(p, v);
-            } else if (Objects.equals(bowName, "Burst Bow")) {
+            } else if (Objects.equals(bowName, "Rapid Fire Bow")) {
                 burstAbility(p, e.getForce());
             }
         }
@@ -223,7 +223,7 @@ public class Ranger extends CoinKit implements Listener {
      * @param force The force of the original arrow
      */
     private void burstAbility(Player p, float force) {
-        Messenger.sendActionInfo("You shot your burst bow!", p);
+        Messenger.sendActionInfo("You shot your rapid fire bow!", p);
         p.setCooldown(Material.BOW, 100);
         burstArrow(p, force, 11);
         burstArrow(p, force, 21);

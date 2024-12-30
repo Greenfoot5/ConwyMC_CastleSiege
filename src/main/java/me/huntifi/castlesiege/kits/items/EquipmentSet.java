@@ -25,6 +25,7 @@ public class EquipmentSet {
     public ItemStack offhand;
     // What to grant and where for voting
     public Tuple<ItemStack, Integer> votedWeapon;
+    public ItemStack votedOffhand;
     public Tuple<ItemStack, Integer> votedLadders;
     public ItemStack votedFeet;
 
@@ -73,6 +74,11 @@ public class EquipmentSet {
 
         if (offhand != null && offhand.getAmount() > 0) {
             inv.setItemInOffHand(offhand);
+            if (CSActiveData.getData(uuid).hasVote("sword")) {
+                if (votedOffhand != null && votedOffhand.getAmount() > 0) {
+                    inv.setItemInOffHand(votedOffhand);
+                }
+            }
         }
 
         // Votes Weapon

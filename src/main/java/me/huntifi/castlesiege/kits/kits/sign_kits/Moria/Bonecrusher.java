@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.sign_kits;
+package me.huntifi.castlesiege.kits.kits.sign_kits.Moria;
 
 import me.huntifi.castlesiege.kits.items.CSItemCreator;
 import me.huntifi.castlesiege.kits.items.EquipmentSet;
@@ -18,6 +18,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ArmorMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
+import org.bukkit.inventory.meta.trim.TrimMaterial;
+import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -32,7 +37,7 @@ public class Bonecrusher extends SignKit implements Listener {
      * Creates a new Moria Bonecrusher
      */
     public Bonecrusher() {
-        super("Bonecrusher", 300, 8, Material.BONE, 4000);
+        super("Bonecrusher", 310, 10, Material.BONE, 2000);
 
 
         // Equipment Stuff
@@ -51,24 +56,48 @@ public class Bonecrusher extends SignKit implements Listener {
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Leather Chestplate", NamedTextColor.GREEN), null, null,
-                Color.fromRGB(21, 51, 10));
+                Component.text("Orcish Chestplate", NamedTextColor.GREEN), null, null,
+                Color.fromRGB(48, 69, 21));
+        ItemMeta chest = es.chest.getItemMeta();
+        ArmorMeta chestMeta = (ArmorMeta) chest;
+        assert chest != null;
+        ArmorTrim chestTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.COAST);
+        ((ArmorMeta) chest).setTrim(chestTrim);
+        es.chest.setItemMeta(chestMeta);
 
         // Leggings
         es.legs = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_LEGGINGS),
-                Component.text("Leather Leggings", NamedTextColor.GREEN), null, null,
+                Component.text("Orcish Legplates", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(68, 65, 12));
+        ItemMeta legs = es.legs.getItemMeta();
+        ArmorMeta legsMeta = (ArmorMeta) legs;
+        assert legs != null;
+        ArmorTrim legsTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.SILENCE);
+        ((ArmorMeta) legs).setTrim(legsTrim);
+        es.legs.setItemMeta(legsMeta);
 
         // Boots
-        es.feet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                Component.text("Iron Boots", NamedTextColor.GREEN),
+        es.feet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+                Component.text("Dark Orcish Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("- Depth Strider I", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 1)));
+        ItemMeta feet = es.feet.getItemMeta();
+        ArmorMeta feetMeta = (ArmorMeta) feet;
+        assert feet != null;
+        ArmorTrim feetTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.WILD);
+        ((ArmorMeta) feet).setTrim(feetTrim);
+        es.feet.setItemMeta(feetMeta);
         // Voted Boots
-        es.votedFeet = CSItemCreator.item(new ItemStack(Material.IRON_BOOTS),
-                Component.text("Iron Boots", NamedTextColor.GREEN),
+        es.votedFeet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
+                Component.text("Dark Orcish Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("⁎ Voted: Depth Strider III", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 3)));
+        ItemMeta votedFeet = es.votedFeet.getItemMeta();
+        ArmorMeta votedFeetMeta = (ArmorMeta) votedFeet;
+        assert votedFeet != null;
+        ArmorTrim votedFeetTrim = new ArmorTrim(TrimMaterial.NETHERITE, TrimPattern.WILD);
+        ((ArmorMeta) votedFeet).setTrim(votedFeetTrim);
+        es.votedFeet.setItemMeta(votedFeetMeta);
 
         // Ladders
         es.hotbar[1] = new ItemStack(Material.LADDER, 4);
@@ -112,7 +141,7 @@ public class Bonecrusher extends SignKit implements Listener {
                     Messenger.sendSuccess("You have crushed " + CSNameTag.mmUsername(p), q);
                     Messenger.sendWarning("You have been crushed by " + CSNameTag.mmUsername(q) + "!", p);
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BONE_BLOCK_BREAK , 1, 1 );
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 50, 6)));
+                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 70, 6)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 5)));
                 }
             }

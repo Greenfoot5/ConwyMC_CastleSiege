@@ -57,14 +57,14 @@ public class Cavalry extends CoinKit implements Listener {
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                 Component.text("Sabre", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text("43 Melee Damage", NamedTextColor.DARK_GREEN)), null, meleeDamage);
+                        Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN)), null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Sabre", NamedTextColor.GREEN),
                         List.of(Component.empty(),
-                                Component.text("45 Melee Damage", NamedTextColor.DARK_GREEN),
-								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
+                                Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
+								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2),
                 0);
 
@@ -95,7 +95,7 @@ public class Cavalry extends CoinKit implements Listener {
                         Component.text(health + " HP", NamedTextColor.DARK_GREEN),
                         Component.text(regen + " Regen", NamedTextColor.DARK_GREEN),
                         Component.empty(),
-                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
 
         // Ladders
@@ -104,18 +104,35 @@ public class Cavalry extends CoinKit implements Listener {
 
         // Horse
         es.hotbar[2] = CSItemCreator.item(new ItemStack(Material.WHEAT),
-                Component.text("Spawn Horse", NamedTextColor.GREEN), null, null);
+                Component.text("Spawn Horse", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                Component.text("<< Right Click To Summon >>", NamedTextColor.DARK_GRAY),
+                Component.text("Summons your horse, with stats:", NamedTextColor.GRAY),
+                Component.text("- HP: " + horseHealth , NamedTextColor.GRAY),
+                Component.text("- Speed: 0.2425", NamedTextColor.GRAY),
+                Component.text("- Jump Strength: 0.8", NamedTextColor.GRAY)
+                ), null);
         HorseHandler.add(name, 600, horseHealth, 2, 0.2425, 0.8,
                 Material.IRON_HORSE_ARMOR, Arrays.asList(
                         new PotionEffect(PotionEffectType.JUMP, 999999, 1),
                         new PotionEffect(PotionEffectType.REGENERATION, 999999, 0),
                         new PotionEffect(PotionEffectType.SPEED, 999999, 1)
-                )
+                ), "regular"
         );
 
         // stomp
         es.hotbar[3] = CSItemCreator.weapon(new ItemStack(Material.ANVIL),
-                Component.text("Horse Kick", NamedTextColor.GREEN), null, null, 0);
+                Component.text("Horse Kick", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text("<< Right Click Near Enemies Whilst Mounted >>", NamedTextColor.DARK_GRAY),
+                        Component.text("Stuns nearby enemies for 4s with:", NamedTextColor.GRAY),
+                        Component.text("- 100 DMG", NamedTextColor.GRAY),
+                        Component.text("○ Confusion V (0:04)", NamedTextColor.RED),
+                        Component.text("○ Slowness (0:04)", NamedTextColor.RED),
+                        Component.text("○ Mining Fatigue IV (0:04)", NamedTextColor.RED),
+                        Component.text("○ Blindness (0:02)", NamedTextColor.RED),
+                        Component.text("2.3m AOE range", NamedTextColor.GRAY),
+                        Component.text("10s Cooldown", NamedTextColor.GREEN)), null, 0);
 
         super.equipment = es;
     }
@@ -129,32 +146,27 @@ public class Cavalry extends CoinKit implements Listener {
     public void onStomp(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
-        ItemStack stomp = p.getInventory().getItemInMainHand();
 
         if (!MapController.getPlayers().contains(uuid))
             return;
         if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             return;
         }
-
-        // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+        ItemStack stomp = p.getInventory().getItemInMainHand();
+        //prevent from using it when not on a horse
+        if (p.getVehicle() == null && stomp.getType().equals(Material.ANVIL)) {
+            Messenger.sendActionError("You can't use this when not on your horse", p);
             return;
         }
         if (!stomp.getType().equals(Material.ANVIL)) {
             return;
         }
-
-        //prevent from using it when not on a horse
-        if (p.getVehicle() == null) {
-            Messenger.sendActionError("You can't use this when not on your horse", p);
-            return;
-        }
-
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
-
         if (p.getCooldown(Material.ANVIL) != 0) {
             Messenger.sendActionError("Your horse's ability to stomp is still recharging!", p);
             return;

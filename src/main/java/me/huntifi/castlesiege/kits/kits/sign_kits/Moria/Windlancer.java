@@ -1,4 +1,4 @@
-package me.huntifi.castlesiege.kits.kits.sign_kits;
+package me.huntifi.castlesiege.kits.kits.sign_kits.Moria;
 
 import me.huntifi.castlesiege.Main;
 import me.huntifi.castlesiege.events.combat.InCombat;
@@ -35,7 +35,7 @@ import java.util.UUID;
 public class Windlancer extends SignKit implements Listener {
 
     /**
-     * Creates a new Moria Windlancer
+     * Creates a new Moria Windlancer NOTE: from 17/10/2024 this kit is no longer in use.
      */
     public Windlancer() {
         super("Windlancer", 300, 9 , Material.STICK, 5000);

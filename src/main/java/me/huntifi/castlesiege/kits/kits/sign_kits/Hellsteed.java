@@ -13,7 +13,6 @@ import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.HorseWatcher;
-import net.citizensnpcs.api.npc.NPC;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -163,7 +162,7 @@ public class Hellsteed extends SignKit implements Listener {
     @EventHandler
     public void onPlayerInteractAtEntity(PlayerInteractEntityEvent event) {
 
-        if (!(event.getRightClicked() instanceof Player) || (event.getRightClicked() instanceof NPC)) {
+        if (!(event.getRightClicked() instanceof Player)) {
             return;
         }
         Player p = event.getPlayer();

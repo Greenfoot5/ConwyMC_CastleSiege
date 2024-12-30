@@ -97,7 +97,7 @@ public class Alchemist extends CoinKit implements Listener {
                         Component.keybind("key.attack").append(Component.text(" to brew a negative potion.", NamedTextColor.BLUE)),
                         Component.empty(),
                         Component.text("28 Melee Damage", NamedTextColor.DARK_GREEN),
-                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
+                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN)),
                 List.of(new Tuple<>(Enchantment.LOOT_BONUS_MOBS, 0)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(standVoted, 0);
 
@@ -423,17 +423,18 @@ public class Alchemist extends CoinKit implements Listener {
         ItemStack usedItem = e.getItem();
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(player.getUniqueId())) {
+        if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) || InCombat.isPlayerInLobby(player.getUniqueId())) {
             return;
         }
-
-        if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) ||
-                Objects.requireNonNull(e.getClickedBlock()).getType() == Material.BREWING_STAND) {
+        if ((e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)) {
+            return;
+        }
+        if (Objects.requireNonNull(e.getClickedBlock()).getType() != Material.BREWING_STAND) {
             return;
         }
 
         // Check if an alchemist tries to brew a potion, while off-cooldown
-        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK) &&
+        if (Objects.requireNonNull(e.getClickedBlock()).getType() == Material.BREWING_STAND &&
                 usedItem != null && usedItem.getType() == Material.GLASS_BOTTLE &&
                 player.getCooldown(Material.GLASS_BOTTLE) == 0) {
 
@@ -574,7 +575,7 @@ public class Alchemist extends CoinKit implements Listener {
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 13:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 220, 3), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 220, 1), true);
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 220, 1), true);
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.JUMP, 220, 0), true);
                     potionMeta.setColor(Color.fromRGB(0, 255, 34));
@@ -582,7 +583,7 @@ public class Alchemist extends CoinKit implements Listener {
                     itemStack.setItemMeta(potionMeta);
                     break;
                 case 14:
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 160, 5), true);
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2), true);
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 160, 2), true);
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.JUMP, 160, 1), true);
                     potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 3), true);

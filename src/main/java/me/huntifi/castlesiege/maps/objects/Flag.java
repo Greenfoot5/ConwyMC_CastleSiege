@@ -358,7 +358,7 @@ public class Flag {
         if (!newTeam.equals("neutral"))
         {
             Team team = MapController.getCurrentMap().getTeam(newTeam);
-            Messenger.broadcast(Component.text("~~~ " + newTeam + " has captured " + name + "! ~~~", team.primaryChatColor));
+            Messenger.broadcast(Component.text("~~~ " + newTeam + " have captured " + name + "! ~~~", team.primaryChatColor));
 
             //Hologram
             if (hologram == null) { return; }

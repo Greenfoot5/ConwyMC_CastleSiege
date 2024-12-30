@@ -375,6 +375,9 @@ commands:
   Bonecrusher:
     description: Selects the Bonecrusher kit
     usage: /Bonecrusher
+  Buccaneer:
+    description: Selects the buccaneer kit
+    usage: /buccaneer
   CamelRider:
     description: Selects the camel rider kit
     usage: /camelrider
@@ -384,15 +387,24 @@ commands:
   Constructor:
     description: Selects the constructor kit
     usage: /constructor
+  DwarvenX-bow:
+    description: Selects the Dwarven Xbow kit on Moria
+    usage: /DwarvenX-bow
   Elytrier:
     description: Selects the Elytrier kit
     usage: /thunderstoneelytrier
   Fallen:
     description: Selects the Fallen kit
     usage: /fallen
+  Gunner:
+    description: Selects the gunner kit
+    usage: /gunner
   Guardian:
     description: Selects the Guardian kit
     usage: /guardian
+  Hammerguard:
+    description: Selects the Hammerguard kit for Moria
+    usage: /Hammerguard
   Hellsteed:
     description: Selects the Hellsteed kit
     usage: /hellsteed
@@ -405,6 +417,15 @@ commands:
   MoriaOrc:
     description: Selects the Moria Orc kit
     usage: /moriaorc
+  OrcPikeman:
+    description: Selects the Orc Pikeman kit
+    usage: /OrcPikeman
+  MoriaOverseer:
+    description: Selects the Moria Overseer kit
+    usage: /MoriaOverseer
+  Skullcrusher:
+    description: Selects the Skullcrusher kit for Moria
+    usage: /Skullcrusher
   RangedCavalry:
     description: Selects the Ranged Cavalry kit
     usage: /rangedcavalry
@@ -414,14 +435,25 @@ commands:
   UrukBerserker:
     description: Selects the Uruk Berserker kit
     usage: /urukberserker
-  Windlancer:
-    description: Selects the Windlancer kit
-    usage: /windlancer
+  Pirate:
+    description: Selects the pirate kit
+    usage: /pirate
 
   # Staff Kits
   Warbear:
     description: Selects the warbear kit
     usage: /warbear
+
+  # Event Kits
+  Vampire:
+    description: Selects the vampire kit
+    usage: /vampire
+  HallowedHorseman:
+    description: Selects the Hallowed Horseman kit for Halloween
+    usage: /HallowedHorseman
+  Werewolf:
+    description: Selects the werewolf kit
+    usage: /werewolf
 
   # Voter Kits
   FireArcher:

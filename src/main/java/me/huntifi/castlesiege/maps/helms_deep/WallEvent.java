@@ -2,6 +2,7 @@ package me.huntifi.castlesiege.maps.helms_deep;
 
 import me.huntifi.castlesiege.database.UpdateStats;
 import me.huntifi.castlesiege.kits.items.WoolHat;
+import me.huntifi.castlesiege.kits.kits.Kit;
 import me.huntifi.castlesiege.maps.MapController;
 import me.huntifi.castlesiege.maps.TeamController;
 import me.huntifi.castlesiege.misc.CSNameTag;
@@ -49,20 +50,29 @@ public class WallEvent implements Listener {
      */
 	@EventHandler
 	public void onPickupTake(PlayerInteractEvent e) {
-
-		Player player = e.getPlayer();
-
 		// Check we're on HelmsDeep
         if (!MapController.getCurrentMap().worldName.equals("HelmsDeep") || !MapController.isOngoing()) {
+            return;
+        }
+        Player player = e.getPlayer();
+        // Check if the player is even in the same world (this was in addition to duels and coinshop)!
+        if (player.getWorld() != PICKUP_LOCATION.getWorld()) {
             return;
         }
         // Check the player has right-clicked a block while standing within 5 blocks of the spawner
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK || !(player.getLocation().distance(PICKUP_LOCATION) <= 5)) {
             return;
         }
-        // If the player clicks on some TNT
+        // If the player is on Rohan do nothing.
         if (Objects.equals(TeamController.getTeam(player.getUniqueId()).getName(),
                 MapController.getCurrentMap().teams[0].getName())) {
+            return;
+        }
+        //rogue's should not be able to pick up the tnt
+        if (Objects.equals(Kit.equippedKits.get(e.getPlayer().getUniqueId()).name, "rogue") &&
+                (Objects.requireNonNull(e.getClickedBlock()).getType() == Material.TNT
+                        || Objects.requireNonNull(e.getClickedBlock()).getType() == Material.GLOWSTONE)) {
+            Messenger.sendActionError("Rogue's can't pickup the tnt or torch!", player);
             return;
         }
         // Check the player isn't on the defending team

@@ -9,6 +9,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Bat;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,8 +40,13 @@ public class HitMessage implements Listener {
 					if (TeamController.getTeam(player.getUniqueId()) != TeamController.getTeam(e.getHitEntity().getUniqueId())) {
 						notifyHit(player, e.getHitEntity().getName());
 					}
-				} else if (e.getHitEntity() instanceof Animals || e.getHitEntity() instanceof Bat)
+				} else if (e.getHitEntity() instanceof Horse && ((Horse) e.getHitEntity()).getOwner() != null) {
+					if (TeamController.getTeam(player.getUniqueId()) != TeamController.getTeam(((Horse) e.getHitEntity()).getOwner().getUniqueId())) {
+						notifyHit(player, ((Horse) e.getHitEntity()).getOwner().getName() + "'s Horse");
+					}
+				}else if (e.getHitEntity() instanceof Animals || e.getHitEntity() instanceof Bat) {
 					notifyHit(player, e.getHitEntity().getType().toString());
+				}
 			}
 		});
 	}

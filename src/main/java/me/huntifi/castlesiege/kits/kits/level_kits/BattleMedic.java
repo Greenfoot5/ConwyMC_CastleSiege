@@ -43,7 +43,7 @@ public class BattleMedic extends LevelKit implements Listener {
 
     private static final int health = 300;
     private static final double regen = 10.5;
-    private static final double meleeDamage = 42;
+    private static final double meleeDamage = 40.5;
     private static final int ladderCount = 4;
 
     private static final int bandageCount = 16;

@@ -40,7 +40,7 @@ public class SpearKnight extends LevelKit implements Listener {
 
     private static final int health = 330;
     private static final double regen = 10.5;
-    private static final double meleeDamage = 35;
+    private static final double meleeDamage = 40.5;
     private static final int ladderCount = 4;
     private static final int level = 10;
 
@@ -48,7 +48,7 @@ public class SpearKnight extends LevelKit implements Listener {
     private static final int throwCooldown = 160;
     private static final double throwVelocity = 2.2;
     private static final int throwDelay = 5;
-    private static final double throwDamage = 80;
+    private static final double throwDamage = 65;
 
     // Damage multiplier when hitting horses
     private static final double HORSE_MULTIPLIER = 1.5;

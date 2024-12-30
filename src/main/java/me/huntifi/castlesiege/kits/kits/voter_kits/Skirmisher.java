@@ -22,7 +22,7 @@ public class Skirmisher extends VoterKit {
 
     private static final int health = 280;
     private static final double regen = 10;
-    private static final double meleeDamage = 43;
+    private static final double meleeDamage = 40.5;
     private static final int ladderCount = 8;
 
     /**

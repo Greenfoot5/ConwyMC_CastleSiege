@@ -36,9 +36,9 @@ import java.util.Objects;
  */
 public class Executioner extends CoinKit implements Listener {
 
-	private static final int health = 210;
-	private static final double regen = 15;
-	private static final double meleeDamage = 48;
+	private static final int health = 248;
+	private static final double regen = 12.5;
+	private static final double meleeDamage = 42.5;
 	private static final int ladderCount = 4;
 
 	/**
@@ -125,7 +125,7 @@ public class Executioner extends CoinKit implements Listener {
 
 			// Executioner hits with axe
 			if (Objects.equals(Kit.equippedKits.get(attacker.getUniqueId()).name, name) &&
-					attacker.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE) {
+					attacker.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
 
 				AttributeInstance healthAttribute = defAttri.getAttribute(Attribute.GENERIC_MAX_HEALTH);
 				assert healthAttribute != null;
@@ -145,7 +145,6 @@ public class Executioner extends CoinKit implements Listener {
 
 						DeathEvent.setKiller(p, attacker);
 					}
-
 					defender.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
 					defender.setHealth(0);
 				}

@@ -183,9 +183,8 @@ public class LoadData {
      */
     public static Tuple<PreparedStatement, ResultSet> getTop(String order, int offset) throws SQLException {
         PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                "SELECT * FROM vw_top_list ORDER BY ? DESC LIMIT 10 OFFSET ?");
-        ps.setString(1, order);
-        ps.setInt(2, offset);
+                "SELECT * FROM vw_top_list ORDER BY " + order + " DESC LIMIT 10 OFFSET ?");
+        ps.setInt(1, offset);
 
         ResultSet rs = ps.executeQuery();
         return new Tuple<>(ps, rs);

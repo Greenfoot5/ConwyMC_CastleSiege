@@ -37,7 +37,7 @@ public class UrukBerserker extends SignKit implements Listener {
      * Creates a new Helms Deep Berserker
      */
     public UrukBerserker() {
-        super("Uruk Berserker", 220, 6, Material.REDSTONE, 2500);
+        super("Uruk Berserker", 220, 6, Material.REDSTONE, 1000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();

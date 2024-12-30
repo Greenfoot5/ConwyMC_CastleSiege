@@ -8,6 +8,7 @@ import me.huntifi.castlesiege.maps.objects.Flag;
 import me.huntifi.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
@@ -94,6 +95,7 @@ public class WoolMapBlock {
                                 Objects.requireNonNull(player.getVehicle()).remove();
                             }
                             InCombat.playerSpawned(uuid);
+                            player.getWorld().playSound(flag.getSpawnPoint(team.getName()), Sound.BLOCK_ENCHANTMENT_TABLE_USE , 1, 1.1f);
                         });
                         Messenger.sendActionSpawn(flagName, team.primaryChatColor, team.secondaryChatColor, player);
                     }

@@ -25,6 +25,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -210,10 +211,7 @@ public class Priest extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickBible(PlayerInteractEntityEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack book = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.BOOK);
+        UUID uuid = e.getPlayer().getUniqueId();
 
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {
@@ -223,6 +221,8 @@ public class Priest extends CoinKit implements Listener {
         if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             return;
         }
+        Player p = e.getPlayer();
+        ItemStack book = p.getInventory().getItemInMainHand();
         if (!book.getType().equals(Material.BOOK)) {
             return;
         }
@@ -230,6 +230,7 @@ public class Priest extends CoinKit implements Listener {
                 TeamController.getTeam(e.getRightClicked().getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
             return;
         }
+        int cooldown = p.getCooldown(Material.BOOK);
         if (cooldown != 0) {
             return;
         }
@@ -244,14 +245,20 @@ public class Priest extends CoinKit implements Listener {
                     this.cancel();
                     return;
                 }
-
+                // It is possible that even with this somehow the player will keep being healed? hmm. Not sure but can't exclude the possibility.
+                if (blessings.get(p) == null || TeamController.getTeam(blessings.get(p)) != TeamController.getTeam(p.getUniqueId())
+                || !Objects.equals(Kit.equippedKits.get(uuid).name, name) || InCombat.isPlayerInLobby(blessings.get(p)) || InCombat.isPlayerInLobby(uuid)) {
+                    blessings.remove(p);
+                    unassignBook(p, book);
+                    this.cancel();
+                    return;
+                }
                 Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 200, 3)));
-
                 AttributeInstance healthAttribute = Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getAttribute(Attribute.GENERIC_MAX_HEALTH);
                 assert healthAttribute != null;
                 //Priest doesn't get a heal for blessing someone who is full health.
                 if (Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getHealth() != healthAttribute.getBaseValue()) {
-                    UpdateStats.addHeals(p.getUniqueId(), 1);
+                    Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> UpdateStats.addHeals(p.getUniqueId(), 1));
                 }
                 Messenger.sendActionInfo("Your blessing is currently affecting: " + CSNameTag.mmUsername(Bukkit.getPlayer(blessings.get(p))), p);
             }
@@ -287,11 +294,29 @@ public class Priest extends CoinKit implements Listener {
     }
 
     /**
+     * @param priest The priest using the book
+     * @param book The book being used
+     */
+    private void unassignBook(Player priest, ItemStack book) {
+
+        ItemMeta bookMeta = book.getItemMeta();
+        assert bookMeta != null;
+        bookMeta.displayName((Component.text("Holy Bible", NamedTextColor.GREEN)));
+
+        for (ItemStack item : priest.getInventory().getContents()) {
+            if (item == null) { return; }
+            if (item.getType().equals(Material.BOOK)) {
+                item.setItemMeta(bookMeta);
+            }
+        }
+    }
+
+    /**
      * @param e if a player dies remove them from the blessings list.
      */
     @EventHandler
-    public void onRespawn(PlayerRespawnEvent e) {
-            blessings.remove(e.getPlayer());
+    public void onDeath(PlayerDeathEvent e) {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> blessings.remove(e.getPlayer()));
     }
 
     /**
@@ -299,7 +324,7 @@ public class Priest extends CoinKit implements Listener {
      */
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
-        blessings.remove(e.getPlayer());
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> blessings.remove(e.getPlayer()));
     }
 
     /**

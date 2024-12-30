@@ -7,6 +7,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.SkeletonHorse;
+import org.bukkit.entity.ZombieHorse;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -29,6 +31,7 @@ public class HorseHandler implements Listener {
     // Kit specific horse information
     private static final HashMap<String, HorseSpawner> horses = new HashMap<>();
     private static final HashMap<String, Integer> cooldowns = new HashMap<>();
+    private static String horseType = "regular";
 
     /**
      * Add a kit and its spawn-able horse
@@ -42,10 +45,11 @@ public class HorseHandler implements Listener {
      * @param effects The horse's potion effects
      */
     public static void add(String kitName, int cooldown, double health, double knockback, double speed,
-                           double jump, Material armor, @Nullable Collection<PotionEffect> effects) {
+                           double jump, Material armor, @Nullable Collection<PotionEffect> effects, String type) {
         HorseSpawner horse = new HorseSpawner(health, knockback, speed, jump, armor, effects);
         horses.put(kitName, horse);
         cooldowns.put(kitName, cooldown);
+        horseType = type;
     }
 
     /**
@@ -71,7 +75,7 @@ public class HorseHandler implements Listener {
             if (p.isInsideVehicle()) {
                 Messenger.sendActionError("Leave your current vehicle to spawn a horse!", p);
             } else {
-                horse.spawn(p);
+                horse.spawn(p, horseType);
             }
         }
     }
@@ -122,7 +126,7 @@ public class HorseHandler implements Listener {
      * @param horse The horse that is to be removed
      */
     private void removeHorse(Entity horse) {
-        if (horse instanceof Horse) {
+        if (horse instanceof Horse || horse instanceof SkeletonHorse || horse instanceof ZombieHorse) {
             horse.remove();
         }
     }
@@ -132,8 +136,11 @@ public class HorseHandler implements Listener {
      * @param player The player
      */
     private void setCooldown(Entity player, Entity horse) {
-        if (player instanceof Player && horse instanceof Horse) {
+        if (player instanceof Player && (horse instanceof Horse || horse instanceof SkeletonHorse || horse instanceof ZombieHorse)) {
             Player p = (Player) player;
+            if (Kit.equippedKits.get(p.getUniqueId()) == null) {
+                return;
+            }
             Integer cooldown = cooldowns.get(Kit.equippedKits.get(p.getUniqueId()).name);
             if (cooldown != null) {
                 p.setCooldown(Material.WHEAT, cooldown);

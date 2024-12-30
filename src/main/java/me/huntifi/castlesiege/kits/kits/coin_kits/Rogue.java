@@ -478,7 +478,8 @@ public class Rogue extends CoinKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW)
     public void changeTrackArrowDamage(ProjectileHitEvent e) {
-        if (!Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name))
+        if (e.getEntity().getShooter() instanceof Player &&
+            !Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name))
             return;
 
         if (e.getEntity() instanceof Arrow) {
