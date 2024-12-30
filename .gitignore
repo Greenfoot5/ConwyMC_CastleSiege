@@ -1,4 +1,10 @@
 [Tt]arget/
-ConwyCastleSiege/.idea/dataSources.xml
+.idea/
+bin/
+.classpath
+.project
+.settings/
+*.iml
 
-ConwyCastleSiege/bin/
+FTP/
+ftp/

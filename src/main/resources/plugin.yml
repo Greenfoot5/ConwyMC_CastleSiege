@@ -1,0 +1,478 @@
+name: CastleSiege
+main: me.huntifi.castlesiege.Main
+version: 1.2.5
+api-version: 1.20
+authors: [Huntifi, Greenfoot5, kasteelvuur]
+depend:
+  - Votifier
+  - WorldGuard
+  - NametagEdit
+  - MythicMobs
+  - ConwyMC
+softdepend:
+  - LibsDisguises
+  - WorldEdit
+  # Packets Stuff
+  - ProtocolLib
+  - ProtocolSupport
+  - ViaVersion
+  - ViaBackwards
+  - ViaRewind
+  - Geyser-Spigot
+  # End Packets Stuff
+load: STARTUP
+
+commands:
+  # TODO - These command have yet to be reimplemented
+  Vanish:
+    description: Vanish into the void!
+    usage: /Vanish
+
+  # Chat
+  TeamChat:
+    description: Talk in team-chat
+    usage: /t <message>
+    aliases: t
+
+  # Donator
+  Firework:
+    description: Shoots a firework with your teams colour into the sky!
+    usage: /firework
+    aliases: fw
+    permission: conwymc.esquire
+    permission-message: Only donators are permitted to use this command!
+
+  # Duels
+  Duel:
+    description: Challenge a specified player to a duel
+    usage: /duel <player>
+    aliases: duel
+    permission: conwymc.noble
+    permission-message: Only donators, noble or above can use this command!
+  DuelAccept:
+    description: Accept a duel from someone
+    usage: /duelaccept <player>
+    aliases: acceptduel
+
+  # Gameplay
+  Switch:
+    description: Switches teams.
+    usage: /switch [team name]
+    aliases: sw
+  Suicide:
+    description: commit die
+    usage: /suicide
+    aliases: sui
+  Bounty:
+    description: Add a bounty to a player
+    usage: /bounty <player> [amount]
+  Settings:
+    description: Check or update your settings
+    usage: /settings [setting] [value]
+  Boosters:
+    description: Check your boosters or use one
+    usage: /booster [use] [id]
+    aliases: booster
+  VoteSkip:
+    description: Vote to skip the current map
+    usage: /voteskip [cancel]
+  MapVote:
+    description: Vote if you liked/dislike the map
+    usage: /mapvote <yes/no>
+
+  # Info
+  Flags:
+    description: Displays the flags for all teams
+    usage: /flags
+  Maps:
+    description: Shows all maps in rotation
+    usage: /maps
+  MVP:
+    description: Shows the current MVP(s)
+    usage: /mvp(s)
+    aliases: mvps
+  MyStats:
+    description: Opens a book that shows your stats
+    usage: /mystats
+  Secrets:
+    description: Shows the secrets
+    usage: /secrets
+  Teams:
+    description: Shows the size and name of all teams on the current map
+    usage: /teams
+  Preview:
+    description: Shows a GUI detailing the kit's items and abilities
+    usage: /preview <kit>
+
+  Help:
+    description: Test
+    usage: This *should* take you to the tutorial arena, sadly that's a WIP :(
+    aliases:
+      - tutorial
+      - "?"
+
+  # Leaderboards
+  Top:
+    description: Shows the score leaderboard
+    usage: /top [position]
+    aliases:
+      - toplist
+      - topscore
+      - leaderboard
+  TopAssists:
+    description: Shows the assists leaderboard
+    usage: /topassists [position]
+  TopCaptures:
+    description: Shows the captures leaderboard
+    usage: /topcaptures [position]
+  TopDeaths:
+    description: Shows the deaths leaderboard
+    usage: /topdeaths [position]
+  TopKDR:
+    description: Shows the kdr leaderboard
+    usage: /topkdr [position]
+  TopKills:
+    description: Shows the kills leaderboard
+    usage: /topkills [position]
+  TopSupports:
+    description: Shows the supports leaderboard
+    usage: /topsupports [position]
+  TopHeals:
+    description: Shows the heals leaderboard
+    usage: /topheals [position]
+  TopMatch:
+    description: Shows the leaderboard for the current game
+    usage: /topmatch [category] [position]
+    aliases:
+      - topgame
+  TopTeam:
+    description: Shows the leaderboard for your current team
+    usage: /topteam [category] [position]
+  Bounties:
+    description: Shows the bounties leaderboard
+    usage: /bounties [position]
+    aliases:
+      - topbounty
+
+  # Debug
+  GrantBooster:
+    description: Grants a booster to a player
+    usage: /grantbooster <player> <type> <duration> [other_args]
+    permission: conwymc.developer
+    permission-message: You are now permitted to use this command!
+    aliases:
+      - grantboost
+  CSReload:
+    description: Reloads the Castle Siege Plugin
+    usage: /csreload
+    permission: conwymc.developer
+    permission-message: You are not permitted to use this command!
+  Tip:
+    description: Broadcasts a new tip
+    usage: /tip
+    permission: conwymc.developer
+  SetMap:
+    description: Skips to the specified map in the rotation
+    usage: /setmap <map name>
+    permission: conwymc.developer
+    permission-message: You are not permitted to use this command!
+  GiveVote:
+    description: Give a player vote rewards
+    usage: /givevote <player> <vote>
+    permission: conwymc.chatmod+
+    permission-message: You are not permitted to use this command!
+#  SetTag:
+#    description: Set a nametag prefix
+#    usage: /settag <tag>
+#    permission: conwymc.developer
+
+
+  # Staff - Misc
+  Curse:
+    description: Manages the active curses
+    usage: /curse [curse]
+    permission: conwymc.chatmod+
+    permission-message: You are not permitted to use this command!
+  NextMap:
+    description: Skips the current map and goes directly to the next one
+    usage: /nextmap
+    permission: conwymc.chatmod+
+    permission-message: You are not permitted to use this command!
+  SetKit:
+    description: Sets the kit for a player
+    usage: /setkit <player> [kit]
+    permission: conwymc.moderator
+    permission-message: You are not permitted to use this command!
+  SetKitLimit:
+    description: Sets the player limit per team for a kit
+    usage: /setkitlimit <kit> <limit>
+    permission: conwymc.chatmod+
+    permission-message: You are not permitted to use this command!
+  SetTimer:
+    description: Sets the time left on the map to the specified time
+    usage: /settimer <mins> [seconds]
+    permission: conwymc.moderator
+    permission-message: You are not permitted to use this command!
+  ToggleFree:
+    description: Disables/Enables free kits
+    usage: /togglefree [true/false]
+    permission: conwymc.moderator
+    permission-message: You are not permitted to use this command!
+    aliases:
+    - togglenolimits
+  Spectate:
+    description: Makes you, or another player, a spectator.
+    usage: /spectate [player]
+    permission: conwymc.chatmod+
+    permission-message: You are not permitted to use this command!
+  ForceSwitch:
+    description: Forefully switches a player to a different team
+    usage: /forceswitch <player> [team name]
+    permission: conwymc.chatmod+
+    permission-message: You are not permitted to use this command!
+  ToggleSwitching:
+    description: Disables/Enables non-forceful switching
+    usage: /toggleswitching [true/false]
+    permission: conwymc.chatmod+
+    permission-message: You are not permitted to use this command!
+  Start:
+    description: Ends the current timer phase
+    usage: /start
+    permission: conwymc.chatmod+
+    permission-message: You are not permitted to use this command!
+  ToggleForcedRandom:
+    description: Disables/Enables forced randomDeath setting
+    usage: /toggleforcedrandom [true/false]
+    permission: conwymc.chatmod+
+    permission-message: You are not permitted to use this command!
+    aliases:
+      - togglerandom
+
+  # Donations
+  Unlockkit:
+    description: Unlocks a kit for a player.
+    usage: /unlockkit <Player Name> <add/remove> <Kit Name> <Time> <wasDonation>
+    permission: conwymc.developer
+    permission-message: Try /buykit instead
+  Coinshop:
+    description: Open the coinshop for the player.
+    usage: /coinshop
+  buykit:
+    description: Buy a kit with coins
+    usage: /buykit <kit> [player]
+
+  # Kits
+  Random:
+    description: Selects a random kit from those you own
+    usage: /random
+  Kit:
+    description: Open the GUI for selecting kits
+    usage: /kit <category>
+
+  # Coin Kits
+  Alchemist:
+    description: Selects the alchemist kit
+    usage: /alchemist
+  Armorer:
+    description: Selects the armorer kit
+    usage: /armorer
+  Barbarian:
+    description: Selects the barbarian kit
+    usage: /barbarian
+  Berserker:
+    description: Selects the berserker kit
+    usage: /berserker
+  Cavalry:
+    description: Selects the cavalry kit
+    usage: /cavalry
+  Crossbowman:
+    description: Selects the crossbowman kit
+    usage: /crossbowman
+  Engineer:
+    description: Selects the engineer kit
+    usage: /engineer
+  Executioner:
+    description: Selects the executioner kit
+    usage: /executioner
+  Halberdier:
+    description: Selects the halberdier kit
+    usage: /halberdier
+  Maceman:
+    description: Selects the maceman kit
+    usage: /maceman
+  Medic:
+    description: Selects the medic kit
+    usage: /medic
+  Paladin:
+    description: Selects the Paladin kit
+    usage: /paladin
+  Priest:
+    description: Selects the Priest kit
+    usage: /priest
+  Ranger:
+    description: Selects the ranger kit
+    usage: /ranger
+  Rogue:
+    description: Selects the rogue kit
+    usage: /rogue
+  Sorcerer:
+    description: Selects the sorcerer kit
+    usage: /sorcerer
+  Vanguard:
+    description: Selects the vanguard kit
+    usage: /vanguard
+  Viking:
+    description: Selects the viking kit
+    usage: /viking
+  Warhound:
+    description: Selects the warhound kit
+    usage: /warhound
+  Warlock:
+    description: Selects the warlock kit
+    usage: /warlock
+
+  # Free Kits
+  Archer:
+    description: Selects the archer kit
+    usage: /archer
+  Shieldman:
+    description: Selects the shieldman kit
+    usage: /shieldman
+  Spearman:
+    description: Selects the spearman kit
+    usage: /spearman
+  Swordsman:
+    description: Selects the swordsman kit
+    usage: /swordsman
+
+  # Level Kits
+  BattleMedic:
+    description: Selects the battle medic kit
+    usage: /battlemedic
+  Hypaspist:
+    description: Selects the hypaspist kit
+    usage: /hypaspist
+  Spearknight:
+    description: Selects the spearknight kit
+    usage: /spearknight
+
+  # Sign Kits
+  Abyssal:
+    description: Selects the Abyssal kit
+    usage: /abyssal
+  Arbalester:
+    description: Selects the Arbalester kit
+    usage: /arbalester
+  Artillerist:
+    description: Selects the Arillerist kit
+    usage: /artillerist
+  Axeman:
+    description: Selects the Axeman kit
+    usage: /Axeman
+  AxeThrower:
+    description: Selects the Axe Thrower kit
+    usage: /axethrower
+  Bonecrusher:
+    description: Selects the Bonecrusher kit
+    usage: /Bonecrusher
+  Buccaneer:
+    description: Selects the buccaneer kit
+    usage: /buccaneer
+  CamelRider:
+    description: Selects the camel rider kit
+    usage: /camelrider
+  CaveTroll:
+    description: Selects the Cave Troll kit
+    usage: /cavetroll
+  Constructor:
+    description: Selects the constructor kit
+    usage: /constructor
+  DwarvenX-bow:
+    description: Selects the Dwarven Xbow kit on Moria
+    usage: /DwarvenX-bow
+  Elytrier:
+    description: Selects the Elytrier kit
+    usage: /thunderstoneelytrier
+  Fallen:
+    description: Selects the Fallen kit
+    usage: /fallen
+  Gunner:
+    description: Selects the gunner kit
+    usage: /gunner
+  Guardian:
+    description: Selects the Guardian kit
+    usage: /guardian
+  Hammerguard:
+    description: Selects the Hammerguard kit for Moria
+    usage: /Hammerguard
+  Hellsteed:
+    description: Selects the Hellsteed kit
+    usage: /hellsteed
+  Lancer:
+    description: Selects the Lancer kit
+    usage: /lancer
+  Longbowman:
+    description: Selects the Longbowman kit
+    usage: /Longbowman
+  MoriaOrc:
+    description: Selects the Moria Orc kit
+    usage: /moriaorc
+  OrcPikeman:
+    description: Selects the Orc Pikeman kit
+    usage: /OrcPikeman
+  MoriaOverseer:
+    description: Selects the Moria Overseer kit
+    usage: /MoriaOverseer
+  Skullcrusher:
+    description: Selects the Skullcrusher kit for Moria
+    usage: /Skullcrusher
+  RangedCavalry:
+    description: Selects the Ranged Cavalry kit
+    usage: /rangedcavalry
+  RoyalKnight:
+    description: Selects the Royal Knight kit
+    usage: /royalknight
+  UrukBerserker:
+    description: Selects the Uruk Berserker kit
+    usage: /urukberserker
+  Pirate:
+    description: Selects the pirate kit
+    usage: /pirate
+
+  # Staff Kits
+  Warbear:
+    description: Selects the warbear kit
+    usage: /warbear
+
+  # Event Kits
+  Vampire:
+    description: Selects the vampire kit
+    usage: /vampire
+  HallowedHorseman:
+    description: Selects the Hallowed Horseman kit for Halloween
+    usage: /HallowedHorseman
+  Werewolf:
+    description: Selects the werewolf kit
+    usage: /werewolf
+
+  # Voter Kits
+  FireArcher:
+    description: Selects the firearcher kit
+    usage: /firearcher
+  Ladderman:
+    description: Selects the ladderman kit
+    usage: /ladderman
+  Scout:
+    description: Selects the scout kit
+    usage: /scout
+  Skirmisher:
+    description: Selects the skirmisher kit
+    usage: /skirmisher
+
+  # Dev Kits
+  Bannerman:
+    description: Selects the bannerman kit
+    usage: /bannerman
+  Chef:
+    description: Selects the chef kit
+    usage: /chef
