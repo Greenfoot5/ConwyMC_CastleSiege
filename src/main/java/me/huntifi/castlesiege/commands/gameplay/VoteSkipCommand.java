@@ -90,9 +90,9 @@ public class VoteSkipCommand implements TabExecutor {
             if (votedPlayers.size() >= requiredVotes)
                 MapController.endMap();
             else
-                Messenger.sendInfo("Changed your mind? You can cancel your vote with <yellow><insert:/voteskip cancel>/voteskip cancel</click>", player);
+                Messenger.sendInfo("Changed your mind? You can cancel your vote with <yellow><click:suggest_command:/voteskip cancel>/voteskip cancel</click>", player);
         } else {
-            Messenger.sendError("You have already voted! To cancel, use <yellow><insert:/voteskip cancel>/voteskip cancel</click>", player);
+            Messenger.sendError("You have already voted! To cancel, use <yellow><click:suggest_command:/voteskip cancel>/voteskip cancel</click>", player);
         }
     }
 
