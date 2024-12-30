@@ -2,6 +2,8 @@ package me.huntifi.castlesiege.events.combat;
 
 import me.huntifi.castlesiege.database.CSActiveData;
 import me.huntifi.castlesiege.maps.MapController;
+import org.bukkit.entity.AbstractHorse;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,15 +16,15 @@ import org.bukkit.event.entity.EntityDamageEvent;
 public class DamageBalance implements Listener {
 
     /**
-     * Increases damage for non-customised sources as player health is increased
-     * @param e The event called when a player takes damage
+     * Increases damage for non-customised sources as some are increased (player and horse health)
+     * @param e The event called when an entity takes damage
      */
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
-        if (!(e.getEntity() instanceof Player))
+        if (!(e.getEntity() instanceof Player || e.getEntity() instanceof AbstractHorse))
             return;
 
-        if (!CSActiveData.hasPlayer(e.getEntity().getUniqueId()))
+        if (e.getEntity() instanceof Player && !CSActiveData.hasPlayer(e.getEntity().getUniqueId()))
             return;
 
         // Removes all damage if the map isn't ongoing
@@ -35,9 +37,9 @@ public class DamageBalance implements Listener {
         switch (e.getCause()) {
             case POISON:
                 e.setDamage(e.getDamage() * 8);
-                if (((Player) e.getEntity()).getHealth() <= e.getDamage())
+                if (((Damageable) e.getEntity()).getHealth() <= e.getDamage())
                 {
-                    e.setDamage(((Player) e.getEntity()).getHealth() - 1);
+                    e.setDamage(((Damageable) e.getEntity()).getHealth() - 1);
                 }
                 break;
             case CONTACT:
