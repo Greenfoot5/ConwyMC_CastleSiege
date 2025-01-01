@@ -28,7 +28,7 @@ public class SecretsCommand implements CommandExecutor {
         String elwynn = getElwynnSecrets(p);
         String skyhold = getSkyholdSecrets(p);
         String abraham = getAbrakhanSecrets(p);
-        String hallOfHercules = getHallOfHerculesSecrets(p);
+        String hallOfHerakles = getHallOfHeraklesSecrets(p);
 
         p.sendMessage(Messenger.mm.deserialize("<dark_aqua> <st>━━━━━</st>Secrets<st>━━━━━</st> </dark_aqua>"));
         p.sendMessage(ChatColor.DARK_AQUA + " Abrakhan: " + abraham);
@@ -37,7 +37,7 @@ public class SecretsCommand implements CommandExecutor {
         p.sendMessage(ChatColor.DARK_AQUA + " Lakeborough: " + lake);
         p.sendMessage(ChatColor.DARK_AQUA + " Skyhold: " + skyhold);
         p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
-        p.sendMessage(ChatColor.DARK_AQUA + " Hall Of Hercules: " + hallOfHercules);
+        p.sendMessage(ChatColor.DARK_AQUA + " Hall Of Herakles: " + hallOfHerakles);
 
 
 
@@ -229,14 +229,14 @@ public class SecretsCommand implements CommandExecutor {
         return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/10)";
     }
 
-    private String getHallOfHerculesSecrets(Player p) {
+    private String getHallOfHeraklesSecrets(Player p) {
         UUID uuid = p.getUniqueId();
 
         CSPlayerData data = CSActiveData.getData(uuid);
 
         int foundAmount = 0;
-        String[] secrets = {"HallOfHercules_Waterfall", "HallOfHercules_Pillar", "HallOfHercules_Sewers",
-                "HallOfHercules_Roots", "HallOfHercules_TreeTop", "HallOfHercules_EagleHall"};
+        String[] secrets = {"HallOfHerces_Waterfall", "HallOfHerakles_Pillar", "HallOfHerakles_Sewers",
+                "HallOfHerakles_Roots", "HallOfHerakles_TreeTop", "HallOfHerakles_EagleHall"};
 
         for (String secret : secrets) if (data.hasSecret(secret)) foundAmount++;
 

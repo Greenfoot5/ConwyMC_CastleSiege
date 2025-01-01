@@ -54,12 +54,12 @@ public class SecretSigns implements Listener {
     final String abrakhan2 = "Abrakhan_Prison";
     final String abrakhan3 = "Abrakhan_Tunnel";
     final String abrakhan4 = "Abrakhan_Sewer";
-    final String DigSite1 = "HallOfHercules_Waterfall";
-    final String DigSite2 = "HallOfHercules_Pillar";
-    final String DigSite3 = "HallOfHercules_Sewers";
-    final String DigSite4 = "HallOfHercules_Roots";
-    final String DigSite5 = "HallOfHercules_TreeTop";
-    final String DigSite6 = "HallOfHercules_EagleHall";
+    final String DigSite1 = "HallOfHerakles_Waterfall";
+    final String DigSite2 = "HallOfHerakles_Pillar";
+    final String DigSite3 = "HallOfHerakles_Sewers";
+    final String DigSite4 = "HallOfHerakles_Roots";
+    final String DigSite5 = "HallOfHerakles_TreeTop";
+    final String DigSite6 = "HallOfHerakles_EagleHall";
 
 
     @EventHandler
@@ -202,13 +202,13 @@ public class SecretSigns implements Listener {
                     } else if (e.getClickedBlock().getLocation().equals(sewerSecret)) {
                         registerFoundSecret(player, abrakhan4, 100);
                     }
-                } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("HallOfHercules")) {
-                    Location waterfallSecret = new Location(Bukkit.getWorld("HallOfHercules"), -363, 61, -355);
-                    Location pillarSecret = new Location(Bukkit.getWorld("HallOfHercules"), -362, 74, -301);
-                    Location sewersSecret = new Location(Bukkit.getWorld("HallOfHercules"), -261, 40, -437);
-                    Location rootsSecret = new Location(Bukkit.getWorld("HallOfHercules"), -232, 38, -499);
-                    Location treeTopSecret = new Location(Bukkit.getWorld("HallOfHercules"), -232, 87, -497);
-                    Location eagleHallSecret = new Location(Bukkit.getWorld("HallOfHercules"), -532, 107, -319);
+                } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("HallOfHerakles")) {
+                    Location waterfallSecret = new Location(Bukkit.getWorld("HallOfHerakles"), -363, 61, -355);
+                    Location pillarSecret = new Location(Bukkit.getWorld("HallOfHerakles"), -362, 74, -301);
+                    Location sewersSecret = new Location(Bukkit.getWorld("HallOfHerakles"), -261, 40, -437);
+                    Location rootsSecret = new Location(Bukkit.getWorld("HallOfHerakles"), -232, 38, -499);
+                    Location treeTopSecret = new Location(Bukkit.getWorld("HallOfHerakles"), -232, 87, -497);
+                    Location eagleHallSecret = new Location(Bukkit.getWorld("HallOfHerakles"), -532, 107, -319);
                     if (e.getClickedBlock().getLocation().equals(waterfallSecret)) {
                         registerFoundSecret(player, DigSite1, 200);
                     } else if (e.getClickedBlock().getLocation().equals(pillarSecret)) {

@@ -51,8 +51,8 @@ public class SecretItems implements Listener {
         spawnSecretItem("Skyhold" , skyholdShield(),
                 new Location(Bukkit.getWorld("Skyhold"), 1617, 49, -51));
 
-        spawnSecretItem("Hall Of Hercules" , herculesApple(),
-                new Location(Bukkit.getWorld("HallOfHercules"), -232, 38, -497));
+        spawnSecretItem("Hall Of Herakles" , heraklesApple(),
+                new Location(Bukkit.getWorld("HallOfHerakles"), -232, 38, -497));
     }
 
     /**
@@ -130,7 +130,7 @@ public class SecretItems implements Listener {
         secretItems.add(skyholdKeyDoor());
         secretItems.add(skyholdKeyInquisitor());
         secretItems.add(skyholdShield());
-        secretItems.add(herculesApple());
+        secretItems.add(heraklesApple());
 
     }
 
@@ -281,7 +281,7 @@ public class SecretItems implements Listener {
         return shield;
     }
 
-    public static ItemStack herculesApple() {
+    public static ItemStack heraklesApple() {
 
         ItemStack apple = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE);
 
