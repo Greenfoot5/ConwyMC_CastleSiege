@@ -70,8 +70,7 @@ public class Tips extends BukkitRunnable implements CommandExecutor {
             "Don't like the current map? You can use <cmd:/voteskip>/voteskip</cmd> can end the map early!",
             "Make sure to vote for the map with <cmd:/mapvote >/mapvote <yes/no></cmd> or in the GUI post-map!",
             "You can preview a kit's items with <cmd:/preview >/preview <kit></cmd>, even if you haven't bought it!",
-            "Want to chat with just your team? Use <cmd:/t>/teamchat</cmd>",
-            "Want to send just one message to global chat? <cmd:/g >/g <message></cmd>",
+            "Want to chat with just your team? Use <cmd:/team >/teamchat</cmd>",
             "Curious who's got the largest bounty? Check the leaderboard with <cmd:/bounties>/bounties</cmd>",
 
             // Support
