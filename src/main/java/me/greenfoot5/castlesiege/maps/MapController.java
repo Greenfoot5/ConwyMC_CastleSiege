@@ -72,9 +72,9 @@ import static org.bukkit.Bukkit.getWorld;
 public class MapController {
 
 	// Boosters - chances
-	private static final double BASE_BOOSTER_CHANCE = 0.15;
-	private static final double COIN_BOOSTER_CHANCE = 0.5;
-	//private static final double KIT_BOOSTER_CHANCE = 0.5; // Not actually used, set for reference
+	private static final double BASE_BOOSTER_CHANCE = 0.075;
+	private static final double COIN_BOOSTER_CHANCE = 0.4;
+	//private static final double KIT_BOOSTER_CHANCE = 0.6; // Not actually used, set for reference
 
 	// Boosters - limits/sub-chances
 	private static final int COIN_BOOSTER_MAX_TIME = 9000;
@@ -84,7 +84,7 @@ public class MapController {
 	private static final int KIT_BOOSTER_MAX_TIME = 9000;
 	private static final int KIT_BOOSTER_MIN_TIME = 1800;
 	private static final double KIT_BOOSTER_RANDOM_CHANCE = 0.35;
-	private static final double KIT_BOOSTER_WILD_CHANCE = 0.15;
+	private static final double KIT_BOOSTER_WILD_CHANCE = 0.10;
 
 
 	public static List<Map> maps = new ArrayList<>();
