@@ -4,10 +4,12 @@ import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.util.ItemCreator;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -66,9 +68,7 @@ public class CSItemCreator extends ItemCreator {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.addAttributeModifier(Attribute.ATTACK_DAMAGE,
-                new AttributeModifier(UUID.randomUUID(), "SetHandDamage", damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
-        meta.addAttributeModifier(Attribute.ATTACK_DAMAGE,
-                new AttributeModifier(UUID.randomUUID(), "SetOffHandDamage", damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND));
+                new AttributeModifier(new NamespacedKey(NamespacedKey.MINECRAFT, "attack_damage"), damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.HAND));
         item.setItemMeta(meta);
         return item;
     }
