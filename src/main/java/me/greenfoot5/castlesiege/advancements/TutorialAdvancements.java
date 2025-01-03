@@ -28,7 +28,7 @@ public class TutorialAdvancements{
     private static BaseAdvancement[] advancements;
 
     // Event Tracking
-    private HashMap<String, Set<UUID>> ramAttackers = new HashMap<>();
+    private final HashMap<String, Set<UUID>> ramAttackers = new HashMap<>();
 
     public TutorialAdvancements() {
 

@@ -30,7 +30,7 @@ public class Team implements Listener {
     private ArrayList<UUID> players;
 
     public Lobby lobby;
-    public HashMap<String, SignKit.CostType> kits = new HashMap<>();
+    public final HashMap<String, SignKit.CostType> kits = new HashMap<>();
 
     // Colours
     public Material primaryWool;

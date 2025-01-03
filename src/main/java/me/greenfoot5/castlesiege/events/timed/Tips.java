@@ -31,7 +31,7 @@ public class Tips extends BukkitRunnable implements CommandExecutor {
     //used to prevent same tip 2x in a row
     private int oldIndex = -1; // -1 to allow for any initial tip to be sent
 
-    MiniMessage mm = MiniMessage.builder()
+    final MiniMessage mm = MiniMessage.builder()
             .editTags(t -> t.resolver(TagResolver.resolver("cmd", this::cmd)))
             .editTags(t -> t.resolver(TagResolver.resolver("a", this::a)))
             .build();
