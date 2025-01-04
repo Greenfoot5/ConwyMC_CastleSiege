@@ -13,6 +13,11 @@ public class ShownNodeDisplay extends NodeDisplay implements IVisibility {
         setParentKey(parent);
     }
 
+    public ShownNodeDisplay(@NotNull Material icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y, @NotNull String title, @NotNull String description, String parent, @NotNull int maxProgression) {
+        super(icon, frame, showToast, announceChat, x, y, title, description, maxProgression);
+        setParentKey(parent);
+    }
+
     /**
      * Whether the provided advancement is visible for the specified team.
      *

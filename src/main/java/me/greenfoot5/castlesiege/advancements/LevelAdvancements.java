@@ -5,6 +5,7 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
 import me.greenfoot5.castlesiege.advancements.displays.NodeDisplayTypes;
+import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.events.LevelUpEvent;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import org.bukkit.Material;
@@ -18,9 +19,6 @@ public class LevelAdvancements implements Listener {
 
     public static AdvancementTab advancementTab;
     private static BaseAdvancement[] advancements;
-    private static final int[] milestones = new int[] {
-            2, 5, 7, 10, 15, 20, 25, 40, 80
-    };
 
     public LevelAdvancements() {
 
@@ -33,26 +31,26 @@ public class LevelAdvancements implements Listener {
 
         // Cannons
         rootNode.addChild(new AdvancementNode(Material.WOODEN_SWORD, AdvancementFrameType.GOAL,
-                "Just Beginning", "Reach Level 2<br><br><gold><b>Reward: </gold><br><green>Shieldman Kit", "Level Milestones"));
+                "Just Beginning", "Reach Level 2<br><br><gold><b>Reward: </gold><br><green>Shieldman Kit", "Level Milestones", 2));
         rootNode.addChild(new AdvancementNode(Material.STONE_SWORD, AdvancementFrameType.GOAL,
-                "Warming Up", "Reach Level 5<br><br><gold><b>Reward: </gold><br><green>Spearman Kit", "Just Beginning"));
+                "Warming Up", "Reach Level 5<br><br><gold><b>Reward: </gold><br><green>Spearman Kit", "Just Beginning", 5));
         rootNode.addChild(new AdvancementNode(Material.STONE_SWORD, AdvancementFrameType.GOAL,
                 "Building Muscle        ",
                 "Reach Level 7<br><br><gold><b>Reward: </gold><br><yellow>Bounties" +
                         "<br><br><i><blue>You can set bounties through the <br><yellow>/bounty <player> <amount></yellow><br>command.",
-                "Warming Up"));
+                "Warming Up", 7));
         rootNode.addChild(new AdvancementNode(Material.IRON_SWORD, AdvancementFrameType.GOAL,
-                "Mighty Hunter", "Reach Level 10<br><br><gold><b>Reward: </gold><br><green>Spear Knight Kit", "Building Muscle"));
+                "Mighty Hunter", "Reach Level 10<br><br><gold><b>Reward: </gold><br><green>Spear Knight Kit", "Building Muscle", 10));
         rootNode.addChild(new AdvancementNode(Material.IRON_SWORD, AdvancementFrameType.GOAL,
-                "Just Getting Started", "Reach Level 15<br><br><gold><b>Reward: </gold><br><green>Battle Medic Kit", "Mighty Hunter"));
+                "Just Getting Started", "Reach Level 15<br><br><gold><b>Reward: </gold><br><green>Battle Medic Kit", "Mighty Hunter", 15));
         rootNode.addChild(new AdvancementNode(Material.GOLDEN_SWORD, AdvancementFrameType.GOAL,
-                "Shield Carrier", "Reach Level 20<br><br><gold><b>Reward: </gold><br><green>Hypaspist Kit", "Just Getting Started"));
+                "Shield Carrier", "Reach Level 20<br><br><gold><b>Reward: </gold><br><green>Hypaspist Kit", "Just Getting Started", 20));
         rootNode.addChild(new AdvancementNode(Material.GOLDEN_SWORD, AdvancementFrameType.GOAL,
-                "Moving Higher", "Reach Level 25", "Shield Carrier"));
+                "Moving Higher", "Reach Level 25", "Shield Carrier", 25));
         rootNode.addChild(new AdvancementNode(Material.DIAMOND_SWORD, AdvancementFrameType.GOAL,
-                "Are we nearly there yet?", "Reach Level 40", "Moving Higher"));
+                "Are we nearly there yet?", "Reach Level 40", "Moving Higher", 40));
         rootNode.addChild(new AdvancementNode(Material.NETHERITE_SWORD, AdvancementFrameType.GOAL,
-                "Not quite Sisyphus", "Reach Level 80", "Are we nearly there yet?"));
+                "Not quite Sisyphus", "Reach Level 80", "Are we nearly there yet?", 80));
 
         Tuple<RootAdvancement, BaseAdvancement[]> advs = rootNode.asAdvancementList(advancementTab, "textures/block/green_concrete.png");
         advancements = advs.getSecond();
@@ -63,9 +61,8 @@ public class LevelAdvancements implements Listener {
     @EventHandler
     public void onLevelUp(LevelUpEvent event) {
         Player p = event.getPlayer();
-        for (int i = 0; i < milestones.length; i++) {
-            if (milestones[i] > event.getNewLevel()) return;
-            advancements[i].grant(p);
+        for (BaseAdvancement advancement : advancements) {
+            advancement.setProgression(p, CSActiveData.getData(p.getUniqueId()).getLevel());
         }
     }
 }

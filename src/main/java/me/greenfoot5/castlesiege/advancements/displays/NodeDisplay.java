@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class NodeDisplay extends AdvancementDisplay {
     private String parentKey;
+    public int maxProgression;
 
     protected NodeDisplay(@NotNull Material icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y,
                                @NotNull Component title, @NotNull Component description) {
@@ -33,6 +34,13 @@ public abstract class NodeDisplay extends AdvancementDisplay {
                                @NotNull String title, @NotNull String description) {
         super(icon, mmConvert(title), frame, showToast, announceChat, x, y,
                 mmConvert(description));
+    }
+
+    protected NodeDisplay(@NotNull Material icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y,
+                          @NotNull String title, @NotNull String description, @NotNull int maxProgression) {
+        super(icon, mmConvert(title), frame, showToast, announceChat, x, y,
+                mmConvert(description));
+        this.maxProgression = maxProgression;
     }
 
     protected static String mmConvert(String input) {
