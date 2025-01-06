@@ -164,6 +164,7 @@ import me.greenfoot5.castlesiege.maps.Team;
 import me.greenfoot5.castlesiege.maps.WoolMap;
 import me.greenfoot5.castlesiege.maps.WoolMapBlock;
 import me.greenfoot5.castlesiege.maps.helms_deep.WallEvent;
+import me.greenfoot5.castlesiege.maps.objects.AssaultFlag;
 import me.greenfoot5.castlesiege.maps.objects.ButtonDoor;
 import me.greenfoot5.castlesiege.maps.objects.Cannon;
 import me.greenfoot5.castlesiege.maps.objects.Catapult;
@@ -1073,35 +1074,41 @@ public class Main extends JavaPlugin implements Listener {
             // Create the flag
             Route flagRoute = mapRoute.add(flagPaths[i]);
             int maxCap = flagConfig.getInt(flagRoute.add("max_cap"));
-            Flag flag;
-            switch (map.gamemode) {
-                case Charge:
-                    flag = new ChargeFlag(
-                            flagConfig.getString(flagRoute.add("name")),
-                            flagConfig.getBoolean(flagRoute.add("secret"), false),
-                            flagConfig.getString(flagRoute.add("start_owners")),
-                            maxCap,
-                            flagConfig.getInt(flagRoute.add("progress_amount")),
-                            flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
-                    ).setChargeValues(
-                            getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig),
-                            getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig),
-                            flagConfig.getInt(flagRoute.add("add_mins"), 0),
-                            flagConfig.getInt(flagRoute.add("add_secs"), 0)
-                    );
-                    break;
-                case Assault:
-                default:
-                    flag = new Flag(
-                            flagConfig.getString(flagRoute.add("name")),
-                            flagConfig.getBoolean(flagRoute.add("secret"), false),
-                            flagConfig.getString(flagRoute.add("start_owners")),
-                            maxCap,
-                            flagConfig.getInt(flagRoute.add("progress_amount")),
-                            flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
-                    );
-                    break;
-            }
+            Flag flag = switch (map.gamemode) {
+                case Charge -> new ChargeFlag(
+                        flagConfig.getString(flagRoute.add("name")),
+                        flagConfig.getBoolean(flagRoute.add("secret"), false),
+                        flagConfig.getString(flagRoute.add("start_owners")),
+                        maxCap,
+                        flagConfig.getInt(flagRoute.add("progress_amount")),
+                        flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
+                ).setChargeValues(
+                        getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig),
+                        getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig),
+                        flagConfig.getInt(flagRoute.add("add_mins"), 0),
+                        flagConfig.getInt(flagRoute.add("add_secs"), 0)
+                );
+                case Assault -> new AssaultFlag(
+                        flagConfig.getString(flagRoute.add("name")),
+                        flagConfig.getBoolean(flagRoute.add("secret"), false),
+                        flagConfig.getString(flagRoute.add("start_owners")),
+                        maxCap,
+                        flagConfig.getInt(flagRoute.add("progress_amount")),
+                        flagConfig.getInt(flagRoute.add("start_amount"), maxCap),
+                        flagConfig.getInt(flagRoute.add("additional_lives"), -1)
+                ).setSpawns(
+                        getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig),
+                        getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig)
+                );
+                default -> new Flag(
+                        flagConfig.getString(flagRoute.add("name")),
+                        flagConfig.getBoolean(flagRoute.add("secret"), false),
+                        flagConfig.getString(flagRoute.add("start_owners")),
+                        maxCap,
+                        flagConfig.getInt(flagRoute.add("progress_amount")),
+                        flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
+                );
+            };
 
             // Set the spawn point
             flag.setSpawnPoint(getLocation(flagRoute.add("spawn_point"), map.worldName, flagConfig));
@@ -1180,6 +1187,8 @@ public class Main extends JavaPlugin implements Listener {
         colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("secondary_color")).toLowerCase()));
         team.secondaryWool = colors.getFirst();
         team.secondaryChatColor = colors.getSecond();
+
+        team.setLives(config.getInt(teamPath.add("lives"), -1));
 
         // Add team/map kits
         if (config.contains(teamPath.add("kits"))) {
