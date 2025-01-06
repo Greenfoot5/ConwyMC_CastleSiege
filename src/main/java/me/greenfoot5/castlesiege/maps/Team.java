@@ -20,6 +20,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Represents a team on a map
@@ -37,6 +38,32 @@ public class Team implements Listener {
     public Material secondaryWool;
     public NamedTextColor primaryChatColor;
     public NamedTextColor secondaryChatColor;
+
+    // Lives (Assault)
+    private final AtomicInteger lives = new AtomicInteger(-1);
+
+    public int getLives() {
+        return lives.get();
+    }
+
+    public void setLives(int lives) {
+        this.lives.set(lives);
+    }
+
+    public void playerDied() {
+        // We only want to take a life if the game is ongoing
+        if (MapController.timer.state != TimerState.ONGOING)
+            return;
+
+        int left = lives.decrementAndGet();
+        if (left == 0) {
+            MapController.endMap();
+        }
+    }
+
+    public void grantLives(int amount) {
+        lives.addAndGet(amount);
+    }
 
     /**
      * @param event Prevents players from spawning at their bed when they sleep in a bad.
