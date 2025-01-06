@@ -274,5 +274,4 @@ public class DeathEvent implements Listener {
     public void onLeave (PlayerQuitEvent e) {
         onCooldown.remove(e.getPlayer());
     }
-
 }
