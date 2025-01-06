@@ -75,7 +75,7 @@ public class AssaultFlag extends Flag{
         }
 
         super.captureFlag();
-        if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam)) {
+        if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam) && !MapController.getCurrentMap().canRecap) {
             Messenger.broadcastInfo(Component.empty()
                     .append(getDisplayName())
                     .append(Component.text(" has been fully captured and can no longer be retaken by "))

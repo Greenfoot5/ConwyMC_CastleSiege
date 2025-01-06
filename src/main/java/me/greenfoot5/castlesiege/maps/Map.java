@@ -36,6 +36,8 @@ public class Map {
     public Gamemode gamemode;
     public Tuple<Integer, Integer> duration = new Tuple<>(20, 0);
 
+    public boolean canRecap = true;
+
     /**
      * Creates a new map
      */

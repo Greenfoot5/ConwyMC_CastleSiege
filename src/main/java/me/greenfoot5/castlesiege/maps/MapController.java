@@ -222,6 +222,14 @@ public class MapController {
 				}
 				break;
 			case Assault:
+				// One of the two teams lost all their lives
+				if (getCurrentMap().teams[0].getLives() == 0) {
+					winners = getCurrentMap().teams[1].getName();
+					break;
+				} else if (getCurrentMap().teams[1].getLives() == 0) {
+					winners = getCurrentMap().teams[0].getName();
+					break;
+				}
 			case Domination:
 			default:
 				// Get a count of who owns which flag
