@@ -196,9 +196,8 @@ public class MapController {
 		String winners = null;
 		switch(getCurrentMap().gamemode) {
 			case DestroyTheCore:
-				if (MapController.getCurrentMap() instanceof CoreMap) {
-					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
-					// Check if the defenders have won
+				if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
+                    // Check if the defenders have won
 					for (Core core : coreMap.getCores()) {
 						if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].getName())) {
 							winners = getCurrentMap().teams[0].getName();
@@ -248,18 +247,15 @@ public class MapController {
 
 				// Get the team with the largest
 				String currentWinners = (String) flagCounts.keySet().toArray()[0];
-				winners = currentWinners;
 				for (String teamName : flagCounts.keySet()) {
 					if (flagCounts.get(teamName) > flagCounts.get(currentWinners)) {
-						winners = teamName;
 						currentWinners = teamName;
 						// If two teams are the largest, we set up for a draw
-					}
-
-					else if (flagCounts.get(teamName).equals(flagCounts.get(currentWinners))) {
-						winners = null;
+					} else if (!Objects.equals(teamName, currentWinners) && Objects.equals(flagCounts.get(teamName), flagCounts.get(currentWinners))) {
+                        break;
 					}
 				}
+				winners = currentWinners;
 				break;
 		}
 		// Moves all players to the lobby
@@ -502,9 +498,8 @@ public class MapController {
 		for (UUID spectator : spectators) {
 			Player player = getPlayer(spectator);
 			if (player != null && player.isOnline()) {
-				if (MapController.getCurrentMap() instanceof CoreMap) {
-					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
-						player.teleport(coreMap.getCore(1).getSpawnPoint());
+				if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
+                    player.teleport(coreMap.getCore(1).getSpawnPoint());
 
 				} else {
 					player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
@@ -598,9 +593,8 @@ public class MapController {
 				}
 
 				// Register cores and regions
-				if (maps.get(mapIndex) instanceof CoreMap) {
-					CoreMap coreMap = (CoreMap) maps.get(mapIndex);
-					for (Core core : coreMap.getCores()) {
+				if (maps.get(mapIndex) instanceof CoreMap coreMap) {
+                    for (Core core : coreMap.getCores()) {
 						Main.plugin.getServer().getPluginManager().registerEvents(core, Main.plugin);
 
 						if (core.region != null) {
@@ -692,9 +686,8 @@ public class MapController {
 		}
 
 		// Unregister core listeners and regions
-		if (maps.get(mapIndex) instanceof CoreMap) {
-			CoreMap coreMap = (CoreMap) maps.get(mapIndex);
-			for (Core core : coreMap.getCores()) {
+		if (maps.get(mapIndex) instanceof CoreMap coreMap) {
+            for (Core core : coreMap.getCores()) {
 				HandlerList.unregisterAll(core);
 
 				if (core.region != null) {
