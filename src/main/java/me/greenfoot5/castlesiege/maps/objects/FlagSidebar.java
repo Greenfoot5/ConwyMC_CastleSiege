@@ -1,6 +1,7 @@
 package me.greenfoot5.castlesiege.maps.objects;
 
 import me.greenfoot5.castlesiege.maps.CoreMap;
+import me.greenfoot5.castlesiege.maps.Gamemode;
 import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.Scoreboard;
 import me.greenfoot5.castlesiege.maps.Team;
@@ -50,8 +51,7 @@ public class FlagSidebar {
 
 
         // Core Map
-        if (MapController.getCurrentMap() instanceof CoreMap) {
-            CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+        if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
             // Display the core scoreboard
             for (Core core : coreMap.getCores()) {
                 Team owners = MapController.getCurrentMap().getTeam(core.getOwners());
@@ -62,6 +62,16 @@ public class FlagSidebar {
                                 .append(Component.text(core.health, NamedTextColor.WHITE)
                                         .decoration(TextDecoration.BOLD, false)));
             }
+        } else if (MapController.getCurrentMap().gamemode == Gamemode.Assault) {
+            lines.addStaticLine(Component.text("Lives", NamedTextColor.WHITE).decorate(TextDecoration.BOLD));
+            for (Team team : MapController.getCurrentMap().teams) {
+                if (team.getLives() > 1) {
+                    lines.addDynamicLine(() -> team.getDisplayName()
+                            .append(Component.text(": "))
+                            .append(Component.text(team.getLives())));
+                }
+            }
+            lines.addBlankLine();
         }
 
         // Flip the order of flags, so they're in a more logical order
