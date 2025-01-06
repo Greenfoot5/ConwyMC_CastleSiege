@@ -231,6 +231,13 @@ public class MapController {
 						flagCounts.merge(flag.getCurrentOwners(), 1, Integer::sum);
 					}
 				}
+
+				// If only one team controls flags
+				if (flagCounts.size() == 1) {
+					winners = (String) flagCounts.keySet().toArray()[0];
+					break;
+				}
+
 				// Get the team with the largest
 				String currentWinners = (String) flagCounts.keySet().toArray()[0];
 				winners = currentWinners;
