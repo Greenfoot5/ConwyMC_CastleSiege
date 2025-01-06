@@ -2,6 +2,7 @@ package me.greenfoot5.castlesiege.events.combat;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.CSActiveData;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -76,6 +77,9 @@ public class InCombat implements Listener {
 	public static void playerDied(UUID uuid) {
 		inCombat.put(uuid, 0);
 		if (!isPlayerInLobby(uuid)) {
+			if (TeamController.getTeam(uuid) != null) {
+				TeamController.getTeam(uuid).playerDied();
+			}
 			inLobby.add(uuid);
 		}
 	}
