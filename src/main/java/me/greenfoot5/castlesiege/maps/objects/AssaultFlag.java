@@ -15,6 +15,7 @@ import java.util.Objects;
  */
 public class AssaultFlag extends Flag{
     public final int additionalLives;
+    public boolean livesClaimed = false;
 
     protected Location attackersSpawnPoint;
     protected Location defendersSpawnPoint;
@@ -80,9 +81,12 @@ public class AssaultFlag extends Flag{
                     .append(getDisplayName())
                     .append(Component.text(" has been fully captured and can no longer be retaken by "))
                     .append(MapController.getCurrentMap().getTeam(startingTeam).getDisplayName()));
-            if (additionalLives > 0) {
+            if (additionalLives > 0 && !livesClaimed) {
                 Messenger.broadcastInfo(Component.empty().append(Component.text(additionalLives, NamedTextColor.AQUA)).append(Component.text(" lives have been added to ")).append(MapController.getCurrentMap().getTeam(currentOwners).getDisplayName()));
                 MapController.getCurrentMap().getTeam(currentOwners).grantLives(additionalLives);
+                livesClaimed = true;
+            } else if (additionalLives > 0) {
+                Messenger.broadcastInfo("No additional lives were granted as they have already been claimed");
             }
         }
     }
