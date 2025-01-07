@@ -987,6 +987,7 @@ public class Main extends JavaPlugin implements Listener {
                 map.gamemode = Gamemode.valueOf(config.getString(mapRoute.add("gamemode")));
                 map.startTime = config.getInt(mapRoute.add("start_time"), 0);
                 map.daylightCycle = config.getBoolean(mapRoute.add("doDaylightCycle"), true);
+                map.canRecap = config.getBoolean(mapRoute.add("can_recap"), true);
 
                 // Map Border
                 Route borderRoute = mapRoute.add("map_border");
