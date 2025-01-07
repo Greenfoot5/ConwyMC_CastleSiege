@@ -77,9 +77,6 @@ public class InCombat implements Listener {
 	public static void playerDied(UUID uuid) {
 		inCombat.put(uuid, 0);
 		if (!isPlayerInLobby(uuid)) {
-			if (TeamController.getTeam(uuid) != null) {
-				TeamController.getTeam(uuid).playerDied();
-			}
 			inLobby.add(uuid);
 		}
 	}

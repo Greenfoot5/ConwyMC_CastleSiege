@@ -171,6 +171,7 @@ public class SwitchCommand implements CommandExecutor {
 
 		// Respawn the player
 		Bukkit.getScheduler().runTask(Main.plugin, () -> p.setHealth(0));
+		team.grantLives(1);
 	}
 
 	/**

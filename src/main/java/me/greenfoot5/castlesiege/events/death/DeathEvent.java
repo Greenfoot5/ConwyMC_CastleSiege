@@ -9,6 +9,7 @@ import me.greenfoot5.castlesiege.events.combat.AssistKill;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.castlesiege.maps.objects.Flag;
 import me.greenfoot5.castlesiege.maps.objects.Gate;
 import me.greenfoot5.castlesiege.maps.objects.Ram;
@@ -86,6 +87,9 @@ public class DeathEvent implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         onCooldown.add(event.getEntity());
         event.getEntity().eject();
+        if (TeamController.getTeam(event.getPlayer().getUniqueId()) != null) {
+            TeamController.getTeam(event.getPlayer().getUniqueId()).playerDied();
+        }
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             respawn(event.getEntity());
             stopCapping(event.getEntity());
