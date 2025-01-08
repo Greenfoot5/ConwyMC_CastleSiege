@@ -740,6 +740,9 @@ public class MapController {
 			HandlerList.unregisterAll(team.lobby.woolmap);
 			team.clear();
 		}
+
+		Bukkit.getScheduler().runTask(Main.plugin, () -> { Bukkit.getServer().unloadWorld(oldMap.worldName, false); });
+
 	 });
 	}
 
@@ -789,7 +792,7 @@ public class MapController {
 	 * @param uuid the player to add to a team
 	 */
 	public static void rejoinAfterDuel(UUID uuid) {
-		rejoinAfterDuels(uuid, getCurrentMap().smallestTeam());
+		rejoinAfterDuel(uuid, getCurrentMap().smallestTeam());
 	}
 
 	/**
@@ -797,7 +800,7 @@ public class MapController {
 	 * @param uuid the player to sent to the spawnroom
 	 * @param team their team
 	 */
-	private static void rejoinAfterDuels(UUID uuid, Team team) {
+	private static void rejoinAfterDuel(UUID uuid, Team team) {
 		Player player = getPlayer(uuid);
 		assert player != null;
 
