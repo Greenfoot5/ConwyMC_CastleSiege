@@ -229,6 +229,10 @@ public class Flag {
             currentOwners = getLargestTeam();
         }
 
+        // You can't recap a flag
+        if (!Objects.equals(startingTeam, currentOwners) && animationIndex == maxCap && !MapController.getCurrentMap().canRecap)
+            return;
+
         Tuple<Integer, Integer> counts = getPlayerCounts();
 
         // Calculate the amount of progressed based on how many more players the defenders have than the attackers, or vice versa
