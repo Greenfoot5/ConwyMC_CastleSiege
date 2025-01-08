@@ -83,7 +83,8 @@ public class FlagSidebar {
                 lines.addDynamicLine(() -> {
                     Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
                     return Component.text(flag.name,
-                            owners == null ? NamedTextColor.GRAY : owners.primaryChatColor);
+                                    owners == null ? NamedTextColor.GRAY : owners.primaryChatColor)
+                            .append(Component.text(flag.getIcon()));
                 });
             }
         }

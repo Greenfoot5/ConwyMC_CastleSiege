@@ -2,6 +2,7 @@ package me.greenfoot5.castlesiege.maps.objects;
 
 import me.greenfoot5.castlesiege.maps.Gamemode;
 import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.Team;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -75,12 +76,26 @@ public class AssaultFlag extends Flag {
 
         super.captureFlag();
 
-        if (additionalLives > 0 && !livesClaimed) {
-            Messenger.broadcastInfo(Component.empty().append(Component.text(additionalLives, NamedTextColor.AQUA)).append(Component.text(" lives have been added to ")).append(MapController.getCurrentMap().getTeam(currentOwners).getDisplayName()));
-            MapController.getCurrentMap().getTeam(currentOwners).grantLives(additionalLives);
-            livesClaimed = true;
-        } else if (additionalLives > 0) {
-            Messenger.broadcastInfo("No additional lives were granted as they have already been claimed");
+        if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam)) {
+            if (additionalLives > 0 && !livesClaimed) {
+                Messenger.broadcastInfo(Component.empty().append(Component.text(additionalLives + " lives", NamedTextColor.AQUA)).append(Component.text(" have been added to ")).append(MapController.getCurrentMap().getTeam(currentOwners).getDisplayName()));
+                MapController.getCurrentMap().getTeam(currentOwners).grantLives(additionalLives);
+                livesClaimed = true;
+            } else if (additionalLives > 0) {
+                Messenger.broadcastInfo("No additional lives were granted as they have already been claimed");
+            }
         }
+    }
+
+    @Override
+    public String getIcon() {
+        Team attackers = Objects.equals(MapController.getCurrentMap().teams[0].getName(), startingTeam) ? MapController.getCurrentMap().teams[1] : MapController.getCurrentMap().teams[0];
+
+        if (canCapture(attackers)) {
+            if (!livesClaimed && additionalLives > 0) {
+                return " ❤";
+            }
+        }
+        return super.getIcon();
     }
 }

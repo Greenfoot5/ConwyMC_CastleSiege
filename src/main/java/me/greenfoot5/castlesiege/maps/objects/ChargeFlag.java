@@ -1,11 +1,12 @@
 package me.greenfoot5.castlesiege.maps.objects;
 
-import me.greenfoot5.castlesiege.maps.Gamemode;
 import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.Team;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -71,52 +72,97 @@ public class ChargeFlag extends Flag{
      * Function to make progress on the charge flag
      */
     protected void captureFlag() {
-        // If the game mode is Charge,
-        if (MapController.getCurrentMap().gamemode.equals(Gamemode.Charge)) {
-            // You can't recap a flag
-            if (!Objects.equals(startingTeam, currentOwners) && animationIndex == maxCap)
-                return;
+        // Find the position of the current flag in the order
+        Flag[] flags = MapController.getCurrentMap().flags;
+        for (int i = 0; i < flags.length; i++) {
+            if (Objects.equals(flags[i].name, name)) {
+                // Get the previous flag
+                Flag previousFlag = getPreviousFlag(i, getLargestTeam(), flags);
 
-            // You can't cap the next flag until the previous is capped
-            Flag[] flags = MapController.getCurrentMap().flags;
-            for (int i = 0; i < flags.length; i++) {
-                // Get the index of this flag
-                if (Objects.equals(flags[i].name, name)) {
-                    // Get the previous flag
-                    Flag previousFlag;
-                    // If the largest team are the defenders
-                    if (Objects.equals(getLargestTeam(), MapController.getCurrentMap().teams[0].getName())) {
-                        // The defenders can always cap the last flag
-                        if (i + 1 < flags.length)
-                            previousFlag = flags[i + 1];
-                        else {
-                            return;
+                if (previousFlag != null && !Objects.equals(previousFlag.getCurrentOwners(), getLargestTeam())) {
+                    for (UUID uuid : players)
+                    {
+                        if (!Objects.equals(TeamController.getTeam(uuid).getName(), currentOwners)) {
+                            Messenger.sendActionError("You must capture flags in order on this map, and the previous one doesn't belong to your team!",
+                                    Objects.requireNonNull(Bukkit.getPlayer(uuid)));
                         }
-                    } else {
-                        previousFlag = flags[i-1];
                     }
-                    if (!Objects.equals(previousFlag.getCurrentOwners(), getLargestTeam())) {
-                        for (UUID uuid : players)
-                        {
-                            if (!Objects.equals(TeamController.getTeam(uuid).getName(), currentOwners)) {
-                                Messenger.sendActionError("You must capture flags in order on this map, and the previous one doesn't belong to your team!",
-                                        Objects.requireNonNull(Bukkit.getPlayer(uuid)));
-                            }
-                        }
-                        return;
+                    return;
+                }
+            }
+        }
+
+        super.captureFlag();
+
+        if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam)) {
+            if ((additionalMinutes > 0 || additionalSeconds > 0) && !hasBonusBeenClaimed) {
+                Messenger.broadcastInfo("<aqua>" + additionalMinutes + "</aqua> minutes and <aqua>" +
+                        additionalSeconds + "</aqua> seconds have been added to the clock!");
+                MapController.timer.seconds += additionalSeconds;
+                MapController.timer.minutes += additionalMinutes;
+                hasBonusBeenClaimed = true;
+            } else if (additionalMinutes > 0 || additionalSeconds > 0) {
+                Messenger.broadcastInfo("No additional time was granted as it's already been claimed");
+            }
+        }
+    }
+
+    private Flag getPreviousFlag(int i, String teamName, Flag[] flags) {
+        // Get previous flag based on if defenders or not
+        if (Objects.equals(teamName, startingTeam)) {
+            // If it's the last flag, there is no previous flag for the defenders
+            if (i + 1 == flags.length)
+                return null;
+            else {
+                return flags[i + 1];
+            }
+        }
+        return flags[i -1];
+    }
+
+    @Override
+    public boolean canCapture(@Nullable Team team) {
+        if (!super.canCapture(team)) {
+            return false;
+        }
+
+        // Find the position of the current flag in the order
+        Flag[] flags = MapController.getCurrentMap().flags;
+        for (int i = 0; i < flags.length; i++) {
+            if (Objects.equals(flags[i].name, name)) {
+                if (team != null) {
+                    // Get the previous flag
+                    Flag previousFlag = getPreviousFlag(i, team.getName(), flags);
+
+                    if (previousFlag != null && !Objects.equals(previousFlag.getCurrentOwners(), team.getName())) {
+                        return false;
+                    }
+                } else {
+                    // Get the previous flag
+                    Flag previousAttackerFlag = getPreviousFlag(i, MapController.getCurrentMap().teams[0].getName(), flags);
+                    Flag previousDefenderFlag = getPreviousFlag(i, MapController.getCurrentMap().teams[1].getName(), flags);
+
+                    // TODO - Check if surrounding flags are owned by the same team
+                    if (!(previousDefenderFlag == null || previousAttackerFlag == null)
+                            && Objects.equals(previousDefenderFlag.getCurrentOwners(), previousAttackerFlag.getCurrentOwners())) {
+                        return false;
                     }
                 }
             }
         }
-        super.captureFlag();
-        if ((additionalMinutes > 0 || additionalSeconds > 0) && !hasBonusBeenClaimed) {
-            Messenger.broadcastInfo("<aqua>" + additionalMinutes + "</aqua> minutes and <aqua>" +
-                    additionalSeconds + "</aqua> seconds have been added to the clock!");
-            MapController.timer.seconds += additionalSeconds;
-            MapController.timer.minutes += additionalMinutes;
-            hasBonusBeenClaimed = true;
-        } else if (additionalMinutes > 0 || additionalSeconds > 0) {
-            Messenger.broadcastInfo("No additional time was granted as it's already been claimed");
+
+        return true;
+    }
+
+    @Override
+    public String getIcon() {
+        Team attackers = Objects.equals(MapController.getCurrentMap().teams[0].getName(), startingTeam) ? MapController.getCurrentMap().teams[1] : MapController.getCurrentMap().teams[0];
+
+        if (canCapture(attackers)) {
+            if (!hasBonusBeenClaimed && (additionalMinutes > 0 || additionalSeconds > 0)) {
+                return " ⏱";
+            }
         }
+        return super.getIcon();
     }
 }

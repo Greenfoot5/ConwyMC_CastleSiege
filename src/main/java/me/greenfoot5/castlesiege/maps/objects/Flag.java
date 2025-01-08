@@ -26,6 +26,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -252,6 +253,10 @@ public class Flag {
      * Called when players make enough capture progress to trigger an blockAnimation change
      */
     protected void captureFlag() {
+        // You can't recap a flag
+        if (!Objects.equals(startingTeam, currentOwners) && animationIndex == maxCap && !MapController.getCurrentMap().canRecap)
+            return;
+
         int capProgress = progress / progressMultiplier;
 
         // Flag has gone low enough to announce neutral, and animate neutral
@@ -672,5 +677,29 @@ public class Flag {
         for (Flag flag : MapController.getCurrentMap().flags) {
             createFlagBossbar(flag, getBarColour(flag.getColor()), flag.name, (float) flag.animationIndex/flag.maxCap);
         }
+    }
+
+    public boolean canCapture(@Nullable Team team) {
+        if (progressAmount == 0)
+            return false;
+
+        if (animationIndex == maxCap) {
+            // The flag cannot be recapped
+            if (!MapController.getCurrentMap().canRecap && !Objects.equals(currentOwners, startingTeam))
+                return false;
+        }
+
+        return true;
+    }
+
+    public String getIcon() {
+        // Get a non-owner team, it doesn't matter which one
+        Team attackers = Objects.equals(MapController.getCurrentMap().teams[0].getName(), currentOwners) ? MapController.getCurrentMap().teams[1] : MapController.getCurrentMap().teams[0];
+
+        if (!canCapture(attackers)) {
+            return " \uD83D\uDD12";
+        }
+        // return "⓪";
+        return "";
     }
 }
