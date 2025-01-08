@@ -51,6 +51,7 @@ public class Flag {
     // Game Data
     protected boolean active;
     protected String currentOwners;
+    protected final String startingTeam;
     public final int maxCap;
     protected final int progressAmount;
     protected int progress;
@@ -96,6 +97,7 @@ public class Flag {
         this.players = new ArrayList<>();
         progress = progressMultiplier * startAmount;
         isRunning = new AtomicInteger(0);
+        this.startingTeam = currentOwners;
     }
 
     public String getName() {
@@ -317,6 +319,13 @@ public class Flag {
             notifyPlayers(false);
 
             animate(false, currentOwners);
+        }
+
+        if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam) && !MapController.getCurrentMap().canRecap) {
+            Messenger.broadcastInfo(Component.empty()
+                    .append(getDisplayName())
+                    .append(Component.text(" has been fully captured and can no longer be retaken by "))
+                    .append(MapController.getCurrentMap().getTeam(startingTeam).getDisplayName()));
         }
     }
 

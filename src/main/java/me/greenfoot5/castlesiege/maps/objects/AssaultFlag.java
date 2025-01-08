@@ -13,13 +13,12 @@ import java.util.Objects;
 /**
  * A flag specific to the Charge Gamemode
  */
-public class AssaultFlag extends Flag{
+public class AssaultFlag extends Flag {
     public final int additionalLives;
     public boolean livesClaimed = false;
 
     protected Location attackersSpawnPoint;
     protected Location defendersSpawnPoint;
-    protected final String startingTeam;
 
 
     /**
@@ -34,7 +33,6 @@ public class AssaultFlag extends Flag{
      */
     public AssaultFlag(String name, boolean secret, String startingTeam, int maxCapValue, int progressAmount, int startAmount, int additionalLives) {
         super(name, secret, startingTeam, maxCapValue, progressAmount, startAmount);
-        this.startingTeam = startingTeam;
         this.additionalLives = additionalLives;
     }
 
@@ -76,18 +74,13 @@ public class AssaultFlag extends Flag{
         }
 
         super.captureFlag();
-        if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam) && !MapController.getCurrentMap().canRecap) {
-            Messenger.broadcastInfo(Component.empty()
-                    .append(getDisplayName())
-                    .append(Component.text(" has been fully captured and can no longer be retaken by "))
-                    .append(MapController.getCurrentMap().getTeam(startingTeam).getDisplayName()));
-            if (additionalLives > 0 && !livesClaimed) {
-                Messenger.broadcastInfo(Component.empty().append(Component.text(additionalLives, NamedTextColor.AQUA)).append(Component.text(" lives have been added to ")).append(MapController.getCurrentMap().getTeam(currentOwners).getDisplayName()));
-                MapController.getCurrentMap().getTeam(currentOwners).grantLives(additionalLives);
-                livesClaimed = true;
-            } else if (additionalLives > 0) {
-                Messenger.broadcastInfo("No additional lives were granted as they have already been claimed");
-            }
+
+        if (additionalLives > 0 && !livesClaimed) {
+            Messenger.broadcastInfo(Component.empty().append(Component.text(additionalLives, NamedTextColor.AQUA)).append(Component.text(" lives have been added to ")).append(MapController.getCurrentMap().getTeam(currentOwners).getDisplayName()));
+            MapController.getCurrentMap().getTeam(currentOwners).grantLives(additionalLives);
+            livesClaimed = true;
+        } else if (additionalLives > 0) {
+            Messenger.broadcastInfo("No additional lives were granted as they have already been claimed");
         }
     }
 }

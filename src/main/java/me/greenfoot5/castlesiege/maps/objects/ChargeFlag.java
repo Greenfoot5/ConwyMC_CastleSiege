@@ -4,7 +4,6 @@ import me.greenfoot5.castlesiege.maps.Gamemode;
 import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -20,7 +19,8 @@ public class ChargeFlag extends Flag{
     public int additionalSeconds;
     protected Location attackersSpawnPoint;
     protected Location defendersSpawnPoint;
-    protected final String startingTeam;
+
+    private boolean hasBonusBeenClaimed = false;
 
 
     /**
@@ -35,7 +35,6 @@ public class ChargeFlag extends Flag{
      */
     public ChargeFlag(String name, boolean secret, String startingTeam, int maxCapValue, int progressAmount, int startAmount) {
         super(name, secret, startingTeam, maxCapValue, progressAmount, startAmount);
-        this.startingTeam = startingTeam;
     }
 
     /**
@@ -110,17 +109,14 @@ public class ChargeFlag extends Flag{
             }
         }
         super.captureFlag();
-        if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam)) {
-            Messenger.broadcastInfo(Component.empty()
-                    .append(getDisplayName())
-                    .append(Component.text(" has been fully captured and can no longer be retaken by "))
-                    .append(MapController.getCurrentMap().getTeam(startingTeam).getDisplayName()));
-            if (additionalMinutes > 0 || additionalSeconds > 0) {
-                Messenger.broadcastInfo("<aqua>" + additionalMinutes + "</aqua> minutes and <aqua>" +
-                        additionalSeconds + "</aqua> seconds have been added to the clock!");
-                MapController.timer.seconds += additionalSeconds;
-                MapController.timer.minutes += additionalMinutes;
-            }
+        if ((additionalMinutes > 0 || additionalSeconds > 0) && !hasBonusBeenClaimed) {
+            Messenger.broadcastInfo("<aqua>" + additionalMinutes + "</aqua> minutes and <aqua>" +
+                    additionalSeconds + "</aqua> seconds have been added to the clock!");
+            MapController.timer.seconds += additionalSeconds;
+            MapController.timer.minutes += additionalMinutes;
+            hasBonusBeenClaimed = true;
+        } else if (additionalMinutes > 0 || additionalSeconds > 0) {
+            Messenger.broadcastInfo("No additional time was granted as it's already been claimed");
         }
     }
 }
