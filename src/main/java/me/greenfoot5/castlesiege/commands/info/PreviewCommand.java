@@ -27,7 +27,7 @@ public class PreviewCommand implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             // Only players can buy kits
-            if (!(sender instanceof Player)) {
+            if (!(sender instanceof Player player)) {
                 Messenger.sendError("Not a console command.", sender);
                 return;
             }
@@ -41,7 +41,6 @@ public class PreviewCommand implements TabExecutor {
             // Get values
             String kitName = args[0];
             Kit kit = Kit.getKit(kitName);
-            Player player = (Player) sender;
 
             BuyKitGui gui = new BuyKitGui(kit, -1, player);
         });

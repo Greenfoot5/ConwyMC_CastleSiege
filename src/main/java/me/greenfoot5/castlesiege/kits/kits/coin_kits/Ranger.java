@@ -178,9 +178,8 @@ public class Ranger extends CoinKit implements Listener {
             return;
         }
 
-        if (e.getEntity() instanceof Player &&
+        if (e.getEntity() instanceof Player p &&
                 Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
-            Player p = (Player) e.getEntity();
             Component bow = Objects.requireNonNull(Objects.requireNonNull(e.getBow()).getItemMeta()).displayName();
             String bowName = PlainTextComponentSerializer.plainText().serialize(bow);
 
@@ -279,9 +278,7 @@ public class Ranger extends CoinKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void backStabDamage(EntityDamageByEntityEvent ed) {
-        if (ed.getDamager() instanceof Player && ed.getEntity() instanceof Player) {
-            Player p = (Player) ed.getDamager();
-            Player hit = (Player) ed.getEntity();
+        if (ed.getDamager() instanceof Player p && ed.getEntity() instanceof Player hit) {
 
             if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
                 Location hitLoc = hit.getLocation();

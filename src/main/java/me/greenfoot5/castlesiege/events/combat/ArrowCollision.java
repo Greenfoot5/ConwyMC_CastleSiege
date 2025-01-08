@@ -23,9 +23,7 @@ public class ArrowCollision implements Listener {
         if (InCombat.isPlayerInLobby((e.getEntity().getUniqueId()))) {
             return;
         }
-        if (e.getEntity().getShooter() instanceof Player && e.getHitEntity() instanceof Player) {
-            Player attacker = (Player) e.getEntity().getShooter();
-            Player defender = (Player) e.getHitEntity();
+        if (e.getEntity().getShooter() instanceof Player attacker && e.getHitEntity() instanceof Player defender) {
 
             if (TeamController.getTeam(attacker.getUniqueId()) == TeamController.getTeam(defender.getUniqueId())) {
                 Vector thor = e.getEntity().getVelocity();

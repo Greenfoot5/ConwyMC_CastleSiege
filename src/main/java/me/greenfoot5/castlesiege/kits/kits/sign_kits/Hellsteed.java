@@ -119,11 +119,9 @@ public class Hellsteed extends SignKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onStomp(EntityDamageByEntityEvent e) {
-        if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
+        if (!(e.getEntity() instanceof Player p) || !(e.getDamager() instanceof Player q)) {
             return;
         }
-        Player p = (Player) e.getEntity();
-        Player q = (Player) e.getDamager();
 
         // Hellsteed tries to stomp every nearby enemy
         if (!Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) ||
@@ -162,11 +160,10 @@ public class Hellsteed extends SignKit implements Listener {
     @EventHandler
     public void onPlayerInteractAtEntity(PlayerInteractEntityEvent event) {
 
-        if (!(event.getRightClicked() instanceof Player)) {
+        if (!(event.getRightClicked() instanceof Player clicked)) {
             return;
         }
         Player p = event.getPlayer();
-        Player clicked = (Player) event.getRightClicked();
 
         if (InCombat.isPlayerInLobby(p.getUniqueId())) {
             return;

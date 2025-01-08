@@ -30,24 +30,21 @@ public class TeamCombat implements Listener {
 		}
 
 		// A player was hurt
-		if (event.getEntity() instanceof Player) {
-			Player player = (Player) event.getEntity();
-			sameTeam(event, player);
+		if (event.getEntity() instanceof Player player) {
+            sameTeam(event, player);
 		}
 
 		// A horse with owner was hurt
 		else if (event.getEntity() instanceof Horse &&
-				((Horse) event.getEntity()).getOwner() instanceof Player) {
-			Player player = (Player) ((Horse) event.getEntity()).getOwner();
-			sameTeam(event, player);
+                ((Horse) event.getEntity()).getOwner() instanceof Player player) {
+            sameTeam(event, player);
 		}
 
 		// A boat with player was hurt
 		else if (event.getEntity() instanceof Boat &&
 				!event.getEntity().getPassengers().isEmpty() &&
-				event.getEntity().getPassengers().get(0) instanceof Player) {
-			Player player = (Player) event.getEntity().getPassengers().get(0);
-			sameTeam(event, player);
+                event.getEntity().getPassengers().get(0) instanceof Player player) {
+            sameTeam(event, player);
 		}
 	}
 

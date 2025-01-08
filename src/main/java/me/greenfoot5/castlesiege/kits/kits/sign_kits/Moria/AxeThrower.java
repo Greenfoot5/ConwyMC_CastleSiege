@@ -160,18 +160,14 @@ public class AxeThrower extends SignKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void changeAxeDamage(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Snowball) {
-            Snowball ball = (Snowball) e.getEntity();
+        if (e.getEntity() instanceof Snowball ball) {
 
-            if (ball.getShooter() instanceof Player){
-                Player damager = (Player) ball.getShooter();
+            if (ball.getShooter() instanceof Player damager){
 
                 if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
-                    if (e.getHitEntity() instanceof Player) {
-                        Player hit = (Player) e.getHitEntity();
+                    if (e.getHitEntity() instanceof Player hit) {
                         hit.damage(60, damager);
-                    } else if (e.getHitEntity() instanceof Horse) {
-                        Horse horse = (Horse) e.getHitEntity();
+                    } else if (e.getHitEntity() instanceof Horse horse) {
                         horse.damage(75, damager);
                     }
                 }

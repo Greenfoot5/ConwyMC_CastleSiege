@@ -96,8 +96,7 @@ public class CamelHandler implements Listener {
      */
     @EventHandler
     public void onClickCamel(PlayerInteractEntityEvent e) {
-        if (e.getRightClicked() instanceof Camel) {
-            Camel camel = (Camel) e.getRightClicked();
+        if (e.getRightClicked() instanceof Camel camel) {
             UUID uuid = Objects.requireNonNull(camel.getOwner()).getUniqueId();
             if (!(TeamController.getTeam(e.getPlayer().getUniqueId()).equals(TeamController.getTeam(uuid)))) {
                 e.setCancelled(true);
@@ -141,8 +140,7 @@ public class CamelHandler implements Listener {
      * @param camel The camel that is to be removed
      */
     private void removeCamel(Entity camel, Player rider) {
-        if (camel instanceof Camel) {
-            Camel c = (Camel) camel;
+        if (camel instanceof Camel c) {
             if (rider.equals(c.getOwner())) {
                 c.remove();
             }
@@ -154,8 +152,7 @@ public class CamelHandler implements Listener {
      * @param player The player
      */
     private void setCooldown(Entity player, Entity camel) {
-        if (player instanceof Player && camel instanceof Camel) {
-            Player p = (Player) player;
+        if (player instanceof Player p && camel instanceof Camel) {
             if (Kit.equippedKits.get(p.getUniqueId()) == null) {
                 return;
             }

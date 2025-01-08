@@ -144,8 +144,7 @@ public class Constructor extends SignKit implements Listener {
                 return false;
             }
         }
-        if (MapController.getCurrentMap() instanceof CoreMap) {
-            CoreMap map = (CoreMap) MapController.getCurrentMap();
+        if (MapController.getCurrentMap() instanceof CoreMap map) {
             for (Core core : map.getCores()) {
                 if (placerLoc.distance(core.getSpawnPoint()) <= 6 ||
                         core.region.contains((int) placerLoc.getX(), (int) placerLoc.getY(), (int) placerLoc.getZ())) {

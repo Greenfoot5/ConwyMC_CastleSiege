@@ -28,7 +28,7 @@ public class DuelCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player issuer)) {
             Messenger.sendError("Only players can participate in duels!", sender);
             return true;
         }
@@ -40,7 +40,6 @@ public class DuelCommand implements CommandExecutor {
 
         // the receiving individual
         Player challenged = Bukkit.getPlayer(args[0]);
-        Player issuer = (Player) sender;
 
         // Cannot challenge yourself
         if (challenged == null) {

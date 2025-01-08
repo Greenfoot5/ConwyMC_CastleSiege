@@ -270,9 +270,7 @@ public class Paladin extends CoinKit implements Listener {
                 if (blessed.getHealth() != healthAttribute.getBaseValue()) {
                     Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> UpdateStats.addHeals(blesser.getUniqueId(), 1));
                 }
-                Bukkit.getScheduler().runTask(Main.plugin, () -> {
-                    blessed.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 4, true, false));
-                });
+                Bukkit.getScheduler().runTask(Main.plugin, () -> blessed.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 4, true, false)));
             }
     }
 

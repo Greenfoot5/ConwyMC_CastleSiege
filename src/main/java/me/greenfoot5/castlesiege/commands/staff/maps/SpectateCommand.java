@@ -56,8 +56,7 @@ public class SpectateCommand implements CommandExecutor {
 
             // Teleport the player
             if (InCombat.isPlayerInLobby(player.getUniqueId())) {
-                if (MapController.getCurrentMap() instanceof CoreMap) {
-                    CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+                if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
                     player.teleport(coreMap.getCore(1).getSpawnPoint());
                 } else {
                     player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());

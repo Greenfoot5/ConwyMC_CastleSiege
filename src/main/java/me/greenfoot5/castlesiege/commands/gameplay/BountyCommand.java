@@ -64,8 +64,7 @@ public class BountyCommand implements CommandExecutor {
             return true;
         }
 
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
+        if (sender instanceof Player p) {
             CSPlayerData data = CSActiveData.getData(p.getUniqueId());
             if (data != null) {
                 int level = data.getLevel();

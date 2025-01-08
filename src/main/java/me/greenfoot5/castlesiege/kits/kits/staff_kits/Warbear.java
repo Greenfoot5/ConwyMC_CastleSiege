@@ -98,11 +98,10 @@ public class Warbear extends StaffKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onAttack(EntityDamageByEntityEvent e) {
-        if (!(e.getEntity() instanceof Player && e.getDamager() instanceof Player)) {
+        if (!(e.getEntity() instanceof Player && e.getDamager() instanceof Player player)) {
             return;
         }
 
-        Player player = (Player) e.getDamager();
         if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name)) {
 
             // Warbear attacked an enemy player

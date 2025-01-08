@@ -164,10 +164,8 @@ public class HallowedHorseman extends EventKit implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onExecute(EntityDamageByEntityEvent e) {
         // Both are players
-        if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player) {
-            Attributable defAttri = (Attributable) e.getEntity();
+        if (e.getEntity() instanceof Attributable defAttri && e.getDamager() instanceof Player attacker) {
             Damageable defender = (Damageable) e.getEntity();
-            Player attacker = (Player) e.getDamager();
 
             // Executioner hits with axe
             if (Objects.equals(Kit.equippedKits.get(attacker.getUniqueId()).name, name) &&
@@ -182,8 +180,7 @@ public class HallowedHorseman extends EventKit implements Listener {
 
                     Location loc = defender.getLocation();
                     // Do extra stuff if they were a player
-                    if (defender instanceof Player) {
-                        Player p = (Player) defender;
+                    if (defender instanceof Player p) {
                         loc = p.getEyeLocation();
 
                         Material wool = TeamController.getTeam(defender.getUniqueId()).primaryWool;

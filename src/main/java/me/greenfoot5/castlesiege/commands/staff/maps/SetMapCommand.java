@@ -30,9 +30,8 @@ public class SetMapCommand implements CommandExecutor {
 			return true;
 		}
 
-		if(sender instanceof Player) {
-			Player p = (Player) sender;
-			MapController.setMap(mapName);
+		if(sender instanceof Player p) {
+            MapController.setMap(mapName);
 			Messenger.broadcastInfo(p.getName() + " has set the map to " + mapName + "!");
 
 

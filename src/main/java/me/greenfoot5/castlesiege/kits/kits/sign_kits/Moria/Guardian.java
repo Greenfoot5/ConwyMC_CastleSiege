@@ -116,8 +116,7 @@ public class Guardian extends SignKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onArrowHit(ProjectileHitEvent e) {
-        if (e.getHitEntity() instanceof Player && e.getEntity().getShooter() instanceof Player) {
-            Player hit = (Player) e.getHitEntity();
+        if (e.getHitEntity() instanceof Player hit && e.getEntity().getShooter() instanceof Player) {
             if (Objects.equals(Kit.equippedKits.get(hit.getUniqueId()).name, name)) {
                 hit.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 0));
                 hit.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 80, 1));

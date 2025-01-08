@@ -45,8 +45,7 @@ public class HurtAnimation implements Listener {
             return;
 
         // Both are players
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-            Player whoWasHit = (Player) e.getEntity();
+        if (e.getEntity() instanceof Player whoWasHit && e.getDamager() instanceof Player) {
 
             whoWasHit.getWorld().spawnParticle(Particle.BLOCK,
                     whoWasHit.getLocation().add(0, 0.75, 0),

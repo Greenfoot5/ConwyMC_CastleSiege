@@ -121,21 +121,17 @@ public class Warhound extends CoinKit implements Listener {
      */
     @EventHandler
     public void onBite(EntityDamageByEntityEvent e) {
-        if (e.isCancelled() || !(e.getDamager() instanceof Player)) {
+        if (e.isCancelled() || !(e.getDamager() instanceof Player q)) {
             return;
         }
 
-        Player q = (Player) e.getDamager();
-
         // Warhound bit enemy player
-        if (e.getEntity() instanceof Player && Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name)) {
-            Player p = (Player) e.getEntity();
+        if (e.getEntity() instanceof Player p && Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name)) {
             p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 20, 0)));
          }
 
         //Slows the horse down which the warhound hits.
-        if (e.getEntity() instanceof Horse) {
-            Horse h = (Horse) e.getEntity();
+        if (e.getEntity() instanceof Horse h) {
             Player horseOwner = (Player) h.getOwner();
             assert horseOwner != null;
             if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(h.getOwner().getUniqueId())) {
@@ -154,8 +150,7 @@ public class Warhound extends CoinKit implements Listener {
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             Player p = e.getPlayer();
             //Stuns the horse which the warhound hits.
-            if (e.getRightClicked() instanceof Horse) {
-                Horse h = (Horse) e.getRightClicked();
+            if (e.getRightClicked() instanceof Horse h) {
                 Player horseOwner = (Player) h.getOwner();
                 assert horseOwner != null;
                 if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
@@ -164,12 +159,11 @@ public class Warhound extends CoinKit implements Listener {
             }
 
             //Check if the hit entity is a player, otherwise do nothing.
-            if (!(e.getRightClicked() instanceof Player)) {
+            if (!(e.getRightClicked() instanceof Player q)) {
                 return;
             }
 
             //The player who is being right-clicked on by the Warhound.
-            Player q = (Player) e.getRightClicked();
 
             // Prevent using in lobby
             if (InCombat.isPlayerInLobby(uuid)) {

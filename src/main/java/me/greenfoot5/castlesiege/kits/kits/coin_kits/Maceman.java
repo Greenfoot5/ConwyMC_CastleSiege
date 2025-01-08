@@ -111,9 +111,7 @@ public class Maceman extends CoinKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onStun(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-            Player p = (Player) e.getEntity();
-            Player q = (Player) e.getDamager();
+        if (e.getEntity() instanceof Player p && e.getDamager() instanceof Player q) {
 
             // Maceman tries to use stun an enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&

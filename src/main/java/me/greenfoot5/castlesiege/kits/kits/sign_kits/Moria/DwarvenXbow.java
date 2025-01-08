@@ -119,15 +119,13 @@ public class DwarvenXbow extends SignKit implements Listener {
     @EventHandler
     public void shootCrossbow(EntityShootBowEvent e) {
         //Multiple checks including if the crossbow is in sniper mode.
-        if (e.isCancelled() || !(e.getEntity() instanceof Player)) {
+        if (e.isCancelled() || !(e.getEntity() instanceof Player p)) {
             return;
         }
-        Player p = (Player) e.getEntity();
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-            if (!(e.getProjectile() instanceof Arrow)) {
+            if (!(e.getProjectile() instanceof Arrow a)) {
                 return;
             }
-            Arrow a = (Arrow) e.getProjectile();
             ((Arrow) e.getProjectile()).setPierceLevel(1);
             a.setVelocity(p.getLocation().getDirection().normalize().multiply(5));
         }

@@ -109,10 +109,9 @@ public class SecretItems implements Listener {
      */
     @EventHandler
     public void onPickup(EntityPickupItemEvent event) {
-        if (!(event.getEntity() instanceof Player))
+        if (!(event.getEntity() instanceof Player player))
             return;
 
-        Player player = (Player) event.getEntity();
         if (secretItems.contains(event.getItem().getItemStack())) {
             secretItemHolder.putIfAbsent(player, new ArrayList<>());
             secretItemHolder.get(player).add(event.getItem().getItemStack());

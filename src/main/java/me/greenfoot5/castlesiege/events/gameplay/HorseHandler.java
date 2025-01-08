@@ -136,8 +136,7 @@ public class HorseHandler implements Listener {
      * @param player The player
      */
     private void setCooldown(Entity player, Entity horse) {
-        if (player instanceof Player && (horse instanceof Horse || horse instanceof SkeletonHorse || horse instanceof ZombieHorse)) {
-            Player p = (Player) player;
+        if (player instanceof Player p && (horse instanceof Horse || horse instanceof SkeletonHorse || horse instanceof ZombieHorse)) {
             if (Kit.equippedKits.get(p.getUniqueId()) == null) {
                 return;
             }

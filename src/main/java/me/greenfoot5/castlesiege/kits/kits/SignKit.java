@@ -141,7 +141,7 @@ public abstract class SignKit extends Kit implements Listener {
         Player player = e.getPlayer();
         Block target = player.getTargetBlockExact(50);
 
-        if (target == null || !(target.getState() instanceof Sign))
+        if (target == null || !(target.getState() instanceof Sign sign))
             return;
 
         if (!InCombat.isPlayerInLobby(e.getPlayer().getUniqueId()))
@@ -151,8 +151,6 @@ public abstract class SignKit extends Kit implements Listener {
         if (e.getHand() != EquipmentSlot.HAND) {
             return;
         }
-
-        Sign sign = (Sign) target.getState();
 
         // Check if sign has sign name
         StringBuilder content = new StringBuilder();

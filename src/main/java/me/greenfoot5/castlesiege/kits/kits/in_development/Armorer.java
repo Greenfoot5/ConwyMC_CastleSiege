@@ -137,12 +137,11 @@ public class Armorer extends CoinKit implements Listener {
             Entity q = event.getRightClicked();
             if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
                     (i.getItemInMainHand().getType() == Material.NETHERITE_SHOVEL) &&
-                    q instanceof Player &&
+                    q instanceof Player r &&
                     TeamController.getTeam(uuid) == TeamController.getTeam(q.getUniqueId())
                     && !cooldown.contains((Player) q)) {
 
                 // Apply cooldown
-                Player r = (Player) q;
                 cooldown.add(r);
                 Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(r), cooldownTicks);
 

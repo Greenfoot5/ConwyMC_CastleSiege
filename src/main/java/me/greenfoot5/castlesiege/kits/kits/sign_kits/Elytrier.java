@@ -226,16 +226,14 @@ public class Elytrier extends SignKit implements Listener {
 
     @EventHandler
     public void onThrownPotion(PotionSplashEvent e) {
-        if (!(e.getPotion().getShooter() instanceof Player))
+        if (!(e.getPotion().getShooter() instanceof Player damager))
             return;
 
-        Player damager = (Player) e.getPotion().getShooter();
         if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
             e.setCancelled(true);
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 for (Entity entity : e.getAffectedEntities()) {
-                    if (entity instanceof Player) {
-                        Player hit = (Player) entity;
+                    if (entity instanceof Player hit) {
                         if (TeamController.getTeam(damager.getUniqueId())
                                 == TeamController.getTeam(hit.getUniqueId())
                                 && damager != hit) {

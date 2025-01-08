@@ -30,7 +30,7 @@ public class BuyKitCommand implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             // Only players can buy kits
-            if (!(sender instanceof Player)) {
+            if (!(sender instanceof Player buyer)) {
                 Messenger.sendError("Not a console command.", sender);
                 return;
             }
@@ -50,7 +50,6 @@ public class BuyKitCommand implements TabExecutor {
             }
 
             // Get the kit's buyer and receiver
-            Player buyer = (Player) sender;
             Player receiver;
             if (args.length == 2) {
                 receiver = Bukkit.getPlayer(args[1]);

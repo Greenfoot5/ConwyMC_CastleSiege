@@ -93,12 +93,11 @@ public class MapVoteCommand implements Listener, TabExecutor {
             return false;
         }
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player p)) {
             Messenger.sendError("Only players can vote!", sender);
             return true;
         }
 
-        Player p = (Player) sender;
         if (args[0].equals("no")) {
             if (votedNo.contains(p.getUniqueId())) {
                 Messenger.sendWarning("You already voted <dark_aqua>no</dark_aqua>! Only one vote is counted per player.", sender);

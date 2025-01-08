@@ -423,8 +423,7 @@ public class CSPlayerData extends PlayerData {
         assert player != null;
 
         // Coin Booster
-        if (booster instanceof CoinBooster) {
-            CoinBooster coinBooster = (CoinBooster) booster;
+        if (booster instanceof CoinBooster coinBooster) {
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 coinMultiplier += coinBooster.multiplier;
                 Messenger.broadcastInfo(player.getName() + " has activated a " + coinBooster.getPercentage() + "% coin booster " +
@@ -438,8 +437,7 @@ public class CSPlayerData extends PlayerData {
             }, booster.duration * 20L);
 
         // Kit booster
-        } else if (booster instanceof KitBooster) {
-            KitBooster kitBooster = (KitBooster) booster;
+        } else if (booster instanceof KitBooster kitBooster) {
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 CoinKit.boostedKits.add(kitBooster.kitName);
                 Messenger.broadcastInfo(player.getName() + " has activated a " + kitBooster.kitName + " kit booster " +

@@ -370,11 +370,9 @@ public class Chef extends CoinKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW)
     public void changeKnifeDamage(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Arrow) {
-            Arrow arrow = (Arrow) e.getEntity();
+        if (e.getEntity() instanceof Arrow arrow) {
 
-            if (arrow.getShooter() instanceof Player) {
-                Player damages = (Player) arrow.getShooter();
+            if (arrow.getShooter() instanceof Player damages) {
 
                 if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
                     arrow.setDamage(knifeDamage);
@@ -390,8 +388,7 @@ public class Chef extends CoinKit implements Listener {
      */
     @EventHandler()
     public void panProjectileDefence(ProjectileHitEvent e, Entity hit) {
-        if (e.getEntity() instanceof Arrow && hit instanceof Player) {
-            Arrow arrow = (Arrow) e.getEntity();
+        if (e.getEntity() instanceof Arrow arrow && hit instanceof Player) {
 
             if (Objects.equals(Kit.equippedKits.get(hit.getUniqueId()).name, name)) {
                 if (((Player) hit).getInventory().getItemInMainHand() == fryingPan ||
@@ -459,13 +456,12 @@ public class Chef extends CoinKit implements Listener {
     @EventHandler
     public void useFood(PlayerInteractEntityEvent e) {
         //Check if the hit entity is a player, otherwise do nothing.
-        if (!(e.getRightClicked() instanceof Player)) {
+        if (!(e.getRightClicked() instanceof Player fed)) {
             return;
         }
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         ItemStack food = p.getInventory().getItemInMainHand();
-        Player fed = (Player) e.getRightClicked();
 
         // Prevent using in lobby
         if (InCombat.isPlayerInLobby(uuid)) {

@@ -368,11 +368,10 @@ public class Warlock extends CoinKit implements Listener {
 
         // They've clicked a player on the same team
         Entity clickedEntity = event.getRightClicked();
-        if (clickedEntity instanceof Player &&
+        if (clickedEntity instanceof Player healed &&
                 TeamController.getTeam(caster.getUniqueId()) == TeamController.getTeam(clickedEntity.getUniqueId())) {
 
             // The healed isn't at full health
-            Player healed = (Player) clickedEntity;
             if (healed.getHealth() >= Kit.equippedKits.get(healed.getUniqueId()).baseHealth) {
                 Messenger.sendActionError("This player already has full health.", caster);
                 return;

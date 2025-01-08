@@ -131,8 +131,7 @@ public class Core implements Listener {
      * called to register all bossbars for each core on the current map
      */
     public static void registerBossbars() {
-        if (MapController.getCurrentMap() instanceof CoreMap) {
-            CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+        if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
             for (Core core : coreMap.getCores()) {
                 createFlagBossbar(core, getBarColour(core.getColor()), core.name, (float) core.health);
             }

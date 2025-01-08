@@ -97,12 +97,11 @@ public class CavesBoat implements Listener, Runnable {
 	 */
 	@EventHandler
 	public void onPassengerKill(PlayerDeathEvent event) {
-		if (!(event.getEntity().getVehicle() instanceof Boat)) {
+		if (!(event.getEntity().getVehicle() instanceof Boat boat)) {
 			return;
 		}
 
-		Boat boat = (Boat) event.getEntity().getVehicle();
-		if (boats.contains(boat.getEntityId())) {
+        if (boats.contains(boat.getEntityId())) {
 			boats.remove(boat.getEntityId());
 			boat.remove();
 			spawnNextBoat();
@@ -115,12 +114,11 @@ public class CavesBoat implements Listener, Runnable {
 	 */
 	@EventHandler
 	public void onDisconnect(PlayerQuitEvent event) {
-		if (!(event.getPlayer().getVehicle() instanceof Boat)) {
+		if (!(event.getPlayer().getVehicle() instanceof Boat boat)) {
 			return;
 		}
 
-		Boat boat = (Boat) event.getPlayer().getVehicle();
-		if (boats.contains(boat.getEntityId())) {
+        if (boats.contains(boat.getEntityId())) {
 			boats.remove(boat.getEntityId());
 			boat.remove();
 			spawnNextBoat();

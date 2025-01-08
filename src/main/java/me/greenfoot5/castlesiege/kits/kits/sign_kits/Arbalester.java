@@ -95,19 +95,17 @@ public class Arbalester extends SignKit implements Listener {
      */
     @EventHandler
     public void shootCrossbow(EntityShootBowEvent e) {
-        if (e.isCancelled() || !(e.getEntity() instanceof Player)) {
+        if (e.isCancelled() || !(e.getEntity() instanceof Player p)) {
             return;
         }
 
-        Player p = (Player) e.getEntity();
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
 
-            if (!(e.getProjectile() instanceof Arrow)) {
+            if (!(e.getProjectile() instanceof Arrow a)) {
                 return;
             }
 
             p.setCooldown(Material.CROSSBOW, 150);
-            Arrow a = (Arrow) e.getProjectile();
             ((Arrow) e.getProjectile()).setPierceLevel(1);
             a.setKnockbackStrength(2);
             a.setVelocity(p.getLocation().getDirection().normalize().multiply(47));

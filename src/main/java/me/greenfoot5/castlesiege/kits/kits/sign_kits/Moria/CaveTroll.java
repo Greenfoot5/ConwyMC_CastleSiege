@@ -147,8 +147,7 @@ public class CaveTroll extends SignKit implements Listener {
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             Player p = e.getPlayer();
             //Stuns the horse which the cave troll hits.
-            if (e.getRightClicked() instanceof Horse) {
-                Horse h = (Horse) e.getRightClicked();
+            if (e.getRightClicked() instanceof Horse h) {
                 Player horseOwner = (Player) h.getOwner();
                 assert horseOwner != null;
                 if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
@@ -157,12 +156,11 @@ public class CaveTroll extends SignKit implements Listener {
             }
 
             //Check if the hit entity is a player, otherwise do nothing.
-            if (!(e.getRightClicked() instanceof Player)) {
+            if (!(e.getRightClicked() instanceof Player q)) {
                 return;
             }
 
             //The player who is being right-clicked on by the troll.
-            Player q = (Player) e.getRightClicked();
 
             // Prevent using in lobby
             if (InCombat.isPlayerInLobby(uuid)) {
