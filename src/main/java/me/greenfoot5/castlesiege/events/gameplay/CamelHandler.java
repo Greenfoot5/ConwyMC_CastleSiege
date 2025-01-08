@@ -130,7 +130,7 @@ public class CamelHandler implements Listener {
     public void onCamelDeath(EntityDeathEvent e) {
         Entity camel = e.getEntity();
         if (!camel.getPassengers().isEmpty())
-            setCooldown(camel.getPassengers().get(0), camel);
+            setCooldown(camel.getPassengers().getFirst(), camel);
         if (camel instanceof Camel)
             e.getDrops().clear();
     }

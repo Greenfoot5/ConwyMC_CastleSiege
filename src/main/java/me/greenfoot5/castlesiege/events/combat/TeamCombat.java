@@ -43,7 +43,7 @@ public class TeamCombat implements Listener {
 		// A boat with player was hurt
 		else if (event.getEntity() instanceof Boat &&
 				!event.getEntity().getPassengers().isEmpty() &&
-                event.getEntity().getPassengers().get(0) instanceof Player player) {
+                event.getEntity().getPassengers().getFirst() instanceof Player player) {
             sameTeam(event, player);
 		}
 	}

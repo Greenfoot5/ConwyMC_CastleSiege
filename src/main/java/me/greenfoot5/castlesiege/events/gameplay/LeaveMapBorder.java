@@ -56,10 +56,10 @@ public class LeaveMapBorder implements Listener {
 
             // Check if the players has crossed the map border
             Location location = player.getLocation();
-            checkLocation(player, false, location.getZ(), mapBorder.north);
-            checkLocation(player, true, location.getX(), mapBorder.east);
-            checkLocation(player, true, location.getZ(), mapBorder.south);
-            checkLocation(player, false, location.getX(), mapBorder.west);
+            checkLocation(player, false, location.getZ(), mapBorder.north());
+            checkLocation(player, true, location.getX(), mapBorder.east());
+            checkLocation(player, true, location.getZ(), mapBorder.south());
+            checkLocation(player, false, location.getX(), mapBorder.west());
         });
     }
 

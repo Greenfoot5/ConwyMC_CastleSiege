@@ -2,7 +2,6 @@ package me.greenfoot5.castlesiege.events.combat;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.CSActiveData;
-import me.greenfoot5.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

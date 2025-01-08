@@ -161,34 +161,43 @@ public class TopMatchCommand implements CommandExecutor {
      * @return Whether a valid category was supplied
      */
     private boolean sortStats(CommandSender sender, List<Tuple<UUID, CSStats>> stats, String category) {
-        switch (category.toLowerCase()) {
-            case "score":
+        return switch (category.toLowerCase()) {
+            case "score" -> {
                 stats.sort(Comparator.comparingDouble(t -> t.getSecond().getScore()));
-                return true;
-            case "captures":
+                yield true;
+            }
+            case "captures" -> {
                 stats.sort(Comparator.comparingDouble(t -> t.getSecond().getCaptures()));
-                return true;
-            case "deaths":
+                yield true;
+            }
+            case "deaths" -> {
                 stats.sort(Comparator.comparingDouble(t -> t.getSecond().getDeaths()));
-                return true;
-            case "kills":
+                yield true;
+            }
+            case "kills" -> {
                 stats.sort(Comparator.comparingDouble(t -> t.getSecond().getKills()));
-                return true;
-            case "assists":
+                yield true;
+            }
+            case "assists" -> {
                 stats.sort(Comparator.comparingDouble(t -> t.getSecond().getAssists()));
-                return true;
-            case "heals":
+                yield true;
+            }
+            case "heals" -> {
                 stats.sort(Comparator.comparingDouble(t -> t.getSecond().getHeals()));
-                return true;
-            case "supports":
+                yield true;
+            }
+            case "supports" -> {
                 stats.sort(Comparator.comparingDouble(t -> t.getSecond().getSupports()));
-                return true;
-            case "kdr":
+                yield true;
+            }
+            case "kdr" -> {
                 stats.sort(Comparator.comparingDouble(t -> t.getSecond().getKills() / t.getSecond().getDeaths()));
-                return true;
-            default:
+                yield true;
+            }
+            default -> {
                 Messenger.sendError(String.format("The category %s does not exist!", category), sender);
-                return false;
-        }
+                yield false;
+            }
+        };
     }
 }

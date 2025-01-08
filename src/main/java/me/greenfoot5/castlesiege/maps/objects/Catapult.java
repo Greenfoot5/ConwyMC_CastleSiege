@@ -291,20 +291,13 @@ public class Catapult implements Listener {
 
         // Set the snowball's velocity
         Vector vector = new Vector();
-        switch (direction) {
-            case "north":
-                vector = new Vector(aimHorizontal, aimVertical, -34);
-                break;
-            case "east":
-                vector = new Vector(34, aimVertical, aimHorizontal);
-                break;
-            case "south":
-                vector = new Vector(-aimHorizontal, aimVertical, 34);
-                break;
-            case "west":
-                vector = new Vector(-34, aimVertical, -aimHorizontal);
-                break;
-        }
+        vector = switch (direction) {
+            case "north" -> new Vector(aimHorizontal, aimVertical, -34);
+            case "east" -> new Vector(34, aimVertical, aimHorizontal);
+            case "south" -> new Vector(-aimHorizontal, aimVertical, 34);
+            case "west" -> new Vector(-34, aimVertical, -aimHorizontal);
+            default -> vector;
+        };
         snowball.setVelocity(vector.normalize().multiply(3.5));
     }
 
@@ -315,7 +308,7 @@ public class Catapult implements Listener {
     @EventHandler
     public void onImpact(ProjectileHitEvent event) {
         if (Objects.equals(snowball, event.getEntity())) {
-            snowball.getPassengers().get(0).remove();
+            snowball.getPassengers().getFirst().remove();
             world.createExplosion(snowball.getLocation(), 5F, false, true, shooter);
         }
     }

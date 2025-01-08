@@ -169,7 +169,7 @@ public class Abyssal extends SignKit implements Listener {
     @EventHandler
     public void onImpact(ProjectileHitEvent event) {
         if (Objects.equals(ball, event.getEntity())) {
-            ball.getPassengers().get(0).remove();
+            ball.getPassengers().getFirst().remove();
             ball.getWorld().createExplosion(ball.getLocation(), 2F, true, false, shooter);
         }
     }

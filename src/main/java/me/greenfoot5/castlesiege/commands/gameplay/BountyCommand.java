@@ -194,24 +194,14 @@ public class BountyCommand implements CommandExecutor {
      * @param killer The player whose kill streak needs checking
      */
     public static void killStreak(Player killer) {
-        int amount = 0;
-        switch (CSActiveData.getData(killer.getUniqueId()).getKillStreak()) {
-            case 5:
-                amount = 20;
-                break;
-            case 10:
-                amount = 40;
-                break;
-            case 15:
-                amount = 60;
-                break;
-            case 20:
-                amount = 80;
-                break;
-            case 35:
-                amount = 140;
-                break;
-        }
+        int amount = switch (CSActiveData.getData(killer.getUniqueId()).getKillStreak()) {
+            case 5 -> 20;
+            case 10 -> 40;
+            case 15 -> 60;
+            case 20 -> 80;
+            case 35 -> 140;
+            default -> 0;
+        };
         if (amount > 0) {
             int total = getAndAddBounty(killer.getUniqueId(), (int) (amount * CSPlayerData.getCoinMultiplier()));
             Messenger.broadcastKillStreakBounty(CSNameTag.mmUsername(killer),

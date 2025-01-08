@@ -189,14 +189,14 @@ public class Armorer extends CoinKit implements Listener {
      * @return The level of improvement to provide
      */
     private int level (double armor) {
-        switch ((int) armor) {
-            case 2: return 0;
-            case 4: return 1;
-            case 6: return 2;
-            case 8: return 3;
-            case 10: return 4;
-        }
-        return 0;
+        return switch ((int) armor) {
+            case 2 -> 0;
+            case 4 -> 1;
+            case 6 -> 2;
+            case 8 -> 3;
+            case 10 -> 4;
+            default -> 0;
+        };
     }
 
     /**

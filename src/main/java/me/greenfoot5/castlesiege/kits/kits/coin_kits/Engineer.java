@@ -237,10 +237,10 @@ public class Engineer extends CoinKit implements Listener {
         Block trap = e.getBlock();
         if (trap.getType() == Material.STONE_PRESSURE_PLATE && e.getEntity() instanceof Horse h
                 && !e.getEntity().getPassengers().isEmpty()
-                && e.getEntity().getPassengers().get(0) instanceof Player) {
+                && e.getEntity().getPassengers().getFirst() instanceof Player) {
 
             // Check if the trap should trigger
-            Player p = (Player) h.getPassengers().get(0);
+            Player p = (Player) h.getPassengers().getFirst();
             Player t = getTrapper(trap);
             if (t != null && TeamController.getTeam(p.getUniqueId())
                     != TeamController.getTeam(t.getUniqueId())) {
@@ -416,7 +416,7 @@ public class Engineer extends CoinKit implements Listener {
 
         // Already placed max amount of traps
         if (trapList.size() == 8) {
-            Block firstPlaced = trapList.get(0);
+            Block firstPlaced = trapList.getFirst();
             firstPlaced.setType(Material.AIR);
             trapList.remove(firstPlaced);
         }
@@ -507,18 +507,13 @@ public class Engineer extends CoinKit implements Listener {
         }
 
         BlockFace facing = ((Directional) dispenser.getBlockData()).getFacing();
-        switch (facing) {
-            case NORTH:
-                return dispenser.getLocation().add(0.5, 0.4, -0.1);
-            case EAST:
-                return dispenser.getLocation().add(1.1, 0.4, 0.5);
-            case SOUTH:
-                return dispenser.getLocation().add(0.5, 0.4, 1.1);
-            case WEST:
-                return dispenser.getLocation().add(-0.1, 0.4, 0.5);
-            default:
-                return null;
-        }
+        return switch (facing) {
+            case NORTH -> dispenser.getLocation().add(0.5, 0.4, -0.1);
+            case EAST -> dispenser.getLocation().add(1.1, 0.4, 0.5);
+            case SOUTH -> dispenser.getLocation().add(0.5, 0.4, 1.1);
+            case WEST -> dispenser.getLocation().add(-0.1, 0.4, 0.5);
+            default -> null;
+        };
     }
 
     /**

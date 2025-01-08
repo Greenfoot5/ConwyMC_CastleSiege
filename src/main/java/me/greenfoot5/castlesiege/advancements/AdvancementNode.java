@@ -133,23 +133,17 @@ public class AdvancementNode {
             }
             y = (int) Math.round(min_y + (y_size - 1.0) / 2);
         }
-        NodeDisplay display;
-        switch (displayType) {
-            case Hidden:
-                display = new HiddenNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
-                break;
-            case ParentGranted:
-                display = new ParentGrantedNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
-                break;
-            case Vanilla:
-                display = new VanillaNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
-                break;
-            case Shown:
-                display = new ShownNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent, maxProgress);
-                break;
-            default:
-                throw new RuntimeException("Unknown advancement display type for " + title);
-        }
+        NodeDisplay display = switch (displayType) {
+            case Hidden ->
+                    new HiddenNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
+            case ParentGranted ->
+                    new ParentGrantedNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
+            case Vanilla ->
+                    new VanillaNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
+            case Shown ->
+                    new ShownNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent, maxProgress);
+            default -> throw new RuntimeException("Unknown advancement display type for " + title);
+        };
         displays.put(key, display);
         return new Tuple<>(displays, y_size);
     }

@@ -245,42 +245,25 @@ public class Warhound extends CoinKit implements Listener {
      * @return The dye color corresponding to the team's primary wool color, null if primary wool is no wool
      */
     private DyeColor getCollarColor(Player p) {
-        switch (TeamController.getTeam(p.getUniqueId()).primaryWool) {
-            case BLACK_WOOL:
-                return DyeColor.BLACK;
-            case BLUE_WOOL:
-                return DyeColor.BLUE;
-            case BROWN_WOOL:
-                return DyeColor.BROWN;
-            case CYAN_WOOL:
-                return DyeColor.CYAN;
-            case GRAY_WOOL:
-                return DyeColor.GRAY;
-            case GREEN_WOOL:
-                return DyeColor.GREEN;
-            case LIGHT_BLUE_WOOL:
-                return DyeColor.LIGHT_BLUE;
-            case LIGHT_GRAY_WOOL:
-                return DyeColor.LIGHT_GRAY;
-            case LIME_WOOL:
-                return DyeColor.LIME;
-            case MAGENTA_WOOL:
-                return DyeColor.MAGENTA;
-            case ORANGE_WOOL:
-                return DyeColor.ORANGE;
-            case PURPLE_WOOL:
-                return DyeColor.PURPLE;
-            case PINK_WOOL:
-                return DyeColor.PINK;
-            case RED_WOOL:
-                return DyeColor.RED;
-            case WHITE_WOOL:
-                return DyeColor.WHITE;
-            case YELLOW_WOOL:
-                return DyeColor.YELLOW;
-            default:
-                return null;
-        }
+        return switch (TeamController.getTeam(p.getUniqueId()).primaryWool) {
+            case BLACK_WOOL -> DyeColor.BLACK;
+            case BLUE_WOOL -> DyeColor.BLUE;
+            case BROWN_WOOL -> DyeColor.BROWN;
+            case CYAN_WOOL -> DyeColor.CYAN;
+            case GRAY_WOOL -> DyeColor.GRAY;
+            case GREEN_WOOL -> DyeColor.GREEN;
+            case LIGHT_BLUE_WOOL -> DyeColor.LIGHT_BLUE;
+            case LIGHT_GRAY_WOOL -> DyeColor.LIGHT_GRAY;
+            case LIME_WOOL -> DyeColor.LIME;
+            case MAGENTA_WOOL -> DyeColor.MAGENTA;
+            case ORANGE_WOOL -> DyeColor.ORANGE;
+            case PURPLE_WOOL -> DyeColor.PURPLE;
+            case PINK_WOOL -> DyeColor.PINK;
+            case RED_WOOL -> DyeColor.RED;
+            case WHITE_WOOL -> DyeColor.WHITE;
+            case YELLOW_WOOL -> DyeColor.YELLOW;
+            default -> null;
+        };
     }
 
     @Override

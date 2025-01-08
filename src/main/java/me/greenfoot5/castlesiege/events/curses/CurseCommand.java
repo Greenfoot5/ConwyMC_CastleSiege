@@ -92,7 +92,7 @@ public class CurseCommand implements TabExecutor {
         CurseCast.CurseBuilder curse = createCurse(Arrays.copyOfRange(args, 0, args.length - 1));
         if (args.length <= curse.getCommandOptionsLength()) {
             List<String> values = curse.getCommandOptions(args.length - 2);
-            if (Objects.equals(values.get(0), "[player]") || Objects.equals(values.get(0), "<player>"))
+            if (Objects.equals(values.getFirst(), "[player]") || Objects.equals(values.getFirst(), "<player>"))
                 return null;
             StringUtil.copyPartialMatches(args[args.length - 1], values, options);
         }
