@@ -179,12 +179,10 @@ public class Abyssal extends SignKit implements Listener {
         if (e.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE) || e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION)) {
             if (e.getDamager() instanceof Fireball) {
                 LargeFireball fire = (LargeFireball) e.getDamager();
-                if (fire.getShooter() instanceof Player) {
-                    Player damager = (Player) fire.getShooter();
-                    if (!(e.getEntity() instanceof Player)) {
+                if (fire.getShooter() instanceof Player damager) {
+                    if (!(e.getEntity() instanceof Player hit)) {
                         e.setDamage(200);
                         return; }
-                    Player hit = (Player) e.getEntity();
                     if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)
                             && TeamController.getTeam(damager.getUniqueId())
                             != TeamController.getTeam(hit.getUniqueId())) {

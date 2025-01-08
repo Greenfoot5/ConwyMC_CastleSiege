@@ -169,11 +169,10 @@ public class Alchemist extends CoinKit implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onThrownPotion(PotionSplashEvent e) {
         // Is the potion thrown by an alchemist?
-        if (!(e.getPotion().getShooter() instanceof Player)) {
+        if (!(e.getPotion().getShooter() instanceof Player damager)) {
             return;
         }
 
-        Player damager = (Player) e.getPotion().getShooter();
         if (!Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
             return;
         }

@@ -63,28 +63,29 @@ class HorseSpawner {
      */
     public void spawn(Player p, String type) {
         AbstractHorse horse;
-        if (Objects.equals(type, "horse") || Objects.equals(type, "regular")) {
-            // Spawn horse
-            horse = (Horse) p.getWorld().spawnEntity(p.getLocation(), EntityType.HORSE);
-            ((Horse) horse).getInventory().setArmor(new ItemStack(armor));
-            // Apply potion effects
-            horse.addPotionEffects(effects);
+        switch (type) {
+            case "horse", "regular" -> {
+                // Spawn horse
+                horse = (Horse) p.getWorld().spawnEntity(p.getLocation(), EntityType.HORSE);
+                ((Horse) horse).getInventory().setArmor(new ItemStack(armor));
+                // Apply potion effects
+                horse.addPotionEffects(effects);
+            }
+            case "skeletal", "skeleton" -> {
+                // Spawn horse
+                horse = (SkeletonHorse) p.getWorld().spawnEntity(p.getLocation(), EntityType.SKELETON_HORSE);
 
-
-        } else if (Objects.equals(type, "skeletal") || Objects.equals(type, "skeleton")) {
-            // Spawn horse
-            horse = (SkeletonHorse) p.getWorld().spawnEntity(p.getLocation(), EntityType.SKELETON_HORSE);
-
-            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_DEATH, 2, 0.25f);
-            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_INFECT, 2, 0.25f);
-            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PHANTOM_DEATH, 2, 0.25f);
-            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GHAST_DEATH, 2, 0.25f);
-
-        } else if (Objects.equals(type, "zombified") || Objects.equals(type, "undead") || Objects.equals(type, "zombie")) {
-            // Spawn horse
-            horse = (ZombieHorse) p.getWorld().spawnEntity(p.getLocation(), EntityType.ZOMBIE_HORSE);
-        } else {
-            return;
+                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_DEATH, 2, 0.25f);
+                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_INFECT, 2, 0.25f);
+                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PHANTOM_DEATH, 2, 0.25f);
+                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GHAST_DEATH, 2, 0.25f);
+            }
+            case "zombified", "undead", "zombie" ->
+                // Spawn horse
+                    horse = (ZombieHorse) p.getWorld().spawnEntity(p.getLocation(), EntityType.ZOMBIE_HORSE);
+            case null, default -> {
+                return;
+            }
         }
 
         horse.setTamed(true);
