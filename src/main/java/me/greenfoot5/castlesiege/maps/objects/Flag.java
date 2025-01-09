@@ -230,8 +230,14 @@ public class Flag {
         }
 
         // You can't recap a flag
-        if (!Objects.equals(startingTeam, currentOwners) && animationIndex == maxCap && !MapController.getCurrentMap().canRecap)
+        if (!Objects.equals(startingTeam, currentOwners) && animationIndex == maxCap && !MapController.getCurrentMap().canRecap) {
+            for (UUID uuid : players) {
+                if (!Objects.equals(TeamController.getTeam(uuid).getName(), currentOwners))
+                    Messenger.sendActionError("You cannot recapture flags once they've been fully captured on this map!",
+                            Objects.requireNonNull(Bukkit.getPlayer(uuid)));
+            }
             return;
+        }
 
         Tuple<Integer, Integer> counts = getPlayerCounts();
 
