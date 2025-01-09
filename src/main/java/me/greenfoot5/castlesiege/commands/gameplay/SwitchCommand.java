@@ -11,6 +11,9 @@ import me.greenfoot5.castlesiege.maps.Map;
 import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.Team;
 import me.greenfoot5.castlesiege.maps.TeamController;
+import me.greenfoot5.castlesiege.maps.objects.Flag;
+import me.greenfoot5.castlesiege.maps.objects.Gate;
+import me.greenfoot5.castlesiege.maps.objects.Ram;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -69,6 +72,9 @@ public class SwitchCommand implements CommandExecutor {
 			return;
 		}
 
+		stopCapping(p);
+		stopRamming(p);
+
 		// If the player hasn't specified a team, swap to the next one
 		if (args.length == 1) {
 			switchToNextTeam(p);
@@ -94,6 +100,8 @@ public class SwitchCommand implements CommandExecutor {
 		}
 
 		Player p = (Player) sender;
+		stopCapping(p);
+		stopRamming(p);
 
 		// If the player is a donator
 		if (p.hasPermission("conwymc.esquire")) {
@@ -214,5 +222,27 @@ public class SwitchCommand implements CommandExecutor {
 		// The team is invalid
 		Messenger.sendError("<aqua>" + String.join(" ", args) + "<red> isn't a valid team name!", p);
 		return true;
+	}
+
+	/**
+	 * Remove the player from all capping zones
+	 * @param p The player
+	 */
+	private void stopCapping(Player p) {
+		for (Flag flag : MapController.getCurrentMap().flags) {
+			flag.playerExit(p);
+		}
+	}
+
+	/**
+	 * Remove the player from all rams
+	 * @param p The player
+	 */
+	private void stopRamming(Player p) {
+		for (Gate gate : MapController.getCurrentMap().gates) {
+			Ram ram = gate.getRam();
+			if (ram != null)
+				ram.playerExit(p);
+		}
 	}
 }
