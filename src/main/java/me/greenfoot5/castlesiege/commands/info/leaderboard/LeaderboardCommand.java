@@ -70,7 +70,7 @@ public class LeaderboardCommand implements CommandExecutor {
             try {
                 display(sender, category, Integer.parseInt(args[0]));
             } catch (NumberFormatException e) {
-                // TODO - player specified
+                // TODO - player search
                 Messenger.sendError("Searching by player is currently not supported!", sender);
             }
         }
@@ -131,17 +131,6 @@ public class LeaderboardCommand implements CommandExecutor {
         DecimalFormat num = new DecimalFormat("0");
 
         return switch (category) {
-            case "score" -> Messenger.mm.deserialize("<br>" +
-                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
-                    + " <yellow>" + r.getInt("level") + "</yellow> "
-                    + "<transition:" + gradient + ":0>" + num.format(r.getInt("score")) + "</transition> "
-                    + "<transition:" + gradient + ":0.15>" + num.format(r.getDouble("kills")) + "</transition> "
-                    + "<transition:" + gradient + ":0.4>" + num.format(r.getDouble("deaths")) + "</transition> "
-                    + "<transition:" + gradient + ":0.6>" + dec.format(r.getDouble("kdr")) + "</transition> "
-                    + "<transition:" + gradient + ":0.7>" + num.format(r.getDouble("assists")) + "</transition> "
-                    + "<transition:" + gradient + ":0.8>" + num.format(r.getDouble("captures")) + "</transition> "
-                    + "<transition:" + gradient + ":0.9>" + num.format(r.getDouble("heals")) + "</transition> "
-                    + "<transition:" + gradient + ":1>" + num.format(r.getDouble("supports")) + "</transition>");
             case "captures" -> Messenger.mm.deserialize("<br>" +
                     "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
                     + " <yellow>" + r.getInt("level") + "</yellow> "
