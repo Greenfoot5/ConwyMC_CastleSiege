@@ -52,24 +52,18 @@ public class FlagSidebar {
 
         // Core Map
         if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
+            lines.addStaticLine(Component.text("Cores", NamedTextColor.WHITE).decorate(TextDecoration.BOLD));
             // Display the core scoreboard
             for (Core core : coreMap.getCores()) {
-                Team owners = MapController.getCurrentMap().getTeam(core.getOwners());
-                NamedTextColor color = owners == null ? NamedTextColor.GRAY : owners.primaryChatColor;
-                lines.addStaticLine(Component.text(core.name, color).decorate(TextDecoration.BOLD));
-                lines.addDynamicLine(() ->
-                        Component.text("Health: ", color).decorate(TextDecoration.BOLD)
-                                .append(Component.text(core.health, NamedTextColor.WHITE)
-                                        .decoration(TextDecoration.BOLD, false)));
+                lines.addComponent(core);
             }
+
+            if (MapController.getCurrentMap().flags.length > 0)
+                lines.addBlankLine();
         } else if (MapController.getCurrentMap().gamemode == Gamemode.Assault) {
             lines.addStaticLine(Component.text("Lives", NamedTextColor.WHITE).decorate(TextDecoration.BOLD));
             for (Team team : MapController.getCurrentMap().teams) {
-                if (team.getLives() > 1) {
-                    lines.addDynamicLine(() -> team.getDisplayName()
-                            .append(Component.text(": "))
-                            .append(Component.text(team.getLives())));
-                }
+                lines.addComponent(team);
             }
             lines.addBlankLine();
         }
@@ -80,12 +74,7 @@ public class FlagSidebar {
         // Display the flag scoreboard
         for (Flag flag : reversedFlags) {
             if (flag.isActive()) {
-                lines.addDynamicLine(() -> {
-                    Team owners = MapController.getCurrentMap().getTeam(flag.getCurrentOwners());
-                    return Component.text(flag.name,
-                                    owners == null ? NamedTextColor.GRAY : owners.primaryChatColor)
-                            .append(Component.text(flag.getIcon()));
-                });
+                lines.addComponent(flag);
             }
         }
 
