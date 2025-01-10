@@ -10,6 +10,8 @@ import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.megavex.scoreboardlibrary.api.sidebar.component.LineDrawable;
+import net.megavex.scoreboardlibrary.api.sidebar.component.SidebarComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -19,6 +21,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +33,7 @@ import static me.greenfoot5.castlesiege.Main.getBarColour;
 /**
  * A core to destroy for DTC maps
  */
-public class Core implements Listener {
+public class Core implements Listener, SidebarComponent {
 
 
     public final String name;
@@ -236,5 +239,14 @@ public class Core implements Listener {
                 }
             }
         }
+    }
+
+    @Override
+    public void draw(@NotNull LineDrawable lineDrawable) {
+        Team owners = MapController.getCurrentMap().getTeam(getOwners());
+        NamedTextColor color = owners == null ? NamedTextColor.GRAY : owners.primaryChatColor;
+        lineDrawable.drawLine(Component.text(name, color)
+                .append(Component.text(": "))
+                .append(Component.text(health, NamedTextColor.WHITE)));
     }
 }
