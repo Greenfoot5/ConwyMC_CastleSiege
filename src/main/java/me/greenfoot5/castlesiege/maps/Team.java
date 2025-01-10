@@ -8,6 +8,8 @@ import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.events.nametag.UpdateNameTagEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.megavex.scoreboardlibrary.api.sidebar.component.LineDrawable;
+import net.megavex.scoreboardlibrary.api.sidebar.component.SidebarComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Represents a team on a map
  */
-public class Team implements Listener {
+public class Team implements Listener, SidebarComponent {
     // Basic Details
     private final String name;
     private ArrayList<UUID> players;
@@ -181,5 +184,14 @@ public class Team implements Listener {
      */
     public void clear() {
         players = new ArrayList<>();
+    }
+
+    @Override
+    public void draw(@NotNull LineDrawable lineDrawable) {
+        if (getLives() >= 0) {
+            lineDrawable.drawLine(getDisplayName()
+                    .append(Component.text(": "))
+                    .append(Component.text(getLives(), NamedTextColor.WHITE)));
+        }
     }
 }
