@@ -289,7 +289,7 @@ public class MapController {
 				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 
 				if (team.getName().equals(winners)) {
-					giveCoinReward(team);
+					//giveCoinReward(team);
 					Tuple<UUID, CSStats> mvp = team.getMVP();
 					if (mvp != null) {
 						Bukkit.getScheduler().runTask(Main.plugin, () -> {
