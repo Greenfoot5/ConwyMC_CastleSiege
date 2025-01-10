@@ -15,6 +15,8 @@ import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.megavex.scoreboardlibrary.api.sidebar.component.LineDrawable;
+import net.megavex.scoreboardlibrary.api.sidebar.component.SidebarComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,6 +28,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -41,7 +44,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 /**
  * Stores all details and handles all flag actions.
  */
-public class Flag {
+public class Flag implements SidebarComponent {
     protected final String name;
 
     // Location Data
@@ -730,5 +733,14 @@ public class Flag {
         }
         // return "⓪";
         return "";
+    }
+
+
+    @Override
+    public void draw(@NotNull LineDrawable lineDrawable) {
+        Team owners = MapController.getCurrentMap().getTeam(getCurrentOwners());
+        lineDrawable.drawLine(Component.text(name,
+                        owners == null ? NamedTextColor.GRAY : owners.primaryChatColor)
+                .append(Component.text(getIcon())));
     }
 }
