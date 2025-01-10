@@ -121,6 +121,17 @@ public class Flag {
     }
 
     /**
+     * @return The original owners of the flag
+     */
+    public String getStartingOwners() {
+        if (startingTeam == null) {
+            return "neutral";
+        }
+
+        return startingTeam;
+    }
+
+    /**
      * Gets the spawn point based on the team name
      * @param teamName The team to get the spawn point for
      * @return The Spawn Point Locations
@@ -571,6 +582,14 @@ public class Flag {
      */
     public boolean isActive() {
         return this.active;
+    }
+
+    /**
+     * Whether this flag is a static flag
+     * @return Whether the flag is active
+     */
+    public boolean isStatic() {
+        return this.progressAmount < 1;
     }
 
     /**

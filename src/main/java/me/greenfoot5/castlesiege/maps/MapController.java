@@ -52,6 +52,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -193,71 +194,8 @@ public class MapController {
 		timer.state = TimerState.ENDED;
 
 		// Calculate the winner based on the game mode
-		String winners = null;
-		switch(getCurrentMap().gamemode) {
-			case DestroyTheCore:
-				if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
-                    // Check if the defenders have won
-					for (Core core : coreMap.getCores()) {
-						if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].getName())) {
-							winners = getCurrentMap().teams[0].getName();
-						} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].getName())) {
-							winners = getCurrentMap().teams[1].getName();
-						}
-					}
-				}
-				break;
-			case Control:
-				Main.instance.getLogger().severe("Control game mode has not been implemented yet! It's a draw!");
-				break;
-			case Charge:
-				// Check if the defenders have won
-				for (Flag flag : getCurrentMap().flags) {
-					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].getName())) {
-                        winners = getCurrentMap().teams[0].getName();
-                    } else {
-                        winners = getCurrentMap().teams[1].getName();
-                    }
-				}
-				break;
-			case Assault:
-				// One of the two teams lost all their lives
-				if (getCurrentMap().teams[0].getLives() == 0) {
-					winners = getCurrentMap().teams[1].getName();
-					break;
-				} else if (getCurrentMap().teams[1].getLives() == 0) {
-					winners = getCurrentMap().teams[0].getName();
-					break;
-				}
-			case Domination:
-			default:
-				// Get a count of who owns which flag
-				java.util.Map<String, Integer> flagCounts = new HashMap<>();
-				for (Flag flag : getCurrentMap().flags) {
-					if (flag.isActive() && !flag.getCurrentOwners().equals("null")) {
-						flagCounts.merge(flag.getCurrentOwners(), 1, Integer::sum);
-					}
-				}
+		String winners = getWinners();
 
-				// If only one team controls flags
-				if (flagCounts.size() == 1) {
-					winners = (String) flagCounts.keySet().toArray()[0];
-					break;
-				}
-
-				// Get the team with the largest
-				String currentWinners = (String) flagCounts.keySet().toArray()[0];
-				for (String teamName : flagCounts.keySet()) {
-					if (flagCounts.get(teamName) > flagCounts.get(currentWinners)) {
-						currentWinners = teamName;
-						// If two teams are the largest, we set up for a draw
-					} else if (!Objects.equals(teamName, currentWinners) && Objects.equals(flagCounts.get(teamName), flagCounts.get(currentWinners))) {
-                        break;
-					}
-				}
-				winners = currentWinners;
-				break;
-		}
 		// Moves all players to the lobby
 		new BukkitRunnable() {
 			@Override
@@ -293,7 +231,7 @@ public class MapController {
 					Tuple<UUID, CSStats> mvp = team.getMVP();
 					if (mvp != null) {
 						Bukkit.getScheduler().runTask(Main.plugin, () -> {
-							Player player = Bukkit.getPlayer(mvp.getFirst());
+							Player player = getPlayer(mvp.getFirst());
 							if (player == null) {
 								player = Bukkit.getOfflinePlayer(mvp.getFirst()).getPlayer();
 							}
@@ -332,6 +270,81 @@ public class MapController {
 			}
 		}.runTaskLater(Main.plugin, 200);
 
+	}
+
+	private static String getWinners() {
+		if (getCurrentMap() instanceof CoreMap coreMap) {
+			// Check if any cores have been destroyed
+			for (Core core : coreMap.getCores()) {
+				if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].getName())) {
+					return getCurrentMap().teams[0].getName();
+				} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].getName())) {
+					return getCurrentMap().teams[1].getName();
+				}
+			}
+		} else if (getCurrentMap().gamemode == Gamemode.Charge) {
+			// Check if the defenders have won
+			for (Flag flag : getCurrentMap().flags) {
+				if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].getName())) {
+					return getCurrentMap().teams[0].getName();
+				} else {
+					return getCurrentMap().teams[1].getName();
+				}
+			}
+		} else if (getCurrentMap().gamemode == Gamemode.Assault) {
+				// One of the two teams lost all their lives
+				if (getCurrentMap().teams[0].getLives() == 0) {
+					return getCurrentMap().teams[1].getName();
+				} else if (getCurrentMap().teams[1].getLives() == 0) {
+					return getCurrentMap().teams[0].getName();
+				}
+		}
+
+		// If no other method has declared a winner, use domination
+
+		// Get a count of who owns which flag
+		java.util.Map<String, Integer> flagCounts = new HashMap<>();
+		for (Flag flag : getCurrentMap().flags) {
+			if (flag.isActive() && !flag.getCurrentOwners().equals("null")) {
+				flagCounts.merge(flag.getCurrentOwners(), 1, Integer::sum);
+			}
+		}
+
+		// If only one team controls flags, the win
+		if (flagCounts.size() == 1) {
+			return (String) flagCounts.keySet().toArray()[0];
+		}
+
+		// If recapture is disabled, defenders win
+		// Also known as the team starting with the most non-static flags
+		if (!MapController.getCurrentMap().canRecap) {
+			flagCounts = new HashMap<>();
+			for (Flag flag : getCurrentMap().flags) {
+				if (flag.isActive() && !flag.getStartingOwners().equals("null") && !flag.isStatic()) {
+					flagCounts.merge(flag.getStartingOwners(), 1, Integer::sum);
+				}
+			}
+			return getWinnersFromFlags(flagCounts, true);
+		}
+
+		// Just get the team with the most flags
+		return getWinnersFromFlags(flagCounts, false);
+	}
+
+    private static String getWinnersFromFlags(@NotNull java.util.Map<String, Integer> flagCounts, boolean findSmallest) {
+		// Get the team that started with the least number of flags (the defenders)
+		String currentWinners = (String) flagCounts.keySet().toArray()[0];
+		for (String teamName : flagCounts.keySet()) {
+			if ((!findSmallest && flagCounts.get(teamName) > flagCounts.get(currentWinners)) ||
+			findSmallest && flagCounts.get(teamName) < flagCounts.get(currentWinners)) {
+				currentWinners = teamName;
+				// If two teams are the largest, we set up for a draw
+			} else if (!Objects.equals(teamName, currentWinners) && Objects.equals(flagCounts.get(teamName), flagCounts.get(currentWinners))) {
+				break;
+			}
+		}
+
+		return currentWinners;
 	}
 
 	/**
@@ -741,7 +754,7 @@ public class MapController {
 			team.clear();
 		}
 
-		Bukkit.getScheduler().runTask(Main.plugin, () -> { Bukkit.getServer().unloadWorld(oldMap.worldName, false); });
+		Bukkit.getScheduler().runTask(Main.plugin, () -> { getServer().unloadWorld(oldMap.worldName, false); });
 
 	 });
 	}
@@ -884,7 +897,7 @@ public class MapController {
 		}
 
 		for (UUID uuid : getPlayers()) {
-			Player p = Bukkit.getPlayer(uuid);
+			Player p = getPlayer(uuid);
 			if (p == null) continue;
 
 			Gui gui = new Gui(Component.text("Did you enjoy the map?"), 1, true);
