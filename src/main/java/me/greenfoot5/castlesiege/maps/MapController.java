@@ -285,6 +285,9 @@ public class MapController {
 				if (survivingCores == 0)
 					lastPlace = team.getName();
 			}
+
+			if (coreMap.flags.length == 0)
+				return null;
 		} else if (getCurrentMap().gamemode == Gamemode.Charge) {
 			// Check if the defenders have won
 			for (Flag flag : getCurrentMap().flags) {
