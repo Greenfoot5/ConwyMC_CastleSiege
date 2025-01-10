@@ -273,14 +273,17 @@ public class MapController {
 	}
 
 	private static String getWinners() {
+		String lastPlace = null;
 		if (getCurrentMap() instanceof CoreMap coreMap) {
-			// Check if any cores have been destroyed
-			for (Core core : coreMap.getCores()) {
-				if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].getName())) {
-					return getCurrentMap().teams[0].getName();
-				} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].getName())) {
-					return getCurrentMap().teams[1].getName();
+			for (Team team : getCurrentMap().teams) {
+				int survivingCores = 0;
+				for (Core core : coreMap.getCores()) {
+					if (!core.isDestroyed)
+						survivingCores++;
 				}
+
+				if (survivingCores == 0)
+					lastPlace = team.getName();
 			}
 		} else if (getCurrentMap().gamemode == Gamemode.Charge) {
 			// Check if the defenders have won
@@ -292,26 +295,38 @@ public class MapController {
 				}
 			}
 		} else if (getCurrentMap().gamemode == Gamemode.Assault) {
-				// One of the two teams lost all their lives
-				if (getCurrentMap().teams[0].getLives() == 0) {
-					return getCurrentMap().teams[1].getName();
-				} else if (getCurrentMap().teams[1].getLives() == 0) {
-					return getCurrentMap().teams[0].getName();
+			// Find and exclude the team that lost all their lives
+			for (Team team : getCurrentMap().teams) {
+				if (team.getLives() == 0) {
+					lastPlace = team.getName();
 				}
+			}
+		}
+
+		// If there are only teams, the winner is the not loser
+		if (getCurrentMap().teams.length == 2 && lastPlace != null) {
+			for (Team team : getCurrentMap().teams) {
+				if (!Objects.equals(team.getName(), lastPlace)) {
+					return team.getName();
+				}
+			}
 		}
 
 		// If no other method has declared a winner, use domination
 
 		// Get a count of who owns which flag
 		java.util.Map<String, Integer> flagCounts = new HashMap<>();
+		java.util.Map<String, Integer> notStaticFlags = new HashMap<>();
 		for (Flag flag : getCurrentMap().flags) {
-			if (flag.isActive() && !flag.getCurrentOwners().equals("null")) {
+			if (flag.isActive() && !flag.getCurrentOwners().equals("null") && !flag.getCurrentOwners().equals(lastPlace)) {
 				flagCounts.merge(flag.getCurrentOwners(), 1, Integer::sum);
+				if (!flag.isStatic())
+					notStaticFlags.merge(flag.getCurrentOwners(), 1, Integer::sum);
 			}
 		}
 
-		// If only one team controls flags, the win
-		if (flagCounts.size() == 1) {
+		// If only one team controls flags all the non-static, they win
+		if (notStaticFlags.size() == 1) {
 			return (String) flagCounts.keySet().toArray()[0];
 		}
 
@@ -320,7 +335,7 @@ public class MapController {
 		if (!MapController.getCurrentMap().canRecap) {
 			flagCounts = new HashMap<>();
 			for (Flag flag : getCurrentMap().flags) {
-				if (flag.isActive() && !flag.getStartingOwners().equals("null") && !flag.isStatic()) {
+				if (flag.isActive() && !flag.getStartingOwners().equals("null") && !flag.isStatic() && !flag.getCurrentOwners().equals(lastPlace)) {
 					flagCounts.merge(flag.getStartingOwners(), 1, Integer::sum);
 				}
 			}
