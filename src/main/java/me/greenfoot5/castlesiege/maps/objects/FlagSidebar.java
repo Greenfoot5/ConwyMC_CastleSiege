@@ -165,7 +165,7 @@ public class FlagSidebar {
         // Advance title animation to the next frame
         titleAnimation.nextFrame();
         pagesTicks++;
-        if (pagesTicks >= 12) {
+        if (pagesTicks >= 20) {
             pagesAnimation.nextFrame();
             pagesTicks = 0;
         }
