@@ -30,7 +30,7 @@ public class BuyKitCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
-        if (sender instanceof Player player && CSActiveData.getData(player.getUniqueId()) != null && CSActiveData.getData(player.getUniqueId()).getLevel() >= SWITCH_LEVEL) {
+        if (sender instanceof Player player && CSActiveData.getData(player.getUniqueId()) != null && CSActiveData.getData(player.getUniqueId()).getLevel() >= BUYKIT_LEVEL) {
             Messenger.sendError("You must be at least <green>level " + BUYKIT_LEVEL + "</green> to buy kits!", sender);
             return true;
         }

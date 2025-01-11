@@ -1,6 +1,7 @@
 package me.greenfoot5.castlesiege.commands.gameplay;
 
 import me.greenfoot5.castlesiege.Main;
+import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.database.UpdateStats;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
@@ -26,6 +27,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
+import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.BUYKIT_LEVEL;
+import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.SWITCH_LEVEL;
+
 /**
  * Allows the player to swap teams
  */
@@ -41,13 +45,18 @@ public class SwitchCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-			// Force switch command was used
-			if (cmd.getName().equals("ForceSwitch"))
-				forceSwitch(sender, args);
+		if (sender instanceof Player player && CSActiveData.getData(player.getUniqueId()) != null && CSActiveData.getData(player.getUniqueId()).getLevel() >= SWITCH_LEVEL) {
+			Messenger.sendError("You must be at least <green>level " + SWITCH_LEVEL + "</green> to use this command!", sender);
+			return true;
+		}
 
-			// Regular switch command was used
-			if (cmd.getName().equals("Switch"))
-				switchTeam(sender, args);
+		// Force switch command was used
+		if (cmd.getName().equals("ForceSwitch"))
+			forceSwitch(sender, args);
+
+		// Regular switch command was used
+		if (cmd.getName().equals("Switch"))
+			switchTeam(sender, args);
 
 		return true;
 	}
