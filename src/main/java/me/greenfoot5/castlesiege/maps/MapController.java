@@ -666,6 +666,7 @@ public class MapController {
 					Player player = getPlayer(uuid);
 					if (player == null) continue;
 					Team team = TeamController.getTeam(uuid);
+					player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_2, 1f, 1f);
 					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
 					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
 					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
@@ -829,7 +830,6 @@ public class MapController {
 
 		team.addPlayer(uuid);
 		player.teleport(team.lobby.spawnPoint);
-		player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_2, 1f, 1f);
 		Messenger.send(Component.text("You joined ").append(team.getDisplayName()), player);
 
 		checkTeamKit(player);
