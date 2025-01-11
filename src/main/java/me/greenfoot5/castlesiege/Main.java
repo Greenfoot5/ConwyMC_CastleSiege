@@ -274,8 +274,6 @@ public class Main extends JavaPlugin implements Listener {
         plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
         instance = this;
 
-        getLogger().info("Resetting all maps...");
-        resetWorlds();
         getLogger().info("Waiting until POSTWORLD to continue enabling...");
         new BukkitRunnable() {
 
@@ -639,34 +637,19 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     /**
-     * Loads all worlds from their save folder
-     */
-    private void resetWorlds() {
-        //Creating a File object for directory
-        File directoryPath = new File(String.valueOf(Bukkit.getWorldContainer()));
-        //List of all files and directories
-        String[] contents = directoryPath.list();
-        assert contents != null;
-        for (String content : contents) {
-            // If the server is a save
-            if (content.endsWith("_save")) {
-                String worldName = content.substring(0, content.length() - 5);
-                try {
-                    FileUtils.deleteDirectory(new File(Bukkit.getWorldContainer(), worldName));
-                    FileUtils.copyDirectory(new File(Bukkit.getWorldContainer(), worldName + "_save"),
-                            new File(Bukkit.getWorldContainer(), worldName));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /**
      * Creates/loads a world
      * @param worldName The name of the world to load
      */
     private void createWorld(String worldName) {
+
+        // Load the files
+        try {
+            FileUtils.copyDirectory(new File(Bukkit.getWorldContainer(), worldName + "_save"),
+                    new File(Bukkit.getWorldContainer(), worldName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         WorldCreator worldCreator = new WorldCreator(worldName);
         worldCreator.generateStructures(false);
         World world = worldCreator.createWorld();
@@ -1000,6 +983,7 @@ public class Main extends JavaPlugin implements Listener {
                             config.getDouble(borderRoute.add("south")),
                             config.getDouble(borderRoute.add("west")));
                 }
+
 
                 // World Data
                 createWorld(map.worldName);
