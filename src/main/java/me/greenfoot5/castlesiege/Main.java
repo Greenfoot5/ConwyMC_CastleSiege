@@ -987,10 +987,6 @@ public class Main extends JavaPlugin implements Listener {
 
                 // World Data
                 createWorld(map.worldName);
-                //duels map
-                createWorld("DuelsMap");
-                createWorld("ShopDraft");
-
                 //Core Data
                 if (getCoreConfig(mapRoute) != null) {
                     loadCores(mapRoute, map);
@@ -1026,6 +1022,10 @@ public class Main extends JavaPlugin implements Listener {
                 MapController.maps.add(map);
             }
         }
+
+        // Misc worlds
+        createWorld("DuelsMap");
+        createWorld("ShopDraft");
     }
 
     private void loadCores(Route mapRoute, Map map) {
