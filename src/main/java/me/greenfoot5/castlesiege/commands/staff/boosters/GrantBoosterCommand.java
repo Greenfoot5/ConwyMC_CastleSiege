@@ -38,7 +38,7 @@ public class GrantBoosterCommand implements TabExecutor {
         return true;
     }
 
-    private void grantBooster(@NotNull CommandSender sender, @NotNull String[] args) {
+    public static void grantBooster(@NotNull CommandSender sender, @NotNull String[] args) {
         Booster booster = createBooster(sender, args);
         if (booster == null) {
             return;
@@ -77,7 +77,7 @@ public class GrantBoosterCommand implements TabExecutor {
         return null;
     }
 
-    private Booster createBooster(CommandSender sender, String[] args) {
+    private static Booster createBooster(CommandSender sender, String[] args) {
         if (args.length < 3) {
             Messenger.sendError("Not enough args! Correct usage is: /grantbooster <player> <type> <duration> [type-specific args]", sender);
             return null;
@@ -134,7 +134,7 @@ public class GrantBoosterCommand implements TabExecutor {
      * @param playerName The name of the player
      * @return The player's UUID if found, null otherwise
      */
-    private UUID getUUID(String playerName) {
+    private static UUID getUUID(String playerName) {
         // Player is online
         Player player = Bukkit.getPlayer(playerName);
         if (player != null)
@@ -148,7 +148,7 @@ public class GrantBoosterCommand implements TabExecutor {
         }
     }
 
-    private boolean giveBooster(CSPlayerData data, UUID uuid, Booster booster) {
+    private static boolean giveBooster(CSPlayerData data, UUID uuid, Booster booster) {
         if (updateDatabase(uuid, booster)) {
             data.addBooster(booster);
             return true;
@@ -156,7 +156,7 @@ public class GrantBoosterCommand implements TabExecutor {
         return false;
     }
 
-    private boolean giveBooster(UUID uuid, Booster booster) {
+    private static boolean giveBooster(UUID uuid, Booster booster) {
         return updateDatabase(uuid, booster);
     }
 
@@ -185,7 +185,7 @@ public class GrantBoosterCommand implements TabExecutor {
                 "VALUES (?, ?, ?, ?);";
     }
 
-    private void sendConfirmMessage(CommandSender sender) {
+    private static void sendConfirmMessage(CommandSender sender) {
         Messenger.sendSuccess("Booster granted", sender);
     }
 }
