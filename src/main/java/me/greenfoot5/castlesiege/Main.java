@@ -264,6 +264,8 @@ public class Main extends JavaPlugin implements Listener {
 
     private YamlDocument gameConfig;
 
+    public boolean hasLoaded = false;
+
     @Override
     public void onEnable()  {
 
@@ -589,13 +591,14 @@ public class Main extends JavaPlugin implements Listener {
                 // Boosters
                 activateBoosters();
 
-                getLogger().info("Plugin has been enabled!");
-
                 // Begin the map loop
                 MapController.startLoop();
 
                 //This registers the secret items
                 SecretItems.registerSecretItems();
+
+                getLogger().info("Plugin has been enabled!");
+                hasLoaded = true;
 
             }
         }.runTaskLater(plugin, 1);
