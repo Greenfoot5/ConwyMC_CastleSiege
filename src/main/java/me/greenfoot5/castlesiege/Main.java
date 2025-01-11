@@ -642,14 +642,17 @@ public class Main extends JavaPlugin implements Listener {
      */
     private void createWorld(String worldName) {
 
-        // Load the files
+        // Load world from save (if it exists)
         try {
-            FileUtils.copyDirectory(new File(Bukkit.getWorldContainer(), worldName + "_save"),
-                    new File(Bukkit.getWorldContainer(), worldName));
+            File savePath = new File(Bukkit.getWorldContainer(), worldName + "_save");
+            if (savePath.exists())
+                FileUtils.copyDirectory(savePath,
+                        new File(Bukkit.getWorldContainer(), worldName));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        // Load the world into memory
         WorldCreator worldCreator = new WorldCreator(worldName);
         worldCreator.generateStructures(false);
         World world = worldCreator.createWorld();
