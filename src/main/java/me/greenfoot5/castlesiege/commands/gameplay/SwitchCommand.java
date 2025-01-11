@@ -45,7 +45,7 @@ public class SwitchCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		if (sender instanceof Player player && CSActiveData.getData(player.getUniqueId()) != null && CSActiveData.getData(player.getUniqueId()).getLevel() >= SWITCH_LEVEL) {
+		if (sender instanceof Player player && CSActiveData.getData(player.getUniqueId()) != null && CSActiveData.getData(player.getUniqueId()).getLevel() < SWITCH_LEVEL) {
 			Messenger.sendError("You must be at least <green>level " + SWITCH_LEVEL + "</green> to use this command!", sender);
 			return true;
 		}

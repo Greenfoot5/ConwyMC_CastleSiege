@@ -53,8 +53,9 @@ public class BountyCommand implements CommandExecutor {
             return true;
         }
         CSPlayerData bountiedData = CSActiveData.getData(bountied.getUniqueId());
-        if (bountiedData != null && bountiedData.getLevel() >= MIN_BOUNTY) {
+        if (bountiedData != null && bountiedData.getLevel() < MIN_BOUNTY) {
             Messenger.sendError(bountied.getName() + " must be at least <green>level " + LevelAdvancements.BOUNTY_LEVEL + "</green> to gain a player-set bounty.", sender);
+            return true;
         }
 
 
