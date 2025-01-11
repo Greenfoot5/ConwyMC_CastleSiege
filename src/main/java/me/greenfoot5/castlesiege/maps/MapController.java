@@ -43,6 +43,7 @@ import me.greenfoot5.conwymc.gui.Gui;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
@@ -54,6 +55,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -772,7 +775,20 @@ public class MapController {
 			team.clear();
 		}
 
-		Bukkit.getScheduler().runTask(Main.plugin, () -> { getServer().unloadWorld(oldMap.worldName, false); });
+		Bukkit.getScheduler().runTask(Main.plugin, () -> {
+			getServer().unloadWorld(oldMap.worldName, false);
+
+			// Delete the world's files
+			Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+				// Creating a File object for directory
+				File directoryPath = new File(Bukkit.getWorldContainer(), getCurrentMap().worldName);
+                try {
+                    FileUtils.deleteDirectory(directoryPath);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+			});
+		});
 
 	 });
 	}
