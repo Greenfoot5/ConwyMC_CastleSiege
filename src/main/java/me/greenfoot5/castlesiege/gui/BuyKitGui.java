@@ -2,6 +2,8 @@ package me.greenfoot5.castlesiege.gui;
 
 import io.lumine.mythic.bukkit.utils.lib.lang3.text.WordUtils;
 import me.greenfoot5.castlesiege.Main;
+import me.greenfoot5.castlesiege.data_types.CSPlayerData;
+import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.conwymc.database.ActiveData;
 import me.greenfoot5.conwymc.util.ItemCreator;
@@ -21,6 +23,7 @@ import java.util.List;
 
 import static java.lang.String.join;
 import static java.util.Collections.nCopies;
+import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.BUYKIT_LEVEL;
 
 public class BuyKitGui {
     private final Gui gui;
@@ -28,7 +31,16 @@ public class BuyKitGui {
     public BuyKitGui(Kit kit, int cost, Player player) {
         this.gui = new Gui(Component.text(kit.name), cost > 0 ? 6 : 5);
 
-        if (cost > 0) {
+        CSPlayerData data = CSActiveData.getData(player.getUniqueId());
+        if (data != null && data.getLevel() < BUYKIT_LEVEL) {
+            for (int loc = 45; loc < (54); loc++) {
+                gui.addItem(Component.text("Purchase Kit", NamedTextColor.GOLD, TextDecoration.BOLD), Material.LAPIS_BLOCK,
+                        List.of(Component.text(" "),
+                                Messenger.mm.deserialize("<green>Requires Level " + BUYKIT_LEVEL + " to purchase kits.</green>"),
+                                Messenger.mm.deserialize("<dark_green>Current Level: " + data.getLevel())),
+                        loc, null, true);
+            }
+        } else if (data != null && cost > 0) {
             // Buy blocks
             for (int loc = 45; loc < (54); loc++) {
                 int balance = (int) ActiveData.getData(player.getUniqueId()).getCoins();

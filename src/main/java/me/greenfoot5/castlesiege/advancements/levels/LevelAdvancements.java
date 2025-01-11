@@ -76,8 +76,8 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 4</yellow>"})
                 .setReward("<yellow>◎ Purchase Coin Kits</yellow>" +
                         "<br><gold>⛃ +1000 coins</gold>"
-                        + "<br><br><blue>You can now purchase coin kits. Use <br><yellow>/preview <kit></yellow>"
-                        + "<br>to preview the kit and purchase with the blocks at the bottom.</blue>")
+                        + "<br><br><blue>You can now purchase coin kits. Use <br><yellow>/<kit></yellow>"
+                        + "<br>or select it from the kit menu to preview the kit and purchase with the blocks at the bottom.</blue>")
                 .setMaxProgress(4)
                 .build());
 
