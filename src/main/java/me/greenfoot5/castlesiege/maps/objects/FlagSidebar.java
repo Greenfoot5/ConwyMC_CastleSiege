@@ -29,7 +29,7 @@ public class FlagSidebar {
     private final ComponentSidebarLayout componentSidebar;
     private final SidebarAnimation<Component> titleAnimation;
     private final SidebarAnimation<SidebarComponent> pagesAnimation;
-    private int pagesTicks = 0;
+    private int lastChangeSeconds = 0;
 
     /**
      * @param sidebar The sidebar to create the flags scoreboard on
@@ -164,10 +164,11 @@ public class FlagSidebar {
     public void tick() {
         // Advance title animation to the next frame
         titleAnimation.nextFrame();
-        pagesTicks++;
-        if (pagesTicks >= 20) {
+        if (MapController.timer != null
+                && MapController.timer.seconds % 5 == 0
+                && lastChangeSeconds != MapController.timer.seconds) {
             pagesAnimation.nextFrame();
-            pagesTicks = 0;
+            lastChangeSeconds = MapController.timer.seconds;
         }
 
         // Update sidebar title & lines
