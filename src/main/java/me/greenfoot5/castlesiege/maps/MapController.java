@@ -780,8 +780,9 @@ public class MapController {
 
 			// Delete the world's files
 			Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+				Main.plugin.getLogger().info("Deleting world " + oldMap.worldName);
 				// Creating a File object for directory
-				File directoryPath = new File(Bukkit.getWorldContainer(), getCurrentMap().worldName);
+				File directoryPath = new File(Bukkit.getWorldContainer(), oldMap.worldName);
                 try {
                     FileUtils.deleteDirectory(directoryPath);
                 } catch (IOException e) {
