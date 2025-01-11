@@ -169,10 +169,8 @@ public class AdvancementNode {
                 else if (advancements.containsKey(displays.get(key).getParentKey())) {
                     if (displays.get(key).maxProgression > 0) {
                         advancements.put(key, new BaseAdvancement(key, displays.get(key), advancements.get(displays.get(key).getParentKey()), displays.get(key).maxProgression));
-                        System.out.println(key + " has max progress of " + displays.get(key).maxProgression);
                     } else {
                         advancements.put(key, new BaseAdvancement(key, displays.get(key), advancements.get(displays.get(key).getParentKey())));
-                        System.out.println(key + " has max no progress");
                     }
                 }
                 // Parent doesn't exist yet

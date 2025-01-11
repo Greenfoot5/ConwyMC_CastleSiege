@@ -1,7 +1,7 @@
 package me.greenfoot5.castlesiege.commands.gameplay;
 
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.advancements.LevelAdvancements;
+import me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements;
 import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
