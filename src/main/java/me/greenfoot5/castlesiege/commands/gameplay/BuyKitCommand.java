@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.BUYKIT_LEVEL;
+
 /**
  * Purchases a kit for a player
  */
@@ -28,6 +30,11 @@ public class BuyKitCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
+        if (sender instanceof Player player && CSActiveData.getData(player.getUniqueId()) != null && CSActiveData.getData(player.getUniqueId()).getLevel() >= SWITCH_LEVEL) {
+            Messenger.sendError("You must be at least <green>level " + BUYKIT_LEVEL + "</green> to buy kits!", sender);
+            return true;
+        }
+
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             // Only players can buy kits
             if (!(sender instanceof Player buyer)) {
