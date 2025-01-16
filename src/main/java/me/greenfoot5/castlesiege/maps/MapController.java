@@ -333,7 +333,7 @@ public class MapController {
 
 		// If only one team controls flags all the non-static, they win
 		if (notStaticFlags.size() == 1) {
-			return (String) flagCounts.keySet().toArray()[0];
+			return (String) notStaticFlags.keySet().toArray()[0];
 		}
 
 		// If recapture is disabled, defenders win
