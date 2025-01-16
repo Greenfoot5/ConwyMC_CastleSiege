@@ -8,3 +8,8 @@ bin/
 
 FTP/
 ftp/
+.mvn/.develocity/
+
+# Gradle
+[Bb]uild/
+.gradle/

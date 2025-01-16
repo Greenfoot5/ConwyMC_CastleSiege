@@ -144,8 +144,7 @@ public class Barbarian extends CoinKit implements Listener {
     @EventHandler
     public void onIncreasedDamage(EntityDamageByEntityEvent e) {
         // Both are players
-        if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player) {
-            Player attacker = (Player) e.getDamager();
+        if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player attacker) {
             // Barbarian increased damage
             if (Objects.equals(Kit.equippedKits.get(attacker.getUniqueId()).name, name)) {
                 double potentialDamage = health / attacker.getHealth();

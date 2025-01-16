@@ -1,6 +1,7 @@
 package me.greenfoot5.castlesiege.commands.gameplay;
 
 import me.greenfoot5.castlesiege.Main;
+import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.database.UpdateStats;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
@@ -11,6 +12,9 @@ import me.greenfoot5.castlesiege.maps.Map;
 import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.Team;
 import me.greenfoot5.castlesiege.maps.TeamController;
+import me.greenfoot5.castlesiege.maps.objects.Flag;
+import me.greenfoot5.castlesiege.maps.objects.Gate;
+import me.greenfoot5.castlesiege.maps.objects.Ram;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -22,6 +26,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+
+import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.BUYKIT_LEVEL;
+import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.SWITCH_LEVEL;
 
 /**
  * Allows the player to swap teams
@@ -38,13 +45,18 @@ public class SwitchCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-			// Force switch command was used
-			if (cmd.getName().equals("ForceSwitch"))
-				forceSwitch(sender, args);
+		if (sender instanceof Player player && CSActiveData.getData(player.getUniqueId()) != null && CSActiveData.getData(player.getUniqueId()).getLevel() < SWITCH_LEVEL) {
+			Messenger.sendError("You must be at least <green>level " + SWITCH_LEVEL + "</green> to use this command!", sender);
+			return true;
+		}
 
-			// Regular switch command was used
-			if (cmd.getName().equals("Switch"))
-				switchTeam(sender, args);
+		// Force switch command was used
+		if (cmd.getName().equals("ForceSwitch"))
+			forceSwitch(sender, args);
+
+		// Regular switch command was used
+		if (cmd.getName().equals("Switch"))
+			switchTeam(sender, args);
 
 		return true;
 	}
@@ -68,6 +80,9 @@ public class SwitchCommand implements CommandExecutor {
 			Messenger.sendError("You must be on a team to swap!", sender);
 			return;
 		}
+
+		stopCapping(p);
+		stopRamming(p);
 
 		// If the player hasn't specified a team, swap to the next one
 		if (args.length == 1) {
@@ -94,6 +109,8 @@ public class SwitchCommand implements CommandExecutor {
 		}
 
 		Player p = (Player) sender;
+		stopCapping(p);
+		stopRamming(p);
 
 		// If the player is a donator
 		if (p.hasPermission("conwymc.esquire")) {
@@ -171,6 +188,7 @@ public class SwitchCommand implements CommandExecutor {
 
 		// Respawn the player
 		Bukkit.getScheduler().runTask(Main.plugin, () -> p.setHealth(0));
+		team.grantLives(1);
 	}
 
 	/**
@@ -213,5 +231,27 @@ public class SwitchCommand implements CommandExecutor {
 		// The team is invalid
 		Messenger.sendError("<aqua>" + String.join(" ", args) + "<red> isn't a valid team name!", p);
 		return true;
+	}
+
+	/**
+	 * Remove the player from all capping zones
+	 * @param p The player
+	 */
+	private void stopCapping(Player p) {
+		for (Flag flag : MapController.getCurrentMap().flags) {
+			flag.playerExit(p);
+		}
+	}
+
+	/**
+	 * Remove the player from all rams
+	 * @param p The player
+	 */
+	private void stopRamming(Player p) {
+		for (Gate gate : MapController.getCurrentMap().gates) {
+			Ram ram = gate.getRam();
+			if (ram != null)
+				ram.playerExit(p);
+		}
 	}
 }

@@ -19,6 +19,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -178,17 +179,20 @@ public class Ranger extends CoinKit implements Listener {
             return;
         }
 
-        if (e.getEntity() instanceof Player &&
+        if (e.getEntity() instanceof Player p &&
                 Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
-            Player p = (Player) e.getEntity();
             Component bow = Objects.requireNonNull(Objects.requireNonNull(e.getBow()).getItemMeta()).displayName();
             String bowName = PlainTextComponentSerializer.plainText().serialize(bow);
+            boolean isCritical = false;
+            if (e.getProjectile() instanceof AbstractArrow arrow) {
+                isCritical = arrow.isCritical();
+            }
 
             if (Objects.equals(bowName, "Volley Bow")) {
                 Vector v = e.getProjectile().getVelocity();
-                volleyAbility(p, v);
+                volleyAbility(p, v, isCritical);
             } else if (Objects.equals(bowName, "Rapid Fire Bow")) {
-                burstAbility(p, e.getForce());
+                rapidFire(p, e.getForce(), isCritical);
             }
         }
     }
@@ -198,22 +202,26 @@ public class Ranger extends CoinKit implements Listener {
      * @param p The ranger shooting their volley bow
      * @param v The vector of the original arrow
      */
-    private void volleyAbility(Player p, Vector v) {
+    private void volleyAbility(Player p, Vector v, boolean isCritical) {
         Messenger.sendActionSuccess("You shot your volley bow!", p);
         p.setCooldown(Material.BOW, 60);
 
         // Shoot the extra arrows
         if (removeArrow(p)) {
-            p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
+            Arrow arrow = p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
+            arrow.setCritical(isCritical);
         }
         if (removeArrow(p)) {
-            p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
+            Arrow arrow = p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
+            arrow.setCritical(isCritical);
         }
         if (removeArrow(p)) {
-            p.launchProjectile(Arrow.class, v.rotateAroundY(-0.471));
+            Arrow arrow = p.launchProjectile(Arrow.class, v.rotateAroundY(-0.471));
+            arrow.setCritical(isCritical);
         }
         if (removeArrow(p)) {
-            p.launchProjectile(Arrow.class, v.rotateAroundY(-0.157));
+            Arrow arrow = p.launchProjectile(Arrow.class, v.rotateAroundY(-0.157));
+            arrow.setCritical(isCritical);
         }
     }
 
@@ -222,31 +230,32 @@ public class Ranger extends CoinKit implements Listener {
      * @param p The ranger shooting their burst bow
      * @param force The force of the original arrow
      */
-    private void burstAbility(Player p, float force) {
+    private void rapidFire(Player p, float force, boolean isCritical) {
         Messenger.sendActionInfo("You shot your rapid fire bow!", p);
         p.setCooldown(Material.BOW, 100);
-        burstArrow(p, force, 11);
-        burstArrow(p, force, 21);
-        burstArrow(p, force, 31);
+        rapidArrow(p, force, 11, isCritical);
+        rapidArrow(p, force, 21, isCritical);
+        rapidArrow(p, force, 31, isCritical);
     }
 
     /**
      * Shoot a single arrow from the burst ability
      * @param p The ranger shooting their burst bow
      * @param force The force of the original arrow
-     * @param d The delay with which to shoot the arrow
+     * @param delay The delay with which to shoot the arrow
      */
-    private void burstArrow(Player p, float force, int d) {
+    private void rapidArrow(Player p, float force, int delay, boolean isCritical) {
         new BukkitRunnable() {
             @Override
             public void run() {
-                // Shoot iff the player has an arrow
+                // Shoot if the player has an arrow
                 if (removeArrow(p)) {
                     Arrow a = p.launchProjectile(Arrow.class);
-                    a.setVelocity(a.getVelocity().multiply(force));
+                    a.setCritical(isCritical);
+                    a.setVelocity(a.getVelocity().normalize().multiply(force));
                 }
             }
-        }.runTaskLater(Main.plugin, d);
+        }.runTaskLater(Main.plugin, delay);
     }
 
     /**
@@ -279,9 +288,7 @@ public class Ranger extends CoinKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void backStabDamage(EntityDamageByEntityEvent ed) {
-        if (ed.getDamager() instanceof Player && ed.getEntity() instanceof Player) {
-            Player p = (Player) ed.getDamager();
-            Player hit = (Player) ed.getEntity();
+        if (ed.getDamager() instanceof Player p && ed.getEntity() instanceof Player hit) {
 
             if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
                 Location hitLoc = hit.getLocation();

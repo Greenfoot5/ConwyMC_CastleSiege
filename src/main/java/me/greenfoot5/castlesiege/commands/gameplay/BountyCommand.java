@@ -1,7 +1,7 @@
 package me.greenfoot5.castlesiege.commands.gameplay;
 
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.advancements.LevelAdvancements;
+import me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements;
 import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
@@ -53,8 +53,9 @@ public class BountyCommand implements CommandExecutor {
             return true;
         }
         CSPlayerData bountiedData = CSActiveData.getData(bountied.getUniqueId());
-        if (bountiedData != null && bountiedData.getLevel() >= MIN_BOUNTY) {
+        if (bountiedData != null && bountiedData.getLevel() < MIN_BOUNTY) {
             Messenger.sendError(bountied.getName() + " must be at least <green>level " + LevelAdvancements.BOUNTY_LEVEL + "</green> to gain a player-set bounty.", sender);
+            return true;
         }
 
 
@@ -64,8 +65,7 @@ public class BountyCommand implements CommandExecutor {
             return true;
         }
 
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
+        if (sender instanceof Player p) {
             CSPlayerData data = CSActiveData.getData(p.getUniqueId());
             if (data != null) {
                 int level = data.getLevel();
@@ -195,24 +195,14 @@ public class BountyCommand implements CommandExecutor {
      * @param killer The player whose kill streak needs checking
      */
     public static void killStreak(Player killer) {
-        int amount = 0;
-        switch (CSActiveData.getData(killer.getUniqueId()).getKillStreak()) {
-            case 5:
-                amount = 20;
-                break;
-            case 10:
-                amount = 40;
-                break;
-            case 15:
-                amount = 60;
-                break;
-            case 20:
-                amount = 80;
-                break;
-            case 35:
-                amount = 140;
-                break;
-        }
+        int amount = switch (CSActiveData.getData(killer.getUniqueId()).getKillStreak()) {
+            case 5 -> 20;
+            case 10 -> 40;
+            case 15 -> 60;
+            case 20 -> 80;
+            case 35 -> 140;
+            default -> 0;
+        };
         if (amount > 0) {
             int total = getAndAddBounty(killer.getUniqueId(), (int) (amount * CSPlayerData.getCoinMultiplier()));
             Messenger.broadcastKillStreakBounty(CSNameTag.mmUsername(killer),

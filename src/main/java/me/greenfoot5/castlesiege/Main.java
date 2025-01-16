@@ -164,6 +164,7 @@ import me.greenfoot5.castlesiege.maps.Team;
 import me.greenfoot5.castlesiege.maps.WoolMap;
 import me.greenfoot5.castlesiege.maps.WoolMapBlock;
 import me.greenfoot5.castlesiege.maps.helms_deep.WallEvent;
+import me.greenfoot5.castlesiege.maps.objects.AssaultFlag;
 import me.greenfoot5.castlesiege.maps.objects.ButtonDoor;
 import me.greenfoot5.castlesiege.maps.objects.Cannon;
 import me.greenfoot5.castlesiege.maps.objects.Catapult;
@@ -263,6 +264,8 @@ public class Main extends JavaPlugin implements Listener {
 
     private YamlDocument gameConfig;
 
+    public boolean hasLoaded = false;
+
     @Override
     public void onEnable()  {
 
@@ -271,8 +274,6 @@ public class Main extends JavaPlugin implements Listener {
         plugin = Bukkit.getServer().getPluginManager().getPlugin("CastleSiege");
         instance = this;
 
-        getLogger().info("Resetting all maps...");
-        resetWorlds();
         getLogger().info("Waiting until POSTWORLD to continue enabling...");
         new BukkitRunnable() {
 
@@ -588,13 +589,14 @@ public class Main extends JavaPlugin implements Listener {
                 // Boosters
                 activateBoosters();
 
-                getLogger().info("Plugin has been enabled!");
-
                 // Begin the map loop
                 MapController.startLoop();
 
                 //This registers the secret items
                 SecretItems.registerSecretItems();
+
+                getLogger().info("Plugin has been enabled!");
+                hasLoaded = true;
 
             }
         }.runTaskLater(plugin, 1);
@@ -635,34 +637,22 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     /**
-     * Loads all worlds from their save folder
-     */
-    private void resetWorlds() {
-        //Creating a File object for directory
-        File directoryPath = new File(String.valueOf(Bukkit.getWorldContainer()));
-        //List of all files and directories
-        String[] contents = directoryPath.list();
-        assert contents != null;
-        for (String content : contents) {
-            // If the server is a save
-            if (content.endsWith("_save")) {
-                String worldName = content.substring(0, content.length() - 5);
-                try {
-                    FileUtils.deleteDirectory(new File(Bukkit.getWorldContainer(), worldName));
-                    FileUtils.copyDirectory(new File(Bukkit.getWorldContainer(), worldName + "_save"),
-                            new File(Bukkit.getWorldContainer(), worldName));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /**
      * Creates/loads a world
      * @param worldName The name of the world to load
      */
     private void createWorld(String worldName) {
+
+        // Load world from save (if it exists)
+        try {
+            File savePath = new File(Bukkit.getWorldContainer(), worldName + "_save");
+            if (savePath.exists())
+                FileUtils.copyDirectory(savePath,
+                        new File(Bukkit.getWorldContainer(), worldName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Load the world into memory
         WorldCreator worldCreator = new WorldCreator(worldName);
         worldCreator.generateStructures(false);
         World world = worldCreator.createWorld();
@@ -791,7 +781,7 @@ public class Main extends JavaPlugin implements Listener {
     private void createConfigs() {
 
         // Set up the vector adapter
-        TypeAdapter<Vector> vectorAdapter = new TypeAdapter<Vector>() {
+        TypeAdapter<Vector> vectorAdapter = new TypeAdapter<>() {
             @NotNull
             @Override
             public java.util.Map<Object, Object> serialize(@NotNull Vector vector) {
@@ -819,7 +809,7 @@ public class Main extends JavaPlugin implements Listener {
         getLogger().info("Loaded Vector Adapter");
 
         // Set up the frame adapters
-        TypeAdapter<LocationFrame> locationFrameTypeAdapter = new TypeAdapter<LocationFrame>() {
+        TypeAdapter<LocationFrame> locationFrameTypeAdapter = new TypeAdapter<>() {
 
             @NotNull
             public java.util.Map<Object, Object> serialize(@NotNull LocationFrame object) {
@@ -905,7 +895,7 @@ public class Main extends JavaPlugin implements Listener {
             }
         }
 
-        return configs.toArray(new YamlDocument[configs.size()]);
+        return configs.toArray(new YamlDocument[0]);
     }
 
     /**
@@ -986,6 +976,7 @@ public class Main extends JavaPlugin implements Listener {
                 map.gamemode = Gamemode.valueOf(config.getString(mapRoute.add("gamemode")));
                 map.startTime = config.getInt(mapRoute.add("start_time"), 0);
                 map.daylightCycle = config.getBoolean(mapRoute.add("doDaylightCycle"), true);
+                map.canRecap = config.getBoolean(mapRoute.add("can_recap"), true);
 
                 // Map Border
                 Route borderRoute = mapRoute.add("map_border");
@@ -996,12 +987,9 @@ public class Main extends JavaPlugin implements Listener {
                             config.getDouble(borderRoute.add("west")));
                 }
 
+
                 // World Data
                 createWorld(map.worldName);
-                //duels map
-                createWorld("DuelsMap");
-                createWorld("ShopDraft");
-
                 //Core Data
                 if (getCoreConfig(mapRoute) != null) {
                     loadCores(mapRoute, map);
@@ -1037,6 +1025,10 @@ public class Main extends JavaPlugin implements Listener {
                 MapController.maps.add(map);
             }
         }
+
+        // Misc worlds
+        createWorld("DuelsMap");
+        createWorld("ShopDraft");
     }
 
     private void loadCores(Route mapRoute, Map map) {
@@ -1073,35 +1065,41 @@ public class Main extends JavaPlugin implements Listener {
             // Create the flag
             Route flagRoute = mapRoute.add(flagPaths[i]);
             int maxCap = flagConfig.getInt(flagRoute.add("max_cap"));
-            Flag flag;
-            switch (map.gamemode) {
-                case Charge:
-                    flag = new ChargeFlag(
-                            flagConfig.getString(flagRoute.add("name")),
-                            flagConfig.getBoolean(flagRoute.add("secret"), false),
-                            flagConfig.getString(flagRoute.add("start_owners")),
-                            maxCap,
-                            flagConfig.getInt(flagRoute.add("progress_amount")),
-                            flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
-                    ).setChargeValues(
-                            getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig),
-                            getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig),
-                            flagConfig.getInt(flagRoute.add("add_mins"), 0),
-                            flagConfig.getInt(flagRoute.add("add_secs"), 0)
-                    );
-                    break;
-                case Assault:
-                default:
-                    flag = new Flag(
-                            flagConfig.getString(flagRoute.add("name")),
-                            flagConfig.getBoolean(flagRoute.add("secret"), false),
-                            flagConfig.getString(flagRoute.add("start_owners")),
-                            maxCap,
-                            flagConfig.getInt(flagRoute.add("progress_amount")),
-                            flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
-                    );
-                    break;
-            }
+            Flag flag = switch (map.gamemode) {
+                case Charge -> new ChargeFlag(
+                        flagConfig.getString(flagRoute.add("name")),
+                        flagConfig.getBoolean(flagRoute.add("secret"), false),
+                        flagConfig.getString(flagRoute.add("start_owners")),
+                        maxCap,
+                        flagConfig.getInt(flagRoute.add("progress_amount")),
+                        flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
+                ).setChargeValues(
+                        getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig),
+                        getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig),
+                        flagConfig.getInt(flagRoute.add("add_mins"), 0),
+                        flagConfig.getInt(flagRoute.add("add_secs"), 0)
+                );
+                case Assault -> new AssaultFlag(
+                        flagConfig.getString(flagRoute.add("name")),
+                        flagConfig.getBoolean(flagRoute.add("secret"), false),
+                        flagConfig.getString(flagRoute.add("start_owners")),
+                        maxCap,
+                        flagConfig.getInt(flagRoute.add("progress_amount")),
+                        flagConfig.getInt(flagRoute.add("start_amount"), maxCap),
+                        flagConfig.getInt(flagRoute.add("additional_lives"), -1)
+                ).setSpawns(
+                        getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig),
+                        getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig)
+                );
+                default -> new Flag(
+                        flagConfig.getString(flagRoute.add("name")),
+                        flagConfig.getBoolean(flagRoute.add("secret"), false),
+                        flagConfig.getString(flagRoute.add("start_owners")),
+                        maxCap,
+                        flagConfig.getInt(flagRoute.add("progress_amount")),
+                        flagConfig.getInt(flagRoute.add("start_amount"), maxCap)
+                );
+            };
 
             // Set the spawn point
             flag.setSpawnPoint(getLocation(flagRoute.add("spawn_point"), map.worldName, flagConfig));
@@ -1180,6 +1178,8 @@ public class Main extends JavaPlugin implements Listener {
         colors = getColors(Objects.requireNonNull(config.getString(teamPath.add("secondary_color")).toLowerCase()));
         team.secondaryWool = colors.getFirst();
         team.secondaryChatColor = colors.getSecond();
+
+        team.setLives(config.getInt(teamPath.add("lives"), -1));
 
         // Add team/map kits
         if (config.contains(teamPath.add("kits"))) {

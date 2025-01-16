@@ -43,7 +43,7 @@ public class FlagsCommand implements CommandExecutor {
 					if (hasAny) {
 						fc = fc.append(Component.text(", "));
 					}
-					fc = fc.append(Component.text(f.getName()));
+					fc = fc.append(Component.text(f.getName() + f.getIcon()));
 					hasAny = true;
 				}
 			}
@@ -63,7 +63,7 @@ public class FlagsCommand implements CommandExecutor {
 				if (hasAny) {
 					fc = fc.append(Component.text(", "));
 				}
-				fc = fc.append(f.getDisplayName());
+				fc = fc.append(f.getDisplayName().append(Component.text(f.getIcon())));
 				hasAny = true;
 			}
 		}

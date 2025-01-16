@@ -48,6 +48,13 @@ public class PlayerConnect implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
+
+        if (!Main.instance.hasLoaded) {
+            p.kick(Component.text("Sorry, the server's not quite finished loading!")
+                    .append(Component.newline())
+                    .append(Component.text("Please try again in a minute.")));
+        }
+
         UUID uuid = p.getUniqueId();
         CSPlayerData data = CSActiveData.getData(uuid);
 

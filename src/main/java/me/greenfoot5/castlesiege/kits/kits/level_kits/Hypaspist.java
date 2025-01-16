@@ -231,8 +231,7 @@ public class Hypaspist extends LevelKit implements Listener {
                 Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
             ((Trident) e.getEntity()).setDamage(throwDamage);
             tridents.put((Player) e.getEntity().getShooter(), e.getEntity());
-            if (e.getHitEntity() instanceof Player) {
-                Player p = (Player) e.getHitEntity();
+            if (e.getHitEntity() instanceof Player p) {
                 p.addPotionEffect((new PotionEffect(PotionEffectType.NAUSEA, 80, 4)));
                 p.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 60, 2)));
                 p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 60, 2)));

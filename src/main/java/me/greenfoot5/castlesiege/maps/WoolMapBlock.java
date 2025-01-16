@@ -37,8 +37,7 @@ public class WoolMapBlock {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             Team team = TeamController.getTeam(uuid);
             Kit kit = Kit.equippedKits.get(uuid);
-                if (MapController.getCurrentMap() instanceof CoreMap) {
-                    CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
+                if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
                     Core core = coreMap.getCore(coreName);
                     if (team != null && team.hasPlayer(uuid)) {
                         if (!Objects.equals(core.getOwners(), team.getName())) {

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CoinShopCommand implements CommandExecutor {
 
-    public Location kitshop = new Location(Bukkit.getWorld("ShopDraft"), 75, 160, 287, 90, 0);
+    public final Location kitshop = new Location(Bukkit.getWorld("ShopDraft"), 75, 160, 287, 90, 0);
 
     /**
      * Teleports the player to the kit shop

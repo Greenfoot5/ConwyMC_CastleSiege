@@ -31,7 +31,7 @@ public class Tips extends BukkitRunnable implements CommandExecutor {
     //used to prevent same tip 2x in a row
     private int oldIndex = -1; // -1 to allow for any initial tip to be sent
 
-    MiniMessage mm = MiniMessage.builder()
+    final MiniMessage mm = MiniMessage.builder()
             .editTags(t -> t.resolver(TagResolver.resolver("cmd", this::cmd)))
             .editTags(t -> t.resolver(TagResolver.resolver("a", this::a)))
             .build();
@@ -77,7 +77,6 @@ public class Tips extends BukkitRunnable implements CommandExecutor {
             "Don't forget to vote to gain access to special boosts and classes!",
             "Want to help the server? Record or stream the play sessions and upload them!",
             "Having fun? Why not invite your friends?",
-            "Want to apply for staff? Go to <a:https://conwymc.alchemix.dev/discord>Discord</a> <st>━━━</st>> #join-us",
             "Does a kit look too strong? Request & discuss a nerf on our <a:https://conwymc.alchemix.dev/discord>Discord</a> server!",
             "Never have enough ladders? You can get two more by voting!",
             "Want a shiny sword? Vote for +2 damage!",
@@ -92,8 +91,8 @@ public class Tips extends BukkitRunnable implements CommandExecutor {
 
             // Other
             "Is the server empty or are you all by yourself? Mention the <color:#E67E23>@Fighter</color> role on our <a:https://conwymc.alchemix.dev/discord>Discord</a> server!",
-            "Found a suspicious player? Make a report on our <a:https://conwymc.alchemix.dev/discord>Discord</a> server or <cmd:/msg >/msg</cmd> a staff member",
-            "Found a bug or exploit? Report it on our <a:https://conwymc.alchemix.dev/discord>Discord</a> server.",
+            "Found a suspicious player? Report them through <cmd:/support >/support <msg></cmd>",
+            "Found a bug or exploit? Report it through <cmd:/support >/support <msg></cmd>",
             "Did you know you can click the <cmd:/help>yellow</cmd> text to auto-fill commands?",
             "Want to try a kit before buying? Play on Fridays for free or use a kit booster!",
             "Don't like using Discord? You can always email us at <a:https://conwymc.alchemix.dev/contact>conwymc@alchemix.dev!</a>",
@@ -109,7 +108,7 @@ public class Tips extends BukkitRunnable implements CommandExecutor {
             //"Want to help the server? Help us advertise!",
 
             //"Want something more competitive? Join a Player Pool Match (PPM) hosted on the Discord!",
-            //"Check out the latest patch notes: <yellow><u>https://conwymc.alchemix.dev/updates</u></yellow>"
+            "Check out the latest patch notes: <a:https://conwymc.alchemix.dev/news/latest>https://conwymc.alchemix.dev/news/latest</a>"
     };
 
     // Sends a random tip to all players

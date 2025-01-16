@@ -123,11 +123,9 @@ public class Windlancer extends SignKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW)
     public void changeSpearDamage(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Arrow) {
-            Arrow arrow = (Arrow) e.getEntity();
+        if (e.getEntity() instanceof Arrow arrow) {
 
-            if(arrow.getShooter() instanceof Player){
-                Player damages = (Player) arrow.getShooter();
+            if(arrow.getShooter() instanceof Player damages){
 
                 if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
                     arrow.setDamage(20);

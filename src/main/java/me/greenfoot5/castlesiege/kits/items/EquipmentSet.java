@@ -3,6 +3,7 @@ package me.greenfoot5.castlesiege.kits.items;
 import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
@@ -105,9 +106,13 @@ public class EquipmentSet {
     private ItemStack clearDefence(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        meta.addAttributeModifier(Attribute.ARMOR, new AttributeModifier("RemoveArmour", 0.0, AttributeModifier.Operation.ADD_SCALAR));
-        meta.addAttributeModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier("RemoveToughness", 0.0, AttributeModifier.Operation.ADD_SCALAR));
-        item.setItemMeta(meta);
+        try {
+            meta.addAttributeModifier(Attribute.ARMOR, new AttributeModifier(new NamespacedKey(NamespacedKey.MINECRAFT, "armor"), 0.0, AttributeModifier.Operation.ADD_SCALAR));
+            meta.addAttributeModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(new NamespacedKey(NamespacedKey.MINECRAFT, "armor_toughness"), 0.0, AttributeModifier.Operation.ADD_SCALAR));
+            item.setItemMeta(meta);
+        }
+        catch (IllegalArgumentException ignored) { }
+
         return item;
     }
 }

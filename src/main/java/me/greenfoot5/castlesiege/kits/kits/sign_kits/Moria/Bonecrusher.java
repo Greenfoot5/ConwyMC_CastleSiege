@@ -120,9 +120,7 @@ public class Bonecrusher extends SignKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onCrush(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-            Player p = (Player) e.getEntity();
-            Player q = (Player) e.getDamager();
+        if (e.getEntity() instanceof Player p && e.getDamager() instanceof Player q) {
 
             // Bonecrusher tries to use stun an enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&

@@ -168,20 +168,13 @@ public class Cannon implements Listener {
 
         // Set the projectile's velocity
         Vector vector = new Vector();
-        switch (direction) {
-            case "north":
-                vector = new Vector(yaw, pitch * vertical_multiplier, -30 - pitch * vertical_multiplier);
-                break;
-            case "east":
-                vector = new Vector(30 + pitch * vertical_multiplier, pitch, yaw);
-                break;
-            case "south":
-                vector = new Vector(-yaw, pitch * vertical_multiplier, 30 + pitch * vertical_multiplier);
-                break;
-            case "west":
-                vector = new Vector(-30 - pitch * vertical_multiplier, pitch * vertical_multiplier, -yaw);
-                break;
-        }
+        vector = switch (direction) {
+            case "north" -> new Vector(yaw, pitch * vertical_multiplier, -30 - pitch * vertical_multiplier);
+            case "east" -> new Vector(30 + pitch * vertical_multiplier, pitch, yaw);
+            case "south" -> new Vector(-yaw, pitch * vertical_multiplier, 30 + pitch * vertical_multiplier);
+            case "west" -> new Vector(-30 - pitch * vertical_multiplier, pitch * vertical_multiplier, -yaw);
+            default -> vector;
+        };
         vertical_multiplier = 0.0;
         projectile.setVelocity(vector.normalize().multiply(3.5));
     }

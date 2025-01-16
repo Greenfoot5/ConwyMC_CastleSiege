@@ -36,6 +36,8 @@ public class Map {
     public Gamemode gamemode;
     public Tuple<Integer, Integer> duration = new Tuple<>(20, 0);
 
+    public boolean canRecap = true;
+
     /**
      * Creates a new map
      */
@@ -163,14 +165,19 @@ public class Map {
             return true;
         }
 
-        if (MapController.getCurrentMap() instanceof CoreMap) {
-            CoreMap map = (CoreMap) MapController.getCurrentMap();
+        if (MapController.getCurrentMap() instanceof CoreMap map) {
             for (Core core : map.getCores()) {
                 if (core.health <= 0) {
                     return true;
                 }
             }
             return false;
+        } else if (MapController.getCurrentMap().gamemode == Gamemode.Assault) {
+            for (Team team : teams) {
+                if (team.getLives() == 0) {
+                    return true;
+                }
+            }
         }
 
         String startingTeam = MapController.getCurrentMap().flags[0].getCurrentOwners();

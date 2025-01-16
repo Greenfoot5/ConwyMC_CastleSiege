@@ -70,7 +70,7 @@ public class LeaderboardCommand implements CommandExecutor {
             try {
                 display(sender, category, Integer.parseInt(args[0]));
             } catch (NumberFormatException e) {
-                // TODO - player specified
+                // TODO - player search
                 Messenger.sendError("Searching by player is currently not supported!", sender);
             }
         }
@@ -130,8 +130,36 @@ public class LeaderboardCommand implements CommandExecutor {
         DecimalFormat dec = new DecimalFormat("0.00");
         DecimalFormat num = new DecimalFormat("0");
 
-        switch (category) {
-            case "score": return Messenger.mm.deserialize("<br>" +
+        return switch (category) {
+            case "captures" -> Messenger.mm.deserialize("<br>" +
+                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
+                    + " <yellow>" + r.getInt("level") + "</yellow> "
+                    + "<transition:" + gradient + ":0.8>" + num.format(r.getDouble("captures")) + "</transition>");
+            case "deaths" -> Messenger.mm.deserialize("<br>" +
+                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
+                    + " <yellow>" + r.getInt("level") + "</yellow> "
+                    + "<transition:" + gradient + ":0.4>" + num.format(r.getDouble("deaths")) + "</transition>");
+            case "kdr" -> Messenger.mm.deserialize("<br>" +
+                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
+                    + " <yellow>" + r.getInt("level") + "</yellow> "
+                    + "<transition:" + gradient + ":0.6>" + dec.format(r.getDouble("kdr")) + "</transition>");
+            case "kills" -> Messenger.mm.deserialize("<br>" +
+                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
+                    + " <yellow>" + r.getInt("level") + "</yellow> "
+                    + "<transition:" + gradient + ":0.15>" + num.format(r.getDouble("kills")) + "</transition>");
+            case "assists" -> Messenger.mm.deserialize("<br>" +
+                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
+                    + " <yellow>" + r.getInt("level") + "</yellow> "
+                    + "<transition:" + gradient + ":0.7>" + num.format(r.getDouble("assists")) + "</transition>");
+            case "heals" -> Messenger.mm.deserialize("<br>" +
+                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
+                    + " <yellow>" + r.getInt("level") + "</yellow> "
+                    + "<transition:" + gradient + ":0.9>" + num.format(r.getDouble("heals")) + "</transition>");
+            case "supports" -> Messenger.mm.deserialize("<br>" +
+                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
+                    + " <yellow>" + r.getInt("level") + "</yellow> "
+                    + "<transition:" + gradient + ":1>" + num.format(r.getDouble("supports")) + "</transition>");
+            default -> Messenger.mm.deserialize("<br>" +
                     "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
                     + " <yellow>" + r.getInt("level") + "</yellow> "
                     + "<transition:" + gradient + ":0>" + num.format(r.getInt("score")) + "</transition> "
@@ -142,52 +170,6 @@ public class LeaderboardCommand implements CommandExecutor {
                     + "<transition:" + gradient + ":0.8>" + num.format(r.getDouble("captures")) + "</transition> "
                     + "<transition:" + gradient + ":0.9>" + num.format(r.getDouble("heals")) + "</transition> "
                     + "<transition:" + gradient + ":1>" + num.format(r.getDouble("supports")) + "</transition>");
-
-            case "captures": return Messenger.mm.deserialize("<br>" +
-                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
-                    + " <yellow>" + r.getInt("level") + "</yellow> "
-                    + "<transition:" + gradient + ":0.8>" + num.format(r.getDouble("captures")) + "</transition>");
-
-            case "deaths": return Messenger.mm.deserialize("<br>" +
-                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
-                    + " <yellow>" + r.getInt("level") + "</yellow> "
-                    + "<transition:" + gradient + ":0.4>" + num.format(r.getDouble("deaths"))+ "</transition>");
-
-            case "kdr": return Messenger.mm.deserialize("<br>" +
-                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
-                    + " <yellow>" + r.getInt("level") + "</yellow> "
-                    + "<transition:" + gradient + ":0.6>" + dec.format(r.getDouble("kdr"))+ "</transition>");
-
-            case "kills": return Messenger.mm.deserialize("<br>" +
-                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
-                    + " <yellow>" + r.getInt("level") + "</yellow> "
-                    + "<transition:" + gradient + ":0.15>" + num.format(r.getDouble("kills"))+ "</transition>");
-
-            case "assists": return Messenger.mm.deserialize("<br>" +
-                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
-                    + " <yellow>" + r.getInt("level") + "</yellow> "
-                    + "<transition:" + gradient + ":0.7>" + num.format(r.getDouble("assists"))+ "</transition>");
-
-            case "heals": return Messenger.mm.deserialize("<br>" +
-                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
-                    + " <yellow>" + r.getInt("level") + "</yellow> "
-                    + "<transition:" + gradient + ":0.9>" + num.format(r.getDouble("heals"))+ "</transition>");
-
-            case "supports": return Messenger.mm.deserialize("<br>" +
-                    "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
-                    + " <yellow>" + r.getInt("level") + "</yellow> "
-                    + "<transition:" + gradient + ":1>" + num.format(r.getDouble("supports"))+ "</transition>");
-        }
-        return Messenger.mm.deserialize("<br>" +
-                "<gray>" + pos + ". <" + color + r.getString("name") + "</" + color
-                + " <yellow>" + r.getInt("level") + "</yellow> "
-                + "<transition:" + gradient + ":0>" + num.format(r.getInt("score")) + "</transition> "
-                + "<transition:" + gradient + ":0.15>" + num.format(r.getDouble("kills")) + "</transition> "
-                + "<transition:" + gradient + ":0.4>" + num.format(r.getDouble("deaths")) + "</transition> "
-                + "<transition:" + gradient + ":0.6>" + dec.format(r.getDouble("kdr")) + "</transition> "
-                + "<transition:" + gradient + ":0.7>" + num.format(r.getDouble("assists")) + "</transition> "
-                + "<transition:" + gradient + ":0.8>" + num.format(r.getDouble("captures")) + "</transition> "
-                + "<transition:" + gradient + ":0.9>" + num.format(r.getDouble("heals")) + "</transition> "
-                + "<transition:" + gradient + ":1>" + num.format(r.getDouble("supports")) + "</transition>");
+        };
     }
 }

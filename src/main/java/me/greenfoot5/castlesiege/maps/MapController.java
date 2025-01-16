@@ -43,6 +43,7 @@ import me.greenfoot5.conwymc.gui.Gui;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
@@ -52,7 +53,10 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,9 +76,9 @@ import static org.bukkit.Bukkit.getWorld;
 public class MapController {
 
 	// Boosters - chances
-	private static final double BASE_BOOSTER_CHANCE = 0.15;
-	private static final double COIN_BOOSTER_CHANCE = 0.5;
-	//private static final double KIT_BOOSTER_CHANCE = 0.5; // Not actually used, set for reference
+	private static final double BASE_BOOSTER_CHANCE = 0.075;
+	private static final double COIN_BOOSTER_CHANCE = 0.4;
+	//private static final double KIT_BOOSTER_CHANCE = 0.6; // Not actually used, set for reference
 
 	// Boosters - limits/sub-chances
 	private static final int COIN_BOOSTER_MAX_TIME = 9000;
@@ -84,7 +88,7 @@ public class MapController {
 	private static final int KIT_BOOSTER_MAX_TIME = 9000;
 	private static final int KIT_BOOSTER_MIN_TIME = 1800;
 	private static final double KIT_BOOSTER_RANDOM_CHANCE = 0.35;
-	private static final double KIT_BOOSTER_WILD_CHANCE = 0.15;
+	private static final double KIT_BOOSTER_WILD_CHANCE = 0.10;
 
 
 	public static List<Map> maps = new ArrayList<>();
@@ -193,60 +197,8 @@ public class MapController {
 		timer.state = TimerState.ENDED;
 
 		// Calculate the winner based on the game mode
-		String winners = null;
-		switch(getCurrentMap().gamemode) {
-			case DestroyTheCore:
-				if (MapController.getCurrentMap() instanceof CoreMap) {
-					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
-					// Check if the defenders have won
-					for (Core core : coreMap.getCores()) {
-						if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[1].getName())) {
-							winners = getCurrentMap().teams[0].getName();
-						} else if (core.isDestroyed && core.getOwners().equalsIgnoreCase(getCurrentMap().teams[0].getName())) {
-							winners = getCurrentMap().teams[1].getName();
-						}
-					}
-				}
-				break;
-			case Control:
-				Main.instance.getLogger().severe("Control game mode has not been implemented yet! It's a draw!");
-				break;
-			case Charge:
-				// Check if the defenders have won
-				for (Flag flag : getCurrentMap().flags) {
-					if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].getName())) {
-                        winners = getCurrentMap().teams[0].getName();
-                    } else {
-                        winners = getCurrentMap().teams[1].getName();
-                    }
-				}
-				break;
-			case Assault:
-			case Domination:
-			default:
-				// Get a count of who owns which flag
-				java.util.Map<String, Integer> flagCounts = new HashMap<>();
-				for (Flag flag : getCurrentMap().flags) {
-					if (flag.isActive() && !flag.getCurrentOwners().equals("null")) {
-						flagCounts.merge(flag.getCurrentOwners(), 1, Integer::sum);
-					}
-				}
-				// Get the team with the largest
-				String currentWinners = (String) flagCounts.keySet().toArray()[0];
-				winners = currentWinners;
-				for (String teamName : flagCounts.keySet()) {
-					if (flagCounts.get(teamName) > flagCounts.get(currentWinners)) {
-						winners = teamName;
-						currentWinners = teamName;
-						// If two teams are the largest, we set up for a draw
-					}
+		String winners = getWinners();
 
-					else if (flagCounts.get(teamName).equals(flagCounts.get(currentWinners))) {
-						winners = null;
-					}
-				}
-				break;
-		}
 		// Moves all players to the lobby
 		new BukkitRunnable() {
 			@Override
@@ -278,11 +230,11 @@ public class MapController {
 				Messenger.broadcast(MVPCommand.getMVPMessage(team));
 
 				if (team.getName().equals(winners)) {
-					giveCoinReward(team);
+					//giveCoinReward(team);
 					Tuple<UUID, CSStats> mvp = team.getMVP();
 					if (mvp != null) {
 						Bukkit.getScheduler().runTask(Main.plugin, () -> {
-							Player player = Bukkit.getPlayer(mvp.getFirst());
+							Player player = getPlayer(mvp.getFirst());
 							if (player == null) {
 								player = Bukkit.getOfflinePlayer(mvp.getFirst()).getPlayer();
 							}
@@ -321,6 +273,99 @@ public class MapController {
 			}
 		}.runTaskLater(Main.plugin, 200);
 
+	}
+
+	private static String getWinners() {
+		String lastPlace = null;
+		if (getCurrentMap() instanceof CoreMap coreMap) {
+			for (Team team : getCurrentMap().teams) {
+				int survivingCores = 0;
+				for (Core core : coreMap.getCores()) {
+					if (!core.isDestroyed)
+						survivingCores++;
+				}
+
+				if (survivingCores == 0)
+					lastPlace = team.getName();
+			}
+
+			if (coreMap.flags.length == 0)
+				return null;
+		} else if (getCurrentMap().gamemode == Gamemode.Charge) {
+			// Check if the defenders have won
+			for (Flag flag : getCurrentMap().flags) {
+				if (Objects.equals(flag.getCurrentOwners(), getCurrentMap().teams[0].getName())) {
+					return getCurrentMap().teams[0].getName();
+				} else {
+					return getCurrentMap().teams[1].getName();
+				}
+			}
+		} else if (getCurrentMap().gamemode == Gamemode.Assault) {
+			// Find and exclude the team that lost all their lives
+			for (Team team : getCurrentMap().teams) {
+				if (team.getLives() == 0) {
+					lastPlace = team.getName();
+				}
+			}
+		}
+
+		// If there are only teams, the winner is the not loser
+		if (getCurrentMap().teams.length == 2 && lastPlace != null) {
+			for (Team team : getCurrentMap().teams) {
+				if (!Objects.equals(team.getName(), lastPlace)) {
+					return team.getName();
+				}
+			}
+		}
+
+		// If no other method has declared a winner, use domination
+
+		// Get a count of who owns which flag
+		java.util.Map<String, Integer> flagCounts = new HashMap<>();
+		java.util.Map<String, Integer> notStaticFlags = new HashMap<>();
+		for (Flag flag : getCurrentMap().flags) {
+			if (flag.isActive() && !flag.getCurrentOwners().equals("null") && !flag.getCurrentOwners().equals(lastPlace)) {
+				flagCounts.merge(flag.getCurrentOwners(), 1, Integer::sum);
+				if (!flag.isStatic())
+					notStaticFlags.merge(flag.getCurrentOwners(), 1, Integer::sum);
+			}
+		}
+
+		// If only one team controls flags all the non-static, they win
+		if (notStaticFlags.size() == 1) {
+			return (String) notStaticFlags.keySet().toArray()[0];
+		}
+
+		// If recapture is disabled, defenders win
+		// Also known as the team starting with the most non-static flags
+		if (!MapController.getCurrentMap().canRecap) {
+			flagCounts = new HashMap<>();
+			for (Flag flag : getCurrentMap().flags) {
+				if (flag.isActive() && !flag.getStartingOwners().equals("null") && !flag.isStatic() && !flag.getCurrentOwners().equals(lastPlace)) {
+					flagCounts.merge(flag.getStartingOwners(), 1, Integer::sum);
+				}
+			}
+			return getWinnersFromFlags(flagCounts, true);
+		}
+
+		// Just get the team with the most flags
+		return getWinnersFromFlags(flagCounts, false);
+	}
+
+    private static String getWinnersFromFlags(@NotNull java.util.Map<String, Integer> flagCounts, boolean findSmallest) {
+		// Get the team that started with the least number of flags (the defenders)
+		String currentWinners = (String) flagCounts.keySet().toArray()[0];
+		for (String teamName : flagCounts.keySet()) {
+			if ((!findSmallest && flagCounts.get(teamName) > flagCounts.get(currentWinners)) ||
+			findSmallest && flagCounts.get(teamName) < flagCounts.get(currentWinners)) {
+				currentWinners = teamName;
+				// If two teams are the largest, we set up for a draw
+			} else if (!Objects.equals(teamName, currentWinners) && Objects.equals(flagCounts.get(teamName), flagCounts.get(currentWinners))) {
+				break;
+			}
+		}
+
+		return currentWinners;
 	}
 
 	/**
@@ -487,9 +532,8 @@ public class MapController {
 		for (UUID spectator : spectators) {
 			Player player = getPlayer(spectator);
 			if (player != null && player.isOnline()) {
-				if (MapController.getCurrentMap() instanceof CoreMap) {
-					CoreMap coreMap = (CoreMap) MapController.getCurrentMap();
-						player.teleport(coreMap.getCore(1).getSpawnPoint());
+				if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
+                    player.teleport(coreMap.getCore(1).getSpawnPoint());
 
 				} else {
 					player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
@@ -583,9 +627,8 @@ public class MapController {
 				}
 
 				// Register cores and regions
-				if (maps.get(mapIndex) instanceof CoreMap) {
-					CoreMap coreMap = (CoreMap) maps.get(mapIndex);
-					for (Core core : coreMap.getCores()) {
+				if (maps.get(mapIndex) instanceof CoreMap coreMap) {
+                    for (Core core : coreMap.getCores()) {
 						Main.plugin.getServer().getPluginManager().registerEvents(core, Main.plugin);
 
 						if (core.region != null) {
@@ -623,6 +666,7 @@ public class MapController {
 					Player player = getPlayer(uuid);
 					if (player == null) continue;
 					Team team = TeamController.getTeam(uuid);
+					player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_2, 1f, 1f);
 					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
 					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~ FIGHT! ~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
 					Messenger.send(Component.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~").color(team.primaryChatColor), player);
@@ -677,9 +721,8 @@ public class MapController {
 		}
 
 		// Unregister core listeners and regions
-		if (maps.get(mapIndex) instanceof CoreMap) {
-			CoreMap coreMap = (CoreMap) maps.get(mapIndex);
-			for (Core core : coreMap.getCores()) {
+		if (maps.get(mapIndex) instanceof CoreMap coreMap) {
+            for (Core core : coreMap.getCores()) {
 				HandlerList.unregisterAll(core);
 
 				if (core.region != null) {
@@ -732,6 +775,23 @@ public class MapController {
 			HandlerList.unregisterAll(team.lobby.woolmap);
 			team.clear();
 		}
+
+		Bukkit.getScheduler().runTask(Main.plugin, () -> {
+			getServer().unloadWorld(oldMap.worldName, false);
+
+			// Delete the world's files
+			Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+				Main.plugin.getLogger().info("Deleting world " + oldMap.worldName);
+				// Creating a File object for directory
+				File directoryPath = new File(Bukkit.getWorldContainer(), oldMap.worldName);
+                try {
+                    FileUtils.deleteDirectory(directoryPath);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+			});
+		});
+
 	 });
 	}
 
@@ -770,7 +830,6 @@ public class MapController {
 
 		team.addPlayer(uuid);
 		player.teleport(team.lobby.spawnPoint);
-		player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_2, 1f, 1f);
 		Messenger.send(Component.text("You joined ").append(team.getDisplayName()), player);
 
 		checkTeamKit(player);
@@ -781,7 +840,7 @@ public class MapController {
 	 * @param uuid the player to add to a team
 	 */
 	public static void rejoinAfterDuel(UUID uuid) {
-		rejoinAfterDuels(uuid, getCurrentMap().smallestTeam());
+		rejoinAfterDuel(uuid, getCurrentMap().smallestTeam());
 	}
 
 	/**
@@ -789,7 +848,7 @@ public class MapController {
 	 * @param uuid the player to sent to the spawnroom
 	 * @param team their team
 	 */
-	private static void rejoinAfterDuels(UUID uuid, Team team) {
+	private static void rejoinAfterDuel(UUID uuid, Team team) {
 		Player player = getPlayer(uuid);
 		assert player != null;
 
@@ -873,7 +932,7 @@ public class MapController {
 		}
 
 		for (UUID uuid : getPlayers()) {
-			Player p = Bukkit.getPlayer(uuid);
+			Player p = getPlayer(uuid);
 			if (p == null) continue;
 
 			Gui gui = new Gui(Component.text("Did you enjoy the map?"), 1, true);

@@ -62,27 +62,20 @@ public class KitGUIs {
             return selector();
         }
 
-        switch (category.toLowerCase()) {
-            case "damage":
-                return damage(p);
-            case "tank":
-                return tank(p);
-            case "support":
-                return support(p);
-            case "debuff":
-                return debuff(p);
-            case "movement":
-                return movement(p);
-            case "ranged":
-                return ranged(p);
-            case "event":
-                return event(p);
-            case "secret":
-                return secret(p);
-            default:
+        return switch (category.toLowerCase()) {
+            case "damage" -> damage(p);
+            case "tank" -> tank(p);
+            case "support" -> support(p);
+            case "debuff" -> debuff(p);
+            case "movement" -> movement(p);
+            case "ranged" -> ranged(p);
+            case "event" -> event(p);
+            case "secret" -> secret(p);
+            default -> {
                 Messenger.sendError("Unknown category: <red>" + category, p);
-                return null;
-        }
+                yield null;
+            }
+        };
     }
 
     /**

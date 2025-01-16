@@ -29,6 +29,7 @@ public class AdvancementNode {
     private final List<AdvancementNode> children;
     // Display Type
     private NodeDisplayTypes displayType;
+    protected int maxProgress = 0;
 
     // New root node
     public AdvancementNode(Material icon, AdvancementFrameType frameType, String title, String description, NodeDisplayTypes displayType) {
@@ -47,6 +48,23 @@ public class AdvancementNode {
         this.children = new ArrayList<>();
 
         this.displayType = null;
+    }
+
+    // New node with parent
+    public AdvancementNode(Material icon, AdvancementFrameType frameType, String title, String description, String parent, int maxProgress) {
+        this.icon = icon;
+        this.frameType = frameType;
+        this.title = title;
+        this.key = NodeDisplay.cleanKey(title);
+        this.description = description;
+
+        this.parent = NodeDisplay.cleanKey(parent);
+        this.children = new ArrayList<>();
+
+        this.displayType = null;
+
+        this.maxProgress = maxProgress;
+        System.out.println("Max progress is " + maxProgress);
     }
 
     // New node with parent
@@ -115,23 +133,17 @@ public class AdvancementNode {
             }
             y = (int) Math.round(min_y + (y_size - 1.0) / 2);
         }
-        NodeDisplay display;
-        switch (displayType) {
-            case Hidden:
-                display = new HiddenNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
-                break;
-            case ParentGranted:
-                display = new ParentGrantedNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
-                break;
-            case Vanilla:
-                display = new VanillaNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
-                break;
-            case Shown:
-                display = new ShownNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
-                break;
-            default:
-                throw new RuntimeException("Unknown advancement display type for " + title);
-        }
+        NodeDisplay display = switch (displayType) {
+            case Hidden ->
+                    new HiddenNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
+            case ParentGranted ->
+                    new ParentGrantedNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
+            case Vanilla ->
+                    new VanillaNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
+            case Shown ->
+                    new ShownNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent, maxProgress);
+            default -> throw new RuntimeException("Unknown advancement display type for " + title);
+        };
         displays.put(key, display);
         return new Tuple<>(displays, y_size);
     }
@@ -143,6 +155,7 @@ public class AdvancementNode {
         displays.remove(key);
 
         HashMap<String, BaseAdvancement> advancements = new HashMap<>();
+
         int i = 0; // Prevent ∞ loop
         while (!displays.isEmpty() && i < 10) {
             HashMap<String, NodeDisplay> retryDisplays = new HashMap<>();
@@ -154,7 +167,11 @@ public class AdvancementNode {
                 }
                 // Parent is an existing advancement
                 else if (advancements.containsKey(displays.get(key).getParentKey())) {
-                    advancements.put(key, new BaseAdvancement(key, displays.get(key), advancements.get(displays.get(key).getParentKey())));
+                    if (displays.get(key).maxProgression > 0) {
+                        advancements.put(key, new BaseAdvancement(key, displays.get(key), advancements.get(displays.get(key).getParentKey()), displays.get(key).maxProgression));
+                    } else {
+                        advancements.put(key, new BaseAdvancement(key, displays.get(key), advancements.get(displays.get(key).getParentKey())));
+                    }
                 }
                 // Parent doesn't exist yet
                 else {

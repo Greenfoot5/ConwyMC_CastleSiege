@@ -34,12 +34,10 @@ public class SettingsCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             Messenger.sendError("Only players can perform this command!", sender);
             return true;
         }
-
-        Player player = (Player) sender;
 
         if (args.length < 1) {
             // Register and open a settings GUI for the player

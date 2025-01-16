@@ -139,7 +139,7 @@ public class Scoreboard implements Runnable {
 
 		float phase = -1f;
 		while (phase < 1) {
-			frames.add(Messenger.mm.deserialize("<gradient:#e9455e:#2e3468:" + phase + "><text>", textPlaceholder));
+			frames.add(Messenger.mm.deserialize("<gradient:#e96443:#904e95:" + phase + "><text>", textPlaceholder));
 			phase += step;
 		}
 

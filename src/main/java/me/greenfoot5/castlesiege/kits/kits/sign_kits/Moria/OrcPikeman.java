@@ -119,9 +119,7 @@ public class OrcPikeman extends SignKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onPiked(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-            Player p = (Player) e.getEntity();
-            Player q = (Player) e.getDamager();
+        if (e.getEntity() instanceof Player p && e.getDamager() instanceof Player q) {
 
             // Pikeman keeps the enemy distant
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&

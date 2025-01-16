@@ -31,9 +31,8 @@ public class HitMessage implements Listener {
 
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 			// Check it was a player that fired an arrow
-			if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player) {
-				Arrow arrow = (Arrow) e.getEntity();
-				Player player = (Player) arrow.getShooter();
+			if (e.getEntity() instanceof Arrow arrow && e.getEntity().getShooter() instanceof Player) {
+                Player player = (Player) arrow.getShooter();
 
 				// The player hit another player or an animal
 				if (e.getHitEntity() instanceof Player) {

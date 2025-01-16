@@ -92,9 +92,7 @@ public class UrukBerserker extends SignKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onCleave(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
-            Player damager = (Player) event.getDamager();
-            Player hit = (Player) event.getEntity();
+        if (event.getDamager() instanceof Player damager && event.getEntity() instanceof Player hit) {
 
             // Uruk Berserker tries to cleave every enemy player around them
             if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name) &&
@@ -109,8 +107,7 @@ public class UrukBerserker extends SignKit implements Listener {
                     hit.getWorld().playSound(hit.getLocation(), Sound.ENTITY_PLAYER_BIG_FALL, 1, 1);
                     event.setDamage(event.getDamage() * 2);
 
-                    if (hit.getVehicle() != null && hit.getVehicle() instanceof Horse) {
-                        Horse horse = (Horse) hit.getVehicle();
+                    if (hit.getVehicle() != null && hit.getVehicle() instanceof Horse horse) {
                         horse.damage(event.getDamage() * 2, damager);
                     }
 

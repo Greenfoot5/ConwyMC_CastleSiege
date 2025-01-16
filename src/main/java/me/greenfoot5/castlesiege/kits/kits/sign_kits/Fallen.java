@@ -84,9 +84,7 @@ public class Fallen extends SignKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onWither(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-            Player p = (Player) e.getEntity();
-            Player q = (Player) e.getDamager();
+        if (e.getEntity() instanceof Player p && e.getDamager() instanceof Player q) {
 
             // tries withering an enemy
             if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&

@@ -400,10 +400,9 @@ public class Rogue extends CoinKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onAttack(EntityDamageByEntityEvent e) {
-        if (!(e.getDamager() instanceof Player))
+        if (!(e.getDamager() instanceof Player player))
             return;
 
-        Player player = (Player) e.getDamager();
         if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name))
             return;
 
@@ -482,12 +481,10 @@ public class Rogue extends CoinKit implements Listener {
             !Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name))
             return;
 
-        if (e.getEntity() instanceof Arrow) {
-            Arrow arrow = (Arrow) e.getEntity();
+        if (e.getEntity() instanceof Arrow arrow) {
 
             //The damage on Players is 10, whilst on other entities it is 25. Hitting players also awards comboPoints.
-            if (arrow.getShooter() instanceof Player && e.getHitEntity() instanceof Player){
-                Player damages = (Player) arrow.getShooter();
+            if (arrow.getShooter() instanceof Player damages && e.getHitEntity() instanceof Player hit){
                 if (!Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
                     return;
                 }
@@ -496,7 +493,6 @@ public class Rogue extends CoinKit implements Listener {
                 if (!Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
                     return;
                 }
-                Player hit = (Player) e.getHitEntity();
                 //check if players aren't on the same team
                 if (TeamController.getTeam(damages.getUniqueId())
                         != TeamController.getTeam(hit.getUniqueId())) {
@@ -583,11 +579,10 @@ public class Rogue extends CoinKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void gougeDamage(PlayerInteractEntityEvent ed) {
-        if (!(ed.getRightClicked() instanceof Player)) {
+        if (!(ed.getRightClicked() instanceof Player hit)) {
             return;
         }
         Player p = ed.getPlayer();
-        Player hit = (Player) ed.getRightClicked();
         if (!Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
             return;
         }

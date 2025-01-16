@@ -213,8 +213,7 @@ public class Catapult implements Listener {
     private void refill() {
         if (canRefill) {
             // Perform the visual changes
-            if (lever.getBlock().getBlockData() instanceof Powerable) {
-                Powerable leverData = (Powerable) lever.getBlock().getBlockData();
+            if (lever.getBlock().getBlockData() instanceof Powerable leverData) {
                 leverData.setPowered(false);
                 lever.getBlock().setBlockData(leverData);
             }
@@ -234,7 +233,7 @@ public class Catapult implements Listener {
     public void onClickAimVertical(PlayerInteractEvent event) {
         Block target = event.getClickedBlock();
         Player p = event.getPlayer();
-        if (target != null && target.getState() instanceof Sign &&
+        if (target != null && target.getState() instanceof Sign sign &&
                 Objects.equals(p.getWorld(), world) && target.getLocation().distance(signVertical) == 0) {
 
             // Decrease (down) the catapult's vertical aim
@@ -248,7 +247,6 @@ public class Catapult implements Listener {
             }
 
             // Update the sign
-            Sign sign = (Sign) target.getState();
             sign.getSide(Side.FRONT).line(2, Component.text(aimVertical));
             sign.update();
         }
@@ -262,7 +260,7 @@ public class Catapult implements Listener {
     public void onClickAimHorizontal(PlayerInteractEvent event) {
         Block target = event.getClickedBlock();
         Player p = event.getPlayer();
-        if (target != null && target.getState() instanceof Sign &&
+        if (target != null && target.getState() instanceof Sign sign &&
                 Objects.equals(p.getWorld(), world) && target.getLocation().distance(signHorizontal) == 0) {
 
             // Increase (right) the catapult's horizontal aim
@@ -276,7 +274,6 @@ public class Catapult implements Listener {
             }
 
             // Update the sign
-            Sign sign = (Sign) target.getState();
             sign.getSide(Side.FRONT).line(2, Component.text(aimHorizontal));
             sign.update();
         }
@@ -294,20 +291,13 @@ public class Catapult implements Listener {
 
         // Set the snowball's velocity
         Vector vector = new Vector();
-        switch (direction) {
-            case "north":
-                vector = new Vector(aimHorizontal, aimVertical, -34);
-                break;
-            case "east":
-                vector = new Vector(34, aimVertical, aimHorizontal);
-                break;
-            case "south":
-                vector = new Vector(-aimHorizontal, aimVertical, 34);
-                break;
-            case "west":
-                vector = new Vector(-34, aimVertical, -aimHorizontal);
-                break;
-        }
+        vector = switch (direction) {
+            case "north" -> new Vector(aimHorizontal, aimVertical, -34);
+            case "east" -> new Vector(34, aimVertical, aimHorizontal);
+            case "south" -> new Vector(-aimHorizontal, aimVertical, 34);
+            case "west" -> new Vector(-34, aimVertical, -aimHorizontal);
+            default -> vector;
+        };
         snowball.setVelocity(vector.normalize().multiply(3.5));
     }
 
@@ -318,7 +308,7 @@ public class Catapult implements Listener {
     @EventHandler
     public void onImpact(ProjectileHitEvent event) {
         if (Objects.equals(snowball, event.getEntity())) {
-            snowball.getPassengers().get(0).remove();
+            snowball.getPassengers().getFirst().remove();
             world.createExplosion(snowball.getLocation(), 5F, false, true, shooter);
         }
     }

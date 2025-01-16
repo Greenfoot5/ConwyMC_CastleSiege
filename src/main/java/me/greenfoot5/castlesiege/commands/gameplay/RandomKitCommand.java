@@ -48,12 +48,11 @@ public class RandomKitCommand implements CommandExecutor, Listener {
     }
 
     private void randomKit(CommandSender sender) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             Messenger.sendError("Console cannot select kits!", sender);
             return;
         }
 
-        Player player = (Player) sender;
         UUID uuid = player.getUniqueId();
         if (!MapController.getPlayers().contains(player.getUniqueId())) {
             Messenger.sendError("You must be on a team to select kits", sender);

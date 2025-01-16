@@ -113,11 +113,10 @@ public class Buccaneer extends SignKit {
 
     @EventHandler
     public void onKillBoat(VehicleDestroyEvent e) {
-        if (!(e.getAttacker() instanceof Player)) {
+        if (!(e.getAttacker() instanceof Player p)) {
             return;
         }
-            Player p = (Player) e.getAttacker();
-            UUID uuid = p.getUniqueId();
+        UUID uuid = p.getUniqueId();
 
             // Prevent using in lobby
             if (InCombat.isPlayerInLobby(uuid)) {

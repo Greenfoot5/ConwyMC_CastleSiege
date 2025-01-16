@@ -281,8 +281,7 @@ public class FireArcher extends VoterKit implements Listener {
             return;
         }
 
-        if (e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
+        if (e.getEntity() instanceof Player p) {
             if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
 
                 try {

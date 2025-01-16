@@ -155,12 +155,11 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
      */
     @EventHandler(ignoreCancelled = true)
     public void chargeHit(EntityDamageByEntityEvent ed) {
-        if (ed.getDamager() instanceof Player) {
+        if (ed.getDamager() instanceof Player player) {
             UUID uuid = ed.getDamager().getUniqueId();
             // Prevent using in lobby
             if (InCombat.isPlayerInLobby(uuid))
                 return;
-            Player player = (Player) ed.getDamager();
             if (vanguards.contains(uuid)) {
                 for (PotionEffect effect : player.getActivePotionEffects()) {
                     if ((effect.getType().equals(PotionEffectType.SPEED) && effect.getAmplifier() == 4)

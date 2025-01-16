@@ -186,19 +186,17 @@ public class Crossbowman extends CoinKit implements Listener {
     @EventHandler
     public void shootCrossbow(EntityShootBowEvent e) {
         //Multiple checks including if the crossbow is in sniper mode.
-        if (e.isCancelled() || !(e.getEntity() instanceof Player) || !isInSnipingMode(e.getEntity().getUniqueId())) {
+        if (e.isCancelled() || !(e.getEntity() instanceof Player p) || !isInSnipingMode(e.getEntity().getUniqueId())) {
             return;
         }
 
-        Player p = (Player) e.getEntity();
         if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
 
-            if (!(e.getProjectile() instanceof Arrow)) {
+            if (!(e.getProjectile() instanceof Arrow a)) {
                 return;
             }
 
             p.setCooldown(Material.CROSSBOW, 70);
-            Arrow a = (Arrow) e.getProjectile();
             //((Arrow) e.getProjectile()).setPierceLevel(1);
             a.setKnockbackStrength(1);
             a.setVelocity(p.getLocation().getDirection().normalize().multiply(40));

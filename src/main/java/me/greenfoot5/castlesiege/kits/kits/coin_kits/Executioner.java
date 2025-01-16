@@ -118,12 +118,10 @@ public class Executioner extends CoinKit implements Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void onExecute(EntityDamageByEntityEvent e) {
 		// Both are players
-		if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player) {
-			Attributable defAttri = (Attributable) e.getEntity();
-			Damageable defender = (Damageable) e.getEntity();
-			Player attacker = (Player) e.getDamager();
+		if (e.getEntity() instanceof Attributable defAttri && e.getDamager() instanceof Player attacker) {
+            Damageable defender = (Damageable) e.getEntity();
 
-			// Executioner hits with axe
+            // Executioner hits with axe
 			if (Objects.equals(Kit.equippedKits.get(attacker.getUniqueId()).name, name) &&
 					attacker.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
 
@@ -136,9 +134,8 @@ public class Executioner extends CoinKit implements Listener {
 
 					Location loc = defender.getLocation();
 					// Do extra stuff if they were a player
-					if (defender instanceof Player) {
-						Player p = (Player) defender;
-						loc = p.getEyeLocation();
+					if (defender instanceof Player p) {
+                        loc = p.getEyeLocation();
 
 						Material wool = TeamController.getTeam(defender.getUniqueId()).primaryWool;
 						defender.getWorld().dropItem(loc, new ItemStack(wool)).setPickupDelay(32767);

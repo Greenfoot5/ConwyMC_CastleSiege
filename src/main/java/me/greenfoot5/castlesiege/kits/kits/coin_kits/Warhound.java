@@ -121,21 +121,17 @@ public class Warhound extends CoinKit implements Listener {
      */
     @EventHandler
     public void onBite(EntityDamageByEntityEvent e) {
-        if (e.isCancelled() || !(e.getDamager() instanceof Player)) {
+        if (e.isCancelled() || !(e.getDamager() instanceof Player q)) {
             return;
         }
 
-        Player q = (Player) e.getDamager();
-
         // Warhound bit enemy player
-        if (e.getEntity() instanceof Player && Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name)) {
-            Player p = (Player) e.getEntity();
+        if (e.getEntity() instanceof Player p && Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name)) {
             p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 20, 0)));
          }
 
         //Slows the horse down which the warhound hits.
-        if (e.getEntity() instanceof Horse) {
-            Horse h = (Horse) e.getEntity();
+        if (e.getEntity() instanceof Horse h) {
             Player horseOwner = (Player) h.getOwner();
             assert horseOwner != null;
             if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(h.getOwner().getUniqueId())) {
@@ -154,8 +150,7 @@ public class Warhound extends CoinKit implements Listener {
         if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             Player p = e.getPlayer();
             //Stuns the horse which the warhound hits.
-            if (e.getRightClicked() instanceof Horse) {
-                Horse h = (Horse) e.getRightClicked();
+            if (e.getRightClicked() instanceof Horse h) {
                 Player horseOwner = (Player) h.getOwner();
                 assert horseOwner != null;
                 if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
@@ -164,12 +159,11 @@ public class Warhound extends CoinKit implements Listener {
             }
 
             //Check if the hit entity is a player, otherwise do nothing.
-            if (!(e.getRightClicked() instanceof Player)) {
+            if (!(e.getRightClicked() instanceof Player q)) {
                 return;
             }
 
             //The player who is being right-clicked on by the Warhound.
-            Player q = (Player) e.getRightClicked();
 
             // Prevent using in lobby
             if (InCombat.isPlayerInLobby(uuid)) {
@@ -251,42 +245,25 @@ public class Warhound extends CoinKit implements Listener {
      * @return The dye color corresponding to the team's primary wool color, null if primary wool is no wool
      */
     private DyeColor getCollarColor(Player p) {
-        switch (TeamController.getTeam(p.getUniqueId()).primaryWool) {
-            case BLACK_WOOL:
-                return DyeColor.BLACK;
-            case BLUE_WOOL:
-                return DyeColor.BLUE;
-            case BROWN_WOOL:
-                return DyeColor.BROWN;
-            case CYAN_WOOL:
-                return DyeColor.CYAN;
-            case GRAY_WOOL:
-                return DyeColor.GRAY;
-            case GREEN_WOOL:
-                return DyeColor.GREEN;
-            case LIGHT_BLUE_WOOL:
-                return DyeColor.LIGHT_BLUE;
-            case LIGHT_GRAY_WOOL:
-                return DyeColor.LIGHT_GRAY;
-            case LIME_WOOL:
-                return DyeColor.LIME;
-            case MAGENTA_WOOL:
-                return DyeColor.MAGENTA;
-            case ORANGE_WOOL:
-                return DyeColor.ORANGE;
-            case PURPLE_WOOL:
-                return DyeColor.PURPLE;
-            case PINK_WOOL:
-                return DyeColor.PINK;
-            case RED_WOOL:
-                return DyeColor.RED;
-            case WHITE_WOOL:
-                return DyeColor.WHITE;
-            case YELLOW_WOOL:
-                return DyeColor.YELLOW;
-            default:
-                return null;
-        }
+        return switch (TeamController.getTeam(p.getUniqueId()).primaryWool) {
+            case BLACK_WOOL -> DyeColor.BLACK;
+            case BLUE_WOOL -> DyeColor.BLUE;
+            case BROWN_WOOL -> DyeColor.BROWN;
+            case CYAN_WOOL -> DyeColor.CYAN;
+            case GRAY_WOOL -> DyeColor.GRAY;
+            case GREEN_WOOL -> DyeColor.GREEN;
+            case LIGHT_BLUE_WOOL -> DyeColor.LIGHT_BLUE;
+            case LIGHT_GRAY_WOOL -> DyeColor.LIGHT_GRAY;
+            case LIME_WOOL -> DyeColor.LIME;
+            case MAGENTA_WOOL -> DyeColor.MAGENTA;
+            case ORANGE_WOOL -> DyeColor.ORANGE;
+            case PURPLE_WOOL -> DyeColor.PURPLE;
+            case PINK_WOOL -> DyeColor.PINK;
+            case RED_WOOL -> DyeColor.RED;
+            case WHITE_WOOL -> DyeColor.WHITE;
+            case YELLOW_WOOL -> DyeColor.YELLOW;
+            default -> null;
+        };
     }
 
     @Override

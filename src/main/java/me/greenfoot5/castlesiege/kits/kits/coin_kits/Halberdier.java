@@ -110,9 +110,7 @@ public class Halberdier extends CoinKit implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGH)
     public void antiCav(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-            Player cav = (Player) e.getEntity();
-            Player halb = (Player) e.getDamager();
+        if (e.getEntity() instanceof Player cav && e.getDamager() instanceof Player halb) {
 
             if (Objects.equals(Kit.equippedKits.get(halb.getUniqueId()).name, name) &&
                     cav.isInsideVehicle() && cav.getVehicle() instanceof Horse) {
@@ -127,9 +125,8 @@ public class Halberdier extends CoinKit implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void halbCooldown(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player &&
+        if (e.getDamager() instanceof Player halb &&
                 Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
-            Player halb = (Player) e.getDamager();
 
             if (halb.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE) {
                 if (halb.getCooldown(Material.DIAMOND_AXE) == 0) {

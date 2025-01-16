@@ -8,6 +8,8 @@ import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.events.nametag.UpdateNameTagEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.megavex.scoreboardlibrary.api.sidebar.component.LineDrawable;
+import net.megavex.scoreboardlibrary.api.sidebar.component.SidebarComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,27 +18,55 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Represents a team on a map
  */
-public class Team implements Listener {
+public class Team implements Listener, SidebarComponent {
     // Basic Details
     private final String name;
     private ArrayList<UUID> players;
 
     public Lobby lobby;
-    public HashMap<String, SignKit.CostType> kits = new HashMap<>();
+    public final HashMap<String, SignKit.CostType> kits = new HashMap<>();
 
     // Colours
     public Material primaryWool;
     public Material secondaryWool;
     public NamedTextColor primaryChatColor;
     public NamedTextColor secondaryChatColor;
+
+    // Lives (Assault)
+    private final AtomicInteger lives = new AtomicInteger(-1);
+
+    public int getLives() {
+        return lives.get();
+    }
+
+    public void setLives(int lives) {
+        this.lives.set(lives);
+    }
+
+    public void playerDied() {
+        // We only want to take a life if the game is ongoing
+        if (MapController.timer.state != TimerState.ONGOING)
+            return;
+
+        int left = lives.decrementAndGet();
+        if (left == 0) {
+            MapController.endMap();
+        }
+    }
+
+    public void grantLives(int amount) {
+        lives.addAndGet(amount);
+    }
 
     /**
      * @param event Prevents players from spawning at their bed when they sleep in a bad.
@@ -154,5 +184,14 @@ public class Team implements Listener {
      */
     public void clear() {
         players = new ArrayList<>();
+    }
+
+    @Override
+    public void draw(@NotNull LineDrawable lineDrawable) {
+        if (getLives() >= 0) {
+            lineDrawable.drawLine(getDisplayName()
+                    .append(Component.text(": "))
+                    .append(Component.text(getLives(), NamedTextColor.WHITE)));
+        }
     }
 }

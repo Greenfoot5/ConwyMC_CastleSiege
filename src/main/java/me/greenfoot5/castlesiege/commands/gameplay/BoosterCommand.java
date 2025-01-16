@@ -86,8 +86,7 @@ public class BoosterCommand implements CommandExecutor, Listener {
         for (Booster booster : data.getBoosters()) {
             if (booster.id == id) {
 
-                if (booster instanceof KitBooster) {
-                    KitBooster kBooster = (KitBooster) booster;
+                if (booster instanceof KitBooster kBooster) {
 
                     // Kit boosters don't stack
                     if (CoinKit.boostedKits.contains(kBooster.kitName)) {

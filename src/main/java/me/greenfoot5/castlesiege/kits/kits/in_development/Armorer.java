@@ -16,6 +16,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -136,12 +137,11 @@ public class Armorer extends CoinKit implements Listener {
             Entity q = event.getRightClicked();
             if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
                     (i.getItemInMainHand().getType() == Material.NETHERITE_SHOVEL) &&
-                    q instanceof Player &&
+                    q instanceof Player r &&
                     TeamController.getTeam(uuid) == TeamController.getTeam(q.getUniqueId())
                     && !cooldown.contains((Player) q)) {
 
                 // Apply cooldown
-                Player r = (Player) q;
                 cooldown.add(r);
                 Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(r), cooldownTicks);
 
@@ -163,9 +163,9 @@ public class Armorer extends CoinKit implements Listener {
     private ItemStack addDefence(ItemStack item, Player smith, Player target) {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        AttributeModifier modifier = new AttributeModifier("generic.armor", 2.0, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier modifier = new AttributeModifier(new NamespacedKey(NamespacedKey.MINECRAFT, "generic.armor"), 2.0, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.ARMOR, modifier);
-        AttributeModifier modifier2 = new AttributeModifier("generic.armor_toughness", 0.30, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier modifier2 = new AttributeModifier(new NamespacedKey(NamespacedKey.MINECRAFT, "generic.armor_toughness"), 0.30, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.ARMOR_TOUGHNESS, modifier2);
         double armor = Objects.requireNonNull(target.getAttribute(Attribute.ARMOR)).getValue();
         if (armor <= 10) {
@@ -189,14 +189,14 @@ public class Armorer extends CoinKit implements Listener {
      * @return The level of improvement to provide
      */
     private int level (double armor) {
-        switch ((int) armor) {
-            case 2: return 0;
-            case 4: return 1;
-            case 6: return 2;
-            case 8: return 3;
-            case 10: return 4;
-        }
-        return 0;
+        return switch ((int) armor) {
+            case 2 -> 0;
+            case 4 -> 1;
+            case 6 -> 2;
+            case 8 -> 3;
+            case 10 -> 4;
+            default -> 0;
+        };
     }
 
     /**

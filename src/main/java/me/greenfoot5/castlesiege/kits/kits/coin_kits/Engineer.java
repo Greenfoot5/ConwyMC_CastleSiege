@@ -235,13 +235,12 @@ public class Engineer extends CoinKit implements Listener {
     public void onHorseWalkOverTrap(EntityInteractEvent e) {
         // Check if the player stepped on a trap
         Block trap = e.getBlock();
-        if (trap.getType() == Material.STONE_PRESSURE_PLATE && e.getEntity() instanceof Horse
+        if (trap.getType() == Material.STONE_PRESSURE_PLATE && e.getEntity() instanceof Horse h
                 && !e.getEntity().getPassengers().isEmpty()
-                && e.getEntity().getPassengers().get(0) instanceof Player) {
+                && e.getEntity().getPassengers().getFirst() instanceof Player) {
 
             // Check if the trap should trigger
-            Horse h = (Horse) e.getEntity();
-            Player p = (Player) h.getPassengers().get(0);
+            Player p = (Player) h.getPassengers().getFirst();
             Player t = getTrapper(trap);
             if (t != null && TeamController.getTeam(p.getUniqueId())
                     != TeamController.getTeam(t.getUniqueId())) {
@@ -305,8 +304,7 @@ public class Engineer extends CoinKit implements Listener {
      */
     @EventHandler
     public void onEnterBallista(VehicleEnterEvent e) {
-        if (e.getVehicle() instanceof Minecart && e.getEntered() instanceof Player) {
-            Player p = (Player) e.getEntered();
+        if (e.getVehicle() instanceof Minecart && e.getEntered() instanceof Player p) {
 
             // Ensure that the entered minecart is a ballista and the player is an engineer
             Location dispenserFace = getDispenserFace(e.getVehicle().getLocation().add(0, 2, 0));
@@ -355,10 +353,9 @@ public class Engineer extends CoinKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onHitBallista(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player
+        if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player shooter
                 && ballista.containsKey((Player) e.getEntity().getShooter())) {
 
-            Player shooter = (Player) e.getEntity().getShooter();
             Team team = TeamController.getTeam(shooter.getUniqueId());
             int hitCount = 0;
             for (Entity hit : e.getEntity().getNearbyEntities(2.5, 2.5, 2.5)) {
@@ -419,7 +416,7 @@ public class Engineer extends CoinKit implements Listener {
 
         // Already placed max amount of traps
         if (trapList.size() == 8) {
-            Block firstPlaced = trapList.get(0);
+            Block firstPlaced = trapList.getFirst();
             firstPlaced.setType(Material.AIR);
             trapList.remove(firstPlaced);
         }
@@ -510,18 +507,13 @@ public class Engineer extends CoinKit implements Listener {
         }
 
         BlockFace facing = ((Directional) dispenser.getBlockData()).getFacing();
-        switch (facing) {
-            case NORTH:
-                return dispenser.getLocation().add(0.5, 0.4, -0.1);
-            case EAST:
-                return dispenser.getLocation().add(1.1, 0.4, 0.5);
-            case SOUTH:
-                return dispenser.getLocation().add(0.5, 0.4, 1.1);
-            case WEST:
-                return dispenser.getLocation().add(-0.1, 0.4, 0.5);
-            default:
-                return null;
-        }
+        return switch (facing) {
+            case NORTH -> dispenser.getLocation().add(0.5, 0.4, -0.1);
+            case EAST -> dispenser.getLocation().add(1.1, 0.4, 0.5);
+            case SOUTH -> dispenser.getLocation().add(0.5, 0.4, 1.1);
+            case WEST -> dispenser.getLocation().add(-0.1, 0.4, 0.5);
+            default -> null;
+        };
     }
 
     /**

@@ -15,6 +15,8 @@ import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.megavex.scoreboardlibrary.api.sidebar.component.LineDrawable;
+import net.megavex.scoreboardlibrary.api.sidebar.component.SidebarComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,6 +28,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +44,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 /**
  * Stores all details and handles all flag actions.
  */
-public class Flag {
+public class Flag implements SidebarComponent {
     protected final String name;
 
     // Location Data
@@ -51,6 +55,7 @@ public class Flag {
     // Game Data
     protected boolean active;
     protected String currentOwners;
+    protected final String startingTeam;
     public final int maxCap;
     protected final int progressAmount;
     protected int progress;
@@ -96,6 +101,7 @@ public class Flag {
         this.players = new ArrayList<>();
         progress = progressMultiplier * startAmount;
         isRunning = new AtomicInteger(0);
+        this.startingTeam = currentOwners;
     }
 
     public String getName() {
@@ -115,6 +121,17 @@ public class Flag {
         }
 
         return currentOwners;
+    }
+
+    /**
+     * @return The original owners of the flag
+     */
+    public String getStartingOwners() {
+        if (startingTeam == null) {
+            return "neutral";
+        }
+
+        return startingTeam;
     }
 
     /**
@@ -226,6 +243,16 @@ public class Flag {
             currentOwners = getLargestTeam();
         }
 
+        // You can't recap a flag
+        if (!Objects.equals(startingTeam, currentOwners) && animationIndex == maxCap && !MapController.getCurrentMap().canRecap) {
+            for (UUID uuid : players) {
+                if (!Objects.equals(TeamController.getTeam(uuid).getName(), currentOwners))
+                    Messenger.sendActionError("You cannot recapture flags once they've been fully captured on this map!",
+                            Objects.requireNonNull(Bukkit.getPlayer(uuid)));
+            }
+            return;
+        }
+
         Tuple<Integer, Integer> counts = getPlayerCounts();
 
         // Calculate the amount of progressed based on how many more players the defenders have than the attackers, or vice versa
@@ -250,6 +277,10 @@ public class Flag {
      * Called when players make enough capture progress to trigger an blockAnimation change
      */
     protected void captureFlag() {
+        // You can't recap a flag
+        if (!Objects.equals(startingTeam, currentOwners) && animationIndex == maxCap && !MapController.getCurrentMap().canRecap)
+            return;
+
         int capProgress = progress / progressMultiplier;
 
         // Flag has gone low enough to announce neutral, and animate neutral
@@ -317,6 +348,13 @@ public class Flag {
             notifyPlayers(false);
 
             animate(false, currentOwners);
+        }
+
+        if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam) && !MapController.getCurrentMap().canRecap) {
+            Messenger.broadcastInfo(Component.empty()
+                    .append(getDisplayName())
+                    .append(Component.text(" has been fully captured and can no longer be retaken by "))
+                    .append(MapController.getCurrentMap().getTeam(startingTeam).getDisplayName()));
         }
     }
 
@@ -550,6 +588,14 @@ public class Flag {
     }
 
     /**
+     * Whether this flag is a static flag
+     * @return Whether the flag is active
+     */
+    public boolean isStatic() {
+        return this.progressAmount < 1;
+    }
+
+    /**
      * Get the wool block to display behind the sign on the WoolMap
      * @return The Material to set
      */
@@ -663,5 +709,38 @@ public class Flag {
         for (Flag flag : MapController.getCurrentMap().flags) {
             createFlagBossbar(flag, getBarColour(flag.getColor()), flag.name, (float) flag.animationIndex/flag.maxCap);
         }
+    }
+
+    public boolean canCapture(@Nullable Team team) {
+        if (progressAmount == 0)
+            return false;
+
+        if (animationIndex == maxCap) {
+            // The flag cannot be recapped
+            if (!MapController.getCurrentMap().canRecap && !Objects.equals(currentOwners, startingTeam))
+                return false;
+        }
+
+        return true;
+    }
+
+    public String getIcon() {
+        // Get a non-owner team, it doesn't matter which one
+        Team attackers = Objects.equals(MapController.getCurrentMap().teams[0].getName(), currentOwners) ? MapController.getCurrentMap().teams[1] : MapController.getCurrentMap().teams[0];
+
+        if (!canCapture(attackers)) {
+            return " \uD83D\uDD12";
+        }
+        // return "⓪";
+        return "";
+    }
+
+
+    @Override
+    public void draw(@NotNull LineDrawable lineDrawable) {
+        Team owners = MapController.getCurrentMap().getTeam(getCurrentOwners());
+        lineDrawable.drawLine(Component.text(name,
+                        owners == null ? NamedTextColor.GRAY : owners.primaryChatColor)
+                .append(Component.text(getIcon())));
     }
 }

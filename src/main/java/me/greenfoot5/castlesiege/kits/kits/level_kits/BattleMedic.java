@@ -132,13 +132,12 @@ public class BattleMedic extends LevelKit implements Listener {
             Entity q = event.getRightClicked();
             if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&                            // Player is medic
                     (i.getItemInMainHand().getType() == Material.PAPER) &&                    // Uses bandage
-                    q instanceof Player &&                                                          // On player
+                    q instanceof Player r &&                                                          // On player
                     TeamController.getTeam(uuid) == TeamController.getTeam(q.getUniqueId()) &&      // Same team
                     ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth &&  // Below max hp
                     !cooldown.contains((Player) q)) {                                               // Not on cooldown
 
                 // Apply cooldown
-                Player r = (Player) q;
                 cooldown.add(r);
                 Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(r), 39);
                 player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);

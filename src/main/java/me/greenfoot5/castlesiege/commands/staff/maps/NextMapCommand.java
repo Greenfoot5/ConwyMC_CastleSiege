@@ -25,9 +25,8 @@ public class NextMapCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-		if(sender instanceof Player) {
-			Player p = (Player) sender;
-			if (!MapController.getCurrentMap().hasMapEnded()) {
+		if(sender instanceof Player p) {
+            if (!MapController.getCurrentMap().hasMapEnded()) {
 				Messenger.broadcastWarning(CSNameTag.mmUsername(p) + " has skipped to the next map!");
 				MapController.endMap();
 			} else {
