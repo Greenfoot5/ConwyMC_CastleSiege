@@ -44,7 +44,7 @@ import java.util.UUID;
 /**
  * A kit that can improve teammates armour
  */
-public class Armorer extends CoinKit implements Listener {
+public class Armourer extends CoinKit implements Listener {
 
     private static final int health = 230;
     private static final double regen = 10.5;
@@ -55,10 +55,10 @@ public class Armorer extends CoinKit implements Listener {
     public static final ArrayList<Player> cooldown = new ArrayList<>();
 
     /**
-     * Creates a new armorer
+     * Creates a new armourer
      */
-    public Armorer() {
-        super("Armorer", health, regen, Material.ANVIL);
+    public Armourer() {
+        super("Armourer", health, regen, Material.ANVIL);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -76,7 +76,7 @@ public class Armorer extends CoinKit implements Listener {
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
-                Component.text("Armorer's Robe", NamedTextColor.GREEN), null, null,
+                Component.text("Armourer's Robe", NamedTextColor.GREEN), null, null,
                 Color.fromRGB(50, 54, 57));
         ItemMeta chest = es.chest.getItemMeta();
         ArmorMeta chestMeta = (ArmorMeta) chest;
@@ -87,7 +87,7 @@ public class Armorer extends CoinKit implements Listener {
 
         // Leggings
         es.legs = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
-                Component.text("Armorer's Leggings", NamedTextColor.GREEN), null, null);
+                Component.text("Armourer's Leggings", NamedTextColor.GREEN), null, null);
         ItemMeta legs = es.legs.getItemMeta();
         ArmorMeta legsMeta = (ArmorMeta) legs;
         assert legs != null;
@@ -97,10 +97,10 @@ public class Armorer extends CoinKit implements Listener {
 
         // Boots
         es.feet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                Component.text("Armorer's Boots", NamedTextColor.GREEN), null, null);
+                Component.text("Armourer's Boots", NamedTextColor.GREEN), null, null);
         // Voted Boots
         es.votedFeet = CSItemCreator.item(new ItemStack(Material.NETHERITE_BOOTS),
-                Component.text("Armorer's Boots", NamedTextColor.GREEN),
+                Component.text("Armourer's Boots", NamedTextColor.GREEN),
                 Collections.singletonList(Component.text("⁎ Voted: Depth Strider II", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
         ItemMeta boots = es.feet.getItemMeta();
@@ -119,7 +119,7 @@ public class Armorer extends CoinKit implements Listener {
     }
 
     /**
-     * Activate the armorer ability of reinforcing a teammate
+     * Activate the Armourer ability of reinforcing a teammate
      * @param event The event called when clicking on a teammate with a netherite shovel
      */
     @EventHandler
@@ -202,7 +202,7 @@ public class Armorer extends CoinKit implements Listener {
     /**
      * This is basically the main ability for this kit
      * @param target the player to reinforce
-     * @param self the smith/armorer that is reinforcing
+     * @param self the smith/Armourer that is reinforcing
      */
     private void reinforceArmor(Player target, Player self) {
         if (target.getInventory().getChestplate() == null) {
