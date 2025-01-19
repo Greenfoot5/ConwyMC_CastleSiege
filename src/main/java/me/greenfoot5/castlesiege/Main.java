@@ -124,7 +124,7 @@ import me.greenfoot5.castlesiege.kits.kits.sign_kits.Pirate;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Shieldman;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Spearman;
 import me.greenfoot5.castlesiege.kits.kits.free_kits.Swordsman;
-import me.greenfoot5.castlesiege.kits.kits.in_development.Armorer;
+import me.greenfoot5.castlesiege.kits.kits.in_development.Armourer;
 import me.greenfoot5.castlesiege.kits.kits.in_development.Bannerman;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Hypaspist;
@@ -371,7 +371,7 @@ public class Main extends JavaPlugin implements Listener {
                 getServer().getPluginManager().registerEvents(new Alchemist(), plugin);
                 getServer().getPluginManager().registerEvents(new Archer(), plugin);
                 getServer().getPluginManager().registerEvents(new Artillerist(), plugin);
-                getServer().getPluginManager().registerEvents(new Armorer(), plugin);
+                getServer().getPluginManager().registerEvents(new Armourer(), plugin);
                 getServer().getPluginManager().registerEvents(new Axeman(), plugin);
                 getServer().getPluginManager().registerEvents(new Berserker(), plugin);
                 getServer().getPluginManager().registerEvents(new Barbarian(), plugin);

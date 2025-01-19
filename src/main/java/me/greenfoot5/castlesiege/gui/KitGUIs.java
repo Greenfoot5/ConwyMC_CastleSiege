@@ -26,7 +26,7 @@ import me.greenfoot5.castlesiege.kits.kits.free_kits.Archer;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Shieldman;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Spearman;
 import me.greenfoot5.castlesiege.kits.kits.free_kits.Swordsman;
-import me.greenfoot5.castlesiege.kits.kits.in_development.Armorer;
+import me.greenfoot5.castlesiege.kits.kits.in_development.Armourer;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.SpearKnight;
@@ -193,7 +193,7 @@ public class KitGUIs {
         gui.addKitItem(player, new Alchemist(), 1, "alchemist");
         gui.addKitItem(player, new Medic(), 2, "medic");
         gui.addKitItem(player, new Priest(), 3, "priest");
-        gui.addKitItem(player, new Armorer(), 4, "armorer");
+        gui.addKitItem(player, new Armourer(), 4, "armorer");
 
         gui.addBackItem(13, "kit");
         return gui;
