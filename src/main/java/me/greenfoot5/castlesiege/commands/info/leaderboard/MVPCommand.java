@@ -14,7 +14,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -44,34 +43,33 @@ public class MVPCommand implements CommandExecutor {
             @Override
             public void run() {
                 if (label.equalsIgnoreCase("MVPs")) {
-                    // Print the MVP of each team
-                    for (Team team : MapController.getCurrentMap().teams) {
-                        Messenger.send(getMVPMessage(team), sender);
-                    }
+                    showMVPs(sender);
 
-                } else if (!(sender instanceof ConsoleCommandSender)) {
-                    // Print the MVP of the player's team and their own stats
-                    Player p = (Player) sender;
-
-                    if (MapController.isSpectator(p.getUniqueId())) {
-                        Messenger.sendError("You aren't on a team!", sender);
-                        return;
-                    }
-
+                } else if (sender instanceof Player p && TeamController.isPlaying(p)) {
                     UUID uuid = p.getUniqueId();
                     Team t = TeamController.getTeam(uuid);
                     Messenger.send(getMVPMessage(t), sender);
                     if (t.getMVP().getFirst() != uuid) { // Only print sender stats if sender is not MVP
                         Messenger.send(getPlayerMessage(uuid), sender);
                     }
-
                 } else {
-                    Messenger.sendError("Console is not in a team!", sender);
+                    showMVPs(sender);
                 }
             }
         }.runTaskAsynchronously(Main.plugin);
 
         return true;
+    }
+
+    /**
+     * Shows all the MVPs for the map
+     * @param sender who to show
+     */
+    private void showMVPs(CommandSender sender) {
+        // Print the MVP of each team
+        for (Team team : MapController.getCurrentMap().teams) {
+            Messenger.send(getMVPMessage(team), sender);
+        }
     }
 
     /**
