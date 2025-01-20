@@ -566,6 +566,7 @@ public abstract class Kit implements CommandExecutor, Listener {
      * when clicking interactables.
      */
     public boolean interactableBlock(Block block) {
+        //noinspection EnhancedSwitchMigration
         switch (block.getType()) {
             case OAK_BUTTON:
             case STONE_BUTTON:
