@@ -2,16 +2,28 @@ package me.greenfoot5.castlesiege.maps;
 
 import io.lumine.mythic.api.adapters.AbstractPlayer;
 import io.lumine.mythic.core.players.factions.FactionProvider;
+import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 /**
  * Manages the players on Castle Siege
  */
 public class TeamController implements FactionProvider {
+
+    // If we should keep the teams the same for each map
+    public static boolean keepTeams = false;
+    // The teams that have been kept
+    private static final ArrayList<ArrayList<UUID>> kept_teams = new ArrayList<>();
+    // Stop players swapping teams (forceswitching is allowed)
+    public static boolean disableSwitching = false;
+
     private static final Set<UUID> players = new HashSet<>();
     private static final Set<UUID> spectators = new HashSet<>();
 
@@ -101,8 +113,8 @@ public class TeamController implements FactionProvider {
      * @return true if the player is in that faction
      */
     @Override
-    public boolean isInFaction(AbstractPlayer abstractPlayer, String s) {
-        return Objects.equals(getTeam(abstractPlayer.getUniqueId()).getName(), s);
+    public boolean isInFaction(AbstractPlayer abstractPlayer, String factionName) {
+        return Objects.equals(getTeam(abstractPlayer.getUniqueId()).getName(), factionName);
     }
 
     /**
@@ -112,9 +124,7 @@ public class TeamController implements FactionProvider {
      */
     @Override
     public Optional<String> getFaction(AbstractPlayer player) {
-        String team = getTeam(player.getUniqueId()).getName();
-        if (team != null) return Optional.of(team);
-        return Optional.empty();
+        return getFaction(player.getUniqueId());
     }
 
     /**
