@@ -6,7 +6,6 @@ import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
-import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -147,7 +146,7 @@ public class Cavalry extends CoinKit implements Listener {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
 
-        if (!MapController.getPlayers().contains(uuid))
+        if (!TeamController.isPlaying(uuid))
             return;
         if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
             return;

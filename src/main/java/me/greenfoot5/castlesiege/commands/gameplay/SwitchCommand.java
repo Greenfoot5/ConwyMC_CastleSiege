@@ -1,7 +1,6 @@
 package me.greenfoot5.castlesiege.commands.gameplay;
 
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.database.UpdateStats;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
@@ -27,7 +26,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.BUYKIT_LEVEL;
 import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.SWITCH_LEVEL;
 
 /**
@@ -76,7 +74,7 @@ public class SwitchCommand implements CommandExecutor {
 		if (p == null) {
 			Messenger.sendError("Could not find player: <red>" + args[0], sender);
 			return;
-		} else if (!MapController.getPlayers().contains(p.getUniqueId())) {
+		} else if (!TeamController.isPlaying(p)) {
 			Messenger.sendError("You must be on a team to swap!", sender);
 			return;
 		}
@@ -97,13 +95,13 @@ public class SwitchCommand implements CommandExecutor {
 	}
 	
 	private void switchTeam(CommandSender sender, String[] args) {
-		if (MapController.disableSwitching) {
+		if (TeamController.disableSwitching) {
 			Messenger.sendError("Switching teams is currently disabled!", sender);
 			return;
 		} else if (!(sender instanceof Player)) {
 			Messenger.sendError("Console cannot join a team!", sender);
 			return;
-		} else if (!MapController.getPlayers().contains(((Player) sender).getUniqueId())) {
+		} else if (!TeamController.isPlaying((Player) sender)) {
 			Messenger.sendError("Must be on a team to switch!", sender);
 			return;
 		}

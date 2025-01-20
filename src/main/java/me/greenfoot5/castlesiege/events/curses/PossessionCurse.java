@@ -3,7 +3,7 @@ package me.greenfoot5.castlesiege.events.curses;
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
-import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
@@ -37,9 +37,9 @@ public class PossessionCurse extends CurseCast {
     @Override
     protected void cast() {
         Messenger.broadcastCurse("<dark_red>" + name + "</dark_red> has been activated! " + activateMessage);
-        playSound(MapController.getPlayers());
+        playSound(TeamController.getPlayers());
 
-        Collection<UUID> players = MapController.getPlayers();
+        Collection<UUID> players = TeamController.getPlayers();
         if (getPlayer() != null)
             players = Collections.singleton(Objects.requireNonNull(Bukkit.getPlayer(getPlayer())).getUniqueId());
 

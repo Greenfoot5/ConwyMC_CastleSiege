@@ -4,6 +4,7 @@ import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.Team;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -61,7 +62,7 @@ public class DiceCurse extends CurseCast {
         }
 
         Messenger.broadcastCurse("<dark_red>" + name + "</dark_red> has been activated! " + activateMessage);
-        playSound(MapController.getPlayers());
+        playSound(TeamController.getPlayers());
     }
 
     /**

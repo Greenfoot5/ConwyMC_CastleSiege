@@ -1,7 +1,7 @@
 package me.greenfoot5.castlesiege.commands.gameplay;
 
 import me.greenfoot5.castlesiege.gui.KitGUIs;
-import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.gui.Gui;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.command.Command;
@@ -41,7 +41,7 @@ public class KitCommand implements TabExecutor {
         assert sender instanceof Player;
         Player p = (Player) sender;
 
-        if (!MapController.getPlayers().contains(p.getUniqueId())) {
+        if (!TeamController.isPlaying(p)) {
             Messenger.sendError("You must be on a team to select a kit!", sender);
             return true;
         }

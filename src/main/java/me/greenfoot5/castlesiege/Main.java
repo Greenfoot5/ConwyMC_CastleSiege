@@ -161,6 +161,7 @@ import me.greenfoot5.castlesiege.maps.Map;
 import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.Scoreboard;
 import me.greenfoot5.castlesiege.maps.Team;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.castlesiege.maps.WoolMap;
 import me.greenfoot5.castlesiege.maps.WoolMapBlock;
 import me.greenfoot5.castlesiege.maps.helms_deep.WallEvent;
@@ -925,8 +926,8 @@ public class Main extends JavaPlugin implements Listener {
         route = Route.from("match");
         MapController.isMatch = gameConfig.getBoolean(route.add("enabled"), MapController.isMatch);
         if (MapController.isMatch) {
-            MapController.keepTeams = gameConfig.getBoolean(route.add("keep_teams"), MapController.keepTeams);
-            MapController.disableSwitching = gameConfig.getBoolean(route.add("disable_switching"), MapController.disableSwitching);
+            TeamController.keepTeams = gameConfig.getBoolean(route.add("keep_teams"), TeamController.keepTeams);
+            TeamController.disableSwitching = gameConfig.getBoolean(route.add("disable_switching"), TeamController.disableSwitching);
             if (gameConfig.contains(route.add("maps"))) {
                 MapController.setMaps(gameConfig.getStringList(route.add("maps")));
                 if (gameConfig.getBoolean(route.add("shuffle_maps"), false)) {

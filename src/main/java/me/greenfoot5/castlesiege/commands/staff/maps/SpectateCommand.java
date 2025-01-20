@@ -5,6 +5,7 @@ import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.maps.CoreMap;
 import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.commands.chat.GlobalChatCommand;
 import me.greenfoot5.conwymc.events.nametag.UpdateNameTagEvent;
 import me.greenfoot5.conwymc.util.Messenger;
@@ -40,8 +41,8 @@ public class SpectateCommand implements CommandExecutor {
         }
 
         // If the player is a spectator, add them to a team
-        if (MapController.isSpectator(player.getUniqueId())) {
-            MapController.removeSpectator(player);
+        if (TeamController.isSpectating(player)) {
+            TeamController.leaveSpectator(player.getUniqueId());
 
             // Assign stored kit
             Kit kit = Kit.getKit(CSActiveData.getData(player.getUniqueId()).getKit());
@@ -52,7 +53,7 @@ public class SpectateCommand implements CommandExecutor {
 
         } else {
             CSActiveData.getData(player.getUniqueId()).setChatMode(GlobalChatCommand.CHAT_MODE);
-            MapController.addSpectator(player);
+            TeamController.joinSpectator(player);
 
             // Teleport the player
             if (InCombat.isPlayerInLobby(player.getUniqueId())) {

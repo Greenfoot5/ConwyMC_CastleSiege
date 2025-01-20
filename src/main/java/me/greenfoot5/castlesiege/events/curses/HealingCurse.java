@@ -2,7 +2,7 @@ package me.greenfoot5.castlesiege.events.curses;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
-import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
@@ -38,10 +38,10 @@ public class HealingCurse extends CurseCast {
         this.setStartTime();
         Messenger.broadcastCurse("<dark_red>" + getDisplayName() + "</dark_red> has been activated! " + getActivateMessage() +
                 new DecimalFormat("0.00").format(multiplier) + "!");
-        playSound(MapController.getPlayers());
+        playSound(TeamController.getPlayers());
 
         // Update all player's current health
-        for (UUID uuid : MapController.getPlayers())
+        for (UUID uuid : TeamController.getPlayers())
             updateHealth(uuid, multiplier);
 
         CurseCast curse = this;
@@ -52,7 +52,7 @@ public class HealingCurse extends CurseCast {
                 Bukkit.getPluginManager().callEvent(expired);
 
                 // Update all player's current health
-                for (UUID uuid : MapController.getPlayers())
+                for (UUID uuid : TeamController.getPlayers())
                     updateHealth(uuid, 1f);
 
                 Messenger.broadcastCurseEnd("<dark_green>" + expired.getDisplayName() + "</dark_green> has been expired! " + expired.getExpireMessage());

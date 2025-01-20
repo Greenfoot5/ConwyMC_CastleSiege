@@ -10,6 +10,7 @@ import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.ConwyMC;
 import me.greenfoot5.conwymc.data_types.Cosmetic;
 import me.greenfoot5.conwymc.data_types.PlayerCosmetics;
@@ -89,10 +90,10 @@ public class PlayerConnect implements Listener {
         // Assign the player to a team or spectator
         InCombat.playerDied(uuid);
         if (MapController.isMatch) {
-            MapController.addSpectator(e.getPlayer());
+            TeamController.joinSpectator(e.getPlayer());
             p.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
         } else {
-            MapController.joinATeam(p.getUniqueId());
+            TeamController.joinSmallestTeam(p.getUniqueId(), MapController.getCurrentMap());
 
             // Assign stored kit
             Kit kit = Kit.getKit(data.getKit());

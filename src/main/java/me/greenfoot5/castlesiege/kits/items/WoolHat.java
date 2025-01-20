@@ -51,7 +51,7 @@ public class WoolHat implements Listener {
 	public void greaterBlindnessActive(GreaterBlindnessCurse curse) {
 		hideTeamColour = true;
 
-		for (UUID uuid : MapController.getPlayers()) {
+		for (UUID uuid : TeamController.getPlayers()) {
 			setHead(Bukkit.getPlayer(uuid));
 		}
 	}
@@ -60,7 +60,7 @@ public class WoolHat implements Listener {
 	public void beginHidingAll(TrueBlindnessCurse curse) {
 		trueHideTeamColour = true;
 
-		for (UUID uuid : MapController.getPlayers()) {
+		for (UUID uuid : TeamController.getPlayers()) {
 			setHead(Bukkit.getPlayer(uuid));
 		}
 	}
@@ -75,7 +75,7 @@ public class WoolHat implements Listener {
 			return;
 		}
 
-		for (UUID uuid : MapController.getPlayers()) {
+		for (UUID uuid : TeamController.getPlayers()) {
 			setHead(Bukkit.getPlayer(uuid));
 		}
 	}

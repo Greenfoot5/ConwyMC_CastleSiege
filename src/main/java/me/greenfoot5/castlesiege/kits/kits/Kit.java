@@ -399,7 +399,7 @@ public abstract class Kit implements CommandExecutor, Listener {
         }
 
         UUID uuid = ((Player) sender).getUniqueId();
-        if (MapController.isSpectator(uuid)) {
+        if (TeamController.isSpectating(uuid)) {
             if (verbose)
                 Messenger.sendError("Spectators cannot select kits!", sender);
             return false;

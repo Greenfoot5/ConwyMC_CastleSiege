@@ -104,24 +104,24 @@ public class Scoreboard implements Runnable {
 		}
 		flagSidebar.tick();
 
-		for (Player online : Bukkit.getOnlinePlayers()) {
-			UUID uuid = online.getUniqueId();
+		for (UUID uuid : TeamController.getEveryone()) {
+			Player player = Bukkit.getPlayer(uuid);
 			CSPlayerData data = CSActiveData.getData(uuid);
 			if (data != null) {
 				if (data.getSetting("scoreboard").startsWith("flag")) {
-					flagSidebar.addPlayer(online);
+					flagSidebar.addPlayer(player);
 					continue;
 				}
 
 				if (!statsSidebars.containsKey(uuid)) {
 					statsSidebars.put(uuid, new StatsSidebar(scoreboardLibrary.createSidebar(), uuid));
-					statsSidebars.get(uuid).addPlayer(online);
+					statsSidebars.get(uuid).addPlayer(player);
 				}
 				statsSidebars.get(uuid).tick();
 			}
 
-			if (MapController.isSpectator(uuid)) {
-				flagSidebar.addPlayer(online);
+			if (TeamController.isSpectating(uuid)) {
+				flagSidebar.addPlayer(player);
 			}
 		}
 	}

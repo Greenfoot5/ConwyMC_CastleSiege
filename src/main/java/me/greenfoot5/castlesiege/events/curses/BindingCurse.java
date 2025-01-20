@@ -1,7 +1,7 @@
 package me.greenfoot5.castlesiege.events.curses;
 
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ public class BindingCurse extends CurseCast {
         Player player = getPlayer() == null ? null : Bukkit.getPlayer(getPlayer());
         if (player == null) {
             Messenger.broadcastCurse("<dark_red>" + getDisplayName() + "</dark_red> has been activated! " + getActivateMessage());
-            playSound(MapController.getPlayers());
+            playSound(TeamController.getPlayers());
         } else {
             Messenger.sendCurse("<dark_red>" + getDisplayName() + "</dark_red> has been activated! " + getActivateMessage(), player);
             playSound(List.of(player.getUniqueId()));

@@ -4,7 +4,6 @@ import com.nametagedit.plugin.NametagEdit;
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;
-import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.events.nametag.UpdateNameTagEvent;
 import me.greenfoot5.conwymc.util.Messenger;
@@ -33,7 +32,7 @@ public class CSNameTag implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onUpdateNameTag(UpdateNameTagEvent event) {
         // Don't do anything if the player isn't on CastleSiege
-        if (!MapController.getEveryone().contains(event.getPlayer().getUniqueId())) {
+        if (!TeamController.getEveryone().contains(event.getPlayer().getUniqueId())) {
             return;
         }
 
@@ -45,7 +44,7 @@ public class CSNameTag implements Listener {
         String legacyRank = LegacyComponentSerializer.legacySection().serialize(rank);
 
         Component username;
-        if (MapController.getPlayers().contains(player.getUniqueId())) {
+        if (TeamController.getPlayers().contains(player.getUniqueId())) {
              username = player.name().color(TeamController.getTeam(player.getUniqueId()).primaryChatColor);
         } else {
             username = player.name().color(NamedTextColor.GRAY).decorate(TextDecoration.ITALIC);
@@ -63,7 +62,7 @@ public class CSNameTag implements Listener {
 
     @SuppressWarnings("deprecation")
     private static String legacyColor(Player p, boolean addSpace) {
-        if (MapController.getPlayers().contains(p.getUniqueId())) {
+        if (TeamController.getPlayers().contains(p.getUniqueId())) {
             Component c = Component.text(" ").color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
             if (addSpace)
                 return LegacyComponentSerializer.legacySection().serialize(c);
@@ -81,7 +80,7 @@ public class CSNameTag implements Listener {
      */
     public static String mmUsername(Player p) {
         String name = Messenger.mm.serialize(p.name());
-        if (MapController.getPlayers().contains(p.getUniqueId())) {
+        if (TeamController.getPlayers().contains(p.getUniqueId())) {
             String tag = "color:" + TeamController.getTeam(p.getUniqueId()).primaryChatColor.asHexString();
             return "<" + tag + ">" + name + "</" + tag + ">";
         } else {
@@ -95,7 +94,7 @@ public class CSNameTag implements Listener {
      * @return The player's username &amp; colour
      */
     public static Component username(Player p) {
-        if (MapController.getPlayers().contains(p.getUniqueId())) {
+        if (TeamController.isPlaying(p)) {
             return p.name().color(TeamController.getTeam(p.getUniqueId()).primaryChatColor);
         } else {
             return p.name().color(NamedTextColor.GRAY).decorate(TextDecoration.ITALIC);
