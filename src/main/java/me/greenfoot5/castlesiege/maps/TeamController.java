@@ -2,6 +2,7 @@ package me.greenfoot5.castlesiege.maps;
 
 import io.lumine.mythic.api.adapters.AbstractPlayer;
 import io.lumine.mythic.core.players.factions.FactionProvider;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -63,6 +64,27 @@ public class TeamController implements FactionProvider {
      */
     public static boolean isSpectating(UUID uuid) {
         return spectators.contains(uuid);
+    }
+
+    /**
+     * Makes the player a spectator
+     * @param player The player to make a spectator
+     */
+    public static void joinSpectator(Player player) {
+        leaveTeam(player.getUniqueId());
+        spectators.add(player.getUniqueId());
+
+        player.setGameMode(GameMode.SPECTATOR);
+    }
+
+    /**
+     * Removes a player from being a spectator
+     * @param player The player to make a spectator
+     */
+    public static void leaveSpectator(Player player) {
+        spectators.remove(player.getUniqueId());
+
+        player.setGameMode(GameMode.SURVIVAL);
     }
 
     /**
