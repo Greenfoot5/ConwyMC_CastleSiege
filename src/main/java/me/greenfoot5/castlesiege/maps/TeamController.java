@@ -2,12 +2,22 @@ package me.greenfoot5.castlesiege.maps;
 
 import io.lumine.mythic.api.adapters.AbstractPlayer;
 import io.lumine.mythic.core.players.factions.FactionProvider;
+import me.greenfoot5.castlesiege.database.CSActiveData;
+import me.greenfoot5.castlesiege.events.combat.InCombat;
+import me.greenfoot5.castlesiege.kits.kits.Kit;
+import me.greenfoot5.castlesiege.kits.kits.SignKit;
+import me.greenfoot5.castlesiege.kits.kits.free_kits.Swordsman;
+import me.greenfoot5.conwymc.util.Messenger;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -20,14 +30,11 @@ public class TeamController implements FactionProvider {
 
     // If we should keep the teams the same for each map
     public static boolean keepTeams = false;
-    // The teams that have been kept
-    private static final ArrayList<ArrayList<UUID>> kept_teams = new ArrayList<>();
     // Stop players swapping teams (forceswitching is allowed)
     public static boolean disableSwitching = false;
 
-    private static final Set<UUID> players = new HashSet<>();
     private static final Set<UUID> spectators = new HashSet<>();
-
+    // Contains all players and their team
     private static final HashMap<UUID, Team> uuidToTeam = new HashMap<>();
 
     /**
@@ -45,7 +52,7 @@ public class TeamController implements FactionProvider {
      * @return true if they are on a team
      */
     public static boolean isPlaying(UUID uuid) {
-        return players.contains(uuid);
+        return uuidToTeam.containsKey(uuid);
     }
 
     /**
@@ -133,7 +140,7 @@ public class TeamController implements FactionProvider {
         }
 
         uuidToTeam.put(uuid, team);
-        players.add(uuid);
+
     }
 
     /**
@@ -142,7 +149,6 @@ public class TeamController implements FactionProvider {
      */
     public static void leaveTeam(UUID uuid) {
         uuidToTeam.remove(uuid);
-        players.remove(uuid);
     }
 
     /**
