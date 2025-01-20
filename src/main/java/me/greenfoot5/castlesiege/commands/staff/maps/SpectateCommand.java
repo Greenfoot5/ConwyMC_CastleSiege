@@ -1,5 +1,7 @@
 package me.greenfoot5.castlesiege.commands.staff.maps;
 
+import me.greenfoot5.castlesiege.commands.chat.TeamChatCommand;
+import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
@@ -15,6 +17,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
  * Allows players to spectate a match
@@ -42,7 +46,7 @@ public class SpectateCommand implements CommandExecutor {
 
         // If the player is a spectator, add them to a team
         if (TeamController.isSpectating(player)) {
-            TeamController.leaveSpectator(player.getUniqueId());
+            TeamController.joinSmallestTeam(player.getUniqueId(), MapController.getCurrentMap());
 
             // Assign stored kit
             Kit kit = Kit.getKit(CSActiveData.getData(player.getUniqueId()).getKit());
@@ -52,7 +56,16 @@ public class SpectateCommand implements CommandExecutor {
                 Kit.getKit("Swordsman").addPlayer(player.getUniqueId(), true);
 
         } else {
-            CSActiveData.getData(player.getUniqueId()).setChatMode(GlobalChatCommand.CHAT_MODE);
+
+            // If the player is talking in team chat, let's move them back to global
+            if (TeamController.isPlaying(player)) {
+                CSPlayerData data = CSActiveData.getData(player.getUniqueId());
+                assert data != null;
+                if (Objects.equals(data.getChatMode(), TeamChatCommand.CHAT_MODE)) {
+                    data.setChatMode(GlobalChatCommand.CHAT_MODE);
+                }
+            }
+
             TeamController.joinSpectator(player);
 
             // Teleport the player
@@ -63,8 +76,9 @@ public class SpectateCommand implements CommandExecutor {
                     player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
                 }
             }
-            Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(player));
         }
+
+        Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(player));
         return true;
     }
 }
