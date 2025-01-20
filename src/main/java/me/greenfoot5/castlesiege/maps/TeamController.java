@@ -177,11 +177,58 @@ public class TeamController implements FactionProvider {
         return uuidToTeam.get(uuid);
     }
 
-    public static void loadTeams() {
+    /**
+     * Loads the teams from one map to another
+     * @param oldMap The map to load teams from
+     * @param newMap The map to populate the teams for
+     */
+    public static void loadTeams(Map oldMap, Map newMap) {
         // We can and want to keep the teams the same
-        if (keepTeams && MapController.getCurrentMap().teams.length >= kept_teams.size()) {
+        if (keepTeams && newMap.teams.length >= oldMap.teams.length) {
+            // Shuffle teams to avoid attackers always being attackers
+            List<Team> oldTeams = Arrays.asList(oldMap.teams);
+            Collections.shuffle(oldTeams);
+            oldMap.teams = oldTeams.toArray(oldMap.teams);
 
+            // Move player onto their new team
+            for (int t = 0; t < oldMap.teams.length; t++) {
+                for (UUID uuid : oldMap.teams[t].getPlayers()) {
+                    joinTeam(uuid, newMap.teams[t]);
+                }
+                oldMap.teams[t].clear();
+            }
+
+            return;
         }
+
+        loadTeams(newMap);
+    }
+
+    /**
+     * Loads all players onto a new map
+     * @param newMap The map to add players to
+     */
+    public static void loadTeams(Map newMap) {
+        for (UUID uuid : uuidToTeam.keySet()) {
+            joinSmallestTeam(uuid, newMap);
+        }
+    }
+
+    /**
+     * Restocks the players kit, or sets them to swordsman if they were using a team kit
+     * @param player The player to restock/reset kits for
+     */
+    private static void checkTeamKit(Player player) {
+        Kit kit = Kit.equippedKits.get(player.getUniqueId());
+        if (kit == null)
+            return;
+
+        if (kit instanceof SignKit) {
+            Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
+            CSActiveData.getData(player.getUniqueId()).setKit("swordsman");
+        }
+
+        Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), true);
     }
 
     /**
