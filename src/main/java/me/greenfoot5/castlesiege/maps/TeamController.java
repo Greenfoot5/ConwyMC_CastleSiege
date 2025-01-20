@@ -119,12 +119,23 @@ public class TeamController implements FactionProvider {
 
     /**
      * Removes a player from being a spectator
-     * @param player The player to make a spectator
+     * @param uuid The of the player
      */
-    public static void leaveSpectator(Player player) {
-        spectators.remove(player.getUniqueId());
+    public static void leaveSpectator(UUID uuid) {
+        spectators.remove(uuid);
 
-        player.setGameMode(GameMode.SURVIVAL);
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null) {
+            player.setGameMode(GameMode.SURVIVAL);
+        }
+    }
+
+    /**
+     * Adds a player to a team on the current map
+     * @param uuid the player to add to a team
+     */
+    public static void joinSmallestTeam(UUID uuid, Map map) {
+        joinTeam(uuid, map.smallestTeam());
     }
 
     /**
@@ -136,11 +147,17 @@ public class TeamController implements FactionProvider {
         if (isPlaying(uuid)) {
             leaveTeam(uuid);
         } else if (isSpectating(uuid)) {
-            // TODO - Remove spectator
+            leaveSpectator(uuid);
         }
 
         uuidToTeam.put(uuid, team);
 
+        Player player = Bukkit.getPlayer(uuid);
+        assert player != null;
+        player.teleport(team.lobby.spawnPoint);
+        Messenger.send(Component.text("You joined ").append(team.getDisplayName()), player);
+
+        checkTeamKit(player);
     }
 
     /**
