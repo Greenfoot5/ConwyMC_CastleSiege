@@ -1,11 +1,8 @@
 package me.greenfoot5.castlesiege.maps;
 
-import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.advancements.TutorialAdvancements;
-import me.greenfoot5.castlesiege.advancements.displays.NodeDisplay;
 import me.greenfoot5.castlesiege.commands.donator.DuelCommand;
 import me.greenfoot5.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.greenfoot5.castlesiege.commands.info.leaderboard.MVPCommand;
@@ -239,7 +236,6 @@ public class MapController {
 								player = Bukkit.getOfflinePlayer(mvp.getFirst()).getPlayer();
 							}
 							assert player != null;
-							TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Simply the best"))).grant(player);
 						});
 					}
 				}
@@ -382,12 +378,6 @@ public class MapController {
 			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
 				CSActiveData.getData(p.getUniqueId()).addCoins(50 * CSPlayerData.getCoinMultiplier());
 				Messenger.sendSuccess("<gold>+" + (50 * CSPlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Winner Winner Chicken Dinner"))).grant(p);
-					}
-				}.runTask(Main.plugin);
 			}
 		}
 	}
