@@ -12,8 +12,46 @@ import java.util.UUID;
  * Manages the players on Castle Siege
  */
 public class TeamController implements FactionProvider {
+    private static final Set<UUID> players = new HashSet<>();
+    private static final Set<UUID> spectators = new HashSet<>();
 
     private static final HashMap<UUID, Team> uuidToTeam = new HashMap<>();
+
+    /**
+     * Checks if a player is playing castle siege
+     * @param player The player to check
+     * @return true if they are on a team
+     */
+    public static boolean isPlaying(Player player) {
+        return isPlaying(player.getUniqueId());
+    }
+
+    /**
+     * Checks if a player is playing castle siege
+     * @param uuid The uuid of the player to check
+     * @return true if they are on a team
+     */
+    public static boolean isPlaying(UUID uuid) {
+        return players.contains(uuid);
+    }
+
+    /**
+     * Checks if a player is spectating castle siege
+     * @param player The player to check
+     * @return true if they are spectating
+     */
+    public static boolean isSpectating(Player player) {
+        return isSpectating(player.getUniqueId());
+    }
+
+    /**
+     * Checks if a player is spectating castle siege
+     * @param uuid The uuid of the player to check
+     * @return true if they are spectating
+     */
+    public static boolean isSpectating(UUID uuid) {
+        return spectators.contains(uuid);
+    }
 
     /**
      * Adds a player to a team. If they are already on a team, removes the player from their team.
@@ -21,7 +59,14 @@ public class TeamController implements FactionProvider {
      * @param team The team to add the player to
      */
     public static void joinTeam(UUID uuid, Team team) {
+        if (isPlaying(uuid)) {
+            leaveTeam(uuid);
+        } else if (isSpectating(uuid)) {
+            // TODO - Remove spectator
+        }
+
         uuidToTeam.put(uuid, team);
+        players.add(uuid);
     }
 
     /**
@@ -30,6 +75,7 @@ public class TeamController implements FactionProvider {
      */
     public static void leaveTeam(UUID uuid) {
         uuidToTeam.remove(uuid);
+        players.remove(uuid);
     }
 
     /**
