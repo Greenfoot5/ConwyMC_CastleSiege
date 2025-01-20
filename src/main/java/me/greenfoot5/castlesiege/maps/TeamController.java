@@ -67,6 +67,39 @@ public class TeamController implements FactionProvider {
     }
 
     /**
+     * Gets all the players current playing
+     */
+    public static Set<UUID> getPlayers() {
+        return uuidToTeam.keySet();
+    }
+
+    /**
+     * Gets all the players not in their spawn
+     */
+    public static Set<UUID> getActivePlayers() {
+        Set<UUID> activePlayers = new HashSet<>();
+        for (UUID uuid : uuidToTeam.keySet()) {
+            if (!InCombat.isPlayerInLobby(uuid)) {
+                activePlayers.add(uuid);
+            }
+        }
+        return activePlayers;
+    }
+
+    public static Set<UUID> getSpectators() {
+        return spectators;
+    }
+
+
+    /**
+     * Get all players and spectators
+     */
+    public static Set<UUID> getEveryone() {
+        Set<UUID> everyone = uuidToTeam.keySet();
+        everyone.addAll(spectators);
+        return everyone;
+    }
+    /**
      * Makes the player a spectator
      * @param player The player to make a spectator
      */
