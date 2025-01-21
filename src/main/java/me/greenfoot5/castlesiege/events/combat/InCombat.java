@@ -2,6 +2,9 @@ package me.greenfoot5.castlesiege.events.combat;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.CSActiveData;
+import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
+import me.greenfoot5.castlesiege.maps.objects.Flag;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -115,6 +118,23 @@ public class InCombat implements Listener {
 		inLobby = new ArrayList<>();
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			inLobby.add(player.getUniqueId());
+		}
+	}
+
+	/**
+	 * Removes a player from combat
+	 * @param uuid The UUID to clear
+	 */
+	public static void remove(UUID uuid) {
+		inCombat.remove(uuid);
+		inLobby.remove(uuid);
+
+		Player player = Bukkit.getPlayer(uuid);
+		if (player == null)
+			return;
+
+		for (Flag flag : MapController.getCurrentMap().flags) {
+			flag.playerExit(player);
 		}
 	}
 }
