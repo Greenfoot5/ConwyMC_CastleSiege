@@ -105,7 +105,8 @@ public class TeamController implements FactionProvider {
      * Get all players and spectators
      */
     public static Set<UUID> getEveryone() {
-        Set<UUID> everyone = uuidToTeam.keySet();
+        Set<UUID> everyone = new HashSet<>();
+        everyone.addAll(uuidToTeam.keySet());
         everyone.addAll(spectators);
         return everyone;
     }
@@ -129,6 +130,7 @@ public class TeamController implements FactionProvider {
 
         Player player = Bukkit.getPlayer(uuid);
         if (player != null) {
+            Scoreboard.clearScoreboard(player);
             player.setGameMode(GameMode.SURVIVAL);
         }
     }
@@ -153,10 +155,12 @@ public class TeamController implements FactionProvider {
             leaveSpectator(uuid);
         }
 
-        uuidToTeam.put(uuid, team);
-
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
+
+        team.addPlayer(uuid);
+        uuidToTeam.put(uuid, team);
+
         player.teleport(team.lobby.spawnPoint);
         Messenger.send(Component.text("You joined ").append(team.getDisplayName()), player);
 
@@ -172,6 +176,10 @@ public class TeamController implements FactionProvider {
         team.removePlayer(uuid);
 
         InCombat.playerDied(uuid);
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null) {
+            Scoreboard.clearScoreboard(player);
+        }
 
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             // Try and store the player's data
