@@ -692,10 +692,10 @@ public class MapController {
 			HandlerList.unregisterAll(catapult);
 		}
 
-			// Unregister cannon listeners
-			for (Cannon cannon : oldMap.cannons) {
-				HandlerList.unregisterAll(cannon);
-			}
+		// Unregister cannon listeners
+		for (Cannon cannon : oldMap.cannons) {
+			HandlerList.unregisterAll(cannon);
+		}
 
 		// Unregister flag regions
 		for (Flag flag : oldMap.flags) {
