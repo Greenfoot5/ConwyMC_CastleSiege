@@ -109,19 +109,19 @@ public class WoolMap implements Listener {
 
 
 	private void spawnGlower(Player p, Location loc) {
-      if ((!shulkers.containsKey(p)) || shulkers.get(p).getLocation() != loc) {
+		if ((!shulkers.containsKey(p)) || shulkers.get(p).getLocation() != loc) {
 
-		  Shulker shulker = (Shulker) Objects.requireNonNull(loc.getWorld()).spawnEntity(loc, EntityType.SHULKER);
-          shulkers.put(p, shulker);
-		  shulker.setAI(false);
-		  shulker.setInvulnerable(true);
-		  shulker.setInvisible(true);
-		  shulker.customName(Component.text(shulker.getUniqueId().toString()));
-		  p.showEntity(Main.plugin, shulker);
+			Shulker shulker = (Shulker) Objects.requireNonNull(loc.getWorld()).spawnEntity(loc, EntityType.SHULKER);
+			shulkers.put(p, shulker);
+			shulker.setAI(false);
+			shulker.setInvulnerable(true);
+			shulker.setInvisible(true);
+			shulker.customName(Component.text(shulker.getUniqueId().toString()));
+			p.showEntity(Main.plugin, shulker);
 
-		  shulker.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 8000, 0, false, false));
-          keepShulkerAlive(p, shulker, loc.getBlock());
-	  }
+			shulker.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 8000, 0, false, false));
+			keepShulkerAlive(p, shulker, loc.getBlock());
+		}
 	}
 
 	private void keepShulkerAlive(Player p, Shulker shulker, Block b) {
