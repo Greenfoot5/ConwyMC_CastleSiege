@@ -184,6 +184,7 @@ public class Flag implements SidebarComponent {
      */
     public void clear() {
         players.clear();
+        bars.get(this).removeViewer(Bukkit.getServer());
     }
 
     /**
@@ -717,8 +718,7 @@ public class Flag implements SidebarComponent {
 
         if (animationIndex == maxCap) {
             // The flag cannot be recapped
-            if (!MapController.getCurrentMap().canRecap && !Objects.equals(currentOwners, startingTeam))
-                return false;
+            return MapController.getCurrentMap().canRecap || Objects.equals(currentOwners, startingTeam);
         }
 
         return true;
