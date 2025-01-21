@@ -187,14 +187,13 @@ public class Core implements Listener, SidebarComponent {
     }
 
     /**
-     * returns a core's health
+     * Get a core's health
      */
     private double getCoreHealth() {
         return health;
     }
 
     /**
-     *
      * @param damage the damage to deal to this core
      */
     private void damageCore(double damage) {
@@ -209,38 +208,44 @@ public class Core implements Listener, SidebarComponent {
     public void onDestroyCoreBlock(BlockBreakEvent event) {
         Block clickedBlock = event.getBlock();
 
-        if (isInRegion(clickedBlock) && isCorrectMaterial(clickedBlock)) {
 
-            if (this.getOwners().equalsIgnoreCase(TeamController.getTeam(event.getPlayer().getUniqueId()).getName())) {
-                Messenger.sendError("You cannot damage your own core!", event.getPlayer());
-                event.setCancelled(true);
-                return;
-            }
+        if (!isInRegion(clickedBlock) || !isCorrectMaterial(clickedBlock)) {
+            return;
 
-            Player player = event.getPlayer();
+        if (this.getOwners().equalsIgnoreCase(TeamController.getTeam(event.getPlayer().getUniqueId()).getName())) {
+            Messenger.sendError("You cannot damage your own core!", event.getPlayer());
+            event.setCancelled(true);
+            return;
+        }
 
-            for (Team team : MapController.getCurrentMap().teams) {
-                if (!team.hasPlayer(player.getUniqueId())) {
-                    for (UUID member : team.getPlayers()) {
-                        Messenger.sendActionError("Your core is under attack!", Objects.requireNonNull(Bukkit.getPlayer(member)));
-                    }
+        Player player = event.getPlayer();
+
+        for (Team team : MapController.getCurrentMap().teams) {
+            if (Objects.equals(team.getName(), getOwners())) {
+                for (UUID member : team.getPlayers()) {
+                    Messenger.sendActionError("Your core is under attack!", Objects.requireNonNull(Bukkit.getPlayer(member)));
                 }
             }
+        }
 
-            UpdateStats.addCaptures(player.getUniqueId(), 1);
-            playDamageSound(player, false);
-            damageCore(1);
-            if (getCoreHealth() < 1) {
-                isDestroyed = true;
-                playDamageSound(player, true);
+        UpdateStats.addCaptures(player.getUniqueId(), 1);
+        playDamageSound(player, false);
+        damageCore(1);
 
-                if (MapController.getCurrentMap().hasMapEnded()) {
-                    MapController.endMap();
-                }
+        if (getCoreHealth() < 1) {
+            isDestroyed = true;
+            playDamageSound(player, true);
+
+            if (MapController.getCurrentMap().hasMapEnded()) {
+                MapController.endMap();
             }
         }
     }
 
+    /**
+     * Displays the core on the scoreboard
+     * @param lineDrawable The drawable to draw the line with
+     */
     @Override
     public void draw(@NotNull LineDrawable lineDrawable) {
         Team owners = MapController.getCurrentMap().getTeam(getOwners());
