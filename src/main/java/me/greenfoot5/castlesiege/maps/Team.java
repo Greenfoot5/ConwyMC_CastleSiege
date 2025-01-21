@@ -144,7 +144,6 @@ public class Team implements Listener, SidebarComponent {
      */
     public void removePlayer(UUID uuid) {
         players.remove(uuid);
-        TeamController.leaveTeam(uuid);
     }
 
     /**
