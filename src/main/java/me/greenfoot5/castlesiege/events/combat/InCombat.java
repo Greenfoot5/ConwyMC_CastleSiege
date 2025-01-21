@@ -111,14 +111,12 @@ public class InCombat implements Listener {
 	}
 
 	/**
-	 * Clears the combat lists
+	 * Clears the combat lists of all players and re-adds all players to lobby
 	 */
 	public static void clearCombat() {
 		inCombat = new HashMap<>();
 		inLobby = new ArrayList<>();
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			inLobby.add(player.getUniqueId());
-		}
+        inLobby.addAll(TeamController.getPlayers());
 	}
 
 	/**
