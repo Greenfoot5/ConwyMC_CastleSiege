@@ -5,6 +5,7 @@ import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.events.map.CannonEvent;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.sign_kits.Artillerist;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.castlesiege.structures.SchematicSpawner;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
@@ -103,8 +104,11 @@ public class Cannon implements Listener {
     @EventHandler
     public void onPressButton(PlayerInteractEvent event) {
         Block clickedBlock = event.getClickedBlock();
-        if (clickedBlock == null || clickedBlock.getType() != Material.POLISHED_BLACKSTONE_BUTTON
-                || (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.LEFT_CLICK_BLOCK)) {
+        if (clickedBlock == null
+                || clickedBlock.getType() != Material.POLISHED_BLACKSTONE_BUTTON
+                || (event.getAction() != Action.RIGHT_CLICK_BLOCK
+                    && event.getAction() != Action.LEFT_CLICK_BLOCK)
+                || !TeamController.isPlaying(event.getPlayer())) {
             return;
         }
 

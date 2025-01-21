@@ -50,6 +50,10 @@ public class WoolMap implements Listener {
 		if (target == null || !(target.getState() instanceof Sign))
 			return;
 
+		if (!TeamController.isPlaying(player)) {
+			return;
+		}
+
 		if (!MapController.isOngoing() && MapController.timer.state != TimerState.EXPLORATION)
 			return;
 

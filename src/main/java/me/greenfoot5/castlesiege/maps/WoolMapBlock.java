@@ -30,7 +30,7 @@ public class WoolMapBlock {
      */
     public void spawnPlayer(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
-        if (player == null) {
+        if (player == null || !TeamController.isPlaying(player)) {
             return;
         }
 

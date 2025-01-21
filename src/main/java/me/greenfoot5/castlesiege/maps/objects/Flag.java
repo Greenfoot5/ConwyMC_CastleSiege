@@ -164,6 +164,10 @@ public class Flag implements SidebarComponent {
      * @param player the player that entered
      */
     public void playerEnter(Player player) {
+        if (!TeamController.isPlaying(player)) {
+            return;
+        }
+
         players.add(player.getUniqueId());
         addPlayerToFlagBar(this, player);
         activate();
@@ -423,8 +427,10 @@ public class Flag implements SidebarComponent {
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
-                String team = TeamController.getTeam(uuid).getName();
-                if (team.equals(currentOwners)) {
+                Team team = TeamController.getTeam(uuid);
+                if (team == null) {
+                    playerExit(player);
+                } else if (team.getName().equals(currentOwners)) {
                     counts.setFirst(counts.getFirst() + 1);
                 } else {
                     counts.setSecond(counts.getSecond() + 1);
@@ -445,7 +451,7 @@ public class Flag implements SidebarComponent {
 
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
-            if (player != null) {
+            if (player != null && TeamController.isPlaying(uuid)) {
                 // Add the player to the team counts
                 String team = TeamController.getTeam(uuid).getName();
                 teamCounts.merge(team, 1, Integer::sum);

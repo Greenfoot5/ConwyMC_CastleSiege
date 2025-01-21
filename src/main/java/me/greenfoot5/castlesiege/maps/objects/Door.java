@@ -54,7 +54,7 @@ public abstract class Door implements Listener {
      */
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (isCorrectInteraction(event) && isControlled(event)) {
+        if (isCorrectInteraction(event) && isControlled(event) && TeamController.isPlaying(event.getPlayer())) {
             activate(event);
         }
     }
