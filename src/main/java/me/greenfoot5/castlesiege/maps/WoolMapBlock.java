@@ -76,7 +76,7 @@ public class WoolMapBlock {
                 return;
             }
 
-            if (team != null && team.hasPlayer(uuid)) {
+            if (team != null && TeamController.getTeam(uuid).getName().equals(team.getName())) {
                 if (!Objects.equals(flag.getCurrentOwners(), team.getName())) {
                     Messenger.sendActionError("Your team does not own this flag at the moment.", player);
 
