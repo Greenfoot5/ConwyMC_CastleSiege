@@ -369,7 +369,7 @@ public class MapController {
 			assert p != null;
 			double score = MVPStats.getStats(p.getUniqueId()).getScore();
 
-			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
+			if (TeamController.getPlayers().size() >= 6 && score >= 20) {
 				CSActiveData.getData(p.getUniqueId()).addCoins(50 * CSPlayerData.getCoinMultiplier());
 				Messenger.sendSuccess("<gold>+" + (50 * CSPlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
 			}

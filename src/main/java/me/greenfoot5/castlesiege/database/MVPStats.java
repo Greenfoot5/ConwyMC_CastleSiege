@@ -2,6 +2,7 @@ package me.greenfoot5.castlesiege.database;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.data_types.CSStats;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -48,8 +49,8 @@ public class MVPStats implements Listener {
     public static void reset() {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             stats.clear();
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                Bukkit.getScheduler().runTask(Main.plugin, () -> addPlayer(p.getUniqueId()));
+            for (UUID uuid : TeamController.getPlayers()) {
+                Bukkit.getScheduler().runTask(Main.plugin, () -> addPlayer(uuid));
             }
         });
     }

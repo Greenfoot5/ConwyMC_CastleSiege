@@ -234,7 +234,8 @@ public class Chef extends CoinKit implements Listener {
                     }
                     int squaredDistance = campfireRadius * campfireRadius;
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        if (loc.distanceSquared(player.getLocation()) <= squaredDistance) {
+                        if (TeamController.isPlaying(player)
+                                && loc.distanceSquared(player.getLocation()) <= squaredDistance) {
                             player.setHealth(p.getHealth() + campfireRegen);
                         }
                     }

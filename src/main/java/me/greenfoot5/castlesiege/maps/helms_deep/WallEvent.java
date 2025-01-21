@@ -167,7 +167,7 @@ public class WallEvent implements Listener {
             // Kill any players within DEATH_RADIUS blocks
             for (Player close : Bukkit.getOnlinePlayers()) {
                 double closeDistance = close.getLocation().distance(PLACE_LOCATION);
-                if (closeDistance < DEATH_RADIUS) { close.setHealth(0); }
+                if (closeDistance < DEATH_RADIUS && TeamController.isPlaying(close)) { close.setHealth(0); }
             }
 
             // Create our explosion

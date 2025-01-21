@@ -249,9 +249,10 @@ public class DeathEvent implements Listener {
 
         Messenger.send(messages.getSecond()[0] + CSNameTag.mmUsername(killer) + messages.getSecond()[1], target);
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player != killer && player != target
-                    && !CSActiveData.getData(player.getUniqueId()).getSetting("deathMessages").equals("false")) {
+        for (UUID uuid : TeamController.getEveryone()) {
+            if (uuid != killer.getUniqueId() && uuid != target.getUniqueId()
+                    && !CSActiveData.getData(uuid).getSetting("deathMessages").equals("false")) {
+                Player player = Bukkit.getPlayer(uuid);
                 Messenger.send(CSNameTag.mmUsername(killer) + messages.getFirst()[0]
                         + CSNameTag.mmUsername(target) + messages.getFirst()[1], player);
             }

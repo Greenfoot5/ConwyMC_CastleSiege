@@ -83,8 +83,8 @@ public class PlayerConnect implements Listener {
                     .append(Component.newline())
                     .append(Component.text("Welcome to Castle Siege", NamedTextColor.DARK_RED))
                     .append(Component.newline())
-                    .append(Component.text("There are currently " + Bukkit.getOnlinePlayers().size() +
-                            " player(s) online.", NamedTextColor.DARK_PURPLE)), p);
+                    .append(Component.text("There are currently " + TeamController.getPlayers().size() +
+                            " player(s) battling.", NamedTextColor.DARK_PURPLE)), p);
         }
 
         // Assign the player to a team or spectator
