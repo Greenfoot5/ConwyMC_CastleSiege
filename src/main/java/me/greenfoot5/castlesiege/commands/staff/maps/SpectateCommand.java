@@ -3,6 +3,7 @@ package me.greenfoot5.castlesiege.commands.staff.maps;
 import me.greenfoot5.castlesiege.commands.chat.TeamChatCommand;
 import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;
+import me.greenfoot5.castlesiege.database.LoadData;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.maps.CoreMap;
@@ -46,10 +47,18 @@ public class SpectateCommand implements CommandExecutor {
 
         // If the player is a spectator, add them to a team
         if (TeamController.isSpectating(player)) {
+            // Load a player's data
+            CSPlayerData data = LoadData.load(player.getUniqueId());
+            if (data == null) {
+                Messenger.sendError("Could not load data to take player out of spectator. Try again, or rejoin if the issue persists.", sender);
+                return true;
+            }
+            CSActiveData.addPlayer(player.getUniqueId(), data);
+
             TeamController.joinSmallestTeam(player.getUniqueId(), MapController.getCurrentMap());
 
             // Assign stored kit
-            Kit kit = Kit.getKit(CSActiveData.getData(player.getUniqueId()).getKit());
+            Kit kit = Kit.getKit(data.getKit());
             if (kit != null && kit.canSelect(player, true, true, false))
                 kit.addPlayer(player.getUniqueId(), true);
             else
