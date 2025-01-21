@@ -36,7 +36,7 @@ public class Cannon implements Listener {
     private final Location schematicLocation;
     private final Location recoil;
 
-    // Booleans used to represent the catapult state
+    // Booleans used to represent the cannon state
     private STATE state = STATE.Ready;
 
     // Variables used for operating the cannon
@@ -50,9 +50,9 @@ public class Cannon implements Listener {
     private Snowball projectile;
 
     /**
-     * Create a new catapult
-     * @param direction The direction in which the catapult is facing
-     * @param location The base location for the catapult
+     * Create a new cannon
+     * @param direction The direction in which the cannon is facing
+     * @param location The base location for the cannon
      * @param yaw The yaw (left/right) to fire the cannonball from.
      * @param pitch # The pitch (vertical) to fire the cannonball
      */
@@ -97,8 +97,8 @@ public class Cannon implements Listener {
 
 
     /**
-     * Handles shooting the catapult
-     * @param event The event called when pulling a lever
+     * Handles shooting the cannon
+     * @param event The event when a player presses the button
      */
     @EventHandler
     public void onPressButton(PlayerInteractEvent event) {
@@ -117,7 +117,7 @@ public class Cannon implements Listener {
     }
 
     /**
-     * Shoot the catapult and start the timer for it coming back down again
+     * Shoot the cannon
      */
     private void shoot() {
         CannonEvent shootEvent = new CannonEvent(shooter);
@@ -160,7 +160,7 @@ public class Cannon implements Listener {
     }
 
     /**
-     * Launch the catapult's projectile
+     * Launch the cannon's projectile
      */
     public void launchProjectile() {
         // Spawn a falling cobblestone block riding a projectile
@@ -180,7 +180,7 @@ public class Cannon implements Listener {
     }
 
     /**
-     * Delete the cobblestone and create an explosion on impact
+     * Create an explosion on impact
      * @param event The event called when the projectile hits something
      */
     @EventHandler
@@ -191,7 +191,7 @@ public class Cannon implements Listener {
     }
 
     /**
-     * Allows artillerists to addBall cannons
+     * Allows artillerists to add balls to cannons
      * @param event The event called when a block is placed
      */
     @EventHandler
