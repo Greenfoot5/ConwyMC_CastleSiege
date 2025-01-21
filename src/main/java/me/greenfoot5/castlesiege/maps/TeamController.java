@@ -2,7 +2,9 @@ package me.greenfoot5.castlesiege.maps;
 
 import io.lumine.mythic.api.adapters.AbstractPlayer;
 import io.lumine.mythic.core.players.factions.FactionProvider;
+import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.CSActiveData;
+import me.greenfoot5.castlesiege.database.StoreData;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
@@ -13,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -165,6 +168,19 @@ public class TeamController implements FactionProvider {
      * @param uuid The UUID of the player to remove
      */
     public static void leaveTeam(UUID uuid) {
+        Team team = uuidToTeam.get(uuid);
+        team.removePlayer(uuid);
+
+        InCombat.playerDied(uuid);
+
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            // Try and store the player's data
+            try {
+                StoreData.store(uuid);
+            } catch (SQLException ignored) {}
+        });
+
+
         uuidToTeam.remove(uuid);
     }
 
