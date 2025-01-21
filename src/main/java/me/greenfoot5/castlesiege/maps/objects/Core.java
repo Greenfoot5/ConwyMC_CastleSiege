@@ -208,9 +208,13 @@ public class Core implements Listener, SidebarComponent {
     public void onDestroyCoreBlock(BlockBreakEvent event) {
         Block clickedBlock = event.getBlock();
 
+        if (!TeamController.isPlaying(event.getPlayer())) {
+            return;
+        }
 
         if (!isInRegion(clickedBlock) || !isCorrectMaterial(clickedBlock)) {
             return;
+        }
 
         if (this.getOwners().equalsIgnoreCase(TeamController.getTeam(event.getPlayer().getUniqueId()).getName())) {
             Messenger.sendError("You cannot damage your own core!", event.getPlayer());

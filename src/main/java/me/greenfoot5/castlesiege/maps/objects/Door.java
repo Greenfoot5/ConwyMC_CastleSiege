@@ -97,7 +97,8 @@ public abstract class Door implements Listener {
      * @return Whether a correct interaction is performed to open the door
      */
     protected boolean isCorrectInteraction(PlayerInteractEvent event) {
-        return isCorrectAction(event.getAction()) && isCorrectBlockType(event.getClickedBlock());
+        return isCorrectAction(event.getAction())
+                && isCorrectBlockType(event.getClickedBlock());
     }
 
     /**
