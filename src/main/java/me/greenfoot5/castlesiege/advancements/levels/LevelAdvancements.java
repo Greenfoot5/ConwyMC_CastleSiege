@@ -317,7 +317,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
         // Grant Advancements
         for (BaseAdvancement advancement : advancements) {
             if (event.getNewLevel() < advancement.getMaxProgression()) {
-                advancement.setProgression(p, CSActiveData.getData(p.getUniqueId()).getLevel());
+                advancement.setProgression(p, event.getNewLevel());
             } else if (!advancement.isGranted(p)) {
                 advancement.grant(p);
             }
