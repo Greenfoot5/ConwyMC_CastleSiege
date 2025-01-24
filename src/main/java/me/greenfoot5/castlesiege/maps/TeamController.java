@@ -176,7 +176,8 @@ public class TeamController implements FactionProvider {
      */
     public static void leaveTeam(UUID uuid) {
         Team team = uuidToTeam.get(uuid);
-        team.removePlayer(uuid);
+        if (team != null)
+            team.removePlayer(uuid);
 
         InCombat.playerDied(uuid);
         Player player = Bukkit.getPlayer(uuid);
