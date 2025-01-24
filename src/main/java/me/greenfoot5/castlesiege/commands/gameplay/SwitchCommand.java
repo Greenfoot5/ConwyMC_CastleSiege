@@ -139,9 +139,7 @@ public class SwitchCommand implements CommandExecutor {
 			return;
 		}
 
-		// Swap the player to the smallest team
-		oldTeam.removePlayer(p.getUniqueId());
-		smallestTeam.addPlayer(p.getUniqueId());
+		TeamController.joinSmallestTeam(p.getUniqueId(), MapController.getCurrentMap());
 
 		if (!InCombat.isPlayerInLobby(p.getUniqueId())) {
 			spawnPlayer(p, 2);
@@ -205,8 +203,7 @@ public class SwitchCommand implements CommandExecutor {
 		}
 
 		// Switch to the next team
-		teams[index].removePlayer(p.getUniqueId());
-		teams[(index + 1) % teams.length].addPlayer(p.getUniqueId());
+		TeamController.joinTeam(p.getUniqueId(), teams[(index + 1) % teams.length]);
 	}
 
 	/**
@@ -221,8 +218,7 @@ public class SwitchCommand implements CommandExecutor {
 		// The player has specified a team, and we should swap to that if it's a valid team
 		Team team = map.getTeam(String.join(" ", args));
 		if (team != null) {
-			TeamController.getTeam(p.getUniqueId()).removePlayer(p.getUniqueId());
-			team.addPlayer(p.getUniqueId());
+			TeamController.joinTeam(p.getUniqueId(), team);
 			return false;
 		}
 
