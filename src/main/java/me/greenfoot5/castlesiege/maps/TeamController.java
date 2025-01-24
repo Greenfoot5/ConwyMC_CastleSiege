@@ -242,6 +242,27 @@ public class TeamController implements FactionProvider {
         }
     }
 
+    public static void teleportPlayers() {
+        for (UUID uuid : getPlayers()) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) {
+                player.teleport(TeamController.getTeam(uuid).lobby.spawnPoint);
+            }
+        }
+
+        // Teleport Spectators
+        for (UUID spectator : TeamController.getSpectators()) {
+            Player player = getPlayer(spectator);
+            if (player != null) {
+                if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
+                    player.teleport(coreMap.getCore(1).getSpawnPoint());
+                } else {
+                    player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
+                }
+            }
+        }
+    }
+
     /**
      * Restocks the players kit, or sets them to swordsman if they were using a team kit
      * @param player The player to restock/reset kits for
