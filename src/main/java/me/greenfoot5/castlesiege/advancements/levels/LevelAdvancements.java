@@ -36,6 +36,11 @@ public class LevelAdvancements implements Listener, CommandExecutor {
 
     public LevelAdvancements() {
 
+        advancementTab = CSAdvancementController.api.getAdvancementTab("siege_levels");
+        if (advancementTab != null) {
+            return;
+        }
+
         advancementTab = CSAdvancementController.api.createAdvancementTab("siege_levels");
 
         AdvancementNode rootNode = new AdvancementNodeBuilder("level_milestones")
