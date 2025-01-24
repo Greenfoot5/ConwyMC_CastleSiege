@@ -130,6 +130,14 @@ public class MapController {
 	}
 
 	/**
+	 * Gets all the maps in rotation
+	 * @return The list of maps currently in rotation, played or not
+	 */
+	public static List<Map> getMaps() {
+		return maps;
+	}
+
+	/**
 	 * @param mapName The name of the map to get
 	 * @return The Map of the map name, null if no map of that name exists
 	 */
