@@ -1,5 +1,6 @@
 package me.greenfoot5.castlesiege;
 
+import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flags;
@@ -194,6 +195,7 @@ import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.util.TriState;
 import net.megavex.scoreboardlibrary.api.ScoreboardLibrary;
 import net.megavex.scoreboardlibrary.api.exception.NoPacketAdapterAvailableException;
 import net.megavex.scoreboardlibrary.api.noop.NoopScoreboardLibrary;
@@ -205,11 +207,13 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -220,12 +224,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
 import static net.kyori.adventure.text.format.NamedTextColor.BLACK;
@@ -262,6 +267,8 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument[] catapultsConfigs;
     private YamlDocument[] cannonConfigs;
     private YamlDocument[] coreConfigs;
+    private ArrayList<BukkitTask> timedTasks = new ArrayList<>();
+    private List<Listener> listeners = new ArrayList<>();
 
     private YamlDocument gameConfig;
 
@@ -315,128 +322,127 @@ public class Main extends JavaPlugin implements Listener {
                 new Tips().runTaskTimer(plugin, Tips.TIME_BETWEEN_TIPS * 20L, Tips.TIME_BETWEEN_TIPS * 20L);
 
                 // Rewrite Events
-                getServer().getPluginManager().registerEvents(new Enderchest(), plugin);
-                getServer().getPluginManager().registerEvents(new BoosterCommand(), plugin);
-                getServer().getPluginManager().registerEvents(new TeamChatCommand(), plugin);
-                getServer().getPluginManager().registerEvents(new CSGlobalChat(), plugin);
+                registerListener(new Enderchest());
+                registerListener(new BoosterCommand());
+                registerListener(new TeamChatCommand());
+                registerListener(new CSGlobalChat());
 
                 // Connection
-                getServer().getPluginManager().registerEvents(new PlayerConnect(), plugin);
-                getServer().getPluginManager().registerEvents(new PlayerDisconnect(), plugin);
+                registerListener(new PlayerConnect());
+                registerListener(new PlayerDisconnect());
 
                 // Secrets
-                getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
-                getServer().getPluginManager().registerEvents(new SecretDoor(), plugin);
-                getServer().getPluginManager().registerEvents(new SecretItems(), plugin);
-                getServer().getPluginManager().registerEvents(new SecretSigns(), plugin);
-                getServer().getPluginManager().registerEvents(new SecretBlocks(), plugin);
-                getServer().getPluginManager().registerEvents(new SecretPortal(), plugin);
-                getServer().getPluginManager().registerEvents(new SkyholdDoors(), plugin);
-                getServer().getPluginManager().registerEvents(new AbrakhanSecretDoor(), plugin);
+                registerListener(new AbrakhanSecretDoor());
+                registerListener(new SecretDoor());
+                registerListener(new SecretItems());
+                registerListener(new SecretSigns());
+                registerListener(new SecretBlocks());
+                registerListener(new SecretPortal());
+                registerListener(new SkyholdDoors());
+                registerListener(new AbrakhanSecretDoor());
 
                 // Combat
-                getServer().getPluginManager().registerEvents(new ArrowCollision(), plugin);
-                getServer().getPluginManager().registerEvents(new ArrowRemoval(), plugin);
-                getServer().getPluginManager().registerEvents(new AssistKill(), plugin);
-                getServer().getPluginManager().registerEvents(new DamageBalance(), plugin);
-                getServer().getPluginManager().registerEvents(new EatCake(), plugin);
-                getServer().getPluginManager().registerEvents(new FallDamage(), plugin);
-                getServer().getPluginManager().registerEvents(new HitMessage(), plugin);
-                getServer().getPluginManager().registerEvents(new HurtAnimation(), plugin);
-                getServer().getPluginManager().registerEvents(new InCombat(), plugin);
-                getServer().getPluginManager().registerEvents(new LobbyCombat(), plugin);
-                getServer().getPluginManager().registerEvents(new TeamCombat(), plugin);
+                registerListener(new ArrowCollision());
+                registerListener(new ArrowRemoval());
+                registerListener(new AssistKill());
+                registerListener(new DamageBalance());
+                registerListener(new EatCake());
+                registerListener(new FallDamage());
+                registerListener(new HitMessage());
+                registerListener(new HurtAnimation());
+                registerListener(new InCombat());
+                registerListener(new LobbyCombat());
+                registerListener(new TeamCombat());
 
                 // Death
-                getServer().getPluginManager().registerEvents(new DeathEvent(), plugin);
-                getServer().getPluginManager().registerEvents(new VoidLocation(), plugin);
+                registerListener(new DeathEvent());
+                registerListener(new VoidLocation());
 
                 // Gameplay
-                getServer().getPluginManager().registerEvents(new CollapseEvent(), plugin);
-                getServer().getPluginManager().registerEvents(new Explosion(), plugin);
-                getServer().getPluginManager().registerEvents(new HorseHandler(), plugin);
-                getServer().getPluginManager().registerEvents(new CamelHandler(), plugin);
-                getServer().getPluginManager().registerEvents(new LeaveMapBorder(), plugin);
-                getServer().getPluginManager().registerEvents(new MenuItem(), plugin);
-                getServer().getPluginManager().registerEvents(new Movement(), plugin);
-                getServer().getPluginManager().registerEvents(new MVPStats(), plugin);
-                getServer().getPluginManager().registerEvents(new MapVoteCommand(), plugin);
+                registerListener(new Explosion());
+                registerListener(new HorseHandler());
+                registerListener(new CamelHandler());
+                registerListener(new LeaveMapBorder());
+                registerListener(new MenuItem());
+                registerListener(new Movement());
+                registerListener(new MVPStats());
+                registerListener(new MapVoteCommand());
 
                 // Security
-                getServer().getPluginManager().registerEvents(new InteractContainer(), plugin);
-                getServer().getPluginManager().registerEvents(new InventoryProtection(), plugin);
-                getServer().getPluginManager().registerEvents(new MapProtection(), plugin);
+                registerListener(new InteractContainer());
+                registerListener(new InventoryProtection());
+                registerListener(new MapProtection());
 
                 // Kits
-                getServer().getPluginManager().registerEvents(new Abyssal(), plugin);
-                getServer().getPluginManager().registerEvents(new Alchemist(), plugin);
-                getServer().getPluginManager().registerEvents(new Archer(), plugin);
-                getServer().getPluginManager().registerEvents(new Artillerist(), plugin);
-                getServer().getPluginManager().registerEvents(new Armourer(), plugin);
-                getServer().getPluginManager().registerEvents(new Axeman(), plugin);
-                getServer().getPluginManager().registerEvents(new Berserker(), plugin);
-                getServer().getPluginManager().registerEvents(new Barbarian(), plugin);
-                getServer().getPluginManager().registerEvents(new Bannerman(), plugin);
-                getServer().getPluginManager().registerEvents(new BattleMedic(), plugin);
-                getServer().getPluginManager().registerEvents(new Buccaneer(), plugin);
-                getServer().getPluginManager().registerEvents(new Crossbowman(), plugin);
-                getServer().getPluginManager().registerEvents(new Cavalry(), plugin);
-                getServer().getPluginManager().registerEvents(new CamelRider(), plugin);
-                getServer().getPluginManager().registerEvents(new Constructor(), plugin);
-                getServer().getPluginManager().registerEvents(new DwarvenXbow(), plugin);
-                //getServer().getPluginManager().registerEvents(new Chef(), plugin);
-                getServer().getPluginManager().registerEvents(new Fallen(), plugin);
-                getServer().getPluginManager().registerEvents(new Arbalester(), plugin);
-                getServer().getPluginManager().registerEvents(new Longbowman(), plugin);
-                getServer().getPluginManager().registerEvents(new Engineer(), plugin);
-                getServer().getPluginManager().registerEvents(new Elytrier(), plugin);
-                getServer().getPluginManager().registerEvents(new Executioner(), plugin);
-                getServer().getPluginManager().registerEvents(new FireArcher(), plugin);
-                getServer().getPluginManager().registerEvents(new Gunner(), plugin);
-                getServer().getPluginManager().registerEvents(new Hellsteed(), plugin);
-                getServer().getPluginManager().registerEvents(new Hypaspist(), plugin);
-                getServer().getPluginManager().registerEvents(new Hammerguard(), plugin);
-                getServer().getPluginManager().registerEvents(new Halberdier(), plugin);
-                getServer().getPluginManager().registerEvents(new HallowedHorseman(), plugin);
-                getServer().getPluginManager().registerEvents(new UrukBerserker(), plugin);
-                getServer().getPluginManager().registerEvents(new Lancer(), plugin);
-                getServer().getPluginManager().registerEvents(new RangedCavalry(), plugin);
-                getServer().getPluginManager().registerEvents(new Ladderman(), plugin);
-                getServer().getPluginManager().registerEvents(new Maceman(), plugin);
-                getServer().getPluginManager().registerEvents(new Medic(), plugin);
-                getServer().getPluginManager().registerEvents(new AxeThrower(), plugin);
-                getServer().getPluginManager().registerEvents(new Bonecrusher(), plugin);
-                getServer().getPluginManager().registerEvents(new CaveTroll(), plugin);
-                getServer().getPluginManager().registerEvents(new Guardian(), plugin);
-                getServer().getPluginManager().registerEvents(new MoriaOrc(), plugin);
-                getServer().getPluginManager().registerEvents(new OrcPikeman(), plugin);
-                getServer().getPluginManager().registerEvents(new Overseer(), plugin);
-                getServer().getPluginManager().registerEvents(new Paladin(), plugin);
-                getServer().getPluginManager().registerEvents(new Pirate(), plugin);
-                getServer().getPluginManager().registerEvents(new Priest(), plugin);
-                getServer().getPluginManager().registerEvents(new Rogue(), plugin);
-                getServer().getPluginManager().registerEvents(new Ranger(), plugin);
-                getServer().getPluginManager().registerEvents(new Skullcrusher(), plugin);
-                getServer().getPluginManager().registerEvents(new Shieldman(), plugin);
-                getServer().getPluginManager().registerEvents(new SpearKnight(), plugin);
-                getServer().getPluginManager().registerEvents(new Spearman(), plugin);
-                getServer().getPluginManager().registerEvents(new Sorcerer(), plugin);
-                getServer().getPluginManager().registerEvents(new Vanguard(), plugin);
-                getServer().getPluginManager().registerEvents(new Vampire(), plugin);
-                getServer().getPluginManager().registerEvents(new Viking(), plugin);
-                getServer().getPluginManager().registerEvents(new Warbear(), plugin);
-                getServer().getPluginManager().registerEvents(new Warhound(), plugin);
-                getServer().getPluginManager().registerEvents(new Warlock(), plugin);
-                getServer().getPluginManager().registerEvents(new Werewolf(), plugin);
+                registerListener(new Abyssal());
+                registerListener(new Alchemist());
+                registerListener(new Archer());
+                registerListener(new Artillerist());
+                registerListener(new Armourer());
+                registerListener(new Axeman());
+                registerListener(new Berserker());
+                registerListener(new Barbarian());
+                registerListener(new Bannerman());
+                registerListener(new BattleMedic());
+                registerListener(new Buccaneer());
+                registerListener(new Crossbowman());
+                registerListener(new Cavalry());
+                registerListener(new CamelRider());
+                registerListener(new Constructor());
+                registerListener(new DwarvenXbow());
+                //registerListener(new Chef());
+                registerListener(new Fallen());
+                registerListener(new Arbalester());
+                registerListener(new Longbowman());
+                registerListener(new Engineer());
+                registerListener(new Elytrier());
+                registerListener(new Executioner());
+                registerListener(new FireArcher());
+                registerListener(new Gunner());
+                registerListener(new Hellsteed());
+                registerListener(new Hypaspist());
+                registerListener(new Hammerguard());
+                registerListener(new Halberdier());
+                registerListener(new HallowedHorseman());
+                registerListener(new UrukBerserker());
+                registerListener(new Lancer());
+                registerListener(new RangedCavalry());
+                registerListener(new Ladderman());
+                registerListener(new Maceman());
+                registerListener(new Medic());
+                registerListener(new AxeThrower());
+                registerListener(new Bonecrusher());
+                registerListener(new CaveTroll());
+                registerListener(new Guardian());
+                registerListener(new MoriaOrc());
+                registerListener(new OrcPikeman());
+                registerListener(new Overseer());
+                registerListener(new Paladin());
+                registerListener(new Pirate());
+                registerListener(new Priest());
+                registerListener(new Rogue());
+                registerListener(new Ranger());
+                registerListener(new Skullcrusher());
+                registerListener(new Shieldman());
+                registerListener(new SpearKnight());
+                registerListener(new Spearman());
+                registerListener(new Sorcerer());
+                registerListener(new Vanguard());
+                registerListener(new Vampire());
+                registerListener(new Viking());
+                registerListener(new Warbear());
+                registerListener(new Warhound());
+                registerListener(new Warlock());
+                registerListener(new Werewolf());
 
                 //mythic stuff
-                getServer().getPluginManager().registerEvents(new MythicListener(), plugin);
+                registerListener(new MythicListener());
 
                 // Misc
-                getServer().getPluginManager().registerEvents(new CSNameTag(), plugin);
-                getServer().getPluginManager().registerEvents(new RandomKitCommand(), plugin);
-                getServer().getPluginManager().registerEvents(new WoolHat(), plugin);
-                getServer().getPluginManager().registerEvents(new CSAdvancementController(), plugin);
+                registerListener(new CSNameTag());
+                registerListener(new RandomKitCommand());
+                registerListener(new WoolHat());
+                registerListener(new CSAdvancementController());
 
                 // Chat
                 Objects.requireNonNull(getCommand("TeamChat")).setExecutor(new TeamChatCommand());
@@ -573,19 +579,21 @@ public class Main extends JavaPlugin implements Listener {
                 applyKitLimits();
 
                 //Helm's Deep
-                getServer().getPluginManager().registerEvents(new WallEvent(), plugin);
+                registerListener(new WallEvent());
+                // Hommet
+                registerListener(new CollapseEvent());
 
                 //CavesBoat boatEvent = new CavesBoat();
-                //getServer().getPluginManager().registerEvents(boatEvent, plugin);
+                //registerListener(boatEvent, plugin);
                 //getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
                 //boatEvent.spawnBoat();
 
                 // Timed
-                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1);
-                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 5);
-                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75);
-                Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20);
-                Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900);
+                timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1));
+                timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 5));
+                timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75));
+                timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20));
+                timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900));
 
                 // Boosters
                 activateBoosters();
@@ -593,7 +601,7 @@ public class Main extends JavaPlugin implements Listener {
                 // Begin the map loop
                 MapController.startLoop();
 
-                //This registers the secret items
+                // Register the secret items
                 SecretItems.registerSecretItems();
 
                 getLogger().info("Plugin has been enabled!");
@@ -609,24 +617,50 @@ public class Main extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         getLogger().info("Disabling plugin...");
+        hasLoaded = false;
+        MapController.hasStarted = false;
+
+        // Move all players to their original world
+        World defaultWorld = getServer().getWorlds().getFirst();
+        for (UUID uuid : TeamController.getEveryone()) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) {
+                player.teleport(defaultWorld.getSpawnLocation());
+            }
+            TeamController.leaveTeam(uuid);
+            TeamController.leaveSpectator(uuid);
+        }
+
         // Save data and disconnect the SQL
         StoreData.storeAll();
 
+        // Stop CS stuff
+        MapController.forceEndMap();
+        UltimateAdvancementAPI.getInstance(plugin).unregisterPluginAdvancementTabs();
+
         // Unregister all listeners
+        listeners.forEach(this::unregisterListener);
+        listeners.clear();
         HandlerList.unregisterAll(plugin);
+        Scoreboard.clearScoreboard();
         scoreboardLibrary.close();
+        scoreboardLibrary = null;
 
         // Unload all worlds
         for (World world : Bukkit.getWorlds()) {
-            if (world.getName().equals("world"))
+            if (world.getName().startsWith(defaultWorld.getName()))
                 continue;
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all flush");
-            Bukkit.unloadWorld(world, false);
+            if (new File(Bukkit.getWorldContainer(), world.getName() + "_save").exists()) {
+                Bukkit.unloadWorld(world, false);
+                try {
+                    FileUtils.forceDelete(new File(Bukkit.getWorldContainer(), world.getName()));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
-        // Reload the original world - HelmsDeep
-        WorldCreator worldCreator = new WorldCreator("HelmsDeep");
-        worldCreator.generateStructures(false);
-        worldCreator.createWorld();
+
+        MapController.resetMapsInRotation();
 
         try {
             SQL.disconnect();
@@ -634,7 +668,70 @@ public class Main extends JavaPlugin implements Listener {
             getLogger().warning("SQL could not disconnect, it doesn't exist!");
         }
 
+        // Stop timers
+        for (BukkitTask task : timedTasks) {
+            task.cancel();
+        }
+        timedTasks = new ArrayList<>();
+
         getLogger().info("Plugin has been disabled!");
+    }
+
+    /**
+     * Reloads the plugin
+     */
+    public void reload() {
+        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Reloading plugin...", GOLD)));
+
+        Set<UUID> players = new HashSet<>(TeamController.getPlayers());
+        Set<UUID> spectators = new HashSet<>(TeamController.getSpectators());
+        onDisable();
+        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Plugin Disabled!", GOLD)));
+
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Loading Plugin... (Prepare for a lag spike)", GOLD)));
+                onEnable();
+            }
+        }.runTaskLater(Main.plugin, 100);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!hasLoaded)
+                    return;
+                this.cancel();
+
+                for(UUID uuid : players) {
+                    Player player = Bukkit.getPlayer(uuid);
+                    if (player != null) {
+                        PlayerConnect.onPlayerReload(player);
+                    }
+                }
+
+                for(UUID uuid : spectators) {
+                    Player spectator = Bukkit.getPlayer(uuid);
+                    if (spectator != null) {
+                        PlayerConnect.onPlayerReload(spectator);
+                        TeamController.joinSpectator(spectator);
+                    }
+                }
+
+                Messenger.broadcast(Component.text("[CastleSiege] ",DARK_AQUA)
+                        .append(Component.text("Plugin Reloaded!", GOLD)));
+            }
+        }.runTaskTimer(Main.plugin, 120, 20);
+    }
+
+    private void registerListener(Listener listener) {
+        listeners.add(listener);
+        getServer().getPluginManager().registerEvents(listener, plugin);
+    }
+
+    private void unregisterListener(Listener listener) {
+        HandlerList.unregisterAll(listener);
     }
 
     /**
@@ -656,6 +753,7 @@ public class Main extends JavaPlugin implements Listener {
         // Load the world into memory
         WorldCreator worldCreator = new WorldCreator(worldName);
         worldCreator.generateStructures(false);
+        worldCreator.keepSpawnLoaded(TriState.FALSE);
         World world = worldCreator.createWorld();
         assert world != null;
         world.setGameRule(GameRule.KEEP_INVENTORY, true);
@@ -931,7 +1029,7 @@ public class Main extends JavaPlugin implements Listener {
             if (gameConfig.contains(route.add("maps"))) {
                 MapController.setMaps(gameConfig.getStringList(route.add("maps")));
                 if (gameConfig.getBoolean(route.add("shuffle_maps"), false)) {
-                    Collections.shuffle(MapController.maps);
+                    MapController.shuffle();
                 }
             }
         }
@@ -1023,7 +1121,7 @@ public class Main extends JavaPlugin implements Listener {
                         config.getInt(mapRoute.add("duration").add("seconds")));
 
                 // Save the map
-                MapController.maps.add(map);
+                MapController.addMapToRotation(map);
             }
         }
 
@@ -1616,16 +1714,6 @@ public class Main extends JavaPlugin implements Listener {
             return BossBar.Color.YELLOW;
         }
         return null;
-    }
-
-    /**
-     * Reloads the plugin
-     */
-    public void reload() {
-        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Reloading plugin...", GOLD)));
-        onDisable();
-        onEnable();
-        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Plugin Reloaded!", GOLD)));
     }
 
     /**
