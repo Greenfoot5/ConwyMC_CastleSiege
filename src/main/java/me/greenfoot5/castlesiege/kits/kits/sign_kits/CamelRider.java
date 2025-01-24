@@ -32,7 +32,7 @@ public class CamelRider extends SignKit implements Listener {
      * Creates a new camel rider
      */
     public CamelRider() {
-        super("Camel Rider", health, regen, Material.SAND);
+        super("Camel Rider", health, regen, Material.SAND, 2000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
