@@ -4,11 +4,13 @@ import io.lumine.mythic.api.adapters.AbstractPlayer;
 import io.lumine.mythic.core.players.factions.FactionProvider;
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.CSActiveData;
+import me.greenfoot5.castlesiege.database.MVPStats;
 import me.greenfoot5.castlesiege.database.StoreData;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.castlesiege.kits.kits.free_kits.Swordsman;
+import me.greenfoot5.conwymc.events.nametag.UpdateNameTagEvent;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -25,6 +27,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+
+import static org.bukkit.Bukkit.getPlayer;
 
 /**
  * Manages the players on Castle Siege
@@ -185,12 +189,14 @@ public class TeamController implements FactionProvider {
             Scoreboard.clearScoreboard(player);
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            // Try and store the player's data
-            try {
-                StoreData.store(uuid);
-            } catch (SQLException ignored) {}
-        });
+        // Only bother async saving if the plugin has loaded
+        if (Main.instance.hasLoaded) {
+            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                try { StoreData.store(uuid); } catch (SQLException ignored) { }
+            });
+        } else {
+            try { StoreData.store(uuid); } catch (SQLException ignored) { }
+        }
 
 
         uuidToTeam.remove(uuid);
