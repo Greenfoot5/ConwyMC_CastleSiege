@@ -130,7 +130,7 @@ public class PlayerConnect implements Listener {
                     .append(Component.newline())
                     .append(Component.text("Welcome to Castle Siege", NamedTextColor.DARK_RED))
                     .append(Component.newline())
-                    .append(Component.text("There are currently " + TeamController.getPlayers().size() +
+                    .append(Component.text("There are currently " + (TeamController.getPlayers().size() + 1) +
                             " player(s) battling.", NamedTextColor.DARK_PURPLE)), p);
         }
 
