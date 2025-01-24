@@ -152,7 +152,7 @@ public class PlayerConnect implements Listener {
 
         // Reset player xp and level
         p.setExp(0);
-        p.setLevel(CSActiveData.getData(p.getUniqueId()).getLevel());
+        p.setLevel(data.getLevel());
 
         // Update the names stored in the database
         StoreData.updateName(uuid);
@@ -182,7 +182,7 @@ public class PlayerConnect implements Listener {
      * Actively store the loaded data
      * @param uuid The unique ID of the player
      */
-    private void loadData(UUID uuid) {
+    private static void loadData(UUID uuid) {
         // Load the player's data
         CSPlayerData data = CSActiveData.hasPlayer(uuid) ? CSActiveData.getData(uuid) : LoadData.load(uuid);
         assert data != null;
