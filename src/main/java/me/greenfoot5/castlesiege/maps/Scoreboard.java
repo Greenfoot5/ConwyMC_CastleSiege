@@ -54,7 +54,8 @@ public class Scoreboard implements Runnable {
 			statsSidebars.get(player.getUniqueId()).close();
 			statsSidebars.remove(player.getUniqueId());
 		} else {
-			flagSidebar.removePlayer(player);
+			if (flagSidebar != null)
+				flagSidebar.removePlayer(player);
 		}
 	}
 
