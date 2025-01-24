@@ -129,13 +129,11 @@ public class Team implements Listener, SidebarComponent {
      */
     public void forceAddPlayer(UUID uuid) {
         players.add(uuid);
-        TeamController.joinTeam(uuid, this);
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
         if (lobby.spawnPoint.getWorld() == null)
             lobby.spawnPoint.setWorld(Bukkit.getWorld(MapController.getCurrentMap().worldName));
         player.setRespawnLocation(lobby.spawnPoint, true);
-        Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(player));
     }
 
     /**
