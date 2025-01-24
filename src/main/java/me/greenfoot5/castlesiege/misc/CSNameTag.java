@@ -39,13 +39,14 @@ public class CSNameTag implements Listener {
         Player player = event.getPlayer();
         CSPlayerData data = CSActiveData.getData(player.getUniqueId());
         assert data != null;
+
         Component title = event.getTitle() == null ? Component.empty() : event.getTitle().append(Component.text(" "));
         Component rank = data.getDisplayRank();
         String legacyRank = LegacyComponentSerializer.legacySection().serialize(rank);
 
         Component username;
         if (TeamController.getPlayers().contains(player.getUniqueId())) {
-             username = player.name().color(TeamController.getTeam(player.getUniqueId()).primaryChatColor);
+            username = player.name().color(TeamController.getTeam(player.getUniqueId()).primaryChatColor);
         } else {
             username = player.name().color(NamedTextColor.GRAY).decorate(TextDecoration.ITALIC);
         }
