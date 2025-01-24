@@ -160,9 +160,12 @@ public class TeamController implements FactionProvider {
 
         team.addPlayer(uuid);
         uuidToTeam.put(uuid, team);
+        MVPStats.addPlayer(uuid);
 
         player.teleport(team.lobby.spawnPoint);
+
         Messenger.send(Component.text("You joined ").append(team.getDisplayName()), player);
+        Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(player));
 
         checkTeamKit(player);
     }
