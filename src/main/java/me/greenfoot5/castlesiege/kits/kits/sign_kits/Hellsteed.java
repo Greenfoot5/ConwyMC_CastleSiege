@@ -141,7 +141,7 @@ public class Hellsteed extends SignKit implements Listener {
             p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 50, 2)));
             p.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 50, 4)));
             for (Player all : Bukkit.getOnlinePlayers()) {
-                if (p.getWorld() != all.getWorld() || all == p || all == q)
+                if (!TeamController.isPlaying(all) || p.getWorld() != all.getWorld() || all == p || all == q)
                     return;
                 if (all.getLocation().distance(p.getLocation()) < 2.1) {
                     all.damage(e.getDamage(), p);

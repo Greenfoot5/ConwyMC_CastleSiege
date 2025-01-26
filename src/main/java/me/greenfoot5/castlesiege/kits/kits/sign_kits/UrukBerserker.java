@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.UUID;
 
 
 public class UrukBerserker extends SignKit implements Listener {
@@ -111,14 +112,16 @@ public class UrukBerserker extends SignKit implements Listener {
                         horse.damage(event.getDamage() * 2, damager);
                     }
 
-                    for (Player online : Bukkit.getOnlinePlayers()) {
-                        if (hit.getWorld() != online.getWorld() || online == hit || online == damager)
+                    for (UUID uuid : TeamController.getActivePlayers()) {
+                        Player player = Bukkit.getPlayer(uuid);
+                        assert player != null;
+                        if (hit.getWorld() != player.getWorld() || player == hit || player == damager)
                             continue;
 
-                        if (online.getLocation().distance(damager.getLocation()) < 2.6
-                                && TeamController.getTeam(online.getUniqueId())
+                        if (player.getLocation().distance(damager.getLocation()) < 2.6
+                                && TeamController.getTeam(player.getUniqueId())
                                         != TeamController.getTeam(damager.getUniqueId()))
-                            online.damage(event.getDamage(), damager);
+                            player.damage(event.getDamage(), damager);
                     }
                 }
             }

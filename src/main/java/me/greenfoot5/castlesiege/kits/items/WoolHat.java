@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -32,7 +33,10 @@ public class WoolHat implements Listener {
 	 * Sets a wool block with a player's team's color as their hat
 	 * @param player The player for whom to set the wool hat
 	 */
-	public static void setHead(Player player) {
+	public static void setHead(@Nullable Player player) {
+		if (player == null)
+			return;
+
 		Team team = TeamController.getTeam(player.getUniqueId());
 
 		ItemStack wool;
@@ -51,7 +55,7 @@ public class WoolHat implements Listener {
 	public void greaterBlindnessActive(GreaterBlindnessCurse curse) {
 		hideTeamColour = true;
 
-		for (UUID uuid : MapController.getPlayers()) {
+		for (UUID uuid : TeamController.getPlayers()) {
 			setHead(Bukkit.getPlayer(uuid));
 		}
 	}
@@ -60,7 +64,7 @@ public class WoolHat implements Listener {
 	public void beginHidingAll(TrueBlindnessCurse curse) {
 		trueHideTeamColour = true;
 
-		for (UUID uuid : MapController.getPlayers()) {
+		for (UUID uuid : TeamController.getPlayers()) {
 			setHead(Bukkit.getPlayer(uuid));
 		}
 	}
@@ -75,7 +79,7 @@ public class WoolHat implements Listener {
 			return;
 		}
 
-		for (UUID uuid : MapController.getPlayers()) {
+		for (UUID uuid : TeamController.getPlayers()) {
 			setHead(Bukkit.getPlayer(uuid));
 		}
 	}

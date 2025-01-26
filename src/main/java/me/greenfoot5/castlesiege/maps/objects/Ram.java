@@ -86,7 +86,7 @@ public class Ram {
      * @param player The player that entered the region
      */
     public void playerEnter(Player player) {
-        if (gate.isBreached())
+        if (gate.isBreached() || !gate.canBreach(player.getUniqueId()))
             return;
         // Players who can't cap shouldn't be able to pick up a ram
         if (!Kit.equippedKits.get(player.getUniqueId()).canCap) {

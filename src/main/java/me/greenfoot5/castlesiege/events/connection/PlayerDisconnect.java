@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.UUID;
 
 /**
- *
+ * Handles a player disconnecting from the game
  */
 public class PlayerDisconnect implements Listener {
 

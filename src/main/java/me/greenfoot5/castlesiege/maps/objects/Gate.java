@@ -152,9 +152,13 @@ public class Gate implements Listener {
      * @return {@code true} if a player can breach the gate
      */
     public boolean canBreach(UUID uuid) {
+        if (!TeamController.isPlaying(uuid)) {
+            return false;
+        }
+
         Flag flag = MapController.getCurrentMap().getFlag(flagName);
-        return flagName.isEmpty() || (flag != null
-                && !Objects.equals(TeamController.getTeam(uuid).getName(), flag.getCurrentOwners()));
+        return flagName.isEmpty()
+                || (flag != null && !Objects.equals(TeamController.getTeam(uuid).getName(), flag.getCurrentOwners()));
     }
 
     /**

@@ -10,6 +10,7 @@ import com.sk89q.worldguard.session.Session;
 import com.sk89q.worldguard.session.handler.Handler;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 
 import java.util.Set;
 
@@ -47,8 +48,8 @@ public class RegionHandler extends Handler {
     @Override
     public boolean onCrossBoundary(LocalPlayer player, Location from, Location to, ApplicableRegionSet toSet,
                                    Set<ProtectedRegion> entered, Set<ProtectedRegion> exited, MoveType moveType) {
-        // Ensure the player is actually a player
-        if (!player.isPlayer())
+        // Ensure the player is actually a player and playing
+        if (!player.isPlayer() || !TeamController.isPlaying(player.getUniqueId()))
             return true;
 
         // Player entered a region

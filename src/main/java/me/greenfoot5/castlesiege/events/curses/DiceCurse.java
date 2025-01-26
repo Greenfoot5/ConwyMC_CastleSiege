@@ -4,6 +4,7 @@ import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.Team;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -61,7 +62,7 @@ public class DiceCurse extends CurseCast {
         }
 
         Messenger.broadcastCurse("<dark_red>" + name + "</dark_red> has been activated! " + activateMessage);
-        playSound(MapController.getPlayers());
+        playSound(TeamController.getPlayers());
     }
 
     /**
@@ -72,8 +73,7 @@ public class DiceCurse extends CurseCast {
     private void swapPlayer(Player player, int teamIndex) {
         int nextTeam = teamIndex + 1 == MapController.getCurrentMap().teams.length ? 0 : teamIndex + 1;
 
-        MapController.getCurrentMap().teams[teamIndex].removePlayer(player.getUniqueId());
-        MapController.getCurrentMap().teams[nextTeam].addPlayer(player.getUniqueId());
+        TeamController.joinTeam(player.getUniqueId(), MapController.getCurrentMap().teams[nextTeam]);
         if (InCombat.isPlayerInLobby(player.getUniqueId())) {
             player.teleport(MapController.getCurrentMap().teams[nextTeam].lobby.spawnPoint);
         }

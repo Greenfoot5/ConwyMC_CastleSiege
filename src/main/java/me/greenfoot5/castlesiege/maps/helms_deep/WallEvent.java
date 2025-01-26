@@ -51,9 +51,10 @@ public class WallEvent implements Listener {
 	@EventHandler
 	public void onPickupTake(PlayerInteractEvent e) {
 		// Check we're on HelmsDeep
-        if (!MapController.getCurrentMap().worldName.equals("HelmsDeep") || !MapController.isOngoing()) {
+        if ((MapController.getCurrentMap() != null && !MapController.getCurrentMap().worldName.equals("HelmsDeep")) || !MapController.isOngoing()) {
             return;
         }
+
         Player player = e.getPlayer();
         // Check if the player is even in the same world (this was in addition to duels and coinshop)!
         if (player.getWorld() != PICKUP_LOCATION.getWorld()) {
@@ -167,7 +168,7 @@ public class WallEvent implements Listener {
             // Kill any players within DEATH_RADIUS blocks
             for (Player close : Bukkit.getOnlinePlayers()) {
                 double closeDistance = close.getLocation().distance(PLACE_LOCATION);
-                if (closeDistance < DEATH_RADIUS) { close.setHealth(0); }
+                if (closeDistance < DEATH_RADIUS && TeamController.isPlaying(close)) { close.setHealth(0); }
             }
 
             // Create our explosion

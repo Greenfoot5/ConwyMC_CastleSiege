@@ -193,6 +193,7 @@ public class FlagSidebar {
      * Closes the sidebar
      */
     public void close() {
+        sidebar.players().forEach(sidebar::removePlayer);
         sidebar.close();
     }
 }

@@ -200,8 +200,8 @@ public class Paladin extends CoinKit implements Listener {
                 shielder.setCooldown(Material.SHIELD, 300);
                 tempRemoveShield(shielder);
                 blockAmount = 8;
-                for (Player near : Bukkit.getOnlinePlayers()) {
-                    bless(shielder, near);
+                for (UUID uuid : TeamController.getActivePlayers()) {
+                    bless(shielder, uuid);
                 }
             }
         }
@@ -254,24 +254,28 @@ public class Paladin extends CoinKit implements Listener {
 
     /**
      * @param blesser The player performing the blessing
-     * @param blessed The player being blessed
+     * @param blessedUUID The uuid of the player being blessed
      */
-    private void bless(Player blesser, Player blessed) {
-            Messenger.sendActionInfo("You blessed your surroundings!", blesser);
-            Bukkit.getScheduler().runTask(Main.plugin, () -> {
-            blesser.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
-            mythicMobsApi.castSkill(blesser, "PaladinBlessingEffect");
-            });
-            if (TeamController.getTeam(blesser.getUniqueId()) == TeamController.getTeam(blessed.getUniqueId())
-                    && blesser.getLocation().distance(blessed.getLocation()) <= 5 && blesser != blessed) {
-                AttributeInstance healthAttribute = blessed.getAttribute(Attribute.MAX_HEALTH);
-                assert healthAttribute != null;
-                //Paladin doesn't get a heal for blessing someone who is full health.
-                if (blessed.getHealth() != healthAttribute.getBaseValue()) {
-                    Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> UpdateStats.addHeals(blesser.getUniqueId(), 1));
-                }
-                Bukkit.getScheduler().runTask(Main.plugin, () -> blessed.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 4, true, false)));
+    private void bless(Player blesser, UUID blessedUUID) {
+        Player blessed = Bukkit.getPlayer(blessedUUID);
+        if (blessed == null)
+            return;
+
+        Messenger.sendActionInfo("You blessed your surroundings!", blesser);
+        Bukkit.getScheduler().runTask(Main.plugin, () -> {
+        blesser.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
+        mythicMobsApi.castSkill(blesser, "PaladinBlessingEffect");
+        });
+        if (TeamController.getTeam(blesser.getUniqueId()) == TeamController.getTeam(blessed.getUniqueId())
+                && blesser.getLocation().distance(blessed.getLocation()) <= 5 && blesser != blessed) {
+            AttributeInstance healthAttribute = blessed.getAttribute(Attribute.MAX_HEALTH);
+            assert healthAttribute != null;
+            //Paladin doesn't get a heal for blessing someone who is full health.
+            if (blessed.getHealth() != healthAttribute.getBaseValue()) {
+                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> UpdateStats.addHeals(blesser.getUniqueId(), 1));
             }
+            Bukkit.getScheduler().runTask(Main.plugin, () -> blessed.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 4, true, false)));
+        }
     }
 
 
@@ -301,7 +305,7 @@ public class Paladin extends CoinKit implements Listener {
                                 book.setAmount(bookRemover(book.getAmount()));
                                 p.setCooldown(Material.BOOK, blessingCooldown);
                             });
-                            for (Player near : Bukkit.getOnlinePlayers()) {
+                            for (UUID near : TeamController.getActivePlayers()) {
                                 bless(p, near);
                             }
                         }

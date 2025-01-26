@@ -1,7 +1,7 @@
 package me.greenfoot5.castlesiege.commands.staff.maps;
 
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -40,10 +40,10 @@ public class ToggleSwitchingCommand implements CommandExecutor {
         }
 
         if (args.length == 1)
-            MapController.disableSwitching = Boolean.parseBoolean(args[0]);
+            TeamController.disableSwitching = Boolean.parseBoolean(args[0]);
         else
-            MapController.disableSwitching = !MapController.disableSwitching;
+            TeamController.disableSwitching = !TeamController.disableSwitching;
 
-        Messenger.broadcastInfo("Switching is now " + (MapController.disableSwitching ? "disabled." : "enabled."));
+        Messenger.broadcastInfo("Switching is now " + (TeamController.disableSwitching ? "disabled." : "enabled."));
     }
 }

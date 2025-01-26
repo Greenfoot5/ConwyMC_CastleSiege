@@ -54,7 +54,8 @@ public class Scoreboard implements Runnable {
 			statsSidebars.get(player.getUniqueId()).close();
 			statsSidebars.remove(player.getUniqueId());
 		} else {
-			flagSidebar.removePlayer(player);
+			if (flagSidebar != null)
+				flagSidebar.removePlayer(player);
 		}
 	}
 
@@ -98,30 +99,34 @@ public class Scoreboard implements Runnable {
 
 	@Override
 	public void run() {
+		if (!MapController.hasStarted())
+			return;
+
 		// Recreate the sidebar if it's gone
 		if (flagSidebar == null) {
 			flagSidebar = new FlagSidebar(scoreboardLibrary.createSidebar());
 		}
+
 		flagSidebar.tick();
 
-		for (Player online : Bukkit.getOnlinePlayers()) {
-			UUID uuid = online.getUniqueId();
+		for (UUID uuid : TeamController.getEveryone()) {
+			Player player = Bukkit.getPlayer(uuid);
 			CSPlayerData data = CSActiveData.getData(uuid);
 			if (data != null) {
 				if (data.getSetting("scoreboard").startsWith("flag")) {
-					flagSidebar.addPlayer(online);
+					flagSidebar.addPlayer(player);
 					continue;
 				}
 
 				if (!statsSidebars.containsKey(uuid)) {
 					statsSidebars.put(uuid, new StatsSidebar(scoreboardLibrary.createSidebar(), uuid));
-					statsSidebars.get(uuid).addPlayer(online);
+					statsSidebars.get(uuid).addPlayer(player);
 				}
 				statsSidebars.get(uuid).tick();
 			}
 
-			if (MapController.isSpectator(uuid)) {
-				flagSidebar.addPlayer(online);
+			if (TeamController.isSpectating(uuid)) {
+				flagSidebar.addPlayer(player);
 			}
 		}
 	}

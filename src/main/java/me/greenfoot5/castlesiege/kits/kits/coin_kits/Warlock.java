@@ -263,7 +263,8 @@ public class Warlock extends CoinKit implements Listener {
      */
     private void cursePlayer(Player caster, Player cursed) {
 
-        if (TeamController.getTeam(caster.getUniqueId()) == TeamController.getTeam(cursed.getUniqueId())) {
+        if (TeamController.getTeam(caster.getUniqueId()) == TeamController.getTeam(cursed.getUniqueId())
+                || TeamController.isPlaying(cursed)) {
             return;
         }
 
@@ -298,7 +299,7 @@ public class Warlock extends CoinKit implements Listener {
             if (cooldown == 0) {
                 for (Player hit : Bukkit.getOnlinePlayers()) {
                     //if the player is not in the same world ignore them.
-                    if (p.getWorld() != hit.getWorld())
+                    if (p.getWorld() != hit.getWorld() || !TeamController.isPlaying(hit))
                         continue;
                     //the player executing the ability should have enemy players in range.
                     if (p.getLocation().distance(hit.getLocation()) <= 10) {
@@ -422,7 +423,7 @@ public class Warlock extends CoinKit implements Listener {
             }
             for (Player hit : Bukkit.getOnlinePlayers()) {
                 //if the player is not in the same world ignore them.
-                if (p.getWorld() != hit.getWorld())
+                if (p.getWorld() != hit.getWorld() || TeamController.isPlaying(hit))
                     continue;
                 //the player executing the ability should have enemy players in range.
                 if (p.getLocation().distance(hit.getLocation()) <= 10) {

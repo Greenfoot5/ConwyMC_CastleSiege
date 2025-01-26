@@ -2,6 +2,7 @@ package me.greenfoot5.castlesiege.commands.gameplay;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -43,7 +44,7 @@ public class VoteSkipCommand implements TabExecutor {
             }
 
             Player player = (Player) sender;
-            if (!MapController.getPlayers().contains(player.getUniqueId())) {
+            if (!TeamController.isPlaying(player)) {
                 Messenger.sendError("You must be playing to vote to skip!", sender);
                 return;
             }
@@ -136,6 +137,6 @@ public class VoteSkipCommand implements TabExecutor {
      * @return The amount of required votes
      */
     private static int getRequiredVotes() {
-        return (int) Math.ceil(MapController.getPlayers().size() * requiredVotePercentage);
+        return (int) Math.ceil(TeamController.getPlayers().size() * requiredVotePercentage);
     }
 }

@@ -137,7 +137,7 @@ public class Overseer extends SignKit implements Listener {
                         p.setCooldown(Material.GOAT_HORN, 420);
 
                         for (Player near : Bukkit.getOnlinePlayers()) {
-                            if (p.getWorld() != near.getWorld())
+                            if (p.getWorld() != near.getWorld() || !TeamController.isPlaying(near))
                                 continue;
 
                             if (near.getLocation().distance(p.getLocation()) < 8
