@@ -130,7 +130,8 @@ public class Tips extends BukkitRunnable implements CommandExecutor {
 
         return Tag.styling(
                 NamedTextColor.YELLOW,
-                ClickEvent.suggestCommand(command)
+                ClickEvent.suggestCommand(command),
+                HoverEvent.showText(Component.text("Click to type command"))
         );
     }
 

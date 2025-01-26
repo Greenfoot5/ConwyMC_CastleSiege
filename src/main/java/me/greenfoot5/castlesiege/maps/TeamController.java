@@ -4,11 +4,13 @@ import io.lumine.mythic.api.adapters.AbstractPlayer;
 import io.lumine.mythic.core.players.factions.FactionProvider;
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.CSActiveData;
+import me.greenfoot5.castlesiege.database.MVPStats;
 import me.greenfoot5.castlesiege.database.StoreData;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.castlesiege.kits.kits.free_kits.Swordsman;
+import me.greenfoot5.conwymc.events.nametag.UpdateNameTagEvent;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -25,6 +27,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+
+import static org.bukkit.Bukkit.getPlayer;
 
 /**
  * Manages the players on Castle Siege
@@ -160,9 +164,12 @@ public class TeamController implements FactionProvider {
 
         team.addPlayer(uuid);
         uuidToTeam.put(uuid, team);
+        MVPStats.addPlayer(uuid);
 
         player.teleport(team.lobby.spawnPoint);
+
         Messenger.send(Component.text("You joined ").append(team.getDisplayName()), player);
+        Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(player));
 
         checkTeamKit(player);
     }
@@ -173,7 +180,8 @@ public class TeamController implements FactionProvider {
      */
     public static void leaveTeam(UUID uuid) {
         Team team = uuidToTeam.get(uuid);
-        team.removePlayer(uuid);
+        if (team != null)
+            team.removePlayer(uuid);
 
         InCombat.playerDied(uuid);
         Player player = Bukkit.getPlayer(uuid);
@@ -181,12 +189,14 @@ public class TeamController implements FactionProvider {
             Scoreboard.clearScoreboard(player);
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            // Try and store the player's data
-            try {
-                StoreData.store(uuid);
-            } catch (SQLException ignored) {}
-        });
+        // Only bother async saving if the plugin has loaded
+        if (Main.instance.hasLoaded) {
+            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                try { StoreData.store(uuid); } catch (SQLException ignored) { }
+            });
+        } else {
+            try { StoreData.store(uuid); } catch (SQLException ignored) { }
+        }
 
 
         uuidToTeam.remove(uuid);
@@ -238,6 +248,27 @@ public class TeamController implements FactionProvider {
         }
     }
 
+    public static void teleportPlayers() {
+        for (UUID uuid : getPlayers()) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) {
+                player.teleport(TeamController.getTeam(uuid).lobby.spawnPoint);
+            }
+        }
+
+        // Teleport Spectators
+        for (UUID spectator : TeamController.getSpectators()) {
+            Player player = getPlayer(spectator);
+            if (player != null) {
+                if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
+                    player.teleport(coreMap.getCore(1).getSpawnPoint());
+                } else {
+                    player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
+                }
+            }
+        }
+    }
+
     /**
      * Restocks the players kit, or sets them to swordsman if they were using a team kit
      * @param player The player to restock/reset kits for
@@ -247,7 +278,7 @@ public class TeamController implements FactionProvider {
         if (kit == null)
             return;
 
-        if (kit instanceof SignKit) {
+        if (kit instanceof SignKit signKit && !signKit.canSelect(player, true, false, false)) {
             Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
             CSActiveData.getData(player.getUniqueId()).setKit("swordsman");
         }

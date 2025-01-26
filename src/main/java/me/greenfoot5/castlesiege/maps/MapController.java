@@ -54,9 +54,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.SequencedCollection;
 import java.util.UUID;
 
 import static org.bukkit.Bukkit.getPlayer;
@@ -83,11 +85,12 @@ public class MapController {
 	private static final double KIT_BOOSTER_RANDOM_CHANCE = 0.35;
 	private static final double KIT_BOOSTER_WILD_CHANCE = 0.10;
 
+	private static final SequencedCollection<Map> mapsInRotation = new LinkedHashSet<>();
 
-	public static List<Map> maps = new ArrayList<>();
-	public static int mapIndex = 0;
+	private static List<Map> maps = new ArrayList<>();
+	private static int mapIndex = 0;
+
 	public static Timer timer;
-
 	public static int mapCount = 3;
 
 	// Delays
@@ -102,43 +105,23 @@ public class MapController {
 	// Randomises a player's kit when they respawn
 	public static boolean forcedRandom = false;
 
+	// Has the map rotation started
+	public static boolean hasStarted = false;
+
 	/**
-	 * Begins the map loop
+	 * Adds a map to the potential map rotation
+	 * @param map The map to add to the rotation
 	 */
-	public static void startLoop() {
-		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-			if (!isMatch) {
-				Collections.shuffle(maps);
-				if (mapCount > 0 && mapCount < maps.size())
-					maps = maps.subList(0, mapCount);
-			}
-			Bukkit.getScheduler().runTask(Main.plugin, MapController::loadMap);
-		});
+	public static void addMapToRotation(@NotNull Map map) {
+		mapsInRotation.add(map);
 	}
 
 	/**
-	 * @param mapName The name of the map to get
-	 * @return Gets the map only if it's unplayed, null if no map of that name has been unplayed
+	 * Resets the list of maps to potentially add to rotation
 	 */
-	public static Map getUnplayedMap(String mapName) {
-		for (int i = mapIndex + 1; i < maps.size(); i++) {
-			if (Objects.equals(maps.get(i).name, mapName)) {
-				return maps.get(i);
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * @param mapName The name of the map to get
-	 * @return The Map of the map name, null if no map of that name exists
-	 */
-	public static Map getMap(String mapName) {
-		for (Map map : maps) {
-			if (Objects.equals(map.name, mapName))
-				return map;
-		}
-		return null;
+	public static void resetMapsInRotation() {
+		mapsInRotation.clear();
+		timer = null;
 	}
 
 	/**
@@ -162,6 +145,64 @@ public class MapController {
 	}
 
 	/**
+	 * Shuffles the map list if the server hasn't started yet
+	 */
+	public static void shuffle() {
+		if (mapIndex == 0 && (timer == null || timer.state == TimerState.PREGAME)) {
+			maps = new ArrayList<>(mapsInRotation);
+			Collections.shuffle(maps);
+			mapsInRotation.clear();
+		}
+	}
+
+	/**
+	 * Begins the map loop
+	 */
+	public static void startLoop() {
+		mapIndex = 0;
+		if (!isMatch) {
+			shuffle();
+			if (mapCount > 0 && mapCount < maps.size())
+				maps = maps.subList(0, mapCount);
+		}
+		loadMap(false);
+		hasStarted = true;
+	}
+
+	/**
+	 * @param mapName The name of the map to get
+	 * @return Gets the map only if it's unplayed, null if no map of that name has been unplayed
+	 */
+	public static Map getUnplayedMap(String mapName) {
+		for (int i = mapIndex + 1; i < maps.size(); i++) {
+			if (Objects.equals(maps.get(i).name, mapName)) {
+				return maps.get(i);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Gets all the maps in rotation
+	 * @return The list of maps currently in rotation, played or not
+	 */
+	public static List<Map> getMaps() {
+		return maps;
+	}
+
+	/**
+	 * @param mapName The name of the map to get
+	 * @return The Map of the map name, null if no map of that name exists
+	 */
+	public static Map getMap(String mapName) {
+		for (Map map : maps) {
+			if (Objects.equals(map.name, mapName))
+				return map;
+		}
+		return null;
+	}
+
+	/**
 	 * Sets the current map by string
 	 * @param mapName the name of the map to set the current map to
 	 */
@@ -174,17 +215,32 @@ public class MapController {
 				Main.instance.getLogger().info("Loading map - " + mapName);
 				mapIndex = i;
 				unloadMap(oldMap);
-				loadMap();
+				loadMap(false);
 				return;
 			}
 		}
 	}
 
 	/**
+	 * Ends the current map, and starts the next one
+	 */
+	public static void endMap() {
+		forceEndMap();
+
+		// Begins the next map
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				nextMap();
+			}
+		}.runTaskLater(Main.plugin, 200);
+	}
+
+	/**
 	 * Handles ending the map
 	 * (called by the timer or if all flags are captured)
 	 */
-	public static void endMap() {
+	public static void forceEndMap() {
 		timer.state = TimerState.ENDED;
 
 		// Calculate the winner based on the game mode
@@ -254,15 +310,6 @@ public class MapController {
 		AssistKill.reset();
 		Explosion.reset();
 		awardMVPs();
-
-		// Begins the next map
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				nextMap();
-			}
-		}.runTaskLater(Main.plugin, 200);
-
 	}
 
 	private static String getWinners() {
@@ -456,7 +503,7 @@ public class MapController {
 					StoreData.storeAll();
 
 					Main.instance.getLogger().info("Completed map cycle! Restarting server...");
-					getServer().spigot().restart();
+					Main.instance.reloadMaps();
 				}
 			}.runTask(Main.plugin);
 		} else {
@@ -471,17 +518,18 @@ public class MapController {
 			mapIndex++;
 			Main.instance.getLogger().info("Loading next map: " + maps.get(mapIndex).name);
 			unloadMap(oldMap);
-			loadMap();
+			loadMap(false);
 		}
 	}
 
 	/**
 	 * Loads the current map into play
 	 */
-	public static void loadMap() {
+	public static void loadMap(boolean setMap) {
 		// Clear the scoreboard & reset stats
 		Scoreboard.clearScoreboard();
 		MVPStats.reset();
+		hasStarted = true;
 
 		// Register doors
 		for (Door door : maps.get(mapIndex).doors) {
@@ -491,29 +539,21 @@ public class MapController {
 		// Register the woolmap clicks
 		for (Team team : maps.get(mapIndex).teams) {
 			getServer().getPluginManager().registerEvents(team.lobby.woolmap, Main.plugin);
+			World world = Bukkit.getWorld(maps.get(mapIndex).worldName);
+			world.getChunkAt(team.lobby.spawnPoint);
 		}
 
-		if (mapIndex > 0) {
+		// Add players to new map and teleport
+		if (mapIndex > 0 && !setMap) {
 			TeamController.loadTeams(maps.get(mapIndex - 1), getCurrentMap());
 		} else {
 			TeamController.loadTeams(getCurrentMap());
 		}
+		TeamController.teleportPlayers();
 
 		//Spawn secret items if there are any
 		SecretItems.spawnSecretItems();
 		Main.plugin.getComponentLogger().info(Component.text("Spawning secret items if there are any.", NamedTextColor.DARK_GREEN));
-
-		// Teleport Spectators
-		for (UUID spectator : TeamController.getSpectators()) {
-			Player player = getPlayer(spectator);
-			if (player != null) {
-				if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
-                    player.teleport(coreMap.getCore(1).getSpawnPoint());
-				} else {
-					player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
-				}
-			}
-		}
 
 		// Set up the time
 		World world = getWorld(maps.get(mapIndex).worldName);
@@ -665,27 +705,27 @@ public class MapController {
 	 */
 	public static void unloadMap(Map oldMap) {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-		// Clear map stats
-		InCombat.clearCombat();
+			// Clear map stats
+			InCombat.clearCombat();
 
-		// Clear capture zones
-		for (Flag flag : oldMap.flags) {
-			flag.clear();
-		}
+			// Clear capture zones
+			for (Flag flag : oldMap.flags) {
+				flag.clear();
+			}
 
-		// Unregister core listeners and regions
-		if (maps.get(mapIndex) instanceof CoreMap coreMap) {
-            for (Core core : coreMap.getCores()) {
-				HandlerList.unregisterAll(core);
+			// Unregister core listeners and regions
+			if (maps.get(mapIndex) instanceof CoreMap coreMap) {
+				for (Core core : coreMap.getCores()) {
+					HandlerList.unregisterAll(core);
 
-				if (core.region != null) {
-					Bukkit.getScheduler().runTask(Main.plugin, () ->
-							Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
-											BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
-									.removeRegion(core.name.replace(' ', '_')));
+					if (core.region != null) {
+						Bukkit.getScheduler().runTask(Main.plugin, () ->
+								Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+												BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
+										.removeRegion(core.name.replace(' ', '_')));
+					}
 				}
 			}
-		}
 
 		// Unregister catapult listeners
 		for (Catapult catapult : oldMap.catapults) {
@@ -743,7 +783,6 @@ public class MapController {
                 }
 			});
 		});
-
 	 });
 	}
 
@@ -760,6 +799,8 @@ public class MapController {
 	 * @return A string containing the current map's name
 	 */
 	public static Map getCurrentMap() {
+		if (maps.isEmpty())
+			return null;
 		return maps.get(mapIndex);
 	}
 
@@ -768,6 +809,14 @@ public class MapController {
 	 */
 	public static boolean isOngoing() {
 		return timer.state == TimerState.ONGOING;
+	}
+
+	/**
+	 * Checks if the map rotation has begun
+	 * @return true if the map rotation has been started
+	 */
+	public static boolean hasStarted() {
+		return hasStarted;
 	}
 
 	/**

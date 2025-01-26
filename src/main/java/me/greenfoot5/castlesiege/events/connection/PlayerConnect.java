@@ -41,6 +41,53 @@ import static me.greenfoot5.conwymc.data_types.Cosmetic.CosmeticType.TITLE;
  */
 public class PlayerConnect implements Listener {
 
+    /**
+     * Performs the same function as a login, without the login stuff
+     * @param player Player to add to Castle Siege
+     */
+    public static void onPlayerReload(Player player) {
+        UUID uuid = player.getUniqueId();
+
+        loadData(uuid);
+        CSPlayerData data = CSActiveData.getData(uuid);
+        checkCosmetics(data, uuid);
+
+        Messenger.send(Component.text("Hello ", NamedTextColor.DARK_RED)
+                .append(Component.text(player.getName()))
+                .append(Component.newline())
+                .append(Component.text("Welcome to Castle Siege", NamedTextColor.DARK_RED))
+                .append(Component.newline())
+                .append(Component.text("There are currently " + Bukkit.getOnlinePlayers().size() +
+                        " player(s) online.", NamedTextColor.DARK_PURPLE)), player);
+
+        // Assign the player to a team or spectator
+        InCombat.playerDied(uuid);
+        if (MapController.isMatch) {
+            TeamController.joinSpectator(player);
+            player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
+        } else {
+            TeamController.joinSmallestTeam(uuid, MapController.getCurrentMap());
+
+            // Assign stored kit
+            Kit kit = Kit.getKit(data.getKit());
+            if (kit != null && kit.canSelect(player, true, true, false))
+                kit.addPlayer(uuid, true);
+            else
+                Kit.getKit("Swordsman").addPlayer(uuid, true);
+        }
+
+        // Reset player xp and level
+        player.setExp(0);
+        player.setLevel(data.getLevel());
+
+        if (CoinKit.isFree()) {
+            Messenger.broadcastInfo("It's Friday! All coin and team kits are <b>UNLOCKED!</b>");
+        }
+
+        if (data.getSetting("alwaysInfo").equals("false") || data.getLevel() <= 5) {
+            sendTitlebarMessages(player);
+        }
+    }
 
     /**
      * Assign the player's data and join a team
@@ -83,7 +130,7 @@ public class PlayerConnect implements Listener {
                     .append(Component.newline())
                     .append(Component.text("Welcome to Castle Siege", NamedTextColor.DARK_RED))
                     .append(Component.newline())
-                    .append(Component.text("There are currently " + TeamController.getPlayers().size() +
+                    .append(Component.text("There are currently " + (TeamController.getPlayers().size() + 1) +
                             " player(s) battling.", NamedTextColor.DARK_PURPLE)), p);
         }
 
@@ -105,7 +152,7 @@ public class PlayerConnect implements Listener {
 
         // Reset player xp and level
         p.setExp(0);
-        p.setLevel(CSActiveData.getData(p.getUniqueId()).getLevel());
+        p.setLevel(data.getLevel());
 
         // Update the names stored in the database
         StoreData.updateName(uuid);
@@ -135,7 +182,7 @@ public class PlayerConnect implements Listener {
      * Actively store the loaded data
      * @param uuid The unique ID of the player
      */
-    private void loadData(UUID uuid) {
+    private static void loadData(UUID uuid) {
         // Load the player's data
         CSPlayerData data = CSActiveData.hasPlayer(uuid) ? CSActiveData.getData(uuid) : LoadData.load(uuid);
         assert data != null;

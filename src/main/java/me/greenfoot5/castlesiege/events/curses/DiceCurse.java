@@ -73,8 +73,7 @@ public class DiceCurse extends CurseCast {
     private void swapPlayer(Player player, int teamIndex) {
         int nextTeam = teamIndex + 1 == MapController.getCurrentMap().teams.length ? 0 : teamIndex + 1;
 
-        MapController.getCurrentMap().teams[teamIndex].removePlayer(player.getUniqueId());
-        MapController.getCurrentMap().teams[nextTeam].addPlayer(player.getUniqueId());
+        TeamController.joinTeam(player.getUniqueId(), MapController.getCurrentMap().teams[nextTeam]);
         if (InCombat.isPlayerInLobby(player.getUniqueId())) {
             player.teleport(MapController.getCurrentMap().teams[nextTeam].lobby.spawnPoint);
         }

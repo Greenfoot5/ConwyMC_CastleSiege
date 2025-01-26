@@ -188,7 +188,9 @@ public class Flag implements SidebarComponent {
      */
     public void clear() {
         players.clear();
-        bars.get(this).removeViewer(Bukkit.getServer());
+        BossBar bar = bars.get(this);
+        if (bar != null)
+            bar.removeViewer(Bukkit.getServer());
     }
 
     /**

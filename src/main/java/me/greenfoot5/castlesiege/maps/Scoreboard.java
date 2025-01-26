@@ -54,7 +54,8 @@ public class Scoreboard implements Runnable {
 			statsSidebars.get(player.getUniqueId()).close();
 			statsSidebars.remove(player.getUniqueId());
 		} else {
-			flagSidebar.removePlayer(player);
+			if (flagSidebar != null)
+				flagSidebar.removePlayer(player);
 		}
 	}
 
@@ -98,10 +99,14 @@ public class Scoreboard implements Runnable {
 
 	@Override
 	public void run() {
+		if (!MapController.hasStarted())
+			return;
+
 		// Recreate the sidebar if it's gone
 		if (flagSidebar == null) {
 			flagSidebar = new FlagSidebar(scoreboardLibrary.createSidebar());
 		}
+
 		flagSidebar.tick();
 
 		for (UUID uuid : TeamController.getEveryone()) {

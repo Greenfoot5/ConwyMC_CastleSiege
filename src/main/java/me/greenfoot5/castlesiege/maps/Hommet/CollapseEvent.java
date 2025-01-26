@@ -41,56 +41,58 @@ public class CollapseEvent implements Listener {
         Player player = e.getPlayer();
 
         // Check we're on Hommet
-        if(MapController.getCurrentMap().worldName.equals("Hommet") && MapController.isOngoing()) {
-            // Check the player has right-clicked a SPRUCE BUTTON while standing within 5 blocks of the CENTRE
-            if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.getLocation().distance(CENTRAL) <= 5
-                    && e.getClickedBlock().getType() == Material.SPRUCE_BUTTON) {
+        if ((MapController.getCurrentMap() != null && !MapController.getCurrentMap().worldName.equals("Hommet")) || !MapController.isOngoing()) {
+            return;
+        }
 
-                if(!Objects.equals(TeamController.getTeam(player.getUniqueId()).getName(),
-                        MapController.getCurrentMap().teams[0].getName())) {
+        // Check the player has right-clicked a SPRUCE BUTTON while standing within 5 blocks of the CENTRE
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.getLocation().distance(CENTRAL) <= 5
+                && e.getClickedBlock().getType() == Material.SPRUCE_BUTTON) {
 
-                    for (UUID all : MapController.getCurrentMap().teams[1].getPlayers()) {
-                        Player near = Bukkit.getPlayer(all);
-                        if (near.getLocation().distance(CENTRAL) <= 10) {
-                            Title.Times times = Title.Times.times(Duration.ofMillis(500), Duration.ofMillis(4000), Duration.ofMillis(10));
-                            Title title = Title.title(Component.text("RUN"), Component.text("The tunnel is about to collapse!"), times);
-                            near.showTitle(title);
-                        }
+            if(!Objects.equals(TeamController.getTeam(player.getUniqueId()).getName(),
+                    MapController.getCurrentMap().teams[0].getName())) {
+
+                for (UUID all : MapController.getCurrentMap().teams[1].getPlayers()) {
+                    Player near = Bukkit.getPlayer(all);
+                    if (near.getLocation().distance(CENTRAL) <= 10) {
+                        Title.Times times = Title.Times.times(Duration.ofMillis(500), Duration.ofMillis(4000), Duration.ofMillis(10));
+                        Title title = Title.title(Component.text("RUN"), Component.text("The tunnel is about to collapse!"), times);
+                        near.showTitle(title);
                     }
-
-                    UpdateStats.addSupports(player.getUniqueId(), 60);
-
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            SchematicSpawner.spawnSchematic(SCHEMATIC, "HommetWallCollapse2");
-
-                        }
-                    }.runTaskLater(Main.plugin, 20);
-
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            SchematicSpawner.spawnSchematic(SCHEMATIC, "HommetWallCollapse3");
-
-                        }
-                    }.runTaskLater(Main.plugin, 60);
-
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            SchematicSpawner.spawnSchematic(SCHEMATIC, "HommetCollapsedWall");
-
-                            // Play various sound effects to make it sound like a massive explosion
-                            Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_GENERIC_EXPLODE , 10000, 2 );
-                            Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_BLAST_FAR , 10000, 2 );
-                            Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_BLAST , 10000, 2 );
-                            Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST , 10000, 2 );
-                            Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 10000, 2 );
-                            Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE , 10000, 2 );
-                        }
-                    }.runTaskLater(Main.plugin, 140);
                 }
+
+                UpdateStats.addSupports(player.getUniqueId(), 60);
+
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        SchematicSpawner.spawnSchematic(SCHEMATIC, "HommetWallCollapse2");
+
+                    }
+                }.runTaskLater(Main.plugin, 20);
+
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        SchematicSpawner.spawnSchematic(SCHEMATIC, "HommetWallCollapse3");
+
+                    }
+                }.runTaskLater(Main.plugin, 60);
+
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        SchematicSpawner.spawnSchematic(SCHEMATIC, "HommetCollapsedWall");
+
+                        // Play various sound effects to make it sound like a massive explosion
+                        Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_GENERIC_EXPLODE , 10000, 2 );
+                        Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_BLAST_FAR , 10000, 2 );
+                        Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_BLAST , 10000, 2 );
+                        Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST , 10000, 2 );
+                        Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 10000, 2 );
+                        Objects.requireNonNull(Bukkit.getWorld("Hommet")).playSound(CENTRAL, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE , 10000, 2 );
+                    }
+                }.runTaskLater(Main.plugin, 140);
             }
         }
     }
