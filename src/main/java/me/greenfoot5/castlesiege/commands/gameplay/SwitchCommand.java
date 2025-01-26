@@ -175,13 +175,6 @@ public class SwitchCommand implements CommandExecutor {
 			InCombat.playerDied(p.getUniqueId());
 		}
 
-		// Remove any team specific kits
-		Kit kit = Kit.equippedKits.get(p.getUniqueId());
-		if (kit instanceof SignKit) {
-			Kit.equippedKits.put(p.getUniqueId(), new Swordsman());
-			CSActiveData.getData(p.getUniqueId()).setKit("swordsman");
-		}
-
 		// Respawn the player
 		Bukkit.getScheduler().runTask(Main.plugin, () -> p.setHealth(0));
 		team.grantLives(1);
