@@ -84,8 +84,9 @@ public abstract class SignKit extends Kit implements Listener {
         // Check the kit is valid for this map
         CostType costType = TeamController.getTeam(uuid).kits.get(getSpacelessName().toLowerCase());
         costType = costType == null ? TeamController.getTeam(uuid).kits.get(name.toLowerCase()) : costType;
-        if (costType == null && verbose) {
-            Messenger.sendError("This kit isn't available on this map!", sender);
+        if (costType == null) {
+            if (verbose)
+                Messenger.sendError("This kit isn't available on this team!", sender);
             return false;
         }
 

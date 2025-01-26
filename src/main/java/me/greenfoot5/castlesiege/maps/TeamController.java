@@ -278,7 +278,7 @@ public class TeamController implements FactionProvider {
         if (kit == null)
             return;
 
-        if (kit instanceof SignKit) {
+        if (kit instanceof SignKit signKit && !signKit.canSelect(player, true, false, false)) {
             Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
             CSActiveData.getData(player.getUniqueId()).setKit("swordsman");
         }
