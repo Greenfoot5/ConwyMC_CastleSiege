@@ -268,11 +268,12 @@ public class Main extends JavaPlugin implements Listener {
     private YamlDocument[] cannonConfigs;
     private YamlDocument[] coreConfigs;
     private ArrayList<BukkitTask> timedTasks = new ArrayList<>();
-    private List<Listener> listeners = new ArrayList<>();
+    private final List<Listener> listeners = new ArrayList<>();
 
     private YamlDocument gameConfig;
 
     public boolean hasLoaded = false;
+    public int mapsLoaded = 0;
 
     @Override
     public void onEnable()  {
@@ -291,7 +292,7 @@ public class Main extends JavaPlugin implements Listener {
                 getLogger().info("Loading configuration files...");
                 createConfigs();
                 getLogger().info("Loading maps from configuration...");
-                loadMaps();
+                loadMaps(0);
                 getLogger().info("Loading game configuration...");
                 loadConfig();
 
@@ -317,9 +318,6 @@ public class Main extends JavaPlugin implements Listener {
                     scoreboardLibrary = new NoopScoreboardLibrary();
                     plugin.getLogger().warning("No scoreboard packet adapter available!");
                 }
-
-                // Tips
-                new Tips().runTaskTimer(plugin, Tips.TIME_BETWEEN_TIPS * 20L, Tips.TIME_BETWEEN_TIPS * 20L);
 
                 // Rewrite Events
                 registerListener(new Enderchest());
@@ -588,12 +586,7 @@ public class Main extends JavaPlugin implements Listener {
                 //getServer().getScheduler().runTaskTimer(plugin, boatEvent, 300, 300);
                 //boatEvent.spawnBoat();
 
-                // Timed
-                timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1));
-                timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 5));
-                timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75));
-                timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20));
-                timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900));
+                startTimed();
 
                 // Boosters
                 activateBoosters();
@@ -611,6 +604,16 @@ public class Main extends JavaPlugin implements Listener {
         }.runTaskLater(plugin, 1);
     }
 
+    private void startTimed() {
+        // Timed
+        timedTasks.add(new Tips().runTaskTimer(plugin, Tips.TIME_BETWEEN_TIPS * 20L, Tips.TIME_BETWEEN_TIPS * 20L));
+        timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1));
+        timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 5));
+        timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75));
+        timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20));
+        timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900));
+    }
+
     /**
      * Called when the plugin is disabled
      */
@@ -618,6 +621,7 @@ public class Main extends JavaPlugin implements Listener {
     public void onDisable() {
         getLogger().info("Disabling plugin...");
         hasLoaded = false;
+        mapsLoaded = 0;
         MapController.hasStarted = false;
 
         // Move all players to their original world
@@ -631,25 +635,39 @@ public class Main extends JavaPlugin implements Listener {
             TeamController.leaveSpectator(uuid);
         }
 
-        // Save data and disconnect the SQL
-        StoreData.storeAll();
-
         // Stop CS stuff
-        MapController.forceEndMap();
         UltimateAdvancementAPI.getInstance(plugin).unregisterPluginAdvancementTabs();
+        disableWorlds();
 
         // Unregister all listeners
         listeners.forEach(this::unregisterListener);
         listeners.clear();
         HandlerList.unregisterAll(plugin);
+
+        try {
+            SQL.disconnect();
+        } catch (NullPointerException | SQLException ex) {
+            getLogger().warning("SQL could not disconnect, it doesn't exist!");
+        }
+
+        getLogger().info("Plugin has been disabled!");
+    }
+
+    private void disableWorlds() {
+        MapController.hasStarted = false;
+        mapsLoaded = 0;
+
+        // Save data and end the map if it's not already
+        StoreData.storeAll();
+        MapController.forceEndMap();
+
+        // Turn off the scoreboard
         Scoreboard.clearScoreboard();
         scoreboardLibrary.close();
         scoreboardLibrary = null;
 
-        // Unload all worlds
+        // Unload all maps
         for (World world : Bukkit.getWorlds()) {
-            if (world.getName().startsWith(defaultWorld.getName()))
-                continue;
             if (new File(Bukkit.getWorldContainer(), world.getName() + "_save").exists()) {
                 Bukkit.unloadWorld(world, false);
                 try {
@@ -662,37 +680,32 @@ public class Main extends JavaPlugin implements Listener {
 
         MapController.resetMapsInRotation();
 
-        try {
-            SQL.disconnect();
-        } catch (NullPointerException | SQLException ex) {
-            getLogger().warning("SQL could not disconnect, it doesn't exist!");
-        }
-
         // Stop timers
         for (BukkitTask task : timedTasks) {
             task.cancel();
         }
         timedTasks = new ArrayList<>();
-
-        getLogger().info("Plugin has been disabled!");
     }
 
     /**
      * Reloads the plugin
      */
     public void reload() {
-        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Reloading plugin...", GOLD)));
+        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA)
+                .append(Component.text("Reloading plugin...", GOLD)));
 
         Set<UUID> players = new HashSet<>(TeamController.getPlayers());
         Set<UUID> spectators = new HashSet<>(TeamController.getSpectators());
         onDisable();
-        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Plugin Disabled!", GOLD)));
+        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA)
+                .append(Component.text("Plugin Disabled!", GOLD)));
 
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA).append(Component.text("Loading Plugin... (Prepare for a lag spike)", GOLD)));
+                Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA)
+                        .append(Component.text("Loading Plugin... (Prepare for a lag spike)", GOLD)));
                 onEnable();
             }
         }.runTaskLater(Main.plugin, 100);
@@ -723,6 +736,88 @@ public class Main extends JavaPlugin implements Listener {
                         .append(Component.text("Plugin Reloaded!", GOLD)));
             }
         }.runTaskTimer(Main.plugin, 120, 20);
+    }
+
+    public void reloadMaps() {
+        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA)
+                .append(Component.text("Reloading maps...", GOLD)));
+        mapsLoaded = 0;
+
+        // Save players to re-add once loaded
+        Set<UUID> players = new HashSet<>(TeamController.getPlayers());
+        Set<UUID> spectators = new HashSet<>(TeamController.getSpectators());
+
+        // Move all players to their original world
+        World defaultWorld = getServer().getWorld("ShopDraft");
+        for (UUID uuid : TeamController.getEveryone()) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) {
+                player.teleport(defaultWorld.getSpawnLocation());
+            }
+            TeamController.leaveTeam(uuid);
+            TeamController.leaveSpectator(uuid);
+        }
+
+        disableWorlds();
+
+
+        Messenger.broadcast(Component.text("[CastleSiege] ", DARK_AQUA)
+                .append(Component.text("Loading new map rotation... (Lag spike incoming)", GOLD)));
+
+        getLogger().info("Loading configuration files...");
+        createConfigs();
+        getLogger().info("Loading maps from configuration...");
+        loadMaps(20);
+        getLogger().info("Loading game configuration...");
+        loadConfig();
+
+        //Scoreboard
+        try {
+            assert plugin != null;
+            scoreboardLibrary = ScoreboardLibrary.loadScoreboardLibrary(plugin);
+        } catch (NoPacketAdapterAvailableException e) {
+            // If no packet adapter was found, you can fall back to the no-op implementation:
+            scoreboardLibrary = new NoopScoreboardLibrary();
+            plugin.getLogger().warning("No scoreboard packet adapter available!");
+        }
+
+        new BukkitRunnable() {
+            /**
+             * Runs this operation.
+             */
+            @Override
+            public void run() {
+                if (mapsLoaded < mapConfigs.length)
+                    return;
+                this.cancel();
+
+                startTimed();
+
+                // Begin the map loop
+                MapController.startLoop();
+
+                // Register the secret items
+                SecretItems.registerSecretItems();
+
+                for(UUID uuid : players) {
+                    Player player = Bukkit.getPlayer(uuid);
+                    if (player != null) {
+                        PlayerConnect.onPlayerReload(player);
+                    }
+                }
+
+                for(UUID uuid : spectators) {
+                    Player spectator = Bukkit.getPlayer(uuid);
+                    if (spectator != null) {
+                        PlayerConnect.onPlayerReload(spectator);
+                        TeamController.joinSpectator(spectator);
+                    }
+                }
+
+                Messenger.broadcast(Component.text("[CastleSiege] ",DARK_AQUA)
+                        .append(Component.text("Maps Reloaded!", GOLD)));
+            }
+        }.runTaskTimer(Main.plugin, 20L * mapConfigs.length, 20);
     }
 
     private void registerListener(Listener listener) {
@@ -1055,79 +1150,102 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
-    private void loadMaps() {
+    /**
+     * Loads all the maps we *could* play from the configs with their worlds
+     * @param delay The delay between loading each world
+     */
+    private void loadMaps(int delay) {
         // Load the maps
-        for (YamlDocument config : mapConfigs) {
-            // Probably shouldn't do this, but it makes it easier
-            if (config == null)
-                continue;
-            String[] mapPaths = getPaths(config, null);
-
-            for (String mapPath : mapPaths) {
-                // Basic Map Details
-                Map map = new Map();
-                Route mapRoute = Route.from(mapPath);
-                if (getCoreConfig(mapRoute) != null) {
-                    map = new CoreMap();
-                }
-                map.name = config.getString(mapRoute.add("name"));
-                map.worldName = config.getString(mapRoute.add("world"));
-                map.gamemode = Gamemode.valueOf(config.getString(mapRoute.add("gamemode")));
-                map.startTime = config.getInt(mapRoute.add("start_time"), 0);
-                map.daylightCycle = config.getBoolean(mapRoute.add("doDaylightCycle"), true);
-                map.canRecap = config.getBoolean(mapRoute.add("can_recap"), true);
-
-                // Map Border
-                Route borderRoute = mapRoute.add("map_border");
-                if (config.contains(borderRoute)) {
-                    map.setMapBorder(config.getDouble(borderRoute.add("north")),
-                            config.getDouble(borderRoute.add("east")),
-                            config.getDouble(borderRoute.add("south")),
-                            config.getDouble(borderRoute.add("west")));
-                }
-
-
-                // World Data
-                createWorld(map.worldName);
-                //Core Data
-                if (getCoreConfig(mapRoute) != null) {
-                    loadCores(mapRoute, map);
-                }
-
-                // Flag Data
-                if (getFlagsConfig(mapRoute) != null) {
-                    loadFlags(mapRoute, map);
-                }
-
-                // Doors
-                loadDoors(mapRoute, map);
-                // Gates
-                loadGates(mapRoute, map);
-                // Catapults
-                loadCatapults(mapRoute, map);
-                //cannons
-                loadCannons(mapRoute, map);
-
-                // Team Data
-                String[] teamPaths = getPaths(config, Route.from(mapPath).add("teams"));
-                map.teams = new Team[teamPaths.length];
-                for (int j = 0; j < teamPaths.length; j++) {
-                    Route route = mapRoute.add("teams").add(teamPaths[j]);
-                    map.teams[j] = loadTeam(route, map, config);
-                }
-
-                // Timer data
-                map.duration = new Tuple<>(config.getInt(mapRoute.add("duration").add("minutes")),
-                        config.getInt(mapRoute.add("duration").add("seconds")));
-
-                // Save the map
-                MapController.addMapToRotation(map);
+        for (int i = 0; i < mapConfigs.length; i++) {
+            YamlDocument config = mapConfigs[i];
+            if (delay > 0) {
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        loadMap(config);
+                    }
+                }.runTaskLater(this, (long) delay * i);
+            }
+            else {
+                loadMap(config);
             }
         }
 
         // Misc worlds
         createWorld("DuelsMap");
         createWorld("ShopDraft");
+
+        mapsLoaded++;
+    }
+
+    private void loadMap(YamlDocument config) {
+        // Probably shouldn't do this, but it makes it easier
+        if (config == null)
+            return;
+        String[] mapPaths = getPaths(config, null);
+
+        for (String mapPath : mapPaths) {
+            // Basic Map Details
+            Map map = new Map();
+            Route mapRoute = Route.from(mapPath);
+            if (getCoreConfig(mapRoute) != null) {
+                map = new CoreMap();
+            }
+            map.name = config.getString(mapRoute.add("name"));
+            map.worldName = config.getString(mapRoute.add("world"));
+            map.gamemode = Gamemode.valueOf(config.getString(mapRoute.add("gamemode")));
+            map.startTime = config.getInt(mapRoute.add("start_time"), 0);
+            map.daylightCycle = config.getBoolean(mapRoute.add("doDaylightCycle"), true);
+            map.canRecap = config.getBoolean(mapRoute.add("can_recap"), true);
+
+            // Map Border
+            Route borderRoute = mapRoute.add("map_border");
+            if (config.contains(borderRoute)) {
+                map.setMapBorder(config.getDouble(borderRoute.add("north")),
+                        config.getDouble(borderRoute.add("east")),
+                        config.getDouble(borderRoute.add("south")),
+                        config.getDouble(borderRoute.add("west")));
+            }
+
+
+            // World Data
+            createWorld(map.worldName);
+            //Core Data
+            if (getCoreConfig(mapRoute) != null) {
+                loadCores(mapRoute, map);
+            }
+
+            // Flag Data
+            if (getFlagsConfig(mapRoute) != null) {
+                loadFlags(mapRoute, map);
+            }
+
+            // Doors
+            loadDoors(mapRoute, map);
+            // Gates
+            loadGates(mapRoute, map);
+            // Catapults
+            loadCatapults(mapRoute, map);
+            //cannons
+            loadCannons(mapRoute, map);
+
+            // Team Data
+            String[] teamPaths = getPaths(config, Route.from(mapPath).add("teams"));
+            map.teams = new Team[teamPaths.length];
+            for (int j = 0; j < teamPaths.length; j++) {
+                Route route = mapRoute.add("teams").add(teamPaths[j]);
+                map.teams[j] = loadTeam(route, map, config);
+            }
+
+            // Timer data
+            map.duration = new Tuple<>(config.getInt(mapRoute.add("duration").add("minutes")),
+                    config.getInt(mapRoute.add("duration").add("seconds")));
+
+            // Save the map
+            MapController.addMapToRotation(map);
+        }
+
+        mapsLoaded++;
     }
 
     private void loadCores(Route mapRoute, Map map) {

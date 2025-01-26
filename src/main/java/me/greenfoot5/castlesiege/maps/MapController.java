@@ -503,7 +503,7 @@ public class MapController {
 					StoreData.storeAll();
 
 					Main.instance.getLogger().info("Completed map cycle! Restarting server...");
-					Main.instance.reload();
+					Main.instance.reloadMaps();
 				}
 			}.runTask(Main.plugin);
 		} else {
