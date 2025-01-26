@@ -3,9 +3,10 @@ package me.greenfoot5.castlesiege.events.gameplay;
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.commands.donator.DuelCommand;
 import me.greenfoot5.castlesiege.data_types.MapBorder;
-import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
+import me.greenfoot5.castlesiege.maps.TimerState;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
@@ -39,7 +40,13 @@ public class LeaveMapBorder implements Listener {
      */
     @EventHandler
     public void onLeaveBorder(PlayerMoveEvent e) {
-        if (!CSActiveData.hasPlayer(e.getPlayer().getUniqueId()))
+        if (!TeamController.isPlaying(e.getPlayer()) || !TeamController.isSpectating(e.getPlayer()))
+            return;
+
+        if (!MapController.hasStarted
+                || MapController.timer.state == TimerState.ENDED
+                || MapController.timer.state == TimerState.LOBBY_LOCKED
+                || MapController.timer.state == TimerState.PREGAME)
             return;
 
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
