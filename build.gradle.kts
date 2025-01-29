@@ -77,7 +77,7 @@ dependencies {
     implementation("dev.dejvokep:boosted-yaml:1.3.7")
 
     // Via /lib
-    compileOnly("com.github.Greenfoot5:conwymc-global:1.0.3")
+    compileOnly("com.github.Greenfoot5:conwymc-global:1.0.4")
     compileOnly("com.nametagedit:nametagedit:4.5.24")
 
     compileOnly("net.citizensnpcs:citizensapi:2.0.33-SNAPSHOT")
