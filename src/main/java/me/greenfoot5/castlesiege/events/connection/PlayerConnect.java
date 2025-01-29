@@ -57,6 +57,15 @@ public class PlayerConnect implements Listener {
             return;
         }
 
+        // TODO - Remove after release
+        if (!(Bukkit.getWhitelistedPlayers().contains(Bukkit.getOfflinePlayer(p.getUniqueId()))
+                || ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 1)) {
+            p.kick(Component.text("Sorry, the server's not fully public just yet!")
+                    .append(Component.newline())
+                    .append(Component.text("In the meantime, you can join our Friday test sessions!")));
+            return;
+        }
+
         UUID uuid = p.getUniqueId();
         CSPlayerData data = CSActiveData.getData(uuid);
 
