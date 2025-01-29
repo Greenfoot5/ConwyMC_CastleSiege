@@ -26,6 +26,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,6 +54,7 @@ public class PlayerConnect implements Listener {
             p.kick(Component.text("Sorry, the server's not quite finished loading!")
                     .append(Component.newline())
                     .append(Component.text("Please try again in a minute.")));
+            return;
         }
 
         UUID uuid = p.getUniqueId();
@@ -112,6 +114,14 @@ public class PlayerConnect implements Listener {
         if (CoinKit.isFree()) {
             Messenger.broadcastInfo("It's Friday! All coin and team kits are <b>UNLOCKED!</b>");
         }
+
+        // TODO - Remove after release
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Messenger.broadcastError("The server is currently in BETA. Any progress made will be deleted on release (excluding cosmetics & purchased boosters)");
+            }
+        }.runTaskLaterAsynchronously(Main.plugin, 60);
 
         if (data.getSetting("alwaysInfo").equals("false") || data.getLevel() <= 5) {
             sendTitlebarMessages(p);
