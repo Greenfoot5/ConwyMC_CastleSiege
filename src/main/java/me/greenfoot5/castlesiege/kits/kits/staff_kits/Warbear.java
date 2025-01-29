@@ -4,8 +4,8 @@ import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.StaffKit;
-import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.events.map.RamEvent;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
@@ -151,7 +151,7 @@ public class Warbear extends StaffKit implements Listener {
     @EventHandler
     public void onFlee(PlayerInteractEvent e) {
         Player player = e.getPlayer();
-        if (!MapController.getPlayers().contains(player.getUniqueId()))
+        if (!TeamController.isPlaying(player.getUniqueId()))
             return;
         if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name)
                 && (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)

@@ -1,7 +1,7 @@
 package me.greenfoot5.castlesiege.events.curses;
 
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,7 +27,7 @@ public class GreaterBlindnessCurse extends CurseCast {
     protected void cast() {
         this.setStartTime();
         Messenger.broadcastCurse("<dark_red>" + getDisplayName() + "</dark_red> has been activated! " + getActivateMessage());
-        playSound(MapController.getPlayers());
+        playSound(TeamController.getPlayers());
 
         CurseCast curse = this;
 

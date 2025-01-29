@@ -1,7 +1,7 @@
 package me.greenfoot5.castlesiege.events.curses;
 
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
@@ -30,7 +30,7 @@ public class TeleportationCurse extends CurseCast {
 
     @Override
     protected void cast() {
-        List<UUID> totalPlayers = MapController.getActivePlayers();
+        List<UUID> totalPlayers = TeamController.getActivePlayers().stream().toList();
 
 
         if (totalPlayers.size() < MIN_SIZE_TO_SWAP) {
@@ -59,7 +59,7 @@ public class TeleportationCurse extends CurseCast {
         }
 
         Messenger.broadcastCurse("<dark_red>" + name + "</dark_red> has been activated! " + activateMessage);
-        playSound(MapController.getPlayers());
+        playSound(TeamController.getPlayers());
     }
 
     /**

@@ -2,6 +2,7 @@ package me.greenfoot5.castlesiege.maps.objects;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.castlesiege.structures.SchematicSpawner;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -147,8 +148,10 @@ public class Catapult implements Listener {
     @EventHandler
     public void onPullLever(PlayerInteractEvent event) {
         Block clickedBlock = event.getClickedBlock();
-        if (clickedBlock == null || clickedBlock.getType() != Material.LEVER
-                || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+        if (clickedBlock == null
+                || clickedBlock.getType() != Material.LEVER
+                || event.getAction() != Action.RIGHT_CLICK_BLOCK
+                || !TeamController.isPlaying(event.getPlayer())) {
             return;
         }
 

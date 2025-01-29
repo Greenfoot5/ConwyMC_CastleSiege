@@ -5,6 +5,7 @@ import me.greenfoot5.castlesiege.commands.donator.DuelCommand;
 import me.greenfoot5.castlesiege.database.UpdateStats;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -57,7 +58,7 @@ public class SuicideCommand implements CommandExecutor {
 			return false;
 		}
 
-		if (MapController.isSpectator(((Player) sender).getUniqueId())) {
+		if (TeamController.isSpectating((Player) sender)) {
 			Messenger.sendError("Spectators cannot die!", sender);
 			return false;
 		}

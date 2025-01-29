@@ -41,4 +41,15 @@ public class CSActiveData extends ActiveData {
             return (CSPlayerData) playerData.get(uuid);
         return null;
     }
+
+    /**
+     * Removes the player's CS data. SAVE IT FIRST
+     * @param uuid The unique ID of the player
+     */
+    public static void removePlayer(UUID uuid) {
+        PlayerData data = playerData.get(uuid);
+        if (data == null)
+            return;
+        playerData.put(uuid, new PlayerData(data));
+    }
 }

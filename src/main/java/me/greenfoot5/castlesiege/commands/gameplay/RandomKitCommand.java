@@ -6,7 +6,7 @@ import me.greenfoot5.castlesiege.events.curses.BindingCurse;
 import me.greenfoot5.castlesiege.events.curses.CurseExpired;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
-import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -54,7 +54,7 @@ public class RandomKitCommand implements CommandExecutor, Listener {
         }
 
         UUID uuid = player.getUniqueId();
-        if (!MapController.getPlayers().contains(player.getUniqueId())) {
+        if (!TeamController.isPlaying(uuid)) {
             Messenger.sendError("You must be on a team to select kits", sender);
             return;
         }

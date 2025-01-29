@@ -57,6 +57,7 @@ public class PressurePlateDoor extends Door {
         if (block == null)
             return false;
 
+        //noinspection EnhancedSwitchMigration
         switch (block.getType()) {
             case ACACIA_PRESSURE_PLATE:
             case BIRCH_PRESSURE_PLATE:

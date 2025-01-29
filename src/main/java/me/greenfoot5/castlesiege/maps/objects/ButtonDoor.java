@@ -92,6 +92,7 @@ public class ButtonDoor extends Door {
         if (block == null)
             return false;
 
+        //noinspection EnhancedSwitchMigration
         switch (block.getType()) {
             case ACACIA_BUTTON:
             case BIRCH_BUTTON:

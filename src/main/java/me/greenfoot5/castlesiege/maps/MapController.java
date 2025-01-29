@@ -1,12 +1,8 @@
 package me.greenfoot5.castlesiege.maps;
 
-import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.advancements.TutorialAdvancements;
-import me.greenfoot5.castlesiege.advancements.displays.NodeDisplay;
-import me.greenfoot5.castlesiege.commands.donator.DuelCommand;
 import me.greenfoot5.castlesiege.commands.gameplay.VoteSkipCommand;
 import me.greenfoot5.castlesiege.commands.info.leaderboard.MVPCommand;
 import me.greenfoot5.castlesiege.commands.staff.boosters.GrantBoosterCommand;
@@ -25,8 +21,6 @@ import me.greenfoot5.castlesiege.events.map.NextMapEvent;
 import me.greenfoot5.castlesiege.events.timed.BarCooldown;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
-import me.greenfoot5.castlesiege.kits.kits.SignKit;
-import me.greenfoot5.castlesiege.kits.kits.free_kits.Swordsman;
 import me.greenfoot5.castlesiege.maps.objects.Cannon;
 import me.greenfoot5.castlesiege.maps.objects.Catapult;
 import me.greenfoot5.castlesiege.maps.objects.Core;
@@ -45,7 +39,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -61,9 +54,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.SequencedCollection;
 import java.util.UUID;
 
 import static org.bukkit.Bukkit.getPlayer;
@@ -90,11 +85,12 @@ public class MapController {
 	private static final double KIT_BOOSTER_RANDOM_CHANCE = 0.35;
 	private static final double KIT_BOOSTER_WILD_CHANCE = 0.10;
 
+	private static final SequencedCollection<Map> mapsInRotation = new LinkedHashSet<>();
 
-	public static List<Map> maps = new ArrayList<>();
-	public static int mapIndex = 0;
+	private static List<Map> maps = new ArrayList<>();
+	private static int mapIndex = 0;
+
 	public static Timer timer;
-
 	public static int mapCount = 3;
 
 	// Delays
@@ -102,52 +98,30 @@ public class MapController {
 	public static int lobbyLockedTime = 0;
 	public static int explorationTime = 0;
 
+	// If we're treating the game as a match
 	public static boolean isMatch = false;
-	public static boolean keepTeams = false;
-	private static final ArrayList<ArrayList<UUID>> teams = new ArrayList<>();
-	public static boolean disableSwitching = false;
+	// Disables purchase check for kits
 	public static boolean allKitsFree = false;
+	// Randomises a player's kit when they respawn
 	public static boolean forcedRandom = false;
 
-	private static final ArrayList<UUID> spectators = new ArrayList<>();
+	// Has the map rotation started
+	public static boolean hasStarted = false;
 
 	/**
-	 * Begins the map loop
+	 * Adds a map to the potential map rotation
+	 * @param map The map to add to the rotation
 	 */
-	public static void startLoop() {
-		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-			if (!isMatch) {
-				Collections.shuffle(maps);
-				if (mapCount > 0 && mapCount < maps.size())
-					maps = maps.subList(0, mapCount);
-			}
-			Bukkit.getScheduler().runTask(Main.plugin, MapController::loadMap);
-		});
+	public static void addMapToRotation(@NotNull Map map) {
+		mapsInRotation.add(map);
 	}
 
 	/**
-	 * @param mapName The name of the map to get
-	 * @return Gets the map only if it's unplayed, null if no map of that name has been unplayed
+	 * Resets the list of maps to potentially add to rotation
 	 */
-	public static Map getUnplayedMap(String mapName) {
-		for (int i = mapIndex + 1; i < maps.size(); i++) {
-			if (Objects.equals(maps.get(i).name, mapName)) {
-				return maps.get(i);
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * @param mapName The name of the map to get
-	 * @return The Map of the map name, null if no map of that name exists
-	 */
-	public static Map getMap(String mapName) {
-		for (Map map : maps) {
-			if (Objects.equals(map.name, mapName))
-				return map;
-		}
-		return null;
+	public static void resetMapsInRotation() {
+		mapsInRotation.clear();
+		timer = null;
 	}
 
 	/**
@@ -171,6 +145,64 @@ public class MapController {
 	}
 
 	/**
+	 * Shuffles the map list if the server hasn't started yet
+	 */
+	public static void shuffle() {
+		if (mapIndex == 0 && (timer == null || timer.state == TimerState.PREGAME)) {
+			maps = new ArrayList<>(mapsInRotation);
+			Collections.shuffle(maps);
+			mapsInRotation.clear();
+		}
+	}
+
+	/**
+	 * Begins the map loop
+	 */
+	public static void startLoop() {
+		mapIndex = 0;
+		if (!isMatch) {
+			shuffle();
+			if (mapCount > 0 && mapCount < maps.size())
+				maps = maps.subList(0, mapCount);
+		}
+		loadMap(false);
+		hasStarted = true;
+	}
+
+	/**
+	 * @param mapName The name of the map to get
+	 * @return Gets the map only if it's unplayed, null if no map of that name has been unplayed
+	 */
+	public static Map getUnplayedMap(String mapName) {
+		for (int i = mapIndex + 1; i < maps.size(); i++) {
+			if (Objects.equals(maps.get(i).name, mapName)) {
+				return maps.get(i);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Gets all the maps in rotation
+	 * @return The list of maps currently in rotation, played or not
+	 */
+	public static List<Map> getMaps() {
+		return maps;
+	}
+
+	/**
+	 * @param mapName The name of the map to get
+	 * @return The Map of the map name, null if no map of that name exists
+	 */
+	public static Map getMap(String mapName) {
+		for (Map map : maps) {
+			if (Objects.equals(map.name, mapName))
+				return map;
+		}
+		return null;
+	}
+
+	/**
 	 * Sets the current map by string
 	 * @param mapName the name of the map to set the current map to
 	 */
@@ -183,17 +215,32 @@ public class MapController {
 				Main.instance.getLogger().info("Loading map - " + mapName);
 				mapIndex = i;
 				unloadMap(oldMap);
-				loadMap();
+				loadMap(false);
 				return;
 			}
 		}
 	}
 
 	/**
+	 * Ends the current map, and starts the next one
+	 */
+	public static void endMap() {
+		forceEndMap();
+
+		// Begins the next map
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				nextMap();
+			}
+		}.runTaskLater(Main.plugin, 200);
+	}
+
+	/**
 	 * Handles ending the map
 	 * (called by the timer or if all flags are captured)
 	 */
-	public static void endMap() {
+	public static void forceEndMap() {
 		timer.state = TimerState.ENDED;
 
 		// Calculate the winner based on the game mode
@@ -239,7 +286,6 @@ public class MapController {
 								player = Bukkit.getOfflinePlayer(mvp.getFirst()).getPlayer();
 							}
 							assert player != null;
-							TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Simply the best"))).grant(player);
 						});
 					}
 				}
@@ -264,15 +310,6 @@ public class MapController {
 		AssistKill.reset();
 		Explosion.reset();
 		awardMVPs();
-
-		// Begins the next map
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				nextMap();
-			}
-		}.runTaskLater(Main.plugin, 200);
-
 	}
 
 	private static String getWinners() {
@@ -379,15 +416,9 @@ public class MapController {
 			assert p != null;
 			double score = MVPStats.getStats(p.getUniqueId()).getScore();
 
-			if (Bukkit.getOnlinePlayers().size() >= 6 && score >= 20) {
+			if (TeamController.getPlayers().size() >= 6 && score >= 20) {
 				CSActiveData.getData(p.getUniqueId()).addCoins(50 * CSPlayerData.getCoinMultiplier());
 				Messenger.sendSuccess("<gold>+" + (50 * CSPlayerData.getCoinMultiplier()) + "</gold> coins for winning!", p);
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						TutorialAdvancements.tab.getAdvancement(new AdvancementKey("siege_tutorial", NodeDisplay.cleanKey("Winner Winner Chicken Dinner"))).grant(p);
-					}
-				}.runTask(Main.plugin);
 			}
 		}
 	}
@@ -472,7 +503,7 @@ public class MapController {
 					StoreData.storeAll();
 
 					Main.instance.getLogger().info("Completed map cycle! Restarting server...");
-					getServer().spigot().restart();
+					Main.instance.reloadMaps();
 				}
 			}.runTask(Main.plugin);
 		} else {
@@ -487,17 +518,18 @@ public class MapController {
 			mapIndex++;
 			Main.instance.getLogger().info("Loading next map: " + maps.get(mapIndex).name);
 			unloadMap(oldMap);
-			loadMap();
+			loadMap(false);
 		}
 	}
 
 	/**
 	 * Loads the current map into play
 	 */
-	public static void loadMap() {
+	public static void loadMap(boolean setMap) {
 		// Clear the scoreboard & reset stats
 		Scoreboard.clearScoreboard();
 		MVPStats.reset();
+		hasStarted = true;
 
 		// Register doors
 		for (Door door : maps.get(mapIndex).doors) {
@@ -507,39 +539,21 @@ public class MapController {
 		// Register the woolmap clicks
 		for (Team team : maps.get(mapIndex).teams) {
 			getServer().getPluginManager().registerEvents(team.lobby.woolmap, Main.plugin);
+			World world = Bukkit.getWorld(maps.get(mapIndex).worldName);
+			world.getChunkAt(team.lobby.spawnPoint);
 		}
 
-		// Move all players to the new map and team
-		if (!keepTeams || maps.get(mapIndex).teams.length < teams.size()) {
-			for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
-				if (!isSpectator(player.getUniqueId()) && !DuelCommand.isDueling(player.getUniqueId()))
-					joinATeam(player.getUniqueId());
-			}
+		// Add players to new map and teleport
+		if (mapIndex > 0 && !setMap) {
+			TeamController.loadTeams(maps.get(mapIndex - 1), getCurrentMap());
 		} else {
-			Collections.shuffle(teams);
-			for (int i = 0; i < teams.size(); i++) {
-				for (UUID uuid : teams.get(i))
-					joinTeam(uuid, getCurrentMap().teams[i]);
-			}
-			teams.clear();
+			TeamController.loadTeams(getCurrentMap());
 		}
+		TeamController.teleportPlayers();
 
 		//Spawn secret items if there are any
 		SecretItems.spawnSecretItems();
 		Main.plugin.getComponentLogger().info(Component.text("Spawning secret items if there are any.", NamedTextColor.DARK_GREEN));
-
-		// Teleport Spectators
-		for (UUID spectator : spectators) {
-			Player player = getPlayer(spectator);
-			if (player != null && player.isOnline()) {
-				if (MapController.getCurrentMap() instanceof CoreMap coreMap) {
-                    player.teleport(coreMap.getCore(1).getSpawnPoint());
-
-				} else {
-					player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
-				}
-			}
-		}
 
 		// Set up the time
 		World world = getWorld(maps.get(mapIndex).worldName);
@@ -592,9 +606,11 @@ public class MapController {
 	 * Starts the lobby phase of the map
 	 */
 	public static void beginLobbyLock() {
+		// Kill all the exploring players
 		if (explorationTime != 0) {
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (!isSpectator(player.getUniqueId())) {
+			for (UUID uuid : TeamController.getPlayers()) {
+				Player player = Bukkit.getPlayer(uuid);
+				if (player != null) {
 					Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
 				}
 			}
@@ -662,7 +678,7 @@ public class MapController {
 					}
 				}
 
-				for (UUID uuid : getPlayers()) {
+				for (UUID uuid : TeamController.getPlayers()) {
 					Player player = getPlayer(uuid);
 					if (player == null) continue;
 					Team team = TeamController.getTeam(uuid);
@@ -684,65 +700,42 @@ public class MapController {
 	}
 
 	/**
-	 * Restocks the players kit, or sets them to swordsman if they were using a team kit
-	 * @param player The player to restock/reset kits for
-	 */
-	private static void checkTeamKit(Player player) {
-		Kit kit = Kit.equippedKits.get(player.getUniqueId());
-		if (kit == null)
-			return;
-
-		if (kit instanceof SignKit) {
-			Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
-			CSActiveData.getData(player.getUniqueId()).setKit("swordsman");
-		}
-
-		Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), true);
-	}
-
-	/**
 	 * Does any unloading needed for the map
 	 * @param oldMap The map to unload
 	 */
 	public static void unloadMap(Map oldMap) {
-		// Make sure teams are stored before the next map is loaded
-		if (keepTeams) {
-			for (Team team : oldMap.teams)
-				teams.add(new ArrayList<>(team.getPlayers()));
-		}
-
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-		// Clear map stats
-		InCombat.clearCombat();
+			// Clear map stats
+			InCombat.clearCombat();
 
-		// Clear capture zones
-		for (Flag flag : oldMap.flags) {
-			flag.clear();
-		}
+			// Clear capture zones
+			for (Flag flag : oldMap.flags) {
+				flag.clear();
+			}
 
-		// Unregister core listeners and regions
-		if (maps.get(mapIndex) instanceof CoreMap coreMap) {
-            for (Core core : coreMap.getCores()) {
-				HandlerList.unregisterAll(core);
+			// Unregister core listeners and regions
+			if (maps.get(mapIndex) instanceof CoreMap coreMap) {
+				for (Core core : coreMap.getCores()) {
+					HandlerList.unregisterAll(core);
 
-				if (core.region != null) {
-					Bukkit.getScheduler().runTask(Main.plugin, () ->
-							Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
-											BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
-									.removeRegion(core.name.replace(' ', '_')));
+					if (core.region != null) {
+						Bukkit.getScheduler().runTask(Main.plugin, () ->
+								Objects.requireNonNull(WorldGuard.getInstance().getPlatform().getRegionContainer().get(
+												BukkitAdapter.adapt(Objects.requireNonNull(getWorld(oldMap.worldName)))))
+										.removeRegion(core.name.replace(' ', '_')));
+					}
 				}
 			}
-		}
 
 		// Unregister catapult listeners
 		for (Catapult catapult : oldMap.catapults) {
 			HandlerList.unregisterAll(catapult);
 		}
 
-			// Unregister cannon listeners
-			for (Cannon cannon : oldMap.cannons) {
-				HandlerList.unregisterAll(cannon);
-			}
+		// Unregister cannon listeners
+		for (Cannon cannon : oldMap.cannons) {
+			HandlerList.unregisterAll(cannon);
+		}
 
 		// Unregister flag regions
 		for (Flag flag : oldMap.flags) {
@@ -770,10 +763,9 @@ public class MapController {
 			}
 		}
 
-		// Unregister woolmap listeners and clear teams
+		// Unregister woolmap listeners
 		for (Team team : oldMap.teams) {
 			HandlerList.unregisterAll(team.lobby.woolmap);
-			team.clear();
 		}
 
 		Bukkit.getScheduler().runTask(Main.plugin, () -> {
@@ -791,7 +783,6 @@ public class MapController {
                 }
 			});
 		});
-
 	 });
 	}
 
@@ -808,111 +799,9 @@ public class MapController {
 	 * @return A string containing the current map's name
 	 */
 	public static Map getCurrentMap() {
+		if (maps.isEmpty())
+			return null;
 		return maps.get(mapIndex);
-	}
-
-	/**
-	 * Adds a player to a team on the current map
-	 * @param uuid the player to add to a team
-	 */
-	public static void joinATeam(UUID uuid) {
-		joinTeam(uuid, getCurrentMap().smallestTeam());
-	}
-
-	/**
-	 * Adds a player to a specific team.
-	 * @param uuid The player's unique ID
-	 * @param team The team
-	 */
-	private static void joinTeam(UUID uuid, Team team) {
-		Player player = getPlayer(uuid);
-		assert player != null;
-
-		team.addPlayer(uuid);
-		player.teleport(team.lobby.spawnPoint);
-		Messenger.send(Component.text("You joined ").append(team.getDisplayName()), player);
-
-		checkTeamKit(player);
-	}
-
-	/**
-	 * Puts the players back in their spawnrooms.
-	 * @param uuid the player to add to a team
-	 */
-	public static void rejoinAfterDuel(UUID uuid) {
-		rejoinAfterDuel(uuid, getCurrentMap().smallestTeam());
-	}
-
-	/**
-	 *
-	 * @param uuid the player to sent to the spawnroom
-	 * @param team their team
-	 */
-	private static void rejoinAfterDuel(UUID uuid, Team team) {
-		Player player = getPlayer(uuid);
-		assert player != null;
-
-		player.teleport(team.lobby.spawnPoint);
-		checkTeamKit(player);
-	}
-
-
-	/**
-	 * Removes a player from the team when they disconnect
-	 * @param uuid the uuid to remove
-	 */
-	public static void leaveTeam(UUID uuid) {
-		Team team = TeamController.getTeam(uuid);
-		if (team != null)
-			team.removePlayer(uuid);
-		else if (isSpectator(uuid))
-			spectators.remove(uuid);
-	}
-
-	/**
-	 * @return All the players currently playing the game
-	 */
-	public static List<UUID> getPlayers() {
-		List<UUID> players = new ArrayList<>();
-		for (Team t : getCurrentMap().teams) {
-            players.addAll(t.getPlayers());
-		}
-
-		return players;
-	}
-
-	/**
-	 * @return All the players playing the game and not in a lobby
-	 */
-	public static List<UUID> getActivePlayers() {
-		List<UUID> players = new ArrayList<>();
-		for (Team t : getCurrentMap().teams) {
-			for (UUID uuid : t.getPlayers()) {
-				if (!InCombat.isPlayerInLobby(uuid))
-					players.add(uuid);
-			}
-		}
-
-		return players;
-	}
-
-	/**
-	 * @return All the players and spectators
-	 */
-	public static List<UUID> getEveryone() {
-        List<UUID> players = getPlayers();
-		players.addAll(spectators);
-
-		return players;
-	}
-
-	/**
-	 * Checks if a player is a spectator
-	 * @param uuid The uuid of the player to check
-     * @return If the player is a spectator
-	 */
-	public static boolean isSpectator(UUID uuid) {
-		return spectators.contains(uuid);
 	}
 
 	/**
@@ -923,15 +812,23 @@ public class MapController {
 	}
 
 	/**
+	 * Checks if the map rotation has begun
+	 * @return true if the map rotation has been started
+	 */
+	public static boolean hasStarted() {
+		return hasStarted;
+	}
+
+	/**
 	 * Displays the GUI allowing players to vote if they liked/disliked a map
 	 */
 	public static void beginVote() {
-		if (getPlayers().size() < 4) {
+		if (TeamController.getPlayers().size() < 4) {
 			Messenger.broadcastError("Not enough players for a fair vote. Map votes will not be recorded.");
 			return;
 		}
 
-		for (UUID uuid : getPlayers()) {
+		for (UUID uuid : TeamController.getPlayers()) {
 			Player p = getPlayer(uuid);
 			if (p == null) continue;
 
@@ -954,48 +851,34 @@ public class MapController {
 	 */
 	public static void removePlayer(Player player) {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-		Team team = TeamController.getTeam(player.getUniqueId());
-		if (team != null)
-			team.removePlayer(player.getUniqueId());
+			TeamController.leaveTeam(player.getUniqueId());
+			TeamController.leaveSpectator(player.getUniqueId());
 
-		// Remove player from gameplay
-		for (Flag flag : MapController.getCurrentMap().flags) {
-			flag.playerExit(player);
-		}
-		for (Gate gate : MapController.getCurrentMap().gates) {
-			Ram ram = gate.getRam();
-			if (ram != null)
-				ram.playerExit(player);
-		}
+			// Remove player from gameplay
+			for (Flag flag : MapController.getCurrentMap().flags) {
+				flag.playerExit(player);
+			}
+			for (Gate gate : MapController.getCurrentMap().gates) {
+				Ram ram = gate.getRam();
+				if (ram != null)
+					ram.playerExit(player);
+			}
 
-		// Remove from events/commands
-		BarCooldown.remove(player.getUniqueId());
-		VoteSkipCommand.removePlayer(player.getUniqueId());
-		Scoreboard.clearScoreboard(player);
-		InCombat.playerDied(player.getUniqueId());
-		Kit.equippedKits.remove(player.getUniqueId());
+			// Remove from events/commands
+			BarCooldown.remove(player.getUniqueId());
+			VoteSkipCommand.removePlayer(player.getUniqueId());
+			Scoreboard.clearScoreboard(player);
+			InCombat.playerDied(player.getUniqueId());
+			Kit.equippedKits.remove(player.getUniqueId());
 
-        try {
-			// Save a player's data and reset their current data into PlayerData from CSPlayerData
-            StoreData.store(player.getUniqueId(), CSActiveData.getData(player.getUniqueId()));
-			PlayerData data = LoadData.load(player.getUniqueId());
-			ActiveData.addPlayer(player.getUniqueId(), data);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-	  });
+			try {
+				// Save a player's data and reset their current data into PlayerData from CSPlayerData
+				StoreData.store(player.getUniqueId(), CSActiveData.getData(player.getUniqueId()));
+				PlayerData data = LoadData.load(player.getUniqueId());
+				ActiveData.addPlayer(player.getUniqueId(), data);
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+		});
     }
-
-	public static void addSpectator(Player player) {
-		spectators.add(player.getUniqueId());
-		player.setGameMode(GameMode.SPECTATOR);
-		removePlayer(player);
-	}
-
-	public static void removeSpectator(Player player) {
-		MapController.joinATeam(player.getUniqueId());
-		player.setGameMode(GameMode.SURVIVAL);
-		InCombat.playerDied(player.getUniqueId());
-		Scoreboard.clearScoreboard(player);
-	}
 }

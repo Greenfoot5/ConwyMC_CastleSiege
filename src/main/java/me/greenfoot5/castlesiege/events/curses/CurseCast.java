@@ -8,6 +8,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -106,7 +107,7 @@ public abstract class CurseCast extends Event implements Cancellable {
         this.isCancelled = isCancelled;
     }
 
-    protected static void playSound(List<UUID> uuids) {
+    protected static void playSound(Collection<UUID> uuids) {
         for (UUID uuid : uuids) {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null)

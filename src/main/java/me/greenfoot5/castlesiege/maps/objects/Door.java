@@ -54,7 +54,7 @@ public abstract class Door implements Listener {
      */
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (isCorrectInteraction(event) && isControlled(event)) {
+        if (isCorrectInteraction(event) && isControlled(event) && TeamController.isPlaying(event.getPlayer())) {
             activate(event);
         }
     }
@@ -97,7 +97,8 @@ public abstract class Door implements Listener {
      * @return Whether a correct interaction is performed to open the door
      */
     protected boolean isCorrectInteraction(PlayerInteractEvent event) {
-        return isCorrectAction(event.getAction()) && isCorrectBlockType(event.getClickedBlock());
+        return isCorrectAction(event.getAction())
+                && isCorrectBlockType(event.getClickedBlock());
     }
 
     /**

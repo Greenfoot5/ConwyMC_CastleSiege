@@ -64,7 +64,6 @@ public class AdvancementNode {
         this.displayType = null;
 
         this.maxProgress = maxProgress;
-        System.out.println("Max progress is " + maxProgress);
     }
 
     // New node with parent

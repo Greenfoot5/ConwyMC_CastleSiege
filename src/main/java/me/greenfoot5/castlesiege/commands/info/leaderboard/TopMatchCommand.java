@@ -3,7 +3,6 @@ package me.greenfoot5.castlesiege.commands.info.leaderboard;
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.data_types.CSStats;
 import me.greenfoot5.castlesiege.database.MVPStats;
-import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.Team;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -43,19 +42,17 @@ public class TopMatchCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+        // Player must be in a team to use TopTeam
+        boolean isTeam = cmd.getName().equalsIgnoreCase("TopTeam");
+        // Can only use if playing or a player
+        if (isTeam && !(sender instanceof Player player && TeamController.isPlaying(player))) {
+            Messenger.sendError("You must be on a team to check the top score!", sender);
+        }
+
         // Run asynchronously because some operations might take some time
         new BukkitRunnable() {
             @Override
             public void run() {
-                // Player must be in a team to use TopTeam
-                boolean isTeam = cmd.getName().equalsIgnoreCase("TopTeam");
-                if (isTeam && !(sender instanceof Player)) {
-                    Messenger.sendError("Console is not in a team!", sender);
-                    return;
-                } else if (isTeam && MapController.isSpectator(((Player) sender).getUniqueId())) {
-                    Messenger.sendError("You are not in a team!", sender);
-                    return;
-                }
                 Team team = isTeam ? TeamController.getTeam(((Player) sender).getUniqueId()) : null;
 
                 // Assign the command parameters to variables

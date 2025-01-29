@@ -1,10 +1,14 @@
 package me.greenfoot5.castlesiege.commands.staff.maps;
 
+import me.greenfoot5.castlesiege.commands.chat.TeamChatCommand;
+import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;
+import me.greenfoot5.castlesiege.database.LoadData;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.maps.CoreMap;
 import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.commands.chat.GlobalChatCommand;
 import me.greenfoot5.conwymc.events.nametag.UpdateNameTagEvent;
 import me.greenfoot5.conwymc.util.Messenger;
@@ -14,6 +18,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
  * Allows players to spectate a match
@@ -40,19 +46,36 @@ public class SpectateCommand implements CommandExecutor {
         }
 
         // If the player is a spectator, add them to a team
-        if (MapController.isSpectator(player.getUniqueId())) {
-            MapController.removeSpectator(player);
+        if (TeamController.isSpectating(player)) {
+            // Load a player's data
+            CSPlayerData data = LoadData.load(player.getUniqueId());
+            if (data == null) {
+                Messenger.sendError("Could not load data to take player out of spectator. Try again, or rejoin if the issue persists.", sender);
+                return true;
+            }
+            CSActiveData.addPlayer(player.getUniqueId(), data);
+
+            TeamController.joinSmallestTeam(player.getUniqueId(), MapController.getCurrentMap());
 
             // Assign stored kit
-            Kit kit = Kit.getKit(CSActiveData.getData(player.getUniqueId()).getKit());
+            Kit kit = Kit.getKit(data.getKit());
             if (kit != null && kit.canSelect(player, true, true, false))
                 kit.addPlayer(player.getUniqueId(), true);
             else
                 Kit.getKit("Swordsman").addPlayer(player.getUniqueId(), true);
 
         } else {
-            CSActiveData.getData(player.getUniqueId()).setChatMode(GlobalChatCommand.CHAT_MODE);
-            MapController.addSpectator(player);
+
+            // If the player is talking in team chat, let's move them back to global
+            if (TeamController.isPlaying(player)) {
+                CSPlayerData data = CSActiveData.getData(player.getUniqueId());
+                assert data != null;
+                if (Objects.equals(data.getChatMode(), TeamChatCommand.CHAT_MODE)) {
+                    data.setChatMode(GlobalChatCommand.CHAT_MODE);
+                }
+            }
+
+            TeamController.joinSpectator(player);
 
             // Teleport the player
             if (InCombat.isPlayerInLobby(player.getUniqueId())) {
@@ -62,8 +85,9 @@ public class SpectateCommand implements CommandExecutor {
                     player.teleport(MapController.getCurrentMap().flags[0].getSpawnPoint());
                 }
             }
-            Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(player));
         }
+
+        Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(player));
         return true;
     }
 }

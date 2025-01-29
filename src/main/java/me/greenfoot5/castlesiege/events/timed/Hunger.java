@@ -2,6 +2,7 @@ package me.greenfoot5.castlesiege.events.timed;
 
 import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
+import me.greenfoot5.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -19,7 +20,7 @@ public class Hunger implements Runnable {
 	@Override
 	public void run() {
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			if (!CSActiveData.hasPlayer(p.getUniqueId()))
+			if (!TeamController.isPlaying(p))
 				continue;
 
 			Kit kit = Kit.equippedKits.get(p.getUniqueId());

@@ -114,7 +114,7 @@ public class CaveTroll extends SignKit implements Listener {
                     int cooldown = p.getCooldown(Material.IRON_INGOT);
                     if (cooldown == 0) {
                         for (Player online : Bukkit.getOnlinePlayers()) {
-                            if (p.getWorld() != online.getWorld() || online != p) {
+                            if (TeamController.isPlaying(online) && p.getWorld() == online.getWorld() && online != p) {
                                 if (online.getLocation().distance(p.getLocation()) < 3.5
                                         && TeamController.getTeam(online.getUniqueId())
                                         != TeamController.getTeam(p.getUniqueId())) {

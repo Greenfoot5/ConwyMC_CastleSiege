@@ -32,7 +32,7 @@ public class MapsCommand implements CommandExecutor {
 
 		// Add all maps to the string builder and color the active map green
 
-        List<Map> maps = MapController.maps;
+        List<Map> maps = MapController.getMaps();
         for (int i = 0; i < maps.size(); i++) {
             Map map = maps.get(i);
             if (Objects.equals(MapController.getCurrentMap(), map)) {

@@ -164,6 +164,10 @@ public class Flag implements SidebarComponent {
      * @param player the player that entered
      */
     public void playerEnter(Player player) {
+        if (!TeamController.isPlaying(player)) {
+            return;
+        }
+
         players.add(player.getUniqueId());
         addPlayerToFlagBar(this, player);
         activate();
@@ -184,6 +188,9 @@ public class Flag implements SidebarComponent {
      */
     public void clear() {
         players.clear();
+        BossBar bar = bars.get(this);
+        if (bar != null)
+            bar.removeViewer(Bukkit.getServer());
     }
 
     /**
@@ -422,8 +429,10 @@ public class Flag implements SidebarComponent {
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
-                String team = TeamController.getTeam(uuid).getName();
-                if (team.equals(currentOwners)) {
+                Team team = TeamController.getTeam(uuid);
+                if (team == null) {
+                    playerExit(player);
+                } else if (team.getName().equals(currentOwners)) {
                     counts.setFirst(counts.getFirst() + 1);
                 } else {
                     counts.setSecond(counts.getSecond() + 1);
@@ -444,7 +453,7 @@ public class Flag implements SidebarComponent {
 
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
-            if (player != null) {
+            if (player != null && TeamController.isPlaying(uuid)) {
                 // Add the player to the team counts
                 String team = TeamController.getTeam(uuid).getName();
                 teamCounts.merge(team, 1, Integer::sum);
@@ -717,8 +726,7 @@ public class Flag implements SidebarComponent {
 
         if (animationIndex == maxCap) {
             // The flag cannot be recapped
-            if (!MapController.getCurrentMap().canRecap && !Objects.equals(currentOwners, startingTeam))
-                return false;
+            return MapController.getCurrentMap().canRecap || Objects.equals(currentOwners, startingTeam);
         }
 
         return true;
