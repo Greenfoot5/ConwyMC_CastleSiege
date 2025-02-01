@@ -6,6 +6,7 @@ import me.greenfoot5.castlesiege.events.curses.BindingCurse;
 import me.greenfoot5.castlesiege.events.curses.CurseExpired;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
+import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.Bukkit;
@@ -66,6 +67,9 @@ public class RandomKitCommand implements CommandExecutor, Listener {
 
         // Get unlocked kits, or all if it's Friday
         Collection<String> unlockedKits = CoinKit.isFree() ? Kit.getKits() : CSActiveData.getData(uuid).getUnlockedKits();
+        // Depends on the map if they're enabled
+        if (!CoinKit.isFree())
+            unlockedKits.addAll(SignKit.getKits());
         ArrayList<Kit> kits = new ArrayList<>();
 
         unlockedKits.forEach((kitName) -> {
