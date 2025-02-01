@@ -277,9 +277,9 @@ commands:
   Alchemist:
     description: Selects the alchemist kit
     usage: /alchemist
-  Armorer:
-    description: Selects the armorer kit
-    usage: /armorer
+  Armourer:
+    description: Selects the armourer kit
+    usage: /armourer
   Barbarian:
     description: Selects the barbarian kit
     usage: /barbarian
