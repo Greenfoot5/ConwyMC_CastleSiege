@@ -808,7 +808,7 @@ public class MapController {
 	 * @return true if the map is ongoing, false otherwise (i.e. exploration phase)
 	 */
 	public static boolean isOngoing() {
-		return timer.state == TimerState.ONGOING;
+		return timer != null && timer.state == TimerState.ONGOING;
 	}
 
 	/**
