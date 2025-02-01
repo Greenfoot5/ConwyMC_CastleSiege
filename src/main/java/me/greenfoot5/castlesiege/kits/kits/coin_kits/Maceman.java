@@ -121,8 +121,8 @@ public class Maceman extends CoinKit implements Listener {
 
                 // Enemy blocks stun
                 if (p.isBlocking()) {
-                    Messenger.sendWarning(CSNameTag.username(p) + " blocked your stun", q);
-                    Messenger.sendSuccess("Your shield broke whilst blocking " + CSNameTag.username(q) + "'s stun", p);
+                    Messenger.sendWarning(CSNameTag.mmUsername(p) + " blocked your stun", q);
+                    Messenger.sendSuccess("Your shield broke whilst blocking " + CSNameTag.mmUsername(q) + "'s stun", p);
                     if (p.getInventory().getItemInMainHand().getType().equals(Material.SHIELD)) {
                         p.getInventory().getItemInMainHand().setAmount(0);
                     } else if (p.getInventory().getItemInOffHand().getType().equals(Material.SHIELD)) {
@@ -130,11 +130,11 @@ public class Maceman extends CoinKit implements Listener {
                     }
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK , 1, 1 );
                 } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    Messenger.sendWarning(CSNameTag.username(p) + "dodged your stun", q);
-                    Messenger.sendSuccess("You dodged " + CSNameTag.username(q) + "'s stun", p);
+                    Messenger.sendWarning(CSNameTag.mmUsername(p) + "dodged your stun", q);
+                    Messenger.sendSuccess("You dodged " + CSNameTag.mmUsername(q) + "'s stun", p);
                 } else {
-                    Messenger.sendSuccess("You have stunned " + CSNameTag.username(q), q);
-                    Messenger.sendWarning("You have been stunned by " + CSNameTag.username(p) + "!", p);
+                    Messenger.sendSuccess("You have stunned " + CSNameTag.mmUsername(q), q);
+                    Messenger.sendWarning("You have been stunned by " + CSNameTag.mmUsername(p) + "!", p);
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
                     p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 60, 1)));
                     p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 60, 2)));
