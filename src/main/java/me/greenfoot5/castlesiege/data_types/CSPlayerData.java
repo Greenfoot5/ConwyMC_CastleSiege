@@ -6,6 +6,8 @@ import me.greenfoot5.castlesiege.kits.kits.FreeKit;
 import me.greenfoot5.castlesiege.kits.kits.VoterKit;
 import me.greenfoot5.conwymc.data_types.PlayerData;
 import me.greenfoot5.conwymc.util.Messenger;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -426,22 +428,39 @@ public class CSPlayerData extends PlayerData {
         if (booster instanceof CoinBooster coinBooster) {
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 coinMultiplier += coinBooster.multiplier;
-                Messenger.broadcastInfo(player.getName() + " has activated a " + coinBooster.getPercentage() + "% coin booster " +
-                        "for " + booster.getDurationAsString() + "!");
-                Messenger.broadcastInfo("The total coin multiplier is now " + getCoinMultiplier() + ".");
+                Messenger.broadcastInfo(Component.empty()
+                        .append(player.name().color(NamedTextColor.GOLD))
+                        .append(Component.text(" has activated a "))
+                        .append(Component.text(coinBooster.getPercentage() + "%").color(NamedTextColor.GOLD))
+                        .append(Component.text(" coin booster for "))
+                        .append(Component.text(booster.getDurationAsString()).color(NamedTextColor.GOLD))
+                        .append(Component.text("!")));
+                Messenger.broadcastInfo(Component.text("The total coin multiplier is now ")
+                        .append(Component.text(getCoinMultiplier()).color(NamedTextColor.GOLD))
+                        .append(Component.text(".")));
             });
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
                 coinMultiplier -= coinBooster.multiplier;
                 Messenger.broadcastWarning(player.getName() + "'s " + coinBooster.getPercentage() + "% coin booster has expired!");
-                Messenger.broadcastInfo("The total coin multiplier is now " + getCoinMultiplier() + ".");
+                Messenger.broadcastInfo(Component.text("The total coin multiplier is now ")
+                        .append(Component.text(getCoinMultiplier()).color(NamedTextColor.GOLD))
+                        .append(Component.text(".")));
+                Messenger.broadcastInfo(Component.text("The total coin multiplier is now ")
+                        .append(Component.text(getCoinMultiplier()).color(NamedTextColor.GOLD))
+                        .append(Component.text(".")));
             }, booster.duration * 20L);
 
         // Kit booster
         } else if (booster instanceof KitBooster kitBooster) {
             Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
                 CoinKit.boostedKits.add(kitBooster.kitName);
-                Messenger.broadcastInfo(player.getName() + " has activated a " + kitBooster.kitName + " kit booster " +
-                        "for " + booster.getDurationAsString() + "!");
+                Messenger.broadcastInfo(Component.empty()
+                        .append(player.name().color(NamedTextColor.GOLD))
+                        .append(Component.text(" has activated a "))
+                        .append(Component.text(kitBooster.kitName + " kit booster").color(NamedTextColor.GOLD))
+                        .append(Component.text(" for "))
+                        .append(Component.text(booster.getDurationAsString()).color(NamedTextColor.GOLD))
+                        .append(Component.text("!")));
             });
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> {
                 CoinKit.boostedKits.remove(kitBooster.kitName);
