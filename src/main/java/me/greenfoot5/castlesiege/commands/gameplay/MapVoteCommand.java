@@ -40,7 +40,7 @@ public class MapVoteCommand implements Listener, TabExecutor {
 
         try {
             PreparedStatement get = Main.SQL.getConnection().prepareStatement(
-                    "SELECT * FROM map_votes WHERE map_name = ?");
+                    "SELECT * FROM cs_map_votes WHERE map_name = ?");
             get.setString(1, event.previousMap);
             ResultSet rs = get.executeQuery();
             int yes;
@@ -56,7 +56,7 @@ public class MapVoteCommand implements Listener, TabExecutor {
                 yes = 0;
                 no = 0;
                 PreparedStatement add = Main.SQL.getConnection().prepareStatement(
-                        "INSERT INTO map_votes (map_name, yes, no)\n" +
+                        "INSERT INTO cs_map_votes (map_name, yes, no)\n" +
                                 "VALUES (?, 0, 0)");
                 add.setString(1, event.previousMap);
                 add.executeUpdate();
@@ -69,7 +69,7 @@ public class MapVoteCommand implements Listener, TabExecutor {
             aNo += votedNo.size();
 
             PreparedStatement ps = Main.SQL.getConnection().prepareStatement(
-                    "UPDATE map_votes SET yes = ?, no = ?, alltime_yes = ?, alltime_no = ? WHERE map_name = ?");
+                    "UPDATE cs_map_votes SET yes = ?, no = ?, alltime_yes = ?, alltime_no = ? WHERE map_name = ?");
             ps.setInt(1, yes);
             ps.setInt(2, no);
             ps.setInt(3, aYes);
