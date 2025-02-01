@@ -355,11 +355,11 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 Messenger.sendCongrats("You gained <gold>3000 coins</gold> for levelling up!", p);
                 break;
             case 8:
-                GrantBoosterCommand.grantBooster(p, new String[]{"kit", "30m", "random"});
+                GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "30m", "random"}, false);
                 Messenger.sendCongrats("You gained <green><obf>!</obf>Random<obf>!</obf> Kit Booster (30 minutes)</green> for levelling up!", p);
                 break;
             case 10:
-                GrantBoosterCommand.grantBooster(p, new String[]{"kit", "2h", "wild"});
+                GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "wild"}, false);
                 Messenger.sendCongrats("You gained <green>⇵ ⁎Wild⁎ Kit Booster (2 hours)</green> for levelling up!", p);
                 break;
             case 20:

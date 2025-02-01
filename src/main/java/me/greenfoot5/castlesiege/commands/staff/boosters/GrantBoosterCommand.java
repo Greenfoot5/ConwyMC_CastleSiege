@@ -34,12 +34,12 @@ public class GrantBoosterCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> grantBooster(sender, args));
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> grantBooster(sender, args, true));
         return true;
     }
 
-    public static void grantBooster(@NotNull CommandSender sender, @NotNull String[] args) {
-        Booster booster = createBooster(sender, args);
+    public static void grantBooster(@NotNull CommandSender sender, @NotNull String[] args, boolean verbose) {
+        Booster booster = createBooster(sender, args, verbose);
         if (booster == null) {
             return;
         }
@@ -49,15 +49,18 @@ public class GrantBoosterCommand implements TabExecutor {
         CSPlayerData data = CSActiveData.getData(uuid);
         if (data != null) {
             if (!giveBooster(data, uuid, booster)) {
-                Messenger.sendError("Failed to add booster to database. Try again?", sender);
+                if (verbose)
+                    Messenger.sendError("Failed to add booster to database. Try again?", sender);
                 return;
             }
         } else if (!giveBooster(uuid, booster)) {
-            Messenger.sendError("Failed to add booster to offline player. Try again?", sender);
+            if (verbose)
+                Messenger.sendError("Failed to add booster to offline player. Try again?", sender);
             return;
         }
 
-        sendConfirmMessage(sender);
+        if (verbose)
+            sendConfirmMessage(sender);
     }
 
     @Override
@@ -77,9 +80,10 @@ public class GrantBoosterCommand implements TabExecutor {
         return null;
     }
 
-    private static Booster createBooster(CommandSender sender, String[] args) {
+    private static Booster createBooster(CommandSender sender, String[] args, boolean verbose) {
         if (args.length < 3) {
-            Messenger.sendError("Not enough args! Correct usage is: /grantbooster <player> <type> <duration> [type-specific args]", sender);
+            if (verbose)
+                Messenger.sendError("Not enough args! Correct usage is: /grantbooster <player> <type> <duration> [type-specific args]", sender);
             return null;
         }
         String type = args[1];
@@ -87,7 +91,8 @@ public class GrantBoosterCommand implements TabExecutor {
         try {
             duration = (int) PunishmentTime.getDuration(args[2]) / 1000;
         } catch (NumberFormatException ex) {
-            Messenger.sendError("Duration not a valid number! It should be an amount of seconds", sender);
+            if (verbose)
+                Messenger.sendError("Duration not a valid number! It should be an amount of seconds", sender);
             return null;
         }
         double multiplier;
@@ -96,21 +101,24 @@ public class GrantBoosterCommand implements TabExecutor {
             case "COINS":
             case "C":
                 if (args.length != 4) {
-                    Messenger.sendError("Incorrect args! Correct usage is: /grantbooster <player> coin <duration> <multiplier>", sender);
+                    if (verbose)
+                        Messenger.sendError("Incorrect args! Correct usage is: /grantbooster <player> coin <duration> <multiplier>", sender);
                     return null;
                 }
 
                 try {
                     multiplier = Double.parseDouble(args[3]);
                 } catch (NumberFormatException ex) {
-                    Messenger.sendError("Multiplier not a valid number! It should be a double!", sender);
+                    if (verbose)
+                        Messenger.sendError("Multiplier not a valid number! It should be a double!", sender);
                     return null;
                 }
                 return new CoinBooster(duration, multiplier);
             case "KIT":
             case "K":
                 if (args.length != 4) {
-                    Messenger.sendError("Incorrect args! Correct usage is: /grantbooster <player> kit <duration> <kit_name>", sender);
+                    if (verbose)
+                        Messenger.sendError("Incorrect args! Correct usage is: /grantbooster <player> kit <duration> <kit_name>", sender);
                     return null;
                 }
 
@@ -119,12 +127,14 @@ public class GrantBoosterCommand implements TabExecutor {
                         && StaffKit.getKit(kitName) == null
                         && !kitName.equalsIgnoreCase("WILD")
                         && !kitName.equalsIgnoreCase("RANDOM")) {
-                    Messenger.sendError("Invalid kit name, nor \"wild\" nor \"random\"!", sender);
+                    if (verbose)
+                        Messenger.sendError("Invalid kit name, nor \"wild\" nor \"random\"!", sender);
                     return null;
                 }
                 return new KitBooster(duration, kitName);
             default:
-                Messenger.sendError("Invalid type!", sender);
+                if (verbose)
+                    Messenger.sendError("Invalid type!", sender);
                 return null;
         }
     }
