@@ -16,7 +16,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static me.greenfoot5.castlesiege.Main.scoreboardLibrary;
@@ -33,7 +35,8 @@ public class Scoreboard implements Runnable {
 	 * Clears the scoreboard for all players
 	 */
 	public static void clearScoreboard() {
-		for (UUID uuid : statsSidebars.keySet()) {
+		Set<UUID> players = new HashSet<>(statsSidebars.keySet());
+		for (UUID uuid : players) {
 			statsSidebars.get(uuid).close();
 			statsSidebars.remove(uuid);
 		}

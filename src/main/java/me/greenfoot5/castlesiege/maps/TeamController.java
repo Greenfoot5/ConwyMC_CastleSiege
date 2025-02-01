@@ -243,7 +243,8 @@ public class TeamController implements FactionProvider {
      * @param newMap The map to add players to
      */
     public static void loadTeams(Map newMap) {
-        for (UUID uuid : uuidToTeam.keySet()) {
+        Set<UUID> players = new HashSet<>(uuidToTeam.keySet());
+        for (UUID uuid : players) {
             joinSmallestTeam(uuid, newMap);
         }
     }
