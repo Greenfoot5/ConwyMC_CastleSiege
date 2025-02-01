@@ -9,7 +9,6 @@ import me.greenfoot5.conwymc.data_types.PlayerData;
 import me.greenfoot5.conwymc.database.ActiveData;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.audience.ForwardingAudience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -55,10 +54,10 @@ public class TeamChatCommand extends ToggleChatCommand {
 	}
 
 	@Override
-	protected ForwardingAudience getReceivers(CommandSender sender) {
-		ForwardingAudience receivers = Bukkit.getServer();
+	protected Audience getReceivers(CommandSender sender) {
+		Audience receivers = Bukkit.getServer();
 		UUID uuid = ((Player) sender).getUniqueId();
-		receivers.filterAudience(v -> (v.get(Identity.UUID).isEmpty() || TeamController.getTeam(uuid) == TeamController.getTeam(v.get(Identity.UUID).get())));
+		receivers = receivers.filterAudience(v -> (v.get(Identity.UUID).isEmpty() || TeamController.getTeam(uuid) == TeamController.getTeam(v.get(Identity.UUID).get())));
 		return receivers;
 	}
 
