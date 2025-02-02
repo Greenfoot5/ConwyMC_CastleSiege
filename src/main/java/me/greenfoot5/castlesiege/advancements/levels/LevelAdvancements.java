@@ -126,7 +126,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Graceful Dancer")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 8</yellow>"})
-                .setReward("<br><green>⇵ <obf>!</obf>Random<obf>!</obf> Kit Booster (30 minutes)</green>")
+                .setReward("<green>⇵ <obf>!</obf>Random<obf>!</obf> Kit Booster (30 minutes)</green>")
                 .setMaxProgress(8)
                 .build());
 
@@ -136,7 +136,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Born for Battle")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 9</yellow>"})
-                .setReward("<br><gold>⛃ +1500 coins</gold>")
+                .setReward("<gold>⛃ +1500 coins</gold>")
                 .setMaxProgress(9)
                 .build());
 
@@ -167,7 +167,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Something something, well done")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 12</yellow>"})
-                .setReward("<br><gold>⛃ +1500 coins</gold>")
+                .setReward("<gold>⛃ +1500 coins</gold>")
                 .setMaxProgress(12)
                 .build());
 
@@ -177,7 +177,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Experienced Combatant")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 13</yellow>"})
-                .setReward("<br><gold>⛃ +1500 coins</gold>")
+                .setReward("<gold>⛃ +1500 coins</gold>")
                 .setMaxProgress(13)
                 .build());
 
@@ -187,7 +187,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Awoken Skillsmith")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 14</yellow>"})
-                .setReward("<br><gold>⛃ +1500 coins</gold>")
+                .setReward("<gold>⛃ +1500 coins</gold>")
                 .setMaxProgress(14)
                 .build());
 
@@ -207,7 +207,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Subtle Sheen")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 16</yellow>"})
-                .setReward("<br><gold>⛃ +2000 coins</gold>")
+                .setReward("<gold>⛃ +2000 coins</gold>")
                 .setMaxProgress(16)
                 .build());
 
@@ -217,7 +217,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Ready to Rumble")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 17</yellow>"})
-                .setReward("<br><gold>⛃ +2000 coins</gold>")
+                .setReward("<gold>⛃ +2000 coins</gold>")
                 .setMaxProgress(17)
                 .build());
 
@@ -227,7 +227,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Refiner")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 18</yellow>"})
-                .setReward("<br><gold>⛃ +2000 coins</gold>")
+                .setReward("<gold>⛃ +2000 coins</gold>")
                 .setMaxProgress(18)
                 .build());
 
@@ -237,7 +237,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Artist of War")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 19</yellow>"})
-                .setReward("<br><gold>⛃ +2000 coins</gold>")
+                .setReward("<gold>⛃ +2000 coins</gold>")
                 .setMaxProgress(19)
                 .build());
 
@@ -258,7 +258,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setFrameType(AdvancementFrameType.CHALLENGE)
                 .setTitle("Waxy Wings")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 25</yellow>"})
-                .setReward("<br><gold>⛃ +3000 coins</gold>")
+                .setReward("<gold>⛃ +3000 coins</gold>")
                 .setMaxProgress(25)
                 .build());
 
@@ -268,7 +268,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setFrameType(AdvancementFrameType.CHALLENGE)
                 .setTitle("Tower Climber")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 30</yellow>"})
-                .setReward("<br><gold>⛃ +3000 coins</gold>")
+                .setReward("<gold>⛃ +3000 coins</gold>")
                 .setMaxProgress(30)
                 .build());
 
@@ -278,7 +278,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setFrameType(AdvancementFrameType.CHALLENGE)
                 .setTitle("Summit so close...")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 35</yellow>"})
-                .setReward("<br><gold>⛃ +3000 coins</gold>")
+                .setReward("<gold>⛃ +3000 coins</gold>")
                 .setMaxProgress(35)
                 .build());
 
