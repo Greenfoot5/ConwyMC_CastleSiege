@@ -125,6 +125,7 @@ public class PlayerConnect implements Listener {
         }
 
         checkCosmetics(data, uuid);
+        data.refreshCosmetics();
 
         //Welcomes new players!
         if (!p.hasPlayedBefore()) {
