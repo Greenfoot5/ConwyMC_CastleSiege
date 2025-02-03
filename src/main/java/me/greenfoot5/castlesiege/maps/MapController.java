@@ -76,12 +76,13 @@ public class MapController {
 	//private static final double KIT_BOOSTER_CHANCE = 0.6; // Not actually used, set for reference
 
 	// Boosters - limits/sub-chances
-	private static final int COIN_BOOSTER_MAX_TIME = 9000;
-	private static final int COIN_BOOSTER_MIN_TIME = 1800;
+	// Time in minutes
+	private static final int COIN_BOOSTER_MAX_TIME = 150;
+	private static final int COIN_BOOSTER_MIN_TIME = 30;
 	private static final double COIN_BOOSTER_GAUSSIAN_DIV = 2.75;
 	private static final double COIN_BOOSTER_GAUSSIAN_ADD = 3;
-	private static final int KIT_BOOSTER_MAX_TIME = 9000;
-	private static final int KIT_BOOSTER_MIN_TIME = 1800;
+	private static final int KIT_BOOSTER_MAX_TIME = 150;
+	private static final int KIT_BOOSTER_MIN_TIME = 30;
 	private static final double KIT_BOOSTER_RANDOM_CHANCE = 0.35;
 	private static final double KIT_BOOSTER_WILD_CHANCE = 0.10;
 
@@ -457,6 +458,7 @@ public class MapController {
 					double mult = (random.nextGaussian() + COIN_BOOSTER_GAUSSIAN_ADD) / COIN_BOOSTER_GAUSSIAN_DIV;
 					mult = Math.abs(mult);
 					booster = new CoinBooster(duration, mult);
+					booster = new CoinBooster(duration * 60, mult);
 				}
 				else {
 					int duration = random.nextInt((KIT_BOOSTER_MAX_TIME - KIT_BOOSTER_MIN_TIME) + 1) + KIT_BOOSTER_MIN_TIME;
@@ -470,7 +472,7 @@ public class MapController {
 						ArrayList<String> dKits = (ArrayList<String>) CoinKit.getKits();
 						kit = dKits.get(new Random().nextInt(dKits.size()));
 					}
-					booster = new KitBooster(duration, kit);
+					booster = new KitBooster(duration * 60, kit);
 				}
 
 				GrantBoosterCommand.updateDatabase(uuid, booster);
