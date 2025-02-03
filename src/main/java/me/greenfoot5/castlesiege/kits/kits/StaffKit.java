@@ -56,7 +56,7 @@ public abstract class StaffKit extends Kit {
         UUID uuid = ((Player) sender).getUniqueId();
         boolean hasKit = CSActiveData.getData(uuid).hasKit(getSpacelessName());
         boolean allKitsFree = MapController.allKitsFree;
-        if (!hasKit && !allKitsFree) {
+        if (!hasKit) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null) {
                     Messenger.sendError(String.format("You no longer have access to %s!", name), sender);
