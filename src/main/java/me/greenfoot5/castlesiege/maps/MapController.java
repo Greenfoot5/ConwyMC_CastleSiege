@@ -77,12 +77,12 @@ public class MapController {
 
 	// Boosters - limits/sub-chances
 	// Time in minutes
-	private static final int COIN_BOOSTER_MAX_TIME = 150;
+	private static final int COIN_BOOSTER_MAX_TIME = 90;
 	private static final int COIN_BOOSTER_MIN_TIME = 30;
 	private static final double COIN_BOOSTER_GAUSSIAN_DIV = 2.75;
 	private static final double COIN_BOOSTER_GAUSSIAN_ADD = 3;
 	private static final int KIT_BOOSTER_MAX_TIME = 150;
-	private static final int KIT_BOOSTER_MIN_TIME = 30;
+	private static final int KIT_BOOSTER_MIN_TIME = 45;
 	private static final double KIT_BOOSTER_RANDOM_CHANCE = 0.35;
 	private static final double KIT_BOOSTER_WILD_CHANCE = 0.10;
 
