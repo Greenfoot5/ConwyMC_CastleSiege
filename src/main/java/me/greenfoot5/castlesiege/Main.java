@@ -376,11 +376,11 @@ public class Main extends JavaPlugin implements Listener {
                 registerListener(new Alchemist());
                 registerListener(new Archer());
                 registerListener(new Artillerist());
-                registerListener(new Armourer());
+//                registerListener(new Armourer());
                 registerListener(new Axeman());
                 registerListener(new Berserker());
                 registerListener(new Barbarian());
-                registerListener(new Bannerman());
+//                registerListener(new Bannerman());
                 registerListener(new BattleMedic());
                 registerListener(new Buccaneer());
                 registerListener(new Crossbowman());
