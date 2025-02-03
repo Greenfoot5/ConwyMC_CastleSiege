@@ -457,7 +457,8 @@ public class MapController {
 					int duration = random.nextInt((COIN_BOOSTER_MAX_TIME - COIN_BOOSTER_MIN_TIME) + 1) + COIN_BOOSTER_MIN_TIME;
 					double mult = (random.nextGaussian() + COIN_BOOSTER_GAUSSIAN_ADD) / COIN_BOOSTER_GAUSSIAN_DIV;
 					mult = Math.abs(mult);
-					booster = new CoinBooster(duration, mult);
+					// Multiplier only to 2 dp
+					mult = (double) Math.round(mult * 100) / 100;
 					booster = new CoinBooster(duration * 60, mult);
 				}
 				else {
