@@ -341,11 +341,11 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                     case 4:
                     case 5:
                     case 7:
-                        data.addCoins(1000);
+                        data.addCoinsClean(1000);
                         Messenger.sendCongrats("You gained <gold>1000 coins</gold> for levelling up!", p);
                         break;
                     case 6:
-                        data.addCoins(500);
+                        data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "medic"}, false);
                         Messenger.sendCongrats("You gained Medic Kit Booster (2 hours)</green> for levelling up!", p);
@@ -355,37 +355,37 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                     case 14:
                     case 16:
                     case 18:
-                        data.addCoins(500);
+                        data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "1h", "random"}, false);
                         Messenger.sendCongrats("You gained <green><obf>!</obf>Random<obf>!</obf> Kit Booster (1 hour)</green> for levelling up!", p);
                         break;
                     case 9:
-                        data.addCoins(500);
+                        data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "maceman"}, false);
                         Messenger.sendCongrats("You gained Maceman Kit Booster (2 hours)</green> for levelling up!", p);
                         break;
                     case 11:
-                        data.addCoins(500);
+                        data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "berserker"}, false);
                         Messenger.sendCongrats("You gained Berserker Kit Booster (2 hours)</green> for levelling up!", p);
                         break;
                     case 13:
-                        data.addCoins(500);
+                        data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "vanguard"}, false);
                         Messenger.sendCongrats("You gained Vanguard Kit Booster (2 hours)</green> for levelling up!", p);
                         break;
                     case 17:
-                        data.addCoins(500);
+                        data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "paladin"}, false);
                         Messenger.sendCongrats("You gained Paladin Kit Booster (2 hours)</green> for levelling up!", p);
                         break;
                     case 19:
-                        data.addCoins(500);
+                        data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "ranger"}, false);
                         Messenger.sendCongrats("You gained Ranger Kit Booster (2 hours)</green> for levelling up!", p);
@@ -395,7 +395,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                     case 25:
                     case 30:
                     case 35:
-                        data.addCoins(500);
+                        data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         break;
                     case 10:
