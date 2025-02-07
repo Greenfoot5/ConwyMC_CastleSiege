@@ -1,7 +1,6 @@
 package me.greenfoot5.castlesiege.commands.gameplay;
 
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements;
 import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
@@ -23,6 +22,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
+
+import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.BOUNTY_LEVEL;
 
 /**
  * When a player runs the bounty command, either using or viewing the top bounties
@@ -53,8 +54,8 @@ public class BountyCommand implements CommandExecutor {
             return true;
         }
         CSPlayerData bountiedData = CSActiveData.getData(bountied.getUniqueId());
-        if (bountiedData != null && bountiedData.getLevel() < MIN_BOUNTY) {
-            Messenger.sendError(bountied.getName() + " must be at least <green>level " + LevelAdvancements.BOUNTY_LEVEL + "</green> to gain a player-set bounty.", sender);
+        if (bountiedData != null && bountiedData.getLevel() < BOUNTY_LEVEL) {
+            Messenger.sendError(bountied.getName() + " must be at least <green>level " + BOUNTY_LEVEL + "</green> to gain a player-set bounty.", sender);
             return true;
         }
 
@@ -69,8 +70,8 @@ public class BountyCommand implements CommandExecutor {
             CSPlayerData data = CSActiveData.getData(p.getUniqueId());
             if (data != null) {
                 int level = data.getLevel();
-                if (level < LevelAdvancements.BOUNTY_LEVEL) {
-                    Messenger.sendError("You need to be <green>level " + LevelAdvancements.BOUNTY_LEVEL + "</green> to add bounties to players.", sender);
+                if (level < BOUNTY_LEVEL) {
+                    Messenger.sendError("You need to be <green>level " + BOUNTY_LEVEL + "</green> to add bounties to players.", sender);
                     return true;
                 }
             }
