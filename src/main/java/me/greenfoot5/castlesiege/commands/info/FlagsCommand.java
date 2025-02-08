@@ -33,9 +33,7 @@ public class FlagsCommand implements CommandExecutor {
 		Component c = Component.empty();
 
 		for (Team t : teams) {
-			c = c.append(t.getDisplayName().decorate(TextDecoration.BOLD))
-					.append(Component.text("'s Flags: ", t.primaryChatColor).decorate(TextDecoration.BOLD))
-					.append(Component.newline());
+			int count = 0;
 			boolean hasAny = false;
 			Component fc = Component.empty().color(t.primaryChatColor);
 			for (Flag f : MapController.getCurrentMap().flags) {
@@ -45,18 +43,25 @@ public class FlagsCommand implements CommandExecutor {
 					}
 					fc = fc.append(Component.text(f.getName() + f.getIcon()));
 					hasAny = true;
+					count++;
 				}
 			}
 
 			if (!hasAny) {
 				fc = Component.text("None");
+				c = c.append(t.getDisplayName().decorate(TextDecoration.BOLD))
+						.append(Component.text("'s Flags (0): ", t.primaryChatColor).decorate(TextDecoration.BOLD))
+						.append(Component.newline());
+			} else {
+				c = c.append(t.getDisplayName().decorate(TextDecoration.BOLD))
+						.append(Component.text("'s Flags (" + count + "): ", t.primaryChatColor).decorate(TextDecoration.BOLD))
+						.append(Component.newline());
 			}
 			c = c.append(fc).append(Component.newline());
 		}
 
-		c = c.append(Component.text("Neutral: ", NamedTextColor.GRAY).decorate(TextDecoration.BOLD))
-				.append(Component.newline());
 		boolean hasAny = false;
+		int count = 0;
 		Component fc = Component.empty().color(NamedTextColor.GRAY);
 		for (Flag f : MapController.getCurrentMap().flags) {
 			if (Objects.equals(f.getCurrentOwners(), "neutral") && f.isActive()) {
@@ -65,11 +70,17 @@ public class FlagsCommand implements CommandExecutor {
 				}
 				fc = fc.append(f.getDisplayName().append(Component.text(f.getIcon())));
 				hasAny = true;
+				count++;
 			}
 		}
 
 		if (!hasAny) {
 			fc = Component.text("None").color(NamedTextColor.GRAY);
+			c = c.append(Component.text("Neutral (0): ", NamedTextColor.GRAY).decorate(TextDecoration.BOLD))
+					.append(Component.newline());
+		} else {
+			c = c.append(Component.text("Neutral (" + count + "): ", NamedTextColor.GRAY).decorate(TextDecoration.BOLD))
+					.append(Component.newline());
 		}
 		c = c.append(fc);
 
