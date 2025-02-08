@@ -25,6 +25,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -77,17 +78,17 @@ public class Paladin extends CoinKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.GOLDEN_AXE),
                         Component.text("Holy Hammer", NamedTextColor.GOLD),
                         List.of(Component.empty(),
-                                Component.text("35 Melee Damage", NamedTextColor.YELLOW),
+                                Component.text("35 Melee Damage", NamedTextColor.DARK_GREEN),
 								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GOLD)),
-                        Collections.singletonList(new Tuple<>(Enchantment.SMITE, 5)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, -1)), meleeDamage + 2),
                 0);
 
         // Weapon
         shield = CSItemCreator.weapon(new ItemStack(Material.SHIELD, 1),
                 Component.text("Blessed Shield", NamedTextColor.GOLD),
                 List.of(Component.empty(),
-                        Component.text("- 10 DMG", NamedTextColor.GOLD),
-                        Component.text("- Knockback I", NamedTextColor.GOLD),
+                        Component.text("- 10 DMG", NamedTextColor.DARK_GREEN),
+                        Component.text("◆ Knockback I", NamedTextColor.DARK_PURPLE),
                         Component.text("<< Right Click To Block >>", NamedTextColor.DARK_GRAY),
                         Component.text("Can block up to 8 times before", NamedTextColor.GRAY),
                         Component.text("the cooldown activates.", NamedTextColor.GRAY),
@@ -139,7 +140,7 @@ public class Paladin extends CoinKit implements Listener {
                         Component.text(health + " HP", NamedTextColor.YELLOW),
                         Component.text(regen + " Regen", NamedTextColor.YELLOW),
                         Component.empty(),
-                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.GOLD)),
+                        Component.text("⁎ Voted: Depth Strider II", NamedTextColor.DARK_AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.DEPTH_STRIDER, 2)));
         ItemMeta boots = es.feet.getItemMeta();
         ArmorMeta bootsMeta = (ArmorMeta) boots;
@@ -170,13 +171,11 @@ public class Paladin extends CoinKit implements Listener {
 
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.MINING_FATIGUE, 999999, 0, true, false));
-
     }
 
     /**
      * @param paladin the paladin to remove and give back the shield to.
      * This is to stop the paladin from blocking even when the cooldown is active.
-     * Don't bother trying to change this or find another way, there is no other way provided by spigot.
      */
     public void tempRemoveShield(Player paladin) {
         paladin.getInventory().setItemInOffHand(null);
@@ -196,6 +195,7 @@ public class Paladin extends CoinKit implements Listener {
         if (Objects.equals(Kit.equippedKits.get(shielder.getUniqueId()).name, name)) {
             if (shielder.isBlocking() && blockAmount != 0) {
                 blockAmount--;
+                Messenger.sendActionInfo(blockAmount + " blocks left", shielder);
             } else if (shielder.isBlocking() && blockAmount <= 1) {
                 shielder.setCooldown(Material.SHIELD, 300);
                 tempRemoveShield(shielder);
@@ -263,18 +263,21 @@ public class Paladin extends CoinKit implements Listener {
 
         Messenger.sendActionInfo("You blessed your surroundings!", blesser);
         Bukkit.getScheduler().runTask(Main.plugin, () -> {
-        blesser.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
-        mythicMobsApi.castSkill(blesser, "PaladinBlessingEffect");
+            blesser.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
+            mythicMobsApi.castSkill(blesser, "PaladinBlessingEffect");
         });
         if (TeamController.getTeam(blesser.getUniqueId()) == TeamController.getTeam(blessed.getUniqueId())
-                && blesser.getLocation().distance(blessed.getLocation()) <= 5 && blesser != blessed) {
+                && blesser.getLocation().distanceSquared(blessed.getLocation()) <= 5 * 5
+                && blesser != blessed) {
             AttributeInstance healthAttribute = blessed.getAttribute(Attribute.MAX_HEALTH);
             assert healthAttribute != null;
             //Paladin doesn't get a heal for blessing someone who is full health.
             if (blessed.getHealth() != healthAttribute.getBaseValue()) {
-                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> UpdateStats.addHeals(blesser.getUniqueId(), 1));
+                Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () ->
+                        UpdateStats.addHeals(blesser.getUniqueId(), 1));
             }
-            Bukkit.getScheduler().runTask(Main.plugin, () -> blessed.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 4, true, false)));
+            Bukkit.getScheduler().runTask(Main.plugin, () ->
+                    blessed.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 4, true, false)));
         }
     }
 
@@ -286,50 +289,41 @@ public class Paladin extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickBlessing(PlayerInteractEvent e) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            Player p = e.getPlayer();
-            UUID uuid = p.getUniqueId();
-            ItemStack book = p.getInventory().getItemInMainHand();
-            int cooldown = p.getCooldown(Material.BOOK);
+        Player p = e.getPlayer();
+        UUID uuid = p.getUniqueId();
 
-            // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(uuid)) {
-                return;
+        // Incorrect kit
+        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        ItemStack book;
+        if (e.getHand() == EquipmentSlot.HAND)
+            book = p.getInventory().getItemInMainHand();
+        else if (e.getHand() == EquipmentSlot.OFF_HAND)
+            book = p.getInventory().getItemInOffHand();
+        else
+            return;
+
+        int cooldown = p.getCooldown(Material.BOOK);
+
+        if (!book.getType().equals(Material.BOOK))
+            return;
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(uuid)) {
+            return;
+        }
+
+        if (cooldown == 0) {
+            book.setAmount(book.getAmount() - 1);
+            p.setCooldown(Material.BOOK, blessingCooldown);
+            for (UUID near : TeamController.getActivePlayers()) {
+                bless(p, near);
             }
-
-            if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-                if (book.getType().equals(Material.BOOK)) {
-                    if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                        if (cooldown == 0) {
-                            Bukkit.getScheduler().runTask(Main.plugin, () -> {
-                                book.setAmount(bookRemover(book.getAmount()));
-                                p.setCooldown(Material.BOOK, blessingCooldown);
-                            });
-                            for (UUID near : TeamController.getActivePlayers()) {
-                                bless(p, near);
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    /**
-     * Ok so this might be strange, why does this exist?
-     * Well because a runTask inside an async runs book.getAmount() - 1 twice for some reason.
-     */
-    public int bookRemover(int bookAmount) {
-        if (bookAmount == 3) {
-            return 2;
         }
-        if (bookAmount == 2) {
-            return 1;
-        }
-        if (bookAmount == 1) {
-            return 0;
-        }
-        return 3;
     }
 
     /**
