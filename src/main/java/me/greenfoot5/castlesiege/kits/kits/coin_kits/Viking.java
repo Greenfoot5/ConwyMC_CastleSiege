@@ -30,7 +30,7 @@ import java.util.Objects;
  */
 public class Viking extends CoinKit implements Listener {
 
-    private static final int health = 330;
+    private static final int health = 360;
     private static final double regen = 10.5;
     private static final double meleeDamage = 16;
     private static final int ladderAmount = 4;
