@@ -27,6 +27,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.PreparedStatement;
@@ -90,6 +91,29 @@ public class PlayerConnect implements Listener {
         }
     }
 
+    @EventHandler
+    public void onLogin(PlayerLoginEvent event) {
+        if (!Main.instance.hasLoaded) {
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER,
+                    Component.text("Sorry, the server's not quite finished loading!")
+                            .append(Component.newline())
+                            .append(Component.text("Please try again in a minute.")));
+            return;
+        }
+
+        if (!(Bukkit.getWhitelistedPlayers().contains(Bukkit.getOfflinePlayer(event.getPlayer().getUniqueId()))
+                || ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 1)) {
+            // TODO - Remove after release
+            event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST,
+                    Component.text("Sorry, the server's not fully public just yet!")
+                    .append(Component.newline())
+                    .append(Component.text("In the meantime, you can join our Friday test sessions!")));
+            return;
+        }
+
+        event.allow();
+    }
+
     /**
      * Assign the player's data and join a team
      * @param e The event called when a player join the game
@@ -97,22 +121,6 @@ public class PlayerConnect implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-
-        if (!Main.instance.hasLoaded) {
-            p.kick(Component.text("Sorry, the server's not quite finished loading!")
-                    .append(Component.newline())
-                    .append(Component.text("Please try again in a minute.")));
-            return;
-        }
-
-        // TODO - Remove after release
-        if (!(Bukkit.getWhitelistedPlayers().contains(Bukkit.getOfflinePlayer(p.getUniqueId()))
-                || ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 1)) {
-            p.kick(Component.text("Sorry, the server's not fully public just yet!")
-                    .append(Component.newline())
-                    .append(Component.text("In the meantime, you can join our Friday test sessions!")));
-            return;
-        }
 
         UUID uuid = p.getUniqueId();
         CSPlayerData data = CSActiveData.getData(uuid);
