@@ -122,8 +122,7 @@ public class MapVoteCommand implements Listener, TabExecutor {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (args.length <= 1)
-            return List.of("");
-            //return List.of("no", "yes");
+            return List.of("no", "yes");
         return null;
     }
 }
