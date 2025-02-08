@@ -88,9 +88,9 @@ public class MapVoteCommand implements Listener, TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if (args[0] == null || !(args[0].equals("no") || args[0].equals("yes"))) {
+        if (args.length < 1 || args[0] == null || !(args[0].equals("no") || args[0].equals("yes"))) {
             Messenger.sendError("Must either vote <red>no</red> or <red>yes</red>", sender);
-            return false;
+            return true;
         }
 
         if (!(sender instanceof Player p)) {
