@@ -111,35 +111,35 @@ public class Maceman extends CoinKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onStun(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player p && e.getDamager() instanceof Player q) {
+        if (e.getEntity() instanceof Player maceman && e.getDamager() instanceof Player stunned) {
 
             // Maceman tries to use stun an enemy
-            if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    q.getInventory().getItemInMainHand().getType() == Material.DIAMOND_SHOVEL &&
-                    q.getCooldown(Material.DIAMOND_SHOVEL) == 0) {
-                q.setCooldown(Material.DIAMOND_SHOVEL, 200);
+            if (Objects.equals(Kit.equippedKits.get(stunned.getUniqueId()).name, name) &&
+                    stunned.getInventory().getItemInMainHand().getType() == Material.DIAMOND_SHOVEL &&
+                    stunned.getCooldown(Material.DIAMOND_SHOVEL) == 0) {
+                stunned.setCooldown(Material.DIAMOND_SHOVEL, 200);
 
                 // Enemy blocks stun
-                if (p.isBlocking()) {
-                    Messenger.sendWarning(CSNameTag.mmUsername(p) + " blocked your stun", q);
-                    Messenger.sendSuccess("Your shield broke whilst blocking " + CSNameTag.mmUsername(q) + "'s stun", p);
-                    if (p.getInventory().getItemInMainHand().getType().equals(Material.SHIELD)) {
-                        p.getInventory().getItemInMainHand().setAmount(0);
-                    } else if (p.getInventory().getItemInOffHand().getType().equals(Material.SHIELD)) {
-                        p.getInventory().getItemInOffHand().setAmount(0);
+                if (maceman.isBlocking()) {
+                    Messenger.sendWarning(CSNameTag.mmUsername(stunned) + " blocked your stun", maceman);
+                    Messenger.sendSuccess("Your shield broke whilst blocking " + CSNameTag.mmUsername(maceman) + "'s stun", stunned);
+                    if (maceman.getInventory().getItemInMainHand().getType().equals(Material.SHIELD)) {
+                        maceman.getInventory().getItemInMainHand().setAmount(0);
+                    } else if (maceman.getInventory().getItemInOffHand().getType().equals(Material.SHIELD)) {
+                        maceman.getInventory().getItemInOffHand().setAmount(0);
                     }
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK , 1, 1 );
-                } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    Messenger.sendWarning(CSNameTag.mmUsername(p) + "dodged your stun", q);
-                    Messenger.sendSuccess("You dodged " + CSNameTag.mmUsername(q) + "'s stun", p);
+                    maceman.getWorld().playSound(maceman.getLocation(), Sound.ENTITY_ITEM_BREAK , 1, 1 );
+                } else if (maceman.isSneaking() && new Random().nextInt(4) == 0) {
+                    Messenger.sendWarning(CSNameTag.mmUsername(stunned) + "dodged your stun", maceman);
+                    Messenger.sendSuccess("You dodged " + CSNameTag.mmUsername(maceman) + "'s stun", stunned);
                 } else {
-                    Messenger.sendSuccess("You have stunned " + CSNameTag.mmUsername(q), q);
-                    Messenger.sendWarning("You have been stunned by " + CSNameTag.mmUsername(p) + "!", p);
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 60, 1)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 60, 2)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.NAUSEA, 80, 4)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 60, 2)));
+                    Messenger.sendSuccess("You have stunned " + CSNameTag.mmUsername(stunned), maceman);
+                    Messenger.sendWarning("You have been stunned by " + CSNameTag.mmUsername(maceman) + "!", stunned);
+                    maceman.getWorld().playSound(maceman.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR , 1, 1 );
+                    maceman.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 60, 1)));
+                    maceman.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 60, 2)));
+                    maceman.addPotionEffect((new PotionEffect(PotionEffectType.NAUSEA, 80, 4)));
+                    maceman.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 60, 2)));
                     e.setDamage(e.getDamage() * 1.5);
                 }
             }
