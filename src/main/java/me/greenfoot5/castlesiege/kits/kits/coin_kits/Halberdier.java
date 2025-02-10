@@ -1,5 +1,6 @@
 package me.greenfoot5.castlesiege.kits.kits.coin_kits;
 
+import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
@@ -8,6 +9,9 @@ import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Horse;
@@ -17,6 +21,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -33,13 +38,22 @@ public class Halberdier extends CoinKit implements Listener {
     private static final int health = 630;
     private static final double regen = 23;
     private static final double meleeDamage = 90;
+    private static final AttributeModifier scaleMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_scale"), 0.4, AttributeModifier.Operation.ADD_SCALAR);
+    private static final AttributeModifier speedMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_speed"), -0.8, AttributeModifier.Operation.ADD_SCALAR);
+    private static final AttributeModifier stepHeightMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_step"), 1, AttributeModifier.Operation.ADD_SCALAR);
+    private static final AttributeModifier jumpMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_jump"), -1, AttributeModifier.Operation.ADD_SCALAR);
+    private static final AttributeModifier gravityMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_gravity"), 1, AttributeModifier.Operation.ADD_SCALAR);
+    private static final AttributeModifier burnMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_burn"), -1, AttributeModifier.Operation.ADD_SCALAR);
+    private static final AttributeModifier explosionKnockMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_explode_knock"), 0.5, AttributeModifier.Operation.ADD_NUMBER);
+    private static final AttributeModifier moveEffMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_move_eff"), 1, AttributeModifier.Operation.ADD_NUMBER);
+    private static final AttributeModifier sneakMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_sneak"), -0.8, AttributeModifier.Operation.ADD_NUMBER);
 
     /**
      * Set the equipment and attributes of this kit
      */
     public Halberdier() {
         super("Halberdier", 630, 23, Material.NETHERITE_CHESTPLATE);
-        super.kbResistance = 2;
+        super.kbResistance = 1;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -67,6 +81,19 @@ public class Halberdier extends CoinKit implements Listener {
                         Component.text(health + " HP", NamedTextColor.DARK_GREEN),
                         Component.text(regen + " Regen", NamedTextColor.DARK_GREEN)),
                 Collections.singletonList(new Tuple<>(Enchantment.PROTECTION, 2)));
+        ItemMeta chestMeta = es.chest.getItemMeta();
+        chestMeta.addAttributeModifier(Attribute.SCALE, scaleMod);
+        chestMeta.addAttributeModifier(Attribute.ENTITY_INTERACTION_RANGE, scaleMod);
+        chestMeta.addAttributeModifier(Attribute.BLOCK_INTERACTION_RANGE, scaleMod);
+        chestMeta.addAttributeModifier(Attribute.MOVEMENT_SPEED, speedMod);
+        chestMeta.addAttributeModifier(Attribute.STEP_HEIGHT, stepHeightMod);
+        chestMeta.addAttributeModifier(Attribute.JUMP_STRENGTH, jumpMod);
+        chestMeta.addAttributeModifier(Attribute.GRAVITY, gravityMod);
+        chestMeta.addAttributeModifier(Attribute.BURNING_TIME, burnMod);
+        chestMeta.addAttributeModifier(Attribute.EXPLOSION_KNOCKBACK_RESISTANCE, explosionKnockMod);
+        chestMeta.addAttributeModifier(Attribute.MOVEMENT_EFFICIENCY, moveEffMod);
+        chestMeta.addAttributeModifier(Attribute.SNEAKING_SPEED, sneakMod);
+        es.chest.setItemMeta(chestMeta);
 
         // Leggings
         es.legs = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_LEGGINGS),
@@ -94,7 +121,6 @@ public class Halberdier extends CoinKit implements Listener {
         super.equipment = es;
 
         // Perm Potion Effects
-        super.potionEffects.add(new PotionEffect(PotionEffectType.SLOWNESS, 999999, 2));
         super.potionEffects.add(new PotionEffect(PotionEffectType.MINING_FATIGUE, 999999, 1));
         super.potionEffects.add(new PotionEffect(PotionEffectType.RESISTANCE, 999999, 0));
 
