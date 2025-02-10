@@ -118,7 +118,7 @@ public class UrukBerserker extends SignKit implements Listener {
                         if (hit.getWorld() != player.getWorld() || player == hit || player == damager)
                             continue;
 
-                        if (player.getLocation().distance(damager.getLocation()) < 2.6
+                        if (player.getLocation().distanceSquared(damager.getLocation()) < 2.6 * 2.6
                                 && TeamController.getTeam(player.getUniqueId())
                                         != TeamController.getTeam(damager.getUniqueId()))
                             player.damage(event.getDamage(), damager);

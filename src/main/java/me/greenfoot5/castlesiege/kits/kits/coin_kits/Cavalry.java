@@ -179,7 +179,7 @@ public class Cavalry extends CoinKit implements Listener {
                 continue;
 
             //the player executing the ability should have enemy players in range.
-            if (p.getLocation().distance(hit.getLocation()) <= 2.3 &&
+            if (p.getLocation().distanceSquared(hit.getLocation()) <= 2.3 * 2.3 &&
                     TeamController.getTeam(hit.getUniqueId())
                             != TeamController.getTeam(p.getUniqueId())) {
 

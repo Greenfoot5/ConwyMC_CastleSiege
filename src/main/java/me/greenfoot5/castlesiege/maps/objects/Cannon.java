@@ -114,7 +114,7 @@ public class Cannon implements Listener {
 
         // Make sure the button belongs to this cannon
         Player player = event.getPlayer();
-        if (clickedBlock.getLocation().distance(schematicLocation) == 0) {
+        if (clickedBlock.getLocation().distanceSquared(schematicLocation) == 0) {
             shooter = player;
             shoot();
         }
@@ -209,7 +209,7 @@ public class Cannon implements Listener {
 
         // If the player isn't clicking on the right thing, we don't care
         if (block == null || InCombat.isPlayerInLobby(uuid)
-        || block.getLocation().distance(schematicLocation) != 0
+        || block.getLocation().distanceSquared(schematicLocation) != 0
         || (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.LEFT_CLICK_BLOCK)) {
             return;
         }

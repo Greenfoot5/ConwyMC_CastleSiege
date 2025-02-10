@@ -157,7 +157,7 @@ public class Catapult implements Listener {
 
         // Make sure the lever belongs to this catapult
         Player player = event.getPlayer();
-        if (Objects.equals(player.getWorld(), world) && clickedBlock.getLocation().distance(lever) == 0) {
+        if (Objects.equals(player.getWorld(), world) && clickedBlock.getLocation().distanceSquared(lever) == 0) {
 
             // Check if the catapult can be shot
             if (canShoot) {
@@ -237,7 +237,7 @@ public class Catapult implements Listener {
         Block target = event.getClickedBlock();
         Player p = event.getPlayer();
         if (target != null && target.getState() instanceof Sign sign &&
-                Objects.equals(p.getWorld(), world) && target.getLocation().distance(signVertical) == 0) {
+                Objects.equals(p.getWorld(), world) && target.getLocation().distanceSquared(signVertical) == 0) {
 
             // Decrease (down) the catapult's vertical aim
             if (event.getAction() == Action.RIGHT_CLICK_BLOCK && aimVertical > -15) {
@@ -264,7 +264,7 @@ public class Catapult implements Listener {
         Block target = event.getClickedBlock();
         Player p = event.getPlayer();
         if (target != null && target.getState() instanceof Sign sign &&
-                Objects.equals(p.getWorld(), world) && target.getLocation().distance(signHorizontal) == 0) {
+                Objects.equals(p.getWorld(), world) && target.getLocation().distanceSquared(signHorizontal) == 0) {
 
             // Increase (right) the catapult's horizontal aim
             if (event.getAction() == Action.RIGHT_CLICK_BLOCK && aimHorizontal < 55) {
@@ -329,7 +329,7 @@ public class Catapult implements Listener {
         // Ensure that an engineer placed a block in the catapult's bucket
         if (Objects.equals(Kit.equippedKits.get(uuid).name, "Engineer")
                 && Objects.equals(player.getWorld(), world)
-                && block.getLocation().distance(cobblestone) <= 1) {
+                && block.getLocation().distanceSquared(cobblestone) <= 1) {
 
             if (event.getBlock().getType() != Material.COBBLESTONE) {
                 Messenger.sendActionError("The catapult can only be reloaded with cobblestone", player);

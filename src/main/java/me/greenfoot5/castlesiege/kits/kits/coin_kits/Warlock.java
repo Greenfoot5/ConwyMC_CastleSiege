@@ -268,7 +268,7 @@ public class Warlock extends CoinKit implements Listener {
             return;
         }
 
-        if (caster.getLocation().distance(cursed.getLocation()) <= 7 && caster != cursed) {
+        if (caster.getLocation().distanceSquared(cursed.getLocation()) <= 7 * 7 && caster != cursed) {
 
             //Warlock gets supports for cursing enemies
             UpdateStats.addSupports(caster.getUniqueId(), 1);
@@ -302,7 +302,7 @@ public class Warlock extends CoinKit implements Listener {
                     if (p.getWorld() != hit.getWorld() || !TeamController.isPlaying(hit))
                         continue;
                     //the player executing the ability should have enemy players in range.
-                    if (p.getLocation().distance(hit.getLocation()) <= 10) {
+                    if (p.getLocation().distanceSquared(hit.getLocation()) <= 10 * 10) {
                         siphonHealthMechanism(p, hit);
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ALLAY_DEATH, 1, (float) 0.4);
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ALLAY_ITEM_THROWN, 1, (float) 0.4);
@@ -426,7 +426,7 @@ public class Warlock extends CoinKit implements Listener {
                 if (p.getWorld() != hit.getWorld() || TeamController.isPlaying(hit))
                     continue;
                 //the player executing the ability should have enemy players in range.
-                if (p.getLocation().distance(hit.getLocation()) <= 10) {
+                if (p.getLocation().distanceSquared(hit.getLocation()) <= 10 * 10) {
                     if (TeamController.getTeam(p.getUniqueId())
                             != TeamController.getTeam(hit.getUniqueId())) {
                         hit.setFireTicks(240);

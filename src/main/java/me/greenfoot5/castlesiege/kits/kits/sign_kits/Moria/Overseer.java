@@ -140,7 +140,7 @@ public class Overseer extends SignKit implements Listener {
                             if (p.getWorld() != near.getWorld() || !TeamController.isPlaying(near))
                                 continue;
 
-                            if (near.getLocation().distance(p.getLocation()) < 8
+                            if (near.getLocation().distanceSquared(p.getLocation()) < 8 * 8
                                     && TeamController.getTeam(near.getUniqueId()) == TeamController.getTeam(p.getUniqueId())) {
                                 //Add potion effects to nearby allies in an 8 block radius of you. Including yourself.
                                 addPotionEffect(near, new PotionEffect(PotionEffectType.SPEED, 100, 1));

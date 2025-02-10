@@ -61,7 +61,8 @@ public class WallEvent implements Listener {
             return;
         }
         // Check the player has right-clicked a block while standing within 5 blocks of the spawner
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK || !(player.getLocation().distance(PICKUP_LOCATION) <= 5)) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK
+                || !(player.getLocation().distanceSquared(PICKUP_LOCATION) <= 5 * 5)) {
             return;
         }
         // If the player is on Rohan do nothing.
@@ -132,7 +133,7 @@ public class WallEvent implements Listener {
             return;
         }
 
-        if (!(e.getClickedBlock().getLocation().distance(PLACE_LOCATION) <= 5)) {
+        if (!(e.getClickedBlock().getLocation().distanceSquared(PLACE_LOCATION) <= 5 * 5)) {
             return;
         }
 
@@ -167,8 +168,8 @@ public class WallEvent implements Listener {
 
             // Kill any players within DEATH_RADIUS blocks
             for (Player close : Bukkit.getOnlinePlayers()) {
-                double closeDistance = close.getLocation().distance(PLACE_LOCATION);
-                if (closeDistance < DEATH_RADIUS && TeamController.isPlaying(close)) { close.setHealth(0); }
+                double closeDistance = close.getLocation().distanceSquared(PLACE_LOCATION);
+                if (closeDistance < DEATH_RADIUS * DEATH_RADIUS && TeamController.isPlaying(close)) { close.setHealth(0); }
             }
 
             // Create our explosion

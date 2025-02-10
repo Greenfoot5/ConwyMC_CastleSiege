@@ -44,7 +44,7 @@ public class PressurePlateDoor extends Door {
             return false;
 
         return Objects.equals(event.getPlayer().getWorld(), centre.getWorld())
-                && event.getPlayer().getLocation().distance(centre) <= maxDistance;
+                && event.getPlayer().getLocation().distanceSquared(centre) <= maxDistance * maxDistance;
     }
 
     @Override

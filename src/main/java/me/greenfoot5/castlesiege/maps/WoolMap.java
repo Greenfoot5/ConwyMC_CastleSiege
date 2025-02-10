@@ -68,7 +68,7 @@ public class WoolMap implements Listener {
 				}
 
 				if (Objects.equals(Objects.requireNonNull(block.blockLocation.getWorld()).getName(), MapController.getCurrentMap().worldName)) {
-					if (target.getLocation().distance(block.signLocation) == 0) {
+					if (target.getLocation().distanceSquared(block.signLocation) == 0) {
                         if (DeathEvent.onCooldown.contains(player)) {
                             Messenger.sendError("You can't spawn in yet!", e.getPlayer());
                         } else {
@@ -104,7 +104,7 @@ public class WoolMap implements Listener {
 			}
 
 			for (WoolMapBlock block : woolMapBlocks) {
-				if (target.getLocation().distance(block.blockLocation) == 0) {
+				if (target.getLocation().distanceSquared(block.blockLocation) == 0) {
 					spawnGlower(e.getPlayer(), block.blockLocation);
 				}
 			}

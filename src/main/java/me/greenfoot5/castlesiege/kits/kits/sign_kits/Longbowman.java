@@ -99,44 +99,44 @@ public class Longbowman extends SignKit implements Listener {
             Location shooterLoc = p.getLocation();
             Location hitLoc = hit.getLocation();
 
-            double distance = shooterLoc.distance(hitLoc);
+            double distance = shooterLoc.distanceSquared(hitLoc);
 
             //default value
             ((Arrow) e.getEntity()).setDamage(14);
 
-            if (distance <= 15 && distance >= 10) {
+            if (distance <= 15 * 15 && distance >= 10 * 10) {
                 ((Arrow) e.getEntity()).setDamage(15);
             }
 
-            if (distance <= 20 && distance >= 15) {
+            if (distance <= 20 * 20 && distance >= 15 * 15) {
                 ((Arrow) e.getEntity()).setDamage(16);
             }
 
-            if (distance <= 25 && distance >= 20) {
+            if (distance <= 25 * 25 && distance >= 20 * 20) {
                 ((Arrow) e.getEntity()).setDamage(18);
             }
 
-            if (distance <= 30 && distance >= 25) {
+            if (distance <= 30 * 30 && distance >= 25 * 25) {
                 ((Arrow) e.getEntity()).setDamage(20);
             }
 
-            if (distance <= 35 && distance >= 30) {
+            if (distance <= 35 * 35 && distance >= 30 * 30) {
                 ((Arrow) e.getEntity()).setDamage(22);
             }
 
-            if (distance <= 40 && distance >= 35) {
+            if (distance <= 40 * 40 && distance >= 35 * 35) {
                 ((Arrow) e.getEntity()).setDamage(26);
             }
 
-            if (distance <= 50 && distance >= 40) {
+            if (distance <= 50 * 50 && distance >= 40 * 40) {
                 ((Arrow) e.getEntity()).setDamage(30);
             }
 
-            if (distance <= 60 && distance >= 50) {
+            if (distance <= 60 * 60 && distance >= 50 * 50) {
                 ((Arrow) e.getEntity()).setDamage(34);
             }
 
-            if (distance >= 70) {
+            if (distance >= 70 * 70) {
                 ((Arrow) e.getEntity()).setDamage(40);
             }
         }

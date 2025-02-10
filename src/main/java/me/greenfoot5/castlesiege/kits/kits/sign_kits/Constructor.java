@@ -138,7 +138,7 @@ public class Constructor extends SignKit implements Listener {
      */
     private boolean checkPlaces(Location placerLoc, Player player) {
         for (Flag flag : MapController.getCurrentMap().flags) {
-            if (placerLoc.distance(flag.getSpawnPoint()) <= 6 ||
+            if (placerLoc.distanceSquared(flag.getSpawnPoint()) <= 6 * 6 ||
                     flag.region.contains((int) placerLoc.getX(), (int) placerLoc.getY(), (int) placerLoc.getZ())) {
                 Messenger.sendActionError("You can't place planks here!", player);
                 return false;
@@ -146,7 +146,7 @@ public class Constructor extends SignKit implements Listener {
         }
         if (MapController.getCurrentMap() instanceof CoreMap map) {
             for (Core core : map.getCores()) {
-                if (placerLoc.distance(core.getSpawnPoint()) <= 6 ||
+                if (placerLoc.distanceSquared(core.getSpawnPoint()) <= 6 * 6 ||
                         core.region.contains((int) placerLoc.getX(), (int) placerLoc.getY(), (int) placerLoc.getZ())) {
                     Messenger.sendActionError("You can't place planks here!", player);
                     return false;

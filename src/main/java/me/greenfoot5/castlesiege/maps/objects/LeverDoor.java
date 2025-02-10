@@ -50,7 +50,7 @@ public class LeverDoor extends Door {
 
         assert event.getClickedBlock() != null;
         return Objects.equals(event.getClickedBlock().getWorld(), leverPosition.getWorld())
-                && event.getClickedBlock().getLocation().distance(leverPosition) == 0;
+                && event.getClickedBlock().getLocation().distanceSquared(leverPosition) == 0;
     }
 
     @Override

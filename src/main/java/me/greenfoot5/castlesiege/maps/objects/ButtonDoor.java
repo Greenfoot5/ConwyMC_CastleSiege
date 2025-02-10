@@ -75,7 +75,7 @@ public class ButtonDoor extends Door {
             return null;
 
         for (Tuple<Location, Integer> buttonPositionAndDelay : buttonData) {
-            if (buttonPositionAndDelay.getFirst().distance(button.getLocation()) == 0)
+            if (buttonPositionAndDelay.getFirst().distanceSquared(button.getLocation()) == 0)
                 return buttonPositionAndDelay.getSecond();
         }
 

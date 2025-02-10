@@ -46,7 +46,7 @@ public class CollapseEvent implements Listener {
         }
 
         // Check the player has right-clicked a SPRUCE BUTTON while standing within 5 blocks of the CENTRE
-        if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.getLocation().distance(CENTRAL) <= 5
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.getLocation().distanceSquared(CENTRAL) <= 5 * 5
                 && e.getClickedBlock().getType() == Material.SPRUCE_BUTTON) {
 
             if(!Objects.equals(TeamController.getTeam(player.getUniqueId()).getName(),
@@ -54,7 +54,7 @@ public class CollapseEvent implements Listener {
 
                 for (UUID all : MapController.getCurrentMap().teams[1].getPlayers()) {
                     Player near = Bukkit.getPlayer(all);
-                    if (near.getLocation().distance(CENTRAL) <= 10) {
+                    if (near.getLocation().distanceSquared(CENTRAL) <= 10 * 10) {
                         Title.Times times = Title.Times.times(Duration.ofMillis(500), Duration.ofMillis(4000), Duration.ofMillis(10));
                         Title title = Title.title(Component.text("RUN"), Component.text("The tunnel is about to collapse!"), times);
                         near.showTitle(title);

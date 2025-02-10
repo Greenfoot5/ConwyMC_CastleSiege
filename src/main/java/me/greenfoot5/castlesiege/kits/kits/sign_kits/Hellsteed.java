@@ -143,7 +143,7 @@ public class Hellsteed extends SignKit implements Listener {
             for (Player all : Bukkit.getOnlinePlayers()) {
                 if (!TeamController.isPlaying(all) || p.getWorld() != all.getWorld() || all == p || all == q)
                     return;
-                if (all.getLocation().distance(p.getLocation()) < 2.1) {
+                if (all.getLocation().distanceSquared(p.getLocation()) < 2.1 * 2.1) {
                     all.damage(e.getDamage(), p);
                     // Players that weren't the one directly hit are affected less
                     all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 1)));
