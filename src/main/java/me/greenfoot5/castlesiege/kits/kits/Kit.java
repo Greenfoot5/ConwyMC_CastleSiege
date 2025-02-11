@@ -9,7 +9,6 @@ import me.greenfoot5.castlesiege.events.curses.CurseExpired;
 import me.greenfoot5.castlesiege.events.curses.HealingCurse;
 import me.greenfoot5.castlesiege.events.curses.VulnerabilityCurse;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.items.MenuItem;
 import me.greenfoot5.castlesiege.kits.items.WoolHat;
 import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.Team;
@@ -194,7 +193,7 @@ public abstract class Kit implements CommandExecutor, Listener {
         WoolHat.setHead(player);
 
         // Menu Item -> 8Th slot is reserved for this always! (9th slot in reality)
-        MenuItem.giveMenuItem(player);
+//        MenuItem.giveMenuItem(equippedPlayer);
 
         // Potion effects
         applyPotionEffects(uuid);
