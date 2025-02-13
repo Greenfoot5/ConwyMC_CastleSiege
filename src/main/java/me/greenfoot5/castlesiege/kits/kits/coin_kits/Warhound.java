@@ -22,6 +22,7 @@ import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * The warhound kit
@@ -118,124 +118,116 @@ public class Warhound extends CoinKit implements Listener {
      * Cause slowness to the bitten enemy
      * @param e The event called when hitting another player
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBite(EntityDamageByEntityEvent e) {
-        if (e.isCancelled() || !(e.getDamager() instanceof Player q)) {
+        if (e.getDamager() != equippedPlayer)
             return;
-        }
 
         // Warhound bit enemy player
-        if (e.getEntity() instanceof Player p && Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name)) {
+        if (e.getEntity() instanceof Player p) {
             p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 20, 0)));
-         }
+        }
 
         //Slows the horse down which the warhound hits.
         if (e.getEntity() instanceof Horse h) {
-            Player horseOwner = (Player) h.getOwner();
+            AnimalTamer horseOwner = h.getOwner();
             assert horseOwner != null;
-            if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(h.getOwner().getUniqueId())) {
+            if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(equippedPlayer.getUniqueId())) {
                 h.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 20, 1)));
             }
         }
     }
 
     /**
-     *
      * @param e Warhound's new immobilise ability
      */
     @EventHandler
     public void onImmobilise(PlayerInteractEntityEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            Player p = e.getPlayer();
-            //Stuns the horse which the warhound hits.
-            if (e.getRightClicked() instanceof Horse h) {
-                Player horseOwner = (Player) h.getOwner();
-                assert horseOwner != null;
-                if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
-                    immobiliseHorse(h, p);
-                }
-            }
+        if (e.getRightClicked() != equippedPlayer)
+            return;
 
-            //Check if the hit entity is a player, otherwise do nothing.
-            if (!(e.getRightClicked() instanceof Player q)) {
-                return;
-            }
-
-            //The player who is being right-clicked on by the Warhound.
-
-            // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(uuid)) {
-                return;
-            }
-
-            //Check if the players are not on the same team, if true then perform the stun.
-            if (TeamController.getTeam(q.getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
-                immobilise(q, p);
-            }
-
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
+            return;
         }
+
+        if (equippedPlayer.getInventory().getItemInMainHand().getType() != Material.GHAST_TEAR)
+            return;
+
+        if (equippedPlayer.getCooldown(Material.GHAST_TEAR) != 0)
+            return;
+
+        //Stuns the horse which the warhound hits.
+        if (e.getRightClicked() instanceof Horse h) {
+            Player horseOwner = (Player) h.getOwner();
+            assert horseOwner != null;
+            if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(equippedPlayer.getUniqueId())) {
+                immobiliseHorse(h);
+            }
+            return;
+        }
+
+        //Check if the hit entity is a player, otherwise do nothing.
+        if (!(e.getRightClicked() instanceof Player hit)) {
+            return;
+        }
+
+        //Check if the players are not on the same team, if true then perform the stun.
+        if (TeamController.getTeam(hit.getUniqueId()) != TeamController.getTeam(equippedPlayer.getUniqueId())) {
+            immobilise(hit);
+        }
+
     }
 
     /**
      * Activate the warhound's stun ability, immobilizing the opponent and slowing the warhound
-     * @param p The opponent
-     * @param q The warhound
+     * @param hit The opponent
      */
-    private void immobilise(Player p, Player q) {
-        if (q.getInventory().getItemInMainHand().getType() == Material.GHAST_TEAR &&
-                q.getCooldown(Material.GHAST_TEAR) == 0) {
+    private void immobilise(Player hit) {
+        // Activate stun
+        equippedPlayer.setCooldown(Material.GHAST_TEAR, 240);
+        Messenger.sendSuccess("You immobilised " + CSNameTag.mmUsername(hit) + ".", equippedPlayer);
+        Messenger.sendWarning("You have been immobilised by " + CSNameTag.mmUsername(equippedPlayer) + "!", hit);
+        equippedPlayer.getWorld().playSound(equippedPlayer.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 1 );
 
-            // Activate stun
-            q.setCooldown(Material.GHAST_TEAR, 240);
-            Messenger.sendSuccess("You immobilised " + CSNameTag.mmUsername(p) + ".", q);
-            Messenger.sendWarning("You have been immobilised by " + CSNameTag.mmUsername(q) + "!", p);
-            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 1 );
+        // Apply potion effects
+        equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 80, 1)));
+        hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 80, 1)));
+        hit.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 80, 0)));
 
-            // Apply potion effects
-            q.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 80, 1)));
-            p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 80, 1)));
-            p.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 80, 0)));
+        // Prevent movement
+        AttributeInstance kb = hit.getAttribute(Attribute.KNOCKBACK_RESISTANCE);
+        assert kb != null;
+        kb.setBaseValue(2);
+        hit.setWalkSpeed(0);
 
-            // Prevent movement
-            AttributeInstance kb = p.getAttribute(Attribute.KNOCKBACK_RESISTANCE);
-            assert kb != null;
-            kb.setBaseValue(2);
-            p.setWalkSpeed(0);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                kb.setBaseValue(Kit.equippedKits.get(hit.getUniqueId()).kbResistance);
+                hit.setWalkSpeed(0.2f);
+            }
+        }.runTaskLater(Main.plugin, 80);
 
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    kb.setBaseValue(Kit.equippedKits.get(p.getUniqueId()).kbResistance);
-                    p.setWalkSpeed(0.2f);
-                }
-            }.runTaskLater(Main.plugin, 80);
-
-            UpdateStats.addSupports(q.getUniqueId(), 2);
-        }
+        UpdateStats.addSupports(equippedPlayer.getUniqueId(), 2);
     }
 
     /**
      * Activate the warhound's stun ability, immobilizing the opponent and slowing the warhound
      * @param h The opponent's horse
-     * @param q The warhound
      */
-    private void immobiliseHorse(Horse h, Player q) {
-        if (q.getInventory().getItemInMainHand().getType() == Material.GHAST_TEAR &&
-                q.getCooldown(Material.GHAST_TEAR) == 0) {
+    private void immobiliseHorse(Horse h) {
+        // Activate stun
+        equippedPlayer.setCooldown(Material.GHAST_TEAR, 240);
+        Messenger.sendActionSuccess("You immobilised <aqua>" + Objects.requireNonNull(h.getOwner()) + "</aqua>'s horse.", equippedPlayer);
+        h.getWorld().playSound(h.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 1 );
 
-            // Activate stun
-            q.setCooldown(Material.GHAST_TEAR, 240);
-            Messenger.sendActionSuccess("You immobilised <aqua>" + Objects.requireNonNull(h.getOwner()) + "</aqua>'s horse.", q);
-            h.getWorld().playSound(h.getLocation(), Sound.ENTITY_WOLF_GROWL , 1, 1 );
+        // Apply potion effects
+        equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 80, 2)));
+        h.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 100, 3)));
 
-            // Apply potion effects
-            q.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 80, 2)));
-            h.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 100, 3)));
+        UpdateStats.addSupports(equippedPlayer.getUniqueId(), 2);
 
-            UpdateStats.addSupports(q.getUniqueId(), 2);
-
-        }
     }
 
     /**
