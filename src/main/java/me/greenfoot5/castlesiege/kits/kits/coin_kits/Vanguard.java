@@ -5,7 +5,6 @@ import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
@@ -16,7 +15,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -29,8 +27,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * The Vanguard kit
@@ -43,7 +39,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
     private static final double chargeBonusDamage = 50;
     private static final int ladderAmount = 4;
 
-    private static final ArrayList<UUID> vanguards = new ArrayList<>();
+    private boolean isCharging = false;
 
     /**
      * Set the equipment and attributes of this kit
@@ -121,58 +117,58 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
      */
     @EventHandler
     public void charge(PlayerInteractEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (e.getPlayer() != equippedPlayer)
             return;
-        }
-        Player p = e.getPlayer();
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (p.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_SWORD)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    int cooldown = p.getCooldown(Material.DIAMOND_SWORD);
-                    if (cooldown == 0) {
-                        p.setCooldown(Material.DIAMOND_SWORD, 300);
-                        Messenger.sendActionInfo("You are charging forward", p);
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 160, 4)));
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP_BOOST, 160, 1)));
 
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.STRENGTH, 160, 0)));
 
-                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST , 1, 1 );
-                        vanguards.add(uuid);
-                        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> vanguards.remove(uuid), 165);
-                    } else {
-                        Messenger.sendWarning("You can't charge forward yet.", p);
-                    }
-                }
-            }
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+
+        if (!equippedPlayer.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_SWORD))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        int cooldown = equippedPlayer.getCooldown(Material.DIAMOND_SWORD);
+        if (cooldown == 0) {
+            equippedPlayer.setCooldown(Material.DIAMOND_SWORD, 300);
+            Messenger.sendActionInfo("You are charging forward", equippedPlayer);
+            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 160, 4)));
+            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.JUMP_BOOST, 160, 1)));
+
+            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.STRENGTH, 160, 0)));
+
+            equippedPlayer.getWorld().playSound(equippedPlayer.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST , 1, 1 );
+            isCharging = true;
+            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> isCharging = false, 165);
+        } else {
+            Messenger.sendWarning("You can't charge forward yet.", equippedPlayer);
         }
     }
 
     /**
-     * @param ed remove the potion effects on hit.
+     * @param e remove the potion effects on hit.
      */
     @EventHandler(ignoreCancelled = true)
-    public void chargeHit(EntityDamageByEntityEvent ed) {
-        if (ed.getDamager() instanceof Player player) {
-            UUID uuid = ed.getDamager().getUniqueId();
-            // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(uuid))
-                return;
-            if (vanguards.contains(uuid)) {
-                for (PotionEffect effect : player.getActivePotionEffects()) {
-                    if ((effect.getType().equals(PotionEffectType.SPEED) && effect.getAmplifier() == 4)
-                            || (effect.getType().equals(PotionEffectType.JUMP_BOOST) && effect.getAmplifier() == 1)
-                            || (effect.getType().equals(PotionEffectType.STRENGTH) && effect.getAmplifier() == 2)) {
-                        player.removePotionEffect(effect.getType());
-                    }
-                }
-                player.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 9999999, 0)));
-                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
-                vanguards.remove(uuid);
-            }
-        }
+    public void chargeHit(EntityDamageByEntityEvent e) {
+        if (e.getDamager() != equippedPlayer)
+            return;
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+        if (!isCharging)
+            return;
+
+        removePotionEffects();
+        applyPotionEffects();
+
+        e.setDamage(chargeBonusDamage + e.getDamage());
+        equippedPlayer.getWorld().playSound(equippedPlayer.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
+        isCharging = false;
     }
 
     @Override
