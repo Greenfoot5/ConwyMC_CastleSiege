@@ -2,10 +2,7 @@ package me.greenfoot5.castlesiege.kits.kits.coin_kits;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.UpdateStats;
-import me.greenfoot5.castlesiege.events.combat.AssistKill;
-import me.greenfoot5.castlesiege.events.combat.HurtAnimation;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
-import me.greenfoot5.castlesiege.events.death.DeathEvent;
 import me.greenfoot5.castlesiege.events.gameplay.Explosion;
 import me.greenfoot5.castlesiege.events.timed.BarCooldown;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
@@ -54,9 +51,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -74,8 +70,12 @@ public class Engineer extends CoinKit implements Listener {
     private static final int cobblestoneCount = 20;
     private static final int trapCount = 8;
 
-    private static final HashMap<Player, ArrayList<Block>> traps = new HashMap<>();
-    private static final HashMap<Player, Tuple<Location, Boolean>> ballista = new HashMap<>();
+    private static final double TRAP_DAMAGE = 60;
+    private static final int BALLISTA_COOLDOWN_TICKS = 80;
+
+    private static final LinkedHashSet<Block> traps = new LinkedHashSet<>();
+    private static Location ballistaLocation;
+    private static long ballistaCooldown;
 
     /**
      * Set the equipment and attributes of this kit
@@ -168,21 +168,21 @@ public class Engineer extends CoinKit implements Listener {
     public void onPlace(BlockPlaceEvent e) {
         UUID uuid = e.getPlayer().getUniqueId();
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(uuid))
             return;
-        }
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            Material block = e.getBlockPlaced().getType();
-            if (block == Material.STONE_PRESSURE_PLATE && e.getPlayer().getCooldown(Material.STONE_PRESSURE_PLATE) == 0) {
-                placeTrap(e, e.getPlayer());
-                if (InCombat.isPlayerInCombat(e.getPlayer().getUniqueId())) {
-                    e.getPlayer().setCooldown(Material.STONE_PRESSURE_PLATE, 60);
-                }
-            } else if (block == Material.OAK_PLANKS) {
-                placeWood(e);
-            } else if (block == Material.COBBLESTONE) {
-                placeStone(e);
-            }
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
+        Material block = e.getBlockPlaced().getType();
+        if (block == Material.STONE_PRESSURE_PLATE
+                && equippedPlayer.getCooldown(Material.STONE_PRESSURE_PLATE) == 0) {
+
+            placeTrap(e);
+
+        } else if (block == Material.OAK_PLANKS) {
+            placeWood(e);
+        } else if (block == Material.COBBLESTONE) {
+            placeStone(e);
         }
     }
 
@@ -202,27 +202,22 @@ public class Engineer extends CoinKit implements Listener {
         if (e.getAction() == Action.PHYSICAL && trap != null &&
                 trap.getType() == Material.STONE_PRESSURE_PLATE) {
 
+            if (!traps.contains(trap))
+                return;
+
             // Check if the trap should trigger
             Player p = e.getPlayer();
-            Player t = getTrapper(trap);
-            if (t != null && TeamController.getTeam(p.getUniqueId())
-                    != TeamController.getTeam(t.getUniqueId())) {
+            if (TeamController.getTeam(p.getUniqueId()) != TeamController.getTeam(equippedPlayer.getUniqueId())) {
 
                 // Trigger the trap
                 e.setCancelled(true);
-                traps.get(t).remove(trap);
+                traps.remove(trap);
                 trap.setType(Material.AIR);
-                Messenger.sendWarning("You stepped on " + CSNameTag.mmUsername(t) + "'s trap.", p);
-                Messenger.sendSuccess(CSNameTag.mmUsername(p) + " stepped on your trap.", t);
+                Messenger.sendWarning("You stepped on " + CSNameTag.mmUsername(equippedPlayer) + "'s trap.", p);
+                Messenger.sendSuccess(CSNameTag.mmUsername(p) + " stepped on your trap.", equippedPlayer);
 
                 // Deal damage
-                double damage = Math.min(p.getHealth(), 60);
-                if (damage == p.getHealth()) {
-                    DeathEvent.setKiller(p, t);
-                }
-                AssistKill.addDamager(p.getUniqueId(), t.getUniqueId(), damage);
-                HurtAnimation.trigger(p);
-                p.setHealth(p.getHealth() - damage);
+                p.damage(TRAP_DAMAGE, equippedPlayer);
             }
         }
     }
@@ -241,17 +236,16 @@ public class Engineer extends CoinKit implements Listener {
 
             // Check if the trap should trigger
             Player p = (Player) h.getPassengers().getFirst();
-            Player t = getTrapper(trap);
-            if (t != null && TeamController.getTeam(p.getUniqueId())
-                    != TeamController.getTeam(t.getUniqueId())) {
+            if (equippedPlayer != null && TeamController.getTeam(p.getUniqueId())
+                    != TeamController.getTeam(equippedPlayer.getUniqueId())) {
 
                 // Trigger the trap
                 e.setCancelled(true);
-                traps.get(t).remove(trap);
+                traps.remove(trap);
                 trap.setType(Material.AIR);
-                Messenger.sendWarning("Your horse on " + CSNameTag.mmUsername(t) + "'s trap.", p);
-                Messenger.sendSuccess(CSNameTag.mmUsername(p) + "'s horse stepped on your trap.", t);
-                h.damage(60);
+                Messenger.sendWarning("Your horse on " + CSNameTag.mmUsername(equippedPlayer) + "'s trap.", p);
+                Messenger.sendSuccess(CSNameTag.mmUsername(p) + "'s horse stepped on your trap.", equippedPlayer);
+                h.damage(60, equippedPlayer);
             }
         }
     }
@@ -276,13 +270,13 @@ public class Engineer extends CoinKit implements Listener {
                 Objects.requireNonNull(e.getClickedBlock()).getType() == Material.STONE_PRESSURE_PLATE) {
 
             // Check if player is the trap's owner
-            if (!traps.containsKey(p) || !traps.get(p).contains(e.getClickedBlock())) {
+            if (p != equippedPlayer || !traps.contains(e.getClickedBlock())) {
                 Messenger.sendWarning("You can't pick up traps that are not your own.", p);
                 return;
             }
 
             // Pick up trap and give to player if not at max
-            traps.get(p).remove(e.getClickedBlock());
+            traps.remove(e.getClickedBlock());
             e.getClickedBlock().setType(Material.AIR);
 
             PlayerInventory inv = p.getInventory();
@@ -316,7 +310,8 @@ public class Engineer extends CoinKit implements Listener {
                 return;
             }
 
-            ballista.put(p, new Tuple<>(dispenserFace, false));
+            ballistaLocation = dispenserFace;
+            ballistaCooldown = 0;
         }
     }
 
@@ -326,19 +321,18 @@ public class Engineer extends CoinKit implements Listener {
      */
     @EventHandler
     public void onFireBallista(PlayerInteractEvent e) {
-        if (ballista.containsKey(e.getPlayer()) &&
+        if (e.getPlayer() == equippedPlayer &&
                 (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK)) {
             Player p = e.getPlayer();
-            Tuple<Location, Boolean> ballista = Engineer.ballista.get(p);
 
             // On cooldown
-            if (ballista.getSecond()) {
+            if (ballistaCooldown > System.currentTimeMillis()) {
                 return;
             }
 
             // Shoot arrow
-            p.getWorld().playSound(ballista.getFirst(), Sound.ENTITY_ENDER_DRAGON_FLAP, 1, 3);
-            Arrow a = p.getWorld().spawnArrow(ballista.getFirst(), p.getLocation().getDirection(), 4, 0);
+            p.getWorld().playSound(ballistaLocation, Sound.ENTITY_ENDER_DRAGON_FLAP, 1, 3);
+            Arrow a = p.getWorld().spawnArrow(ballistaLocation, p.getLocation().getDirection(), 4, 0);
             a.setShooter(p);
             a.setDamage(5);
 
@@ -354,7 +348,7 @@ public class Engineer extends CoinKit implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onHitBallista(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player shooter
-                && ballista.containsKey((Player) e.getEntity().getShooter())) {
+                && equippedPlayer == e.getEntity().getShooter()) {
 
             Team team = TeamController.getTeam(shooter.getUniqueId());
             int hitCount = 0;
@@ -377,7 +371,7 @@ public class Engineer extends CoinKit implements Listener {
     @EventHandler
     public void onExitBallista(VehicleExitEvent e) {
         if (e.getExited() instanceof Player) {
-            ballista.remove((Player) e.getExited());
+            ballistaLocation = null;
             BarCooldown.remove(e.getExited().getUniqueId());
         }
     }
@@ -389,8 +383,11 @@ public class Engineer extends CoinKit implements Listener {
      */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        destroyAllTraps(e.getEntity());
-        ballista.remove(e.getEntity());
+        if (e.getEntity() != equippedPlayer)
+            return;
+
+        destroyAllTraps();
+        ballistaLocation = null;
     }
 
     /**
@@ -400,31 +397,33 @@ public class Engineer extends CoinKit implements Listener {
      */
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
-        destroyAllTraps(e.getPlayer());
-        ballista.remove(e.getPlayer());
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
+        destroyAllTraps();
+        ballistaLocation = null;
     }
 
     /**
      * Place a trap
      * @param e The event called when placing a stone pressure plate
-     * @param p The player who placed the trap
      */
-    private void placeTrap(BlockPlaceEvent e, Player p) {
-        // Ensure that the player has a corresponding list
-        traps.putIfAbsent(p, new ArrayList<>());
-        ArrayList<Block> trapList = traps.get(p);
-
+    private void placeTrap(BlockPlaceEvent e) {
         // Already placed max amount of traps
-        if (trapList.size() == 8) {
-            Block firstPlaced = trapList.getFirst();
+        if (traps.size() == 8) {
+            Block firstPlaced = traps.getFirst();
             firstPlaced.setType(Material.AIR);
-            trapList.remove(firstPlaced);
+            traps.remove(firstPlaced);
         }
 
         // Place the trap
         e.setCancelled(false);
         Block trap = e.getBlockPlaced();
-        trapList.add(trap);
+        traps.add(trap);
+
+        // Add cooldown if in combat
+        if (InCombat.isPlayerInCombat(equippedPlayer.getUniqueId()))
+            equippedPlayer.setCooldown(Material.STONE_PRESSURE_PLATE, 60);
     }
 
     /**
@@ -458,7 +457,7 @@ public class Engineer extends CoinKit implements Listener {
         // Remove one of the used item from the player and award a support point
         ItemStack item = e.getItemInHand();
         item.setAmount(item.getAmount() - 1);
-        UpdateStats.addSupports(e.getPlayer().getUniqueId(), 1);
+        UpdateStats.addSupports(equippedPlayer.getUniqueId(), 1);
 
         // Place the block on the next tick to prevent it being overwritten by the original place event
         new BukkitRunnable() {
@@ -472,27 +471,11 @@ public class Engineer extends CoinKit implements Listener {
 
     /**
      * Destroy all traps that were placed by the specified player
-     * @param p The player whose traps to destroy
      */
-    private void destroyAllTraps(Player p) {
-        if (traps.containsKey(p)) {
-            for (Block trap : traps.get(p)) {
-                trap.setType(Material.AIR);
-            }
-            traps.remove(p);
+    private void destroyAllTraps() {
+        for (Block trap : traps) {
+            trap.setType(Material.AIR);
         }
-    }
-
-    /**
-     * Get the placer of a trap
-     * @param trap The trap whose placer to find
-     * @return The placer of the trap, null if not placed by an engineer
-     */
-    private Player getTrapper(Block trap) {
-        return traps.entrySet().stream()
-                .filter(entry -> entry.getValue().contains(trap))
-                .findFirst().map(Map.Entry::getKey)
-                .orElse(null);
     }
 
     /**
@@ -521,16 +504,8 @@ public class Engineer extends CoinKit implements Listener {
      * @param p The player
      */
     private void ballistaCooldown(Player p) {
-        Tuple<Location, Boolean> ballista = Engineer.ballista.get(p);
-        ballista.setSecond(true);
-        BarCooldown.add(p.getUniqueId(), 80);
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                ballista.setSecond(false);
-            }
-        }.runTaskLater(Main.plugin, 80);
+        ballistaCooldown = System.currentTimeMillis() + (BALLISTA_COOLDOWN_TICKS * 20);
+        BarCooldown.add(p.getUniqueId(), BALLISTA_COOLDOWN_TICKS);
     }
 
     /**
