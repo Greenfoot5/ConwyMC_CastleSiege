@@ -29,7 +29,7 @@ public class Hunger implements Runnable {
 			}
 
 			// Slow kits
-			if (Objects.equals(kit.name, "Halberdier") || Objects.equals(kit.name, "Abyssal") ||
+			if (Objects.equals(kit.name, "Abyssal") ||
 					Objects.equals(kit.name, "Arbalester") || Objects.equals(kit.name, "Moria Cave Troll")) {
 				p.setFoodLevel(4);
 			} else {
