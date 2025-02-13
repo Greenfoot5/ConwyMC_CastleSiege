@@ -52,7 +52,7 @@ public class Medic extends CoinKit implements Listener {
     private static final int cakeCount = 16;
     private static final int BANDAGE_COOLDOWN_TICKS = 39;
 
-    public static final HashSet<Block> cakes = new HashSet<>();
+    public final HashSet<Block> cakes = new HashSet<>();
 
     /**
      * Set the equipment and attributes of this kit

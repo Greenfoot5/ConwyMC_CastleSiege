@@ -54,8 +54,8 @@ public class Priest extends CoinKit implements Listener {
     private static final int staffCooldown = 40;
     private final ItemStack holyBook;
 
-    private static UUID blessed;
-    private static BukkitRunnable blessing;
+    private UUID blessed;
+    private BukkitRunnable blessing;
 
     private final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
 

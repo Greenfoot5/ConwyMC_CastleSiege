@@ -7,7 +7,6 @@ import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.util.Messenger;
@@ -40,7 +39,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class Paladin extends CoinKit implements Listener {
@@ -50,7 +48,7 @@ public class Paladin extends CoinKit implements Listener {
     private static final double meleeDamage = 33;
     private static final int ladderCount = 4;
     private static final int blessingCooldown = 500;
-    private static int blockAmount = 8;
+    private int blockAmount = 8;
     private final ItemStack shield;
 
     private final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();

@@ -596,6 +596,14 @@ public abstract class Kit implements CommandExecutor, Listener {
     }
 
     /**
+     * Gets the currently equipped player
+     * @return The player who's equipped the kit
+     */
+    public Player getEquippedPlayer() {
+        return equippedPlayer;
+    }
+
+    /**
      * @param block The block to check for, if this is interactable then:
      * @return return true for interactable and return false if it is not.
      * The reason this exists is for a check to see if a right click ability should activate or not,

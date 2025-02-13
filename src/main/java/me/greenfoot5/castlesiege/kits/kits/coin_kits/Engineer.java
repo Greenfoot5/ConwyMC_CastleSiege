@@ -73,9 +73,9 @@ public class Engineer extends CoinKit implements Listener {
     private static final double TRAP_DAMAGE = 60;
     private static final int BALLISTA_COOLDOWN_TICKS = 80;
 
-    private static final LinkedHashSet<Block> traps = new LinkedHashSet<>();
-    private static Location ballistaLocation;
-    private static long ballistaCooldown;
+    private final LinkedHashSet<Block> traps = new LinkedHashSet<>();
+    private Location ballistaLocation;
+    private long ballistaCooldown;
 
     /**
      * Set the equipment and attributes of this kit
