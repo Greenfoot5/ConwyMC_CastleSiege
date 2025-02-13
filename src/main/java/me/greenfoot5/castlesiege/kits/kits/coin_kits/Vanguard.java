@@ -40,6 +40,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
     private static final int health = 270;
     private static final double regen = 10.5;
     private static final double meleeDamage = 50;
+    private static final double chargeBonusDamage = 50;
     private static final int ladderAmount = 4;
 
     private static final ArrayList<UUID> vanguards = new ArrayList<>();
@@ -57,14 +58,14 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                 Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text("57 Melee Damage", NamedTextColor.DARK_GREEN)),
+                        Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN)),
                 null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.DIAMOND_SWORD),
                         Component.text("Reinforced Iron Sword", NamedTextColor.GREEN),
                         List.of(Component.empty(),
-                                Component.text("59 Melee Damage", NamedTextColor.DARK_GREEN),
+                                Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
 								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2),
                 0);
@@ -136,8 +137,7 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
                         p.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 160, 4)));
                         p.addPotionEffect((new PotionEffect(PotionEffectType.JUMP_BOOST, 160, 1)));
 
-                        //Diminishing strength effect
-                        p.addPotionEffect((new PotionEffect(PotionEffectType.STRENGTH, 160, 2)));
+                        p.addPotionEffect((new PotionEffect(PotionEffectType.STRENGTH, 160, 0)));
 
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST , 1, 1 );
                         vanguards.add(uuid);
