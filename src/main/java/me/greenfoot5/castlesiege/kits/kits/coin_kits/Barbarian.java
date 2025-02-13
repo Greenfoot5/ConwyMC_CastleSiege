@@ -3,13 +3,13 @@ package me.greenfoot5.castlesiege.kits.kits.coin_kits;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attributable;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,7 +27,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A kit that deals more damage as it gains more health
@@ -36,7 +35,8 @@ public class Barbarian extends CoinKit implements Listener {
 
     private static final int health = 260;
     private static final double regen = 10.5;
-    private static final double meleeDamage = 36;
+    private static final double minDamage = 36;
+    private static final double maxDamage = 70;
     private static final int ladderCount = 4;
 
     /**
@@ -52,22 +52,20 @@ public class Barbarian extends CoinKit implements Listener {
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
                 Component.text("Battle Axe", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN),
-                        Component.text(meleeDamage * 3 + "Maximum Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text(minDamage + " - " + maxDamage + " Melee Damage", NamedTextColor.DARK_GREEN),
                         Component.text("<< Passive Ability >>", NamedTextColor.DARK_GRAY),
                         Component.text("Damage done increases with lower health.", NamedTextColor.GRAY)
-                ), null, meleeDamage);
+                ), null, minDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
                         Component.text("Battle Axe", NamedTextColor.GREEN),
                         List.of(Component.empty(),
-                                Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
-                                Component.text(meleeDamage * 3 + "Maximum Melee Damage", NamedTextColor.DARK_GREEN),
+                                Component.text((minDamage + 2) + " - " + (maxDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
                                 Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN),
                                 Component.text("<< Passive Ability >>", NamedTextColor.DARK_GRAY),
                                 Component.text("Damage done increases with lower health.", NamedTextColor.GRAY)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), minDamage + 2),
                 0);
 
         // Chestplate
@@ -146,13 +144,11 @@ public class Barbarian extends CoinKit implements Listener {
         // Both are players
         if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player attacker) {
             // Barbarian increased damage
-            if (Objects.equals(Kit.equippedKits.get(attacker.getUniqueId()).name, name)) {
-                double potentialDamage = health / attacker.getHealth();
-                if (potentialDamage < 3) {
-                    e.setDamage(meleeDamage * potentialDamage);
-                } else {
-                    e.setDamage(meleeDamage * 3);
-                }
+            if (attacker == equippedPlayer) {
+                double damageMult = health / attacker.getHealth();
+                double min = equippedPlayer.getAttribute(Attribute.ATTACK_DAMAGE).getValue();
+                double dmg = ((maxDamage - min) * damageMult) + min;
+                e.setDamage(dmg * 3);
             }
         }
     }
@@ -165,17 +161,16 @@ public class Barbarian extends CoinKit implements Listener {
         ArrayList<Component> kitLore = new ArrayList<>();
         kitLore.add(Component.text("Fast axe wielding warrior that deals", NamedTextColor.GRAY));
         kitLore.add(Component.text("more damage when they are low on health", NamedTextColor.GRAY));
-        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
+        kitLore.addAll(getBaseStats(health, regen, minDamage, ladderCount));
         kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
         kitLore.add(Component.text("- Speed I", NamedTextColor.GRAY));
         kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
-        kitLore.add(Component.text("- Melee damage is increased depending", NamedTextColor.GRAY));
-        kitLore.add(Component.text("on how much health you have left.", NamedTextColor.GRAY));
-        kitLore.add(Component.text("Maximum damage dealt is ", NamedTextColor.GRAY)
-                .append(Component.text(meleeDamage * 3, NamedTextColor.GREEN))
-                .append(Component.text(" DMG", NamedTextColor.GRAY)));
+        kitLore.add(Component.text("- Deal up to ", NamedTextColor.GRAY)
+                .append(Component.text(maxDamage - minDamage, NamedTextColor.GREEN))
+                .append(Component.text(" additional DMG")));
+        kitLore.add(Component.text("based on health lost"));
         return kitLore;
     }
 }
