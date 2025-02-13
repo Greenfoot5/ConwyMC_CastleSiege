@@ -9,7 +9,6 @@ import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -44,9 +43,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -54,7 +51,7 @@ import java.util.Objects;
  */
 public class Alchemist extends CoinKit implements Listener {
 
-    public static final HashMap<Player, Block> stands = new HashMap<>();
+    private Block standLoc;
     private final ItemStack stand;
     private final ItemStack standVoted;
 
@@ -173,7 +170,7 @@ public class Alchemist extends CoinKit implements Listener {
             return;
         }
 
-        if (!Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
+        if (damager != equippedPlayer) {
             return;
         }
         e.setCancelled(true);
@@ -258,7 +255,7 @@ public class Alchemist extends CoinKit implements Listener {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
+        if (equippedPlayer == p &&
                 e.getBlockPlaced().getType() == Material.BREWING_STAND) {
 
             // Destroy old stand
@@ -266,7 +263,7 @@ public class Alchemist extends CoinKit implements Listener {
 
             // Place new stand
             e.setCancelled(false);
-            stands.put(p, e.getBlockPlaced());
+            standLoc = e.getBlockPlaced();
             Messenger.sendActionInfo("You placed down your brewing stand!", p);
         }
     }
@@ -286,13 +283,12 @@ public class Alchemist extends CoinKit implements Listener {
             return;
 
         Player destroyer = e.getPlayer();
-        Player placer = getPlacer(e.getClickedBlock());
 
         // Pick up own brewing stand
-        if (Objects.equals(destroyer, placer)) {
-            if (!placer.getInventory().getItemInMainHand().getType().equals(Material.GLASS_BOTTLE)) {
-                destroyStand(placer);
-                Messenger.sendActionInfo("You took back your brewing stand!", placer);
+        if (Objects.equals(destroyer, equippedPlayer)) {
+            if (!equippedPlayer.getInventory().getItemInMainHand().getType().equals(Material.GLASS_BOTTLE)) {
+                destroyStand(equippedPlayer);
+                Messenger.sendActionInfo("You took back your brewing stand!", equippedPlayer);
                 destroyer.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER, 3, 1);
                 // Can only hold 1 brewing stand at a time
                 PlayerInventory inv = destroyer.getInventory();
@@ -307,11 +303,11 @@ public class Alchemist extends CoinKit implements Listener {
             }
 
         // Destroy enemy brewing stand
-        } else if (placer != null &&
-                TeamController.getTeam(destroyer.getUniqueId()) != TeamController.getTeam(placer.getUniqueId())) {
-            destroyStand(placer);
+        } else if (equippedPlayer != null &&
+                TeamController.getTeam(destroyer.getUniqueId()) != TeamController.getTeam(equippedPlayer.getUniqueId())) {
+            destroyStand(equippedPlayer);
             destroyer.playSound(e.getClickedBlock().getLocation(), Sound.AMBIENT_UNDERWATER_ENTER , 5, 1);
-            Messenger.sendActionWarning("You destroyed " + CSNameTag.mmUsername(placer) + "'s brewing stand!", destroyer);
+            Messenger.sendActionWarning("You destroyed " + CSNameTag.mmUsername(equippedPlayer) + "'s brewing stand!", destroyer);
         }
     }
 
@@ -347,9 +343,9 @@ public class Alchemist extends CoinKit implements Listener {
      * @param p The player whose brewing stand to destroy
      */
     private void destroyStand(Player p) {
-        if(stands.containsKey(p)) {
-            stands.get(p).setType(Material.AIR);
-            stands.remove(p);
+        if (standLoc != null && p == equippedPlayer) {
+            standLoc.setType(Material.AIR);
+            standLoc = null;
         }
     }
 
@@ -359,10 +355,9 @@ public class Alchemist extends CoinKit implements Listener {
      * @return The placer of the brewing stand, null of not placed by a fire archer
      */
     private Player getPlacer(Block stand) {
-        return stands.entrySet().stream()
-                .filter(entry -> Objects.equals(entry.getValue(), stand))
-                .findFirst().map(Map.Entry::getKey)
-                .orElse(null);
+        if (stand == standLoc)
+            return equippedPlayer;
+        return null;
     }
 
     /**
@@ -374,13 +369,13 @@ public class Alchemist extends CoinKit implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         if (event.getEntity().getKiller() == null) { return; }
-       if (Objects.equals(Kit.equippedKits.get(event.getEntity().getKiller().getUniqueId()).name, name)) {
+        if (equippedPlayer == event.getEntity().getKiller()) {
            // Prevent using in lobby
-           if (InCombat.isPlayerInLobby(event.getEntity().getKiller().getUniqueId())) {
+           if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
                return;
            }
-           event.getEntity().getKiller().getInventory().addItem(randomPositivePotion());
-           event.getEntity().getKiller().getInventory().addItem(randomNegativePotion());
+           equippedPlayer.getInventory().addItem(randomPositivePotion());
+           equippedPlayer.getInventory().addItem(randomNegativePotion());
         }
     }
 
@@ -417,12 +412,12 @@ public class Alchemist extends CoinKit implements Listener {
      */
     @EventHandler
     public void onUseStand(PlayerInteractEvent e) {
-        Player player = e.getPlayer();
+        Player p = e.getPlayer();
         if (e.getItem() == null) { return; }
         ItemStack usedItem = e.getItem();
 
         // Prevent using in lobby
-        if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) || InCombat.isPlayerInLobby(player.getUniqueId())) {
+        if (p != equippedPlayer || InCombat.isPlayerInLobby(p.getUniqueId())) {
             return;
         }
         if ((e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)) {
@@ -435,35 +430,38 @@ public class Alchemist extends CoinKit implements Listener {
         // Check if an alchemist tries to brew a potion, while off-cooldown
         if (Objects.requireNonNull(e.getClickedBlock()).getType() == Material.BREWING_STAND &&
                 usedItem != null && usedItem.getType() == Material.GLASS_BOTTLE &&
-                player.getCooldown(Material.GLASS_BOTTLE) == 0) {
+                p.getCooldown(Material.GLASS_BOTTLE) == 0) {
 
             // Check if the player may brew potions
             Player placer = getPlacer(e.getClickedBlock());
-            if (placer != null && placer == player) {
+            if (placer != null && placer == p) {
 
                 if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
-                    PlayerInventory inv = player.getInventory();
+                    PlayerInventory inv = p.getInventory();
                     // Brew a potion
-                    player.setCooldown(Material.GLASS_BOTTLE, 30);
+                    p.setCooldown(Material.GLASS_BOTTLE, 30);
                     usedItem.setAmount(usedItem.getAmount() - 1);
                     inv.addItem(randomPositivePotion());
-                    player.playSound(player.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
-                    Messenger.sendActionSuccess("You brewed a positive potion!", player);
+                    p.playSound(p.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
+                    Messenger.sendActionSuccess("You brewed a positive potion!", p);
 
                 } else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
-                    PlayerInventory inv = player.getInventory();
+                    PlayerInventory inv = p.getInventory();
                     // Brew a potion
-                    player.setCooldown(Material.GLASS_BOTTLE, 30);
+                    p.setCooldown(Material.GLASS_BOTTLE, 30);
                     usedItem.setAmount(usedItem.getAmount() - 1);
                     inv.addItem(randomNegativePotion());
-                    player.playSound(player.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
-                    Messenger.sendActionSuccess("You brewed a negative potion!", player);
+                    p.playSound(p.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
+                    Messenger.sendActionSuccess("You brewed a negative potion!", p);
                 }
             }
         }
     }
-       //------------------------------------------------Potions------------------------------------------------\\
+
+    /**
+     * Potions
+     */
 
     private final java.util.Random rand = new java.util.Random();
 
